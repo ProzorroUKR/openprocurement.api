@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+
 import os
 
 version = '0.1'
@@ -6,6 +7,14 @@ version = '0.1'
 requires = [
     'setuptools',
     'openprocurement.api',
+]
+test_requires = requires + [
+    'webtest',
+    'openprocurement.api',
+    'python-coveralls',
+]
+docs_requires = requires + [
+    'sphinxcontrib-httpdomain',
 ]
 
 
@@ -23,13 +32,15 @@ setup(name='openprocurement.tender.openua',
       keywords='',
       author='Quintagroup, Ltd.',
       author_email='info@quintagroup.com',
-      url='http://svn.plone.org/svn/collective/',
+      url='https://github.com/openprocurement/openprocurement.tender.openua',
       license='Apache License 2.0',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['openprocurement', 'openprocurement.tender'],
       include_package_data=True,
       zip_safe=False,
       install_requires=requires,
+      tests_require=test_requires,
+      extras_require={'test': test_requires, 'docs': docs_requires},
       entry_points="""
       # -*- Entry points: -*-
       """,
