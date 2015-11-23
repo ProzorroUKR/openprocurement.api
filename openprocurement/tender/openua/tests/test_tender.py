@@ -4,8 +4,9 @@ from datetime import timedelta
 
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.models import get_now
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.openua.models import TenderUA
-from openprocurement.api.tests.base import test_tender_ua_data, BaseWebTest, BaseTenderWebTest
+from openprocurement.tender.openua.tests.base import test_tender_ua_data, BaseTenderUAWebTest
 
 
 class TenderUATest(BaseWebTest):
@@ -31,7 +32,7 @@ class TenderUATest(BaseWebTest):
         u.delete_instance(self.db)
 
 
-class TenderUAResourceTest(BaseWebTest):
+class TenderUAResourceTest(BaseTenderUAWebTest):
 
     def test_empty_listing(self):
         response = self.app.get('/tenders')
@@ -920,8 +921,7 @@ class TenderUAResourceTest(BaseWebTest):
         self.assertEqual(response.json['data']['mode'], u'test')
 
 
-class TenderUAProcessTest(BaseTenderWebTest):
-    setUp = BaseWebTest.setUp
+class TenderUAProcessTest(BaseTenderUAWebTest):
 
     def test_invalid_tender_conditions(self):
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1154,7 +1154,3 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderUAResourceTest))
     suite.addTest(unittest.makeSuite(TenderUATest))
     return suite
-
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
