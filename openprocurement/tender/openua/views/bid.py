@@ -50,9 +50,9 @@ class TenderUABidResource(TenderBidResource):
             self.request.errors.add('body', 'data', 'Can\'t delete bid in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
-        res = bid.serialize("view")
-        self.request.validated['tender'].bids.remove(bid)
+        bid.status = 'deleted'
         if save_tender(self.request):
+            res = bid.serialize("view")
             LOGGER.info('Deleted tender bid {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_delete'}))
             return {'data': res}

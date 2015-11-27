@@ -2,10 +2,11 @@
 
 import unittest
 
-from openprocurement.tender.openua.tests import tender
+from openprocurement.tender.openua.tests import bid, tender
 
 
 def suite():
+    suite.addTest(bid.suite())
     suite.addTest(tender.suite())
     return suite
 
