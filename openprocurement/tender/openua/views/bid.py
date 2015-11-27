@@ -2,7 +2,6 @@
 from logging import getLogger
 from openprocurement.api.utils import opresource, json_view, save_tender, context_unpack
 from openprocurement.api.views.bid import TenderBidResource
-from openprocurement.tender.openua.views.tender import isTenderUA
 
 
 LOGGER = getLogger(__name__)
@@ -11,7 +10,7 @@ LOGGER = getLogger(__name__)
 @opresource(name='Tender UA Bids',
             collection_path='/tenders/{tender_id}/bids',
             path='/tenders/{tender_id}/bids/{bid_id}',
-            custom_predicates=(isTenderUA,),
+            procurementMethodType='aboveThresholdUA',
             description="Tender bids")
 class TenderUABidResource(TenderBidResource):
     """ """

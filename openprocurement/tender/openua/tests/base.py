@@ -2,13 +2,18 @@
 import os
 import webtest
 from openprocurement.api.tests.base import (test_tender_data,
+                                            test_features_tender_data,
                                             BaseTenderWebTest,
                                             PrefixedRequestClass)
 
 
 test_tender_ua_data = test_tender_data.copy()
-test_tender_ua_data['subtype'] = "TenderUA"
+test_tender_ua_data['procurementMethodType'] = "aboveThresholdUA"
 test_tender_ua_data['magicUnicorns'] = 15
+
+test_features_tender_ua_data = test_features_tender_data.copy()
+test_features_tender_ua_data['procurementMethodType'] = "aboveThresholdUA"
+test_features_tender_ua_data['magicUnicorns'] = 15
 
 
 class BaseTenderUAWebTest(BaseTenderWebTest):
@@ -28,3 +33,13 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     def tearDown(self):
         del self.couchdb_server[self.db.name]
 
+
+class BaseTenderUAContentWebTest(BaseTenderUAWebTest):
+    initial_data = test_tender_ua_data
+    initial_status = None
+    initial_bids = None
+    initial_lots = None
+
+    def setUp(self):
+        super(BaseTenderUAContentWebTest, self).setUp()
+        self.create_tender()
