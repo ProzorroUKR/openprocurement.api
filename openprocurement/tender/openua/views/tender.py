@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource, json_view
+from openprocurement.api.utils import opresource
 from openprocurement.api.views.tender import TenderResource
 
 
