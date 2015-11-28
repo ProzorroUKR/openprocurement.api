@@ -300,6 +300,33 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
+    def test_confirm_bid_after_deletion(self):
+        response = self.app.post_json('/tenders/{}/bids'.format(
+            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        bid = response.json['data']
+        bid_token = response.json['access']['token']
+
+        response = self.app.delete('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['id'], bid['id'])
+        self.assertEqual(response.json['data']['status'], 'deleted')
+
+        self.app.authorization = ('Basic', ('administrator', ''))
+        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {
+            'status': 'registration',
+        }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        self.set_status('active.qualification')
+        response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertNotEqual(response.json['data']['status'], 'deleted')
+        self.assertEqual(response.json['data']['status'], 'registration')
+
     def test_get_tender_tenderers(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
             self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
