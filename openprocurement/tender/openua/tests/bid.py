@@ -300,7 +300,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
-    def test_confirm_bid_after_deletion(self):
+    def test_deleted_bid_is_not_restorable(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
             self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
@@ -314,18 +314,17 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['id'], bid['id'])
         self.assertEqual(response.json['data']['status'], 'deleted')
 
-        self.app.authorization = ('Basic', ('administrator', ''))
+        # try to restore deleted bid
         response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {
             'status': 'registration',
-        }})
+            }})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-
-        self.set_status('active.qualification')
-        response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
-        self.assertEqual(response.status, '200 OK')
-        self.assertNotEqual(response.json['data']['status'], 'deleted')
-        self.assertEqual(response.json['data']['status'], 'registration')
+        self.assertNotEqual(response.json['data']['status'], 'registration')
+        self.assertEqual(response.json['data']['status'], 'deleted')
 
     def test_get_tender_tenderers(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
