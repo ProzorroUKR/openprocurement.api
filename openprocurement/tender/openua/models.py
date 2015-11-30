@@ -8,7 +8,7 @@ from openprocurement.tender.openua.interfaces import ITenderUA
 
 
 class Bid(BaseBid):
-    status = StringType(choices=['registration', 'validBid', 'invalidBid', 'deleted'])#, default='registration')
+    status = StringType(choices=['registration', 'validBid', 'invalidBid', 'deleted'], default='registration')
 
 
 @implementer(ITenderUA)

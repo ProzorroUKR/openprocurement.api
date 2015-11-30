@@ -278,8 +278,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         revisions = self.db.get(self.tender_id).get('revisions')
         self.assertEqual(revisions[-2][u'changes'][-1]['op'], u'remove')
         self.assertEqual(revisions[-2][u'changes'][-1]['path'], u'/bids')
-        self.assertEqual(revisions[-1][u'changes'][-1]['op'], u'remove')
-        #self.assertEqual(revisions[-1][u'changes'][-1]['op'], u'replace')
+        self.assertEqual(revisions[-1][u'changes'][-1]['op'], u'replace')
         self.assertEqual(revisions[-1][u'changes'][-1]['path'], u'/bids/0/status')
 
         response = self.app.delete('/tenders/{}/bids/some_id'.format(self.tender_id), status=404)
@@ -379,6 +378,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     def test_features_bidder(self):
         test_features_bids = [
             {
+                "status": "registration",
                 "parameters": [
                     {
                         "code": i["code"],
@@ -396,6 +396,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
                 }
             },
             {
+                "status": "registration",
                 "parameters": [
                     {
                         "code": i["code"],
