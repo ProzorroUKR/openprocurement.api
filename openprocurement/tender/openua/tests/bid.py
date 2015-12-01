@@ -6,6 +6,7 @@ from openprocurement.tender.openua.tests.base import (
     test_tender_ua_data,
     test_features_tender_ua_data)
 
+from openprocurement.api.tests.base import test_bids
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.tendering'
@@ -369,6 +370,36 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertNotEqual(response.json['data']["value"]["amount"], 400)
         self.assertEqual(response.json['data']["tenderers"][0]["identifier"]["id"], "00000000")
+
+    def test_bids_invalidation_on_tender_change(self):
+        bids_access = {}
+
+        # submit bids
+        for data in test_bids:
+            response = self.app.post_json('/tenders/{}/bids'.format(
+                self.tender_id), {'data': data})
+            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.content_type, 'application/json')
+            bids_access[response.json['data']['id']] = response.json['access']['token']
+
+        # check initial status
+        for bid_id, token in bids_access.items():
+            response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'registration')
+
+        # update tender
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data":
+                {"value": {'amount': 700.0}}
+        })
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']["value"]["amount"], 700)
+
+        # check bids status
+        for bid_id, token in bids_access.items():
+            response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'invalidBid')
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
