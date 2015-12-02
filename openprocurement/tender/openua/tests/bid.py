@@ -326,6 +326,38 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertNotEqual(response.json['data']['status'], 'registration')
         self.assertEqual(response.json['data']['status'], 'deleted')
 
+    def test_deleted_bid_do_not_locks_tender_in_state(self):
+        bids = []
+        for bid_amount in (400, 405):
+            response = self.app.post_json('/tenders/{}/bids'.format(
+                self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": bid_amount}}})
+            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.content_type, 'application/json')
+            bids.append(response.json['data'])
+
+        # delete first bid
+        response = self.app.delete('/tenders/{}/bids/{}'.format(self.tender_id, bids[0]['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['id'], bids[0]['id'])
+        self.assertEqual(response.json['data']['status'], 'deleted')
+
+        # try to change tender state
+        self.set_status('active.qualification')
+
+        # check tender status
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active.qualification')
+
+        # check bids
+        response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bids[0]['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'deleted')
+        response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bids[1]['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'registration')
+
     def test_get_tender_tenderers(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
             self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
