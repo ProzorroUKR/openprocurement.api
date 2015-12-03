@@ -13,8 +13,26 @@ from openprocurement.api.models import (
 from openprocurement.tender.openua.interfaces import ITenderUA
 
 
+def bids_validation_wrapper(validation_func):
+    def validator(klass, data, value):
+        if data['status'] in ('deleted', 'invalidBid'):
+            # skip not valid bids
+            return
+        tender = data['__parent__']
+        request = tender.__parent__.request
+        if request.method == "PATCH" and ITenderUA.providedBy(request.context) and request.authenticated_role == "tender_owner":
+            # disable bids validation on tender PATCH requests as tender bids will be invalidated
+            return
+        return validation_func(klass, data, value)
+    return validator
+
+
 class Bid(BaseBid):
     status = StringType(choices=['registration', 'validBid', 'invalidBid', 'deleted'], default='registration')
+
+    @bids_validation_wrapper
+    def validate_value(self, data, value):
+        BaseBid._validator_functions['value'](Bid, data, value)
 
 
 @implementer(ITenderUA)

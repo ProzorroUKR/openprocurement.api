@@ -420,12 +420,13 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'registration')
 
-        # update tender
+        # update tender. we can set value that is less than a value in bids as
+        # they will be invalidated by this request
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data":
-                {"value": {'amount': 700.0}}
+                {"value": {'amount': 300.0}}
         })
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']["value"]["amount"], 700)
+        self.assertEqual(response.json['data']["value"]["amount"], 300)
 
         # check bids status
         for bid_id, token in bids_access.items():
@@ -434,8 +435,18 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
             self.assertEqual(response.json['data']['status'], 'invalidBid')
 
         # check that tender status change does not invalidate bids
-        # submit one more bid
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[0]})
+        # submit one more bid. check for invalid value first
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[0]}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'value of bid should be less than value of tender'], u'location': u'body', u'name': u'value'}
+        ])
+        # and submit valid bid
+        data = test_bids[0]
+        data['value']['amount'] = 299
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
         self.assertEqual(response.status, '201 Created')
         valid_bid_id = response.json['data']['id']
 
