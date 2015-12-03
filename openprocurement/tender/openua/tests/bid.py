@@ -433,6 +433,30 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'invalidBid')
 
+        # check that tender status change does not invalidate bids
+        # submit one more bid
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[0]})
+        self.assertEqual(response.status, '201 Created')
+        valid_bid_id = response.json['data']['id']
+
+        # change tender status
+        self.set_status('active.qualification')
+
+        # check tender status
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active.qualification')
+
+        # invalidated bids stay invalidated
+        for bid_id, token in bids_access.items():
+            response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid_id))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'invalidBid')
+        # and valid bid is not invalidated
+        response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, valid_bid_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'registration')
+
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_features_tender_ua_data
