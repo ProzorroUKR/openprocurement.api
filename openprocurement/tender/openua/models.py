@@ -32,7 +32,19 @@ class Bid(BaseBid):
 
     @bids_validation_wrapper
     def validate_value(self, data, value):
-        BaseBid._validator_functions['value'](Bid, data, value)
+        BaseBid._validator_functions['value'](self, data, value)
+
+    @bids_validation_wrapper
+    def validate_lotValues(self, data, lotValues):
+        BaseBid._validator_functions['lotValues'](self, data, lotValues)
+
+    @bids_validation_wrapper
+    def validate_participationUrl(self, data, participationUrl):
+        BaseBid._validator_functions['participationUrl'](self, data, participationUrl)
+
+    @bids_validation_wrapper
+    def validate_parameters(self, data, parameters):
+        BaseBid._validator_functions['parameters'](self, data, parameters)
 
 
 @implementer(ITenderUA)
