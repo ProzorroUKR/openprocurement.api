@@ -140,6 +140,12 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified', u'budget']))
         self.assertIn('opt_fields=budget', response.json['next_page']['uri'])
 
+        response = self.app.get('/plans', params=[('opt_fields', 'planID')])
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 3)
+        self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified', u'planID']))
+        self.assertIn('opt_fields=planID', response.json['next_page']['uri'])
+
         response = self.app.get('/plans', params=[('opt_fields', 'budget,procuringEntity')])
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 3)
@@ -226,6 +232,12 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(len(response.json['data']), 3)
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified', u'budget']))
         self.assertIn('opt_fields=budget', response.json['next_page']['uri'])
+
+        response = self.app.get('/plans?feed=changes', params=[('opt_fields', 'planID')])
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 3)
+        self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified', u'planID']))
+        self.assertIn('opt_fields=planID', response.json['next_page']['uri'])
 
         response = self.app.get('/plans?feed=changes', params=[('opt_fields', 'budget,procuringEntity')])
         self.assertEqual(response.status, '200 OK')
@@ -505,7 +517,6 @@ class PlanResourceTest(BaseWebTest):
         new_plan = response.json['data']
         new_dateModified = new_plan.pop('dateModified')
         plan['budget']['id'] = u"12303111000-3"
-        self.maxDiff = None
         self.assertEqual(plan, new_plan)
         self.assertNotEqual(dateModified, new_dateModified)
 
@@ -575,6 +586,27 @@ class PlanResourceTest(BaseWebTest):
         new_plan = response.json['data']
         self.assertIn('startDate', new_plan['tender']['tenderPeriod'])
 
+    def test_plan_not_found(self):
+        response = self.app.get('/plans')
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 0)
+
+        response = self.app.get('/plans/some_id', status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'plan_id'}
+        ])
+
+        response = self.app.patch_json(
+            '/plans/some_id', {'data': {}}, status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'plan_id'}
+        ])
 
 def suite():
     suite = unittest.TestSuite()

@@ -4,8 +4,6 @@ from json import dumps
 from logging import getLogger
 from time import sleep
 
-from pkg_resources import get_distribution
-
 from cornice.resource import resource
 from cornice.util import json_error
 from couchdb.http import ResourceConflict
@@ -15,19 +13,29 @@ from openprocurement.api.utils import update_logging_context, context_unpack, ge
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.traversal import factory
 from schematics.exceptions import ModelValidationError
+from pkg_resources import get_distribution
 
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
 
 
 def generate_plan_id(ctime, db, server_id=''):
-    key = ctime.date().isoformat()
-    plan_id_doc = 'planID_' + server_id if server_id else 'planID'
+    """ Generate ID for new plan in format "UA-P-YYYY-MM-DD-NNNNNN" + ["-server_id"]
+        YYYY - year, MM - month (start with 1), DD - day, NNNNNN - sequence number per 1 day
+        and save plans count per day in database document with _id = "planID" as { key, value } = { "2015-12-03": 2 }
+    :param ctime: system date-time
+    :param db: couchdb database object
+    :param server_id: server mark (for claster mode)
+    :return: planID in "UA-2015-05-08-000005"
+    """
+    key = ctime.date().isoformat()  # key (YYYY-MM-DD)
+    plan_id_doc = 'planID_' + server_id if server_id else 'planID'  # document _id
+    index = 1
     while True:
         try:
-            plan_id = db.get(plan_id_doc, {'_id': plan_id_doc})
+            plan_id = db.get(plan_id_doc, {'_id': plan_id_doc})  # find root document
             index = plan_id.get(key, 1)
-            plan_id[key] = index + 1
+            plan_id[key] = index + 1  # count of plans in db (+1 ?)
             db.save(plan_id)
         except ResourceConflict:  # pragma: no cover
             pass
@@ -45,11 +53,15 @@ def plan_serialize(request, plan_data, fields):
 
 
 def save_plan(request):
+    """ Save plan object to database
+    :param request:
+    :return: True if Ok
+    """
     plan = request.validated['plan']
     patch = get_revision_changes(plan.serialize("plain"), request.validated['plan_src'])
     if patch:
         plan.revisions.append(Revision({'author': request.authenticated_userid, 'changes': patch, 'rev': plan.rev}))
-        old_dateModified = plan.dateModified
+        old_date_modified = plan.dateModified
         plan.dateModified = get_now()
         try:
             plan.store(request.registry.db)
@@ -61,7 +73,7 @@ def save_plan(request):
             request.errors.add('body', 'data', str(e))
         else:
             LOGGER.info('Saved plan {}: dateModified {} -> {}'.format(plan.id,
-                                                                      old_dateModified and old_dateModified.isoformat(),
+                                                                      old_date_modified and old_date_modified.isoformat(),
                                                                       plan.dateModified.isoformat()),
                         extra=context_unpack(request, {'MESSAGE_ID': 'save_plan'}, {'PLAN_REV': plan.rev}))
             return True
