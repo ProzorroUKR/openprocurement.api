@@ -352,7 +352,7 @@ class PlansResource(object):
             self.request.response.headers[
                 'Location'] = self.request.route_url('Plan', plan_id=plan_id)
             return {
-                'data': plan.serialize("create"),
+                'data': plan.serialize("view"),
                 'access': {
                     'token': plan.owner_token
                 }

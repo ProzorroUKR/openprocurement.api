@@ -2,7 +2,7 @@
 from uuid import uuid4
 
 from couchdb_schematics.document import SchematicsDocument
-
+from schematics.exceptions import ValidationError
 from openprocurement.api.models import Model, Period, Revision
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
@@ -23,12 +23,16 @@ class Project(Model):
     """A project """
     id = StringType(required=True)
     name = StringType(required=True)
+    name_en = StringType()
+    name_ru = StringType()
 
 
 class Budget(Model):
     """A budget model """
     id = StringType(required=True)
     description = StringType(required=True)
+    description_en = StringType()
+    description_ru = StringType()
     amount = FloatType(required=True)
     currency = StringType(required=False, default=u'UAH', max_length=3,
                           min_length=3)  # The currency in 3-letter ISO 4217 format.
@@ -46,7 +50,13 @@ class PlanItem(Model):
     quantity = IntType()  # The number of units required
     deliveryDate = ModelType(Period)
     description = StringType(required=True)  # A description of the goods, services to be provided.
+    description_en = StringType()
+    description_ru = StringType()
 
+    def validate_classification(self, data, classification):
+        base_cpv_code = data['__parent__'].classification.id[:3]
+        if (base_cpv_code != classification.id[:3]):
+            raise ValidationError(u"CPV group of items be identical to root cpv")
 
 class PlanOrganization(Model):
     """An organization"""
@@ -64,9 +74,9 @@ class PlanTender(Model):
 
 # roles
 plain_role = (blacklist('revisions', 'dateModified') + schematics_embedded_role)
-create_role = (blacklist('owner_token', 'owner', 'revisions') + schematics_embedded_role)
+create_role = (blacklist('owner_token', 'owner', 'revisions', 'dateModified', 'planID', 'doc_id', '_attachments') + schematics_embedded_role)
 edit_role = (
-    blacklist('owner_token', 'owner', 'revisions', 'dateModified', 'doc_id', 'planID') + schematics_embedded_role)
+    blacklist('owner_token', 'owner', 'revisions', 'dateModified', 'doc_id', 'planID', 'mode', '_attachments') + schematics_embedded_role)
 view_role = (blacklist('owner', 'owner_token', '_attachments', 'revisions') + schematics_embedded_role)
 listing_role = whitelist('dateModified', 'doc_id')
 Administrator_role = whitelist('status', 'mode', 'procuringEntity')
@@ -166,3 +176,4 @@ class Plan(SchematicsDocument, Model):
 
         self._data.update(data)
         return self
+
