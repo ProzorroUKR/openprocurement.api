@@ -430,6 +430,151 @@ class PlanResourceTest(BaseWebTest):
         self.assertNotEqual(data['doc_id'], plan['id'])
         self.assertNotEqual(data['planID'], plan['planID'])
 
+    def test_create_plan(self):
+        response = self.app.get('/plans')
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 0)
+
+        response = self.app.post_json('/plans', {"data": test_plan_data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        plan = response.json['data']
+        self.assertEqual(set(plan) - set(test_plan_data), set([u'id', u'dateModified', u'planID']))
+        self.assertIn(plan['id'], response.headers['Location'])
+
+        response = self.app.get('/plans/{}'.format(plan['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(set(response.json['data']), set(plan))
+        self.assertEqual(response.json['data'], plan)
+
+        response = self.app.post_json('/plans?opt_jsonp=callback', {"data": test_plan_data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/javascript')
+        self.assertIn('callback({"', response.body)
+
+        response = self.app.post_json('/plans?opt_pretty=1', {"data": test_plan_data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertIn('{\n    "', response.body)
+
+        response = self.app.post_json('/plans', {"data": test_plan_data, "options": {"pretty": True}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertIn('{\n    "', response.body)
+
+    def test_get_plan(self):
+        response = self.app.get('/plans')
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 0)
+
+        response = self.app.post_json('/plans', {'data': test_plan_data})
+        self.assertEqual(response.status, '201 Created')
+        plan = response.json['data']
+
+        response = self.app.get('/plans/{}'.format(plan['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data'], plan)
+
+        response = self.app.get('/plans/{}?opt_jsonp=callback'.format(plan['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/javascript')
+        self.assertIn('callback({"data": {"', response.body)
+
+        response = self.app.get('/plans/{}?opt_pretty=1'.format(plan['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertIn('{\n    "data": {\n        "', response.body)
+
+    def test_patch_plan(self):
+        response = self.app.get('/plans')
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 0)
+
+        response = self.app.post_json('/plans', {'data': test_plan_data})
+        self.assertEqual(response.status, '201 Created')
+        plan = response.json['data']
+        owner_token = response.json['access']['token']
+        dateModified = plan.pop('dateModified')
+
+        response = self.app.patch_json('/plans/{}'.format(plan['id']),
+                                       {'data': {'budget': {'id': u"12303111000-3"}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        new_plan = response.json['data']
+        new_dateModified = new_plan.pop('dateModified')
+        plan['budget']['id'] = u"12303111000-3"
+        self.maxDiff = None
+        self.assertEqual(plan, new_plan)
+        self.assertNotEqual(dateModified, new_dateModified)
+
+        # response = self.app.patch_json('/plans/{}'.format(
+        #     plan['id']), {'data': {'tender': {'tenderPeriod': {'startDate': get_now().isoformat()}}}})
+        # self.assertEqual(response.status, '200 OK')
+        # self.assertEqual(response.content_type, 'application/json')
+        # self.assertIn('startDate', response.json['data']['tender']['tenderPeriod'])
+
+        response = self.app.patch_json('/plans/{}'.format(
+            plan['id']), {'data': {'dateModified': new_dateModified}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        new_plan2 = response.json['data']
+        new_dateModified2 = new_plan2.pop('dateModified')
+        self.assertEqual(new_plan, new_plan2)
+        self.assertEqual(new_dateModified, new_dateModified2)
+
+        revisions = self.db.get(plan['id']).get('revisions')
+        self.assertEqual(revisions[-1][u'changes'][0]['op'], u'replace')
+        self.assertEqual(revisions[-1][u'changes'][0]['path'], u'/budget/id')
+
+        response = self.app.patch_json('/plans/{}'.format(
+            plan['id']), {'data': {'items': [test_plan_data['items'][0]]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        response = self.app.patch_json('/plans/{}'.format(
+            plan['id']), {'data': {'items': [{}, test_plan_data['items'][0]]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        item0 = response.json['data']['items'][0]
+        item1 = response.json['data']['items'][1]
+        self.assertNotEqual(item0.pop('id'), item1.pop('id'))
+        self.assertEqual(item0, item1)
+
+        response = self.app.patch_json('/plans/{}'.format(
+            plan['id']), {'data': {'items': [{}]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(len(response.json['data']['items']), 1)
+
+        response = self.app.patch_json('/plans/{}'.format(plan['id']), {'data': {'items': [{"classification": {
+            "scheme": "CPV",
+            "id": "03117140-7",
+            "description": "Послуги з харчування у школах"
+        }}]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        response = self.app.patch_json('/plans/{}'.format(plan['id']),
+                                       {'data': {'items': [{"additionalClassifications": [
+                                           plan['items'][0]["additionalClassifications"][0] for i in range(3)
+                                           ]}]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        response = self.app.patch_json('/plans/{}'.format(plan['id']), {
+            'data': {'items': [{"additionalClassifications": plan['items'][0]["additionalClassifications"]}]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        response = self.app.patch_json('/plans/{}'.format(
+            plan['id']), {'data': {'tender': {'tenderPeriod': {'startDate': new_dateModified2}}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        new_plan = response.json['data']
+        self.assertIn('startDate', new_plan['tender']['tenderPeriod'])
+
 
 def suite():
     suite = unittest.TestSuite()
