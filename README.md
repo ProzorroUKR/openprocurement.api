@@ -1,1 +1,0 @@
-# openprocurement.planning.api
