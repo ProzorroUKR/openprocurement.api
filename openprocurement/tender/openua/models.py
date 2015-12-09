@@ -8,8 +8,8 @@ from openprocurement.api.models import Bid as BaseBid
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, cancel_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
-    auction_role, chronograph_role, chronograph_view_role,
-    Administrator_role, schematics_default_role)
+    auction_role, chronograph_role, chronograph_view_role, view_bid_role,
+    Administrator_bid_role, Administrator_role, schematics_default_role)
 from openprocurement.tender.openua.interfaces import ITenderUA
 
 
@@ -27,8 +27,84 @@ def bids_validation_wrapper(validation_func):
     return validator
 
 
+class SifterListType(ListType):
+
+    def __init__(self, field, min_size=None, max_size=None,
+                 filter_by=None, filter_in_values=[], **kwargs):
+        self.filter_by = filter_by
+        self.filter_in_values = filter_in_values
+        super(SifterListType, self).__init__(field, min_size=min_size,
+                                             max_size=max_size, **kwargs)
+
+    def export_loop(self, list_instance, field_converter,
+                    role=None, print_none=False):
+        """ Use the same functionality as original method but apply
+        additional filters.
+        """
+        data = []
+        for value in list_instance:
+            if hasattr(self.field, 'export_loop'):
+                item_role = role
+                # apply filters
+                if role not in ['plain', None] and self.filter_by and hasattr(value, self.filter_by):
+                    val = getattr(value, self.filter_by)
+                    if val in self.filter_in_values:
+                        item_role = val
+
+                shaped = self.field.export_loop(value, field_converter,
+                                                role=item_role)
+                feels_empty = shaped and len(shaped) == 0
+            else:
+                shaped = field_converter(self.field, value)
+                feels_empty = shaped is None
+
+            # Print if we want empty or found a value
+            if feels_empty and self.field.allow_none():
+                data.append(shaped)
+            elif shaped is not None:
+                data.append(shaped)
+            elif print_none:
+                data.append(shaped)
+
+        # Return data if the list contains anything
+        if len(data) > 0:
+            return data
+        elif len(data) == 0 and self.allow_none():
+            return data
+        elif print_none:
+            return data
+
+
 class Bid(BaseBid):
+
+    class Options:
+        roles = {
+            'Administrator': Administrator_bid_role,
+            'embedded': view_bid_role,
+            'view': view_bid_role,
+            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues'),
+            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues'),
+            'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl'),
+            'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
+            'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
+            'active.enquiries': whitelist(),
+            'active.tendering': whitelist(),
+            'active.auction': whitelist(),
+            'active.qualification': view_bid_role,
+            'active.awarded': view_bid_role,
+            'complete': view_bid_role,
+            'unsuccessful': view_bid_role,
+            'cancelled': view_bid_role,
+            'invalidBid': whitelist('id', 'status'),
+            'deleted': whitelist('id', 'status'),
+        }
+
     status = StringType(choices=['registration', 'validBid', 'invalidBid', 'deleted'], default='registration')
+
+    def serialize(self, role=None):
+        if role and self.status in ['invalidBid', 'deleted']:
+            role = self.status
+        return super(Bid, self).serialize(role)
 
     @bids_validation_wrapper
     def validate_value(self, data, value):
@@ -85,6 +161,6 @@ class Tender(BaseTender):
 
     __name__ = ''
 
-    bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
+    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalidBid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     procurementMethodType = StringType(default="aboveThresholdUA")
     magicUnicorns = IntType(required=True)
