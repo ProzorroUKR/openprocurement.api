@@ -71,7 +71,6 @@ class PlanTender(Model):
     procurementMethod = StringType(choices=['open'], default='open', required=True)
     tenderPeriod = ModelType(Period, required=True)
 
-
 # roles
 plain_role = (blacklist('revisions', 'dateModified') + schematics_embedded_role)
 create_role = (blacklist('owner_token', 'owner', 'revisions', 'dateModified', 'planID', 'doc_id', '_attachments') + schematics_embedded_role)
@@ -133,8 +132,7 @@ class Plan(SchematicsDocument, Model):
 
     planID = StringType()
     mode = StringType(choices=['test'])  # flag for test data ?
-    items = ListType(ModelType(PlanItem), required=False, min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq])
+    items = ListType(ModelType(PlanItem), required=False, validators=[validate_cpv_group, validate_items_uniq])
     dateModified = IsoDateTimeType()
     owner_token = StringType()
     owner = StringType()
@@ -165,15 +163,13 @@ class Plan(SchematicsDocument, Model):
         """
         Converts and imports the raw data into the instance of the model
         according to the fields in the model.
-        :param kw:
         :param raw_data:
             The data to be imported.
         """
         data = self.convert(raw_data, **kw)
-        del_keys = [k for k in data.keys() if not data[k]]
+        del_keys = [k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)]
         for k in del_keys:
             del data[k]
 
         self._data.update(data)
         return self
-

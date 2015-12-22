@@ -520,12 +520,6 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(plan, new_plan)
         self.assertNotEqual(dateModified, new_dateModified)
 
-        # response = self.app.patch_json('/plans/{}'.format(
-        #     plan['id']), {'data': {'tender': {'tenderPeriod': {'startDate': get_now().isoformat()}}}})
-        # self.assertEqual(response.status, '200 OK')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertIn('startDate', response.json['data']['tender']['tenderPeriod'])
-
         response = self.app.patch_json('/plans/{}'.format(
             plan['id']), {'data': {'dateModified': new_dateModified}})
         self.assertEqual(response.status, '200 OK')
@@ -585,6 +579,12 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.content_type, 'application/json')
         new_plan = response.json['data']
         self.assertIn('startDate', new_plan['tender']['tenderPeriod'])
+
+        # delete items
+        response = self.app.patch_json('/plans/{}'.format(plan['id']), {'data': {'items': []}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertNotIn('items', response.json['data'])
 
     def test_plan_not_found(self):
         response = self.app.get('/plans')
