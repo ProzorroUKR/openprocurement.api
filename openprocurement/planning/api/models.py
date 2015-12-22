@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
-
 from couchdb_schematics.document import SchematicsDocument
 from schematics.exceptions import ValidationError
 from openprocurement.api.models import Model, Period, Revision
@@ -57,6 +56,7 @@ class PlanItem(Model):
         base_cpv_code = data['__parent__'].classification.id[:3]
         if (base_cpv_code != classification.id[:3]):
             raise ValidationError(u"CPV group of items be identical to root cpv")
+
 
 class PlanOrganization(Model):
     """An organization"""
@@ -133,8 +133,7 @@ class Plan(SchematicsDocument, Model):
 
     planID = StringType()
     mode = StringType(choices=['test'])  # flag for test data ?
-    items = ListType(ModelType(PlanItem), required=False, min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq])
+    items = ListType(ModelType(PlanItem), required=False, validators=[validate_cpv_group, validate_items_uniq])
     dateModified = IsoDateTimeType()
     owner_token = StringType()
     owner = StringType()
@@ -165,15 +164,13 @@ class Plan(SchematicsDocument, Model):
         """
         Converts and imports the raw data into the instance of the model
         according to the fields in the model.
-        :param kw:
         :param raw_data:
             The data to be imported.
         """
         data = self.convert(raw_data, **kw)
-        del_keys = [k for k in data.keys() if not data[k]]
+        del_keys = [k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)]
         for k in del_keys:
             del data[k]
 
         self._data.update(data)
         return self
-

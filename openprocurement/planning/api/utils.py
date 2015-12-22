@@ -65,7 +65,7 @@ def save_plan(request):
         plan.dateModified = get_now()
         try:
             plan.store(request.registry.db)
-        except ModelValidationError, e:
+        except ModelValidationError, e: # pragma: no cover
             for i in e.message:
                 request.errors.add('body', i, e.message[i])
             request.errors.status = 422
@@ -99,9 +99,6 @@ def error_handler(errors, request_params=True):
     if errors.request.matchdict:
         for x, j in errors.request.matchdict.items():
             params[x.upper()] = j
-    if 'plan' in errors.request.validated:
-        params['PLAN_REV'] = errors.request.validated['plan'].rev
-        params['PLANID'] = errors.request.validated['plan'].planID
     LOGGER.info('Error on processing request "{}"'.format(dumps(errors, indent=4)),
                 extra=context_unpack(errors.request, {'MESSAGE_ID': 'error_handler'}, params))
     return json_error(errors)
