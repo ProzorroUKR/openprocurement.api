@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0.0.dev0 (2015-12-22)
+------------------
+
+- added ability to delete items from Plan (PATCH with "items" : []).
+
 0.1dev (unreleased)
 -------------------
 
