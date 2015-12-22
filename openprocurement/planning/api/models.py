@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
-
 from couchdb_schematics.document import SchematicsDocument
 from schematics.exceptions import ValidationError
 from openprocurement.api.models import Model, Period, Revision
@@ -58,6 +57,7 @@ class PlanItem(Model):
         if (base_cpv_code != classification.id[:3]):
             raise ValidationError(u"CPV group of items be identical to root cpv")
 
+
 class PlanOrganization(Model):
     """An organization"""
     name = StringType(required=True)
@@ -70,6 +70,7 @@ class PlanTender(Model):
     """Tender for planning model """
     procurementMethod = StringType(choices=['open'], default='open', required=True)
     tenderPeriod = ModelType(Period, required=True)
+
 
 # roles
 plain_role = (blacklist('revisions', 'dateModified') + schematics_embedded_role)
