@@ -5,7 +5,7 @@ version = '1.0'
 
 requires = [
     'setuptools',
-],
+]
 
 test_requires = requires + [
     'webtest',
