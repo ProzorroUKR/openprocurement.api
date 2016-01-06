@@ -40,4 +40,5 @@ setup(name='openprocurement.tender.limited',
       zip_safe=False,
       install_requires=requires,
       extras_require={'test': test_requires},
+      test_suite="openprocurement.tender.limited.tests.main.suite",
       entry_points=entry_points)
