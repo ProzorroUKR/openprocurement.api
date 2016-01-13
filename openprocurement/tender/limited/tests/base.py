@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
 import webtest
+from datetime import datetime, timedelta
+from openprocurement.api.utils import apply_data_patch
 from openprocurement.api.tests.base import test_tender_data as base_data
 from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass
 
 
+now = datetime.now()
 test_tender_data = base_data.copy()
 del test_tender_data['enquiryPeriod']
 del test_tender_data['tenderPeriod']
@@ -29,6 +32,24 @@ class BaseTenderWebTest(BaseTenderWebTest):
 
     def tearDown(self):
         del self.couchdb_server[self.db.name]
+
+    def set_status(self, status, extra=None):
+        data = {'status': status}
+
+        if extra:
+            data.update(extra)
+
+        tender = self.db.get(self.tender_id)
+        tender.update(apply_data_patch(tender, data))
+        self.db.save(tender)
+
+        # authorization = self.app.authorization
+        #self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        #self.app.authorization = authorization
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        return response
 
 
 class BaseTenderContentWebTest(BaseTenderWebTest):
