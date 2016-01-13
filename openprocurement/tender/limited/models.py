@@ -1,3 +1,4 @@
+from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.transforms import whitelist
 from schematics.types import StringType, FloatType, IntType, URLType, BooleanType, BaseType, EmailType, MD5Type
@@ -6,16 +7,36 @@ from schematics.types.serializable import serializable
 from openprocurement.api.models import (plain_role, view_role, create_role,
                                         edit_role, enquiries_role, listing_role,
                                         cancel_role, Administrator_role,
-                                        schematics_default_role)
+                                        schematics_default_role,
+                                        chronograph_role, chronograph_view_role)
 
-from openprocurement.api.models import (Value, IsoDateTimeType, Cancellation,
-                                        Award, Document, Organization, Bid,
-                                        Item, SchematicsDocument, Model, Period,
-                                        Contract, Revision
+from openprocurement.api.models import (Value, IsoDateTimeType, Document, Bid,
+                                        Organization, Item, SchematicsDocument,
+                                        Model, Period, Contract, Revision
                                         )
 from openprocurement.api.models import validate_cpv_group, validate_items_uniq
+from openprocurement.api.models import Award as BaseAward
+from openprocurement.api.models import Cancellation as BaseCancellation
+from openprocurement.api.models import ITender
 
 
+class Award(BaseAward):
+
+    bid_id = MD5Type(required=False)
+    lotID = None
+    complaints = []
+
+    def validate_lotID(self, data, lotID):
+        return
+
+class Cancellation(BaseCancellation):
+    cancellationOf = StringType(required=True, choices=['tender'], default='tender')
+
+    def validate_relatedLot(self, data, relatedLot):
+        return
+
+
+@implementer(ITender)
 class Tender(SchematicsDocument, Model):
     """Data regarding tender process - publicly inviting prospective contractors
        to submit bids for evaluation and selecting a winner or winners.
@@ -39,6 +60,8 @@ class Tender(SchematicsDocument, Model):
             'unsuccessful': view_role,
             'cancelled': view_role,
             'Administrator': Administrator_role,
+            'chronograph': chronograph_role,  # remove after chronograph fix
+            'chronograph_view': chronograph_view_role, # remove after chronograph fix
             'default': schematics_default_role,
         }
 
@@ -51,7 +74,7 @@ class Tender(SchematicsDocument, Model):
     tenderID = StringType()  # TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
-    procurementMethod = StringType(default='limited')  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
+    procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='limited')  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
     procurementMethodRationale = StringType()  # Justification of procurement method, especially in the case of Limited tendering.
     procurementMethodRationale_en = StringType()
     procurementMethodRationale_ru = StringType()
@@ -72,6 +95,20 @@ class Tender(SchematicsDocument, Model):
 
     __parent__ = None
     __name__ = ''
+
+    def __local_roles__(self):
+        return dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])
+
+    def get_role(self):
+        root = self.__parent__
+        request = root.request
+        if request.authenticated_role == 'Administrator':
+            role = 'Administrator'
+        elif request.authenticated_role == 'chronograph':
+            role = 'chronograph'
+        else:
+            role = 'edit_{}'.format(request.context.status)
+        return role
 
     def __acl__(self):
         acl = [
