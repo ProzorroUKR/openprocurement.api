@@ -1,4 +1,4 @@
-$ http -j POST https://api-sandbox.openprocurement.org/api/0/tenders/2d06f1999dcf436fb61ccd0168702459/awards/d373338bc3324f14b8b3d4af68922773?acc_token=1234558d25d6421588b2597504b747ed data:=@./award.json
+$ http -j PATCH https://api-sandbox.openprocurement.org/api/0/tenders/2d06f1999dcf436fb61ccd0168702459/awards/d373338bc3324f14b8b3d4af68922773?acc_token=1234558d25d6421588b2597504b747ed data:=@./award.json
 POST /api/0/tenders/2d06f1999dcf436fb61ccd0168702459/awards/d373338bc3324f14b8b3d4af68922773 HTTP/1.1
 Content-Type: application/json; charset=utf-8
 
