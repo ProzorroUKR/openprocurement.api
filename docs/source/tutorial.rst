@@ -3,51 +3,22 @@
 Tutorial
 ========
 
-Creating tender for negotiation procedure
+Creating tender for reporting procedure
 -----------------------------------------
 
-Let's provide the data attribute in the body submitted:
-
-.. include:: tutorial/tender-post-attempt-json-data.http
-   :code:
-
-Success! Now we can see that new object was created. Response code is `201`
-and `Location` response header reports the location of the created object.  The
-body of response reveals the information about the created tender: its internal
-`id` (that matches the `Location` segment), its official `tenderID` and
-`dateModified` datestamp stating the moment in time when tender was last
-modified.  Note that tender is created with `active` status.
-
-Let's access the URL of the created object (the `Location` header of the response):
-
-.. include:: tutorial/blank-tender-view.http
-   :code:
-
-.. XXX body is empty for some reason (printf fails)
-
-We can see the same response we got after creating tender. 
-
-Let's see what listing of tenders reveals us:
-
-.. include:: tutorial/tender-listing.http
-   :code:
-
-We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
-
-Let's try creating tender with more data, passing the `procuringEntity` of a tender:
+Let's try creating tender with some data, passing the `procuringEntity` of a tender:
 
 .. include:: tutorial/create-tender-procuringEntity.http
    :code:
 
-And again we have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties.
+We have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties.
 
 Let's check what tender registry contains:
 
 .. include:: tutorial/tender-listing-after-procuringEntity.http
    :code:
 
-And indeed we have 2 tenders now.
-
+We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
 
 Modifying tender
 ----------------
