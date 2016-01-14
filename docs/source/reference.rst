@@ -7,6 +7,6 @@ API Reference
 
 
 .. services::
-   :modules: openprocurement.limited.views
+   :modules: openprocurement.tender.limited.views
 
 
