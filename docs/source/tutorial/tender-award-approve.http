@@ -1,0 +1,44 @@
+$ http -j POST https://api-sandbox.openprocurement.org/api/0/tenders/2d06f1999dcf436fb61ccd0168702459/awards/d373338bc3324f14b8b3d4af68922773?acc_token=1234558d25d6421588b2597504b747ed data:=@./award.json
+POST /api/0/tenders/2d06f1999dcf436fb61ccd0168702459/awards/d373338bc3324f14b8b3d4af68922773 HTTP/1.1
+Content-Type: application/json; charset=utf-8
+
+{
+    "data": {
+        "complaintPeriod": {
+            "endDate": "2016-01-15T18:16:55.895242+02:00", 
+            "startDate": "2016-01-14T18:07:00.631425+02:00"
+        }, 
+        "date": "2016-01-14T18:07:00.628073+02:00", 
+        "id": "d373338bc3324f14b8b3d4af68922773", 
+        "status": "active", 
+        "suppliers": [
+            {
+                "address": {
+                    "countryName": "Україна", 
+                    "locality": "м. Вінниця", 
+                    "postalCode": "21100", 
+                    "region": "м. Вінниця", 
+                    "streetAddress": "вул. Островського, 33"
+                }, 
+                "contactPoint": {
+                    "email": "soleksuk@gmail.com", 
+                    "name": "Сергій Олексюк", 
+                    "telephone": "+380 (432) 21-69-30"
+                }, 
+                "identifier": {
+                    "id": "13313462", 
+                    "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+                    "scheme": "UA-EDR", 
+                    "uri": "http://sch10.edu.vn.ua/"
+                }, 
+                "name": "ДКП «Школяр»"
+            }
+        ], 
+        "value": {
+            "amount": 475000,
+            "currency": "UAH", 
+            "valueAddedTaxIncluded": true
+        }
+    }
+}
+
