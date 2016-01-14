@@ -119,7 +119,7 @@ Procuring entity can register supplier information:
 
 
 Award confirmation
------------------
+------------------
 
 Procuring entity confirms awarding decision:
 
@@ -127,14 +127,14 @@ Procuring entity confirms awarding decision:
    :code:
 
 
-Sign contract
--------------
+Contract signing
+----------------
+
+Contract can be signed a day after award confirmation:
+
 
 .. include:: tutorial/tender-contract-sign.http
    :code:
-
-
-
 
 
 Cancelling tender
