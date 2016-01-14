@@ -18,11 +18,13 @@ entry_points = {
     ]
 }
 
+with open(os.path.join(here, 'README.rst')) as f:
+    README = f.read()
+
 setup(name='openprocurement.tender.limited',
       version=version,
       description="",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      long_description=README,
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
