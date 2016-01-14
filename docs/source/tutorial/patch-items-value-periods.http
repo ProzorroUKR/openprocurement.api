@@ -1,0 +1,65 @@
+$ http --auth broker: -j PATCH https://api-sandbox.openprocurement.org/api/0/tenders/2d06f1999dcf436fb61ccd0168702459?acc_token=1234558d25d6421588b2597504b747ed data:=@./tender-patch.json
+PATCH /api/0/tenders/2d06f1999dcf436fb61ccd0168702459?acc_token=953613dd25d6421588b2597504b747ed HTTP/1.1
+Authorization: Basic YnJva2VyOg==
+Content-Type: application/json; charset=utf-8
+
+{
+    "data": {
+        "dateModified": "2016-01-14T16:58:21.156552+02:00", 
+        "id": "2d06f1999dcf436fb61ccd0168702459", 
+        "items": [
+            {
+                "additionalClassifications": [
+                    {
+                        "description": "Послуги шкільних їдалень", 
+                        "id": "55.51.10.300", 
+                        "scheme": "ДКПП"
+                    }
+                ], 
+                "classification": {
+                    "description": "Послуги з харчування у школах", 
+                    "id": "55523100-3", 
+                    "scheme": "CPV"
+                }, 
+                "description": "Послуги шкільних їдалень", 
+                "id": "2dc54675d6364e2baffbc0f8e74432ac",
+                "quantity": 9, 
+                "unit": {
+                    "code": "MON", 
+                    "name": "month"
+                }
+            }
+        ], 
+        "owner": "broker", 
+        "procurementMethod": "limited", 
+        "procurementMethodType": "reporting", 
+        "status": "active", 
+        "procuringEntity": {
+            "address": {
+                "countryName": "Україна", 
+                "locality": "м. Вінниця", 
+                "postalCode": "21027", 
+                "region": "м. Вінниця", 
+                "streetAddress": "вул. Стахурського. 22"
+            }, 
+            "contactPoint": {
+                "name": "Куца Світлана Валентинівна", 
+                "telephone": "+380 (432) 46-53-02", 
+                "url": "http://sch10.edu.vn.ua/"
+            }, 
+            "identifier": {
+                "id": "21725150", 
+                "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"", 
+                "scheme": "UA-EDR"
+            }, 
+            "name": "ЗОСШ #10 м.Вінниці"
+        }, 
+        "value": {
+            "amount": 500000, 
+            "currency": "UAH", 
+            "valueAddedTaxIncluded": true
+        }
+        "tenderID": "UA-2016-01-14-000003", 
+        "title": "Послуги шкільних їдалень", 
+    }
+}
