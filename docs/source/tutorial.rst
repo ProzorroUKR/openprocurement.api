@@ -50,34 +50,11 @@ follow the :ref:`upload` rules.
    :code:
 
 `201 Created` response code and `Location` header confirm document creation. 
-We can additionally query the `documents` collection API endpoint to confirm the
-action:
-
-.. include:: tutorial/tender-documents.http
-   :code:
-
-The single array element describes the uploaded document. We can upload more documents:
-
-.. include:: tutorial/upload-award-criteria.http
-   :code:
-
-And again we can confirm that there are two documents uploaded.
-
-.. include:: tutorial/tender-documents-2.http
-   :code:
 
 In case we made an error, we can reupload the document over the older version:
 
 .. include:: tutorial/update-award-criteria.http
    :code:
-
-And we can see that it is overriding the original version:
-
-.. include:: tutorial/tender-documents-3.http
-   :code:
-
-
-.. index:: Enquiries, Question, Answer
 
 
 Adding supplier information
