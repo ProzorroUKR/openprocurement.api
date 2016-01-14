@@ -16,6 +16,18 @@ X-Request-ID: req-ad1a5a96-f8d0-471f-9e9f-4d796875d8f1
         "id": "2d06f1999dcf436fb61ccd0168702459", 
         "items": [
             {
+                "additionalClassifications": [
+                    {
+                        "description": "Послуги шкільних їдалень", 
+                        "id": "55.51.10.300", 
+                        "scheme": "ДКПП"
+                    }
+                ], 
+                "classification": {
+                    "description": "Послуги з харчування у школах", 
+                    "id": "55523100-3", 
+                    "scheme": "CPV"
+                }, 
                 "description": "Послуги шкільних їдалень", 
                 "id": "2dc54675d6364e2baffbc0f8e74432ac"
             }
