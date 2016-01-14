@@ -1,0 +1,56 @@
+http --auth broker: -j POST https://api-sandbox.openprocurement.org/api/0/tenders data:=@limited.json                                                                                                                                 
+HTTP/1.1 201 Created
+Content-Length: 993
+Content-Type: application/json; charset=UTF-8
+Date: Thu, 14 Jan 2016 14:48:35 GMT
+Location: http://localhost:6543/api/0.12/tenders/2d06f1999dcf436fb61ccd0168702459
+Set-Cookie: SERVER_ID=04e5b032558985acf62e4cec14f943b2521a38e816c86c6c813e56102d73c8ec771bbc744f05686397674cd64cde7d2cff7248bc37bfa1b57ea51bc5f3fb5380; Path=/
+X-Request-ID: req-ad1a5a96-f8d0-471f-9e9f-4d796875d8f1
+
+{
+    "access": {
+        "token": "eab9e30f28df4ae78c5df39ede7b870a"
+    }, 
+    "data": {
+        "dateModified": "2016-01-14T16:48:35.636859+02:00", 
+        "id": "2d06f1999dcf436fb61ccd0168702459", 
+        "items": [
+            {
+                "description": "Послуги шкільних їдалень", 
+                "id": "2dc54675d6364e2baffbc0f8e74432ac"
+            }
+        ], 
+        "owner": "broker", 
+        "procurementMethod": "limited", 
+        "procurementMethodType": "reporting", 
+        "status": "active", 
+        "procuringEntity": {
+            "address": {
+                "countryName": "Україна", 
+                "locality": "м. Вінниця", 
+                "postalCode": "21027", 
+                "region": "м. Вінниця", 
+                "streetAddress": "вул. Стахурського. 22"
+            }, 
+            "contactPoint": {
+                "name": "Куца Світлана Валентинівна", 
+                "telephone": "+380 (432) 46-53-02", 
+                "url": "http://sch10.edu.vn.ua/"
+            }, 
+            "identifier": {
+                "id": "21725150", 
+                "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"", 
+                "scheme": "UA-EDR"
+            }, 
+            "name": "ЗОСШ #10 м.Вінниці"
+        }, 
+        "value": {
+            "amount": 500000, 
+            "currency": "UAH", 
+            "valueAddedTaxIncluded": true
+        }
+        "tenderID": "UA-2016-01-14-000003", 
+        "title": "Послуги шкільних їдалень", 
+    }
+}
+

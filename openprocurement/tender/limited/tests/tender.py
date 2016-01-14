@@ -627,7 +627,6 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['data']['mode'], u'test')
 
 
-
 class TenderProcessTest(BaseTenderWebTest):
 
     def test_tender_status_change(self):
