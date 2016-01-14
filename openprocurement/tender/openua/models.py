@@ -163,4 +163,7 @@ class Tender(BaseTender):
 
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalidBid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     procurementMethodType = StringType(default="aboveThresholdUA")
-    magicUnicorns = IntType(required=True)
+    #status = StringType(choices=['active.enquiries_and_tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.enquiries')
+    # magicUnicorns = IntType(required=True)
+
+

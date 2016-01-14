@@ -7,6 +7,7 @@ from openprocurement.api.utils import (
     save_tender,
     apply_patch,
     check_bids,
+    check_status,
     check_tender_status,
     opresource,
     json_view,
@@ -72,7 +73,7 @@ class TenderUAResource(TenderResource):
             }
 
         """
-        tender = self.request.validated['tender']
+        tender = self.context
         if self.request.authenticated_role != 'Administrator' and tender.status in ['complete', 'unsuccessful', 'cancelled']:
             self.request.errors.add('body', 'data', 'Can\'t update tender in current ({}) status'.format(tender.status))
             self.request.errors.status = 403
@@ -82,12 +83,9 @@ class TenderUAResource(TenderResource):
             self.request.errors.add('body', 'data', 'Can\'t update tender status')
             self.request.errors.status = 403
             return
-        if self.request.authenticated_role == 'chronograph' and tender.status == 'active.tendering' and data.get('status', tender.status) == 'active.auction':
+        if self.request.authenticated_role == 'chronograph':
             apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
-            check_bids(self.request)
-            save_tender(self.request)
-        elif self.request.authenticated_role == 'chronograph' and tender.status in ['active.qualification', 'active.awarded'] and data.get('status', tender.status) == tender.status:
-            check_tender_status(self.request)
+            check_status(self.request)
             save_tender(self.request)
         else:
             if tender.status == data.get('status', tender.status):

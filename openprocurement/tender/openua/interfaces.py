@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.interfaces import IBaseTender
+from openprocurement.api.models import ITender as IBaseTender
 
 
 class ITenderUA(IBaseTender):
