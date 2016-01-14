@@ -87,31 +87,31 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
                 u'Please use a mapping for this field or Value instance instead of unicode.'], u'location': u'body', u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {
-            'title': 'lot title',
-            'description': 'lot description',
-            'value': {'amount': '500.0', 'currency': "USD"},
-            'minimalStep': {'amount': '100.0', 'currency': "USD"},
-        }}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'currency should be identical to currency of value of tender'], u'location': u'body', u'name': u'value'}
-        ])
-
-        response = self.app.post_json(request_path, {'data': {
-            'title': 'lot title',
-            'description': 'lot description',
-            'value': {'amount': '500.0', 'valueAddedTaxIncluded': False},
-            'minimalStep': {'amount': '100.0', 'valueAddedTaxIncluded': False},
-        }}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender'], u'location': u'body', u'name': u'value'}
-        ])
+        # response = self.app.post_json(request_path, {'data': {
+        #     'title': 'lot title',
+        #     'description': 'lot description',
+        #     'value': {'amount': '500.0', 'currency': "USD"},
+        #     'minimalStep': {'amount': '100.0', 'currency': "USD"},
+        # }}, status=422)
+        # self.assertEqual(response.status, '422 Unprocessable Entity')
+        # self.assertEqual(response.content_type, 'application/json')
+        # self.assertEqual(response.json['status'], 'error')
+        # self.assertEqual(response.json['errors'], [
+        #     {u'description': [u'currency should be identical to currency of value of tender'], u'location': u'body', u'name': u'value'}
+        # ])
+        #
+        # response = self.app.post_json(request_path, {'data': {
+        #     'title': 'lot title',
+        #     'description': 'lot description',
+        #     'value': {'amount': '500.0', 'valueAddedTaxIncluded': False},
+        #     'minimalStep': {'amount': '100.0', 'valueAddedTaxIncluded': False},
+        # }}, status=422)
+        # self.assertEqual(response.status, '422 Unprocessable Entity')
+        # self.assertEqual(response.content_type, 'application/json')
+        # self.assertEqual(response.json['status'], 'error')
+        # self.assertEqual(response.json['errors'], [
+        #     {u'description': [u'valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender'], u'location': u'body', u'name': u'value'}
+        # ])
 
         response = self.app.post_json(request_path, {'data': {
             'title': 'lot title',
@@ -130,27 +130,16 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
             'title': 'lot title',
             'description': 'lot description',
             'value': {'amount': '500.0'},
-            'minimalStep': {'amount': '100.0', 'valueAddedTaxIncluded': False},
-        }}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
+            'minimalStep': {'amount': '100.0', 'currency': "USD"}
+        }})
+        self.assertEqual(response.status, '201 Created')
+        # but minimalStep currency stays unchanged
+        response = self.app.get(request_path)
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of lot'], u'location': u'body', u'name': u'minimalStep'}
-        ])
-
-        response = self.app.post_json(request_path, {'data': {
-            'title': 'lot title',
-            'description': 'lot description',
-            'value': {'amount': '500.0'},
-            'minimalStep': {'amount': '100.0', 'currency': "USD"},
-        }}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'currency should be identical to currency of value of lot'], u'location': u'body', u'name': u'minimalStep'}
-        ])
+        lots = response.json['data']
+        self.assertEqual(len(lots), 1)
+        self.assertEqual(lots[0]['minimalStep']['currency'], "UAH")
+        self.assertEqual(lots[0]['minimalStep']['amount'], 100)
 
         response = self.app.post_json(request_path, {'data': {
             'title': 'lot title',
@@ -239,6 +228,126 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update lot in current (active.tendering) tender status")
+
+    def test_patch_tender_currency(self):
+        # create lot
+        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertEqual(lot['value']['currency'], "UAH")
+
+        # update tender currency without mimimalStep currency change
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"value": {"currency": "GBP"}}}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'currency should be identical to currency of value of tender'],
+             u'location': u'body', u'name': u'minimalStep'}
+        ])
+
+        # update tender currency
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {
+            "value": {"currency": "GBP"},
+            "minimalStep": {"currency": "GBP"}
+        }})
+        self.assertEqual(response.status, '200 OK')
+        # log currency is updated too
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertEqual(lot['value']['currency'], "GBP")
+
+        # try to update lot currency
+        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"value": {"currency": "USD"}}})
+        self.assertEqual(response.status, '200 OK')
+        # but the value stays unchanged
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertEqual(lot['value']['currency'], "GBP")
+
+        # try to update minimalStep currency
+        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"minimalStep": {"currency": "USD"}}})
+        self.assertEqual(response.status, '200 OK')
+        # but the value stays unchanged
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertEqual(lot['minimalStep']['currency'], "GBP")
+
+        # try to update lot minimalStep currency and lot value currency in single request
+        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"value": {"currency": "USD"},
+                                                                                                          "minimalStep": {"currency": "USD"}}})
+        self.assertEqual(response.status, '200 OK')
+        # but the value stays unchanged
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertEqual(lot['value']['currency'], "GBP")
+        self.assertEqual(lot['minimalStep']['currency'], "GBP")
+
+    def test_patch_tender_vat(self):
+        # set tender VAT
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"value": {"valueAddedTaxIncluded": True}}})
+        self.assertEqual(response.status, '200 OK')
+
+        # create lot
+        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertTrue(lot['value']['valueAddedTaxIncluded'])
+
+        # update tender VAT
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data":
+                                                                              {"value": {"valueAddedTaxIncluded": False},
+                                                                               "minimalStep": {"valueAddedTaxIncluded": False}}
+                                                                              })
+        self.assertEqual(response.status, '200 OK')
+        # log VAT is updated too
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertFalse(lot['value']['valueAddedTaxIncluded'])
+
+        # try to update lot VAT
+        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"value": {"valueAddedTaxIncluded": True}}})
+        self.assertEqual(response.status, '200 OK')
+        # but the value stays unchanged
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertFalse(lot['value']['valueAddedTaxIncluded'])
+
+        # try to update minimalStep VAT
+        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"minimalStep": {"valueAddedTaxIncluded": True}}})
+        self.assertEqual(response.status, '200 OK')
+        # but the value stays unchanged
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertFalse(lot['minimalStep']['valueAddedTaxIncluded'])
+
+        # try to update minimalStep VAT and value VAT in single request
+        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"value": {"valueAddedTaxIncluded": True},
+                                                                                                          "minimalStep": {"valueAddedTaxIncluded": True}}})
+        self.assertEqual(response.status, '200 OK')
+        # but the value stays unchanged
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertFalse(lot['value']['valueAddedTaxIncluded'])
+        self.assertEqual(lot['minimalStep']['valueAddedTaxIncluded'], lot['value']['valueAddedTaxIncluded'])
 
     def test_get_tender_lot(self):
         response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]})
@@ -720,6 +829,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderLotProcessTest(BaseTenderUAContentWebTest):
+    setUp = BaseTenderUAContentWebTest.setUp
 
     def test_1lot_0bid(self):
         self.app.authorization = ('Basic', ('broker', ''))
@@ -738,7 +848,9 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
         self.assertIn("auctionPeriod", response.json['data']['lots'][0])
         # switch to unsuccessful
-        response = self.set_status('active.auction', {"lots": [{"auctionPeriod": {"startDate": None}}]})
+        response = self.set_status('active.auction', {"lots": [{"auctionPeriod": {"startDate": None}}], 'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.json['data']["lots"][0]['status'], 'unsuccessful')
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
@@ -763,8 +875,9 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
         # switch to active.qualification
-        response = self.set_status('active.auction', {"lots": [{"auctionPeriod": {"startDate": None}}]})
-        #self.assertNotIn("auctionPeriod", response.json['data']['lots'][0])
+        response = self.set_status('active.auction', {"lots": [{"auctionPeriod": {"startDate": None}}], 'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         # get awards
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
@@ -906,10 +1019,14 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         ]})
         self.assertTrue(all(["auctionPeriod" in i for i in response.json['data']['lots']]))
         # switch to unsuccessful
-        response = self.set_status('active.auction', {"lots": [
-            {"auctionPeriod": {"startDate": None}}
-            for i in lots
-        ]})
+        response = self.set_status('active.auction', {
+            "lots": [
+                {"auctionPeriod": {"startDate": None}}
+                for i in lots
+            ],
+            'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertTrue(all([i['status'] == 'unsuccessful' for i in response.json['data']['lots']]))
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
@@ -977,13 +1094,18 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
             for lot_id in lots
         ]}})
         # switch to active.qualification
-        response = self.set_status('active.auction', {"lots": [
-            {"auctionPeriod": {"startDate": None}}
-            for i in lots
-        ]})
+        response = self.set_status('active.auction', {
+            "lots": [
+                {"auctionPeriod": {"startDate": None}}
+                for i in lots
+            ],
+            'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         # for first lot
         lot_id = lots[0]
         # cancel lot
+        self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender_id, owner_token), {'data': {
             'reason': 'cancellation reason',
             'status': 'active',
@@ -1007,7 +1129,8 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.db.save(tender)
         # check tender status
-        response = self.set_status('complete', {'status': 'active.awarded'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         # check status
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}'.format(tender_id))
@@ -1043,10 +1166,14 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
             for lot_id in lots
         ]}})
         # switch to active.qualification
-        response = self.set_status('active.auction', {"lots": [
-            {"auctionPeriod": {"startDate": None}}
-            for i in lots
-        ]})
+        response = self.set_status('active.auction', {
+            "lots": [
+                {"auctionPeriod": {"startDate": None}}
+                for i in lots
+            ],
+            'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         for lot_id in lots:
             # get awards
             self.app.authorization = ('Basic', ('broker', ''))
@@ -1103,10 +1230,14 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
             for lot_id in lots
         ]}})
         # switch to active.qualification
-        response = self.set_status('active.auction', {"lots": [
-            {"auctionPeriod": {"startDate": None}}
-            for i in lots
-        ]})
+        response = self.set_status('active.auction', {
+            "lots": [
+                {"auctionPeriod": {"startDate": None}}
+                for i in lots
+            ],
+            'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         # for every lot
         for lot_id in lots:
             # get awards
@@ -1125,6 +1256,8 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
             self.db.save(tender)
         # check tender status
         self.set_status('complete', {'status': 'active.awarded'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         # check status
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}'.format(tender_id))
@@ -1160,10 +1293,14 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
             for lot_id in lots
         ]}})
         # switch to active.qualification
-        response = self.set_status('active.auction', {"lots": [
-            {"auctionPeriod": {"startDate": None}}
-            for i in lots
-        ]})
+        response = self.set_status('active.auction', {
+            "lots": [
+                {"auctionPeriod": {"startDate": None}}
+                for i in lots
+            ],
+            'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         # for first lot
         lot_id = lots[0]
         # get awards
@@ -1203,7 +1340,8 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.db.save(tender)
         # check tender status
-        self.set_status('complete', {'status': 'active.awarded'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         # check status
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}'.format(tender_id))

@@ -318,6 +318,14 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
                 u'location': u'body', u'name': u'data'}
         ])
 
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'invalid_value'}}, status=415)
+        self.assertEqual(response.status, '415 Unsupported Media Type')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not implemented', u'location': u'data', u'name': u'procurementMethodType'}
+        ])
+
         response = self.app.post_json(request_path, {'data': {
                                       'invalid_field': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -497,9 +505,9 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
-        self.assertEqual(set(tender), set([ u'procurementMethodType',  u'magicUnicorns', u'id', u'dateModified', u'tenderID', u'status', u'enquiryPeriod',
-                                           u'tenderPeriod', u'minimalStep', u'items', u'value', u'procuringEntity',
-                                           u'procurementMethod', u'awardCriteria', u'submissionMethod', u'title']))
+        self.assertEqual(set(tender), set([u'procurementMethodType', u'id', u'dateModified', u'tenderID', u'status', u'enquiryPeriod',
+                                           u'tenderPeriod', u'minimalStep', u'items', u'value', u'procuringEntity', u'next_check',
+                                           u'procurementMethod', u'awardCriteria', u'submissionMethod', u'title', u'owner']))
         self.assertNotEqual(data['id'], tender['id'])
         self.assertNotEqual(data['doc_id'], tender['id'])
         self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -514,7 +522,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
         self.assertEqual(set(tender) - set(test_tender_ua_data), set(
-            [u'id', u'dateModified', u'tenderID', u'status', u'procurementMethod', u'awardCriteria', u'submissionMethod']))
+            [u'id', u'dateModified', u'tenderID', u'status', u'procurementMethod', u'awardCriteria', u'submissionMethod', u'next_check', u'owner']))
         self.assertIn(tender['id'], response.headers['Location'])
 
         response = self.app.get('/tenders/{}'.format(tender['id']))
@@ -566,7 +574,15 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         data = test_tender_ua_data.copy()
         item = data['items'][0].copy()
         item['id'] = "1"
-        data['items'] = [item]
+        data['items'] = [item, item.copy()]
+        response = self.app.post_json('/tenders', {'data': data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'Item id should be uniq for all items'], u'location': u'body', u'name': u'items'}
+        ])
+        data['items'][0]["id"] = "0"
         data['features'] = [
             {
                 "code": "OCDS-123454-AIR-INTAKE",
@@ -707,6 +723,14 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
         self.assertEqual(tender['features'], data['features'])
+
+        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'features': [{
+            "featureOf": "tenderer",
+            "relatedItem": None
+        }, {}, {}]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertIn('features', response.json['data'])
+        self.assertNotIn('relatedItem', response.json['data']['features'][0])
 
         response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'tenderPeriod': {'startDate': None}}})
         self.assertEqual(response.status, '200 OK')
@@ -933,21 +957,30 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
                                       {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']
         owner_token = response.json['access']['token']
-        # create compaint
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/complaints'.format(tender_id),
-                                      {'data': {'title': 'invalid conditions', 'description': 'description', 'author': test_tender_ua_data["procuringEntity"]}})
-        complaint_id = response.json['data']['id']
-        # create second compaint
-        response = self.app.post_json('/tenders/{}/complaints'.format(tender_id),
-                                      {'data': {'title': 'invalid conditions', 'description': 'description', 'author': test_tender_ua_data["procuringEntity"]}})
         # switch to active.tendering
         self.set_status('active.tendering')
-        # satisfying tender conditions complaint
-        # XXX correct auth
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(tender_id, complaint_id, owner_token),
-                                       {"data": {"status": "resolved", "resolution": "resolution text"}})
+        # create compaint
+        # self.app.authorization = ('Basic', ('token', ''))
+        # response = self.app.post_json('/tenders/{}/complaints'.format(tender_id),
+        #                               {'data': {'title': 'invalid conditions', 'description': 'description', 'author': test_tender_ua_data["procuringEntity"]}})
+        # complaint_id = response.json['data']['id']
+        # complaint_owner_token = response.json['access']['token']
+        # # answering claim
+        # self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(tender_id, complaint_id, owner_token), {"data": {
+        #     "status": "answered",
+        #     "resolutionType": "resolved",
+        #     "resolution": "I will cancel the tender"
+        # }})
+        # # satisfying resolution
+        # self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(tender_id, complaint_id, complaint_owner_token), {"data": {
+        #     "satisfied": True,
+        #     "status": "resolved"
+        # }})
+        # cancellation
+        self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender_id, owner_token), {'data': {
+            'reason': 'invalid conditions',
+            'status': 'active'
+        }})
         # check status
         response = self.app.get('/tenders/{}'.format(tender_id))
         self.assertEqual(response.json['data']['status'], 'cancelled')
@@ -979,8 +1012,9 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         #response = self.app.delete('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, owner_token))
 
         # switch to active.qualification
-        #response = self.set_status('active.qualification', {"auctionPeriod": {"startDate": None}})
-        response = self.set_status('active.auction', {"auctionPeriod": {"startDate": None}})
+        self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertNotIn("auctionPeriod", response.json['data'])
         # get awards
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1025,8 +1059,9 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
         # switch to active.qualification
-        #self.set_status('active.qualification')
-        self.set_status('active.auction')
+        self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         # get awards
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
@@ -1035,6 +1070,11 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # set award as unsuccessful
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token),
                                        {"data": {"status": "unsuccessful"}})
+        # time travel
+        tender = self.db.get(tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
         # set tender status after stand slill period
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id),
@@ -1110,17 +1150,26 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # get pending award
         award2_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
         self.assertNotEqual(award_id, award2_id)
-        # create first award complaint
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(tender_id, award_id, bid_token),
-                                      {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_tender_ua_data["procuringEntity"]}})
-        complaint_id = response.json['data']['id']
-        # create first award complaint #2
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(tender_id, award_id, bid_token),
-                                      {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_tender_ua_data["procuringEntity"]}})
-        # satisfying award complaint
-        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(tender_id, award_id, complaint_id, owner_token),
-                                       {"data": {"status": "resolved", "resolution": "resolution text"}})
+        # # create first award complaint
+        # self.app.authorization = ('Basic', ('broker', ''))
+        # response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(tender_id, award_id, bid_token),
+        #                               {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_tender_ua_data["procuringEntity"]}})
+        # complaint_id = response.json['data']['id']
+        # complaint_owner_token = response.json['access']['token']
+        # # create first award complaint #2
+        # response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(tender_id, award_id, bid_token),
+        #                               {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_tender_ua_data["procuringEntity"]}})
+        # # answering claim
+        # self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(tender_id, award_id, complaint_id, owner_token), {"data": {
+        #     "status": "answered",
+        #     "resolutionType": "resolved",
+        #     "resolution": "resolution text"
+        # }})
+        # # satisfying resolution
+        # self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(tender_id, award_id, complaint_id, complaint_owner_token), {"data": {
+        #     "satisfied": True,
+        #     "status": "resolved"
+        # }})
         # get awards
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
@@ -1154,3 +1203,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderUAResourceTest))
     suite.addTest(unittest.makeSuite(TenderUATest))
     return suite
+
+
+if __name__ == '__main__':
+    unittest.main(defaultTest='suite')

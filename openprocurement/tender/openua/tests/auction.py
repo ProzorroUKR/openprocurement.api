@@ -7,8 +7,11 @@ from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest, test_tender_ua_data)
 from openprocurement.api.tests.base import test_features_tender_data, test_bids, test_lots
 
+# from openprocurement.api.tests.base import BaseTenderWebTest, test_tender_data, test_features_tender_data, test_bids, test_lots
+
 
 class TenderAuctionResourceTest(BaseTenderUAContentWebTest):
+    #initial_data = tender_data
     initial_status = 'active.tendering'
     initial_bids = test_bids
 

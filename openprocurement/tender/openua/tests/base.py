@@ -9,11 +9,11 @@ from openprocurement.api.tests.base import (test_tender_data,
 
 test_tender_ua_data = test_tender_data.copy()
 test_tender_ua_data['procurementMethodType'] = "aboveThresholdUA"
-test_tender_ua_data['magicUnicorns'] = 15
+# test_tender_ua_data['magicUnicorns'] = 15
 
 test_features_tender_ua_data = test_features_tender_data.copy()
 test_features_tender_ua_data['procurementMethodType'] = "aboveThresholdUA"
-test_features_tender_ua_data['magicUnicorns'] = 15
+# test_features_tender_ua_data['magicUnicorns'] = 15
 
 
 class BaseTenderUAWebTest(BaseTenderWebTest):

@@ -4,13 +4,38 @@ import unittest
 from openprocurement.api.tests.base import test_lots, test_bids
 from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest
 
+class TenderSwitchTenderingResourceTest(BaseTenderUAContentWebTest):
+
+    def test_switch_to_tendering_by_enquiryPeriod_endDate(self):
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertNotEqual(response.json['data']["status"], "active.tendering")
+        self.set_status('active.tendering', {'status': 'active.enquiries', "tenderPeriod": {"startDate": None}})
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']["status"], "active.tendering")
+
+    def test_switch_to_tendering_by_tenderPeriod_startDate(self):
+        self.set_status('active.tendering', {'status': 'active.enquiries', "tenderPeriod": {}})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertNotEqual(response.json['data']["status"], "active.tendering")
+        self.set_status('active.tendering', {'status': self.initial_status, "enquiryPeriod": {}})
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']["status"], "active.tendering")
+
 
 class TenderSwitchQualificationResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids[:1]
 
     def test_switch_to_qualification(self):
-        response = self.set_status('active.auction')
+        response = self.set_status('active.auction', {'status': self.initial_status})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active.qualification")
@@ -22,7 +47,9 @@ class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
     initial_bids = test_bids
 
     def test_switch_to_auction(self):
-        response = self.set_status('active.auction')
+        response = self.set_status('active.auction', {'status': self.initial_status})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active.auction")
@@ -32,7 +59,9 @@ class TenderSwitchUnsuccessfulResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.tendering'
 
     def test_switch_to_unsuccessful(self):
-        response = self.set_status('active.auction')
+        response = self.set_status('active.auction', {'status': self.initial_status})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "unsuccessful")
@@ -44,7 +73,9 @@ class TenderLotSwitchQualificationResourceTest(BaseTenderUAContentWebTest):
     initial_bids = test_bids[:1]
 
     def test_switch_to_qualification(self):
-        response = self.set_status('active.auction')
+        response = self.set_status('active.auction', {'status': self.initial_status})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active.qualification")
@@ -57,7 +88,9 @@ class TenderLotSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
     initial_bids = test_bids
 
     def test_switch_to_auction(self):
-        response = self.set_status('active.auction')
+        response = self.set_status('active.auction', {'status': self.initial_status})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active.auction")
@@ -68,7 +101,9 @@ class TenderLotSwitchUnsuccessfulResourceTest(BaseTenderUAContentWebTest):
     initial_lots = test_lots
 
     def test_switch_to_unsuccessful(self):
-        response = self.set_status('active.auction')
+        response = self.set_status('active.auction', {'status': self.initial_status})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "unsuccessful")
@@ -104,14 +139,16 @@ class TenderLotAuctionPeriodResourceTest(BaseTenderUAContentWebTest):
         self.assertNotIn('auctionPeriod', response.json['data']["lots"][0])
 
 
+
+
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderSwitchQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderSwitchQualificationResourceTest))
+    suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
     return suite
 
 
