@@ -14,7 +14,7 @@ LOGGER = getLogger(__name__)
 
 @opresource(name='TenderLimited',
             path='/tenders/{tender_id}',
-            procurementMethodType='limited',
+            procurementMethodType='reporting',
             description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderResource(BaseTenderResource):
     """ Resource handler for TenderLimited """

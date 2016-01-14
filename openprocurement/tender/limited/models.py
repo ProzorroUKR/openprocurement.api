@@ -78,7 +78,7 @@ class Tender(SchematicsDocument, Model):
     procurementMethodRationale = StringType()  # Justification of procurement method, especially in the case of Limited tendering.
     procurementMethodRationale_en = StringType()
     procurementMethodRationale_ru = StringType()
-    procurementMethodType = StringType(default="limited")
+    procurementMethodType = StringType(default="reporting")
     bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
     procuringEntity = ModelType(Organization, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.

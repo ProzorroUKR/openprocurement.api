@@ -15,7 +15,7 @@ test_requires = requires + [
 
 entry_points = {
     'openprocurement.api.plugins': [
-        'limited = openprocurement.tender.limited:includeme'
+        'reporting = openprocurement.tender.limited:includeme'
     ]
 }
 

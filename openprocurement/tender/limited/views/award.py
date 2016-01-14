@@ -27,7 +27,7 @@ def validate_patch_award_data(request):
             collection_path='/tenders/{tender_id}/awards',
             path='/tenders/{tender_id}/awards/{award_id}',
             description="Tender awards",
-            procurementMethodType='limited',
+            procurementMethodType='reporting',
             )
 class TenderAwardResource(object):
     def __init__(self, request, context):

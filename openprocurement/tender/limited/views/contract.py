@@ -25,7 +25,7 @@ def check_tender_status(request):
 
 @opresource(name='Tender Contracts',
             collection_path='/tenders/{tender_id}/contracts',
-            procurementMethodType='limited',
+            procurementMethodType='reporting',
             path='/tenders/{tender_id}/contracts/{contract_id}',
             description="Tender contracts")
 class TenderAwardContractResource(object):

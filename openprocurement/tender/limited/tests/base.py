@@ -13,7 +13,7 @@ del test_tender_data['enquiryPeriod']
 del test_tender_data['tenderPeriod']
 del test_tender_data['minimalStep']
 
-test_tender_data['procurementMethodType'] = "limited"
+test_tender_data['procurementMethodType'] = "reporting"
 
 
 class BaseTenderWebTest(BaseTenderWebTest):
