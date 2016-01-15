@@ -4,7 +4,9 @@ Documentation
 OpenProcurement is initiative to develop software 
 powering tenders database and reverse auction.
 
-Documentation about OpenProcurement API is accessible at
+This documentation is available at http://api-docs.openprocurement.org/projects/limited/en/latest/index.html
+
+Full documentation about OpenProcurement API is accessible at
 http://api-docs.openprocurement.org/
 
 Building documentation
