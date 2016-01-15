@@ -9,7 +9,7 @@ Tender creation
 Creating tender for negotiation/reporting procedure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Let’s create tender:
+Let’s create a tender:
 
 .. include:: tutorial/create-tender-procuringEntity.http
    :code:

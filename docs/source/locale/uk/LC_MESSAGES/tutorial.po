@@ -1,0 +1,212 @@
+# Copyright (C) 2014-2016, Quintagroup, Ltd
+# This file is distributed under the same license as the
+# openprocurement.tender.limited package.
+#
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.limited 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-01-15 13:01+0200\n"
+"PO-Revision-Date: 2016-01-15 14:10+0200\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <support@quintagoup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.8.5\n"
+
+#: ../../source/tutorial.rst:4
+msgid "Tutorial"
+msgstr "Туторіал"
+
+#: ../../source/tutorial.rst:7
+msgid "Tender creation"
+msgstr "Створення закупівлі"
+
+#: ../../source/tutorial.rst:10
+msgid "Creating tender for negotiation/reporting procedure"
+msgstr "Створюємо закупівлю для переговорної процедури та звітування"
+
+#: ../../source/tutorial.rst:12
+msgid "Let’s create a tender:"
+msgstr "Створимо закупівлю:"
+
+#: ../../source/tutorial.rst:17
+msgid ""
+"We have `201 Created` response code, `Location` header and body with extra "
+"`id`, `tenderID`, and `dateModified` properties."
+msgstr ""
+"Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з "
+"додатковим ідентифікатором `id`, `tenderID` та властивість `dateModified` - "
+"дату, що показує час, коли закупівля востаннє модифікувалась."
+
+#: ../../source/tutorial.rst:19
+msgid "Let's check what tender registry contains:"
+msgstr "Перевіримо, що містить реєстр закупівель:"
+
+#: ../../source/tutorial.rst:24
+msgid ""
+"We do see the internal `id` of a tender (that can be used to construct full "
+"URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) "
+"and its `dateModified` datestamp."
+msgstr ""
+"Відображається  `id` - внутрішній ідентифікатор (який можна використовувати, "
+"щоб побудувати повну URL-адресу, додаючи `http://api-sandbox.openprocurement."
+"org/api/0/tenders/` на початку) та мітка часу `dateModified`."
+
+#: ../../source/tutorial.rst:27
+msgid "Modifying tender"
+msgstr "Модифікація закупівлі"
+
+#: ../../source/tutorial.rst:29
+msgid ""
+"Let's update tender by supplementing it with all other essential properties:"
+msgstr "Оновимо закупівлю шляхом надання їй усіх інших важливих властивостей:"
+
+#: ../../source/tutorial.rst:36
+msgid ""
+"We see the added properies have merged with existing tender data. "
+"Additionally, the `dateModified` property was updated to reflect the last "
+"modification datestamp."
+msgstr ""
+"Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. "
+"Додатково оновлена властивість dateModified, щоб відображати останню дату "
+"модифікації."
+
+#: ../../source/tutorial.rst:38
+msgid "Checking the listing again reflects the new modification date:"
+msgstr "Ще одна перевірка списку відображає нову дату модифікації:"
+
+#: ../../source/tutorial.rst:47
+msgid "Uploading documentation"
+msgstr "Завантаження документації"
+
+#: ../../source/tutorial.rst:49
+msgid ""
+"Procuring entity can upload documents and files into the created tender. "
+"Uploading should follow the :ref:`upload` rules."
+msgstr ""
+"Замовник може завантажити документи у створену закупівлю. Завантаження "
+"повинно відбуватись згідно правил :ref:`upload`."
+
+#: ../../source/tutorial.rst:55
+msgid ""
+"`201 Created` response code and `Location` header confirm document creation."
+msgstr ""
+"Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
+"документ було створено."
+
+#: ../../source/tutorial.rst:57
+msgid ""
+"In case we made an error, we can reupload the document over the older version:"
+msgstr ""
+"Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої "
+"версії:"
+
+#: ../../source/tutorial.rst:63
+msgid "Awarding"
+msgstr "Визначення переможця"
+
+#: ../../source/tutorial.rst:66
+msgid "Adding supplier information"
+msgstr "Додаємо інформацію про постачальника"
+
+#: ../../source/tutorial.rst:68
+msgid "Procuring entity can register supplier information:"
+msgstr "Замовник може зареєструвати інформацію про постачальника:"
+
+#: ../../source/tutorial.rst:75
+msgid "Award confirmation"
+msgstr "Підтвердження переможця процедури"
+
+#: ../../source/tutorial.rst:77
+msgid "Procuring entity can confirm awarding decision:"
+msgstr "Замовник повинен підтвердити своє рішення про визначення переможця:"
+
+#: ../../source/tutorial.rst:84
+msgid "Contract signing"
+msgstr "Укладання угоди"
+
+#: ../../source/tutorial.rst:86
+msgid "Contract can be signed a day after award confirmation:"
+msgstr ""
+"Угода може бути підписана у наступний день після підтвердження замовником "
+"рішення про визначення переможця:"
+
+#: ../../source/tutorial.rst:93
+msgid "Cancelling tender"
+msgstr "Скасування закупівлі"
+
+#: ../../source/tutorial.rst:95
+msgid ""
+"Procuring entity can cancel tender anytime. The following steps should be "
+"applied:"
+msgstr ""
+"Замовник може скасувати закупівлю у будь-який момент. Для цього потрібно "
+"виконати наступні кроки:"
+
+#: ../../source/tutorial.rst:97
+msgid "Prepare cancellation request"
+msgstr "Приготуйте запит на скасування"
+
+#: ../../source/tutorial.rst:98
+msgid "Fill it with the protocol describing the cancellation reasons"
+msgstr "Заповніть його протоколом про причини скасування"
+
+#: ../../source/tutorial.rst:99
+msgid "Cancel the tender with the reasons prepared."
+msgstr "Скасуйте закупівлю через подані причини"
+
+#: ../../source/tutorial.rst:101
+msgid ""
+"Only the request that has been activated (3rd step above) has power to cancel "
+"tender. I.e. you have to not only prepare cancellation request but to "
+"activate it as well."
+msgstr ""
+"Запит на скасування, який не пройшов активації (третій крок), не матиме сили, "
+"тобто, для скасування закупівлі є обов’язковим не тільки створити запит, але "
+"і активувати його."
+
+#: ../../source/tutorial.rst:105
+msgid "See :ref:`cancellation` data structure for details."
+msgstr ""
+"Див. структуру запиту :ref:`cancellation` для більш детальної інформації."
+
+#: ../../source/tutorial.rst:108
+msgid "Preparing the cancellation request"
+msgstr "Формування запиту на скасування"
+
+#: ../../source/tutorial.rst:115
+msgid ""
+"You should pass `reason`, `status` defaults to `pending`. `id` is "
+"autogenerated and passed in the `Location` header of response."
+msgstr ""
+"Ви повинні передати змінні `reason`, `status` у стані `pending`. `id` "
+"генерується автоматично і повертається у додатковому заголовку відповіді "
+"`Location`:"
+
+#: ../../source/tutorial.rst:123
+msgid "Filling cancellation with protocol and supplementary documentation"
+msgstr "Наповнення протоколом та іншою супровідною документацією"
+
+#: ../../source/tutorial.rst:125
+msgid "Upload the file contents:"
+msgstr "Завантаження вмісту файлу"
+
+#: ../../source/tutorial.rst:131
+msgid "Change the document description and other properties:"
+msgstr "Зміна опису документа та інших властивостей"
+
+#: ../../source/tutorial.rst:137
+msgid "Upload new version of the document:"
+msgstr "Завантаження нової версії документа"
+
+#: ../../source/tutorial.rst:144
+msgid "Activating the request and cancelling tender"
+msgstr "Активація запиту та скасування закупівлі"

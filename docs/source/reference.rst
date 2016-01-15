@@ -6,7 +6,8 @@ API Reference
 =============
 
 
-.. services::
+.. 
+   services::
    :modules: openprocurement.tender.limited.views
 
 

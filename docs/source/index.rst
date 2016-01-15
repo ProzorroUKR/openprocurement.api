@@ -6,7 +6,7 @@
 .. title:: OpenProcurement tender limited
 
 Welcome to openprocurement.tender.limited's documentation!
-===============================================
+==========================================================
 
 Please report any problems or suggestions for improvement either via the
 `mailing list <http://groups.google.com/group/open-procurement-general>`_ or
@@ -18,6 +18,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   overview
    tutorial
    reference
 
