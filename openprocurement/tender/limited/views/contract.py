@@ -23,7 +23,7 @@ def check_tender_status(request):
         tender.status = 'complete'
 
 
-@opresource(name='Tender Contracts',
+@opresource(name='Tender Limited Contracts',
             collection_path='/tenders/{tender_id}/contracts',
             procurementMethodType='reporting',
             path='/tenders/{tender_id}/contracts/{contract_id}',

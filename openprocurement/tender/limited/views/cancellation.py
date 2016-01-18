@@ -17,7 +17,7 @@ from openprocurement.api.validation import (
 LOGGER = getLogger(__name__)
 
 
-@opresource(name='Tender Cancellations',
+@opresource(name='Tender Limited Cancellations',
             collection_path='/tenders/{tender_id}/cancellations',
             path='/tenders/{tender_id}/cancellations/{cancellation_id}',
             procurementMethodType='reporting',

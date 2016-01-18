@@ -20,7 +20,7 @@ from openprocurement.api.validation import (
 LOGGER = getLogger(__name__)
 
 
-@opresource(name='Tender Award Documents',
+@opresource(name='Tender Limited Award Documents',
             collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
             path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
             procurementMethodType='reporting',
