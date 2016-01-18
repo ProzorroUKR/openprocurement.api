@@ -7,7 +7,7 @@ from openprocurement.api.views.cancellation import TenderCancellationResource
 LOGGER = getLogger(__name__)
 
 
-@opresource(name='Tender Cancellations',
+@opresource(name='Tender UA Cancellations',
             collection_path='/tenders/{tender_id}/cancellations',
             path='/tenders/{tender_id}/cancellations/{cancellation_id}',
             procurementMethodType='aboveThresholdUA',

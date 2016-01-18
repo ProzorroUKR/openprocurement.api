@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from openprocurement.api.views.tender import TenderResource
-from openprocurement.api.validation import validate_patch_tender_data
+from openprocurement.api.validation import validate_patch_tender_data, validate_tender_data
 from openprocurement.tender.openua.utils import get_invalidated_bids_data
 from openprocurement.api.utils import (
+    generate_id,
+    generate_tender_id,
     save_tender,
     apply_patch,
     check_bids,
@@ -11,13 +13,20 @@ from openprocurement.api.utils import (
     check_tender_status,
     opresource,
     json_view,
+    set_ownership,
     context_unpack,
 )
+
+
+
+from openprocurement.api.models import get_now
+
+
 
 LOGGER = getLogger(__name__)
 
 
-@opresource(name='TenderUA',
+@opresource(name='Tender UA',
             path='/tenders/{tender_id}',
             procurementMethodType='aboveThresholdUA',
             description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")

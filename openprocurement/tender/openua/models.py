@@ -9,9 +9,9 @@ from openprocurement.api.models import (
     plain_role, create_role, edit_role, cancel_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
-    Administrator_bid_role, Administrator_role, schematics_default_role)
+    Administrator_bid_role, Administrator_role, schematics_default_role, get_now)
 from openprocurement.tender.openua.interfaces import ITenderUA
-
+from schematics.exceptions import ConversionError, ValidationError
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
@@ -132,7 +132,6 @@ class Tender(BaseTender):
             'plain': plain_role,
             'create': create_role,
             'edit': edit_role,
-            'edit_active.enquiries': edit_role,
             'edit_active.tendering': edit_role,
             'edit_active.auction': cancel_role,
             'edit_active.qualification': cancel_role,
@@ -145,7 +144,6 @@ class Tender(BaseTender):
             'auction_view': auction_view_role,
             'auction_post': auction_post_role,
             'auction_patch': auction_patch_role,
-            'active.enquiries': enquiries_role,
             'active.tendering': enquiries_role,
             'active.auction': auction_role,
             'active.qualification': view_role,
@@ -163,7 +161,16 @@ class Tender(BaseTender):
 
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalidBid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     procurementMethodType = StringType(default="aboveThresholdUA")
-    #status = StringType(choices=['active.enquiries_and_tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.enquiries')
-    # magicUnicorns = IntType(required=True)
+    status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
+    def validate_tenderPeriod(self, data, period):
+        # if period and period.startDate and data.get('enquiryPeriod') and data.get('enquiryPeriod').startDate and period.startDate != data.get('enquiryPeriod').startDate:
+        #     raise ValidationError(u"period should begin after enquiryPeriod")
+        pass
+
+    def initialize(self):
+        if not self.enquiryPeriod.startDate:
+            self.enquiryPeriod.startDate = get_now()
+        if not self.tenderPeriod.startDate:
+            self.tenderPeriod.startDate = self.enquiryPeriod.startDate
 

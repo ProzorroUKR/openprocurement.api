@@ -8,7 +8,7 @@ from openprocurement.api.utils import opresource
 LOGGER = getLogger(__name__)
 
 
-@opresource(name='Tender Award Complaint Documents',
+@opresource(name='Tender UA Award Complaint Documents',
             collection_path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents',
             path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}',
             procurementMethodType='aboveThresholdUA',

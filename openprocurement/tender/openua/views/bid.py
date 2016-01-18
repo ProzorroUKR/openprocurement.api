@@ -1,8 +1,20 @@
 # -*- coding: utf-8 -*-
+import pdb
 from logging import getLogger
-from openprocurement.api.utils import opresource, json_view, save_tender, context_unpack
 from openprocurement.api.views.bid import TenderBidResource
-
+from openprocurement.api.models import get_now
+from openprocurement.api.utils import (
+    save_tender,
+    set_ownership,
+    apply_patch,
+    opresource,
+    json_view,
+    context_unpack,
+)
+from openprocurement.api.validation import (
+    validate_bid_data,
+    validate_patch_bid_data,
+)
 
 LOGGER = getLogger(__name__)
 
@@ -14,6 +26,108 @@ LOGGER = getLogger(__name__)
             description="Tender bids")
 class TenderUABidResource(TenderBidResource):
     """ """
+    @json_view(content_type="application/json", permission='create_bid', validators=(validate_bid_data,))
+    def collection_post(self):
+        """Registration of new bid proposal
+
+        Creating new Bid proposal
+        -------------------------
+
+        Example request to create bid proposal:
+
+        .. sourcecode:: http
+
+            POST /tenders/4879d3f8ee2443169b5fbbc9f89fa607/bids HTTP/1.1
+            Host: example.com
+            Accept: application/json
+
+            {
+                "data": {
+                    "tenderers": [
+                        {
+                            "id": {
+                                "name": "Державне управління справами",
+                                "scheme": "https://ns.openprocurement.org/ua/edrpou",
+                                "uid": "00037256",
+                                "uri": "http://www.dus.gov.ua/"
+                            },
+                            "address": {
+                                "countryName": "Україна",
+                                "postalCode": "01220",
+                                "region": "м. Київ",
+                                "locality": "м. Київ",
+                                "streetAddress": "вул. Банкова, 11, корпус 1"
+                            }
+                        }
+                    ],
+                    "value": {
+                        "amount": 489,
+                        "currency": "UAH",
+                        "valueAddedTaxIncluded": true
+                    }
+                }
+            }
+
+        This is what one should expect in response:
+
+        .. sourcecode:: http
+
+            HTTP/1.1 201 Created
+            Content-Type: application/json
+
+            {
+                "data": {
+                    "id": "4879d3f8ee2443169b5fbbc9f89fa607",
+                    "status": "registration",
+                    "date": "2014-10-28T11:44:17.947Z",
+                    "tenderers": [
+                        {
+                            "id": {
+                                "name": "Державне управління справами",
+                                "scheme": "https://ns.openprocurement.org/ua/edrpou",
+                                "uid": "00037256",
+                                "uri": "http://www.dus.gov.ua/"
+                            },
+                            "address": {
+                                "countryName": "Україна",
+                                "postalCode": "01220",
+                                "region": "м. Київ",
+                                "locality": "м. Київ",
+                                "streetAddress": "вул. Банкова, 11, корпус 1"
+                            }
+                        }aaaabid
+                    ],
+                    "value": {
+                        "amount": 489,
+                        "currency": "UAH",
+                        "valueAddedTaxIncluded": true
+                    }
+                }
+            }
+
+        """
+        # See https://github.com/open-contracting/standard/issues/78#issuecomment-59830415
+        # for more info upon schema
+        tender = self.request.validated['tender']
+        if self.request.validated['tender_status'] != 'active.tendering' or tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate:
+            self.request.errors.add('body', 'data', 'Can\'t add bid in current ({}) tender status'.format(self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        bid = self.request.validated['bid']
+        set_ownership(bid, self.request)
+        tender.bids.append(bid)
+        if save_tender(self.request):
+            LOGGER.info('Created tender bid {}'.format(bid.id),
+                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_create'}, {'bid_id': bid.id}))
+            self.request.response.status = 201
+            self.request.response.headers['Location'] = self.request.route_url('Tender Bids', tender_id=tender.id, bid_id=bid['id'])
+            return {
+                'data': bid.serialize('view'),
+                'access': {
+                    'token': bid.owner_token
+                }
+            }
+
 
     @json_view(permission='edit_bid')
     def delete(self):
