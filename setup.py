@@ -15,7 +15,7 @@ test_requires = requires + [
 
 entry_points = {
     'openprocurement.api.plugins': [
-        'reporting = openprocurement.tender.limited:includeme'
+        'aboveThresholdEU = openprocurement.tender.openeu:includeme'
     ]
 }
 
