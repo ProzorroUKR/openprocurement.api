@@ -5,6 +5,8 @@ from schematics.types.compound import ModelType, ListType
 from schematics.transforms import whitelist
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import Bid as BaseBid
+from openprocurement.api.models import Complaint as BaseComplaint
+from openprocurement.api.models import Award as BaseAward
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, cancel_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
@@ -12,6 +14,7 @@ from openprocurement.api.models import (
     Administrator_bid_role, Administrator_role, schematics_default_role, get_now)
 from openprocurement.tender.openua.interfaces import ITenderUA
 from schematics.exceptions import ConversionError, ValidationError
+
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
@@ -123,6 +126,14 @@ class Bid(BaseBid):
         BaseBid._validator_functions['parameters'](self, data, parameters)
 
 
+class Complaint(BaseComplaint):
+    pass
+
+
+class Award(BaseAward):
+    complaints = ListType(ModelType(Complaint), default=list())
+
+
 @implementer(ITenderUA)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
@@ -160,6 +171,8 @@ class Tender(BaseTender):
     __name__ = ''
 
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalidBid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
+    awards = ListType(ModelType(Award), default=list())
+    complaints = ListType(ModelType(Complaint), default=list())
     procurementMethodType = StringType(default="aboveThresholdUA")
     status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
