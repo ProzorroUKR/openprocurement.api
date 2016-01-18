@@ -181,12 +181,12 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
             {u'description': [u'Lot id should be uniq for all lots'], u'location': u'body', u'name': u'lots'}
         ])
 
-        self.set_status('active.tendering')
+        self.set_status('active.auction')
 
         response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't add lot in current (active.tendering) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't add lot in current (active.auction) tender status")
 
     def test_patch_tender_lot(self):
         response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]})
@@ -222,12 +222,12 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["title"], "new title")
 
-        self.set_status('active.tendering')
+        self.set_status('active.auction')
 
         response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"title": "other title"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update lot in current (active.tendering) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update lot in current (active.auction) tender status")
 
     def test_patch_tender_currency(self):
         # create lot
@@ -463,12 +463,12 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'relatedLot': [u'relatedLot should be one of lots']}], u'location': u'body', u'name': u'items'}
         ])
 
-        self.set_status('active.tendering')
+        self.set_status('active.auction')
 
         response = self.app.delete('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't delete lot in current (active.tendering) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't delete lot in current (active.auction) tender status")
 
 
 class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest):
@@ -531,7 +531,7 @@ class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
-    initial_status = 'active.tendering'
+    # initial_status = 'active.tendering'
     initial_lots = test_lots
 
     def test_create_tender_bidder_invalid(self):
@@ -705,7 +705,6 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['items'][0]['relatedLot'], self.lot_id)
-        self.set_status('active.tendering')
 
     def test_create_tender_bidder_invalid(self):
         request_path = '/tenders/{}/bids'.format(self.tender_id)

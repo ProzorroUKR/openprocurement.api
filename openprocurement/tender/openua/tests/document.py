@@ -133,14 +133,6 @@ class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
         self.assertIn(doc_id, response.headers['Location'])
         self.assertNotIn('acc_token', response.headers['Location'])
 
-        self.set_status('active.tendering')
-
-        response = self.app.post('/tenders/{}/documents'.format(
-            self.tender_id), upload_files=[('file', u'укр.doc', 'content')], status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (active.tendering) tender status")
-
     def test_put_tender_document(self):
         from six import BytesIO
         from urllib import quote
@@ -253,13 +245,13 @@ class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
             self.assertEqual(response.content_length, 8)
             self.assertEqual(response.body, 'content3')
 
-        self.set_status('active.tendering')
+        self.set_status('active.auction')
 
         response = self.app.put('/tenders/{}/documents/{}'.format(
             self.tender_id, doc_id), upload_files=[('file', 'name.doc', 'content3')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.tendering) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.auction) tender status")
 
     def test_patch_tender_document(self):
         response = self.app.post('/tenders/{}/documents'.format(
@@ -315,12 +307,12 @@ class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual('document description', response.json["data"]["description"])
         #self.assertTrue(dateModified < response.json["data"]["dateModified"])
 
-        self.set_status('active.tendering')
+        self.set_status('active.auction')
 
         response = self.app.patch_json('/tenders/{}/documents/{}'.format(self.tender_id, doc_id), {"data": {"description": "document description"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.tendering) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.auction) tender status")
 
 
 import boto

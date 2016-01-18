@@ -4,30 +4,6 @@ import unittest
 from openprocurement.api.tests.base import test_lots, test_bids
 from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest
 
-class TenderSwitchTenderingResourceTest(BaseTenderUAContentWebTest):
-
-    def test_switch_to_tendering_by_enquiryPeriod_endDate(self):
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertNotEqual(response.json['data']["status"], "active.tendering")
-        self.set_status('active.tendering', {'status': 'active.enquiries', "tenderPeriod": {"startDate": None}})
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']["status"], "active.tendering")
-
-    def test_switch_to_tendering_by_tenderPeriod_startDate(self):
-        self.set_status('active.tendering', {'status': 'active.enquiries', "tenderPeriod": {}})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertNotEqual(response.json['data']["status"], "active.tendering")
-        self.set_status('active.tendering', {'status': self.initial_status, "enquiryPeriod": {}})
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']["status"], "active.tendering")
-
-
 class TenderSwitchQualificationResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids[:1]

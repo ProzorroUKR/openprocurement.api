@@ -111,7 +111,7 @@ class TenderCancellationResourceTest(BaseTenderUAContentWebTest):
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], 'active.enquiries')
+        self.assertEqual(response.json['data']["status"], 'active.tendering')
 
         response = self.app.post_json('/tenders/{}/cancellations'.format(
             self.tender_id), {'data': {'reason': 'cancellation reason', 'status': 'active'}})
@@ -253,7 +253,7 @@ class TenderLotCancellationResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['lots'][0]["status"], 'active')
-        self.assertEqual(response.json['data']["status"], 'active.enquiries')
+        self.assertEqual(response.json['data']["status"], 'active.tendering')
 
         response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
             'reason': 'cancellation reason',
@@ -336,7 +336,7 @@ class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['lots'][0]["status"], 'active')
-        self.assertEqual(response.json['data']["status"], 'active.enquiries')
+        self.assertEqual(response.json['data']["status"], 'active.tendering')
 
         response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
             'reason': 'cancellation reason',
