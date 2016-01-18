@@ -5,11 +5,10 @@ version = '0.1'
 
 requires = [
     'setuptools',
-    'openprocurement.api',
+    'openprocurement.api>=0.12b1',
 ]
 test_requires = requires + [
     'webtest',
-    'openprocurement.api',
     'python-coveralls',
 ]
 docs_requires = requires + [
