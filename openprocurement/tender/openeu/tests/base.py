@@ -9,6 +9,8 @@ from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestCla
 now = datetime.now()
 test_tender_data = base_data.copy()
 
+test_tender_data['title_en'] = "Cases for state awards"
+
 test_tender_data['procurementMethodType'] = "aboveThresholdEU"
 
 
