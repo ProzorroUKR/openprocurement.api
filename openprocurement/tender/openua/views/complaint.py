@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from openprocurement.api.models import get_now
+from openprocurement.api.views.complaint import TenderComplaintResource
 from openprocurement.api.utils import (
     apply_patch,
     check_tender_status,
@@ -24,12 +25,7 @@ LOGGER = getLogger(__name__)
             path='/tenders/{tender_id}/complaints/{complaint_id}',
             procurementMethodType='aboveThresholdUA',
             description="Tender complaints")
-class TenderComplaintResource(object):
-
-    def __init__(self, request, context):
-        self.context = context
-        self.request = request
-        self.db = request.registry.db
+class TenderUaComplaintResource(TenderComplaintResource):
 
     @json_view(content_type="application/json", validators=(validate_complaint_data,), permission='create_complaint')
     def collection_post(self):
@@ -43,6 +39,9 @@ class TenderComplaintResource(object):
         complaint = self.request.validated['complaint']
         if complaint.status == 'claim':
             complaint.dateSubmitted = get_now()
+        elif complaint.status == 'pending':
+            complaint.dateSubmitted = get_now()
+            complaint.type = 'complaint'
         else:
             complaint.status == 'draft'
         set_ownership(complaint, self.request)
@@ -58,18 +57,6 @@ class TenderComplaintResource(object):
                     'token': complaint.owner_token
                 }
             }
-
-    @json_view(permission='view_tender')
-    def collection_get(self):
-        """List complaints
-        """
-        return {'data': [i.serialize("view") for i in self.context.complaints]}
-
-    @json_view(permission='view_tender')
-    def get(self):
-        """Retrieving the complaint
-        """
-        return {'data': self.context.serialize("view")}
 
     @json_view(content_type="application/json", validators=(validate_patch_complaint_data,), permission='edit_complaint')
     def patch(self):
@@ -89,10 +76,14 @@ class TenderComplaintResource(object):
         if self.request.authenticated_role == 'complaint_owner' and self.context.status in ['draft', 'claim', 'answered', 'pending'] and data.get('status', self.context.status) == 'cancelled':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
-        elif self.request.authenticated_role == 'complaint_owner' and tender.status in ['active.enquiries', 'active.tendering'] and self.context.status == 'draft' and data.get('status', self.context.status) == self.context.status:
+        elif self.request.authenticated_role == 'complaint_owner' and tender.status == 'active.tendering' and self.context.status == 'draft' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'complaint_owner' and tender.status in ['active.enquiries', 'active.tendering'] and self.context.status == 'draft' and data.get('status', self.context.status) == 'claim':
+        elif self.request.authenticated_role == 'complaint_owner' and tender.status == 'active.tendering' and self.context.status == 'draft' and data.get('status', self.context.status) == 'claim':
             apply_patch(self.request, save=False, src=self.context.serialize())
+            self.context.dateSubmitted = get_now()
+        elif self.request.authenticated_role == 'complaint_owner' and tender.status == 'active.tendering' and self.context.status == 'draft' and data.get('status', self.context.status) == 'pending':
+            apply_patch(self.request, save=False, src=self.context.serialize())
+            self.context.type = 'complaint'
             self.context.dateSubmitted = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())

@@ -2,7 +2,7 @@
 from zope.interface import implementer
 from schematics.types import IntType, StringType
 from schematics.types.compound import ModelType, ListType
-from schematics.transforms import whitelist
+from schematics.transforms import whitelist, blacklist
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import Bid as BaseBid
 from openprocurement.api.models import Complaint as BaseComplaint
@@ -11,9 +11,12 @@ from openprocurement.api.models import (
     plain_role, create_role, edit_role, cancel_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
-    Administrator_bid_role, Administrator_role, schematics_default_role, get_now)
+    Administrator_bid_role, Administrator_role, schematics_default_role,
+    TZ, get_now, schematics_embedded_role,
+)
 from openprocurement.tender.openua.interfaces import ITenderUA
 from schematics.exceptions import ConversionError, ValidationError
+from schematics.types.serializable import serializable
 
 
 def bids_validation_wrapper(validation_func):
@@ -127,7 +130,17 @@ class Bid(BaseBid):
 
 
 class Complaint(BaseComplaint):
-    pass
+    class Options:
+        roles = {
+            'create': whitelist('author', 'title', 'description', 'status'),
+            'draft': whitelist('author', 'title', 'description', 'status'),
+            'cancellation': whitelist('cancellationReason', 'status'),
+            'satisfy': whitelist('satisfied', 'status'),
+            'answer': whitelist('resolution', 'resolutionType', 'status'),
+            'review': whitelist('decision', 'status'),
+            'embedded': (blacklist('owner_token', 'owner') + schematics_embedded_role),
+            'view': (blacklist('owner_token', 'owner') + schematics_default_role),
+        }
 
 
 class Award(BaseAward):
@@ -187,3 +200,42 @@ class Tender(BaseTender):
         if not self.tenderPeriod.startDate:
             self.tenderPeriod.startDate = self.enquiryPeriod.startDate
 
+    @serializable
+    def next_check(self):
+        now = get_now()
+        checks = []
+        if self.status == 'active.enquiries' and self.tenderPeriod.startDate:
+            checks.append(self.tenderPeriod.startDate.astimezone(TZ))
+        elif self.status == 'active.enquiries' and self.enquiryPeriod.endDate:
+            checks.append(self.enquiryPeriod.endDate.astimezone(TZ))
+        elif self.status == 'active.tendering' and self.tenderPeriod.endDate:
+            checks.append(self.tenderPeriod.endDate.astimezone(TZ))
+        elif not self.lots and self.status == 'active.awarded':
+            standStillEnds = [
+                a.complaintPeriod.endDate.astimezone(TZ)
+                for a in self.awards
+                if a.complaintPeriod.endDate
+            ]
+            if standStillEnds:
+                standStillEnd = max(standStillEnds)
+                if standStillEnd > now:
+                    checks.append(standStillEnd)
+        elif self.lots and self.status in ['active.qualification', 'active.awarded']:
+            lots_ends = []
+            for lot in self.lots:
+                if lot['status'] != 'active':
+                    continue
+                lot_awards = [i for i in self.awards if i.lotID == lot.id]
+                standStillEnds = [
+                    a.complaintPeriod.endDate.astimezone(TZ)
+                    for a in lot_awards
+                    if a.complaintPeriod.endDate
+                ]
+                if not standStillEnds:
+                    continue
+                standStillEnd = max(standStillEnds)
+                if standStillEnd > now:
+                    lots_ends.append(standStillEnd)
+            if lots_ends:
+                checks.append(min(lots_ends))
+        return sorted(checks)[0].isoformat() if checks else None
