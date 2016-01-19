@@ -416,8 +416,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             {u'description': [u'period should begin after tenderPeriod'], u'location': u'body', u'name': u'awardPeriod'}
         ])
 
-        test_tender_ua_data['auctionPeriod'] = {'startDate': (now + timedelta(days=15)).isoformat(), 'endDate': (now + timedelta(days=15)).isoformat()}
-        test_tender_ua_data['awardPeriod'] = {'startDate': (now + timedelta(days=14)).isoformat(), 'endDate': (now + timedelta(days=14)).isoformat()}
+        test_tender_ua_data['auctionPeriod'] = {'startDate': (now + timedelta(days=16)).isoformat(), 'endDate': (now + timedelta(days=16)).isoformat()}
+        test_tender_ua_data['awardPeriod'] = {'startDate': (now + timedelta(days=15)).isoformat(), 'endDate': (now + timedelta(days=15)).isoformat()}
         response = self.app.post_json(request_path, {'data': test_tender_ua_data}, status=422)
         del test_tender_ua_data['auctionPeriod']
         del test_tender_ua_data['awardPeriod']
@@ -750,20 +750,22 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         tender = response.json['data']
         owner_token = response.json['access']['token']
         dateModified = tender.pop('dateModified')
-        #
-        # response = self.app.patch_json('/tenders/{}'.format(
-        #     tender['id']), {'data': {'tenderPeriod': {'startDate': None}}})
-        # self.assertEqual(response.status, '200 OK')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertNotIn('startDate', response.json['data']['tenderPeriod'])
 
-        # response = self.app.patch_json('/tenders/{}'.format(
-        #     tender['id']), {'data': {'tenderPeriod': {'startDate': tender['enquiryPeriod']['endDate']}}})
-        # self.assertEqual(response.status, '200 OK')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertIn('startDate', response.json['data']['tenderPeriod'])
-        # TODO: tenderPeriod  = 15 days
-        # import pdb; pdb.set_trace()  # debug ktarasz
+        response = self.app.patch_json('/tenders/{}'.format(tender['id']),
+            {'data': {'tenderPeriod': {'startDate': tender['enquiryPeriod']['endDate']}}},
+            status=422
+        )
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'], [{
+                "location": "body",
+                "name": "tenderPeriod",
+                "description": [
+                    "tenderPeriod should be greater than 15 days"
+                ]
+            }
+        ])
+
         response = self.app.patch_json('/tenders/{}'.format(
             tender['id']), {'data': {'procurementMethodRationale': 'Open'}})
         self.assertEqual(response.status, '200 OK')
@@ -826,12 +828,15 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.content_type, 'application/json')
 
         response = self.app.patch_json('/tenders/{}'.format(
-            tender['id']), {'data': {'enquiryPeriod': {'endDate': new_dateModified2}}})
-        self.assertEqual(response.status, '200 OK')
+            tender['id']), {'data': {'enquiryPeriod': {'endDate': new_dateModified2}}}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
-        new_tender = response.json['data']
-        self.assertIn('startDate', new_tender['enquiryPeriod'])
-
+        self.assertEqual(response.json['errors'], [{
+            "location": "body",
+            "name": "enquiryPeriod",
+            "description": [
+                "enquiryPeriod should be greater than 12 days"
+        ]}])
         #response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.auction'}})
         #self.assertEqual(response.status, '200 OK')
 
@@ -997,7 +1002,7 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         tender_id = self.tender_id = response.json['data']['id']
         owner_token = response.json['access']['token']
         # switch to active.tendering XXX temporary action.
-        response = self.set_status('active.tendering', {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}})
+        response = self.set_status('active.tendering', {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}})
         self.assertIn("auctionPeriod", response.json['data'])
 
 

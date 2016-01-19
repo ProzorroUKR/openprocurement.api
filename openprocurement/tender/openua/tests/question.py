@@ -1,11 +1,29 @@
 # -*- coding: utf-8 -*-
 import unittest
 
+from datetime import datetime, timedelta
+from openprocurement.api.models import get_now
 from openprocurement.api.tests.base import test_lots
 from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest, test_tender_ua_data
 
 
 class TenderQuestionResourceTest(BaseTenderUAContentWebTest):
+
+    def go_to_enquiryPeriod_end(self):
+        now = get_now()
+        self.set_status('active.tendering', {
+            "enquiryPeriod": {
+                "startDate": (now - timedelta(days=13)).isoformat(),
+                "endDate": (now - timedelta(days=1)).isoformat()
+            },
+            "tenderPeriod": {
+                "startDate": (now - timedelta(days=13)).isoformat(),
+                "endDate": (now + timedelta(days=2)).isoformat()
+            },
+            "auctionPeriod": {
+                "startDate": (now + timedelta(days=2)).isoformat()
+            }
+        })
 
     def test_create_tender_question_invalid(self):
         response = self.app.post_json('/tenders/some_id/questions', {
@@ -154,13 +172,20 @@ class TenderQuestionResourceTest(BaseTenderUAContentWebTest):
         self.assertIn('id', question)
         self.assertIn(question['id'], response.headers['Location'])
 
-        self.set_status('active.auction')
-
+        self.go_to_enquiryPeriod_end()
         response = self.app.post_json('/tenders/{}/questions'.format(
             self.tender_id), {'data': {'title': 'question title', 'description': 'question description', 'author': test_tender_ua_data["procuringEntity"]}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can add question only in enquiryPeriod")
+
+        self.set_status('active.auction')
+        response = self.app.post_json('/tenders/{}/questions'.format(
+            self.tender_id), {'data': {'title': 'question title', 'description': 'question description', 'author': test_tender_ua_data["procuringEntity"]}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can add question only in enquiryPeriod")
+
 
     def test_patch_tender_question(self):
         response = self.app.post_json('/tenders/{}/questions'.format(

@@ -844,7 +844,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [{'relatedLot': lot_id}]}})
         self.assertEqual(response.status, '200 OK')
         # switch to active.tendering
-        response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
+        response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}]})
         self.assertIn("auctionPeriod", response.json['data']['lots'][0])
         # switch to unsuccessful
         response = self.set_status('active.auction', {"lots": [{"auctionPeriod": {"startDate": None}}], 'status': 'active.tendering'})
@@ -867,7 +867,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [{'relatedLot': lot_id}]}})
         self.assertEqual(response.status, '200 OK')
         # switch to active.tendering
-        response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
+        response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}]})
         self.assertIn("auctionPeriod", response.json['data']['lots'][0])
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
@@ -918,7 +918,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [{'relatedLot': lot_id}]}})
         self.assertEqual(response.status, '200 OK')
         # switch to active.tendering
-        response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
+        response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}]})
         self.assertIn("auctionPeriod", response.json['data']['lots'][0])
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1013,7 +1013,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         # switch to active.tendering
         response = self.set_status('active.tendering', {"lots": [
-            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
             for i in lots
         ]})
         self.assertTrue(all(["auctionPeriod" in i for i in response.json['data']['lots']]))
@@ -1048,7 +1048,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         # switch to active.tendering
         response = self.set_status('active.tendering', {"lots": [
-            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
             for i in lots
         ]})
         self.assertTrue(all(["auctionPeriod" in i for i in response.json['data']['lots']]))
@@ -1083,7 +1083,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         # switch to active.tendering
         response = self.set_status('active.tendering', {"lots": [
-            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
             for i in lots
         ]})
         # create bid
@@ -1155,7 +1155,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         # switch to active.tendering
         response = self.set_status('active.tendering', {"lots": [
-            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
             for i in lots
         ]})
         # create bid
@@ -1219,7 +1219,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         # switch to active.tendering
         response = self.set_status('active.tendering', {"lots": [
-            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
             for i in lots
         ]})
         # create bid
@@ -1282,7 +1282,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         # switch to active.tendering
         response = self.set_status('active.tendering', {"lots": [
-            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
             for i in lots
         ]})
         # create bid
@@ -1367,7 +1367,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         # switch to active.tendering
         response = self.set_status('active.tendering', {"lots": [
-            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
             for i in lots
         ]})
         # create bid
