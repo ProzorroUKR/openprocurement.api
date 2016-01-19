@@ -148,6 +148,7 @@ class Complaint(BaseComplaint):
             'embedded': (blacklist('owner_token', 'owner') + schematics_embedded_role),
             'view': (blacklist('owner_token', 'owner') + schematics_default_role),
         }
+    status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled'], default='draft')
 
 
 class Award(BaseAward):
@@ -220,7 +221,7 @@ class Tender(BaseTender):
             checks.append(self.tenderPeriod.startDate.astimezone(TZ))
         elif self.status == 'active.enquiries' and self.enquiryPeriod.endDate:
             checks.append(self.enquiryPeriod.endDate.astimezone(TZ))
-        elif self.status == 'active.tendering' and self.tenderPeriod.endDate:
+        elif self.status == 'active.tendering' and self.tenderPeriod.endDate and not any([i.status == 'accepted' for i in self.complaints]):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
         elif not self.lots and self.status == 'active.awarded':
             standStillEnds = [
