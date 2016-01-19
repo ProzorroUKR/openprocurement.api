@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from openprocurement.api.views.tender import TenderResource
-from openprocurement.api.validation import validate_patch_tender_data, validate_tender_data
-from openprocurement.tender.openua.utils import get_invalidated_bids_data, calculate_buisness_date
 from openprocurement.api.validation import validate_patch_tender_data
 from openprocurement.tender.openua.utils import (
     get_invalidated_bids_data,
     check_status,
+    calculate_buisness_date
 )
 from openprocurement.api.utils import (
     save_tender,
