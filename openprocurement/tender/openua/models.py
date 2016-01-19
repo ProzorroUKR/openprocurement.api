@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 from zope.interface import implementer
 from schematics.types import IntType, StringType
 from schematics.types.compound import ModelType, ListType
 from schematics.transforms import whitelist
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import Bid as BaseBid
+from openprocurement.api.models import Period, IsoDateTimeType
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, cancel_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
@@ -12,6 +14,7 @@ from openprocurement.api.models import (
     Administrator_bid_role, Administrator_role, schematics_default_role, get_now)
 from openprocurement.tender.openua.interfaces import ITenderUA
 from schematics.exceptions import ConversionError, ValidationError
+from openprocurement.tender.openua.utils import calculate_buisness_date
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
@@ -123,6 +126,13 @@ class Bid(BaseBid):
         BaseBid._validator_functions['parameters'](self, data, parameters)
 
 
+
+
+class PeriodStartEndRequired(Period):
+    startDate = IsoDateTimeType(required=True, default=get_now)  # The state date for the period.
+    endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
+
+
 @implementer(ITenderUA)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
@@ -159,14 +169,19 @@ class Tender(BaseTender):
 
     __name__ = ''
 
+    enquiryPeriod = ModelType(PeriodStartEndRequired, required=True)
+    tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalidBid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     procurementMethodType = StringType(default="aboveThresholdUA")
     status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
+    def validate_enquiryPeriod(self, data, period):
+        if period and calculate_buisness_date(period.endDate, -timedelta(days=12)) < period.startDate:
+             raise ValidationError(u"enquiryPeriod should be greater than 12 days")
+
     def validate_tenderPeriod(self, data, period):
-        # if period and period.startDate and data.get('enquiryPeriod') and data.get('enquiryPeriod').startDate and period.startDate != data.get('enquiryPeriod').startDate:
-        #     raise ValidationError(u"period should begin after enquiryPeriod")
-        pass
+         if period and calculate_buisness_date(period.endDate, -timedelta(days=15)) < period.startDate:
+            raise ValidationError(u"tenderPeriod should be greater than 15 days")
 
     def initialize(self):
         if not self.enquiryPeriod.startDate:
