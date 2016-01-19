@@ -5,7 +5,7 @@ version = '0.1'
 
 requires = [
     'setuptools',
-    'openprocurement.api>=0.12b1',
+    'openprocurement.api>=0.12b2',
 ]
 test_requires = requires + [
     'webtest',

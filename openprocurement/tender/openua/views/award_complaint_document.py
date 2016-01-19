@@ -3,8 +3,6 @@ from logging import getLogger
 from openprocurement.api.views.award_complaint_document import TenderAwardComplaintDocumentResource
 from openprocurement.api.utils import opresource
 
-
-
 LOGGER = getLogger(__name__)
 
 
