@@ -17,8 +17,6 @@ from openprocurement.api.views.question import TenderQuestionResource
 
 LOGGER = getLogger(__name__)
 
-# TODO: Remove COPY&PASTE (diff in tender.status not in ['active.tendering'])
-
 @opresource(name='Tender UA Questions',
             collection_path='/tenders/{tender_id}/questions',
             path='/tenders/{tender_id}/questions/{question_id}',
@@ -32,7 +30,7 @@ class TenderUaQuestionResource(TenderQuestionResource):
         """
         tender = self.request.validated['tender']
         now = get_now()
-        if  now< tender.enquiryPeriod.startDate or now > tender.enquiryPeriod.endDate:
+        if now < tender.enquiryPeriod.startDate or now > tender.enquiryPeriod.endDate:
             self.request.errors.add('body', 'data', 'Can add question only in enquiryPeriod')
             self.request.errors.status = 403
             return
@@ -54,6 +52,7 @@ class TenderUaQuestionResource(TenderQuestionResource):
         """Post an Answer
         """
         tender = self.request.validated['tender']
+        now = get_now()
         if tender.status != 'active.tendering':
             self.request.errors.add('body', 'data', 'Can\'t update question in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
