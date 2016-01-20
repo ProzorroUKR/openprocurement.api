@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 from logging import getLogger
 from openprocurement.api.utils import opresource, upload_file, context_unpack, save_tender, json_view, apply_patch, update_file_content_type
 from openprocurement.api.views.tender_document import TenderDocumentResource
 from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
+from openprocurement.api.models import get_now
 
+from openprocurement.tender.openua.utils import calculate_buisness_date
 LOGGER = getLogger(__name__)
 
 
@@ -11,16 +14,31 @@ LOGGER = getLogger(__name__)
             collection_path='/tenders/{tender_id}/documents',
             path='/tenders/{tender_id}/documents/{document_id}',
             procurementMethodType='aboveThresholdUA',
-            description="Tender related binary files (PDFs, etc.)")
+            description="Tender UA related binary files (PDFs, etc.)")
 class TenderUaDocumentResource(TenderDocumentResource):
+
+    def validate_update_tender(self, operation):
+        tender = self.request.validated['tender']
+        if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] != 'active.tendering' or \
+           self.request.authenticated_role == 'auction' and self.request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
+            self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
+            if calculate_buisness_date(get_now(), timedelta(days=4)) >= tender.enquiryPeriod.endDate:
+                self.request.errors.add('body', 'data', 'enquiryPeriod should be extended by 4 days')
+                self.request.errors.status = 403
+                return
+            elif calculate_buisness_date(get_now(), timedelta(days=7)) >= tender.tenderPeriod.endDate:
+                self.request.errors.add('body', 'data', 'tenderPeriod should be extended by 7 days')
+                self.request.errors.status = 403
+                return
+        return True
 
     @json_view(permission='upload_tender_documents', validators=(validate_file_upload,))
     def collection_post(self):
         """Tender Document Upload"""
-        if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] != 'active.tendering' or \
-           self.request.authenticated_role == 'auction' and self.request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
-            self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
+        if not self.validate_update_tender('add'):
             return
         document = upload_file(self.request)
         self.context.documents.append(document)
@@ -35,10 +53,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
     @json_view(permission='upload_tender_documents', validators=(validate_file_update,))
     def put(self):
         """Tender Document Update"""
-        if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] != 'active.tendering' or \
-           self.request.authenticated_role == 'auction' and self.request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
+        if not self.validate_update_tender('update'):
             return
         document = upload_file(self.request)
         self.request.validated['tender'].documents.append(document)
@@ -50,10 +65,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
     @json_view(content_type="application/json", permission='upload_tender_documents', validators=(validate_patch_document_data,))
     def patch(self):
         """Tender Document Update"""
-        if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] != 'active.tendering' or \
-           self.request.authenticated_role == 'auction' and self.request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
+        if not self.validate_update_tender('update'):
             return
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)

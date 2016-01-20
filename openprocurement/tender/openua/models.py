@@ -17,9 +17,10 @@ from openprocurement.api.models import (
     TZ, get_now, schematics_embedded_role,
 )
 from openprocurement.tender.openua.interfaces import ITenderUA
-from schematics.exceptions import ConversionError, ValidationError
+from schematics.exceptions import ValidationError
 from openprocurement.tender.openua.utils import calculate_buisness_date
 from schematics.types.serializable import serializable
+
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
@@ -201,10 +202,10 @@ class Tender(BaseTender):
 
     def validate_enquiryPeriod(self, data, period):
         if period and calculate_buisness_date(period.endDate, -timedelta(days=12)) < period.startDate:
-             raise ValidationError(u"enquiryPeriod should be greater than 12 days")
+            raise ValidationError(u"enquiryPeriod should be greater than 12 days")
 
     def validate_tenderPeriod(self, data, period):
-         if period and calculate_buisness_date(period.endDate, -timedelta(days=15)) < period.startDate:
+        if period and calculate_buisness_date(period.endDate, -timedelta(days=15)) < period.startDate:
             raise ValidationError(u"tenderPeriod should be greater than 15 days")
 
     def initialize(self):
@@ -217,11 +218,7 @@ class Tender(BaseTender):
     def next_check(self):
         now = get_now()
         checks = []
-        if self.status == 'active.enquiries' and self.tenderPeriod.startDate:
-            checks.append(self.tenderPeriod.startDate.astimezone(TZ))
-        elif self.status == 'active.enquiries' and self.enquiryPeriod.endDate:
-            checks.append(self.enquiryPeriod.endDate.astimezone(TZ))
-        elif self.status == 'active.tendering' and self.tenderPeriod.endDate and not any([i.status == 'accepted' for i in self.complaints]):
+        if self.status == 'active.tendering' and self.tenderPeriod.endDate and not any([i.status == 'accepted' for i in self.complaints]):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
         elif not self.lots and self.status == 'active.awarded':
             standStillEnds = [
