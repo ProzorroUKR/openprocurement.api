@@ -67,7 +67,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
-        if self.context.status not in ['draft', 'claim', 'answered', 'pending']:
+        if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted']:
             self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) status'.format(self.context.status))
             self.request.errors.status = 403
             return

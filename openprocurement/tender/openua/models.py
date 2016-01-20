@@ -151,6 +151,28 @@ class Complaint(BaseComplaint):
         }
     status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled'], default='draft')
 
+    def get_role(self):
+        root = self.__parent__
+        while root.__parent__ is not None:
+            root = root.__parent__
+        request = root.request
+        data = request.json_body['data']
+        if request.authenticated_role == 'complaint_owner' and data.get('status', self.status) == 'cancelled':
+            role = 'cancellation'
+        elif request.authenticated_role == 'complaint_owner' and self.status == 'draft':
+            role = 'draft'
+        elif request.authenticated_role == 'tender_owner' and self.status == 'claim':
+            role = 'answer'
+        elif request.authenticated_role == 'complaint_owner' and self.status == 'answered':
+            role = 'satisfy'
+        elif request.authenticated_role == 'reviewers' and self.status == 'pending':
+            role = 'review'
+        elif request.authenticated_role == 'reviewers' and self.status == 'accepted':
+            role = 'review'
+        else:
+            role = 'invalid'
+        return role
+
 
 class Award(BaseAward):
     complaints = ListType(ModelType(Complaint), default=list())

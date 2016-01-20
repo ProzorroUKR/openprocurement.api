@@ -334,6 +334,14 @@ class TenderComplaintResourceTest(BaseTenderUAContentWebTest):
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(response.json['data']["decision"], '{} complaint'.format(status))
+            
+            if status != "invalid":
+                response = self.app.patch_json('/tenders/{}/complaints/{}'.format(self.tender_id, complaint['id']), {"data": {
+                    "status": "accepted"
+                }})
+                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.content_type, 'application/json')
+                self.assertEqual(response.json['data']["status"], "accepted")
 
             response = self.app.patch_json('/tenders/{}/complaints/{}'.format(self.tender_id, complaint['id']), {"data": {
                 "status": status

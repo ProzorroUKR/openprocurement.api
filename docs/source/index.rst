@@ -6,7 +6,7 @@
 .. title:: OpenProcurement tender openua
 
 Welcome to openprocurement.tender.openua's documentation!
-===============================================
+=========================================================
 
 Please report any problems or suggestions for improvement either via the
 `mailing list <http://groups.google.com/group/open-procurement-general>`_ or
@@ -18,7 +18,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   tutorial
+   standard/index
+   complaints
    reference
 
 Indices and tables
