@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
+from copy import deepcopy
 
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.models import get_now
@@ -473,15 +474,16 @@ class TenderResourceTest(BaseTenderWebTest):
             {u'description': [{u'additionalClassifications': [u"One of additional classifications should be '\u0414\u041a\u041f\u041f'"]}], u'location': u'body', u'name': u'items'}
         ])
 
-        data = test_tender_data["procuringEntity"]["contactPoint"]["telephone"]
-        del test_tender_data["procuringEntity"]["contactPoint"]["telephone"]
+        data = test_tender_data["procuringEntity"]["contactPoint"][0]["telephone"]
+        del test_tender_data["procuringEntity"]["contactPoint"][0]["telephone"]
         response = self.app.post_json(request_path, {'data': test_tender_data}, status=422)
-        test_tender_data["procuringEntity"]["contactPoint"]["telephone"] = data
+        test_tender_data["procuringEntity"]["contactPoint"][0]["telephone"] = data
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': {u'contactPoint': {u'email': [u'telephone or email should be present']}}, u'location': u'body', u'name': u'procuringEntity'}
+            {u'description': {u'contactPoint': [{u'email': [u'telephone or email should be present']}]},
+             u'location': u'body', u'name': u'procuringEntity'}
         ])
 
         data = test_tender_data["items"][0].copy()
@@ -910,7 +912,12 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '201 Created')
         tender = response.json['data']
 
-        response = self.app.post_json('/tenders/{}/questions'.format(tender['id']), {'data': {'title': 'question title', 'description': 'question description', 'author': test_tender_data["procuringEntity"]}})
+        author = deepcopy(test_tender_data["procuringEntity"])
+        author['contactPoint'] = author['contactPoint'][0]
+        del author['contactPoint']['availableLanguage']
+        response = self.app.post_json('/tenders/{}/questions'.format(tender['id']),
+                                      {'data': {'title': 'question title', 'description': 'question description',
+                                                'author': author}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
