@@ -140,7 +140,7 @@ class PeriodStartEndRequired(Period):
 class Complaint(BaseComplaint):
     class Options:
         roles = {
-            'create': whitelist('author', 'title', 'description', 'status'),
+            'create': whitelist('author', 'title', 'description', 'status', 'relatedLot'),
             'draft': whitelist('author', 'title', 'description', 'status'),
             'cancellation': whitelist('cancellationReason', 'status'),
             'satisfy': whitelist('satisfied', 'status'),
