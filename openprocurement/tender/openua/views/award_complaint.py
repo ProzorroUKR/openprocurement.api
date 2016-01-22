@@ -53,7 +53,7 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             complaint.dateSubmitted = get_now()
             complaint.type = 'complaint'
         else:
-            complaint.status == 'draft'
+            complaint.status = 'draft'
         set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
         if save_tender(self.request):
