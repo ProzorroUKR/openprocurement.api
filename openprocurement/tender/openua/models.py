@@ -22,6 +22,12 @@ from openprocurement.tender.openua.utils import calculate_business_date
 from schematics.types.serializable import serializable
 
 
+STAND_STILL_TIME = timedelta(days=10)
+COMPLAINT_STAND_STILL_TIME = timedelta(days=3)
+CLAIM_SUBMIT_TIME = timedelta(days=10)
+COMPLAINT_SUBMIT_TIME = timedelta(days=4)
+
+
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
         if data['status'] in ('deleted', 'invalidBid'):

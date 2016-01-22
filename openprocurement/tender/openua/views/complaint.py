@@ -15,7 +15,8 @@ from openprocurement.api.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
 )
-
+from openprocurement.tender.openua.models import CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
+from openprocurement.tender.openua.utils import calculate_business_date
 
 LOGGER = getLogger(__name__)
 
@@ -38,8 +39,16 @@ class TenderUaComplaintResource(TenderComplaintResource):
             return
         complaint = self.request.validated['complaint']
         if complaint.status == 'claim':
+            if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -CLAIM_SUBMIT_TIME):
+                self.request.errors.add('body', 'data', 'Can submit claim not later than {0.days} days before tenderPeriod end'.format(CLAIM_SUBMIT_TIME))
+                self.request.errors.status = 403
+                return
             complaint.dateSubmitted = get_now()
         elif complaint.status == 'pending':
+            if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME):
+                self.request.errors.add('body', 'data', 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(COMPLAINT_SUBMIT_TIME))
+                self.request.errors.status = 403
+                return
             complaint.dateSubmitted = get_now()
             complaint.type = 'complaint'
         else:
@@ -79,9 +88,17 @@ class TenderUaComplaintResource(TenderComplaintResource):
         elif self.request.authenticated_role == 'complaint_owner' and tender.status == 'active.tendering' and self.context.status == 'draft' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'complaint_owner' and tender.status == 'active.tendering' and self.context.status == 'draft' and data.get('status', self.context.status) == 'claim':
+            if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -CLAIM_SUBMIT_TIME):
+                self.request.errors.add('body', 'data', 'Can submit claim not later than {0.days} days before tenderPeriod end'.format(CLAIM_SUBMIT_TIME))
+                self.request.errors.status = 403
+                return
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateSubmitted = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and tender.status == 'active.tendering' and self.context.status == 'draft' and data.get('status', self.context.status) == 'pending':
+            if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME):
+                self.request.errors.add('body', 'data', 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(COMPLAINT_SUBMIT_TIME))
+                self.request.errors.status = 403
+                return
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = 'complaint'
             self.context.dateSubmitted = get_now()

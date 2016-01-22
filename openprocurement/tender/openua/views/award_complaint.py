@@ -47,11 +47,9 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             return
         complaint = self.request.validated['complaint']
         complaint.relatedLot = self.context.lotID
-        if complaint.status == 'claim':
+        complaint.type = 'complaint'
+        if complaint.status == 'pending':
             complaint.dateSubmitted = get_now()
-        elif complaint.status == 'pending':
-            complaint.dateSubmitted = get_now()
-            complaint.type = 'complaint'
         else:
             complaint.status = 'draft'
         set_ownership(complaint, self.request)
@@ -94,26 +92,26 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             self.context.dateCanceled = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and is_complaintPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'complaint_owner' and is_complaintPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == 'claim':
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateSubmitted = get_now()
+        #elif self.request.authenticated_role == 'complaint_owner' and is_complaintPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == 'claim':
+            #apply_patch(self.request, save=False, src=self.context.serialize())
+            #self.context.dateSubmitted = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and is_complaintPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == 'pending':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = 'complaint'
             self.context.dateSubmitted = get_now()
-        elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('status', self.context.status) == self.context.status:
-            apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('satisfied', self.context.satisfied) is True and data.get('status', self.context.status) == 'resolved':
-            apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('satisfied', self.context.satisfied) is False and data.get('status', self.context.status) == 'pending':
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateEscalated = get_now()
+        #elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('status', self.context.status) == self.context.status:
+            #apply_patch(self.request, save=False, src=self.context.serialize())
+        #elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('satisfied', self.context.satisfied) is True and data.get('status', self.context.status) == 'resolved':
+            #apply_patch(self.request, save=False, src=self.context.serialize())
+        #elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('satisfied', self.context.satisfied) is False and data.get('status', self.context.status) == 'pending':
+            #apply_patch(self.request, save=False, src=self.context.serialize())
+            #self.context.dateEscalated = get_now()
         # tender_owner
-        elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('status', self.context.status) == self.context.status:
-            apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('resolutionType', self.context.resolutionType) and data.get('status', self.context.status) == 'answered':
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateAnswered = get_now()
+        #elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('status', self.context.status) == self.context.status:
+            #apply_patch(self.request, save=False, src=self.context.serialize())
+        #elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('resolutionType', self.context.resolutionType) and data.get('status', self.context.status) == 'answered':
+            #apply_patch(self.request, save=False, src=self.context.serialize())
+            #self.context.dateAnswered = get_now()
         # reviewers
         elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
