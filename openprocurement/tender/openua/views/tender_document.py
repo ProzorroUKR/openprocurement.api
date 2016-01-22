@@ -6,7 +6,7 @@ from openprocurement.api.views.tender_document import TenderDocumentResource
 from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
 from openprocurement.api.models import get_now
 
-from openprocurement.tender.openua.utils import calculate_buisness_date
+from openprocurement.tender.openua.utils import calculate_business_date
 LOGGER = getLogger(__name__)
 
 
@@ -25,7 +25,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
             self.request.errors.status = 403
             return
         if self.request.validated['tender_status'] == 'active.tendering':
-            if calculate_buisness_date(get_now(), timedelta(days=7)) >= tender.tenderPeriod.endDate:
+            if calculate_business_date(get_now(), timedelta(days=7)) >= tender.tenderPeriod.endDate:
                 self.request.errors.add('body', 'data', 'tenderPeriod should be extended by 7 days')
                 self.request.errors.status = 403
                 return

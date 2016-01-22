@@ -5,7 +5,7 @@ from openprocurement.tender.openua.validation import validate_patch_tender_ua_da
 from openprocurement.tender.openua.utils import (
     get_invalidated_bids_data,
     check_status,
-    calculate_buisness_date
+    calculate_business_date
 )
 from openprocurement.api.utils import (
     save_tender,
@@ -91,7 +91,7 @@ class TenderUAResource(TenderResource):
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
                 self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
-                if calculate_buisness_date(get_now(), timedelta(days=7)) > self.request.validated['tender'].tenderPeriod.endDate:
+                if calculate_business_date(get_now(), timedelta(days=7)) > self.request.validated['tender'].tenderPeriod.endDate:
                     self.request.errors.add('body', 'data', 'tenderPeriod should be extended by 7 days')
                     self.request.errors.status = 403
                     return

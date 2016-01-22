@@ -3,10 +3,8 @@ from pkg_resources import get_distribution
 from logging import getLogger
 from openprocurement.api.models import get_now, TZ
 from openprocurement.api.utils import (
-    check_bids,
     check_tender_status,
     context_unpack,
-    add_next_award
 )
 
 PKG = get_distribution(__package__)
@@ -24,9 +22,8 @@ def get_invalidated_bids_data(request):
     return data
 
 
-def calculate_buisness_date(date_obj, timedelta_obj):
+def calculate_business_date(date_obj, timedelta_obj):
     return date_obj + timedelta_obj
-
 
 
 def check_bids(request):
@@ -38,6 +35,7 @@ def check_bids(request):
     else:
         if tender.numberOfBids < 2:
             tender.status = 'unsuccessful'
+
 
 def check_status(request):
     tender = request.validated['tender']
