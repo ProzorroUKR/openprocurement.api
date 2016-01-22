@@ -19,7 +19,7 @@ def get_invalidated_bids_data(request):
     data['bids'] = []
     for bid in tender.bids:
         if bid.status != "deleted":
-            bid.status = "invalidBid"
+            bid.status = "invalid"
         data['bids'].append(bid.serialize())
     return data
 
