@@ -49,6 +49,7 @@ def check_status(request):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.pre-qualification'}))
         tender.status = 'active.pre-qualification'
+        tender.qualificationPeriod.startDate = now
         check_initial_bids_count(request)
         [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod]
         return

@@ -97,6 +97,7 @@ class Tender(BaseTender):
     procuringEntity = ModelType(Organization, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
     qualifications = ListType(ModelType(Qualification), default=list())
+    qualificationPeriod = ModelType(Period)
     # status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                   # 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
