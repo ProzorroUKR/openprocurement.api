@@ -191,7 +191,7 @@ class Tender(BaseTender):
 
     __name__ = ''
 
-    enquiryPeriod = ModelType(PeriodStartEndRequired, required=True)
+    enquiryPeriod = ModelType(Period, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalidBid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     awards = ListType(ModelType(Award), default=list())
@@ -208,10 +208,12 @@ class Tender(BaseTender):
             raise ValidationError(u"tenderPeriod should be greater than 15 days")
 
     def initialize(self):
-        if not self.enquiryPeriod.startDate:
-            self.enquiryPeriod.startDate = get_now()
         if not self.tenderPeriod.startDate:
-            self.tenderPeriod.startDate = self.enquiryPeriod.startDate
+            self.tenderPeriod.startDate = get_now()
+        self.enquiryPeriod = Period(self.tenderPeriod.to_native())
+        self.enquiryPeriod.endDate = calculate_buisness_date(self.tenderPeriod.endDate, -timedelta(days=3))
+        if hasattr(self, "auctionPeriod") and hasattr(self.auctionPeriod, "startDate"):
+            self.auctionPeriod.startDate = ""
 
     @serializable
     def next_check(self):

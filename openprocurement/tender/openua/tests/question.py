@@ -9,22 +9,6 @@ from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest,
 
 class TenderQuestionResourceTest(BaseTenderUAContentWebTest):
 
-    def go_to_enquiryPeriod_end(self):
-        now = get_now()
-        self.set_status('active.tendering', {
-            "enquiryPeriod": {
-                "startDate": (now - timedelta(days=13)).isoformat(),
-                "endDate": (now - timedelta(days=1)).isoformat()
-            },
-            "tenderPeriod": {
-                "startDate": (now - timedelta(days=13)).isoformat(),
-                "endDate": (now + timedelta(days=2)).isoformat()
-            },
-            "auctionPeriod": {
-                "startDate": (now + timedelta(days=2)).isoformat()
-            }
-        })
-
     def test_create_tender_question_invalid(self):
         response = self.app.post_json('/tenders/some_id/questions', {
                                       'data': {'title': 'question title', 'description': 'question description', 'author': test_tender_ua_data["procuringEntity"]}}, status=404)

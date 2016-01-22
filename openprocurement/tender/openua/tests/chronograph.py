@@ -14,8 +14,7 @@ class TenderSwitchQualificationResourceTest(BaseTenderUAContentWebTest):
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "active.qualification")
-        self.assertEqual(len(response.json['data']["awards"]), 1)
+        self.assertEqual(response.json['data']["status"], "unsuccessful")
 
 
 class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
@@ -54,8 +53,7 @@ class TenderLotSwitchQualificationResourceTest(BaseTenderUAContentWebTest):
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "active.qualification")
-        self.assertEqual(len(response.json['data']["awards"]), 1)
+        self.assertEqual(response.json['data']["status"], "unsuccessful")
 
 
 class TenderLotSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
