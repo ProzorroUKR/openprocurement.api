@@ -20,7 +20,7 @@ from openprocurement.api.validation import (
 LOGGER = getLogger(__name__)
 STATUS4ROLE = {
     'complaint_owner': ['draft', 'answered'],
-    'reviewers': ['pending'],
+    'reviewers': ['pending', 'accepted'],
     'tender_owner': ['claim'],
 }
 
@@ -53,7 +53,7 @@ class TenderComplaintDocumentResource(object):
     def collection_post(self):
         """Tender Complaint Document Upload
         """
-        if self.request.validated['tender_status'] not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
+        if self.request.validated['tender_status'] not in ['active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
             self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
@@ -93,7 +93,7 @@ class TenderComplaintDocumentResource(object):
             self.request.errors.add('url', 'role', 'Can update document only author')
             self.request.errors.status = 403
             return
-        if self.request.validated['tender_status'] not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
+        if self.request.validated['tender_status'] not in ['active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
             self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
@@ -116,7 +116,7 @@ class TenderComplaintDocumentResource(object):
             self.request.errors.add('url', 'role', 'Can update document only author')
             self.request.errors.status = 403
             return
-        if self.request.validated['tender_status'] not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
+        if self.request.validated['tender_status'] not in ['active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
             self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
