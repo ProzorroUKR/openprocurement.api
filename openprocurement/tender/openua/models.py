@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from zope.interface import implementer
-from schematics.types import IntType, StringType
+from schematics.types import IntType, StringType, BooleanType
 from schematics.types.compound import ModelType, ListType
 from schematics.transforms import whitelist, blacklist
 from openprocurement.api.models import Tender as BaseTender
@@ -145,11 +145,17 @@ class Complaint(BaseComplaint):
             'cancellation': whitelist('cancellationReason', 'status'),
             'satisfy': whitelist('satisfied', 'status'),
             'answer': whitelist('resolution', 'resolutionType', 'status'),
-            'review': whitelist('decision', 'status'),
+            'pending': whitelist('decision', 'status', 'acceptance', 'rejectReason', 'rejectReasonDescription'),
+            'review': whitelist('decision', 'status', 'reviewDate', 'reviewPlace'),
             'embedded': (blacklist('owner_token', 'owner') + schematics_embedded_role),
             'view': (blacklist('owner_token', 'owner') + schematics_default_role),
         }
     status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled'], default='draft')
+    acceptance = BooleanType()
+    rejectReason = StringType(choices=['invalid'])
+    rejectReasonDescription = StringType()
+    reviewDate = IsoDateTimeType()
+    reviewPlace = StringType()
 
     def get_role(self):
         root = self.__parent__
@@ -166,7 +172,7 @@ class Complaint(BaseComplaint):
         elif request.authenticated_role == 'complaint_owner' and self.status == 'answered':
             role = 'satisfy'
         elif request.authenticated_role == 'reviewers' and self.status == 'pending':
-            role = 'review'
+            role = 'pending'
         elif request.authenticated_role == 'reviewers' and self.status == 'accepted':
             role = 'review'
         else:
