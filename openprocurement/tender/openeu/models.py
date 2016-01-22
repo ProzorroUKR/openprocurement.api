@@ -1,11 +1,16 @@
+from uuid import uuid4
 from zope.interface import implementer
-from schematics.types import StringType
+from schematics.types import StringType, MD5Type
 from schematics.types.compound import ModelType, ListType
+from schematics.transforms import blacklist
 from schematics.exceptions import ValidationError
-from openprocurement.api.models import ITender, Model, Address
+from openprocurement.api.models import ITender
+from openprocurement.api.models import (Document, Model, Address, Period,
+                                        IsoDateTimeType)
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import Identifier as BaseIdentifier
 from openprocurement.api.models import Item as BaseItem
+from openprocurement.api.models import Bid as BaseBid
 from openprocurement.api.models import Award as BaseAward
 from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import (validate_cpv_group, validate_items_uniq,
@@ -48,12 +53,36 @@ class Organization(Model):
                              required=True)
 
 
+class Bid(BaseBid):
+    status = StringType(choices=['pending', 'active', 'invalid', 'deleted'],
+                        default='pending')
+
+
 class Award(BaseAward):
     """ An award for the given procurement. There may be more than one award
         per contracting process e.g. because the contract is split amongst
         different providers, or because it is a standing offer.
     """
     items = ListType(ModelType(Item))
+
+
+class Qualification(Model):
+    """ Pre-Qualification """
+
+    class Options:
+        roles = {
+            'create': blacklist('id', 'status', 'documents', 'date'),
+            'edit': blacklist('id', 'documents'),
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+        }
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    awardID = StringType(required=True)
+    status = StringType(choices=['pending', 'active', 'cancelled'], default='pending')
+    period = ModelType(Period)
+    date = IsoDateTimeType()
+    documents = ListType(ModelType(Document), default=list())
 
 
 @implementer(ITender)
@@ -66,3 +95,8 @@ class Tender(BaseTender):
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     awards = ListType(ModelType(Award), default=list())
     procuringEntity = ModelType(Organization, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
+    bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
+    qualifications = ListType(ModelType(Qualification), default=list())
+    # status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
+                                  # 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+
