@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from openprocurement.api.views.tender import TenderResource
-from openprocurement.api.validation import validate_patch_tender_data
+from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.tender.openua.utils import (
     get_invalidated_bids_data,
     check_status,
@@ -16,6 +16,7 @@ from openprocurement.api.utils import (
 )
 from datetime import timedelta
 from openprocurement.api.models import get_now
+from openprocurement.tender.openua.models import PeriodStartEndRequired
 
 LOGGER = getLogger(__name__)
 
@@ -27,7 +28,7 @@ LOGGER = getLogger(__name__)
 class TenderUAResource(TenderResource):
     """ Resource handler for TenderUA """
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_data, ), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data, ), permission='edit_tender')
     def patch(self):
         """Tender Edit (partial)
 
@@ -86,15 +87,18 @@ class TenderUAResource(TenderResource):
             self.request.errors.add('body', 'data', 'Can\'t update tender status')
             self.request.errors.status = 403
             return
+
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
-            if calculate_buisness_date(get_now(), timedelta(days=4)) >= tender.enquiryPeriod.endDate:
-                self.request.errors.add('body', 'data', 'enquiryPeriod should be extended by 4 days')
-                self.request.errors.status = 403
-                return
-            elif calculate_buisness_date(get_now(), timedelta(days=7)) >= tender.tenderPeriod.endDate:
-                self.request.errors.add('body', 'data', 'tenderPeriod should be extended by 7 days')
-                self.request.errors.status = 403
-                return
+            if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
+                self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
+                if calculate_buisness_date(get_now(), timedelta(days=7)) > self.request.validated['tender'].tenderPeriod.endDate:
+                    self.request.errors.add('body', 'data', 'tenderPeriod should be extended by 7 days')
+                    self.request.errors.status = 403
+                    return
+                self.request.validated['tender'].initialize()
+                self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
+                self.request.validated['data']["auctionPeriod"] = {'startDate': None}
+
         if self.request.authenticated_role == 'chronograph':
             apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
             check_status(self.request)

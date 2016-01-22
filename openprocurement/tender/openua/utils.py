@@ -6,6 +6,7 @@ from openprocurement.api.utils import (
     check_bids,
     check_tender_status,
     context_unpack,
+    add_next_award
 )
 
 PKG = get_distribution(__package__)
@@ -26,6 +27,17 @@ def get_invalidated_bids_data(request):
 def calculate_buisness_date(date_obj, timedelta_obj):
     return date_obj + timedelta_obj
 
+
+
+def check_bids(request):
+    tender = request.validated['tender']
+    if tender.lots:
+        [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2]
+        if set([i.status for i in tender.lots]) == set(['unsuccessful']):
+            tender.status = 'unsuccessful'
+    else:
+        if tender.numberOfBids < 2:
+            tender.status = 'unsuccessful'
 
 def check_status(request):
     tender = request.validated['tender']

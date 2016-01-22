@@ -2,6 +2,7 @@
 import os
 import webtest
 from datetime import datetime, timedelta
+from openprocurement.api.models import get_now
 from openprocurement.api.tests.base import (test_tender_data,
                                             now,
                                             test_features_tender_data,
@@ -11,18 +12,22 @@ from openprocurement.api.tests.base import (test_tender_data,
 
 test_tender_ua_data = test_tender_data.copy()
 test_tender_ua_data['procurementMethodType'] = "aboveThresholdUA"
-test_tender_ua_data["enquiryPeriod"] = {
+# test_tender_ua_data["enquiryPeriod"] = {}
+del test_tender_ua_data["enquiryPeriod"]
+test_tender_ua_data["tenderPeriod"] = {
         "endDate": (now + timedelta(days=16)).isoformat()
 }
 
-test_tender_ua_data["tenderPeriod"] = test_tender_ua_data["enquiryPeriod"].copy()
+# test_tender_ua_data["tenderPeriod"] = test_tender_ua_data["enquiryPeriod"].copy()
 
 test_features_tender_ua_data = test_features_tender_data.copy()
 test_features_tender_ua_data['procurementMethodType'] = "aboveThresholdUA"
-test_features_tender_ua_data["enquiryPeriod"] = {
+# test_features_tender_ua_data["enquiryPeriod"] = {}
+del test_features_tender_ua_data["enquiryPeriod"]
+test_features_tender_ua_data["tenderPeriod"] = {
         "endDate": (now + timedelta(days=16)).isoformat()
 }
-test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
+# test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
 
 
 from openprocurement.api.utils import VERSION, apply_data_patch
@@ -32,6 +37,22 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
+
+    def go_to_enquiryPeriod_end(self):
+        now = get_now()
+        self.set_status('active.tendering', {
+            "enquiryPeriod": {
+                "startDate": (now - timedelta(days=13)).isoformat(),
+                "endDate": (now - timedelta(days=1)).isoformat()
+            },
+            "tenderPeriod": {
+                "startDate": (now - timedelta(days=13)).isoformat(),
+                "endDate": (now + timedelta(days=2)).isoformat()
+            },
+            "auctionPeriod": {
+                "startDate": (now + timedelta(days=2)).isoformat()
+            }
+        })
 
     def setUp(self):
         self.app = webtest.TestApp(

@@ -24,12 +24,8 @@ class TenderUaDocumentResource(TenderDocumentResource):
             self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
-        if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
-            if calculate_buisness_date(get_now(), timedelta(days=4)) >= tender.enquiryPeriod.endDate:
-                self.request.errors.add('body', 'data', 'enquiryPeriod should be extended by 4 days')
-                self.request.errors.status = 403
-                return
-            elif calculate_buisness_date(get_now(), timedelta(days=7)) >= tender.tenderPeriod.endDate:
+        if self.request.validated['tender_status'] == 'active.tendering':
+            if calculate_buisness_date(get_now(), timedelta(days=7)) >= tender.tenderPeriod.endDate:
                 self.request.errors.add('body', 'data', 'tenderPeriod should be extended by 7 days')
                 self.request.errors.status = 403
                 return
