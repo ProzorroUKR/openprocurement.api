@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
-from openprocurement.api.models import Contract, STAND_STILL_TIME, get_now
 from openprocurement.api.utils import opresource
-
 from openprocurement.api.views.award import TenderAwardResource
 
 LOGGER = getLogger(__name__)

@@ -20,7 +20,7 @@ from openprocurement.api.models import (
 )
 from openprocurement.tender.openua.interfaces import ITenderUA
 from schematics.exceptions import ValidationError
-from openprocurement.tender.openua.utils import calculate_buisness_date
+from openprocurement.tender.openua.utils import calculate_business_date
 from schematics.types.serializable import serializable
 from openprocurement.api.models import embedded_lot_role, default_lot_role
 
@@ -263,18 +263,18 @@ class Tender(BaseTender):
     status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
     def validate_enquiryPeriod(self, data, period):
-        if period and calculate_buisness_date(period.endDate, -timedelta(days=12)) < period.startDate:
+        if period and calculate_business_date(period.endDate, -timedelta(days=12)) < period.startDate:
             raise ValidationError(u"enquiryPeriod should be greater than 12 days")
 
     def validate_tenderPeriod(self, data, period):
-        if period and calculate_buisness_date(period.endDate, -timedelta(days=15)) < period.startDate:
+        if period and calculate_business_date(period.endDate, -timedelta(days=15)) < period.startDate:
             raise ValidationError(u"tenderPeriod should be greater than 15 days")
 
     def initialize(self):
         if not self.tenderPeriod.startDate:
             self.tenderPeriod.startDate = get_now()
         self.enquiryPeriod = Period(self.tenderPeriod.to_native())
-        self.enquiryPeriod.endDate = calculate_buisness_date(self.tenderPeriod.endDate, -timedelta(days=3))
+        self.enquiryPeriod.endDate = calculate_business_date(self.tenderPeriod.endDate, -timedelta(days=3))
         if hasattr(self, "auctionPeriod") and hasattr(self.auctionPeriod, "startDate"):
             self.auctionPeriod.startDate = ""
 
