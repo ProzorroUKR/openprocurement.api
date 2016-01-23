@@ -1,12 +1,12 @@
 from uuid import uuid4
 from zope.interface import implementer
 from schematics.types import StringType, MD5Type
-from schematics.types.compound import ModelType, ListType
+from schematics.types.compound import ModelType
 from schematics.transforms import blacklist
 from schematics.exceptions import ValidationError
 from openprocurement.api.models import ITender
 from openprocurement.api.models import (Document, Model, Address, Period,
-                                        IsoDateTimeType)
+                                        IsoDateTimeType, ListType)
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import Identifier as BaseIdentifier
 from openprocurement.api.models import Item as BaseItem
