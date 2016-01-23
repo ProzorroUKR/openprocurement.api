@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from openprocurement.api.validation import validate_data
 from openprocurement.tender.openeu.models import Qualification
 
