@@ -23,6 +23,16 @@ def check_initial_bids_count(request):
             tender.status = 'unsuccessful'
 
 
+def prepare_qualifications(request):
+    """ creates Qualification for each Bid
+    """
+    tender = request.validated['tender']
+    for bid in tender.bids:
+        if bid.status == 'pending':
+            tender.qualifications.append(Qualification({'bidID': bid.id,
+                                                        'status': 'pending'}))
+
+
 def all_bids_are_reviewed(request):
     """ checks if all tender bids are reviewed
     """
@@ -51,6 +61,7 @@ def check_status(request):
         tender.status = 'active.pre-qualification'
         tender.qualificationPeriod.startDate = now
         check_initial_bids_count(request)
+        prepare_qualifications(request)
         [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod]
         return
 
