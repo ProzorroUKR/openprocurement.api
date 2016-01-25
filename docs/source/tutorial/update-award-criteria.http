@@ -1,23 +1,20 @@
-$ http --form PUT https://api-sandbox.openprocurement.org/api/0/tenders/327c00d16cff4c37be5bd4915cdff8a3/documents/4b65c046be264da4a430823d4376a757 file@./AwardCriteria-v2.pdf
-PUT /api/0/tenders/327c00d16cff4c37be5bd4915cdff8a3/documents/4b65c046be264da4a430823d4376a757 HTTP/1.1
-Content-Type: multipart/form-data; boundary=fdb76865e76a4140994502a017fd6e14
+PUT /api/0.12/tenders/a4006579cfce4c8aab2d244b1017b5e7/documents/552fa4ac7ddc4f78bd496b225d32772b HTTP/1.0
+Authorization: Basic dG9rZW46
+Content-Length: 198
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy0813037931339$
+Host: api-sandbox.openprocurement.org
 
-
-
-+-----------------------------------------+
-| NOTE: binary data not shown in terminal |
-+-----------------------------------------+
-
-HTTP/1.1 200 OK
+Response: 200 OK
 Content-Type: application/json; charset=UTF-8
-
 {
-    "data": {
-        "dateModified": "2014-12-01T17:39:33.717002+02:00", 
-        "datePublished": "2014-12-01T17:39:31.443089+02:00", 
-        "format": "text/plain", 
-        "id": "4b65c046be264da4a430823d4376a757", 
-        "title": "AwardCriteria-v2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0/tenders/327c00d16cff4c37be5bd4915cdff8a3/documents/4b65c046be264da4a430823d4376a757?download=e8300d4763ff4968aef4c71b4e15a297"
-    }
+  "data": {
+    "title": "AwardCriteria-2.pdf", 
+    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/a4006579cfce4c8aab2d244b1017b5e7/documents/552fa4ac7ddc4f78bd496b225d32772b?download=398bcbf43f1a4b48a323535acf233055", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2016-01-25T17:12:02.507025+02:00", 
+    "id": "552fa4ac7ddc4f78bd496b225d32772b", 
+    "dateModified": "2016-01-25T17:12:02.670788+02:00"
+  }
 }
+

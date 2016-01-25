@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-02-10T14:56:05.259366"
+      "endDate": "2016-02-10T17:12:00.213896"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -62,20 +62,21 @@ DATA:
     }
   }
 }
+
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/f20e0223064d43a1b38e1bb78c776d56
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/a4006579cfce4c8aab2d244b1017b5e7
 {
   "access": {
-    "token": "1e3706fd302d411ba2fa1f41a568783b"
+    "token": "61a51887bdb64dd08f3214c9f1deb2c5"
   }, 
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
     "tenderID": "UA-2016-01-25-000001", 
     "tenderPeriod": {
-      "startDate": "2016-01-25T14:56:06.805806+02:00", 
-      "endDate": "2016-02-10T14:56:05.259366+02:00"
+      "startDate": "2016-01-25T17:12:01.641674+02:00", 
+      "endDate": "2016-02-10T17:12:00.213896+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -98,7 +99,7 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/f20e0223064d43
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ], 
-        "id": "2cbd83d1cf5742b089f5e06b5dcbd719", 
+        "id": "dd0382247a9b4c91aa9af98bc28afc73", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -113,7 +114,7 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/f20e0223064d43
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-02-10T14:56:05.259366+02:00", 
+    "next_check": "2016-02-10T17:12:00.213896+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -134,12 +135,12 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/f20e0223064d43
       }
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-01-25T14:56:06.805806+02:00", 
-      "endDate": "2016-02-07T14:56:05.259366+02:00"
+      "startDate": "2016-01-25T17:12:01.641674+02:00", 
+      "endDate": "2016-02-07T17:12:00.213896+02:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-01-25T14:56:06.876519+02:00", 
-    "id": "f20e0223064d43a1b38e1bb78c776d56", 
+    "dateModified": "2016-01-25T17:12:01.719744+02:00", 
+    "id": "a4006579cfce4c8aab2d244b1017b5e7", 
     "awardCriteria": "lowestCost"
   }
 }

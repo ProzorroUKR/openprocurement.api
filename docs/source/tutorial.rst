@@ -61,21 +61,6 @@ Let's see what listing of tenders reveals us:
 
 We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
 
-Let's try creating tender with more data, passing the `procuringEntity` of a tender:
-
-.. include:: tutorial/create-tender-procuringEntity.http
-   :code:
-
-And again we have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties.
-
-Let's check what tender registry contains:
-
-.. include:: tutorial/tender-listing-after-procuringEntity.http
-   :code:
-
-And indeed we have 2 tenders now.
-
-
 Modifying tender
 ----------------
 
@@ -138,7 +123,7 @@ And we can see that it is overriding the original version:
 Enquiries
 ---------
 
-When tender is in `active.enquiry` status, interested parties can ask questions:
+When tender is in `active.tendering` status and ``Tender.enqueryPeriod.endDate``  dos'n comes, interested parties can ask questions:
 
 .. include:: tutorial/ask-question.http
    :code:
@@ -164,7 +149,7 @@ And individual answer:
 Registering bid
 ---------------
 
-When ``Tender.tenderingPeriod.startDate`` comes, Tender switches to `active.tendering` status that allows registration of bids.
+Tender status `active.tendering` allows registration of bids. When
 
 Bidder can register a bid:
 
