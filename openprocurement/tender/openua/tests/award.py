@@ -858,7 +858,7 @@ class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't update complaint in current (complete) tender status")
 
     def test_review_tender_award_complaint(self):
-        for status in ['invalid', 'resolved', 'declined']:
+        for status in ['invalid', 'declined', 'resolved']:
             self.app.authorization = ('Basic', ('token', ''))
             response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id), {'data': {
                 'title': 'complaint title',
@@ -900,6 +900,11 @@ class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(response.json['data']["status"], status)
+
+        response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["status"], "cancelled")
 
     def test_get_tender_award_complaint(self):
         response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
