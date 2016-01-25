@@ -829,15 +829,10 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.content_type, 'application/json')
 
         response = self.app.patch_json('/tenders/{}'.format(
-            tender['id']), {'data': {'enquiryPeriod': {'endDate': new_dateModified2}}}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
+            tender['id']), {'data': {'enquiryPeriod': {'endDate': new_dateModified2}}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'], [{
-            "location": "body",
-            "name": "enquiryPeriod",
-            "description": [
-                "enquiryPeriod should be greater than 12 days"
-        ]}])
+        self.assertEqual(response.json['errors'][0]["description"], "Can't change enquiryPeriod")
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'status': 'active.auction'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')

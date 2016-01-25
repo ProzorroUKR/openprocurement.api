@@ -11,6 +11,10 @@ def validate_patch_tender_ua_data(request):
                     request.errors.add('body', 'item', 'Can\'t change classification')
                     request.errors.status = 403
                     return None
+    if 'enquiryPeriod' in data:
+        request.errors.add('body', 'item', 'Can\'t change enquiryPeriod')
+        request.errors.status = 403
+        return None
     if 'tenderPeriod' in data:
         data["auctionPeriod"] = {'startDate': None}
         if len(request.context.lots) > 0:
