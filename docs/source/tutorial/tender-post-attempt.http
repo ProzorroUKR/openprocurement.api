@@ -1,0 +1,18 @@
+$ http POST https://api-sandbox.openprocurement.org/api/0/tenders
+POST /api/0/tenders HTTP/1.1
+
+
+
+HTTP/1.1 415 Unsupported Media Type
+Content-Type: application/json; charset=UTF-8
+
+{
+    "errors": [
+        {
+            "description": "Content-Type header should be one of ['application/json']", 
+            "location": "header", 
+            "name": "Content-Type"
+        }
+    ], 
+    "status": "error"
+}

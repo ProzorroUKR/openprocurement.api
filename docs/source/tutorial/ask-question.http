@@ -1,0 +1,66 @@
+$ http --auth broker: -j POST https://api-sandbox.openprocurement.org/api/0/tenders/9b791af414c64892bb9b1f41e91a84af/questions data:=@./question.json
+POST /api/0/tenders/9b791af414c64892bb9b1f41e91a84af/questions HTTP/1.1
+Authorization: Basic YnJva2VyOg==
+Content-Type: application/json; charset=utf-8
+
+{
+    "data": {
+        "author": {
+            "address": {
+                "countryName": "Україна", 
+                "locality": "м. Вінниця", 
+                "postalCode": "21100", 
+                "region": "м. Вінниця", 
+                "streetAddress": "вул. Островського, 33"
+            }, 
+            "contactPoint": {
+                "email": "soleksuk@gmail.com", 
+                "name": "Сергій Олексюк", 
+                "telephone": "+380 (432) 21-69-30"
+            }, 
+            "identifier": {
+                "id": "13313462", 
+                "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+                "scheme": "UA-EDR", 
+                "uri": "http://sch10.edu.vn.ua/"
+            }, 
+            "name": "ДКП «Школяр»"
+        }, 
+        "description": "Просимо додати таблицю потрібної калорійності харчування по місяцях", 
+        "title": "Калорійність по місяцях"
+    }
+}
+
+HTTP/1.1 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: https://api-sandbox.openprocurement.org/api/0/tenders/9b791af414c64892bb9b1f41e91a84af/questions/3dfbb32cc2f44f75bfe5b44a3a0c287c
+
+{
+    "data": {
+        "author": {
+            "address": {
+                "countryName": "Україна", 
+                "locality": "м. Вінниця", 
+                "postalCode": "21100", 
+                "region": "м. Вінниця", 
+                "streetAddress": "вул. Островського, 33"
+            }, 
+            "contactPoint": {
+                "email": "soleksuk@gmail.com", 
+                "name": "Сергій Олексюк", 
+                "telephone": "+380 (432) 21-69-30"
+            }, 
+            "identifier": {
+                "id": "13313462", 
+                "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+                "scheme": "UA-EDR", 
+                "uri": "http://sch10.edu.vn.ua/"
+            }, 
+            "name": "ДКП «Школяр»"
+        }, 
+        "date": "2014-12-26T23:43:08.277770+02:00", 
+        "description": "Просимо додати таблицю потрібної калорійності харчування по місяцях", 
+        "id": "3dfbb32cc2f44f75bfe5b44a3a0c287c", 
+        "title": "Калорійність по місяцях"
+    }
+}
