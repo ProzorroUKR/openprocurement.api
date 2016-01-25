@@ -2,24 +2,29 @@
 from datetime import timedelta
 from zope.interface import implementer
 from schematics.types import IntType, StringType, BooleanType
-from schematics.types.compound import ModelType, ListType
+from schematics.types.compound import ModelType
 from schematics.transforms import whitelist, blacklist
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import Bid as BaseBid
 from openprocurement.api.models import Period, IsoDateTimeType
 from openprocurement.api.models import Complaint as BaseComplaint
 from openprocurement.api.models import Award as BaseAward
+from openprocurement.api.models import Lot as BaseLot
+from openprocurement.api.models import ListType
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, cancel_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
-    TZ, get_now, schematics_embedded_role,
+    TZ, get_now, schematics_embedded_role, validate_lots_uniq
 )
 from openprocurement.tender.openua.interfaces import ITenderUA
 from schematics.exceptions import ValidationError
 from openprocurement.tender.openua.utils import calculate_business_date
 from schematics.types.serializable import serializable
+from openprocurement.api.models import embedded_lot_role, default_lot_role
+
+edit_role_ua = edit_role + blacklist('enquiryPeriod')
 
 
 STAND_STILL_TIME = timedelta(days=10)
@@ -30,7 +35,7 @@ COMPLAINT_SUBMIT_TIME = timedelta(days=4)
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
-        if data['status'] in ('deleted', 'invalidBid'):
+        if data['status'] in ('deleted', 'invalid'):
             # skip not valid bids
             return
         tender = data['__parent__']
@@ -67,7 +72,8 @@ class SifterListType(ListType):
                         item_role = val
 
                 shaped = self.field.export_loop(value, field_converter,
-                                                role=item_role)
+                                                role=item_role,
+                                                print_none=print_none)
                 feels_empty = shaped and len(shaped) == 0
             else:
                 shaped = field_converter(self.field, value)
@@ -110,14 +116,14 @@ class Bid(BaseBid):
             'complete': view_bid_role,
             'unsuccessful': view_bid_role,
             'cancelled': view_bid_role,
-            'invalidBid': whitelist('id', 'status'),
+            'invalid': whitelist('id', 'status'),
             'deleted': whitelist('id', 'status'),
         }
 
-    status = StringType(choices=['registration', 'validBid', 'invalidBid', 'deleted'], default='registration')
+    status = StringType(choices=['active', 'invalid', 'deleted'], default='active')
 
     def serialize(self, role=None):
-        if role and self.status in ['invalidBid', 'deleted']:
+        if role and self.status in ['invalid', 'deleted']:
             role = self.status
         return super(Bid, self).serialize(role)
 
@@ -190,6 +196,33 @@ class Award(BaseAward):
     complaints = ListType(ModelType(Complaint), default=list())
 
 
+
+class Lot(BaseLot):
+
+    class Options:
+        roles = {
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'minimalStep'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'minimalStep'),
+            'embedded': embedded_lot_role,
+            'view': default_lot_role,
+            'default': default_lot_role,
+            'auction_view': default_lot_role,
+            'auction_patch': whitelist('id', 'auctionUrl'),
+            'chronograph': whitelist('id', 'auctionPeriod'),
+            'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
+        }
+
+    @serializable
+    def numberOfBids(self):
+        """A property that is serialized by schematics exports."""
+        bids = [
+            bid
+            for bid in self.__parent__.bids
+            if self.id in [i.relatedLot for i in bid.lotValues] and bid.status == "active"
+        ]
+        return len(bids)
+
+
 @implementer(ITenderUA)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
@@ -198,8 +231,8 @@ class Tender(BaseTender):
         roles = {
             'plain': plain_role,
             'create': create_role,
-            'edit': edit_role,
-            'edit_active.tendering': edit_role,
+            'edit': edit_role_ua,
+            'edit_active.tendering': edit_role_ua,
             'edit_active.auction': cancel_role,
             'edit_active.qualification': cancel_role,
             'edit_active.awarded': cancel_role,
@@ -228,10 +261,11 @@ class Tender(BaseTender):
 
     enquiryPeriod = ModelType(Period, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
-    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalidBid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
+    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     awards = ListType(ModelType(Award), default=list())
     complaints = ListType(ModelType(Complaint), default=list())
     procurementMethodType = StringType(default="aboveThresholdUA")
+    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
     def validate_enquiryPeriod(self, data, period):
@@ -249,6 +283,12 @@ class Tender(BaseTender):
         self.enquiryPeriod.endDate = calculate_business_date(self.tenderPeriod.endDate, -timedelta(days=3))
         if hasattr(self, "auctionPeriod") and hasattr(self.auctionPeriod, "startDate"):
             self.auctionPeriod.startDate = ""
+
+    @serializable
+    def numberOfBids(self):
+        """A property that is serialized by schematics exports."""
+        return len([bid for bid in self.bids if bid.status == "active"])
+
 
     @serializable
     def next_check(self):

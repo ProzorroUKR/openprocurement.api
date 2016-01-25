@@ -333,14 +333,14 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
 
         # try to restore deleted bid
         response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {
-            'status': 'registration',
+            'status': 'active',
             }})
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertNotEqual(response.json['data']['status'], 'registration')
+        self.assertNotEqual(response.json['data']['status'], 'active')
         self.assertEqual(response.json['data']['status'], 'deleted')
 
     def test_deleted_bid_do_not_locks_tender_in_state(self):
@@ -373,7 +373,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['status'], 'deleted')
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bids[1]['id']))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'registration')
+        self.assertEqual(response.json['data']['status'], 'active')
 
     def test_get_tender_tenderers(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
@@ -435,7 +435,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         for bid_id, token in bids_access.items():
             response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token))
             self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['status'], 'registration')
+            self.assertEqual(response.json['data']['status'], 'active')
 
         # update tender. we can set value that is less than a value in bids as
         # they will be invalidated by this request
@@ -449,7 +449,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         for bid_id, token in bids_access.items():
             response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token))
             self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['status'], 'invalidBid')
+            self.assertEqual(response.json['data']['status'], 'invalid')
 
         # check that tender status change does not invalidate bids
         # submit one more bid. check for invalid value first
@@ -478,7 +478,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(len(response.json['data']['bids']), 3)
         # invalidated bids should show only 'id' and 'status' fields
         for bid in response.json['data']['bids']:
-            if bid['status'] == 'invalidBid':
+            if bid['status'] == 'invalid':
                 self.assertTrue('id' in bid)
                 self.assertFalse('value' in bid)
                 self.assertFalse('tenderers' in bid)
@@ -488,7 +488,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         for bid_id, token in bids_access.items():
             response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid_id))
             self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['status'], 'invalidBid')
+            self.assertEqual(response.json['data']['status'], 'invalid')
             # invalidated bids displays only 'id' and 'status' fields
             self.assertFalse('value' in response.json['data'])
             self.assertFalse('tenderers' in response.json['data'])
@@ -497,7 +497,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         # and valid bid is not invalidated
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, valid_bid_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'registration')
+        self.assertEqual(response.json['data']['status'], 'active')
         # and displays all his data
         self.assertTrue('value' in response.json['data'])
         self.assertTrue('tenderers' in response.json['data'])
@@ -510,12 +510,12 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(len(response.json['data']['bids']), 3)
         for bid in response.json['data']['bids']:
             if bid['id'] in bids_access:  # previously invalidated bids
-                self.assertEqual(bid['status'], 'invalidBid')
+                self.assertEqual(bid['status'], 'invalid')
                 self.assertFalse('value' in bid)
                 self.assertFalse('tenderers' in bid)
                 self.assertFalse('date' in bid)
             else:  # valid bid
-                self.assertEqual(bid['status'], 'registration')
+                self.assertEqual(bid['status'], 'active')
                 self.assertTrue('value' in bid)
                 self.assertTrue('tenderers' in bid)
                 self.assertTrue('date' in bid)
@@ -528,7 +528,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     def test_features_bidder(self):
         test_features_bids = [
             {
-                "status": "registration",
+                # "status": "active",
                 "parameters": [
                     {
                         "code": i["code"],
@@ -546,7 +546,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
                 }
             },
             {
-                "status": "registration",
+                "status": "active",
                 "parameters": [
                     {
                         "code": i["code"],
@@ -566,6 +566,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
         ]
         for i in test_features_bids:
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
+            i['status'] = "active"
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
             bid = response.json['data']
