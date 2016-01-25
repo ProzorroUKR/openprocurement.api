@@ -15,6 +15,7 @@ from openprocurement.api.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
 )
+from openprocurement.tender.openua.utils import add_next_award
 
 LOGGER = getLogger(__name__)
 
@@ -123,14 +124,33 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             self.context.dateAccepted = get_now()
         elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) in ['resolved', 'invalid', 'declined']:
+        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) in ['invalid', 'declined']:
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
+        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'resolved':
+            apply_patch(self.request, save=False, src=self.context.serialize())
+            self.context.dateDecision = get_now()
+            cancelled_awards = []
+            for i in tender.awards:
+                if i.lotID != self.context.relatedLot:
+                    continue
+                i.complaintPeriod.endDate = self.context.dateDecision
+                i.status = 'cancelled'
+                for j in i.complaints:
+                    if j.status not in ['invalid', 'resolved', 'declined']:
+                        j.status = 'cancelled'
+                        j.cancellationReason = 'cancelled'
+                        j.dateCanceled = self.context.dateDecision
+                cancelled_awards.append(i.id)
+            for i in tender.contracts:
+                if i.awardID in cancelled_awards:
+                    i.status = 'cancelled'
+            add_next_award(self.request)
         else:
             self.request.errors.add('body', 'data', 'Can\'t update complaint')
             self.request.errors.status = 403
             return
-        if self.context.status not in ['draft', 'claim', 'answered', 'pending'] and tender.status == 'active.awarded':
+        if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted'] and tender.status in ['active.qualification', 'active.awarded']:
             check_tender_status(self.request)
         if save_tender(self.request):
             LOGGER.info('Updated tender award complaint {}'.format(self.context.id),

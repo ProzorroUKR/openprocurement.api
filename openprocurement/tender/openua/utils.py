@@ -31,7 +31,7 @@ def check_bids(request):
     tender = request.validated['tender']
     if tender.lots:
         [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2]
-        if set([i.status for i in tender.lots]) == set(['unsuccessful']):
+        if not set([i.status for i in tender.lots]).difference(set(['unsuccessful', 'cancelled'])):
             tender.status = 'unsuccessful'
     else:
         if tender.numberOfBids < 2:
@@ -41,7 +41,7 @@ def check_bids(request):
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
-    if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status == 'accepted' for i in tender.complaints]):
+    if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in ['pending', 'accepted'] for i in tender.complaints]):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
         tender.status = 'active.auction'
@@ -49,7 +49,7 @@ def check_status(request):
         if tender.numberOfBids < 2 and tender.auctionPeriod:
             tender.auctionPeriod.startDate = None
         return
-    elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status == 'accepted' for i in tender.complaints]):
+    elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in ['pending', 'accepted'] for i in tender.complaints]):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
         tender.status = 'active.auction'
