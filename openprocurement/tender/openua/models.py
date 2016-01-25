@@ -294,7 +294,7 @@ class Tender(BaseTender):
     def next_check(self):
         now = get_now()
         checks = []
-        if self.status == 'active.tendering' and self.tenderPeriod.endDate and not any([i.status == 'accepted' for i in self.complaints]):
+        if self.status == 'active.tendering' and self.tenderPeriod.endDate and not any([i.status in ['pending', 'accepted'] for i in self.complaints]):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
         elif not self.lots and self.status == 'active.awarded':
             standStillEnds = [
