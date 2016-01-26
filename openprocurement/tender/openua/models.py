@@ -268,9 +268,9 @@ class Tender(BaseTender):
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
-    def validate_enquiryPeriod(self, data, period):
-        if period and calculate_business_date(period.endDate, -timedelta(days=12)) < period.startDate:
-            raise ValidationError(u"enquiryPeriod should be greater than 12 days")
+    #def validate_enquiryPeriod(self, data, period):
+        #if period and calculate_business_date(period.endDate, -timedelta(days=12)) < period.startDate:
+            #raise ValidationError(u"enquiryPeriod should be greater than 12 days")
 
     def validate_tenderPeriod(self, data, period):
         if period and calculate_business_date(period.endDate, -timedelta(days=15)) < period.startDate:
@@ -279,10 +279,17 @@ class Tender(BaseTender):
     def initialize(self):
         if not self.tenderPeriod.startDate:
             self.tenderPeriod.startDate = get_now()
-        self.enquiryPeriod = Period(self.tenderPeriod.to_native())
-        self.enquiryPeriod.endDate = calculate_business_date(self.tenderPeriod.endDate, -timedelta(days=3))
+        self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -timedelta(days=3))))
         if hasattr(self, "auctionPeriod") and hasattr(self.auctionPeriod, "startDate"):
             self.auctionPeriod.startDate = ""
+
+    @serializable(serialized_name="enquiryPeriod", type=ModelType(Period))
+    def tender_enquiryPeriod(self):
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -timedelta(days=3))))
+
+    @serializable(type=ModelType(Period))
+    def complaintPeriod(self):
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME)))
 
     @serializable
     def numberOfBids(self):
