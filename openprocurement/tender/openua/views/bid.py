@@ -170,8 +170,9 @@ class TenderUABidResource(TenderBidResource):
             self.request.errors.add('body', 'data', 'Can\'t update bid in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
-        if self.request.validated['data'].get("status") != 'active':
-            self.request.errors.add('body', 'bid', 'Can\'t update bid in current ({}) bid status'.format(self.request.validated['data'].get("status")))
+        bid_status_to = self.request.validated['data'].get("status")
+        if bid_status_to and bid_status_to != 'active':
+            self.request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
             self.request.errors.status = 403
             return
         value = self.request.validated['data'].get("value") and self.request.validated['data']["value"].get("amount")
