@@ -176,6 +176,9 @@ Bidder can register a bid:
 .. include:: tutorial/register-bidder.http
    :code:
 
+Proposal Uploading
+~~~~~~~~~~~~~~~~~~
+
 And upload proposal document:
 
 .. include:: tutorial/upload-bid-proposal.http
@@ -186,10 +189,16 @@ It is possible to check the uploaded documents:
 .. include:: tutorial/bidder-documents.http
    :code:
 
+Bid invalidation
+~~~~~~~~~~~~~~~~
+
 If tender is changed, bid proposal will be transfered into ``invalid`` status. Bid proposal will look the following way after tender has been modified:
 
 .. include:: tutorial/bidder-after-changing-tender.http
    :code:
+
+Bid confirmation
+~~~~~~~~~~~~~~~~
 
 To confirm bid proposal:
 
