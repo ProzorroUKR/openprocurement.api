@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
+from datetime import timedelta
 from openprocurement.api.models import get_now, TZ
 from openprocurement.api.utils import (
     check_complaint_status,
     check_tender_status,
     context_unpack,
 )
-from datetime import timedelta
+from openprocurement.tender.openeu.models import Qualification
 
 LOGGER = getLogger(__name__)
 COMPLAINT_STAND_STILL_TIME = timedelta(days=10)
@@ -52,6 +53,7 @@ def check_status(request):
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.pre-qualification'}))
         tender.status = 'active.pre-qualification'
         check_initial_bids_count(request)
+        prepare_qualifications(request)
         if tender.numberOfBids < 2 and tender.auctionPeriod:
             tender.auctionPeriod.startDate = None
         return
