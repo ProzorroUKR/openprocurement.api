@@ -930,9 +930,128 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['data']['mode'], u'test')
 
 
+class TenderProcessTest(BaseTenderWebTest):
+
+    def test_invalid_tender_conditions(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        # empty tenders listing
+        response = self.app.get('/tenders')
+        self.assertEqual(response.json['data'], [])
+        # create tender
+        response = self.app.post_json('/tenders',
+                                      {"data": test_tender_data})
+        tender_id = self.tender_id = response.json['data']['id']
+        owner_token = response.json['access']['token']
+        # switch to active.tendering
+        self.set_status('active.tendering')
+        # create compaint
+        complaint_author = deepcopy(test_tender_data["procuringEntity"])
+        del complaint_author['additionalContactPoints']
+        del complaint_author['contactPoint']['availableLanguage']
+        response = self.app.post_json('/tenders/{}/complaints'.format(tender_id),
+                                      {'data': {'title': 'invalid conditions', 'description': 'description', 'author': complaint_author, 'status': 'claim'}})
+        complaint_id = response.json['data']['id']
+        complaint_owner_token = response.json['access']['token']
+        # answering claim
+        self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(tender_id, complaint_id, owner_token), {"data": {
+            "status": "answered",
+            "resolutionType": "resolved",
+            "resolution": "I will cancel the tender"
+        }})
+        # satisfying resolution
+        self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(tender_id, complaint_id, complaint_owner_token), {"data": {
+            "satisfied": True,
+            "status": "resolved"
+        }})
+        # cancellation
+        self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender_id, owner_token), {'data': {
+            'reason': 'invalid conditions',
+            'status': 'active'
+        }})
+        # check status
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+    def test_one_bid_tender(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        # empty tenders listing
+        response = self.app.get('/tenders')
+        self.assertEqual(response.json['data'], [])
+        # create tender
+        response = self.app.post_json('/tenders',
+                                      {"data": test_tender_data})
+        tender_id = self.tender_id = response.json['data']['id']
+        owner_token = response.json['access']['token']
+        # create bid
+        bidder_data = deepcopy(test_tender_data["procuringEntity"])
+        del bidder_data['additionalContactPoints']
+        del bidder_data['contactPoint']['availableLanguage']
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'tenderers': [bidder_data], "value": {"amount": 500}}})
+        # switch to active.pre-qualification
+        self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
+        # tender should switch to "unsuccessful"
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "unsuccessful")
+
+    def test_one_qualificated_bid_tender(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        # empty tenders listing
+        response = self.app.get('/tenders')
+        self.assertEqual(response.json['data'], [])
+        # create tender
+        response = self.app.post_json('/tenders',
+                                      {"data": test_tender_data})
+        tender_id = self.tender_id = response.json['data']['id']
+        owner_token = response.json['access']['token']
+        # create bid
+        bidder_data = deepcopy(test_tender_data["procuringEntity"])
+        del bidder_data['additionalContactPoints']
+        del bidder_data['contactPoint']['availableLanguage']
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'tenderers': [bidder_data], "value": {"amount": 500}}})
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'tenderers': [bidder_data], "value": {"amount": 499}}})
+        # switch to active.pre-qualification
+        self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
+        # tender should switch to "active.pre-qualification"
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification")
+        # list qualifications
+        response = self.app.get('/tenders/{}/qualifications'.format(tender_id))
+        self.assertEqual(response.status, "200 OK")
+        qualifications = response.json['data']
+        self.assertEqual(len(qualifications), 2)
+        # approve first qualification/bid
+        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(tender_id, qualifications[0]['id']), {"data": {"status": "active"}})
+        self.assertEqual(response.status, "200 OK")
+        # bid should be activated
+        response = self.app.get('/tenders/{}/bids/{}'.format(tender_id, qualifications[0]['bidID']))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active")
+        # invalidate second qualification/bid
+        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(tender_id, qualifications[1]['id']), {"data": {"status": "cancelled"}})
+        # bid should be cancelled
+        response = self.app.get('/tenders/{}/bids/{}'.format(tender_id, qualifications[1]['bidID']))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "invalid")
+        # tender should switch to "unsuccessful"
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "unsuccessful")
+
+
 def suite():
     suite = unittest.TestSuite()
-#    suite.addTest(unittest.makeSuite(TenderProcessTest))
+    suite.addTest(unittest.makeSuite(TenderProcessTest))
     suite.addTest(unittest.makeSuite(TenderResourceTest))
     suite.addTest(unittest.makeSuite(TenderTest))
     return suite
