@@ -33,6 +33,9 @@ Schema
    |ocdsDescription|
    TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
 
+:procurementMethodType:
+    aboveThresholdUA
+
 :procuringEntity:
    :ref:`organization`, required
 

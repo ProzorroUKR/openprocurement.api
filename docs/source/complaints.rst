@@ -5,6 +5,8 @@
    :depth: 2
    :local:
 
+.. _complaint_workflow:
+
 Complaint Workflow
 ==================
 
