@@ -1,7 +1,9 @@
 from uuid import uuid4
+from datetime import timedelta
 from zope.interface import implementer
 from schematics.types import StringType, MD5Type
 from schematics.types.compound import ModelType
+from schematics.types.serializable import serializable
 from schematics.transforms import blacklist, whitelist
 from schematics.exceptions import ValidationError
 from openprocurement.api.models import ITender
@@ -19,7 +21,15 @@ from openprocurement.api.models import (
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
-    schematics_embedded_role)
+    schematics_embedded_role, get_now)
+from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.openua.models import PeriodStartEndRequired
+
+edit_role_eu = edit_role + blacklist('enquiryPeriod')
+
+TENDERING_DAYS = 30
+TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
+QUESTIONS_STAND_STILL = timedelta(days=3)
 
 
 class Item(BaseItem):
@@ -117,9 +127,8 @@ class Tender(BaseTender):
         roles = {
             'plain': plain_role,
             'create': create_role,
-            'edit': edit_role,
-            'edit_active.enquiries': edit_role,
-            'edit_active.tendering': cancel_role,
+            'edit': edit_role_eu,
+            'edit_active.tendering': edit_role_eu,
             'edit_active.auction': cancel_role,
             'edit_active.qualification': cancel_role,
             'edit_active.awarded': cancel_role,
@@ -131,10 +140,9 @@ class Tender(BaseTender):
             'auction_view': auction_view_role,
             'auction_post': auction_post_role,
             'auction_patch': auction_patch_role,
-            'active.enquiries': enquiries_role,
             'active.tendering': enquiries_role,
-            'active.pre-qualification': enquiries_role,
-            'active.pre-qualification.stand-still': enquiries_role,
+            'active.pre-qualification': enquiries_role,  # TODO
+            'active.pre-qualification.stand-still': enquiries_role,  # TODO
             'active.auction': auction_role,
             'active.qualification': view_role,
             'active.awarded': view_role,
@@ -150,14 +158,30 @@ class Tender(BaseTender):
     procurementMethodType = StringType(default="aboveThresholdEU")
     title_en = StringType(required=True, min_length=1)
 
+    enquiryPeriod = ModelType(Period, required=False)
+    tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     awards = ListType(ModelType(Award), default=list())
     procuringEntity = ModelType(Organization, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
     qualifications = ListType(ModelType(Qualification), default=list())
     qualificationPeriod = ModelType(Period)
-    status = StringType(choices=['active.enquiries', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
-                                  'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.enquiries')
+    status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
+                                 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+
+    def initialize(self):
+        if not self.tenderPeriod.startDate:
+            self.tenderPeriod.startDate = get_now()
+        self.enquiryPeriod = Period(self.tenderPeriod.to_native())
+        self.enquiryPeriod.endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL)
+        if hasattr(self, "auctionPeriod") and hasattr(self.auctionPeriod, "startDate"):
+            self.auctionPeriod.startDate = ""
+
+    @serializable(serialized_name="enquiryPeriod", type=ModelType(Period))
+    def tender_enquiryPeriod(self):
+        return Period(dict(startDate=self.tenderPeriod.startDate,
+                           endDate=calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL)))
 
     def validate_tenderPeriod(self, data, period):
-        return
+        if period and calculate_business_date(period.startDate, TENDERING_DURATION) > period.endDate:
+            raise ValidationError(u"tenderPeriod should be greater than {} days".format(TENDERING_DAYS))

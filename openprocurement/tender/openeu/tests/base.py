@@ -4,6 +4,7 @@ import webtest
 from datetime import datetime, timedelta
 from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass
 from openprocurement.api.utils import apply_data_patch
+from openprocurement.tender.openeu.models import TENDERING_DAYS
 
 
 now = datetime.now()
@@ -70,15 +71,12 @@ test_tender_data = {
             "quantity": 5
         }
     ],
-    "enquiryPeriod": {
-        "endDate": (now + timedelta(days=7)).isoformat()
-    },
     "tenderPeriod": {
-        "endDate": (now + timedelta(days=14)).isoformat()
+        "startDate": (now).isoformat(),
+        "endDate": (now + timedelta(days=TENDERING_DAYS+1)).isoformat()
     },
     "procurementMethodType": "aboveThresholdEU",
 }
-
 
 
 
