@@ -1,13 +1,13 @@
 POST /api/0.12/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 1884
+Content-Length: 2079
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-02-10T17:12:00.213896"
+      "endDate": "2016-02-11T15:51:33.765869+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -16,24 +16,24 @@ DATA:
     }, 
     "items": [
       {
-        "classification": {
-          "scheme": "CPV", 
-          "id": "44617100-9", 
-          "description": "Cartons"
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
         }, 
         "additionalClassifications": [
           {
             "scheme": "ДКПП", 
             "id": "17.21.1", 
-            "description": "папір і картон гофровані, паперова й картонна тара"
+            "description": "Послуги шкільних їдалень"
           }
         ], 
-        "description": "футляри до державних нагород", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "id": "37810000-9", 
+          "description": "Test"
         }, 
-        "quantity": 5
+        "quantity": 1
       }
     ], 
     "procurementMethodType": "aboveThresholdUA", 
@@ -43,21 +43,22 @@ DATA:
     }, 
     "procuringEntity": {
       "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
+        "url": "http://sch10.edu.vn.ua/", 
+        "name": "Куца Світлана Валентинівна", 
+        "telephone": "+380 (432) 46-53-02"
       }, 
       "identifier": {
         "scheme": "UA-EDR", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
       }, 
-      "name": "Державне управління справами", 
+      "name": "ЗОСШ #10 м.Вінниці", 
       "address": {
         "countryName": "Україна", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "locality": "м. Київ"
+        "postalCode": "21027", 
+        "region": "м. Вінниця", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "locality": "м. Вінниця"
       }
     }
   }
@@ -65,18 +66,18 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/a4006579cfce4c8aab2d244b1017b5e7
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/d1986ba116d4496fb5c3061794bc28f9
 {
   "access": {
-    "token": "61a51887bdb64dd08f3214c9f1deb2c5"
+    "token": "747ac587898e479c9ad8feb446434b42"
   }, 
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-01-25-000001", 
+    "tenderID": "UA-2016-01-26-000001", 
     "tenderPeriod": {
-      "startDate": "2016-01-25T17:12:01.641674+02:00", 
-      "endDate": "2016-02-10T17:12:00.213896+02:00"
+      "startDate": "2016-01-26T15:51:35.144235+02:00", 
+      "endDate": "2016-02-11T15:51:33.765869+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -86,27 +87,31 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/a4006579cfce4c
     }, 
     "items": [
       {
-        "description": "футляри до державних нагород", 
+        "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
-          "description": "Cartons", 
-          "id": "44617100-9"
+          "description": "Test", 
+          "id": "37810000-9"
         }, 
         "additionalClassifications": [
           {
             "scheme": "ДКПП", 
             "id": "17.21.1", 
-            "description": "папір і картон гофровані, паперова й картонна тара"
+            "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "dd0382247a9b4c91aa9af98bc28afc73", 
+        "id": "3b632a9f813f4c76950374e856940d60", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
         }, 
-        "quantity": 5
+        "quantity": 1
       }
     ], 
+    "complaintPeriod": {
+      "startDate": "2016-01-26T15:51:35.144235+02:00", 
+      "endDate": "2016-02-07T15:51:33.765869+02:00"
+    }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
       "currency": "UAH", 
@@ -114,33 +119,34 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/a4006579cfce4c
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-02-10T17:12:00.213896+02:00", 
+    "next_check": "2016-02-11T15:51:33.765869+02:00", 
     "procuringEntity": {
       "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
+        "url": "http://sch10.edu.vn.ua/", 
+        "name": "Куца Світлана Валентинівна", 
+        "telephone": "+380 (432) 46-53-02"
       }, 
       "identifier": {
         "scheme": "UA-EDR", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
       }, 
-      "name": "Державне управління справами", 
+      "name": "ЗОСШ #10 м.Вінниці", 
       "address": {
-        "postalCode": "01220", 
+        "postalCode": "21027", 
         "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
       }
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-01-25T17:12:01.641674+02:00", 
-      "endDate": "2016-02-07T17:12:00.213896+02:00"
+      "startDate": "2016-01-26T15:51:35.144235+02:00", 
+      "endDate": "2016-02-08T15:51:33.765869+02:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-01-25T17:12:01.719744+02:00", 
-    "id": "a4006579cfce4c8aab2d244b1017b5e7", 
+    "dateModified": "2016-01-26T15:51:35.215528+02:00", 
+    "id": "d1986ba116d4496fb5c3061794bc28f9", 
     "awardCriteria": "lowestCost"
   }
 }

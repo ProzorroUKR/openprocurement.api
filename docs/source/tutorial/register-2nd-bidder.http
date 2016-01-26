@@ -1,6 +1,6 @@
-POST /api/0.12/tenders/a4006579cfce4c8aab2d244b1017b5e7/bids HTTP/1.0
-Authorization: Basic dG9rZW46
-Content-Length: 843
+POST /api/0.12/tenders/d1986ba116d4496fb5c3061794bc28f9/bids HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 704
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -12,21 +12,22 @@ DATA:
     "tenderers": [
       {
         "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк", 
+          "email": "aagt@gmail.com"
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "00037256", 
-          "uri": "http://www.dus.gov.ua/"
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
         }, 
-        "name": "Державне управління справами", 
+        "name": "ДКП «Книга»", 
         "address": {
           "countryName": "Україна", 
-          "postalCode": "01220", 
-          "region": "м. Київ", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "locality": "м. Київ"
+          "postalCode": "79013", 
+          "region": "м. Львів", 
+          "streetAddress": "вул. Островського, 34", 
+          "locality": "м. Львів"
         }
       }
     ]
@@ -35,15 +36,15 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/a4006579cfce4c8aab2d244b1017b5e7/bids/6943fd6a0edc497980b1364ee8e5c42c
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/d1986ba116d4496fb5c3061794bc28f9/bids/cfad9424605248efab65d5fa3b534077
 {
   "access": {
-    "token": "5bf3a698ae9f4112989e60fac724ffe4"
+    "token": "54ee7b3440204be7bd9483b1c17d306b"
   }, 
   "data": {
-    "date": "2016-01-25T17:12:03.156629+02:00", 
+    "date": "2016-01-26T15:51:37.295607+02:00", 
     "status": "active", 
-    "id": "6943fd6a0edc497980b1364ee8e5c42c", 
+    "id": "cfad9424605248efab65d5fa3b534077", 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 
@@ -52,21 +53,22 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/a4006579cfce4c
     "tenderers": [
       {
         "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "00037256", 
-          "uri": "http://www.dus.gov.ua/"
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
         }, 
-        "name": "Державне управління справами", 
+        "name": "ДКП «Книга»", 
         "address": {
-          "postalCode": "01220", 
+          "postalCode": "79013", 
           "countryName": "Україна", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
+          "streetAddress": "вул. Островського, 34", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
         }
       }
     ]

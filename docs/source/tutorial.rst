@@ -43,7 +43,10 @@ and `Location` response header reports the location of the created object.  The
 body of response reveals the information about the created tender: its internal
 `id` (that matches the `Location` segment), its official `tenderID` and
 `dateModified` datestamp stating the moment in time when tender was last
-modified.  Note that tender is created with `active.enquiries` status.
+modified.  Note that tender is created with `active.tendering` status.
+
+The difference is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdUA``.
+Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically.
 
 Let's access the URL of the created object (the `Location` header of the response):
 
@@ -76,6 +79,17 @@ We see the added properies have merged with existing tender data. Additionally, 
 Checking the listing again reflects the new modification date:
 
 .. include:: tutorial/tender-listing-after-patch.http
+   :code:
+
+
+Procuring entity can not change tender if there are less then 7 days before tenderPeriod is finished. Changes will not be accepted by API.
+
+.. include:: tutorial/update-tender-after-enqiery.http
+   :code:
+
+That is why tenderPeriod has to be extended by 7 days.
+
+.. include:: tutorial/update-tender-after-enqiery-with-update-periods.http
    :code:
 
 
@@ -123,7 +137,7 @@ And we can see that it is overriding the original version:
 Enquiries
 ---------
 
-When tender is in `active.tendering` status and ``Tender.enqueryPeriod.endDate``  dos'n comes, interested parties can ask questions:
+When tender is in ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  dos'n comes, interested parties can ask questions:
 
 .. include:: tutorial/ask-question.http
    :code:
@@ -144,12 +158,18 @@ And individual answer:
    :code:
 
 
+Enquiries can be made only during ``Tender.enqueryPeriod``
+
+.. include:: tutorial/ask-question-after-enquiry-period.http
+   :code:
+
+
 .. index:: Bidding
 
 Registering bid
 ---------------
 
-Tender status `active.tendering` allows registration of bids. When
+Tender status ``active.tendering`` allows registration of bids. When
 
 Bidder can register a bid:
 
@@ -164,6 +184,16 @@ And upload proposal document:
 It is possible to check the uploaded documents:
 
 .. include:: tutorial/bidder-documents.http
+   :code:
+
+If tender is changed, bid proposal will be transfered into ``invalid`` status. Bid proposal will look the following way after tender has been modified:
+
+.. include:: tutorial/bidder-after-changing-tender.http
+   :code:
+
+To confirm bid proposal:
+
+.. include:: tutorial/bidder-activate-after-changing-tender.http
    :code:
 
 For best effect (biggest economy) Tender should have multiple bidders registered:
