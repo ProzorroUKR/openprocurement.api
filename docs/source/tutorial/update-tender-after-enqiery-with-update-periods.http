@@ -1,13 +1,17 @@
 PATCH /api/0.12/tenders/d1986ba116d4496fb5c3061794bc28f9?acc_token=747ac587898e479c9ad8feb446434b42 HTTP/1.0
-Authorization: Basic dG9rZW46
-Content-Length: 75
+Authorization: Basic YnJva2VyOg==
+Content-Length: 120
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-02-10T15:51:45.390762+02:00"
+      "endDate": "2016-02-03T15:51:36.422108+02:00"
+    }, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 501
     }
   }
 }
@@ -18,10 +22,39 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
+    "documents": [
+      {
+        "title": "Notice.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d1986ba116d4496fb5c3061794bc28f9/documents/7ef3553dbf934fa999a1a16ebc63b8ab?download=7da4b38ff32846daa01c5f2124c8e44f", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-01-26T15:51:35.792588+02:00", 
+        "id": "7ef3553dbf934fa999a1a16ebc63b8ab", 
+        "dateModified": "2016-01-26T15:51:35.792619+02:00"
+      }, 
+      {
+        "title": "AwardCriteria.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d1986ba116d4496fb5c3061794bc28f9/documents/5eba818d007148d58316b434f6f68efb?download=0fea246f941a43d8ae94605a8a533b68", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-01-26T15:51:35.945165+02:00", 
+        "id": "5eba818d007148d58316b434f6f68efb", 
+        "dateModified": "2016-01-26T15:51:35.945194+02:00"
+      }, 
+      {
+        "title": "AwardCriteria-2.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d1986ba116d4496fb5c3061794bc28f9/documents/5eba818d007148d58316b434f6f68efb?download=8c623d0ff3794490966207c8d147b3f8", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-01-26T15:51:35.945165+02:00", 
+        "id": "5eba818d007148d58316b434f6f68efb", 
+        "dateModified": "2016-01-26T15:51:36.105954+02:00"
+      }
+    ], 
     "tenderID": "UA-2016-01-26-000001", 
     "tenderPeriod": {
-      "startDate": "2016-01-26T15:51:35.144235+02:00", 
-      "endDate": "2016-02-10T15:51:45.390762+02:00"
+      "startDate": "2016-01-13T15:51:36.171468+02:00", 
+      "endDate": "2016-02-03T15:51:36.422108+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -53,17 +86,17 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "complaintPeriod": {
-      "startDate": "2016-01-26T15:51:35.144235+02:00", 
-      "endDate": "2016-02-06T15:51:45.390762+02:00"
+      "startDate": "2016-01-13T15:51:36.171468+02:00", 
+      "endDate": "2016-01-30T15:51:36.422108+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
       "currency": "UAH", 
-      "amount": 500.0, 
+      "amount": 501.0, 
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-02-10T15:51:45.390762+02:00", 
+    "next_check": "2016-02-03T15:51:36.422108+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -85,11 +118,11 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-01-26T15:51:35.144235+02:00", 
-      "endDate": "2016-02-07T15:51:45.390762+02:00"
+      "startDate": "2016-01-13T15:51:36.171468+02:00", 
+      "endDate": "2016-01-31T15:51:36.422108+02:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-01-26T15:51:35.455051+02:00", 
+    "dateModified": "2016-01-26T15:51:36.494593+02:00", 
     "id": "d1986ba116d4496fb5c3061794bc28f9", 
     "awardCriteria": "lowestCost"
   }

@@ -1,0 +1,27 @@
+PATCH /api/0.12/tenders/d1986ba116d4496fb5c3061794bc28f9?acc_token=747ac587898e479c9ad8feb446434b42 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 38
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "value": {
+      "amount": 501.0
+    }
+  }
+}
+
+Response: 403 Forbidden
+Content-Type: application/json; charset=UTF-8
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": "tenderPeriod should be extended by 7 days", 
+      "location": "body", 
+      "name": "data"
+    }
+  ]
+}
+
