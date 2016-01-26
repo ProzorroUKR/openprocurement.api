@@ -158,7 +158,8 @@ class Complaint(BaseComplaint):
             'draft': whitelist('author', 'title', 'description', 'status'),
             'cancellation': whitelist('cancellationReason', 'status'),
             'satisfy': whitelist('satisfied', 'status'),
-            'answer': whitelist('resolution', 'resolutionType', 'status'),
+            'answer': whitelist('resolution', 'resolutionType', 'status', 'tendererAction'),
+            'action': whitelist('tendererAction'),
             'pending': whitelist('decision', 'status', 'acceptance', 'rejectReason', 'rejectReasonDescription'),
             'review': whitelist('decision', 'status', 'reviewDate', 'reviewPlace'),
             'embedded': (blacklist('owner_token', 'owner') + schematics_embedded_role),
@@ -183,6 +184,8 @@ class Complaint(BaseComplaint):
             role = 'draft'
         elif request.authenticated_role == 'tender_owner' and self.status == 'claim':
             role = 'answer'
+        elif request.authenticated_role == 'tender_owner' and self.status in ['pending', 'accepted']:
+            role = 'action'
         elif request.authenticated_role == 'complaint_owner' and self.status == 'answered':
             role = 'satisfy'
         elif request.authenticated_role == 'reviewers' and self.status == 'pending':
