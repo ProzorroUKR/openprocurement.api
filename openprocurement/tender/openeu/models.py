@@ -53,8 +53,9 @@ class Organization(Model):
     identifier = ModelType(Identifier, required=True)
     additionalIdentifiers = ListType(ModelType(Identifier))
     address = ModelType(Address, required=True)
-    contactPoints = ListType(ModelType(ContactPoint, required=True),
-                             required=True)
+    contactPoint = ModelType(ContactPoint, required=True)
+    additionalContactPoints = ListType(ModelType(ContactPoint, required=True),
+                                       required=False)
 
 
 class Bid(BaseBid):

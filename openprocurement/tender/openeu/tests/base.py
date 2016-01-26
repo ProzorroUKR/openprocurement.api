@@ -26,11 +26,17 @@ test_tender_data = {
             "locality": u"м. Київ",
             "streetAddress": u"вул. Банкова, 11, корпус 1"
         },
-        "contactPoints": [{
+        "contactPoint": {
             "name": u"Державне управління справами",
             "name_en": u"State administration",
             "availableLanguage": u"Ukraine",
             "telephone": u"0440000000"
+        },
+        "additionalContactPoints": [{
+            "name": u"Державне управління справами",
+            "name_en": u"State administration",
+            "availableLanguage": u"English",
+            "telephone": u"1440000000"
         }]
     },
     "value": {
