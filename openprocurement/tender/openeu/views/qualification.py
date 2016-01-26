@@ -8,15 +8,15 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
 )
-from openprocurement.api.validation import validate_patch_qualification_data
+from openprocurement.tender.openeu.validation import validate_patch_qualification_data
 
 
 LOGGER = getLogger(__name__)
 
 
 @opresource(name='TenderEU Qualification',
-            collection_path='/tenders/{tender_id}/qualification',
-            path='/tenders/{tender_id}/qualification/{qualification_id}',
+            collection_path='/tenders/{tender_id}/qualifications',
+            path='/tenders/{tender_id}/qualifications/{qualification_id}',
             procurementMethodType='aboveThresholdEU',
             description="TenderEU Qualification")
 class TenderQualificationResource(object):
@@ -61,7 +61,7 @@ class TenderQualificationResource(object):
             # cancel related bid
             set_bid_status(tender, self.request.context.bidID, 'invalid')
         # switch to 'stand-still' when all bids are approved
-        if ([bid.status != 'pending' for bid in tender.bids]):
+        if all([bid.status != 'pending' for bid in tender.bids]):
             tender.status = 'active.pre-qualification.stand-still'
 
         if save_tender(self.request):
