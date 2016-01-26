@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
-from openprocurement.api.utils import opresource
+from openprocurement.api.models import Contract, get_now
+from openprocurement.api.validation import validate_patch_award_data
 from openprocurement.api.views.award import TenderAwardResource
-from openprocurement.api.models import Contract, STAND_STILL_TIME, get_now
 from openprocurement.api.utils import (
     apply_patch,
     save_tender,
     json_view,
     context_unpack,
+    opresource,
 )
-from openprocurement.api.validation import (
-    validate_patch_award_data,
-)
-from openprocurement.tender.openua.utils import add_next_award
+from openprocurement.tender.openua.models import STAND_STILL_TIME
+from openprocurement.tender.openua.utils import add_next_award, calculate_business_date
 
 LOGGER = getLogger(__name__)
 
@@ -95,7 +94,7 @@ class TenderUaAwardResource(TenderAwardResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
-            award.complaintPeriod.endDate = get_now() + STAND_STILL_TIME
+            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME)
             tender.contracts.append(Contract({'awardID': award.id}))
             add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
@@ -105,25 +104,20 @@ class TenderUaAwardResource(TenderAwardResource):
                     i.status = 'cancelled'
             add_next_award(self.request)
         elif award_status == 'pending' and award.status == 'unsuccessful':
-            award.complaintPeriod.endDate = get_now() + STAND_STILL_TIME
+            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME)
             add_next_award(self.request)
-        elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status in ['claim', 'answered', 'pending', 'resolved'] for i in award.complaints]):
+        elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'accepted' for i in award.complaints]):
             if tender.status == 'active.awarded':
                 tender.status = 'active.qualification'
                 tender.awardPeriod.endDate = None
             now = get_now()
             award.complaintPeriod.endDate = now
             cancelled_awards = []
-            for i in tender.awards[tender.awards.index(award):]:
+            for i in tender.awards:
                 if i.lotID != award.lotID:
                     continue
                 i.complaintPeriod.endDate = now
                 i.status = 'cancelled'
-                for j in i.complaints:
-                    if j.status not in ['invalid', 'resolved', 'declined']:
-                        j.status = 'cancelled'
-                        j.cancellationReason = 'cancelled'
-                        j.dateCanceled = now
                 cancelled_awards.append(i.id)
             for i in tender.contracts:
                 if i.awardID in cancelled_awards:

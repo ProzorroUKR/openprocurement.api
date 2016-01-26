@@ -31,6 +31,8 @@ STAND_STILL_TIME = timedelta(days=10)
 COMPLAINT_STAND_STILL_TIME = timedelta(days=3)
 CLAIM_SUBMIT_TIME = timedelta(days=10)
 COMPLAINT_SUBMIT_TIME = timedelta(days=4)
+TENDER_PERIOD = timedelta(days=15)
+ENQUIRY_PERIOD_TIME = timedelta(days=3)
 
 
 def bids_validation_wrapper(validation_func):
@@ -268,24 +270,20 @@ class Tender(BaseTender):
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
-    #def validate_enquiryPeriod(self, data, period):
-        #if period and calculate_business_date(period.endDate, -timedelta(days=12)) < period.startDate:
-            #raise ValidationError(u"enquiryPeriod should be greater than 12 days")
-
     def validate_tenderPeriod(self, data, period):
-        if period and calculate_business_date(period.endDate, -timedelta(days=15)) < period.startDate:
+        if period and calculate_business_date(period.startDate, TENDER_PERIOD) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than 15 days")
 
     def initialize(self):
         if not self.tenderPeriod.startDate:
             self.tenderPeriod.startDate = get_now()
-        self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -timedelta(days=3))))
+        self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME)))
         if hasattr(self, "auctionPeriod") and hasattr(self.auctionPeriod, "startDate"):
             self.auctionPeriod.startDate = ""
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(Period))
     def tender_enquiryPeriod(self):
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -timedelta(days=3))))
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME)))
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
@@ -295,7 +293,6 @@ class Tender(BaseTender):
     def numberOfBids(self):
         """A property that is serialized by schematics exports."""
         return len([bid for bid in self.bids if bid.status == "active"])
-
 
     @serializable
     def next_check(self):

@@ -279,6 +279,13 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
         }})
         self.assertEqual(response.status, '201 Created')
 
+        self.app.authorization = ('Basic', ('reviewer', ''))
+        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award['id'], response.json['data']['id']), {'data': {
+            'status': 'accepted'
+        }})
+        self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('{}/complaints'.format(new_award_location[-81:]), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
@@ -497,6 +504,13 @@ class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
         }})
         self.assertEqual(response.status, '201 Created')
 
+        self.app.authorization = ('Basic', ('reviewer', ''))
+        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award['id'], response.json['data']['id']), {'data': {
+            'status': 'accepted'
+        }})
+        self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('{}/complaints'.format(new_award_location[-81:]), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
@@ -900,11 +914,6 @@ class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(response.json['data']["status"], status)
-
-        response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id))
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "cancelled")
 
     def test_get_tender_award_complaint(self):
         response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(

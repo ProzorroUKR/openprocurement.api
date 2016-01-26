@@ -124,28 +124,9 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             self.context.dateAccepted = get_now()
         elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) in ['invalid', 'declined']:
+        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) in ['resolved', 'invalid', 'declined']:
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'resolved':
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateDecision = get_now()
-            cancelled_awards = []
-            for i in tender.awards:
-                if i.lotID != self.context.relatedLot:
-                    continue
-                i.complaintPeriod.endDate = self.context.dateDecision
-                i.status = 'cancelled'
-                for j in i.complaints:
-                    if j.status not in ['invalid', 'resolved', 'declined']:
-                        j.status = 'cancelled'
-                        j.cancellationReason = 'cancelled'
-                        j.dateCanceled = self.context.dateDecision
-                cancelled_awards.append(i.id)
-            for i in tender.contracts:
-                if i.awardID in cancelled_awards:
-                    i.status = 'cancelled'
-            add_next_award(self.request)
         else:
             self.request.errors.add('body', 'data', 'Can\'t update complaint')
             self.request.errors.status = 403
