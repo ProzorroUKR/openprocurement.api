@@ -407,9 +407,8 @@ class TenderResourceTest(BaseTenderWebTest):
             {u'description': [u'period should begin after tenderPeriod'], u'location': u'body', u'name': u'awardPeriod'}
         ])
 
-        return  # TODO XXX 1/0
-        test_tender_data['auctionPeriod'] = {'startDate': (now + timedelta(days=15)).isoformat(), 'endDate': (now + timedelta(days=15)).isoformat()}
-        test_tender_data['awardPeriod'] = {'startDate': (now + timedelta(days=14)).isoformat(), 'endDate': (now + timedelta(days=14)).isoformat()}
+        test_tender_data['auctionPeriod'] = {'startDate': (now + timedelta(days=35)).isoformat(), 'endDate': (now + timedelta(days=35)).isoformat()}
+        test_tender_data['awardPeriod'] = {'startDate': (now + timedelta(days=34)).isoformat(), 'endDate': (now + timedelta(days=34)).isoformat()}
         response = self.app.post_json(request_path, {'data': test_tender_data}, status=422)
         del test_tender_data['auctionPeriod']
         del test_tender_data['awardPeriod']
@@ -464,15 +463,15 @@ class TenderResourceTest(BaseTenderWebTest):
             {u'description': [{u'additionalClassifications': [u"One of additional classifications should be '\u0414\u041a\u041f\u041f'"]}], u'location': u'body', u'name': u'items'}
         ])
 
-        data = test_tender_data["procuringEntity"]["contactPoints"][0]["telephone"]
-        del test_tender_data["procuringEntity"]["contactPoints"][0]["telephone"]
+        data = test_tender_data["procuringEntity"]["contactPoint"]["telephone"]
+        del test_tender_data["procuringEntity"]["contactPoint"]["telephone"]
         response = self.app.post_json(request_path, {'data': test_tender_data}, status=422)
-        test_tender_data["procuringEntity"]["contactPoints"][0]["telephone"] = data
+        test_tender_data["procuringEntity"]["contactPoint"]["telephone"] = data
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': {u'contactPoints': [{u'email': [u'telephone or email should be present']}]},
+            {u'description': {u'contactPoint': {u'email': [u'telephone or email should be present']}},
              u'location': u'body', u'name': u'procuringEntity'}
         ])
 
