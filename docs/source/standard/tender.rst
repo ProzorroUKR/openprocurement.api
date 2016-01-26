@@ -36,7 +36,7 @@ Schema
 :procurementMethodType:
     string
 
-    value: `aboveThresholdUA`
+    value: ``aboveThresholdUA``
 
 :procuringEntity:
    :ref:`organization`, required
@@ -111,10 +111,10 @@ Schema
 :enquiryPeriod:
    :ref:`period`, required
 
-   Period when questions are allowed. At least `endDate` has to be provided.
+   Period when questions are allowed.
 
    |ocdsDescription|
-   The period during which enquiries may be made and will be answered.
+   The period during which enquiries may be made.
 
 :tenderPeriod:
    :ref:`period`, required
@@ -145,8 +145,6 @@ Schema
 :status:
    string
 
-   :`active.enquiries`:
-       Enquiries period (enquiries)
    :`active.tendering`:
        Tendering period (tendering)
    :`active.auction`:
