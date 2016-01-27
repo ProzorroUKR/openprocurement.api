@@ -1007,8 +1007,8 @@ class TenderProcessTest(BaseTenderWebTest):
         response = self.app.post_json('/tenders',
                                       {"data": test_tender_data})
         tender_id = self.tender_id = response.json['data']['id']
-        owner_token = response.json['access']['token']
-        # create bid
+        tender_owner_token = response.json['access']['token']
+        # create bids
         bidder_data = deepcopy(test_tender_data["procuringEntity"])
         del bidder_data['additionalContactPoints']
         del bidder_data['contactPoint']['availableLanguage']
@@ -1031,14 +1031,21 @@ class TenderProcessTest(BaseTenderWebTest):
         qualifications = response.json['data']
         self.assertEqual(len(qualifications), 2)
         # approve first qualification/bid
-        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(tender_id, qualifications[0]['id']), {"data": {"status": "active"}})
+        self.app.authorization = None
+        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(tender_id, qualifications[0]['id']), {"data": {"status": "active"}}, status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(tender_id, qualifications[0]['id']), {"data": {"status": "active"}}, status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[0]['id'], tender_owner_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, "200 OK")
         # bid should be activated
         response = self.app.get('/tenders/{}/bids/{}'.format(tender_id, qualifications[0]['bidID']))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "active")
         # invalidate second qualification/bid
-        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(tender_id, qualifications[1]['id']), {"data": {"status": "cancelled"}})
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[1]['id'], tender_owner_token), {"data": {"status": "cancelled"}})
         # bid should be cancelled
         response = self.app.get('/tenders/{}/bids/{}'.format(tender_id, qualifications[1]['bidID']))
         self.assertEqual(response.status, "200 OK")
