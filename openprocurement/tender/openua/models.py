@@ -335,3 +335,8 @@ class Tender(BaseTender):
             if lots_ends:
                 checks.append(min(lots_ends))
         return sorted(checks)[0].isoformat() if checks else None
+
+    def invalidate_bids_data(self):
+        for bid in self.bids:
+            if bid.status != "deleted":
+                bid.status = "invalid"
