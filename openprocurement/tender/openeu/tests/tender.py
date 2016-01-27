@@ -1038,6 +1038,9 @@ class TenderProcessTest(BaseTenderWebTest):
         response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(tender_id, qualifications[0]['id']), {"data": {"status": "active"}}, status=403)
         self.assertEqual(response.status, "403 Forbidden")
         self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[0]['id'], "c"*32), {"data": {"status": "active"}}, status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[0]['id'], tender_owner_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, "200 OK")
         # bid should be activated
