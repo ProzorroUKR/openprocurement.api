@@ -19,31 +19,31 @@ Main responsibilities
 ---------------------
 
 Open Procurement Open UA procedure is dedicated to Open Tender procedure for
-above Ukrainian threshold procurements.  The code for that type of procedure
+Ukrainian above threshold procurements.  The code for that type of procedure
 is `aboveThresholdUA`.
 
 Business logic
 --------------
 
-The approach to Open UA procedure is different from core Open Procuermnt API
+The approach to Open UA procedure is different from core Open Procurement API
 procedure (that is used for below threshold procurements) mainly in
-:ref:`stage that precedes <tendering>` auction.  Differences are in
+:ref:`stage that precedes <tendering>` auction.  Differences are in the
 following aspects:
 
 1) Tender can be edited through the whole tenderPeriod (while in
    active.tendering state), but any edit that is close to
-   tenderPeriod.endDate would require extending that period
+   tenderPeriod.endDate would require extending that period.
 
-2) There is no dedicated active.enguiries state 
+2) There is no dedicated active.enguiries state. 
 
 3) Questions can be asked within enquiryPeriod that is based upon
    tenderPeriod.
 
-4) Answers are provided during whole tenderPeriod
+4) Answers are provided during the whole tenderPeriod.
 
-5) Bids can be placed during whole tenderPeriod 
+5) Bids can be placed during the whole tenderPeriod.
 
-6) Bids placed are invalidated with any tender condition editing and have to
+6) Placed bids are invalidated after any tender condition editing and have to
    be re-confirmed.
 
 

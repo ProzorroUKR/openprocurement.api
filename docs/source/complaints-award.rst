@@ -42,6 +42,8 @@ Submit tender award claim:
 Tender Award Claim Submission (without documents)
 ------------------------------------------------------
 
+You can submit claim that does not need additional documents:
+
 .. include:: tutorial/award-complaint-submission-claim.http
    :code:
 
@@ -70,6 +72,8 @@ Submit tender award complaint:
 
 Tender Award Complaint Submission (without documents)
 -----------------------------------------------------
+
+You can submit complaint that does not need additional documents:
 
 .. include:: tutorial/award-complaint-submission-complaint.http
    :code:

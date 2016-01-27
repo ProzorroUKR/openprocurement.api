@@ -42,6 +42,8 @@ Submit tender conditions claim:
 Tender Conditions Claim Submission (without documents)
 ------------------------------------------------------
 
+You can submit claim that does not need additional documents:
+
 .. include:: tutorial/complaint-submission-claim.http
    :code:
 
@@ -68,6 +70,8 @@ Submit tender conditions complaint:
 
 Tender Conditions Complaint Submission (without documents)
 ----------------------------------------------------------
+
+You can submit complaint that does not need additional documents:
 
 .. include:: tutorial/complaint-submission-complaint.http
    :code:
