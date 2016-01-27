@@ -37,7 +37,7 @@ def prepare_qualifications(request):
 def all_bids_are_reviewed(request):
     """ checks if all tender bids are reviewed
     """
-    return [1 for bid in request.validated['tender'].bids if bid.status == 'active']
+    return all([bid.status == 'active' for bid in request.validated['tender'].bids])
 
 
 def check_status(request):
