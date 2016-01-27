@@ -520,6 +520,34 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
                 self.assertTrue('tenderers' in bid)
                 self.assertTrue('date' in bid)
 
+    def test_bids_activation_on_tender_documents(self):
+        bids_access = {}
+
+        # submit bids
+        for data in test_bids:
+            response = self.app.post_json('/tenders/{}/bids'.format(
+                self.tender_id), {'data': data})
+            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.content_type, 'application/json')
+            bids_access[response.json['data']['id']] = response.json['access']['token']
+        # check initial status
+        for bid_id, token in bids_access.items():
+            response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'active')
+
+        response = self.app.post('/tenders/{}/documents?acc_token={}'.format(
+            self.tender_id, self.tender_token), upload_files=[('file', u'укр.doc', 'content')])
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+
+        for bid_id, token in bids_access.items():
+            response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'invalid')
+
+
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_features_tender_ua_data

@@ -22,7 +22,6 @@ def get_invalidated_bids_data(request):
         data['bids'].append(bid.serialize())
     return data
 
-
 def calculate_business_date(date_obj, timedelta_obj):
     return date_obj + timedelta_obj
 

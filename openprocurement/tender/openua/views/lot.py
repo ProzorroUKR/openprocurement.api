@@ -16,7 +16,6 @@ from openprocurement.api.validation import (
 )
 from openprocurement.api.models import get_now
 from openprocurement.tender.openua.utils import calculate_business_date
-
 LOGGER = getLogger(__name__)
 
 
@@ -49,6 +48,7 @@ class TenderUaLotResource(TenderLotResource):
         lot = self.request.validated['lot']
         tender = self.request.validated['tender']
         tender.lots.append(lot)
+        tender.invalidate_bids_data()
         if save_tender(self.request):
             LOGGER.info('Created tender lot {}'.format(lot.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_create'}, {'lot_id': lot.id}))
@@ -62,6 +62,8 @@ class TenderUaLotResource(TenderLotResource):
         """
         if not self.validate_update_tender('update'):
             return
+        tender = self.request.validated['tender']
+        tender.invalidate_bids_data()
         if apply_patch(self.request, src=self.request.context.serialize()):
             LOGGER.info('Updated tender lot {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_patch'}))
@@ -77,6 +79,7 @@ class TenderUaLotResource(TenderLotResource):
         res = lot.serialize("view")
         tender = self.request.validated['tender']
         tender.lots.remove(lot)
+        tender.invalidate_bids_data()
         if save_tender(self.request):
             LOGGER.info('Deleted tender lot {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_delete'}))
