@@ -37,7 +37,7 @@ The source repository for this documentation is on GitHub: https://github.com/op
 
 The source repository for the API is on GitHub: https://github.com/openprocurement/openprocurement.api
 
-You can leave feedback by raising a new issue on the `issue tracker <https://github.com/openprocurement/openprocurement.api/issues>`_ (GitHub
+You can leave feedback by raising a new issue on the `issue tracker <https://github.com/openprocurement/openprocurement.tender.limited/issues>`_ (GitHub
 registration necessary).  
 
 For general discussion use `Open Procurement General <https://groups.google.com/group/open-procurement-general>`_ maillist.
