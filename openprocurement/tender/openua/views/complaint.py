@@ -94,7 +94,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
                 return
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateSubmitted = get_now()
-        elif self.request.authenticated_role == 'complaint_owner' and tender.status == 'active.tendering' and self.context.status == 'draft' and data.get('status', self.context.status) == 'pending':
+        elif self.request.authenticated_role == 'complaint_owner' and tender.status == 'active.tendering' and self.context.status in ['draft', 'claim'] and data.get('status', self.context.status) == 'pending':
             if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME):
                 self.request.errors.add('body', 'data', 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(COMPLAINT_SUBMIT_TIME))
                 self.request.errors.status = 403
@@ -107,6 +107,10 @@ class TenderUaComplaintResource(TenderComplaintResource):
         elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('satisfied', self.context.satisfied) is True and data.get('status', self.context.status) == 'resolved':
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('satisfied', self.context.satisfied) is False and data.get('status', self.context.status) == 'pending':
+            if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME):
+                self.request.errors.add('body', 'data', 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(COMPLAINT_SUBMIT_TIME))
+                self.request.errors.status = 403
+                return
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = 'complaint'
             self.context.dateEscalated = get_now()

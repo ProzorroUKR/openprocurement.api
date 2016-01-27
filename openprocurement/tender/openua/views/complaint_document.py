@@ -19,7 +19,7 @@ from openprocurement.api.validation import (
 
 LOGGER = getLogger(__name__)
 STATUS4ROLE = {
-    'complaint_owner': ['draft', 'answered'],
+    'complaint_owner': ['draft', 'answered', 'claim'],
     'reviewers': ['pending', 'accepted'],
     'tender_owner': ['claim'],
 }
