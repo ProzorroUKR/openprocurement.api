@@ -6,7 +6,6 @@ from openprocurement.api.utils import (
     upload_file,
     apply_patch,
     update_file_content_type,
-    opresource,
     json_view,
     context_unpack,
 )
@@ -15,16 +14,18 @@ from openprocurement.api.validation import (
     validate_file_upload,
     validate_patch_document_data,
 )
+from openprocurement.tender.openeu.utils import qualifications_resource
 
 
 LOGGER = getLogger(__name__)
 
 
-@opresource(name='TenderEU Qualification Documents',
-            collection_path='/tenders/{tender_id}/qualification/{qualification_id}/documents',
-            path='/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}',
-            procurementMethodType='aboveThresholdEU',
-            description="Tender qualification documents")
+@qualifications_resource(
+    name='TenderEU Qualification Documents',
+    collection_path='/tenders/{tender_id}/qualification/{qualification_id}/documents',
+    path='/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}',
+    procurementMethodType='aboveThresholdEU',
+    description="Tender qualification documents")
 class TenderQualificationDocumentResource(object):
 
     def __init__(self, request, context):

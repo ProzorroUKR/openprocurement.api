@@ -4,21 +4,22 @@ from openprocurement.api.utils import (
     apply_patch,
     save_tender,
     check_tender_status,
-    opresource,
     json_view,
     context_unpack,
 )
 from openprocurement.tender.openeu.validation import validate_patch_qualification_data
+from openprocurement.tender.openeu.utils import qualifications_resource
 
 
 LOGGER = getLogger(__name__)
 
 
-@opresource(name='TenderEU Qualification',
-            collection_path='/tenders/{tender_id}/qualifications',
-            path='/tenders/{tender_id}/qualifications/{qualification_id}',
-            procurementMethodType='aboveThresholdEU',
-            description="TenderEU Qualification")
+@qualifications_resource(
+    name='TenderEU Qualification',
+    collection_path='/tenders/{tender_id}/qualifications',
+    path='/tenders/{tender_id}/qualifications/{qualification_id}',
+    procurementMethodType='aboveThresholdEU',
+    description="TenderEU Qualification")
 class TenderQualificationResource(object):
 
     def __init__(self, request, context):
