@@ -1058,6 +1058,56 @@ class TenderProcessTest(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "unsuccessful")
 
+    def test_multiple_bidders_tender(self):
+        # create tender
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders',
+                                      {"data": test_tender_data})
+        tender_id = self.tender_id = response.json['data']['id']
+        tender_owner_token = response.json['access']['token']
+        # create bids
+        bidder_data = deepcopy(test_tender_data["procuringEntity"])
+        del bidder_data['additionalContactPoints']
+        del bidder_data['contactPoint']['availableLanguage']
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'tenderers': [bidder_data], "value": {"amount": 500}}})
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'tenderers': [bidder_data], "value": {"amount": 499}}})
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'tenderers': [bidder_data], "value": {"amount": 498}}})
+        # switch to active.pre-qualification
+        self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
+        # tender should switch to "active.pre-qualification"
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification")
+        # list qualifications
+        response = self.app.get('/tenders/{}/qualifications'.format(tender_id))
+        self.assertEqual(response.status, "200 OK")
+        qualifications = response.json['data']
+        self.assertEqual(len(qualifications), 3)
+        # approve first two bids qualification/bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[0]['id'], tender_owner_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, "200 OK")
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[1]['id'], tender_owner_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, "200 OK")
+        # try to change tender state leaving one bid unreviewed
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification")
+        # reject third bid
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[2]['id'], tender_owner_token), {"data": {"status": "cancelled"}})
+        self.assertEqual(response.status, "200 OK")
+        # tender should be switch to "active.pre-qualification.stand-still"
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+
 
 def suite():
     suite = unittest.TestSuite()
