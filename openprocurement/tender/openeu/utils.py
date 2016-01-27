@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from datetime import timedelta
+from functools import partial
+from cornice.resource import resource
 from openprocurement.api.models import get_now, TZ
 from openprocurement.api.utils import (
     check_complaint_status,
     check_tender_status,
+    error_handler,
     context_unpack,
 )
 from openprocurement.tender.openeu.models import Qualification
+from openprocurement.tender.openeu.traversal import qualifications_factory
 
 LOGGER = getLogger(__name__)
 COMPLAINT_STAND_STILL_TIME = timedelta(days=10)
+
+qualifications_resource = partial(resource, error_handler=error_handler, factory=qualifications_factory)
 
 
 def check_initial_bids_count(request):
