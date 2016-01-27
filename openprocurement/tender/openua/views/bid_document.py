@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from openprocurement.api.utils import opresource
+from openprocurement.api.views.bid_document import TenderBidDocumentResource
 
 LOGGER = getLogger(__name__)
 
-
-from openprocurement.api.views.bid_document import TenderBidDocumentResource
 
 @opresource(name='Tender UA Bid Documents',
             collection_path='/tenders/{tender_id}/bids/{bid_id}/documents',

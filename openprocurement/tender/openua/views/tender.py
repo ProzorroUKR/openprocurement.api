@@ -16,7 +16,6 @@ from openprocurement.api.utils import (
 )
 from datetime import timedelta
 from openprocurement.api.models import get_now
-from openprocurement.tender.openua.models import PeriodStartEndRequired
 
 LOGGER = getLogger(__name__)
 

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from logging import getLogger
-from openprocurement.api.utils import opresource, upload_file, context_unpack, save_tender, json_view, apply_patch, update_file_content_type
-from openprocurement.api.views.tender_document import TenderDocumentResource
-from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
 from openprocurement.api.models import get_now
-
+from openprocurement.api.utils import opresource, upload_file, context_unpack, save_tender, json_view, apply_patch, update_file_content_type
+from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
+from openprocurement.api.views.tender_document import TenderDocumentResource
 from openprocurement.tender.openua.utils import calculate_business_date
+
 LOGGER = getLogger(__name__)
 
 
@@ -55,7 +55,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
             return
         document = upload_file(self.request)
         self.request.validated['tender'].documents.append(document)
-        if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] == 'active.tendering' :
+        if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] == 'active.tendering':
             self.request.validated['tender'].invalidate_bids_data()
         if save_tender(self.request):
             LOGGER.info('Updated tender document {}'.format(self.request.context.id),

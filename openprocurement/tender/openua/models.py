@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from zope.interface import implementer
-from schematics.types import IntType, StringType, BooleanType
+from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.transforms import whitelist, blacklist
 from openprocurement.api.models import Tender as BaseTender
@@ -202,7 +202,6 @@ class Complaint(BaseComplaint):
 
 class Award(BaseAward):
     complaints = ListType(ModelType(Complaint), default=list())
-
 
 
 class Lot(BaseLot):

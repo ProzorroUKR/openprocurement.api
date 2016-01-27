@@ -12,10 +12,10 @@ from openprocurement.api.validation import (
     validate_question_data,
     validate_patch_question_data,
 )
-
 from openprocurement.api.views.question import TenderQuestionResource
 
 LOGGER = getLogger(__name__)
+
 
 @opresource(name='Tender UA Questions',
             collection_path='/tenders/{tender_id}/questions',
@@ -52,7 +52,6 @@ class TenderUaQuestionResource(TenderQuestionResource):
         """Post an Answer
         """
         tender = self.request.validated['tender']
-        now = get_now()
         if tender.status != 'active.tendering':
             self.request.errors.add('body', 'data', 'Can\'t update question in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403

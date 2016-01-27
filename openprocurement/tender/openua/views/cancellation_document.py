@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from openprocurement.api.utils import opresource
-
 from openprocurement.api.views.cancellation_document import TenderCancellationDocumentResource
+
 LOGGER = getLogger(__name__)
 
 

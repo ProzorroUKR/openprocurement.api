@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import pdb
 from logging import getLogger
 from openprocurement.api.views.bid import TenderBidResource
 from openprocurement.api.models import get_now
@@ -187,7 +186,6 @@ class TenderUABidResource(TenderBidResource):
             LOGGER.info('Updated tender bid {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_patch'}))
             return {'data': self.request.context.serialize("view")}
-
 
     @json_view(permission='edit_bid')
     def delete(self):

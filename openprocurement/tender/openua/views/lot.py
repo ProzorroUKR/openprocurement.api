@@ -2,7 +2,6 @@
 from datetime import timedelta
 from logging import getLogger
 from openprocurement.api.views.lot import TenderLotResource
-
 from openprocurement.api.utils import (
     apply_patch,
     save_tender,
@@ -16,8 +15,8 @@ from openprocurement.api.validation import (
 )
 from openprocurement.api.models import get_now
 from openprocurement.tender.openua.utils import calculate_business_date
-LOGGER = getLogger(__name__)
 
+LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender UA Lots',

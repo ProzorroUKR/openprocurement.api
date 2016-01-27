@@ -22,6 +22,7 @@ def get_invalidated_bids_data(request):
         data['bids'].append(bid.serialize())
     return data
 
+
 def calculate_business_date(date_obj, timedelta_obj):
     return date_obj + timedelta_obj
 
@@ -123,14 +124,12 @@ def check_status(request):
         if lots_ends:
             return
 
-from openprocurement.api.models import Period
-
 
 def add_next_award(request):
     tender = request.validated['tender']
     now = get_now()
     if not tender.awardPeriod:
-        tender.awardPeriod = Period({})
+        tender.awardPeriod = type(tender).awardPeriod({})
     if not tender.awardPeriod.startDate:
         tender.awardPeriod.startDate = now
     if tender.lots:

@@ -15,7 +15,6 @@ from openprocurement.api.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
 )
-from openprocurement.tender.openua.utils import add_next_award
 
 LOGGER = getLogger(__name__)
 
