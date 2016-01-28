@@ -4,7 +4,7 @@ import webtest
 from datetime import datetime, timedelta
 from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass
 from openprocurement.api.utils import apply_data_patch
-from openprocurement.tender.openeu.models import TENDERING_DAYS, TENDERING_DURATION, QUESTIONS_STAND_STILL
+from openprocurement.tender.openeu.models import TENDERING_DAYS, TENDERING_DURATION, QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL
 
 
 now = datetime.now()
