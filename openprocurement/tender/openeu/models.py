@@ -25,8 +25,11 @@ from openprocurement.api.models import (
 from openprocurement.tender.openua.utils import calculate_business_date
 from openprocurement.tender.openua.models import PeriodStartEndRequired
 
-edit_role_eu = edit_role + blacklist('enquiryPeriod', 'qualifications')
-qualifications_role = enquiries_role + blacklist('enquiryPeriod', 'qualifications')
+eu_role = blacklist('enquiryPeriod', 'qualifications')
+edit_role_eu = edit_role + eu_role
+create_role_eu = create_role + eu_role
+qualifications_role = enquiries_role + eu_role
+eu_auction_role = auction_role + eu_role
 
 TENDERING_DAYS = 30
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
@@ -127,7 +130,7 @@ class Tender(BaseTender):
     class Options:
         roles = {
             'plain': plain_role,
-            'create': create_role,
+            'create': create_role_eu,
             'edit': edit_role_eu,
             'edit_active.tendering': edit_role_eu,
             'edit_active.pre-qualification': whitelist('status'),
@@ -143,10 +146,10 @@ class Tender(BaseTender):
             'auction_view': auction_view_role,
             'auction_post': auction_post_role,
             'auction_patch': auction_patch_role,
-            'active.tendering': enquiries_role,
+            'active.tendering': qualifications_role,
             'active.pre-qualification': qualifications_role,
             'active.pre-qualification.stand-still': qualifications_role,
-            'active.auction': auction_role,
+            'active.auction': eu_auction_role,
             'active.qualification': view_role,
             'active.awarded': view_role,
             'complete': view_role,
