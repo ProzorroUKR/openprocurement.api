@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.api.tests.base import test_bids
-from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest
+from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_bids
 
 
 class TenderQualificationResourceTest(BaseTenderContentWebTest):

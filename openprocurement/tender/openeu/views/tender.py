@@ -15,14 +15,17 @@ from openprocurement.api.utils import (
 LOGGER = getLogger(__name__)
 
 
-@opresource(name='TenderEU',
+
+from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
+
+@opresource(name='Tender EU',
             path='/tenders/{tender_id}',
             procurementMethodType='aboveThresholdEU',
             description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderEUResource(TenderResource):
     """ Resource handler for TenderEU """
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_data, ), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data, ), permission='edit_tender')
     def patch(self):
         """Tender Edit (partial)
 

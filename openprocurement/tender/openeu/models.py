@@ -23,7 +23,7 @@ from openprocurement.api.models import (
     Administrator_bid_role, Administrator_role, schematics_default_role,
     schematics_embedded_role, get_now)
 from openprocurement.tender.openua.utils import calculate_business_date
-from openprocurement.tender.openua.models import PeriodStartEndRequired
+from openprocurement.tender.openua.models import PeriodStartEndRequired, SifterListType
 
 edit_role_eu = edit_role + blacklist('enquiryPeriod')
 
@@ -31,6 +31,19 @@ TENDERING_DAYS = 30
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
 QUESTIONS_STAND_STILL = timedelta(days=3)
 
+
+def bids_validation_wrapper(validation_func):
+    def validator(klass, data, value):
+        if data['status'] in ('deleted', 'invalid'):
+            # skip not valid bids
+            return
+        tender = data['__parent__']
+        request = tender.__parent__.request
+        if request.method == "PATCH" and isinstance(tender, Tender) and request.authenticated_role == "tender_owner":
+            # disable bids validation on tender PATCH requests as tender bids will be invalidated
+            return
+        return validation_func(klass, data, value)
+    return validator
 
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
@@ -75,7 +88,7 @@ class Bid(BaseBid):
             'embedded': view_bid_role,
             'view': view_bid_role,
             'create': whitelist('value', 'tenderers', 'parameters', 'lotValues'),
-            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues'),
+             'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
@@ -89,10 +102,33 @@ class Bid(BaseBid):
             'complete': view_bid_role,
             'unsuccessful': view_bid_role,
             'cancelled': view_bid_role,
+            'invalid': whitelist('id', 'status'),
+            'deleted': whitelist('id', 'status'),
         }
+    tenderers = ListType(ModelType(Organization), required=True, min_size=1, max_size=1)
     status = StringType(choices=['pending', 'active', 'invalid', 'deleted'],
                         default='pending')
 
+    def serialize(self, role=None):
+        if role and self.status in ['invalid', 'deleted']:
+            role = self.status
+        return super(Bid, self).serialize(role)
+
+    @bids_validation_wrapper
+    def validate_value(self, data, value):
+        BaseBid._validator_functions['value'](self, data, value)
+
+    @bids_validation_wrapper
+    def validate_lotValues(self, data, lotValues):
+        BaseBid._validator_functions['lotValues'](self, data, lotValues)
+
+    @bids_validation_wrapper
+    def validate_participationUrl(self, data, participationUrl):
+        BaseBid._validator_functions['participationUrl'](self, data, participationUrl)
+
+    @bids_validation_wrapper
+    def validate_parameters(self, data, parameters):
+        BaseBid._validator_functions['parameters'](self, data, parameters)
 
 class Award(BaseAward):
     """ An award for the given procurement. There may be more than one award
@@ -163,7 +199,8 @@ class Tender(BaseTender):
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     awards = ListType(ModelType(Award), default=list())
     procuringEntity = ModelType(Organization, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
+    # bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
+    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     qualifications = ListType(ModelType(Qualification), default=list())
     qualificationPeriod = ModelType(Period)
     status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
@@ -185,3 +222,13 @@ class Tender(BaseTender):
     def validate_tenderPeriod(self, data, period):
         if period and calculate_business_date(period.startDate, TENDERING_DURATION) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than {} days".format(TENDERING_DAYS))
+
+    @serializable
+    def numberOfBids(self):
+        """A property that is serialized by schematics exports."""
+        return len([bid for bid in self.bids if bid.status == "active"])
+
+    def invalidate_bids_data(self):
+        for bid in self.bids:
+            if bid.status != "deleted":
+                bid.status = "invalid"
