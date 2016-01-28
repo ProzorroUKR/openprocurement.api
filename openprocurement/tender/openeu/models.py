@@ -129,6 +129,8 @@ class Tender(BaseTender):
             'create': create_role,
             'edit': edit_role_eu,
             'edit_active.tendering': edit_role_eu,
+            'edit_active.pre-qualification': edit_role_eu, # TODO
+            'edit_active.pre-qualification.stand-still': edit_role_eu, # TODO
             'edit_active.auction': cancel_role,
             'edit_active.qualification': cancel_role,
             'edit_active.awarded': cancel_role,

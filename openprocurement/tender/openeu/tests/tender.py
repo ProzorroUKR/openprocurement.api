@@ -1053,7 +1053,12 @@ class TenderProcessTest(BaseTenderWebTest):
         response = self.app.get('/tenders/{}/bids/{}'.format(tender_id, qualifications[1]['bidID']))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "invalid")
-        # tender should switch to "unsuccessful"
+        # switch to next status
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_owner_token),
+                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "unsuccessful")
+        # ensure that tender has been switched to "unsuccessful"
         response = self.app.get('/tenders/{}'.format(tender_id))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "unsuccessful")
@@ -1103,8 +1108,18 @@ class TenderProcessTest(BaseTenderWebTest):
         # reject third bid
         response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[2]['id'], tender_owner_token), {"data": {"status": "cancelled"}})
         self.assertEqual(response.status, "200 OK")
-        # tender should be switch to "active.pre-qualification.stand-still"
+        # switch to next status
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_owner_token),
+                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        # ensure that tender has been switched to "active.pre-qualification.stand-still"
         response = self.app.get('/tenders/{}'.format(tender_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        # 'active.auction' status can't be set with chronograpth tick
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
 
