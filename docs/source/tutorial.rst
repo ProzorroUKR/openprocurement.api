@@ -8,7 +8,7 @@ Exploring basic rules
 
 Let's try exploring the `/tenders` endpoint:
 
-.. include:: tutorial/initial-tender-listing.http
+.. include:: tutorial/tender-listing.http
    :code:
 
 Just invoking it reveals empty set.
@@ -33,7 +33,7 @@ Error states that no `data` has been found in JSON body.
 Creating tender
 ---------------
 
-Let's provide the data attribute in the body submitted:
+Let's provide the data attribute in the submitted body :
 
 .. include:: tutorial/tender-post-attempt-json-data.http
    :code:
@@ -45,7 +45,7 @@ body of response reveals the information about the created tender: its internal
 `dateModified` datestamp stating the moment in time when tender was last
 modified.  Note that tender is created with `active.tendering` status.
 
-The difference is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdUA``.
+The peculiarity of the Open UA procedure is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdUA``.
 Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically.
 
 Let's access the URL of the created object (the `Location` header of the response):
@@ -55,11 +55,11 @@ Let's access the URL of the created object (the `Location` header of the respons
 
 .. XXX body is empty for some reason (printf fails)
 
-We can see the same response we got after creating tender. 
+We can see the same response we got after creating tender.
 
 Let's see what listing of tenders reveals us:
 
-.. include:: tutorial/tender-listing.http
+.. include:: tutorial/tender-listing-no-auth.http
    :code:
 
 We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
@@ -82,7 +82,7 @@ Checking the listing again reflects the new modification date:
    :code:
 
 
-Procuring entity can not change tender if there are less then 7 days before tenderPeriod is finished. Changes will not be accepted by API.
+Procuring entity can not change tender if there are less than 7 days before tenderPeriod ends. Changes will not be accepted by API.
 
 .. include:: tutorial/update-tender-after-enqiery.http
    :code:
@@ -104,7 +104,7 @@ follow the :ref:`upload` rules.
 .. include:: tutorial/upload-tender-notice.http
    :code:
 
-`201 Created` response code and `Location` header confirm document creation. 
+`201 Created` response code and `Location` header confirm document creation.
 We can additionally query the `documents` collection API endpoint to confirm the
 action:
 
@@ -137,22 +137,22 @@ And we can see that it is overriding the original version:
 Enquiries
 ---------
 
-When tender is in ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  dos'n comes, interested parties can ask questions:
+When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:
 
 .. include:: tutorial/ask-question.http
    :code:
 
-Bidder is answering them:
+Procuring entity can answer them:
 
 .. include:: tutorial/answer-question.http
    :code:
 
-And one can retrieve the questions list:
+One can retrieve either questions list:
 
 .. include:: tutorial/list-question.http
    :code:
 
-And individual answer:
+or individual answer:
 
 .. include:: tutorial/get-answer.http
    :code:
@@ -169,7 +169,7 @@ Enquiries can be made only during ``Tender.enqueryPeriod``
 Registering bid
 ---------------
 
-Tender status ``active.tendering`` allows registration of bids. When
+Tender status ``active.tendering`` allows registration of bids.
 
 Bidder can register a bid:
 
@@ -179,7 +179,7 @@ Bidder can register a bid:
 Proposal Uploading
 ~~~~~~~~~~~~~~~~~~
 
-And upload proposal document:
+Then bidder should upload proposal document(s):
 
 .. include:: tutorial/upload-bid-proposal.http
    :code:
@@ -192,7 +192,7 @@ It is possible to check the uploaded documents:
 Bid invalidation
 ~~~~~~~~~~~~~~~~
 
-If tender is changed, bid proposal will be transfered into ``invalid`` status. Bid proposal will look the following way after tender has been modified:
+If tender is modified, status of all bid proposals will be changed to ``invalid``. Bid proposal will look the following way after tender has been modified:
 
 .. include:: tutorial/bidder-after-changing-tender.http
    :code:
@@ -200,12 +200,12 @@ If tender is changed, bid proposal will be transfered into ``invalid`` status. B
 Bid confirmation
 ~~~~~~~~~~~~~~~~
 
-To confirm bid proposal:
+Bidder should confirm bid proposal:
 
 .. include:: tutorial/bidder-activate-after-changing-tender.http
    :code:
 
-For best effect (biggest economy) Tender should have multiple bidders registered:
+Open UA procedure demands at least two bidders, so there should be at least two bid proposals registered to move to auction stage:
 
 .. include:: tutorial/register-2nd-bidder.http
    :code:
@@ -221,7 +221,7 @@ After auction is scheduled anybody can visit it to watch. The auction can be rea
 .. include:: tutorial/auction-url.http
    :code:
 
-And bidders can find out their participation URLs via their bids:
+Bidders can find out their participation URLs via their bids:
 
 .. include:: tutorial/bidder-participation-url.http
    :code:
@@ -234,7 +234,7 @@ See the `Bid.participationUrl` in the response. Similar, but different, URL can 
 Confirming qualification
 ------------------------
 
-Qualification comission registers its decision via the following call:
+Qualification commission registers its decision via the following call:
 
 .. include:: tutorial/confirm-qualification.http
    :code:
@@ -244,9 +244,9 @@ Cancelling tender
 
 Tender creator can cancel tender anytime. The following steps should be applied:
 
-1. Prepare cancellation request
-2. Fill it with the protocol describing the cancellation reasons 
-3. Cancel the tender with the reasons prepared.
+1. Prepare cancellation request.
+2. Fill it with the protocol describing the cancellation reasons.
+3. Cancel the tender with the prepared reasons.
 
 Only the request that has been activated (3rd step above) has power to
 cancel tender.  I.e.  you have to not only prepare cancellation request but
@@ -257,46 +257,36 @@ See :ref:`cancellation` data structure for details.
 Preparing the cancellation request
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code::
+You should pass `reason`, `status` defaults to `pending`.
 
-  POST /tenders/{id}/cancellations
+`id` is autogenerated and passed in the `Location` header of response.
 
-
-You should pass `reason`, `status` defaults to `pending`. `id` is
-autogenerated and passed in the `Location` header of response.
-
-.. code::
-
-  Location: /tenders/{id}/cancellations/{cancellation-id}
+.. include::  tutorial/prepare-cancellation.http
+   :code:
 
 Filling cancellation with protocol and supplementary documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Upload the file contents
 
-.. code::
-
-   POST /tenders/{id}/cancellations/{cancellation-id}/documents
+.. include::  tutorial/upload-cancellation-doc.http
+   :code:
 
 Change the document description and other properties
 
-.. code::
 
-   PATCH /tenders/{id}/cancellations/{cancellation-id}/documents/{document-id}
+.. include::  tutorial/patch-cancellation.http
+   :code:
 
 Upload new version of the document
 
-.. code::
 
-   PUT /tenders/{id}/cancellations/{cancellation-id}/documents/{document-id}
+.. include::  tutorial/update-cancellation-doc.http
+   :code:
 
 Activating the request and cancelling tender
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code::
-
-   PATCH /tenders/{id}/cancellations/{cancellation-id}
-   
-   {“data”:{“status”:”active”}}
-
+.. include::  tutorial/active-cancellation.http
+   :code:
 
