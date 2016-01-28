@@ -285,6 +285,11 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
         }})
         self.assertEqual(response.status, '200 OK')
 
+        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award['id'], response.json['data']['id']), {'data': {
+            'status': 'satisfied'
+        }})
+        self.assertEqual(response.status, '200 OK')
+
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('{}/complaints'.format(new_award_location[-81:]), {'data': {
             'title': 'complaint title',
@@ -507,6 +512,11 @@ class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
         self.app.authorization = ('Basic', ('reviewer', ''))
         response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award['id'], response.json['data']['id']), {'data': {
             'status': 'accepted'
+        }})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award['id'], response.json['data']['id']), {'data': {
+            'status': 'satisfied'
         }})
         self.assertEqual(response.status, '200 OK')
 
@@ -872,7 +882,7 @@ class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't update complaint in current (complete) tender status")
 
     def test_review_tender_award_complaint(self):
-        for status in ['invalid', 'declined', 'resolved']:
+        for status in ['invalid', 'declined', 'satisfied']:
             self.app.authorization = ('Basic', ('token', ''))
             response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id), {'data': {
                 'title': 'complaint title',
@@ -900,7 +910,6 @@ class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
                 self.assertEqual(response.content_type, 'application/json')
                 self.assertEqual(response.json['data']["status"], "accepted")
 
-                self.app.authorization = ('Basic', ('reviewer', ''))
                 response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, self.award_id, complaint['id']), {"data": {
                     "decision": 'accepted:{} complaint'.format(status)
                 }})

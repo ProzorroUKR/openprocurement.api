@@ -26,21 +26,31 @@ LOGGER = getLogger(__name__)
             procurementMethodType='aboveThresholdUA',
             description="Tender award complaint documents")
 class TenderUaAwardComplaintDocumentResource(TenderAwardComplaintDocumentResource):
+
+    def validate_complaint_document(self, operation):
+        if operation == 'update' and self.request.authenticated_role != self.context.author:
+            self.request.errors.add('url', 'role', 'Can update document only author')
+            self.request.errors.status = 403
+            return
+        if self.request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
+            self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        if any([i.status != 'active' for i in self.request.validated['tender'].lots if i.id == self.request.validated['award'].lotID]):
+            self.request.errors.add('body', 'data', 'Can {} document only in active lot status'.format(operation))
+            self.request.errors.status = 403
+            return
+        if self.request.validated['complaint'].status not in STATUS4ROLE.get(self.request.authenticated_role, []):
+            self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) complaint status'.format(operation, self.request.validated['complaint'].status))
+            self.request.errors.status = 403
+            return
+        return True
+
     @json_view(permission='edit_complaint', validators=(validate_file_upload,))
     def collection_post(self):
         """Tender Award Complaint Document Upload
         """
-        if self.request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        if any([i.status != 'active' for i in self.request.validated['tender'].lots if i.id == self.request.validated['award'].lotID]):
-            self.request.errors.add('body', 'data', 'Can add document only in active lot status')
-            self.request.errors.status = 403
-            return
-        if self.context.status not in STATUS4ROLE.get(self.request.authenticated_role, []):
-            self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) complaint status'.format(self.context.status))
-            self.request.errors.status = 403
+        if not self.validate_complaint_document('add'):
             return
         document = upload_file(self.request)
         document.author = self.request.authenticated_role
@@ -56,21 +66,7 @@ class TenderUaAwardComplaintDocumentResource(TenderAwardComplaintDocumentResourc
     @json_view(validators=(validate_file_update,), permission='edit_complaint')
     def put(self):
         """Tender Award Complaint Document Update"""
-        if self.request.authenticated_role != self.context.author:
-            self.request.errors.add('url', 'role', 'Can update document only author')
-            self.request.errors.status = 403
-            return
-        if self.request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        if any([i.status != 'active' for i in self.request.validated['tender'].lots if i.id == self.request.validated['award'].lotID]):
-            self.request.errors.add('body', 'data', 'Can update document only in active lot status')
-            self.request.errors.status = 403
-            return
-        if self.request.validated['complaint'].status not in STATUS4ROLE.get(self.request.authenticated_role, []):
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) complaint status'.format(self.request.validated['complaint'].status))
-            self.request.errors.status = 403
+        if not self.validate_complaint_document('update'):
             return
         document = upload_file(self.request)
         document.author = self.request.authenticated_role
@@ -83,21 +79,7 @@ class TenderUaAwardComplaintDocumentResource(TenderAwardComplaintDocumentResourc
     @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='edit_complaint')
     def patch(self):
         """Tender Award Complaint Document Update"""
-        if self.request.authenticated_role != self.context.author:
-            self.request.errors.add('url', 'role', 'Can update document only author')
-            self.request.errors.status = 403
-            return
-        if self.request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        if any([i.status != 'active' for i in self.request.validated['tender'].lots if i.id == self.request.validated['award'].lotID]):
-            self.request.errors.add('body', 'data', 'Can update document only in active lot status')
-            self.request.errors.status = 403
-            return
-        if self.request.validated['complaint'].status not in STATUS4ROLE.get(self.request.authenticated_role, []):
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) complaint status'.format(self.request.validated['complaint'].status))
-            self.request.errors.status = 403
+        if not self.validate_complaint_document('update'):
             return
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)

@@ -4,25 +4,25 @@ from zope.interface import implementer
 from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.transforms import whitelist, blacklist
-from openprocurement.api.models import Tender as BaseTender
-from openprocurement.api.models import Bid as BaseBid
-from openprocurement.api.models import Period, IsoDateTimeType
-from openprocurement.api.models import Complaint as BaseComplaint
+from schematics.exceptions import ValidationError
+from schematics.types.serializable import serializable
 from openprocurement.api.models import Award as BaseAward
-from openprocurement.api.models import Lot as BaseLot
+from openprocurement.api.models import Bid as BaseBid
+from openprocurement.api.models import Complaint as BaseComplaint
 from openprocurement.api.models import ListType
+from openprocurement.api.models import Lot as BaseLot
+from openprocurement.api.models import Period, IsoDateTimeType
+from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, cancel_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
-    TZ, get_now, schematics_embedded_role, validate_lots_uniq
+    TZ, get_now, schematics_embedded_role, validate_lots_uniq,
+    embedded_lot_role, default_lot_role,
 )
 from openprocurement.tender.openua.interfaces import ITenderUA
-from schematics.exceptions import ValidationError
 from openprocurement.tender.openua.utils import calculate_business_date
-from schematics.types.serializable import serializable
-from openprocurement.api.models import embedded_lot_role, default_lot_role
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod')
 
@@ -159,6 +159,7 @@ class Complaint(BaseComplaint):
             'cancellation': whitelist('cancellationReason', 'status'),
             'satisfy': whitelist('satisfied', 'status'),
             'escalate': whitelist('status'),
+            'resolve': whitelist('status', 'tendererAction'),
             'answer': whitelist('resolution', 'resolutionType', 'status', 'tendererAction'),
             'action': whitelist('tendererAction'),
             'pending': whitelist('decision', 'status', 'acceptance', 'rejectReason', 'rejectReasonDescription'),
@@ -166,7 +167,7 @@ class Complaint(BaseComplaint):
             'embedded': (blacklist('owner_token', 'owner') + schematics_embedded_role),
             'view': (blacklist('owner_token', 'owner') + schematics_default_role),
         }
-    status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled'], default='draft')
+    status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled', 'satisfied', 'ignored'], default='draft')
     acceptance = BooleanType()
     rejectReason = StringType(choices=['invalid'])
     rejectReasonDescription = StringType()
@@ -189,6 +190,8 @@ class Complaint(BaseComplaint):
             role = 'answer'
         elif request.authenticated_role == 'tender_owner' and self.status in ['pending', 'accepted']:
             role = 'action'
+        elif request.authenticated_role == 'tender_owner' and self.status == 'satisfied':
+            role = 'resolve'
         elif request.authenticated_role == 'complaint_owner' and self.status == 'answered':
             role = 'satisfy'
         elif request.authenticated_role == 'reviewers' and self.status == 'pending':

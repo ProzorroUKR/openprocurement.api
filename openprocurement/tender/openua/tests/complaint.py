@@ -302,7 +302,7 @@ class TenderComplaintResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't update complaint in current (complete) tender status")
 
     def test_review_tender_complaint(self):
-        for status in ['invalid', 'resolved', 'declined']:
+        for status in ['invalid', 'satisfied', 'declined']:
             self.app.authorization = ('Basic', ('token', ''))
             response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
                 'title': 'complaint title',

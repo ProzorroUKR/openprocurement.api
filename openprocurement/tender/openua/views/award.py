@@ -106,7 +106,7 @@ class TenderUaAwardResource(TenderAwardResource):
         elif award_status == 'pending' and award.status == 'unsuccessful':
             award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME)
             add_next_award(self.request)
-        elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'accepted' for i in award.complaints]):
+        elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             if tender.status == 'active.awarded':
                 tender.status = 'active.qualification'
                 tender.awardPeriod.endDate = None
@@ -129,5 +129,5 @@ class TenderUaAwardResource(TenderAwardResource):
             return
         if save_tender(self.request):
             LOGGER.info('Updated tender award {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}, {'TENDER_REV': tender.rev}))
+                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}))
             return {'data': award.serialize("view")}

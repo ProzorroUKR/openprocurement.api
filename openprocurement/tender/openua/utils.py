@@ -10,6 +10,8 @@ from barbecue import chef
 
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
+BLOCK_COMPLAINT_STATUS = ['pending', 'accepted', 'satisfied']
+PENDING_COMPLAINT_STATUS = ['claim', 'answered', 'pending', 'accepted', 'satisfied']
 
 
 def get_invalidated_bids_data(request):
@@ -41,7 +43,7 @@ def check_bids(request):
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
-    if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in ['pending', 'accepted'] for i in tender.complaints]):
+    if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
         tender.status = 'active.auction'
@@ -49,7 +51,7 @@ def check_status(request):
         if tender.numberOfBids < 2 and tender.auctionPeriod:
             tender.auctionPeriod.startDate = None
         return
-    elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in ['pending', 'accepted'] for i in tender.complaints]):
+    elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
         tender.status = 'active.auction'
@@ -67,11 +69,11 @@ def check_status(request):
         standStillEnd = max(standStillEnds)
         if standStillEnd <= now:
             pending_complaints = any([
-                i['status'] in ['claim', 'answered', 'pending']
+                i['status'] in PENDING_COMPLAINT_STATUS
                 for i in tender.complaints
             ])
             pending_awards_complaints = any([
-                i['status'] in ['claim', 'answered', 'pending']
+                i['status'] in PENDING_COMPLAINT_STATUS
                 for a in tender.awards
                 for i in a.complaints
             ])
@@ -85,7 +87,7 @@ def check_status(request):
                 check_tender_status(request)
                 return
     elif tender.lots and tender.status in ['active.qualification', 'active.awarded']:
-        if any([i['status'] in ['claim', 'answered', 'pending'] and i.relatedLot is None for i in tender.complaints]):
+        if any([i['status'] in PENDING_COMPLAINT_STATUS and i.relatedLot is None for i in tender.complaints]):
             return
         lots_ends = []
         for lot in tender.lots:
@@ -102,11 +104,11 @@ def check_status(request):
             standStillEnd = max(standStillEnds)
             if standStillEnd <= now:
                 pending_complaints = any([
-                    i['status'] in ['claim', 'answered', 'pending'] and i.relatedLot == lot.id
+                    i['status'] in PENDING_COMPLAINT_STATUS and i.relatedLot == lot.id
                     for i in tender.complaints
                 ])
                 pending_awards_complaints = any([
-                    i['status'] in ['claim', 'answered', 'pending']
+                    i['status'] in PENDING_COMPLAINT_STATUS
                     for a in lot_awards
                     for i in a.complaints
                 ])
