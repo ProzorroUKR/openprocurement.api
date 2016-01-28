@@ -17,7 +17,7 @@ from openprocurement.api.models import Award as BaseAward
 from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import validate_cpv_group, validate_items_uniq
 from openprocurement.api.models import (
-    plain_role, create_role, edit_role, cancel_role, view_role, listing_role,
+    plain_role, create_role, edit_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
@@ -25,7 +25,11 @@ from openprocurement.api.models import (
 from openprocurement.tender.openua.utils import calculate_business_date
 from openprocurement.tender.openua.models import PeriodStartEndRequired, SifterListType
 
-edit_role_eu = edit_role + blacklist('enquiryPeriod')
+eu_role = blacklist('enquiryPeriod', 'qualifications')
+edit_role_eu = edit_role + eu_role
+create_role_eu = create_role + eu_role
+qualifications_role = enquiries_role + eu_role
+eu_auction_role = auction_role + eu_role
 
 TENDERING_DAYS = 30
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
@@ -162,12 +166,14 @@ class Tender(BaseTender):
     class Options:
         roles = {
             'plain': plain_role,
-            'create': create_role,
+            'create': create_role_eu,
             'edit': edit_role_eu,
             'edit_active.tendering': edit_role_eu,
-            'edit_active.auction': cancel_role,
-            'edit_active.qualification': cancel_role,
-            'edit_active.awarded': cancel_role,
+            'edit_active.pre-qualification': whitelist('status'),
+            'edit_active.pre-qualification.stand-still': whitelist(),
+            'edit_active.auction': whitelist(),
+            'edit_active.qualification': whitelist(),
+            'edit_active.awarded': whitelist(),
             'edit_complete': whitelist(),
             'edit_unsuccessful': whitelist(),
             'edit_cancelled': whitelist(),
@@ -176,10 +182,10 @@ class Tender(BaseTender):
             'auction_view': auction_view_role,
             'auction_post': auction_post_role,
             'auction_patch': auction_patch_role,
-            'active.tendering': enquiries_role,
-            'active.pre-qualification': enquiries_role,  # TODO
-            'active.pre-qualification.stand-still': enquiries_role,  # TODO
-            'active.auction': auction_role,
+            'active.tendering': qualifications_role,
+            'active.pre-qualification': qualifications_role,
+            'active.pre-qualification.stand-still': qualifications_role,
+            'active.auction': eu_auction_role,
             'active.qualification': view_role,
             'active.awarded': view_role,
             'complete': view_role,

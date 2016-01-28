@@ -61,12 +61,6 @@ class TenderQualificationResource(object):
         elif self.request.context.status == 'cancelled':
             # cancel related bid
             set_bid_status(tender, self.request.context.bidID, 'invalid')
-        # switch to 'stand-still' when all bids are approved
-        if all([bid.status != 'pending' for bid in tender.bids]):
-            if sum([1 for bid in tender.bids if bid.status == 'active']) < 2:
-                tender.status = 'unsuccessful'
-            else:
-                tender.status = 'active.pre-qualification.stand-still'
         if save_tender(self.request):
             LOGGER.info('Updated tender qualification {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_patch'}))
