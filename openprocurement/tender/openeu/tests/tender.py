@@ -1158,6 +1158,24 @@ class TenderProcessTest(BaseTenderWebTest):
         response = self.app.post_json('/tenders/{}/auction'.format(tender_id),
                                       {'data': {'bids': auction_bids_data}})
         self.assertEqual(response.status, "200 OK")
+        # get awards
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, tender_owner_token))
+        # get pending award
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        # set award as unsuccessful
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, tender_owner_token),
+                                       {"data": {"status": "unsuccessful"}})
+        # get awards
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, tender_owner_token))
+        # get pending award
+        award2_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        self.assertNotEqual(award_id, award2_id)
+        # set award as active
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award2_id, tender_owner_token),
+                            {"data": {"status": "active"}})
+        self.assertEqual(response.status, "200 OK")
 
 
 def suite():
