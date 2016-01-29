@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/cf84223ef83043aba90dbc516294807c/awards/839120dcd6b74b5ab26f566d6035cf32?acc_token=a8651945689d4863b61d3fae00208858 HTTP/1.0
+PATCH /api/0.12/tenders/fe80601512634db89c43b4d37e3400af/awards/73ced2bc016b47e2b4d67fc46ba2e95f?acc_token=c256abcb78804070b723172351055e0c HTTP/1.0
 Authorization: Basic dG9rZW46
 Content-Length: 30
 Content-Type: application/json
@@ -16,8 +16,8 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "active", 
     "complaintPeriod": {
-      "startDate": "2016-01-28T17:19:58.097564+02:00", 
-      "endDate": "2016-01-29T17:19:58.230509+02:00"
+      "startDate": "2016-01-28T16:57:43.992902+02:00", 
+      "endDate": "2016-01-29T16:57:44.134594+02:00"
     }, 
     "suppliers": [
       {
@@ -47,8 +47,8 @@ Content-Type: application/json; charset=UTF-8
       "amount": 475000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2016-01-28T17:19:58.096181+02:00", 
-    "id": "839120dcd6b74b5ab26f566d6035cf32"
+    "date": "2016-01-28T16:57:43.991107+02:00", 
+    "id": "73ced2bc016b47e2b4d67fc46ba2e95f"
   }
 }
 

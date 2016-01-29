@@ -1,0 +1,20 @@
+PUT /api/0.12/tenders/cf84223ef83043aba90dbc516294807c/documents/1fc4366fd6704fbe8c9005291c6091dc HTTP/1.0
+Authorization: Basic dG9rZW46
+Content-Length: 189
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy860491973856$
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "title": "Notice-2.pdf", 
+    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/cf84223ef83043aba90dbc516294807c/documents/1fc4366fd6704fbe8c9005291c6091dc?download=266870aac50b42739b9d1662c9188edb", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2016-01-28T17:19:57.854091+02:00", 
+    "id": "1fc4366fd6704fbe8c9005291c6091dc", 
+    "dateModified": "2016-01-28T17:19:57.974716+02:00"
+  }
+}
+

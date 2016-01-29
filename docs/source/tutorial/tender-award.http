@@ -1,43 +1,87 @@
-$ http -j POST https://api-sandbox.openprocurement.org/api/0/tenders/2d06f1999dcf436fb61ccd0168702459/awards?acc_token=1234558d25d6421588b2597504b747ed data:=@./award.json
-POST /api/0/tenders/2d06f1999dcf436fb61ccd0168702459/awards HTTP/1.1
-Content-Type: application/json; charset=utf-8
+POST /api/0.12/tenders/cf84223ef83043aba90dbc516294807c/awards?acc_token=a8651945689d4863b61d3fae00208858 HTTP/1.0
+Authorization: Basic dG9rZW46
+Content-Length: 1354
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
 
 {
-    "data": {
-        "complaintPeriod": {
-            "startDate": "2016-01-14T18:07:00.631425+02:00"
+  "data": {
+    "status": "pending", 
+    "complaintPeriod": {
+      "startDate": "2016-01-14T18:07:00.631425+02:00"
+    }, 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк", 
+          "email": "soleksuk@gmail.com"
         }, 
-        "date": "2016-01-14T18:07:00.628073+02:00", 
-        "id": "d373338bc3324f14b8b3d4af68922773", 
-        "status": "pending", 
-        "suppliers": [
-            {
-                "address": {
-                    "countryName": "Україна", 
-                    "locality": "м. Вінниця", 
-                    "postalCode": "21100", 
-                    "region": "м. Вінниця", 
-                    "streetAddress": "вул. Островського, 33"
-                }, 
-                "contactPoint": {
-                    "email": "soleksuk@gmail.com", 
-                    "name": "Сергій Олексюк", 
-                    "telephone": "+380 (432) 21-69-30"
-                }, 
-                "identifier": {
-                    "id": "13313462", 
-                    "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
-                    "scheme": "UA-EDR", 
-                    "uri": "http://sch10.edu.vn.ua/"
-                }, 
-                "name": "ДКП «Школяр»"
-            }
-        ], 
-        "value": {
-            "amount": 475000,
-            "currency": "UAH", 
-            "valueAddedTaxIncluded": true
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+          "id": "13313462", 
+          "uri": "http://sch10.edu.vn.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "countryName": "Україна", 
+          "postalCode": "21100", 
+          "region": "м. Вінниця", 
+          "streetAddress": "вул. Островського, 33", 
+          "locality": "м. Вінниця"
         }
-    }
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 475000, 
+      "valueAddedTaxIncluded": "true"
+    }, 
+    "date": "2016-01-14T18:07:00.628073+02:00", 
+    "id": "d373338bc3324f14b8b3d4af68922773"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/cf84223ef83043aba90dbc516294807c/awards/839120dcd6b74b5ab26f566d6035cf32
+{
+  "data": {
+    "status": "pending", 
+    "complaintPeriod": {
+      "startDate": "2016-01-28T17:19:58.097564+02:00"
+    }, 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+          "id": "13313462", 
+          "uri": "http://sch10.edu.vn.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 475000.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "date": "2016-01-28T17:19:58.096181+02:00", 
+    "id": "839120dcd6b74b5ab26f566d6035cf32"
+  }
 }
 
