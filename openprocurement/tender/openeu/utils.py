@@ -80,7 +80,7 @@ def check_status(request):
         tender.qualificationPeriod.endDate = now + COMPLAINT_STAND_STILL_TIME
         return
 
-    elif tender.status == 'active.pre-qualification-stand-still' and tender.auctionPeriod.startDate <= now:
+    elif tender.status == 'active.pre-qualification.stand-still' and tender.auctionPeriod.startDate <= now:
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
         tender.status = 'active.auction'
