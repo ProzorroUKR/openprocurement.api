@@ -7,6 +7,66 @@ from openprocurement.api.utils import apply_data_patch
 from openprocurement.tender.openeu.models import TENDERING_DAYS
 
 
+test_bids = [
+    {
+        "tenderers": [ {
+            "name": u"Державне управління справами",
+            "name_en": u"State administration",
+            "identifier": {
+                "legalName_en": u"dus.gov.ua",
+                "scheme": u"UA-EDR",
+                "id": u"00037256",
+                "uri": u"http://www.dus.gov.ua/"
+            },
+            "address": {
+                "countryName": u"Україна",
+                "postalCode": u"01220",
+                "region": u"м. Київ",
+                "locality": u"м. Київ",
+                "streetAddress": u"вул. Банкова, 11, корпус 1"
+            },
+            "contactPoint": {
+                "name": u"Державне управління справами",
+                "name_en": u"State administration",
+                "telephone": u"0440000000"
+            }
+        }],
+        "value": {
+            "amount": 469,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": True
+        }
+    },
+    {
+        "tenderers": [{
+            "name": u"Державне управління справами",
+            "name_en": u"State administration",
+            "identifier": {
+                "legalName_en": u"dus.gov.ua",
+                "scheme": u"UA-EDR",
+                "id": u"00037256",
+                "uri": u"http://www.dus.gov.ua/"
+            },
+            "address": {
+                "countryName": u"Україна",
+                "postalCode": u"01220",
+                "region": u"м. Київ",
+                "locality": u"м. Київ",
+                "streetAddress": u"вул. Банкова, 11, корпус 1"
+            },
+            "contactPoint": {
+                "name": u"Державне управління справами",
+                "name_en": u"State administration",
+                "telephone": u"0440000000"
+            },
+        }],
+        "value": {
+            "amount": 479,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": True
+        }
+    }
+]
 now = datetime.now()
 test_tender_data = {
     "title": u"футляри до державних нагород",
@@ -124,28 +184,7 @@ test_features_tender_data["features"] = [
     }
 ]
 
-test_bids = [
-    {
-        "tenderers": [
-            test_tender_data["procuringEntity"]
-        ],
-        "value": {
-            "amount": 469,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": True
-        }
-    },
-    {
-        "tenderers": [
-            test_tender_data["procuringEntity"]
-        ],
-        "value": {
-            "amount": 479,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": True
-        }
-    }
-]
+
 
 class BaseTenderWebTest(BaseTenderWebTest):
     initial_data = test_tender_data

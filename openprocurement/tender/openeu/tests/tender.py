@@ -790,8 +790,8 @@ class TenderResourceTest(BaseTenderWebTest):
             "scheme": "CPV",
             "id": "55523100-3",
             "description": "Послуги з харчування у школах"
-        }}]}})
-        self.assertEqual(response.status, '200 OK')
+        }}]}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
 
         response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'items': [{"additionalClassifications": [
@@ -805,11 +805,9 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.content_type, 'application/json')
 
         response = self.app.patch_json('/tenders/{}'.format(
-            tender['id']), {'data': {'enquiryPeriod': {'endDate': new_dateModified2}}})
-        self.assertEqual(response.status, '200 OK')
+            tender['id']), {'data': {'enquiryPeriod': {'endDate': new_dateModified2}}},status=403)
+        self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        new_tender = response.json['data']
-        self.assertIn('startDate', new_tender['enquiryPeriod'])
 
         #response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.auction'}})
         #self.assertEqual(response.status, '200 OK')

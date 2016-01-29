@@ -109,7 +109,6 @@ class Bid(BaseBid):
             'invalid': whitelist('id', 'status'),
             'deleted': whitelist('id', 'status'),
         }
-    tenderers = ListType(ModelType(Organization), required=True, min_size=1, max_size=1)
     status = StringType(choices=['pending', 'active', 'invalid', 'deleted'],
                         default='pending')
 
@@ -232,7 +231,7 @@ class Tender(BaseTender):
     @serializable
     def numberOfBids(self):
         """A property that is serialized by schematics exports."""
-        return len([bid for bid in self.bids if bid.status == "active"])
+        return len([bid for bid in self.bids if bid.status in ("active", "pending",)])
 
     def invalidate_bids_data(self):
         for bid in self.bids:
