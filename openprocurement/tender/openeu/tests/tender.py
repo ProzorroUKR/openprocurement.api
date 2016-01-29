@@ -1077,6 +1077,8 @@ class TenderProcessTest(BaseTenderWebTest):
                                       {'data': {'tenderers': [bidder_data], "value": {"amount": 500}}})
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'tenderers': [bidder_data], "value": {"amount": 499}}})
+        bid_id = response.json['data']['id']
+        bid_token = response.json['access']['token']
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'tenderers': [bidder_data], "value": {"amount": 498}}})
         # switch to active.pre-qualification
@@ -1128,6 +1130,34 @@ class TenderProcessTest(BaseTenderWebTest):
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "active.auction")
+
+        # get auction info
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(tender_id))
+        auction_bids_data = response.json['data']['bids']
+        # posting auction urls
+        response = self.app.patch_json('/tenders/{}/auction'.format(tender_id),
+                                       {
+                                           'data': {
+                                               'auctionUrl': 'https://tender.auction.url',
+                                               'bids': [
+                                                   {
+                                                       'id': i['id'],
+                                                       'participationUrl': 'https://tender.auction.url/for_bid/{}'.format(i['id'])
+                                                   }
+                                                   for i in auction_bids_data
+                                               ]
+                                           }
+        })
+        # view bid participationUrl
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token))
+        self.assertEqual(response.json['data']['participationUrl'], 'https://tender.auction.url/for_bid/{}'.format(bid_id))
+        # posting auction results
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.post_json('/tenders/{}/auction'.format(tender_id),
+                                      {'data': {'bids': auction_bids_data}})
+        self.assertEqual(response.status, "200 OK")
 
 
 def suite():
