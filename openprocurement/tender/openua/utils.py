@@ -112,8 +112,6 @@ def check_status(request):
                     return
             elif standStillEnd > now:
                 lots_ends.append(standStillEnd)
-        if lots_ends:
-            return
 
 
 def add_next_award(request):
