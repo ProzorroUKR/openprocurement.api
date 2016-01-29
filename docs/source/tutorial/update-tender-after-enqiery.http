@@ -1,9 +1,9 @@
-PATCH /api/0.12/tenders/d1986ba116d4496fb5c3061794bc28f9?acc_token=747ac587898e479c9ad8feb446434b42 HTTP/1.0
+PATCH /api/0.12/tenders/461c56e2c317479495b2b31e0878bb54?acc_token=fe5acd1c6e29423297e5b88631be757f HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 38
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
-DATA:
+
 {
   "data": {
     "value": {
