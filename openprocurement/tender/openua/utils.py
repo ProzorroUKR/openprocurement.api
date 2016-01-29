@@ -34,6 +34,8 @@ def check_complaint_status(request, complaint):
         complaint.status = 'ignored'
     elif complaint.status == 'answered':
         complaint.status = complaint.resolutionType
+    elif complaint.status == 'satisfied':
+        complaint.status = 'resolved'
 
 
 def check_status(request):

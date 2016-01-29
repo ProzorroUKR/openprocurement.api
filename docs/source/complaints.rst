@@ -15,6 +15,9 @@ For more detailed information read `Complaints <http://openprocurement.org/en/co
 Tender Conditions Claims/Complaints
 -----------------------------------
 
+.. image:: complaint_w.png
+   :alt: Conditions Complaint workflow
+
 .. toctree::
     :maxdepth: 1
 
@@ -23,17 +26,13 @@ Tender Conditions Claims/Complaints
 Tender Award Claims/Complaints
 ------------------------------
 
+.. image:: award_complaint_w.png
+   :alt: Award Complaint workflow
+
 .. toctree::
     :maxdepth: 1
 
     complaints-award
-
-
-Workflow
---------
-
-.. image:: complaint_w.png
-   :alt: Complaint workflow
 
 Roles
 -----
