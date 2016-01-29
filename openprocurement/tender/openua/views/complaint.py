@@ -131,8 +131,10 @@ class TenderUaComplaintResource(TenderComplaintResource):
         elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
-            tender.tenderPeriod.endDate = datetime.combine(self.context.dateDecision.date(), time(0, tzinfo=self.context.dateDecision.tzinfo)) + timedelta(days=3)
-            tender.auctionPeriod.startDate = None
+            tenderPeriodendDate = datetime.combine(self.context.dateDecision.date(), time(0, tzinfo=self.context.dateDecision.tzinfo)) + timedelta(days=3)
+            if tender.tenderPeriod.endDate < tenderPeriodendDate:
+                tender.tenderPeriod.endDate = tenderPeriodendDate
+            tender.auctionPeriod = None
         elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'accepted':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAccepted = get_now()
@@ -141,8 +143,10 @@ class TenderUaComplaintResource(TenderComplaintResource):
         elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'declined':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
-            tender.tenderPeriod.endDate = datetime.combine(self.context.dateDecision.date(), time(0, tzinfo=self.context.dateDecision.tzinfo)) + timedelta(days=3)
-            tender.auctionPeriod.startDate = None
+            tenderPeriodendDate = datetime.combine(self.context.dateDecision.date(), time(0, tzinfo=self.context.dateDecision.tzinfo)) + timedelta(days=3)
+            if tender.tenderPeriod.endDate < tenderPeriodendDate:
+                tender.tenderPeriod.endDate = tenderPeriodendDate
+            tender.auctionPeriod = None
         elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'satisfied':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
