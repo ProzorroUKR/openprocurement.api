@@ -1,13 +1,13 @@
-PATCH /api/0.12/tenders/d1986ba116d4496fb5c3061794bc28f9?acc_token=747ac587898e479c9ad8feb446434b42 HTTP/1.0
+PATCH /api/0.12/tenders/461c56e2c317479495b2b31e0878bb54?acc_token=fe5acd1c6e29423297e5b88631be757f HTTP/1.0
 Authorization: Basic dG9rZW46
 Content-Length: 75
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
-DATA:
+
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-02-10T15:51:45.390762+02:00"
+      "endDate": "2016-02-12T14:57:38.566993+02:00"
     }
   }
 }
@@ -18,10 +18,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-01-26-000001", 
+    "tenderID": "UA-2016-01-28-000001", 
     "tenderPeriod": {
-      "startDate": "2016-01-26T15:51:35.144235+02:00", 
-      "endDate": "2016-02-10T15:51:45.390762+02:00"
+      "startDate": "2016-01-28T14:57:28.295239+02:00", 
+      "endDate": "2016-02-12T14:57:38.566993+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -44,7 +44,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "3b632a9f813f4c76950374e856940d60", 
+        "id": "ba012b4a8aa34c9bbf4a3bdf913924c0", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -53,8 +53,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "complaintPeriod": {
-      "startDate": "2016-01-26T15:51:35.144235+02:00", 
-      "endDate": "2016-02-06T15:51:45.390762+02:00"
+      "startDate": "2016-01-28T14:57:28.295239+02:00", 
+      "endDate": "2016-02-08T14:57:38.566993+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
@@ -63,7 +63,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-02-10T15:51:45.390762+02:00", 
+    "next_check": "2016-02-12T14:57:38.566993+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -85,12 +85,12 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-01-26T15:51:35.144235+02:00", 
-      "endDate": "2016-02-07T15:51:45.390762+02:00"
+      "startDate": "2016-01-28T14:57:28.295239+02:00", 
+      "endDate": "2016-02-09T14:57:38.566993+02:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-01-26T15:51:35.455051+02:00", 
-    "id": "d1986ba116d4496fb5c3061794bc28f9", 
+    "dateModified": "2016-01-28T14:57:28.627747+02:00", 
+    "id": "461c56e2c317479495b2b31e0878bb54", 
     "awardCriteria": "lowestCost"
   }
 }
