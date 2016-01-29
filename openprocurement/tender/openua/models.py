@@ -24,7 +24,7 @@ from openprocurement.api.models import (
 from openprocurement.tender.openua.interfaces import ITenderUA
 from openprocurement.tender.openua.utils import calculate_business_date
 
-edit_role_ua = edit_role + blacklist('enquiryPeriod')
+edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 
 
 STAND_STILL_TIME = timedelta(days=10)
@@ -243,9 +243,9 @@ class Tender(BaseTender):
             'create': create_role,
             'edit': edit_role_ua,
             'edit_active.tendering': edit_role_ua,
-            'edit_active.auction': cancel_role,
-            'edit_active.qualification': cancel_role,
-            'edit_active.awarded': cancel_role,
+            'edit_active.auction': whitelist(),
+            'edit_active.qualification': whitelist(),
+            'edit_active.awarded': whitelist(),
             'edit_complete': whitelist(),
             'edit_unsuccessful': whitelist(),
             'edit_cancelled': whitelist(),
