@@ -1,9 +1,9 @@
-PATCH /api/0.12/tenders/461c56e2c317479495b2b31e0878bb54/cancellations/927835c80a2644338f520f46564ee66a?acc_token=fe5acd1c6e29423297e5b88631be757f HTTP/1.0
-Authorization: Basic dG9rZW46
+PATCH /api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd/cancellations/3f946a8c094d4c109e84e6391e3da210?acc_token=0d8b9c3b5b5c4551829844cbbe979700 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
-
+DATA:
 {
   "data": {
     "status": "active"
@@ -19,27 +19,27 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Changed description", 
         "title": "Notice.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/461c56e2c317479495b2b31e0878bb54/cancellations/927835c80a2644338f520f46564ee66a/documents/704e2904c91945b9957dcb196a836941?download=c89bdde16f1a490f9a244eca185a9df3", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd/cancellations/3f946a8c094d4c109e84e6391e3da210/documents/3a8ca7beea47400a901d121c6966c757?download=1649cf47c9fb45bb86e8f9fa429ad0ce", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-01-28T14:57:32.382122+02:00", 
-        "id": "704e2904c91945b9957dcb196a836941", 
-        "dateModified": "2016-01-28T14:57:32.382159+02:00"
+        "datePublished": "2016-01-29T18:54:30.508297+02:00", 
+        "id": "3a8ca7beea47400a901d121c6966c757", 
+        "dateModified": "2016-01-29T18:54:30.508338+02:00"
       }, 
       {
         "title": "Notice-2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/461c56e2c317479495b2b31e0878bb54/cancellations/927835c80a2644338f520f46564ee66a/documents/704e2904c91945b9957dcb196a836941?download=948b8da1a59f4ed18f1c3e1f0a9aa807", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd/cancellations/3f946a8c094d4c109e84e6391e3da210/documents/3a8ca7beea47400a901d121c6966c757?download=1d39169b5cec428f9481dd1a66533798", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-01-28T14:57:32.382122+02:00", 
-        "id": "704e2904c91945b9957dcb196a836941", 
-        "dateModified": "2016-01-28T14:57:32.746054+02:00"
+        "datePublished": "2016-01-29T18:54:30.508297+02:00", 
+        "id": "3a8ca7beea47400a901d121c6966c757", 
+        "dateModified": "2016-01-29T18:54:30.815776+02:00"
       }
     ], 
     "reason": "cancellation reason", 
-    "date": "2016-01-28T14:57:32.208772+02:00", 
+    "date": "2016-01-29T18:54:30.366741+02:00", 
     "cancellationOf": "tender", 
-    "id": "927835c80a2644338f520f46564ee66a"
+    "id": "3f946a8c094d4c109e84e6391e3da210"
   }
 }
 

@@ -1,72 +1,54 @@
-POST /api/0.12/tenders/461c56e2c317479495b2b31e0878bb54/awards?acc_token=fe5acd1c6e29423297e5b88631be757f HTTP/1.0
-Authorization: Basic dG9rZW46
-Content-Length: 1221
+PATCH /api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd/awards/413feabf3ded41e591330c9fd5663832?acc_token=0d8b9c3b5b5c4551829844cbbe979700 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 30
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
-
+DATA:
 {
   "data": {
-    "status": "pending", 
-    "suppliers": [
-      {
-        "contactPoint": {
-          "url": "http://sch10.edu.vn.ua/", 
-          "name": "Куца Світлана Валентинівна", 
-          "telephone": "+380 (432) 46-53-02"
-        }, 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "21725150", 
-          "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-        }, 
-        "name": "ЗОСШ #10 м.Вінниці", 
-        "address": {
-          "postalCode": "21027", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Стахурського. 22", 
-          "region": "м. Вінниця", 
-          "locality": "м. Вінниця"
-        }
-      }
-    ], 
-    "bid_id": "5466d19b48f94d8181e0c08e7aaa1271"
+    "status": "active"
   }
 }
 
-Response: 201 Created
+Response: 200 OK
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/461c56e2c317479495b2b31e0878bb54/awards/8efc6b0b23a040e3b975ed0d27f9f8eb
 {
   "data": {
-    "status": "pending", 
+    "status": "active", 
     "complaintPeriod": {
-      "startDate": "2016-01-28T14:57:32.042978+02:00"
+      "startDate": "2016-01-29T18:54:29.996654+02:00", 
+      "endDate": "2016-02-08T18:54:30.230939+02:00"
     }, 
     "suppliers": [
       {
         "contactPoint": {
-          "url": "http://sch10.edu.vn.ua/", 
-          "name": "Куца Світлана Валентинівна", 
-          "telephone": "+380 (432) 46-53-02"
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "21725150", 
-          "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
         }, 
-        "name": "ЗОСШ #10 м.Вінниці", 
+        "name": "ДКП «Книга»", 
         "address": {
-          "postalCode": "21027", 
+          "postalCode": "79013", 
           "countryName": "Україна", 
-          "streetAddress": "вул. Стахурського. 22", 
-          "region": "м. Вінниця", 
-          "locality": "м. Вінниця"
+          "streetAddress": "вул. Островського, 34", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
         }
       }
     ], 
-    "bid_id": "5466d19b48f94d8181e0c08e7aaa1271", 
-    "date": "2016-01-28T14:57:32.041852+02:00", 
-    "id": "8efc6b0b23a040e3b975ed0d27f9f8eb"
+    "bid_id": "c971cbe903bb4799a2f7d01cdf5fa76d", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 499.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "date": "2016-01-29T18:54:29.996970+02:00", 
+    "id": "413feabf3ded41e591330c9fd5663832"
   }
 }
 

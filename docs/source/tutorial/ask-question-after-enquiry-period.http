@@ -1,9 +1,9 @@
-POST /api/0.12/tenders/461c56e2c317479495b2b31e0878bb54/questions HTTP/1.0
+POST /api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd/questions HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1506
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
-
+DATA:
 {
   "data": {
     "author": {
