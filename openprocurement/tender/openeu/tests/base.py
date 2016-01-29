@@ -136,6 +136,9 @@ class BaseTenderWebTest(BaseTenderWebTest):
                 },
                 "qualificationPeriod": {
                     "startDate": (now).isoformat(),
+                },
+                "auctionPeriod": {
+                    "startDate": (now + COMPLAINT_STAND_STILL).isoformat()
                 }
             })
         elif status == 'active.auction':
@@ -146,7 +149,7 @@ class BaseTenderWebTest(BaseTenderWebTest):
                 },
                 "tenderPeriod": {
                     "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL).isoformat(),
-                    "endDate": (now - COMPLAINT_STAND_STILL - TENDERING_DURATION).isoformat()
+                    "endDate": (now - COMPLAINT_STAND_STILL).isoformat()
                 },
                 "qualificationPeriod": {
                     "startDate": (now - COMPLAINT_STAND_STILL).isoformat(),
