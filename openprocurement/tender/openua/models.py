@@ -284,11 +284,7 @@ class Tender(BaseTender):
             raise ValidationError(u"tenderPeriod should be greater than 15 days")
 
     def initialize(self):
-        if not self.tenderPeriod.startDate:
-            self.tenderPeriod.startDate = get_now()
         self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME)))
-        if hasattr(self, "auctionPeriod") and hasattr(self.auctionPeriod, "startDate"):
-            self.auctionPeriod.startDate = ""
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(Period))
     def tender_enquiryPeriod(self):

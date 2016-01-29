@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.utils import opresource, upload_file, context_unpack, save_tender, json_view, apply_patch, update_file_content_type
 from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
 from openprocurement.api.views.tender_document import TenderDocumentResource
 from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
 
 LOGGER = getLogger(__name__)
 
@@ -18,17 +18,15 @@ LOGGER = getLogger(__name__)
 class TenderUaDocumentResource(TenderDocumentResource):
 
     def validate_update_tender(self, operation):
-        tender = self.request.validated['tender']
         if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] != 'active.tendering' or \
            self.request.authenticated_role == 'auction' and self.request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
             self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
-        if self.request.validated['tender_status'] == 'active.tendering':
-            if calculate_business_date(get_now(), timedelta(days=7)) >= tender.tenderPeriod.endDate:
-                self.request.errors.add('body', 'data', 'tenderPeriod should be extended by 7 days')
-                self.request.errors.status = 403
-                return
+        if self.request.validated['tender_status'] == 'active.tendering' and calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD) > self.request.validated['tender'].tenderPeriod.endDate:
+            self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
+            self.request.errors.status = 403
+            return
         return True
 
     @json_view(permission='upload_tender_documents', validators=(validate_file_upload,))

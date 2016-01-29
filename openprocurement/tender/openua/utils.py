@@ -29,10 +29,21 @@ def check_bids(request):
             tender.status = 'unsuccessful'
 
 
+def check_complaint_status(request, complaint):
+    if complaint.status == 'claim':
+        complaint.status = 'ignored'
+    elif complaint.status == 'answered':
+        complaint.status = complaint.resolutionType
+    elif complaint.status == 'satisfied':
+        complaint.status = 'resolved'
+
+
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
     if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]):
+        for complaint in tender.complaints:
+            check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
         tender.status = 'active.auction'
@@ -41,6 +52,8 @@ def check_status(request):
             tender.auctionPeriod.startDate = None
         return
     elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]):
+        for complaint in tender.complaints:
+            check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
         tender.status = 'active.auction'
@@ -112,8 +125,6 @@ def check_status(request):
                     return
             elif standStillEnd > now:
                 lots_ends.append(standStillEnd)
-        if lots_ends:
-            return
 
 
 def add_next_award(request):
