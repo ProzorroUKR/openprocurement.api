@@ -1,21 +1,20 @@
-bin/http https://api-sandbox.openprocurement.org/api/0/tenders 
-HTTP/1.1 200 OK
-Content-Length: 1013
-Content-Type: application/json; charset=UTF-8
-Date: Thu, 14 Jan 2016 15:09:34 GMT
-Set-Cookie: SERVER_ID=04e5b032558985acf62e4cec14f943b2521a38e816c86c6c813e56102d73c8ec9e7d57911ad1a81c1635917f3ef4e0a4ba4282b34bd407bf26f27f89ab815093; Path=/
-X-Request-ID: req-ca21f186-b320-4968-a7fb-203c9958f178
+GET /api/0.12/tenders?opt_pretty=1 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
 
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
 {
-    "data": [
-        {
-            "dateModified": "2016-01-14T16:48:35.636859+02:00", 
-            "id": "2d06f1999dcf436fb61ccd0168702459"
-        }
-    ], 
-    "next_page": {
-        "offset": "2016-01-14T16:48:35.636859+02:00", 
-        "path": "/api/0.12/tenders?offset=2016-01-14T16%3A48%3A35.636859%2B02%3A00", 
-        "uri": "http://localhost:6543/api/0.12/tenders?offset=2016-01-14T16%3A48%3A35.636859%2B02%3A00"
+  "next_page": {
+    "path": "/api/0.12/tenders?offset=2016-01-28T17%3A19%3A57.396524%2B02%3A00", 
+    "uri": "http://api-sandbox.openprocurement.org/api/0.12/tenders?offset=2016-01-28T17%3A19%3A57.396524%2B02%3A00", 
+    "offset": "2016-01-28T17:19:57.396524+02:00"
+  }, 
+  "data": [
+    {
+      "id": "cf84223ef83043aba90dbc516294807c", 
+      "dateModified": "2016-01-28T17:19:57.396524+02:00"
     }
+  ]
 }
+
