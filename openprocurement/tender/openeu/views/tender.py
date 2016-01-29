@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from openprocurement.api.views.tender import TenderResource
-from openprocurement.api.validation import validate_patch_tender_data
-from openprocurement.tender.openua.utils import get_invalidated_bids_data
 from openprocurement.tender.openeu.utils import check_status, all_bids_are_reviewed
 from openprocurement.api.utils import (
     save_tender,
@@ -80,26 +78,22 @@ class TenderEUResource(TenderResource):
             self.request.errors.status = 403
             return
         data = self.request.validated['data']
-        if self.request.authenticated_role == 'tender_owner' and 'status' in data and data['status'] not in ['active.pre-qualification.stand-still', 'cancelled', tender.status]:
+        if self.request.authenticated_role == 'tender_owner' and 'status' in data and data['status'] not in ['active.pre-qualification.stand-still', tender.status]:
             self.request.errors.add('body', 'data', 'Can\'t update tender status')
             self.request.errors.status = 403
             return
+
+        apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if self.request.authenticated_role == 'chronograph':
-            apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
             check_status(self.request)
-            save_tender(self.request)
-        else:
-            if tender.status == data.get('status', tender.status):
-                # invalidate bids on tender change
-                data = get_invalidated_bids_data(self.request)
-            else:
-                data = self.request.validated['data']
-                if tender.status == "active.pre-qualification" and data.get("status") == "active.pre-qualification.stand-still":
-                    # switch to 'stand-still' when all bids are approved
-                    if all_bids_are_reviewed(self.request):
-                        if sum([1 for bid in tender.bids if bid.status == 'active']) < 2:
-                            data['status'] = 'unsuccessful'
-            apply_patch(self.request, data=data, src=self.request.validated['tender_src'])
+        elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.tendering':
+            tender.invalidate_bids_data()
+        elif tender.status == "active.pre-qualification.stand-still":
+            if all_bids_are_reviewed(self.request):
+                if sum([1 for bid in tender.bids if bid.status == 'active']) < 2:
+                    tender.status = 'unsuccessful'
+
+        save_tender(self.request)
         LOGGER.info('Updated tender {}'.format(tender.id),
                     extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
         return {'data': tender.serialize(tender.status)}
