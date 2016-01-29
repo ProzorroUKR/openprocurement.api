@@ -1104,6 +1104,7 @@ class TenderProcessTest(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "active.pre-qualification")
         # reject third bid
+        self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[2]['id'], tender_owner_token), {"data": {"status": "cancelled"}})
         self.assertEqual(response.status, "200 OK")
         # switch to next status
@@ -1120,6 +1121,13 @@ class TenderProcessTest(BaseTenderWebTest):
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        # time traver
+        self.set_status('active.auction', {"id": tender_id, 'status': 'active.pre-qualification.stand-still'})
+        # change tender state
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.auction")
 
 
 def suite():
