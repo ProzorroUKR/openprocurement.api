@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from openprocurement.api.utils import (
-    get_file,
     save_tender,
     upload_file,
     apply_patch,

@@ -14,7 +14,7 @@ from openprocurement.api.models import Lot as BaseLot
 from openprocurement.api.models import Period, IsoDateTimeType
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import (
-    plain_role, create_role, edit_role, cancel_role, view_role, listing_role,
+    plain_role, create_role, edit_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
@@ -33,6 +33,7 @@ CLAIM_SUBMIT_TIME = timedelta(days=10)
 COMPLAINT_SUBMIT_TIME = timedelta(days=4)
 TENDER_PERIOD = timedelta(days=15)
 ENQUIRY_PERIOD_TIME = timedelta(days=3)
+TENDERING_EXTRA_PERIOD = timedelta(days=7)
 
 
 def bids_validation_wrapper(validation_func):

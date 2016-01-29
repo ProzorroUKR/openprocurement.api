@@ -3,9 +3,8 @@ from logging import getLogger
 from openprocurement.api.views.tender import TenderResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.tender.openua.utils import (
-    get_invalidated_bids_data,
     check_status,
-    calculate_business_date
+    calculate_business_date,
 )
 from openprocurement.api.utils import (
     save_tender,
@@ -14,8 +13,8 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
 )
-from datetime import timedelta
 from openprocurement.api.models import get_now
+from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
 
 LOGGER = getLogger(__name__)
 
@@ -86,25 +85,21 @@ class TenderUAResource(TenderResource):
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
                 self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
-                if calculate_business_date(get_now(), timedelta(days=7)) > self.request.validated['tender'].tenderPeriod.endDate:
-                    self.request.errors.add('body', 'data', 'tenderPeriod should be extended by 7 days')
+                if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD) > self.request.validated['tender'].tenderPeriod.endDate:
+                    self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
                     self.request.errors.status = 403
                     return
                 self.request.validated['tender'].initialize()
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
                 self.request.validated['data']["auctionPeriod"] = {'startDate': None}
 
+        apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if self.request.authenticated_role == 'chronograph':
-            apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
             check_status(self.request)
-            save_tender(self.request)
-        else:
-            if tender.status == data.get('status', tender.status):
-                # invalidate bids on tender change
-                data = get_invalidated_bids_data(self.request)
-            else:
-                data = self.request.validated['data']
-            apply_patch(self.request, data=data, src=self.request.validated['tender_src'])
+        elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.tendering':
+            # invalidate bids on tender change
+            tender.invalidate_bids_data()
+        save_tender(self.request)
         LOGGER.info('Updated tender {}'.format(tender.id),
                     extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
         return {'data': tender.serialize(tender.status)}

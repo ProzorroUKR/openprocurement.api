@@ -38,7 +38,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
             return
         document = upload_file(self.request)
         self.context.documents.append(document)
-        if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] == 'active.tendering':
+        if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             self.context.invalidate_bids_data()
         if save_tender(self.request):
             LOGGER.info('Created tender document {}'.format(document.id),
@@ -55,7 +55,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
             return
         document = upload_file(self.request)
         self.request.validated['tender'].documents.append(document)
-        if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] == 'active.tendering':
+        if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             self.request.validated['tender'].invalidate_bids_data()
         if save_tender(self.request):
             LOGGER.info('Updated tender document {}'.format(self.request.context.id),
@@ -67,7 +67,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
         """Tender Document Update"""
         if not self.validate_update_tender('update'):
             return
-        if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] == 'active.tendering':
+        if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             self.request.validated['tender'].invalidate_bids_data()
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)

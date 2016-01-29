@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from logging import getLogger
 from openprocurement.api.views.lot import TenderLotResource
 from openprocurement.api.utils import (
@@ -15,6 +14,7 @@ from openprocurement.api.validation import (
 )
 from openprocurement.api.models import get_now
 from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
 
 LOGGER = getLogger(__name__)
 
@@ -32,8 +32,8 @@ class TenderUaLotResource(TenderLotResource):
             self.request.errors.add('body', 'data', 'Can\'t {} lot in current ({}) tender status'.format(operation, tender.status))
             self.request.errors.status = 403
             return
-        if calculate_business_date(get_now(), timedelta(days=7)) > tender.tenderPeriod.endDate:
-            self.request.errors.add('body', 'data', 'tenderPeriod should be extended by 7 days')
+        if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD) > tender.tenderPeriod.endDate:
+            self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
             self.request.errors.status = 403
             return
         return True
