@@ -1176,6 +1176,26 @@ class TenderProcessTest(BaseTenderWebTest):
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award2_id, tender_owner_token),
                             {"data": {"status": "active"}})
         self.assertEqual(response.status, "200 OK")
+        # get contract id
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        contract_id = response.json['data']['contracts'][-1]['id']
+
+        # after stand slill period
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        self.set_status('complete', {'status': 'active.awarded'})
+        # time travel
+        tender = self.db.get(tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+        # sign contract
+        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, tender_owner_token),
+                            {"data": {"status": "active"}})
+        # check status
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        self.assertEqual(response.json['data']['status'], 'complete')
 
 
 def suite():
