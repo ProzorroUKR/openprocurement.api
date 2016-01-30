@@ -1180,6 +1180,7 @@ class TenderProcessTest(BaseTenderWebTest):
         response = self.app.get('/tenders/{}'.format(tender_id))
         contract_id = response.json['data']['contracts'][-1]['id']
 
+        # XXX rewrite following part with less of magic actions
         # after stand slill period
         self.app.authorization = ('Basic', ('chronograph', ''))
         self.set_status('complete', {'status': 'active.awarded'})
