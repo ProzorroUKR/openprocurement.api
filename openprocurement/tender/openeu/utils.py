@@ -24,9 +24,13 @@ def check_initial_bids_count(request):
     if tender.lots:
         [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2]
         if set([i.status for i in tender.lots]) == set(['unsuccessful']):
+            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
     else:
         if tender.numberOfBids < 2:
+            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
 
 
