@@ -30,7 +30,7 @@ STATUS4ROLE = {
             path='/tenders/{tender_id}/complaints/{complaint_id}/documents/{document_id}',
             procurementMethodType='aboveThresholdUA',
             description="Tender complaint documents")
-class TenderComplaintDocumentResource(TenderComplaintDocumentResource):
+class TenderUaComplaintDocumentResource(TenderComplaintDocumentResource):
 
     def validate_complaint_document(self, operation):
         if operation == 'update' and self.request.authenticated_role != self.context.author:
