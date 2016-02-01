@@ -6,44 +6,6 @@ from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, t
 from copy import deepcopy
 
 
-class TenderSwitchTenderingResourceTest(BaseTenderContentWebTest):
-
-    def test_switch_to_tendering_by_enquiryPeriod_endDate(self):
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertNotEqual(response.json['data']["status"], "active.tendering")
-        self.set_status('active.tendering', {'status': 'active.enquiries', "tenderPeriod": {"startDate": None}})
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']["status"], "active.tendering")
-
-    def test_switch_to_tendering_by_tenderPeriod_startDate(self):
-        self.set_status('active.tendering', {'status': 'active.enquiries', "tenderPeriod": {}})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertNotEqual(response.json['data']["status"], "active.tendering")
-        self.set_status('active.tendering', {'status': self.initial_status, "enquiryPeriod": {}})
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']["status"], "active.tendering")
-
-
-class TenderSwitchQualificationResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.tendering'
-    initial_bids = test_bids[:1]
-
-    def test_switch_to_qualification(self):
-        response = self.set_status('active.auction', {'status': self.initial_status})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "active.qualification")
-        self.assertEqual(len(response.json['data']["awards"]), 1)
-
-
 class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
@@ -56,11 +18,15 @@ class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active.pre-qualification")
 
+
+
+class TenderSwitchAuctionResourceTest(BaseTenderContentWebTest):
+    initial_status = 'active.pre-qualification.stand-still'
+    initial_bids = test_bids
+
     def test_switch_to_auction(self):
-        self.set_status('active.pre-qualification')
         response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
         self.assertEqual(response.content_type, 'application/json')
-        import pdb; pdb.set_trace()  # debug ktarasz
         qualifications = response.json['data']
         for qualification in qualifications:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], self.tender_token),
@@ -72,28 +38,13 @@ class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "unsuccessful")
-
-class TenderSwitchAuctionResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.pre-qualification.stand-still'
-    initial_bids = test_bids
-
-    def test_switch_to_unsuccessful(self):
-        response = self.set_status('active.auction', {'status': self.initial_status})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "unsuccessful")
-
-
-
+        self.assertEqual(response.json['data']["status"], "active.auction")
 
 class TenderSwitchUnsuccessfulResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'
 
     def test_switch_to_unsuccessful(self):
-        response = self.set_status('active.auction', {'status': self.initial_status})
+        self.set_status('active.pre-qualification', {'status': self.initial_status})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
