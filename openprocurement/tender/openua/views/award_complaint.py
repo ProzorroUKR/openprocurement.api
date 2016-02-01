@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta, time, datetime
 from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.views.award_complaint import TenderAwardComplaintResource
@@ -116,7 +117,7 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('status', self.context.status) == 'resolved':
+        elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('tendererAction', self.context.tendererAction) and data.get('status', self.context.status) == 'resolved':
             apply_patch(self.request, save=False, src=self.context.serialize())
         # reviewers
         elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
