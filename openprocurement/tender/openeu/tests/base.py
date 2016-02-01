@@ -4,6 +4,7 @@ import webtest
 from datetime import datetime, timedelta
 from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass
 from openprocurement.api.utils import apply_data_patch
+from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.models import TENDERING_DAYS, TENDERING_DURATION, QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL
 
 
@@ -202,6 +203,19 @@ class BaseTenderWebTest(BaseTenderWebTest):
 
     def tearDown(self):
         del self.couchdb_server[self.db.name]
+
+    def go_to_enquiryPeriod_end(self):
+        now = get_now()
+        self.set_status('active.tendering', {
+            "enquiryPeriod": {
+                "startDate": (now - timedelta(days=28)).isoformat(),
+                "endDate": (now - timedelta(days=1)).isoformat()
+            },
+            "tenderPeriod": {
+                "startDate": (now - timedelta(days=28)).isoformat(),
+                "endDate": (now + timedelta(days=2)).isoformat()
+            },
+        })
 
     def set_status(self, status, extra=None):
         data = {'status': status}
