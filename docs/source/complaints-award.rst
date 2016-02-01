@@ -1,17 +1,17 @@
 .. Kicking page rebuild 2014-10-30 17:00:08
 
-Claim/Complaint Retrieval
+Complaint Retrieval
 =========================
 
-Tender Award Claim/Complaint Retrieval
+Tender Award Complaint Retrieval
 -------------------------------------------
 
-You can list all Tender Award Claims/Complaints:
+You can list all Tender Award Complaints:
 
 .. include:: tutorial/award-complaints-list.http
    :code:
 
-And check individual complaint or claim:
+And check individual complaint:
 
 .. include:: tutorial/award-complaint.http
    :code:
@@ -19,12 +19,12 @@ And check individual complaint or claim:
 Complaint Submission
 ====================
 
-If tender conditions are favoriting only one provider, or in any other viable case, one can submit Tender Award Claim.
+If tender award is favoriting certain supplier, or in any other viable case, one can submit Tender Award Complaint.
 
 Tender Award Complaint Submission (with documents)
 ---------------------------------------------------
 
-At first create a claim:
+At first create a complaint:
 
 .. include:: tutorial/award-complaint-submission.http
    :code:
@@ -57,7 +57,7 @@ Rejecting Tender Award Complaint
    :code:
 
 
-Accepting Tender Conditions Complaint
+Accepting Tender Award Complaint
 -------------------------------------
 
 .. include:: tutorial/award-complaint-accept.http
