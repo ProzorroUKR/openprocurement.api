@@ -224,7 +224,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         #
 
         with  open('docs/source/tutorial/tender-listing.http', 'w') as self.app.file_obj:
-            self.app.authorization = ('Basic', ('token', ''))
+            self.app.authorization = None
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')
             self.app.file_obj.write("\n")
@@ -260,7 +260,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')
 
-        self.app.authorization = ('Basic', ('token', ''))
+        self.app.authorization = ('Basic', ('broker', ''))
 
         #### Modifying tender
         #
@@ -281,38 +281,38 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             self.assertEqual(response.status, '200 OK')
 
 
-        self.app.authorization = ('Basic', ('token', ''))
+        self.app.authorization = ('Basic', ('broker', ''))
         self.tender_id = tender['id']
 
         #### Uploading documentation
         #
 
         with open('docs/source/tutorial/upload-tender-notice.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/documents'.format(
-                    self.tender_id), upload_files=[('file', u'Notice.pdf', 'content')])
+            response = self.app.post('/tenders/{}/documents?acc_token={}'.format(
+                    self.tender_id, owner_token), upload_files=[('file', u'Notice.pdf', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
         with open('docs/source/tutorial/tender-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/documents/{}'.format(
-                    self.tender_id, doc_id))
+            response = self.app.get('/tenders/{}/documents/{}?acc_token={}'.format(
+                    self.tender_id, doc_id, owner_token))
             self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/upload-award-criteria.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/documents'.format(
-                    self.tender_id), upload_files=[('file', u'AwardCriteria.pdf', 'content')])
+            response = self.app.post('/tenders/{}/documents?acc_token={}'.format(
+                    self.tender_id, owner_token), upload_files=[('file', u'AwardCriteria.pdf', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
 
         with open('docs/source/tutorial/tender-documents-2.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/documents'.format(
-                    self.tender_id))
+            response = self.app.get('/tenders/{}/documents?acc_token={}'.format(
+                    self.tender_id, owner_token))
             self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/update-award-criteria.http', 'w') as self.app.file_obj:
-            response = self.app.put('/tenders/{}/documents/{}'.format(
-                    self.tender_id, doc_id), upload_files=[('file', 'AwardCriteria-2.pdf', 'content2')])
+            response = self.app.put('/tenders/{}/documents/{}?acc_token={}'.format(
+                    self.tender_id, doc_id, owner_token), upload_files=[('file', 'AwardCriteria-2.pdf', 'content2')])
             self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/tender-documents-3.http', 'w') as self.app.file_obj:
@@ -330,8 +330,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/answer-question.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/tenders/{}/questions/{}'.format(
-                self.tender_id, question_id), answer, status=200)
+            response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(
+                self.tender_id, question_id, owner_token), answer, status=200)
             self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/list-question.http', 'w') as self.app.file_obj:
@@ -467,13 +467,22 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
 
         #### Confirming qualification
         #
-        self.app.authorization = ('Basic', ('token', ''))
-        self.set_status('active.qualification')
+        # self.set_status('active.qualification')
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+        auction_bids_data = response.json['data']['bids']
+        response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id),
+                                      {'data': {'bids': auction_bids_data}})
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
+        # get pending award
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         with open('docs/source/tutorial/confirm-qualification.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-                    self.tender_id, owner_token), {'data': {'suppliers': [tender["procuringEntity"]], 'status': 'pending', 'bid_id': bid1_id}})
-            self.assertEqual(response.status, '201 Created')
+            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active"}})
+            self.assertEqual(response.status, '200 OK')
 
 
 
