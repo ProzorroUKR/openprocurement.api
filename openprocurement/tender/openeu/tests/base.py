@@ -310,18 +310,18 @@ class BaseTenderWebTest(BaseTenderWebTest):
             data.update({
                 "enquiryPeriod": {
                     "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
-                    "endDate": (now - TENDERING_DURATION + QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat()
+                    "endDate": (now - QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat()
                 },
                 "tenderPeriod": {
                     "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
-                    "endDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat()
+                    "endDate": (now - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat()
                 },
                 "auctionPeriod": {
                     "startDate": (now - timedelta(days=2)).isoformat(),
                     "endDate": (now - timedelta(days=1)).isoformat()
                 },
                 "awardPeriod": {
-                    "startDate": (now).isoformat(),
+                    "startDate": (now - timedelta(days=1)).isoformat(),
                     "endDate": (now).isoformat()
                 }
             })
@@ -341,11 +341,11 @@ class BaseTenderWebTest(BaseTenderWebTest):
             data.update({
                 "enquiryPeriod": {
                     "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat(),
-                    "endDate": (now - TENDERING_DURATION + QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat()
+                    "endDate": (now - QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat()
                 },
                 "tenderPeriod": {
                     "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat(),
-                    "endDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat()
+                    "endDate": (now - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat()
                 },
                 "auctionPeriod": {
                     "startDate": (now - timedelta(days=3)).isoformat(),

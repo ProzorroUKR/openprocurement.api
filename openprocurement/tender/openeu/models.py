@@ -210,7 +210,8 @@ class Tender(BaseTender):
     qualifications = ListType(ModelType(Qualification), default=list())
     qualificationPeriod = ModelType(Period)
     status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
-                                 'active.awarded', 'active.qualification', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+                                 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+
 
     def initialize(self):
         if not self.tenderPeriod.startDate:

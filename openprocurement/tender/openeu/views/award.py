@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
-from openprocurement.api.utils import (
-    opresource,
-)
+from openprocurement.api.utils import opresource
+from openprocurement.tender.openua.views.award import TenderUaAwardResource as BaseResource
 
-from openprocurement.api.views.award import TenderAwardResource
-
-LOGGER = getLogger(__name__)
-
-
-@opresource(name='Tender UA Awards',
+@opresource(name='Tender EU Awards',
             collection_path='/tenders/{tender_id}/awards',
             path='/tenders/{tender_id}/awards/{award_id}',
-            description="Tender UA awards",
+            description="Tender EU awards",
             procurementMethodType='aboveThresholdEU')
-class TenderEUAwardResource(TenderAwardResource):
-    pass
+class TenderAwardResource(BaseResource):
+    """ EU award resource """
