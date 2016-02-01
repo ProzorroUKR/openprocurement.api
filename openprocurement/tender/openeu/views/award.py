@@ -3,9 +3,6 @@ from logging import getLogger
 from openprocurement.api.utils import opresource
 from openprocurement.tender.openua.views.award import TenderUaAwardResource as BaseResource
 
-LOGGER = getLogger(__name__)
-
-
 @opresource(name='Tender EU Awards',
             collection_path='/tenders/{tender_id}/awards',
             path='/tenders/{tender_id}/awards/{award_id}',

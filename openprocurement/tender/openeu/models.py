@@ -6,7 +6,7 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.transforms import blacklist, whitelist
 from schematics.exceptions import ValidationError
-from openprocurement.api.models import ITender
+from openprocurement.api.models import ITender, TZ
 from openprocurement.api.models import (Document, Model, Address, Period,
                                         IsoDateTimeType, ListType)
 from openprocurement.api.models import Tender as BaseTender
@@ -212,6 +212,7 @@ class Tender(BaseTender):
     status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
+
     def initialize(self):
         if not self.tenderPeriod.startDate:
             self.tenderPeriod.startDate = get_now()
@@ -224,6 +225,56 @@ class Tender(BaseTender):
     def tender_enquiryPeriod(self):
         return Period(dict(startDate=self.tenderPeriod.startDate,
                            endDate=calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL)))
+
+    @serializable
+    def next_check(self):
+        now = get_now()
+        checks = []
+        if self.status == 'active.tendering' and self.tenderPeriod.endDate:
+            checks.append(self.tenderPeriod.endDate.astimezone(TZ))
+        elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate:
+            checks.append(self.qualificationPeriod.endDate.astimezone(TZ))
+        elif not self.lots and self.status == 'active.awarded':
+            standStillEnds = [
+                a.complaintPeriod.endDate.astimezone(TZ)
+                for a in self.awards
+                if a.complaintPeriod.endDate
+            ]
+            if standStillEnds:
+                standStillEnd = max(standStillEnds)
+                if standStillEnd > now:
+                    checks.append(standStillEnd)
+        # TODO: fix Lots functionality
+        # elif self.lots and self.status in ['active.qualification', 'active.awarded']:
+        #     lots_ends = []
+        #     for lot in self.lots:
+        #         if lot['status'] != 'active':
+        #             continue
+        #         lot_awards = [i for i in self.awards if i.lotID == lot.id]
+        #         standStillEnds = [
+        #             a.complaintPeriod.endDate.astimezone(TZ)
+        #             for a in lot_awards
+        #             if a.complaintPeriod.endDate
+        #         ]
+        #         if not standStillEnds:
+        #             continue
+        #         standStillEnd = max(standStillEnds)
+        #         if standStillEnd > now:
+        #             lots_ends.append(standStillEnd)
+        #     if lots_ends:
+        #         checks.append(min(lots_ends))
+        for complaint in self.complaints:
+            if complaint.status == 'claim' and complaint.dateSubmitted:
+                checks.append(complaint.dateSubmitted + COMPLAINT_STAND_STILL)
+            elif complaint.status == 'answered' and complaint.dateAnswered:
+                checks.append(complaint.dateAnswered + COMPLAINT_STAND_STILL)
+        for award in self.awards:
+            for complaint in award.complaints:
+                if complaint.status == 'claim' and complaint.dateSubmitted:
+                    checks.append(complaint.dateSubmitted + COMPLAINT_STAND_STILL)
+                elif complaint.status == 'answered' and complaint.dateAnswered:
+                    checks.append(complaint.dateAnswered + COMPLAINT_STAND_STILL)
+        return sorted(checks)[0].isoformat() if checks else None
 
     def validate_tenderPeriod(self, data, period):
         if period and calculate_business_date(period.startDate, TENDERING_DURATION) > period.endDate:
