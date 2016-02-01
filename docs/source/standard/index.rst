@@ -18,6 +18,7 @@ areas that were not covered by it.
    document
    lot
    bid
+   qualification
    award
    question
    complaint
