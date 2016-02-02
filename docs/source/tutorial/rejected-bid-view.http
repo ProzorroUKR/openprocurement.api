@@ -1,0 +1,13 @@
+GET /api/0.12/tenders/7813164ac0e54625bf7c28b759a363c3/bids/ab4ce0f815114903bebbf7dc00255b53?acc_token=1c0c6ca37ddf473cb248b24da7f2b5fb HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "invalid", 
+    "id": "ab4ce0f815114903bebbf7dc00255b53"
+  }
+}
+

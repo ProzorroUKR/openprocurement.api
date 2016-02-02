@@ -232,9 +232,15 @@ We can also reject some Bid:
 .. include:: tutorial/reject-qualification3.http
    :code:
 
-And check that qualified Bids are switched to 'active' and rejected bid switched to "invalid":
+And check that qualified Bids are switched to 'active':
 
 .. include:: tutorial/qualificated-bids-view.http
+   :code:
+
+Rejected bid is not shown in bids/ listing.
+We can access rejected Bid by id:
+
+.. include:: tutorial/rejected-bid-view.http
    :code:
 
 Tender owner approves qualifications by switching to next status:
