@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/433c6389013b444183f1d3c85889069c HTTP/1.0
+GET /api/0.12/tenders/a98e830539804bb19ffb2cdd7ec84be8 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -10,8 +10,8 @@ Content-Type: application/json; charset=UTF-8
     "status": "active.tendering", 
     "tenderID": "UA-2016-02-02-000001", 
     "tenderPeriod": {
-      "startDate": "2016-02-02T10:26:56.903349+02:00", 
-      "endDate": "2016-03-04T10:26:55.552434+02:00"
+      "startDate": "2016-02-02T12:04:13.491857+02:00", 
+      "endDate": "2016-03-04T12:04:12.191160+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -20,8 +20,8 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-02-02T10:26:56.903349+02:00", 
-      "endDate": "2016-03-01T10:26:55.552434+02:00"
+      "startDate": "2016-02-02T12:04:13.491857+02:00", 
+      "endDate": "2016-03-01T12:04:12.191160+02:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -30,7 +30,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "dateModified": "2016-02-02T10:26:57.012063+02:00", 
+    "dateModified": "2016-02-02T12:04:13.598561+02:00", 
     "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
       "contactPoint": {
@@ -72,7 +72,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "fb753169420b4d05bb0d73cfd56dcf43", 
+        "id": "3f83fbb3041242569e21fcf900ae9526", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -81,8 +81,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "next_check": "2016-03-04T10:26:55.552434+02:00", 
-    "id": "433c6389013b444183f1d3c85889069c", 
+    "next_check": "2016-03-04T12:04:12.191160+02:00", 
+    "id": "a98e830539804bb19ffb2cdd7ec84be8", 
     "awardCriteria": "lowestCost"
   }
 }

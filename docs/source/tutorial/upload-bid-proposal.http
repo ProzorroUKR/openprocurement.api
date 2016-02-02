@@ -1,21 +1,21 @@
-POST /api/0.12/tenders/433c6389013b444183f1d3c85889069c/bids/c9d9a695eee8426c993d3701d168e05d/documents?acc_token=1fde0670559e4b6492ddd1eea5464913 HTTP/1.0
+POST /api/0.12/tenders/a98e830539804bb19ffb2cdd7ec84be8/bids/1f59d10dbdb344a3bec5d219b3a8e7c0/documents?acc_token=6b7b9635e7794847a3d89e4aadf89a0a HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 188
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy240542066052$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy564125135264$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/433c6389013b444183f1d3c85889069c/bids/c9d9a695eee8426c993d3701d168e05d/documents/15749c6e22c240a59127977d8f987b00
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/a98e830539804bb19ffb2cdd7ec84be8/bids/1f59d10dbdb344a3bec5d219b3a8e7c0/documents/02b3a60c7b8b4a1eb6752ac82828044f
 {
   "data": {
     "title": "Proposal.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/433c6389013b444183f1d3c85889069c/bids/c9d9a695eee8426c993d3701d168e05d/documents/15749c6e22c240a59127977d8f987b00?download=7ee3748f065846249bb1a95cf22e999f", 
+    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/a98e830539804bb19ffb2cdd7ec84be8/bids/1f59d10dbdb344a3bec5d219b3a8e7c0/documents/02b3a60c7b8b4a1eb6752ac82828044f?download=a909794b8a0e4feabd964baa4841661d", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-02-02T10:26:58.589974+02:00", 
-    "id": "15749c6e22c240a59127977d8f987b00", 
-    "dateModified": "2016-02-02T10:26:58.590011+02:00"
+    "datePublished": "2016-02-02T12:04:15.147766+02:00", 
+    "id": "02b3a60c7b8b4a1eb6752ac82828044f", 
+    "dateModified": "2016-02-02T12:04:15.147804+02:00"
   }
 }
 

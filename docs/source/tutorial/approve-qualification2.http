@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/433c6389013b444183f1d3c85889069c/qualifications/df471f3ec2d440bba84d488578d6324b?acc_token=a7b747ce2ccb42c68e1fb711e84f7db4 HTTP/1.0
+PATCH /api/0.12/tenders/a98e830539804bb19ffb2cdd7ec84be8/qualifications/336a0a6364224af5a30f26dbff2983df?acc_token=4ab4a26e8d174bcea928898d4bb2bbb9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -15,8 +15,8 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "id": "df471f3ec2d440bba84d488578d6324b", 
-    "bidID": "9c3b911b8012487e8f8e11196a2b582b"
+    "id": "336a0a6364224af5a30f26dbff2983df", 
+    "bidID": "ecdc15b5c32547e08586678d1207e010"
   }
 }
 
