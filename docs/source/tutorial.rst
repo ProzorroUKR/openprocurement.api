@@ -81,7 +81,15 @@ Checking the listing again reflects the new modification date:
 .. include:: tutorial/tender-listing-after-patch.http
    :code:
 
+Procuring entity can not change tender if there are less than 7 days before tenderPeriod ends. Changes will not be accepted by API.
 
+.. include:: tutorial/update-tender-after-enqiery.http
+   :code:
+
+That is why tenderPeriod has to be extended by 7 days.
+
+.. include:: tutorial/update-tender-after-enqiery-with-update-periods.http
+   :code:
 
 .. index:: Document
 
