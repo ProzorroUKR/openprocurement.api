@@ -21,9 +21,12 @@ from openprocurement.api.models import (
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
-    schematics_embedded_role, get_now)
+    schematics_embedded_role, get_now,
+)
 from openprocurement.tender.openua.utils import calculate_business_date
-from openprocurement.tender.openua.models import PeriodStartEndRequired, SifterListType
+from openprocurement.tender.openua.models import (
+    PeriodStartEndRequired, SifterListType, Complaint, COMPLAINT_SUBMIT_TIME,
+)
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
 edit_role_eu = edit_role + eu_role
@@ -93,7 +96,7 @@ class Bid(BaseBid):
             'embedded': view_bid_role,
             'view': view_bid_role,
             'create': whitelist('value', 'tenderers', 'parameters', 'lotValues'),
-             'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status'),
+            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
@@ -139,6 +142,7 @@ class Award(BaseAward):
         per contracting process e.g. because the contract is split amongst
         different providers, or because it is a standing offer.
     """
+    complaints = ListType(ModelType(Complaint), default=list())
     items = ListType(ModelType(Item))
 
 
@@ -203,6 +207,7 @@ class Tender(BaseTender):
     enquiryPeriod = ModelType(Period, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    complaints = ListType(ModelType(Complaint), default=list())
     awards = ListType(ModelType(Award), default=list())
     procuringEntity = ModelType(Organization, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     # bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
@@ -212,19 +217,18 @@ class Tender(BaseTender):
     status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
-
     def initialize(self):
-        if not self.tenderPeriod.startDate:
-            self.tenderPeriod.startDate = get_now()
-        self.enquiryPeriod = Period(self.tenderPeriod.to_native())
-        self.enquiryPeriod.endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL)
-        if hasattr(self, "auctionPeriod") and hasattr(self.auctionPeriod, "startDate"):
-            self.auctionPeriod.startDate = ""
+        self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL)))
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(Period))
     def tender_enquiryPeriod(self):
         return Period(dict(startDate=self.tenderPeriod.startDate,
                            endDate=calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL)))
+
+    @serializable(type=ModelType(Period))
+    def complaintPeriod(self):
+        return Period(dict(startDate=self.tenderPeriod.startDate,
+                           endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME)))
 
     @serializable
     def next_check(self):

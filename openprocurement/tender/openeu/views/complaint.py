@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
-from openprocurement.api.views.complaint import TenderComplaintResource
 from openprocurement.api.utils import opresource
+from openprocurement.tender.openua.views.complaint import TenderUaComplaintResource
 
 LOGGER = getLogger(__name__)
 
@@ -11,5 +11,5 @@ LOGGER = getLogger(__name__)
             path='/tenders/{tender_id}/complaints/{complaint_id}',
             procurementMethodType='aboveThresholdEU',
             description="Tender EU complaints")
-class TenderComplaintResource(TenderComplaintResource):
-    """  TODO  """
+class TenderEUComplaintResource(TenderUaComplaintResource):
+    pass
