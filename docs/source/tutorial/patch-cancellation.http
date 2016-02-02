@@ -1,0 +1,27 @@
+PATCH /api/0.12/tenders/d881d9045763416da3d154fd66de7580/cancellations/eeb74c6d590e4797be570ab1446f80f6/documents/e5abf9ac430b4163bfe3ffe411a9311c?acc_token=0bafcbbe90264466a4bf17fe62da7d6d HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 48
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "description": "Changed description"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "description": "Changed description", 
+    "title": "Notice.pdf", 
+    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d881d9045763416da3d154fd66de7580/cancellations/eeb74c6d590e4797be570ab1446f80f6/documents/e5abf9ac430b4163bfe3ffe411a9311c?download=a925eebaefbf4d0cb1b830f5ad870d9e", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2016-02-02T11:09:08.046043+02:00", 
+    "id": "e5abf9ac430b4163bfe3ffe411a9311c", 
+    "dateModified": "2016-02-02T11:09:08.046089+02:00"
+  }
+}
+

@@ -1,0 +1,53 @@
+GET /api/0.12/tenders/d881d9045763416da3d154fd66de7580/bids/d23fa212c94c4674b4e9d7d4ca494041?acc_token=b2ee32cd9dcd4a38a10624a935f1d4e6 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "documents": [
+      {
+        "title": "Proposal.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d881d9045763416da3d154fd66de7580/bids/d23fa212c94c4674b4e9d7d4ca494041/documents/ba7016fccecd4a0697fa574267a381e3?download=5ecae3c00a0e4e769e5b26ca42bf477c", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-02T11:09:04.715395+02:00", 
+        "id": "ba7016fccecd4a0697fa574267a381e3", 
+        "dateModified": "2016-02-02T11:09:04.715432+02:00"
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "date": "2016-02-02T11:09:04.578540+02:00", 
+    "id": "d23fa212c94c4674b4e9d7d4ca494041", 
+    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/d881d9045763416da3d154fd66de7580?key_for_bid=d23fa212c94c4674b4e9d7d4ca494041"
+  }
+}
+
