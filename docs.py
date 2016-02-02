@@ -137,6 +137,36 @@ bid2 = {
     }
 }
 
+bid3 = {
+    "data": {
+        "tenderers": [
+            {
+                "address": {
+                    "countryName": "Україна",
+                    "locality": "м. Львів",
+                    "postalCode": "79013",
+                    "region": "м. Львів",
+                    "streetAddress": "вул. Островського, 35"
+                },
+                "contactPoint": {
+                    "email": "fake@mail.com",
+                    "name": "Іван Іваненко",
+                    "telephone": "+380 (322) 12-34-56"
+                },
+                "identifier": {
+                    "scheme": u"UA-EDR",
+                    "id": u"00137226",
+                    "uri": u"http://www.sc.gov.ua/"
+                },
+                "name": "«Снігур»"
+            }
+        ],
+        "value": {
+            "amount": 5
+        }
+    }
+}
+
 question = {
     "data": {
         "author": {
@@ -467,6 +497,15 @@ class TenderResourceTest(BaseTenderWebTest):
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
 
+        with open('docs/source/tutorial/register-3rd-bidder.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders/{}/bids'.format(
+                    self.tender_id), bid3)
+            bid3_id = response.json['data']['id']
+            bids_access[bid3_id] = response.json['access']['token']
+            self.assertEqual(response.status, '201 Created')
+
+        # Pre-qualification
+
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
         auth = self.app.authorization
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -478,9 +517,10 @@ class TenderResourceTest(BaseTenderWebTest):
                     self.tender_id))
             self.assertEqual(response.status, "200 OK")
             qualifications = response.json['data']
-            self.assertEqual(len(qualifications), 2)
+            self.assertEqual(len(qualifications), 3)
             self.assertEqual(qualifications[0]['bidID'], bid1_id)
             self.assertEqual(qualifications[1]['bidID'], bid2_id)
+            self.assertEqual(qualifications[2]['bidID'], bid3_id)
 
         with open('docs/source/tutorial/approve-qualification1.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[0]['id'],
@@ -491,10 +531,17 @@ class TenderResourceTest(BaseTenderWebTest):
                                                                                                owner_token), {"data": {"status": "active"}})
             self.assertEqual(response.status, "200 OK")
 
+        with open('docs/source/tutorial/reject-qualification3.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[2]['id'],
+                                                                                               owner_token), {"data": {"status": "cancelled"}})
+            self.assertEqual(response.status, "200 OK")
+
         with open('docs/source/tutorial/qualificated-bids-view.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/bids?acc_token={}'.format(
                     self.tender_id, owner_token))
             self.assertEqual(response.status, "200 OK")
+
+        # active.pre-qualification.stand-still
 
         with open('docs/source/tutorial/pre-qualification-confirmation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
@@ -516,7 +563,11 @@ class TenderResourceTest(BaseTenderWebTest):
                 {
                     "id": bid2_id,
                     "participationUrl": u'http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}'.format(self.tender_id, bid2_id)
+                },
+                {
+                    "id": bid3_id
                 }
+
             ]
         }
         response = self.app.patch_json('/tenders/{}/auction?acc_token={}'.format(self.tender_id, owner_token),
