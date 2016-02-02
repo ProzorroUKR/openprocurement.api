@@ -172,7 +172,7 @@ class Complaint(BaseComplaint):
         }
     status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled', 'satisfied', 'ignored'], default='draft')
     acceptance = BooleanType()
-    rejectReason = StringType(choices=['invalid'])
+    rejectReason = StringType(choices=['lawNonСompliance', 'noPaymentReceived', 'buyerViolationsСorrected'])
     rejectReasonDescription = StringType()
     reviewDate = IsoDateTimeType()
     reviewPlace = StringType()

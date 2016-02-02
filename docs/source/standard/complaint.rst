@@ -137,9 +137,9 @@ Schema
 
     Possible values of reject reason are:
 
-    * `law`
-    * `payment`
-    * `fixed`
+    * `lawNonСompliance` - law non compliance
+    * `noPaymentReceived` - no payment received
+    * `buyerViolationsСorrected` - buyer violations corrected
 
 :rejectReasonDescription:
     string
