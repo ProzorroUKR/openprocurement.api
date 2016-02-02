@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/bb7a0fa17ce64bf18d45b99ff98ba339 HTTP/1.0
+GET /api/0.12/tenders/433c6389013b444183f1d3c85889069c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,10 +8,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-02-01-000001", 
+    "tenderID": "UA-2016-02-02-000001", 
     "tenderPeriod": {
-      "startDate": "2016-02-01T20:09:07.992614+02:00", 
-      "endDate": "2016-03-03T20:09:06.609432+02:00"
+      "startDate": "2016-02-02T10:26:56.903349+02:00", 
+      "endDate": "2016-03-04T10:26:55.552434+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -20,8 +20,8 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-02-01T20:09:07.992614+02:00", 
-      "endDate": "2016-02-29T20:09:06.609432+02:00"
+      "startDate": "2016-02-02T10:26:56.903349+02:00", 
+      "endDate": "2016-03-01T10:26:55.552434+02:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -30,7 +30,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "dateModified": "2016-02-01T20:09:08.099005+02:00", 
+    "dateModified": "2016-02-02T10:26:57.012063+02:00", 
     "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
       "contactPoint": {
@@ -72,7 +72,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "04ce63f2ccc4492d8cab6b6689c2370b", 
+        "id": "fb753169420b4d05bb0d73cfd56dcf43", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -81,8 +81,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "next_check": "2016-03-03T20:09:06.609432+02:00", 
-    "id": "bb7a0fa17ce64bf18d45b99ff98ba339", 
+    "next_check": "2016-03-04T10:26:55.552434+02:00", 
+    "id": "433c6389013b444183f1d3c85889069c", 
     "awardCriteria": "lowestCost"
   }
 }

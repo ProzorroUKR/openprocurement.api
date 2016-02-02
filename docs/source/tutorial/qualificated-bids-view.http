@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/da64d4384a304f96b2ef091dd6b061f4/bids?acc_token=d7c57553d3fa405fa37d47de7ceb058a HTTP/1.0
+GET /api/0.12/tenders/433c6389013b444183f1d3c85889069c/bids?acc_token=a7b747ce2ccb42c68e1fb711e84f7db4 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -11,12 +11,12 @@ Content-Type: application/json; charset=UTF-8
       "documents": [
         {
           "title": "Proposal.pdf", 
-          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/da64d4384a304f96b2ef091dd6b061f4/bids/e3ead4cedbaf4bc9adca568228a4042e/documents/3fbdc5de6c2e4a2587bf95d3c5911407?download=d733c0b231784104a91f5ce6508d1e45", 
+          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/433c6389013b444183f1d3c85889069c/bids/c9d9a695eee8426c993d3701d168e05d/documents/15749c6e22c240a59127977d8f987b00?download=7ee3748f065846249bb1a95cf22e999f", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2016-02-02T09:12:39.672100+02:00", 
-          "id": "3fbdc5de6c2e4a2587bf95d3c5911407", 
-          "dateModified": "2016-02-02T09:12:39.672138+02:00"
+          "datePublished": "2016-02-02T10:26:58.589974+02:00", 
+          "id": "15749c6e22c240a59127977d8f987b00", 
+          "dateModified": "2016-02-02T10:26:58.590011+02:00"
         }
       ], 
       "value": {
@@ -24,7 +24,7 @@ Content-Type: application/json; charset=UTF-8
         "amount": 500.0, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2016-02-02T09:12:39.543179+02:00", 
+      "date": "2016-02-02T10:26:58.461181+02:00", 
       "tenderers": [
         {
           "contactPoint": {
@@ -48,7 +48,7 @@ Content-Type: application/json; charset=UTF-8
         }
       ], 
       "owner": "broker", 
-      "id": "e3ead4cedbaf4bc9adca568228a4042e"
+      "id": "c9d9a695eee8426c993d3701d168e05d"
     }, 
     {
       "status": "active", 
@@ -57,7 +57,7 @@ Content-Type: application/json; charset=UTF-8
         "amount": 499.0, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2016-02-02T09:12:40.315544+02:00", 
+      "date": "2016-02-02T10:26:59.249315+02:00", 
       "tenderers": [
         {
           "contactPoint": {
@@ -81,7 +81,7 @@ Content-Type: application/json; charset=UTF-8
         }
       ], 
       "owner": "broker", 
-      "id": "f6db2c2dda4944029623f35ab75a1f76"
+      "id": "9c3b911b8012487e8f8e11196a2b582b"
     }
   ]
 }
