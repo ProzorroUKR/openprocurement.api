@@ -125,6 +125,14 @@ Schema
    |ocdsDescription|
    The period when the tender is open for submissions. The end date is the closing date for tender submissions.
 
+:qualificationPeriod:
+   :ref:`period`, read-only
+
+   Period when qualification can be submitted with stand still period.
+
+   |ocdsDescription|
+   Period when qualification can be submitted with stand still period.
+
 :auctionPeriod:
    :ref:`period`, read-only
 
@@ -171,6 +179,12 @@ Schema
    List of :ref:`lot` objects.
 
    Contains all tender lots.
+
+:qualifications:
+
+   List of :ref:`Qualification` objects.
+
+   Contains all tender qualifications.
 
 :cancellations:
    List of :ref:`cancellation` objects.

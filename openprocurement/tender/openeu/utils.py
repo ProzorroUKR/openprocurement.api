@@ -5,11 +5,11 @@ from functools import partial
 from cornice.resource import resource
 from openprocurement.api.models import get_now, TZ
 from openprocurement.api.utils import (
-    check_complaint_status,
     check_tender_status,
     error_handler,
     context_unpack,
 )
+from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status
 from openprocurement.tender.openeu.models import Qualification
 from openprocurement.tender.openeu.traversal import qualifications_factory
 
@@ -53,12 +53,9 @@ def all_bids_are_reviewed(request):
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
-    for complaint in tender.complaints:
-        check_complaint_status(request, complaint, now)
-    for award in tender.awards:
-        for complaint in award.complaints:
-            check_complaint_status(request, complaint, now)
-    if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now:
+    if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]):
+        for complaint in tender.complaints:
+            check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.pre-qualification'}))
         tender.status = 'active.pre-qualification'
@@ -67,7 +64,9 @@ def check_status(request):
         if tender.numberOfBids < 2 and tender.auctionPeriod:
             tender.auctionPeriod.startDate = None
         return
-    elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now:
+    elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]):
+        for complaint in tender.complaints:
+            check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.pre-qualification'}))
         tender.status = 'active.pre-qualification'
