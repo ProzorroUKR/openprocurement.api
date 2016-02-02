@@ -15,6 +15,8 @@ from openprocurement.api.utils import (
 LOGGER = getLogger(__name__)
 
 
+from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.openua.utils import calculate_business_date
 
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 
@@ -84,6 +86,17 @@ class TenderEUResource(TenderResource):
             self.request.errors.add('body', 'data', 'Can\'t update tender status')
             self.request.errors.status = 403
             return
+
+        if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
+            if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
+                self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
+                if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD) > self.request.validated['tender'].tenderPeriod.endDate:
+                    self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
+                    self.request.errors.status = 403
+                    return
+                self.request.validated['tender'].initialize()
+                self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
+                self.request.validated['data']["auctionPeriod"] = {'startDate': None}
 
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if self.request.authenticated_role == 'chronograph':
