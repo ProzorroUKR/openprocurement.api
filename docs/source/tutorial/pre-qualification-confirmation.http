@@ -1,0 +1,160 @@
+PATCH /api/0.12/tenders/02a97733fcbc431f81af2256a51b677e?acc_token=bdb58ee2eccd4205a07d04088bb9da82 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 60
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "active.pre-qualification.stand-still"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "open", 
+    "status": "active.pre-qualification.stand-still", 
+    "documents": [
+      {
+        "title": "Notice.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/02a97733fcbc431f81af2256a51b677e/documents/e54cd27ec1f44beebcf4c380b037a59e?download=abb37433512545b4921b8d4d9e162c75", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-02T09:26:53.659447+02:00", 
+        "id": "e54cd27ec1f44beebcf4c380b037a59e", 
+        "dateModified": "2016-02-02T09:26:53.659489+02:00"
+      }, 
+      {
+        "title": "AwardCriteria.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/02a97733fcbc431f81af2256a51b677e/documents/57a6207597524cd1a176b506764ee0b4?download=6ddf98f082ee45f69daa4a67b221c786", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-02T09:26:53.823397+02:00", 
+        "id": "57a6207597524cd1a176b506764ee0b4", 
+        "dateModified": "2016-02-02T09:26:53.823425+02:00"
+      }, 
+      {
+        "title": "AwardCriteria-2.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/02a97733fcbc431f81af2256a51b677e/documents/57a6207597524cd1a176b506764ee0b4?download=824af778174249ba9a36952d78f24c21", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-02T09:26:53.823397+02:00", 
+        "id": "57a6207597524cd1a176b506764ee0b4", 
+        "dateModified": "2016-02-02T09:26:53.991674+02:00"
+      }
+    ], 
+    "tenderID": "UA-2016-02-02-000001", 
+    "tenderPeriod": {
+      "startDate": "2016-01-03T09:26:51.765301+02:00", 
+      "endDate": "2016-02-02T09:26:51.765301+02:00"
+    }, 
+    "title": "Послуги шкільних їдалень", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "enquiryPeriod": {
+      "startDate": "2016-01-03T09:26:51.765301+02:00", 
+      "endDate": "2016-01-30T09:26:51.765301+02:00"
+    }, 
+    "qualificationPeriod": {
+      "startDate": "2016-02-02T09:26:51.765301+02:00"
+    }, 
+    "title_en": "Services in school canteens", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 501.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "dateModified": "2016-02-02T09:26:56.428019+02:00", 
+    "procurementMethodType": "aboveThresholdEU", 
+    "procuringEntity": {
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name_en": "Kutsa Svitlana V.", 
+        "name": "Куца Світлана Валентинівна", 
+        "availableLanguage": "Ukraine", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name_en": "School #10 of Vinnytsia", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }, 
+      "name": "ЗОСШ #10 м.Вінниці"
+    }, 
+    "questions": [
+      {
+        "description": "Просимо додати таблицю потрібної калорійності харчування", 
+        "author": {
+          "contactPoint": {
+            "email": "soleksuk@gmail.com", 
+            "telephone": "+380 (432) 21-69-30", 
+            "name": "Сергій Олексюк"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+            "id": "00137226", 
+            "uri": "http://sch10.edu.vn.ua/"
+          }, 
+          "name": "ДКП «Школяр»", 
+          "address": {
+            "postalCode": "21100", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 33", 
+            "region": "м. Вінниця", 
+            "locality": "м. Вінниця"
+          }
+        }, 
+        "title": "Калорійність", 
+        "date": "2016-02-02T09:26:54.138108+02:00", 
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
+        "id": "4ae5baf700924248b073badbcf778d4f", 
+        "questionOf": "tender"
+      }
+    ], 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "id": "75c3f4ef429141cda396b3a3de5ccf9c", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
+    "owner": "broker", 
+    "next_check": null, 
+    "id": "02a97733fcbc431f81af2256a51b677e", 
+    "awardCriteria": "lowestCost"
+  }
+}
+

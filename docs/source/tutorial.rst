@@ -227,6 +227,11 @@ And check that related Bids are switched to 'active':
 .. include:: tutorial/qualificated-bids-view.http
    :code:
 
+Tender owner approves qualifications by switching to next status:
+
+.. include:: tutorial/pre-qualification-confirmation.http
+   :code:
+
 
 Auction
 -------
