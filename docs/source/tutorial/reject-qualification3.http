@@ -1,0 +1,22 @@
+PATCH /api/0.12/tenders/226c3615101040709d0411d852928fec/qualifications/70b1b53fda0f4857b429b948f9d12ee4?acc_token=47ec3ff5357e40c8807339a3c1938db2 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 33
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "cancelled"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "cancelled", 
+    "id": "70b1b53fda0f4857b429b948f9d12ee4", 
+    "bidID": "4d666e04a12646c29cb396287ef11846"
+  }
+}
+

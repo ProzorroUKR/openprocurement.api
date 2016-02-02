@@ -200,6 +200,11 @@ Open EU procedure demands at least two bidders, so there should be at least two 
 .. include:: tutorial/register-2nd-bidder.http
    :code:
 
+Resigter one more bid:
+
+.. include:: tutorial/register-3rd-bidder.http
+   :code:
+
 
 .. index:: Awarding, Qualification
 
@@ -214,7 +219,7 @@ Let's list qualifications:
 .. include:: tutorial/qualifications-listing.http
    :code:
 
-Approve Bids through qualification objects:
+Approve first two Bids through qualification objects:
 
 .. include:: tutorial/approve-qualification1.http
    :code:
@@ -222,7 +227,12 @@ Approve Bids through qualification objects:
 .. include:: tutorial/approve-qualification2.http
    :code:
 
-And check that related Bids are switched to 'active':
+We can also reject some Bid:
+
+.. include:: tutorial/reject-qualification3.http
+   :code:
+
+And check that qualified Bids are switched to 'active' and rejected bid switched to "invalid":
 
 .. include:: tutorial/qualificated-bids-view.http
    :code:
