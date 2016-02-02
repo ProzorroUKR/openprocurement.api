@@ -410,33 +410,32 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.status, '200 OK')
 
         self.go_to_enquiryPeriod_end()
-        # self.app.authorization = ('Basic', ('broker', ''))
-        # with open('docs/source/tutorial/update-tender-after-enqiery.http', 'w') as self.app.file_obj:
-            # response = self.app.get('/tenders/{}?acc_token={}'.format(tender['id'], owner_token))
-            # import pdb; pdb.set_trace()  # XXX BREAKPOINT
-            # response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                           # {'data': {"value": {'amount': 501.0}}}, status=403)
-            # self.assertEqual(response.status, '403 Forbidden')
+        self.app.authorization = ('Basic', ('broker', ''))
+        with open('docs/source/tutorial/update-tender-after-enqiery.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}?acc_token={}'.format(tender['id'], owner_token))
+            response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                           {'data': {"value": {'amount': 501.0}}}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
 
         with open('docs/source/tutorial/ask-question-after-enquiry-period.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders/{}/questions'.format(
                 self.tender_id), question, status=403)
             self.assertEqual(response.status, '403 Forbidden')
 
-        # with open('docs/source/tutorial/update-tender-after-enqiery-with-update-periods.http', 'w') as self.app.file_obj:
-            # tenderPeriod_endDate = get_now() + timedelta(days=8)
-            # response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data':
-                # {
-                    # "value": {
-                        # "amount": 501,
-                        # "currency": u"UAH"
-                    # },
-                    # "tenderPeriod": {
-                        # "endDate": tenderPeriod_endDate.isoformat()
-                    # }
-                # }
-            # })
-            # self.assertEqual(response.status, '200 OK')
+        with open('docs/source/tutorial/update-tender-after-enqiery-with-update-periods.http', 'w') as self.app.file_obj:
+            tenderPeriod_endDate = get_now() + timedelta(days=8)
+            response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data':
+                {
+                    "value": {
+                        "amount": 501,
+                        "currency": u"UAH"
+                    },
+                    "tenderPeriod": {
+                        "endDate": tenderPeriod_endDate.isoformat()
+                    }
+                }
+            })
+            self.assertEqual(response.status, '200 OK')
 
 
         #### Registering bid
@@ -539,6 +538,11 @@ class TenderResourceTest(BaseTenderWebTest):
         with open('docs/source/tutorial/qualificated-bids-view.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/bids?acc_token={}'.format(
                     self.tender_id, owner_token))
+            self.assertEqual(response.status, "200 OK")
+
+        with open('docs/source/tutorial/rejected-bid-view.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(
+                    self.tender_id, bid3_id, owner_token))
             self.assertEqual(response.status, "200 OK")
 
         # active.pre-qualification.stand-still

@@ -1,13 +1,17 @@
 PATCH /api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c?acc_token=1d05531f91d541f68e88ec5e344a1c0f HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 75
+Content-Length: 120
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-03-03T19:24:12.551444+02:00"
+      "endDate": "2016-02-10T19:24:03.859228+02:00"
+    }, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 501
     }
   }
 }
@@ -18,10 +22,39 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
+    "documents": [
+      {
+        "title": "Notice.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c/documents/425438c51b4f41a497d0a8dcafad83d3?download=73ec6833ae4d47a6a0edf014566564ce", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-02T19:24:02.894707+02:00", 
+        "id": "425438c51b4f41a497d0a8dcafad83d3", 
+        "dateModified": "2016-02-02T19:24:02.894736+02:00"
+      }, 
+      {
+        "title": "AwardCriteria.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c/documents/69766e64328b4415b51430280737a734?download=a92c1237b68a4e83b7408aaeb39c3fd1", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-02T19:24:03.058329+02:00", 
+        "id": "69766e64328b4415b51430280737a734", 
+        "dateModified": "2016-02-02T19:24:03.058358+02:00"
+      }, 
+      {
+        "title": "AwardCriteria-2.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c/documents/69766e64328b4415b51430280737a734?download=8be84ae1c78f4fe889ffe921d4275792", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-02T19:24:03.058329+02:00", 
+        "id": "69766e64328b4415b51430280737a734", 
+        "dateModified": "2016-02-02T19:24:03.223758+02:00"
+      }
+    ], 
     "tenderID": "UA-2016-02-02-000001", 
     "tenderPeriod": {
-      "startDate": "2016-02-02T19:24:02.263773+02:00", 
-      "endDate": "2016-03-03T19:24:12.551444+02:00"
+      "startDate": "2016-01-05T19:24:03.620287+02:00", 
+      "endDate": "2016-02-10T19:24:03.859228+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -30,21 +63,21 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-02-02T19:24:02.263773+02:00", 
-      "endDate": "2016-02-29T19:24:12.551444+02:00"
+      "startDate": "2016-01-05T19:24:03.620287+02:00", 
+      "endDate": "2016-02-07T19:24:03.859228+02:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-02-02T19:24:02.263773+02:00", 
-      "endDate": "2016-02-28T19:24:12.551444+02:00"
+      "startDate": "2016-01-05T19:24:03.620287+02:00", 
+      "endDate": "2016-02-06T19:24:03.859228+02:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
       "currency": "UAH", 
-      "amount": 500.0, 
+      "amount": 501.0, 
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "dateModified": "2016-02-02T19:24:02.601446+02:00", 
+    "dateModified": "2016-02-02T19:24:03.946002+02:00", 
     "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
       "contactPoint": {
@@ -70,6 +103,16 @@ Content-Type: application/json; charset=UTF-8
       }, 
       "name": "ЗОСШ #10 м.Вінниці"
     }, 
+    "questions": [
+      {
+        "description": "Просимо додати таблицю потрібної калорійності харчування", 
+        "title": "Калорійність", 
+        "date": "2016-02-02T19:24:03.372747+02:00", 
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
+        "id": "920e67a5ee6e447caded688bc2705ada", 
+        "questionOf": "tender"
+      }
+    ], 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -95,7 +138,7 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "next_check": "2016-03-03T19:24:12.551444+02:00", 
+    "next_check": "2016-02-10T19:24:03.859228+02:00", 
     "id": "2cb1b7f3e1fa4c98b5280eddf376b99c", 
     "awardCriteria": "lowestCost"
   }

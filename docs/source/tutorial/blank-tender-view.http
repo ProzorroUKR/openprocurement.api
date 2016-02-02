@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/a98e830539804bb19ffb2cdd7ec84be8 HTTP/1.0
+GET /api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -10,8 +10,8 @@ Content-Type: application/json; charset=UTF-8
     "status": "active.tendering", 
     "tenderID": "UA-2016-02-02-000001", 
     "tenderPeriod": {
-      "startDate": "2016-02-02T12:04:13.491857+02:00", 
-      "endDate": "2016-03-04T12:04:12.191160+02:00"
+      "startDate": "2016-02-02T19:24:02.263773+02:00", 
+      "endDate": "2016-03-04T19:24:00.956906+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -20,8 +20,12 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-02-02T12:04:13.491857+02:00", 
-      "endDate": "2016-03-01T12:04:12.191160+02:00"
+      "startDate": "2016-02-02T19:24:02.263773+02:00", 
+      "endDate": "2016-03-01T19:24:00.956906+02:00"
+    }, 
+    "complaintPeriod": {
+      "startDate": "2016-02-02T19:24:02.263773+02:00", 
+      "endDate": "2016-02-29T19:24:00.956906+02:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -30,7 +34,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "dateModified": "2016-02-02T12:04:13.598561+02:00", 
+    "dateModified": "2016-02-02T19:24:02.374853+02:00", 
     "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
       "contactPoint": {
@@ -72,7 +76,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "3f83fbb3041242569e21fcf900ae9526", 
+        "id": "b2c308f780fe4d6fac3aa722f8f0c3dd", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -81,8 +85,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "next_check": "2016-03-04T12:04:12.191160+02:00", 
-    "id": "a98e830539804bb19ffb2cdd7ec84be8", 
+    "next_check": "2016-03-04T19:24:00.956906+02:00", 
+    "id": "2cb1b7f3e1fa4c98b5280eddf376b99c", 
     "awardCriteria": "lowestCost"
   }
 }

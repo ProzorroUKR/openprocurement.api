@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/a98e830539804bb19ffb2cdd7ec84be8 HTTP/1.0
+GET /api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,13 +8,17 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.auction", 
-    "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/a98e830539804bb19ffb2cdd7ec84be8", 
+    "complaintPeriod": {
+      "startDate": "2015-12-24T19:24:00.956086+02:00", 
+      "endDate": "2016-01-19T19:24:00.956086+02:00"
+    }, 
+    "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c", 
     "enquiryPeriod": {
-      "startDate": "2015-12-24T12:04:12.190023+02:00", 
-      "endDate": "2016-01-20T12:04:12.190023+02:00"
+      "startDate": "2015-12-24T19:24:00.956086+02:00", 
+      "endDate": "2016-01-20T19:24:00.956086+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": null, 
+    "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -43,60 +47,59 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
         "title": "Калорійність", 
-        "date": "2016-02-02T12:04:14.584376+02:00", 
+        "date": "2016-02-02T19:24:03.372747+02:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "b2d75131ae6a456cb2d396d722982612", 
+        "id": "920e67a5ee6e447caded688bc2705ada", 
         "questionOf": "tender"
       }
     ], 
     "owner": "broker", 
-    "id": "a98e830539804bb19ffb2cdd7ec84be8", 
+    "id": "2cb1b7f3e1fa4c98b5280eddf376b99c", 
     "documents": [
       {
         "title": "Notice.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/a98e830539804bb19ffb2cdd7ec84be8/documents/2566f9b6ab3d4181bf5a8b56cc17849e?download=76004725ac0c46aea3f8d7b68b682de4", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c/documents/425438c51b4f41a497d0a8dcafad83d3?download=73ec6833ae4d47a6a0edf014566564ce", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-02T12:04:14.116965+02:00", 
-        "id": "2566f9b6ab3d4181bf5a8b56cc17849e", 
-        "dateModified": "2016-02-02T12:04:14.116995+02:00"
+        "datePublished": "2016-02-02T19:24:02.894707+02:00", 
+        "id": "425438c51b4f41a497d0a8dcafad83d3", 
+        "dateModified": "2016-02-02T19:24:02.894736+02:00"
       }, 
       {
         "title": "AwardCriteria.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/a98e830539804bb19ffb2cdd7ec84be8/documents/bbcbf586b64b4c439aecee30e0ba676c?download=217b7bb58b8c4929816698d57a30576a", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c/documents/69766e64328b4415b51430280737a734?download=a92c1237b68a4e83b7408aaeb39c3fd1", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-02T12:04:14.273526+02:00", 
-        "id": "bbcbf586b64b4c439aecee30e0ba676c", 
-        "dateModified": "2016-02-02T12:04:14.273554+02:00"
+        "datePublished": "2016-02-02T19:24:03.058329+02:00", 
+        "id": "69766e64328b4415b51430280737a734", 
+        "dateModified": "2016-02-02T19:24:03.058358+02:00"
       }, 
       {
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/a98e830539804bb19ffb2cdd7ec84be8/documents/bbcbf586b64b4c439aecee30e0ba676c?download=908fad25a70f4050ae0469833bfd8c6f", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c/documents/69766e64328b4415b51430280737a734?download=8be84ae1c78f4fe889ffe921d4275792", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-02T12:04:14.273526+02:00", 
-        "id": "bbcbf586b64b4c439aecee30e0ba676c", 
-        "dateModified": "2016-02-02T12:04:14.435048+02:00"
+        "datePublished": "2016-02-02T19:24:03.058329+02:00", 
+        "id": "69766e64328b4415b51430280737a734", 
+        "dateModified": "2016-02-02T19:24:03.223758+02:00"
       }
     ], 
     "title": "Послуги шкільних їдалень", 
     "qualificationPeriod": {
-      "startDate": "2016-01-23T12:04:12.190023+02:00", 
-      "endDate": "2016-02-02T12:04:12.190023+02:00"
+      "startDate": "2016-01-23T19:24:00.956086+02:00", 
+      "endDate": "2016-02-02T19:24:00.956086+02:00"
     }, 
     "tenderID": "UA-2016-02-02-000001", 
-    "auctionPeriod": {
-      "startDate": "2016-02-02T12:04:12.190023+02:00"
-    }, 
-    "dateModified": "2016-02-02T12:04:17.315601+02:00", 
+    "dateModified": "2016-02-02T19:24:06.816795+02:00", 
     "numberOfBids": 2, 
     "tenderPeriod": {
-      "startDate": "2015-12-24T12:04:12.190023+02:00", 
-      "endDate": "2016-01-23T12:04:12.190023+02:00"
+      "startDate": "2015-12-24T19:24:00.956086+02:00", 
+      "endDate": "2016-01-23T19:24:00.956086+02:00"
+    }, 
+    "auctionPeriod": {
+      "startDate": "2016-02-02T19:24:00.956086+02:00"
     }, 
     "title_en": "Services in school canteens", 
-    "procurementMethodType": "aboveThresholdEU", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 35.0, 
@@ -118,7 +121,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "3f83fbb3041242569e21fcf900ae9526", 
+        "id": "b2c308f780fe4d6fac3aa722f8f0c3dd", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -131,6 +134,7 @@ Content-Type: application/json; charset=UTF-8
       "amount": 501.0, 
       "valueAddedTaxIncluded": true
     }, 
+    "next_check": null, 
     "awardCriteria": "lowestCost"
   }
 }
