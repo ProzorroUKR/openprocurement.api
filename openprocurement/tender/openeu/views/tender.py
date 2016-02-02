@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
+from openprocurement.api.models import get_now
 from openprocurement.api.views.tender import TenderResource
+from openprocurement.tender.openeu.models import COMPLAINT_STAND_STILL
 from openprocurement.tender.openeu.utils import check_status, all_bids_are_reviewed
 from openprocurement.api.utils import (
     save_tender,
@@ -92,6 +94,8 @@ class TenderEUResource(TenderResource):
             if all_bids_are_reviewed(self.request):
                 if sum([1 for bid in tender.bids if bid.status == 'active']) < 2:
                     tender.status = 'unsuccessful'
+                else:
+                    tender.qualificationPeriod.endDate = get_now() + COMPLAINT_STAND_STILL
 
         save_tender(self.request)
         LOGGER.info('Updated tender {}'.format(tender.id),
