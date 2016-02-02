@@ -123,11 +123,6 @@ class TenderComplaintResourceTest(BaseTenderUAContentWebTest):
         self.assertIn('id', complaint)
         self.assertIn(complaint['id'], response.headers['Location'])
 
-        tender = self.db.get(self.tender_id)
-        tender['status'] = 'active.awarded'
-        tender['awardPeriod'] = {'endDate': '2014-01-01'}
-        self.db.save(tender)
-
         response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint['id'], self.tender_token), {"data": {
             "status": "answered"
         }}, status=422)
@@ -160,11 +155,6 @@ class TenderComplaintResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update complaint in current (resolved) status")
-
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], 'active.awarded')
 
         self.set_status('unsuccessful')
 
@@ -415,11 +405,6 @@ class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
         self.assertIn('id', complaint)
         self.assertIn(complaint['id'], response.headers['Location'])
 
-        tender = self.db.get(self.tender_id)
-        tender['status'] = 'active.awarded'
-        tender['awardPeriod'] = {'endDate': '2014-01-01'}
-        self.db.save(tender)
-
         response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint['id'], self.tender_token), {"data": {
             "status": "answered"
         }}, status=422)
@@ -452,11 +437,6 @@ class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update complaint in current (resolved) status")
-
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], 'active.awarded')
 
         self.set_status('unsuccessful')
 

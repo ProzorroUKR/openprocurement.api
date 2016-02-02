@@ -34,7 +34,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
         """Post a complaint
         """
         tender = self.context
-        if tender.status not in ['active.enquiries', 'active.tendering']:
+        if tender.status != 'active.tendering':
             self.request.errors.add('body', 'data', 'Can\'t add complaint in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
@@ -73,7 +73,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
         """Post a complaint resolution
         """
         tender = self.request.validated['tender']
-        if tender.status not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
+        if tender.status != 'active.tendering':
             self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
