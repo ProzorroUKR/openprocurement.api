@@ -208,3 +208,27 @@ Bid Qualification
 
 Open EU procedure requires bids qualification.
 
+Let's list qualifications:
+
+
+.. include:: tutorial/qualifications-listing.http
+   :code:
+
+Approve Bids through qualification objects:
+
+.. include:: tutorial/approve-qualification1.http
+   :code:
+
+.. include:: tutorial/approve-qualification2.http
+   :code:
+
+And check that related Bids are switched to 'active':
+
+.. include:: tutorial/qualificated-bids-view.http
+   :code:
+
+
+Auction
+-------
+
+After auction is scheduled anybody can visit it to watch. The auction can be reached at `Tender.auctionUrl`:

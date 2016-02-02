@@ -1,0 +1,88 @@
+GET /api/0.12/tenders/da64d4384a304f96b2ef091dd6b061f4/bids?acc_token=d7c57553d3fa405fa37d47de7ceb058a HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "status": "active", 
+      "documents": [
+        {
+          "title": "Proposal.pdf", 
+          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/da64d4384a304f96b2ef091dd6b061f4/bids/e3ead4cedbaf4bc9adca568228a4042e/documents/3fbdc5de6c2e4a2587bf95d3c5911407?download=d733c0b231784104a91f5ce6508d1e45", 
+          "format": "application/pdf", 
+          "documentOf": "tender", 
+          "datePublished": "2016-02-02T09:12:39.672100+02:00", 
+          "id": "3fbdc5de6c2e4a2587bf95d3c5911407", 
+          "dateModified": "2016-02-02T09:12:39.672138+02:00"
+        }
+      ], 
+      "value": {
+        "currency": "UAH", 
+        "amount": 500.0, 
+        "valueAddedTaxIncluded": true
+      }, 
+      "date": "2016-02-02T09:12:39.543179+02:00", 
+      "tenderers": [
+        {
+          "contactPoint": {
+            "email": "soleksuk@gmail.com", 
+            "telephone": "+380 (432) 21-69-30", 
+            "name": "Сергій Олексюк"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "id": "00137256", 
+            "uri": "http://www.sc.gov.ua/"
+          }, 
+          "name": "ДКП «Школяр»", 
+          "address": {
+            "postalCode": "21100", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 33", 
+            "region": "м. Вінниця", 
+            "locality": "м. Вінниця"
+          }
+        }
+      ], 
+      "owner": "broker", 
+      "id": "e3ead4cedbaf4bc9adca568228a4042e"
+    }, 
+    {
+      "status": "active", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 499.0, 
+        "valueAddedTaxIncluded": true
+      }, 
+      "date": "2016-02-02T09:12:40.315544+02:00", 
+      "tenderers": [
+        {
+          "contactPoint": {
+            "email": "aagt@gmail.com", 
+            "telephone": "+380 (322) 91-69-30", 
+            "name": "Андрій Олексюк"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "id": "00137226", 
+            "uri": "http://www.sc.gov.ua/"
+          }, 
+          "name": "ДКП «Книга»", 
+          "address": {
+            "postalCode": "79013", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 34", 
+            "region": "м. Львів", 
+            "locality": "м. Львів"
+          }
+        }
+      ], 
+      "owner": "broker", 
+      "id": "f6db2c2dda4944029623f35ab75a1f76"
+    }
+  ]
+}
+
