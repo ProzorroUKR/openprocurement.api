@@ -159,7 +159,7 @@ class Qualification(Model):
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     bidID = StringType(required=True)
-    status = StringType(choices=['pending', 'active', 'cancelled'], default='pending')
+    status = StringType(choices=['pending', 'active', 'unsuccessful', 'cancelled'], default='pending')
     date = IsoDateTimeType()
     documents = ListType(ModelType(Document), default=list())
 
