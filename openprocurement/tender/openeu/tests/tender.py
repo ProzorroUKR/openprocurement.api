@@ -1046,7 +1046,7 @@ class TenderProcessTest(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "active")
         # invalidate second qualification/bid
-        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[1]['id'], tender_owner_token), {"data": {"status": "cancelled"}})
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[1]['id'], tender_owner_token), {"data": {"status": "unsuccessful"}})
         # bid should be cancelled
         response = self.app.get('/tenders/{}/bids/{}'.format(tender_id, qualifications[1]['bidID']))
         self.assertEqual(response.status, "200 OK")
