@@ -49,7 +49,7 @@ class TenderQualificationDocumentResource(object):
     def collection_post(self):
         """Tender Qualification Document Upload
         """
-        if self.request.validated['tender_status'] not in ['active.pre-qualification', 'active.pre-qualification.stand-still']:
+        if self.request.validated['tender_status'] != 'active.pre-qualification':
             self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
@@ -86,7 +86,7 @@ class TenderQualificationDocumentResource(object):
     @json_view(validators=(validate_file_update,), permission='edit_tender')
     def put(self):
         """Tender Qualification Document Update"""
-        if self.request.validated['tender_status'] not in ['active.pre-qualification', 'active.pre-qualification.stand-still']:
+        if self.request.validated['tender_status'] != 'active.pre-qualification':
             self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
@@ -106,7 +106,7 @@ class TenderQualificationDocumentResource(object):
     @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='edit_tender')
     def patch(self):
         """Tender Qualification Document Update"""
-        if self.request.validated['tender_status'] not in ['active.pre-qualification', 'active.pre-qualification.stand-still']:
+        if self.request.validated['tender_status'] != 'active.pre-qualification':
             self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
