@@ -22,7 +22,7 @@ LOGGER = getLogger(__name__)
 
 @qualifications_resource(
     name='TenderEU Qualification Documents',
-    collection_path='/tenders/{tender_id}/qualification/{qualification_id}/documents',
+    collection_path='/tenders/{tender_id}/qualifications/{qualification_id}/documents',
     path='/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}',
     procurementMethodType='aboveThresholdEU',
     description="Tender qualification documents")
