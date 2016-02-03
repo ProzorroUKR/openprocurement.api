@@ -55,7 +55,7 @@ class TenderQualificationDocumentResource(object):
             return
         tender = self.request.validated['tender']
         qualification = self.request.validated['qualification']
-        if qualification.status not in ['pending', 'active']:
+        if qualification.status != 'pending':
             self.request.errors.add('body', 'data', 'Can\'t add document in current qualification status')
             self.request.errors.status = 403
             return
@@ -92,7 +92,7 @@ class TenderQualificationDocumentResource(object):
             return
         tender = self.request.validated['tender']
         qualification = self.request.validated['qualification']
-        if qualification.status not in ['pending', 'active']:
+        if qualification.status != 'pending':
             self.request.errors.add('body', 'data', 'Can\'t update document in current qualification status')
             self.request.errors.status = 403
             return
@@ -112,7 +112,7 @@ class TenderQualificationDocumentResource(object):
             return
         tender = self.request.validated['tender']
         qualification = self.request.validated['qualification']
-        if qualification.status not in ['pending', 'active']:
+        if qualification.status != 'pending':
             self.request.errors.add('body', 'data', 'Can\'t update document in current qualification status')
             self.request.errors.status = 403
             return
