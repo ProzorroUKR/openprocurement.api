@@ -56,6 +56,11 @@ class TenderQualificationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'active')
 
+        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(self.tender_id, qualifications[1]['id']),
+                                      {"data": {'status': 'unsuccessful'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
         response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(self.tender_id, qualifications[0]['id']),
                                       {"data": {'status': 'cancelled'}})
         self.assertEqual(response.status, '200 OK')
@@ -341,17 +346,30 @@ class TenderQualificationDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertEqual('document description', response.json["data"]["description"])
 
-    def test_create_qualification_document_in_active_status(self):
+    def test_create_qualification_document_after_status_change(self):
         response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
             self.tender_id, self.qualifications[0]['id']), {'data': {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
-
         response = self.app.post('/tenders/{}/qualifications/{}/documents'.format(
-            self.tender_id, self.qualifications[0]['id']), upload_files=[('file', 'name.doc', 'content')])
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        doc_id = response.json["data"]['id']
-        self.assertIn(doc_id, response.headers['Location'])
+            self.tender_id, self.qualifications[0]['id']), upload_files=[('file', 'name.doc', 'content')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [{u'description': u"Can't add document in current qualification status", u'location': u'body', u'name': u'data'}])
+
+        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
+            self.tender_id, self.qualifications[1]['id']), {'data': {"status": "unsuccessful"}})
+        self.assertEqual(response.status, '200 OK')
+        response = self.app.post('/tenders/{}/qualifications/{}/documents'.format(
+            self.tender_id, self.qualifications[1]['id']), upload_files=[('file', 'name.doc', 'content')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [{u'description': u"Can't add document in current qualification status", u'location': u'body', u'name': u'data'}])
+
+        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
+            self.tender_id, self.qualifications[1]['id']), {'data': {"status": "cancelled"}})
+        self.assertEqual(response.status, '200 OK')
+        response = self.app.post('/tenders/{}/qualifications/{}/documents'.format(
+            self.tender_id, self.qualifications[1]['id']), upload_files=[('file', 'name.doc', 'content')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [{u'description': u"Can't add document in current qualification status", u'location': u'body', u'name': u'data'}])
 
 
 def suite():
