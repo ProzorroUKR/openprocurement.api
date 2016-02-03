@@ -58,7 +58,7 @@ class TenderQualificationResource(object):
         if self.request.context.status == 'active':
             # approve related bid
             set_bid_status(tender, self.request.context.bidID, 'active')
-        elif self.request.context.status == 'cancelled':
+        elif self.request.context.status == 'unsuccessful':
             # cancel related bid
             set_bid_status(tender, self.request.context.bidID, 'invalid')
         if save_tender(self.request):
