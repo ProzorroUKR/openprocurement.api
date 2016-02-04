@@ -65,7 +65,10 @@ class TenderQualificationResource(object):
             # return bid to initial status
             bid = set_bid_status(tender, self.request.context.bidID, 'pending')
             # generate new qualification for related bid
-            prepare_qualifications(self.request, bids=[bid])
+            ids = prepare_qualifications(self.request, bids=[bid])
+            self.request.response.headers['Location'] = self.request.route_url('TenderEU Qualification',
+                                                                               tender_id=tender.id,
+                                                                               qualification_id=ids[0])
         if save_tender(self.request):
             LOGGER.info('Updated tender qualification {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_patch'}))
