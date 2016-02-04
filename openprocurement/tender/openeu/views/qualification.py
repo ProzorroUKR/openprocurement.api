@@ -8,7 +8,7 @@ from openprocurement.api.utils import (
     context_unpack,
 )
 from openprocurement.tender.openeu.validation import validate_patch_qualification_data
-from openprocurement.tender.openeu.utils import qualifications_resource
+from openprocurement.tender.openeu.utils import qualifications_resource, prepare_qualifications
 
 
 LOGGER = getLogger(__name__)
@@ -46,7 +46,7 @@ class TenderQualificationResource(object):
             for bid in tender.bids:
                 if bid.id == bid_id:
                     bid.status = status
-                    return
+                    return bid
 
         tender = self.request.validated['tender']
         if tender.status not in ['active.pre-qualification']:
@@ -61,6 +61,11 @@ class TenderQualificationResource(object):
         elif self.request.context.status == 'unsuccessful':
             # cancel related bid
             set_bid_status(tender, self.request.context.bidID, 'invalid')
+        elif self.request.context.status == 'cancelled':
+            # return bid to initial status
+            bid = set_bid_status(tender, self.request.context.bidID, 'pending')
+            # generate new qualification for related bid
+            prepare_qualifications(self.request, bids=[bid])
         if save_tender(self.request):
             LOGGER.info('Updated tender qualification {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_patch'}))
