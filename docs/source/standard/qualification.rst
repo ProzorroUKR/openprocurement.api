@@ -31,6 +31,7 @@ Schema
 
     * `pending`
     * `active`
+    * `unsuccessful`
     * `cancelled`
 
 
