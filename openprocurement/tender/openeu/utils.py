@@ -37,13 +37,16 @@ def check_initial_bids_count(request):
 def prepare_qualifications(request, bids=[]):
     """ creates Qualification for each Bid
     """
+    new_qualifications = []
     tender = request.validated['tender']
     if not bids:
         bids = tender.bids
     for bid in bids:
         if bid.status == 'pending':
-            tender.qualifications.append(Qualification({'bidID': bid.id,
-                                                        'status': 'pending'}))
+            qualification = Qualification({'bidID': bid.id, 'status': 'pending'})
+            tender.qualifications.append(qualification)
+            new_qualifications.append(qualification.id)
+    return new_qualifications
 
 
 def all_bids_are_reviewed(request):
