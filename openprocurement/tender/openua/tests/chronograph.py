@@ -61,7 +61,6 @@ class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
 
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-        print response.json['data']
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
         response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}})
 

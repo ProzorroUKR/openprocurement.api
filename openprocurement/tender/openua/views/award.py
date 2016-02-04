@@ -94,7 +94,7 @@ class TenderUaAwardResource(TenderAwardResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
-            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME)
+            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME, tender)
             tender.contracts.append(type(tender).contracts.model_class({'awardID': award.id}))
             add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
@@ -104,7 +104,7 @@ class TenderUaAwardResource(TenderAwardResource):
                     i.status = 'cancelled'
             add_next_award(self.request)
         elif award_status == 'pending' and award.status == 'unsuccessful':
-            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME)
+            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME, tender)
             add_next_award(self.request)
         elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             if tender.status == 'active.awarded':

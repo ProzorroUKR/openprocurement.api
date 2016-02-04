@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from pkg_resources import get_distribution
+from datetime import timedelta
+import re
 from logging import getLogger
 from openprocurement.api.models import get_now, TZ
 from openprocurement.api.utils import (
@@ -13,8 +15,11 @@ LOGGER = getLogger(PKG.project_name)
 BLOCK_COMPLAINT_STATUS = ['pending', 'accepted', 'satisfied']
 PENDING_COMPLAINT_STATUS = ['claim', 'answered', 'pending', 'accepted', 'satisfied']
 
-
-def calculate_business_date(date_obj, timedelta_obj):
+def calculate_business_date(date_obj, timedelta_obj, context=None):
+    if context and  'procurementMethodDetails' in context:
+        re_obj = re.search(r'.accelerator=(?P<accelerator>\d+)', context['procurementMethodDetails'])
+        if re_obj and 'accelerator' in re_obj.groupdict():
+            return date_obj + (timedelta_obj/int(re_obj.groupdict()['accelerator']))
     return date_obj + timedelta_obj
 
 
@@ -214,3 +219,4 @@ def add_next_award(request):
         else:
             tender.awardPeriod.endDate = now
             tender.status = 'active.awarded'
+

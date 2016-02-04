@@ -270,6 +270,7 @@ class Tender(BaseTender):
 
     __name__ = ''
 
+    procurementMethodDetails = StringType(default='')
     enquiryPeriod = ModelType(Period, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
@@ -280,19 +281,23 @@ class Tender(BaseTender):
     status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
     def validate_tenderPeriod(self, data, period):
-        if period and calculate_business_date(period.startDate, TENDER_PERIOD) > period.endDate:
+        if period and calculate_business_date(period.startDate, TENDER_PERIOD, data) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than 15 days")
 
+    def validate_procurementMethodDetails(self, *args, **kw):
+        if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
+            raise ValidationError(u"procurementMethodDetails should be used with mode test")
+
     def initialize(self):
-        self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME)))
+        self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)))
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(Period))
     def tender_enquiryPeriod(self):
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME)))
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)))
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME)))
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)))
 
     @serializable
     def numberOfBids(self):
