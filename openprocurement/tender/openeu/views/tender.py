@@ -109,6 +109,10 @@ class TenderEUResource(TenderResource):
                     tender.status = 'unsuccessful'
                 else:
                     tender.qualificationPeriod.endDate = get_now() + COMPLAINT_STAND_STILL
+            else:
+                self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified'.format(TENDERING_EXTRA_PERIOD))
+                self.request.errors.status = 403
+                return
 
         save_tender(self.request)
         LOGGER.info('Updated tender {}'.format(tender.id),
