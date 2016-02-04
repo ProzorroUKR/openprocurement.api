@@ -177,7 +177,7 @@ Bidder can register a bid:
 Proposal Uploading
 ~~~~~~~~~~~~~~~~~~
 
-Then bidder should upload proposal document(s):
+Then bidder should upload proposal technical document(s):
 
 .. include:: tutorial/upload-bid-proposal.http
    :code:
@@ -186,6 +186,15 @@ It is possible to check the uploaded documents:
 
 .. include:: tutorial/bidder-documents.http
    :code:
+
+Financial and eligibility documents is also a part of Bid but locate in different end-points:
+
+financial:
+/tenders/{tender_id}/bids/{bid_id}/financial_documents 
+
+eligibility:
+/tenders/{tender_id}/bids/{bid_id}/eligibility_documents
+
 
 Bid invalidation
 ~~~~~~~~~~~~~~~~
