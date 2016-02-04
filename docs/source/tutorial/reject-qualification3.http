@@ -1,12 +1,12 @@
-PATCH /api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c/qualifications/95ed67ad74294fed938f766344675b66?acc_token=1d05531f91d541f68e88ec5e344a1c0f HTTP/1.0
+PATCH /api/0.12/tenders/f39af08cc23e4c35b379efc4ff14f410/qualifications/8a0204d13d7e46559eb15dd44df19932?acc_token=8b8af9b643084e4fb87fbc94c678049c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 33
+Content-Length: 36
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "cancelled"
+    "status": "unsuccessful"
   }
 }
 
@@ -14,9 +14,9 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "cancelled", 
-    "id": "95ed67ad74294fed938f766344675b66", 
-    "bidID": "641265c15af74dbe8ab4d430d940487d"
+    "status": "unsuccessful", 
+    "id": "8a0204d13d7e46559eb15dd44df19932", 
+    "bidID": "3d5c5b3291be41fdafd0830e4c62c60d"
   }
 }
 
