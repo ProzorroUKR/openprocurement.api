@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c/documents?acc_token=1d05531f91d541f68e88ec5e344a1c0f HTTP/1.0
+GET /api/0.12/tenders/f39af08cc23e4c35b379efc4ff14f410/documents?acc_token=8b8af9b643084e4fb87fbc94c678049c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,21 +8,21 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "title": "Notice.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c/documents/425438c51b4f41a497d0a8dcafad83d3?download=73ec6833ae4d47a6a0edf014566564ce", 
+      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/f39af08cc23e4c35b379efc4ff14f410/documents/d220850020344e2f97a66993addd4022?download=7949496e74a7435e8dd0de9c15c76d16", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-02-02T19:24:02.894707+02:00", 
-      "id": "425438c51b4f41a497d0a8dcafad83d3", 
-      "dateModified": "2016-02-02T19:24:02.894736+02:00"
+      "datePublished": "2016-02-04T18:43:58.793535+02:00", 
+      "id": "d220850020344e2f97a66993addd4022", 
+      "dateModified": "2016-02-04T18:43:58.793565+02:00"
     }, 
     {
       "title": "AwardCriteria.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c/documents/69766e64328b4415b51430280737a734?download=a92c1237b68a4e83b7408aaeb39c3fd1", 
+      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/f39af08cc23e4c35b379efc4ff14f410/documents/c992df4b0c474db8933f4ee351a1dfd1?download=f7a1d3c0af2d4ea3a63e1cf37a536019", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-02-02T19:24:03.058329+02:00", 
-      "id": "69766e64328b4415b51430280737a734", 
-      "dateModified": "2016-02-02T19:24:03.058358+02:00"
+      "datePublished": "2016-02-04T18:43:58.964799+02:00", 
+      "id": "c992df4b0c474db8933f4ee351a1dfd1", 
+      "dateModified": "2016-02-04T18:43:58.964840+02:00"
     }
   ]
 }

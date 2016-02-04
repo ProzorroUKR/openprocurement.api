@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/2cb1b7f3e1fa4c98b5280eddf376b99c/questions/920e67a5ee6e447caded688bc2705ada?acc_token=1d05531f91d541f68e88ec5e344a1c0f HTTP/1.0
+PATCH /api/0.12/tenders/f39af08cc23e4c35b379efc4ff14f410/questions/6eba8a27d5094421852013e3ffa8ba2d?acc_token=8b8af9b643084e4fb87fbc94c678049c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 162
 Content-Type: application/json
@@ -16,9 +16,9 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "description": "Просимо додати таблицю потрібної калорійності харчування", 
     "title": "Калорійність", 
-    "date": "2016-02-02T19:24:03.372747+02:00", 
+    "date": "2016-02-04T18:43:59.300170+02:00", 
     "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-    "id": "920e67a5ee6e447caded688bc2705ada", 
+    "id": "6eba8a27d5094421852013e3ffa8ba2d", 
     "questionOf": "tender"
   }
 }
