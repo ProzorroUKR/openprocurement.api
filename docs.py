@@ -532,7 +532,7 @@ class TenderResourceTest(BaseTenderWebTest):
 
         with open('docs/source/tutorial/reject-qualification3.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[2]['id'],
-                                                                                               owner_token), {"data": {"status": "cancelled"}})
+                                                                                               owner_token), {"data": {"status": "unsuccessful"}})
             self.assertEqual(response.status, "200 OK")
 
         with open('docs/source/tutorial/qualificated-bids-view.http', 'w') as self.app.file_obj:
