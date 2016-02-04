@@ -1100,14 +1100,25 @@ class TenderProcessTest(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[1]['id'], tender_owner_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, "200 OK")
-        # try to change tender state leaving one bid unreviewed
+        # cancel qualification for second bid
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[1]['id'], tender_owner_token),
+                                       {"data": {"status": "cancelled"}})
+        self.assertEqual(response.status, "200 OK")
+        self.assertIn('Location', response.headers)
+        new_qualification_location = response.headers['Location']
+        qualification_id  = new_qualification_location[-32:]
+        # approve the bid again
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualification_id,
+                                                                                           tender_owner_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, "200 OK")
+        # try to change tender state by chronograph leaving one bid unreviewed
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "active.pre-qualification")
         # reject third bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[2]['id'], tender_owner_token), {"data": {"status": "cancelled"}})
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[2]['id'], tender_owner_token), {"data": {"status": "unsuccessful"}})
         self.assertEqual(response.status, "200 OK")
         # switch to next status
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_owner_token),
