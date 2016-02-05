@@ -15,6 +15,7 @@ from openprocurement.api.validation import (
     validate_file_upload,
     validate_patch_document_data,
 )
+from openprocurement.api.views.contract_document import TenderAwardContractDocumentResource as BaseTenderAwardContractDocumentResource
 
 
 LOGGER = getLogger(__name__)
@@ -25,11 +26,7 @@ LOGGER = getLogger(__name__)
             path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
             procurementMethodType='reporting',
             description="Tender contract documents")
-class TenderAwardContractDocumentResource(object):
-
-    def __init__(self, request, context):
-        self.request = request
-        self.db = request.registry.db
+class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResource):
 
     @json_view(permission='view_tender')
     def collection_get(self):
@@ -48,7 +45,7 @@ class TenderAwardContractDocumentResource(object):
     def collection_post(self):
         """Tender Contract Document Upload
         """
-        if self.request.validated['tender_status'] not in ['active', 'complete']:
+        if self.request.validated['tender_status'] not in ['active']:
             self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
@@ -67,24 +64,10 @@ class TenderAwardContractDocumentResource(object):
             self.request.response.headers['Location'] = self.request.current_route_url(_route_name=document_route, document_id=document.id, _query={})
             return {'data': document.serialize("view")}
 
-    @json_view(permission='view_tender')
-    def get(self):
-        """Tender Contract Document Read"""
-        if self.request.params.get('download'):
-            return get_file(self.request)
-        document = self.request.validated['document']
-        document_data = document.serialize("view")
-        document_data['previousVersions'] = [
-            i.serialize("view")
-            for i in self.request.validated['documents']
-            if i.url != document.url
-        ]
-        return {'data': document_data}
-
     @json_view(validators=(validate_file_update,), permission='edit_tender')
     def put(self):
         """Tender Contract Document Update"""
-        if self.request.validated['tender_status'] not in ['active', 'complete']:
+        if self.request.validated['tender_status'] not in ['active']:
             self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
@@ -103,7 +86,7 @@ class TenderAwardContractDocumentResource(object):
     @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='edit_tender')
     def patch(self):
         """Tender Contract Document Update"""
-        if self.request.validated['tender_status'] not in ['active', 'complete']:
+        if self.request.validated['tender_status'] not in ['active']:
             self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
