@@ -12,7 +12,7 @@ from openprocurement.api.validation import (
     validate_contract_data,
     validate_patch_contract_data,
 )
-from openprocurement.api.views.contract import TenderAwardContractResource as TenderLimitedAwardContractResource
+from openprocurement.api.views.contract import TenderAwardContractResource as BaseTenderAwardContractResource
 
 
 LOGGER = getLogger(__name__)
@@ -29,7 +29,7 @@ def check_tender_status(request):
             procurementMethodType='reporting',
             path='/tenders/{tender_id}/contracts/{contract_id}',
             description="Tender contracts")
-class TenderAwardContractResource(TenderLimitedAwardContractResource):
+class TenderAwardContractResource(BaseTenderAwardContractResource):
 
     @json_view(content_type="application/json", permission='create_contract', validators=(validate_contract_data,))
     def collection_post(self):
