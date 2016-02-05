@@ -86,7 +86,7 @@ def check_status(request):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification.stand-still'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.pre-qualification.stand-still'}))
         tender.status = 'active.pre-qualification.stand-still'
-        tender.qualificationPeriod.endDate = calculate_business_date(now, COMPLAINT_STAND_STILL_TIME, tender)
+        tender.qualificationPeriod.endDate = calculate_business_date(now, COMPLAINT_STAND_STILL_TIME)
         return
 
     elif tender.status == 'active.pre-qualification.stand-still' and tender.qualificationPeriod and tender.qualificationPeriod.endDate <= now:
