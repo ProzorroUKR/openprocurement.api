@@ -28,10 +28,6 @@ LOGGER = getLogger(__name__)
             description="Tender contract documents")
 class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResource):
 
-    def __init__(self, request, context):
-        self.request = request
-        self.db = request.registry.db
-
     @json_view(permission='view_tender')
     def collection_get(self):
         """Tender Contract Documents List"""
