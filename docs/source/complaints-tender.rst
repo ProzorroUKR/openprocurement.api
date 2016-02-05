@@ -114,6 +114,13 @@ Rejecting Tender Conditions Complaint
    :code:
 
 
+Accepting Tender Conditions Complaint
+-------------------------------------
+
+.. include:: tutorial/complaint-accept.http
+   :code:
+
+
 Submitting Tender Conditions Complaint Resolution
 -------------------------------------------------
 
@@ -131,4 +138,15 @@ Or declines it:
 
 .. include:: tutorial/complaint-decline.http
    :code:
- 
+
+Submitting Resolution Confirmation
+----------------------------------
+
+.. include:: tutorial/complaint-resolved.http
+   :code:
+
+Cancelling Tender Conditions Complaint
+======================================
+
+.. include:: tutorial/complaint-cancel.http
+   :code:

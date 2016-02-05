@@ -49,6 +49,45 @@ class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active.auction")
 
+    def test_switch_to_complaint(self):
+        response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
+            'title': 'complaint title',
+            'description': 'complaint description',
+            'author': self.initial_data["procuringEntity"],
+            'status': 'claim'
+        }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['status'], 'claim')
+        complaint_id = response.json['data']['id']
+
+        for status in ['invalid', 'resolved', 'declined']:
+            response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
+                'title': 'complaint title',
+                'description': 'complaint description',
+                'author': self.initial_data["procuringEntity"],
+                'status': 'claim'
+            }})
+            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.json['data']['status'], 'claim')
+            complaint = response.json['data']
+
+            response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint['id'], self.tender_token), {"data": {
+                "status": "answered",
+                "resolutionType": status
+            }})
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.json['data']["status"], "answered")
+            self.assertEqual(response.json['data']["resolutionType"], status)
+
+        response = self.set_status('active.auction', {'status': self.initial_status})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["status"], "active.auction")
+        self.assertEqual(response.json['data']["complaints"][-1]['status'], status)
+
     def test_switch_to_unsuccessful(self):
         self.set_status('active.auction', {'status': self.initial_status})
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -61,7 +100,6 @@ class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
 
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-        print response.json['data']
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
         response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}})
 

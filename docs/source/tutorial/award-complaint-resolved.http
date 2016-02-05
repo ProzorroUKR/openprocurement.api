@@ -1,5 +1,15 @@
-GET /api/0.12/tenders/f8fd2ed41203486bb37008eac4f06e41/awards/a85cbc348f524e4aa6bdd93dd448fda2/complaints/fa17d99108524c658940302e3591e2b4 HTTP/1.0
+PATCH /api/0.12/tenders/f8fd2ed41203486bb37008eac4f06e41/awards/a85cbc348f524e4aa6bdd93dd448fda2/complaints/fa17d99108524c658940302e3591e2b4?acc_token=13d3627347dd4582bbf529fbea1167b1 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 145
+Content-Type: application/json
 Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "resolved", 
+    "tendererAction": "Умови виправлено"
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8

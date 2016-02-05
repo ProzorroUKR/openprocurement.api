@@ -4,133 +4,168 @@ msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-04 10:19+0200\n"
-"PO-Revision-Date: 2016-01-27 16:14+0200\n"
+"PO-Revision-Date: 2016-02-01 17:29+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
-"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.8.5\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 1.5\n"
 
-#: ../../source/complaints-award.rst:112
+#: ../../source/complaints-award.rst:54
 msgid "Rejecting Tender Award Complaint"
 msgstr "Відхилення скарги на визначення переможця"
 
-#: ../../source/complaints-award.rst:119
+#: ../../source/complaints-award.rst:68
 msgid "Submitting Tender Award Complaint Resolution"
 msgstr "Подання рішення по скарзі на визначення переможця"
 
-#: ../../source/complaints-award.rst:121
+#: ../../source/complaints-award.rst:70
 msgid "The Complaint Review Body uploads the resolution document:"
 msgstr "Орган, що розглядає скарги, завантажує документ з рішенням:"
 
-#: ../../source/complaints-award.rst:131
+#: ../../source/complaints-award.rst:80
 msgid "Or declines it:"
 msgstr "Або відхиляє:"
 
-#: ../../source/complaints-award.rst:126
+#: ../../source/complaints-award.rst:75
 msgid "And either resolves complaint:"
 msgstr "Який або вирішує скаргу:"
 
-#: ../../source/complaints-award.rst:85
-msgid "Answer to resolved claim"
-msgstr "Відповідь на вирішену вимогу"
-
-#: ../../source/complaints-award.rst:95
-msgid "Satisfying resolution"
-msgstr "Рішення про задоволення вимоги"
-
-#: ../../source/complaints-award.rst:102
-msgid "Escalate claim to complaint"
-msgstr "Перетворення вимоги в скаргу"
-
-#: ../../source/complaints-award.rst:27 ../../source/complaints-award.rst:58
-msgid "At first create a claim:"
-msgstr "Спочатку створимо вимогу:"
-
-#: ../../source/complaints-award.rst:32 ../../source/complaints-award.rst:63
+#: ../../source/complaints-award.rst:32
 msgid "Then upload necessary documents:"
 msgstr "Потім завантажимо документи:"
 
-#: ../../source/complaints-award.rst:20
-msgid "Claim Submission"
-msgstr "Подання вимоги"
-
-#: ../../source/complaints-award.rst:25
-msgid "Tender Award Claim Submission (with documents)"
-msgstr "Подання вимоги про виправлення визначення переможця (з документами)"
-
-#: ../../source/complaints-award.rst:43
-msgid "Tender Award Claim Submission (without documents)"
-msgstr "Подання вимоги про виправлення визначення переможця (без документів)"
-
-#: ../../source/complaints-award.rst:82
-msgid "Claim's Answer"
-msgstr "Відповідь на вимогу"
-
-#: ../../source/complaints-award.rst:92
-msgid "Satisfied Claim"
-msgstr "Задоволена вимога"
-
-#: ../../source/complaints-award.rst:109
+#: ../../source/complaints-award.rst:51
 msgid "Complaint Resolution"
 msgstr "Вирішення скарги"
 
-#: ../../source/complaints-award.rst:22 ../../source/complaints-award.rst:53
-msgid ""
-"If tender conditions are favoriting only one provider, or in any other viable "
-"case, one can submit Tender Award Claim."
-msgstr ""
-"Якщо умови закупівлі сприятливі лише для одного постачальника або при будь-"
-"якому іншому серйозному порушенні можна подати вимогу про виправлення "
-"визначення переможця."
-
-#: ../../source/complaints-award.rst:7
-msgid "Tender Award Claim/Complaint Retrieval"
-msgstr "Отримання інформації про вимоги/скарги на визначення переможця"
-
-#: ../../source/complaints-award.rst:9
-msgid "You can list all Tender Award Claims/Complaints:"
-msgstr "Ви можете отримати список всіх вимог/скарг на визначення переможця:"
-
-#: ../../source/complaints-award.rst:14
-msgid "And check individual complaint or claim:"
-msgstr "Або перевірити окрему скаргу чи вимогу:"
-
-#: ../../source/complaints-award.rst:4
-msgid "Claim/Complaint Retrieval"
-msgstr "Отримання інформації про вимоги/скарги"
-
-#: ../../source/complaints-award.rst:37
-msgid "Submit tender award claim:"
-msgstr "Подати вимогу про виправлення визначення переможця"
-
-#: ../../source/complaints-award.rst:45
-msgid "You can submit claim that does not need additional documents:"
-msgstr "Ви можете подати вимогу, що не потребує додаткових документів:"
-
-#: ../../source/complaints-award.rst:51
+#: ../../source/complaints-award.rst:20
 msgid "Complaint Submission"
 msgstr "Подання скарги"
 
-#: ../../source/complaints-award.rst:56
+#: ../../source/complaints-award.rst:25
 msgid "Tender Award Complaint Submission (with documents)"
 msgstr "Подання скарги на визначення переможця (з документами)"
 
-#: ../../source/complaints-award.rst:68
+#: ../../source/complaints-award.rst:37
 msgid "Submit tender award complaint:"
 msgstr "Подати скаргу на визначення переможця:"
 
-#: ../../source/complaints-award.rst:74
+#: ../../source/complaints-award.rst:43
 msgid "Tender Award Complaint Submission (without documents)"
 msgstr "Подання скарги на визначення переможця (без документів)"
 
-#: ../../source/complaints-award.rst:76
+#: ../../source/complaints-award.rst:45
 msgid "You can submit complaint that does not need additional documents:"
 msgstr "Ви можете подати скаргу, що не потребує додаткових документів:"
+
+#: ../../source/complaints-award.rst:14
+msgid "And check individual complaint:"
+msgstr "І перевірити окрему скаргу:"
+
+#: ../../source/complaints-award.rst:7
+msgid "Tender Award Complaint Retrieval"
+msgstr "Отримання інформації про скарги на визначення переможця"
+
+#: ../../source/complaints-award.rst:4
+msgid "Complaint Retrieval"
+msgstr "Отримання інформації про скарги"
+
+#: ../../source/complaints-award.rst:9
+msgid "You can list all Tender Award Complaints:"
+msgstr "Ви можете отримати список всіх скарг на визначення переможця:"
+
+#: ../../source/complaints-award.rst:27
+msgid "At first create a complaint:"
+msgstr "Спочатку створимо скаргу:"
+
+#: ../../source/complaints-award.rst:86
+msgid "Submitting Resolution Confirmation"
+msgstr "Подання вирішення скарги"
+
+#: ../../source/complaints-award.rst:92
+msgid "Cancelling Tender Award Complaint"
+msgstr "Відміна скарги на визначення переможця"
+
+#: ../../source/complaints-award.rst:22
+msgid ""
+"If tender award is favoriting certain supplier, or in any other viable case,"
+" one can submit Tender Award Complaint."
+msgstr ""
+"Якщо визначення переможця закупівлі є несправедливим або при будь-якому "
+"іншому серйозному порушенні можна подати скаргу на визначення переможця."
+
+#: ../../source/complaints-award.rst:61
+msgid "Accepting Tender Award Complaint"
+msgstr "Прийняття скарги на визначення переможця"
+
+#~ msgid ""
+#~ "If tender conditions are favoriting only one provider, or in any other "
+#~ "viable case, one can submit Tender Award Complaint."
+#~ msgstr ""
+#~ "Якщо умови закупівлі сприятливі лише для одного постачальника або при будь-"
+#~ "якому іншому серйозному порушенні можна подати скаргу на визначення "
+#~ "переможця."
+
+#~ msgid "Accepting Tender Conditions Complaint"
+#~ msgstr ""
+
+#~ msgid "Answer to resolved claim"
+#~ msgstr "Відповідь на вирішену вимогу"
+
+#~ msgid "Satisfying resolution"
+#~ msgstr "Рішення про задоволення вимоги"
+
+#~ msgid "Escalate claim to complaint"
+#~ msgstr "Перетворення вимоги в скаргу"
+
+#~ msgid "At first create a claim:"
+#~ msgstr "Спочатку створимо вимогу:"
+
+#~ msgid "Claim Submission"
+#~ msgstr "Подання вимоги"
+
+#~ msgid "Tender Award Claim Submission (with documents)"
+#~ msgstr "Подання вимоги про виправлення визначення переможця (з документами)"
+
+#~ msgid "Tender Award Claim Submission (without documents)"
+#~ msgstr "Подання вимоги про виправлення визначення переможця (без документів)"
+
+#~ msgid "Claim's Answer"
+#~ msgstr "Відповідь на вимогу"
+
+#~ msgid "Satisfied Claim"
+#~ msgstr "Задоволена вимога"
+
+#~ msgid ""
+#~ "If tender conditions are favoriting only one provider, or in any other "
+#~ "viable case, one can submit Tender Award Claim."
+#~ msgstr ""
+#~ "Якщо умови закупівлі сприятливі лише для одного постачальника або при будь-"
+#~ "якому іншому серйозному порушенні можна подати вимогу про виправлення "
+#~ "визначення переможця."
+
+#~ msgid "Tender Award Claim/Complaint Retrieval"
+#~ msgstr "Отримання інформації про вимоги/скарги на визначення переможця"
+
+#~ msgid "You can list all Tender Award Claims/Complaints:"
+#~ msgstr "Ви можете отримати список всіх вимог/скарг на визначення переможця:"
+
+#~ msgid "And check individual complaint or claim:"
+#~ msgstr "Або перевірити окрему скаргу чи вимогу:"
+
+#~ msgid "Claim/Complaint Retrieval"
+#~ msgstr "Отримання інформації про вимоги/скарги"
+
+#~ msgid "Submit tender award claim:"
+#~ msgstr "Подати вимогу про виправлення визначення переможця"
+
+#~ msgid "You can submit claim that does not need additional documents:"
+#~ msgstr "Ви можете подати вимогу, що не потребує додаткових документів:"
 
 #~ msgid "Submit tender conditions claim:"
 #~ msgstr "Подамо вимогу про виправлення визначення переможця:"
@@ -201,14 +236,11 @@ msgstr "Ви можете подати скаргу, що не потребує 
 #~ msgstr "Кінцевий статус"
 
 #~ msgid ""
-#~ "For more detailed information read `Complaints <http://openprocurement.org/"
-#~ "en/complaints.html>`_."
+#~ "For more detailed information read `Complaints "
+#~ "<http://openprocurement.org/en/complaints.html>`_."
 #~ msgstr ""
-#~ "Більш детальну інформацію шукайте на сторінці `Оскарження <http://"
-#~ "openprocurement.org/ua/complaints.html>`_."
-
-#~ msgid "And check individual complaint:"
-#~ msgstr "І перевірити окрему скаргу:"
+#~ "Більш детальну інформацію шукайте на сторінці `Оскарження "
+#~ "<http://openprocurement.org/ua/complaints.html>`_."
 
 #~ msgid "Tender Awards Complaint Retrieval"
 #~ msgstr "Отримання інформації про скарги на рішення замовника"
@@ -224,11 +256,11 @@ msgstr "Ви можете подати скаргу, що не потребує 
 #~ "якому іншому серйозному порушенні можна подати скаргу на рішення замовника."
 
 #~ msgid ""
-#~ "For more detailed information read `Non-price criteria <http://"
-#~ "openprocurement.org/en/nonprice-criteria.html>`_."
+#~ "For more detailed information read `Non-price criteria "
+#~ "<http://openprocurement.org/en/nonprice-criteria.html>`_."
 #~ msgstr ""
-#~ "Більш детальну інформацію шукайте на сторінці `Нецінові параметри <http://"
-#~ "openprocurement.org/ua/nonprice-criteria.html>`_."
+#~ "Більш детальну інформацію шукайте на сторінці `Нецінові параметри "
+#~ "<http://openprocurement.org/ua/nonprice-criteria.html>`_."
 
 #~ msgid "Complaints Resolution"
 #~ msgstr "Вирішення скарг"
@@ -256,18 +288,15 @@ msgstr "Ви можете подати скаргу, що не потребує 
 #~ msgid "Tender Award Complaint Submission"
 #~ msgstr "Подання скарги на визначення переможця"
 
-#~ msgid "Tender Award Complaint Retrieval"
-#~ msgstr "Отримання інформації про скарги на визначення переможця"
-
 #~ msgid "You can list all complaints:"
 #~ msgstr "Ви можете отримати список всіх скарг:"
 
 #~ msgid ""
-#~ "For more information read `Complaints page <http://openprocurement.org/en/"
-#~ "complaints.html>`_."
+#~ "For more information read `Complaints page "
+#~ "<http://openprocurement.org/en/complaints.html>`_."
 #~ msgstr ""
-#~ "Більш детальну інформацію шукайте на сторінці `Оскарження <http://"
-#~ "openprocurement.org/ua/complaints.html>`_."
+#~ "Більш детальну інформацію шукайте на сторінці `Оскарження "
+#~ "<http://openprocurement.org/ua/complaints.html>`_."
 
 #~ msgid ""
 #~ "If tender conditions are favoriting only one provider, or in any other "

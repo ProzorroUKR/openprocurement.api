@@ -34,7 +34,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
         """Post a complaint
         """
         tender = self.context
-        if tender.status not in ['active.enquiries', 'active.tendering']:
+        if tender.status != 'active.tendering':
             self.request.errors.add('body', 'data', 'Can\'t add complaint in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
@@ -73,7 +73,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
         """Post a complaint resolution
         """
         tender = self.request.validated['tender']
-        if tender.status not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
+        if tender.status != 'active.tendering':
             self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
@@ -123,7 +123,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             self.context.dateAnswered = get_now()
         elif self.request.authenticated_role == 'tender_owner' and self.context.status in ['pending', 'accepted']:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('status', self.context.status) == 'resolved':
+        elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('tendererAction', self.context.tendererAction) and data.get('status', self.context.status) == 'resolved':
             apply_patch(self.request, save=False, src=self.context.serialize())
         # reviewers
         elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:

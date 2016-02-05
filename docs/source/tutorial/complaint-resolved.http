@@ -1,12 +1,13 @@
-PATCH /api/0.12/tenders/0cded56126c64c7480fa41bc6da2a495/complaints/2699462652814b4f9553f174aa4f7624?acc_token=da7ede0768cb404f9cb6e536e37740f9 HTTP/1.0
+PATCH /api/0.12/tenders/0cded56126c64c7480fa41bc6da2a495/complaints/2699462652814b4f9553f174aa4f7624?acc_token=1ad749af2074480daaf9b3859dad789e HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 29
+Content-Length: 145
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "claim"
+    "status": "resolved", 
+    "tendererAction": "Умови виправлено"
   }
 }
 
@@ -14,7 +15,8 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "claim", 
+    "status": "resolved", 
+    "dateDecision": "2016-02-01T16:18:27.522529+02:00", 
     "documents": [
       {
         "author": "complaint_owner", 
@@ -25,9 +27,20 @@ Content-Type: application/json; charset=UTF-8
         "datePublished": "2016-02-01T16:18:25.367254+02:00", 
         "id": "d941773a79824898a33eef6e9b16e293", 
         "dateModified": "2016-02-01T16:18:25.367298+02:00"
+      }, 
+      {
+        "author": "reviewers", 
+        "title": "ComplaintResolution.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/0cded56126c64c7480fa41bc6da2a495/complaints/2699462652814b4f9553f174aa4f7624/documents/1fffa02d7ae84cd188dae5065e82ffa0?download=17da2abda4b1448e9a8394cf728acc34", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-01T16:18:27.338738+02:00", 
+        "id": "1fffa02d7ae84cd188dae5065e82ffa0", 
+        "dateModified": "2016-02-01T16:18:27.338776+02:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -49,10 +62,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "title": "Недостатньо інформації", 
-    "dateSubmitted": "2016-02-01T16:18:25.512292+02:00", 
+    "tendererAction": "Умови виправлено", 
+    "tendererActionDate": "2016-02-01T16:18:27.808096+02:00", 
+    "dateSubmitted": "2016-02-01T16:18:26.048252+02:00", 
     "date": "2016-02-01T16:18:25.075171+02:00", 
-    "type": "claim", 
+    "type": "complaint", 
     "id": "2699462652814b4f9553f174aa4f7624"
   }
 }
