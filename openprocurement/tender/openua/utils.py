@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import re 
+import re
 from pkg_resources import get_distribution
 from logging import getLogger
 from openprocurement.api.models import get_now, TZ
