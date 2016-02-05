@@ -22,7 +22,9 @@ from openprocurement.api.models import (
     embedded_lot_role, default_lot_role,
 )
 from openprocurement.tender.openua.interfaces import ITenderUA
-from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.openua.utils import (
+    calculate_business_date, BLOCK_COMPLAINT_STATUS,
+)
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 
@@ -170,7 +172,7 @@ class Complaint(BaseComplaint):
         }
     status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled', 'satisfied', 'ignored'], default='draft')
     acceptance = BooleanType()
-    rejectReason = StringType(choices=['invalid'])
+    rejectReason = StringType(choices=['lawNonСompliance', 'noPaymentReceived', 'buyerViolationsСorrected'])
     rejectReasonDescription = StringType()
     reviewDate = IsoDateTimeType()
     reviewPlace = StringType()
@@ -308,7 +310,7 @@ class Tender(BaseTender):
     def next_check(self):
         now = get_now()
         checks = []
-        if self.status == 'active.tendering' and self.tenderPeriod.endDate and not any([i.status in ['pending', 'accepted'] for i in self.complaints]):
+        if self.status == 'active.tendering' and self.tenderPeriod.endDate and not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
         elif not self.lots and self.status == 'active.awarded':
             standStillEnds = [

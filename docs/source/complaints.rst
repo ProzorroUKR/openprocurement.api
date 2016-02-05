@@ -23,7 +23,7 @@ Tender Conditions Claims/Complaints
 
     complaints-tender
 
-Tender Award Claims/Complaints
+Tender Award Complaints
 ------------------------------
 
 .. image:: award_complaint_w.png
