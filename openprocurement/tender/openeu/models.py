@@ -89,6 +89,13 @@ class Organization(Model):
                                        required=False)
 
 
+class ConficentialDocument(Document):
+    """ Document """
+
+    confidentiality = StringType(choices=['public', 'buyerOnly'], default='public')
+    confidentialityRationale = StringType()
+
+
 class Bid(BaseBid):
     class Options:
         roles = {
@@ -113,6 +120,7 @@ class Bid(BaseBid):
             'invalid': whitelist('id', 'status'),
             'deleted': whitelist('id', 'status'),
         }
+    documents = ListType(ModelType(ConficentialDocument), default=list())
     status = StringType(choices=['pending', 'active', 'invalid', 'deleted'],
                         default='pending')
 
