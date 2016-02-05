@@ -423,6 +423,15 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (unsuccessful) tender status")
 
+        self.set_status('complete')
+
+        response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
+            self.tender_id, self.contract_id), upload_files=[('file', 'name.doc', 'content')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
+
+
     def test_put_tender_contract_document(self):
         response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
             self.tender_id, self.contract_id), upload_files=[('file', 'name.doc', 'content')])
@@ -494,6 +503,14 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (unsuccessful) tender status")
 
+        self.set_status('complete')
+
+        response = self.app.put('/tenders/{}/contracts/{}/documents/{}'.format(
+            self.tender_id, self.contract_id, doc_id), upload_files=[('file', 'name.doc', 'content3')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
+
     def test_patch_tender_contract_document(self):
         response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
             self.tender_id, self.contract_id), upload_files=[('file', 'name.doc', 'content')])
@@ -528,6 +545,13 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (unsuccessful) tender status")
+
+        self.set_status('complete')
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}/documents/{}'.format(self.tender_id, self.contract_id, doc_id), {"data": {"description": "document description"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
 
 
 def suite():
