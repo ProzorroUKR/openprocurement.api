@@ -15,6 +15,7 @@ from openprocurement.api.validation import (
     validate_file_upload,
     validate_patch_document_data,
 )
+from openprocurement.api.views.contract_document import TenderAwardContractDocumentResource as BaseTenderAwardContractDocumentResource
 
 
 LOGGER = getLogger(__name__)
@@ -25,7 +26,7 @@ LOGGER = getLogger(__name__)
             path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
             procurementMethodType='reporting',
             description="Tender contract documents")
-class TenderAwardContractDocumentResource(object):
+class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResource):
 
     def __init__(self, request, context):
         self.request = request
@@ -66,20 +67,6 @@ class TenderAwardContractDocumentResource(object):
             document_route = self.request.matched_route.name.replace("collection_", "")
             self.request.response.headers['Location'] = self.request.current_route_url(_route_name=document_route, document_id=document.id, _query={})
             return {'data': document.serialize("view")}
-
-    @json_view(permission='view_tender')
-    def get(self):
-        """Tender Contract Document Read"""
-        if self.request.params.get('download'):
-            return get_file(self.request)
-        document = self.request.validated['document']
-        document_data = document.serialize("view")
-        document_data['previousVersions'] = [
-            i.serialize("view")
-            for i in self.request.validated['documents']
-            if i.url != document.url
-        ]
-        return {'data': document_data}
 
     @json_view(validators=(validate_file_update,), permission='edit_tender')
     def put(self):
