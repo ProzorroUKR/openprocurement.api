@@ -36,7 +36,7 @@ class TenderAwardContractResource(TenderLimitedAwardContractResource):
         """Post a contract for award
         """
         tender = self.request.validated['tender']
-        if tender.status not in ['active', 'complete']:
+        if tender.status not in ['active']:
             self.request.errors.add('body', 'data', 'Can\'t add contract in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
@@ -53,7 +53,7 @@ class TenderAwardContractResource(TenderLimitedAwardContractResource):
     def patch(self):
         """Update of contract
         """
-        if self.request.validated['tender_status'] not in ['active', 'complete']:
+        if self.request.validated['tender_status'] not in ['active']:
             self.request.errors.add('body', 'data', 'Can\'t update contract in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
