@@ -202,6 +202,7 @@ class Tender(BaseTender):
         }
 
     procurementMethodType = StringType(default="aboveThresholdEU")
+    procurementMethodDetails = StringType(default='')
     title_en = StringType(required=True, min_length=1)
 
     enquiryPeriod = ModelType(Period, required=False)
@@ -218,17 +219,17 @@ class Tender(BaseTender):
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
     def initialize(self):
-        self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL)))
+        self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)))
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(Period))
     def tender_enquiryPeriod(self):
         return Period(dict(startDate=self.tenderPeriod.startDate,
-                           endDate=calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL)))
+                           endDate=calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)))
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
         return Period(dict(startDate=self.tenderPeriod.startDate,
-                           endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME)))
+                           endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)))
 
     @serializable
     def next_check(self):
@@ -269,19 +270,19 @@ class Tender(BaseTender):
         #         checks.append(min(lots_ends))
         for complaint in self.complaints:
             if complaint.status == 'claim' and complaint.dateSubmitted:
-                checks.append(complaint.dateSubmitted + COMPLAINT_STAND_STILL)
+                checks.append(calculate_business_date(complaint.dateSubmitted, COMPLAINT_STAND_STILL, self))
             elif complaint.status == 'answered' and complaint.dateAnswered:
-                checks.append(complaint.dateAnswered + COMPLAINT_STAND_STILL)
+                checks.append(calculate_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL, self))
         for award in self.awards:
             for complaint in award.complaints:
                 if complaint.status == 'claim' and complaint.dateSubmitted:
-                    checks.append(complaint.dateSubmitted + COMPLAINT_STAND_STILL)
+                    checks.append(calculate_business_date(complaint.dateSubmitted + COMPLAINT_STAND_STILL, self))
                 elif complaint.status == 'answered' and complaint.dateAnswered:
-                    checks.append(complaint.dateAnswered + COMPLAINT_STAND_STILL)
+                    checks.append(calculate_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL, self))
         return sorted(checks)[0].isoformat() if checks else None
 
     def validate_tenderPeriod(self, data, period):
-        if period and calculate_business_date(period.startDate, TENDERING_DURATION) > period.endDate:
+        if period and calculate_business_date(period.startDate, TENDERING_DURATION, data) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than {} days".format(TENDERING_DAYS))
 
     @serializable

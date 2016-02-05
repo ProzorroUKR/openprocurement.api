@@ -90,7 +90,7 @@ class TenderEUResource(TenderResource):
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
                 self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
-                if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD) > self.request.validated['tender'].tenderPeriod.endDate:
+                if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated['tender']) > self.request.validated['tender'].tenderPeriod.endDate:
                     self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
                     self.request.errors.status = 403
                     return
@@ -108,9 +108,9 @@ class TenderEUResource(TenderResource):
                 if sum([1 for bid in tender.bids if bid.status == 'active']) < 2:
                     tender.status = 'unsuccessful'
                 else:
-                    tender.qualificationPeriod.endDate = get_now() + COMPLAINT_STAND_STILL
+                    tender.qualificationPeriod.endDate = calculate_business_date(get_now(), COMPLAINT_STAND_STILL, tender)
             else:
-                self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified'.format(TENDERING_EXTRA_PERIOD))
+                self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
                 self.request.errors.status = 403
                 return
 
