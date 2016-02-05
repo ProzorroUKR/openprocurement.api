@@ -46,7 +46,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
                 return
             complaint.dateSubmitted = get_now()
         elif complaint.status == 'pending':
-            if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME):
+            if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, tender):
                 self.request.errors.add('body', 'data', 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(COMPLAINT_SUBMIT_TIME))
                 self.request.errors.status = 403
                 return
