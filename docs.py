@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
 import os
-from datetime import timedelta
 
 import openprocurement.tender.limited.tests.base as base_test
-from openprocurement.api.models import get_now
 from openprocurement.api.tests.base import PrefixedRequestClass
 from openprocurement.tender.limited.tests.tender import BaseTenderWebTest
 from webtest import TestApp
@@ -108,7 +106,9 @@ cancellation = {
     }
 }
 
+
 class DumpsTestAppwebtest(TestApp):
+
     def do_request(self, req, status=None, expect_errors=None):
         req.headers.environ["HTTP_HOST"] = "api-sandbox.openprocurement.org"
         if not self.file_obj.closed:
@@ -188,7 +188,6 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
                     }
                 })
 
-
         with open('docs/source/tutorial/tender-listing-after-patch.http', 'w') as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get(request_path)
@@ -207,7 +206,6 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
 
         doc_id = response.json["data"]["id"]
 
-
         with open('docs/source/tutorial/update-tender-notice.http', 'w') as self.app.file_obj:
             response = self.app.put('/tenders/{}/documents/{}'.format(
                     self.tender_id, doc_id), upload_files=[('file', 'Notice-2.pdf', 'content2')])
@@ -220,7 +218,6 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
             response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
                     self.tender_id, owner_token), supplier)
             self.assertEqual(response.status, '201 Created')
-
         self.award_id = response.json['data']['id']
 
         #### Uploading Award documentation
@@ -271,7 +268,6 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
                     self.tender_id, contract_id, owner_token), {'data': {'status': 'active'}})
             self.assertEqual(response.status, '200 OK')
 
-
         #### Preparing the cancellation request
         #
 
@@ -295,7 +291,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
 
         with open('docs/source/tutorial/patch-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
-                    self.tender_id, cancellation_id, cancellation_doc_id, owner_token), {'data': {"description": 'Changed description'}} )
+                    self.tender_id, cancellation_id, cancellation_doc_id, owner_token), {'data': {"description": 'Changed description'}})
             self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/update-cancellation-doc.http', 'w') as self.app.file_obj:
@@ -308,5 +304,5 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
 
         with open('docs/source/tutorial/active-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(
-                    self.tender_id, cancellation_id, owner_token), {"data":{"status":"active"}})
+                    self.tender_id, cancellation_id, owner_token), {"data": {"status": "active"}})
             self.assertEqual(response.status, '200 OK')
