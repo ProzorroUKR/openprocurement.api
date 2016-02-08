@@ -71,6 +71,34 @@ Procuring entity can register supplier information:
    :code:
 
 
+Uploading award documentation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can upload award documents only when award is in `pending` status. Let's add award document:
+
+.. include:: tutorial/tender-award-upload-document.http
+   :code:
+
+`201 Created` response code and `Location` header confirm document added.
+
+Let's see the list of award documents:
+
+.. include:: tutorial/tender-award-get-documents.http
+   :code:
+
+We can add another award document:
+
+.. include:: tutorial/tender-award-upload-second-document.http
+   :code:
+
+`201 Created` response code and `Location` header confirm second document added.
+
+Let's see the list of all uploaded award documents:
+
+.. include:: tutorial/tender-award-get-documents-again.http
+   :code:
+
+
 Award confirmation
 ~~~~~~~~~~~~~~~~~~
 

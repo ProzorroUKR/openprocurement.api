@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/cf84223ef83043aba90dbc516294807c/awards/839120dcd6b74b5ab26f566d6035cf32?acc_token=a8651945689d4863b61d3fae00208858 HTTP/1.0
+PATCH /api/0.12/tenders/af58d03e526f4a01bc8f27d62f1b5090/awards/1f8c62bc794049c4b7d5254103e9908a?acc_token=2f4eba002a9e4b8eab61bea83937b0d7 HTTP/1.0
 Authorization: Basic dG9rZW46
 Content-Length: 30
 Content-Type: application/json
@@ -15,9 +15,29 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
+    "documents": [
+      {
+        "title": "first_document.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/af58d03e526f4a01bc8f27d62f1b5090/awards/1f8c62bc794049c4b7d5254103e9908a/documents/1cd43ab61631434e97d98b8ad0bd4b27?download=89051ec3de0648649e32944edd2f4c14", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-08T13:39:39.253722+02:00", 
+        "id": "1cd43ab61631434e97d98b8ad0bd4b27", 
+        "dateModified": "2016-02-08T13:39:39.253760+02:00"
+      }, 
+      {
+        "title": "second_document.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/af58d03e526f4a01bc8f27d62f1b5090/awards/1f8c62bc794049c4b7d5254103e9908a/documents/d01f0b068e49494285c6385569a116c1?download=c4c23a7e0b694e30bf79ca1528e3ac79", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-08T13:39:39.482464+02:00", 
+        "id": "d01f0b068e49494285c6385569a116c1", 
+        "dateModified": "2016-02-08T13:39:39.482512+02:00"
+      }
+    ], 
     "complaintPeriod": {
-      "startDate": "2016-01-28T17:19:58.097564+02:00", 
-      "endDate": "2016-01-29T17:19:58.230509+02:00"
+      "startDate": "2016-02-08T13:39:39.040623+02:00", 
+      "endDate": "2016-02-09T13:39:39.689732+02:00"
     }, 
     "suppliers": [
       {
@@ -47,8 +67,8 @@ Content-Type: application/json; charset=UTF-8
       "amount": 475000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2016-01-28T17:19:58.096181+02:00", 
-    "id": "839120dcd6b74b5ab26f566d6035cf32"
+    "date": "2016-02-08T13:39:39.039151+02:00", 
+    "id": "1f8c62bc794049c4b7d5254103e9908a"
   }
 }
 

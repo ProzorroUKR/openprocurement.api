@@ -221,14 +221,37 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
                     self.tender_id, owner_token), supplier)
             self.assertEqual(response.status, '201 Created')
 
-        award_id = response.json['data']['id']
+        self.award_id = response.json['data']['id']
+
+        #### Uploading Award documentation
+        #
+
+        with open('docs/source/tutorial/tender-award-upload-document.http', 'w') as self.app.file_obj:
+            response = self.app.post('/tenders/{}/awards/{}/documents'.format(
+                self.tender_id, self.award_id), upload_files=[('file', 'first_document.doc', 'content')])
+            self.assertEqual(response.status, '201 Created')
+
+        with open('docs/source/tutorial/tender-award-get-documents.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/awards/{}/documents'.format(
+                self.tender_id, self.award_id))
+        self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/tutorial/tender-award-upload-second-document.http', 'w') as self.app.file_obj:
+            response = self.app.post('/tenders/{}/awards/{}/documents'.format(
+                self.tender_id, self.award_id), upload_files=[('file', 'second_document.doc', 'content')])
+            self.assertEqual(response.status, '201 Created')
+
+        with open('docs/source/tutorial/tender-award-get-documents-again.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/awards/{}/documents'.format(
+                self.tender_id, self.award_id))
+        self.assertEqual(response.status, '200 OK')
 
         #### Award confirmation
         #
 
         with open('docs/source/tutorial/tender-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-                    self.tender_id, award_id, owner_token), {'data': {'status': 'active'}})
+                    self.tender_id, self.award_id, owner_token), {'data': {'status': 'active'}})
             self.assertEqual(response.status, '200 OK')
 
         #### Contract signing

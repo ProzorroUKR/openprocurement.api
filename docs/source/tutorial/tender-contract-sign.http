@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/cf84223ef83043aba90dbc516294807c/contracts/9bdfa567b98146c08a3729e562b829e9?acc_token=a8651945689d4863b61d3fae00208858 HTTP/1.0
+PATCH /api/0.12/tenders/af58d03e526f4a01bc8f27d62f1b5090/contracts/05e5810b944147a29bd0709b42fc458b?acc_token=2f4eba002a9e4b8eab61bea83937b0d7 HTTP/1.0
 Authorization: Basic dG9rZW46
 Content-Length: 30
 Content-Type: application/json
@@ -15,8 +15,8 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "awardID": "839120dcd6b74b5ab26f566d6035cf32", 
-    "id": "9bdfa567b98146c08a3729e562b829e9"
+    "awardID": "1f8c62bc794049c4b7d5254103e9908a", 
+    "id": "05e5810b944147a29bd0709b42fc458b"
   }
 }
 
