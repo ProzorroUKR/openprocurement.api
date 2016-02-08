@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/f39af08cc23e4c35b379efc4ff14f410?acc_token=8b8af9b643084e4fb87fbc94c678049c HTTP/1.0
+PATCH /api/0.12/tenders/426b4a12a7914da4b5085c151d304492?acc_token=8c25b70cdf0d450d84750a469db0b8ba HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 75
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-03-05T18:44:08.427031+02:00"
+      "endDate": "2016-03-09T14:33:19.598762+02:00"
     }
   }
 }
@@ -18,10 +18,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-02-04-000001", 
+    "tenderID": "UA-2016-02-08-000001", 
     "tenderPeriod": {
-      "startDate": "2016-02-04T18:43:58.140947+02:00", 
-      "endDate": "2016-03-05T18:44:08.427031+02:00"
+      "startDate": "2016-02-08T14:33:09.296087+02:00", 
+      "endDate": "2016-03-09T14:33:19.598762+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -30,12 +30,12 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-02-04T18:43:58.140947+02:00", 
-      "endDate": "2016-03-02T18:44:08.427031+02:00"
+      "startDate": "2016-02-08T14:33:09.296087+02:00", 
+      "endDate": "2016-03-06T14:33:19.598762+02:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-02-04T18:43:58.140947+02:00", 
-      "endDate": "2016-03-01T18:44:08.427031+02:00"
+      "startDate": "2016-02-08T14:33:09.296087+02:00", 
+      "endDate": "2016-03-05T14:33:19.598762+02:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -44,7 +44,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "dateModified": "2016-02-04T18:43:58.481009+02:00", 
+    "dateModified": "2016-02-08T14:33:09.653290+02:00", 
     "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
       "contactPoint": {
@@ -86,7 +86,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "1dfdecff64ee4c828b1d5b2f80f3d711", 
+        "id": "427dbb2888c94cc7b5d9b52f59668983", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -95,8 +95,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "next_check": "2016-03-05T18:44:08.427031+02:00", 
-    "id": "f39af08cc23e4c35b379efc4ff14f410", 
+    "next_check": "2016-03-09T14:33:19.598762+02:00", 
+    "id": "426b4a12a7914da4b5085c151d304492", 
     "awardCriteria": "lowestCost"
   }
 }
