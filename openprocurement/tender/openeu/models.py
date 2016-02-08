@@ -95,6 +95,13 @@ class ConfidentialDocument(Document):
     confidentiality = StringType(choices=['public', 'buyerOnly'], default='public')
     confidentialityRationale = StringType()
 
+    def validate_confidentialityRationale(self, data, val):
+        if data['confidentiality'] != 'public':
+            if not val:
+                raise ValidationError(u"confidentialityRationale is required")
+            elif len(val) < 30:
+                raise ValidationError(u"confidentialityRationale should contain at least 30 characters")
+
 
 class Bid(BaseBid):
     class Options:
