@@ -142,7 +142,7 @@ class DumpsTestAppwebtest(TestApp):
         return resp
 
 
-class TenderUAResourceTest(BaseTenderWebTest):
+class TenderLimitedResourceTest(BaseTenderWebTest):
     initial_data = test_tender_data
 
     def setUp(self):
