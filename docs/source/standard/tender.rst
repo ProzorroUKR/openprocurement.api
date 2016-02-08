@@ -64,14 +64,6 @@ Schema
    |ocdsDescription|
    All documents and attachments related to the tender.
 
-:bids:
-   List of :ref:`bid` objects
-
-   A list of all bids placed in the tender with information about tenderers, their proposal and other qualification documentation.
-
-   |ocdsDescription|
-   A list of all the companies who entered submissions for the tender.
-
 :awards:
     List of :ref:`award` objects
 

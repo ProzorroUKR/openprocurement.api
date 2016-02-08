@@ -13,7 +13,6 @@ areas that were not covered by it.
 
    contract
    item
-   bid
    document
    tender
    award
