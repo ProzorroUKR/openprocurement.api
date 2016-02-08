@@ -463,10 +463,12 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.status, '201 Created')
             priv_doc_id = response.json['data']['id']
 
+        # set confidentiality properties
         with open('docs/source/tutorial/mark-bid-doc-private.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/bids/{}/documents/{}?acc_token={}'.format(
                 self.tender_id, bid1_id, priv_doc_id, bids_access[bid1_id]), {'data': {
                     'confidentiality': 'buyerOnly',
+                    'confidentialityRationale': 'Only our company sells badgers with pink hair.',
                 }})
             self.assertEqual(response.status, '200 OK')
 
