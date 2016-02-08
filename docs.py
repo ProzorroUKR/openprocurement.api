@@ -251,12 +251,40 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
                     self.tender_id, self.award_id, owner_token), {'data': {'status': 'active'}})
             self.assertEqual(response.status, '200 OK')
 
-        #### Contract signing
+        #### Contracts
         #
 
-        response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
+        with open('docs/source/tutorial/tender-contract-status.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
                     self.tender_id, owner_token))
-        contract_id = response.json['data'][0]['id']
+            self.assertEqual(response.status, '200 OK')
+        self.contract_id = response.json['data'][0]['id']
+
+        #### Uploading Contract documentation
+        #
+
+        with open('docs/source/tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
+            response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
+                self.tender_id, self.contract_id), upload_files=[('file', 'document_one.doc', 'content')])
+            self.assertEqual(response.status, '201 Created')
+
+        with open('docs/source/tutorial/tender-contract-get-documents.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/contracts/{}/documents'.format(
+                self.tender_id, self.contract_id))
+        self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/tutorial/tender-contract-upload-second-document.http', 'w') as self.app.file_obj:
+            response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
+                self.tender_id, self.contract_id), upload_files=[('file', 'document_two.doc', 'content')])
+            self.assertEqual(response.status, '201 Created')
+
+        with open('docs/source/tutorial/tender-contract-get-documents-again.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/contracts/{}/documents'.format(
+                self.tender_id, self.contract_id))
+        self.assertEqual(response.status, '200 OK')
+
+        #### Contract signing
+        #
 
         tender = self.db.get(self.tender_id)
         for i in tender.get('awards', []):
@@ -265,7 +293,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
 
         with open('docs/source/tutorial/tender-contract-sign.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, contract_id, owner_token), {'data': {'status': 'active'}})
+                    self.tender_id, self.contract_id, owner_token), {'data': {'status': 'active'}})
             self.assertEqual(response.status, '200 OK')
 
         #### Preparing the cancellation request

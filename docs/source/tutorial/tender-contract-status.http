@@ -1,0 +1,16 @@
+GET /api/0.12/tenders/7e9a7fecd9984fe1abe529f851bd23f9/contracts?acc_token=d98eb1dded7644858e6ff72c1ad7ecde HTTP/1.0
+Authorization: Basic dG9rZW46
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "status": "pending", 
+      "awardID": "234cdea5d53048c7879b6b1a76240a8c", 
+      "id": "3c55e0ac887b46f687f72a787e36f4b3"
+    }
+  ]
+}
+

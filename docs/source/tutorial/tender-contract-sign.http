@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/af58d03e526f4a01bc8f27d62f1b5090/contracts/05e5810b944147a29bd0709b42fc458b?acc_token=2f4eba002a9e4b8eab61bea83937b0d7 HTTP/1.0
+PATCH /api/0.12/tenders/7e9a7fecd9984fe1abe529f851bd23f9/contracts/3c55e0ac887b46f687f72a787e36f4b3?acc_token=d98eb1dded7644858e6ff72c1ad7ecde HTTP/1.0
 Authorization: Basic dG9rZW46
 Content-Length: 30
 Content-Type: application/json
@@ -15,8 +15,28 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "awardID": "1f8c62bc794049c4b7d5254103e9908a", 
-    "id": "05e5810b944147a29bd0709b42fc458b"
+    "documents": [
+      {
+        "title": "document_one.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/7e9a7fecd9984fe1abe529f851bd23f9/contracts/3c55e0ac887b46f687f72a787e36f4b3/documents/ee67cad6de5c4324aba060097a6315b0?download=83a20add62524810bf7cf7d2ef63fb9c", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-08T14:50:27.541004+02:00", 
+        "id": "ee67cad6de5c4324aba060097a6315b0", 
+        "dateModified": "2016-02-08T14:50:27.541050+02:00"
+      }, 
+      {
+        "title": "document_two.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/7e9a7fecd9984fe1abe529f851bd23f9/contracts/3c55e0ac887b46f687f72a787e36f4b3/documents/6d5feee733d14c68a88162d844156701?download=ba12c7a8ea8d406d9a371b4779301186", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-08T14:50:27.771748+02:00", 
+        "id": "6d5feee733d14c68a88162d844156701", 
+        "dateModified": "2016-02-08T14:50:27.771785+02:00"
+      }
+    ], 
+    "id": "3c55e0ac887b46f687f72a787e36f4b3", 
+    "awardID": "234cdea5d53048c7879b6b1a76240a8c"
   }
 }
 
