@@ -9,7 +9,7 @@ from openprocurement.api.utils import (
     error_handler,
     context_unpack,
 )
-from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status
+from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status, calculate_business_date
 from openprocurement.tender.openeu.models import Qualification
 from openprocurement.tender.openeu.traversal import qualifications_factory
 
@@ -64,6 +64,7 @@ def check_status(request):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.pre-qualification'}))
         tender.status = 'active.pre-qualification'
+        tender.qualificationPeriod = type(tender).qualificationPeriod({'startDate': now})
         check_initial_bids_count(request)
         prepare_qualifications(request)
         if tender.numberOfBids < 2 and tender.auctionPeriod:
@@ -75,7 +76,7 @@ def check_status(request):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.pre-qualification'}))
         tender.status = 'active.pre-qualification'
-        tender.qualificationPeriod.startDate = now
+        tender.qualificationPeriod = type(tender).qualificationPeriod({'startDate': now})
         check_initial_bids_count(request)
         prepare_qualifications(request)
         [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod]
@@ -85,10 +86,10 @@ def check_status(request):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification.stand-still'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.pre-qualification.stand-still'}))
         tender.status = 'active.pre-qualification.stand-still'
-        tender.qualificationPeriod.endDate = now + COMPLAINT_STAND_STILL_TIME
+        tender.qualificationPeriod.endDate = calculate_business_date(now, COMPLAINT_STAND_STILL_TIME)
         return
 
-    elif tender.status == 'active.pre-qualification.stand-still' and tender.auctionPeriod and tender.auctionPeriod.startDate <= now:
+    elif tender.status == 'active.pre-qualification.stand-still' and tender.qualificationPeriod and tender.qualificationPeriod.endDate <= now:
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
         tender.status = 'active.auction'
