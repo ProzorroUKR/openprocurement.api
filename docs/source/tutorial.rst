@@ -71,6 +71,34 @@ Procuring entity can register supplier information:
    :code:
 
 
+Uploading award documentation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can upload award documents only before confirm awarding decision. Let's add award document:
+
+.. include:: tutorial/tender-award-upload-document.http
+   :code:
+
+`201 Created` response code and `Location` header confirm document added.
+
+Let's see the list of award documents:
+
+.. include:: tutorial/tender-award-get-documents.http
+   :code:
+
+We can add another award document:
+
+.. include:: tutorial/tender-award-upload-second-document.http
+   :code:
+
+`201 Created` response code and `Location` header confirm second document added.
+
+Let's see the list of all uploaded award documents:
+
+.. include:: tutorial/tender-award-get-documents-again.http
+   :code:
+
+
 Award confirmation
 ~~~~~~~~~~~~~~~~~~
 
@@ -79,6 +107,32 @@ Procuring entity can confirm awarding decision:
 .. include:: tutorial/tender-award-approve.http
    :code:
 
+Uploading contract documentation
+--------------------------------
+
+Contract documents can be uploaded only up until conclusion of the agreement. Let's add contract document:
+
+.. include:: tutorial/tender-contract-upload-document.http
+   :code:
+
+`201 Created` response code and `Location` header confirm document added.
+
+Let's see the list of contract documents:
+
+.. include:: tutorial/tender-contract-get-documents.http
+   :code:
+
+We can add another contract document:
+
+.. include:: tutorial/tender-contract-upload-second-document.http
+   :code:
+
+`201 Created` response code and `Location` header confirm second document added.
+
+Let's see the list of all uploaded contract documents:
+
+.. include:: tutorial/tender-contract-get-documents-again.http
+   :code:
 
 Contract signing
 ----------------
