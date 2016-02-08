@@ -182,6 +182,15 @@ Then bidder should upload proposal technical document(s):
 .. include:: tutorial/upload-bid-proposal.http
    :code:
 
+
+.. include:: tutorial/upload-bid-private-proposal.http
+   :code:
+
+Documents may be marked as "private":
+
+.. include:: tutorial/mark-bid-doc-private.http
+   :code:
+
 It is possible to check the uploaded documents:
 
 .. include:: tutorial/bidder-documents.http
