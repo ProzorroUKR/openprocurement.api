@@ -89,8 +89,8 @@ class Organization(Model):
                                        required=False)
 
 
-class ConficentialDocument(Document):
-    """ Document """
+class ConfidentialDocument(Document):
+    """ Confidential Document """
 
     confidentiality = StringType(choices=['public', 'buyerOnly'], default='public')
     confidentialityRationale = StringType()
@@ -120,7 +120,7 @@ class Bid(BaseBid):
             'invalid': whitelist('id', 'status'),
             'deleted': whitelist('id', 'status'),
         }
-    documents = ListType(ModelType(ConficentialDocument), default=list())
+    documents = ListType(ModelType(ConfidentialDocument), default=list())
     status = StringType(choices=['pending', 'active', 'invalid', 'deleted'],
                         default='pending')
 
