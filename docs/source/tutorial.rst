@@ -182,11 +182,15 @@ Then bidder should upload proposal technical document(s):
 .. include:: tutorial/upload-bid-proposal.http
    :code:
 
+There are possibility to upload private documents:
 
 .. include:: tutorial/upload-bid-private-proposal.http
    :code:
 
-Documents may be marked as "private":
+To define the document as private `confidentiality` and `confidentialityRationale` fields shoud be set.
+`confidentiality` field value indicated is document `buyerOnly` (i.e. private) or `public`.
+`confidentialityRationale` is required for private documents and should contain at least 30 characters.
+So mark the document "private":
 
 .. include:: tutorial/mark-bid-doc-private.http
    :code:
