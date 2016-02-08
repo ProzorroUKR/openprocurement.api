@@ -10,7 +10,7 @@ from openprocurement.api.models import (plain_role, view_role, create_role,
                                         schematics_default_role,
                                         chronograph_role, chronograph_view_role)
 
-from openprocurement.api.models import (Value, IsoDateTimeType, Document, Bid,
+from openprocurement.api.models import (Value, IsoDateTimeType, Document,
                                         Organization, Item, SchematicsDocument,
                                         Model, Period, Contract, Revision
                                         )
@@ -79,7 +79,6 @@ class Tender(SchematicsDocument, Model):
     procurementMethodRationale_en = StringType()
     procurementMethodRationale_ru = StringType()
     procurementMethodType = StringType(default="reporting")
-    bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
     procuringEntity = ModelType(Organization, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
     awards = ListType(ModelType(Award), default=list())
