@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/7e9a7fecd9984fe1abe529f851bd23f9/contracts/3c55e0ac887b46f687f72a787e36f4b3?acc_token=d98eb1dded7644858e6ff72c1ad7ecde HTTP/1.0
+PATCH /api/0.12/tenders/76529955690a42148f6e59caf52f57bc/contracts/af0e353083c8486881f5fac11703b69e?acc_token=f8cd982c5857444aa6e633ef747434e2 HTTP/1.0
 Authorization: Basic dG9rZW46
 Content-Length: 30
 Content-Type: application/json
@@ -17,26 +17,26 @@ Content-Type: application/json; charset=UTF-8
     "status": "active", 
     "documents": [
       {
-        "title": "document_one.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/7e9a7fecd9984fe1abe529f851bd23f9/contracts/3c55e0ac887b46f687f72a787e36f4b3/documents/ee67cad6de5c4324aba060097a6315b0?download=83a20add62524810bf7cf7d2ef63fb9c", 
+        "title": "contract_first_document.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/76529955690a42148f6e59caf52f57bc/contracts/af0e353083c8486881f5fac11703b69e/documents/469c4e2a8c2e4b909cb4b0d07f69ec88?download=331ff304678a45799472464b2b0c0d74", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-08T14:50:27.541004+02:00", 
-        "id": "ee67cad6de5c4324aba060097a6315b0", 
-        "dateModified": "2016-02-08T14:50:27.541050+02:00"
+        "datePublished": "2016-02-08T15:42:35.985300+02:00", 
+        "id": "469c4e2a8c2e4b909cb4b0d07f69ec88", 
+        "dateModified": "2016-02-08T15:42:35.985339+02:00"
       }, 
       {
-        "title": "document_two.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/7e9a7fecd9984fe1abe529f851bd23f9/contracts/3c55e0ac887b46f687f72a787e36f4b3/documents/6d5feee733d14c68a88162d844156701?download=ba12c7a8ea8d406d9a371b4779301186", 
+        "title": "contract_second_document.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/76529955690a42148f6e59caf52f57bc/contracts/af0e353083c8486881f5fac11703b69e/documents/f6a53d022e8e45d6926e8cfd05862607?download=85348ecf11fe460c82921efb93813d09", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-08T14:50:27.771748+02:00", 
-        "id": "6d5feee733d14c68a88162d844156701", 
-        "dateModified": "2016-02-08T14:50:27.771785+02:00"
+        "datePublished": "2016-02-08T15:42:36.193524+02:00", 
+        "id": "f6a53d022e8e45d6926e8cfd05862607", 
+        "dateModified": "2016-02-08T15:42:36.193565+02:00"
       }
     ], 
-    "id": "3c55e0ac887b46f687f72a787e36f4b3", 
-    "awardID": "234cdea5d53048c7879b6b1a76240a8c"
+    "id": "af0e353083c8486881f5fac11703b69e", 
+    "awardID": "29479328b2dd4774885d6b8508b4f3cb"
   }
 }
 

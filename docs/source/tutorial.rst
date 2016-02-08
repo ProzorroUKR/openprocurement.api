@@ -74,7 +74,7 @@ Procuring entity can register supplier information:
 Uploading award documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can upload award documents only when award is in `pending` status. Let's add award document:
+You can upload award documents only before confirm awarding decision. Let's add award document:
 
 .. include:: tutorial/tender-award-upload-document.http
    :code:
@@ -108,14 +108,9 @@ Procuring entity can confirm awarding decision:
    :code:
 
 Uploading contract documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
-You can upload contract documents only when contract is in `pending` status. Let's check contract status:
-
-.. include:: tutorial/tender-contract-status.http
-   :code:
-
-Let's add contract document:
+Contract documents can be uploaded only up until conclusion of the agreement. Let's add contract document:
 
 .. include:: tutorial/tender-contract-upload-document.http
    :code:

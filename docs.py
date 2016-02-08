@@ -225,7 +225,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
 
         with open('docs/source/tutorial/tender-award-upload-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/awards/{}/documents'.format(
-                self.tender_id, self.award_id), upload_files=[('file', 'first_document.doc', 'content')])
+                self.tender_id, self.award_id), upload_files=[('file', 'award_first_document.doc', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/tender-award-get-documents.http', 'w') as self.app.file_obj:
@@ -235,7 +235,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
 
         with open('docs/source/tutorial/tender-award-upload-second-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/awards/{}/documents'.format(
-                self.tender_id, self.award_id), upload_files=[('file', 'second_document.doc', 'content')])
+                self.tender_id, self.award_id), upload_files=[('file', 'award_second_document.doc', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/tender-award-get-documents-again.http', 'w') as self.app.file_obj:
@@ -254,10 +254,8 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
         #### Contracts
         #
 
-        with open('docs/source/tutorial/tender-contract-status.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
-                    self.tender_id, owner_token))
-            self.assertEqual(response.status, '200 OK')
+        response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
+                self.tender_id, owner_token))
         self.contract_id = response.json['data'][0]['id']
 
         #### Uploading Contract documentation
@@ -265,7 +263,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
 
         with open('docs/source/tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
-                self.tender_id, self.contract_id), upload_files=[('file', 'document_one.doc', 'content')])
+                self.tender_id, self.contract_id), upload_files=[('file', 'contract_first_document.doc', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/tender-contract-get-documents.http', 'w') as self.app.file_obj:
@@ -275,7 +273,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
 
         with open('docs/source/tutorial/tender-contract-upload-second-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
-                self.tender_id, self.contract_id), upload_files=[('file', 'document_two.doc', 'content')])
+                self.tender_id, self.contract_id), upload_files=[('file', 'contract_second_document.doc', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/tender-contract-get-documents-again.http', 'w') as self.app.file_obj:
