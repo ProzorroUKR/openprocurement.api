@@ -205,6 +205,13 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
+        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']),
+                                       {"data": {"status": "active"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [{u'description': u"Can't update bid to (active) status", u'location': u'body', u'name': u'bid'}])
+
         self.set_status('complete')
 
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
