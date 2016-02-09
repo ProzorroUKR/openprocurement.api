@@ -44,7 +44,7 @@ Schema
 :value:
    :ref:`value`, required
 
-   Total available tender budget. Bids greater then ``value`` will be rejected.
+   Total available tender budget.
 
    |ocdsDescription|
    The total estimated value of the procurement.
