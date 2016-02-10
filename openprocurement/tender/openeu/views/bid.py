@@ -14,10 +14,7 @@ LOGGER = getLogger(__name__)
 from openprocurement.api.views.bid import TenderBidResource
 from openprocurement.api.models import get_now
 
-from openprocurement.api.validation import (
-    validate_bid_data,
-    validate_patch_bid_data,
-)
+from openprocurement.api.validation import validate_patch_bid_data
 
 @opresource(name='Tender EU Bids',
             collection_path='/tenders/{tender_id}/bids',
@@ -26,6 +23,86 @@ from openprocurement.api.validation import (
             description="Tender EU bids")
 class TenderBidResource(BaseResource):
     """ Tender EU bids """
+    @json_view(permission='view_tender')
+    def collection_get(self):
+        """Bids Listing
+
+        Get Bids List
+        -------------
+
+        Example request to get bids list:
+
+        .. sourcecode:: http
+
+            GET /tenders/4879d3f8ee2443169b5fbbc9f89fa607/bids HTTP/1.1
+            Host: example.com
+            Accept: application/json
+
+        This is what one should expect in response:
+
+        .. sourcecode:: http
+
+            HTTP/1.1 200 OK
+            Content-Type: application/json
+
+            {
+                "data": [
+                    {
+                        "value": {
+                            "amount": 489,
+                            "currency": "UAH",
+                            "valueAddedTaxIncluded": true
+                        }
+                    }
+                ]
+            }
+
+        """
+        tender = self.request.validated['tender']
+        if self.request.validated['tender_status'] == 'active.tendering':
+            self.request.errors.add('body', 'data', 'Can\'t view bids in current ({}) tender status'.format(self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        return {'data': [i.serialize(self.request.validated['tender_status']) for i in tender.bids]}
+
+    @json_view(permission='view_tender')
+    def get(self):
+        """Retrieving the proposal
+
+        Example request for retrieving the proposal:
+
+        .. sourcecode:: http
+
+            GET /tenders/4879d3f8ee2443169b5fbbc9f89fa607/bids/71b6c23ed8944d688e92a31ec8c3f61a HTTP/1.1
+            Host: example.com
+            Accept: application/json
+
+        And here is the response to be expected:
+
+        .. sourcecode:: http
+
+            HTTP/1.0 200 OK
+            Content-Type: application/json
+
+            {
+                "data": {
+                    "value": {
+                        "amount": 600,
+                        "currency": "UAH",
+                        "valueAddedTaxIncluded": true
+                    }
+                }
+            }
+
+        """
+        if self.request.authenticated_role == 'bid_owner':
+            return {'data': self.request.context.serialize('view')}
+        if self.request.validated['tender_status'] == 'active.tendering':
+            self.request.errors.add('body', 'data', 'Can\'t view bid in current ({}) tender status'.format(self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        return {'data': self.request.context.serialize(self.request.validated['tender_status'])}
+
     @json_view(content_type="application/json", permission='edit_bid', validators=(validate_patch_bid_data,))
     def patch(self):
         """Update of proposal
