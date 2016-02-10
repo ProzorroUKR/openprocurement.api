@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/f39af08cc23e4c35b379efc4ff14f410/qualifications HTTP/1.0
+GET /api/0.12/tenders/426b4a12a7914da4b5085c151d304492/qualifications HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,18 +8,18 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "status": "pending", 
-      "id": "69406003d3a147a8a922afc986c00f95", 
-      "bidID": "350638e702b64a558f6a7cc09016186b"
+      "id": "495bb5e3d3b44ad294e674d0262692aa", 
+      "bidID": "ccb2b531e4e8432d85ae97b5e04c41b7"
     }, 
     {
       "status": "pending", 
-      "id": "0f67e2ff4dca4509b63fcbcf76b90790", 
-      "bidID": "ad6e7391feb34feba7760b9c3a1366da"
+      "id": "5e51005c34df47a683cddf827371b97f", 
+      "bidID": "78559aafc3be495fb849a7f92cc9958d"
     }, 
     {
       "status": "pending", 
-      "id": "8a0204d13d7e46559eb15dd44df19932", 
-      "bidID": "3d5c5b3291be41fdafd0830e4c62c60d"
+      "id": "249973d98cca43858d9075e5ce9de2ef", 
+      "bidID": "da8208af706649ea9ce54d1b81eb2adf"
     }
   ]
 }

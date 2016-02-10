@@ -97,6 +97,14 @@ class ConfidentialDocument(Document):
     confidentiality = StringType(choices=['public', 'buyerOnly'], default='public')
     confidentialityRationale = StringType()
 
+    def validate_confidentialityRationale(self, data, val):
+        if data['confidentiality'] != 'public':
+            if not val:
+                raise ValidationError(u"confidentialityRationale is required")
+            elif len(val) < 30:
+                raise ValidationError(u"confidentialityRationale should contain at least 30 characters")
+
+
 class Lot(BaseLot):
 
     class Options:
@@ -140,15 +148,15 @@ class Bid(BaseBid):
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
             'active.enquiries': whitelist(),
             'active.tendering': whitelist(),
-            'active.pre-qualification': enquiries_role,
-            'active.pre-qualification.stand-still': enquiries_role,
-            'active.auction': whitelist(),
+            'active.pre-qualification': whitelist('id', 'status', 'documents'),
+            'active.pre-qualification.stand-still': whitelist('id', 'status', 'documents'),
+            'active.auction': whitelist('id', 'status', 'documents'),
             'active.qualification': view_bid_role,
             'active.awarded': view_bid_role,
             'complete': view_bid_role,
             'unsuccessful': view_bid_role,
             'cancelled': view_bid_role,
-            'invalid': whitelist('id', 'status'),
+            'invalid': whitelist('id', 'status', 'documents'),
             'deleted': whitelist('id', 'status'),
         }
     documents = ListType(ModelType(ConfidentialDocument), default=list())

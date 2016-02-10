@@ -205,6 +205,13 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
+        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']),
+                                       {"data": {"status": "active"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [{u'description': u"Can't update bid to (active) status", u'location': u'body', u'name': u'bid'}])
+
         self.set_status('complete')
 
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
@@ -665,6 +672,11 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         bid = response.json['data']
         self.bid_id = bid['id']
         self.bid_token = response.json['access']['token']
+        # create second bid
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[1]})
+        bid2 = response.json['data']
+        self.bid2_id = bid2['id']
+        self.bid2_token = response.json['access']['token']
 
     def test_not_found(self):
         response = self.app.post('/tenders/some_id/bids/some_id/documents', status=404, upload_files=[
@@ -780,6 +792,96 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
             {u'description': u'Not Found', u'location': u'url', u'name': u'document_id'}
         ])
 
+    def test_get_tender_bidder_document(self):
+        response = self.app.post('/tenders/{}/bids/{}/documents'.format(
+            self.tender_id, self.bid_id), upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+        self.assertEqual('name.doc', response.json["data"]["title"])
+        key = response.json["data"]["url"].split('?')[-1]
+
+        response = self.app.get('/tenders/{}/bids/{}/documents'.format(self.tender_id, self.bid_id), status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+
+        # switch to active.pre-qualification
+        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+
+        self.app.authorization = ('Basic', ('anon', ''))
+        response = self.app.get('/tenders/{}/bids/{}/documents'.format(self.tender_id, self.bid_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 1)
+        self.assertIn(key, response.json['data'][0]['url'])
+
+        # qualify bids
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        self.app.authorization = ('Basic', ('token', ''))
+        for qualification in response.json['data']:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(self.tender_id,
+                                                                                  qualification['id']),
+                                           {"data": {"status": "active"}})
+            self.assertEqual(response.status, "200 OK")
+
+        # switch to active.pre-qualification.stand-still
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"status": 'active.pre-qualification.stand-still'}})
+        self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
+
+        self.app.authorization = ('Basic', ('anon', ''))
+        response = self.app.get('/tenders/{}/bids/{}/documents'.format(self.tender_id, self.bid_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 1)
+        self.assertIn(key, response.json['data'][0]['url'])
+
+        # switch to active.auction
+        self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json['data']['status'], "active.auction")
+
+        self.app.authorization = ('Basic', ('anon', ''))
+        response = self.app.get('/tenders/{}/bids/{}/documents'.format(self.tender_id, self.bid_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 1)
+        self.assertIn(key, response.json['data'][0]['url'])
+
+        # switch to qualification
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+        auction_bids_data = response.json['data']['bids']
+        response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id),
+                                      {'data': {'bids': auction_bids_data}})
+        self.assertEqual(response.status, "200 OK")
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.json['data']['status'], "active.qualification")
+
+        self.app.authorization = ('Basic', ('anon', ''))
+        response = self.app.get('/tenders/{}/bids/{}/documents'.format(self.tender_id, self.bid_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 1)
+        self.assertIn(key, response.json['data'][0]['url'])
+
+        # get awards
+        response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+        # get pending award
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+
+        self.app.authorization = ('Basic', ('token', ''))
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
+                            {"data": {"status": "active"}})
+        self.assertEqual(response.status, "200 OK")
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.json['data']['status'], "active.awarded")
+
+        self.app.authorization = ('Basic', ('anon', ''))
+        response = self.app.get('/tenders/{}/bids/{}/documents'.format(self.tender_id, self.bid_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 1)
+        self.assertIn(key, response.json['data'][0]['url'])
+
     def test_create_tender_bidder_document(self):
         response = self.app.post('/tenders/{}/bids/{}/documents'.format(
             self.tender_id, self.bid_id), upload_files=[('file', 'name.doc', 'content')])
@@ -842,13 +944,37 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertEqual('name.doc', response.json["data"]["title"])
 
-        # self.set_status('active.awarded')
-        #
-        # response = self.app.post('/tenders/{}/bids/{}/documents'.format(
-        #     self.tender_id, self.bid_id), upload_files=[('file', 'name.doc', 'content')], status=403)
-        # self.assertEqual(response.status, '403 Forbidden')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (active.awarded) tender status")
+        # switch to active.pre-qualification
+        self.set_status('active.pre-qualification', {'status': 'active.tendering'})
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.app.authorization = auth
+
+        response = self.app.post('/tenders/{}/bids/{}/documents'.format(
+            self.tender_id, self.bid_id), upload_files=[('file', 'name.doc', 'content')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (active.pre-qualification) tender status")
+
+        # list qualifications
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        self.assertEqual(response.status, "200 OK")
+        # qualify bids
+        for qualification in response.json['data']:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(self.tender_id,
+                                                                                  qualification['id']),
+                                           {"data": {"status": "active"}})
+            self.assertEqual(response.status, "200 OK")
+
+        # switch to active.pre-qualification.stand-still
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"status": 'active.pre-qualification.stand-still'}})
+
+        response = self.app.post('/tenders/{}/bids/{}/documents'.format(
+            self.tender_id, self.bid_id), upload_files=[('file', 'name.doc', 'content')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (active.pre-qualification.stand-still) tender status")
 
     def test_put_tender_bidder_document(self):
         response = self.app.post('/tenders/{}/bids/{}/documents'.format(
@@ -904,13 +1030,37 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_length, 8)
         self.assertEqual(response.body, 'content3')
 
-        # self.set_status('active.awarded')
-        #
-        # response = self.app.put('/tenders/{}/bids/{}/documents/{}'.format(
-        #     self.tender_id, self.bid_id, doc_id), upload_files=[('file', 'name.doc', 'content3')], status=403)
-        # self.assertEqual(response.status, '403 Forbidden')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.awarded) tender status")
+        # switch to active.pre-qualification
+        self.set_status('active.pre-qualification', {'status': 'active.tendering'})
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.app.authorization = auth
+
+        response = self.app.put('/tenders/{}/bids/{}/documents/{}'.format(
+            self.tender_id, self.bid_id, doc_id), upload_files=[('file', 'name.doc', 'content3')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.pre-qualification) tender status")
+
+        # list qualifications
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        self.assertEqual(response.status, "200 OK")
+        # qualify bids
+        for qualification in response.json['data']:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(self.tender_id,
+                                                                                  qualification['id']),
+                                           {"data": {"status": "active"}})
+            self.assertEqual(response.status, "200 OK")
+
+        # switch to active.pre-qualification.stand-still
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"status": 'active.pre-qualification.stand-still'}})
+
+        response = self.app.put('/tenders/{}/bids/{}/documents/{}'.format(
+            self.tender_id, self.bid_id, doc_id), upload_files=[('file', 'name.doc', 'content3')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.pre-qualification.stand-still) tender status")
 
     def test_patch_tender_bidder_document(self):
         response = self.app.post('/tenders/{}/bids/{}/documents'.format(
@@ -953,12 +1103,35 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertEqual('document description', response.json["data"]["description"])
 
-        # self.set_status('active.awarded')
-        #
-        # response = self.app.patch_json('/tenders/{}/bids/{}/documents/{}'.format(self.tender_id, self.bid_id, doc_id), {"data": {"description": "document description"}}, status=403)
-        # self.assertEqual(response.status, '403 Forbidden')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.awarded) tender status")
+        # switch to active.pre-qualification
+        self.set_status('active.pre-qualification', {'status': 'active.tendering'})
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.app.authorization = auth
+
+        response = self.app.patch_json('/tenders/{}/bids/{}/documents/{}'.format(self.tender_id, self.bid_id, doc_id), {"data": {"description": "document description"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.pre-qualification) tender status")
+
+        # list qualifications
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        self.assertEqual(response.status, "200 OK")
+        # qualify bids
+        for qualification in response.json['data']:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(self.tender_id,
+                                                                                  qualification['id']),
+                                           {"data": {"status": "active"}})
+            self.assertEqual(response.status, "200 OK")
+
+        # switch to active.pre-qualification.stand-still
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"status": 'active.pre-qualification.stand-still'}})
+
+        response = self.app.patch_json('/tenders/{}/bids/{}/documents/{}'.format(self.tender_id, self.bid_id, doc_id), {"data": {"description": "document description"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.pre-qualification.stand-still) tender status")
 
     def test_create_tender_bidder_document_nopending(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
