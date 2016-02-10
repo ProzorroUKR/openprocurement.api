@@ -15,13 +15,15 @@ from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import Bid as BaseBid
 from openprocurement.api.models import Award as BaseAward
 from openprocurement.api.models import ContactPoint as BaseContactPoint
-from openprocurement.api.models import validate_cpv_group, validate_items_uniq
+from openprocurement.api.models import LotValue as BaseLotValue
+from openprocurement.api.models import Lot as BaseLot
+from openprocurement.api.models import validate_cpv_group, validate_items_uniq, validate_lots_uniq
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
-    schematics_embedded_role, get_now,
+    schematics_embedded_role, get_now, embedded_lot_role, default_lot_role
 )
 from openprocurement.tender.openua.utils import calculate_business_date
 from openprocurement.tender.openua.models import (
@@ -95,6 +97,35 @@ class ConfidentialDocument(Document):
     confidentiality = StringType(choices=['public', 'buyerOnly'], default='public')
     confidentialityRationale = StringType()
 
+class Lot(BaseLot):
+
+    class Options:
+        roles = {
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'minimalStep'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'minimalStep'),
+            'embedded': embedded_lot_role,
+            'view': default_lot_role,
+            'default': default_lot_role,
+            'auction_view': default_lot_role,
+            'auction_patch': whitelist('id', 'auctionUrl'),
+            'chronograph': whitelist('id', 'auctionPeriod'),
+            'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
+        }
+
+    @serializable
+    def numberOfBids(self):
+        """A property that is serialized by schematics exports."""
+        bids = [
+            bid
+            for bid in self.__parent__.bids
+            if self.id in [i.relatedLot for i in bid.lotValues if i.status in ["active", "pending"]] and bid.status in ["active", "pending"]
+        ]
+        return len(bids)
+
+
+class LotValue(BaseLotValue):
+    status = StringType(choices=['pending', 'active', 'unsuccessful'],
+                        default='pending')
 
 class Bid(BaseBid):
     class Options:
@@ -121,13 +152,26 @@ class Bid(BaseBid):
             'deleted': whitelist('id', 'status'),
         }
     documents = ListType(ModelType(ConfidentialDocument), default=list())
-    status = StringType(choices=['pending', 'active', 'invalid', 'deleted'],
+    status = StringType(choices=['pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
                         default='pending')
+
+    lotValues = ListType(ModelType(LotValue), default=list())
 
     def serialize(self, role=None):
         if role and self.status in ['invalid', 'deleted']:
             role = self.status
         return super(Bid, self).serialize(role)
+
+    @serializable(serialized_name="status")
+    def serialize_status(self):
+        if self.__parent__.status in ['active.tendering', 'active.pre-qualification']:
+            return self.status
+        if self.__parent__.lots:
+            if [i.relatedLot for i in self.lotValues if i.status == 'active']:
+                return 'active'
+            else:
+                return 'unsuccessful'
+        return self.status
 
     @bids_validation_wrapper
     def validate_value(self, data, value):
@@ -163,13 +207,24 @@ class Qualification(Model):
             'edit': blacklist('id', 'documents'),
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
+            'auction_view': whitelist('value', 'date', 'relatedLot', 'participationUrl'),
+            'auction_post': whitelist('value', 'date', 'relatedLot'),
+            'auction_patch': whitelist('participationUrl', 'relatedLot'),
         }
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     bidID = StringType(required=True)
+    lotID = MD5Type()
     status = StringType(choices=['pending', 'active', 'unsuccessful', 'cancelled'], default='pending')
     date = IsoDateTimeType()
     documents = ListType(ModelType(Document), default=list())
+
+    def validate_lotID(self, data, lotID):
+        if isinstance(data['__parent__'], Model):
+            if not lotID and data['__parent__'].lots:
+                raise ValidationError(u'This field is required.')
+            if lotID and lotID not in [i.id for i in data['__parent__'].lots]:
+                raise ValidationError(u"lotID should be one of lots")
 
 
 @implementer(ITender)
@@ -218,10 +273,10 @@ class Tender(BaseTender):
     complaints = ListType(ModelType(Complaint), default=list())
     awards = ListType(ModelType(Award), default=list())
     procuringEntity = ModelType(Organization, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    # bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
-    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
+    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted',])  # A list of all the companies who entered submissions for the tender.
     qualifications = ListType(ModelType(Qualification), default=list())
     qualificationPeriod = ModelType(Period)
+    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 

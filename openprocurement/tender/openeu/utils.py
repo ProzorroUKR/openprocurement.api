@@ -10,8 +10,9 @@ from openprocurement.api.utils import (
     context_unpack,
 )
 from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status, calculate_business_date
-from openprocurement.tender.openeu.models import Qualification
+from openprocurement.tender.openeu.models import Qualification, COMPLAINT_STAND_STILL
 from openprocurement.tender.openeu.traversal import qualifications_factory
+from barbecue import chef
 
 LOGGER = getLogger(__name__)
 COMPLAINT_STAND_STILL_TIME = timedelta(days=10)
@@ -34,26 +35,67 @@ def check_initial_bids_count(request):
             tender.status = 'unsuccessful'
 
 
-def prepare_qualifications(request, bids=[]):
+def prepare_qualifications(request, bids=[], lotId=None):
     """ creates Qualification for each Bid
     """
     new_qualifications = []
     tender = request.validated['tender']
     if not bids:
         bids = tender.bids
-    for bid in bids:
-        if bid.status == 'pending':
-            qualification = Qualification({'bidID': bid.id, 'status': 'pending'})
-            tender.qualifications.append(qualification)
-            new_qualifications.append(qualification.id)
+    if tender.lots:
+        active_lots = [lot.id for lot in tender.lots if lot.status == 'active']
+        for bid in bids:
+            for lotValue in bid.lotValues:
+                if lotValue.status == 'pending' and lotValue.relatedLot in active_lots:
+                    if lotId:
+                        if lotValue.relatedLot == lotId:
+                            qualification = Qualification({'bidID': bid.id, 'status': 'pending', 'lotID': lot.relatedLot})
+                            tender.qualifications.append(qualification)
+                            new_qualifications.append(qualification.id)
+                    else:
+                        qualification = Qualification({'bidID': bid.id, 'status': 'pending', 'lotID': lotValue.relatedLot})
+                        tender.qualifications.append(qualification)
+                        new_qualifications.append(qualification.id)
+    else:
+        for bid in bids:
+            if bid.status == 'pending':
+                qualification = Qualification({'bidID': bid.id, 'status': 'pending'})
+                tender.qualifications.append(qualification)
+                new_qualifications.append(qualification.id)
     return new_qualifications
 
 
 def all_bids_are_reviewed(request):
     """ checks if all tender bids are reviewed
     """
-    return all([bid.status != 'pending' for bid in request.validated['tender'].bids])
+    if request.validated['tender'].lots:
+        active_lots = [lot.id for lot in request.validated['tender'].lots if lot.status == 'active']
+        return all([lotValue.status != 'pending'
+                    for bid in request.validated['tender'].bids
+                    for lotValue in bid.lotValues
+                    if lotValue.relatedLot in active_lots
+        ])
+    else:
+        return all([bid.status != 'pending' for bid in request.validated['tender'].bids])
 
+def switch_to_qualificationPeriod(tender):
+    if tender.lots:
+        active_lots = [lot.id for lot in tender.lots if lot.status == 'active']
+        for lot in tender.lots:
+            sum_of_bids_for_lot = sum([1
+                  for bid in tender.bids
+                  for lotValue in bid.lotValues
+                  if lotValue.status == 'active' and lotValue.relatedLot == lot.id])
+            if sum_of_bids_for_lot < 2:
+                lot.status = 'unsuccessful'
+        if [lot for lot in tender.lots if lot.status == 'active']:
+            tender.qualificationPeriod.endDate = get_now() + COMPLAINT_STAND_STILL
+        else:
+            tender.status = 'unsuccessful'
+    elif sum([1 for bid in tender.bids if bid.status == 'active']) < 2:
+        tender.status = 'unsuccessful'
+    else:
+        tender.qualificationPeriod.endDate = get_now() + COMPLAINT_STAND_STILL
 
 def check_status(request):
     tender = request.validated['tender']
@@ -158,3 +200,92 @@ def check_status(request):
                 lots_ends.append(standStillEnd)
         if lots_ends:
             return
+
+
+def add_next_award(request):
+    tender = request.validated['tender']
+    now = get_now()
+    if not tender.awardPeriod:
+        tender.awardPeriod = type(tender).awardPeriod({})
+    if not tender.awardPeriod.startDate:
+        tender.awardPeriod.startDate = now
+    if tender.lots:
+        statuses = set()
+        for lot in tender.lots:
+            if lot.status != 'active':
+                continue
+            lot_awards = [i for i in tender.awards if i.lotID == lot.id]
+            if lot_awards and lot_awards[-1].status in ['pending', 'active']:
+                statuses.add(lot_awards[-1].status if lot_awards else 'unsuccessful')
+                continue
+            lot_items = [i.id for i in tender.items if i.relatedLot == lot.id]
+            features = [
+                i
+                for i in (tender.features or [])
+                if i.featureOf == 'tenderer' or i.featureOf == 'lot' and i.relatedItem == lot.id or i.featureOf == 'item' and i.relatedItem in lot_items
+            ]
+            codes = [i.code for i in features]
+            bids = [
+                {
+                    'id': bid.id,
+                    'value': [i for i in bid.lotValues if lot.id == i.relatedLot][0].value,
+                    'tenderers': bid.tenderers,
+                    'parameters': [i for i in bid.parameters if i.code in codes],
+                    'date': [i for i in bid.lotValues if lot.id == i.relatedLot][0].date
+                }
+                for bid in tender.bids
+                if lot.id in [i.relatedLot for i in bid.lotValues if i.status == "active"]
+            ]
+            if not bids:
+                lot.status = 'unsuccessful'
+                statuses.add('unsuccessful')
+                continue
+            unsuccessful_awards = [i.bid_id for i in lot_awards if i.status == 'unsuccessful']
+            bids = chef(bids, features, unsuccessful_awards)
+            if bids:
+                bid = bids[0]
+                award = tender.__class__.awards.model_class({
+                    'bid_id': bid['id'],
+                    'lotID': lot.id,
+                    'status': 'pending',
+                    'value': bid['value'],
+                    'suppliers': bid['tenderers'],
+                    'complaintPeriod': {
+                        'startDate': now.isoformat()
+                    }
+                })
+                tender.awards.append(award)
+                request.response.headers['Location'] = request.route_url('Tender Awards', tender_id=tender.id, award_id=award['id'])
+                statuses.add('pending')
+            else:
+                statuses.add('unsuccessful')
+        if statuses.difference(set(['unsuccessful', 'active'])):
+            tender.awardPeriod.endDate = None
+            tender.status = 'active.qualification'
+        else:
+            tender.awardPeriod.endDate = now
+            tender.status = 'active.awarded'
+    else:
+        if not tender.awards or tender.awards[-1].status not in ['pending', 'active']:
+            unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
+            active_bids = [bid for bid in tender.bids if bid.status == "active"]
+            bids = chef(active_bids, tender.features or [], unsuccessful_awards)
+            if bids:
+                bid = bids[0].serialize()
+                award = tender.__class__.awards.model_class({
+                    'bid_id': bid['id'],
+                    'status': 'pending',
+                    'value': bid['value'],
+                    'suppliers': bid['tenderers'],
+                    'complaintPeriod': {
+                        'startDate': get_now().isoformat()
+                    }
+                })
+                tender.awards.append(award)
+                request.response.headers['Location'] = request.route_url('Tender Awards', tender_id=tender.id, award_id=award['id'])
+        if tender.awards[-1].status == 'pending':
+            tender.awardPeriod.endDate = None
+            tender.status = 'active.qualification'
+        else:
+            tender.awardPeriod.endDate = now
+            tender.status = 'active.awarded'
