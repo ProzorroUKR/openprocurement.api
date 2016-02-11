@@ -901,6 +901,8 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
 
         response = self.app.get('/tenders/{}/bids/{}/documents'.format(self.tender_id, self.bid_id), status=403)
         self.assertEqual(response.status, '403 Forbidden')
+        response = self.app.get('/tenders/{}/bids/{}/documents/{}'.format(self.tender_id, self.bid_id, doc_id), status=403)
+        self.assertEqual(response.status, '403 Forbidden')
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -921,6 +923,11 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 1)
         self.assertIn(key, response.json['data'][0]['url'])
+        response = self.app.get('/tenders/{}/bids/{}/documents/{}'.format(self.tender_id, self.bid_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['title'], u'name.doc')
+        self.assertEqual(response.json['data']['confidentiality'], u'public')
+        self.assertEqual(response.json['data']['format'], u'application/msword')
 
         # qualify bids
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
@@ -948,6 +955,11 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 1)
         self.assertIn(key, response.json['data'][0]['url'])
+        response = self.app.get('/tenders/{}/bids/{}/documents/{}'.format(self.tender_id, self.bid_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['title'], u'name.doc')
+        self.assertEqual(response.json['data']['confidentiality'], u'public')
+        self.assertEqual(response.json['data']['format'], u'application/msword')
 
         # switch to active.auction
         self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
@@ -968,6 +980,11 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 1)
         self.assertIn(key, response.json['data'][0]['url'])
+        response = self.app.get('/tenders/{}/bids/{}/documents/{}'.format(self.tender_id, self.bid_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['title'], u'name.doc')
+        self.assertEqual(response.json['data']['confidentiality'], u'public')
+        self.assertEqual(response.json['data']['format'], u'application/msword')
 
         # switch to qualification
         self.app.authorization = ('Basic', ('auction', ''))
@@ -992,6 +1009,11 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 1)
         self.assertIn(key, response.json['data'][0]['url'])
+        response = self.app.get('/tenders/{}/bids/{}/documents/{}'.format(self.tender_id, self.bid_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['title'], u'name.doc')
+        self.assertEqual(response.json['data']['confidentiality'], u'public')
+        self.assertEqual(response.json['data']['format'], u'application/msword')
 
         # get awards
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
@@ -1018,6 +1040,11 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 1)
         self.assertIn(key, response.json['data'][0]['url'])
+        response = self.app.get('/tenders/{}/bids/{}/documents/{}'.format(self.tender_id, self.bid_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['title'], u'name.doc')
+        self.assertEqual(response.json['data']['confidentiality'], u'public')
+        self.assertEqual(response.json['data']['format'], u'application/msword')
 
         # time travel
         tender = self.db.get(self.tender_id)
@@ -1047,6 +1074,11 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 1)
         self.assertIn(key, response.json['data'][0]['url'])
+        response = self.app.get('/tenders/{}/bids/{}/documents/{}'.format(self.tender_id, self.bid_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['title'], u'name.doc')
+        self.assertEqual(response.json['data']['confidentiality'], u'public')
+        self.assertEqual(response.json['data']['format'], u'application/msword')
 
     def test_create_tender_bidder_document(self):
         response = self.app.post('/tenders/{}/bids/{}/documents'.format(
