@@ -76,8 +76,8 @@ class TenderCancellationResourceTest(BaseTenderContentWebTest):
         ])
 
     def test_create_tender_cancellation(self):
-        response = self.app.post_json('/tenders/{}/cancellations'.format(
-            self.tender_id), {'data': {'reason': 'cancellation reason'}})
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         cancellation = response.json['data']
@@ -215,8 +215,8 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
-        response = self.app.post_json('/tenders/{}/cancellations'.format(
-            self.tender_id), {'data': {'reason': 'cancellation reason'}})
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
         cancellation = response.json['data']
         self.cancellation_id = cancellation['id']
 
@@ -240,7 +240,7 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'cancellation_id'}
         ])
 
-        response = self.app.post('/tenders/{}/cancellations/{}/documents'.format(self.tender_id, self.cancellation_id), status=404, upload_files=[
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id, self.cancellation_id, self.tender_token), status=404, upload_files=[
                                  ('invalid_value', 'name.doc', 'content')])
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
@@ -325,8 +325,8 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
         ])
 
     def test_create_tender_cancellation_document(self):
-        response = self.app.post('/tenders/{}/cancellations/{}/documents'.format(
-            self.tender_id, self.cancellation_id), upload_files=[('file', 'name.doc', 'content')])
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         doc_id = response.json["data"]['id']
@@ -371,21 +371,21 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
 
         self.set_status('complete')
 
-        response = self.app.post('/tenders/{}/cancellations/{}/documents'.format(
-            self.tender_id, self.cancellation_id), upload_files=[('file', 'name.doc', 'content')], status=403)
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
 
     def test_put_tender_cancellation_document(self):
-        response = self.app.post('/tenders/{}/cancellations/{}/documents'.format(
-            self.tender_id, self.cancellation_id), upload_files=[('file', 'name.doc', 'content')])
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
 
-        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}'.format(self.tender_id, self.cancellation_id, doc_id),
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id, self.cancellation_id, doc_id, self.tender_token),
                                 status=404,
                                 upload_files=[('invalid_name', 'name.doc', 'content')])
         self.assertEqual(response.status, '404 Not Found')
@@ -396,8 +396,8 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
                 u'body', u'name': u'file'}
         ])
 
-        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}'.format(
-            self.tender_id, self.cancellation_id, doc_id), upload_files=[('file', 'name.doc', 'content2')])
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content2')])
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
@@ -417,8 +417,8 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertEqual('name.doc', response.json["data"]["title"])
 
-        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}'.format(
-            self.tender_id, self.cancellation_id, doc_id), 'content3', content_type='application/msword')
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, doc_id, self.tender_token), 'content3', content_type='application/msword')
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
@@ -433,21 +433,21 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
 
         self.set_status('complete')
 
-        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}'.format(
-            self.tender_id, self.cancellation_id, doc_id), upload_files=[('file', 'name.doc', 'content3')], status=403)
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content3')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
 
     def test_patch_tender_cancellation_document(self):
-        response = self.app.post('/tenders/{}/cancellations/{}/documents'.format(
-            self.tender_id, self.cancellation_id), upload_files=[('file', 'name.doc', 'content')])
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
 
-        response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}'.format(self.tender_id, self.cancellation_id, doc_id), {"data": {"description": "document description"}})
+        response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id, self.cancellation_id, doc_id, self.tender_token), {"data": {"description": "document description"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
@@ -461,7 +461,7 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
 
         self.set_status('complete')
 
-        response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}'.format(self.tender_id, self.cancellation_id, doc_id), {"data": {"description": "document description"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id, self.cancellation_id, doc_id, self.tender_token), {"data": {"description": "document description"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
@@ -476,4 +476,3 @@ def suite():
 
 if __name__ == '__main__':
     unittest.main(defaultTest='suite')
-
