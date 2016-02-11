@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
+from datetime import timedelta, time, datetime
 from zope.interface import implementer
 from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
@@ -19,7 +19,7 @@ from openprocurement.api.models import (
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
     TZ, get_now, schematics_embedded_role, validate_lots_uniq,
-    embedded_lot_role, default_lot_role,
+    embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
 )
 from openprocurement.tender.openua.interfaces import ITenderUA
 from openprocurement.tender.openua.utils import (
@@ -99,6 +99,51 @@ class SifterListType(ListType):
             return data
         elif print_none:
             return data
+
+
+class TenderAuctionPeriod(Period):
+    """The auction period."""
+
+    @serializable(serialize_when_none=False)
+    def shouldStartAfter(self):
+        if self.endDate:
+            return
+        tender = self.__parent__
+        if tender.lots or tender.status not in ['active.tendering', 'active.auction']:
+            return
+        if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
+            return calc_auction_end_time(tender.numberOfBids, self.startDate).isoformat()
+        else:
+            decision_dates = [
+                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
+                for complaint in tender.complaints
+                if complaint.dateDecision
+            ]
+            decision_dates.append(tender.tenderPeriod.endDate)
+            return max(decision_dates).isoformat()
+
+
+class LotAuctionPeriod(Period):
+    """The auction period."""
+
+    @serializable(serialize_when_none=False)
+    def shouldStartAfter(self):
+        if self.endDate:
+            return
+        tender = get_tender(self)
+        lot = self.__parent__
+        if tender.status not in ['active.tendering', 'active.auction'] or lot.status != 'active':
+            return
+        if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
+            return calc_auction_end_time(lot.numberOfBids, self.startDate).isoformat()
+        else:
+            decision_dates = [
+                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
+                for complaint in tender.complaints
+                if complaint.dateDecision
+            ]
+            decision_dates.append(tender.tenderPeriod.endDate)
+            return max(decision_dates).isoformat()
 
 
 class Bid(BaseBid):
@@ -225,6 +270,8 @@ class Lot(BaseLot):
             'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
         }
 
+    auctionPeriod = ModelType(LotAuctionPeriod, default={})
+
     @serializable
     def numberOfBids(self):
         """A property that is serialized by schematics exports."""
@@ -274,6 +321,7 @@ class Tender(BaseTender):
 
     enquiryPeriod = ModelType(Period, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
+    auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     awards = ListType(ModelType(Award), default=list())
     complaints = ListType(ModelType(Complaint), default=list())
@@ -301,12 +349,25 @@ class Tender(BaseTender):
         """A property that is serialized by schematics exports."""
         return len([bid for bid in self.bids if bid.status == "active"])
 
-    @serializable
+    @serializable(serialize_when_none=False)
     def next_check(self):
         now = get_now()
         checks = []
         if self.status == 'active.tendering' and self.tenderPeriod.endDate and not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
+        elif not self.lots and self.status == 'active.auction' and self.auctionPeriod and self.auctionPeriod.startDate and not self.auctionPeriod.endDate:
+            if now < self.auctionPeriod.startDate:
+                checks.append(self.auctionPeriod.startDate.astimezone(TZ))
+            elif now < calc_auction_end_time(self.numberOfBids, self.auctionPeriod.startDate).astimezone(TZ):
+                checks.append(calc_auction_end_time(self.numberOfBids, self.auctionPeriod.startDate).astimezone(TZ))
+        elif self.lots and self.status == 'active.auction':
+            for lot in self.lots:
+                if lot.status != 'active' or not lot.auctionPeriod or not lot.auctionPeriod.startDate or lot.auctionPeriod.endDate:
+                    continue
+                if now < lot.auctionPeriod.startDate:
+                    checks.append(lot.auctionPeriod.startDate.astimezone(TZ))
+                elif now < calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ):
+                    checks.append(calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ))
         elif not self.lots and self.status == 'active.awarded':
             standStillEnds = [
                 a.complaintPeriod.endDate.astimezone(TZ)
@@ -335,7 +396,7 @@ class Tender(BaseTender):
                     lots_ends.append(standStillEnd)
             if lots_ends:
                 checks.append(min(lots_ends))
-        return sorted(checks)[0].isoformat() if checks else None
+        return min(checks).isoformat() if checks else None
 
     def invalidate_bids_data(self):
         for bid in self.bids:

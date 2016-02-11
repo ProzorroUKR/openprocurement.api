@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-02-14T18:54:24.696596+02:00"
+      "endDate": "2016-02-27T16:59:32.137349+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -61,93 +61,6 @@ DATA:
         "locality": "м. Вінниця"
       }
     }
-  }
-}
-
-Response: 201 Created
-Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd
-{
-  "access": {
-    "token": "0d8b9c3b5b5c4551829844cbbe979700"
-  }, 
-  "data": {
-    "procurementMethod": "open", 
-    "status": "active.tendering", 
-    "tenderID": "UA-2016-01-29-000001", 
-    "tenderPeriod": {
-      "startDate": "2016-01-29T18:54:26.346017+02:00", 
-      "endDate": "2016-02-14T18:54:24.696596+02:00"
-    }, 
-    "title": "футляри до державних нагород", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 35.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "items": [
-      {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "Послуги шкільних їдалень"
-          }
-        ], 
-        "id": "03636c21a8f943dcb8fac93d020240f3", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 1
-      }
-    ], 
-    "complaintPeriod": {
-      "startDate": "2016-01-29T18:54:26.346017+02:00", 
-      "endDate": "2016-02-10T18:54:24.696596+02:00"
-    }, 
-    "procurementMethodType": "aboveThresholdUA", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "next_check": "2016-02-14T18:54:24.696596+02:00", 
-    "procuringEntity": {
-      "contactPoint": {
-        "url": "http://sch10.edu.vn.ua/", 
-        "name": "Куца Світлана Валентинівна", 
-        "telephone": "+380 (432) 46-53-02"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "21725150", 
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      }, 
-      "name": "ЗОСШ #10 м.Вінниці", 
-      "address": {
-        "postalCode": "21027", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Стахурського. 22", 
-        "region": "м. Вінниця", 
-        "locality": "м. Вінниця"
-      }
-    }, 
-    "enquiryPeriod": {
-      "startDate": "2016-01-29T18:54:26.346017+02:00", 
-      "endDate": "2016-02-11T18:54:24.696596+02:00"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2016-01-29T18:54:26.421907+02:00", 
-    "id": "b337832d657e4a07bdd0f6572b431fbd", 
-    "awardCriteria": "lowestCost"
   }
 }
 
