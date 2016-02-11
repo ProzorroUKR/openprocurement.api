@@ -22,6 +22,7 @@ qualifications_resource = partial(resource, error_handler=error_handler, factory
 def check_initial_bids_count(request):
     tender = request.validated['tender']
     if tender.lots:
+        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod and i.auctionPeriod.startDate]
         [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2]
         if set([i.status for i in tender.lots]) == set(['unsuccessful']):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
@@ -31,6 +32,8 @@ def check_initial_bids_count(request):
         if tender.numberOfBids < 2:
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
+            if tender.auctionPeriod and tender.auctionPeriod.startDate:
+                tender.auctionPeriod.startDate = None
             tender.status = 'unsuccessful'
 
 
