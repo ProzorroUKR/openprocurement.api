@@ -21,7 +21,7 @@ from openprocurement.api.models import (
     TZ, get_now, schematics_embedded_role, validate_lots_uniq,
     embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
 )
-from openprocurement.tender.openua.interfaces import ITenderUA
+from openprocurement.api.models import ITender
 from openprocurement.tender.openua.utils import (
     calculate_business_date, BLOCK_COMPLAINT_STATUS,
 )
@@ -45,7 +45,7 @@ def bids_validation_wrapper(validation_func):
             return
         tender = data['__parent__']
         request = tender.__parent__.request
-        if request.method == "PATCH" and ITenderUA.providedBy(request.context) and request.authenticated_role == "tender_owner":
+        if request.method == "PATCH" and isinstance(tender, Tender) and request.authenticated_role == "tender_owner":
             # disable bids validation on tender PATCH requests as tender bids will be invalidated
             return
         return validation_func(klass, data, value)
@@ -283,7 +283,7 @@ class Lot(BaseLot):
         return len(bids)
 
 
-@implementer(ITenderUA)
+@implementer(ITender)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
 

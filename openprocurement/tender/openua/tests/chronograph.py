@@ -118,6 +118,28 @@ class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']["status"], "unsuccessful")
 
+    def test_set_auction_period(self):
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["status"], 'active.tendering')
+        item = response.json['data']
+        self.assertIn('auctionPeriod', item)
+        self.assertIn('shouldStartAfter', item['auctionPeriod'])
+        self.assertEqual(item['auctionPeriod']['shouldStartAfter'], response.json['data']['tenderPeriod']['endDate'])
+        self.assertEqual(response.json['data']['next_check'], response.json['data']['tenderPeriod']['endDate'])
+
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {"auctionPeriod": {"startDate": "9999-01-01T00:00:00+00:00"}}})
+        item = response.json['data']
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(item['auctionPeriod']['startDate'], '9999-01-01T00:00:00+00:00')
+
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {"auctionPeriod": {"startDate": None}}})
+        item = response.json['data']
+        self.assertEqual(response.status, '200 OK')
+        self.assertNotIn('startDate', item['auctionPeriod'])
+
 
 class TenderLotSwitch0BidResourceTest(BaseTenderUAContentWebTest):
     initial_lots = test_lots
@@ -201,6 +223,28 @@ class TenderLotSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']["status"], "unsuccessful")
+
+    def test_set_auction_period(self):
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["status"], 'active.tendering')
+        item = response.json['data']["lots"][0]
+        self.assertIn('auctionPeriod', item)
+        self.assertIn('shouldStartAfter', item['auctionPeriod'])
+        self.assertEqual(item['auctionPeriod']['shouldStartAfter'], response.json['data']['tenderPeriod']['endDate'])
+        self.assertEqual(response.json['data']['next_check'], response.json['data']['tenderPeriod']['endDate'])
+
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {"lots": [{"auctionPeriod": {"startDate": "9999-01-01T00:00:00+00:00"}} for i in self.initial_lots]}})
+        item = response.json['data']["lots"][0]
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(item['auctionPeriod']['startDate'], '9999-01-01T00:00:00+00:00')
+
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {"lots": [{"auctionPeriod": {"startDate": None}} for i in self.initial_lots]}})
+        item = response.json['data']["lots"][0]
+        self.assertEqual(response.status, '200 OK')
+        self.assertNotIn('startDate', item['auctionPeriod'])
 
 
 class Tender2LotSwitch0BidResourceTest(TenderLotSwitch0BidResourceTest):
