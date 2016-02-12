@@ -23,6 +23,7 @@ qualifications_resource = partial(resource, error_handler=error_handler, factory
 def check_initial_bids_count(request):
     tender = request.validated['tender']
     if tender.lots:
+        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod and i.auctionPeriod.startDate]
         [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2]
         if set([i.status for i in tender.lots]) == set(['unsuccessful']):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
@@ -32,6 +33,8 @@ def check_initial_bids_count(request):
         if tender.numberOfBids < 2:
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
+            if tender.auctionPeriod and tender.auctionPeriod.startDate:
+                tender.auctionPeriod.startDate = None
             tender.status = 'unsuccessful'
 
 
@@ -195,11 +198,6 @@ def check_status(request):
                     LOGGER.info('Switched lot {} of tender {} to {}'.format(lot['id'], tender.id, 'unsuccessful'),
                                 extra=context_unpack(request, {'MESSAGE_ID': 'switched_lot_unsuccessful'}, {'LOT_ID': lot['id']}))
                     check_tender_status(request)
-                    return
-            elif standStillEnd > now:
-                lots_ends.append(standStillEnd)
-        if lots_ends:
-            return
 
 
 def add_next_award(request):

@@ -1,5 +1,5 @@
 from uuid import uuid4
-from datetime import timedelta
+from datetime import timedelta, time, datetime
 from zope.interface import implementer
 from schematics.types import StringType, MD5Type
 from schematics.types.compound import ModelType
@@ -13,6 +13,7 @@ from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import Identifier as BaseIdentifier
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import Bid as BaseBid
+from openprocurement.api.models import Lot as BaseLot
 from openprocurement.api.models import Award as BaseAward
 from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import LotValue as BaseLotValue
@@ -23,7 +24,8 @@ from openprocurement.api.models import (
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
-    schematics_embedded_role, get_now, embedded_lot_role, default_lot_role
+    schematics_embedded_role, get_now, embedded_lot_role, default_lot_role,
+    calc_auction_end_time, get_tender, validate_lots_uniq,
 )
 from openprocurement.tender.openua.utils import calculate_business_date
 from openprocurement.tender.openua.models import (
@@ -105,6 +107,51 @@ class ConfidentialDocument(Document):
                 raise ValidationError(u"confidentialityRationale should contain at least 30 characters")
 
 
+class TenderAuctionPeriod(Period):
+    """The auction period."""
+
+    @serializable(serialize_when_none=False)
+    def shouldStartAfter(self):
+        if self.endDate:
+            return
+        tender = self.__parent__
+        if tender.lots or tender.status not in ['active.pre-qualification.stand-still', 'active.auction'] or not tender.qualificationPeriod or not tender.qualificationPeriod.endDate:
+            return
+        if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
+            return calc_auction_end_time(tender.numberOfBids, self.startDate).isoformat()
+        else:
+            decision_dates = [
+                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
+                for complaint in tender.complaints
+                if complaint.dateDecision
+            ]
+            decision_dates.append(tender.qualificationPeriod.endDate)
+            return max(decision_dates).isoformat()
+
+
+class LotAuctionPeriod(Period):
+    """The auction period."""
+
+    @serializable(serialize_when_none=False)
+    def shouldStartAfter(self):
+        if self.endDate:
+            return
+        tender = get_tender(self)
+        lot = self.__parent__
+        if tender.status not in ['active.pre-qualification.stand-still', 'active.auction'] or lot.status != 'active' or not tender.qualificationPeriod or not tender.qualificationPeriod.endDate:
+            return
+        if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
+            return calc_auction_end_time(lot.numberOfBids, self.startDate).isoformat()
+        else:
+            decision_dates = [
+                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
+                for complaint in tender.complaints
+                if complaint.dateDecision
+            ]
+            decision_dates.append(tender.qualificationPeriod.endDate)
+            return max(decision_dates).isoformat()
+
+
 class Lot(BaseLot):
 
     class Options:
@@ -120,6 +167,8 @@ class Lot(BaseLot):
             'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
         }
 
+    auctionPeriod = ModelType(LotAuctionPeriod, default={})
+
     @serializable
     def numberOfBids(self):
         """A property that is serialized by schematics exports."""
@@ -134,6 +183,7 @@ class Lot(BaseLot):
 class LotValue(BaseLotValue):
     status = StringType(choices=['pending', 'active', 'unsuccessful'],
                         default='pending')
+
 
 class Bid(BaseBid):
     class Options:
@@ -196,6 +246,7 @@ class Bid(BaseBid):
     @bids_validation_wrapper
     def validate_parameters(self, data, parameters):
         BaseBid._validator_functions['parameters'](self, data, parameters)
+
 
 class Award(BaseAward):
     """ An award for the given procurement. There may be more than one award
@@ -277,6 +328,7 @@ class Tender(BaseTender):
 
     enquiryPeriod = ModelType(Period, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
+    auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     complaints = ListType(ModelType(Complaint), default=list())
     awards = ListType(ModelType(Award), default=list())
@@ -301,7 +353,7 @@ class Tender(BaseTender):
         return Period(dict(startDate=self.tenderPeriod.startDate,
                            endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME)))
 
-    @serializable
+    @serializable(serialize_when_none=False)
     def next_check(self):
         now = get_now()
         checks = []
@@ -309,6 +361,19 @@ class Tender(BaseTender):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
         elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate:
             checks.append(self.qualificationPeriod.endDate.astimezone(TZ))
+        elif not self.lots and self.status == 'active.auction' and self.auctionPeriod and self.auctionPeriod.startDate and not self.auctionPeriod.endDate:
+            if now < self.auctionPeriod.startDate:
+                checks.append(self.auctionPeriod.startDate.astimezone(TZ))
+            elif now < calc_auction_end_time(self.numberOfBids, self.auctionPeriod.startDate).astimezone(TZ):
+                checks.append(calc_auction_end_time(self.numberOfBids, self.auctionPeriod.startDate).astimezone(TZ))
+        elif self.lots and self.status == 'active.auction':
+            for lot in self.lots:
+                if lot.status != 'active' or not lot.auctionPeriod or not lot.auctionPeriod.startDate or lot.auctionPeriod.endDate:
+                    continue
+                if now < lot.auctionPeriod.startDate:
+                    checks.append(lot.auctionPeriod.startDate.astimezone(TZ))
+                elif now < calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ):
+                    checks.append(calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ))
         elif not self.lots and self.status == 'active.awarded':
             standStillEnds = [
                 a.complaintPeriod.endDate.astimezone(TZ)
@@ -319,37 +384,25 @@ class Tender(BaseTender):
                 standStillEnd = max(standStillEnds)
                 if standStillEnd > now:
                     checks.append(standStillEnd)
-        # TODO: fix Lots functionality
-        # elif self.lots and self.status in ['active.qualification', 'active.awarded']:
-        #     lots_ends = []
-        #     for lot in self.lots:
-        #         if lot['status'] != 'active':
-        #             continue
-        #         lot_awards = [i for i in self.awards if i.lotID == lot.id]
-        #         standStillEnds = [
-        #             a.complaintPeriod.endDate.astimezone(TZ)
-        #             for a in lot_awards
-        #             if a.complaintPeriod.endDate
-        #         ]
-        #         if not standStillEnds:
-        #             continue
-        #         standStillEnd = max(standStillEnds)
-        #         if standStillEnd > now:
-        #             lots_ends.append(standStillEnd)
-        #     if lots_ends:
-        #         checks.append(min(lots_ends))
-        for complaint in self.complaints:
-            if complaint.status == 'claim' and complaint.dateSubmitted:
-                checks.append(complaint.dateSubmitted + COMPLAINT_STAND_STILL)
-            elif complaint.status == 'answered' and complaint.dateAnswered:
-                checks.append(complaint.dateAnswered + COMPLAINT_STAND_STILL)
-        for award in self.awards:
-            for complaint in award.complaints:
-                if complaint.status == 'claim' and complaint.dateSubmitted:
-                    checks.append(complaint.dateSubmitted + COMPLAINT_STAND_STILL)
-                elif complaint.status == 'answered' and complaint.dateAnswered:
-                    checks.append(complaint.dateAnswered + COMPLAINT_STAND_STILL)
-        return sorted(checks)[0].isoformat() if checks else None
+        elif self.lots and self.status in ['active.qualification', 'active.awarded']:
+            lots_ends = []
+            for lot in self.lots:
+                if lot['status'] != 'active':
+                    continue
+                lot_awards = [i for i in self.awards if i.lotID == lot.id]
+                standStillEnds = [
+                    a.complaintPeriod.endDate.astimezone(TZ)
+                    for a in lot_awards
+                    if a.complaintPeriod.endDate
+                ]
+                if not standStillEnds:
+                    continue
+                standStillEnd = max(standStillEnds)
+                if standStillEnd > now:
+                    lots_ends.append(standStillEnd)
+            if lots_ends:
+                checks.append(min(lots_ends))
+        return min(checks).isoformat() if checks else None
 
     def validate_tenderPeriod(self, data, period):
         if period and calculate_business_date(period.startDate, TENDERING_DURATION) > period.endDate:
