@@ -504,9 +504,13 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
-        self.assertEqual(set(tender), set([u'procurementMethodType', u'id', u'dateModified', u'tenderID', u'status', u'enquiryPeriod',
-                                           u'tenderPeriod', u'complaintPeriod', u'minimalStep', u'items', u'value', u'procuringEntity', u'next_check',
-                                           u'procurementMethod', u'awardCriteria', u'submissionMethod', u'title', u'owner']))
+        self.assertEqual(set(tender), set([
+            u'procurementMethodType', u'id', u'dateModified', u'tenderID',
+            u'status', u'enquiryPeriod', u'tenderPeriod', u'complaintPeriod',
+            u'minimalStep', u'items', u'value', u'procuringEntity',
+            u'next_check', u'procurementMethod', u'awardCriteria',
+            u'submissionMethod', u'auctionPeriod', u'title', u'owner',
+        ]))
         self.assertNotEqual(data['id'], tender['id'])
         self.assertNotEqual(data['doc_id'], tender['id'])
         self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -520,8 +524,11 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
-        self.assertEqual(set(tender) - set(test_tender_ua_data), set(
-            [u'id', u'dateModified', u'enquiryPeriod', u'complaintPeriod', u'tenderID', u'status', u'procurementMethod', u'awardCriteria', u'submissionMethod', u'next_check', u'owner']))
+        self.assertEqual(set(tender) - set(test_tender_ua_data), set([
+            u'id', u'dateModified', u'enquiryPeriod', u'auctionPeriod',
+            u'complaintPeriod', u'tenderID', u'status', u'procurementMethod',
+            u'awardCriteria', u'submissionMethod', u'next_check', u'owner',
+        ]))
         self.assertIn(tender['id'], response.headers['Location'])
 
         response = self.app.get('/tenders/{}'.format(tender['id']))
