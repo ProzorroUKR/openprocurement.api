@@ -1050,7 +1050,7 @@ class TenderProcessTest(BaseTenderWebTest):
         # bid should be cancelled
         response = self.app.get('/tenders/{}/bids/{}'.format(tender_id, qualifications[1]['bidID']))
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "invalid")
+        self.assertEqual(response.json['data']['status'], "unsuccessful")
         # switch to next status
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_owner_token),
                                        {"data": {"status": "active.pre-qualification.stand-still"}})
