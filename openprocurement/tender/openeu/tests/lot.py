@@ -810,6 +810,12 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']["lots"][0]['status'], 'unsuccessful')
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [{
+            "location": "body", "name": "data", "description": "Can't add lot in current (unsuccessful) tender status"
+        }])
+
     def test_1lot_1bid(self):
         self.app.authorization = ('Basic', ('broker', ''))
         # create tender
