@@ -457,11 +457,25 @@ class TenderResourceTest(BaseTenderWebTest):
                     self.tender_id, bid1_id, bids_access[bid1_id]), upload_files=[('file', 'Proposal.pdf', 'content')])
             self.assertEqual(response.status, '201 Created')
 
+        with open('docs/source/tutorial/upload-bid-private-proposal.http', 'w') as self.app.file_obj:
+            response = self.app.post('/tenders/{}/bids/{}/documents?acc_token={}'.format(
+                    self.tender_id, bid1_id, bids_access[bid1_id]), upload_files=[('file', 'Proposal_top_secrets.pdf', 'content')])
+            self.assertEqual(response.status, '201 Created')
+            priv_doc_id = response.json['data']['id']
+
+        # set confidentiality properties
+        with open('docs/source/tutorial/mark-bid-doc-private.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/bids/{}/documents/{}?acc_token={}'.format(
+                self.tender_id, bid1_id, priv_doc_id, bids_access[bid1_id]), {'data': {
+                    'confidentiality': 'buyerOnly',
+                    'confidentialityRationale': 'Only our company sells badgers with pink hair.',
+                }})
+            self.assertEqual(response.status, '200 OK')
+
         with open('docs/source/tutorial/bidder-documents.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/bids/{}/documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]))
             self.assertEqual(response.status, '200 OK')
-
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                            {'data': {"value": {'amount': 501.0}}})

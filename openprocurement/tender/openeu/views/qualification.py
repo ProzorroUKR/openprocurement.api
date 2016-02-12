@@ -42,28 +42,33 @@ class TenderQualificationResource(object):
     def patch(self):
         """Post a qualification resolution
         """
-        def set_bid_status(tender, bid_id, status):
+        def set_bid_status(tender, bid_id, status, lotId=None):
+            if lotId:
+                for bid in tender.bids:
+                    if bid.id == bid_id:
+                        for lotValue in bid.lotValues:
+                            if lotValue.relatedLot == lotId:
+                                lotValue.status = status
+                                return bid
             for bid in tender.bids:
                 if bid.id == bid_id:
                     bid.status = status
                     return bid
-
         tender = self.request.validated['tender']
         if tender.status not in ['active.pre-qualification']:
             self.request.errors.add('body', 'data', 'Can\'t update qualification in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
-
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if self.request.context.status == 'active':
             # approve related bid
-            set_bid_status(tender, self.request.context.bidID, 'active')
+            set_bid_status(tender, self.request.context.bidID, 'active', self.request.context.lotID)
         elif self.request.context.status == 'unsuccessful':
             # cancel related bid
-            set_bid_status(tender, self.request.context.bidID, 'invalid')
+            set_bid_status(tender, self.request.context.bidID, 'unsuccessful', self.request.context.lotID)
         elif self.request.context.status == 'cancelled':
             # return bid to initial status
-            bid = set_bid_status(tender, self.request.context.bidID, 'pending')
+            bid = set_bid_status(tender, self.request.context.bidID, 'pending', self.request.context.lotID)
             # generate new qualification for related bid
             ids = prepare_qualifications(self.request, bids=[bid])
             self.request.response.headers['Location'] = self.request.route_url('TenderEU Qualification',

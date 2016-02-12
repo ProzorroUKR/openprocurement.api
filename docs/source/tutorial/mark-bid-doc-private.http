@@ -1,0 +1,29 @@
+PATCH /api/0.12/tenders/426b4a12a7914da4b5085c151d304492/bids/ccb2b531e4e8432d85ae97b5e04c41b7/documents/809cda9d319f4054a3cf6ad2df2c16ac?acc_token=c4800a35b685408591fd652aa663abbc HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 120
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+    "confidentiality": "buyerOnly"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "confidentiality": "buyerOnly", 
+    "title": "Proposal_top_secrets.pdf", 
+    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/426b4a12a7914da4b5085c151d304492/bids/ccb2b531e4e8432d85ae97b5e04c41b7/documents/809cda9d319f4054a3cf6ad2df2c16ac?download=410dcf0954ed476f8c92ddfe80b3ca07", 
+    "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2016-02-08T14:33:11.475748+02:00", 
+    "id": "809cda9d319f4054a3cf6ad2df2c16ac", 
+    "dateModified": "2016-02-08T14:33:11.475787+02:00"
+  }
+}
+

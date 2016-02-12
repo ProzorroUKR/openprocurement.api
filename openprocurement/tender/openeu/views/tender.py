@@ -2,8 +2,8 @@
 from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.views.tender import TenderResource
-from openprocurement.tender.openeu.models import COMPLAINT_STAND_STILL
-from openprocurement.tender.openeu.utils import check_status, all_bids_are_reviewed
+
+from openprocurement.tender.openeu.utils import check_status, all_bids_are_reviewed, switch_to_qualificationPeriod
 from openprocurement.api.utils import (
     save_tender,
     apply_patch,
@@ -105,10 +105,7 @@ class TenderEUResource(TenderResource):
             tender.invalidate_bids_data()
         elif tender.status == "active.pre-qualification.stand-still":
             if all_bids_are_reviewed(self.request):
-                if sum([1 for bid in tender.bids if bid.status == 'active']) < 2:
-                    tender.status = 'unsuccessful'
-                else:
-                    tender.qualificationPeriod.endDate = calculate_business_date(get_now(), COMPLAINT_STAND_STILL, tender)
+                switch_to_qualificationPeriod(tender)
             else:
                 self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
                 self.request.errors.status = 403
