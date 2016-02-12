@@ -139,7 +139,7 @@ Schema
 
     * `lawNonСompliance` - law non compliance
     * `noPaymentReceived` - no payment received
-    * `buyerViolationsСorrected` - buyer violations corrected
+    * `buyerViolationsСorrected` - violations were corrected by Procuring entity
 
 :rejectReasonDescription:
     string

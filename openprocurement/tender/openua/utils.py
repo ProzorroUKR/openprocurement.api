@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from pkg_resources import get_distribution
 from datetime import timedelta
 import re
@@ -9,11 +10,11 @@ from openprocurement.api.utils import (
     context_unpack,
 )
 from barbecue import chef
-
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
 BLOCK_COMPLAINT_STATUS = ['pending', 'accepted', 'satisfied']
 PENDING_COMPLAINT_STATUS = ['claim', 'answered', 'pending', 'accepted', 'satisfied']
+
 
 def calculate_business_date(date_obj, timedelta_obj, context=None):
     if context and  'procurementMethodDetails' in context:
@@ -22,15 +23,17 @@ def calculate_business_date(date_obj, timedelta_obj, context=None):
             return date_obj + (timedelta_obj/int(re_obj.groupdict()['accelerator']))
     return date_obj + timedelta_obj
 
-
 def check_bids(request):
     tender = request.validated['tender']
     if tender.lots:
+        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod and i.auctionPeriod.startDate]
         [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2]
         if not set([i.status for i in tender.lots]).difference(set(['unsuccessful', 'cancelled'])):
             tender.status = 'unsuccessful'
     else:
         if tender.numberOfBids < 2:
+            if tender.auctionPeriod and tender.auctionPeriod.startDate:
+                tender.auctionPeriod.startDate = None
             tender.status = 'unsuccessful'
 
 
@@ -94,7 +97,6 @@ def check_status(request):
     elif tender.lots and tender.status in ['active.qualification', 'active.awarded']:
         if any([i['status'] in PENDING_COMPLAINT_STATUS and i.relatedLot is None for i in tender.complaints]):
             return
-        lots_ends = []
         for lot in tender.lots:
             if lot['status'] != 'active':
                 continue
@@ -125,9 +127,6 @@ def check_status(request):
                     LOGGER.info('Switched lot {} of tender {} to {}'.format(lot['id'], tender.id, 'unsuccessful'),
                                 extra=context_unpack(request, {'MESSAGE_ID': 'switched_lot_unsuccessful'}, {'LOT_ID': lot['id']}))
                     check_tender_status(request)
-                    return
-            elif standStillEnd > now:
-                lots_ends.append(standStillEnd)
 
 
 def add_next_award(request):
