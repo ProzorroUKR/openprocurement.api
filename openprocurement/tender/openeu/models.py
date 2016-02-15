@@ -277,6 +277,7 @@ class Qualification(Model):
     status = StringType(choices=['pending', 'active', 'unsuccessful', 'cancelled'], default='pending')
     date = IsoDateTimeType()
     documents = ListType(ModelType(Document), default=list())
+    complaints = ListType(ModelType(Complaint), default=list())
 
     def validate_lotID(self, data, lotID):
         if isinstance(data['__parent__'], Model):
