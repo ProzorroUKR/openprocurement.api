@@ -317,7 +317,7 @@ class TenderAwardResource(object):
         elif award_status == 'pending' and award.status == 'unsuccessful':
             award.complaintPeriod.endDate = get_now() + STAND_STILL_TIME
             # add_next_award(self.request)
-        else:
+        elif award_status != award.status:
             self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
             self.request.errors.status = 403
             return
