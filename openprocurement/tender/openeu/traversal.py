@@ -27,22 +27,18 @@ def qualifications_factory(request):
 def get_document(parent, key, request):
     request.validated['document_id'] = request.matchdict['document_id']
 
-    request.validated['{}_id'.format(key)] = request.matchdict['document_id'] # TODO
     attr = key.split('_')
     attr = attr[0] + attr[1].capitalize() + 's'
-    print "parent container ", attr
     items = [i for i in getattr(parent, attr, []) if i.id == request.matchdict['document_id']]
     if not items:
         from openprocurement.api.utils import error_handler
-        request.errors.add('url', '{}_id'.format(key), 'Not Found')
+        request.errors.add('url', 'document_id', 'Not Found')
         request.errors.status = 404
         raise error_handler(request.errors)
     else:
         if 'document' in key:
-            request.validated['{}s'.format(key)] = items # TODO
             request.validated['documents'] = items
         item = items[-1]
-        request.validated[key] = item  # TODO
         request.validated['document'] = item
 
         request.validated['id'] = request.matchdict['document_id']
@@ -74,7 +70,7 @@ def bid_financial_documents_factory(request):
         if request.matchdict.get('document_id'):
             return get_document(bid, 'financial_document', request)
         else:
-            return bid  # should never happen for documents resource
+            return bid
 
 
 def bid_eligibility_documents_factory(request):
