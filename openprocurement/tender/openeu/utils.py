@@ -11,12 +11,17 @@ from openprocurement.api.utils import (
 )
 from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status, calculate_business_date
 from openprocurement.tender.openeu.models import Qualification
-from openprocurement.tender.openeu.traversal import qualifications_factory
+from openprocurement.tender.openeu.traversal import (
+    qualifications_factory, bid_financial_documents_factory,
+    bid_eligibility_documents_factory, bid_qualification_documents_factory)
 
 LOGGER = getLogger(__name__)
 COMPLAINT_STAND_STILL_TIME = timedelta(days=10)
 
 qualifications_resource = partial(resource, error_handler=error_handler, factory=qualifications_factory)
+bid_financial_documents_resource = partial(resource, error_handler=error_handler, factory=bid_financial_documents_factory)
+bid_eligibility_documents_resource = partial(resource, error_handler=error_handler, factory=bid_eligibility_documents_factory)
+bid_qualification_documents_resource = partial(resource, error_handler=error_handler, factory=bid_qualification_documents_factory)
 
 
 def check_initial_bids_count(request):
