@@ -69,6 +69,26 @@ test_tender_data = {
         "description": "Test"
       },
       "quantity": 1
+    }, {
+      "unit": {
+        "code": "44617100-9",
+        "name": "item"
+      },
+      "additionalClassifications": [
+        {
+          "scheme": "ДКПП",
+          "id": "17.21.1",
+          "description": "Послуги шкільних їдалень"
+        }
+      ],
+      "description": "Послуги шкільних їдалень",
+      "description_en": "Services in school canteens",
+      "classification": {
+        "scheme": "CPV",
+        "id": "37810000-9",
+        "description": "Test"
+      },
+      "quantity": 1
     }
   ]
 }
@@ -236,6 +256,21 @@ complaint = {
     }
 }
 
+test_lots = [
+    {
+        'title': 'Лот №1',
+        'description': 'Опис Лот №1',
+        'value': test_tender_data['value'],
+        'minimalStep': test_tender_data['minimalStep'],
+    },
+    {
+        'title': 'Лот №2',
+        'description': 'Опис Лот №2',
+        'value': test_tender_data['value'],
+        'minimalStep': test_tender_data['minimalStep'],
+    }
+]
+
 
 class DumpsTestAppwebtest(TestApp):
     def do_request(self, req, status=None, expect_errors=None):
@@ -282,7 +317,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.couchdb_server = self.app.app.registry.couchdb_server
         self.db = self.app.app.registry.db
 
-    def test_docs(self):
+    def XXXtest_docs(self):
         request_path = '/tenders?opt_pretty=1'
 
         #### Exploring basic rules
@@ -927,3 +962,113 @@ class TenderResourceTest(BaseTenderWebTest):
             self.app.authorization = None
             response = self.app.get('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint1_id))
             self.assertEqual(response.status, '200 OK')
+
+    def XXXtest_multiple_lots(self):
+        request_path = '/tenders?opt_pretty=1'
+
+        #### Exploring basic rules
+        #
+
+        with  open('docs/source/multiple_lots_tutorial/tender-listing.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get(request_path)
+            self.assertEqual(response.status, '200 OK')
+            self.app.file_obj.write("\n")
+
+        #### Creating tender
+        #
+        self.app.authorization = ('Basic', ('broker', ''))
+        with open('docs/source/multiple_lots_tutorial/tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders?opt_pretty=1', {"data": test_tender_data})
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+
+        # add lots
+        with open('docs/source/multiple_lots_tutorial/tender-add-lot.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]})
+            self.assertEqual(response.status, '201 Created')
+            lot_id1 = response.json['data']['id']
+
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[1]})
+        self.assertEqual(response.status, '201 Created')
+        lot_id2 = response.json['data']['id']
+
+        # add relatedLot for item
+        with open('docs/source/multiple_lots_tutorial/tender-add-relatedLot-to-item.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [{'relatedLot': lot_id1}, {'relatedLot': lot_id2}]}})
+            self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/multiple_lots_tutorial/tender-listing-no-auth.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get(request_path)
+            self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/multiple_lots_tutorial/tender-view.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}'.format(tender['id']))
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        with open('docs/source/multiple_lots_tutorial/bid-lot1.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                {'data': {'tenderers': bid['data']["tenderers"], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id1}]}})
+            self.assertEqual(response.status, '201 Created')
+            bid1_token = response.json['access']['token']
+            bid1_id = response.json['data']['id']
+
+        with open('docs/source/multiple_lots_tutorial/bid-lot2.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                {'data': {'tenderers': bid2['data']["tenderers"], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id1}, {"value": {"amount": 500}, 'relatedLot': lot_id2}]}})
+            self.assertEqual(response.status, '201 Created')
+            bid2_id = response.json['data']['id']
+            bid2_token = response.json['access']['token']
+
+        with open('docs/source/multiple_lots_tutorial/tender-invalid-all-bids.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(tender_id, lot_id2, owner_token), {'data': {'value': {'amount': 400}}})
+            self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/multiple_lots_tutorial/bid-lot1-invalid-view.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid1_id, bid1_token))
+            self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/multiple_lots_tutorial/bid-lot1-update-view.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid1_id, bid1_token),
+                                           {'data': {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id1}], 'status': 'pending'}})
+            self.assertEqual(response.status, '200 OK')
+
+
+        with open('docs/source/multiple_lots_tutorial/bid-lot2-update-view.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid2_id, bid2_token),
+                                           {'data': {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id1}], 'status': 'pending'}})
+            self.assertEqual(response.status, '200 OK')
+        # switch to active.pre-qualification
+        self.time_shift('active.pre-qualification')
+        self.check_chronograph()
+        
+        with open('docs/source/multiple_lots_tutorial/tender-view-pre-qualification.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}?acc_token={}'.format(tender_id, owner_token))
+            self.assertEqual(response.status, '200 OK')
+            
+        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
+        self.assertEqual(response.content_type, 'application/json')
+        qualifications = response.json['data']
+        
+        
+        with open('docs/source/multiple_lots_tutorial/tender-activate-qualifications.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[0]['id'], owner_token),
+                                  {"data": {'status': 'active'}})
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'active')
+
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[1]['id'], owner_token),
+                                  {"data": {'status': 'active'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+        
+        with open('docs/source/multiple_lots_tutorial/tender-view-pre-qualification-stand-still.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+            self.assertEqual(response.status, "200 OK")
