@@ -2,6 +2,8 @@
 import os
 import webtest
 from datetime import datetime, timedelta
+from uuid import uuid4
+from copy import deepcopy
 from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass
 from openprocurement.api.utils import apply_data_patch
 from openprocurement.api.models import get_now
@@ -216,19 +218,6 @@ class BaseTenderWebTest(BaseTenderWebTest):
     def tearDown(self):
         del self.couchdb_server[self.db.name]
 
-    def go_to_enquiryPeriod_end(self):
-        now = get_now()
-        self.set_status('active.tendering', {
-            "enquiryPeriod": {
-                "startDate": (now - timedelta(days=28)).isoformat(),
-                "endDate": (now - timedelta(days=1)).isoformat()
-            },
-            "tenderPeriod": {
-                "startDate": (now - timedelta(days=28)).isoformat(),
-                "endDate": (now + timedelta(days=2)).isoformat()
-            },
-        })
-
     def check_chronograph(self):
         authorization = self.app.authorization
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -238,8 +227,20 @@ class BaseTenderWebTest(BaseTenderWebTest):
         self.assertEqual(response.content_type, 'application/json')
 
     def time_shift(self, status, extra=None):
+        now = get_now()
         tender = self.db.get(self.tender_id)
         data = {}
+        if status == 'enquiryPeriod_ends':
+            data.update({
+                "enquiryPeriod": {
+                    "startDate": (now - timedelta(days=28)).isoformat(),
+                    "endDate": (now - timedelta(days=1)).isoformat()
+                },
+                "tenderPeriod": {
+                    "startDate": (now - timedelta(days=28)).isoformat(),
+                    "endDate": (now + timedelta(days=2)).isoformat()
+                },
+            })
         if status == 'active.pre-qualification':
             data.update({
                 "enquiryPeriod": {

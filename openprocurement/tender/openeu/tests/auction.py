@@ -35,7 +35,6 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest):
 
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
-        print response.json['data']
         for qualific in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
                 self.tender_id, qualific['id'], self.tender_token), {'data': {"status": "active"}})
