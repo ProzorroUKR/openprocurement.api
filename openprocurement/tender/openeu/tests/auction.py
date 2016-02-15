@@ -7,37 +7,45 @@ from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest, test_tender_data, test_features_tender_data)
 from openprocurement.api.tests.base import test_bids, test_lots
-
+from pprint import pprint
 
 class TenderAuctionResourceTest(BaseTenderContentWebTest):
     #initial_data = tender_data
-    initial_status = 'active.tendering'
+    initial_auth = ('Basic', ('broker', ''))
     initial_bids = test_bids
+
+    def shift_to_auction_period(self):
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        self.time_shift('active.auction')
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.auction")
+        self.app.authorization = auth
 
     def setUp(self):
         super(TenderAuctionResourceTest, self).setUp()
         auth = self.app.authorization
         # switch to active.pre-qualification
-        self.set_status('active.pre-qualification', {'status': 'active.tendering'})
+        self.time_shift('active.pre-qualification')
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "active.pre-qualification")
-        self.app.authorization = auth
 
-        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
+        print response.json['data']
         for qualific in response.json['data']:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
-                self.tender_id, qualific['id']), {'data': {"status": "active"}})
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
+                self.tender_id, qualific['id'], self.tender_token), {'data': {"status": "active"}})
             self.assertEqual(response.status, '200 OK')
 
-        # switch to active.pre-qualification.stand-still
-        self.set_status('active.pre-qualification.stand-still', {'status': 'active.pre-qualification'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"status": "active.pre-qualification.stand-still"}})
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
-        self.app.authorization = auth
+        # # switch to active.pre-qualification.stand-still
+
 
     def test_get_tender_auction_not_found(self):
         response = self.app.get('/tenders/some_id/auction', status=404)
@@ -68,12 +76,13 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest):
         ])
 
     def test_get_tender_auction(self):
+        self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current (active.pre-qualification.stand-still) tender status")
 
-        self.set_status('active.auction')
+        self.shift_to_auction_period()
 
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
@@ -394,16 +403,16 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
 
 class TenderLotAuctionResourceTest(TenderAuctionResourceTest):
     initial_lots = test_lots
-    initial_data = test_tender_data
-
+    # initial_data = test_tender_data
 
     def test_get_tender_auction(self):
+        self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current (active.pre-qualification.stand-still) tender status")
 
-        self.set_status('active.auction')
+        self.shift_to_auction_period()
 
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
@@ -690,12 +699,13 @@ class TenderMultipleLotAuctionResourceTest(TenderAuctionResourceTest):
     initial_lots = 2 * test_lots
 
     def test_get_tender_auction(self):
+        self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current (active.pre-qualification.stand-still) tender status")
 
-        self.set_status('active.auction')
+        self.shift_to_auction_period()
 
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
@@ -871,17 +881,18 @@ class TenderMultipleLotAuctionResourceTest(TenderAuctionResourceTest):
         self.assertEqual(response.json['errors'], [
             {u'description': ["url should be posted for each lot"], u'location': u'body', u'name': u'auctionUrl'}
         ])
-
+        auctionUrl = patch_data.pop('auctionUrl')
         patch_data['lots'] = [
             {
-                "auctionUrl": patch_data.pop('auctionUrl')
+                "auctionUrl": auctionUrl
+            },
+            {
+                "auctionUrl": auctionUrl
             }
         ]
-
         response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Number of auction results did not match the number of tender bids")
 
         patch_data['bids'].append({
             'lotValues': [
@@ -910,7 +921,7 @@ class TenderMultipleLotAuctionResourceTest(TenderAuctionResourceTest):
         response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], u'Number of lots did not match the number of tender lots')
+        self.assertEqual(response.json['errors'][0]["description"], [{u'lotValues': [u'Number of lots of auction results did not match the number of tender lots']}])
 
         patch_data['lots'] = [patch_data['lots'][0].copy() for i in self.initial_lots]
         patch_data['lots'][1]['id'] = "00000000000000000000000000000000"
@@ -918,7 +929,7 @@ class TenderMultipleLotAuctionResourceTest(TenderAuctionResourceTest):
         response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], u'Auction lots should be identical to the tender lots')
+        self.assertEqual(response.json['errors'][0]["description"], [{u'lotID': [u'lotID should be one of lots']}, {u'lotID': [u'lotID should be one of lots']}])
 
         patch_data['lots'][1]['id'] = self.initial_lots[1]['id']
 
@@ -1083,6 +1094,7 @@ class TenderFeaturesAuctionResourceTest(BaseTenderContentWebTest):
     ]
 
     def test_get_tender_auction(self):
+        self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')

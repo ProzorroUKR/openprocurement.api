@@ -16,7 +16,13 @@ def qualifications_factory(request):
         request.validated['tender_src'] = tender.serialize('plain')
     if request.matchdict.get('qualification_id'):
         qualification = get_item(tender, 'qualification', request)
-        if request.matchdict.get('document_id'):
+        if request.matchdict.get('complaint_id'):
+            complaint = get_item(qualification, 'complaint', request)
+            if request.matchdict.get('document_id'):
+                return get_item(complaint, 'document', request)
+            else:
+                return complaint
+        elif request.matchdict.get('document_id'):
             return get_item(qualification, 'document', request)
         else:
             return qualification
