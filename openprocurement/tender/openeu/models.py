@@ -128,6 +128,9 @@ class Bid(BaseBid):
             'deleted': whitelist('id', 'status'),
         }
     documents = ListType(ModelType(ConfidentialDocument), default=list())
+    financialDocuments = ListType(ModelType(ConfidentialDocument), default=list())
+    eligibilityDocuments = ListType(ModelType(ConfidentialDocument), default=list())
+    qualificationDocuments = ListType(ModelType(ConfidentialDocument), default=list())
     status = StringType(choices=['pending', 'active', 'invalid', 'deleted'],
                         default='pending')
 
