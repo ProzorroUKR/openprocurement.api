@@ -125,11 +125,6 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
-            if complaintPeriod.endDate:
-                complaintPeriodendDate = complaintPeriod.endDate + (self.context.dateDecision - self.context.dateSubmitted)
-                complaintPeriodendDate = datetime.combine(complaintPeriodendDate.date(), time(0, tzinfo=complaintPeriodendDate.tzinfo)) + timedelta(days=1)
-                if complaintPeriod.endDate < complaintPeriodendDate:
-                    complaintPeriod.endDate = complaintPeriodendDate
         elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'accepted':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAccepted = get_now()
@@ -139,7 +134,7 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
             if complaintPeriod.endDate:
-                complaintPeriodendDate = complaintPeriod.endDate + (self.context.dateDecision - self.context.dateSubmitted)
+                complaintPeriodendDate = complaintPeriod.endDate + (self.context.dateDecision - self.context.dateAccepted)
                 complaintPeriodendDate = datetime.combine(complaintPeriodendDate.date(), time(0, tzinfo=complaintPeriodendDate.tzinfo)) + timedelta(days=1)
                 if complaintPeriod.endDate < complaintPeriodendDate:
                     complaintPeriod.endDate = complaintPeriodendDate
