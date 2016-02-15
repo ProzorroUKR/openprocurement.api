@@ -200,13 +200,16 @@ It is possible to check the uploaded documents:
 .. include:: tutorial/bidder-documents.http
    :code:
 
-Financial and eligibility documents is also a part of Bid but locate in different end-points:
+Financial, eligibility and qualification documents is also a part of Bid but locate in different end-points:
 
 financial:
 /tenders/{tender_id}/bids/{bid_id}/financial_documents 
 
 eligibility:
 /tenders/{tender_id}/bids/{bid_id}/eligibility_documents
+
+qualification:
+/tenders/{tender_id}/bids/{bid_id}/qualification_documents
 
 
 Bid invalidation
