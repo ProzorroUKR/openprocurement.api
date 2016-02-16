@@ -182,6 +182,9 @@ Then bidder should upload proposal technical document(s):
 .. include:: tutorial/upload-bid-proposal.http
    :code:
 
+Confidentiality
+^^^^^^^^^^^^^^^
+
 There is possibility to upload private documents:
 
 .. include:: tutorial/upload-bid-private-proposal.http
