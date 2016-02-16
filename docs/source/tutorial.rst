@@ -200,6 +200,11 @@ It is possible to check the uploaded documents:
 .. include:: tutorial/bidder-documents.http
    :code:
 
+.. _envelopes:
+
+Financial, eligibility and qualification documents uploading
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Financial, eligibility and qualification documents are also a part of Bid but are located in different end-points.
 There are possibility to upload financial document:
 
