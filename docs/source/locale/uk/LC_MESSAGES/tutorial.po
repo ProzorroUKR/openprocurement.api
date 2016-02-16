@@ -1,0 +1,403 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.openeu 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-16 12:53+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/tutorial.rst:4
+msgid "Tutorial"
+msgstr ""
+
+#: ../../source/tutorial.rst:7
+msgid "Exploring basic rules"
+msgstr ""
+
+#: ../../source/tutorial.rst:9
+msgid "Let's try exploring the `/tenders` endpoint:"
+msgstr ""
+
+#: ../../source/tutorial.rst:14
+msgid "Just invoking it reveals empty set."
+msgstr ""
+
+#: ../../source/tutorial.rst:16
+msgid "Now let's attempt creating some tender:"
+msgstr ""
+
+#: ../../source/tutorial.rst:21
+msgid ""
+"Error states that the only accepted Content-Type is `application/json`."
+msgstr ""
+
+#: ../../source/tutorial.rst:23
+msgid "Let's satisfy the Content-type requirement:"
+msgstr ""
+
+#: ../../source/tutorial.rst:28
+msgid "Error states that no `data` has been found in JSON body."
+msgstr ""
+
+#: ../../source/tutorial.rst:34
+msgid "Creating tender"
+msgstr ""
+
+#: ../../source/tutorial.rst:36
+msgid "Let's provide the data attribute in the submitted body :"
+msgstr ""
+
+#: ../../source/tutorial.rst:41
+msgid ""
+"Success! Now we can see that new object was created. Response code is `201` "
+"and `Location` response header reports the location of the created object.  "
+"The body of response reveals the information about the created tender: its "
+"internal `id` (that matches the `Location` segment), its official `tenderID`"
+" and `dateModified` datestamp stating the moment in time when tender was "
+"last modified.  Note that tender is created with `active.tendering` status."
+msgstr ""
+
+#: ../../source/tutorial.rst:48
+msgid ""
+"The peculiarity of the Open EU procedure is that ``procurementMethodType`` "
+"was changed from ``belowThreshold`` to ``aboveThresholdEU``. Also there is "
+"no opportunity to set up ``enquiryPeriod``, it will be assigned "
+"automatically."
+msgstr ""
+
+#: ../../source/tutorial.rst:51
+msgid ""
+"Let's access the URL of the created object (the `Location` header of the "
+"response):"
+msgstr ""
+
+#: ../../source/tutorial.rst:58
+msgid "We can see the same response we got after creating tender."
+msgstr ""
+
+#: ../../source/tutorial.rst:60
+msgid "Let's see what listing of tenders reveals us:"
+msgstr ""
+
+#: ../../source/tutorial.rst:65
+msgid ""
+"We do see the internal `id` of a tender (that can be used to construct full "
+"URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) "
+"and its `dateModified` datestamp."
+msgstr ""
+
+#: ../../source/tutorial.rst:68
+msgid "Modifying tender"
+msgstr ""
+
+#: ../../source/tutorial.rst:70
+msgid ""
+"Let's update tender by supplementing it with all other essential properties:"
+msgstr ""
+
+#: ../../source/tutorial.rst:77
+msgid ""
+"We see the added properies have merged with existing tender data. "
+"Additionally, the `dateModified` property was updated to reflect the last "
+"modification datestamp."
+msgstr ""
+
+#: ../../source/tutorial.rst:79
+msgid "Checking the listing again reflects the new modification date:"
+msgstr ""
+
+#: ../../source/tutorial.rst:84
+msgid ""
+"Procuring entity can not change tender if there are less than 7 days before "
+"tenderPeriod ends. Changes will not be accepted by API."
+msgstr ""
+
+#: ../../source/tutorial.rst:89
+msgid "That is why tenderPeriod has to be extended by 7 days."
+msgstr ""
+
+#: ../../source/tutorial.rst:97
+msgid "Uploading documentation"
+msgstr ""
+
+#: ../../source/tutorial.rst:99
+msgid ""
+"Procuring entity can upload PDF files into the created tender. Uploading "
+"should follow the :ref:`upload` rules."
+msgstr ""
+
+#: ../../source/tutorial.rst:105
+msgid ""
+"`201 Created` response code and `Location` header confirm document creation."
+" We can additionally query the `documents` collection API endpoint to "
+"confirm the action:"
+msgstr ""
+
+#: ../../source/tutorial.rst:112
+msgid ""
+"The single array element describes the uploaded document. We can upload more"
+" documents:"
+msgstr ""
+
+#: ../../source/tutorial.rst:117
+msgid "And again we can confirm that there are two documents uploaded."
+msgstr ""
+
+#: ../../source/tutorial.rst:122
+msgid ""
+"In case we made an error, we can reupload the document over the older "
+"version:"
+msgstr ""
+
+#: ../../source/tutorial.rst:127
+msgid "And we can see that it is overriding the original version:"
+msgstr ""
+
+#: ../../source/tutorial.rst:136
+msgid "Enquiries"
+msgstr ""
+
+#: ../../source/tutorial.rst:138
+msgid ""
+"When tender has ``active.tendering`` status and "
+"``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can "
+"ask questions:"
+msgstr ""
+
+#: ../../source/tutorial.rst:143
+msgid "Procuring entity can answer them:"
+msgstr ""
+
+#: ../../source/tutorial.rst:148
+msgid "One can retrieve either questions list:"
+msgstr ""
+
+#: ../../source/tutorial.rst:153
+msgid "or individual answer:"
+msgstr ""
+
+#: ../../source/tutorial.rst:159
+msgid "Enquiries can be made only during ``Tender.enqueryPeriod``"
+msgstr ""
+
+#: ../../source/tutorial.rst:168
+msgid "Registering bid"
+msgstr ""
+
+#: ../../source/tutorial.rst:170
+msgid "Tender status ``active.tendering`` allows registration of bids."
+msgstr ""
+
+#: ../../source/tutorial.rst:172
+msgid "Bidder can register a bid:"
+msgstr ""
+
+#: ../../source/tutorial.rst:178
+msgid "Proposal Uploading"
+msgstr ""
+
+#: ../../source/tutorial.rst:180
+msgid "Then bidder should upload proposal technical document(s):"
+msgstr ""
+
+#: ../../source/tutorial.rst:185
+msgid "There are possibility to upload private documents:"
+msgstr ""
+
+#: ../../source/tutorial.rst:190
+msgid ""
+"To define the document as private `confidentiality` and "
+"`confidentialityRationale` fields shoud be set. `confidentiality` field "
+"value indicated is document `buyerOnly` (i.e. private) or `public`. "
+"`confidentialityRationale` is required for private documents and should "
+"contain at least 30 characters. So mark the document \"private\":"
+msgstr ""
+
+#: ../../source/tutorial.rst:198
+msgid "It is possible to check the uploaded documents:"
+msgstr ""
+
+#: ../../source/tutorial.rst:203
+msgid ""
+"Financial, eligibility and qualification documents is also a part of Bid but"
+" locate in different end-points:"
+msgstr ""
+
+#: ../../source/tutorial.rst:205
+msgid "financial: /tenders/{tender_id}/bids/{bid_id}/financial_documents"
+msgstr ""
+
+#: ../../source/tutorial.rst:208
+msgid "eligibility: /tenders/{tender_id}/bids/{bid_id}/eligibility_documents"
+msgstr ""
+
+#: ../../source/tutorial.rst:211
+msgid ""
+"qualification: /tenders/{tender_id}/bids/{bid_id}/qualification_documents"
+msgstr ""
+
+#: ../../source/tutorial.rst:216
+msgid "Bid invalidation"
+msgstr ""
+
+#: ../../source/tutorial.rst:218
+msgid ""
+"If tender is modified, status of all bid proposals will be changed to "
+"``invalid``. Bid proposal will look the following way after tender has been "
+"modified:"
+msgstr ""
+
+#: ../../source/tutorial.rst:224
+msgid "Bid confirmation"
+msgstr ""
+
+#: ../../source/tutorial.rst:226
+msgid "Bidder should confirm bid proposal:"
+msgstr ""
+
+#: ../../source/tutorial.rst:231
+msgid ""
+"Open EU procedure demands at least two bidders, so there should be at least "
+"two bid proposals registered to move to auction stage:"
+msgstr ""
+
+#: ../../source/tutorial.rst:236
+msgid "Resigter one more bid:"
+msgstr ""
+
+#: ../../source/tutorial.rst:245
+msgid "Bid Qualification"
+msgstr ""
+
+#: ../../source/tutorial.rst:247
+msgid "Open EU procedure requires bids qualification."
+msgstr ""
+
+#: ../../source/tutorial.rst:249
+msgid "Let's list qualifications:"
+msgstr ""
+
+#: ../../source/tutorial.rst:255
+msgid "Approve first two Bids through qualification objects:"
+msgstr ""
+
+#: ../../source/tutorial.rst:263
+msgid "We can also reject some Bid:"
+msgstr ""
+
+#: ../../source/tutorial.rst:268
+msgid "And check that qualified Bids are switched to 'active':"
+msgstr ""
+
+#: ../../source/tutorial.rst:273
+msgid ""
+"Rejected bid is not shown in bids/ listing. We can access rejected Bid by "
+"id:"
+msgstr ""
+
+#: ../../source/tutorial.rst:279
+msgid "Tender owner approves qualifications by switching to next status:"
+msgstr ""
+
+#: ../../source/tutorial.rst:284
+msgid "You may notice 10 day stand-still time set in qualificationPeriod."
+msgstr ""
+
+#: ../../source/tutorial.rst:287
+msgid "Auction"
+msgstr ""
+
+#: ../../source/tutorial.rst:289
+msgid ""
+"After auction is scheduled anybody can visit it to watch. The auction can be"
+" reached at `Tender.auctionUrl`:"
+msgstr ""
+
+#: ../../source/tutorial.rst:294
+msgid "Bidders can find out their participation URLs via their bids:"
+msgstr ""
+
+#: ../../source/tutorial.rst:299
+msgid ""
+"See the `Bid.participationUrl` in the response. Similar, but different, URL "
+"can be retrieved for other participants:"
+msgstr ""
+
+#: ../../source/tutorial.rst:305
+msgid "Confirming qualification"
+msgstr ""
+
+#: ../../source/tutorial.rst:307
+msgid ""
+"Qualification commission registers its decision via the following call:"
+msgstr ""
+
+#: ../../source/tutorial.rst:313
+msgid "Cancelling tender"
+msgstr ""
+
+#: ../../source/tutorial.rst:315
+msgid ""
+"Tender creator can cancel tender anytime. The following steps should be "
+"applied:"
+msgstr ""
+
+#: ../../source/tutorial.rst:317
+msgid "Prepare cancellation request."
+msgstr ""
+
+#: ../../source/tutorial.rst:318
+msgid "Fill it with the protocol describing the cancellation reasons."
+msgstr ""
+
+#: ../../source/tutorial.rst:319
+msgid "Cancel the tender with the prepared reasons."
+msgstr ""
+
+#: ../../source/tutorial.rst:321
+msgid ""
+"Only the request that has been activated (3rd step above) has power to "
+"cancel tender.  I.e.  you have to not only prepare cancellation request but "
+"to activate it as well."
+msgstr ""
+
+#: ../../source/tutorial.rst:325
+msgid "See :ref:`cancellation` data structure for details."
+msgstr ""
+
+#: ../../source/tutorial.rst:328
+msgid "Preparing the cancellation request"
+msgstr ""
+
+#: ../../source/tutorial.rst:330
+msgid "You should pass `reason`, `status` defaults to `pending`."
+msgstr ""
+
+#: ../../source/tutorial.rst:332
+msgid "`id` is autogenerated and passed in the `Location` header of response."
+msgstr ""
+
+#: ../../source/tutorial.rst:338
+msgid "Filling cancellation with protocol and supplementary documentation"
+msgstr ""
+
+#: ../../source/tutorial.rst:340
+msgid "Upload the file contents"
+msgstr ""
+
+#: ../../source/tutorial.rst:345
+msgid "Change the document description and other properties"
+msgstr ""
+
+#: ../../source/tutorial.rst:351
+msgid "Upload new version of the document"
+msgstr ""
+
+#: ../../source/tutorial.rst:358
+msgid "Activating the request and cancelling tender"
+msgstr ""
