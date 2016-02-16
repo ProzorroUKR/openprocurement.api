@@ -387,16 +387,6 @@ class TenderResourceTest(BaseTenderWebTest):
         ])
 
         now = get_now()
-        test_tender_data['auctionPeriod'] = {'startDate': now.isoformat(), 'endDate': now.isoformat()}
-        response = self.app.post_json(request_path, {'data': test_tender_data}, status=422)
-        del test_tender_data['auctionPeriod']
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'period should begin after tenderPeriod'], u'location': u'body', u'name': u'auctionPeriod'}
-        ])
-
         test_tender_data['awardPeriod'] = {'startDate': now.isoformat(), 'endDate': now.isoformat()}
         response = self.app.post_json(request_path, {'data': test_tender_data}, status=422)
         del test_tender_data['awardPeriod']
@@ -830,6 +820,40 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (complete) status")
+
+    def test_patch_tender_eu(self):
+        response = self.app.post_json('/tenders', {'data': test_tender_data})
+        self.assertEqual(response.status, '201 Created')
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        dateModified = tender.pop('dateModified')
+        self.tender_id = tender['id']
+        self.go_to_enquiryPeriod_end()
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"value": {
+            "amount": 501,
+            "currency": u"UAH"
+        }}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "tenderPeriod should be extended by 7 days")
+        tenderPeriod_endDate = get_now() + timedelta(days=7, seconds=10)
+        enquiryPeriod_endDate = tenderPeriod_endDate - timedelta(days=3)
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data':
+            {
+                "value": {
+                    "amount": 501,
+                    "currency": u"UAH"
+                },
+                "tenderPeriod": {
+                    "endDate": tenderPeriod_endDate.isoformat()
+                }
+            }
+        })
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['tenderPeriod']['endDate'], tenderPeriod_endDate.isoformat())
+        self.assertEqual(response.json['data']['enquiryPeriod']['endDate'], enquiryPeriod_endDate.isoformat())
 
     def test_dateModified_tender(self):
         response = self.app.get('/tenders')
