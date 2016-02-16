@@ -109,7 +109,7 @@ class ConfidentialDocument(Document):
             'edit': blacklist('id', 'url', 'datePublished', 'dateModified', ''),
             'embedded': schematics_embedded_role,
             'view': (blacklist('revisions') + schematics_default_role),
-            'public_view': (blacklist('revisions', 'url') + schematics_default_role),
+            'restricted_view': (blacklist('revisions', 'url') + schematics_default_role),
             'revisions': whitelist('url', 'dateModified'),
         }
 
