@@ -513,33 +513,21 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
 
    def test_create_tender_award_document_invalid(self):
-       request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
-       response = self.app.post_json(request_path, {'data': {'suppliers': [test_tender_data["procuringEntity"]],
-                                                             'status': 'pending'}})
-       self.assertEqual(response.status, '201 Created')
-       award = response.json['data']
-       self.assertEqual(award['suppliers'][0]['name'], test_tender_data["procuringEntity"]['name'])
-       self.assertIn('id', award)
-       self.assertIn(award['id'], response.headers['Location'])
-
-       response = self.app.get(request_path)
-       self.assertEqual(response.status, '200 OK')
-
        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-           self.tender_id, award['id'], self.tender_token),{"data": {"status": "active"}})
+           self.tender_id, self.award_id, self.tender_token),{"data": {"status": "active"}})
        self.assertEqual(response.status, '200 OK')
 
        response = self.app.post('/tenders/{}/awards/{}/documents?acc_token={}'.format(
-           self.tender_id, award['id'], self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
+           self.tender_id, self.award_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
        self.assertEqual(response.status, '403 Forbidden')
        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (active) award status")
 
        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-           self.tender_id, award['id'], self.tender_token), {"data": {"status": "cancelled"}})
+           self.tender_id, self.award_id, self.tender_token), {"data": {"status": "cancelled"}})
        self.assertEqual(response.status, '200 OK')
 
        response = self.app.post('/tenders/{}/awards/{}/documents?acc_token={}'.format(
-           self.tender_id, award['id'], self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
+           self.tender_id, self.award_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
        self.assertEqual(response.status, '403 Forbidden')
        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (cancelled) award status")
 
