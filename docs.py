@@ -1051,10 +1051,11 @@ class TenderResourceTest(BaseTenderWebTest):
         with open('docs/source/multiple_lots_tutorial/tender-view-pre-qualification.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}?acc_token={}'.format(tender_id, owner_token))
             self.assertEqual(response.status, '200 OK')
-            
-        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
-        self.assertEqual(response.content_type, 'application/json')
-        qualifications = response.json['data']
+
+        with open('docs/source/multiple_lots_tutorial/qualifications-view.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
+            self.assertEqual(response.content_type, 'application/json')
+            qualifications = response.json['data']
         
         
         with open('docs/source/multiple_lots_tutorial/tender-activate-qualifications.http', 'w') as self.app.file_obj:

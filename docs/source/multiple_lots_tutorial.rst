@@ -91,7 +91,12 @@ Let's view tender:
 
 .. include:: multiple_lots_tutorial/tender-view-pre-qualification.http
    :code:
-   
+
+Let's list qualifications:
+
+.. include:: multiple_lots_tutorial/qualifications-view.http
+   :code:
+
 Approve bid's value through qualification objects:
 
 .. include:: multiple_lots_tutorial/tender-activate-qualifications.http
