@@ -52,6 +52,10 @@ class TenderAwardDocumentResource(object):
             self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
+        if self.request.validated['award'].status != 'pending':
+            self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) award status'.format(self.request.validated['award'].status))
+            self.request.errors.status = 403
+            return
         document = upload_file(self.request)
         self.request.validated['award'].documents.append(document)
         if save_tender(self.request):
@@ -102,4 +106,3 @@ class TenderAwardDocumentResource(object):
             LOGGER.info('Updated tender award document {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_document_patch'}))
             return {'data': self.request.context.serialize("view")}
-
