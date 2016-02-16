@@ -132,6 +132,12 @@ Schema
     
 :language:
     string
+
+    Possible values are:
+
+    * `uk`
+    * `en`
+    * `ru`
     
     |ocdsDescription|
     Specifies the language of the linked document using either two-digit `ISO 639-1 <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, or extended `BCP47 language tags <http://www.w3.org/International/articles/language-tags/>`_. 
