@@ -39,27 +39,30 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
             self.request.errors.status = 403
             return
         if self.request.params.get('all', ''):
-            collection_data = [i.serialize("view") for i in self.context.documents]
+            collection_data = [i.serialize("view") if i.confidentiality == 'public' else i.serialize("public_view") for i in self.context.documents]
         else:
-            collection_data = sorted(dict([
-                (i.id, i.serialize("view"))
-                for i in self.context.documents
-            ]).values(), key=lambda i: i['dateModified'])
+            collection_data = sorted(dict([ (i.id, i.serialize("view") if i.confidentiality == 'public' else i.serialize("public_view"))
+                                           for i in self.context.documents ]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
     @json_view(permission='view_tender')
     def get(self):
         """Tender Bid Document Read"""
-        if self.request.validated['tender_status'] == 'active.tendering' and self.request.authenticated_role != 'bid_owner':
+        is_bid_owner = self.request.authenticated_role == 'bid_owner'
+        if self.request.validated['tender_status'] == 'active.tendering' and not is_bid_owner:
             self.request.errors.add('body', 'data', 'Can\'t view bid document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
         if self.request.params.get('download'):
             return get_file(self.request)
         document = self.request.validated['document']
-        document_data = document.serialize("view")
+        is_tender_owner = self.request.authenticated_role == 'tender_owner'
+        role = "view"
+        if document.confidentiality != 'public' and not (is_bid_owner or is_tender_owner):
+            role = "public_view"
+        document_data = document.serialize(role)
         document_data['previousVersions'] = [
-            i.serialize("view")
+            i.serialize(role)
             for i in self.request.validated['documents']
             if i.url != document.url
         ]
@@ -87,27 +90,30 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
             self.request.errors.status = 403
             return
         if self.request.params.get('all', ''):
-            collection_data = [i.serialize("view") for i in getattr(self.context, self.container)]
+            collection_data = [i.serialize("view") if i.confidentiality == 'public' else i.serialize("public_view") for i in getattr(self.context, self.container)]
         else:
-            collection_data = sorted(dict([
-                (i.id, i.serialize("view"))
-                for i in getattr(self.context, self.container)
-            ]).values(), key=lambda i: i['dateModified'])
+            collection_data = sorted(dict([ (i.id, i.serialize("view") if i.confidentiality == 'public' else i.serialize("public_view"))
+                                           for i in getattr(self.context, self.container)]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
     @json_view(permission='view_tender')
     def get(self):
         """Tender Bid Document Read"""
-        if self.request.validated['tender_status'] in self.view_forbidden_states and self.request.authenticated_role != 'bid_owner':
+        is_bid_owner = self.request.authenticated_role == 'bid_owner'
+        if self.request.validated['tender_status'] in self.view_forbidden_states and not is_bid_owner:
             self.request.errors.add('body', 'data', 'Can\'t view bid document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
         if self.request.params.get('download'):
             return get_file(self.request)
         document = self.request.validated['document']
-        document_data = document.serialize("view")
+        is_tender_owner = self.request.authenticated_role == 'tender_owner'
+        role = 'view'
+        if document.confidentiality != 'public' and not (is_bid_owner or is_tender_owner):
+            role = "public_view"
+        document_data = document.serialize(role)
         document_data['previousVersions'] = [
-            i.serialize("view")
+            i.serialize(role)
             for i in self.request.validated['documents']
             if i.url != document.url
         ]
