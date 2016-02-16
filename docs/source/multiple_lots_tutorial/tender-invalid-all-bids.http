@@ -1,0 +1,35 @@
+PATCH /api/0.12/tenders/57543fb90bb842329d1f37f675f74d8b/lots/b277abcf757947e396f278edadfd97dc?acc_token=e714aca1ad624710a1207deab27017ef HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 36
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "value": {
+      "amount": 400
+    }
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "description": "Опис Лот №2", 
+    "title": "Лот №2", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 400.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "id": "b277abcf757947e396f278edadfd97dc"
+  }
+}
+

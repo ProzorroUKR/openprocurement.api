@@ -1,0 +1,43 @@
+POST /api/0.12/tenders/57543fb90bb842329d1f37f675f74d8b/lots?acc_token=e714aca1ad624710a1207deab27017ef HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 214
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35
+    }, 
+    "description": "Опис Лот №1", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500
+    }, 
+    "title": "Лот №1"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/57543fb90bb842329d1f37f675f74d8b/lots/143af432be1d4b87a4f277de0858ba94
+{
+  "data": {
+    "status": "active", 
+    "description": "Опис Лот №1", 
+    "title": "Лот №1", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "id": "143af432be1d4b87a4f277de0858ba94"
+  }
+}
+

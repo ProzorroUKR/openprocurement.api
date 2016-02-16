@@ -20,6 +20,7 @@ Contents:
 
    standard/index
    tutorial
+   multiple_lots_tutorial
    reference
 
 Indices and tables
