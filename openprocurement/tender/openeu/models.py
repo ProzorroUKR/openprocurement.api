@@ -7,12 +7,15 @@ from schematics.types.serializable import serializable
 from schematics.transforms import blacklist, whitelist
 from schematics.exceptions import ValidationError
 from openprocurement.api.models import ITender, TZ
-from openprocurement.api.models import (Document, Model, Address, Period,
+from openprocurement.api.models import (Model, Address, Period,
                                         IsoDateTimeType, ListType)
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import Identifier as BaseIdentifier
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import Bid as BaseBid
+from openprocurement.api.models import Contract as BaseContract
+from openprocurement.api.models import Cancellation as BaseCancellation
+from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Lot as BaseLot
 from openprocurement.api.models import Award as BaseAward
 from openprocurement.api.models import ContactPoint as BaseContactPoint
@@ -28,8 +31,9 @@ from openprocurement.api.models import (
     calc_auction_end_time, get_tender, validate_lots_uniq,
 )
 from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import (
-    PeriodStartEndRequired, SifterListType, Complaint, COMPLAINT_SUBMIT_TIME,
+    PeriodStartEndRequired, SifterListType, COMPLAINT_SUBMIT_TIME,
 )
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
@@ -93,8 +97,21 @@ class Organization(Model):
                                        required=False)
 
 
+class Document(BaseDocument):
+
+    language = StringType(required=True, choices=['uk', 'en', 'ru'], default='uk')
+
+
 class ConfidentialDocument(Document):
     """ Confidential Document """
+    class Options:
+        roles = {
+            'edit': blacklist('id', 'url', 'datePublished', 'dateModified', ''),
+            'embedded': schematics_embedded_role,
+            'view': (blacklist('revisions') + schematics_default_role),
+            'public_view': (blacklist('revisions', 'url') + schematics_default_role),
+            'revisions': whitelist('url', 'dateModified'),
+        }
 
     confidentiality = StringType(choices=['public', 'buyerOnly'], default='public')
     confidentialityRationale = StringType()
@@ -106,6 +123,16 @@ class ConfidentialDocument(Document):
             elif len(val) < 30:
                 raise ValidationError(u"confidentialityRationale should contain at least 30 characters")
 
+
+class Contract(BaseContract):
+    documents = ListType(ModelType(Document), default=list())
+
+
+class Complaint(BaseComplaint):
+    documents = ListType(ModelType(Document), default=list())
+
+class Cancellation(BaseCancellation):
+    documents = ListType(ModelType(Document), default=list())
 
 class TenderAuctionPeriod(Period):
     """The auction period."""
@@ -270,6 +297,7 @@ class Award(BaseAward):
     """
     complaints = ListType(ModelType(Complaint), default=list())
     items = ListType(ModelType(Item))
+    documents = ListType(ModelType(Document), default=list())
 
 
 class Qualification(Model):
@@ -346,8 +374,11 @@ class Tender(BaseTender):
     enquiryPeriod = ModelType(Period, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
+    documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     complaints = ListType(ModelType(Complaint), default=list())
+    contracts = ListType(ModelType(Contract), default=list())
+    cancellations = ListType(ModelType(Cancellation), default=list())
     awards = ListType(ModelType(Award), default=list())
     procuringEntity = ModelType(Organization, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted',])  # A list of all the companies who entered submissions for the tender.

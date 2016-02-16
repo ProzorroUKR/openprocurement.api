@@ -182,7 +182,7 @@ Then bidder should upload proposal technical document(s):
 .. include:: tutorial/upload-bid-proposal.http
    :code:
 
-There are possibility to upload private documents:
+There is possibility to upload private documents:
 
 .. include:: tutorial/upload-bid-private-proposal.http
    :code:
@@ -200,16 +200,38 @@ It is possible to check the uploaded documents:
 .. include:: tutorial/bidder-documents.http
    :code:
 
-Financial, eligibility and qualification documents is also a part of Bid but locate in different end-points:
+.. _envelopes:
 
-financial:
-/tenders/{tender_id}/bids/{bid_id}/financial_documents 
+Financial, eligibility and qualification documents uploading
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-eligibility:
-/tenders/{tender_id}/bids/{bid_id}/eligibility_documents
+Financial, eligibility and qualification documents are also a part of Bid but are located in different end-points.
+There are possibility to upload financial document:
 
-qualification:
-/tenders/{tender_id}/bids/{bid_id}/qualification_documents
+.. include:: tutorial/upload-bid-financial-document-proposal.http
+   :code:
+
+There are financial documents. Such documents will be stored in `financial_documents` attribute of :ref:`Bid`.
+
+.. include:: tutorial/bidder-financial-documents.http
+   :code:
+
+There are possibility to upload eligibility () and qualification document :
+
+.. include:: tutorial/upload-bid-eligibility-document-proposal.http
+   :code:
+
+Such documents will be stored in `eligibility_documents` attribute of :ref:`Bid`.
+
+.. include:: tutorial/upload-bid-qualification-document-proposal.http
+   :code:
+
+Such documents will be stored in `qualificationDocuments` attribute of :ref:`Bid`.
+
+Financial, eligibility and qualification documents will be publicly accessible after the auction. There are bidder proposal with all documents.
+
+.. include:: tutorial/bidder-view-financial-documents.http
+   :code:
 
 
 Bid invalidation
@@ -233,7 +255,7 @@ Open EU procedure demands at least two bidders, so there should be at least two 
 .. include:: tutorial/register-2nd-bidder.http
    :code:
 
-Resigter one more bid:
+Register one more bid:
 
 .. include:: tutorial/register-3rd-bidder.http
    :code:
@@ -244,7 +266,7 @@ Resigter one more bid:
 Bid Qualification
 -----------------
 
-Open EU procedure requires bids qualification.
+Open EU procedure requires bid qualification.
 
 Let's list qualifications:
 
@@ -252,7 +274,7 @@ Let's list qualifications:
 .. include:: tutorial/qualifications-listing.http
    :code:
 
-Approve first two Bids through qualification objects:
+Approve first two bids through qualification objects:
 
 .. include:: tutorial/approve-qualification1.http
    :code:
@@ -260,28 +282,29 @@ Approve first two Bids through qualification objects:
 .. include:: tutorial/approve-qualification2.http
    :code:
 
-We can also reject some Bid:
+We can also reject bid:
 
 .. include:: tutorial/reject-qualification3.http
    :code:
 
-And check that qualified Bids are switched to 'active':
+And check that qualified bids are switched to 'active':
 
 .. include:: tutorial/qualificated-bids-view.http
    :code:
 
-Rejected bid is not shown in bids/ listing.
-We can access rejected Bid by id:
+Rejected bid is not shown in `bids/` listing.
+
+We can access rejected bid by id:
 
 .. include:: tutorial/rejected-bid-view.http
    :code:
 
-Tender owner approves qualifications by switching to next status:
+Procuring entity approves qualifications by switching to next status:
 
 .. include:: tutorial/pre-qualification-confirmation.http
    :code:
 
-You may notice 10 day stand-still time set in qualificationPeriod.
+You may notice 10 day stand-still time set in `qualificationPeriod`.
 
 Auction
 -------

@@ -16,6 +16,7 @@ areas that were not covered by it.
    organization
    item
    document
+   confidentialdocument
    lot
    bid
    qualification

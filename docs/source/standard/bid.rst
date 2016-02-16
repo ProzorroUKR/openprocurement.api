@@ -39,7 +39,16 @@ Schema
     * `valueAddedTaxIncluded` should either be absent or match `Tender.value.valueAddedTaxIncluded`
 
 :documents:
-    List of :ref:`Document` objects
+    List of :ref:`ConfidentialDocument` objects
+
+:financialDocuments:
+    List of :ref:`ConfidentialDocument` objects
+
+:eligibilityDocuments:
+    List of :ref:`ConfidentialDocument` objects
+
+:qualificationDocuments:
+    List of :ref:`ConfidentialDocument` objects
 
 :parameters:
     List of :ref:`Parameter` objects

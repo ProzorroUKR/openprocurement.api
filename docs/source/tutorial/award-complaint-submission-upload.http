@@ -1,0 +1,23 @@
+POST /api/0.12/tenders/61e82125e5fe4d54a8339ae2b4374bd6/awards/fb9b31811a584ba2985a053373b48a35/complaints/99f6a5672e364293b303ddbac4013d11/documents?acc_token=e4471cca21904daeb7b1e8504a124819 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 201
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy164519536671$
+Host: api-sandbox.openprocurement.org
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/61e82125e5fe4d54a8339ae2b4374bd6/awards/fb9b31811a584ba2985a053373b48a35/complaints/99f6a5672e364293b303ddbac4013d11/documents/3da66db23af644a294b89dc4ec837a04
+{
+  "data": {
+    "author": "complaint_owner", 
+    "language": "uk", 
+    "title": "Complaint_Attachement.pdf", 
+    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/61e82125e5fe4d54a8339ae2b4374bd6/awards/fb9b31811a584ba2985a053373b48a35/complaints/99f6a5672e364293b303ddbac4013d11/documents/3da66db23af644a294b89dc4ec837a04?download=9796d9087bb441a5b6627d47386ffef8", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2016-02-16T17:30:49.994759+02:00", 
+    "id": "3da66db23af644a294b89dc4ec837a04", 
+    "dateModified": "2016-02-16T17:30:49.994811+02:00"
+  }
+}
+
