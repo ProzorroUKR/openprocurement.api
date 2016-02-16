@@ -1,6 +1,3 @@
-Introduction
-============
-
 OpenProcurement is initiative to develop software powering tenders database and reverse auction.
 
 The Open Procurement Open EU procedure is plugin to Open Procurement API software.

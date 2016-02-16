@@ -1,0 +1,66 @@
+GET /api/0.12/tenders/9af6f0eb804a4dc1a67a868c0ff24366/qualifications/453009e94c564b01a686355631b5aa11/complaints/708bf33c663a42019e1e56936032af17 HTTP/1.0
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "resolved", 
+    "dateDecision": "2016-02-16T12:28:42.967518+02:00", 
+    "tendererActionDate": "2016-02-16T12:28:43.306762+02:00", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "author": {
+      "contactPoint": {
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+        "id": "13313462", 
+        "uri": "http://sch10.edu.vn.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "postalCode": "21100", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 33", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "title": "Недостатньо інформації", 
+    "id": "708bf33c663a42019e1e56936032af17", 
+    "tendererAction": "Умови виправлено", 
+    "dateSubmitted": "2016-02-16T12:28:41.848553+02:00", 
+    "date": "2016-02-16T12:28:41.383147+02:00", 
+    "type": "complaint", 
+    "documents": [
+      {
+        "author": "complaint_owner", 
+        "language": "uk", 
+        "title": "Complaint_Attachement.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/9af6f0eb804a4dc1a67a868c0ff24366/qualifications/453009e94c564b01a686355631b5aa11/complaints/708bf33c663a42019e1e56936032af17/documents/5aad8b00de4b456c8d69c1095a337ce4?download=26d7ed6c4a3d49618657d55ea1978701", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-16T12:28:41.712699+02:00", 
+        "id": "5aad8b00de4b456c8d69c1095a337ce4", 
+        "dateModified": "2016-02-16T12:28:41.712739+02:00"
+      }, 
+      {
+        "author": "reviewers", 
+        "language": "uk", 
+        "title": "ComplaintResolution.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/9af6f0eb804a4dc1a67a868c0ff24366/qualifications/453009e94c564b01a686355631b5aa11/complaints/708bf33c663a42019e1e56936032af17/documents/23ec0725ddd842d1a5402e7a36799f4d?download=314740c58dfb43808cf996a78f8476a5", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-02-16T12:28:42.796150+02:00", 
+        "id": "23ec0725ddd842d1a5402e7a36799f4d", 
+        "dateModified": "2016-02-16T12:28:42.796189+02:00"
+      }
+    ], 
+    "dateAccepted": "2016-02-16T12:28:42.454966+02:00"
+  }
+}
+

@@ -1,0 +1,23 @@
+GET /api/0.12/tenders/2069a42a61104de2920e2798a1e3dcc2/qualifications?acc_token=0856103e1c52483094b3e48a6a910ddc HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "status": "pending", 
+      "lotID": "753a890ceebe4f7e80e0c16c080f0315", 
+      "id": "4c69b547de384155b2ccf478edd6e966", 
+      "bidID": "6f465be6f1a94fa2a568be984ea029e5"
+    }, 
+    {
+      "status": "pending", 
+      "lotID": "753a890ceebe4f7e80e0c16c080f0315", 
+      "id": "6ff0c5c7f24543b28af91b2bb551f413", 
+      "bidID": "826a59c1323946559b2b2ff3eee6f198"
+    }
+  ]
+}
+
