@@ -22,6 +22,7 @@ Contents:
    tutorial
    multiple_lots_tutorial
    complaints
+   acceleration
    reference
 
 Indices and tables
