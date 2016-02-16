@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/57543fb90bb842329d1f37f675f74d8b?acc_token=e714aca1ad624710a1207deab27017ef HTTP/1.0
+PATCH /api/0.12/tenders/2069a42a61104de2920e2798a1e3dcc2?acc_token=0856103e1c52483094b3e48a6a910ddc HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 60
 Content-Type: application/json
@@ -17,17 +17,17 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "status": "active.pre-qualification.stand-still", 
     "qualificationPeriod": {
-      "startDate": "2016-02-15T22:53:05.797518+02:00", 
-      "endDate": "2016-02-25T22:53:06.592908+02:00"
+      "startDate": "2016-02-16T12:44:26.518112+02:00", 
+      "endDate": "2016-02-26T12:44:27.188106+02:00"
     }, 
-    "tenderID": "UA-2016-02-15-000001", 
+    "tenderID": "UA-2016-02-16-000001", 
     "tenderPeriod": {
-      "startDate": "2016-01-16T22:53:05.447770+02:00", 
-      "endDate": "2016-02-15T22:53:05.447770+02:00"
+      "startDate": "2016-01-17T12:44:26.247358+02:00", 
+      "endDate": "2016-02-16T12:44:26.247358+02:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-01-16T22:53:05.447770+02:00", 
-      "endDate": "2016-02-11T22:53:05.447770+02:00"
+      "startDate": "2016-01-17T12:44:26.247358+02:00", 
+      "endDate": "2016-02-12T12:44:26.247358+02:00"
     }, 
     "minimalStep": {
       "currency": "UAH", 
@@ -35,8 +35,8 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-01-16T22:53:05.447770+02:00", 
-      "endDate": "2016-02-12T22:53:05.447770+02:00"
+      "startDate": "2016-01-17T12:44:26.247358+02:00", 
+      "endDate": "2016-02-13T12:44:26.247358+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "title_en": "Services in school canteens", 
@@ -57,14 +57,14 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2016-02-25T22:53:06.592908+02:00"
+          "shouldStartAfter": "2016-02-26T12:44:27.188106+02:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "143af432be1d4b87a4f277de0858ba94"
+        "id": "753a890ceebe4f7e80e0c16c080f0315"
       }, 
       {
         "status": "unsuccessful", 
@@ -80,10 +80,10 @@ Content-Type: application/json; charset=UTF-8
           "amount": 400.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "b277abcf757947e396f278edadfd97dc"
+        "id": "88073490c6304612ba4b064a9f6b3d00"
       }
     ], 
-    "dateModified": "2016-02-15T22:53:06.604528+02:00", 
+    "dateModified": "2016-02-16T12:44:27.196439+02:00", 
     "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
       "contactPoint": {
@@ -111,7 +111,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "143af432be1d4b87a4f277de0858ba94", 
+        "relatedLot": "753a890ceebe4f7e80e0c16c080f0315", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -126,7 +126,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "4205b7ea48fa40edbcadc5bfbee30beb", 
+        "id": "f0524cfbb80640afbec3ccb2ab9cdf5a", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -134,7 +134,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }, 
       {
-        "relatedLot": "b277abcf757947e396f278edadfd97dc", 
+        "relatedLot": "88073490c6304612ba4b064a9f6b3d00", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -149,7 +149,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "6c1699a54bd74d639bf673a3fcb37d23", 
+        "id": "7542a78c033945c2911f2517f431ae86", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -158,8 +158,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "next_check": "2016-02-25T22:53:06.592908+02:00", 
-    "id": "57543fb90bb842329d1f37f675f74d8b", 
+    "next_check": "2016-02-26T12:44:27.188106+02:00", 
+    "id": "2069a42a61104de2920e2798a1e3dcc2", 
     "awardCriteria": "lowestCost"
   }
 }

@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/57543fb90bb842329d1f37f675f74d8b HTTP/1.0
+GET /api/0.12/tenders/2069a42a61104de2920e2798a1e3dcc2 HTTP/1.0
 Host: api-sandbox.openprocurement.org
 
 Response: 200 OK
@@ -7,10 +7,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-02-15-000001", 
+    "tenderID": "UA-2016-02-16-000001", 
     "tenderPeriod": {
-      "startDate": "2016-02-15T22:53:03.838062+02:00", 
-      "endDate": "2016-03-17T22:53:02.055281+02:00"
+      "startDate": "2016-02-16T12:44:24.851910+02:00", 
+      "endDate": "2016-03-18T12:44:22.627777+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -19,12 +19,12 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-02-15T22:53:03.838062+02:00", 
-      "endDate": "2016-03-14T22:53:02.055281+02:00"
+      "startDate": "2016-02-16T12:44:24.851910+02:00", 
+      "endDate": "2016-03-15T12:44:22.627777+02:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-02-15T22:53:03.838062+02:00", 
-      "endDate": "2016-03-13T22:53:02.055281+02:00"
+      "startDate": "2016-02-16T12:44:24.851910+02:00", 
+      "endDate": "2016-03-14T12:44:22.627777+02:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -48,7 +48,7 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "143af432be1d4b87a4f277de0858ba94"
+        "id": "753a890ceebe4f7e80e0c16c080f0315"
       }, 
       {
         "status": "active", 
@@ -64,10 +64,10 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "b277abcf757947e396f278edadfd97dc"
+        "id": "88073490c6304612ba4b064a9f6b3d00"
       }
     ], 
-    "dateModified": "2016-02-15T22:53:04.409604+02:00", 
+    "dateModified": "2016-02-16T12:44:25.360920+02:00", 
     "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
       "contactPoint": {
@@ -95,7 +95,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "143af432be1d4b87a4f277de0858ba94", 
+        "relatedLot": "753a890ceebe4f7e80e0c16c080f0315", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -110,7 +110,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "4205b7ea48fa40edbcadc5bfbee30beb", 
+        "id": "f0524cfbb80640afbec3ccb2ab9cdf5a", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -118,7 +118,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }, 
       {
-        "relatedLot": "b277abcf757947e396f278edadfd97dc", 
+        "relatedLot": "88073490c6304612ba4b064a9f6b3d00", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -133,7 +133,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "6c1699a54bd74d639bf673a3fcb37d23", 
+        "id": "7542a78c033945c2911f2517f431ae86", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -142,8 +142,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "next_check": "2016-03-17T22:53:02.055281+02:00", 
-    "id": "57543fb90bb842329d1f37f675f74d8b", 
+    "next_check": "2016-03-18T12:44:22.627777+02:00", 
+    "id": "2069a42a61104de2920e2798a1e3dcc2", 
     "awardCriteria": "lowestCost"
   }
 }
