@@ -317,7 +317,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.couchdb_server = self.app.app.registry.couchdb_server
         self.db = self.app.app.registry.db
 
-    def XXXtest_docs(self):
+    def test_docs(self):
         request_path = '/tenders?opt_pretty=1'
 
         #### Exploring basic rules
@@ -444,7 +444,7 @@ class TenderResourceTest(BaseTenderWebTest):
                 self.tender_id, question_id))
             self.assertEqual(response.status, '200 OK')
 
-        self.go_to_enquiryPeriod_end()
+        self.time_shift('enquiryPeriod_ends')
         self.app.authorization = ('Basic', ('broker', ''))
         with open('docs/source/tutorial/update-tender-after-enqiery.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}?acc_token={}'.format(tender['id'], owner_token))
@@ -507,8 +507,36 @@ class TenderResourceTest(BaseTenderWebTest):
                 }})
             self.assertEqual(response.status, '200 OK')
 
-        with open('docs/source/tutorial/bidder-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/bids/{}/documents?acc_token={}'.format(
+        with open('docs/source/tutorial/upload-bid-financial-document-proposal.http', 'w') as self.app.file_obj:
+            response = self.app.post('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
+                    self.tender_id, bid1_id, bids_access[bid1_id]), upload_files=[('file', 'financial_doc.pdf', '1000$')])
+            self.assertEqual(response.status, '201 Created')
+            financial_doc_id = response.json['data']['id']
+
+        response = self.app.post('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
+                self.tender_id, bid1_id, bids_access[bid1_id]), upload_files=[('file', 'financial_doc2.pdf', '1000$')])
+        self.assertEqual(response.status, '201 Created')
+        financial_doc_id = response.json['data']['id']
+
+        with open('docs/source/tutorial/bidder-financial-documents.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
+                    self.tender_id, bid1_id, bids_access[bid1_id]))
+            self.assertEqual(response.status, '200 OK')
+
+
+        with open('docs/source/tutorial/upload-bid-eligibility-document-proposal.http', 'w') as self.app.file_obj:
+            response = self.app.post('/tenders/{}/bids/{}/eligibility_documents?acc_token={}'.format(
+                    self.tender_id, bid1_id, bids_access[bid1_id]), upload_files=[('file', 'eligibility_doc.pdf', 'content')])
+            self.assertEqual(response.status, '201 Created')
+            eligibility_doc_id = response.json['data']['id']
+
+        with open('docs/source/tutorial/upload-bid-qualification-document-proposal.http', 'w') as self.app.file_obj:
+            response = self.app.post('/tenders/{}/bids/{}/qualification_documents?acc_token={}'.format(
+                    self.tender_id, bid1_id, bids_access[bid1_id]), upload_files=[('file', 'qualification_document.pdf', 'content')])
+            self.assertEqual(response.status, '201 Created')
+
+        with open('docs/source/tutorial/bidder-view-financial-documents.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]))
             self.assertEqual(response.status, '200 OK')
 

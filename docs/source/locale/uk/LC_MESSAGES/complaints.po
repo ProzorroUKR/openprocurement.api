@@ -1,0 +1,107 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.openeu 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-16 16:16+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/complaints.rst:11
+msgid "Complaint Workflow"
+msgstr ""
+
+#: ../../source/complaints.rst:13
+msgid ""
+"For more detailed information read `Complaints "
+"<http://openprocurement.org/en/complaints.html>`_."
+msgstr ""
+
+#: ../../source/complaints.rst:16
+msgid "Tender Conditions Claims/Complaints"
+msgstr ""
+
+#: ../../source/complaints.rst:27
+msgid "Tender Qualification Complaints"
+msgstr ""
+
+#: ../../source/complaints.rst:38
+msgid "Tender Award Complaints"
+msgstr ""
+
+#: ../../source/complaints.rst:49
+msgid "Roles"
+msgstr ""
+
+#: ../../source/complaints.rst:52
+msgid "dashed"
+msgstr ""
+
+#: ../../source/complaints.rst:55
+msgid "plain"
+msgstr ""
+
+#: ../../source/complaints.rst:58
+msgid "bold"
+msgstr ""
+
+#: ../../source/complaints.rst:61
+msgid "dotted"
+msgstr ""
+
+#: ../../source/complaints.rst:64
+msgid "Statuses"
+msgstr ""
+
+#: ../../source/complaints.rst:67
+msgid "Initial status"
+msgstr ""
+
+#: ../../source/complaints.rst:69
+msgid ""
+"Complainant can submit claim, upload documents, cancel claim, and re-submit "
+"it."
+msgstr ""
+
+#: ../../source/complaints.rst:72
+msgid "Procuring entity can upload documents and answer to claim."
+msgstr ""
+
+#: ../../source/complaints.rst:74 ../../source/complaints.rst:82
+msgid "Complainant can cancel claim."
+msgstr ""
+
+#: ../../source/complaints.rst:77
+msgid ""
+"Complainant can cancel claim, upload documents, accept solution or escalate "
+"claim to complaint."
+msgstr ""
+
+#: ../../source/complaints.rst:80
+msgid "Reviewer can upload documents and review complaint."
+msgstr ""
+
+#: ../../source/complaints.rst:85 ../../source/complaints.rst:90
+#: ../../source/complaints.rst:95 ../../source/complaints.rst:100
+msgid "Terminal status"
+msgstr ""
+
+#: ../../source/complaints.rst:87
+msgid "Complaint recognized as invalid."
+msgstr ""
+
+#: ../../source/complaints.rst:92
+msgid "Complaint recognized as declined."
+msgstr ""
+
+#: ../../source/complaints.rst:97
+msgid "Complaint recognized as resolved."
+msgstr ""
+
+#: ../../source/complaints.rst:102
+msgid "Complaint cancelled by complainant."
+msgstr ""

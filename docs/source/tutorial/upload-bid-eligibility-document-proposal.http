@@ -1,0 +1,23 @@
+POST /api/0.12/tenders/d3ae41bbdd8e45549afcb7f216050cd5/bids/b4f21872bbee48308f23d8a309b3eaea/eligibility_documents?acc_token=e39b27297d2d45d8a1dc55be61be0cd3 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 193
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy91803240418$
+Host: api-sandbox.openprocurement.org
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/d3ae41bbdd8e45549afcb7f216050cd5/bids/b4f21872bbee48308f23d8a309b3eaea/eligibility_documents/221a28c1537c4b22844f8cb0d9122c0b
+{
+  "data": {
+    "confidentiality": "public", 
+    "language": "uk", 
+    "title": "eligibility_doc.pdf", 
+    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d3ae41bbdd8e45549afcb7f216050cd5/bids/b4f21872bbee48308f23d8a309b3eaea/eligibility_documents/221a28c1537c4b22844f8cb0d9122c0b?download=c728b6cbe2a8484fae418171f5fa6a7d", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2016-02-16T17:31:03.192729+02:00", 
+    "id": "221a28c1537c4b22844f8cb0d9122c0b", 
+    "dateModified": "2016-02-16T17:31:03.192777+02:00"
+  }
+}
+

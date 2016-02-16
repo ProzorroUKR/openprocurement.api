@@ -2,8 +2,10 @@
 from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.views.tender import TenderResource
-
 from openprocurement.tender.openeu.utils import check_status, all_bids_are_reviewed, switch_to_qualificationPeriod
+from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.api.utils import (
     save_tender,
     apply_patch,
@@ -14,11 +16,6 @@ from openprocurement.api.utils import (
 
 LOGGER = getLogger(__name__)
 
-
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
-from openprocurement.tender.openua.utils import calculate_business_date
-
-from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 
 @opresource(name='Tender EU',
             path='/tenders/{tender_id}',
@@ -96,7 +93,6 @@ class TenderEUResource(TenderResource):
                     return
                 self.request.validated['tender'].initialize()
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
-                self.request.validated['data']["auctionPeriod"] = {'startDate': None}
 
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if self.request.authenticated_role == 'chronograph':

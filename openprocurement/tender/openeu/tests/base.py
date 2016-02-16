@@ -204,6 +204,19 @@ class BaseTenderWebTest(BaseTenderWebTest):
     initial_lots = None
     initial_auth = None
 
+    def go_to_enquiryPeriod_end(self):
+        now = get_now()
+        self.set_status('active.tendering', {
+            "enquiryPeriod": {
+                "startDate": (now - timedelta(days=28)).isoformat(),
+                "endDate": (now - timedelta(days=1)).isoformat()
+            },
+            "tenderPeriod": {
+                "startDate": (now - timedelta(days=28)).isoformat(),
+                "endDate": (now + timedelta(days=2)).isoformat()
+            }
+        })
+
     def setUp(self):
         self.app = webtest.TestApp(
             "config:tests.ini", relative_to=os.path.dirname(__file__))
