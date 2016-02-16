@@ -1,4 +1,4 @@
-.. _tutorial:
+.. _mulitlot_tutorial:
 
 Multiple Lots Tutorial
 ======================
@@ -7,7 +7,7 @@ Multiple Lots Tutorial
 Creating tender
 ---------------
 
-Let's create tender with the data attribute in the submitted body :
+Let's create tender:
 
 .. include:: multiple_lots_tutorial/tender-post-attempt-json-data.http
    :code:
@@ -27,7 +27,7 @@ Tender can contain several different lots. We can add lot using the following wa
 .. include:: multiple_lots_tutorial/tender-add-lot.http
    :code:
 
-Also you will need to update data about item's related lots
+Also you will need to update data about item's related lots:
 
 .. include:: multiple_lots_tutorial/tender-add-relatedLot-to-item.http
    :code:
@@ -54,7 +54,7 @@ Bidder can register a bid for lot №1:
 .. include:: multiple_lots_tutorial/bid-lot1.http
    :code:
 
-Bidder can register a bid for all lots:
+Bidder can register bids for all lots:
 
 .. include:: multiple_lots_tutorial/bid-lot2.http
    :code:
@@ -71,12 +71,12 @@ Here is the bidder's proposal after tender was updated.
 .. include:: multiple_lots_tutorial/bid-lot1-invalid-view.http
    :code:
 
-First bidder has to renew bid, even if he was placing a bid just for a lot №1
+Firstly bidder has to renew bid, even if he was placing a bid just for a lot №1.
 
 .. include:: multiple_lots_tutorial/bid-lot1-update-view.http
    :code:
 
-Then bidder has to renew bid only for a lot №1
+Then bidder has to renew bid only for a lot №1.
 
 .. include:: multiple_lots_tutorial/bid-lot2-update-view.http
    :code:
@@ -85,7 +85,7 @@ Then bidder has to renew bid only for a lot №1
 Bid Qualification
 -----------------
 
-Open EU procedure requires bids value qualification.
+Open EU procedure requires bid's value qualification.
 
 Let's view tender: 
 
@@ -103,7 +103,7 @@ Approve bid's value through qualification objects:
    :code:
 
 
-Tender owner approves qualifications by switching to next status:
+Procuring entity approves qualifications by switching to next status:
 
 .. include:: multiple_lots_tutorial/tender-view-pre-qualification-stand-still.http
    :code:

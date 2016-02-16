@@ -3,10 +3,10 @@
 
 .. index:: Document, Attachment, File, Notice, Bidding Documents, Technical Specifications, Evaluation Criteria, Clarifications
 
-.. _Document:
+.. _CondidentialDocument:
 
-Document
-========
+ConfidentialDocument
+====================
 
 Schema
 ------
@@ -117,6 +117,17 @@ Schema
     
     |ocdsDescription|
     Direct link to the document or attachment. 
+
+:confidentiality:
+    string
+    
+    Possible values are:
+
+    * `public`
+    * `buyerOnly`
+
+:confidentialityRationale:
+    string
     
 :datePublished:
     string, :ref:`date`
