@@ -3,7 +3,7 @@
 
 .. index:: Document, Attachment, File, Notice, Bidding Documents, Technical Specifications, Evaluation Criteria, Clarifications
 
-.. _CondidentialDocument:
+.. _ConfidentialDocument:
 
 ConfidentialDocument
 ====================
