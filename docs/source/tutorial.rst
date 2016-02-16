@@ -202,14 +202,29 @@ It is possible to check the uploaded documents:
 
 Financial, eligibility and qualification documents is also a part of Bid but locate in different end-points:
 
-financial:
-/tenders/{tender_id}/bids/{bid_id}/financial_documents 
+Financial endpoint:
 
-eligibility:
-/tenders/{tender_id}/bids/{bid_id}/eligibility_documents
+.. code::
 
-qualification:
-/tenders/{tender_id}/bids/{bid_id}/qualification_documents
+  /tenders/{tender_id}/bids/{bid_id}/financial_documents 
+  
+Such documents will be stored in `financial_documents` attribute of :ref:`Bid`.
+
+Eligibility endpoint:
+
+.. code::
+
+  /tenders/{tender_id}/bids/{bid_id}/eligibility_documents
+  
+Such documents will be stored in `eligibility_documents` attribute of :ref:`Bid`.
+
+Qualification endpoint:
+
+.. code::
+
+  /tenders/{tender_id}/bids/{bid_id}/qualification_documents
+
+Such documents will be stored in `qualificationDocuments` attribute of :ref:`Bid`.
 
 
 Bid invalidation

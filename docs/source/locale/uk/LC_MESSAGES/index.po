@@ -27,14 +27,14 @@ msgstr ""
 msgid "Contents:"
 msgstr ""
 
-#: ../../source/index.rst:27
+#: ../../source/index.rst:28
 msgid "Indices and tables"
 msgstr ""
 
-#: ../../source/index.rst:29
+#: ../../source/index.rst:30
 msgid ":ref:`genindex`"
 msgstr ""
 
-#: ../../source/index.rst:30
+#: ../../source/index.rst:31
 msgid ":ref:`search`"
 msgstr ""
