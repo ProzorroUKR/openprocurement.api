@@ -9,7 +9,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
-"Language-Team: \n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
 "X-Generator: Poedit 1.8.5\n"
 
 #: ../../source/standard/complaint.rst:9

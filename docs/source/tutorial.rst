@@ -200,7 +200,7 @@ It is possible to check the uploaded documents:
 .. include:: tutorial/bidder-documents.http
    :code:
 
-Financial, eligibility and qualification documents is also a part of Bid but locate in different end-points:
+Financial, eligibility and qualification documents are also a part of Bid but are located in different end-points.
 
 Financial endpoint:
 
@@ -226,6 +226,7 @@ Qualification endpoint:
 
 Such documents will be stored in `qualificationDocuments` attribute of :ref:`Bid`.
 
+Financial, eligibility and qualification documents will be publicly accessible after the auction.
 
 Bid invalidation
 ~~~~~~~~~~~~~~~~

@@ -222,182 +222,220 @@ msgstr ""
 msgid "It is possible to check the uploaded documents:"
 msgstr ""
 
-#: ../../source/tutorial.rst:203
-msgid ""
-"Financial, eligibility and qualification documents is also a part of Bid but"
-" locate in different end-points:"
-msgstr ""
-
-#: ../../source/tutorial.rst:205
-msgid "financial: /tenders/{tender_id}/bids/{bid_id}/financial_documents"
-msgstr ""
-
-#: ../../source/tutorial.rst:208
-msgid "eligibility: /tenders/{tender_id}/bids/{bid_id}/eligibility_documents"
-msgstr ""
-
-#: ../../source/tutorial.rst:211
-msgid ""
-"qualification: /tenders/{tender_id}/bids/{bid_id}/qualification_documents"
-msgstr ""
-
-#: ../../source/tutorial.rst:216
+#: ../../source/tutorial.rst:232
 msgid "Bid invalidation"
 msgstr ""
 
-#: ../../source/tutorial.rst:218
+#: ../../source/tutorial.rst:234
 msgid ""
 "If tender is modified, status of all bid proposals will be changed to "
 "``invalid``. Bid proposal will look the following way after tender has been "
 "modified:"
 msgstr ""
 
-#: ../../source/tutorial.rst:224
+#: ../../source/tutorial.rst:240
 msgid "Bid confirmation"
 msgstr ""
 
-#: ../../source/tutorial.rst:226
+#: ../../source/tutorial.rst:242
 msgid "Bidder should confirm bid proposal:"
 msgstr ""
 
-#: ../../source/tutorial.rst:231
+#: ../../source/tutorial.rst:247
 msgid ""
 "Open EU procedure demands at least two bidders, so there should be at least "
 "two bid proposals registered to move to auction stage:"
 msgstr ""
 
-#: ../../source/tutorial.rst:236
+#: ../../source/tutorial.rst:252
 msgid "Resigter one more bid:"
 msgstr ""
 
-#: ../../source/tutorial.rst:245
+#: ../../source/tutorial.rst:261
 msgid "Bid Qualification"
 msgstr ""
 
-#: ../../source/tutorial.rst:247
+#: ../../source/tutorial.rst:263
 msgid "Open EU procedure requires bids qualification."
 msgstr ""
 
-#: ../../source/tutorial.rst:249
+#: ../../source/tutorial.rst:265
 msgid "Let's list qualifications:"
 msgstr ""
 
-#: ../../source/tutorial.rst:255
+#: ../../source/tutorial.rst:271
 msgid "Approve first two Bids through qualification objects:"
 msgstr ""
 
-#: ../../source/tutorial.rst:263
+#: ../../source/tutorial.rst:279
 msgid "We can also reject some Bid:"
 msgstr ""
 
-#: ../../source/tutorial.rst:268
+#: ../../source/tutorial.rst:284
 msgid "And check that qualified Bids are switched to 'active':"
 msgstr ""
 
-#: ../../source/tutorial.rst:273
+#: ../../source/tutorial.rst:289
 msgid ""
 "Rejected bid is not shown in bids/ listing. We can access rejected Bid by "
 "id:"
 msgstr ""
 
-#: ../../source/tutorial.rst:279
+#: ../../source/tutorial.rst:295
 msgid "Tender owner approves qualifications by switching to next status:"
 msgstr ""
 
-#: ../../source/tutorial.rst:284
+#: ../../source/tutorial.rst:300
 msgid "You may notice 10 day stand-still time set in qualificationPeriod."
 msgstr ""
 
-#: ../../source/tutorial.rst:287
+#: ../../source/tutorial.rst:303
 msgid "Auction"
 msgstr ""
 
-#: ../../source/tutorial.rst:289
+#: ../../source/tutorial.rst:305
 msgid ""
 "After auction is scheduled anybody can visit it to watch. The auction can be"
 " reached at `Tender.auctionUrl`:"
 msgstr ""
 
-#: ../../source/tutorial.rst:294
+#: ../../source/tutorial.rst:310
 msgid "Bidders can find out their participation URLs via their bids:"
 msgstr ""
 
-#: ../../source/tutorial.rst:299
+#: ../../source/tutorial.rst:315
 msgid ""
 "See the `Bid.participationUrl` in the response. Similar, but different, URL "
 "can be retrieved for other participants:"
 msgstr ""
 
-#: ../../source/tutorial.rst:305
+#: ../../source/tutorial.rst:321
 msgid "Confirming qualification"
 msgstr ""
 
-#: ../../source/tutorial.rst:307
+#: ../../source/tutorial.rst:323
 msgid ""
 "Qualification commission registers its decision via the following call:"
 msgstr ""
 
-#: ../../source/tutorial.rst:313
+#: ../../source/tutorial.rst:329
 msgid "Cancelling tender"
 msgstr ""
 
-#: ../../source/tutorial.rst:315
+#: ../../source/tutorial.rst:331
 msgid ""
 "Tender creator can cancel tender anytime. The following steps should be "
 "applied:"
 msgstr ""
 
-#: ../../source/tutorial.rst:317
+#: ../../source/tutorial.rst:333
 msgid "Prepare cancellation request."
 msgstr ""
 
-#: ../../source/tutorial.rst:318
+#: ../../source/tutorial.rst:334
 msgid "Fill it with the protocol describing the cancellation reasons."
 msgstr ""
 
-#: ../../source/tutorial.rst:319
+#: ../../source/tutorial.rst:335
 msgid "Cancel the tender with the prepared reasons."
 msgstr ""
 
-#: ../../source/tutorial.rst:321
+#: ../../source/tutorial.rst:337
 msgid ""
 "Only the request that has been activated (3rd step above) has power to "
 "cancel tender.  I.e.  you have to not only prepare cancellation request but "
 "to activate it as well."
 msgstr ""
 
-#: ../../source/tutorial.rst:325
+#: ../../source/tutorial.rst:341
 msgid "See :ref:`cancellation` data structure for details."
 msgstr ""
 
-#: ../../source/tutorial.rst:328
+#: ../../source/tutorial.rst:344
 msgid "Preparing the cancellation request"
 msgstr ""
 
-#: ../../source/tutorial.rst:330
+#: ../../source/tutorial.rst:346
 msgid "You should pass `reason`, `status` defaults to `pending`."
 msgstr ""
 
-#: ../../source/tutorial.rst:332
+#: ../../source/tutorial.rst:348
 msgid "`id` is autogenerated and passed in the `Location` header of response."
 msgstr ""
 
-#: ../../source/tutorial.rst:338
+#: ../../source/tutorial.rst:354
 msgid "Filling cancellation with protocol and supplementary documentation"
 msgstr ""
 
-#: ../../source/tutorial.rst:340
+#: ../../source/tutorial.rst:356
 msgid "Upload the file contents"
 msgstr ""
 
-#: ../../source/tutorial.rst:345
+#: ../../source/tutorial.rst:361
 msgid "Change the document description and other properties"
 msgstr ""
 
-#: ../../source/tutorial.rst:351
+#: ../../source/tutorial.rst:367
 msgid "Upload new version of the document"
 msgstr ""
 
-#: ../../source/tutorial.rst:358
+#: ../../source/tutorial.rst:374
 msgid "Activating the request and cancelling tender"
 msgstr ""
+
+#: ../../source/tutorial.rst:203
+msgid ""
+"Financial, eligibility and qualification documents are also a part of Bid "
+"but are located in different end-points."
+msgstr ""
+
+#: ../../source/tutorial.rst:205
+msgid "Financial endpoint:"
+msgstr ""
+
+#: ../../source/tutorial.rst:211
+msgid ""
+"Such documents will be stored in `financial_documents` attribute of "
+":ref:`Bid`."
+msgstr ""
+
+#: ../../source/tutorial.rst:213
+msgid "Eligibility endpoint:"
+msgstr ""
+
+#: ../../source/tutorial.rst:219
+msgid ""
+"Such documents will be stored in `eligibility_documents` attribute of "
+":ref:`Bid`."
+msgstr ""
+
+#: ../../source/tutorial.rst:221
+msgid "Qualification endpoint:"
+msgstr ""
+
+#: ../../source/tutorial.rst:227
+msgid ""
+"Such documents will be stored in `qualificationDocuments` attribute of "
+":ref:`Bid`."
+msgstr ""
+
+#: ../../source/tutorial.rst:229
+msgid ""
+"Financial, eligibility and qualification documents will be publicly "
+"accessible after the auction."
+msgstr ""
+
+#~ msgid ""
+#~ "Financial, eligibility and qualification documents is also a part of Bid but"
+#~ " locate in different end-points:"
+#~ msgstr ""
+
+#~ msgid "financial: /tenders/{tender_id}/bids/{bid_id}/financial_documents"
+#~ msgstr ""
+
+#~ msgid "eligibility: /tenders/{tender_id}/bids/{bid_id}/eligibility_documents"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "qualification: /tenders/{tender_id}/bids/{bid_id}/qualification_documents"
+#~ msgstr ""
