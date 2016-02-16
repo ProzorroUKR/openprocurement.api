@@ -1,0 +1,6 @@
+POST /api/0.12/tenders/b51bfd7e432a49e4b8e4fa077496c360/awards/e3d12482ae2546ccaab528b433e7eb4c/complaints/fda52bbf7cd542189c7a6eae280ff578/documents?acc_token=4c4da28f3a814ceab676271d44798405 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 201
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy961838977828$
+Host: api-sandbox.openprocurement.org
+

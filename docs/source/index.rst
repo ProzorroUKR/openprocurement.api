@@ -21,6 +21,7 @@ Contents:
    standard/index
    tutorial
    multiple_lots_tutorial
+   complaints
    reference
 
 Indices and tables
