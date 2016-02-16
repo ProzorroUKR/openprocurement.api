@@ -916,6 +916,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
                 self.assertEqual(response.json['data']['title'], 'name_{}.doc'.format(doc_resource[:-1]))
                 self.assertEqual(response.json['data']['confidentiality'], u'public')
                 self.assertEqual(response.json['data']['format'], u'application/msword')
+                self.assertEqual(response.json['data']['language'], 'uk')
 
         for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
             response = self.app.post('/tenders/{}/bids/{}/{}'.format(
@@ -958,6 +959,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['title'], u'name_document.doc')
         self.assertEqual(response.json['data']['confidentiality'], u'public')
         self.assertEqual(response.json['data']['format'], u'application/msword')
+        self.assertEqual(response.json['data']['language'], 'uk')
         for doc_resource in ['financial_documents', 'eligibility_documents', 'qualification_documents']:
             document_is_unaccessible(doc_resource)
 
@@ -1474,7 +1476,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
                 {u'description': [u'relatedItem should be one of lots'], u'location': u'body', u'name': u'relatedItem'}
             ])
 
-            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}'.format(self.tender_id, self.bid_id, doc_resource, doc_id), {"data": {"description": "document description"}})
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}'.format(self.tender_id, self.bid_id, doc_resource, doc_id), {"data": {"description": "document description", 'language': 'en'}})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(doc_id, response.json["data"]["id"])
@@ -1485,6 +1487,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(doc_id, response.json["data"]["id"])
             self.assertEqual('document description', response.json["data"]["description"])
+            self.assertEqual('en', response.json["data"]["language"])
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {'status': 'active.tendering'})
