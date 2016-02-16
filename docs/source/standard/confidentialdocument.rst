@@ -142,7 +142,7 @@ Schema
     Date that the document was last modified
     
 :language:
-    string
+    string, deafult = `uk`
 
     Possible values are:
 
