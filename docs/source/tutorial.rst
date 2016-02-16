@@ -202,15 +202,28 @@ It is possible to check the uploaded documents:
 
 Financial, eligibility and qualification documents is also a part of Bid but locate in different end-points:
 
-financial:
-/tenders/{tender_id}/bids/{bid_id}/financial_documents 
+There are possibility to upload financial document:
 
-eligibility:
-/tenders/{tender_id}/bids/{bid_id}/eligibility_documents
+.. include:: tutorial/upload-bid-financial-document-proposal.http
+   :code:
 
-qualification:
-/tenders/{tender_id}/bids/{bid_id}/qualification_documents
+There are financial documents
 
+.. include:: tutorial/bidder-financial-documents.http
+   :code:
+
+There are possibility to upload eligibility and qualification document :
+
+.. include:: tutorial/upload-bid-eligibility-document-proposal.http
+   :code:
+
+.. include:: tutorial/upload-bid-qualification-document-proposal.http
+   :code:
+
+and bidder proposal with all documents
+
+.. include:: tutorial/bidder-view-financial-documents.http
+   :code:
 
 Bid invalidation
 ~~~~~~~~~~~~~~~~

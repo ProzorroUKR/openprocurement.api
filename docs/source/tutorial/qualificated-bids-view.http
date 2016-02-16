@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/426b4a12a7914da4b5085c151d304492/bids?acc_token=8c25b70cdf0d450d84750a469db0b8ba HTTP/1.0
+GET /api/0.12/tenders/d3ae41bbdd8e45549afcb7f216050cd5/bids?acc_token=b2eb12a4a6054c76a0cef1684e0f4f71 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -11,93 +11,37 @@ Content-Type: application/json; charset=UTF-8
       "documents": [
         {
           "confidentiality": "public", 
+          "language": "uk", 
           "title": "Proposal.pdf", 
-          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/426b4a12a7914da4b5085c151d304492/bids/ccb2b531e4e8432d85ae97b5e04c41b7/documents/82ea43476db846558de6b14dd10f437f?download=308576b6f09647408bdae1d5acf4d4ee", 
+          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d3ae41bbdd8e45549afcb7f216050cd5/bids/b4f21872bbee48308f23d8a309b3eaea/documents/29f863569f554f4b864ddce0e1b46353?download=5959f5cf4a4d4973abe5179e8409df42", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2016-02-08T14:33:11.330995+02:00", 
-          "id": "82ea43476db846558de6b14dd10f437f", 
-          "dateModified": "2016-02-08T14:33:11.331043+02:00"
+          "datePublished": "2016-02-16T17:31:02.144019+02:00", 
+          "id": "29f863569f554f4b864ddce0e1b46353", 
+          "dateModified": "2016-02-16T17:31:02.144066+02:00"
         }, 
         {
           "confidentiality": "buyerOnly", 
+          "language": "uk", 
           "title": "Proposal_top_secrets.pdf", 
-          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/426b4a12a7914da4b5085c151d304492/bids/ccb2b531e4e8432d85ae97b5e04c41b7/documents/809cda9d319f4054a3cf6ad2df2c16ac?download=410dcf0954ed476f8c92ddfe80b3ca07", 
+          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d3ae41bbdd8e45549afcb7f216050cd5/bids/b4f21872bbee48308f23d8a309b3eaea/documents/83585947776f4cbca511ff5886624f3b?download=c12599f58b734d78b0969def93717fd4", 
           "confidentialityRationale": "Only our company sells badgers with pink hair.", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2016-02-08T14:33:11.475748+02:00", 
-          "id": "809cda9d319f4054a3cf6ad2df2c16ac", 
-          "dateModified": "2016-02-08T14:33:11.475787+02:00"
+          "datePublished": "2016-02-16T17:31:02.341814+02:00", 
+          "id": "83585947776f4cbca511ff5886624f3b", 
+          "dateModified": "2016-02-16T17:31:02.341862+02:00"
         }
       ], 
-      "value": {
-        "currency": "UAH", 
-        "amount": 500.0, 
-        "valueAddedTaxIncluded": true
-      }, 
-      "date": "2016-02-08T14:33:11.157420+02:00", 
-      "tenderers": [
-        {
-          "contactPoint": {
-            "email": "soleksuk@gmail.com", 
-            "telephone": "+380 (432) 21-69-30", 
-            "name": "Сергій Олексюк"
-          }, 
-          "identifier": {
-            "scheme": "UA-EDR", 
-            "id": "00137256", 
-            "uri": "http://www.sc.gov.ua/"
-          }, 
-          "name": "ДКП «Школяр»", 
-          "address": {
-            "postalCode": "21100", 
-            "countryName": "Україна", 
-            "streetAddress": "вул. Островського, 33", 
-            "region": "м. Вінниця", 
-            "locality": "м. Вінниця"
-          }
-        }
-      ], 
-      "owner": "broker", 
-      "id": "ccb2b531e4e8432d85ae97b5e04c41b7"
+      "id": "b4f21872bbee48308f23d8a309b3eaea"
     }, 
     {
       "status": "active", 
-      "value": {
-        "currency": "UAH", 
-        "amount": 499.0, 
-        "valueAddedTaxIncluded": true
-      }, 
-      "date": "2016-02-08T14:33:12.272614+02:00", 
-      "tenderers": [
-        {
-          "contactPoint": {
-            "email": "aagt@gmail.com", 
-            "telephone": "+380 (322) 91-69-30", 
-            "name": "Андрій Олексюк"
-          }, 
-          "identifier": {
-            "scheme": "UA-EDR", 
-            "id": "00137226", 
-            "uri": "http://www.sc.gov.ua/"
-          }, 
-          "name": "ДКП «Книга»", 
-          "address": {
-            "postalCode": "79013", 
-            "countryName": "Україна", 
-            "streetAddress": "вул. Островського, 34", 
-            "region": "м. Львів", 
-            "locality": "м. Львів"
-          }
-        }
-      ], 
-      "owner": "broker", 
-      "id": "78559aafc3be495fb849a7f92cc9958d"
+      "id": "3ade792d54c34818977db85bd2433ee8"
     }, 
     {
-      "status": "invalid", 
-      "id": "da8208af706649ea9ce54d1b81eb2adf"
+      "status": "unsuccessful", 
+      "id": "d9f11cb457ac400bb8dd2339e13725db"
     }
   ]
 }

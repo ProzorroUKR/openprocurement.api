@@ -6,7 +6,7 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "active", 
+    "status": "pending", 
     "documents": [
       {
         "confidentiality": "public", 
@@ -110,8 +110,7 @@ Content-Type: application/json; charset=UTF-8
         "id": "ee4d11fc4448426d8dd716cfe3c5e2ff", 
         "dateModified": "2016-02-16T17:31:03.418698+02:00"
       }
-    ], 
-    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/d3ae41bbdd8e45549afcb7f216050cd5?key_for_bid=b4f21872bbee48308f23d8a309b3eaea"
+    ]
   }
 }
 

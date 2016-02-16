@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/426b4a12a7914da4b5085c151d304492?acc_token=8c25b70cdf0d450d84750a469db0b8ba HTTP/1.0
+PATCH /api/0.12/tenders/d3ae41bbdd8e45549afcb7f216050cd5?acc_token=b2eb12a4a6054c76a0cef1684e0f4f71 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 60
 Content-Type: application/json
@@ -16,16 +16,39 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "complaintPeriod": {
-      "startDate": "2016-01-09T14:33:07.925861+02:00", 
-      "endDate": "2016-02-04T14:33:07.925861+02:00"
+      "startDate": "2016-01-17T17:30:45.730961+02:00", 
+      "endDate": "2016-02-12T17:30:45.730961+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-01-09T14:33:07.925861+02:00", 
-      "endDate": "2016-02-05T14:33:07.925861+02:00"
+      "startDate": "2016-01-17T17:30:45.730961+02:00", 
+      "endDate": "2016-02-13T17:30:45.730961+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-02-18T14:33:13.851793+02:00", 
-    "awardCriteria": "lowestCost", 
+    "next_check": "2016-02-26T17:31:06.877942+02:00", 
+    "procuringEntity": {
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name_en": "Kutsa Svitlana V.", 
+        "name": "Куца Світлана Валентинівна", 
+        "availableLanguage": "Ukraine", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name_en": "School #10 of Vinnytsia", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }, 
+      "name": "ЗОСШ #10 м.Вінниці"
+    }, 
     "questions": [
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
@@ -51,56 +74,62 @@ Content-Type: application/json; charset=UTF-8
           }
         }, 
         "title": "Калорійність", 
-        "date": "2016-02-08T14:33:10.451632+02:00", 
+        "date": "2016-02-16T17:31:00.945352+02:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "749ff31254714eef867d802fbc4b77f3", 
+        "id": "9b7a28a5b9a7429aa4cb148e1fd539f8", 
         "questionOf": "tender"
       }
     ], 
     "owner": "broker", 
-    "id": "426b4a12a7914da4b5085c151d304492", 
+    "title_en": "Services in school canteens", 
+    "id": "d3ae41bbdd8e45549afcb7f216050cd5", 
     "documents": [
       {
+        "language": "uk", 
         "title": "Notice.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/426b4a12a7914da4b5085c151d304492/documents/020be20c01ae460b8712d34ed9265663?download=1eca5e2da2474d22a4fb88a0b91ee0f1", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d3ae41bbdd8e45549afcb7f216050cd5/documents/2c9e2139dc664071b69c70753bf13ad1?download=f4a214a636f54195b1610b561e4e8da1", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-08T14:33:09.957997+02:00", 
-        "id": "020be20c01ae460b8712d34ed9265663", 
-        "dateModified": "2016-02-08T14:33:09.958027+02:00"
+        "datePublished": "2016-02-16T17:31:00.344716+02:00", 
+        "id": "2c9e2139dc664071b69c70753bf13ad1", 
+        "dateModified": "2016-02-16T17:31:00.344754+02:00"
       }, 
       {
+        "language": "uk", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/426b4a12a7914da4b5085c151d304492/documents/d47121b0d5664c9f8982b062210aa7de?download=6cdd95dba1f640aa9a16ffaa4b5a5562", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d3ae41bbdd8e45549afcb7f216050cd5/documents/2a1787eb8c4a45af892efbda6a36d56b?download=0b5ba291c9634357a4b0e3b7b1ad4f23", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-08T14:33:10.121950+02:00", 
-        "id": "d47121b0d5664c9f8982b062210aa7de", 
-        "dateModified": "2016-02-08T14:33:10.121977+02:00"
+        "datePublished": "2016-02-16T17:31:00.540781+02:00", 
+        "id": "2a1787eb8c4a45af892efbda6a36d56b", 
+        "dateModified": "2016-02-16T17:31:00.540829+02:00"
       }, 
       {
+        "language": "uk", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/426b4a12a7914da4b5085c151d304492/documents/d47121b0d5664c9f8982b062210aa7de?download=92b9ab39f9124d9ab92b7bb7419f85f6", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d3ae41bbdd8e45549afcb7f216050cd5/documents/2a1787eb8c4a45af892efbda6a36d56b?download=eca1fca00ad24c799045f06fe23caff9", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-08T14:33:10.121950+02:00", 
-        "id": "d47121b0d5664c9f8982b062210aa7de", 
-        "dateModified": "2016-02-08T14:33:10.287872+02:00"
+        "datePublished": "2016-02-16T17:31:00.540781+02:00", 
+        "id": "2a1787eb8c4a45af892efbda6a36d56b", 
+        "dateModified": "2016-02-16T17:31:00.749249+02:00"
       }
     ], 
     "title": "Послуги шкільних їдалень", 
     "qualificationPeriod": {
-      "startDate": "2016-02-08T14:33:12.890565+02:00", 
-      "endDate": "2016-02-18T14:33:13.851793+02:00"
+      "startDate": "2016-02-16T17:31:05.458768+02:00", 
+      "endDate": "2016-02-26T17:31:06.877942+02:00"
     }, 
-    "tenderID": "UA-2016-02-08-000001", 
-    "dateModified": "2016-02-08T14:33:13.857395+02:00", 
+    "tenderID": "UA-2016-02-16-000001", 
+    "dateModified": "2016-02-16T17:31:06.887038+02:00", 
     "status": "active.pre-qualification.stand-still", 
     "tenderPeriod": {
-      "startDate": "2016-01-09T14:33:07.925861+02:00", 
-      "endDate": "2016-02-08T14:33:07.925861+02:00"
+      "startDate": "2016-01-17T17:30:45.730961+02:00", 
+      "endDate": "2016-02-16T17:30:45.730961+02:00"
     }, 
-    "title_en": "Services in school canteens", 
+    "auctionPeriod": {
+      "shouldStartAfter": "2016-02-26T17:31:06.877942+02:00"
+    }, 
     "procurementMethodType": "aboveThresholdEU", 
     "minimalStep": {
       "currency": "UAH", 
@@ -123,7 +152,29 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "427dbb2888c94cc7b5d9b52f59668983", 
+        "id": "3e343c954f5a4a5e97952fd6bb42fb6c", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }, 
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "id": "2693f402a1bb4fc1a4da53a2e7067510", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -136,30 +187,7 @@ Content-Type: application/json; charset=UTF-8
       "amount": 501.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "procuringEntity": {
-      "contactPoint": {
-        "url": "http://sch10.edu.vn.ua/", 
-        "name_en": "Kutsa Svitlana V.", 
-        "name": "Куца Світлана Валентинівна", 
-        "availableLanguage": "Ukraine", 
-        "telephone": "+380 (432) 46-53-02"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"", 
-        "id": "21725150", 
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      }, 
-      "name_en": "School #10 of Vinnytsia", 
-      "address": {
-        "postalCode": "21027", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Стахурського. 22", 
-        "region": "м. Вінниця", 
-        "locality": "м. Вінниця"
-      }, 
-      "name": "ЗОСШ #10 м.Вінниці"
-    }
+    "awardCriteria": "lowestCost"
   }
 }
 
