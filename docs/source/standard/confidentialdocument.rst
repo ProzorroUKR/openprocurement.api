@@ -128,6 +128,8 @@ Schema
 
 :confidentialityRationale:
     string
+        
+    Reasons for confidentiality of documents.
     
 :datePublished:
     string, :ref:`date`
@@ -142,7 +144,7 @@ Schema
     Date that the document was last modified
     
 :language:
-    string, deafult = `uk`
+    string, default = `uk`
 
     Possible values are:
 
