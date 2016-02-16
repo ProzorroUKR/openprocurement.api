@@ -104,6 +104,14 @@ class Document(BaseDocument):
 
 class ConfidentialDocument(Document):
     """ Confidential Document """
+    class Options:
+        roles = {
+            'edit': blacklist('id', 'url', 'datePublished', 'dateModified', ''),
+            'embedded': schematics_embedded_role,
+            'view': (blacklist('revisions') + schematics_default_role),
+            'public_view': (blacklist('revisions', 'url') + schematics_default_role),
+            'revisions': whitelist('url', 'dateModified'),
+        }
 
     confidentiality = StringType(choices=['public', 'buyerOnly'], default='public')
     confidentialityRationale = StringType()
