@@ -696,7 +696,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'parameters'},
+            {u'description': [u'All features parameters is required.'], u'location': u'body', u'name': u'parameters'},
             {u'description': [u'This field is required.'], u'location': u'body', u'name': u'lotValues'}
         ])
 
@@ -753,7 +753,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'parameters'}
+            {u'description': [u'All features parameters is required.'], u'location': u'body', u'name': u'parameters'}
         ])
 
         response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}], 'parameters': [{"code": "code_item", "value": 0.01}]}}, status=422)
