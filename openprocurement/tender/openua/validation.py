@@ -16,15 +16,5 @@ def validate_patch_tender_ua_data(request):
             request.errors.add('body', 'item', 'Can\'t change enquiryPeriod')
             request.errors.status = 403
             return None
-        if 'tenderPeriod' in data:
-            data["auctionPeriod"] = {'startDate': None}
-            if len(request.context.lots) > 0:
-                lots = list(data['lots']) if 'lots' in data else []
-                data['lots'] = []
-                for index, lot in enumerate(request.context.lots):
-                    lot_data = lots[index] if lots else {}
-
-                    lot_data['auctionPeriod'] = {'startDate': None}
-                    data['lots'].append(lot_data)
 
     return validate_data(request, request.tender.__class__, True, data)
