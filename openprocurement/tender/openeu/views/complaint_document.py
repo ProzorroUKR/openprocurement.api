@@ -6,7 +6,7 @@ from openprocurement.tender.openua.views.complaint_document import TenderUaCompl
 LOGGER = getLogger(__name__)
 
 
-@opresource(name='Tender EU Award Complaint Documents',
+@opresource(name='Tender EU Complaint Documents',
             collection_path='/tenders/{tender_id}/complaints/{complaint_id}/documents',
             path='/tenders/{tender_id}/complaints/{complaint_id}/documents/{document_id}',
             procurementMethodType='aboveThresholdEU',

@@ -1,11 +1,14 @@
 POST /api/0.12/tenders/3c5fd99bbbba44e6941b9b8da8b33337/awards/92032283dbd84efc8a0a00ecf8e9619a/complaints?acc_token=4dcd91f4c9ff4272b3ee998f1c682c91 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 1682
+Content-Length: 1703
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
+    "status": "pending", 
+    "title": "Недостатньо інформації", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
         "telephone": "+380 (432) 21-69-30", 
@@ -26,21 +29,19 @@ DATA:
         "streetAddress": "вул. Островського, 33", 
         "locality": "м. Вінниця"
       }
-    }, 
-    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "title": "Недостатньо інформації"
+    }
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/3c5fd99bbbba44e6941b9b8da8b33337/awards/92032283dbd84efc8a0a00ecf8e9619a/complaints/9947c1fdfa53431f84020b407137f356
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/3c5fd99bbbba44e6941b9b8da8b33337/awards/92032283dbd84efc8a0a00ecf8e9619a/complaints/eeab0a9c45d5469192c5bd05cfeed3bc
 {
   "access": {
-    "token": "9da07ee6960d48ab8ff9fc712f73142b"
+    "token": "71630b6c8bce4bd59900634e9fc51221"
   }, 
   "data": {
-    "status": "draft", 
+    "status": "pending", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -64,9 +65,10 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/3c5fd99bbbba44
       }
     }, 
     "title": "Недостатньо інформації", 
-    "date": "2016-02-16T13:59:30.894716+02:00", 
+    "dateSubmitted": "2016-02-16T13:59:31.739291+02:00", 
+    "date": "2016-02-16T13:59:31.737884+02:00", 
     "type": "complaint", 
-    "id": "9947c1fdfa53431f84020b407137f356"
+    "id": "eeab0a9c45d5469192c5bd05cfeed3bc"
   }
 }
 
