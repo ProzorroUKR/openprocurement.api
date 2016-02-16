@@ -14,6 +14,10 @@ test_requires = requires + [
     'python-coveralls',
 ]
 
+docs_requires = requires + [
+    'sphinxcontrib-httpdomain',
+]
+
 entry_points = {
     'openprocurement.api.plugins': [
         'aboveThresholdEU = openprocurement.tender.openeu:includeme'
@@ -45,6 +49,6 @@ setup(name='openprocurement.tender.openeu',
       include_package_data=True,
       zip_safe=False,
       install_requires=requires,
-      extras_require={'test': test_requires},
+      extras_require={'test': test_requires, 'docs': docs_requires},
       test_suite="openprocurement.tender.openeu.tests.main.suite",
       entry_points=entry_points)
