@@ -866,8 +866,15 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
                                        {"data": {"status": "active.pre-qualification.stand-still"}})
-        self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
         self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+
+        self.set_status('active.auction', {"id": tender_id, 'status': 'active.pre-qualification.stand-still'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "unsuccessful")
 
 
     def test_1lot_2bid(self):

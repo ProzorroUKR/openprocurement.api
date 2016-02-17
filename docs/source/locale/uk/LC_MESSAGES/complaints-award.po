@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 16:16+0200\n"
-"PO-Revision-Date: 2016-02-17 10:40+0200\n"
+"PO-Revision-Date: 2016-02-17 12:10+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -42,8 +42,7 @@ msgid ""
 " one can submit Tender Award Complaint."
 msgstr ""
 "Якщо визначення переможця закупівлі є несправедливим або при будь-якому "
-"іншому "
-"серйозному порушенні можна подати скаргу на визначення переможця."
+"іншому серйозному порушенні можна подати скаргу на визначення переможця."
 
 #: ../../source/complaints-award.rst:25
 msgid "Tender Award Complaint Submission (with documents)"
@@ -53,12 +52,13 @@ msgstr "Подання скарги на визначення переможця
 msgid ""
 "At first create a complaint. Send POST request with bidder's access token."
 msgstr ""
-"Спочатку створимо вимогу. В запиті потрібно передати токен доступу одного з "
+"Спочатку створимо вимогу. В POST запиті потрібно передати токен доступу "
+"одного з "
 "учасників, який вже подав пропозицію."
 
 #: ../../source/complaints-award.rst:32
 msgid "Then upload necessary documents:"
-msgstr "Потім завантажимо документи:"
+msgstr "Потім завантажте документи:"
 
 #: ../../source/complaints-award.rst:37
 msgid "Submit tender award complaint:"
@@ -90,15 +90,15 @@ msgstr "Подання рішення по скарзі на визначенн�
 
 #: ../../source/complaints-award.rst:70
 msgid "The Complaint Review Body uploads the resolution document:"
-msgstr "Орган, що розглядає скарги, завантажує документ з рішенням:"
+msgstr "Орган оскарження завантажує документ з рішенням:"
 
 #: ../../source/complaints-award.rst:75
 msgid "And either resolves complaint:"
-msgstr "Який або вирішує скаргу:"
+msgstr "Яке або вирішує скаргу:"
 
 #: ../../source/complaints-award.rst:80
 msgid "Or declines it:"
-msgstr "Або відхиляє:"
+msgstr "Або відхиляє скаргу:"
 
 #: ../../source/complaints-award.rst:86
 msgid "Submitting Resolution Confirmation"
@@ -107,4 +107,5 @@ msgstr "Подання вирішення скарги"
 #: ../../source/complaints-award.rst:92
 msgid "Cancelling Tender Award Complaint"
 msgstr "Відміна скарги на визначення переможця"
+
 

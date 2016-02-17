@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
-from datetime import timedelta
 from functools import partial
 from cornice.resource import resource
 from openprocurement.api.models import get_now, TZ
@@ -17,7 +16,6 @@ from openprocurement.tender.openeu.traversal import (
 from barbecue import chef
 
 LOGGER = getLogger(__name__)
-COMPLAINT_STAND_STILL_TIME = timedelta(days=10)
 
 qualifications_resource = partial(resource, error_handler=error_handler, factory=qualifications_factory)
 bid_financial_documents_resource = partial(resource, error_handler=error_handler, factory=bid_financial_documents_factory)
@@ -29,18 +27,17 @@ def check_initial_bids_count(request):
     tender = request.validated['tender']
     if tender.lots:
         [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod and i.auctionPeriod.startDate]
-        [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2]
-        if set([i.status for i in tender.lots]) == set(['unsuccessful']):
+        [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2 and i.status == 'active']
+        if not set([i.status for i in tender.lots]).difference(set(['unsuccessful', 'cancelled'])):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
-    else:
-        if tender.numberOfBids < 2:
-            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
-            if tender.auctionPeriod and tender.auctionPeriod.startDate:
-                tender.auctionPeriod.startDate = None
-            tender.status = 'unsuccessful'
+    elif tender.numberOfBids < 2:
+        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
+        if tender.auctionPeriod and tender.auctionPeriod.startDate:
+            tender.auctionPeriod.startDate = None
+        tender.status = 'unsuccessful'
 
 
 def prepare_qualifications(request, bids=[], lotId=None):
@@ -86,29 +83,11 @@ def all_bids_are_reviewed(request):
     else:
         return all([bid.status != 'pending' for bid in request.validated['tender'].bids])
 
-def switch_to_qualificationPeriod(tender):
-    if tender.lots:
-        active_lots = [lot.id for lot in tender.lots if lot.status == 'active']
-        for lot in tender.lots:
-            sum_of_bids_for_lot = sum([1
-                  for bid in tender.bids
-                  for lotValue in bid.lotValues
-                  if lotValue.status == 'active' and lotValue.relatedLot == lot.id])
-            if sum_of_bids_for_lot < 2:
-                lot.status = 'unsuccessful'
-        if [lot for lot in tender.lots if lot.status == 'active']:
-            tender.qualificationPeriod.endDate = get_now() + COMPLAINT_STAND_STILL
-        else:
-            tender.status = 'unsuccessful'
-    elif sum([1 for bid in tender.bids if bid.status == 'active']) < 2:
-        tender.status = 'unsuccessful'
-    else:
-        tender.qualificationPeriod.endDate = get_now() + COMPLAINT_STAND_STILL
 
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
-    if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]):
+    if tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification'),
@@ -117,32 +96,17 @@ def check_status(request):
         tender.qualificationPeriod = type(tender).qualificationPeriod({'startDate': now})
         check_initial_bids_count(request)
         prepare_qualifications(request)
-        if tender.numberOfBids < 2 and tender.auctionPeriod:
-            tender.auctionPeriod.startDate = None
-        return
-    elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]):
-        for complaint in tender.complaints:
-            check_complaint_status(request, complaint)
-        LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification'),
-                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.pre-qualification'}))
-        tender.status = 'active.pre-qualification'
-        tender.qualificationPeriod = type(tender).qualificationPeriod({'startDate': now})
-        check_initial_bids_count(request)
-        prepare_qualifications(request)
-        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod]
         return
 
-    elif tender.status == 'active.pre-qualification' and all_bids_are_reviewed(request):
-        LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification.stand-still'),
-                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.pre-qualification.stand-still'}))
-        tender.status = 'active.pre-qualification.stand-still'
-        tender.qualificationPeriod.endDate = calculate_business_date(now, COMPLAINT_STAND_STILL_TIME)
-        return
-
-    elif tender.status == 'active.pre-qualification.stand-still' and tender.qualificationPeriod and tender.qualificationPeriod.endDate <= now:
+    elif tender.status == 'active.pre-qualification.stand-still' and tender.qualificationPeriod and tender.qualificationPeriod.endDate <= now and not any([
+        i.status in BLOCK_COMPLAINT_STATUS
+        for q in tender.qualifications
+        for i in q.complaints
+    ]):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
         tender.status = 'active.auction'
+        check_initial_bids_count(request)
         return
 
     elif not tender.lots and tender.status == 'active.awarded':

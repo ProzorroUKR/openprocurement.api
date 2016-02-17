@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 16:16+0200\n"
-"PO-Revision-Date: 2016-02-17 10:49+0200\n"
+"PO-Revision-Date: 2016-02-17 12:10+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -42,8 +42,7 @@ msgid ""
 "viable case, one can submit Tender Qualification Complaint."
 msgstr ""
 "Якщо оцінювання учасників відбувається несправедливо або при будь-якому "
-"іншому "
-"серйозному порушенні можна подати скаргу на кваліфікацію."
+"іншому серйозному порушенні можна подати скаргу на кваліфікацію."
 
 #: ../../source/complaints-qualification.rst:25
 msgid "Tender Qualification Complaint Submission (with documents)"
@@ -53,16 +52,17 @@ msgstr "Подання скарги на кваліфікацію (з докум
 msgid ""
 "At first create a complaint. Send POST request with bidder's access token."
 msgstr ""
-"Спочатку створимо вимогу. В запиті потрібно передати токен доступу одного з "
+"Спочатку створимо вимогу. В POST запиті потрібно передати токен доступу "
+"одного з "
 "учасників, який вже подав пропозицію."
 
 #: ../../source/complaints-qualification.rst:32
 msgid "Then upload necessary documents:"
-msgstr "Потім завантажимо документи:"
+msgstr "Потім завантажте необхідні документи:"
 
 #: ../../source/complaints-qualification.rst:37
 msgid "Submit tender qualification complaint:"
-msgstr "Подати скаргу на кваліфікацію:"
+msgstr "Подайте скаргу на кваліфікацію:"
 
 #: ../../source/complaints-qualification.rst:43
 msgid "Tender Qualification Complaint Submission (without documents)"
@@ -94,11 +94,11 @@ msgstr "Орган оскарження завантажує документ з
 
 #: ../../source/complaints-qualification.rst:75
 msgid "And either resolves complaint:"
-msgstr "Який або вирішує скаргу:"
+msgstr "Яке або вирішує скаргу:"
 
 #: ../../source/complaints-qualification.rst:80
 msgid "Or declines it:"
-msgstr "Або відхиляє:"
+msgstr "Або відхиляє скаргу:"
 
 #: ../../source/complaints-qualification.rst:86
 msgid "Submitting Resolution Confirmation"
@@ -107,4 +107,5 @@ msgstr "Подання вирішення скарги"
 #: ../../source/complaints-qualification.rst:92
 msgid "Cancelling Tender Qualification Complaint"
 msgstr "Відміна скарги на кваліфікацію"
+
 

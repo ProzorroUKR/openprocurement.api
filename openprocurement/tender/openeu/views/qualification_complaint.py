@@ -124,6 +124,9 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'satisfied':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
+            tender.status = 'active.pre-qualification'
+            if tender.qualificationPeriod.endDate:
+                tender.qualificationPeriod.endDate = None
         else:
             self.request.errors.add('body', 'data', 'Can\'t update complaint')
             self.request.errors.status = 403
