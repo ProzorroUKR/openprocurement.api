@@ -100,7 +100,7 @@ class TenderEUResource(TenderResource):
             check_status(self.request)
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.tendering':
             tender.invalidate_bids_data()
-        elif tender.status == "active.pre-qualification.stand-still":
+        elif self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.pre-qualification' and tender.status == "active.pre-qualification.stand-still":
             if all_bids_are_reviewed(self.request):
                 tender.qualificationPeriod.endDate = calculate_business_date(get_now(), COMPLAINT_STAND_STILL)
             else:

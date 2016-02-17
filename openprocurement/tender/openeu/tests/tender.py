@@ -730,6 +730,7 @@ class TenderResourceTest(BaseTenderWebTest):
         response = self.app.post_json('/tenders', {'data': test_tender_data})
         self.assertEqual(response.status, '201 Created')
         tender = response.json['data']
+        self.tender_id = response.json['data']['id']
         owner_token = response.json['access']['token']
         dateModified = tender.pop('dateModified')
 
@@ -807,14 +808,7 @@ class TenderResourceTest(BaseTenderWebTest):
         #self.assertEqual(response.content_type, 'application/json')
         #self.assertIn('auctionUrl', response.json['data'])
 
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'status': 'active.auction'}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update tender status")
-
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'complete'}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
+        self.set_status('complete')
 
         response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.auction'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
