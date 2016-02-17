@@ -128,7 +128,7 @@ Schema
 :qualificationPeriod:
    :ref:`period`, read-only
 
-   Period when qualification can be submitted with stand still period.
+   This period consists of qualification and 10 days of stand still period.
 
    |ocdsDescription|
    Period when qualification can be submitted with stand still period.

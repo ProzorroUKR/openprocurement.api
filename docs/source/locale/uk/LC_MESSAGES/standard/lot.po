@@ -5,9 +5,9 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 12:53+0200\n"
-"PO-Revision-Date: 2016-02-16 15:43+0200\n"
+"PO-Revision-Date: 2016-02-17 13:10+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
-"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -97,21 +97,22 @@ msgstr "рядок"
 
 #: ../../source/standard/lot.rst:55
 msgid "Enquiries period (enquiries)"
-msgstr "Період уточнень (уточнення)"
+msgstr "Період уточнень"
 
 #: ../../source/standard/lot.rst:57
 msgid "Unsuccessful tender (unsuccessful)"
-msgstr "Неуспішний лот закупівлі (не відбувся)"
+msgstr "Неуспішний лот закупівлі"
 
 #: ../../source/standard/lot.rst:59
 msgid "Complete tender lot (complete)"
-msgstr "Завершено лот закупівлі (завершено)"
+msgstr "Завершено лот закупівлі"
 
 #: ../../source/standard/lot.rst:61
 msgid "Cancelled tender lot (cancelled)"
-msgstr "Скасовано лот закупівлі (скасовано)"
+msgstr "Скасовано лот закупівлі"
 
 #: ../../source/standard/lot.rst:63
 msgid "Status of the Lot."
 msgstr "Статус лота."
+
 
