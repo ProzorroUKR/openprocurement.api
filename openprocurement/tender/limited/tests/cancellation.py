@@ -153,6 +153,11 @@ class TenderCancellationResourceTest(BaseTenderContentWebTest):
         self.assertIn('id', cancellation)
         self.assertIn(cancellation['id'], response.headers['Location'])
 
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["status"], 'cancelled')
+
     def test_patch_tender_cancellation(self):
         response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
             self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
