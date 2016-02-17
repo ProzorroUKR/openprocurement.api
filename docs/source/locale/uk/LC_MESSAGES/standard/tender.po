@@ -1,17 +1,20 @@
 #
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-11-24 18:25+0200\n"
-"PO-Revision-Date: 2016-01-27 16:01+0200\n"
+"PO-Revision-Date: 2016-02-16 17:20+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
-"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../../source/standard/tender.rst:8
 msgid "Tender"
@@ -31,7 +34,7 @@ msgstr "періодичність закупівлі (щороку, щоква�
 
 #: ../../source/standard/tender.rst:20
 msgid "item being procured"
-msgstr "елемент, що закуповується"
+msgstr "товар, що закуповується"
 
 #: ../../source/standard/tender.rst:21
 msgid "some other info"
@@ -71,7 +74,8 @@ msgid ""
 "items wherever possible. Items should not be duplicated, but a quantity of 2 "
 "specified instead."
 msgstr ""
-"|ocdsDescription| Товари та послуги, що будуть закуплені, поділені на спискові "
+"|ocdsDescription| Товари та послуги, що будуть закуплені, поділені на "
+"спискові "
 "елементи, де це можливо. Елементи не повинні дублюватись, замість цього "
 "вкажіть кількість 2."
 
@@ -139,7 +143,8 @@ msgstr "Період, коли проводиться аукціон."
 msgid ""
 "|ocdsDescription| The date or period on which an award is anticipated to be "
 "made."
-msgstr "|ocdsDescription| Дата або період, коли очікується визначення переможця."
+msgstr ""
+"|ocdsDescription| Дата або період, коли очікується визначення переможця."
 
 #: ../../source/standard/tender.rst:163
 msgid "Status of the Tender."
@@ -180,7 +185,8 @@ msgstr "Значення `amount` повинно бути меншим за `Ten
 #: ../../source/standard/tender.rst:100
 msgid "`currency` should either be absent or match `Tender.value.currency`"
 msgstr ""
-"Значення `currency` повинно бути або відсутнім, або співпадати з `Tender.value."
+"Значення `currency` повинно бути або відсутнім, або співпадати з "
+"`Tender.value."
 "currency`"
 
 #: ../../source/standard/tender.rst:101
@@ -237,7 +243,7 @@ msgstr "Кваліфікація переможця (кваліфікація)"
 
 #: ../../source/standard/tender.rst:155
 msgid "Standstill period (standstill)"
-msgstr "Пропозиції розглянуто (розглянуто)"
+msgstr "Період блокування (блокування)"
 
 #: ../../source/standard/tender.rst:157
 msgid "Unsuccessful tender (unsuccessful)"
@@ -297,7 +303,8 @@ msgstr ""
 "учасників закупівлі, їхні пропозиції та інша кваліфікаційна документація."
 
 #: ../../source/standard/tender.rst:122
-msgid "Period when bids can be submitted. At least `endDate` has to be provided."
+msgid ""
+"Period when bids can be submitted. At least `endDate` has to be provided."
 msgstr ""
 "Період, коли подаються пропозиції. Повинна бути вказана хоча б `endDate` дата."
 
