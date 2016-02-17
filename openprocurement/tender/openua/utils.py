@@ -25,7 +25,7 @@ def check_bids(request):
     tender = request.validated['tender']
     if tender.lots:
         [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod and i.auctionPeriod.startDate]
-        [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2]
+        [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2 and i.status == 'active']
         if not set([i.status for i in tender.lots]).difference(set(['unsuccessful', 'cancelled'])):
             tender.status = 'unsuccessful'
     else:
