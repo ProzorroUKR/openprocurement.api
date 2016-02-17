@@ -1079,7 +1079,11 @@ class TenderProcessTest(BaseTenderWebTest):
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_owner_token),
                                        {"data": {"status": "active.pre-qualification.stand-still"}})
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "unsuccessful")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        # tender should switch to "unsuccessful"
+        self.set_status('active.auction', {"id": tender_id, 'status': 'active.pre-qualification.stand-still'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         # ensure that tender has been switched to "unsuccessful"
         response = self.app.get('/tenders/{}'.format(tender_id))
         self.assertEqual(response.status, "200 OK")
