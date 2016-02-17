@@ -91,7 +91,6 @@ class TenderUAResource(TenderResource):
                     return
                 self.request.validated['tender'].initialize()
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
-                self.request.validated['data']["auctionPeriod"] = {'startDate': None}
 
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if self.request.authenticated_role == 'chronograph':
