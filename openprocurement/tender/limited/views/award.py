@@ -321,6 +321,11 @@ class TenderAwardResource(object):
             self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
             self.request.errors.status = 403
             return
+        elif award_status != 'pending':
+            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
+            self.request.errors.status = 403
+            return
+
         if save_tender(self.request):
             LOGGER.info('Updated tender award {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}, {'TENDER_REV': tender.rev}))
