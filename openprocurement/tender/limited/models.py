@@ -1,33 +1,57 @@
+from uuid import uuid4
 from zope.interface import implementer
 from pyramid.security import Allow
-from schematics.transforms import whitelist
-from schematics.types import StringType, FloatType, IntType, URLType, BooleanType, BaseType, EmailType, MD5Type
+from schematics.transforms import whitelist, blacklist
+from schematics.types import StringType, BaseType, MD5Type
 from schematics.types.compound import ModelType, ListType, DictType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import (plain_role, view_role, create_role,
                                         edit_role, enquiries_role, listing_role,
                                         Administrator_role,
                                         schematics_default_role,
+                                        schematics_embedded_role,
                                         chronograph_role, chronograph_view_role)
 
 from openprocurement.api.models import (Value, IsoDateTimeType, Document,
                                         Organization, Item, SchematicsDocument,
-                                        Model, Period, Contract, Revision
+                                        Model, Contract, Revision, Complaint,
+                                        Period
                                         )
 from openprocurement.api.models import validate_cpv_group, validate_items_uniq
-from openprocurement.api.models import Award as BaseAward
+from openprocurement.api.models import get_now
 from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import ITender
 
 
-class Award(BaseAward):
+class Award(Model):
+    """ An award for the given procurement. There may be more than one award
+        per contracting process e.g. because the contract is split amongst
+        different providers, or because it is a standing offer.
+    """
+    class Options:
+        roles = {
+            'create': blacklist('id', 'status', 'date', 'documents', 'complaints', 'complaintPeriod'),
+            'edit': blacklist('id', 'date', 'documents', 'complaints', 'complaintPeriod'),
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+        }
 
-    bid_id = MD5Type(required=False)
-    lotID = None
-    complaints = []
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    title = StringType()  # Award title
+    title_en = StringType()
+    title_ru = StringType()
+    description = StringType()  # Award description
+    description_en = StringType()
+    description_ru = StringType()
+    status = StringType(required=True, choices=['pending', 'unsuccessful', 'active', 'cancelled'], default='pending')
+    date = IsoDateTimeType(default=get_now)
+    value = ModelType(Value)
+    suppliers = ListType(ModelType(Organization), required=True, min_size=1, max_size=1)
+    items = ListType(ModelType(Item))
+    documents = ListType(ModelType(Document), default=list())
+    complaints = ListType(ModelType(Complaint), default=list())
+    complaintPeriod = ModelType(Period)
 
-    def validate_lotID(self, data, lotID):
-        return
 
 class Cancellation(BaseCancellation):
     cancellationOf = StringType(required=True, choices=['tender'], default='tender')
