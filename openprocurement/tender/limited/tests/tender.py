@@ -538,11 +538,6 @@ class TenderResourceTest(BaseTenderWebTest):
 
         # The following operations are performed for a proper transition to the "Complete" tender status
 
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'status': 'complete'}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update tender status")
-
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
             tender['id'], owner_token), {'data': {'suppliers': [test_tender_data["procuringEntity"]], 'status': 'pending'}})
         award_id = response.json['data']['id']

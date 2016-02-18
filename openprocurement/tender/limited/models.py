@@ -6,7 +6,7 @@ from schematics.types.compound import ModelType, ListType, DictType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import (plain_role, view_role, create_role,
                                         edit_role, enquiries_role, listing_role,
-                                        cancel_role, Administrator_role,
+                                        Administrator_role,
                                         schematics_default_role,
                                         chronograph_role, chronograph_view_role)
 
@@ -48,7 +48,7 @@ class Tender(SchematicsDocument, Model):
             'create': create_role,
             'edit': edit_role,
             'edit_active': edit_role,
-            'edit_active.awarded': cancel_role,
+            'edit_active.awarded': whitelist(),
             'edit_complete': whitelist(),
             'edit_unsuccessful': whitelist(),
             'edit_cancelled': whitelist(),

@@ -74,10 +74,6 @@ class TenderResource(BaseTenderResource):
             self.request.errors.status = 403
             return
         data = self.request.validated['data']
-        if self.request.authenticated_role == 'tender_owner' and 'status' in data and data['status'] not in ['cancelled', tender.status]:
-            self.request.errors.add('body', 'data', 'Can\'t update tender status')
-            self.request.errors.status = 403
-            return
         if self.request.authenticated_role == 'chronograph':
             self.request.errors.add('body', 'data', 'Chronograph has no power over me!')
             self.request.errors.status = 403
