@@ -37,7 +37,6 @@ from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import (
     PeriodStartEndRequired, SifterListType, COMPLAINT_SUBMIT_TIME,
 )
-from openprocurement.tender.openeu.transform import confidential
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
 edit_role_eu = edit_role + eu_role
