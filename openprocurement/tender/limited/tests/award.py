@@ -231,12 +231,52 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
             {"location": "body", "name": "awardStatus", "description": "Rogue field"}
         ])
 
+        # set/update award title
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                       {"data": {"title": 'award title'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['title'], 'award title')
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                       {"data": {"title": 'award title2'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['title'], 'award title2')
+
+        # update supplier info
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                       {"data": {"suppliers": [{"name": "another supplier"}]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['suppliers'][0]['name'], 'another supplier')
+
+        # update value
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                       {"data": {"value": {"amount": 499}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['value']['amount'], 499)
+
+        # change status
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                       {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # try to update award
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                       {"data": {"title": 'award title'}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update award in current (active) status")
+        active_award = award
+
+        # create new award and test other states
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_tender_data["procuringEntity"]],
+                                                              'status': u'pending', "value": {"amount": 500}}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        award = response.json['data']
+
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
                                        {"data": {"status": "unsuccessful"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        # self.assertIn('Location', response.headers)
-        # new_award_location = response.headers['Location']
 
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
                                        {"data": {"status": "pending"}}, status=403)
@@ -244,40 +284,35 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update award in current (unsuccessful) status")
 
-        # response = self.app.get(request_path)
-        # self.assertEqual(response.status, '200 OK')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertEqual(len(response.json['data']), 2)
-        # self.assertIn(response.json['data'][1]['id'], new_award_location)
-        # new_award = response.json['data'][-1]
+        response = self.app.get(request_path)
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(len(response.json['data']), 2)
 
-        # response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, new_award['id']),
-                                       # {"data": {"status": "active"}})
-        # self.assertEqual(response.status, '200 OK')
-        # self.assertEqual(response.content_type, 'application/json')
-
-        # response = self.app.get(request_path)
-        # self.assertEqual(response.status, '200 OK')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertEqual(len(response.json['data']), 2)
-
-        # response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, new_award['id']),
-                                       # {"data": {"status": "cancelled"}})
-        # self.assertEqual(response.status, '200 OK')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertIn('Location', response.headers)
-
-        # response = self.app.get(request_path)
-        # self.assertEqual(response.status, '200 OK')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertEqual(len(response.json['data']), 3)
-
-        self.set_status('complete')
+        # sign contract to complete tender
+        tender = self.db.get(self.tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 1)
+        contract = response.json['data'][0]
+        self.assertEqual(contract['awardID'], active_award['id'])
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
+                                       {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
 
         response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, award['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["value"]["amount"], 500)
+
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                       {"data": {"status": "active"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update award in current (complete) tender status")
 
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
                                        {"data": {"status": "unsuccessful"}}, status=403)
