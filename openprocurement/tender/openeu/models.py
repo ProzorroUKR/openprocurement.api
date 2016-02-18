@@ -37,12 +37,15 @@ from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import (
     PeriodStartEndRequired, SifterListType, COMPLAINT_SUBMIT_TIME,
 )
+from openprocurement.tender.openeu.transform import confidential
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
 edit_role_eu = edit_role + eu_role
 create_role_eu = create_role + eu_role
-qualifications_role = enquiries_role + eu_role
-eu_auction_role = auction_role + eu_role
+tendering_role = enquiries_role
+pre_qualifications_role = (blacklist('owner_token', '_attachments', 'revisions') + schematics_embedded_role)
+qualifications_role = enquiries_role + whitelist('bids')
+eu_auction_role = auction_role
 
 TENDERING_DAYS = 30
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
@@ -343,9 +346,9 @@ class Tender(BaseTender):
             'auction_post': auction_post_role,
             'auction_patch': auction_patch_role,
             'active.tendering': qualifications_role,
-            'active.pre-qualification': qualifications_role,
-            'active.pre-qualification.stand-still': qualifications_role,
-            'active.auction': eu_auction_role,
+            'active.pre-qualification': pre_qualifications_role,
+            'active.pre-qualification.stand-still': pre_qualifications_role,
+            'active.auction': pre_qualifications_role,
             'active.qualification': view_role,
             'active.awarded': view_role,
             'complete': view_role,
