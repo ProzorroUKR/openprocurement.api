@@ -673,10 +673,9 @@ class TenderProcessTest(BaseTenderWebTest):
         self.assertEqual(response.json['data']['status'], 'active')
 
         # try to mark tender complete
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {'status': 'complete'}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update tender status")
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {'status': 'complete'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
 
     def test_single_award_tender(self):
         # empty tenders listing
