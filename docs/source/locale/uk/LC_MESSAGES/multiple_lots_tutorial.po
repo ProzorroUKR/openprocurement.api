@@ -1,17 +1,20 @@
 #
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 12:53+0200\n"
-"PO-Revision-Date: 2016-02-16 13:52+0200\n"
+"PO-Revision-Date: 2016-02-17 10:59+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../../source/multiple_lots_tutorial.rst:4
 msgid "Multiple Lots Tutorial"
@@ -31,7 +34,7 @@ msgid ""
 "tender was last modified.  Note that tender is created with `active."
 "tendering` status."
 msgstr ""
-"Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та "
+"Тепер ми бачимо, що новий об’єкт було створено. Код відповіді - `201`, "
 "заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. "
 "Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` "
 "(яке співпадає з сегментом `Location`), її офіційне `tenderID` та "
@@ -77,12 +80,11 @@ msgstr "Статус закупівлі ``active.tendering`` дозволяє р
 
 #: ../../source/multiple_lots_tutorial.rst:52
 msgid "Bidder can register a bid for lot №1:"
-msgstr "Учасник може зареєструвати пропозицію для лоту №1:"
+msgstr "Учасник може зареєструвати пропозицію для лота №1:"
 
 #: ../../source/multiple_lots_tutorial.rst:62
 msgid "Then bidder should upload technical and private documents of proposal."
-msgstr ""
-"Учасник повинен завантажити технічні та приватні документи пропозиції."
+msgstr "Учасник повинен завантажити технічні та приватні документи пропозиції."
 
 #: ../../source/multiple_lots_tutorial.rst:64
 msgid ""
@@ -143,7 +145,7 @@ msgstr ""
 #: ../../source/multiple_lots_tutorial.rst:88
 msgid "Open EU procedure requires bid's value qualification."
 msgstr ""
-"Для Європейської процедури відкритих торгів необхідна кваліфікація значень "
+"Для європейської процедури відкритих торгів необхідна кваліфікація значень "
 "пропозицій."
 
 #: ../../source/multiple_lots_tutorial.rst:106

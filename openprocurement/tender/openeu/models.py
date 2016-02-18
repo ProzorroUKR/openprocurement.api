@@ -30,7 +30,9 @@ from openprocurement.api.models import (
     schematics_embedded_role, get_now, embedded_lot_role, default_lot_role,
     calc_auction_end_time, get_tender, validate_lots_uniq,
 )
-from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.openua.utils import (
+    calculate_business_date, BLOCK_COMPLAINT_STATUS,
+)
 from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import (
     PeriodStartEndRequired, SifterListType, COMPLAINT_SUBMIT_TIME,
@@ -147,13 +149,7 @@ class TenderAuctionPeriod(Period):
         if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
             return calc_auction_end_time(tender.numberOfBids, self.startDate).isoformat()
         else:
-            decision_dates = [
-                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
-                for complaint in tender.complaints
-                if complaint.dateDecision
-            ]
-            decision_dates.append(tender.qualificationPeriod.endDate)
-            return max(decision_dates).isoformat()
+            return tender.qualificationPeriod.endDate.isoformat()
 
 
 class LotAuctionPeriod(Period):
@@ -170,13 +166,7 @@ class LotAuctionPeriod(Period):
         if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
             return calc_auction_end_time(lot.numberOfBids, self.startDate).isoformat()
         else:
-            decision_dates = [
-                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
-                for complaint in tender.complaints
-                if complaint.dateDecision
-            ]
-            decision_dates.append(tender.qualificationPeriod.endDate)
-            return max(decision_dates).isoformat()
+            return tender.qualificationPeriod.endDate.isoformat()
 
 
 class Lot(BaseLot):
@@ -405,9 +395,13 @@ class Tender(BaseTender):
     def next_check(self):
         now = get_now()
         checks = []
-        if self.status == 'active.tendering' and self.tenderPeriod.endDate:
+        if self.status == 'active.tendering' and self.tenderPeriod.endDate and not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
-        elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate:
+        elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate and not any([
+            i.status in BLOCK_COMPLAINT_STATUS
+            for q in self.qualifications
+            for i in q.complaints
+        ]):
             checks.append(self.qualificationPeriod.endDate.astimezone(TZ))
         elif not self.lots and self.status == 'active.auction' and self.auctionPeriod and self.auctionPeriod.startDate and not self.auctionPeriod.endDate:
             if now < self.auctionPeriod.startDate:

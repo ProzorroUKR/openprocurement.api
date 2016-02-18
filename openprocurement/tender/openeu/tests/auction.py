@@ -350,12 +350,10 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
             self.assertEqual(response.status, '200 OK')
 
         # switch to active.pre-qualification.stand-still
-        self.set_status('active.pre-qualification.stand-still', {'status': 'active.pre-qualification'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"status": "active.pre-qualification.stand-still"}})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
-        self.app.authorization = auth
 
         # switch to active.auction
         self.set_status('active.auction', {'status': 'active.pre-qualification.stand-still'})
