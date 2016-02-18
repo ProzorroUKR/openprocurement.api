@@ -864,6 +864,33 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
 
+    def test_1lot_1bid_patch(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        # create tender
+        response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
+        tender_id = self.tender_id = response.json['data']['id']
+        owner_token = response.json['access']['token']
+        # add lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        lot_id = response.json['data']['id']
+        # add relatedLot for item
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [{'relatedLot': lot_id}]}})
+        self.assertEqual(response.status, '200 OK')
+        # create bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
+        bid_id = response.json['data']['id']
+        bid_token = response.json['access']['token']
+
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(tender_id, lot_id, owner_token), {'data': {'value': {'amount': 499}}})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'invalid')
+
     def test_1lot_2bid(self):
         self.app.authorization = ('Basic', ('broker', ''))
         # create tender

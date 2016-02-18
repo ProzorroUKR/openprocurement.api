@@ -13,6 +13,7 @@ from openprocurement.api.models import ListType
 from openprocurement.api.models import Lot as BaseLot
 from openprocurement.api.models import Period, IsoDateTimeType
 from openprocurement.api.models import Tender as BaseTender
+from openprocurement.api.models import LotValue as BaseLotValue
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
@@ -145,6 +146,21 @@ class LotAuctionPeriod(Period):
             decision_dates.append(tender.tenderPeriod.endDate)
             return max(decision_dates).isoformat()
 
+class LotValue(BaseLotValue):
+
+    def validate_value(self, data, value):
+        if value and isinstance(data['__parent__'], Bid) and ( data['__parent__'].status not in ('invalid')) and data['relatedLot']:
+            lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
+            if not lots:
+                return
+            lot = lots[0]
+            if lot.value.amount < value.amount:
+                raise ValidationError(u"value of bid should be less than value of lot")
+            if lot.get('value').currency != value.currency:
+                raise ValidationError(u"currency of bid should be identical to currency of value of lot")
+            if lot.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+                raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot")
+
 
 class Bid(BaseBid):
 
@@ -170,6 +186,7 @@ class Bid(BaseBid):
             'deleted': whitelist('id', 'status'),
         }
 
+    lotValues = ListType(ModelType(LotValue), default=list())
     status = StringType(choices=['active', 'invalid', 'deleted'], default='active')
 
     def serialize(self, role=None):
