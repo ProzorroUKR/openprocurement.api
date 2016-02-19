@@ -1553,6 +1553,23 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
             key = response.json["data"]["url"].split('?')[-1]
             doc_id_by_type[doc_resource] = {'id': doc_id, 'key': key}
 
+            # upload private document
+            response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(
+                self.tender_id, self.bid_id, doc_resource, self.bid_token), upload_files=[('file', 'name_{}_private.doc'.format(doc_resource[:-1]), 'content')])
+            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.content_type, 'application/json')
+            doc_id = response.json["data"]['id']
+            self.assertIn(doc_id, response.headers['Location'])
+            self.assertEqual('name_{}_private.doc'.format(doc_resource[:-1]), response.json["data"]["title"])
+            key = response.json["data"]["url"].split('?')[-1]
+            doc_id_by_type[doc_resource+'private'] = {'id': doc_id, 'key': key}
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(
+                self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token), { "data": {
+                    'confidentiality': 'buyerOnly',
+                    'confidentialityRationale': 'Only our company sells badgers with pink hair.',
+                }})
+            self.assertEqual(response.status, '200 OK')
+
         for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
             doc_id = doc_id_by_type[doc_resource]['id']
             response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token), {"data": {
@@ -1589,6 +1606,21 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
             self.assertEqual('document description', response.json["data"]["description"])
             self.assertEqual('en', response.json["data"]["language"])
 
+            # test confidentiality change
+            doc_id = doc_id_by_type[doc_resource+'private']['id']
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(
+                self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token), { "data": {
+                    'confidentiality': 'public',
+                    'confidentialityRationale': '',
+                }})
+            self.assertEqual(response.status, '200 OK')
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(
+                self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token), { "data": {
+                    'confidentiality': 'buyerOnly',
+                    'confidentialityRationale': 'Only our company sells badgers with pink hair.',
+                }})
+            self.assertEqual(response.status, '200 OK')
+
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {'status': 'active.tendering'})
         auth = self.app.authorization
@@ -1620,6 +1652,10 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
             self.assertEqual(response.status, '403 Forbidden')
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.pre-qualification.stand-still) tender status")
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource+'private']['id'], self.bid_token), {"data": {"description": "document description"}}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.pre-qualification.stand-still) tender status")
 
         # switch to active.auction
         self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
@@ -1630,6 +1666,10 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.app.authorization = ('Basic', ('token', ''))
         for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
             response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource]['id'], self.bid_token), {"data": {"description": "document description"}}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.auction) tender status")
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource+'private']['id'], self.bid_token), {"data": {"description": "document description"}}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.auction) tender status")
@@ -1644,11 +1684,37 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], "active.qualification")
 
-        self.app.authorization = ('Basic', ('token', ''))
+        self.app.authorization = ('Basic', ('broker', ''))
         for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
             response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource]['id'], self.bid_token), {"data": {"description": "document description2"}})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['description'], 'document description2')
+
+            # test confidentiality change
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(
+                self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource]['id'], self.bid_token), { "data": {
+                    'confidentiality': 'buyerOnly',
+                    'confidentialityRationale': 'Only our company sells badgers with pink hair.',
+                }}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.json['errors'][0]["description"], "Can't update document confidentiality in current (active.qualification) tender status")
+
+            doc_id = doc_id_by_type[doc_resource+'private']['id']
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(
+                self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token), { "data": {
+                    'confidentiality': 'public',
+                    'confidentialityRationale': '',
+                }}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.json['errors'][0]["description"], "Can't update document confidentiality in current (active.qualification) tender status")
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(
+                self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token), { "data": {
+                    'confidentiality': 'buyerOnly',
+                    'confidentialityRationale': 'Only our company sells badgers with pink hair.',
+                }})
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.body, 'null')
+
 
         # get awards
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
@@ -1662,7 +1728,13 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['status'], "active.awarded")
 
         for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
-            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}'.format(self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource]['id']), {"data": {"description": "document description"}}, status=403)
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource,
+                                                                                           doc_id_by_type[doc_resource]['id'], self.bid_token), {"data": {"description": "document description"}}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.awarded) tender status")
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource,
+                                                                                           doc_id_by_type[doc_resource+'private']['id'], self.bid_token), {"data": {"description": "document description"}}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.awarded) tender status")
@@ -1676,14 +1748,19 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         # sign contract
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         contract_id = response.json['data']['contracts'][-1]['id']
-        self.app.authorization = ('Basic', ('token', ''))
         self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract_id, self.tender_token),
                             {"data": {"status": "active"}})
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], 'complete')
 
         for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
-            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}'.format(self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource]['id']), {"data": {"description": "document description"}}, status=403)
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource,
+                                                                                           doc_id_by_type[doc_resource]['id'], self.bid_token), {"data": {"description": "document description"}}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
+            response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource,
+                                                                                           doc_id_by_type[doc_resource+'private']['id'], self.bid_token), {"data": {"description": "document description"}}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
