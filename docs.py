@@ -589,10 +589,12 @@ class TenderResourceTest(BaseTenderWebTest):
         self.app.authorization = auth
 
         with open('docs/source/tutorial/qualifications-listing.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/qualifications'.format(
+            response = self.app.get('/tenders/{}'.format(
                     self.tender_id))
             self.assertEqual(response.status, "200 OK")
-            qualifications = response.json['data']
+            from pprint import pprint
+            pprint(response.json['data'])
+            qualifications = response.json['data']['qualifications']
             self.assertEqual(len(qualifications), 3)
             self.assertEqual(qualifications[0]['bidID'], bid1_id)
             self.assertEqual(qualifications[1]['bidID'], bid2_id)
