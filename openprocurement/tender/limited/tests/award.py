@@ -274,7 +274,11 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
                                        {"data": {"title": 'award title'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update award in current (active) status")
-        active_award = award
+
+        # patch status for create new award
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                       {"data": {"status": 'cancelled'}})
+        self.assertEqual(response.status, '200 OK')
 
         # create new award and test other states
         response = self.app.post_json(request_path, {'data': {'suppliers': [test_tender_data["procuringEntity"]],
@@ -294,10 +298,20 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update award in current (unsuccessful) status")
 
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_tender_data["procuringEntity"]],
+                                                              'status': u'pending', "value": {"amount": 500}}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        award = response.json['data']
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                       {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        active_award = award
+
         response = self.app.get(request_path)
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(len(response.json['data']), 2)
+        self.assertEqual(len(response.json['data']), 3)
 
         # sign contract to complete tender
         tender = self.db.get(self.tender_id)
@@ -306,8 +320,8 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         self.db.save(tender)
         response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']), 1)
-        contract = response.json['data'][0]
+        self.assertEqual(len(response.json['data']), 2)
+        contract = response.json['data'][1]
         self.assertEqual(contract['awardID'], active_award['id'])
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
                                        {"data": {"status": "active"}})
