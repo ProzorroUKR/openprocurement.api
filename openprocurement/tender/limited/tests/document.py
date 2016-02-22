@@ -165,8 +165,6 @@ class TenderDocumentResourceTest(BaseTenderContentWebTest):
         req.environ['wsgi.input'] = BytesIO(body.encode(req.charset or 'utf8'))
         req.content_length = len(body)
         response = self.app.do_request(req)
-        #response = self.app.post('/tenders/{}/documents'.format(
-            #self.tender_id), upload_files=[('file', 'name.doc', 'content')])
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(u'укр.doc', response.json["data"]["title"])
