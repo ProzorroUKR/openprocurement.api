@@ -175,6 +175,11 @@ class TenderAwardResource(object):
             self.request.errors.add('body', 'data', 'Can\'t create award in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
+        for a in tender.awards:
+            if a.status in ['pending', 'active']:
+                self.request.errors.add('body', 'data', 'Can\'t create new award while ({}) award exists'.format(a.status))
+                self.request.errors.status = 403
+                return
         award = self.request.validated['award']
         award.complaintPeriod = {'startDate': get_now().isoformat()}
         tender.awards.append(award)
