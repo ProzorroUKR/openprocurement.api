@@ -76,6 +76,28 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
                                              for i in self.request.validated['documents'] if i.url != document.url]
         return {'data': document_data}
 
+    @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='edit_bid')
+    def patch(self):
+        """Tender Bid Document Update"""
+        if self.request.validated['tender_status'] not in ['active.tendering', 'active.qualification']:
+            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        if self.request.validated['tender_status'] == 'active.qualification' and not [i for i in self.request.validated['tender'].awards if i.status == 'pending' and i.bid_id == self.request.validated['bid_id']]:
+            self.request.errors.add('body', 'data', 'Can\'t update document because award of bid is not in pending state')
+            self.request.errors.status = 403
+            return
+        if self.request.validated['tender_status'] != 'active.tendering' and 'confidentiality' in self.request.validated['data']:
+            if self.context.confidentiality != self.request.validated['data']['confidentiality']:
+                self.request.errors.add('body', 'data', 'Can\'t update document confidentiality in current ({}) tender status'.format(self.request.validated['tender_status']))
+                self.request.errors.status = 403
+                return
+        if apply_patch(self.request, src=self.request.context.serialize()):
+            update_file_content_type(self.request)
+            LOGGER.info('Updated tender bid document {}'.format(self.request.context.id),
+                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_document_patch'}))
+            return {'data': self.request.context.serialize("view")}
+
 @bid_financial_documents_resource(
     name='Tender EU Bid Financial Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/financial_documents',
@@ -130,22 +152,6 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_document_put'}))
             return {'data': document.serialize("view")}
 
-    @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='edit_bid')
-    def patch(self):
-        """Tender Bid Document Update"""
-        if self.request.validated['tender_status'] not in ['active.tendering', 'active.qualification']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        if self.request.validated['tender_status'] == 'active.qualification' and not [i for i in self.request.validated['tender'].awards if i.status == 'pending' and i.bid_id == self.request.validated['bid_id']]:
-            self.request.errors.add('body', 'data', 'Can\'t update document because award of bid is not in pending state')
-            self.request.errors.status = 403
-            return
-        if apply_patch(self.request, src=self.request.context.serialize()):
-            update_file_content_type(self.request)
-            LOGGER.info('Updated tender bid document {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_document_patch'}))
-            return {'data': self.request.context.serialize("view")}
 
 @bid_eligibility_documents_resource(name='Tender EU Bid Eligibility Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/eligibility_documents',
