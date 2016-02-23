@@ -378,6 +378,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
+        bid_token = response.json['access']['token']
 
         response = self.app.delete('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
         self.assertEqual(response.status, '200 OK')
@@ -388,6 +389,14 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertFalse('value' in response.json['data'])
         self.assertFalse('tenderers' in response.json['data'])
         self.assertFalse('date' in response.json['data'])
+
+        # try to add documents to bid
+        for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
+            response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(
+                self.tender_id, bid['id'], doc_resource, bid_token), upload_files=[('file', 'name_{}.doc'.format(doc_resource[:-1]), 'content')], status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.json['errors'][0]["description"], "Can't add document to 'deleted' bid")
 
         revisions = self.db.get(self.tender_id).get('revisions')
         self.assertEqual(revisions[-2][u'changes'][-1]['op'], u'remove')
@@ -559,6 +568,13 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
             response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token))
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'invalid')
+        # try to add documents to bid
+        for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
+            response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(
+                self.tender_id, bid_id, doc_resource, token), upload_files=[('file', 'name_{}.doc'.format(doc_resource[:-1]), 'content')], status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.json['errors'][0]["description"], "Can't add document to 'invalid' bid")
 
         # check that tender status change does not invalidate bids
         # submit one more bid. check for invalid value first
