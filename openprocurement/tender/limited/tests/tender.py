@@ -796,6 +796,13 @@ class TenderProcessTest(BaseTenderWebTest):
         self.assertEqual(response.status, '403 Forbidden')
 
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token),
+                                      {'data': {'status': 'active',
+                                                'suppliers': [test_tender_data["procuringEntity"]],
+                                                'value': {"amount": 501}}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't create award directly in (active) status")
+
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token),
                                       {'data': {'status': 'pending',
                                                 'suppliers': [test_tender_data["procuringEntity"]],
                                                 "value": {"amount": 500}}})

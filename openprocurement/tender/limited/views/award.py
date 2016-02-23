@@ -175,7 +175,11 @@ class TenderAwardResource(object):
             self.request.errors.add('body', 'data', 'Can\'t create award in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
-        if tender.awards != [] and tender.awards[-1].status in ['pending', 'active']:
+        if 'status' in self.request.json_body['data'] and self.request.json_body['data']['status'] not in ['pending']:
+            self.request.errors.add('body', 'data', 'Can\'t create award directly in ({}) status'.format(self.request.json_body['data']['status']))
+            self.request.errors.status = 403
+            return
+        if tender.awards and tender.awards[-1].status in ['pending', 'active']:
             self.request.errors.add('body', 'data', 'Can\'t create new award while ({}) award exists'.format(tender.awards[-1].status))
             self.request.errors.status = 403
             return
