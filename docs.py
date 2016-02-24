@@ -615,14 +615,14 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint2_id, owner_token), {"data": {
                 "status": "answered",
                 "resolutionType": "resolved",
-                "resolution": "Виправлено"
+                "resolution": "Виправлено неконкурентні умови"
             }})
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint4_id, owner_token), {"data": {
             "status": "answered",
             "resolutionType": "invalid",
-            "resolution": "Вимога некоректна"
+            "resolution": "Вимога не відповідає предмету закупівлі"
         }})
         self.assertEqual(response.status, '200 OK')
 

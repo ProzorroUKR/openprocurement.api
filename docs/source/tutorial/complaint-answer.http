@@ -1,6 +1,6 @@
-PATCH /api/0.12/tenders/0cded56126c64c7480fa41bc6da2a495/complaints/2cffc12588ae44d992bc923d287b0186?acc_token=1ad749af2074480daaf9b3859dad789e HTTP/1.0
+PATCH /api/0.12/tenders/4bdf484184f14cf2a531be810aa56ea5/complaints/f459addb72054e419612229175379d89?acc_token=f6ee686ff7544439bfe5a4c5df2ff8f5 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 140
+Content-Length: 250
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -8,7 +8,7 @@ DATA:
   "data": {
     "status": "answered", 
     "resolutionType": "resolved", 
-    "resolution": "Виправлено"
+    "resolution": "Виправлено неконкурентні умови"
   }
 }
 
@@ -42,11 +42,11 @@ Content-Type: application/json; charset=UTF-8
     "resolutionType": "resolved", 
     "type": "claim", 
     "title": "Недостатньо інформації", 
-    "dateAnswered": "2016-02-01T16:18:26.211950+02:00", 
-    "dateSubmitted": "2016-02-01T16:18:25.614277+02:00", 
-    "date": "2016-02-01T16:18:25.612814+02:00", 
-    "resolution": "Виправлено", 
-    "id": "2cffc12588ae44d992bc923d287b0186"
+    "dateAnswered": "2016-02-24T11:48:50.600535+02:00", 
+    "dateSubmitted": "2016-02-24T11:48:49.922068+02:00", 
+    "date": "2016-02-24T11:48:49.920160+02:00", 
+    "resolution": "Виправлено неконкурентні умови", 
+    "id": "f459addb72054e419612229175379d89"
   }
 }
 
