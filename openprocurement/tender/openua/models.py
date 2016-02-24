@@ -422,9 +422,6 @@ class Tender(BaseTender):
         return min(checks).isoformat() if checks else None
 
     def invalidate_bids_data(self):
-        if self.auctionPeriod and self.auctionPeriod.startDate:
-            self.auctionPeriod.startDate = None
-        [setattr(i.auctionPeriod, 'startDate', None) for i in self.lots if i.auctionPeriod and i.auctionPeriod.startDate]
         for bid in self.bids:
             if bid.status != "deleted":
                 bid.status = "invalid"
