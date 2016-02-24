@@ -155,7 +155,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
             self.tender_id, self.tender_token), {'data': {'suppliers':[test_tender_data["procuringEntity"]], 'status': 'pending'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't create new award while (pending) award exists")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't create new award while any (pending) award exists")
 
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, award['id'], self.tender_token),{"data": {"status": "active"}})
@@ -166,7 +166,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
             self.tender_id, self.tender_token), {'data': {'suppliers':[test_tender_data["procuringEntity"]], 'status': 'pending'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't create new award while (active) award exists")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't create new award while any (active) award exists")
 
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, award['id'], self.tender_token), {"data": {"status": "cancelled"}})
