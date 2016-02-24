@@ -1,13 +1,13 @@
 POST /api/0.12/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 2943
+Content-Length: 2938
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-03-20T14:13:22.429447+02:00"
+      "endDate": "2016-03-26T14:13:20.159080+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -76,7 +76,7 @@ DATA:
         "url": "http://sch10.edu.vn.ua/", 
         "name_en": "Kutsa Svitlana V.", 
         "name": "Куца Світлана Валентинівна", 
-        "availableLanguage": "Ukraine", 
+        "availableLanguage": "uk", 
         "telephone": "+380 (432) 46-53-02"
       }, 
       "address": {
@@ -93,18 +93,18 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/e98cc85c0d2d40a989bcf7d22daabe1a
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/e3e16eb63b584378b75d9eb01dc2f8b9
 {
   "access": {
-    "token": "94ac33e05331447eb000cdf01dd2163e"
+    "token": "63aff14b0c6841b4b3b2f1819e5813f7"
   }, 
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-02-18-000001", 
+    "tenderID": "UA-2016-02-24-000001", 
     "tenderPeriod": {
-      "startDate": "2016-02-18T14:13:24.367577+02:00", 
-      "endDate": "2016-03-20T14:13:22.429447+02:00"
+      "startDate": "2016-02-24T14:13:33.962169+02:00", 
+      "endDate": "2016-03-26T14:13:20.159080+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -114,8 +114,8 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/e98cc85c0d2d40
     }, 
     "procurementMethodType": "aboveThresholdEU", 
     "complaintPeriod": {
-      "startDate": "2016-02-18T14:13:24.367577+02:00", 
-      "endDate": "2016-03-16T14:13:22.429447+02:00"
+      "startDate": "2016-02-24T14:13:33.962169+02:00", 
+      "endDate": "2016-03-22T14:13:20.159080+02:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -124,13 +124,13 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/e98cc85c0d2d40
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-03-20T14:13:22.429447+02:00", 
+    "next_check": "2016-03-26T14:13:20.159080+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
         "name_en": "Kutsa Svitlana V.", 
         "name": "Куца Світлана Валентинівна", 
-        "availableLanguage": "Ukraine", 
+        "availableLanguage": "uk", 
         "telephone": "+380 (432) 46-53-02"
       }, 
       "identifier": {
@@ -150,11 +150,11 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/e98cc85c0d2d40
       "name": "ЗОСШ #10 м.Вінниці"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-02-18T14:13:24.367577+02:00", 
-      "endDate": "2016-03-17T14:13:22.429447+02:00"
+      "startDate": "2016-02-24T14:13:33.962169+02:00", 
+      "endDate": "2016-03-23T14:13:20.159080+02:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-02-18T14:13:24.454475+02:00", 
+    "dateModified": "2016-02-24T14:13:34.046510+02:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -171,7 +171,7 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/e98cc85c0d2d40
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "0b2de10259ad4fb6b261e52d81e6c0cb", 
+        "id": "49d33a35c06f4eeeba5ea2899333d211", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -193,7 +193,7 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/e98cc85c0d2d40
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "7be11f0af33547d3b97bd8f660b9883a", 
+        "id": "b2d683c9c6624518a6d084b156add5ce", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -201,7 +201,7 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/e98cc85c0d2d40
         "quantity": 1
       }
     ], 
-    "id": "e98cc85c0d2d40a989bcf7d22daabe1a", 
+    "id": "e3e16eb63b584378b75d9eb01dc2f8b9", 
     "awardCriteria": "lowestCost"
   }
 }

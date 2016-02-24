@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/7c3bc78e869b4623b2b7276830c54c04/complaints/e8ccde27ae374fd997059495535244c6?acc_token=5eca5ea51a9041b981684addb8147094 HTTP/1.0
+PATCH /api/0.12/tenders/459786a22b494e938a2253d450e7dd08/complaints/193b3e604de24beb837bdbace2843ea0?acc_token=6d3e20857845409fbaa902c98b66dea0 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 31
 Content-Type: application/json
@@ -20,12 +20,12 @@ Content-Type: application/json; charset=UTF-8
         "author": "complaint_owner", 
         "language": "uk", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/7c3bc78e869b4623b2b7276830c54c04/complaints/e8ccde27ae374fd997059495535244c6/documents/f9777ea44ea54345b55651610e54f897?download=3923c4e802cc4b4eb25d881f857af17a", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/459786a22b494e938a2253d450e7dd08/complaints/193b3e604de24beb837bdbace2843ea0/documents/6d4dca7e72f048dda8ad5bf730efdd7c?download=c0d5c54ca77f4e04808d6ebabf8f6ded", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-16T17:30:54.574173+02:00", 
-        "id": "f9777ea44ea54345b55651610e54f897", 
-        "dateModified": "2016-02-16T17:30:54.574211+02:00"
+        "datePublished": "2016-02-24T14:13:29.207308+02:00", 
+        "id": "6d4dca7e72f048dda8ad5bf730efdd7c", 
+        "dateModified": "2016-02-24T14:13:29.207362+02:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -51,10 +51,10 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2016-02-16T17:30:55.275840+02:00", 
-    "date": "2016-02-16T17:30:54.479066+02:00", 
+    "dateSubmitted": "2016-02-24T14:13:29.958618+02:00", 
+    "date": "2016-02-24T14:13:29.101016+02:00", 
     "type": "complaint", 
-    "id": "e8ccde27ae374fd997059495535244c6"
+    "id": "193b3e604de24beb837bdbace2843ea0"
   }
 }
 

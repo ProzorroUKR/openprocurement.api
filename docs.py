@@ -36,7 +36,7 @@ test_tender_data = {
         "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "telephone": "+380 (432) 46-53-02",
-        "availableLanguage": u"Ukraine",
+        "availableLanguage": u"uk",
         "url": "http://sch10.edu.vn.ua/"
     },
     "identifier": {
@@ -784,14 +784,14 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint2_id, owner_token), {"data": {
                 "status": "answered",
                 "resolutionType": "resolved",
-                "resolution": "Виправлено"
+                "resolution": "Виправлено неконкурентні умови"
             }})
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint4_id, owner_token), {"data": {
             "status": "answered",
             "resolutionType": "invalid",
-            "resolution": "Вимога некоректна"
+            "resolution": "Вимога не відповідає предмету закупівлі"
         }})
         self.assertEqual(response.status, '200 OK')
 
@@ -941,6 +941,16 @@ class TenderResourceTest(BaseTenderWebTest):
         complaint3_token = response.json['access']['token']
         complaint3_id = response.json['data']['id']
 
+        response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token), complaint_data)
+        self.assertEqual(response.status, '201 Created')
+
+        with open('docs/source/tutorial/qualification-complaint-cancel.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(self.tender_id, qualification_id, response.json['data']['id'], response.json['access']['token']), {"data": {
+                "cancellationReason": "Умови виправлено",
+                "status": "cancelled"
+            }})
+            self.assertEqual(response.status, '200 OK')
+
         self.app.authorization = ('Basic', ('reviewer', ''))
         with open('docs/source/tutorial/qualification-complaint-reject.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, qualification_id, complaint2_id), {"data": {
@@ -981,16 +991,6 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.patch_json('/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(self.tender_id, qualification_id, complaint1_id, owner_token), {"data": {
                 "tendererAction": "Умови виправлено",
                 "status": "resolved"
-            }})
-            self.assertEqual(response.status, '200 OK')
-
-        response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token), complaint_data)
-        self.assertEqual(response.status, '201 Created')
-
-        with open('docs/source/tutorial/qualification-complaint-cancel.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(self.tender_id, qualification_id, response.json['data']['id'], response.json['access']['token']), {"data": {
-                "cancellationReason": "Умови виправлено",
-                "status": "cancelled"
             }})
             self.assertEqual(response.status, '200 OK')
 
@@ -1240,7 +1240,7 @@ class TenderResourceTest(BaseTenderWebTest):
         # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
-        
+
         with open('docs/source/multiple_lots_tutorial/tender-view-pre-qualification.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}?acc_token={}'.format(tender_id, owner_token))
             self.assertEqual(response.status, '200 OK')
@@ -1249,8 +1249,8 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
             self.assertEqual(response.content_type, 'application/json')
             qualifications = response.json['data']
-        
-        
+
+
         with open('docs/source/multiple_lots_tutorial/tender-activate-qualifications.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[0]['id'], owner_token),
                                   {"data": {'status': 'active'}})
@@ -1261,7 +1261,7 @@ class TenderResourceTest(BaseTenderWebTest):
                                   {"data": {'status': 'active'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'active')
-        
+
         with open('docs/source/multiple_lots_tutorial/tender-view-pre-qualification-stand-still.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
                                        {"data": {"status": "active.pre-qualification.stand-still"}})

@@ -145,11 +145,12 @@ class TenderBidResource(BaseResource):
             self.request.errors.add('body', 'data', 'Can\'t update bid in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
-        bid_status_to = self.request.validated['data'].get("status")
-        if bid_status_to and bid_status_to != 'pending':
-            self.request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
-            self.request.errors.status = 403
-            return
+        if self.request.authenticated_role != 'Administrator':
+            bid_status_to = self.request.validated['data']["status"]
+            if bid_status_to != 'pending':
+                self.request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
+                self.request.errors.status = 403
+                return
         value = self.request.validated['data'].get("value") and self.request.validated['data']["value"].get("amount")
         if value and value != self.request.context.get("value", {}).get("amount"):
             self.request.validated['data']['date'] = get_now().isoformat()

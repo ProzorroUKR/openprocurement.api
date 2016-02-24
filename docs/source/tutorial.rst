@@ -190,7 +190,7 @@ There is possibility to upload private documents:
 .. include:: tutorial/upload-bid-private-proposal.http
    :code:
 
-To define the document as "private" - `confidentiality` and `confidentialityRationale` fields shoud be set.
+To define the document as "private" - `confidentiality` and `confidentialityRationale` fields should be set.
 
 `confidentiality` field value can be either `buyerOnly` (document is private) or `public` (document is publicly accessible).
 

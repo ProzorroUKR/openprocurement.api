@@ -79,7 +79,7 @@ class Identifier(BaseIdentifier):
 class ContactPoint(BaseContactPoint):
 
     name_en = StringType(required=True, min_length=1)
-    availableLanguage = StringType(required=True, min_length=1)
+    availableLanguage = StringType(required=True, choices=['uk', 'en', 'ru'], default='uk')
 
 
 class Organization(Model):
@@ -133,6 +133,11 @@ class Contract(BaseContract):
 
 
 class Complaint(BaseComplaint):
+    class Options:
+        roles = {
+            'active.pre-qualification': view_bid_role,
+            'active.pre-qualification.stand-still': view_bid_role,
+        }
     documents = ListType(ModelType(Document), default=list())
 
 class Cancellation(BaseCancellation):
