@@ -100,3 +100,11 @@ class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResourc
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_document_patch'}))
             return {'data': self.request.context.serialize("view")}
 
+
+@opresource(name='Tender Negotiation Contract Documents',
+            collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
+            path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
+            procurementMethodType='negotiation',
+            description="Tender contract documents")
+class TenderNegotiationAwardContractDocumentResource(TenderAwardContractDocumentResource):
+    """ Tender Negotiation Award Contract Document Resource """

@@ -83,3 +83,12 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
             LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
             return {'data': self.request.context.serialize()}
+
+
+@opresource(name='Tender Negotiation Contracts',
+            collection_path='/tenders/{tender_id}/contracts',
+            procurementMethodType='negotiation',
+            path='/tenders/{tender_id}/contracts/{contract_id}',
+            description="Tender contracts")
+class TenderNegotiationAwardContractResource(TenderAwardContractResource):
+    """ Tender Negotiation Award Contract Resource """

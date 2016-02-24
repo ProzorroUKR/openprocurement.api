@@ -76,3 +76,12 @@ class TenderCancellationResource(object):
             LOGGER.info('Updated tender cancellation {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_cancellation_patch'}))
             return {'data': self.request.context.serialize("view")}
+
+
+@opresource(name='Tender Negotiation Cancellations',
+            collection_path='/tenders/{tender_id}/cancellations',
+            path='/tenders/{tender_id}/cancellations/{cancellation_id}',
+            procurementMethodType='negotiation',
+            description="Tender cancellations")
+class TenderNegotiationCancellationResource(TenderCancellationResource):
+    """ Tender Negotiation Cancellation Resource """

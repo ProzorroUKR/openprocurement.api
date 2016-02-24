@@ -101,3 +101,11 @@ class TenderDocumentResource(object):
             LOGGER.info('Updated tender document {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_document_patch'}))
             return {'data': self.request.context.serialize("view")}
+
+@opresource(name='Tender Negotiation Documents',
+            collection_path='/tenders/{tender_id}/documents',
+            path='/tenders/{tender_id}/documents/{document_id}',
+            procurementMethodType='negotiation',
+            description="Tender related binary files (PDFs, etc.)")
+class TenderNegotiationDocumentResource(TenderDocumentResource):
+    """ Tender Negotiation Document Resource """
