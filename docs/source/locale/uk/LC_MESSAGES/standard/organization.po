@@ -1,13 +1,12 @@
-#
 # Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 12:53+0200\n"
-"PO-Revision-Date: 2016-02-16 15:59+0200\n"
+"PO-Revision-Date: 2016-02-24 15:03+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
-"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -69,6 +68,7 @@ msgstr "Identifier"
 #: ../../source/standard/organization.rst:110
 #: ../../source/standard/organization.rst:145
 #: ../../source/standard/organization.rst:151
+#: ../../source/standard/organization.rst:163
 msgid "string"
 msgstr "рядок"
 
@@ -81,8 +81,8 @@ msgid ""
 msgstr ""
 "|ocdsDescription| Ідентифікатори організації беруться з існуючої схеми "
 "ідентифікації. Це поле вказує схему або список кодів, де можна знайти "
-"ідентифікатор організації. Це значення повинно братись зі Схеми Ідентифікації "
-"Організацій."
+"ідентифікатор організації. Це значення повинно братись зі Схеми "
+"Ідентифікації Організацій."
 
 #: ../../source/standard/organization.rst:54
 #: ../../source/standard/organization.rst:116
@@ -103,10 +103,10 @@ msgid ""
 "and IPN)."
 msgstr ""
 "Дозволеними є коди зі `спику кодів \"Organisation Registration Agency\" "
-"Стандарту IATI <http://iatistandard.org/codelists/"
-"OrganisationRegistrationAgency/>`_ з додаванням коду `UA-EDR` для "
-"організацій, "
-"зареєстрованих в Україні (ЄДРПОУ та ІПН)."
+"Стандарту IATI "
+"<http://iatistandard.org/codelists/OrganisationRegistrationAgency/>`_ з "
+"додаванням коду `UA-EDR` для організацій, зареєстрованих в Україні (ЄДРПОУ "
+"та ІПН)."
 
 #: ../../source/standard/organization.rst:66
 msgid "string, multilingual"
@@ -169,8 +169,8 @@ msgid ""
 "|ocdsDescription| The name of the contact person, department, or contact "
 "point, for correspondence relating to this contracting process."
 msgstr ""
-"|ocdsDescription| Ім’я контактної особи, назва відділу чи контактного пункту "
-"для листування, що стосується цього процесу укладання договору."
+"|ocdsDescription| Ім’я контактної особи, назва відділу чи контактного пункту"
+" для листування, що стосується цього процесу укладання договору."
 
 #: ../../source/standard/organization.rst:139
 msgid "email"
@@ -204,9 +204,30 @@ msgstr "URL-адреса"
 msgid "|ocdsDescription| A web address for the contact point/person."
 msgstr "|ocdsDescription| Веб адреса контактної особи/пункту."
 
-#: ../../source/standard/organization.rst:163
+#: ../../source/standard/organization.rst:173
 msgid "Either `email` or `telephone` field has to be provided."
 msgstr ""
 "Повинне бути заповнене хоча б одне з полів: або `email`, або `telephone`."
 
+#: ../../source/standard/organization.rst:165
+msgid "Possible values are:"
+msgstr "Можливі значення:"
 
+#: ../../source/standard/organization.rst:167
+msgid "`uk`"
+msgstr "`uk` - українська мова"
+
+#: ../../source/standard/organization.rst:168
+msgid "`en`"
+msgstr "`en` - англійська мова"
+
+#: ../../source/standard/organization.rst:169
+msgid "`ru`"
+msgstr "`ru` - російська мова"
+
+#: ../../source/standard/organization.rst:171
+msgid "Specifies the language of communication."
+msgstr "Визначає мови спілкування."
+
+#~ msgid "|ocdsDescription| Specifies the language of communication."
+#~ msgstr ""

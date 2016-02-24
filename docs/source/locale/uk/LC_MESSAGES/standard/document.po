@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 12:53+0200\n"
-"PO-Revision-Date: 2016-02-17 13:08+0200\n"
+"PO-Revision-Date: 2016-02-17 13:25+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +131,7 @@ msgstr "`conflictOfInterest` - **Виявлені конфлікти інтер�
 
 #: ../../source/standard/document.rst:59
 msgid "`debarments` - **Debarments issued**"
-msgstr "`debarments` - **Відмова у допуску до закупівліі**"
+msgstr "`debarments` - **Відмова у допуску до закупівлі**"
 
 #: ../../source/standard/document.rst:62
 msgid "Possible values for :ref:`award`"
