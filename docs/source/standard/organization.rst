@@ -168,7 +168,6 @@ Schema
     * `en`
     * `ru`
 
-    |ocdsDescription|
     Specifies the language of communication. 
 
 Either `email` or `telephone` field has to be provided.
