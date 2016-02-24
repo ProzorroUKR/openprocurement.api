@@ -576,6 +576,17 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(response.json['errors'][0]["description"], "Can't add document to 'invalid' bid")
 
+        for bid_id, token in bids_access.items():
+            response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'invalid')
+
+            response = self.app.delete('/tenders/{}/bids/{}'.format(self.tender_id, bid_id))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.json['data']['id'], bid_id)
+            self.assertEqual(response.json['data']['status'], 'deleted')
+
         # check that tender status change does not invalidate bids
         # submit one more bid. check for invalid value first
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[0]}, status=422)
