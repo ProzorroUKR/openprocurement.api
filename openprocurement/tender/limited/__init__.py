@@ -1,4 +1,5 @@
-from openprocurement.tender.limited.models import Tender, NegotiationTender
+from openprocurement.tender.limited.models import Tender
+from openprocurement.tender.limited.models_negotiation import Tender as NegotiationTender
 
 
 def includeme(config):
