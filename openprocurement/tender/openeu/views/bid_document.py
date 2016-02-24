@@ -117,11 +117,39 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
                 self.request.errors.add('body', 'data', 'Can\'t update document confidentiality in current ({}) tender status'.format(self.request.validated['tender_status']))
                 self.request.errors.status = 403
                 return
+        bid = getattr(self.context, "__parent__")
+        if bid and bid.status in ['invalid', 'unsuccessful', 'deleted']:
+            self.request.errors.add('body', 'data', 'Can\'t update document data for \'{}\' bid'.format(bid.status))
+            self.request.errors.status = 403
+            return
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
             LOGGER.info('Updated tender bid document {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_document_patch'}))
             return {'data': self.request.context.serialize("view")}
+
+    @json_view(validators=(validate_file_update,), permission='edit_bid')
+    def put(self):
+        """Tender Bid Document Update"""
+        if self.request.validated['tender_status'] not in ['active.tendering', 'active.qualification']:
+            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        if self.request.validated['tender_status'] == 'active.qualification' and not [i for i in self.request.validated['tender'].awards if i.status == 'pending' and i.bid_id == self.request.validated['bid_id']]:
+            self.request.errors.add('body', 'data', 'Can\'t update document because award of bid is not in pending state')
+            self.request.errors.status = 403
+            return
+        bid = getattr(self.context, "__parent__")
+        if bid and bid.status in ['invalid', 'unsuccessful', 'deleted']:
+            self.request.errors.add('body', 'data', 'Can\'t update document in \'{}\' bid'.format(bid.status))
+            self.request.errors.status = 403
+            return
+        document = upload_file(self.request)
+        getattr(self.request.validated['bid'], self.container).append(document)
+        if save_tender(self.request):
+            LOGGER.info('Updated tender bid document {}'.format(self.request.context.id),
+                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_document_put'}))
+            return {'data': document.serialize("view")}
 
 @bid_financial_documents_resource(
     name='Tender EU Bid Financial Documents',
@@ -138,23 +166,6 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
 
 
 
-    @json_view(validators=(validate_file_update,), permission='edit_bid')
-    def put(self):
-        """Tender Bid Document Update"""
-        if self.request.validated['tender_status'] not in ['active.tendering', 'active.qualification']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        if self.request.validated['tender_status'] == 'active.qualification' and not [i for i in self.request.validated['tender'].awards if i.status == 'pending' and i.bid_id == self.request.validated['bid_id']]:
-            self.request.errors.add('body', 'data', 'Can\'t update document because award of bid is not in pending state')
-            self.request.errors.status = 403
-            return
-        document = upload_file(self.request)
-        getattr(self.request.validated['bid'], self.container).append(document)
-        if save_tender(self.request):
-            LOGGER.info('Updated tender bid document {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_document_put'}))
-            return {'data': document.serialize("view")}
 
 
 @bid_eligibility_documents_resource(name='Tender EU Bid Eligibility Documents',
