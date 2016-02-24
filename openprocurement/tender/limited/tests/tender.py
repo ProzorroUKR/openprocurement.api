@@ -27,6 +27,8 @@ class TenderTest(BaseTenderWebTest):
 
         assert u.tenderID == fromdb['tenderID']
         assert u.doc_type == "Tender"
+        assert u.procurementMethodType == "reporting"
+        assert u.procurementMethodType == fromdb['procurementMethodType']
 
         u.delete_instance(self.db)
 
