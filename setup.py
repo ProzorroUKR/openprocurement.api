@@ -19,7 +19,8 @@ docs_requires = requires + [
 
 entry_points = {
     'openprocurement.api.plugins': [
-        'reporting = openprocurement.tender.limited:includeme'
+        'reporting = openprocurement.tender.limited:includeme',
+        'negotiation = openprocurement.tender.limited:includeme_negotiation'
     ]
 }
 
