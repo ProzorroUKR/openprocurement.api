@@ -85,7 +85,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             self.request.errors.status = 403
             return
         data = self.request.validated['data']
-        is_qualificationPeriod = tender.qualificationPeriod.startDate < get_now() and tender.qualificationPeriod.endDate > get_now()
+        is_qualificationPeriod = tender.qualificationPeriod.startDate < get_now() and (not tender.qualificationPeriod.endDate or tender.qualificationPeriod.endDate > get_now())
         # complaint_owner
         if self.request.authenticated_role == 'complaint_owner' and self.context.status in ['draft', 'claim', 'answered', 'pending', 'accepted'] and data.get('status', self.context.status) == 'cancelled':
             apply_patch(self.request, save=False, src=self.context.serialize())
