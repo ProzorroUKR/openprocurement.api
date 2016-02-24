@@ -158,6 +158,17 @@ Schema
     
     |ocdsDescription|
     A web address for the contact point/person.
+
+:availableLanguage:
+    string
     
+    Possible values are:
+
+    * `uk`
+    * `en`
+    * `ru`
+
+    |ocdsDescription|
+    Specifies the language of communication. 
 
 Either `email` or `telephone` field has to be provided.
