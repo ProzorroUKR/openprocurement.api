@@ -163,3 +163,9 @@ class Tender(SchematicsDocument, Model):
 
         self._data.update(data)
         return self
+
+
+@implementer(ITender)
+class NegotiationTender(Tender):
+    """ Negotiation """
+    procurementMethodType = StringType(default="negotiation")
