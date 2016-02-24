@@ -5,8 +5,8 @@ from datetime import timedelta
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.models import get_now
 from openprocurement.tender.limited.models import Tender
-from openprocurement.tender.limited.tests.base import (test_tender_data,
-                                                       BaseTenderWebTest)
+from openprocurement.tender.limited.tests.base import (
+    test_tender_data, test_tender_negotiation_data, BaseTenderWebTest)
 
 
 class TenderTest(BaseTenderWebTest):
@@ -30,6 +30,30 @@ class TenderTest(BaseTenderWebTest):
 
         u.delete_instance(self.db)
 
+
+class TenderNegotiationTest(BaseTenderWebTest):
+    initial_data = test_tender_negotiation_data
+
+    def test_simple_add_tender(self):
+        u = Tender(test_tender_negotiation_data)
+        u.tenderID = "UA-X"
+
+        assert u.id is None
+        assert u.rev is None
+
+        u.store(self.db)
+
+        assert u.id is not None
+        assert u.rev is not None
+
+        fromdb = self.db.get(u.id)
+
+        assert u.tenderID == fromdb['tenderID']
+        assert u.doc_type == "Tender"
+        assert u.procurementMethodType == "negotiation"
+        assert u.procurementMethodType == fromdb['procurementMethodType']
+
+        u.delete_instance(self.db)
 
 class TenderResourceTest(BaseTenderWebTest):
 

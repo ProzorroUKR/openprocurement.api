@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import webtest
+from copy import deepcopy
 from datetime import datetime, timedelta
 from openprocurement.api.utils import apply_data_patch
 from openprocurement.api.tests.base import test_tender_data as base_data
@@ -14,6 +15,9 @@ del test_tender_data['tenderPeriod']
 del test_tender_data['minimalStep']
 
 test_tender_data['procurementMethodType'] = "reporting"
+
+test_tender_negotiation_data = deepcopy(test_tender_data)
+test_tender_negotiation_data['procurementMethodType'] = "negotiation"
 
 
 class BaseTenderWebTest(BaseTenderWebTest):
