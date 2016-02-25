@@ -422,6 +422,32 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
+        # create new bid
+        response = self.app.post_json('/tenders/{}/bids'.format(
+            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
+        self.assertEqual(response.status, '201 Created')
+        bid = response.json['data']
+        bid_token = response.json['access']['token']
+
+        # update tender. we can set value that is less than a value in bid as
+        # they will be invalidated by this request
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data":
+                {"value": {'amount': 300.0}}
+        })
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']["value"]["amount"], 300)
+
+        # check bid 'invalid' status
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'invalid')
+
+        # try to delete 'invalid' bid
+        response = self.app.delete('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['id'], bid['id'])
+        self.assertEqual(response.json['data']['status'], 'deleted')
         # # finished tender does not show deleted bid info
         # self.set_status('complete')
         # response = self.app.get('/tenders/{}'.format(self.tender_id))
