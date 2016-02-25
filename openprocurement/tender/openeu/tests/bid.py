@@ -613,12 +613,13 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['status'], "active.qualification")
 
         # check bids
-        response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bids[0]['id']))
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'deleted')
-        response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bids[1]['id']))
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'active')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(len(response.json['data']['bids']), 3)
+        self.assertEqual(response.json['data']['bids'][0]['status'], 'deleted')
+        self.assertEqual(response.json['data']['bids'][1]['status'], 'active')
+        self.assertEqual(response.json['data']['bids'][2]['status'], 'active')
 
     def test_get_tender_tenderers(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
