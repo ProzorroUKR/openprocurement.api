@@ -59,6 +59,10 @@ class TenderQualificationResource(object):
             self.request.errors.add('body', 'data', 'Can\'t update qualification in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
+        if self.request.context.status == 'cancelled':
+            self.request.errors.add('body', 'data', 'Can\'t update qualification in current cancelled qualification status')
+            self.request.errors.status = 403
+            return
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if self.request.context.status == 'active':
             # approve related bid
@@ -70,7 +74,7 @@ class TenderQualificationResource(object):
             # return bid to initial status
             bid = set_bid_status(tender, self.request.context.bidID, 'pending', self.request.context.lotID)
             # generate new qualification for related bid
-            ids = prepare_qualifications(self.request, bids=[bid])
+            ids = prepare_qualifications(self.request, bids=[bid], lotId=self.request.context.lotID)
             self.request.response.headers['Location'] = self.request.route_url('TenderEU Qualification',
                                                                                tender_id=tender.id,
                                                                                qualification_id=ids[0])

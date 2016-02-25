@@ -54,7 +54,7 @@ def prepare_qualifications(request, bids=[], lotId=None):
                 if lotValue.status == 'pending' and lotValue.relatedLot in active_lots:
                     if lotId:
                         if lotValue.relatedLot == lotId:
-                            qualification = Qualification({'bidID': bid.id, 'status': 'pending', 'lotID': lot.relatedLot})
+                            qualification = Qualification({'bidID': bid.id, 'status': 'pending', 'lotID': lotId})
                             tender.qualifications.append(qualification)
                             new_qualifications.append(qualification.id)
                     else:
