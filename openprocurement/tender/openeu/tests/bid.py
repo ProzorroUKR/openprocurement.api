@@ -449,36 +449,10 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['id'], bid['id'])
         self.assertEqual(response.json['data']['status'], 'deleted')
 
-        # create tender
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json('/tenders',
-                                      {"data": test_tender_data})
-        self.tender_id = response.json['data']['id']
-        self.tender_token = response.json['access']['token']
-
-        # check tender status
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.assertEqual(response.json['data']['status'], 'active.tendering')
-
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        bid = response.json['data']
-        bid_token = response.json['access']['token']
+            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 100}}})
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[1]['tenderers'], "value": {"amount": 499}}})
-        response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[1]['tenderers'], "value": {"amount": 498}}})
-        bid3 = response.json['data']
-        bid_token3 = response.json['access']['token']
-
-        response = self.app.delete('/tenders/{}/bids/{}?acc_token={}'.format(
-            self.tender_id, bid3['id'], bid_token3))
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']['id'], bid3['id'])
-        self.assertEqual(response.json['data']['status'], 'deleted')
+            self.tender_id), {'data': {'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -548,9 +522,9 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(len(response.json['data']['bids']), 3)
-        bid_data = response.json['data']['bids'][2]
-        self.assertEqual(bid_data['id'], bid3['id'])
+        self.assertEqual(len(response.json['data']['bids']), 4)
+        bid_data = response.json['data']['bids'][1]
+        self.assertEqual(bid_data['id'], bid['id'])
         self.assertEqual(bid_data['status'], 'deleted')
         self.assertFalse('value' in bid_data)
         self.assertFalse('tenderers' in bid_data)
