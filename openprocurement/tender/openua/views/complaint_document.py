@@ -20,7 +20,7 @@ from openprocurement.api.views.complaint_document import TenderComplaintDocument
 LOGGER = getLogger(__name__)
 STATUS4ROLE = {
     'complaint_owner': ['draft', 'answered', 'claim'],
-    'reviewers': ['pending', 'accepted'],
+    'aboveThresholdReviewers': ['pending', 'accepted'],
     'tender_owner': ['claim', 'satisfied'],
 }
 

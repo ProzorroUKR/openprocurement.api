@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta, time, datetime
 from zope.interface import implementer
+from pyramid.security import Allow
+from schematics.exceptions import ValidationError
+from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
-from schematics.transforms import whitelist, blacklist
-from schematics.exceptions import ValidationError
 from schematics.types.serializable import serializable
 from openprocurement.api.models import Award as BaseAward
 from openprocurement.api.models import Bid as BaseBid
@@ -241,6 +242,13 @@ class Complaint(BaseComplaint):
     reviewDate = IsoDateTimeType()
     reviewPlace = StringType()
 
+    def __acl__(self):
+        return [
+            (Allow, 'g:aboveThresholdReviewers', 'edit_complaint'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_complaint_documents'),
+        ]
+
     def get_role(self):
         root = self.__parent__
         while root.__parent__ is not None:
@@ -261,9 +269,9 @@ class Complaint(BaseComplaint):
             role = 'resolve'
         elif request.authenticated_role == 'complaint_owner' and self.status == 'answered':
             role = 'satisfy'
-        elif request.authenticated_role == 'reviewers' and self.status == 'pending':
+        elif request.authenticated_role == 'aboveThresholdReviewers' and self.status == 'pending':
             role = 'pending'
-        elif request.authenticated_role == 'reviewers' and self.status == 'accepted':
+        elif request.authenticated_role == 'aboveThresholdReviewers' and self.status == 'accepted':
             role = 'review'
         else:
             role = 'invalid'
