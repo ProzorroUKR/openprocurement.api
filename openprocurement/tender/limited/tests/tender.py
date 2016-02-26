@@ -579,7 +579,8 @@ class TenderResourceTest(BaseTenderWebTest):
 
         save_tender = self.db.get(tender['id'])
         for i in save_tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+            if i.get('complaintPeriod', {}):  # works for negotiation tender
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.db.save(save_tender)
 
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
@@ -746,7 +747,8 @@ class TenderProcessTest(BaseTenderWebTest):
         # time travel
         tender = self.db.get(tender_id)
         for i in tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+            if i.get('complaintPeriod', {}):  # reporting procedure does not have complaintPeriod
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.db.save(tender)
 
         # sign contract
@@ -785,7 +787,8 @@ class TenderProcessTest(BaseTenderWebTest):
         # time travel
         tender = self.db.get(tender_id)
         for i in tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+            if i.get('complaintPeriod', {}):  # reporting procedure does not have complaintPeriod
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.db.save(tender)
 
         # set award to cancelled
@@ -866,7 +869,8 @@ class TenderProcessTest(BaseTenderWebTest):
         # time travel
         tender = self.db.get(tender_id)
         for i in tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+            if i.get('complaintPeriod', {}):  # reporting procedure does not have complaintPeriod
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.db.save(tender)
 
         # sign contract
@@ -982,7 +986,8 @@ class TenderProcessTest(BaseTenderWebTest):
 
         tender = self.db.get(tender_id)
         for i in tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+            if i.get('complaintPeriod', {}):  # works for negotiation tender
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.db.save(tender)
 
         # sign contract

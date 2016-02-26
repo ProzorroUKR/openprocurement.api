@@ -316,7 +316,8 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         # sign contract to complete tender
         tender = self.db.get(self.tender_id)
         for i in tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+            if i.get('complaintPeriod', {}):  # works for negotiation tender
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.db.save(tender)
         response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
