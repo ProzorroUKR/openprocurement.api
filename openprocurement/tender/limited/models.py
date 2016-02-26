@@ -166,11 +166,6 @@ class Tender(SchematicsDocument, Model):
 
 ReportingTender = Tender
 
-from datetime import timedelta
-from schematics.exceptions import ValidationError
-TENDER_STAND_STILL_DAYS = 1
-TENDER_PERIOD = timedelta(days=TENDER_STAND_STILL_DAYS)
-
 
 @implementer(ITender)
 class Tender(ReportingTender):
