@@ -109,3 +109,12 @@ class TenderDocumentResource(object):
             description="Tender related binary files (PDFs, etc.)")
 class TenderNegotiationDocumentResource(TenderDocumentResource):
     """ Tender Negotiation Document Resource """
+
+
+@opresource(name='Tender Negotiation Quick Documents',
+            collection_path='/tenders/{tender_id}/documents',
+            path='/tenders/{tender_id}/documents/{document_id}',
+            procurementMethodType='negotiation.quick',
+            description="Tender related binary files (PDFs, etc.)")
+class TenderNegotiationQuickDocumentResource(TenderNegotiationDocumentResource):
+    """ Tender Negotiation Quick Document Resource """

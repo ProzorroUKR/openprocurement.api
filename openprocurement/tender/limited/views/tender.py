@@ -92,3 +92,11 @@ class TenderResource(BaseTenderResource):
             description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderNegotioationResource(TenderResource):
     """ Resource handler for Negotiation Tender """
+
+
+@opresource(name='TenderLimitedNegotiationQuick',
+            path='/tenders/{tender_id}',
+            procurementMethodType='negotiation.quick',
+            description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
+class TenderNegotioationQuickResource(TenderNegotioationResource):
+    """ Resource handler for Negotiation Quick Tender """

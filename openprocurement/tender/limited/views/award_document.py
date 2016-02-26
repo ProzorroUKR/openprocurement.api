@@ -115,3 +115,12 @@ class TenderAwardDocumentResource(object):
             description="Tender award documents")
 class TenderNegotiationAwardDocumentResource(TenderAwardDocumentResource):
     """ Tender Negotiation Award Documents Resource """
+
+
+@opresource(name='Tender Negotiation Quick Award Documents',
+            collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
+            path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
+            procurementMethodType='negotiation.quick',
+            description="Tender award documents")
+class TenderNegotiationQuickAwardDocumentResource(TenderNegotiationAwardDocumentResource):
+    """ Tender Negotiation Quick Award Documents Resource """

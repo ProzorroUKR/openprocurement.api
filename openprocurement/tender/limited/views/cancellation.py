@@ -85,3 +85,12 @@ class TenderCancellationResource(object):
             description="Tender cancellations")
 class TenderNegotiationCancellationResource(TenderCancellationResource):
     """ Tender Negotiation Cancellation Resource """
+
+
+@opresource(name='Tender Negotiation Quick Cancellations',
+            collection_path='/tenders/{tender_id}/cancellations',
+            path='/tenders/{tender_id}/cancellations/{cancellation_id}',
+            procurementMethodType='negotiation.quick',
+            description="Tender cancellations")
+class TenderNegotiationQuickCancellationResource(TenderNegotiationCancellationResource):
+    """ Tender Negotiation Quick Cancellation Resource """

@@ -533,3 +533,12 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             LOGGER.info('Updated tender award {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}, {'TENDER_REV': tender.rev}))
             return {'data': award.serialize("view")}
+
+
+@opresource(name='Tender Negotiation Quick Awards',
+            collection_path='/tenders/{tender_id}/awards',
+            path='/tenders/{tender_id}/awards/{award_id}',
+            description="Tender awards",
+            procurementMethodType='negotiation.quick')
+class TenderNegotiationQuickAwardResource(TenderNegotiationAwardResource):
+    """ Tender Negotiation Quick Award Resource """
