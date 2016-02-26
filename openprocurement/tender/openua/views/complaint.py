@@ -61,7 +61,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             self.request.response.status = 201
             self.request.response.headers['Location'] = self.request.route_url('Tender Complaints', tender_id=tender.id, complaint_id=complaint.id)
             return {
-                'data': complaint.serialize("view"),
+                'data': complaint.serialize(tender.status),
                 'access': {
                     'token': complaint.owner_token
                 }

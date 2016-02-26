@@ -21,6 +21,7 @@ from openprocurement.api.models import (
     Administrator_bid_role, Administrator_role, schematics_default_role,
     TZ, get_now, schematics_embedded_role, validate_lots_uniq,
     embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
+    ComplaintModelType,
 )
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.utils import (
@@ -342,7 +343,7 @@ class Tender(BaseTender):
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     awards = ListType(ModelType(Award), default=list())
-    complaints = ListType(ModelType(Complaint), default=list())
+    complaints = ListType(ComplaintModelType(Complaint), default=list())
     procurementMethodType = StringType(default="aboveThresholdUA")
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
