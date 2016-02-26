@@ -57,6 +57,40 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
             self.request.errors.add('body', 'data', 'Can\'t update contract in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
+        if self.request.context.status == 'cancelled':
+            self.request.errors.add('body', 'data', 'Can\'t update contract in current ({}) status'.format(self.request.context.status))
+            self.request.errors.status = 403
+            return
+
+        contract_status = self.request.context.status
+        apply_patch(self.request, save=False, src=self.request.context.serialize())
+        if contract_status != self.request.context.status and contract_status != 'pending' and self.request.context.status != 'active':
+            self.request.errors.add('body', 'data', 'Can\'t update contract status')
+            self.request.errors.status = 403
+            return
+
+        check_tender_status(self.request)
+        if save_tender(self.request):
+            LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
+                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
+            return {'data': self.request.context.serialize()}
+
+
+@opresource(name='Tender Negotiation Contracts',
+            collection_path='/tenders/{tender_id}/contracts',
+            procurementMethodType='negotiation',
+            path='/tenders/{tender_id}/contracts/{contract_id}',
+            description="Tender contracts")
+class TenderNegotiationAwardContractResource(TenderAwardContractResource):
+    """ Tender Negotiation Award Contract Resource """
+    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data,))
+    def patch(self):
+        """Update of contract
+        """
+        if self.request.validated['tender_status'] not in ['active']:
+            self.request.errors.add('body', 'data', 'Can\'t update contract in current ({}) tender status'.format(self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
         data = self.request.validated['data']
         if self.request.context.status == 'cancelled':
             self.request.errors.add('body', 'data', 'Can\'t update contract in current ({}) status'.format(self.request.context.status))
@@ -83,12 +117,3 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
             LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
             return {'data': self.request.context.serialize()}
-
-
-@opresource(name='Tender Negotiation Contracts',
-            collection_path='/tenders/{tender_id}/contracts',
-            procurementMethodType='negotiation',
-            path='/tenders/{tender_id}/contracts/{contract_id}',
-            description="Tender contracts")
-class TenderNegotiationAwardContractResource(TenderAwardContractResource):
-    """ Tender Negotiation Award Contract Resource """
