@@ -1,9 +1,8 @@
-from openprocurement.tender.limited.models import Tender
-from openprocurement.tender.limited.models_negotiation import Tender as NegotiationTender
+from openprocurement.tender.limited.models import ReportingTender, NegotiationTender
 
 
 def includeme(config):
-    config.add_tender_procurementMethodType(Tender)
+    config.add_tender_procurementMethodType(ReportingTender)
     config.scan("openprocurement.tender.limited.views")
 
 

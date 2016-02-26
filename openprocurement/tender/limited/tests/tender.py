@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
-from datetime import timedelta
 
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.models import get_now
-from openprocurement.tender.limited.models import Tender
-from openprocurement.tender.limited.models_negotiation import Tender as NegotiationTender
+from openprocurement.tender.limited.models import NegotiationTender, ReportingTender
 from openprocurement.tender.limited.tests.base import (
     test_tender_data, test_tender_negotiation_data, BaseTenderWebTest)
 
@@ -13,7 +11,7 @@ from openprocurement.tender.limited.tests.base import (
 class TenderTest(BaseTenderWebTest):
 
     def test_simple_add_tender(self):
-        u = Tender(test_tender_data)
+        u = ReportingTender(test_tender_data)
         u.tenderID = "UA-X"
 
         assert u.id is None
