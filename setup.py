@@ -21,6 +21,7 @@ entry_points = {
     'openprocurement.api.plugins': [
         'reporting = openprocurement.tender.limited:includeme',
         'negotiation = openprocurement.tender.limited:includeme_negotiation'
+        'negotiation.quick = openprocurement.tender.limited:includeme_negotiation_quick'
     ]
 }
 

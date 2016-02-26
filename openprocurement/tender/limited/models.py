@@ -173,3 +173,11 @@ class Tender(ReportingTender):
     procurementMethodType = StringType(default="negotiation")
 
 NegotiationTender = Tender
+
+
+@implementer(ITender)
+class Tender(NegotiationTender):
+    """ Negotiation """
+    procurementMethodType = StringType(default="negotiation.quick")
+
+NegotiationQuickTender = Tender
