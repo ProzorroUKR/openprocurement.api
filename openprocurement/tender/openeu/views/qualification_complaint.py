@@ -102,18 +102,18 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('tendererAction', self.context.tendererAction) and data.get('status', self.context.status) == 'resolved':
             apply_patch(self.request, save=False, src=self.context.serialize())
-        # reviewers
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
+        # aboveThresholdReviewers
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'accepted':
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'accepted':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAccepted = get_now()
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == self.context.status:
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'declined':
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'declined':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
             if tender.qualificationPeriod.endDate:
@@ -121,7 +121,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
                 qualificationPeriodendDate = datetime.combine(qualificationPeriodendDate.date(), time(0, tzinfo=qualificationPeriodendDate.tzinfo)) + timedelta(days=1)
                 if tender.qualificationPeriod.endDate < qualificationPeriodendDate:
                     tender.qualificationPeriod.endDate = qualificationPeriodendDate
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'satisfied':
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'satisfied':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
             tender.status = 'active.pre-qualification'

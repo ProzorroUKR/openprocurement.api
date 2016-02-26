@@ -365,22 +365,22 @@ class BaseTenderWebTest(BaseTenderWebTest):
         if status == 'active.tendering':
             data.update({
                 "enquiryPeriod": {
-                    "startDate": (now).isoformat(),
+                    "startDate": (now - timedelta(days=1)).isoformat(),
                     "endDate": (now + TENDERING_DURATION - QUESTIONS_STAND_STILL).isoformat()
                 },
                 "tenderPeriod": {
-                    "startDate": (now).isoformat(),
+                    "startDate": (now - timedelta(days=1)).isoformat(),
                     "endDate": (now + TENDERING_DURATION).isoformat()
                 }
             })
         elif status == 'active.pre-qualification':
             data.update({
                 "enquiryPeriod": {
-                    "startDate": (now - TENDERING_DURATION).isoformat(),
+                    "startDate": (now - TENDERING_DURATION - timedelta(days=1)).isoformat(),
                     "endDate": (now - QUESTIONS_STAND_STILL).isoformat()
                 },
                 "tenderPeriod": {
-                    "startDate": (now - TENDERING_DURATION).isoformat(),
+                    "startDate": (now - TENDERING_DURATION - timedelta(days=1)).isoformat(),
                     "endDate": (now).isoformat(),
                 },
                 "qualificationPeriod": {
@@ -390,11 +390,11 @@ class BaseTenderWebTest(BaseTenderWebTest):
         elif status == 'active.pre-qualification.stand-still':
             data.update({
                 "enquiryPeriod": {
-                    "startDate": (now - TENDERING_DURATION).isoformat(),
+                    "startDate": (now - TENDERING_DURATION - timedelta(days=1)).isoformat(),
                     "endDate": (now - QUESTIONS_STAND_STILL).isoformat()
                 },
                 "tenderPeriod": {
-                    "startDate": (now - TENDERING_DURATION).isoformat(),
+                    "startDate": (now - TENDERING_DURATION - timedelta(days=1)).isoformat(),
                     "endDate": (now).isoformat(),
                 },
                 "qualificationPeriod": {
@@ -407,11 +407,11 @@ class BaseTenderWebTest(BaseTenderWebTest):
         elif status == 'active.auction':
             data.update({
                 "enquiryPeriod": {
-                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL).isoformat(),
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat(),
                     "endDate": (now - COMPLAINT_STAND_STILL - TENDERING_DURATION + QUESTIONS_STAND_STILL).isoformat()
                 },
                 "tenderPeriod": {
-                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL).isoformat(),
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat(),
                     "endDate": (now - COMPLAINT_STAND_STILL).isoformat()
                 },
                 "qualificationPeriod": {
@@ -436,11 +436,11 @@ class BaseTenderWebTest(BaseTenderWebTest):
         elif status == 'active.qualification':
             data.update({
                 "enquiryPeriod": {
-                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat(),
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
                     "endDate": (now - QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat()
                 },
                 "tenderPeriod": {
-                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat(),
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
                     "endDate": (now - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat()
                 },
                 "auctionPeriod": {
@@ -466,11 +466,11 @@ class BaseTenderWebTest(BaseTenderWebTest):
         elif status == 'active.awarded':
             data.update({
                 "enquiryPeriod": {
-                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat(),
                     "endDate": (now - QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat()
                 },
                 "tenderPeriod": {
-                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat(),
                     "endDate": (now - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat()
                 },
                 "auctionPeriod": {
@@ -497,11 +497,11 @@ class BaseTenderWebTest(BaseTenderWebTest):
         elif status == 'complete':
             data.update({
                 "enquiryPeriod": {
-                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat(),
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=4)).isoformat(),
                     "endDate": (now - QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat()
                 },
                 "tenderPeriod": {
-                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat(),
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=4)).isoformat(),
                     "endDate": (now - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat()
                 },
                 "auctionPeriod": {

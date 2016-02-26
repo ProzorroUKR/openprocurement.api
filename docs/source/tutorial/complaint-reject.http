@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/459786a22b494e938a2253d450e7dd08/complaints/0877b09180f749009e1f65aebed6cb11 HTTP/1.0
+PATCH /api/0.12/tenders/7cf4fb0f92aa491c961033e850e5910f/complaints/b49c941985eb420e97afbd63852fd366 HTTP/1.0
 Authorization: Basic cmV2aWV3ZXI6
 Content-Length: 31
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "invalid", 
-    "dateDecision": "2016-02-24T14:13:30.765882+02:00", 
+    "dateDecision": "2016-02-26T16:35:08.310020+02:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
     "resolutionType": "invalid", 
@@ -42,12 +42,12 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "satisfied": false, 
-    "dateEscalated": "2016-02-24T14:13:30.598248+02:00", 
-    "dateAnswered": "2016-02-24T14:13:30.270523+02:00", 
-    "dateSubmitted": "2016-02-24T14:13:29.792076+02:00", 
-    "date": "2016-02-24T14:13:29.790589+02:00", 
+    "dateEscalated": "2016-02-26T16:35:08.138719+02:00", 
+    "dateAnswered": "2016-02-26T16:35:07.793316+02:00", 
+    "dateSubmitted": "2016-02-26T16:35:07.339422+02:00", 
+    "date": "2016-02-26T16:35:07.337547+02:00", 
     "resolution": "Вимога не відповідає предмету закупівлі", 
-    "id": "0877b09180f749009e1f65aebed6cb11"
+    "id": "b49c941985eb420e97afbd63852fd366"
   }
 }
 

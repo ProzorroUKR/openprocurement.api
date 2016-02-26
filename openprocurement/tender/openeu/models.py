@@ -29,6 +29,7 @@ from openprocurement.api.models import (
     Administrator_bid_role, Administrator_role, schematics_default_role,
     schematics_embedded_role, get_now, embedded_lot_role, default_lot_role,
     calc_auction_end_time, get_tender, validate_lots_uniq,
+    ComplaintModelType as BaseComplaintModelType,
 )
 from openprocurement.tender.openua.utils import (
     calculate_business_date, BLOCK_COMPLAINT_STATUS,
@@ -64,6 +65,11 @@ def bids_validation_wrapper(validation_func):
             return
         return validation_func(klass, data, value)
     return validator
+
+
+class ComplaintModelType(BaseComplaintModelType):
+    view_claim_statuses = ['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction']
+
 
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
@@ -140,8 +146,15 @@ class Complaint(BaseComplaint):
         }
     documents = ListType(ModelType(Document), default=list())
 
+    def serialize(self, role=None, context=None):
+        if role == 'view' and self.type == 'claim' and get_tender(self).status in ['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction']:
+            role = 'view_claim'
+        return super(Complaint, self).serialize(role=role, context=context)
+
+
 class Cancellation(BaseCancellation):
     documents = ListType(ModelType(Document), default=list())
+
 
 class TenderAuctionPeriod(Period):
     """The auction period."""
@@ -373,7 +386,7 @@ class Tender(BaseTender):
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
-    complaints = ListType(ModelType(Complaint), default=list())
+    complaints = ListType(ComplaintModelType(Complaint), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     cancellations = ListType(ModelType(Cancellation), default=list())
     awards = ListType(ModelType(Award), default=list())
