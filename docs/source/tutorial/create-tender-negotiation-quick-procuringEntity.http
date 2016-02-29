@@ -1,6 +1,6 @@
 POST /api/0.12/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 2309
+Content-Length: 2317
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
@@ -27,13 +27,13 @@ Host: api-sandbox.openprocurement.org
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
       }
     ], 
-    "procurementMethodType": "reporting", 
+    "procurementMethodType": "negotiation.quick", 
     "value": {
       "currency": "UAH", 
       "amount": 500000, 
       "valueAddedTaxIncluded": "true"
     }, 
-    "dateModified": "2016-01-14T16:48:35.636859+02:00", 
+    "id": "2d06f1999dcf436fb61ccd0168702459", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -55,17 +55,17 @@ Host: api-sandbox.openprocurement.org
       }
     }, 
     "owner": "broker", 
-    "id": "2d06f1999dcf436fb61ccd0168702459", 
+    "dateModified": "2016-01-14T16:48:35.636859+02:00", 
     "tenderID": "UA-2016-01-14-000003"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/c818955b019d4868bef258889b2e77b3
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/20fa0d97ec584c8cbbce653ed1e71e7a
 {
   "access": {
-    "token": "a62343713ec243e3a1d6529d09f6d83d"
+    "token": "52781155369b4083b3dc3abcd8d289ae"
   }, 
   "data": {
     "procurementMethod": "limited", 
@@ -89,16 +89,13 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/c818955b019d48
         "description": "Послуги шкільних їдалень"
       }
     ], 
-    "procurementMethodType": "reporting", 
+    "procurementMethodType": "negotiation.quick", 
     "value": {
       "currency": "UAH", 
       "amount": 500000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateModified": "2016-02-29T14:29:15.231583+02:00", 
-    "tenderID": "UA-2016-02-29-000001", 
-    "owner": "broker", 
-    "id": "c818955b019d4868bef258889b2e77b3", 
+    "dateModified": "2016-02-29T14:29:22.299722+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -118,7 +115,10 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/c818955b019d48
         "region": "м. Вінниця", 
         "locality": "м. Вінниця"
       }
-    }
+    }, 
+    "owner": "broker", 
+    "id": "20fa0d97ec584c8cbbce653ed1e71e7a", 
+    "tenderID": "UA-2016-02-29-000001"
   }
 }
 

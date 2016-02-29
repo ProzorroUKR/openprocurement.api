@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/55ec2604adb84d899ce692ab81267905?acc_token=32a98ceacbf44a90b197372b6fa381b7 HTTP/1.0
+PATCH /api/0.12/tenders/c818955b019d4868bef258889b2e77b3?acc_token=a62343713ec243e3a1d6529d09f6d83d HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 80
 Content-Type: application/json
@@ -54,10 +54,10 @@ Content-Type: application/json; charset=UTF-8
       "amount": 500000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateModified": "2016-02-29T12:44:29.992558+02:00", 
+    "dateModified": "2016-02-29T14:29:15.416258+02:00", 
     "tenderID": "UA-2016-02-29-000001", 
     "owner": "broker", 
-    "id": "55ec2604adb84d899ce692ab81267905", 
+    "id": "c818955b019d4868bef258889b2e77b3", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 

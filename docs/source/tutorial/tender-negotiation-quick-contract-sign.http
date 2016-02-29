@@ -1,0 +1,22 @@
+PATCH /api/0.12/tenders/20fa0d97ec584c8cbbce653ed1e71e7a/contracts/3eadf06373f040599c47c412cd9a11f3?acc_token=52781155369b4083b3dc3abcd8d289ae HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 30
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "awardID": "92ff689a61e341549c93d6ebcc8a13b4", 
+    "id": "3eadf06373f040599c47c412cd9a11f3"
+  }
+}
+
