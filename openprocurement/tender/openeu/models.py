@@ -55,7 +55,7 @@ COMPLAINT_STAND_STILL = timedelta(days=10)
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
-        if data['status'] in ('deleted', 'invalid'):
+        if data['status'] in ('deleted', 'invalid', 'cancelled'):
             # skip not valid bids
             return
         tender = data['__parent__']
@@ -262,7 +262,7 @@ class Bid(BaseBid):
     financialDocuments = ListType(ModelType(ConfidentialDocument), default=list())
     eligibilityDocuments = ListType(ModelType(ConfidentialDocument), default=list())
     qualificationDocuments = ListType(ModelType(ConfidentialDocument), default=list())
-    status = StringType(choices=['pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
+    status = StringType(choices=['pending', 'active', 'invalid', 'unsuccessful', 'deleted', 'cancelled'],
                         default='pending')
 
     lotValues = ListType(ModelType(LotValue), default=list())
