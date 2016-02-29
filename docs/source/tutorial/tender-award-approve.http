@@ -1,5 +1,5 @@
-PATCH /api/0.12/tenders/76529955690a42148f6e59caf52f57bc/awards/29479328b2dd4774885d6b8508b4f3cb?acc_token=f8cd982c5857444aa6e633ef747434e2 HTTP/1.0
-Authorization: Basic dG9rZW46
+PATCH /api/0.12/tenders/55ec2604adb84d899ce692ab81267905/awards/37ad5c4bfb4249c99b89a06e0a95c672?acc_token=32a98ceacbf44a90b197372b6fa381b7 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
@@ -18,27 +18,23 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "award_first_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/76529955690a42148f6e59caf52f57bc/awards/29479328b2dd4774885d6b8508b4f3cb/documents/b6c2a8f095184b2cb0d63d59a34bc149?download=cd11cb27e43c4f41ab728dc6c48ef7e6", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/55ec2604adb84d899ce692ab81267905/awards/37ad5c4bfb4249c99b89a06e0a95c672/documents/9a00e30d4cc047689f4218e50c21812b?download=8625ae5477234b808f77e997742c2b7e", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-08T15:42:35.328579+02:00", 
-        "id": "b6c2a8f095184b2cb0d63d59a34bc149", 
-        "dateModified": "2016-02-08T15:42:35.328620+02:00"
+        "datePublished": "2016-02-29T12:44:30.713929+02:00", 
+        "id": "9a00e30d4cc047689f4218e50c21812b", 
+        "dateModified": "2016-02-29T12:44:30.713967+02:00"
       }, 
       {
         "title": "award_second_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/76529955690a42148f6e59caf52f57bc/awards/29479328b2dd4774885d6b8508b4f3cb/documents/923f20df32e24a979e47e40843eec33c?download=a924a6c6086643ba89d2b3b18cdfd6ee", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/55ec2604adb84d899ce692ab81267905/awards/37ad5c4bfb4249c99b89a06e0a95c672/documents/7626d9bee33a43a58db4fea1d6bb2585?download=311b54f42aaa484ca7dbdf3fce227d22", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-08T15:42:35.570879+02:00", 
-        "id": "923f20df32e24a979e47e40843eec33c", 
-        "dateModified": "2016-02-08T15:42:35.570918+02:00"
+        "datePublished": "2016-02-29T12:44:30.878002+02:00", 
+        "id": "7626d9bee33a43a58db4fea1d6bb2585", 
+        "dateModified": "2016-02-29T12:44:30.878040+02:00"
       }
     ], 
-    "complaintPeriod": {
-      "startDate": "2016-02-08T15:42:35.156244+02:00", 
-      "endDate": "2016-02-09T15:42:35.775741+02:00"
-    }, 
     "suppliers": [
       {
         "contactPoint": {
@@ -67,8 +63,8 @@ Content-Type: application/json; charset=UTF-8
       "amount": 475000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2016-02-08T15:42:35.154673+02:00", 
-    "id": "29479328b2dd4774885d6b8508b4f3cb"
+    "date": "2016-02-29T12:44:30.558303+02:00", 
+    "id": "37ad5c4bfb4249c99b89a06e0a95c672"
   }
 }
 
