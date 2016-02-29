@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from iso8601 import parse_date
 
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
@@ -311,6 +312,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
 
 class TenderNegotiationContractResourceTest(TenderContractResourceTest):
     initial_data = test_tender_negotiation_data
+    stand_still_period_days = 10
 
     def test_patch_tender_contract(self):
         response = self.app.get('/tenders/{}/contracts'.format(
@@ -321,6 +323,16 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertIn("Can't sign contract before stand-still period end (", response.json['errors'][0]["description"])
+
+        response = self.app.get('/tenders/{}/awards'.format(
+                self.tender_id))
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(len(response.json['data']), 1)
+        award = response.json['data'][0]
+        start = parse_date(award['complaintPeriod']['startDate'])
+        end = parse_date(award['complaintPeriod']['endDate'])
+        delta = end - start
+        self.assertEqual(delta.days, self.stand_still_period_days)
 
         # at next steps we test to patch contract in 'complete' tender status
         tender = self.db.get(self.tender_id)
@@ -419,6 +431,7 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
 
 class TenderNegotiationQuickContractResourceTest(TenderNegotiationContractResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    stand_still_period_days = 5
 
 
 class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
