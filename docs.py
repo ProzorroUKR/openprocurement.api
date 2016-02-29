@@ -149,7 +149,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
         self.app = DumpsTestAppwebtest(
                 "config:tests.ini", relative_to=os.path.dirname(base_test.__file__))
         self.app.RequestClass = PrefixedRequestClass
-        self.app.authorization = ('Basic', ('token', ''))
+        self.app.authorization = ('Basic', ('broker', ''))
         self.couchdb_server = self.app.app.registry.couchdb_server
         self.db = self.app.app.registry.db
 
@@ -193,22 +193,22 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')
 
-        self.app.authorization = ('Basic', ('token', ''))
+        self.app.authorization = ('Basic', ('broker', ''))
         self.tender_id = tender['id']
 
         #### Uploading documentation
         #
 
         with open('docs/source/tutorial/upload-tender-notice.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/documents'.format(
-                    self.tender_id), upload_files=[('file', u'Notice.pdf', 'content')])
+            response = self.app.post('/tenders/{}/documents?acc_token={}'.format(
+                    self.tender_id, owner_token), upload_files=[('file', u'Notice.pdf', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
 
         with open('docs/source/tutorial/update-tender-notice.http', 'w') as self.app.file_obj:
-            response = self.app.put('/tenders/{}/documents/{}'.format(
-                    self.tender_id, doc_id), upload_files=[('file', 'Notice-2.pdf', 'content2')])
+            response = self.app.put('/tenders/{}/documents/{}?acc_token={}'.format(
+                    self.tender_id, doc_id, owner_token), upload_files=[('file', 'Notice-2.pdf', 'content2')])
             self.assertEqual(response.status, '200 OK')
 
         #### Adding supplier information
@@ -224,23 +224,23 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
         #
 
         with open('docs/source/tutorial/tender-award-upload-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/awards/{}/documents'.format(
-                self.tender_id, self.award_id), upload_files=[('file', 'award_first_document.doc', 'content')])
+            response = self.app.post('/tenders/{}/awards/{}/documents?acc_token={}'.format(
+                self.tender_id, self.award_id, owner_token), upload_files=[('file', 'award_first_document.doc', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/tender-award-get-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/awards/{}/documents'.format(
-                self.tender_id, self.award_id))
+            response = self.app.get('/tenders/{}/awards/{}/documents?acc_token={}'.format(
+                self.tender_id, self.award_id, owner_token))
         self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/tender-award-upload-second-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/awards/{}/documents'.format(
-                self.tender_id, self.award_id), upload_files=[('file', 'award_second_document.doc', 'content')])
+            response = self.app.post('/tenders/{}/awards/{}/documents?acc_token={}'.format(
+                self.tender_id, self.award_id, owner_token), upload_files=[('file', 'award_second_document.doc', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/tender-award-get-documents-again.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/awards/{}/documents'.format(
-                self.tender_id, self.award_id))
+            response = self.app.get('/tenders/{}/awards/{}/documents?acc_token={}'.format(
+                self.tender_id, self.award_id, owner_token))
         self.assertEqual(response.status, '200 OK')
 
         #### Award confirmation
@@ -262,32 +262,32 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
         #
 
         with open('docs/source/tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
-                self.tender_id, self.contract_id), upload_files=[('file', 'contract_first_document.doc', 'content')])
+            response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), upload_files=[('file', 'contract_first_document.doc', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/tender-contract-get-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/contracts/{}/documents'.format(
-                self.tender_id, self.contract_id))
+            response = self.app.get('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token))
         self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/tender-contract-upload-second-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
-                self.tender_id, self.contract_id), upload_files=[('file', 'contract_second_document.doc', 'content')])
+            response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), upload_files=[('file', 'contract_second_document.doc', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/tender-contract-get-documents-again.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/contracts/{}/documents'.format(
-                self.tender_id, self.contract_id))
+            response = self.app.get('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token))
         self.assertEqual(response.status, '200 OK')
 
         #### Contract signing
         #
 
-        tender = self.db.get(self.tender_id)
-        for i in tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.db.save(tender)
+        # tender = self.db.get(self.tender_id)
+        # for i in tender.get('awards', []):
+            # i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        # self.db.save(tender)
 
         with open('docs/source/tutorial/tender-contract-sign.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
