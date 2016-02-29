@@ -309,6 +309,32 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
+    def test_award_id_change_is_not_allowed(self):
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, self.tender_token), {"data": {"status": "cancelled"}})
+        old_award_id = self.award_id
+
+        # upload new award
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]]}})
+        award = response.json['data']
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, award['id'], self.tender_token), {"data": {"status": "active"}})
+        response = self.app.get('/tenders/{}/contracts'.format(
+                self.tender_id))
+        contract = response.json['data'][-1]
+        self.assertEqual(contract['awardID'], award['id'])
+        self.assertNotEqual(contract['awardID'], old_award_id)
+
+        # try to update awardID value
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, contract['id'], self.tender_token), {"data": {"awardID": old_award_id}})
+        response = self.app.get('/tenders/{}/contracts'.format(
+                self.tender_id))
+        contract = response.json['data'][-1]
+        self.assertEqual(contract['awardID'], award['id'])
+        self.assertNotEqual(contract['awardID'], old_award_id)
+
 
 class TenderNegotiationContractResourceTest(TenderContractResourceTest):
     initial_data = test_tender_negotiation_data
@@ -427,6 +453,7 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active")
+
 
 
 class TenderNegotiationQuickContractResourceTest(TenderNegotiationContractResourceTest):
