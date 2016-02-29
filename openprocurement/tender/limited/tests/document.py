@@ -2,10 +2,13 @@
 import unittest
 from email.header import Header
 from openprocurement.api.tests.document import MockConnection
-from openprocurement.tender.limited.tests.base import BaseTenderContentWebTest
+from openprocurement.tender.limited.tests.base import (
+    BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
+    test_tender_negotiation_quick_data)
 
 
 class TenderDocumentResourceTest(BaseTenderContentWebTest):
+    initial_data = test_tender_data
     s3_connection = False
 
     def test_not_found(self):
@@ -297,6 +300,14 @@ class TenderDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
+
+
+class TenderNegotiationDocumentResourceTest(TenderDocumentResourceTest):
+    initial_data = test_tender_negotiation_data
+
+
+class TenderNegotiationQuickDocumentResourceTest(TenderNegotiationDocumentResourceTest):
+    initial_data = test_tender_negotiation_quick_data
 
 
 class TenderDocumentWithS3ResourceTest(TenderDocumentResourceTest):

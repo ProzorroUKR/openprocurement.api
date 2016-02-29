@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.tender.limited.tests.base import BaseTenderContentWebTest
-from openprocurement.api.tests.base import test_lots
+from openprocurement.tender.limited.tests.base import (
+    BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
+    test_tender_negotiation_quick_data)
 
 
 class TenderCancellationResourceTest(BaseTenderContentWebTest):
+    initial_data = test_tender_data
 
     def test_create_tender_cancellation_invalid(self):
         response = self.app.post_json('/tenders/some_id/cancellations', {
@@ -256,8 +258,16 @@ class TenderCancellationResourceTest(BaseTenderContentWebTest):
         ])
 
 
+class TenderNegotiationCancellationResourceTest(TenderCancellationResourceTest):
+    initial_data = test_tender_negotiation_data
+
+
+class TenderNegotiationQuickCancellationResourceTest(TenderNegotiationCancellationResourceTest):
+    initial_data = test_tender_negotiation_quick_data
+
 
 class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
+    initial_data = test_tender_data
 
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
@@ -512,6 +522,14 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
+
+
+class TenderNegotiationCancellationDocumentResourceTest(TenderCancellationDocumentResourceTest):
+    initial_data = test_tender_negotiation_data
+
+
+class TenderNegotiationQuickCancellationDocumentResourceTest(TenderNegotiationCancellationDocumentResourceTest):
+    initial_data = test_tender_negotiation_quick_data
 
 
 def suite():

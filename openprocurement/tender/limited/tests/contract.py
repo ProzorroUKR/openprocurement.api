@@ -2,7 +2,8 @@
 import unittest
 
 from openprocurement.tender.limited.tests.base import (
-    BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data)
+    BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
+    test_tender_negotiation_quick_data)
 
 
 class TenderContractResourceTest(BaseTenderContentWebTest):
@@ -416,6 +417,10 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
         self.assertEqual(response.json['data']["status"], "active")
 
 
+class TenderNegotiationQuickContractResourceTest(TenderNegotiationContractResourceTest):
+    initial_data = test_tender_negotiation_quick_data
+
+
 class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = 'active'
     initial_bids = None
@@ -706,6 +711,13 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
 
+
+class TenderContractNegotiationDocumentResourceTest(TenderContractDocumentResourceTest):
+    initial_data = test_tender_negotiation_data
+
+
+class TenderContractNegotiationQuickDocumentResourceTest(TenderContractNegotiationDocumentResourceTest):
+    initial_data = test_tender_negotiation_quick_data
 
 def suite():
     suite = unittest.TestSuite()

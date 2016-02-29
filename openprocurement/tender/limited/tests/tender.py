@@ -3,9 +3,12 @@ import unittest
 
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.models import get_now
-from openprocurement.tender.limited.models import NegotiationTender, ReportingTender
+from openprocurement.tender.limited.models import (NegotiationTender,
+                                                   NegotiationQuickTender,
+                                                   ReportingTender)
 from openprocurement.tender.limited.tests.base import (
-    test_tender_data, test_tender_negotiation_data, BaseTenderWebTest)
+    test_tender_data, test_tender_negotiation_data,
+    test_tender_negotiation_quick_data, BaseTenderWebTest)
 
 
 class TenderTest(BaseTenderWebTest):
@@ -55,6 +58,32 @@ class TenderNegotiationTest(BaseTenderWebTest):
         assert u.procurementMethodType == fromdb['procurementMethodType']
 
         u.delete_instance(self.db)
+
+
+class TenderNegotiationQuickTest(TenderNegotiationTest):
+    initial_data = test_tender_negotiation_quick_data
+
+    def test_simple_add_tender(self):
+        u = NegotiationTender(test_tender_negotiation_quick_data)
+        u.tenderID = "UA-X"
+
+        assert u.id is None
+        assert u.rev is None
+
+        u.store(self.db)
+
+        assert u.id is not None
+        assert u.rev is not None
+
+        fromdb = self.db.get(u.id)
+
+        assert u.tenderID == fromdb['tenderID']
+        assert u.doc_type == "Tender"
+        assert u.procurementMethodType == "negotiation.quick"
+        assert u.procurementMethodType == fromdb['procurementMethodType']
+
+        u.delete_instance(self.db)
+
 
 class TenderResourceTest(BaseTenderWebTest):
 
@@ -677,6 +706,8 @@ class TenderResourceTest(BaseTenderWebTest):
 class TenderNegotiationResourceTest(TenderResourceTest):
     initial_data = test_tender_negotiation_data
 
+class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):
+    initial_data = test_tender_negotiation_quick_data
 
 class TenderProcessTest(BaseTenderWebTest):
 
@@ -1013,6 +1044,10 @@ class TenderProcessTest(BaseTenderWebTest):
 
 class TenderNegotiationProcessTest(TenderProcessTest):
     initial_data = test_tender_negotiation_data
+
+
+class TenderNegotiationQuickProcessTest(TenderNegotiationProcessTest):
+    initial_data = test_tender_negotiation_quick_data
 
 
 def suite():
