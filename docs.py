@@ -365,10 +365,14 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             self.assertEqual(response.status, '201 Created')
         self.award_id = response.json['data']['id']
 
-        # Award confirmation
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-                self.tender_id, self.award_id, owner_token), {'data': {'status': 'active'}})
-        self.assertEqual(response.status, '200 OK')
+
+        #### Award confirmation
+        #
+
+        with open('docs/source/tutorial/tender-negotiation-award-approve.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+                    self.tender_id, self.award_id, owner_token), {'data': {'status': 'active'}})
+            self.assertEqual(response.status, '200 OK')
 
         # get contract
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
@@ -417,10 +421,13 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
             self.assertEqual(response.status, '201 Created')
         self.award_id = response.json['data']['id']
 
-        # Award confirmation
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-                self.tender_id, self.award_id, owner_token), {'data': {'status': 'active'}})
-        self.assertEqual(response.status, '200 OK')
+        #### Award confirmation
+        #
+
+        with open('docs/source/tutorial/tender-negotiation-quick-award-approve.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+                    self.tender_id, self.award_id, owner_token), {'data': {'status': 'active'}})
+            self.assertEqual(response.status, '200 OK')
 
         # get contract
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(

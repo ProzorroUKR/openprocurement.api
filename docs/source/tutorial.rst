@@ -105,14 +105,14 @@ Procuring entity registers supplier information for ``negotiation`` procedure:
 .. include:: tutorial/tender-negotiation-award.http
    :code:
 
-You can notice that there is `complaintPeriod` record. The difference between `startDate` and `endDate` is 10 days.
+You can notice that there is `complaintPeriod` record with `startDate` value generated.
 
 Procuring entity registers supplier information for ``negotiation.quick`` procedure:
 
 .. include:: tutorial/tender-negotiation-quick-award.http
    :code:
 
-The difference between `startDate` and `endDate` in `complaintPeriod` record for ``negotiation.quick`` is 5 days.
+Award for ``negotiation.quick`` procedure also has `complaintPeriod` record with `startDate` value.
 
 
 Uploading award documentation
@@ -150,6 +150,21 @@ Procuring entity can confirm awarding decision:
 
 .. include:: tutorial/tender-award-approve.http
    :code:
+
+Award confirmation for ``negotiation`` procedure:
+
+.. include:: tutorial/tender-negotiation-award-approve.http
+   :code:
+
+The difference between `startDate` and `endDate` in `complaintPeriod` record for ``negotiation`` is 10 days.
+
+Award confirmation for ``negotiation.quick`` procedure:
+
+.. include:: tutorial/tender-negotiation-quick-award-approve.http
+   :code:
+
+The difference between `startDate` and `endDate` in `complaintPeriod` record for ``negotiation.quick`` is 5 days.
+
 
 Uploading contract documentation
 --------------------------------
