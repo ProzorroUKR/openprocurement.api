@@ -115,7 +115,13 @@ Schema
     string 
 
     :`reporting`:
-        Default.
+        reporting procedure indentifier
+
+    :`negotiation`:
+        negotiation procedure indentifier
+
+    :`negotiation.quick`:
+        negotiation.quick procedure indentifier
 
 :dateModified:
     string, :ref:`date`
