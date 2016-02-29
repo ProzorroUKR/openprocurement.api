@@ -137,7 +137,7 @@ Let's see the list of all uploaded contract documents:
 Contract signing
 ----------------
 
-Contract can be signed a day after award confirmation:
+Reporting tender contract can be signed immediately after award confirmation:
 
 .. include:: tutorial/tender-contract-sign.http
    :code:
