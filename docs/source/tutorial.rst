@@ -6,8 +6,17 @@ Tutorial
 Tender creation
 ---------------
 
-Creating tender for negotiation/reporting procedure
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create three procedures: 
+ * ``reporting`` - reporting with no stand-still period 
+ * ``negotiation`` - negotiation with 10 day stand-still before contract signing
+ * ``negotiation.quick`` - negotiation with 5 day stand-still before contract signing
+
+
+Creating tender for reporting procedure
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create reporting procedure you should set ``reporting`` value for ``procurementMethodType``.
 
 Let’s create a tender:
 
@@ -22,6 +31,25 @@ Let's check what tender registry contains:
    :code:
 
 We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
+
+
+Creating tender for negotiation procedure
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create negotiation procedure you should set ``negotiation`` value for ``procurementMethodType``.
+
+.. include:: tutorial/create-tender-negotiation-procuringEntity.http
+   :code:
+
+
+Creating tender for negotiation.quick procedure
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create negotiation.quick procedure you should set ``negotiation.quick`` value for ``procurementMethodType``.
+
+.. include:: tutorial/create-tender-negotiation-quick-procuringEntity.http
+   :code:
+
 
 Modifying tender
 ~~~~~~~~~~~~~~~~
@@ -65,10 +93,26 @@ Awarding
 Adding supplier information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Procuring entity can register supplier information:
+Addition of supplier information is the same for all procedures.
+
+Procuring entity registers supplier information:
 
 .. include:: tutorial/tender-award.http
    :code:
+
+Procuring entity registers supplier information for ``negotiation`` procedure:
+
+.. include:: tutorial/tender-negotiation-award.http
+   :code:
+
+You can notice that there is `complaintPeriod` record. The difference between `startDate` and `endDate` is 10 days.
+
+Procuring entity registers supplier information for ``negotiation.quick`` procedure:
+
+.. include:: tutorial/tender-negotiation-quick-award.http
+   :code:
+
+The difference between `startDate` and `endDate` in `complaintPeriod` record for ``negotiation.quick`` is 5 days.
 
 
 Uploading award documentation
@@ -137,11 +181,20 @@ Let's see the list of all uploaded contract documents:
 Contract signing
 ----------------
 
-Reporting tender contract can be signed immediately after award confirmation:
+`reporting` tender contract can be signed immediately after award confirmation:
 
 .. include:: tutorial/tender-contract-sign.http
    :code:
 
+`negotiation` tender contract can be signed after 10 day stand-still (after award confirmation):
+
+.. include:: tutorial/tender-negotiation-contract-sign.http
+   :code:
+
+`negotiation.quick` tender contract can be signed after 5 day stand-still (after award confirmation):
+
+.. include:: tutorial/tender-negotiation-quick-contract-sign.http
+   :code:
 
 Cancelling tender
 -----------------
