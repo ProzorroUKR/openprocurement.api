@@ -16,7 +16,6 @@ from openprocurement.api.validation import (
 from openprocurement.tender.limited.models import Award
 
 LOGGER = getLogger(__name__)
-NEGOTIATION_STAND_STILL_TIME = timedelta(days=10)
 
 
 def validate_patch_award_data(request):
@@ -339,6 +338,7 @@ class TenderAwardResource(object):
             procurementMethodType='negotiation')
 class TenderNegotiationAwardResource(TenderAwardResource):
     """ Tender Negotiation Award Resource """
+    stand_still_delta = timedelta(days=10)
 
     @json_view(content_type="application/json", permission='edit_tender', validators=(validate_award_data,))
     def collection_post(self):
@@ -508,7 +508,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
-            award.complaintPeriod.endDate = get_now() + NEGOTIATION_STAND_STILL_TIME
+            award.complaintPeriod.endDate = get_now() + self.stand_still_delta
             tender.contracts.append(Contract({'awardID': award.id}))
             # add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
@@ -518,7 +518,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                     i.status = 'cancelled'
             # add_next_award(self.request)
         elif award_status == 'pending' and award.status == 'unsuccessful':
-            award.complaintPeriod.endDate = get_now() + NEGOTIATION_STAND_STILL_TIME
+            award.complaintPeriod.endDate = get_now() + self.stand_still_delta
             # add_next_award(self.request)
         elif award_status != award.status:
             self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
@@ -542,3 +542,4 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             procurementMethodType='negotiation.quick')
 class TenderNegotiationQuickAwardResource(TenderNegotiationAwardResource):
     """ Tender Negotiation Quick Award Resource """
+    stand_still_delta = timedelta(days=5)
