@@ -229,7 +229,7 @@ class Complaint(BaseComplaint):
             'resolve': whitelist('status', 'tendererAction'),
             'answer': whitelist('resolution', 'resolutionType', 'status', 'tendererAction'),
             'action': whitelist('tendererAction'),
-            'pending': whitelist('decision', 'status', 'acceptance', 'rejectReason', 'rejectReasonDescription'),
+            'pending': whitelist('decision', 'status', 'rejectReason', 'rejectReasonDescription'),
             'review': whitelist('decision', 'status', 'reviewDate', 'reviewPlace'),
             'embedded': (blacklist('owner_token', 'owner') + schematics_embedded_role),
             'view': (blacklist('owner_token', 'owner') + schematics_default_role),

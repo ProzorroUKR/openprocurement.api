@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/115a39ab160d4f9890c97ab76845db88/awards/3a4e90c82a5049908513b8b3b9ae7b99/complaints HTTP/1.0
+GET /api/0.12/tenders/797ce8ef306f4c6ab964dfbb7b2d1109/awards/7588bac918d9480eb3565981a6bc8b1e/complaints HTTP/1.0
 Host: api-sandbox.openprocurement.org
 
 Response: 200 OK
@@ -7,27 +7,27 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "status": "resolved", 
-      "dateDecision": "2016-02-26T16:19:54.674393+02:00", 
+      "dateDecision": "2016-03-01T19:52:09.679829+02:00", 
       "documents": [
         {
           "author": "complaint_owner", 
           "title": "Complaint_Attachement.pdf", 
-          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/115a39ab160d4f9890c97ab76845db88/awards/3a4e90c82a5049908513b8b3b9ae7b99/complaints/9b22cfb01b6543ad9f608c6256365f56/documents/ee3ef29637624a8fa9b4895342f6f442?download=4743f50a3a214ce6820a6df88d1f6277", 
+          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/797ce8ef306f4c6ab964dfbb7b2d1109/awards/7588bac918d9480eb3565981a6bc8b1e/complaints/8daaaf08ad8446cfb23cca34c59b76df/documents/85f49aa9739b4874a449c59c87c54a75?download=8f029405bea44b6098057976a5567886", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2016-02-26T16:19:53.405986+02:00", 
-          "id": "ee3ef29637624a8fa9b4895342f6f442", 
-          "dateModified": "2016-02-26T16:19:53.406025+02:00"
+          "datePublished": "2016-03-01T19:52:08.071306+02:00", 
+          "id": "85f49aa9739b4874a449c59c87c54a75", 
+          "dateModified": "2016-03-01T19:52:08.071352+02:00"
         }, 
         {
-          "author": "reviewers", 
+          "author": "aboveThresholdReviewers", 
           "title": "ComplaintResolution.pdf", 
-          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/115a39ab160d4f9890c97ab76845db88/awards/3a4e90c82a5049908513b8b3b9ae7b99/complaints/9b22cfb01b6543ad9f608c6256365f56/documents/b58e74317fc34b84ad3f547cd923c228?download=4ef0ed52fdcd468c968408f50edcec6d", 
+          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/797ce8ef306f4c6ab964dfbb7b2d1109/awards/7588bac918d9480eb3565981a6bc8b1e/complaints/8daaaf08ad8446cfb23cca34c59b76df/documents/8038da583825462397d236bcaf395129?download=341fd470ee6b400b987e33798d011bce", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2016-02-26T16:19:54.500614+02:00", 
-          "id": "b58e74317fc34b84ad3f547cd923c228", 
-          "dateModified": "2016-02-26T16:19:54.500664+02:00"
+          "datePublished": "2016-03-01T19:52:09.458621+02:00", 
+          "id": "8038da583825462397d236bcaf395129", 
+          "dateModified": "2016-03-01T19:52:09.458672+02:00"
         }
       ], 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -54,16 +54,17 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "tendererAction": "Умови виправлено", 
-      "tendererActionDate": "2016-02-26T16:19:55.025432+02:00", 
-      "dateSubmitted": "2016-02-26T16:19:53.551188+02:00", 
-      "date": "2016-02-26T16:19:53.100134+02:00", 
+      "tendererActionDate": "2016-03-01T19:52:10.104286+02:00", 
+      "dateSubmitted": "2016-03-01T19:52:08.238267+02:00", 
+      "date": "2016-03-01T19:52:07.696656+02:00", 
+      "acceptance": true, 
       "type": "complaint", 
-      "id": "9b22cfb01b6543ad9f608c6256365f56", 
-      "dateAccepted": "2016-02-26T16:19:54.145500+02:00"
+      "id": "8daaaf08ad8446cfb23cca34c59b76df", 
+      "dateAccepted": "2016-03-01T19:52:09.072440+02:00"
     }, 
     {
       "status": "invalid", 
-      "dateDecision": "2016-02-26T16:19:53.980829+02:00", 
+      "dateDecision": "2016-03-01T19:52:08.869643+02:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "author": {
         "contactPoint": {
@@ -86,15 +87,16 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
+      "acceptance": false, 
+      "dateSubmitted": "2016-03-01T19:52:08.403406+02:00", 
+      "date": "2016-03-01T19:52:08.401480+02:00", 
       "title": "Недостатньо інформації", 
-      "dateSubmitted": "2016-02-26T16:19:53.680993+02:00", 
-      "date": "2016-02-26T16:19:53.679431+02:00", 
       "type": "complaint", 
-      "id": "3f014f1be33c4c519bf3cdc4f8c5236d"
+      "id": "70ce108fd9294a57bfa2b0ebc6c0c861"
     }, 
     {
       "status": "declined", 
-      "dateDecision": "2016-02-26T16:19:54.847539+02:00", 
+      "dateDecision": "2016-03-01T19:52:09.875727+02:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "author": {
         "contactPoint": {
@@ -117,12 +119,13 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
+      "acceptance": true, 
+      "dateAccepted": "2016-03-01T19:52:09.271495+02:00", 
+      "dateSubmitted": "2016-03-01T19:52:08.615176+02:00", 
+      "date": "2016-03-01T19:52:08.613139+02:00", 
       "title": "Недостатньо інформації", 
-      "dateAccepted": "2016-02-26T16:19:54.310219+02:00", 
-      "dateSubmitted": "2016-02-26T16:19:53.824304+02:00", 
-      "date": "2016-02-26T16:19:53.822863+02:00", 
       "type": "complaint", 
-      "id": "4cc2764f264d4f2a9a72df2d1af57e21"
+      "id": "6bb1c5dda0a94050b5ce2dc0c327eb12"
     }, 
     {
       "status": "cancelled", 
@@ -150,11 +153,11 @@ Content-Type: application/json; charset=UTF-8
       }, 
       "title": "Недостатньо інформації", 
       "cancellationReason": "Умови виправлено", 
-      "dateCanceled": "2016-02-26T16:19:55.392546+02:00", 
-      "dateSubmitted": "2016-02-26T16:19:55.204604+02:00", 
-      "date": "2016-02-26T16:19:55.203057+02:00", 
+      "dateCanceled": "2016-03-01T19:52:10.640369+02:00", 
+      "dateSubmitted": "2016-03-01T19:52:10.386011+02:00", 
+      "date": "2016-03-01T19:52:10.383997+02:00", 
       "type": "complaint", 
-      "id": "d2211e9cc4d64f98b0864f7c17cb43bd"
+      "id": "b4cc7e5f7ad44a87bd0192c50113850a"
     }
   ]
 }

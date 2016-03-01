@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/908533f9c0f7482491b4a5658c4d6520/complaints/80db5d5ec9de4c7ab5cb834c20cc1749?acc_token=38d8083498b54d7ba35cacd74e8d502c HTTP/1.0
+PATCH /api/0.12/tenders/d6ee228b8054448bb70f382073767e50/complaints/3e073ecc3752422d9c43909817606c66?acc_token=22bca77bdfec4658b3bbd25fc86acf52 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 31
 Content-Type: application/json
@@ -19,12 +19,12 @@ Content-Type: application/json; charset=UTF-8
       {
         "author": "complaint_owner", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/908533f9c0f7482491b4a5658c4d6520/complaints/80db5d5ec9de4c7ab5cb834c20cc1749/documents/8c6b2b17d3884fc890d0aeee1c42afdd?download=fb48559cc7a1484f8434e62afbf386b8", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d6ee228b8054448bb70f382073767e50/complaints/3e073ecc3752422d9c43909817606c66/documents/df418b4759d247328c9f8ffa4d3a54f5?download=65ea4fcd38e3401aa22241d9cfcb4a4d", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-26T16:19:57.124731+02:00", 
-        "id": "8c6b2b17d3884fc890d0aeee1c42afdd", 
-        "dateModified": "2016-02-26T16:19:57.124769+02:00"
+        "datePublished": "2016-03-01T19:52:12.673118+02:00", 
+        "id": "df418b4759d247328c9f8ffa4d3a54f5", 
+        "dateModified": "2016-03-01T19:52:12.673162+02:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -50,10 +50,10 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2016-02-26T16:19:57.829422+02:00", 
-    "date": "2016-02-26T16:19:56.996187+02:00", 
+    "dateSubmitted": "2016-03-01T19:52:13.403978+02:00", 
+    "date": "2016-03-01T19:52:12.542753+02:00", 
     "type": "complaint", 
-    "id": "80db5d5ec9de4c7ab5cb834c20cc1749"
+    "id": "3e073ecc3752422d9c43909817606c66"
   }
 }
 
