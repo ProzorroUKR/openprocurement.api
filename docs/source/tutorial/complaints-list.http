@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/7cf4fb0f92aa491c961033e850e5910f/complaints HTTP/1.0
+GET /api/0.12/tenders/3a07e6e357f24a9aa345e0bc41427121/complaints HTTP/1.0
 Host: api-sandbox.openprocurement.org
 
 Response: 200 OK
@@ -7,8 +7,8 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "status": "resolved", 
-      "dateDecision": "2016-02-26T16:35:09.026029+02:00", 
-      "tendererActionDate": "2016-02-26T16:35:09.426629+02:00", 
+      "dateDecision": "2016-03-01T20:11:00.851490+02:00", 
+      "tendererActionDate": "2016-03-01T20:11:01.245532+02:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "author": {
         "contactPoint": {
@@ -32,36 +32,37 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "title": "Недостатньо інформації", 
-      "id": "b56197b8a8f949a88c335ad6ed05cd5d", 
+      "id": "0406f0a7b279428b9509e2d46dab7d04", 
       "tendererAction": "Умови виправлено", 
-      "dateSubmitted": "2016-02-26T16:35:07.491414+02:00", 
-      "date": "2016-02-26T16:35:06.688004+02:00", 
+      "dateSubmitted": "2016-03-01T20:10:59.135092+02:00", 
+      "date": "2016-03-01T20:10:58.140989+02:00", 
+      "acceptance": true, 
       "type": "complaint", 
       "documents": [
         {
           "author": "complaint_owner", 
           "language": "uk", 
           "title": "Complaint_Attachement.pdf", 
-          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/7cf4fb0f92aa491c961033e850e5910f/complaints/b56197b8a8f949a88c335ad6ed05cd5d/documents/96612f4c73e64607b55c2fb539adfb93?download=44aee22b47424da79532692828984317", 
+          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/3a07e6e357f24a9aa345e0bc41427121/complaints/0406f0a7b279428b9509e2d46dab7d04/documents/33a4d0280cb34e56899bf91896f1819d?download=0d0002d15d5040f0a20e73c93a271c88", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2016-02-26T16:35:06.788977+02:00", 
-          "id": "96612f4c73e64607b55c2fb539adfb93", 
-          "dateModified": "2016-02-26T16:35:06.789014+02:00"
+          "datePublished": "2016-03-01T20:10:58.271526+02:00", 
+          "id": "33a4d0280cb34e56899bf91896f1819d", 
+          "dateModified": "2016-03-01T20:10:58.271584+02:00"
         }, 
         {
-          "author": "reviewers", 
+          "author": "aboveThresholdReviewers", 
           "language": "uk", 
           "title": "ComplaintResolution.pdf", 
-          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/7cf4fb0f92aa491c961033e850e5910f/complaints/b56197b8a8f949a88c335ad6ed05cd5d/documents/904052cf6552470fafd23ac2b16a4bb2?download=7c20d51cbdd046ceac063dd3c0318191", 
+          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/3a07e6e357f24a9aa345e0bc41427121/complaints/0406f0a7b279428b9509e2d46dab7d04/documents/363303b699434b09ab4f69497e6aa16c?download=9748646379bc46ed9644005bbbdf4c8a", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2016-02-26T16:35:08.832858+02:00", 
-          "id": "904052cf6552470fafd23ac2b16a4bb2", 
-          "dateModified": "2016-02-26T16:35:08.832912+02:00"
+          "datePublished": "2016-03-01T20:11:00.621045+02:00", 
+          "id": "363303b699434b09ab4f69497e6aa16c", 
+          "dateModified": "2016-03-01T20:11:00.621094+02:00"
         }
       ], 
-      "dateAccepted": "2016-02-26T16:35:08.509270+02:00"
+      "dateAccepted": "2016-03-01T20:11:00.233983+02:00"
     }, 
     {
       "status": "resolved", 
@@ -70,15 +71,15 @@ Content-Type: application/json; charset=UTF-8
       "resolutionType": "resolved", 
       "type": "claim", 
       "satisfied": true, 
-      "dateAnswered": "2016-02-26T16:35:07.645552+02:00", 
-      "dateSubmitted": "2016-02-26T16:35:07.031390+02:00", 
-      "date": "2016-02-26T16:35:07.029743+02:00", 
+      "dateAnswered": "2016-03-01T20:10:59.341347+02:00", 
+      "dateSubmitted": "2016-03-01T20:10:58.576616+02:00", 
+      "date": "2016-03-01T20:10:58.574777+02:00", 
       "resolution": "Виправлено неконкурентні умови", 
-      "id": "cab1a37bd9054b2eb810fd8875863fc7"
+      "id": "7f6cd01c1cfb449e8ad57b3d607095d0"
     }, 
     {
       "status": "declined", 
-      "dateDecision": "2016-02-26T16:35:09.217775+02:00", 
+      "dateDecision": "2016-03-01T20:11:01.044264+02:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "author": {
         "contactPoint": {
@@ -101,20 +102,25 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
+      "acceptance": true, 
+      "dateAccepted": "2016-03-01T20:11:00.430753+02:00", 
+      "dateSubmitted": "2016-03-01T20:10:58.724128+02:00", 
+      "date": "2016-03-01T20:10:58.722262+02:00", 
       "title": "Недостатньо інформації", 
-      "dateAccepted": "2016-02-26T16:35:08.688846+02:00", 
-      "dateSubmitted": "2016-02-26T16:35:07.206555+02:00", 
-      "date": "2016-02-26T16:35:07.204704+02:00", 
       "type": "complaint", 
-      "id": "2847c18142b440ce9d78d440789e3cf8"
+      "id": "56ce6aad8c1b420993897b9a2ba4671f"
     }, 
     {
       "status": "invalid", 
-      "dateDecision": "2016-02-26T16:35:08.310020+02:00", 
+      "dateDecision": "2016-03-01T20:11:00.054734+02:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
       "resolutionType": "invalid", 
       "type": "complaint", 
+      "acceptance": false, 
+      "satisfied": false, 
+      "dateEscalated": "2016-03-01T20:10:59.895980+02:00", 
+      "dateAnswered": "2016-03-01T20:10:59.556153+02:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -136,13 +142,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "satisfied": false, 
-      "dateEscalated": "2016-02-26T16:35:08.138719+02:00", 
-      "dateAnswered": "2016-02-26T16:35:07.793316+02:00", 
-      "dateSubmitted": "2016-02-26T16:35:07.339422+02:00", 
-      "date": "2016-02-26T16:35:07.337547+02:00", 
+      "dateSubmitted": "2016-03-01T20:10:58.877672+02:00", 
+      "date": "2016-03-01T20:10:58.875700+02:00", 
       "resolution": "Вимога не відповідає предмету закупівлі", 
-      "id": "b49c941985eb420e97afbd63852fd366"
+      "id": "fa984a22bf764891afa6ae3900e9acb4"
     }, 
     {
       "status": "cancelled", 
@@ -170,11 +173,11 @@ Content-Type: application/json; charset=UTF-8
       }, 
       "title": "Недостатньо інформації", 
       "cancellationReason": "Умови виправлено", 
-      "dateCanceled": "2016-02-26T16:35:09.792174+02:00", 
-      "dateSubmitted": "2016-02-26T16:35:09.598766+02:00", 
-      "date": "2016-02-26T16:35:09.597323+02:00", 
+      "dateCanceled": "2016-03-01T20:11:01.657596+02:00", 
+      "dateSubmitted": "2016-03-01T20:11:01.427682+02:00", 
+      "date": "2016-03-01T20:11:01.425750+02:00", 
       "type": "complaint", 
-      "id": "2043347d4f294f7b87119126a7e75cb9"
+      "id": "06618fd4aba84a28b1d9b411e8cae994"
     }
   ]
 }

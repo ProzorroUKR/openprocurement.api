@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/7cf4fb0f92aa491c961033e850e5910f/complaints/b49c941985eb420e97afbd63852fd366 HTTP/1.0
+PATCH /api/0.12/tenders/3a07e6e357f24a9aa345e0bc41427121/complaints/fa984a22bf764891afa6ae3900e9acb4 HTTP/1.0
 Authorization: Basic cmV2aWV3ZXI6
 Content-Length: 31
 Content-Type: application/json
@@ -15,11 +15,15 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "invalid", 
-    "dateDecision": "2016-02-26T16:35:08.310020+02:00", 
+    "dateDecision": "2016-03-01T20:11:00.054734+02:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
     "resolutionType": "invalid", 
     "type": "complaint", 
+    "acceptance": false, 
+    "satisfied": false, 
+    "dateEscalated": "2016-03-01T20:10:59.895980+02:00", 
+    "dateAnswered": "2016-03-01T20:10:59.556153+02:00", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -41,13 +45,10 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "satisfied": false, 
-    "dateEscalated": "2016-02-26T16:35:08.138719+02:00", 
-    "dateAnswered": "2016-02-26T16:35:07.793316+02:00", 
-    "dateSubmitted": "2016-02-26T16:35:07.339422+02:00", 
-    "date": "2016-02-26T16:35:07.337547+02:00", 
+    "dateSubmitted": "2016-03-01T20:10:58.877672+02:00", 
+    "date": "2016-03-01T20:10:58.875700+02:00", 
     "resolution": "Вимога не відповідає предмету закупівлі", 
-    "id": "b49c941985eb420e97afbd63852fd366"
+    "id": "fa984a22bf764891afa6ae3900e9acb4"
   }
 }
 
