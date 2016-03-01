@@ -7,10 +7,14 @@ The Open Procurement API is the only interface to Open Procurement database
 that is core unit of `Open Procurement <http://openprocurement.org/>`_
 infrastructure.
 
+This documentation covers three procedures: 
+
+ * ``reporting`` - reporting with no stand-still period 
+ * ``negotiation`` - negotiation procedure with 10 day stand-still before contract registration
+ * ``negotiation.quick`` - quick negotiation procedure with 5 day stand-still before contract registration
+
 Negotiation procedure
 ---------------------
-
-This tutorial covers `Negotiation procurement procedure` and `reporting procurement` results.
 
 `Negotiation procurement procedure` is a procedure according to which Procuring entity concludes a purchase agreement with a participant after negotiations with one or more participants.
 

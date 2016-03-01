@@ -1,19 +1,20 @@
-# 
+#
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-05 10:08+0200\n"
-"PO-Revision-Date: 2016-02-05 13:52+0200\n"
+"PO-Revision-Date: 2016-03-01 11:44+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.8.5\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../../source/standard/tender.rst:8
 msgid "Tender"
@@ -24,14 +25,14 @@ msgid "Schema"
 msgstr "Схема"
 
 #: ../../source/standard/tender.rst:14 ../../source/standard/tender.rst:24
-#: ../../source/standard/tender.rst:118
+#: ../../source/standard/tender.rst:110
 msgid "string, multilingual"
 msgstr "рядок, багатомовний"
 
 #: ../../source/standard/tender.rst:16
 msgid ""
-"The name of the tender, displayed in listings. You can include the following "
-"items:"
+"The name of the tender, displayed in listings. You can include the following"
+" items:"
 msgstr ""
 "Назва тендера, яка відображається у списках. Можна включити такі елементи:"
 
@@ -69,8 +70,8 @@ msgid ""
 "|ocdsDescription| TenderID should always be the same as the OCID. It is "
 "included to make the flattened data structure more convenient."
 msgstr ""
-"|ocdsDescription| TenderID повинен завжди співпадати з OCID. Його включають, "
-"щоб зробити структуру даних більш зручною."
+"|ocdsDescription| TenderID повинен завжди співпадати з OCID. Його включають,"
+" щоб зробити структуру даних більш зручною."
 
 #: ../../source/standard/tender.rst:37
 msgid ":ref:`organization`, required"
@@ -92,13 +93,6 @@ msgstr ""
 msgid ":ref:`value`, required"
 msgstr ":ref:`value`, обов’язково"
 
-#: ../../source/standard/tender.rst:47
-msgid ""
-"Total available tender budget. Bids greater then ``value`` will be rejected."
-msgstr ""
-"Повний доступний бюджет закупівлі. Пропозиції, що більші за ``value`` будуть "
-"відхилені."
-
 #: ../../source/standard/tender.rst:49
 msgid "|ocdsDescription| The total estimated value of the procurement."
 msgstr "|ocdsDescription| Загальна кошторисна вартість закупівлі."
@@ -114,8 +108,8 @@ msgstr "Список об’єктів :ref:`document`"
 #: ../../source/standard/tender.rst:57
 msgid ""
 "|ocdsDescription| The goods and services to be purchased, broken into line "
-"items wherever possible. Items should not be duplicated, but a quantity of 2 "
-"specified instead."
+"items wherever possible. Items should not be duplicated, but a quantity of 2"
+" specified instead."
 msgstr ""
 "|ocdsDescription| Товари та послуги, що будуть закуплені, поділені на "
 "спискові елементи, де це можливо. Елементи не повинні дублюватись, замість "
@@ -130,63 +124,43 @@ msgid "|ocdsDescription| All documents and attachments related to the tender."
 msgstr "|ocdsDescription| Всі документи та додатки пов’язані із закупівлею."
 
 #: ../../source/standard/tender.rst:68
-msgid "List of :ref:`bid` objects"
-msgstr "Список об’єктів :ref:`bid`"
-
-#: ../../source/standard/tender.rst:70
-msgid ""
-"A list of all bids placed in the tender with information about tenderers, "
-"their proposal and other qualification documentation."
-msgstr ""
-"Список усіх пропозицій зроблених під час закупівлі разом з інформацією про "
-"учасників закупівлі, їхні пропозиції та інша кваліфікаційна документація."
-
-#: ../../source/standard/tender.rst:72
-msgid ""
-"|ocdsDescription| A list of all the companies who entered submissions for "
-"the tender."
-msgstr ""
-"|ocdsDescription| Список усіх компаній, які подали заявки для участі у "
-"закупівлі."
-
-#: ../../source/standard/tender.rst:76
 msgid "List of :ref:`award` objects"
 msgstr "Список об’єктів :ref:`award`"
 
-#: ../../source/standard/tender.rst:78
+#: ../../source/standard/tender.rst:70
 msgid "All qualifications (disqualifications and awards)."
 msgstr "Усі  кваліфікації (дискваліфікації та переможці)."
 
-#: ../../source/standard/tender.rst:81
+#: ../../source/standard/tender.rst:73
 msgid "List of :ref:`Contract` objects"
 msgstr "Список об’єктів :ref:`Contract`"
 
-#: ../../source/standard/tender.rst:84
+#: ../../source/standard/tender.rst:76
 msgid ""
 "|ocdsDescription| The date or period on which an award is anticipated to be "
 "made."
 msgstr ""
 "|ocdsDescription| Дата або період, коли очікується визначення переможця."
 
-#: ../../source/standard/tender.rst:88 ../../source/standard/tender.rst:123
+#: ../../source/standard/tender.rst:80 ../../source/standard/tender.rst:115
 msgid "string"
 msgstr "рядок"
 
-#: ../../source/standard/tender.rst:99
+#: ../../source/standard/tender.rst:91
 msgid "Status of the Tender."
 msgstr "Статус Закупівлі."
 
-#: ../../source/standard/tender.rst:102
+#: ../../source/standard/tender.rst:94
 msgid "List of :ref:`cancellation` objects."
 msgstr "Список об’єктів :ref:`cancellation`."
 
-#: ../../source/standard/tender.rst:104
+#: ../../source/standard/tender.rst:96
 msgid "Contains 1 object with `active` status in case of cancelled Tender."
 msgstr ""
 "Містить 1 об’єкт зі статусом `active` на випадок, якщо Закупівлю буде "
 "відмінено."
 
-#: ../../source/standard/tender.rst:106
+#: ../../source/standard/tender.rst:98
 msgid ""
 "The :ref:`cancellation` object describes the reason of tender cancellation "
 "contains accompanying documents  if any."
@@ -194,41 +168,80 @@ msgstr ""
 "Об’єкт :ref:`cancellation` описує причину скасування закупівлі та надає "
 "відповідні документи, якщо такі є."
 
-#: ../../source/standard/tender.rst:115
+#: ../../source/standard/tender.rst:107
 msgid "Procurement Method of the Tender."
 msgstr "Метод закупівлі."
 
-#: ../../source/standard/tender.rst:120
+#: ../../source/standard/tender.rst:112
 msgid "Procurement Method Rationale of tender."
 msgstr "Обгрунтування використання такого методу закупівлі."
 
-#: ../../source/standard/tender.rst:91
+#: ../../source/standard/tender.rst:83
 msgid "Active tender (default)"
 msgstr "Активна закупівля (за замовчуванням)"
 
-#: ../../source/standard/tender.rst:93
+#: ../../source/standard/tender.rst:85
 msgid "Completed tender"
 msgstr "Завершена закупівля"
 
-#: ../../source/standard/tender.rst:95
+#: ../../source/standard/tender.rst:87
 msgid "Cancelled tender"
 msgstr "Відмінена закупівля"
 
-#: ../../source/standard/tender.rst:97
+#: ../../source/standard/tender.rst:89
 msgid "Unsuccessful tender"
 msgstr "Закупівля не відбулась"
 
-#: ../../source/standard/tender.rst:110 ../../source/standard/tender.rst:133
+#: ../../source/standard/tender.rst:102 ../../source/standard/tender.rst:131
 msgid "string, autogenerated"
 msgstr "рядок, генерується автоматично"
 
-#: ../../source/standard/tender.rst:113 ../../source/standard/tender.rst:126
+#: ../../source/standard/tender.rst:105
 msgid "Default."
 msgstr "За замовчуванням."
 
-#: ../../source/standard/tender.rst:129
+#: ../../source/standard/tender.rst:127
 msgid "string, :ref:`date`"
 msgstr "рядок, :ref:`date`"
+
+#: ../../source/standard/tender.rst:47
+msgid "Total available tender budget."
+msgstr "Повний доступний бюджет закупівлі."
+
+#: ../../source/standard/tender.rst:118
+msgid "reporting procedure indentifier"
+msgstr "ідентифікатор процедури **реєстрації угоди**"
+
+#: ../../source/standard/tender.rst:121
+msgid "negotiation procedure indentifier"
+msgstr "ідентифікатор **переговорної** процедури"
+
+#: ../../source/standard/tender.rst:124
+msgid "negotiation.quick procedure indentifier"
+msgstr "ідентифікатор **скороченої переговорної** процедури"
+
+#~ msgid ""
+#~ "Total available tender budget. Bids greater then ``value`` will be rejected."
+#~ msgstr ""
+#~ "Повний доступний бюджет закупівлі. Пропозиції, що більші за ``value`` будуть"
+#~ " відхилені."
+
+#~ msgid "List of :ref:`bid` objects"
+#~ msgstr "Список об’єктів :ref:`bid`"
+
+#~ msgid ""
+#~ "A list of all bids placed in the tender with information about tenderers, "
+#~ "their proposal and other qualification documentation."
+#~ msgstr ""
+#~ "Список усіх пропозицій зроблених під час закупівлі разом з інформацією про "
+#~ "учасників закупівлі, їхні пропозиції та інша кваліфікаційна документація."
+
+#~ msgid ""
+#~ "|ocdsDescription| A list of all the companies who entered submissions for "
+#~ "the tender."
+#~ msgstr ""
+#~ "|ocdsDescription| Список усіх компаній, які подали заявки для участі у "
+#~ "закупівлі."
 
 #~ msgid "Complete tender (complete)"
 #~ msgstr "Завершена закупівля (завершена)"

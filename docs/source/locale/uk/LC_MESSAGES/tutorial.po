@@ -1,20 +1,20 @@
-#
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-15 13:01+0200\n"
-"PO-Revision-Date: 2016-02-08 17:27+0200\n"
+"PO-Revision-Date: 2016-03-01 11:40+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
-"Language-Team: Ukrainian <support@quintagoup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Generated-By: Babel 2.2.0\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../../source/tutorial.rst:4
 msgid "Tutorial"
@@ -24,15 +24,11 @@ msgstr "Туторіал"
 msgid "Tender creation"
 msgstr "Створення закупівлі"
 
-#: ../../source/tutorial.rst:10
-msgid "Creating tender for negotiation/reporting procedure"
-msgstr "Створюємо закупівлю для переговорної процедури та звітування"
-
-#: ../../source/tutorial.rst:12
+#: ../../source/tutorial.rst:20
 msgid "Let’s create a tender:"
 msgstr "Створимо закупівлю:"
 
-#: ../../source/tutorial.rst:17
+#: ../../source/tutorial.rst:25
 msgid ""
 "We have `201 Created` response code, `Location` header and body with extra "
 "`id`, `tenderID`, and `dateModified` properties."
@@ -41,30 +37,31 @@ msgstr ""
 "додатковим ідентифікатором `id`, `tenderID` та властивість `dateModified` - "
 "дату, що показує час, коли закупівля востаннє модифікувалась."
 
-#: ../../source/tutorial.rst:19
+#: ../../source/tutorial.rst:27
 msgid "Let's check what tender registry contains:"
 msgstr "Перевіримо, що містить реєстр закупівель:"
 
-#: ../../source/tutorial.rst:24
+#: ../../source/tutorial.rst:32
 msgid ""
 "We do see the internal `id` of a tender (that can be used to construct full "
 "URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) "
 "and its `dateModified` datestamp."
 msgstr ""
-"Відображається  `id` - внутрішній ідентифікатор (який можна використовувати, "
-"щоб побудувати повну URL-адресу, додаючи `http://api-sandbox.openprocurement."
-"org/api/0/tenders/` на початку) та мітка часу `dateModified`."
+"Відображається  `id` - внутрішній ідентифікатор (який можна використовувати,"
+" щоб побудувати повну URL-адресу, додаючи `http://api-"
+"sandbox.openprocurement.org/api/0/tenders/` на початку) та мітка часу "
+"`dateModified`."
 
-#: ../../source/tutorial.rst:27
+#: ../../source/tutorial.rst:54
 msgid "Modifying tender"
 msgstr "Модифікація закупівлі"
 
-#: ../../source/tutorial.rst:29
+#: ../../source/tutorial.rst:56
 msgid ""
 "Let's update tender by supplementing it with all other essential properties:"
 msgstr "Оновимо закупівлю шляхом надання їй усіх інших важливих властивостей:"
 
-#: ../../source/tutorial.rst:36
+#: ../../source/tutorial.rst:63
 msgid ""
 "We see the added properies have merged with existing tender data. "
 "Additionally, the `dateModified` property was updated to reflect the last "
@@ -74,15 +71,15 @@ msgstr ""
 "Додатково оновлена властивість dateModified, щоб відображати останню дату "
 "модифікації."
 
-#: ../../source/tutorial.rst:38
+#: ../../source/tutorial.rst:65
 msgid "Checking the listing again reflects the new modification date:"
 msgstr "Ще одна перевірка списку відображає нову дату модифікації:"
 
-#: ../../source/tutorial.rst:47
+#: ../../source/tutorial.rst:74
 msgid "Uploading documentation"
 msgstr "Завантаження документації"
 
-#: ../../source/tutorial.rst:49
+#: ../../source/tutorial.rst:76
 msgid ""
 "Procuring entity can upload documents and files into the created tender. "
 "Uploading should follow the :ref:`upload` rules."
@@ -90,14 +87,14 @@ msgstr ""
 "Замовник може завантажити документи у створену закупівлю. Завантаження "
 "повинно відбуватись згідно правил :ref:`upload`."
 
-#: ../../source/tutorial.rst:55
+#: ../../source/tutorial.rst:82
 msgid ""
 "`201 Created` response code and `Location` header confirm document creation."
 msgstr ""
 "Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
 "документ було створено."
 
-#: ../../source/tutorial.rst:57
+#: ../../source/tutorial.rst:84
 msgid ""
 "In case we made an error, we can reupload the document over the older "
 "version:"
@@ -105,41 +102,27 @@ msgstr ""
 "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої "
 "версії:"
 
-#: ../../source/tutorial.rst:63
+#: ../../source/tutorial.rst:90
 msgid "Awarding"
 msgstr "Визначення переможця"
 
-#: ../../source/tutorial.rst:66
+#: ../../source/tutorial.rst:93
 msgid "Adding supplier information"
 msgstr "Додаємо інформацію про постачальника"
 
-#: ../../source/tutorial.rst:68
-msgid "Procuring entity can register supplier information:"
-msgstr "Замовник може зареєструвати інформацію про постачальника:"
-
-#: ../../source/tutorial.rst:103
+#: ../../source/tutorial.rst:146
 msgid "Award confirmation"
 msgstr "Підтвердження переможця процедури"
 
-#: ../../source/tutorial.rst:105
+#: ../../source/tutorial.rst:148
 msgid "Procuring entity can confirm awarding decision:"
 msgstr "Замовник повинен підтвердити своє рішення про визначення переможця:"
 
-#: ../../source/tutorial.rst:138
-msgid "Contract signing"
-msgstr "Укладання угоди"
-
-#: ../../source/tutorial.rst:140
-msgid "Contract can be signed a day after award confirmation:"
-msgstr ""
-"Угода може бути підписана у наступний день після підтвердження замовником "
-"рішення про визначення переможця:"
-
-#: ../../source/tutorial.rst:147
+#: ../../source/tutorial.rst:214
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"
 
-#: ../../source/tutorial.rst:149
+#: ../../source/tutorial.rst:216
 msgid ""
 "Procuring entity can cancel tender anytime. The following steps should be "
 "applied:"
@@ -147,89 +130,89 @@ msgstr ""
 "Замовник може скасувати закупівлю у будь-який момент. Для цього потрібно "
 "виконати наступні кроки:"
 
-#: ../../source/tutorial.rst:151
+#: ../../source/tutorial.rst:218
 msgid "Prepare cancellation request"
 msgstr "Приготуйте запит на скасування"
 
-#: ../../source/tutorial.rst:152
+#: ../../source/tutorial.rst:219
 msgid "Fill it with the protocol describing the cancellation reasons"
 msgstr "Заповніть його протоколом про причини скасування"
 
-#: ../../source/tutorial.rst:153
+#: ../../source/tutorial.rst:220
 msgid "Cancel the tender with the reasons prepared."
 msgstr "Скасуйте закупівлю через подані причини"
 
-#: ../../source/tutorial.rst:155
+#: ../../source/tutorial.rst:222
 msgid ""
 "Only the request that has been activated (3rd step above) has power to "
-"cancel tender. I.e. you have to not only prepare cancellation request but to "
-"activate it as well."
+"cancel tender. I.e. you have to not only prepare cancellation request but to"
+" activate it as well."
 msgstr ""
 "Запит на скасування, який не пройшов активації (третій крок), не матиме "
 "сили, тобто, для скасування закупівлі є обов’язковим не тільки створити "
 "запит, але і активувати його."
 
-#: ../../source/tutorial.rst:159
+#: ../../source/tutorial.rst:226
 msgid "See :ref:`cancellation` data structure for details."
 msgstr ""
 "Див. структуру запиту :ref:`cancellation` для більш детальної інформації."
 
-#: ../../source/tutorial.rst:162
+#: ../../source/tutorial.rst:229
 msgid "Preparing the cancellation request"
 msgstr "Формування запиту на скасування"
 
-#: ../../source/tutorial.rst:172
+#: ../../source/tutorial.rst:239
 msgid "Filling cancellation with protocol and supplementary documentation"
 msgstr "Наповнення протоколом та іншою супровідною документацією"
 
-#: ../../source/tutorial.rst:192
+#: ../../source/tutorial.rst:259
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
 
-#: ../../source/tutorial.rst:164
+#: ../../source/tutorial.rst:231
 msgid "You should pass `reason`, `status` defaults to `pending`."
 msgstr "Потрібно передати змінні `reason`, `status` у стані `pending`."
 
-#: ../../source/tutorial.rst:166
+#: ../../source/tutorial.rst:233
 msgid "`id` is autogenerated and passed in the `Location` header of response."
 msgstr ""
 "`id` генерується автоматично і повертається у додатковому заголовку "
 "відповіді `Location`:"
 
-#: ../../source/tutorial.rst:174
+#: ../../source/tutorial.rst:241
 msgid "Upload the file contents"
 msgstr "Завантажте зміст файлу"
 
-#: ../../source/tutorial.rst:179
+#: ../../source/tutorial.rst:246
 msgid "Change the document description and other properties"
 msgstr "Якщо потрібно, змініть опис документа та інші властивості"
 
-#: ../../source/tutorial.rst:185
+#: ../../source/tutorial.rst:252
 msgid "Upload new version of the document"
 msgstr "Завантажте нову версію документа"
 
-#: ../../source/tutorial.rst:75
+#: ../../source/tutorial.rst:118
 msgid "Uploading award documentation"
 msgstr "Завантаження документів щодо визначення переможця"
 
-#: ../../source/tutorial.rst:84
+#: ../../source/tutorial.rst:127
 msgid "Let's see the list of award documents:"
 msgstr "Переглянемо документи пов’язані із визначенням переможця:"
 
-#: ../../source/tutorial.rst:89
+#: ../../source/tutorial.rst:132
 msgid "We can add another award document:"
 msgstr "Тепер спробуємо додати ще один документ щодо визначення переможця:"
 
-#: ../../source/tutorial.rst:96
+#: ../../source/tutorial.rst:139
 msgid "Let's see the list of all uploaded award documents:"
 msgstr ""
 "Тепер переглянемо знову усі документи пов’язані із визначенням переможця:"
 
-#: ../../source/tutorial.rst:111
+#: ../../source/tutorial.rst:169
 msgid "Uploading contract documentation"
 msgstr "Завантаження документів щодо укладання угоди"
 
-#: ../../source/tutorial.rst:113
+#: ../../source/tutorial.rst:171
 msgid ""
 "Contract documents can be uploaded only up until conclusion of the "
 "agreement. Let's add contract document:"
@@ -237,19 +220,19 @@ msgstr ""
 "Документи пов’язані з угодою можна завантажувати лише до укладання угоди. "
 "Спробуємо додати такий документ:"
 
-#: ../../source/tutorial.rst:120
+#: ../../source/tutorial.rst:178
 msgid "Let's see the list of contract documents:"
 msgstr "Переглянемо список завантажених документів:"
 
-#: ../../source/tutorial.rst:125
+#: ../../source/tutorial.rst:183
 msgid "We can add another contract document:"
 msgstr "Тепер спробуємо додати ще один документ щодо укладанням угоди:"
 
-#: ../../source/tutorial.rst:132
+#: ../../source/tutorial.rst:190
 msgid "Let's see the list of all uploaded contract documents:"
 msgstr "Тепер переглянемо знову усі документи пов’язані із укладанням угоди:"
 
-#: ../../source/tutorial.rst:77
+#: ../../source/tutorial.rst:120
 msgid ""
 "You can upload award documents only before awarding decision is confirmed. "
 "Let's add award document:"
@@ -258,7 +241,7 @@ msgstr ""
 "рішення про визначення переможця буде підтверджено. Спробуємо додати такий "
 "документ:"
 
-#: ../../source/tutorial.rst:82 ../../source/tutorial.rst:118
+#: ../../source/tutorial.rst:125 ../../source/tutorial.rst:176
 msgid ""
 "`201 Created` response code and `Location` header confirm that document has "
 "been added."
@@ -266,13 +249,327 @@ msgstr ""
 "Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
 "документ додано."
 
-#: ../../source/tutorial.rst:94 ../../source/tutorial.rst:130
+#: ../../source/tutorial.rst:137 ../../source/tutorial.rst:188
 msgid ""
 "`201 Created` response code and `Location` header confirm second document "
 "has been added."
 msgstr ""
 "Код відповіді `201 Created` та заголовок `Location` підтверджують, що ще "
 "один документ було додано."
+
+#: ../../source/tutorial.rst:13
+msgid "You can create three procedures:"
+msgstr "Можна створити три процедури:"
+
+#: ../../source/tutorial.rst:10
+msgid "``reporting`` - reporting with no stand-still period"
+msgstr "``reporting`` - процедура реєстрація угоди (без періоду блокування)"
+
+#: ../../source/tutorial.rst:11
+msgid ""
+"``negotiation`` - negotiation procedure with 10 day stand-still before "
+"contract registration"
+msgstr ""
+"``negotiation`` - переговорна процедура з десятиденним періодом блокування "
+"перед реєстрацією угоди"
+
+#: ../../source/tutorial.rst:12
+msgid ""
+"``negotiation.quick`` - quick negotiation procedure with 5 day stand-still "
+"before contract registration"
+msgstr ""
+"``negotiation.quick`` - скорочена переговорна процедура з п’ятиденним "
+"періодом блокування перед реєстрацією угоди"
+
+#: ../../source/tutorial.rst:16
+msgid "Creating tender for reporting procedure"
+msgstr "Створення закупівлі для процедури реєстрації угоди"
+
+#: ../../source/tutorial.rst:36
+msgid "Creating tender for negotiation procedure"
+msgstr "Створення закупівлі для переговорної процедури"
+
+#: ../../source/tutorial.rst:45
+msgid "Creating tender for negotiation.quick procedure"
+msgstr "Створення закупівлі для скороченої переговорної процедури"
+
+#: ../../source/tutorial.rst:95
+msgid "Addition of supplier information is the same for all procedures."
+msgstr ""
+"Спосіб додавання інформації про постачальника однакове для всіх процедур."
+
+#: ../../source/tutorial.rst:196
+msgid "Contract registration"
+msgstr "Реєстрація угоди"
+
+#: ../../source/tutorial.rst:18
+msgid ""
+"To create tender for **reporting** procedure you should set ``reporting`` "
+"value for ``procurementMethodType``."
+msgstr ""
+"Щоб створити закупівлю за процедурою **реєстрації угоди**, потрібно "
+"встановити значення ``reporting`` для ``procurementMethodType``."
+
+#: ../../source/tutorial.rst:38
+msgid ""
+"To create tender for **negotiation** procedure you should set "
+"``negotiation`` value for ``procurementMethodType``."
+msgstr ""
+"Щоб створити закупівлю за **переговорною** процедурою, потрібно встановити "
+"значення ``negotiation`` для ``procurementMethodType``."
+
+#: ../../source/tutorial.rst:47
+msgid ""
+"To create tender for **negotiation.quick** procedure you should set "
+"``negotiation.quick`` value for ``procurementMethodType``."
+msgstr ""
+"Щоб створити закупівлю за **скороченою переговорною** процедурою, потрібно "
+"встановити значення ``negotiation.quick`` для ``procurementMethodType``."
+
+#: ../../source/tutorial.rst:97
+msgid ""
+"Procuring entity registers supplier information for **reporting** procedure:"
+msgstr ""
+"Замовник реєструє інформацію про постачальника для процедури **реєстрації "
+"угоди**:"
+
+#: ../../source/tutorial.rst:102
+msgid ""
+"Procuring entity registers supplier information for **negotiation** "
+"procedure:"
+msgstr ""
+"Замовник реєструє інформацію про постачальника для **переговорної** "
+"процедури:"
+
+#: ../../source/tutorial.rst:107
+msgid ""
+"You can notice that there is ``complaintPeriod`` record with ``startDate`` "
+"value generated."
+msgstr ""
+"Ви можете побачити, що згенеровано запис ``complaintPeriod`` із полем "
+"``startDate``."
+
+#: ../../source/tutorial.rst:109
+msgid ""
+"Procuring entity registers supplier information for **negotiation.quick** "
+"procedure:"
+msgstr ""
+"Замовник реєструє інформацію про постачальника для **скороченої "
+"переговорної** процедури:"
+
+#: ../../source/tutorial.rst:114
+msgid ""
+"Award for **negotiation.quick** procedure also has ``complaintPeriod`` "
+"record with ``startDate`` value."
+msgstr ""
+"Визначення переможця для **скороченої переговорної** процедури також має "
+"запис ``complaintPeriod`` із полем ``startDate``."
+
+#: ../../source/tutorial.rst:153
+msgid "Award confirmation for **negotiation** procedure:"
+msgstr "Підтвердження визначення переможця для **переговорної** процедури:"
+
+#: ../../source/tutorial.rst:158
+msgid ""
+"The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` "
+"record for **negotiation** is 10 days."
+msgstr ""
+"Різниця між початковою (``startDate``) та кінцевою (``endDate``) датою "
+"запису ``complaintPeriod`` для **переговорної** процедури становить 10 днів."
+
+#: ../../source/tutorial.rst:160
+msgid "Award confirmation for **negotiation.quick** procedure:"
+msgstr ""
+"Підтвердження визначення переможця для **скороченої переговорної** "
+"процедури:"
+
+#: ../../source/tutorial.rst:165
+msgid ""
+"The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` "
+"record for **negotiation.quick** is 5 days."
+msgstr ""
+"Різниця між початковою ( ``startDate``) та кінцевою (``endDate``) датою "
+"запису ``complaintPeriod`` для **скороченої переговорної** процедури "
+"становить 5 днів."
+
+#: ../../source/tutorial.rst:198
+msgid ""
+"**Reporting** tender contract can be registered immediately after award "
+"confirmation:"
+msgstr ""
+"Угода про закупівлю за процедурою **реєстрації угоди** може бути "
+"зареєстрована одразу після підтвердження визначення переможця:"
+
+#: ../../source/tutorial.rst:203
+msgid ""
+"**Negotiation** tender contract can be registered only after the stand-still"
+" (10 day period after the award confirmation):"
+msgstr ""
+"Угода про закупівлю за **переговорною** процедурою може бути зареєстрована "
+"одразу після `блокування` (десятиденний період після підтвердження визначення "
+"переможця):"
+
+#: ../../source/tutorial.rst:208
+msgid ""
+"**Negotiation.quick** tender contract can be registered after the stand-"
+"still (5 day period after the award confirmation):"
+msgstr ""
+"Угода про закупівлю за **скороченою переговорною** процедурою може бути "
+"зареєстрована одразу після `блокування` (п’ятиденний період після "
+"підтвердження визначення переможця):"
+
+#~ msgid ""
+#~ "**Negotiation** tender contract can be registered only after the stand-still"
+#~ " (period of 10 days after the award confirmation):"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "**Negotiation.quick** tender contract can be registered after the stand-"
+#~ "still (period of 5 days after the award confirmation):"
+#~ msgstr ""
+#~ "Угода про закупівлю за **скороченою переговорною** процедурою може бути "
+#~ "зареєстрована одразу після блокування (п’ятиденний період після "
+#~ "підтвердження визначення переможця):"
+
+#~ msgid ""
+#~ "Procuring entity registers supplier information for ``negotiation`` "
+#~ "procedure:"
+#~ msgstr ""
+#~ "Замовник реєструє інформацію про постачальника для переговорної процедури "
+#~ "``negotiation``:"
+
+#~ msgid ""
+#~ "You can notice that there is `complaintPeriod` record with `startDate` value"
+#~ " generated."
+#~ msgstr ""
+#~ "Ви можете побачити, що згенеровано запис `complaintPeriod` зі значенням "
+#~ "`startDate`."
+
+#~ msgid ""
+#~ "Procuring entity registers supplier information for ``negotiation.quick`` "
+#~ "procedure:"
+#~ msgstr ""
+#~ "Замовник реєструє інформацію про постачальника для скороченої переговорної "
+#~ "процедури ``negotiation.quick``:"
+
+#~ msgid ""
+#~ "Award for ``negotiation.quick`` procedure also has `complaintPeriod` record "
+#~ "with `startDate` value."
+#~ msgstr ""
+#~ "Визначення переможця для скороченої переговорної процедури "
+#~ "``negotiation.quick`` також має запис `complaintPeriod` зі значенням  "
+#~ "`startDate`."
+
+#~ msgid "Award confirmation for ``negotiation`` procedure:"
+#~ msgstr ""
+#~ "Підтвердження визначення переможця для переговорної процедури "
+#~ "``negotiation``:"
+
+#~ msgid ""
+#~ "The difference between `startDate` and `endDate` in `complaintPeriod` record"
+#~ " for ``negotiation`` is 10 days."
+#~ msgstr ""
+#~ "Різниця між початковою ( `startDate`) та кінцевою (`endDate`) датою запису "
+#~ "`complaintPeriod` для переговорної процедури ``negotiation` становить 10 "
+#~ "днів."
+
+#~ msgid "Award confirmation for ``negotiation.quick`` procedure:"
+#~ msgstr ""
+#~ "Підтвердження визначення переможця для скороченої переговорної процедури "
+#~ "``negotiation.quick``:"
+
+#~ msgid ""
+#~ "The difference between `startDate` and `endDate` in `complaintPeriod` record"
+#~ " for ``negotiation.quick`` is 5 days."
+#~ msgstr ""
+#~ "Різниця між початковою ( `startDate`) та кінцевою (`endDate`) датою запису "
+#~ "`complaintPeriod` для скороченої переговорної процедури "
+#~ "``negotiation.quick`` становить 5 днів."
+
+#~ msgid ""
+#~ "`reporting` tender contract can be registered immediately after award "
+#~ "confirmation:"
+#~ msgstr ""
+#~ "Угода про закупівлю за процедурою реєстрації угоди може бути зареєстрована "
+#~ "одразу після підтвердження визначення переможця:"
+
+#~ msgid ""
+#~ "`negotiation` tender contract can be registered only after the stand-still "
+#~ "(period of 10 days after the award confirmation):"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "`negotiation.quick` tender contract can be registered after the stand-still "
+#~ "(period of 5 days after the award confirmation):"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To create tender for `negotiation` procedure you should set ``negotiation`` "
+#~ "value for ``procurementMethodType``."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To create tender for `negotiation.quick` procedure you should set "
+#~ "``negotiation.quick`` value for ``procurementMethodType``."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Procuring entity registers supplier information for ``reporting`` procedure:"
+#~ msgstr ""
+#~ "Замовник реєструє інформацію про постачальника для процедури реєстрації "
+#~ "угоди ``reporting``:"
+
+#~ msgid ""
+#~ "To create tender for *reporting* procedure you should set ``reporting`` "
+#~ "value for ``procurementMethodType``."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To create tender for `reporting` procedure you should set ``reporting`` "
+#~ "value for ``procurementMethodType``."
+#~ msgstr ""
+
+#~ msgid "Procuring entity registers supplier information:"
+#~ msgstr "Замовник реєструє інформацію про постачальника :"
+
+#~ msgid ""
+#~ "To create negotiation procedure you should set ``negotiation`` value for "
+#~ "``procurementMethodType``."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To create negotiation.quick procedure you should set ``negotiation.quick`` "
+#~ "value for ``procurementMethodType``."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To create `reporting` tender you should set ``reporting`` value for "
+#~ "``procurementMethodType``."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To create reporting procedure you should set ``reporting`` value for "
+#~ "``procurementMethodType``."
+#~ msgstr ""
+
+#~ msgid "Creating tender for negotiation/reporting procedure"
+#~ msgstr "Створюємо закупівлю для переговорної процедури та звітування"
+
+#~ msgid "Procuring entity can register supplier information:"
+#~ msgstr "Замовник може зареєструвати інформацію про постачальника:"
+
+#~ msgid "Contract signing"
+#~ msgstr "Укладання угоди"
+
+#~ msgid ""
+#~ "Reporting tender contract can be signed immediately after award "
+#~ "confirmation:"
+#~ msgstr ""
+
+#~ msgid "Contract can be signed a day after award confirmation:"
+#~ msgstr ""
+#~ "Угода може бути підписана у наступний день після підтвердження замовником "
+#~ "рішення про визначення переможця:"
 
 #~ msgid ""
 #~ "You should pass `reason`, `status` defaults to `pending`. `id` is "
