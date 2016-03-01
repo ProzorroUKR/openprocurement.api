@@ -116,11 +116,6 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'declined':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
-            if tender.qualificationPeriod.endDate:
-                qualificationPeriodendDate = tender.qualificationPeriod.endDate + (self.context.dateDecision - self.context.dateAccepted)
-                qualificationPeriodendDate = datetime.combine(qualificationPeriodendDate.date(), time(0, tzinfo=qualificationPeriodendDate.tzinfo)) + timedelta(days=1)
-                if tender.qualificationPeriod.endDate < qualificationPeriodendDate:
-                    tender.qualificationPeriod.endDate = qualificationPeriodendDate
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'satisfied':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
