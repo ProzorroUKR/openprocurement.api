@@ -134,9 +134,11 @@ class TenderUaComplaintResource(TenderComplaintResource):
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
+            self.context.acceptance = False
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'accepted':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAccepted = get_now()
+            self.context.acceptance = True
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) in ['declined', 'satisfied']:
