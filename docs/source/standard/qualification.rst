@@ -4,7 +4,7 @@
 .. _qualification:
 
 Qualification
-=======
+=============
 
 Schema
 ------
