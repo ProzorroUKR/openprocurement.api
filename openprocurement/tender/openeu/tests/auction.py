@@ -528,7 +528,11 @@ class TenderLotAuctionResourceTest(TenderAuctionResourceTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't update auction urls in current (active.pre-qualification.stand-still) tender status")
 
         self.set_status('active.auction')
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.assertEqual(response.status, '200 OK')
 
+        self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': {'bids': [{'invalid_field': 'invalid_value'}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
@@ -840,7 +844,11 @@ class TenderMultipleLotAuctionResourceTest(TenderAuctionResourceTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't update auction urls in current (active.pre-qualification.stand-still) tender status")
 
         self.set_status('active.auction')
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.assertEqual(response.status, '200 OK')
 
+        self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': {'bids': [{'invalid_field': 'invalid_value'}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
@@ -975,7 +983,7 @@ class TenderMultipleLotAuctionResourceTest(TenderAuctionResourceTest):
         response = self.app.patch_json('/tenders/{}/auction/{}'.format(self.tender_id, self.initial_lots[0]['id']), {'data': patch_data}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can update auction urls only in active lot status")
+        self.assertEqual(response.json['errors'][-1]["description"], "Can update auction urls only in active lot status")
 
     def test_post_tender_auction_document(self):
         self.app.authorization = ('Basic', ('auction', ''))

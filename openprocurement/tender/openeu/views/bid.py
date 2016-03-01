@@ -146,7 +146,7 @@ class TenderBidResource(BaseResource):
             self.request.errors.status = 403
             return
         if self.request.authenticated_role != 'Administrator':
-            bid_status_to = self.request.validated['data']["status"]
+            bid_status_to = self.request.validated['data'].get("status", self.request.context.status)
             if bid_status_to != 'pending':
                 self.request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
                 self.request.errors.status = 403
