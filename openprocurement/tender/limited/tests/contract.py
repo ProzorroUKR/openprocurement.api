@@ -460,11 +460,11 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
 class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_quick_data
     stand_still_period_days = 5
-    accelerator = 'quick,accelerator=172800'
-    time_sleep_in_sec = 3
+    accelerator = 'quick,accelerator=172800' # shows that restrictions and time frames will be reduced
+    time_sleep_in_sec = 3 # time which reduced
 
     def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
+        super(TenderNegotiationQuickAccelerationTest, self).setUp()
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
             self.tender_id, self.tender_token), {'data': {'procurementMethodDetails': self.accelerator}})
         self.assertEqual(response.status, '200 OK')
@@ -489,7 +489,7 @@ class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
             self.tender_id, self.contract_id, self.tender_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
 
-class TenderNegotiationAccelerationTest(TenderNegotiationQuickContractResourceTest):
+class TenderNegotiationAccelerationTest(TenderNegotiationQuickAccelerationTest):
     stand_still_period_days = 10
     time_sleep_in_sec = 6
 
