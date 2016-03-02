@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.views.tender import TenderResource as BaseTenderResource
 from openprocurement.api.validation import validate_patch_tender_data
 from openprocurement.api.utils import (
@@ -8,8 +7,6 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
 )
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='TenderLimited',
@@ -81,8 +78,8 @@ class TenderResource(BaseTenderResource):
         else:
             data = self.request.validated['data']
             apply_patch(self.request, data=data, src=self.request.validated['tender_src'])
-        LOGGER.info('Updated tender {}'.format(tender.id),
-                    extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
+        self.LOGGER.info('Updated tender {}'.format(tender.id),
+                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
         return {'data': tender.serialize(tender.status)}
 
 

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from datetime import timedelta
 from openprocurement.api.models import Contract, get_now
 from openprocurement.api.utils import (
@@ -8,14 +7,13 @@ from openprocurement.api.utils import (
     opresource,
     json_view,
     context_unpack,
+    APIResource
 )
 from openprocurement.api.validation import (
     validate_award_data,
     validate_data,
 )
 from openprocurement.tender.limited.models import Award
-
-LOGGER = getLogger(__name__)
 
 
 def validate_patch_award_data(request):
@@ -28,10 +26,7 @@ def validate_patch_award_data(request):
             description="Tender awards",
             procurementMethodType='reporting',
             )
-class TenderAwardResource(object):
-    def __init__(self, request, context):
-        self.request = request
-        self.db = request.registry.db
+class TenderAwardResource(APIResource):
 
     @json_view(permission='view_tender')
     def collection_get(self):
@@ -181,8 +176,8 @@ class TenderAwardResource(object):
         award = self.request.validated['award']
         tender.awards.append(award)
         if save_tender(self.request):
-            LOGGER.info('Created tender award {}'.format(award.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_create'}, {'award_id': award.id}))
+            self.LOGGER.info('Created tender award {}'.format(award.id),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_create'}, {'award_id': award.id}))
             self.request.response.status = 201
             self.request.response.headers['Location'] = self.request.route_url('Tender Awards', tender_id=tender.id, award_id=award['id'])
             return {'data': award.serialize("view")}
@@ -327,8 +322,8 @@ class TenderAwardResource(object):
             return
 
         if save_tender(self.request):
-            LOGGER.info('Updated tender award {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}, {'TENDER_REV': tender.rev}))
+            self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}, {'TENDER_REV': tender.rev}))
             return {'data': award.serialize("view")}
 
 @opresource(name='Tender Negotiation Awards',
@@ -434,8 +429,8 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         award.complaintPeriod = {'startDate': get_now().isoformat()}
         tender.awards.append(award)
         if save_tender(self.request):
-            LOGGER.info('Created tender award {}'.format(award.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_create'}, {'award_id': award.id}))
+            self.LOGGER.info('Created tender award {}'.format(award.id),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_create'}, {'award_id': award.id}))
             self.request.response.status = 201
             self.request.response.headers['Location'] = self.request.route_url('Tender Awards', tender_id=tender.id, award_id=award['id'])
             return {'data': award.serialize("view")}
@@ -530,8 +525,8 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             return
 
         if save_tender(self.request):
-            LOGGER.info('Updated tender award {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}, {'TENDER_REV': tender.rev}))
+            self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}, {'TENDER_REV': tender.rev}))
             return {'data': award.serialize("view")}
 
 

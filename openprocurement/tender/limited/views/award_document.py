@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.utils import (
     get_file,
     save_tender,
@@ -9,6 +8,7 @@ from openprocurement.api.utils import (
     opresource,
     json_view,
     context_unpack,
+    APIResource
 )
 from openprocurement.api.validation import (
     validate_file_update,
@@ -17,19 +17,12 @@ from openprocurement.api.validation import (
 )
 
 
-LOGGER = getLogger(__name__)
-
-
 @opresource(name='Tender Limited Award Documents',
             collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
             path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
             procurementMethodType='reporting',
             description="Tender award documents")
-class TenderAwardDocumentResource(object):
-
-    def __init__(self, request, context):
-        self.request = request
-        self.db = request.registry.db
+class TenderAwardDocumentResource(APIResource):
 
     @json_view(permission='view_tender')
     def collection_get(self):
@@ -59,8 +52,8 @@ class TenderAwardDocumentResource(object):
         document = upload_file(self.request)
         self.request.validated['award'].documents.append(document)
         if save_tender(self.request):
-            LOGGER.info('Created tender award document {}'.format(document.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_document_create'}, {'document_id': document.id}))
+            self.LOGGER.info('Created tender award document {}'.format(document.id),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_document_create'}, {'document_id': document.id}))
             self.request.response.status = 201
             document_route = self.request.matched_route.name.replace("collection_", "")
             self.request.response.headers['Location'] = self.request.current_route_url(_route_name=document_route, document_id=document.id, _query={})
@@ -90,8 +83,8 @@ class TenderAwardDocumentResource(object):
         document = upload_file(self.request)
         self.request.validated['award'].documents.append(document)
         if save_tender(self.request):
-            LOGGER.info('Updated tender award document {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_document_put'}))
+            self.LOGGER.info('Updated tender award document {}'.format(self.request.context.id),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_document_put'}))
             return {'data': document.serialize("view")}
 
     @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='edit_tender')
@@ -103,8 +96,8 @@ class TenderAwardDocumentResource(object):
             return
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
-            LOGGER.info('Updated tender award document {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_document_patch'}))
+            self.LOGGER.info('Updated tender award document {}'.format(self.request.context.id),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_document_patch'}))
             return {'data': self.request.context.serialize("view")}
 
 

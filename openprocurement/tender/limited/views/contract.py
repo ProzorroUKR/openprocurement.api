@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
     apply_patch,
@@ -13,9 +12,6 @@ from openprocurement.api.validation import (
     validate_patch_contract_data,
 )
 from openprocurement.api.views.contract import TenderAwardContractResource as BaseTenderAwardContractResource
-
-
-LOGGER = getLogger(__name__)
 
 
 def check_tender_status(request):
@@ -43,8 +39,8 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
         contract = self.request.validated['contract']
         tender.contracts.append(contract)
         if save_tender(self.request):
-            LOGGER.info('Created tender contract {}'.format(contract.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_create'}, {'contract_id': contract.id}))
+            self.LOGGER.info('Created tender contract {}'.format(contract.id),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_create'}, {'contract_id': contract.id}))
             self.request.response.status = 201
             self.request.response.headers['Location'] = self.request.route_url('Tender Contracts', tender_id=tender.id, contract_id=contract['id'])
             return {'data': contract.serialize()}
@@ -71,8 +67,8 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
 
         check_tender_status(self.request)
         if save_tender(self.request):
-            LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
+            self.LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
             return {'data': self.request.context.serialize()}
 
 
@@ -114,8 +110,8 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
 
         check_tender_status(self.request)
         if save_tender(self.request):
-            LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
+            self.LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
             return {'data': self.request.context.serialize()}
 
 
