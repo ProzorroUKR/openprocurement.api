@@ -16,7 +16,7 @@ from openprocurement.api.validation import (
             collection_path='/tenders/{tender_id}/lots',
             path='/tenders/{tender_id}/lots/{lot_id}',
             procurementMethodType='aboveThresholdEU',
-            description="Tender Ua lots")
+            description="Tender EU lots")
 class TenderEULotResource(TenderLotResource):
 
     @json_view(content_type="application/json", validators=(validate_lot_data,), permission='edit_tender')
