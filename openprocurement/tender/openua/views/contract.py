@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.views.contract import TenderAwardContractResource
 from openprocurement.api.utils import (
@@ -12,8 +11,6 @@ from openprocurement.api.utils import (
 )
 from openprocurement.api.validation import validate_patch_contract_data
 from openprocurement.tender.openua.utils import PENDING_COMPLAINT_STATUS
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender UA Contracts',
@@ -67,6 +64,6 @@ class TenderUaAwardContractResource(TenderAwardContractResource):
             return
         check_tender_status(self.request)
         if save_tender(self.request):
-            LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
             return {'data': self.request.context.serialize()}

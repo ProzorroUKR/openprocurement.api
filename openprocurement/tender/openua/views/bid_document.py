@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.utils import opresource
 from openprocurement.api.views.bid_document import TenderBidDocumentResource
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender UA Bid Documents',

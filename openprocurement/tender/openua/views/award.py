@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.validation import validate_patch_award_data
 from openprocurement.api.views.award import TenderAwardResource
@@ -12,8 +11,6 @@ from openprocurement.api.utils import (
 )
 from openprocurement.tender.openua.models import STAND_STILL_TIME
 from openprocurement.tender.openua.utils import add_next_award, calculate_business_date
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender UA Awards',
@@ -128,6 +125,6 @@ class TenderUaAwardResource(TenderAwardResource):
             self.request.errors.status = 403
             return
         if save_tender(self.request):
-            LOGGER.info('Updated tender award {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}))
             return {'data': award.serialize("view")}
