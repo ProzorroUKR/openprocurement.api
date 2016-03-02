@@ -49,7 +49,7 @@ eu_auction_role = auction_role
 
 TENDERING_DAYS = 30
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
-QUESTIONS_STAND_STILL = timedelta(days=3)
+QUESTIONS_STAND_STILL = timedelta(days=10)
 COMPLAINT_STAND_STILL = timedelta(days=10)
 
 
