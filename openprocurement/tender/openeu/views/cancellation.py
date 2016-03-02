@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.utils import opresource
 from openprocurement.api.views.cancellation import TenderCancellationResource as BaseResource
 from openprocurement.tender.openeu.utils import add_next_award
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='TenderEU Cancellations',
