@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+import time
 from iso8601 import parse_date
 
 from openprocurement.tender.limited.tests.base import (
@@ -456,10 +457,41 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
 
 
 
-class TenderNegotiationQuickContractResourceTest(TenderNegotiationContractResourceTest):
+class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_quick_data
     stand_still_period_days = 5
+    accelerator = 'quick,accelerator=172800'
+    time_sleep_in_sec = 3
 
+    def setUp(self):
+        super(TenderContractResourceTest, self).setUp()
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'procurementMethodDetails': self.accelerator}})
+        self.assertEqual(response.status, '200 OK')
+        # Create award
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]], 'status': 'pending'}})
+        award = response.json['data']
+        self.award_id = award['id']
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
+
+    def test_create_tender_contract_negotination_quick(self):
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        self.contract_id = response.json['data'][0]['id']
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token), {"data": {"status": "active"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertIn("Can't sign contract before stand-still period end (", response.json['errors'][0]["description"])
+
+        time.sleep(self.time_sleep_in_sec)
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+
+class TenderNegotiationAccelerationTest(TenderNegotiationQuickContractResourceTest):
+    stand_still_period_days = 10
+    time_sleep_in_sec = 6
 
 class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = 'active'
