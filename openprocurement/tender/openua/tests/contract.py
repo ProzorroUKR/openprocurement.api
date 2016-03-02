@@ -13,11 +13,12 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
     def setUp(self):
         super(TenderContractResourceTest, self).setUp()
         # Create award
-        response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [test_tender_ua_data["procuringEntity"]], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_tender_ua_data["procuringEntity"]], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
-        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
 
     def test_create_tender_contract_invalid(self):
         response = self.app.post_json('/tenders/some_id/contracts', {
@@ -88,8 +89,8 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         ])
 
     def test_create_tender_contract(self):
-        response = self.app.post_json('/tenders/{}/contracts'.format(
-            self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
+        response = self.app.post_json('/tenders/{}/contracts?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         contract = response.json['data']
@@ -102,25 +103,27 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
 
         self.set_status('unsuccessful')
 
-        response = self.app.post_json('/tenders/{}/contracts'.format(
-            self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}}, status=403)
+        response = self.app.post_json('/tenders/{}/contracts?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add contract in current (unsuccessful) tender status")
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']), {"data": {"status": "active"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update contract in current (unsuccessful) tender status")
 
     def test_patch_tender_contract(self):
-        response = self.app.post_json('/tenders/{}/contracts'.format(
-            self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
+        response = self.app.post_json('/tenders/{}/contracts?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         contract = response.json['data']
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']), {"data": {"status": "active"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertIn("Can't sign contract before stand-still period end (", response.json['errors'][0]["description"])
@@ -145,17 +148,20 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         # response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, self.award_id, complaint['id']), {"data": {"status": "invalid", "resolution": "spam"}})
         # self.assertEqual(response.status, '200 OK')
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active")
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']), {"data": {"status": "pending"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, contract['id'], self.tender_token), {"data": {"status": "pending"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update contract status")
 
-        response = self.app.patch_json('/tenders/{}/contracts/some_id'.format(self.tender_id), {"data": {"status": "active"}}, status=404)
+        response = self.app.patch_json('/tenders/{}/contracts/some_id?acc_token={}'.format(
+            self.tender_id, self.tender_token), {"data": {"status": "active"}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -353,8 +359,8 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
         ])
 
     def test_create_tender_contract_document(self):
-        response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
-            self.tender_id, self.contract_id), upload_files=[('file', 'name.doc', 'content')])
+        response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         doc_id = response.json["data"]['id']
@@ -401,31 +407,32 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
         tender['contracts'][-1]["status"] = "cancelled"
         self.db.save(tender)
 
-        response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
-            self.tender_id, self.contract_id), upload_files=[('file', 'name.doc', 'content')], status=403)
+        response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current contract status")
 
         self.set_status('unsuccessful')
 
-        response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
-            self.tender_id, self.contract_id), upload_files=[('file', 'name.doc', 'content')], status=403)
+        response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (unsuccessful) tender status")
 
     def test_put_tender_contract_document(self):
-        response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
-            self.tender_id, self.contract_id), upload_files=[('file', 'name.doc', 'content')])
+        response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
 
-        response = self.app.put('/tenders/{}/contracts/{}/documents/{}'.format(self.tender_id, self.contract_id, doc_id),
-                                status=404,
-                                upload_files=[('invalid_name', 'name.doc', 'content')])
+        response = self.app.put('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token),
+                                status=404, upload_files=[('invalid_name', 'name.doc', 'content')])
+
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -434,8 +441,8 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
                 u'body', u'name': u'file'}
         ])
 
-        response = self.app.put('/tenders/{}/contracts/{}/documents/{}'.format(
-            self.tender_id, self.contract_id, doc_id), upload_files=[('file', 'name.doc', 'content2')])
+        response = self.app.put('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content2')])
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
@@ -455,8 +462,8 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertEqual('name.doc', response.json["data"]["title"])
 
-        response = self.app.put('/tenders/{}/contracts/{}/documents/{}'.format(
-            self.tender_id, self.contract_id, doc_id), 'content3', content_type='application/msword')
+        response = self.app.put('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token), 'content3', content_type='application/msword')
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
@@ -473,29 +480,30 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
         tender['contracts'][-1]["status"] = "cancelled"
         self.db.save(tender)
 
-        response = self.app.put('/tenders/{}/contracts/{}/documents/{}'.format(
-            self.tender_id, self.contract_id, doc_id), upload_files=[('file', 'name.doc', 'content3')], status=403)
+        response = self.app.put('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content3')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current contract status")
 
         self.set_status('unsuccessful')
 
-        response = self.app.put('/tenders/{}/contracts/{}/documents/{}'.format(
-            self.tender_id, self.contract_id, doc_id), upload_files=[('file', 'name.doc', 'content3')], status=403)
+        response = self.app.put('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content3')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (unsuccessful) tender status")
 
     def test_patch_tender_contract_document(self):
-        response = self.app.post('/tenders/{}/contracts/{}/documents'.format(
-            self.tender_id, self.contract_id), upload_files=[('file', 'name.doc', 'content')])
+        response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}/documents/{}'.format(self.tender_id, self.contract_id, doc_id), {"data": {"description": "document description"}})
+        response = self.app.patch_json('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token), {"data": {"description": "document description"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
@@ -511,14 +519,16 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
         tender['contracts'][-1]["status"] = "cancelled"
         self.db.save(tender)
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}/documents/{}'.format(self.tender_id, self.contract_id, doc_id), {"data": {"description": "document description"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token), {"data": {"description": "document description"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current contract status")
 
         self.set_status('unsuccessful')
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}/documents/{}'.format(self.tender_id, self.contract_id, doc_id), {"data": {"description": "document description"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token), {"data": {"description": "document description"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (unsuccessful) tender status")
