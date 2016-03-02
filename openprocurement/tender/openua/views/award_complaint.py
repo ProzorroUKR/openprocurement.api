@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta, time, datetime
-from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.views.award_complaint import TenderAwardComplaintResource
 from openprocurement.api.utils import (
@@ -16,8 +14,6 @@ from openprocurement.api.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
 )
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender UA Award Complaints',
@@ -56,7 +52,7 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
         if save_tender(self.request):
-            LOGGER.info('Created tender award complaint {}'.format(complaint.id),
+            self.LOGGER.info('Created tender award complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
             self.request.response.headers['Location'] = self.request.route_url('Tender Award Complaints', tender_id=tender.id, award_id=self.request.validated['award_id'], complaint_id=complaint['id'])
@@ -129,6 +125,6 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied'] and tender.status in ['active.qualification', 'active.awarded']:
             check_tender_status(self.request)
         if save_tender(self.request):
-            LOGGER.info('Updated tender award complaint {}'.format(self.context.id),
+            self.LOGGER.info('Updated tender award complaint {}'.format(self.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_complaint_patch'}))
             return {'data': self.context.serialize("view")}

@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.utils import opresource, upload_file, context_unpack, save_tender, json_view, apply_patch, update_file_content_type
 from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
 from openprocurement.api.views.tender_document import TenderDocumentResource
 from openprocurement.tender.openua.utils import calculate_business_date
 from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender UA Documents',
@@ -39,7 +36,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             self.context.invalidate_bids_data()
         if save_tender(self.request):
-            LOGGER.info('Created tender document {}'.format(document.id),
+            self.LOGGER.info('Created tender document {}'.format(document.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_document_create'}, {'document_id': document.id}))
             self.request.response.status = 201
             document_route = self.request.matched_route.name.replace("collection_", "")
@@ -56,7 +53,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             self.request.validated['tender'].invalidate_bids_data()
         if save_tender(self.request):
-            LOGGER.info('Updated tender document {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender document {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_document_put'}))
             return {'data': document.serialize("view")}
 
@@ -69,6 +66,6 @@ class TenderUaDocumentResource(TenderDocumentResource):
             self.request.validated['tender'].invalidate_bids_data()
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
-            LOGGER.info('Updated tender document {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender document {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_document_patch'}))
             return {'data': self.request.context.serialize("view")}

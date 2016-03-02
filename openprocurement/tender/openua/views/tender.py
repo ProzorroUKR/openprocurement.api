@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.views.tender import TenderResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.tender.openua.utils import (
@@ -15,8 +14,6 @@ from openprocurement.api.utils import (
 )
 from openprocurement.api.models import get_now
 from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender UA',
@@ -99,6 +96,6 @@ class TenderUAResource(TenderResource):
             # invalidate bids on tender change
             tender.invalidate_bids_data()
         save_tender(self.request)
-        LOGGER.info('Updated tender {}'.format(tender.id),
+        self.LOGGER.info('Updated tender {}'.format(tender.id),
                     extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
         return {'data': tender.serialize(tender.status)}

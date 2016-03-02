@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.utils import opresource
-
 from openprocurement.api.views.contract_document import TenderAwardContractDocumentResource
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender UA Contract Documents',

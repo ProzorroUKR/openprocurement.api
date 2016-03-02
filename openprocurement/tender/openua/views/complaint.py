@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.views.complaint import TenderComplaintResource
 from openprocurement.api.utils import (
@@ -17,8 +16,6 @@ from openprocurement.api.validation import (
 )
 from openprocurement.tender.openua.models import CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
 from openprocurement.tender.openua.utils import calculate_business_date
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender UA Complaints',
@@ -56,7 +53,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
         set_ownership(complaint, self.request)
         tender.complaints.append(complaint)
         if save_tender(self.request):
-            LOGGER.info('Created tender complaint {}'.format(complaint.id),
+            self.LOGGER.info('Created tender complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
             self.request.response.headers['Location'] = self.request.route_url('Tender Complaints', tender_id=tender.id, complaint_id=complaint.id)
@@ -153,6 +150,6 @@ class TenderUaComplaintResource(TenderComplaintResource):
         if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted'] and tender.status in ['active.qualification', 'active.awarded']:
             check_tender_status(self.request)
         if save_tender(self.request):
-            LOGGER.info('Updated tender complaint {}'.format(self.context.id),
+            self.LOGGER.info('Updated tender complaint {}'.format(self.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_complaint_patch'}))
             return {'data': self.context.serialize("view")}
