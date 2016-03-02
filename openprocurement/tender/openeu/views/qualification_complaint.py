@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
-from datetime import timedelta, time, datetime
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.utils import qualifications_resource
 from openprocurement.tender.openeu.views.award_complaint import TenderEUAwardComplaintResource
@@ -15,8 +13,6 @@ from openprocurement.api.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
 )
-
-LOGGER = getLogger(__name__)
 
 
 @qualifications_resource(
@@ -56,7 +52,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
         if save_tender(self.request):
-            LOGGER.info('Created tender qualification complaint {}'.format(complaint.id),
+            self.LOGGER.info('Created tender qualification complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
             self.request.response.headers['Location'] = self.request.route_url('Tender EU Qualification Complaints', tender_id=tender.id, qualification_id=self.request.validated['qualification_id'], complaint_id=complaint['id'])
@@ -131,6 +127,6 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if save_tender(self.request):
-            LOGGER.info('Updated tender qualification complaint {}'.format(self.context.id),
+            self.LOGGER.info('Updated tender qualification complaint {}'.format(self.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_complaint_patch'}))
             return {'data': self.context.serialize("view")}

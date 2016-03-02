@@ -1,20 +1,14 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
-from openprocurement.api.utils import opresource
-from openprocurement.api.views.bid import TenderBidResource as BaseResource
-from openprocurement.tender.openua.views.bid import TenderUABidResource as BaseResource
+from openprocurement.api.models import get_now
+from openprocurement.api.validation import validate_patch_bid_data
 from openprocurement.api.utils import (
     apply_patch,
     opresource,
     json_view,
     context_unpack,
 )
+from openprocurement.tender.openua.views.bid import TenderUABidResource as BaseResource
 
-LOGGER = getLogger(__name__)
-from openprocurement.api.views.bid import TenderBidResource
-from openprocurement.api.models import get_now
-
-from openprocurement.api.validation import validate_patch_bid_data
 
 @opresource(name='Tender EU Bids',
             collection_path='/tenders/{tender_id}/bids',
@@ -160,6 +154,6 @@ class TenderBidResource(BaseResource):
                 if lotvalue['relatedLot'] in lotValues and lotvalue.get("value", {}).get("amount") != lotValues[lotvalue['relatedLot']]:
                     lotvalue['date'] = get_now().isoformat()
         if apply_patch(self.request, src=self.request.context.serialize()):
-            LOGGER.info('Updated tender bid {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender bid {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_patch'}))
             return {'data': self.request.context.serialize("view")}

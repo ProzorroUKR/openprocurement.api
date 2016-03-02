@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
+from openprocurement.api.validation import validate_tender_auction_data
 from openprocurement.api.utils import (
     opresource, json_view, apply_patch, save_tender, context_unpack
 )
 from openprocurement.tender.openua.views.auction import TenderUaAuctionResource as BaseResource
-from openprocurement.api.validation import (
-    validate_tender_auction_data,
-)
-
 from openprocurement.tender.openeu.utils import add_next_award
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender EU Auction',
@@ -97,7 +91,7 @@ class TenderAuctionResource(BaseResource):
         if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.numberOfBids > 1]):
             add_next_award(self.request)
         if save_tender(self.request):
-            LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_auction_post'}))
+            self.LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_auction_post'}))
             return {'data': self.request.validated['tender'].serialize(self.request.validated['tender'].status)}
 
     @json_view(content_type="application/json", permission='auction', validators=(validate_tender_auction_data))
@@ -108,5 +102,5 @@ class TenderAuctionResource(BaseResource):
         if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.numberOfBids > 1]):
             add_next_award(self.request)
         if save_tender(self.request):
-            LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_auction_post'}))
+            self.LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_auction_post'}))
             return {'data': self.request.validated['tender'].serialize(self.request.validated['tender'].status)}

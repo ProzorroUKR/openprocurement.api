@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.views.tender import TenderResource
 from openprocurement.tender.openeu.models import COMPLAINT_STAND_STILL
@@ -14,8 +13,6 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
 )
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender EU',
@@ -109,6 +106,6 @@ class TenderEUResource(TenderResource):
                 return
 
         save_tender(self.request)
-        LOGGER.info('Updated tender {}'.format(tender.id),
+        self.LOGGER.info('Updated tender {}'.format(tender.id),
                     extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
         return {'data': tender.serialize(tender.status)}
