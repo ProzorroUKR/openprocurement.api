@@ -515,6 +515,8 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         elif award_status == 'pending' and award.status == 'unsuccessful':
             award.complaintPeriod.endDate = get_now() + self.stand_still_delta
             # add_next_award(self.request)
+        elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
+            award.complaintPeriod.endDate = get_now()
         elif award_status != award.status:
             self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
             self.request.errors.status = 403
