@@ -37,6 +37,8 @@ class Budget(Model):
                           min_length=3)  # The currency in 3-letter ISO 4217 format.
     amountNet = FloatType()
     project = ModelType(Project)
+    year = IntType(min_value=2000)
+    notes = StringType()
 
 
 class PlanItem(Model):
