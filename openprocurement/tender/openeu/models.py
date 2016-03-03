@@ -268,7 +268,7 @@ class Bid(BaseBid):
     lotValues = ListType(ModelType(LotValue), default=list())
 
     def serialize(self, role=None):
-        if role and self.status in ['invalid', 'deleted']:
+        if role and role != 'create' and self.status in ['invalid', 'deleted']:
             role = self.status
         return super(Bid, self).serialize(role)
 
