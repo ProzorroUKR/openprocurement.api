@@ -455,12 +455,15 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active")
 
+class TenderNegotiationQuickContractResourceTest(TenderNegotiationContractResourceTest):
+    initial_data = test_tender_negotiation_quick_data
+    stand_still_period_days = 5
 
 
 class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_quick_data
     stand_still_period_days = 5
-    accelerator = 'quick,accelerator=172800' # shows that restrictions and time frames will be reduced
+    accelerator = 'quick,accelerator=172800' # 5 days=432000 sec; 432000/172800=2.5 sec
     time_sleep_in_sec = 3 # time which reduced
 
     def setUp(self):
