@@ -268,7 +268,7 @@ class Bid(BaseBid):
     lotValues = ListType(ModelType(LotValue), default=list())
 
     def serialize(self, role=None):
-        if role and self.status in ['invalid', 'deleted']:
+        if role and role != 'create' and self.status in ['invalid', 'deleted']:
             role = self.status
         return super(Bid, self).serialize(role)
 
@@ -316,12 +316,9 @@ class Qualification(Model):
     class Options:
         roles = {
             'create': blacklist('id', 'status', 'documents', 'date'),
-            'edit': blacklist('id', 'documents'),
+            'edit': whitelist('status'),
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
-            'auction_view': whitelist('value', 'date', 'relatedLot', 'participationUrl'),
-            'auction_post': whitelist('value', 'date', 'relatedLot'),
-            'auction_patch': whitelist('participationUrl', 'relatedLot'),
         }
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
