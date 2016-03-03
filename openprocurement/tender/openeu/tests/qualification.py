@@ -30,11 +30,21 @@ class TenderQualificationResourceTest(BaseTenderContentWebTest):
         response = self.app.post_json('/tenders/{}/qualifications'.format(self.tender_id), {"data": data}, status=405)
         self.assertEqual(response.status, '405 Method Not Allowed')
 
-        data = {"bidID": "some_id", "status": "pending", "id": "12345678123456781234567812345678"}
+        data = {"bidID": "1234" * 8, "status": "pending", "id": "12345678123456781234567812345678"}
         response = self.app.post_json('/tenders/{}/qualifications'.format(self.tender_id), {"data": data}, status=405)
         self.assertEqual(response.status, '405 Method Not Allowed')
 
-    def test_get_tender_qualifications(self):
+        data = {"bidID": "1234" * 8, "status": "pending", "id": "12345678123456781234567812345678"}
+        response = self.app.post_json('/tenders/{}/qualifications/{}'.format(self.tender_id, data['id']), {"data": data}, status=404)
+        self.assertEqual(response.status, '404 Not Found')
+
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        qualifications = response.json['data']
+        data = {"bidID": "1234" * 8, "status": "pending", 'id': qualifications[0]['id']}
+        response = self.app.post_json('/tenders/{}/qualifications/{}'.format(self.tender_id, qualifications[0]['id']), {"data": data}, status=405)
+        self.assertEqual(response.status, '405 Method Not Allowed')
+
+    def test_get_tender_qualifications_collection(self):
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         self.assertEqual(response.content_type, 'application/json')
         qualifications = response.json['data']
@@ -51,21 +61,85 @@ class TenderQualificationResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         self.assertEqual(response.content_type, 'application/json')
         qualifications = response.json['data']
+        self.assertEqual(len(qualifications), 2)
 
-        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[1]['id'], self.tender_token),
+        q1_id = qualifications[0]['id']
+        q2_id = qualifications[1]['id']
+
+        # first qualification manipulations
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, q1_id, self.tender_token),
                                       {"data": {'status': 'active'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'active')
 
-        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[1]['id'], self.tender_token),
+        for status in ['pending', 'unsuccessful']:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, q1_id, self.tender_token),
+                                        {"data": {'status': status}}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.json['errors'][0]['description'], "Can't update qualification status")
+
+        ## activequalification can be cancelled
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, q1_id, self.tender_token),
+                                      {"data": {'status': 'cancelled'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+        ## cancelled status is terminated
+        for status in ['pending', 'active', 'unsuccessful']:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, q1_id, self.tender_token),
+                                        {"data": {'status': status}}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.json['errors'][0]['description'], "Can't update qualification in current cancelled qualification status")
+
+        # second qualification manipulations
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, q2_id, self.tender_token),
                                       {"data": {'status': 'unsuccessful'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
-        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[0]['id'], self.tender_token),
+        for status in ['pending', 'active']:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, q2_id, self.tender_token),
+                                        {"data": {'status': status}}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.json['errors'][0]['description'], "Can't update qualification status")
+
+        ## unsuccessful qualification can be cancelled
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, q2_id, self.tender_token),
                                       {"data": {'status': 'cancelled'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'cancelled')
+
+        # list for new qualification
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        qualifications = response.json['data']
+        self.assertEqual(len(qualifications), 4)
+        q1 = qualifications[0]
+        q3 = qualifications[2]
+        self.assertEqual(q1['bidID'], q3['bidID'])
+        q2 = qualifications[1]
+        q4 = qualifications[3]
+        self.assertEqual(q2['bidID'], q4['bidID'])
+
+        self.assertEqual(q3['status'], 'pending')
+
+        # cancel pending qualification
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, q3['id'], self.tender_token),
+                                      {"data": {'status': 'cancelled'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+        # one more qualification should be generated
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        qualifications = response.json['data']
+        self.assertEqual(len(qualifications), 5)
+        self.assertEqual(q3['bidID'], qualifications[4]['bidID'])
+
+        # activate rest qualifications
+        for q_id in (qualifications[3]['id'], qualifications[4]['id']):
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, q_id, self.tender_token),
+                                        {"data": {'status': 'active'}})
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'active')
 
     def test_get_tender_qualifications(self):
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
@@ -137,6 +211,22 @@ class Tender2LotQualificationResourceTest(TenderQualificationResourceTest):
                                       {"data": {'status': 'cancelled'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'cancelled')
+
+    def test_get_tender_qualifications_collection(self):
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        self.assertEqual(response.content_type, 'application/json')
+        qualifications = response.json['data']
+        self.assertEqual(len(qualifications), 4)
+
+        response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
+        self.assertEqual(response.content_type, 'application/json')
+        qualification_lots_ids = [q['lotID'] for q in qualifications]
+        for bid in response.json['data']:
+            response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], self.initial_bids_tokens[bid['id']]))
+            for lotV in response.json['data']['lotValues']:
+                lot_id = lotV['relatedLot']
+                self.assertIn(lot_id, qualification_lots_ids)
+                qualification_lots_ids.remove(lot_id)
 
     def test_tender_qualification_cancelled(self):
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
@@ -442,9 +532,10 @@ class TenderQualificationDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertEqual('document description', response.json["data"]["description"])
 
-        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-                self.tender_id, self.qualifications[0]['id'], self.tender_token), {'data': {"status": "active"}})
-        self.assertEqual(response.status, '200 OK')
+        for qualification in self.qualifications:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
+                self.tender_id, qualification['id'], self.tender_token), {'data': {"status": "active"}})
+            self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json('/tenders/{}/qualifications/{}/documents/{}?acc_token={}'.format(self.tender_id, self.qualifications[0]['id'], doc_id, self.tender_token),
                                        {"data": {"description": "document description2"}}, status=403)
@@ -454,11 +545,6 @@ class TenderQualificationDocumentResourceTest(BaseTenderContentWebTest):
             {"location": "body", "name": "data", "description": "Can't update document in current qualification status"}
         ])
 
-        for qualification in self.qualifications:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-                self.tender_id, qualification['id'], self.tender_token), {'data': {"status": "active"}})
-            self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
                                        {"data": {"status": "active.pre-qualification.stand-still"}})
         self.assertEqual(response.status, '200 OK')
