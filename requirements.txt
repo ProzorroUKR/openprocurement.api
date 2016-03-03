@@ -15,8 +15,8 @@ cornice==1.0.0
 couchdb-schematics==1.1.1
 coverage==3.7.1
 docutils==0.12
-gevent==1.0.1
-greenlet==0.4.5
+gevent==1.1.rc5
+greenlet==0.4.9
 iso8601==0.1.10
 jsonpointer==1.9
 mock==1.0.1
@@ -47,3 +47,4 @@ git+https://github.com/openprocurement/barbecue.git
 git+https://github.com/openprocurement/python-json-patch.git
 git+https://github.com/openprocurement/rfc6266.git
 git+https://github.com/openprocurement/openprocurement.api.git
+git+https://github.com/openprocurement/openprocurement.tender.openua.git

@@ -5,22 +5,20 @@ from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, BaseType, MD5Type
 from schematics.types.compound import ModelType, ListType, DictType
 from schematics.types.serializable import serializable
-from openprocurement.api.models import (plain_role, view_role, create_role,
-                                        edit_role, enquiries_role, listing_role,
-                                        Administrator_role,
-                                        schematics_default_role,
-                                        schematics_embedded_role,
-                                        chronograph_role, chronograph_view_role)
-
-from openprocurement.api.models import (Value, IsoDateTimeType, Document,
-                                        Organization, Item, SchematicsDocument,
-                                        Model, Contract, Revision, Complaint,
-                                        Period
-                                        )
+from openprocurement.api.models import (
+    plain_role, view_role, create_role, edit_role, enquiries_role, listing_role,
+    Administrator_role, schematics_default_role, schematics_embedded_role,
+    chronograph_role, chronograph_view_role,
+)
+from openprocurement.api.models import (
+    Value, IsoDateTimeType, Document, Organization, Item, SchematicsDocument,
+    Model, Contract, Revision, Period,
+)
 from openprocurement.api.models import validate_cpv_group, validate_items_uniq
 from openprocurement.api.models import get_now
 from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import ITender
+from openprocurement.tender.openua.models import Complaint
 
 
 class Award(Model):
@@ -134,12 +132,12 @@ class Tender(SchematicsDocument, Model):
         return role
 
     def __acl__(self):
-        acl = [
+        return [
+            (Allow, 'g:brokers', 'create_award_complaint'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_tender'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'review_complaint'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
         ]
-        return acl
 
     def __repr__(self):
         return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)

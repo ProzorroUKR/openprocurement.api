@@ -6,6 +6,7 @@ version = '1.0'
 requires = [
     'setuptools',
     'openprocurement.api>=0.12b1',
+    'openprocurement.tender.openua',
 ]
 
 test_requires = requires + [
