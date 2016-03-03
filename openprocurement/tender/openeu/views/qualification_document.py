@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.utils import (
     get_file,
     save_tender,
@@ -8,6 +7,7 @@ from openprocurement.api.utils import (
     update_file_content_type,
     json_view,
     context_unpack,
+    APIResource,
 )
 from openprocurement.api.validation import (
     validate_file_update,
@@ -17,21 +17,13 @@ from openprocurement.api.validation import (
 from openprocurement.tender.openeu.utils import qualifications_resource
 
 
-LOGGER = getLogger(__name__)
-
-
 @qualifications_resource(
     name='TenderEU Qualification Documents',
     collection_path='/tenders/{tender_id}/qualifications/{qualification_id}/documents',
     path='/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}',
     procurementMethodType='aboveThresholdEU',
     description="Tender qualification documents")
-class TenderQualificationDocumentResource(object):
-
-    def __init__(self, request, context):
-        self.context = context
-        self.request = request
-        self.db = request.registry.db
+class TenderQualificationDocumentResource(APIResource):
 
     @json_view(permission='view_tender')
     def collection_get(self):
@@ -53,7 +45,6 @@ class TenderQualificationDocumentResource(object):
             self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
-        tender = self.request.validated['tender']
         qualification = self.request.validated['qualification']
         if qualification.status != 'pending':
             self.request.errors.add('body', 'data', 'Can\'t add document in current qualification status')
@@ -62,7 +53,7 @@ class TenderQualificationDocumentResource(object):
         document = upload_file(self.request)
         self.context.documents.append(document)
         if save_tender(self.request):
-            LOGGER.info('Created tender qualification document {}'.format(document.id),
+            self.LOGGER.info('Created tender qualification document {}'.format(document.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_document_create'}, {'document_id': document.id}))
             self.request.response.status = 201
             document_route = self.request.matched_route.name.replace("collection_", "")
@@ -90,7 +81,6 @@ class TenderQualificationDocumentResource(object):
             self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
-        tender = self.request.validated['tender']
         qualification = self.request.validated['qualification']
         if qualification.status != 'pending':
             self.request.errors.add('body', 'data', 'Can\'t update document in current qualification status')
@@ -99,7 +89,7 @@ class TenderQualificationDocumentResource(object):
         document = upload_file(self.request)
         self.request.validated['qualification'].documents.append(document)
         if save_tender(self.request):
-            LOGGER.info('Updated tender qualification document {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender qualification document {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_document_put'}))
             return {'data': document.serialize("view")}
 
@@ -110,7 +100,6 @@ class TenderQualificationDocumentResource(object):
             self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
-        tender = self.request.validated['tender']
         qualification = self.request.validated['qualification']
         if qualification.status != 'pending':
             self.request.errors.add('body', 'data', 'Can\'t update document in current qualification status')
@@ -118,7 +107,6 @@ class TenderQualificationDocumentResource(object):
             return
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
-            LOGGER.info('Updated tender qualification document {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender qualification document {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_document_patch'}))
             return {'data': self.request.context.serialize("view")}
-

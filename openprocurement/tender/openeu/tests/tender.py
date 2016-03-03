@@ -832,7 +832,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "tenderPeriod should be extended by 7 days")
         tenderPeriod_endDate = get_now() + timedelta(days=7, seconds=10)
-        enquiryPeriod_endDate = tenderPeriod_endDate - timedelta(days=3)
+        enquiryPeriod_endDate = tenderPeriod_endDate - timedelta(days=10)
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data':
             {
                 "value": {

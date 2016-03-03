@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.utils import opresource
 from openprocurement.api.views.cancellation_document import TenderCancellationDocumentResource as BaseResource
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender EU Cancellation Documents',
@@ -12,4 +9,4 @@ LOGGER = getLogger(__name__)
             procurementMethodType='aboveThresholdEU',
             description="Tender EU cancellation documents")
 class TenderCancellationDocumentResource(BaseResource):
-   """ Cancellation Document """
+    """ Cancellation Document """
