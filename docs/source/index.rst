@@ -21,6 +21,7 @@ Contents:
    overview
    tutorial
    standard/index
+   complaints
    reference
 
 Indices and tables
