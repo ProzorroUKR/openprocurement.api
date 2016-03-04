@@ -146,7 +146,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertIn('id', bid)
         self.assertIn(bid['id'], response.headers['Location'])
 
-        for status in ('active', 'cancelled', 'unsuccessful', 'deleted', 'invalid'):
+        for status in ('active', 'unsuccessful', 'deleted', 'invalid'):
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                           {'data': {'tenderers': test_bids[0]['tenderers'],
                                                     'value': {"amount": 500},
@@ -214,7 +214,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
-        for status in ('invalid', 'active', 'cancelled', 'unsuccessful', 'deleted'):
+        for status in ('invalid', 'active', 'unsuccessful', 'deleted'):
             response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
                                         {'data': {'status': status}}, status=403)
             self.assertEqual(response.status, '403 Forbidden')

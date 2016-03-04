@@ -592,8 +592,6 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.get('/tenders/{}'.format(
                     self.tender_id))
             self.assertEqual(response.status, "200 OK")
-            from pprint import pprint
-            pprint(response.json['data'])
             qualifications = response.json['data']['qualifications']
             self.assertEqual(len(qualifications), 3)
             self.assertEqual(qualifications[0]['bidID'], bid1_id)
@@ -1055,7 +1053,6 @@ class TenderResourceTest(BaseTenderWebTest):
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
 
-        print '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token)
         with open('docs/source/tutorial/award-complaint-submission.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint)
             self.assertEqual(response.status, '201 Created')
@@ -1063,13 +1060,6 @@ class TenderResourceTest(BaseTenderWebTest):
         complaint1_token = response.json['access']['token']
         complaint1_id = response.json['data']['id']
 
-        response = self.app.get('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint1_id))
-        print response.json['data']
-
-        response = self.app.get('/tenders/{}/awards/{}/complaints/{}/documents'.format(self.tender_id, award_id, complaint1_id))
-        print response.json['data']
-
-        print '/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(self.tender_id, award_id, complaint1_id, complaint1_token)
         with open('docs/source/tutorial/award-complaint-submission-upload.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(self.tender_id, award_id, complaint1_id, complaint1_token),
                                      upload_files=[('file', u'Complaint_Attachement.pdf', 'content')])
@@ -1156,7 +1146,7 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.get('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint1_id))
             self.assertEqual(response.status, '200 OK')
 
-    def XXXtest_multiple_lots(self):
+    def test_multiple_lots(self):
         request_path = '/tenders?opt_pretty=1'
 
         #### Exploring basic rules
@@ -1266,3 +1256,4 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
                                        {"data": {"status": "active.pre-qualification.stand-still"}})
             self.assertEqual(response.status, "200 OK")
+
