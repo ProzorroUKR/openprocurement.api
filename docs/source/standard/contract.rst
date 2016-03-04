@@ -74,3 +74,18 @@ Schema
 
     |ocdsDescription|
     All documents and attachments related to the contract, including any notices. 
+
+Contract workflow
+-----------------
+
+.. graphviz::
+
+    digraph G {
+        A [ label="pending*" ]
+        B [ label="active"]
+        C [ label="cancelled"]
+         A -> B;
+         A -> C;
+    }
+
+\* marks initial state

@@ -70,3 +70,20 @@ Schema
 
     |ocdsDescription|
     All documents and attachments related to the award, including any notices.
+
+Award workflow
+--------------
+
+.. graphviz::
+
+    digraph G {
+        A [ label="pending*" ]
+        B [ label="active"]
+        C [ label="cancelled"]
+        D [ label="unsuccessful"]
+         A -> B;
+         A -> D;
+         B -> C;
+    }
+
+\* marks initial state
