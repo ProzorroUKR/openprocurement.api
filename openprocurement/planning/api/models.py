@@ -67,12 +67,17 @@ class PlanOrganization(Model):
     name_ru = StringType()
     identifier = ModelType(Identifier, required=True)
 
-
 class PlanTender(Model):
     """Tender for planning model """
-    procurementMethod = StringType()
+    procurementMethod = StringType(choices=['', 'open', 'limited'], default='')
     procurementMethodType = StringType()
     tenderPeriod = ModelType(Period, required=True)
+
+    def validate_procurementMethodType(self, data, procurementMethodType):
+        if (procurementMethodType not in ['belowThreshold', 'aboveThresholdUA', 'aboveThresholdEU'] and data.get('procurementMethod') == 'open'):
+            raise ValidationError(u"Value must be one of ['belowThreshold','aboveThresholdUA','aboveThresholdEU'].")
+        if (procurementMethodType not in ['reporting', 'negotiation', 'negotiation.quick'] and data.get('procurementMethod') == 'limited'):
+            raise ValidationError(u"Value must be one of ['reporting', 'negotiation', 'negotiation.quick'].")
 
 
 # roles
