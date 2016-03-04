@@ -117,6 +117,8 @@ class Tender(SchematicsDocument, Model):
     __parent__ = None
     __name__ = ''
 
+    procurementMethodDetails = StringType(default='')
+
     def __local_roles__(self):
         return dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])
 
