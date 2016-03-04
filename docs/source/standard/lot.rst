@@ -61,3 +61,20 @@ Schema
        Cancelled tender lot
 
    Status of the Lot.
+
+Workflow
+--------
+
+.. graphviz::
+
+    digraph G {
+        A [ label="active*" ]
+        B [ label="complete"]
+        C [ label="cancelled"]
+        D [ label="unsuccessful"]
+         A -> B;
+         A -> C;
+         A -> D;
+    }
+
+\* marks initial state
