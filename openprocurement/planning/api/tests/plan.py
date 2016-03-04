@@ -357,11 +357,8 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
-        self.assertIn({u'description': {u'procurementMethod': [u"Value must be one of ['open']."],
-                                        u'tenderPeriod': [u'This field is required.']}, u'location': u'body',
-                       u'name': u'tender'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'procuringEntity'},
-                      response.json['errors'])
+                      response.json['erroclrs'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'classification'},
                       response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'budget'},
