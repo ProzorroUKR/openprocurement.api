@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/2069a42a61104de2920e2798a1e3dcc2?acc_token=0856103e1c52483094b3e48a6a910ddc HTTP/1.0
+GET /api/0.12/tenders/6e62971b92514db6adcae49578605efb?acc_token=7fbb144c6fb741e18c79ce6670c172d6 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,76 +8,21 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.pre-qualification", 
-    "qualificationPeriod": {
-      "startDate": "2016-02-16T12:44:26.518112+02:00"
-    }, 
-    "tenderID": "UA-2016-02-16-000001", 
-    "tenderPeriod": {
-      "startDate": "2016-01-17T12:44:26.247358+02:00", 
-      "endDate": "2016-02-16T12:44:26.247358+02:00"
-    }, 
     "complaintPeriod": {
-      "startDate": "2016-01-17T12:44:26.247358+02:00", 
-      "endDate": "2016-02-12T12:44:26.247358+02:00"
-    }, 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 35.0, 
-      "valueAddedTaxIncluded": true
+      "startDate": "2016-02-03T13:48:05.781053+02:00", 
+      "endDate": "2016-02-29T13:48:05.781053+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-01-17T12:44:26.247358+02:00", 
-      "endDate": "2016-02-13T12:44:26.247358+02:00"
-    }, 
-    "title": "Послуги шкільних їдалень", 
-    "title_en": "Services in school canteens", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 900.0, 
-      "valueAddedTaxIncluded": true
+      "startDate": "2016-02-03T13:48:05.781053+02:00", 
+      "endDate": "2016-02-23T13:48:05.781053+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "lots": [
-      {
-        "status": "active", 
-        "description": "Опис Лот №1", 
-        "title": "Лот №1", 
-        "minimalStep": {
-          "currency": "UAH", 
-          "amount": 35.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "value": {
-          "currency": "UAH", 
-          "amount": 500.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "id": "753a890ceebe4f7e80e0c16c080f0315"
-      }, 
-      {
-        "status": "unsuccessful", 
-        "description": "Опис Лот №2", 
-        "title": "Лот №2", 
-        "minimalStep": {
-          "currency": "UAH", 
-          "amount": 35.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "value": {
-          "currency": "UAH", 
-          "amount": 400.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "id": "88073490c6304612ba4b064a9f6b3d00"
-      }
-    ], 
-    "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
         "name_en": "Kutsa Svitlana V.", 
         "name": "Куца Світлана Валентинівна", 
-        "availableLanguage": "Ukraine", 
+        "availableLanguage": "uk", 
         "telephone": "+380 (432) 46-53-02"
       }, 
       "identifier": {
@@ -96,9 +41,77 @@ Content-Type: application/json; charset=UTF-8
       }, 
       "name": "ЗОСШ #10 м.Вінниці"
     }, 
+    "owner": "broker", 
+    "title_en": "Services in school canteens", 
+    "id": "6e62971b92514db6adcae49578605efb", 
+    "title": "Послуги шкільних їдалень", 
+    "lots": [
+      {
+        "status": "active", 
+        "description": "Опис Лот №1", 
+        "title": "Лот №1", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "value": {
+          "currency": "UAH", 
+          "amount": 500.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "id": "a1004b51ee3d4c4e8624000eabc696b0"
+      }, 
+      {
+        "status": "unsuccessful", 
+        "description": "Опис Лот №2", 
+        "title": "Лот №2", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "value": {
+          "currency": "UAH", 
+          "amount": 400.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "id": "de3e2f197deb4d6793ab7bba33357e4c"
+      }
+    ], 
+    "qualificationPeriod": {
+      "startDate": "2016-03-04T13:48:06.036975+02:00"
+    }, 
+    "tenderID": "UA-2016-03-04-000001", 
+    "dateModified": "2016-03-04T13:48:06.044442+02:00", 
+    "numberOfBids": 2, 
+    "tenderPeriod": {
+      "startDate": "2016-02-03T13:48:05.781053+02:00", 
+      "endDate": "2016-03-04T13:48:05.781053+02:00"
+    }, 
+    "qualifications": [
+      {
+        "status": "pending", 
+        "lotID": "a1004b51ee3d4c4e8624000eabc696b0", 
+        "id": "24698bddfbd540afacecd157338ba696", 
+        "bidID": "4e4c65cc64244c5d8803927ef908af3e"
+      }, 
+      {
+        "status": "pending", 
+        "lotID": "a1004b51ee3d4c4e8624000eabc696b0", 
+        "id": "cb48b8e52f7b41fc9309c796a1c3f046", 
+        "bidID": "0e256e0e8ce9408a892cc432fc88fcec"
+      }
+    ], 
+    "procurementMethodType": "aboveThresholdEU", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
     "items": [
       {
-        "relatedLot": "753a890ceebe4f7e80e0c16c080f0315", 
+        "relatedLot": "a1004b51ee3d4c4e8624000eabc696b0", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -113,7 +126,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "f0524cfbb80640afbec3ccb2ab9cdf5a", 
+        "id": "a43eea09c6df420392ba1e94725c28d8", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -121,7 +134,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }, 
       {
-        "relatedLot": "88073490c6304612ba4b064a9f6b3d00", 
+        "relatedLot": "de3e2f197deb4d6793ab7bba33357e4c", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -136,7 +149,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "7542a78c033945c2911f2517f431ae86", 
+        "id": "c2873ce20ad245168cc3ec013a4fc52d", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -144,9 +157,21 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
-    "owner": "broker", 
-    "dateModified": "2016-02-16T12:44:26.528235+02:00", 
-    "id": "2069a42a61104de2920e2798a1e3dcc2", 
+    "bids": [
+      {
+        "status": "pending", 
+        "id": "4e4c65cc64244c5d8803927ef908af3e"
+      }, 
+      {
+        "status": "pending", 
+        "id": "0e256e0e8ce9408a892cc432fc88fcec"
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 900.0, 
+      "valueAddedTaxIncluded": true
+    }, 
     "awardCriteria": "lowestCost"
   }
 }

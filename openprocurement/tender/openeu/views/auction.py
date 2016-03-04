@@ -88,7 +88,7 @@ class TenderAuctionResource(BaseResource):
 
         """
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
-        if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.numberOfBids > 1]):
+        if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.status == 'active']):
             add_next_award(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_auction_post'}))
@@ -99,7 +99,7 @@ class TenderAuctionResource(BaseResource):
         """Report auction results for lot.
         """
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
-        if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.numberOfBids > 1]):
+        if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.status == 'active']):
             add_next_award(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_auction_post'}))

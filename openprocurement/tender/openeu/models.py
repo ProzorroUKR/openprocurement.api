@@ -55,7 +55,7 @@ COMPLAINT_STAND_STILL = timedelta(days=10)
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
-        if data['status'] in ('deleted', 'invalid', 'cancelled'):
+        if data['status'] in ('deleted', 'invalid'):
             # skip not valid bids
             return
         tender = data['__parent__']
@@ -262,22 +262,24 @@ class Bid(BaseBid):
     financialDocuments = ListType(ModelType(ConfidentialDocument), default=list())
     eligibilityDocuments = ListType(ModelType(ConfidentialDocument), default=list())
     qualificationDocuments = ListType(ModelType(ConfidentialDocument), default=list())
-    status = StringType(choices=['pending', 'active', 'invalid', 'unsuccessful', 'deleted', 'cancelled'],
+    status = StringType(choices=['pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
                         default='pending')
 
     lotValues = ListType(ModelType(LotValue), default=list())
 
     def serialize(self, role=None):
-        if role and self.status in ['invalid', 'deleted']:
+        if role and role != 'create' and self.status in ['invalid', 'deleted']:
             role = self.status
         return super(Bid, self).serialize(role)
 
     @serializable(serialized_name="status")
     def serialize_status(self):
-        if self.__parent__.status in ['active.tendering', 'active.pre-qualification']:
+        if self.__parent__.status in ['active.tendering', 'active.pre-qualification', 'cancelled']:
             return self.status
         if self.__parent__.lots:
-            if [i.relatedLot for i in self.lotValues if i.status == 'active']:
+            if not self.lotValues:
+                return 'invalid'
+            elif [i.relatedLot for i in self.lotValues if i.status == 'active']:
                 return 'active'
             else:
                 return 'unsuccessful'
@@ -316,12 +318,9 @@ class Qualification(Model):
     class Options:
         roles = {
             'create': blacklist('id', 'status', 'documents', 'date'),
-            'edit': blacklist('id', 'documents'),
+            'edit': whitelist('status'),
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
-            'auction_view': whitelist('value', 'date', 'relatedLot', 'participationUrl'),
-            'auction_post': whitelist('value', 'date', 'relatedLot'),
-            'auction_patch': whitelist('participationUrl', 'relatedLot'),
         }
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)

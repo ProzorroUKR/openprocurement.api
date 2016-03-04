@@ -146,6 +146,14 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertIn('id', bid)
         self.assertIn(bid['id'], response.headers['Location'])
 
+        for status in ('active', 'unsuccessful', 'deleted', 'invalid'):
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                          {'data': {'tenderers': test_bids[0]['tenderers'],
+                                                    'value': {"amount": 500},
+                                                    'status': status}})
+            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.json['data']['status'], 'pending')
+
         self.set_status('complete')
 
         response = self.app.post_json('/tenders/{}/bids'.format(
@@ -160,6 +168,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
+        bid_token = response.json['access']['token']
 
         response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"value": {"amount": 600}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -205,12 +214,11 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']),
-                                       {"data": {"status": "active"}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [{u'description': u"Can't update bid to (active) status", u'location': u'body', u'name': u'bid'}])
+        for status in ('invalid', 'active', 'unsuccessful', 'deleted'):
+            response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
+                                        {'data': {'status': status}}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.json['errors'][0]["description"], "Can't update bid to ({}) status".format(status))
 
         self.set_status('complete')
 
@@ -858,6 +866,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
             bids_access[response.json['data']['id']] = response.json['access']['token']
+
         # check initial status
         for bid_id, token in bids_access.items():
             response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token))
@@ -869,12 +878,17 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 
-
         for bid_id, token in bids_access.items():
             response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token))
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'invalid')
 
+        # activate bids
+        for bid_id, token in bids_access.items():
+            response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token),
+                                           {'data': {'status': 'pending'}})
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'pending')
 
 
 class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
