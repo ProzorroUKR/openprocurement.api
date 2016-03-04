@@ -88,3 +88,22 @@ Schema
     string
 
     Id of related :ref:`lot`.
+
+
+Workflow
+--------
+
+.. graphviz::
+
+    digraph G {
+        A [ label="pending*" ]
+        B [ label="active"]
+        C [ label="cancelled"]
+        D [ label="unsuccessful"]
+         A -> B;
+         A -> D;
+         B -> C;
+         D -> C;
+    }
+
+\* marks initial state
