@@ -108,3 +108,29 @@ Schema
     url
 
     A web address for participation in auction.
+
+Workflow
+--------
+
+.. graphviz::
+
+    digraph G {
+        A [ label="pending*" ]
+        B [ label="active"]
+        C [ label="cancelled"]
+        D [ label="unsuccessful"]
+        E [ label="deleted"]
+        F [ label="invalid"]
+         A -> B [dir="both"];
+         A -> C;
+         A -> D [dir="both"];
+         A -> E;
+         A -> F [dir="both"];
+         B -> C;
+         D -> C;
+         E -> C;
+         F -> C;
+         F -> E;
+    }
+
+\* marks initial state
