@@ -52,12 +52,12 @@ Schema
    string
 
    :`active`:
-       Active tender lot (active)
+       Active tender lot
    :`unsuccessful`:
-       Unsuccessful tender lot (unsuccessful)
+       Unsuccessful tender lot
    :`complete`:
-       Complete tender lot (complete)
+       Completed tender lot
    :`cancelled`:
-       Cancelled tender lot (cancelled)
+       Cancelled tender lot
 
    Status of the Lot.

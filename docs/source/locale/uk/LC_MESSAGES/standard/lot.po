@@ -1,11 +1,10 @@
-#
 # Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 12:53+0200\n"
-"PO-Revision-Date: 2016-02-17 13:10+0200\n"
+"PO-Revision-Date: 2016-03-04 11:20+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -70,14 +69,14 @@ msgid ""
 "`valueAddedTaxIncluded` should either be absent or match "
 "`Lot.value.valueAddedTaxIncluded`"
 msgstr ""
-"`valueAddedTaxIncluded` повинно або бути відсутнім, або відповідати `Lot."
-"value.valueAddedTaxIncluded`"
+"`valueAddedTaxIncluded` повинно або бути відсутнім, або відповідати "
+"`Lot.value.valueAddedTaxIncluded`"
 
 #: ../../source/standard/lot.rst:42
 msgid ":ref:`period`, read-only"
 msgstr ""
-"`valueAddedTaxIncluded` повинно або бути відсутнім, або відповідати `Lot."
-"value.valueAddedTaxIncluded`"
+"`valueAddedTaxIncluded` повинно або бути відсутнім, або відповідати "
+"`Lot.value.valueAddedTaxIncluded`"
 
 #: ../../source/standard/lot.rst:44
 msgid "Period when Auction is conducted."
@@ -95,24 +94,43 @@ msgstr "Веб-адреса для перегляду аукціону."
 msgid "string"
 msgstr "рядок"
 
-#: ../../source/standard/lot.rst:55
-msgid "Enquiries period (enquiries)"
-msgstr "Період уточнень"
-
-#: ../../source/standard/lot.rst:57
-msgid "Unsuccessful tender (unsuccessful)"
-msgstr "Неуспішний лот закупівлі"
-
-#: ../../source/standard/lot.rst:59
-msgid "Complete tender lot (complete)"
-msgstr "Завершено лот закупівлі"
-
-#: ../../source/standard/lot.rst:61
-msgid "Cancelled tender lot (cancelled)"
-msgstr "Скасовано лот закупівлі"
-
 #: ../../source/standard/lot.rst:63
 msgid "Status of the Lot."
 msgstr "Статус лота."
 
+#: ../../source/standard/lot.rst:55
+msgid "Active tender lot"
+msgstr "Активний лот закупівлі"
 
+#: ../../source/standard/lot.rst:57
+msgid "Unsuccessful tender lot"
+msgstr "Неуспішний лот закупівлі"
+
+#: ../../source/standard/lot.rst:61
+msgid "Cancelled tender lot"
+msgstr "Відмінений лот закупівлі"
+
+#: ../../source/standard/lot.rst:59
+msgid "Completed tender lot"
+msgstr "Завершений лот закупівлі"
+
+#~ msgid "Complete tender lot"
+#~ msgstr ""
+
+#~ msgid "Complete tender lot (complete)"
+#~ msgstr "Завершено лот закупівлі"
+
+#~ msgid "Cancelled tender lot (cancelled)"
+#~ msgstr "Скасовано лот закупівлі"
+
+#~ msgid "Active tender lot (active)"
+#~ msgstr ""
+
+#~ msgid "Unsuccessful tender lot (unsuccessful)"
+#~ msgstr ""
+
+#~ msgid "Enquiries period (enquiries)"
+#~ msgstr "Період уточнень"
+
+#~ msgid "Unsuccessful tender (unsuccessful)"
+#~ msgstr "Неуспішний лот закупівлі"
