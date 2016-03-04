@@ -70,7 +70,8 @@ class PlanOrganization(Model):
 
 class PlanTender(Model):
     """Tender for planning model """
-    procurementMethod = StringType(choices=['open'], default='open', required=True)
+    procurementMethod = StringType()
+    procurementMethodType = StringType()
     tenderPeriod = ModelType(Period, required=True)
 
 
