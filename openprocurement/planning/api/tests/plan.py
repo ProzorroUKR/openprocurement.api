@@ -358,7 +358,7 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'procuringEntity'},
-                      response.json['erroclrs'])
+                      response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'classification'},
                       response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'budget'},
