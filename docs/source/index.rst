@@ -22,6 +22,7 @@ Contents:
    tutorial
    standard/index
    complaints
+   acceleration
    reference
 
 Indices and tables
