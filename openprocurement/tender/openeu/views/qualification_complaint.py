@@ -23,6 +23,9 @@ from openprocurement.api.validation import (
     description="Tender EU qualification complaints")
 class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
 
+    def complaints_len(self, tender):
+        return sum([len(i.complaints) for i in tender.awards], sum([len(i.complaints) for i in tender.qualifications], len(tender.complaints)))
+
     @json_view(content_type="application/json", permission='create_award_complaint', validators=(validate_complaint_data,))
     def collection_post(self):
         """Post a complaint
@@ -49,7 +52,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             complaint.dateSubmitted = get_now()
         else:
             complaint.status = 'draft'
-        complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, sum([len(i.complaints) for i in tender.awards], len(tender.complaints)) + 1)
+        complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
         set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
         if save_tender(self.request):
