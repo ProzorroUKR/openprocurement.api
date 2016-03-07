@@ -12,6 +12,7 @@ from schematics.types import StringType, IntType, FloatType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from zope.interface import implementer, Interface
+from itertools import chain
 
 
 class IPlan(Interface):
@@ -67,11 +68,21 @@ class PlanOrganization(Model):
     name_ru = StringType()
     identifier = ModelType(Identifier, required=True)
 
+PROCEDURES = {
+  '': ('',),
+  'open': ('belowThreshold', 'aboveThresholdUA', 'aboveThresholdEU'),
+  'limited': ('reporting', 'negotiation', 'negotiation.quick'),
+}
 
 class PlanTender(Model):
     """Tender for planning model """
-    procurementMethod = StringType(choices=['open'], default='open', required=True)
+    procurementMethod = StringType(choices=PROCEDURES.keys(), default='')
+    procurementMethodType = StringType(choices=list(chain(*PROCEDURES.values())), default='')
     tenderPeriod = ModelType(Period, required=True)
+
+    def validate_procurementMethodType(self, data, procurementMethodType):
+        if (procurementMethodType not in PROCEDURES[data.get('procurementMethod')]):
+            raise ValidationError(u"Value must be one of {!r}.".format(PROCEDURES[data.get('procurementMethod')]))
 
 
 # roles

@@ -13,6 +13,7 @@ now = datetime.now()
 test_plan_data =  {
         "tender": {
             "procurementMethod": u"open",
+            "procurementMethodType": u"belowThreshold",
             "tenderPeriod": {
                 "startDate": (now + timedelta(days=7)).isoformat()
             }
