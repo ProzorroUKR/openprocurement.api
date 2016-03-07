@@ -1508,27 +1508,27 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
         self.app.authorization = auth
 
-        self.app.authorization = ('Basic', ('token', ''))
         for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
-            response = self.app.post('/tenders/{}/bids/{}/{}'.format(
-                self.tender_id, self.bid_id, doc_resource), upload_files=[('file', 'name.doc', 'content')], status=403)
+            response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(
+                self.tender_id, self.bid_id, doc_resource, self.bid_token), upload_files=[('file', 'name.doc', 'content')], status=403)
             self.assertEqual(response.status, '403 Forbidden')
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (active.pre-qualification) tender status")
 
         # list qualifications
-        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
         self.assertEqual(response.status, "200 OK")
         # qualify bids
         for qualification in response.json['data']:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(self.tender_id,
-                                                                                  qualification['id']),
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
+                                                                                               qualification['id'],
+                                                                                               self.tender_token),
                                            {"data": {"status": "active"}})
             self.assertEqual(response.status, "200 OK")
 
 
         # switch to active.pre-qualification.stand-still
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"status": 'active.pre-qualification.stand-still'}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {"status": 'active.pre-qualification.stand-still'}})
 
         for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
             response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(
