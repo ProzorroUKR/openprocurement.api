@@ -1,11 +1,10 @@
-#
 # Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-05 10:08+0200\n"
-"PO-Revision-Date: 2016-03-01 11:44+0200\n"
+"PO-Revision-Date: 2016-03-07 10:41+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -219,6 +218,14 @@ msgstr "ідентифікатор **переговорної** процедур
 #: ../../source/standard/tender.rst:124
 msgid "negotiation.quick procedure indentifier"
 msgstr "ідентифікатор **скороченої переговорної** процедури"
+
+#: ../../source/standard/tender.rst:134
+msgid "Tender workflow"
+msgstr "Схема роботи Tender"
+
+#: ../../source/standard/tender.rst:146
+msgid "\\* marks initial state"
+msgstr "\\* позначає початковий стан"
 
 #~ msgid ""
 #~ "Total available tender budget. Bids greater then ``value`` will be rejected."

@@ -1,19 +1,20 @@
 #
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-05 10:08+0200\n"
-"PO-Revision-Date: 2016-02-05 13:51+0200\n"
+"PO-Revision-Date: 2016-03-07 10:41+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.8.5\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../../source/standard/cancellation.rst:8
 msgid "Cancellation"
@@ -87,3 +88,12 @@ msgstr "`tender`"
 #: ../../source/standard/cancellation.rst:51
 msgid "Id of related :ref:`lot`."
 msgstr "ID пов’язаного об’єкта :ref:`lot`."
+
+#: ../../source/standard/cancellation.rst:54
+msgid "Cancellation workflow"
+msgstr "Схема роботи Cancellation"
+
+#: ../../source/standard/cancellation.rst:64
+msgid "\\* marks initial state"
+msgstr "\\* позначає початковий стан"
+

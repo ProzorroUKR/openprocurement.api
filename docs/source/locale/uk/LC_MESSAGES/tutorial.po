@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-15 13:01+0200\n"
-"PO-Revision-Date: 2016-03-01 11:40+0200\n"
+"PO-Revision-Date: 2016-03-07 10:39+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -296,7 +296,7 @@ msgstr "Створення закупівлі для скороченої пер
 #: ../../source/tutorial.rst:95
 msgid "Addition of supplier information is the same for all procedures."
 msgstr ""
-"Спосіб додавання інформації про постачальника однакове для всіх процедур."
+"Спосіб додавання інформації про постачальника однаковий для всіх процедур."
 
 #: ../../source/tutorial.rst:196
 msgid "Contract registration"
