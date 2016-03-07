@@ -14,6 +14,7 @@ from openprocurement.api.validation import (
     validate_data,
 )
 from openprocurement.tender.limited.models import Award
+from openprocurement.tender.openua.utils import calculate_business_date
 
 
 def validate_patch_award_data(request):
@@ -503,7 +504,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
-            award.complaintPeriod.endDate = get_now() + self.stand_still_delta
+            award.complaintPeriod.endDate = calculate_business_date(get_now(), self.stand_still_delta, tender)
             tender.contracts.append(Contract({'awardID': award.id}))
             # add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
@@ -513,7 +514,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                     i.status = 'cancelled'
             # add_next_award(self.request)
         elif award_status == 'pending' and award.status == 'unsuccessful':
-            award.complaintPeriod.endDate = get_now() + self.stand_still_delta
+            award.complaintPeriod.endDate = calculate_business_date(get_now(), self.stand_still_delta, tender)
             # add_next_award(self.request)
         elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             award.complaintPeriod.endDate = get_now()
