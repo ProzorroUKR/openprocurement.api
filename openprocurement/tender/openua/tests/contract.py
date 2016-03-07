@@ -13,14 +13,18 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
     def setUp(self):
         super(TenderContractResourceTest, self).setUp()
         # Create award
-        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [test_tender_ua_data["procuringEntity"]], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
+        authorization = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
+        response = self.app.post_json('/tenders/{}/awards'.format(
+            self.tender_id), {'data': {'suppliers': [test_tender_ua_data["procuringEntity"]], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
+        self.app.authorization = authorization
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
 
     def test_create_tender_contract_invalid(self):
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/some_id/contracts', {
                                       'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
@@ -89,8 +93,9 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         ])
 
     def test_create_tender_contract(self):
-        response = self.app.post_json('/tenders/{}/contracts?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
+        self.app.authorization = ('Basic', ('token', ''))
+        response = self.app.post_json('/tenders/{}/contracts'.format(
+            self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         contract = response.json['data']
@@ -103,8 +108,8 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
 
         self.set_status('unsuccessful')
 
-        response = self.app.post_json('/tenders/{}/contracts?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}}, status=403)
+        response = self.app.post_json('/tenders/{}/contracts'.format(
+            self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add contract in current (unsuccessful) tender status")
@@ -116,11 +121,14 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't update contract in current (unsuccessful) tender status")
 
     def test_patch_tender_contract(self):
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/contracts?acc_token={}'.format(
             self.tender_id, self.tender_token), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         contract = response.json['data']
+        self.app.authorization = auth
 
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
             self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}}, status=403)
@@ -185,12 +193,15 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']["status"], "active")
 
     def test_get_tender_contract(self):
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/contracts'.format(
             self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         contract = response.json['data']
 
+        self.app.authorization = auth
         response = self.app.get('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
@@ -215,11 +226,15 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         ])
 
     def test_get_tender_contracts(self):
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/contracts'.format(
             self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         contract = response.json['data']
+
+        self.app.authorization = auth
 
         response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
@@ -244,15 +259,20 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_tender_ua_data["procuringEntity"]], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
-        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "active"}})
+
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
         # Create contract for award
         response = self.app.post_json('/tenders/{}/contracts'.format(self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
         contract = response.json['data']
         self.contract_id = contract['id']
+        self.app.authorization = auth
 
     def test_not_found(self):
         response = self.app.post('/tenders/some_id/contracts/some_id/documents', status=404, upload_files=[

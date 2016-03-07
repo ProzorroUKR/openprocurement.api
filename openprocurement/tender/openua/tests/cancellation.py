@@ -76,7 +76,7 @@ class TenderCancellationResourceTest(BaseTenderUAContentWebTest):
                 u'body', u'name': u'invalid_field'}
         ])
 
-        response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
             'reason': 'cancellation reason',
             "cancellationOf": "lot"
         }}, status=422)
@@ -87,7 +87,7 @@ class TenderCancellationResourceTest(BaseTenderUAContentWebTest):
             {u'description': [u'This field is required.'], u'location': u'body', u'name': u'relatedLot'}
         ])
 
-        response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
             'reason': 'cancellation reason',
             "cancellationOf": "lot",
             "relatedLot": '0' * 32
@@ -415,8 +415,8 @@ class TenderCancellationDocumentResourceTest(BaseTenderUAContentWebTest):
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
-        response = self.app.post_json('/tenders/{}/cancellations'.format(
-            self.tender_id), {'data': {'reason': 'cancellation reason'}})
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
         cancellation = response.json['data']
         self.cancellation_id = cancellation['id']
 
@@ -620,8 +620,8 @@ class TenderCancellationDocumentResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertEqual('name.doc', response.json["data"]["title"])
 
-        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}'.format(
-            self.tender_id, self.cancellation_id, doc_id), 'content3', content_type='application/msword')
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, doc_id, self.tender_token), 'content3', content_type='application/msword')
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])

@@ -125,8 +125,8 @@ class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertEqual(u'укр.doc', response.json["data"]["title"])
 
-        response = self.app.post('/tenders/{}/documents?acc_token=acc_token'.format(
-            self.tender_id), upload_files=[('file', u'укр.doc'.encode("ascii", "xmlcharrefreplace"), 'content')])
+        response = self.app.post('/tenders/{}/documents?acc_token={}'.format(
+            self.tender_id, self.tender_token), upload_files=[('file', u'укр.doc'.encode("ascii", "xmlcharrefreplace"), 'content')])
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(u'укр.doc', response.json["data"]["title"])
@@ -141,7 +141,7 @@ class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
         environ = self.app._make_environ()
         environ['CONTENT_TYPE'] = 'multipart/form-data; boundary=BOUNDARY'
         environ['REQUEST_METHOD'] = 'POST'
-        req = self.app.RequestClass.blank(self.app._remove_fragment('/tenders/{}/documents'.format(self.tender_id)), environ)
+        req = self.app.RequestClass.blank(self.app._remove_fragment('/tenders/{}/documents?acc_token={}'.format(self.tender_id, self.tender_token)), environ)
         req.environ['wsgi.input'] = BytesIO(body.encode('utf8'))
         req.content_length = len(body)
         response = self.app.do_request(req, status=422)
@@ -153,7 +153,8 @@ class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
         environ = self.app._make_environ()
         environ['CONTENT_TYPE'] = 'multipart/form-data; boundary=BOUNDARY'
         environ['REQUEST_METHOD'] = 'POST'
-        req = self.app.RequestClass.blank(self.app._remove_fragment('/tenders/{}/documents'.format(self.tender_id)), environ)
+        req = self.app.RequestClass.blank(self.app._remove_fragment('/tenders/{}/documents?acc_token={}'.format(
+            self.tender_id, self.tender_token)), environ)
         req.environ['wsgi.input'] = BytesIO(body.encode(req.charset or 'utf8'))
         req.content_length = len(body)
         response = self.app.do_request(req)

@@ -733,7 +733,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertIn('features', response.json['data'])
 
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'features': []}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'features': []}})
         self.assertEqual(response.status, '200 OK')
         self.assertNotIn('features', response.json['data'])
 
@@ -754,7 +754,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertNotEqual(response.json['data']['status'], 'cancelled')
 
-        response = self.app.patch_json('/tenders/{}?ass_token={}'.format(
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
             tender['id'], owner_token), {'data': {'status': 'cancelled'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
@@ -966,8 +966,10 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         response = self.app.post_json('/tenders', {'data': test_tender_ua_data})
         self.assertEqual(response.status, '201 Created')
         tender = response.json['data']
+        owner = response.json['access']['token']
 
-        response = self.app.post_json('/tenders/{}/cancellations'.format(tender['id']), {'data': {'reason': 'cancellation reason', 'status': 'active'}})
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
+            tender['id'], owner), {'data': {'reason': 'cancellation reason', 'status': 'active'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 

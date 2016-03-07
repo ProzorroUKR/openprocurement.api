@@ -18,7 +18,7 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
             {u'description': u'Not Found', u'location': u'url', u'name': u'tender_id'}
         ])
 
-        request_path = '/tenders/{}/lots'.format(self.tender_id)
+        request_path = '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token)
 
         response = self.app.post(request_path, 'data', status=415)
         self.assertEqual(response.status, '415 Unsupported Media Type')
@@ -115,7 +115,8 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(lots[0]['minimalStep']['currency'], "UAH")
         self.assertEqual(lots[0]['minimalStep']['amount'], 100)
 
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"items": [{'relatedLot': '0' * 32}]}}, status=422)
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            self.tender_id, self.tender_token), {"data": {"items": [{'relatedLot': '0' * 32}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -151,7 +152,7 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
 
         self.set_status('active.auction')
 
-        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]}, status=403)
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token), {'data': test_lots[0]}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add lot in current (active.auction) tender status")
@@ -211,7 +212,7 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(lot['value']['currency'], "UAH")
 
         # update tender currency without mimimalStep currency change
-        response = self.app.patch_json('/tenders/{}?acc_token=={}'.format(
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
             self.tender_id, self.tender_token), {"data": {"value": {"currency": "GBP"}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
@@ -651,7 +652,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
         self.lot_id = self.initial_lots[0]['id']
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {
             "items": [
                 {
                     'relatedLot': self.lot_id,

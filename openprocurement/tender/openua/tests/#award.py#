@@ -862,7 +862,8 @@ class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Forbidden")
 
-        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, complaint['id'], owner_token), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, complaint['id'], owner_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active")
@@ -1257,7 +1258,7 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
     initial_auth = ('Basic', ('broker', ''))
 
     def test_create_tender_award_complaint(self):
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.initial_bids_tokens[0]), {'data': {
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
             'author': test_tender_ua_data["procuringEntity"],
@@ -1292,7 +1293,7 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can add complaint only in active lot status")
 
     def test_patch_tender_award_complaint(self):
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "unsuccessful"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "unsuccessful"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "unsuccessful")
@@ -1390,7 +1391,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
                 u'url', u'name': u'complaint_id'}
         ])
 
-        response = self.app.post('/tenders/{}/awards/{}/complaints/some_id/documents'.format(self.tender_id, self.award_id, self.complaint_id), status=404, upload_files=[
+        response = self.app.post('/tenders/{}/awards/{}/complaints/{}/documents'.format(self.tender_id, self.award_id, self.complaint_id), status=404, upload_files=[
                                  ('invalid_value', 'name.doc', 'content')])
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
@@ -1569,7 +1570,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
 
-        response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/some_id?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token),
+        response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/{}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id),
                                 status=404,
                                 upload_files=[('invalid_name', 'name.doc', 'content')])
         self.assertEqual(response.status, '404 Not Found')
@@ -2290,7 +2291,7 @@ class Tender2LotAwardDocumentResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_length, 8)
         self.assertEqual(response.body, 'content3')
 
-        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
+        response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
             'reason': 'cancellation reason',
             'status': 'active',
             "cancellationOf": "lot",
