@@ -369,7 +369,7 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
-        self.assertIn({u'description': {u'procurementMethodType': [u"Value must be one of ['belowThreshold', 'aboveThresholdUA', 'aboveThresholdEU']."]}, u'location': u'body', u'name': u'tender'},
+        self.assertIn({u'description': {u'procurementMethodType': [u"Value must be one of ('belowThreshold', 'aboveThresholdUA', 'aboveThresholdEU')."]}, u'location': u'body', u'name': u'tender'},
                      response.json['errors'])
 
         data = test_plan_data['tender']
@@ -379,7 +379,7 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
-        self.assertIn({u'description': {u'procurementMethodType': [u"Value must be one of ['reporting', 'negotiation', 'negotiation.quick']."]}, u'location': u'body', u'name': u'tender'},
+        self.assertIn({u'description': {u'procurementMethodType': [u"Value must be one of ('reporting', 'negotiation', 'negotiation.quick')."]}, u'location': u'body', u'name': u'tender'},
                      response.json['errors'])
 
         response = self.app.post_json(request_path,

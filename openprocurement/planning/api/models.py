@@ -82,7 +82,8 @@ class PlanTender(Model):
 
     def validate_procurementMethodType(self, data, procurementMethodType):
         if (procurementMethodType not in PROCEDURES[data.get('procurementMethod')]):
-            raise ValidationError(u"Value must be one of ['" + "', '".join(PROCEDURES[data.get('procurementMethod')]) + "'].")
+            raise ValidationError(u"Value must be one of {!r}.".format(PROCEDURES[data.get('procurementMethod')]))
+
 
 # roles
 plain_role = (blacklist('revisions', 'dateModified') + schematics_embedded_role)
