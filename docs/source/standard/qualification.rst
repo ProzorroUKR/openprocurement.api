@@ -44,5 +44,23 @@ Schema
     * `unsuccessful`
     * `cancelled`
 
+Workflow
+--------
+
+.. graphviz::
+
+    digraph G {
+        A [ label="pending*" ]
+        B [ label="active"]
+        C [ label="cancelled"]
+        D [ label="unsuccessful"]
+         A -> B;
+         A -> C;
+         A -> D;
+         D -> C;
+         B -> C;
+    }
+
+\* marks initial state
 
 .. index:: Date, Document

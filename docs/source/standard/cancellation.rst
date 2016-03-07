@@ -50,3 +50,16 @@ Schema
     string
 
     Id of related :ref:`lot`.
+
+Workflow
+--------
+
+.. graphviz::
+
+    digraph G {
+        A [ label="pending*" ]
+        B [ label="active"]
+         A -> B;
+    }
+
+\* marks initial state
