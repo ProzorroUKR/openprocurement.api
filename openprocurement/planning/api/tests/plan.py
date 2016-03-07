@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from datetime import timedelta
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.planning.api.models import Plan
-from openprocurement.api.tests.base import BaseTenderWebTest
 from openprocurement.planning.api.tests.base import test_plan_data, BaseWebTest
 from openprocurement.api.models import get_now
 
@@ -269,9 +267,9 @@ class PlanResourceTest(BaseWebTest):
         self.assertNotIn('descending=1', response.json['prev_page']['uri'])
         self.assertEqual(len(response.json['data']), 0)
 
-        test_tender_data2 = test_plan_data.copy()
-        test_tender_data2['mode'] = 'test'
-        response = self.app.post_json('/plans', {'data': test_tender_data2})
+        test_plan_data2 = test_plan_data.copy()
+        test_plan_data2['mode'] = 'test'
+        response = self.app.post_json('/plans', {'data': test_plan_data2})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 
@@ -363,6 +361,26 @@ class PlanResourceTest(BaseWebTest):
                       response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'budget'},
                       response.json['errors'])
+
+        data = test_plan_data['tender']
+        test_plan_data['tender'] = {'procurementMethod': 'open', 'procurementMethodType': 'reporting', 'tenderPeriod' : data['tenderPeriod'] }
+        response = self.app.post_json(request_path, {'data': test_plan_data}, status=422)
+        test_plan_data['tender'] = data
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertIn({u'description': {u'procurementMethodType': [u"Value must be one of ['belowThreshold', 'aboveThresholdUA', 'aboveThresholdEU']."]}, u'location': u'body', u'name': u'tender'},
+                     response.json['errors'])
+
+        data = test_plan_data['tender']
+        test_plan_data['tender'] = {'procurementMethod': 'limited', 'procurementMethodType': 'belowThreshold', 'tenderPeriod' : data['tenderPeriod'] }
+        response = self.app.post_json(request_path, {'data': test_plan_data}, status=422)
+        test_plan_data['tender'] = data
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertIn({u'description': {u'procurementMethodType': [u"Value must be one of ['reporting', 'negotiation', 'negotiation.quick']."]}, u'location': u'body', u'name': u'tender'},
+                     response.json['errors'])
 
         response = self.app.post_json(request_path,
                                       {'data': {'tender': {'tenderPeriod': {'startDate': 'invalid_value'}}}},
