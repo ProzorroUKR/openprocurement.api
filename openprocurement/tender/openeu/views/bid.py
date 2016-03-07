@@ -153,6 +153,7 @@ class TenderBidResource(BaseResource):
             for lotvalue in self.request.validated['data'].get("lotValues", []):
                 if lotvalue['relatedLot'] in lotValues and lotvalue.get("value", {}).get("amount") != lotValues[lotvalue['relatedLot']]:
                     lotvalue['date'] = get_now().isoformat()
+        self.request.validated['tender'].modified = False
         if apply_patch(self.request, src=self.request.context.serialize()):
             self.LOGGER.info('Updated tender bid {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_patch'}))
