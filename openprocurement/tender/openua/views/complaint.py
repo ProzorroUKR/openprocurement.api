@@ -25,6 +25,9 @@ from openprocurement.tender.openua.utils import calculate_business_date
             description="Tender complaints")
 class TenderUaComplaintResource(TenderComplaintResource):
 
+    def complaints_len(self, tender):
+        return sum([len(i.complaints) for i in tender.awards], len(tender.complaints))
+
     @json_view(content_type="application/json", validators=(validate_complaint_data,), permission='create_complaint')
     def collection_post(self):
         """Post a complaint
@@ -50,7 +53,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             complaint.type = 'complaint'
         else:
             complaint.status = 'draft'
-        complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, sum([len(i.complaints) for i in tender.awards], len(tender.complaints)) + 1)
+        complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
         set_ownership(complaint, self.request)
         tender.complaints.append(complaint)
         if save_tender(self.request):
