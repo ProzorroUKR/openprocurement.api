@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from openprocurement.api.models import Contract, get_now
+from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
     apply_patch,
     save_tender,
@@ -303,7 +303,12 @@ class TenderAwardResource(APIResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
-            tender.contracts.append(Contract({'awardID': award.id}))
+            tender.contracts.append(type(tender).contracts.model_class({
+                'awardID': award.id,
+                'suppliers': award.suppliers,
+                'value': award.value,
+                'items': tender.items,
+                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) +1) }))
             # add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
             for i in tender.contracts:
@@ -505,7 +510,12 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
             award.complaintPeriod.endDate = calculate_business_date(get_now(), self.stand_still_delta, tender)
-            tender.contracts.append(Contract({'awardID': award.id}))
+            tender.contracts.append(type(tender).contracts.model_class({
+                'awardID': award.id,
+                'suppliers': award.suppliers,
+                'value': award.value,
+                'items': tender.items,
+                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) +1) }))
             # add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
             award.complaintPeriod.endDate = get_now()
