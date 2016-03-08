@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/773c35cfb7344fa6b751d32773e85d7a/contracts/a18b694138f34d72bda0f83d9987dd0a?acc_token=fb6e93d8cb54488c9c1e42ae69515275 HTTP/1.0
+PATCH /api/0.12/tenders/c6df047774384b5d861ca52d06bcc168/contracts/ceedfbe3cf3443f1bd3e6dd5e4e95761?acc_token=2f452783007041ffb25347fc7d3156ad HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -15,8 +15,55 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "awardID": "ed62c6b2c5b54b809264bf0a24ddfcf5", 
-    "id": "a18b694138f34d72bda0f83d9987dd0a"
+    "items": [
+      {
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "55.51.10.300", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "id": "2dc54675d6364e2baffbc0f8e74432ac", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Послуги з харчування у школах", 
+          "id": "55523100-3"
+        }, 
+        "description": "Послуги шкільних їдалень"
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+          "id": "13313462", 
+          "uri": "http://sch10.edu.vn.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 475000.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "awardID": "c0134ca47be44a89a3add716193bd337", 
+    "id": "ceedfbe3cf3443f1bd3e6dd5e4e95761", 
+    "contractID": "UA-2016-03-08-000001-1"
   }
 }
 
