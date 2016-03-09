@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd/documents?acc_token=0d8b9c3b5b5c4551829844cbbe979700 HTTP/1.0
+GET /api/0.12/tenders/5bcb2e8d7e834cffad3af544ba1686a8/documents?acc_token=97b18b2d6f144292872de0df3d67c2de HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,21 +8,21 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "title": "Notice.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd/documents/b7bc73fb170b42a19952f1a1d2364f01?download=b95a30a7e0b844ab951db3c2d9aa0c4b", 
+      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/5bcb2e8d7e834cffad3af544ba1686a8/documents/f99ed44af5514aeaa626d3d70d38c09f?download=418f81b4b82d424cb83357f78aac7acf", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-01-29T18:54:27.097745+02:00", 
-      "id": "b7bc73fb170b42a19952f1a1d2364f01", 
-      "dateModified": "2016-01-29T18:54:27.097775+02:00"
+      "datePublished": "2016-03-08T16:31:22.940014+02:00", 
+      "id": "f99ed44af5514aeaa626d3d70d38c09f", 
+      "dateModified": "2016-03-08T16:31:22.940059+02:00"
     }, 
     {
       "title": "AwardCriteria.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd/documents/788939576e9d4a10b834e66a3a49ba1f?download=56e3233242c4430b8228c79e5ab90ea3", 
+      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/5bcb2e8d7e834cffad3af544ba1686a8/documents/86a7d0c995144d60bdc2b391a9318b44?download=ce39350363224030939f02965704500d", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-01-29T18:54:27.270059+02:00", 
-      "id": "788939576e9d4a10b834e66a3a49ba1f", 
-      "dateModified": "2016-01-29T18:54:27.270089+02:00"
+      "datePublished": "2016-03-08T16:31:23.099249+02:00", 
+      "id": "86a7d0c995144d60bdc2b391a9318b44", 
+      "dateModified": "2016-03-08T16:31:23.099278+02:00"
     }
   ]
 }

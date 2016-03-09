@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/2124973b187d454ea5bba0fa8d049b6e/complaints/f2bf82b959d0400b845224166aa45e43?acc_token=2aa616943f05458e8ad69fcb95f6cafa HTTP/1.0
+PATCH /api/0.12/tenders/0d2d92bd4a2a457799ba4d8571fa38d1/complaints/278661bbc5fa4982b3454b8f8163b8d6?acc_token=1f7abda1e23745b9962e3c274481cd48 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 31
 Content-Type: application/json
@@ -19,12 +19,12 @@ Content-Type: application/json; charset=UTF-8
       {
         "author": "complaint_owner", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/2124973b187d454ea5bba0fa8d049b6e/complaints/f2bf82b959d0400b845224166aa45e43/documents/9b0b2405f8b74d2a9a38c11a5b97a7e6?download=0e9d359ccbc840c6897ab25a72a1a1cf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/0d2d92bd4a2a457799ba4d8571fa38d1/complaints/278661bbc5fa4982b3454b8f8163b8d6/documents/7213ad5dbf6d42428a248a13344dc710?download=55953e7b5ba5492b89372f117ca8ec09", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-07T12:47:31.604117+02:00", 
-        "id": "9b0b2405f8b74d2a9a38c11a5b97a7e6", 
-        "dateModified": "2016-03-07T12:47:31.604166+02:00"
+        "datePublished": "2016-03-08T16:31:18.090079+02:00", 
+        "id": "7213ad5dbf6d42428a248a13344dc710", 
+        "dateModified": "2016-03-08T16:31:18.090118+02:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -50,11 +50,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "dateSubmitted": "2016-03-07T12:47:32.337354+02:00", 
-    "complaintID": "UA-2016-03-07-000001.1", 
-    "date": "2016-03-07T12:47:31.492376+02:00", 
+    "dateSubmitted": "2016-03-08T16:31:18.831170+02:00", 
+    "complaintID": "UA-2016-03-08-000001.1", 
+    "date": "2016-03-08T16:31:17.960674+02:00", 
     "type": "complaint", 
-    "id": "f2bf82b959d0400b845224166aa45e43"
+    "id": "278661bbc5fa4982b3454b8f8163b8d6"
   }
 }
 

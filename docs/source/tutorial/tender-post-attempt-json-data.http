@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-02-14T18:54:24.696596+02:00"
+      "endDate": "2016-03-24T16:31:11.086910+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -66,18 +66,18 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/c45fa00278894647a694de52b6eecbe3
 {
   "access": {
-    "token": "0d8b9c3b5b5c4551829844cbbe979700"
+    "token": "6a182d7be1864b9a81859cf9420196b0"
   }, 
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-01-29-000001", 
+    "tenderID": "UA-2016-03-08-000002", 
     "tenderPeriod": {
-      "startDate": "2016-01-29T18:54:26.346017+02:00", 
-      "endDate": "2016-02-14T18:54:24.696596+02:00"
+      "startDate": "2016-03-08T16:31:27.139034+02:00", 
+      "endDate": "2016-03-24T16:31:11.086910+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -85,32 +85,12 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/b337832d657e4a
       "amount": 35.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "items": [
-      {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "Послуги шкільних їдалень"
-          }
-        ], 
-        "id": "03636c21a8f943dcb8fac93d020240f3", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 1
-      }
-    ], 
+    "auctionPeriod": {
+      "shouldStartAfter": "2016-03-24T16:31:11.086910+02:00"
+    }, 
     "complaintPeriod": {
-      "startDate": "2016-01-29T18:54:26.346017+02:00", 
-      "endDate": "2016-02-10T18:54:24.696596+02:00"
+      "startDate": "2016-03-08T16:31:27.139034+02:00", 
+      "endDate": "2016-03-20T16:31:11.086910+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
@@ -119,7 +99,11 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/b337832d657e4a
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-02-14T18:54:24.696596+02:00", 
+    "enquiryPeriod": {
+      "startDate": "2016-03-08T16:31:27.139034+02:00", 
+      "endDate": "2016-03-14T16:31:11.086910+02:00"
+    }, 
+    "next_check": "2016-03-24T16:31:11.086910+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -140,13 +124,32 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/b337832d657e4a
         "locality": "м. Вінниця"
       }
     }, 
-    "enquiryPeriod": {
-      "startDate": "2016-01-29T18:54:26.346017+02:00", 
-      "endDate": "2016-02-11T18:54:24.696596+02:00"
-    }, 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "id": "e90c371bb6ba48c78a45d2ed89c203d4", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
     "owner": "broker", 
-    "dateModified": "2016-01-29T18:54:26.421907+02:00", 
-    "id": "b337832d657e4a07bdd0f6572b431fbd", 
+    "dateModified": "2016-03-08T16:31:27.246178+02:00", 
+    "id": "c45fa00278894647a694de52b6eecbe3", 
     "awardCriteria": "lowestCost"
   }
 }
