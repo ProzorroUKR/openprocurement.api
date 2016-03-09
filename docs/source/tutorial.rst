@@ -191,7 +191,7 @@ Documents can be either public or private:
   2. When you upload new version of the document, privacy settings are copied from the previous version.
   3. Privacy settings can be changed only during `tenderPeriod` (with `active.tendering` status).
   4. If tender has status `active.qualification` winner can upload only public documents.
-  
+
 Let's upload private document:
 
 .. include:: tutorial/upload-bid-private-proposal.http
@@ -346,6 +346,33 @@ Qualification commission registers its decision via the following call:
 .. include:: tutorial/confirm-qualification.http
    :code:
 
+Uploading contract documentation
+--------------------------------
+
+You can upload contract documents. Let's upload contract document:
+
+.. include:: tutorial/tender-contract-upload-document.http
+    :code:
+
+`201 Created` response code and `Location` header confirm document was added.
+
+Let's see the list of contract documents:
+
+.. include:: tutorial/tender-contract-get-documents.http
+    :code:
+
+We can add another contract document:
+
+.. include:: tutorial/tender-contract-upload-second-document.http
+    :code:
+
+`201 Created` response code and `Location` header confirm second document was uploaded.
+
+Let's see the list of all added contract documents:
+
+.. include:: tutorial/tender-contract-get-documents-again.http
+    :code:
+
 Cancelling tender
 -----------------
 
@@ -396,4 +423,3 @@ Activating the request and cancelling tender
 
 .. include::  tutorial/active-cancellation.http
    :code:
-

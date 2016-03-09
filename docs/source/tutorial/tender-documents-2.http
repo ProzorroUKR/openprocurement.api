@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/e3e16eb63b584378b75d9eb01dc2f8b9/documents?acc_token=63aff14b0c6841b4b3b2f1819e5813f7 HTTP/1.0
+GET /api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe/documents?acc_token=e33a49b4441b4110973ba9dc9e617740 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -9,22 +9,22 @@ Content-Type: application/json; charset=UTF-8
     {
       "language": "uk", 
       "title": "Notice.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/e3e16eb63b584378b75d9eb01dc2f8b9/documents/90cf447dd9f54c3586c9552b2ffe54ba?download=c61b5a32ebf941faadebf93e8809bb3a", 
+      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe/documents/614c7da134ee4f0c83a922debe6c5a05?download=4d8b0fb2ba2945c0b5d755e305e1ed79", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-02-24T14:13:34.512543+02:00", 
-      "id": "90cf447dd9f54c3586c9552b2ffe54ba", 
-      "dateModified": "2016-02-24T14:13:34.512588+02:00"
+      "datePublished": "2016-03-09T13:57:06.268385+02:00", 
+      "id": "614c7da134ee4f0c83a922debe6c5a05", 
+      "dateModified": "2016-03-09T13:57:06.268413+02:00"
     }, 
     {
       "language": "uk", 
       "title": "AwardCriteria.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/e3e16eb63b584378b75d9eb01dc2f8b9/documents/05a63e8602d1424db94af3b3eb2f9462?download=b235bbcb16aa4d6e99f2359ed9414ee1", 
+      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe/documents/db534fd541fe476d948545eb1cdd514d?download=8bdbf54e6daa43a4838a0e314a3a19ba", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-02-24T14:13:34.679734+02:00", 
-      "id": "05a63e8602d1424db94af3b3eb2f9462", 
-      "dateModified": "2016-02-24T14:13:34.679766+02:00"
+      "datePublished": "2016-03-09T13:57:06.499877+02:00", 
+      "id": "db534fd541fe476d948545eb1cdd514d", 
+      "dateModified": "2016-03-09T13:57:06.499907+02:00"
     }
   ]
 }

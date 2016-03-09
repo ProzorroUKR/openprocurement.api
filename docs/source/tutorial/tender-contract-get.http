@@ -1,0 +1,110 @@
+GET /api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe/contracts/9d5549b84738498f853838fcd141e291?acc_token=e33a49b4441b4110973ba9dc9e617740 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "documents": [
+      {
+        "language": "uk", 
+        "title": "contract_first_document.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe/contracts/9d5549b84738498f853838fcd141e291/documents/39773d6fbd404a89991f5519e8d72184?download=a3df03be26484076bc9f2eae963f24f5", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2016-03-09T13:57:14.735933+02:00", 
+        "id": "39773d6fbd404a89991f5519e8d72184", 
+        "dateModified": "2016-03-09T13:57:14.735973+02:00"
+      }, 
+      {
+        "language": "uk", 
+        "title": "contract_second_document.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe/contracts/9d5549b84738498f853838fcd141e291/documents/c40f8cad5a4a4eacbeff340136b166f0?download=1d66a816dd8d4aa49f977a096c508709", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2016-03-09T13:57:15.122911+02:00", 
+        "id": "c40f8cad5a4a4eacbeff340136b166f0", 
+        "dateModified": "2016-03-09T13:57:15.122949+02:00"
+      }
+    ], 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "id": "4c2267f1086f4173ba75ead5be7ce62d", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }, 
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "id": "34a817b275ec4a8694015605650ae307", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Книга»", 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 34", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 499.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "awardID": "864171e781ec41e38fbeaba7b7ae303e", 
+    "id": "9d5549b84738498f853838fcd141e291", 
+    "contractID": "UA-2016-03-09-000001-1"
+  }
+}
+

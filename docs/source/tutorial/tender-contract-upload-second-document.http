@@ -1,0 +1,22 @@
+POST /api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe/contracts/9d5549b84738498f853838fcd141e291/documents?acc_token=e33a49b4441b4110973ba9dc9e617740 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 207
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy261944128775$
+Host: api-sandbox.openprocurement.org
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe/contracts/9d5549b84738498f853838fcd141e291/documents/c40f8cad5a4a4eacbeff340136b166f0
+{
+  "data": {
+    "language": "uk", 
+    "title": "contract_second_document.doc", 
+    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe/contracts/9d5549b84738498f853838fcd141e291/documents/c40f8cad5a4a4eacbeff340136b166f0?download=1d66a816dd8d4aa49f977a096c508709", 
+    "format": "application/msword", 
+    "documentOf": "tender", 
+    "datePublished": "2016-03-09T13:57:15.122911+02:00", 
+    "id": "c40f8cad5a4a4eacbeff340136b166f0", 
+    "dateModified": "2016-03-09T13:57:15.122949+02:00"
+  }
+}
+
