@@ -16,7 +16,8 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         super(TenderContractResourceTest, self).setUp()
         # Create award
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]], 'status': 'pending'}})
+            self.tender_id, self.tender_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]], 'status': 'pending',
+                                                          'value': {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}})
         award = response.json['data']
         self.award_id = award['id']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
@@ -184,6 +185,22 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
                 self.tender_id))
         self.contract_id = response.json['data'][0]['id']
 
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"value": {"currency": "USD"}}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"], "Can\'t update currency for contract value")
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"value": {"valueAddedTaxIncluded": False}}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"], "Can\'t update valueAddedTaxIncluded for contract value")
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"value": {"amount": 501}}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"], "Value amount should be less or equal to awarded amount (469.0)")
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"value": {"amount": 238}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['value']['amount'], 238)
+
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token),
                                        {"data": {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
@@ -271,6 +288,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active")
+        self.assertEqual(response.json['data']["value"]['amount'], 238)
 
     def test_get_tender_contract(self):
         response = self.app.get('/tenders/{}/contracts'.format(
@@ -365,6 +383,22 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
         for i in tender.get('awards', []):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.db.save(tender)
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"value": {"currency": "USD"}}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"], "Can\'t update currency for contract value")
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"value": {"valueAddedTaxIncluded": False}}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"], "Can\'t update valueAddedTaxIncluded for contract value")
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"value": {"amount": 501}}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"], "Value amount should be less or equal to awarded amount (469.0)")
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"value": {"amount": 238}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['value']['amount'], 238)
 
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token),
                                        {"data": {"status": "active"}})
@@ -736,7 +770,8 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertEqual('document description', response.json["data"]["description"])
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"status": "cancelled"}})
+        # cancel contract by award cancellation
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "cancelled"}})
         self.assertEqual(response.json['data']["status"], "cancelled")
 
         response = self.app.patch_json('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(self.tender_id, self.contract_id, doc_id, self.tender_token), {"data": {"description": "document description"}}, status=403)
