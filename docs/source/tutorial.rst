@@ -368,7 +368,7 @@ We can add another contract document:
 
 `201 Created` response code and `Location` header confirm second document was uploaded.
 
-Now let's set document language and add a new title_en and description_en
+By default, document language is Ukrainian. You can can change it and set another language for the document by assigning appropriate language code to `language` field (available options: uk, en, ru). You can also set document's title (e.g. title_en) and description (e.g. description_en) fields. See :ref:`Document` data structure for details.
 
 .. include:: tutorial/tender-contract-patch-document.http
     :code:
