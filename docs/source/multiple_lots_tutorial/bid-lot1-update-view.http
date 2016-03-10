@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/b5239f4bf8ff46a1a71e463ffc9a27b4/bids/385f415d88a347748c81cc93e9887d5e?acc_token=777b049075d747d8b4ba762068304253 HTTP/1.0
+PATCH /api/0.12/tenders/5245b342641847728cab7cf7e514b37f/bids/916dd5f6c9244949a11e29227f5e4adb?acc_token=30df55d953454524a4a4d7e174849ee8 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 124
 Content-Type: application/json
@@ -9,7 +9,7 @@ DATA:
     "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "970494121f2547deb2b0601068cc5598", 
+        "relatedLot": "22cc717cfa354687ae1de88a09b1485f", 
         "value": {
           "amount": 500
         }
@@ -22,13 +22,13 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "date": "2016-03-10T14:53:54.162730+02:00", 
+    "date": "2016-03-10T16:24:57.153964+02:00", 
     "status": "pending", 
-    "id": "385f415d88a347748c81cc93e9887d5e", 
+    "id": "916dd5f6c9244949a11e29227f5e4adb", 
     "lotValues": [
       {
-        "relatedLot": "970494121f2547deb2b0601068cc5598", 
-        "date": "2016-03-10T14:53:54.163372+02:00", 
+        "relatedLot": "22cc717cfa354687ae1de88a09b1485f", 
+        "date": "2016-03-10T16:24:57.154607+02:00", 
         "status": "pending", 
         "value": {
           "currency": "UAH", 

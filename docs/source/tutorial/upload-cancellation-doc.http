@@ -1,22 +1,22 @@
-POST /api/0.12/tenders/0280cfd731e842648e0ae1c806264739/cancellations/2800932416964e2c895b2954ad0eaa3e/documents?acc_token=660d808bb5cd4e838d8a8bfc26d4cb92 HTTP/1.0
+POST /api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e/cancellations/670947d377e349f4af1addd715d34cb2/documents?acc_token=f292b12ca3194d37a33423c874a23585 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 186
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy241281138858$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy208866413687$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/0280cfd731e842648e0ae1c806264739/cancellations/2800932416964e2c895b2954ad0eaa3e/documents/801c91ae40cd49ef8bf615ace51e447e
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e/cancellations/670947d377e349f4af1addd715d34cb2/documents/2c027274fc5a40efab15d04aee51c430
 {
   "data": {
     "language": "uk", 
     "title": "Notice.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/0280cfd731e842648e0ae1c806264739/cancellations/2800932416964e2c895b2954ad0eaa3e/documents/801c91ae40cd49ef8bf615ace51e447e?download=5e45a7222aa74c759dd8a1b4c74e148c", 
+    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e/cancellations/670947d377e349f4af1addd715d34cb2/documents/2c027274fc5a40efab15d04aee51c430?download=955cdf9649b44ce28cb49acef3f87431", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-03-10T14:53:50.410524+02:00", 
-    "id": "801c91ae40cd49ef8bf615ace51e447e", 
-    "dateModified": "2016-03-10T14:53:50.410565+02:00"
+    "datePublished": "2016-03-10T16:24:53.352510+02:00", 
+    "id": "2c027274fc5a40efab15d04aee51c430", 
+    "dateModified": "2016-03-10T16:24:53.352559+02:00"
   }
 }
 

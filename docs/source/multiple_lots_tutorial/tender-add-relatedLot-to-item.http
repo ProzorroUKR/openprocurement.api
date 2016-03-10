@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/b5239f4bf8ff46a1a71e463ffc9a27b4?acc_token=c4d8cb0b78b14fccb88b16a8a4ddbad0 HTTP/1.0
+PATCH /api/0.12/tenders/5245b342641847728cab7cf7e514b37f?acc_token=c429c04fa8804952a5c220e24be98bb7 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 125
 Content-Type: application/json
@@ -8,10 +8,10 @@ DATA:
   "data": {
     "items": [
       {
-        "relatedLot": "970494121f2547deb2b0601068cc5598"
+        "relatedLot": "22cc717cfa354687ae1de88a09b1485f"
       }, 
       {
-        "relatedLot": "dbc86fe3eb224ef6936fd7d767833de6"
+        "relatedLot": "dbed092b1c3042ecbd263f579d97a9b8"
       }
     ]
   }
@@ -25,8 +25,8 @@ Content-Type: application/json; charset=UTF-8
     "status": "active.tendering", 
     "tenderID": "UA-2016-03-10-000001", 
     "tenderPeriod": {
-      "startDate": "2016-03-10T14:53:53.084026+02:00", 
-      "endDate": "2016-04-10T14:53:24.768880+02:00"
+      "startDate": "2016-03-10T16:24:56.060672+02:00", 
+      "endDate": "2016-04-10T16:24:26.508611+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -36,8 +36,8 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "procurementMethodType": "aboveThresholdEU", 
     "complaintPeriod": {
-      "startDate": "2016-03-10T14:53:53.084026+02:00", 
-      "endDate": "2016-04-06T14:53:24.768880+02:00"
+      "startDate": "2016-03-10T16:24:56.060672+02:00", 
+      "endDate": "2016-04-06T16:24:26.508611+02:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -61,7 +61,7 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "970494121f2547deb2b0601068cc5598"
+        "id": "22cc717cfa354687ae1de88a09b1485f"
       }, 
       {
         "status": "active", 
@@ -77,10 +77,10 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "dbc86fe3eb224ef6936fd7d767833de6"
+        "id": "dbed092b1c3042ecbd263f579d97a9b8"
       }
     ], 
-    "next_check": "2016-04-10T15:53:24.768880+03:00", 
+    "next_check": "2016-04-10T17:24:26.508611+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -106,14 +106,14 @@ Content-Type: application/json; charset=UTF-8
       "name": "ЗОСШ #10 м.Вінниці"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-03-10T14:53:53.084026+02:00", 
-      "endDate": "2016-03-31T14:53:24.768880+02:00"
+      "startDate": "2016-03-10T16:24:56.060672+02:00", 
+      "endDate": "2016-03-31T16:24:26.508611+02:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-03-10T14:53:53.899229+02:00", 
+    "dateModified": "2016-03-10T16:24:56.879980+02:00", 
     "items": [
       {
-        "relatedLot": "970494121f2547deb2b0601068cc5598", 
+        "relatedLot": "22cc717cfa354687ae1de88a09b1485f", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -128,7 +128,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "1044813bfa464f019bca936abb868539", 
+        "id": "1420aa8b47fb4c7bb564c4d80495cfbf", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -136,7 +136,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }, 
       {
-        "relatedLot": "dbc86fe3eb224ef6936fd7d767833de6", 
+        "relatedLot": "dbed092b1c3042ecbd263f579d97a9b8", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -151,7 +151,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "c6702eef0be645bb834c698ebbc133a6", 
+        "id": "59d74de58d4a4faea3731e9eece44c0c", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -159,7 +159,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
-    "id": "b5239f4bf8ff46a1a71e463ffc9a27b4", 
+    "id": "5245b342641847728cab7cf7e514b37f", 
     "awardCriteria": "lowestCost"
   }
 }

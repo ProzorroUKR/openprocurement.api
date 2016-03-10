@@ -1,4 +1,4 @@
-POST /api/0.12/tenders/b5239f4bf8ff46a1a71e463ffc9a27b4/lots?acc_token=c4d8cb0b78b14fccb88b16a8a4ddbad0 HTTP/1.0
+POST /api/0.12/tenders/5245b342641847728cab7cf7e514b37f/lots?acc_token=c429c04fa8804952a5c220e24be98bb7 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 214
 Content-Type: application/json
@@ -21,7 +21,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/b5239f4bf8ff46a1a71e463ffc9a27b4/lots/970494121f2547deb2b0601068cc5598
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/5245b342641847728cab7cf7e514b37f/lots/22cc717cfa354687ae1de88a09b1485f
 {
   "data": {
     "status": "active", 
@@ -37,7 +37,7 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/b5239f4bf8ff46
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "id": "970494121f2547deb2b0601068cc5598"
+    "id": "22cc717cfa354687ae1de88a09b1485f"
   }
 }
 

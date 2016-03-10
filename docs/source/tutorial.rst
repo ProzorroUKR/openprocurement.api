@@ -373,6 +373,12 @@ Let's see the list of all added contract documents:
 .. include:: tutorial/tender-contract-get-documents-again.http
     :code:
 
+Now let's change document language and add a new title_en and description_en
+
+.. include:: tutorial/tender-contract-patch-document.http
+    :code:
+
+
 Let's see the contract:
 
 .. include:: tutorial/tender-contract-get.http

@@ -1,20 +1,29 @@
-POST /api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e/contracts/a8954220f2ea4cbfac791617c592fdb3/documents?acc_token=f292b12ca3194d37a33423c874a23585 HTTP/1.0
+PATCH /api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e/contracts/a8954220f2ea4cbfac791617c592fdb3/documents/3e1326315be94844a6c7db6dd8614582?acc_token=f292b12ca3194d37a33423c874a23585 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 206
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy523612461962$
+Content-Length: 106
+Content-Type: application/json
 Host: api-sandbox.openprocurement.org
-
-Response: 201 Created
-Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e/contracts/a8954220f2ea4cbfac791617c592fdb3/documents/3e1326315be94844a6c7db6dd8614582
+DATA:
 {
   "data": {
-    "language": "uk", 
+    "title_en": "Title of Document", 
+    "language": "en", 
+    "description_en": "Description of Document"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "language": "en", 
     "title": "contract_first_document.doc", 
     "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e/contracts/a8954220f2ea4cbfac791617c592fdb3/documents/3e1326315be94844a6c7db6dd8614582?download=b1f6c783c17644488833f9c199f8f26e", 
     "format": "application/msword", 
-    "documentOf": "tender", 
+    "title_en": "Title of Document", 
+    "description_en": "Description of Document", 
     "datePublished": "2016-03-10T16:24:51.899994+02:00", 
+    "documentOf": "tender", 
     "id": "3e1326315be94844a6c7db6dd8614582", 
     "dateModified": "2016-03-10T16:24:51.900033+02:00"
   }
