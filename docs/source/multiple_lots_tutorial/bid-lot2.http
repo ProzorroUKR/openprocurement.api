@@ -1,4 +1,4 @@
-POST /api/0.12/tenders/0862c99505f746dabe96e762d0f9c09e/bids HTTP/1.0
+POST /api/0.12/tenders/b5239f4bf8ff46a1a71e463ffc9a27b4/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 849
 Content-Type: application/json
@@ -8,13 +8,13 @@ DATA:
   "data": {
     "lotValues": [
       {
-        "relatedLot": "bf60c0d9647543e1b8422f80d99e8f6e", 
+        "relatedLot": "970494121f2547deb2b0601068cc5598", 
         "value": {
           "amount": 500
         }
       }, 
       {
-        "relatedLot": "889f5c15949c4a20a5272b3b643f24c6", 
+        "relatedLot": "dbc86fe3eb224ef6936fd7d767833de6", 
         "value": {
           "amount": 500
         }
@@ -47,19 +47,19 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/0862c99505f746dabe96e762d0f9c09e/bids/6280e7a4dce14b6084c2f87015018c0f
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/b5239f4bf8ff46a1a71e463ffc9a27b4/bids/bbce88e9022d4a5997220a8d5b0e3428
 {
   "access": {
-    "token": "c5623b257ed04b1793a461b5f2422cbb"
+    "token": "e99567fee2ac44c7b04d166e58bc8952"
   }, 
   "data": {
-    "date": "2016-03-09T13:57:19.829973+02:00", 
+    "date": "2016-03-10T14:53:54.348900+02:00", 
     "status": "pending", 
-    "id": "6280e7a4dce14b6084c2f87015018c0f", 
+    "id": "bbce88e9022d4a5997220a8d5b0e3428", 
     "lotValues": [
       {
-        "relatedLot": "bf60c0d9647543e1b8422f80d99e8f6e", 
-        "date": "2016-03-09T13:57:19.830624+02:00", 
+        "relatedLot": "970494121f2547deb2b0601068cc5598", 
+        "date": "2016-03-10T14:53:54.349535+02:00", 
         "status": "pending", 
         "value": {
           "currency": "UAH", 
@@ -68,8 +68,8 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/0862c99505f746
         }
       }, 
       {
-        "relatedLot": "889f5c15949c4a20a5272b3b643f24c6", 
-        "date": "2016-03-09T13:57:19.831102+02:00", 
+        "relatedLot": "dbc86fe3eb224ef6936fd7d767833de6", 
+        "date": "2016-03-10T14:53:54.349992+02:00", 
         "status": "pending", 
         "value": {
           "currency": "UAH", 

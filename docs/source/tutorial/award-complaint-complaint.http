@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/e1f76d71e30c4d0098174261bfe1e1ce/awards/e4b913498e884ab2ba03fe152c84108f/complaints/a3a7b783c76e4ea1b1d3601ba74218a2?acc_token=c49f4a9525e6416e863db08ef6a4d840 HTTP/1.0
+PATCH /api/0.12/tenders/cb920819536440ca9e21974538b436ec/awards/4ec1bc1435594d6c87ce50b1807ff4d0/complaints/37cb1979cd6d49f69787429dfa525c47?acc_token=b5d20bdd5d474de899c7be8ac5d12b80 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 31
 Content-Type: application/json
@@ -20,12 +20,12 @@ Content-Type: application/json; charset=UTF-8
         "author": "complaint_owner", 
         "language": "uk", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/e1f76d71e30c4d0098174261bfe1e1ce/awards/e4b913498e884ab2ba03fe152c84108f/complaints/a3a7b783c76e4ea1b1d3601ba74218a2/documents/16817b3677604c4c970aa6a59bd54384?download=de0dc337f31147119db4cd3ceec78764", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/cb920819536440ca9e21974538b436ec/awards/4ec1bc1435594d6c87ce50b1807ff4d0/complaints/37cb1979cd6d49f69787429dfa525c47/documents/4b24ac178cf944019d54b01cd362dc3d?download=c882a9ae41334067b59ac0acfd250977", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-09T13:56:54.171233+02:00", 
-        "id": "16817b3677604c4c970aa6a59bd54384", 
-        "dateModified": "2016-03-09T13:56:54.171273+02:00"
+        "datePublished": "2016-03-10T14:53:28.871424+02:00", 
+        "id": "4b24ac178cf944019d54b01cd362dc3d", 
+        "dateModified": "2016-03-10T14:53:28.871468+02:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -51,11 +51,11 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2016-03-09T13:56:54.425637+02:00", 
-    "complaintID": "UA-2016-03-09-000001.1", 
-    "date": "2016-03-09T13:56:53.738217+02:00", 
+    "dateSubmitted": "2016-03-10T14:53:29.125197+02:00", 
+    "complaintID": "UA-2016-03-10-000001.1", 
+    "date": "2016-03-10T14:53:28.490747+02:00", 
     "type": "complaint", 
-    "id": "a3a7b783c76e4ea1b1d3601ba74218a2"
+    "id": "37cb1979cd6d49f69787429dfa525c47"
   }
 }
 

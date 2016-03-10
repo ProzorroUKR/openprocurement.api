@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe?acc_token=e33a49b4441b4110973ba9dc9e617740 HTTP/1.0
+PATCH /api/0.12/tenders/0280cfd731e842648e0ae1c806264739?acc_token=660d808bb5cd4e838d8a8bfc26d4cb92 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 120
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-03-17T13:57:07.646471+02:00"
+      "endDate": "2016-03-18T14:53:42.353700+02:00"
     }, 
     "value": {
       "currency": "UAH", 
@@ -26,38 +26,38 @@ Content-Type: application/json; charset=UTF-8
       {
         "language": "uk", 
         "title": "Notice.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe/documents/614c7da134ee4f0c83a922debe6c5a05?download=4d8b0fb2ba2945c0b5d755e305e1ed79", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/0280cfd731e842648e0ae1c806264739/documents/e89f3dcb58ef46d582bb91766ad6ed64?download=3222c2502d9b400fbe3df5aa142ada10", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-09T13:57:06.268385+02:00", 
-        "id": "614c7da134ee4f0c83a922debe6c5a05", 
-        "dateModified": "2016-03-09T13:57:06.268413+02:00"
+        "datePublished": "2016-03-10T14:53:40.910569+02:00", 
+        "id": "e89f3dcb58ef46d582bb91766ad6ed64", 
+        "dateModified": "2016-03-10T14:53:40.910596+02:00"
       }, 
       {
         "language": "uk", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe/documents/db534fd541fe476d948545eb1cdd514d?download=8bdbf54e6daa43a4838a0e314a3a19ba", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/0280cfd731e842648e0ae1c806264739/documents/a11c5fefefe14c19b74f5b57883bac86?download=6a54d32c2bdf4daa93e1eacd394342d6", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-09T13:57:06.499877+02:00", 
-        "id": "db534fd541fe476d948545eb1cdd514d", 
-        "dateModified": "2016-03-09T13:57:06.499907+02:00"
+        "datePublished": "2016-03-10T14:53:41.153436+02:00", 
+        "id": "a11c5fefefe14c19b74f5b57883bac86", 
+        "dateModified": "2016-03-10T14:53:41.153462+02:00"
       }, 
       {
         "language": "uk", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/04d078c7959a4376b7418d98ffbb3ebe/documents/db534fd541fe476d948545eb1cdd514d?download=697d3ef285244f8e93af91972408c112", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/0280cfd731e842648e0ae1c806264739/documents/a11c5fefefe14c19b74f5b57883bac86?download=20e2de5f686b4a8390450519b7dd6072", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-09T13:57:06.499877+02:00", 
-        "id": "db534fd541fe476d948545eb1cdd514d", 
-        "dateModified": "2016-03-09T13:57:06.736694+02:00"
+        "datePublished": "2016-03-10T14:53:41.153436+02:00", 
+        "id": "a11c5fefefe14c19b74f5b57883bac86", 
+        "dateModified": "2016-03-10T14:53:41.391595+02:00"
       }
     ], 
-    "tenderID": "UA-2016-03-09-000001", 
+    "tenderID": "UA-2016-03-10-000001", 
     "tenderPeriod": {
-      "startDate": "2016-02-10T13:57:07.363394+02:00", 
-      "endDate": "2016-03-17T13:57:07.646471+02:00"
+      "startDate": "2016-02-11T14:53:42.044744+02:00", 
+      "endDate": "2016-03-18T14:53:42.353700+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -67,8 +67,8 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "procurementMethodType": "aboveThresholdEU", 
     "complaintPeriod": {
-      "startDate": "2016-02-10T13:57:07.363394+02:00", 
-      "endDate": "2016-03-13T13:57:07.646471+02:00"
+      "startDate": "2016-02-11T14:53:42.044744+02:00", 
+      "endDate": "2016-03-14T14:53:42.353700+02:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -77,7 +77,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-03-17T13:57:07.646471+02:00", 
+    "next_check": "2016-03-18T14:53:42.353700+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -106,18 +106,18 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
         "title": "Калорійність", 
-        "date": "2016-03-09T13:57:06.963050+02:00", 
+        "date": "2016-03-10T14:53:41.626291+02:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "7a292737180c461aa3d914bf95fdca0d", 
+        "id": "c3c5dc70ee0e4a99b07664778c41953d", 
         "questionOf": "tender"
       }
     ], 
     "enquiryPeriod": {
-      "startDate": "2016-02-10T13:57:07.363394+02:00", 
-      "endDate": "2016-03-07T13:57:07.646471+02:00"
+      "startDate": "2016-02-11T14:53:42.044744+02:00", 
+      "endDate": "2016-03-08T14:53:42.353700+02:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-03-09T13:57:07.745025+02:00", 
+    "dateModified": "2016-03-10T14:53:42.455762+02:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -134,7 +134,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "4c2267f1086f4173ba75ead5be7ce62d", 
+        "id": "2a5aefd0efd64da9a8ce3d1f1c5b5b4b", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -156,7 +156,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "34a817b275ec4a8694015605650ae307", 
+        "id": "c0bd1e14b72e4033adfe8b17a4dc3b26", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -164,7 +164,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
-    "id": "04d078c7959a4376b7418d98ffbb3ebe", 
+    "id": "0280cfd731e842648e0ae1c806264739", 
     "awardCriteria": "lowestCost"
   }
 }

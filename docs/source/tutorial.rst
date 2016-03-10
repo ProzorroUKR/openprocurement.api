@@ -373,6 +373,11 @@ Let's see the list of all added contract documents:
 .. include:: tutorial/tender-contract-get-documents-again.http
     :code:
 
+Let's see the contract:
+
+.. include:: tutorial/tender-contract-get.http
+    :code:
+
 Cancelling tender
 -----------------
 
