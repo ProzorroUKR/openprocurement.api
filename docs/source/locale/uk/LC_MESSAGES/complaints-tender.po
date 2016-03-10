@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-04 10:19+0200\n"
-"PO-Revision-Date: 2016-02-01 17:29+0200\n"
+"PO-Revision-Date: 2016-03-02 12:07+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -41,23 +41,23 @@ msgstr "Відповідь на вирішену вимогу"
 
 #: ../../source/complaints-tender.rst:94
 msgid "Satisfying resolution"
-msgstr "Рішення про задоволення вимоги"
+msgstr "Рішення про задовільнення вимоги"
 
 #: ../../source/complaints-tender.rst:101
 msgid "Escalate claim to complaint"
 msgstr "Перетворення вимоги в скаргу"
 
-#: ../../source/complaints-tender.rst:27 ../../source/complaints-tender.rst:56
+#: ../../source/complaints-tender.rst:27
 msgid "At first create a claim:"
-msgstr "Спочатку створимо вимогу:"
+msgstr "Спочатку створіть вимогу:"
 
 #: ../../source/complaints-tender.rst:32 ../../source/complaints-tender.rst:61
 msgid "Then upload necessary documents:"
-msgstr "Потім завантажимо документи:"
+msgstr "Потім завантажте документи:"
 
 #: ../../source/complaints-tender.rst:37
 msgid "Submit tender conditions claim:"
-msgstr "Подамо вимогу про виправлення умов закупівлі:"
+msgstr "Подайте вимогу про виправлення умов закупівлі:"
 
 #: ../../source/complaints-tender.rst:20
 msgid "Claim Submission"
@@ -77,7 +77,7 @@ msgstr "Відповідь на вимогу"
 
 #: ../../source/complaints-tender.rst:91
 msgid "Satisfied Claim"
-msgstr "Задоволена вимога"
+msgstr "Задовільнена вимога"
 
 #: ../../source/complaints-tender.rst:108
 msgid "Complaint Resolution"
@@ -143,6 +143,10 @@ msgstr "Подання підтведження вирішення скарги"
 #: ../../source/complaints-tender.rst:149
 msgid "Cancelling Tender Conditions Complaint"
 msgstr "Відміна скарги на умови закупівлі"
+
+#: ../../source/complaints-tender.rst:56
+msgid "At first create a draft:"
+msgstr "Створіть чернетку скарги ``draft``:"
 
 #~ msgid "Complaint Workflow"
 #~ msgstr "Схема роботи оскаржень"

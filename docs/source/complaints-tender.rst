@@ -53,7 +53,7 @@ Complaint Submission
 Tender Conditions Complaint Submission (with documents)
 -------------------------------------------------------
 
-At first create a claim:
+At first create a draft:
 
 .. include:: tutorial/complaint-submission.http
    :code:

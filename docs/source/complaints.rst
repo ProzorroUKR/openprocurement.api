@@ -15,8 +15,31 @@ For more detailed information read `Complaints <http://openprocurement.org/en/co
 Tender Conditions Claims/Complaints
 -----------------------------------
 
-.. image:: complaint_w.png
-   :alt: Conditions Complaint workflow
+.. graphviz::
+
+    digraph G {
+        subgraph cluster_claim {
+            label = "claim";
+            claim; answered;
+        }
+        subgraph cluster_complaint {
+            label = "complaint";
+            pending; satisfied; accepted;
+        }
+        claim -> answered;
+        satisfied -> resolved;
+        edge[style=dashed];
+        answered -> {pending,resolved};
+        draft -> {claim,pending};
+        claim -> pending;
+        {accepted,draft,claim,answered,pending} -> cancelled; 
+        edge[style=bold];
+        pending -> {accepted,invalid};
+        accepted -> {declined,satisfied};
+        edge[label="auction" style=dotted];
+        claim -> ignored;
+        answered -> {declined,resolved,invalid};
+    }
 
 .. toctree::
     :maxdepth: 1
@@ -26,8 +49,21 @@ Tender Conditions Claims/Complaints
 Tender Award Complaints
 ------------------------------
 
-.. image:: award_complaint_w.png
-   :alt: Award Complaint workflow
+.. graphviz::
+
+    digraph G {
+        subgraph cluster_complaint {
+            label = "complaint";
+            pending; satisfied; accepted;
+        }
+        satisfied -> resolved;
+        edge[style=dashed];
+        draft -> pending;
+        {accepted,draft,pending} -> cancelled; 
+        edge[style=bold];
+        pending -> {accepted,invalid};
+        accepted -> {declined,satisfied};
+    }
 
 .. toctree::
     :maxdepth: 1

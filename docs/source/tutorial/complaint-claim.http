@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/4bdf484184f14cf2a531be810aa56ea5/complaints/a9cadf0e8a8842c0b4295a2967fc7d20?acc_token=987cdb0258434e218ffe105b89a44ec9 HTTP/1.0
+PATCH /api/0.12/tenders/0d2d92bd4a2a457799ba4d8571fa38d1/complaints/278661bbc5fa4982b3454b8f8163b8d6?acc_token=1f7abda1e23745b9962e3c274481cd48 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 29
 Content-Type: application/json
@@ -19,41 +19,21 @@ Content-Type: application/json; charset=UTF-8
       {
         "author": "complaint_owner", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/4bdf484184f14cf2a531be810aa56ea5/complaints/a9cadf0e8a8842c0b4295a2967fc7d20/documents/e26d1832636841f59c8cba2da87c20d5?download=8073dc4202994f6e9de5fd0f83e0dfd8", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/0d2d92bd4a2a457799ba4d8571fa38d1/complaints/278661bbc5fa4982b3454b8f8163b8d6/documents/7213ad5dbf6d42428a248a13344dc710?download=55953e7b5ba5492b89372f117ca8ec09", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-02-24T11:48:49.703878+02:00", 
-        "id": "e26d1832636841f59c8cba2da87c20d5", 
-        "dateModified": "2016-02-24T11:48:49.703920+02:00"
+        "datePublished": "2016-03-08T16:31:18.090079+02:00", 
+        "id": "7213ad5dbf6d42428a248a13344dc710", 
+        "dateModified": "2016-03-08T16:31:18.090118+02:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "author": {
-      "contactPoint": {
-        "email": "soleksuk@gmail.com", 
-        "telephone": "+380 (432) 21-69-30", 
-        "name": "Сергій Олексюк"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
-        "id": "13313462", 
-        "uri": "http://sch10.edu.vn.ua/"
-      }, 
-      "name": "ДКП «Школяр»", 
-      "address": {
-        "postalCode": "21100", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Островського, 33", 
-        "region": "м. Вінниця", 
-        "locality": "м. Вінниця"
-      }
-    }, 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2016-02-24T11:48:49.816862+02:00", 
-    "date": "2016-02-24T11:48:49.609122+02:00", 
+    "dateSubmitted": "2016-03-08T16:31:18.234630+02:00", 
+    "complaintID": "UA-2016-03-08-000001.1", 
+    "date": "2016-03-08T16:31:17.960674+02:00", 
     "type": "claim", 
-    "id": "a9cadf0e8a8842c0b4295a2967fc7d20"
+    "id": "278661bbc5fa4982b3454b8f8163b8d6"
   }
 }
 

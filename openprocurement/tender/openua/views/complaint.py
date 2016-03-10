@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.views.complaint import TenderComplaintResource
 from openprocurement.api.utils import (
@@ -18,8 +17,6 @@ from openprocurement.api.validation import (
 from openprocurement.tender.openua.models import CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
 from openprocurement.tender.openua.utils import calculate_business_date
 
-LOGGER = getLogger(__name__)
-
 
 @opresource(name='Tender UA Complaints',
             collection_path='/tenders/{tender_id}/complaints',
@@ -27,6 +24,9 @@ LOGGER = getLogger(__name__)
             procurementMethodType='aboveThresholdUA',
             description="Tender complaints")
 class TenderUaComplaintResource(TenderComplaintResource):
+
+    def complaints_len(self, tender):
+        return sum([len(i.complaints) for i in tender.awards], len(tender.complaints))
 
     @json_view(content_type="application/json", validators=(validate_complaint_data,), permission='create_complaint')
     def collection_post(self):
@@ -53,15 +53,16 @@ class TenderUaComplaintResource(TenderComplaintResource):
             complaint.type = 'complaint'
         else:
             complaint.status = 'draft'
+        complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
         set_ownership(complaint, self.request)
         tender.complaints.append(complaint)
         if save_tender(self.request):
-            LOGGER.info('Created tender complaint {}'.format(complaint.id),
+            self.LOGGER.info('Created tender complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
             self.request.response.headers['Location'] = self.request.route_url('Tender Complaints', tender_id=tender.id, complaint_id=complaint.id)
             return {
-                'data': complaint.serialize("view"),
+                'data': complaint.serialize(tender.status),
                 'access': {
                     'token': complaint.owner_token
                 }
@@ -128,18 +129,20 @@ class TenderUaComplaintResource(TenderComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('tendererAction', self.context.tendererAction) and data.get('status', self.context.status) == 'resolved':
             apply_patch(self.request, save=False, src=self.context.serialize())
-        # reviewers
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
+        # aboveThresholdReviewers
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'accepted':
+            self.context.acceptance = False
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'accepted':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAccepted = get_now()
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == self.context.status:
+            self.context.acceptance = True
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) in ['declined', 'satisfied']:
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) in ['declined', 'satisfied']:
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
         else:
@@ -151,6 +154,6 @@ class TenderUaComplaintResource(TenderComplaintResource):
         if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted'] and tender.status in ['active.qualification', 'active.awarded']:
             check_tender_status(self.request)
         if save_tender(self.request):
-            LOGGER.info('Updated tender complaint {}'.format(self.context.id),
+            self.LOGGER.info('Updated tender complaint {}'.format(self.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_complaint_patch'}))
             return {'data': self.context.serialize("view")}

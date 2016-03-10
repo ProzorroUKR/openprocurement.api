@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.views.contract import TenderAwardContractResource
 from openprocurement.api.utils import (
@@ -13,8 +12,6 @@ from openprocurement.api.utils import (
 from openprocurement.api.validation import validate_patch_contract_data
 from openprocurement.tender.openua.utils import PENDING_COMPLAINT_STATUS
 
-LOGGER = getLogger(__name__)
-
 
 @opresource(name='Tender UA Contracts',
             collection_path='/tenders/{tender_id}/contracts',
@@ -27,7 +24,7 @@ class TenderUaAwardContractResource(TenderAwardContractResource):
     def patch(self):
         """Update of contract
         """
-        if self.request.validated['tender_status'] not in ['active.qualification', 'active.awarded', 'complete']:
+        if self.request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
             self.request.errors.add('body', 'data', 'Can\'t update contract in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
@@ -37,6 +34,20 @@ class TenderUaAwardContractResource(TenderAwardContractResource):
             self.request.errors.status = 403
             return
         data = self.request.validated['data']
+
+        if data['value']:
+            for ro_attr in ('valueAddedTaxIncluded', 'currency'):
+                if data['value'][ro_attr] != getattr(self.context.value, ro_attr):
+                    self.request.errors.add('body', 'data', 'Can\'t update {} for contract value'.format(ro_attr))
+                    self.request.errors.status = 403
+                    return
+
+            award = [a for a in tender.awards if a.id == self.request.context.awardID][0]
+            if data['value']['amount'] > award.value.amount:
+                self.request.errors.add('body', 'data', 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount))
+                self.request.errors.status = 403
+                return
+
         if self.request.context.status != 'active' and 'status' in data and data['status'] == 'active':
             award = [a for a in tender.awards if a.id == self.request.context.awardID][0]
             stand_still_end = award.complaintPeriod.endDate
@@ -67,6 +78,6 @@ class TenderUaAwardContractResource(TenderAwardContractResource):
             return
         check_tender_status(self.request)
         if save_tender(self.request):
-            LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
             return {'data': self.request.context.serialize()}

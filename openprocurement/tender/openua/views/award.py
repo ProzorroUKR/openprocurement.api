@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.validation import validate_patch_award_data
 from openprocurement.api.views.award import TenderAwardResource
@@ -12,8 +11,6 @@ from openprocurement.api.utils import (
 )
 from openprocurement.tender.openua.models import STAND_STILL_TIME
 from openprocurement.tender.openua.utils import add_next_award, calculate_business_date
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender UA Awards',
@@ -95,7 +92,12 @@ class TenderUaAwardResource(TenderAwardResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
             award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME)
-            tender.contracts.append(type(tender).contracts.model_class({'awardID': award.id}))
+            tender.contracts.append(type(tender).contracts.model_class({
+                'awardID': award.id,
+                'suppliers': award.suppliers,
+                'value': award.value,
+                'items': [i for i in tender.items if i.relatedLot == award.lotID ],
+                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) +1) }))
             add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
             award.complaintPeriod.endDate = get_now()
@@ -128,6 +130,6 @@ class TenderUaAwardResource(TenderAwardResource):
             self.request.errors.status = 403
             return
         if save_tender(self.request):
-            LOGGER.info('Updated tender award {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}))
             return {'data': award.serialize("view")}

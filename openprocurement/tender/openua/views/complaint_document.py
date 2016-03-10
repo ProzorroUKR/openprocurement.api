@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.utils import (
     save_tender,
     upload_file,
@@ -17,10 +16,9 @@ from openprocurement.api.validation import (
 from openprocurement.api.views.complaint_document import TenderComplaintDocumentResource
 
 
-LOGGER = getLogger(__name__)
 STATUS4ROLE = {
     'complaint_owner': ['draft', 'answered', 'claim'],
-    'reviewers': ['pending', 'accepted'],
+    'aboveThresholdReviewers': ['pending', 'accepted'],
     'tender_owner': ['claim', 'satisfied'],
 }
 
@@ -57,7 +55,7 @@ class TenderUaComplaintDocumentResource(TenderComplaintDocumentResource):
         document.author = self.request.authenticated_role
         self.context.documents.append(document)
         if save_tender(self.request):
-            LOGGER.info('Created tender complaint document {}'.format(document.id),
+            self.LOGGER.info('Created tender complaint document {}'.format(document.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_complaint_document_create'}, {'document_id': document.id}))
             self.request.response.status = 201
             document_route = self.request.matched_route.name.replace("collection_", "")
@@ -73,7 +71,7 @@ class TenderUaComplaintDocumentResource(TenderComplaintDocumentResource):
         document.author = self.request.authenticated_role
         self.request.validated['complaint'].documents.append(document)
         if save_tender(self.request):
-            LOGGER.info('Updated tender complaint document {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender complaint document {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_complaint_document_put'}))
             return {'data': document.serialize("view")}
 
@@ -84,6 +82,6 @@ class TenderUaComplaintDocumentResource(TenderComplaintDocumentResource):
             return
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
-            LOGGER.info('Updated tender complaint document {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender complaint document {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_complaint_document_patch'}))
             return {'data': self.request.context.serialize("view")}

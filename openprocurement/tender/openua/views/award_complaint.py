@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta, time, datetime
-from logging import getLogger
 from openprocurement.api.models import get_now
 from openprocurement.api.views.award_complaint import TenderAwardComplaintResource
 from openprocurement.api.utils import (
@@ -17,8 +15,6 @@ from openprocurement.api.validation import (
     validate_patch_complaint_data,
 )
 
-LOGGER = getLogger(__name__)
-
 
 @opresource(name='Tender UA Award Complaints',
             collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
@@ -26,6 +22,9 @@ LOGGER = getLogger(__name__)
             procurementMethodType='aboveThresholdUA',
             description="Tender award complaints")
 class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
+
+    def complaints_len(self, tender):
+        return sum([len(i.complaints) for i in tender.awards], len(tender.complaints))
 
     @json_view(content_type="application/json", permission='create_award_complaint', validators=(validate_complaint_data,))
     def collection_post(self):
@@ -53,10 +52,11 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             complaint.dateSubmitted = get_now()
         else:
             complaint.status = 'draft'
+        complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
         set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
         if save_tender(self.request):
-            LOGGER.info('Created tender award complaint {}'.format(complaint.id),
+            self.LOGGER.info('Created tender award complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
             self.request.response.headers['Location'] = self.request.route_url('Tender Award Complaints', tender_id=tender.id, award_id=self.request.validated['award_id'], complaint_id=complaint['id'])
@@ -93,52 +93,31 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             self.context.dateCanceled = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and is_complaintPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        #elif self.request.authenticated_role == 'complaint_owner' and is_complaintPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == 'claim':
-            #apply_patch(self.request, save=False, src=self.context.serialize())
-            #self.context.dateSubmitted = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and is_complaintPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == 'pending':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = 'complaint'
             self.context.dateSubmitted = get_now()
-        #elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('status', self.context.status) == self.context.status:
-            #apply_patch(self.request, save=False, src=self.context.serialize())
-        #elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('satisfied', self.context.satisfied) is True and data.get('status', self.context.status) == 'resolved':
-            #apply_patch(self.request, save=False, src=self.context.serialize())
-        #elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('satisfied', self.context.satisfied) is False and data.get('status', self.context.status) == 'pending':
-            #apply_patch(self.request, save=False, src=self.context.serialize())
-            #self.context.dateEscalated = get_now()
         # tender_owner
-        #elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('status', self.context.status) == self.context.status:
-            #apply_patch(self.request, save=False, src=self.context.serialize())
-        #elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('resolutionType', self.context.resolutionType) and data.get('status', self.context.status) == 'answered':
-            #apply_patch(self.request, save=False, src=self.context.serialize())
-            #self.context.dateAnswered = get_now()
         elif self.request.authenticated_role == 'tender_owner' and self.context.status in ['pending', 'accepted']:
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('tendererAction', self.context.tendererAction) and data.get('status', self.context.status) == 'resolved':
             apply_patch(self.request, save=False, src=self.context.serialize())
-        # reviewers
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
+        # aboveThresholdReviewers
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'accepted':
+            self.context.acceptance = False
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'accepted':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAccepted = get_now()
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == self.context.status:
+            self.context.acceptance = True
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'declined':
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateDecision = get_now()
-            if complaintPeriod.endDate:
-                complaintPeriodendDate = complaintPeriod.endDate + (self.context.dateDecision - self.context.dateAccepted)
-                complaintPeriodendDate = datetime.combine(complaintPeriodendDate.date(), time(0, tzinfo=complaintPeriodendDate.tzinfo)) + timedelta(days=1)
-                if complaintPeriod.endDate < complaintPeriodendDate:
-                    complaintPeriod.endDate = complaintPeriodendDate
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'satisfied':
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) in ['declined', 'satisfied']:
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
         else:
@@ -150,6 +129,6 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied'] and tender.status in ['active.qualification', 'active.awarded']:
             check_tender_status(self.request)
         if save_tender(self.request):
-            LOGGER.info('Updated tender award complaint {}'.format(self.context.id),
+            self.LOGGER.info('Updated tender award complaint {}'.format(self.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_complaint_patch'}))
             return {'data': self.context.serialize("view")}

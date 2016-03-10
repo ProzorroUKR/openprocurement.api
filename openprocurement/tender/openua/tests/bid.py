@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
@@ -471,7 +472,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
             {u'description': [u'value of bid should be less than value of tender'], u'location': u'body', u'name': u'value'}
         ])
         # and submit valid bid
-        data = test_bids[0]
+        data = deepcopy(test_bids[0])
         data['value']['amount'] = 299
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
         self.assertEqual(response.status, '201 Created')

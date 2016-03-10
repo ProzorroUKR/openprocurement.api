@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd?acc_token=0d8b9c3b5b5c4551829844cbbe979700 HTTP/1.0
+PATCH /api/0.12/tenders/5bcb2e8d7e834cffad3af544ba1686a8?acc_token=97b18b2d6f144292872de0df3d67c2de HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 120
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-02-06T18:54:28.076961+02:00"
+      "endDate": "2016-03-16T16:31:23.891024+02:00"
     }, 
     "value": {
       "currency": "UAH", 
@@ -25,36 +25,36 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "Notice.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd/documents/b7bc73fb170b42a19952f1a1d2364f01?download=b95a30a7e0b844ab951db3c2d9aa0c4b", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/5bcb2e8d7e834cffad3af544ba1686a8/documents/f99ed44af5514aeaa626d3d70d38c09f?download=418f81b4b82d424cb83357f78aac7acf", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-01-29T18:54:27.097745+02:00", 
-        "id": "b7bc73fb170b42a19952f1a1d2364f01", 
-        "dateModified": "2016-01-29T18:54:27.097775+02:00"
+        "datePublished": "2016-03-08T16:31:22.940014+02:00", 
+        "id": "f99ed44af5514aeaa626d3d70d38c09f", 
+        "dateModified": "2016-03-08T16:31:22.940059+02:00"
       }, 
       {
         "title": "AwardCriteria.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd/documents/788939576e9d4a10b834e66a3a49ba1f?download=56e3233242c4430b8228c79e5ab90ea3", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/5bcb2e8d7e834cffad3af544ba1686a8/documents/86a7d0c995144d60bdc2b391a9318b44?download=ce39350363224030939f02965704500d", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-01-29T18:54:27.270059+02:00", 
-        "id": "788939576e9d4a10b834e66a3a49ba1f", 
-        "dateModified": "2016-01-29T18:54:27.270089+02:00"
+        "datePublished": "2016-03-08T16:31:23.099249+02:00", 
+        "id": "86a7d0c995144d60bdc2b391a9318b44", 
+        "dateModified": "2016-03-08T16:31:23.099278+02:00"
       }, 
       {
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/b337832d657e4a07bdd0f6572b431fbd/documents/788939576e9d4a10b834e66a3a49ba1f?download=bb8d24c4eb36463ea8a927c267c14392", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/5bcb2e8d7e834cffad3af544ba1686a8/documents/86a7d0c995144d60bdc2b391a9318b44?download=2b5b4c7ee0ab4254b5421ca362554852", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-01-29T18:54:27.270059+02:00", 
-        "id": "788939576e9d4a10b834e66a3a49ba1f", 
-        "dateModified": "2016-01-29T18:54:27.431821+02:00"
+        "datePublished": "2016-03-08T16:31:23.099249+02:00", 
+        "id": "86a7d0c995144d60bdc2b391a9318b44", 
+        "dateModified": "2016-03-08T16:31:23.264983+02:00"
       }
     ], 
-    "tenderID": "UA-2016-01-29-000001", 
+    "tenderID": "UA-2016-03-08-000001", 
     "tenderPeriod": {
-      "startDate": "2016-01-16T18:54:27.862078+02:00", 
-      "endDate": "2016-02-06T18:54:28.076961+02:00"
+      "startDate": "2016-02-24T16:31:23.649801+02:00", 
+      "endDate": "2016-03-16T16:31:23.891024+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -62,32 +62,13 @@ Content-Type: application/json; charset=UTF-8
       "amount": 35.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "items": [
-      {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "Послуги шкільних їдалень"
-          }
-        ], 
-        "id": "03636c21a8f943dcb8fac93d020240f3", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 1
-      }
-    ], 
+    "auctionPeriod": {
+      "startDate": "2016-03-10T16:31:23.649801+02:00", 
+      "shouldStartAfter": "2016-03-16T16:31:23.891024+02:00"
+    }, 
     "complaintPeriod": {
-      "startDate": "2016-01-16T18:54:27.862078+02:00", 
-      "endDate": "2016-02-02T18:54:28.076961+02:00"
+      "startDate": "2016-02-24T16:31:23.649801+02:00", 
+      "endDate": "2016-03-12T16:31:23.891024+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
@@ -96,7 +77,11 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-02-06T18:54:28.076961+02:00", 
+    "enquiryPeriod": {
+      "startDate": "2016-02-24T16:31:23.649801+02:00", 
+      "endDate": "2016-03-06T16:31:23.891024+02:00"
+    }, 
+    "next_check": "2016-03-16T16:31:23.891024+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -121,19 +106,38 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
         "title": "Калорійність", 
-        "date": "2016-01-29T18:54:27.580523+02:00", 
+        "date": "2016-03-08T16:31:23.386256+02:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "1972a815713141218a113b5a72de2e78", 
+        "id": "06900806f1814e52ae34991d3266a1bc", 
         "questionOf": "tender"
       }
     ], 
-    "enquiryPeriod": {
-      "startDate": "2016-01-16T18:54:27.862078+02:00", 
-      "endDate": "2016-02-03T18:54:28.076961+02:00"
-    }, 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "id": "7b5ec2ad2cee4cf89587b7b86b6426bd", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
     "owner": "broker", 
-    "dateModified": "2016-01-29T18:54:28.162837+02:00", 
-    "id": "b337832d657e4a07bdd0f6572b431fbd", 
+    "dateModified": "2016-03-08T16:31:23.989674+02:00", 
+    "id": "5bcb2e8d7e834cffad3af544ba1686a8", 
     "awardCriteria": "lowestCost"
   }
 }
