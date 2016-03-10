@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e?acc_token=f292b12ca3194d37a33423c874a23585 HTTP/1.0
+PATCH /api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec?acc_token=306076f4393b49139b43e781288fe272 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 60
 Content-Type: application/json
@@ -17,32 +17,32 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "status": "active.pre-qualification.stand-still", 
     "complaintPeriod": {
-      "startDate": "2016-02-08T16:24:26.507725+02:00", 
-      "endDate": "2016-03-06T16:24:26.507725+02:00"
+      "startDate": "2016-02-08T16:54:17.983296+02:00", 
+      "endDate": "2016-03-06T16:54:17.983296+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-02-08T16:24:26.507725+02:00", 
-      "endDate": "2016-02-29T16:24:26.507725+02:00"
+      "startDate": "2016-02-08T16:54:17.983296+02:00", 
+      "endDate": "2016-02-29T16:54:17.983296+02:00"
     }, 
     "qualifications": [
       {
         "status": "active", 
-        "id": "accfd13cae2b406386f273ef1f7ca061", 
-        "bidID": "66e1b41e609d461ea430d04d52870c6a"
+        "id": "23f29aba6b714d47a2b4fddfb7a1b431", 
+        "bidID": "28b7c5d82fef4562a3e7ef192846e5e3"
       }, 
       {
         "status": "active", 
-        "id": "ee299394bc0a4631b073903492bd15df", 
-        "bidID": "157d4a9a6e85404087fa4d9033c993b1"
+        "id": "a3d94edbfd3a4704ae63c2ae84028915", 
+        "bidID": "fea32b2e3c204ec2b9d5231e186e0796"
       }, 
       {
         "status": "unsuccessful", 
-        "id": "80a4d31c059b4e58b6fbebce9e495117", 
-        "bidID": "4ebbd30985454785aff042582bd37a8b"
+        "id": "971eb3b3231245a4ad0a0a93b75dab3b", 
+        "bidID": "a5b8cbe698b54cd189a28757c28298c6"
       }
     ], 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-03-20T16:24:49.971156+02:00", 
+    "next_check": "2016-03-20T16:54:41.386698+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -92,61 +92,61 @@ Content-Type: application/json; charset=UTF-8
           }
         }, 
         "title": "Калорійність", 
-        "date": "2016-03-10T16:24:44.095957+02:00", 
+        "date": "2016-03-10T16:54:35.429212+02:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "a416dc8747e6462bb19941cea0d3b213", 
+        "id": "d9349c09280f4e13a7c33cf5f011e37a", 
         "questionOf": "tender"
       }
     ], 
     "owner": "broker", 
     "title_en": "Services in school canteens", 
-    "id": "1861a4241d1a4781a17ec0689782b64e", 
+    "id": "30a1cf2907c64f058d80dfadaedb4eec", 
     "documents": [
       {
         "language": "uk", 
         "title": "Notice.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e/documents/d037210bbec04bdb9106ac051b00921e?download=6fcb47b1b197492d84fbc6a6e7f383eb", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec/documents/0c9ae8139152423dbc2b534272d5a7a3?download=2a9ac4e6c5ce4898aec37052113e5d9e", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-10T16:24:43.357112+02:00", 
-        "id": "d037210bbec04bdb9106ac051b00921e", 
-        "dateModified": "2016-03-10T16:24:43.357139+02:00"
+        "datePublished": "2016-03-10T16:54:34.804309+02:00", 
+        "id": "0c9ae8139152423dbc2b534272d5a7a3", 
+        "dateModified": "2016-03-10T16:54:34.804337+02:00"
       }, 
       {
         "language": "uk", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e/documents/27669e4ee0dd4dd5a9acd0f9795ef81e?download=b1f887eced8141bd901fbbafc9804c09", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec/documents/5717aba74bae40ec8b4bcab1fd6e59c0?download=48a6b1af44cb4800903e459ab561201c", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-10T16:24:43.609106+02:00", 
-        "id": "27669e4ee0dd4dd5a9acd0f9795ef81e", 
-        "dateModified": "2016-03-10T16:24:43.609133+02:00"
+        "datePublished": "2016-03-10T16:54:35.011739+02:00", 
+        "id": "5717aba74bae40ec8b4bcab1fd6e59c0", 
+        "dateModified": "2016-03-10T16:54:35.011766+02:00"
       }, 
       {
         "language": "uk", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e/documents/27669e4ee0dd4dd5a9acd0f9795ef81e?download=39dddc3a9a2e4e4fbf1d3fdc91343532", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec/documents/5717aba74bae40ec8b4bcab1fd6e59c0?download=caf160cabb884a64b479de117f35fc2a", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-10T16:24:43.609106+02:00", 
-        "id": "27669e4ee0dd4dd5a9acd0f9795ef81e", 
-        "dateModified": "2016-03-10T16:24:43.869811+02:00"
+        "datePublished": "2016-03-10T16:54:35.011739+02:00", 
+        "id": "5717aba74bae40ec8b4bcab1fd6e59c0", 
+        "dateModified": "2016-03-10T16:54:35.245140+02:00"
       }
     ], 
     "title": "Послуги шкільних їдалень", 
     "qualificationPeriod": {
-      "startDate": "2016-03-10T16:24:48.608834+02:00", 
-      "endDate": "2016-03-20T16:24:49.971156+02:00"
+      "startDate": "2016-03-10T16:54:39.990439+02:00", 
+      "endDate": "2016-03-20T16:54:41.386698+02:00"
     }, 
     "tenderID": "UA-2016-03-10-000001", 
-    "dateModified": "2016-03-10T16:24:49.977684+02:00", 
+    "dateModified": "2016-03-10T16:54:41.398354+02:00", 
     "numberOfBids": 2, 
     "tenderPeriod": {
-      "startDate": "2016-02-08T16:24:26.507725+02:00", 
-      "endDate": "2016-03-10T16:24:26.507725+02:00"
+      "startDate": "2016-02-08T16:54:17.983296+02:00", 
+      "endDate": "2016-03-10T16:54:17.983296+02:00"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-03-20T16:24:49.971156+02:00"
+      "shouldStartAfter": "2016-03-20T16:54:41.386698+02:00"
     }, 
     "procurementMethodType": "aboveThresholdEU", 
     "minimalStep": {
@@ -170,7 +170,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "2ac6493b2bc04616815ceb67cb49189a", 
+        "id": "f49686b243c24ddda537e569570d8986", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -192,7 +192,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "e30d2ade59984809b2cb1e4f5781d595", 
+        "id": "fa6622cffe4742d693c41eb04f32324c", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -208,35 +208,35 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "public", 
             "language": "uk", 
             "title": "Proposal.pdf", 
-            "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e/bids/66e1b41e609d461ea430d04d52870c6a/documents/9c5c29dff00c455ba293466f64549d89?download=586dccba699d4777ae22916540a0a673", 
+            "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec/bids/28b7c5d82fef4562a3e7ef192846e5e3/documents/1496b304217a44c0b2a7701133620d8d?download=7ca58a5d102947429322c6f8ea4dca98", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2016-03-10T16:24:45.334281+02:00", 
-            "id": "9c5c29dff00c455ba293466f64549d89", 
-            "dateModified": "2016-03-10T16:24:45.334357+02:00"
+            "datePublished": "2016-03-10T16:54:36.657392+02:00", 
+            "id": "1496b304217a44c0b2a7701133620d8d", 
+            "dateModified": "2016-03-10T16:54:36.657432+02:00"
           }, 
           {
             "confidentiality": "buyerOnly", 
             "language": "uk", 
             "title": "Proposal_top_secrets.pdf", 
-            "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/1861a4241d1a4781a17ec0689782b64e/bids/66e1b41e609d461ea430d04d52870c6a/documents/6e3b0ffd34ea43a8b75004a060682774?download=e961675082224b298daeb8a45c2d9aed", 
+            "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec/bids/28b7c5d82fef4562a3e7ef192846e5e3/documents/0551a196ebd744978805eb28bc31eb1c?download=18f8041e25b14e6180601e2b5e9775d2", 
             "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2016-03-10T16:24:45.586005+02:00", 
-            "id": "6e3b0ffd34ea43a8b75004a060682774", 
-            "dateModified": "2016-03-10T16:24:45.586043+02:00"
+            "datePublished": "2016-03-10T16:54:36.851023+02:00", 
+            "id": "0551a196ebd744978805eb28bc31eb1c", 
+            "dateModified": "2016-03-10T16:54:36.851060+02:00"
           }
         ], 
-        "id": "66e1b41e609d461ea430d04d52870c6a"
+        "id": "28b7c5d82fef4562a3e7ef192846e5e3"
       }, 
       {
         "status": "active", 
-        "id": "157d4a9a6e85404087fa4d9033c993b1"
+        "id": "fea32b2e3c204ec2b9d5231e186e0796"
       }, 
       {
         "status": "unsuccessful", 
-        "id": "4ebbd30985454785aff042582bd37a8b"
+        "id": "a5b8cbe698b54cd189a28757c28298c6"
       }
     ], 
     "value": {

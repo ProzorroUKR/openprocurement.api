@@ -368,16 +368,15 @@ We can add another contract document:
 
 `201 Created` response code and `Location` header confirm second document was uploaded.
 
-Let's see the list of all added contract documents:
-
-.. include:: tutorial/tender-contract-get-documents-again.http
-    :code:
-
-Now let's change document language and add a new title_en and description_en
+Now let's set document language and add a new title_en and description_en
 
 .. include:: tutorial/tender-contract-patch-document.http
     :code:
 
+Let's see the list of all added contract documents:
+
+.. include:: tutorial/tender-contract-get-documents-again.http
+    :code:
 
 Let's see the contract:
 
