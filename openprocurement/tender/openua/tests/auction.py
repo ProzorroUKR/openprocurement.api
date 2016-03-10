@@ -45,7 +45,9 @@ class TenderAuctionResourceTest(BaseTenderUAContentWebTest):
         ])
 
     def test_get_tender_auction(self):
-        response = self.app.get('/tenders/{}/auction?acc_token={}'.format(self.tender_id, self.tender_token), status=403)
+
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current (active.tendering) tender status")
@@ -337,7 +339,8 @@ class TenderLotAuctionResourceTest(TenderAuctionResourceTest):
 
 
     def test_get_tender_auction(self):
-        response = self.app.get('/tenders/{}/auction?acc_token={}'.format(self.tender_id, self.tender_token), status=403)
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current (active.tendering) tender status")
@@ -629,7 +632,9 @@ class TenderMultipleLotAuctionResourceTest(TenderAuctionResourceTest):
     initial_lots = 2 * test_lots
 
     def test_get_tender_auction(self):
-        response = self.app.get('/tenders/{}/auction?acc_token={}'.format(self.tender_id, self.tender_token), status=403)
+
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current (active.tendering) tender status")
@@ -1019,6 +1024,8 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
     ]
 
     def test_get_tender_auction(self):
+
+        self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction?acc_token={}'.format(self.tender_id, self.tender_token))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')

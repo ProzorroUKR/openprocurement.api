@@ -294,7 +294,7 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
                 u'url', u'name': u'contract_id'}
         ])
 
-        response = self.app.post('/tenders/{}/contracts/{}/documents'.format(self.tender_id, self.contract_id), status=404, upload_files=[
+        response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), status=404, upload_files=[
                                  ('invalid_value', 'name.doc', 'content')])
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')

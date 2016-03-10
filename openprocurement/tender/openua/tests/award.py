@@ -862,7 +862,7 @@ class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Forbidden")
 
-        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, complaint['id'], owner_token), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active")
@@ -1257,7 +1257,7 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
     initial_auth = ('Basic', ('broker', ''))
 
     def test_create_tender_award_complaint(self):
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.initial_bids_tokens[0]), {'data': {
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]['id']]), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
             'author': test_tender_ua_data["procuringEntity"],
@@ -1277,7 +1277,7 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], 'active.awarded')
 
-        response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
             'reason': 'cancellation reason',
             'status': 'active',
             "cancellationOf": "lot",
@@ -1285,8 +1285,8 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
         }})
         self.assertEqual(response.status, '201 Created')
 
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_tender_ua_data["procuringEntity"]}}, status=403)
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
+            self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]['id']]), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_tender_ua_data["procuringEntity"]}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can add complaint only in active lot status")
@@ -1297,7 +1297,7 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "unsuccessful")
 
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id), {'data': {
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]['id']]), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
             'author': test_tender_ua_data["procuringEntity"]
@@ -1311,7 +1311,7 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
             "status": "pending"
         }})
 
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id), {'data': {
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]['id']]), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
             'author': test_tender_ua_data["procuringEntity"]
@@ -1321,7 +1321,7 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
         complaint = response.json['data']
         owner_token = response.json['access']['token']
 
-        response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
             'reason': 'cancellation reason',
             'status': 'active',
             "cancellationOf": "lot",
@@ -1390,7 +1390,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
                 u'url', u'name': u'complaint_id'}
         ])
 
-        response = self.app.post('/tenders/{}/awards/{}/complaints/some_id/documents'.format(self.tender_id, self.award_id, self.complaint_id), status=404, upload_files=[
+        response = self.app.post('/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token), status=404, upload_files=[
                                  ('invalid_value', 'name.doc', 'content')])
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
@@ -1504,7 +1504,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
 
     def test_create_tender_award_complaint_document(self):
         response = self.app.post('/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
-            self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token), upload_files=[('file', 'name.doc', 'content')], status=403)
+            self.tender_id, self.award_id, self.complaint_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (draft) complaint status")
@@ -1555,8 +1555,8 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
 
         self.set_status('complete')
 
-        response = self.app.post('/tenders/{}/awards/{}/complaints/{}/documents'.format(
-            self.tender_id, self.award_id, self.complaint_id), upload_files=[('file', 'name.doc', 'content')], status=403)
+        response = self.app.post('/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
+            self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
@@ -1569,7 +1569,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
 
-        response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/some_id?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token),
+        response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id, self.tender_token),
                                 status=404,
                                 upload_files=[('invalid_name', 'name.doc', 'content')])
         self.assertEqual(response.status, '404 Not Found')
@@ -1580,8 +1580,8 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
                 u'body', u'name': u'file'}
         ])
 
-        response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/{}'.format(
-            self.tender_id, self.award_id, self.complaint_id, doc_id), upload_files=[('file', 'name.doc', 'content2')], status=403)
+        response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, self.complaint_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content2')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can update document only author")
@@ -1637,7 +1637,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
 
-        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token), {"data": {"description": "document description"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id, self.tender_token), {"data": {"description": "document description"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can update document only author")
@@ -1698,7 +1698,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
 
     def test_create_tender_award_complaint_document(self):
         response = self.app.post('/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
-            self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token), upload_files=[('file', 'name.doc', 'content')], status=403)
+            self.tender_id, self.award_id, self.complaint_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (draft) complaint status")
@@ -2298,8 +2298,8 @@ class Tender2LotAwardDocumentResourceTest(BaseTenderUAContentWebTest):
         }})
         self.assertEqual(response.status, '201 Created')
 
-        response = self.app.put('/tenders/{}/awards/{}/documents/{}'.format(
-            self.tender_id, self.award_id, doc_id), upload_files=[('file', 'name.doc', 'content3')], status=403)
+        response = self.app.put('/tenders/{}/awards/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content3')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can update document only in active lot status")

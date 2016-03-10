@@ -565,7 +565,7 @@ class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
 
     def test_create_tender_complaint_document(self):
         response = self.app.post('/tenders/{}/complaints/{}/documents?acc_token={}'.format(
-            self.tender_id, self.complaint_id, self.complaint_owner_token), upload_files=[('file', 'name.doc', 'content')], status=403)
+            self.tender_id, self.complaint_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (draft) complaint status")
@@ -616,8 +616,8 @@ class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
 
         self.set_status('complete')
 
-        response = self.app.post('/tenders/{}/complaints/{}/documents'.format(
-            self.tender_id, self.complaint_id), upload_files=[('file', 'name.doc', 'content')], status=403)
+        response = self.app.post('/tenders/{}/complaints/{}/documents?acc_token={}'.format(
+            self.tender_id, self.complaint_id, self.complaint_owner_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
