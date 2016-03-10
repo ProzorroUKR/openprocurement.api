@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/0d2d92bd4a2a457799ba4d8571fa38d1/complaints/4eea6c61a1024586bed52843dafca527?acc_token=6fbd5d196e7c4341b9b365b7bc4f6aa1 HTTP/1.0
+PATCH /api/0.12/tenders/130b08179e2b48d6a42452e88547130d/complaints/a08454b6fa1a450487f9424409afd0df?acc_token=ca6b4b28561d41d2bf0b2f68a6eb3054 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 150
 Content-Type: application/json
@@ -40,12 +40,12 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "title": "Недостатньо інформації", 
     "cancellationReason": "Умови виправлено", 
-    "dateCanceled": "2016-03-08T16:31:20.897625+02:00", 
-    "dateSubmitted": "2016-03-08T16:31:20.739640+02:00", 
-    "complaintID": "UA-2016-03-08-000001.5", 
-    "date": "2016-03-08T16:31:20.736427+02:00", 
+    "dateCanceled": "2016-03-10T17:45:25.034317+02:00", 
+    "dateSubmitted": "2016-03-10T17:45:24.763393+02:00", 
+    "complaintID": "UA-2016-03-10-000001.5", 
+    "date": "2016-03-10T17:45:24.761330+02:00", 
     "type": "complaint", 
-    "id": "4eea6c61a1024586bed52843dafca527"
+    "id": "a08454b6fa1a450487f9424409afd0df"
   }
 }
 

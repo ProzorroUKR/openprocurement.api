@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/5bcb2e8d7e834cffad3af544ba1686a8 HTTP/1.0
+GET /api/0.12/tenders/91a0ee04c47747d3ad9139e60c34be0d HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,10 +8,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-03-08-000001", 
+    "tenderID": "UA-2016-03-10-000001", 
     "tenderPeriod": {
-      "startDate": "2016-03-08T16:31:22.409196+02:00", 
-      "endDate": "2016-03-24T16:31:11.086910+02:00"
+      "startDate": "2016-03-10T17:45:26.703405+02:00", 
+      "endDate": "2016-03-26T17:45:11.378835+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -20,11 +20,11 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-03-24T16:31:11.086910+02:00"
+      "shouldStartAfter": "2016-03-26T17:45:11.378835+02:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-03-08T16:31:22.409196+02:00", 
-      "endDate": "2016-03-20T16:31:11.086910+02:00"
+      "startDate": "2016-03-10T17:45:26.703405+02:00", 
+      "endDate": "2016-03-22T17:45:11.378835+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
@@ -34,10 +34,10 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "submissionMethod": "electronicAuction", 
     "enquiryPeriod": {
-      "startDate": "2016-03-08T16:31:22.409196+02:00", 
-      "endDate": "2016-03-14T16:31:11.086910+02:00"
+      "startDate": "2016-03-10T17:45:26.703405+02:00", 
+      "endDate": "2016-03-16T17:45:11.378835+02:00"
     }, 
-    "next_check": "2016-03-24T16:31:11.086910+02:00", 
+    "next_check": "2016-03-26T17:45:11.378835+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -73,7 +73,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "7b5ec2ad2cee4cf89587b7b86b6426bd", 
+        "id": "f33403c001864604a07f93d1a4d9a6f7", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -82,8 +82,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "dateModified": "2016-03-08T16:31:22.485432+02:00", 
-    "id": "5bcb2e8d7e834cffad3af544ba1686a8", 
+    "dateModified": "2016-03-10T17:45:26.855750+02:00", 
+    "id": "91a0ee04c47747d3ad9139e60c34be0d", 
     "awardCriteria": "lowestCost"
   }
 }
