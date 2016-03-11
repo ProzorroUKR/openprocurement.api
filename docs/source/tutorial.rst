@@ -239,6 +239,22 @@ Qualification commission registers its decision via the following call:
 .. include:: tutorial/confirm-qualification.http
    :code:
 
+Uploading contract documentation
+--------------------------------
+
+You can upload contract documents. Let's upload contract document:
+
+.. include:: tutorial/tender-contract-upload-document.http
+   :code:
+
+`201 Created` response code and `Location` header confirm document was added.
+
+Let's see the contract:
+
+.. include:: tutorial/tender-contract-get.http
+   :code:
+
+
 Cancelling tender
 -----------------
 
@@ -289,4 +305,3 @@ Activating the request and cancelling tender
 
 .. include::  tutorial/active-cancellation.http
    :code:
-
