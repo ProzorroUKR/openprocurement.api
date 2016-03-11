@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
-from datetime import timedelta, time, datetime
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.utils import qualifications_resource
 from openprocurement.tender.openeu.views.award_complaint import TenderEUAwardComplaintResource
@@ -16,8 +14,6 @@ from openprocurement.api.validation import (
     validate_patch_complaint_data,
 )
 
-LOGGER = getLogger(__name__)
-
 
 @qualifications_resource(
     name='Tender EU Qualification Complaints',
@@ -26,6 +22,9 @@ LOGGER = getLogger(__name__)
     procurementMethodType='aboveThresholdEU',
     description="Tender EU qualification complaints")
 class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
+
+    def complaints_len(self, tender):
+        return sum([len(i.complaints) for i in tender.awards], sum([len(i.complaints) for i in tender.qualifications], len(tender.complaints)))
 
     @json_view(content_type="application/json", permission='create_award_complaint', validators=(validate_complaint_data,))
     def collection_post(self):
@@ -53,10 +52,11 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             complaint.dateSubmitted = get_now()
         else:
             complaint.status = 'draft'
+        complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
         set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
         if save_tender(self.request):
-            LOGGER.info('Created tender qualification complaint {}'.format(complaint.id),
+            self.LOGGER.info('Created tender qualification complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
             self.request.response.headers['Location'] = self.request.route_url('Tender EU Qualification Complaints', tender_id=tender.id, qualification_id=self.request.validated['qualification_id'], complaint_id=complaint['id'])
@@ -102,26 +102,23 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('tendererAction', self.context.tendererAction) and data.get('status', self.context.status) == 'resolved':
             apply_patch(self.request, save=False, src=self.context.serialize())
-        # reviewers
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
+        # aboveThresholdReviewers
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'accepted':
+            self.context.acceptance = False
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'accepted':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAccepted = get_now()
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == self.context.status:
+            self.context.acceptance = True
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'declined':
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'declined':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
-            if tender.qualificationPeriod.endDate:
-                qualificationPeriodendDate = tender.qualificationPeriod.endDate + (self.context.dateDecision - self.context.dateAccepted)
-                qualificationPeriodendDate = datetime.combine(qualificationPeriodendDate.date(), time(0, tzinfo=qualificationPeriodendDate.tzinfo)) + timedelta(days=1)
-                if tender.qualificationPeriod.endDate < qualificationPeriodendDate:
-                    tender.qualificationPeriod.endDate = qualificationPeriodendDate
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'satisfied':
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'satisfied':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
             tender.status = 'active.pre-qualification'
@@ -134,6 +131,6 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if save_tender(self.request):
-            LOGGER.info('Updated tender qualification complaint {}'.format(self.context.id),
+            self.LOGGER.info('Updated tender qualification complaint {}'.format(self.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_complaint_patch'}))
             return {'data': self.context.serialize("view")}

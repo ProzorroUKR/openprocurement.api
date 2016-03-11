@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.utils import opresource
 from openprocurement.tender.openua.views.award_complaint import TenderUaAwardComplaintResource
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender EU Award Complaints',
@@ -12,4 +9,6 @@ LOGGER = getLogger(__name__)
             procurementMethodType='aboveThresholdEU',
             description="Tender EU award complaints")
 class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
-    pass
+
+    def complaints_len(self, tender):
+        return sum([len(i.complaints) for i in tender.awards], sum([len(i.complaints) for i in tender.qualifications], len(tender.complaints)))

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.utils import (
     get_file,
     save_tender,
@@ -17,10 +16,8 @@ from openprocurement.api.validation import (
 )
 from openprocurement.tender.openeu.utils import (
     bid_financial_documents_resource, bid_eligibility_documents_resource,
-    bid_qualification_documents_resource)
-
-LOGGER = getLogger(__name__)
-
+    bid_qualification_documents_resource,
+)
 from openprocurement.tender.openua.views.bid_document import TenderUaBidDocumentResource
 
 
@@ -72,13 +69,16 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
             return
         document = upload_file(self.request)
         getattr(self.context, self.container).append(document)
+        if self.request.validated['tender_status'] == 'active.tendering':
+            self.request.validated['tender'].modified = False
         if save_tender(self.request):
-            LOGGER.info('Created tender bid document {}'.format(document.id),
+            self.LOGGER.info('Created tender bid document {}'.format(document.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_document_create'}, {'document_id': document.id}))
             self.request.response.status = 201
             document_route = self.request.matched_route.name.replace("collection_", "")
             self.request.response.headers['Location'] = self.request.current_route_url(_route_name=document_route, document_id=document.id, _query={})
             return {'data': document.serialize("view")}
+
     @json_view(permission='view_tender')
     def get(self):
         """Tender Bid Document Read"""
@@ -122,9 +122,11 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
             self.request.errors.add('body', 'data', 'Can\'t update document data for \'{}\' bid'.format(bid.status))
             self.request.errors.status = 403
             return
+        if self.request.validated['tender_status'] == 'active.tendering':
+            self.request.validated['tender'].modified = False
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
-            LOGGER.info('Updated tender bid document {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender bid document {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_document_patch'}))
             return {'data': self.request.context.serialize("view")}
 
@@ -146,10 +148,13 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
             return
         document = upload_file(self.request)
         getattr(self.request.validated['bid'], self.container).append(document)
+        if self.request.validated['tender_status'] == 'active.tendering':
+            self.request.validated['tender'].modified = False
         if save_tender(self.request):
-            LOGGER.info('Updated tender bid document {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender bid document {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_document_put'}))
             return {'data': document.serialize("view")}
+
 
 @bid_financial_documents_resource(
     name='Tender EU Bid Financial Documents',
@@ -165,11 +170,9 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
                              'active.pre-qualification.stand-still', 'active.auction']
 
 
-
-
-
 @bid_eligibility_documents_resource(name='Tender EU Bid Eligibility Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/eligibility_documents',
+
     path='/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}',
     procurementMethodType='aboveThresholdEU',
     description="Tender EU bidder eligibility documents")
