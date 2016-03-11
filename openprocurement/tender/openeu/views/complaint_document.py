@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.utils import opresource
 from openprocurement.tender.openua.views.complaint_document import TenderUaComplaintDocumentResource
-
-LOGGER = getLogger(__name__)
 
 
 @opresource(name='Tender EU Complaint Documents',

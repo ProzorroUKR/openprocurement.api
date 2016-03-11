@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
 from openprocurement.api.utils import (
     apply_patch,
     save_tender,
-    check_tender_status,
     json_view,
     context_unpack,
+    APIResource,
 )
 from openprocurement.tender.openeu.validation import validate_patch_qualification_data
 from openprocurement.tender.openeu.utils import qualifications_resource, prepare_qualifications
-
-
-LOGGER = getLogger(__name__)
 
 
 @qualifications_resource(
@@ -20,11 +16,7 @@ LOGGER = getLogger(__name__)
     path='/tenders/{tender_id}/qualifications/{qualification_id}',
     procurementMethodType='aboveThresholdEU',
     description="TenderEU Qualification")
-class TenderQualificationResource(object):
-
-    def __init__(self, request, context):
-        self.request = request
-        self.db = request.registry.db
+class TenderQualificationResource(APIResource):
 
     @json_view(permission='view_tender')
     def collection_get(self):
@@ -63,7 +55,13 @@ class TenderQualificationResource(object):
             self.request.errors.add('body', 'data', 'Can\'t update qualification in current cancelled qualification status')
             self.request.errors.status = 403
             return
+
+        prev_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
+        if prev_status != 'pending' and self.request.context.status != 'cancelled':
+            self.request.errors.add('body', 'data', 'Can\'t update qualification status'.format(tender.status))
+            self.request.errors.status = 403
+            return
         if self.request.context.status == 'active':
             # approve related bid
             set_bid_status(tender, self.request.context.bidID, 'active', self.request.context.lotID)
@@ -79,6 +77,6 @@ class TenderQualificationResource(object):
                                                                                tender_id=tender.id,
                                                                                qualification_id=ids[0])
         if save_tender(self.request):
-            LOGGER.info('Updated tender qualification {}'.format(self.request.context.id),
+            self.LOGGER.info('Updated tender qualification {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_patch'}))
             return {'data': self.request.context.serialize("view")}
