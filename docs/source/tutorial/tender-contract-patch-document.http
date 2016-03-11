@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/91a0ee04c47747d3ad9139e60c34be0d/contracts/5a1bb3db152140d2bb169bf6b5cffeec/documents/8be68dc25ba248e08b3a50072d44518d?acc_token=2e57a4bdb39a45f1a55d615206ff6f2f HTTP/1.0
+PATCH /api/0.12/tenders/d9c0dd41a0934391bc87a61ecef7e29e/contracts/9d906eb46ed646688fb1b88f4de8f0f4/documents/c150e63d596242ad82581b505dccf0aa?acc_token=8baf440504264847beb9264697280129 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 272
 Content-Type: application/json
@@ -17,15 +17,15 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "language": "ru", 
-    "title": "contract_second_document.doc", 
-    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/91a0ee04c47747d3ad9139e60c34be0d/contracts/5a1bb3db152140d2bb169bf6b5cffeec/documents/8be68dc25ba248e08b3a50072d44518d?download=a5962d167c8844849283139517bc8778", 
+    "title": "contract_document.doc", 
+    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d9c0dd41a0934391bc87a61ecef7e29e/contracts/9d906eb46ed646688fb1b88f4de8f0f4/documents/c150e63d596242ad82581b505dccf0aa?download=c62184d7a0fb430ab8e5589cec7aec08", 
     "format": "application/msword", 
     "documentOf": "tender", 
-    "datePublished": "2016-03-10T17:45:32.331177+02:00", 
+    "datePublished": "2016-03-11T11:05:36.159959+02:00", 
     "title_ru": "Название документа", 
-    "id": "8be68dc25ba248e08b3a50072d44518d", 
+    "id": "c150e63d596242ad82581b505dccf0aa", 
     "description_ru": "Описание документа", 
-    "dateModified": "2016-03-10T17:45:32.331232+02:00"
+    "dateModified": "2016-03-11T11:05:36.159999+02:00"
   }
 }
 
