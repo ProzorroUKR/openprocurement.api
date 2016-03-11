@@ -30,7 +30,7 @@ class TenderDocumentResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
-        response = self.app.post('/tenders/{}/documents'.format(self.tender_id), status=404, upload_files=[
+        response = self.app.post('/tenders/{}/documents?acc_token={}'.format(self.tender_id, self.tender_token), status=404, upload_files=[
                                  ('invalid_name', 'name.doc', 'content')])
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
@@ -50,8 +50,8 @@ class TenderDocumentResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
-        response = self.app.put('/tenders/{}/documents/some_id'.format(
-            self.tender_id), status=404, upload_files=[('file', 'name.doc', 'content2')])
+        response = self.app.put('/tenders/{}/documents/some_id?acc_token={}'.format(
+            self.tender_id, self.tender_token), status=404, upload_files=[('file', 'name.doc', 'content2')])
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -155,7 +155,7 @@ class TenderDocumentResourceTest(BaseTenderContentWebTest):
         environ = self.app._make_environ()
         environ['CONTENT_TYPE'] = 'multipart/form-data; boundary=BOUNDARY'
         environ['REQUEST_METHOD'] = 'POST'
-        req = self.app.RequestClass.blank(self.app._remove_fragment('/tenders/{}/documents'.format(self.tender_id)), environ)
+        req = self.app.RequestClass.blank(self.app._remove_fragment('/tenders/{}/documents?acc_token={}'.format(self.tender_id, self.tender_token)), environ)
         req.environ['wsgi.input'] = BytesIO(body.encode(req.charset or 'utf8'))
         req.content_length = len(body)
         response = self.app.do_request(req)

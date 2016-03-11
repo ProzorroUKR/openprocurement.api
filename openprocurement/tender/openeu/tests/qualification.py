@@ -974,6 +974,7 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
 class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintResourceTest):
     initial_lots = test_lots
 
+    initial_auth = ('Basic', ('broker', ''))
     def test_create_tender_qualification_complaint(self):
         response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]), {'data': {
             'title': 'complaint title',
@@ -1143,6 +1144,7 @@ class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintRe
 class Tender2LotQualificationComplaintResourceTest(TenderLotQualificationComplaintResourceTest):
     initial_lots = 2 * test_lots
 
+    initial_auth = ('Basic', ('broker', ''))
     def test_create_tender_qualification_complaint(self):
         response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]), {'data': {
             'title': 'complaint title',
@@ -1571,6 +1573,7 @@ class TenderQualificationComplaintDocumentResourceTest(BaseTenderContentWebTest)
 class Tender2LotQualificationComplaintDocumentResourceTest(TenderQualificationComplaintDocumentResourceTest):
     initial_lots = 2 * test_lots
 
+    initial_auth = ('Basic', ('broker', ''))
     def test_create_tender_qualification_complaint_document(self):
         response = self.app.post('/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}'.format(
             self.tender_id, self.qualification_id, self.complaint_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
