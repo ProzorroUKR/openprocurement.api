@@ -139,9 +139,9 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']), {"data": {"contractID": fake_contractID, "items": fake_items_data, "suppliers": fake_suppliers_data}})
 
         response = self.app.get('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']))
-        self.assertNotEqual(fake_contractID, contract['contractID'])
-        self.assertNotEqual(fake_items_data, contract['items'])
-        self.assertNotEqual(fake_suppliers_data, contract['suppliers'])
+        self.assertNotEqual(fake_contractID, response.json['data']['contractID'])
+        self.assertNotEqual(fake_items_data, response.json['data']['items'])
+        self.assertNotEqual(fake_suppliers_data, response.json['data']['suppliers'])
 
         response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']), {"data": {"value": {"currency": "USD"}}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
