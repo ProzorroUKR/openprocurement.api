@@ -14,7 +14,6 @@ class TenderAuctionResourceTest(BaseTenderUAContentWebTest):
     #initial_data = tender_data
     initial_status = 'active.tendering'
     initial_bids = test_bids
-    initial_auth = ('Basic', ('auction', ''))
 
     def test_get_tender_auction_not_found(self):
         response = self.app.get('/tenders/some_id/auction', status=404)
@@ -645,7 +644,7 @@ class TenderMultipleLotAuctionResourceTest(TenderAuctionResourceTest):
 
         self.set_status('active.auction')
 
-        response = self.app.get('/tenders/{}/auction?acc_token={}'.format(self.tender_id, self.tender_token))
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         auction = response.json['data']
@@ -1034,7 +1033,7 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
     def test_get_tender_auction(self):
 
         self.app.authorization = ('Basic', ('auction', ''))
-        response = self.app.get('/tenders/{}/auction?acc_token={}'.format(self.tender_id, self.tender_token))
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         auction = response.json['data']

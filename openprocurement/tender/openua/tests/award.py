@@ -169,7 +169,6 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
         self.assertIn('Location', response.headers)
 
     def test_patch_tender_award(self):
-        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
         auth = self.app.authorization
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {'suppliers': [test_tender_ua_data["procuringEntity"]], 'status': u'pending', 'bid_id': self.initial_bids[0]['id'], "value": {"amount": 500}}})
@@ -221,6 +220,7 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update award in current (unsuccessful) status")
 
+        request_path = '/tenders/{}/awards'.format(self.tender_id)
         response = self.app.get(request_path)
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
@@ -1348,7 +1348,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
         auth = self.app.authorization
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [test_tender_ua_data["procuringEntity"]], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
+            self.tender_id), {'data': {'suppliers': [test_tender_ua_data["procuringEntity"]], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
         self.app.authorization = auth
