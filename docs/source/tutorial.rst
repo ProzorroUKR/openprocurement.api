@@ -242,14 +242,16 @@ Qualification commission registers its decision via the following call:
 Uploading contract documentation
 --------------------------------
 
-You can upload contract documents. Let's upload contract document:
+You can upload contract documents for the OpenUA procedure.
+
+Let's upload contract document:
 
 .. include:: tutorial/tender-contract-upload-document.http
    :code:
 
-`201 Created` response code and `Location` header confirm document was added.
+`201 Created` response code and `Location` header confirm that this document was added.
 
-Let's see the contract:
+Let's view the uploaded contract document:
 
 .. include:: tutorial/tender-contract-get.http
    :code:
