@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/d0f6ac8cbc2640e1bfc998bb9fdcf30e/complaints/6bb227c19fed437788d7f435113236a9 HTTP/1.0
+PATCH /api/0.12/tenders/a7a29da77575458bb18886571b65cc7b/complaints/402741213a4847fd9004567187067f60 HTTP/1.0
 Authorization: Basic cmV2aWV3ZXI6
 Content-Length: 32
 Content-Type: application/json
@@ -19,12 +19,12 @@ Content-Type: application/json; charset=UTF-8
       {
         "author": "complaint_owner", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/d0f6ac8cbc2640e1bfc998bb9fdcf30e/complaints/6bb227c19fed437788d7f435113236a9/documents/f2c14c4d4f734382a5a9bb1fc8a03ff6?download=00f824801db346e296886b9c845b87b6", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/a7a29da77575458bb18886571b65cc7b/complaints/402741213a4847fd9004567187067f60/documents/fcfa9b09e1424acaab4826f5f3e0f797?download=93de1fa249c949eda374836d701e3aad", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-11T11:05:25.351902+02:00", 
-        "id": "f2c14c4d4f734382a5a9bb1fc8a03ff6", 
-        "dateModified": "2016-03-11T11:05:25.351942+02:00"
+        "datePublished": "2016-03-11T12:25:51.398955+02:00", 
+        "id": "fcfa9b09e1424acaab4826f5f3e0f797", 
+        "dateModified": "2016-03-11T12:25:51.398993+02:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -50,13 +50,13 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "dateAccepted": "2016-03-11T11:05:27.826351+02:00", 
-    "dateSubmitted": "2016-03-11T11:05:26.393678+02:00", 
+    "dateAccepted": "2016-03-11T12:25:53.803556+02:00", 
+    "dateSubmitted": "2016-03-11T12:25:52.422051+02:00", 
     "complaintID": "UA-2016-03-11-000001.1", 
-    "date": "2016-03-11T11:05:25.171388+02:00", 
+    "date": "2016-03-11T12:25:51.199680+02:00", 
     "acceptance": true, 
     "type": "complaint", 
-    "id": "6bb227c19fed437788d7f435113236a9"
+    "id": "402741213a4847fd9004567187067f60"
   }
 }
 

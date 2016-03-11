@@ -249,11 +249,6 @@ You can upload contract documents. Let's upload contract document:
 
 `201 Created` response code and `Location` header confirm document was added.
 
-Now let's set document language and add a new title_ru and description_ru
-
-.. include:: tutorial/tender-contract-patch-document.http
-   :code:
-
 Let's see the contract:
 
 .. include:: tutorial/tender-contract-get.http

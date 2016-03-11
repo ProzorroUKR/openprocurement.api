@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/d9c0dd41a0934391bc87a61ecef7e29e?acc_token=8baf440504264847beb9264697280129 HTTP/1.0
+PATCH /api/0.12/tenders/7f6f908435924ac09b28954e115d7609?acc_token=0be4f45cda114ec9a12aecfda99119cf HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 38
 Content-Type: application/json
