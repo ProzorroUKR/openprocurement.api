@@ -349,26 +349,28 @@ Qualification commission registers its decision via the following call:
 Uploading contract documentation
 --------------------------------
 
-You can upload contract documents. Let's upload contract document:
+You can upload contract documents for the OpenEU procedure. 
+
+Let's upload contract document:
 
 .. include:: tutorial/tender-contract-upload-document.http
     :code:
 
-`201 Created` response code and `Location` header confirm document was added.
+`201 Created` response code and `Location` header confirm that this document was added.
 
 Let's see the list of contract documents:
 
 .. include:: tutorial/tender-contract-get-documents.http
     :code:
 
-We can add another contract document:
+We can upload another contract document:
 
 .. include:: tutorial/tender-contract-upload-second-document.http
     :code:
 
-`201 Created` response code and `Location` header confirm second document was uploaded.
+`201 Created` response code and `Location` header confirm that the second document was uploaded.
 
-By default, document language is Ukrainian. You can can change it and set another language for the document by assigning appropriate language code to `language` field (available options: uk, en, ru). You can also set document's title (e.g. title_en) and description (e.g. description_en) fields. See :ref:`Document` data structure for details.
+By default, document language is Ukrainian. You can can change it and set another language for the document by assigning appropriate language code to the `language` field (available options: ``uk``, ``en``, ``ru``). You can also set document's title (e.g. `title_en`) and description (e.g. `description_en`) fields. See :ref:`Document` data structure for details.
 
 .. include:: tutorial/tender-contract-patch-document.http
     :code:
@@ -378,7 +380,7 @@ Let's see the list of all added contract documents:
 .. include:: tutorial/tender-contract-get-documents-again.http
     :code:
 
-Let's see the contract:
+Let's view separate contract document:
 
 .. include:: tutorial/tender-contract-get.http
     :code:
