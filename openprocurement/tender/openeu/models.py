@@ -73,7 +73,8 @@ class ComplaintModelType(BaseComplaintModelType):
 
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
-
+    deliveryDate = ModelType(Period, required=True)
+    deliveryAddress = ModelType(Address, required=True)
     description_en = StringType(required=True, min_length=1)
 
 
