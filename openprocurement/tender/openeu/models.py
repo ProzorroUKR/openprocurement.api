@@ -218,6 +218,11 @@ class Lot(BaseLot):
 
 
 class LotValue(BaseLotValue):
+    class Options:
+        roles = {
+            'auction_view': whitelist('value', 'date', 'relatedLot', 'participationUrl', 'status',),
+        }
+
     status = StringType(choices=['pending', 'active', 'unsuccessful'],
                         default='pending')
 
@@ -242,7 +247,7 @@ class Bid(BaseBid):
             'view': view_bid_role,
             'create': whitelist('value', 'tenderers', 'parameters', 'lotValues'),
             'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status'),
-            'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl'),
+            'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
             'active.enquiries': whitelist(),

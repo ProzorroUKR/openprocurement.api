@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/6e62971b92514db6adcae49578605efb HTTP/1.0
+GET /api/0.12/tenders/c3dc236b3dd142bcb7e0e81ceb04a929 HTTP/1.0
 Host: api-sandbox.openprocurement.org
 
 Response: 200 OK
@@ -7,10 +7,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-03-04-000001", 
+    "tenderID": "UA-2016-03-10-000001", 
     "tenderPeriod": {
-      "startDate": "2016-03-04T13:48:04.361125+02:00", 
-      "endDate": "2016-04-04T13:48:02.700495+02:00"
+      "startDate": "2016-03-10T16:54:47.569028+02:00", 
+      "endDate": "2016-04-10T16:54:17.984440+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -20,8 +20,8 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "procurementMethodType": "aboveThresholdEU", 
     "complaintPeriod": {
-      "startDate": "2016-03-04T13:48:04.361125+02:00", 
-      "endDate": "2016-03-31T13:48:02.700495+02:00"
+      "startDate": "2016-03-10T16:54:47.569028+02:00", 
+      "endDate": "2016-04-06T16:54:17.984440+02:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -45,7 +45,7 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "a1004b51ee3d4c4e8624000eabc696b0"
+        "id": "5240202b01544c23ac7de5b4d430e06e"
       }, 
       {
         "status": "active", 
@@ -61,10 +61,10 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "de3e2f197deb4d6793ab7bba33357e4c"
+        "id": "843fbda911994854adcd6d042d805e94"
       }
     ], 
-    "next_check": "2016-04-04T14:48:02.700495+03:00", 
+    "next_check": "2016-04-10T17:54:17.984440+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -90,14 +90,14 @@ Content-Type: application/json; charset=UTF-8
       "name": "ЗОСШ #10 м.Вінниці"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-03-04T13:48:04.361125+02:00", 
-      "endDate": "2016-03-25T13:48:02.700495+02:00"
+      "startDate": "2016-03-10T16:54:47.569028+02:00", 
+      "endDate": "2016-03-31T16:54:17.984440+02:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-03-04T13:48:04.879714+02:00", 
+    "dateModified": "2016-03-10T16:54:48.287643+02:00", 
     "items": [
       {
-        "relatedLot": "a1004b51ee3d4c4e8624000eabc696b0", 
+        "relatedLot": "5240202b01544c23ac7de5b4d430e06e", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -112,7 +112,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "a43eea09c6df420392ba1e94725c28d8", 
+        "id": "af8552f3274d4f2f9aa17efdc230e94f", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -120,7 +120,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }, 
       {
-        "relatedLot": "de3e2f197deb4d6793ab7bba33357e4c", 
+        "relatedLot": "843fbda911994854adcd6d042d805e94", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -135,7 +135,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "c2873ce20ad245168cc3ec013a4fc52d", 
+        "id": "ecde266547f44e1ab61bfd7b5aa3c122", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -143,7 +143,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
-    "id": "6e62971b92514db6adcae49578605efb", 
+    "id": "c3dc236b3dd142bcb7e0e81ceb04a929", 
     "awardCriteria": "lowestCost"
   }
 }
