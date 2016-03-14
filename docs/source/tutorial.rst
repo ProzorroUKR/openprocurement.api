@@ -239,6 +239,24 @@ Qualification commission registers its decision via the following call:
 .. include:: tutorial/confirm-qualification.http
    :code:
 
+Uploading contract documentation
+--------------------------------
+
+You can upload contract documents for the OpenUA procedure.
+
+Let's upload contract document:
+
+.. include:: tutorial/tender-contract-upload-document.http
+   :code:
+
+`201 Created` response code and `Location` header confirm that this document was added.
+
+Let's view the uploaded contract document:
+
+.. include:: tutorial/tender-contract-get.http
+   :code:
+
+
 Cancelling tender
 -----------------
 
@@ -289,4 +307,3 @@ Activating the request and cancelling tender
 
 .. include::  tutorial/active-cancellation.http
    :code:
-
