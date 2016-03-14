@@ -137,6 +137,7 @@ class ConfidentialDocument(Document):
 
 class Contract(BaseContract):
     documents = ListType(ModelType(Document), default=list())
+    items = ListType(ModelType(Item))
 
 
 class Complaint(BaseComplaint):
