@@ -486,6 +486,16 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             {u'description': [u'CPV group of items be identical'], u'location': u'body', u'name': u'items'}
         ])
 
+        data = test_tender_ua_data["items"][0].copy()
+        del data["deliveryAddress"]["region"]
+        del data["deliveryDate"]["startDate"]
+        response = self.app.post_json(request_path, {'data': data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertIn({u'description': u'Rogue field', u'location': u'body', u'name': u'deliveryDate'}, response.json['errors'])
+        self.assertIn({u'description': u'Rogue field', u'location': u'body', u'name': u'deliveryAddress'}, response.json['errors'])
+
     def test_create_tender_generated(self):
         data = test_tender_ua_data.copy()
         #del data['awardPeriod']
