@@ -7,7 +7,8 @@ from openprocurement.tender.openua.tests.base import (
     test_tender_ua_data,
     test_features_tender_ua_data)
 
-from openprocurement.api.tests.base import test_bids
+from openprocurement.api.tests.base import test_bids, now
+from datetime import datetime, timedelta
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.tendering'
@@ -141,6 +142,19 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(bid['tenderers'][0]['name'], test_tender_ua_data["procuringEntity"]['name'])
         self.assertIn('id', bid)
         self.assertIn(bid['id'], response.headers['Location'])
+
+        # set tender period in future
+        data = deepcopy(test_tender_ua_data)
+        data["tenderPeriod"]["endDate"] = (now + timedelta(days=17)).isoformat()
+        data["tenderPeriod"]["startDate"] = (now + timedelta(days=1)).isoformat()
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'tenderPeriod': data["tenderPeriod"]}})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.post_json('/tenders/{}/bids'.format(
+            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertIn('Bid can be added only during the tendering period', response.json['errors'][0]["description"])
 
         self.set_status('complete')
 
