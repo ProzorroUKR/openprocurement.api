@@ -6,6 +6,7 @@ from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.openua.models import Tender
 from openprocurement.tender.openua.tests.base import test_tender_ua_data, BaseTenderUAWebTest
+from copy import deepcopy
 
 
 class TenderUATest(BaseWebTest):
@@ -486,15 +487,17 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             {u'description': [u'CPV group of items be identical'], u'location': u'body', u'name': u'items'}
         ])
 
-        data = test_tender_ua_data["items"][0].copy()
-        del data["deliveryAddress"]["region"]
-        del data["deliveryDate"]["startDate"]
+        data = deepcopy(test_tender_ua_data)
+        del data["items"][0]['deliveryAddress']['postalCode']
+        del data["items"][0]['deliveryAddress']['locality']
+        del data["items"][0]['deliveryDate']
         response = self.app.post_json(request_path, {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
-        self.assertIn({u'description': u'Rogue field', u'location': u'body', u'name': u'deliveryDate'}, response.json['errors'])
-        self.assertIn({u'description': u'Rogue field', u'location': u'body', u'name': u'deliveryAddress'}, response.json['errors'])
+        self.assertEqual(response.json['errors'], [
+            {u'description': [{u'deliveryDate': [u'This field is required.'], u'deliveryAddress': {u'postalCode': [u'This field is required.'], u'locality': [u'This field is required.']}}], u'location': u'body', u'name': u'items'}
+        ])
 
     def test_create_tender_generated(self):
         data = test_tender_ua_data.copy()

@@ -59,6 +59,8 @@ del test_features_tender_ua_data["enquiryPeriod"]
 test_features_tender_ua_data["tenderPeriod"] = {
         "endDate": (now + timedelta(days=16)).isoformat()
 }
+test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_ua_data["items"][0]["deliveryDate"]
+test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_ua_data["items"][0]["deliveryAddress"]
 # test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
 
 
