@@ -143,10 +143,10 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertIn('id', bid)
         self.assertIn(bid['id'], response.headers['Location'])
 
-        data = test_tender_ua_data.copy()
-        data["tenderPeriod"]["endDate"] = (now + timedelta(days=18)).isoformat()
-        data["tenderPeriod"]["startDate"] = (now + timedelta(days=1)).isoformat()
         # set tender period in future
+        data = deepcopy(test_tender_ua_data)
+        data["tenderPeriod"]["endDate"] = (now + timedelta(days=17)).isoformat()
+        data["tenderPeriod"]["startDate"] = (now + timedelta(days=1)).isoformat()
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'tenderPeriod': data["tenderPeriod"]}})
         self.assertEqual(response.status, '200 OK')
 
@@ -155,11 +155,6 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertIn('Bid can be added only during the tendering period', response.json['errors'][0]["description"])
-
-        data["tenderPeriod"]["endDate"] = (now + timedelta(days=16)).isoformat()
-        data["tenderPeriod"]["startDate"] = (now).isoformat()
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'tenderPeriod': data["tenderPeriod"]}})
-        self.assertEqual(response.status, '200 OK')
 
         self.set_status('complete')
 
