@@ -838,7 +838,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
     setUp = BaseTenderUAContentWebTest.setUp
 
     def test_1lot_0bid(self):
-        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']
@@ -861,7 +860,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
     def test_1lot_1bid(self):
-        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']
@@ -889,7 +887,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
 
 
     def test_1lot_1bid_patch(self):
-        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']
@@ -916,7 +913,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['status'], 'invalid')
 
     def test_1lot_2bid(self):
-        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']
@@ -1008,7 +1004,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
 
 
     def test_1lot_3bid_1un(self):
-        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']
@@ -1107,7 +1102,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['status'], 'complete')
 
     def test_2lot_0bid(self):
-        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']
@@ -1142,7 +1136,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
     def test_2lot_2can(self):
-        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']
@@ -1177,7 +1170,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['status'], 'cancelled')
 
     def test_2lot_1bid_0com_1can(self):
-        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']
@@ -1250,7 +1242,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         # self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
     def test_2lot_1bid_2com_1win(self):
-        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']
@@ -1317,7 +1308,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['status'], 'complete')
 
     def test_2lot_1bid_0com_0win(self):
-        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']
@@ -1357,7 +1347,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
     def test_2lot_1bid_1com_1win(self):
-        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']
@@ -1442,7 +1431,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         # self.assertEqual(response.json['data']['status'], 'complete')
 
     def test_2lot_2bid_2com_2win(self):
-        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
         tender_id = self.tender_id = response.json['data']['id']

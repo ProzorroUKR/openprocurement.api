@@ -11,7 +11,6 @@ from openprocurement.api.tests.base import test_bids
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.tendering'
-    initial_auth = ('Basic', ('broker', ''))
 
     def test_create_tender_biddder_invalid(self):
         response = self.app.post_json('/tenders/some_id/bids', {
@@ -563,7 +562,6 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_features_tender_ua_data
     initial_status = 'active.tendering'
-    initial_auth = ('Basic', ('broker', ''))
 
     def test_features_bidder(self):
         test_features_bids = [
@@ -669,7 +667,6 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
 
 class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.tendering'
-    initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()

@@ -94,6 +94,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         ])
 
     def test_create_tender_contract(self):
+        auth = self.app.authorization
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/contracts'.format(
             self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
@@ -115,8 +116,9 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add contract in current (unsuccessful) tender status")
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}'.format(
-            self.tender_id, contract['id']), {"data": {"status": "active"}}, status=403)
+        self.app.authorization = auth
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update contract in current (unsuccessful) tender status")
@@ -276,8 +278,8 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
         award = response.json['data']
         self.award_id = award['id']
 
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}'.format(
+            self.tender_id, self.award_id), {"data": {"status": "active"}})
         # Create contract for award
         response = self.app.post_json('/tenders/{}/contracts'.format(self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
         contract = response.json['data']
