@@ -1,0 +1,32 @@
+PATCH /api/0.12/tenders/a7a29da77575458bb18886571b65cc7b/complaints/de29db2bd33f43699e14bd21d3818694?acc_token=b9a0025f930b4ff9ae78375da5aa4ce4 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 250
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "answered", 
+    "resolutionType": "resolved", 
+    "resolution": "Виправлено неконкурентні умови"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "answered", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "resolutionType": "resolved", 
+    "type": "claim", 
+    "dateAnswered": "2016-03-11T12:25:52.676351+02:00", 
+    "dateSubmitted": "2016-03-11T12:25:51.758936+02:00", 
+    "complaintID": "UA-2016-03-11-000001.2", 
+    "date": "2016-03-11T12:25:51.757530+02:00", 
+    "resolution": "Виправлено неконкурентні умови", 
+    "id": "de29db2bd33f43699e14bd21d3818694"
+  }
+}
+

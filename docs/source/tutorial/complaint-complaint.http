@@ -1,0 +1,60 @@
+PATCH /api/0.12/tenders/a7a29da77575458bb18886571b65cc7b/complaints/402741213a4847fd9004567187067f60?acc_token=27d69210422f4c0080d9ee4d03e568c2 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 31
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "pending"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "documents": [
+      {
+        "author": "complaint_owner", 
+        "title": "Complaint_Attachement.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/a7a29da77575458bb18886571b65cc7b/complaints/402741213a4847fd9004567187067f60/documents/fcfa9b09e1424acaab4826f5f3e0f797?download=93de1fa249c949eda374836d701e3aad", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-03-11T12:25:51.398955+02:00", 
+        "id": "fcfa9b09e1424acaab4826f5f3e0f797", 
+        "dateModified": "2016-03-11T12:25:51.398993+02:00"
+      }
+    ], 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "author": {
+      "contactPoint": {
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+        "id": "13313462", 
+        "uri": "http://sch10.edu.vn.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "postalCode": "21100", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 33", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "dateSubmitted": "2016-03-11T12:25:52.422051+02:00", 
+    "complaintID": "UA-2016-03-11-000001.1", 
+    "date": "2016-03-11T12:25:51.199680+02:00", 
+    "type": "complaint", 
+    "id": "402741213a4847fd9004567187067f60"
+  }
+}
+

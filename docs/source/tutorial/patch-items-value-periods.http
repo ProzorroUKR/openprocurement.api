@@ -1,0 +1,100 @@
+PATCH /api/0.12/tenders/7f6f908435924ac09b28954e115d7609?acc_token=0be4f45cda114ec9a12aecfda99119cf HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 75
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "tenderPeriod": {
+      "endDate": "2016-03-26T12:26:07.531957+02:00"
+    }
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "open", 
+    "status": "active.tendering", 
+    "tenderID": "UA-2016-03-11-000001", 
+    "tenderPeriod": {
+      "startDate": "2016-03-11T12:25:57.135252+02:00", 
+      "endDate": "2016-03-26T12:26:07.531957+02:00"
+    }, 
+    "title": "футляри до державних нагород", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "auctionPeriod": {
+      "shouldStartAfter": "2016-03-26T12:26:07.531957+02:00"
+    }, 
+    "complaintPeriod": {
+      "startDate": "2016-03-11T12:25:57.135252+02:00", 
+      "endDate": "2016-03-22T12:26:07.531957+02:00"
+    }, 
+    "procurementMethodType": "aboveThresholdUA", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "enquiryPeriod": {
+      "startDate": "2016-03-11T12:25:57.135252+02:00", 
+      "endDate": "2016-03-16T12:26:07.531957+02:00"
+    }, 
+    "next_check": "2016-03-26T12:26:07.531957+02:00", 
+    "procuringEntity": {
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name": "Куца Світлана Валентинівна", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "id": "482f5ff1741444599511c615be53c8dc", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
+    "owner": "broker", 
+    "dateModified": "2016-03-11T12:25:57.596880+02:00", 
+    "id": "7f6f908435924ac09b28954e115d7609", 
+    "awardCriteria": "lowestCost"
+  }
+}
+

@@ -1,0 +1,156 @@
+POST /api/0.12/tenders?opt_pretty=1 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 2079
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "tenderPeriod": {
+      "endDate": "2016-03-27T12:25:42.472093+02:00"
+    }, 
+    "title": "футляри до державних нагород", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35
+    }, 
+    "items": [
+      {
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "id": "37810000-9", 
+          "description": "Test"
+        }, 
+        "quantity": 1
+      }
+    ], 
+    "procurementMethodType": "aboveThresholdUA", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500
+    }, 
+    "procuringEntity": {
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name": "Куца Світлана Валентинівна", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "21027", 
+        "region": "м. Вінниця", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "locality": "м. Вінниця"
+      }
+    }
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/cc893533eb254057868a566b9e0dd26f
+{
+  "access": {
+    "token": "d3bf784385074746a52dcafed5545e9c"
+  }, 
+  "data": {
+    "procurementMethod": "open", 
+    "status": "active.tendering", 
+    "tenderID": "UA-2016-03-11-000002", 
+    "tenderPeriod": {
+      "startDate": "2016-03-11T12:26:03.872017+02:00", 
+      "endDate": "2016-03-27T12:25:42.472093+02:00"
+    }, 
+    "title": "футляри до державних нагород", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "auctionPeriod": {
+      "shouldStartAfter": "2016-03-27T12:25:42.472093+02:00"
+    }, 
+    "complaintPeriod": {
+      "startDate": "2016-03-11T12:26:03.872017+02:00", 
+      "endDate": "2016-03-23T12:25:42.472093+02:00"
+    }, 
+    "procurementMethodType": "aboveThresholdUA", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "enquiryPeriod": {
+      "startDate": "2016-03-11T12:26:03.872017+02:00", 
+      "endDate": "2016-03-17T12:25:42.472093+02:00"
+    }, 
+    "next_check": "2016-03-27T13:25:42.472093+03:00", 
+    "procuringEntity": {
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name": "Куца Світлана Валентинівна", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "id": "5de46841ea934937a35a68ebf9062b7e", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
+    "owner": "broker", 
+    "dateModified": "2016-03-11T12:26:04.048790+02:00", 
+    "id": "cc893533eb254057868a566b9e0dd26f", 
+    "awardCriteria": "lowestCost"
+  }
+}
+
