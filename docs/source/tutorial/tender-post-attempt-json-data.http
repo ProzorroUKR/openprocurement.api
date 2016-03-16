@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-04-01T12:18:04.736433+02:00"
+      "endDate": "2016-04-01T14:15:55.496440+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -66,18 +66,18 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/7e9bd68e1eb54349b1644fa5b8a5b4c2
+Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/62f9f370137a410bac08980b5f19bebc
 {
   "access": {
-    "token": "d4f8cc3eac3143bb9d5fae51926f315c"
+    "token": "f02ff7a77d694c76a51b4851e10880bf"
   }, 
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
     "tenderID": "UA-2016-03-16-000002", 
     "tenderPeriod": {
-      "startDate": "2016-03-16T12:18:26.086662+02:00", 
-      "endDate": "2016-04-01T12:18:04.736433+02:00"
+      "startDate": "2016-03-16T14:16:17.847965+02:00", 
+      "endDate": "2016-04-01T14:15:55.496440+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -86,11 +86,11 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/7e9bd68e1eb5434
       "valueAddedTaxIncluded": true
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-04-01T12:18:04.736433+02:00"
+      "shouldStartAfter": "2016-04-01T14:15:55.496440+02:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-03-16T12:18:26.086662+02:00", 
-      "endDate": "2016-03-28T12:18:04.736433+02:00"
+      "startDate": "2016-03-16T14:16:17.847965+02:00", 
+      "endDate": "2016-03-28T14:15:55.496440+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
@@ -100,10 +100,10 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/7e9bd68e1eb5434
     }, 
     "submissionMethod": "electronicAuction", 
     "enquiryPeriod": {
-      "startDate": "2016-03-16T12:18:26.086662+02:00", 
-      "endDate": "2016-03-22T12:18:04.736433+02:00"
+      "startDate": "2016-03-16T14:16:17.847965+02:00", 
+      "endDate": "2016-03-22T14:15:55.496440+02:00"
     }, 
-    "next_check": "2016-04-01T13:18:04.736433+03:00", 
+    "next_check": "2016-04-01T15:15:55.496440+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -139,7 +139,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/7e9bd68e1eb5434
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "4e95dee0b2e94f20b35cb262aec6b23a", 
+        "id": "56ee60de847d4db1a9c4245590c08679", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -148,8 +148,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/7e9bd68e1eb5434
       }
     ], 
     "owner": "broker", 
-    "dateModified": "2016-03-16T12:18:26.260506+02:00", 
-    "id": "7e9bd68e1eb54349b1644fa5b8a5b4c2", 
+    "dateModified": "2016-03-16T14:16:18.027438+02:00", 
+    "id": "62f9f370137a410bac08980b5f19bebc", 
     "awardCriteria": "lowestCost"
   }
 }

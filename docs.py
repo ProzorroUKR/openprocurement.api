@@ -530,20 +530,6 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['value']['amount'], 238)
 
-        #### Uploading contract documentation
-        #
-
-        with open('docs/source/tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
-                self.tender_id, self.contract_id, owner_token), upload_files=[('file', 'contract_document.doc', 'content')])
-            self.assertEqual(response.status, '201 Created')
-            self.document_id = response.json['data']['id']
-
-        with open('docs/source/tutorial/tender-contract-get.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/contracts/{}?acc_token={}'.format(
-                self.tender_id, self.contract_id, owner_token))
-            self.assertEqual(response.status, '200 OK')
-
         #### Setting contract signature date
         #
 
@@ -559,6 +545,20 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
             self.tender_id, self.contract_id, owner_token), {'data': {'period': period_dates["period"]}})
         self.assertEqual(response.status, '200 OK')
+
+        #### Uploading contract documentation
+        #
+
+        with open('docs/source/tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
+            response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), upload_files=[('file', 'contract_document.doc', 'content')])
+            self.assertEqual(response.status, '201 Created')
+            self.document_id = response.json['data']['id']
+
+        with open('docs/source/tutorial/tender-contract-get.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token))
+            self.assertEqual(response.status, '200 OK')
 
         #### Preparing the cancellation request
         #

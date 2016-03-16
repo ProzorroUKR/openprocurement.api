@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/2704420130404e00b0c3fbabe5075830/complaints/bed0218ca3414e0291d6f4cbc323a35f HTTP/1.0
+PATCH /api/2.0/tenders/250e3f054bfe40b4b7e2e0caec0ee20f/complaints/bc3a358ad1c24c568b9ec4dbe8996e42 HTTP/1.0
 Authorization: Basic cmV2aWV3ZXI6
 Content-Length: 32
 Content-Type: application/json
@@ -19,12 +19,12 @@ Content-Type: application/json; charset=UTF-8
       {
         "author": "complaint_owner", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/2704420130404e00b0c3fbabe5075830/complaints/bed0218ca3414e0291d6f4cbc323a35f/documents/bcc12495f5254644876adb1b395f0c80?download=eacc3d87b06d44409e396be58ebe35e6", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/250e3f054bfe40b4b7e2e0caec0ee20f/complaints/bc3a358ad1c24c568b9ec4dbe8996e42/documents/cb677fd3ca614314b0298c8452271203?download=2ea8701c119844bc988aad9853a834d7", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T12:18:13.034534+02:00", 
-        "id": "bcc12495f5254644876adb1b395f0c80", 
-        "dateModified": "2016-03-16T12:18:13.034571+02:00"
+        "datePublished": "2016-03-16T14:16:03.992236+02:00", 
+        "id": "cb677fd3ca614314b0298c8452271203", 
+        "dateModified": "2016-03-16T14:16:03.992276+02:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -50,13 +50,13 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "dateAccepted": "2016-03-16T12:18:15.429669+02:00", 
-    "dateSubmitted": "2016-03-16T12:18:14.025094+02:00", 
+    "dateAccepted": "2016-03-16T14:16:06.446169+02:00", 
+    "dateSubmitted": "2016-03-16T14:16:05.052857+02:00", 
     "complaintID": "UA-2016-03-16-000001.1", 
-    "date": "2016-03-16T12:18:12.828020+02:00", 
+    "date": "2016-03-16T14:16:03.781131+02:00", 
     "acceptance": true, 
     "type": "complaint", 
-    "id": "bed0218ca3414e0291d6f4cbc323a35f"
+    "id": "bc3a358ad1c24c568b9ec4dbe8996e42"
   }
 }
 

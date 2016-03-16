@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/a431347001c34ac69410e5fccd8c310a/contracts/5f534206686f489bad0000ac19145ba1?acc_token=3948c641afc9455ebd631449b4d9dae9 HTTP/1.0
+PATCH /api/2.0/tenders/2684a5eb40fe484391d6330e056d848d/contracts/ca2e8a75f449481f9d32381564494da5?acc_token=afee9d4ab5634adc9bee3001bfd68893 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 60
 Content-Type: application/json
@@ -6,7 +6,7 @@ Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "dateSigned": "2016-03-16T12:18:24.453977+02:00"
+    "dateSigned": "2016-03-16T14:16:15.662905+02:00"
   }
 }
 
@@ -15,17 +15,6 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "pending", 
-    "documents": [
-      {
-        "title": "contract_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/a431347001c34ac69410e5fccd8c310a/contracts/5f534206686f489bad0000ac19145ba1/documents/b5efafdcf21848408dff1b70629649fa?download=c9aa7c205e9f4a0a82267e4af75b5ced", 
-        "format": "application/msword", 
-        "documentOf": "tender", 
-        "datePublished": "2016-03-16T12:18:24.093802+02:00", 
-        "id": "b5efafdcf21848408dff1b70629649fa", 
-        "dateModified": "2016-03-16T12:18:24.093852+02:00"
-      }
-    ], 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -41,7 +30,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "49df50d6b8f142aabd3d900d61e3c9f1", 
+        "id": "bce1b4f25ce6499e85833a3666a93ead", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -76,9 +65,9 @@ Content-Type: application/json; charset=UTF-8
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-03-16T12:18:24.453977+02:00", 
-    "awardID": "dc3e25d72c9d4d559a3c297efc12034f", 
-    "id": "5f534206686f489bad0000ac19145ba1", 
+    "dateSigned": "2016-03-16T14:16:15.662905+02:00", 
+    "awardID": "d3f446a806404665a824a9c122d98dca", 
+    "id": "ca2e8a75f449481f9d32381564494da5", 
     "contractID": "UA-2016-03-16-000001-1"
   }
 }

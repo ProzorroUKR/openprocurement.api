@@ -249,23 +249,6 @@ By default contract value is set based on the award, but there is a possibility 
 
 `200 OK` response was returned. The value was modified successfully.
 
-Uploading contract documentation
---------------------------------
-
-You can upload contract documents for the OpenUA procedure.
-
-Let's upload contract document:
-
-.. include:: tutorial/tender-contract-upload-document.http
-   :code:
-
-`201 Created` response code and `Location` header confirm that this document was added.
-
-Let's view the uploaded contract document:
-
-.. include:: tutorial/tender-contract-get.http
-   :code:
-
 Set contract signature date
 ---------------------------
 
@@ -281,6 +264,23 @@ Set contract validity period
 Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
 
 .. include:: tutorial/tender-contract-period.http
+   :code:
+
+Uploading contract documentation
+--------------------------------
+
+You can upload contract documents for the OpenUA procedure.
+
+Let's upload contract document:
+
+.. include:: tutorial/tender-contract-upload-document.http
+   :code:
+
+`201 Created` response code and `Location` header confirm that this document was added.
+
+Let's view the uploaded contract document:
+
+.. include:: tutorial/tender-contract-get.http
    :code:
 
 Cancelling tender
