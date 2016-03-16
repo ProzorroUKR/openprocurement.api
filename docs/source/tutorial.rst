@@ -239,6 +239,16 @@ Qualification commission registers its decision via the following call:
 .. include:: tutorial/confirm-qualification.http
    :code:
 
+Set contract value
+------------------
+
+By default contract value is set based on the award, but there is a possibility to set custom contract value. If you want to **lower contract value**, you can insert new one into the `amount` field.
+
+.. include:: tutorial/tender-contract-set-contract-value.http
+   :code:
+
+`200 OK` response was returned. The value was modified successfully.
+
 Uploading contract documentation
 --------------------------------
 
