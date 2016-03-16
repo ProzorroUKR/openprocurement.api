@@ -1,23 +1,23 @@
-POST /api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec/bids/28b7c5d82fef4562a3e7ef192846e5e3/eligibility_documents?acc_token=e08f67854d2f4cc6b6c5753e7edcd08d HTTP/1.0
+POST /api/2.0/tenders/c5218c4f746f440bb451180039f080c3/bids/143c1c292033432f9c3271cce0e05d6b/eligibility_documents?acc_token=3864695dd9574af088d068a533fdcaa8 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 193
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy89848080505$
+Content-Length: 195
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy212567962183$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec/bids/28b7c5d82fef4562a3e7ef192846e5e3/eligibility_documents/ad8671f4376e483691766741572821cf
+Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/c5218c4f746f440bb451180039f080c3/bids/143c1c292033432f9c3271cce0e05d6b/eligibility_documents/0f6c2647cf1e459d8301cffe6e4cf44b
 {
   "data": {
     "confidentiality": "public", 
     "language": "uk", 
     "title": "eligibility_doc.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec/bids/28b7c5d82fef4562a3e7ef192846e5e3/eligibility_documents/ad8671f4376e483691766741572821cf?download=9a10f42b25e24251b716772b364fd74e", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/c5218c4f746f440bb451180039f080c3/bids/143c1c292033432f9c3271cce0e05d6b/eligibility_documents/0f6c2647cf1e459d8301cffe6e4cf44b?download=7ded3eba613f41298565a4a1f1309a26", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-03-10T16:54:37.893064+02:00", 
-    "id": "ad8671f4376e483691766741572821cf", 
-    "dateModified": "2016-03-10T16:54:37.893102+02:00"
+    "datePublished": "2016-03-16T14:19:29.741003+02:00", 
+    "id": "0f6c2647cf1e459d8301cffe6e4cf44b", 
+    "dateModified": "2016-03-16T14:19:29.741041+02:00"
   }
 }
 

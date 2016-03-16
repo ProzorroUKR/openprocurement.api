@@ -1,36 +1,20 @@
-GET /api/2.0/tenders/c5218c4f746f440bb451180039f080c3/contracts/2da8355021e242f18ecebe827e3ce9ac?acc_token=0c71d8bb6a2b426f9143740c95463e3e HTTP/1.0
+PATCH /api/2.0/tenders/c5218c4f746f440bb451180039f080c3/contracts/2da8355021e242f18ecebe827e3ce9ac?acc_token=0c71d8bb6a2b426f9143740c95463e3e HTTP/1.0
 Authorization: Basic YnJva2VyOg==
+Content-Length: 60
+Content-Type: application/json
 Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "dateSigned": "2016-03-16T14:19:35.453689+02:00"
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "pending", 
-    "documents": [
-      {
-        "language": "uk", 
-        "title": "contract_first_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/c5218c4f746f440bb451180039f080c3/contracts/2da8355021e242f18ecebe827e3ce9ac/documents/7b8210c18f9441e4a757677b61980e7d?download=cf158ae9d82446dc977e0056c6f4bcc5", 
-        "format": "application/msword", 
-        "documentOf": "tender", 
-        "datePublished": "2016-03-16T14:19:36.185882+02:00", 
-        "id": "7b8210c18f9441e4a757677b61980e7d", 
-        "dateModified": "2016-03-16T14:19:36.185930+02:00"
-      }, 
-      {
-        "language": "en", 
-        "title": "contract_second_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/c5218c4f746f440bb451180039f080c3/contracts/2da8355021e242f18ecebe827e3ce9ac/documents/75812a4b59734fe0937814163b60c125?download=6beddfca2e564b048bc600c12a85bfd4", 
-        "format": "application/msword", 
-        "title_en": "Title of Document", 
-        "description_en": "Description of Document", 
-        "datePublished": "2016-03-16T14:19:36.563822+02:00", 
-        "documentOf": "tender", 
-        "id": "75812a4b59734fe0937814163b60c125", 
-        "dateModified": "2016-03-16T14:19:36.563872+02:00"
-      }
-    ], 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -99,10 +83,6 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "period": {
-      "startDate": "2016-03-16T14:19:35.768539+02:00", 
-      "endDate": "2017-03-16T14:19:35.768620+02:00"
-    }, 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
