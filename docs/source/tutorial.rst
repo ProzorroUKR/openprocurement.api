@@ -174,6 +174,11 @@ Bidder can register a bid:
 .. include:: tutorial/register-bidder.http
    :code:
 
+Bidder can set bid guarantee:
+
+.. include:: tutorial/set-bid-guarantee.http
+   :code:
+
 Proposal Uploading
 ~~~~~~~~~~~~~~~~~~
 
