@@ -1,3 +1,4 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
@@ -86,29 +87,3 @@ msgstr "Дата, коли зміни були записані."
 msgid "List of `Change` objects"
 msgstr "Список об’єктів `Change`"
 
-#~ msgid "startDate"
-#~ msgstr "startDate"
-
-#~ msgid "endDate"
-#~ msgstr "endDate"
-
-#~ msgid "Currency"
-#~ msgstr "Валюта"
-
-#~ msgid "VAT"
-#~ msgstr "ПДВ"
-
-#~ msgid "Change Tracking"
-#~ msgstr "Відслідковування змін"
-
-#~ msgid "List of :`Change` objects"
-#~ msgstr "Список об’єктів :ref:`Change`"
-
-#~ msgid "Date when changes were recorded"
-#~ msgstr "Дата, коли зміни були записані"
-
-#~ msgid "string"
-#~ msgstr "стрічка"
-
-#~ msgid "|ocdsDescription| The state date for the period."
-#~ msgstr "|ocdsDescription| "
