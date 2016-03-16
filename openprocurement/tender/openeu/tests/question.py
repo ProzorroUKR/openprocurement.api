@@ -226,6 +226,12 @@ class TenderQuestionResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(set(response.json['data']), set([u'id', u'date', u'title', u'description', u'questionOf']))
 
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["answer"], "answer")
+        question["answer"] = "answer"
+
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
@@ -263,6 +269,12 @@ class TenderQuestionResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'date', u'title', u'description', u'questionOf']))
+
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["answer"], "answer")
+        question["answer"] = "answer"
 
         self.time_shift('active.pre-qualification')
         self.check_chronograph()

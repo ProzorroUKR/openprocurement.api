@@ -87,7 +87,10 @@ def all_bids_are_reviewed(request):
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
-    if tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]):
+
+    if tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
+        not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]) and \
+        not any([i.id for i in tender.questions if not i.answer]):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification'),

@@ -426,7 +426,9 @@ class Tender(BaseTender):
     def next_check(self):
         now = get_now()
         checks = []
-        if self.status == 'active.tendering' and self.tenderPeriod.endDate and not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]):
+        if self.status == 'active.tendering' and self.tenderPeriod.endDate and \
+            not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]) and \
+            not any([i.id for i in self.questions if not i.answer]):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
         elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate and not any([
             i.status in BLOCK_COMPLAINT_STATUS
