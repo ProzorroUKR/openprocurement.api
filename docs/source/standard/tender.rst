@@ -36,7 +36,7 @@ Schema
 :procurementMethodType:
     string
 
-    value: ``aboveThresholdUA``
+    value: ``aboveThresholdUA.defense``
 
 :procuringEntity:
    :ref:`organization`, required

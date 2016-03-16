@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/7f6f908435924ac09b28954e115d7609/contracts/060f3d01c82b4d4699701f9bf6ac91c4?acc_token=0be4f45cda114ec9a12aecfda99119cf HTTP/1.0
+GET /api/2.0/tenders/8dc3edd1852d4879ac642a761c4483f1/contracts/8be82764b72b4f5bb91d9a59af0f68f1?acc_token=56a8d239d80f4fe78d5d0e04cb1725db HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -10,12 +10,12 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "contract_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/7f6f908435924ac09b28954e115d7609/contracts/060f3d01c82b4d4699701f9bf6ac91c4/documents/3332fceb3740440ba3dd123622a81e67?download=44a6a42b471e4766ae1976ed2e754524", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/8dc3edd1852d4879ac642a761c4483f1/contracts/8be82764b72b4f5bb91d9a59af0f68f1/documents/2fc421cf78f44f9a814c452bed13f721?download=166d93e70a90440db932af73152a4f4f", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-11T12:26:02.310931+02:00", 
-        "id": "3332fceb3740440ba3dd123622a81e67", 
-        "dateModified": "2016-03-11T12:26:02.310970+02:00"
+        "datePublished": "2016-03-16T15:34:32.984048+02:00", 
+        "id": "2fc421cf78f44f9a814c452bed13f721", 
+        "dateModified": "2016-03-16T15:34:32.984101+02:00"
       }
     ], 
     "items": [
@@ -33,7 +33,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "482f5ff1741444599511c615be53c8dc", 
+        "id": "fad68d4039be4629a8b32ecf6e7b5388", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -68,9 +68,9 @@ Content-Type: application/json; charset=UTF-8
       "amount": 499.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "awardID": "f7cd5b3636ed48a6b29dc7344ae1062c", 
-    "id": "060f3d01c82b4d4699701f9bf6ac91c4", 
-    "contractID": "UA-2016-03-11-000001-1"
+    "awardID": "65980319ba984334bf722e034fc291a1", 
+    "id": "8be82764b72b4f5bb91d9a59af0f68f1", 
+    "contractID": "UA-2016-03-16-000001-1"
   }
 }
 

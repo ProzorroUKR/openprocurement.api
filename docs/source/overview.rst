@@ -20,7 +20,7 @@ Main responsibilities
 
 Open Procurement Open UA procedure is dedicated to Open Tender procedure for
 Ukrainian above threshold procurements.  The code for that type of procedure
-is `aboveThresholdUA`.
+is `aboveThresholdUA.defense`.
 
 Business logic
 --------------

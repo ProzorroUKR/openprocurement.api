@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/7f6f908435924ac09b28954e115d7609/bids/d56f9a827b644cfa9846b52808c31a27?acc_token=e85926c1dcc84bf290c0f80897d3662a HTTP/1.0
+PATCH /api/2.0/tenders/8dc3edd1852d4879ac642a761c4483f1/bids/4270536c6cea4391b6d1c85d9ea9aea4?acc_token=0d44b70ced8049a990a40b9d49305428 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -18,12 +18,12 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "Proposal.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/7f6f908435924ac09b28954e115d7609/bids/d56f9a827b644cfa9846b52808c31a27/documents/0233466636df42a9bb237cdef3599b5a?download=db15acc09ee245aab63528ddb9707012", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/8dc3edd1852d4879ac642a761c4483f1/bids/4270536c6cea4391b6d1c85d9ea9aea4/documents/250c434398f4480b97d5db50310a3971?download=bae8c56524d949d4b71b5dd9c83ace94", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-11T12:25:59.724667+02:00", 
-        "id": "0233466636df42a9bb237cdef3599b5a", 
-        "dateModified": "2016-03-11T12:25:59.724706+02:00"
+        "datePublished": "2016-03-16T15:34:30.851679+02:00", 
+        "id": "250c434398f4480b97d5db50310a3971", 
+        "dateModified": "2016-03-16T15:34:30.851718+02:00"
       }
     ], 
     "value": {
@@ -53,8 +53,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2016-03-11T12:25:59.496140+02:00", 
-    "id": "d56f9a827b644cfa9846b52808c31a27"
+    "date": "2016-03-16T15:34:30.660680+02:00", 
+    "id": "4270536c6cea4391b6d1c85d9ea9aea4"
   }
 }
 

@@ -45,7 +45,7 @@ body of response reveals the information about the created tender: its internal
 `dateModified` datestamp stating the moment in time when tender was last
 modified.  Note that tender is created with `active.tendering` status.
 
-The peculiarity of the Open UA procedure is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdUA``.
+The peculiarity of the Open UA procedure is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdUA.defense``.
 Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically.
 
 Let's access the URL of the created object (the `Location` header of the response):

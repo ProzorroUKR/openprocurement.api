@@ -3,10 +3,10 @@ import json
 import os
 from datetime import timedelta
 
-import openprocurement.tender.openua.tests.base as base_test
+import openprocurement.tender.openuadefense.tests.base as base_test
 from openprocurement.api.models import get_now
 from openprocurement.api.tests.base import PrefixedRequestClass
-from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest, test_tender_ua_data
+from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest, test_tender_ua_data
 from webtest import TestApp
 
 test_tender_ua_data = {
@@ -18,7 +18,7 @@ test_tender_ua_data = {
     "currency": "UAH",
     "amount": 35
   },
-  "procurementMethodType": "aboveThresholdUA",
+  "procurementMethodType": "aboveThresholdUA.defense",
   "value": {
     "currency": "UAH",
     "amount": 500

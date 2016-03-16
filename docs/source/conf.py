@@ -50,7 +50,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'openprocurement.tender.openua'
+project = u'openprocurement.tender.openuadefense'
 copyright = u'2014-2016, Quintagroup, Ltd'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -203,7 +203,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'openprocurementtenderopenua.tex', u'openprocurement.tender.openua Documentation',
+  ('index', 'openprocurementtenderopenuadefense.tex', u'openprocurement.tender.openuadefense Documentation',
    u'Myroslav Opyr', 'manual'),
 ]
 
@@ -233,7 +233,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'openprocurementtenderopenua', u'openprocurement.tender.openua Documentation',
+    ('index', 'openprocurementtenderopenuadefense', u'openprocurement.tender.openuadefense Documentation',
      [u'Myroslav Opyr'], 1)
 ]
 
@@ -247,8 +247,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'openprocurementtenderopenua', u'openprocurement.tender.openua Documentation',
-   u'Myroslav Opyr', 'openprocurementtenderopenua', 'One line description of project.',
+  ('index', 'openprocurementtenderopenuadefense', u'openprocurement.tender.openuadefense Documentation',
+   u'Myroslav Opyr', 'openprocurementtenderopenuadefense', 'One line description of project.',
    'Miscellaneous'),
 ]
 

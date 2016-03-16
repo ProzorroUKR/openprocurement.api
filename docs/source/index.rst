@@ -3,15 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. title:: OpenProcurement tender openua
+.. title:: OpenProcurement tender openuadefense
 
-Welcome to openprocurement.tender.openua's documentation!
+Welcome to openprocurement.tender.openuadefense's documentation!
 =========================================================
 
 Please report any problems or suggestions for improvement either via the
 `mailing list <http://groups.google.com/group/open-procurement-general>`_ or
 the `issue tracker
-<https://github.com/openprocurement/openprocurement.tender.openua/issues>`_.
+<https://github.com/openprocurement/openprocurement.tender.openuadefense/issues>`_.
 
 Contents:
 
