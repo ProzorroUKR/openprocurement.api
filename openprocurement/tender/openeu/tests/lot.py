@@ -9,6 +9,8 @@ from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, B
 
 class TenderLotResourceTest(BaseTenderContentWebTest):
 
+    initial_auth = ('Basic', ('broker', ''))
+
     def test_create_tender_lot_invalid(self):
         response = self.app.post_json('/tenders/some_id/lots', {'data': {'title': 'lot title', 'description': 'lot description'}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
@@ -18,7 +20,7 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
             {u'description': u'Not Found', u'location': u'url', u'name': u'tender_id'}
         ])
 
-        request_path = '/tenders/{}/lots'.format(self.tender_id)
+        request_path = '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token)
 
         response = self.app.post(request_path, 'data', status=415)
         self.assertEqual(response.status, '415 Unsupported Media Type')
@@ -115,7 +117,7 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         self.assertEqual(lots[0]['minimalStep']['currency'], "UAH")
         self.assertEqual(lots[0]['minimalStep']['amount'], 100)
 
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"items": [{'relatedLot': '0' * 32}]}}, status=422)
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {"items": [{'relatedLot': '0' * 32}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -124,7 +126,7 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         ])
 
     def test_create_tender_lot(self):
-        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]})
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token), {'data': test_lots[0]})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
@@ -133,7 +135,7 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         self.assertIn('id', lot)
         self.assertIn(lot['id'], response.headers['Location'])
 
-        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': lot}, status=422)
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token), {'data': lot}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -142,12 +144,14 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         ])
 
     def test_patch_tender_lot(self):
-        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]})
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
 
-        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"title": "new title"}})
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
+                                       {"data": {"title": "new title"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["title"], "new title")
@@ -178,21 +182,28 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
-        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"title": "other title"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
+                                       {"data": {"title": "other title"}}, status=403)
+
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update lot in current (unsuccessful) tender status")
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can't update lot in current (unsuccessful) tender status")
 
     def test_patch_tender_currency(self):
         # create lot
-        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]})
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
         self.assertEqual(lot['value']['currency'], "UAH")
 
         # update tender currency without mimimalStep currency change
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"value": {"currency": "GBP"}}}, status=422)
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"value": {"currency": "GBP"}}}, status=422)
+
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -202,10 +213,14 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         ])
 
         # update tender currency
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {
-            "value": {"currency": "GBP"},
-            "minimalStep": {"currency": "GBP"}
-        }})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {
+            "data": {
+                "value": {"currency": "GBP"},
+                "minimalStep": {"currency": "GBP"
+                }
+            }
+        })
+
         self.assertEqual(response.status, '200 OK')
         # log currency is updated too
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -215,7 +230,8 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         self.assertEqual(lot['value']['currency'], "GBP")
 
         # try to update lot currency
-        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"value": {"currency": "USD"}}})
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
+                                       {"data": {"value": {"currency": "USD"}}})
         self.assertEqual(response.status, '200 OK')
         # but the value stays unchanged
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -225,7 +241,8 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         self.assertEqual(lot['value']['currency'], "GBP")
 
         # try to update minimalStep currency
-        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"minimalStep": {"currency": "USD"}}})
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
+                                       {"data": {"minimalStep": {"currency": "USD"}}})
         self.assertEqual(response.status, '200 OK')
         # but the value stays unchanged
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -235,8 +252,8 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         self.assertEqual(lot['minimalStep']['currency'], "GBP")
 
         # try to update lot minimalStep currency and lot value currency in single request
-        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"value": {"currency": "USD"},
-                                                                                                          "minimalStep": {"currency": "USD"}}})
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
+                                       {"data": {"value": {"currency": "USD"}, "minimalStep": {"currency": "USD"}}})
         self.assertEqual(response.status, '200 OK')
         # but the value stays unchanged
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -248,21 +265,24 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
 
     def test_patch_tender_vat(self):
         # set tender VAT
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"value": {"valueAddedTaxIncluded": True}}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"value": {"valueAddedTaxIncluded": True}}})
+
         self.assertEqual(response.status, '200 OK')
 
         # create lot
-        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]})
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
         self.assertTrue(lot['value']['valueAddedTaxIncluded'])
 
         # update tender VAT
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data":
-                                                                              {"value": {"valueAddedTaxIncluded": False},
-                                                                               "minimalStep": {"valueAddedTaxIncluded": False}}
-                                                                              })
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {
+            "data":{"value": {"valueAddedTaxIncluded": False}, "minimalStep": {"valueAddedTaxIncluded": False}}})
+
         self.assertEqual(response.status, '200 OK')
         # log VAT is updated too
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -272,7 +292,8 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         self.assertFalse(lot['value']['valueAddedTaxIncluded'])
 
         # try to update lot VAT
-        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"value": {"valueAddedTaxIncluded": True}}})
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
+                                       {"data": {"value": {"valueAddedTaxIncluded": True}}})
         self.assertEqual(response.status, '200 OK')
         # but the value stays unchanged
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -282,7 +303,8 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         self.assertFalse(lot['value']['valueAddedTaxIncluded'])
 
         # try to update minimalStep VAT
-        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"minimalStep": {"valueAddedTaxIncluded": True}}})
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
+                                       {"data": {"minimalStep": {"valueAddedTaxIncluded": True}}})
         self.assertEqual(response.status, '200 OK')
         # but the value stays unchanged
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -292,8 +314,8 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         self.assertFalse(lot['minimalStep']['valueAddedTaxIncluded'])
 
         # try to update minimalStep VAT and value VAT in single request
-        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"value": {"valueAddedTaxIncluded": True},
-                                                                                                          "minimalStep": {"valueAddedTaxIncluded": True}}})
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),{
+            "data": {"value": {"valueAddedTaxIncluded": True}, "minimalStep": {"valueAddedTaxIncluded": True}}})
         self.assertEqual(response.status, '200 OK')
         # but the value stays unchanged
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -304,7 +326,9 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         self.assertEqual(lot['minimalStep']['valueAddedTaxIncluded'], lot['value']['valueAddedTaxIncluded'])
 
     def test_get_tender_lot(self):
-        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]})
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
@@ -340,7 +364,9 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         ])
 
     def test_get_tender_lots(self):
-        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]})
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
@@ -367,17 +393,19 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         ])
 
     def test_delete_tender_lot(self):
-        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]})
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
 
-        response = self.app.delete('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data'], lot)
 
-        response = self.app.delete('/tenders/{}/lots/some_id'.format(self.tender_id), status=404)
+        response = self.app.delete('/tenders/{}/lots/some_id?acc_token={}'.format(self.tender_id, self.tender_token), status=404)
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -395,12 +423,13 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
-        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': test_lots[0]})
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
 
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {
             "items": [
                 {
                     'relatedLot': lot['id']
@@ -409,7 +438,7 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         }})
         self.assertEqual(response.status, '200 OK')
 
-        response = self.app.delete('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), status=422)
+        response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -419,15 +448,17 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
-        response = self.app.delete('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), status=403)
+        response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't delete lot in current (unsuccessful) tender status")
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can't delete lot in current (unsuccessful) tender status")
 
 
 class TenderLotFeatureResourceTest(BaseTenderContentWebTest):
     initial_lots = 2 * test_lots
 
+    initial_auth = ('Basic', ('broker', ''))
     def test_tender_value(self):
         request_path = '/tenders/{}'.format(self.tender_id)
         response = self.app.get(request_path)
@@ -437,7 +468,7 @@ class TenderLotFeatureResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['minimalStep']['amount'], min([i['minimalStep']['amount'] for i in self.initial_lots]))
 
     def test_tender_features_invalid(self):
-        request_path = '/tenders/{}'.format(self.tender_id)
+        request_path = '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token)
         data = test_tender_data.copy()
         item = data['items'][0].copy()
         item['id'] = "1"
@@ -773,6 +804,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
 class TenderLotProcessTest(BaseTenderContentWebTest):
     setUp = BaseTenderContentWebTest.setUp
 
+
     def test_1lot_0bid(self):
         self.app.authorization = ('Basic', ('broker', ''))
         # create tender
@@ -959,6 +991,133 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token))
         self.assertEqual(response.json['data']['lotValues'][0]['participationUrl'], 'https://tender.auction.url/for_bid/{}'.format(bid_id))
+        # posting auction results
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.post_json('/tenders/{}/auction/{}'.format(tender_id, lot_id), {'data': {'bids': auction_bids_data}})
+        # # get awards
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
+        # get pending award
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        # set award as active
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "active"}})
+        # get contract id
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        contract_id = response.json['data']['contracts'][-1]['id']
+        # after stand slill period
+
+        self.time_shift('complete')
+        self.check_chronograph()
+
+        # # time travel
+        tender = self.db.get(tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+        # # sign contract
+        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+        # check status
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        self.assertEqual(response.json['data']["lots"][0]['status'], 'complete')
+        self.assertEqual(response.json['data']['status'], 'complete')
+
+    def test_1lot_3bid_1un(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        # create tender
+        response = self.app.post_json('/tenders', {"data": test_tender_data})
+        tender_id = self.tender_id = response.json['data']['id']
+        owner_token = response.json['access']['token']
+        # add lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        lot_id = response.json['data']['id']
+        self.initial_lots = [response.json['data']]
+        # add relatedLot for item
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [{'relatedLot': lot_id}]}})
+        self.assertEqual(response.status, '200 OK')
+        # create bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        bids = []
+        for i in range(3):
+            response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                          {'data': {'tenderers': test_bids[0]["tenderers"], 'lotValues': [{"value": {"amount": 450}, 'relatedLot': lot_id}]}})
+            bids.append({response.json['data']['id']: response.json['access']['token']})
+
+        # switch to active.auction
+        self.time_shift('active.pre-qualification')
+        self.check_chronograph()
+
+        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
+        self.assertEqual(response.content_type, 'application/json')
+        qualifications = response.json['data']
+        for qualification in qualifications:
+            if qualification['bidID'] == bids[2].keys()[0]:
+                response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], owner_token),
+                                          {"data": {'status': 'unsuccessful'}})
+                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.json['data']['status'], 'unsuccessful')
+            else:
+                response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], owner_token),
+                                          {"data": {'status': 'active'}})
+                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.json['data']['status'], 'active')
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+        self.assertEqual(response.status, "200 OK")
+        self.check_chronograph()
+
+        response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, owner_token))
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "200 OK")
+
+        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
+        self.assertEqual(response.content_type, 'application/json')
+        qualifications = response.json['data']
+
+        self.time_shift('active.auction')
+
+        self.check_chronograph()
+        # get auction info
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(tender_id))
+        auction_bids_data = response.json['data']['bids']
+        # posting auction urls
+        data ={
+            'data': {
+                'lots': [
+                    {
+                        'id': i['id'],
+                        'auctionUrl': 'https://tender.auction.url'
+                    }
+                    for i in response.json['data']['lots']
+                ],
+                'bids': list(auction_bids_data)
+            }
+        }
+
+        for bid_index, bid in enumerate(auction_bids_data):
+            if bid.get('status', 'active') == 'active':
+                for lot_index, lot_bid in enumerate(bid['lotValues']):
+                    if lot_bid['relatedLot'] == lot_id and lot_bid.get('status', 'active') == 'active':
+                        data['data']['bids'][bid_index]['lotValues'][lot_index]['participationUrl'] = 'https://tender.auction.url/for_bid/{}'.format(bid['id'])
+                        break
+
+        response = self.app.patch_json('/tenders/{}/auction/{}'.format(tender_id, lot_id), data)
+        # view bid participationUrl
+        self.app.authorization = ('Basic', ('broker', ''))
+        bid_id = bids[0].keys()[0]
+        bid_token = bids[0].values()[0]
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token))
+        self.assertEqual(response.json['data']['lotValues'][0]['participationUrl'], 'https://tender.auction.url/for_bid/{}'.format(bid_id))
+
+        bid_id = bids[2].keys()[0]
+        bid_token = bids[2].values()[0]
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token))
+        self.assertNotEqual(response.json['data']['lotValues'][0].get('participationUrl', None), 'https://tender.auction.url/for_bid/{}'.format(bid_id))
+        self.assertEqual(response.json['data']['lotValues'][0].get('participationUrl', None), None)
+
         # posting auction results
         self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.post_json('/tenders/{}/auction/{}'.format(tender_id, lot_id), {'data': {'bids': auction_bids_data}})

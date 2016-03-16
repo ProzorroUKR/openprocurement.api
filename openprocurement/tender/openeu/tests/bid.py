@@ -10,6 +10,7 @@ from openprocurement.tender.openeu.tests.base import (
 
 class TenderBidResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'
+    initial_auth = ('Basic', ('broker', ''))
 
     def test_create_tender_biddder_invalid(self):
         response = self.app.post_json('/tenders/some_id/bids', {
@@ -145,6 +146,17 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(bid['tenderers'][0]['name'], test_bids[0]['tenderers'][0]['name'])
         self.assertIn('id', bid)
         self.assertIn(bid['id'], response.headers['Location'])
+        self.assertNotIn('guarantee', bid)
+
+        response = self.app.post_json('/tenders/{}/bids'.format(
+            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 499},
+                                       'guarantee': {"amount": 100500, "currency": "USD"}}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        bid2 = response.json['data']
+        self.assertIn('guarantee', bid2)
+        self.assertEqual(bid2['guarantee']['amount'], 100500)
+        self.assertEqual(bid2['guarantee']['currency'], "USD")
 
         for status in ('active', 'unsuccessful', 'deleted', 'invalid'):
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
@@ -170,7 +182,21 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         bid = response.json['data']
         bid_token = response.json['access']['token']
 
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"value": {"amount": 600}}}, status=422)
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"guarantee": {"valueAddedTaxIncluded": True}}}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.json['errors'][0], {u'description': {u'valueAddedTaxIncluded': u'Rogue field'}, u'location': u'body', u'name': u'guarantee'})
+
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"guarantee": {"amount": 12}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertIn('guarantee', response.json['data'])
+        self.assertEqual(response.json['data']['guarantee']['amount'], 12)
+        self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
+
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"guarantee": {"currency": "USD"}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
+
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"value": {"amount": 600}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -178,25 +204,25 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
             {u'description': [u'value of bid should be less than value of tender'], u'location': u'body', u'name': u'value'}
         ])
 
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {'tenderers': [{"name": u"Державне управління управлінням справами"}]}})
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {'tenderers': [{"name": u"Державне управління управлінням справами"}]}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['date'], bid['date'])
         self.assertNotEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
 
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"value": {"amount": 500}, 'tenderers': test_bids[0]['tenderers']}})
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"value": {"amount": 500}, 'tenderers': test_bids[0]['tenderers']}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['date'], bid['date'])
         self.assertEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
 
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"value": {"amount": 400}}})
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"value": {"amount": 400}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["value"]["amount"], 400)
         self.assertNotEqual(response.json['data']['date'], bid['date'])
 
-        response = self.app.patch_json('/tenders/{}/bids/some_id'.format(self.tender_id), {"data": {"value": {"amount": 400}}}, status=404)
+        response = self.app.patch_json('/tenders/{}/bids/some_id?acc_token={}'.format(self.tender_id, bid_token), {"data": {"value": {"amount": 400}}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -227,7 +253,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["value"]["amount"], 400)
 
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"value": {"amount": 400}}}, status=403)
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"value": {"amount": 400}}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update bid in current (complete) tender status")
@@ -279,7 +305,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"status": 'active.pre-qualification.stand-still'}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {"status": 'active.pre-qualification.stand-still'}})
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
 
         self.app.authorization = ('Basic', ('anon', ''))
@@ -388,7 +414,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         bid = response.json['data']
         bid_token = response.json['access']['token']
 
-        response = self.app.delete('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
+        response = self.app.delete('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['id'], bid['id'])
@@ -451,7 +477,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['status'], 'invalid')
 
         # try to delete 'invalid' bid
-        response = self.app.delete('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
+        response = self.app.delete('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['id'], bid['id'])
@@ -478,8 +504,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"status": 'active.pre-qualification.stand-still'}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            self.tender_id, self.tender_token), {"data": {"status": 'active.pre-qualification.stand-still'}})
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
 
         # switch to active.auction
@@ -546,14 +572,14 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         bid = response.json['data']
         bid_token = response.json['access']['token']
 
-        response = self.app.delete('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
+        response = self.app.delete('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['id'], bid['id'])
         self.assertEqual(response.json['data']['status'], 'deleted')
 
         # try to restore deleted bid
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {
             'status': 'pending',
             }})
         self.assertEqual(response.status, '200 OK')
@@ -566,15 +592,17 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
 
     def test_deleted_bid_do_not_locks_tender_in_state(self):
         bids = []
+        bids_tokens = []
         for bid_amount in (400, 405):
             response = self.app.post_json('/tenders/{}/bids'.format(
                 self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": bid_amount}}})
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
             bids.append(response.json['data'])
+            bids_tokens.append(response.json['access']['token'])
 
         # delete first bid
-        response = self.app.delete('/tenders/{}/bids/{}'.format(self.tender_id, bids[0]['id']))
+        response = self.app.delete('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bids[0]['id'], bids_tokens[0]))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['id'], bids[0]['id'])
@@ -894,6 +922,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
 class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
     initial_data = test_features_tender_data
     initial_status = 'active.tendering'
+    initial_auth = ('Basic', ('broker', ''))
 
     def test_features_bidder(self):
         test_features_bids = [
