@@ -410,6 +410,9 @@ You should pass `reason`, `status` defaults to `pending`.
 .. include::  tutorial/prepare-cancellation.http
    :code:
 
+.. include::  tutorial/update-cancellation-reasonType.http
+   :code:
+
 Filling cancellation with protocol and supplementary documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -736,6 +736,11 @@ class TenderResourceTest(BaseTenderWebTest):
 
         cancellation_id = response.json['data']['id']
 
+        with open('docs/source/tutorial/update-cancellation-reasonType.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(
+                    self.tender_id, cancellation_id, owner_token), {"data":{'reasonType': 'unsuccessful'}})
+            self.assertEqual(response.status, '200 OK')
+
         #### Filling cancellation with protocol and supplementary documentation
         #
 
