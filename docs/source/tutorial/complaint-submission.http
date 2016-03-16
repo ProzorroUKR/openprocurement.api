@@ -1,4 +1,4 @@
-POST /api/2.0/tenders/ac7a52acb3bf4034a3a3539ede9dd40b/complaints HTTP/1.0
+POST /api/2.0/tenders/8005dd04b2e14bba89527ee8814c34ef/complaints HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1682
 Content-Type: application/json
@@ -34,10 +34,10 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/ac7a52acb3bf4034a3a3539ede9dd40b/complaints/50236d70c7734310bc90bbff72c024ea
+Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/8005dd04b2e14bba89527ee8814c34ef/complaints/54316d58c89546c38a8f9a41686756c1
 {
   "access": {
-    "token": "b45b78f6650446dc86ecc2df0e9a9538"
+    "token": "ed2f1fa4aea4451f820d236f685f890a"
   }, 
   "data": {
     "status": "draft", 
@@ -65,9 +65,9 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/ac7a52acb3bf403
     }, 
     "title": "Недостатньо інформації", 
     "complaintID": "UA-2016-03-16-000001.1", 
-    "date": "2016-03-16T12:28:39.286520+02:00", 
+    "date": "2016-03-16T12:34:36.739880+02:00", 
     "type": "claim", 
-    "id": "50236d70c7734310bc90bbff72c024ea"
+    "id": "54316d58c89546c38a8f9a41686756c1"
   }
 }
 

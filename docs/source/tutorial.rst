@@ -395,6 +395,15 @@ Let's view separate contract document:
 .. include:: tutorial/tender-contract-get.http
     :code:
 
+Set contract signature date
+---------------------------
+
+There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field.
+If this date is not set, it will be auto-generated on the date of contract registration.
+
+.. include:: tutorial/tender-contract-sign-date.http
+   :code:
+
 Cancelling tender
 -----------------
 

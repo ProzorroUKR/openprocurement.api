@@ -1,23 +1,23 @@
-POST /api/2.0/tenders/9614ff85447d4f2da6e44a586f40c444/bids/180c7685bc0f42fd9b9be256b4562a10/qualification_documents?acc_token=a06462aed6394121b9a93c0a51943860 HTTP/1.0
+POST /api/2.0/tenders/8fc0196e093e451692e674e2996ed0b3/bids/656d95f8692e4fda9ab11fcf2a6f3021/qualification_documents?acc_token=105503251d0141b9a1377ba3f1b41a2f HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 200
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy28494484693$
+Content-Length: 206
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy00664061631675$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/9614ff85447d4f2da6e44a586f40c444/bids/180c7685bc0f42fd9b9be256b4562a10/qualification_documents/b7df4157d0e14bfab7f1114f96e45c22
+Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/8fc0196e093e451692e674e2996ed0b3/bids/656d95f8692e4fda9ab11fcf2a6f3021/qualification_documents/ce88e14f865f4ac0948d488590ebc7cc
 {
   "data": {
     "confidentiality": "public", 
     "language": "uk", 
     "title": "qualification_document.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/9614ff85447d4f2da6e44a586f40c444/bids/180c7685bc0f42fd9b9be256b4562a10/qualification_documents/b7df4157d0e14bfab7f1114f96e45c22?download=450199d138384e089853a1182c639182", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/8fc0196e093e451692e674e2996ed0b3/bids/656d95f8692e4fda9ab11fcf2a6f3021/qualification_documents/ce88e14f865f4ac0948d488590ebc7cc?download=98bf945a40594648acda5c8f3bee7492", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-03-16T12:28:49.279511+02:00", 
-    "id": "b7df4157d0e14bfab7f1114f96e45c22", 
-    "dateModified": "2016-03-16T12:28:49.279547+02:00"
+    "datePublished": "2016-03-16T12:34:47.057884+02:00", 
+    "id": "ce88e14f865f4ac0948d488590ebc7cc", 
+    "dateModified": "2016-03-16T12:34:47.057922+02:00"
   }
 }
 
