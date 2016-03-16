@@ -132,16 +132,6 @@ class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
         del user_data['additionalContactPoints']
         del user_data['contactPoint']['availableLanguage']
 
-        response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
-            'title': 'complaint title',
-            'description': 'complaint description',
-            'author': user_data,
-            'status': 'claim'
-        }})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.json['data']['status'], 'claim')
-        complaint_id = response.json['data']['id']
-
         for status in ['invalid', 'resolved', 'declined']:
             response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
                 'title': 'complaint title',

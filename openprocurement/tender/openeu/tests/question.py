@@ -6,6 +6,7 @@ from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, t
 
 class TenderQuestionResourceTest(BaseTenderContentWebTest):
 
+    initial_auth = ('Basic', ('broker', ''))
     def test_create_tender_question_invalid(self):
         response = self.app.post_json('/tenders/some_id/questions', {
                                       'data': {'title': 'question title', 'description': 'question description', 'author': test_bids[0]['tenderers'][0]}}, status=404)
@@ -177,7 +178,7 @@ class TenderQuestionResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
 
-        response = self.app.patch_json('/tenders/{}/questions/{}'.format(self.tender_id, question['id']), {"data": {"answer": "answer"}})
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["answer"], "answer")
@@ -208,7 +209,7 @@ class TenderQuestionResourceTest(BaseTenderContentWebTest):
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
-        response = self.app.patch_json('/tenders/{}/questions/{}'.format(self.tender_id, question['id']), {"data": {"answer": "answer"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update question in current (unsuccessful) tender status")
@@ -224,6 +225,12 @@ class TenderQuestionResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(set(response.json['data']), set([u'id', u'date', u'title', u'description', u'questionOf']))
+
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["answer"], "answer")
+        question["answer"] = "answer"
 
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
@@ -263,6 +270,12 @@ class TenderQuestionResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'date', u'title', u'description', u'questionOf']))
 
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["answer"], "answer")
+        question["answer"] = "answer"
+
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
@@ -283,9 +296,9 @@ class TenderQuestionResourceTest(BaseTenderContentWebTest):
 
 class TenderLotQuestionResourceTest(BaseTenderContentWebTest):
     initial_lots = 2 * test_lots
-
+    initial_auth = ('Basic', ('broker', ''))
     def test_create_tender_question(self):
-        response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
             'reason': 'cancellation reason',
             'status': 'active',
             "cancellationOf": "lot",
@@ -330,7 +343,7 @@ class TenderLotQuestionResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
 
-        response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
             'reason': 'cancellation reason',
             'status': 'active',
             "cancellationOf": "lot",
@@ -338,7 +351,7 @@ class TenderLotQuestionResourceTest(BaseTenderContentWebTest):
         }})
         self.assertEqual(response.status, '201 Created')
 
-        response = self.app.patch_json('/tenders/{}/questions/{}'.format(self.tender_id, question['id']), {"data": {"answer": "answer"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can update question only in active lot status")
@@ -354,7 +367,7 @@ class TenderLotQuestionResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
 
-        response = self.app.patch_json('/tenders/{}/questions/{}'.format(self.tender_id, question['id']), {"data": {"answer": "answer"}})
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["answer"], "answer")

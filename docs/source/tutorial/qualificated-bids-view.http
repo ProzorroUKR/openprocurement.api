@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec/bids?acc_token=306076f4393b49139b43e781288fe272 HTTP/1.0
+GET /api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/bids?acc_token=77ac0f0854f241f3a0c18ae04d2052f8 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -13,35 +13,35 @@ Content-Type: application/json; charset=UTF-8
           "confidentiality": "public", 
           "language": "uk", 
           "title": "Proposal.pdf", 
-          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec/bids/28b7c5d82fef4562a3e7ef192846e5e3/documents/1496b304217a44c0b2a7701133620d8d?download=7ca58a5d102947429322c6f8ea4dca98", 
+          "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/bids/b1307614bde14ae6856865096857e2d1/documents/711ca372b8e846a19848c930647449f3?download=ffbe5289fe854f0f94486bf06308e415", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2016-03-10T16:54:36.657392+02:00", 
-          "id": "1496b304217a44c0b2a7701133620d8d", 
-          "dateModified": "2016-03-10T16:54:36.657432+02:00"
+          "datePublished": "2016-03-16T17:32:20.327519+02:00", 
+          "id": "711ca372b8e846a19848c930647449f3", 
+          "dateModified": "2016-03-16T17:32:20.327559+02:00"
         }, 
         {
           "confidentiality": "buyerOnly", 
           "language": "uk", 
           "title": "Proposal_top_secrets.pdf", 
-          "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec/bids/28b7c5d82fef4562a3e7ef192846e5e3/documents/0551a196ebd744978805eb28bc31eb1c?download=18f8041e25b14e6180601e2b5e9775d2", 
+          "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/bids/b1307614bde14ae6856865096857e2d1/documents/1d32b36c5ddb475c9214d51f20f11f02?download=1975c794891f4ec9ba60c6e028bd1793", 
           "confidentialityRationale": "Only our company sells badgers with pink hair.", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2016-03-10T16:54:36.851023+02:00", 
-          "id": "0551a196ebd744978805eb28bc31eb1c", 
-          "dateModified": "2016-03-10T16:54:36.851060+02:00"
+          "datePublished": "2016-03-16T17:32:20.520403+02:00", 
+          "id": "1d32b36c5ddb475c9214d51f20f11f02", 
+          "dateModified": "2016-03-16T17:32:20.520443+02:00"
         }
       ], 
-      "id": "28b7c5d82fef4562a3e7ef192846e5e3"
+      "id": "b1307614bde14ae6856865096857e2d1"
     }, 
     {
       "status": "active", 
-      "id": "fea32b2e3c204ec2b9d5231e186e0796"
+      "id": "f0e4d6ac87ba446aaca1718e3ad3bf35"
     }, 
     {
       "status": "unsuccessful", 
-      "id": "a5b8cbe698b54cd189a28757c28298c6"
+      "id": "c8af0b46d40747479085a866ddc0726e"
     }
   ]
 }

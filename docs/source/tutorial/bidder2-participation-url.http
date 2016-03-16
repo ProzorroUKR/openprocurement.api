@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/30a1cf2907c64f058d80dfadaedb4eec/bids/fea32b2e3c204ec2b9d5231e186e0796?acc_token=bf8fa8ec65ed43d2922cbb7634b837e1 HTTP/1.0
+GET /api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/bids/f0e4d6ac87ba446aaca1718e3ad3bf35?acc_token=17164b5e6e9340bda952329993bc0682 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -34,9 +34,9 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2016-03-10T16:54:39.152705+02:00", 
-    "id": "fea32b2e3c204ec2b9d5231e186e0796", 
-    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/30a1cf2907c64f058d80dfadaedb4eec?key_for_bid=fea32b2e3c204ec2b9d5231e186e0796"
+    "date": "2016-03-16T17:32:22.259547+02:00", 
+    "id": "f0e4d6ac87ba446aaca1718e3ad3bf35", 
+    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba?key_for_bid=f0e4d6ac87ba446aaca1718e3ad3bf35"
   }
 }
 

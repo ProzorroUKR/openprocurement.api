@@ -1,36 +1,22 @@
-GET /api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/contracts/bf3ce5f7ade045c4b11d3564aacd8b08?acc_token=77ac0f0854f241f3a0c18ae04d2052f8 HTTP/1.0
+PATCH /api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/contracts/bf3ce5f7ade045c4b11d3564aacd8b08?acc_token=77ac0f0854f241f3a0c18ae04d2052f8 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
+Content-Length: 36
+Content-Type: application/json
 Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "value": {
+      "amount": 238
+    }
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "pending", 
-    "documents": [
-      {
-        "language": "uk", 
-        "title": "contract_first_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/contracts/bf3ce5f7ade045c4b11d3564aacd8b08/documents/7996f28e60b44df6857c03f9be337d12?download=52e103933f784de7a8594dfac523ee00", 
-        "format": "application/msword", 
-        "documentOf": "tender", 
-        "datePublished": "2016-03-16T17:32:27.896523+02:00", 
-        "id": "7996f28e60b44df6857c03f9be337d12", 
-        "dateModified": "2016-03-16T17:32:27.896630+02:00"
-      }, 
-      {
-        "language": "en", 
-        "title": "contract_second_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/contracts/bf3ce5f7ade045c4b11d3564aacd8b08/documents/380b9f43576c4d768bbc7bb3ed90a1f3?download=f39a72e1825a46ea95ac6bdf12aa45b2", 
-        "format": "application/msword", 
-        "title_en": "Title of Document", 
-        "description_en": "Description of Document", 
-        "datePublished": "2016-03-16T17:32:28.431740+02:00", 
-        "documentOf": "tender", 
-        "id": "380b9f43576c4d768bbc7bb3ed90a1f3", 
-        "dateModified": "2016-03-16T17:32:28.431790+02:00"
-      }
-    ], 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -99,16 +85,11 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "period": {
-      "startDate": "2016-03-16T17:32:27.357152+02:00", 
-      "endDate": "2017-03-16T17:32:27.357202+02:00"
-    }, 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-03-16T17:32:26.942196+02:00", 
     "awardID": "56e586e0f1e24fb8ad4107a5f27b2c1e", 
     "id": "bf3ce5f7ade045c4b11d3564aacd8b08", 
     "contractID": "UA-2016-03-16-000001-1"

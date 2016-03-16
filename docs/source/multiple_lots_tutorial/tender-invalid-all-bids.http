@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/c3dc236b3dd142bcb7e0e81ceb04a929/lots/843fbda911994854adcd6d042d805e94?acc_token=9454992befe14e7194eec8b887a38c1c HTTP/1.0
+PATCH /api/2.0/tenders/8f60a91893414e029899c19aa0723bd6/lots/b018dac2e9fb434581608ea3800eaf87?acc_token=a5557ba2309a46e5a61659f2ada2eec4 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 36
 Content-Type: application/json
@@ -29,7 +29,7 @@ Content-Type: application/json; charset=UTF-8
       "amount": 400.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "id": "843fbda911994854adcd6d042d805e94"
+    "id": "b018dac2e9fb434581608ea3800eaf87"
   }
 }
 

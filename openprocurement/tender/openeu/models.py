@@ -153,8 +153,16 @@ class Complaint(BaseComplaint):
 
 
 class Cancellation(BaseCancellation):
-    documents = ListType(ModelType(Document), default=list())
+    class Options:
+        roles = {
+            'create': whitelist('reason', 'status', 'reasonType', 'cancellationOf', 'relatedLot'),
+            'edit': whitelist('status', 'reasonType'),
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+        }
 
+    documents = ListType(ModelType(Document), default=list())
+    reasonType = StringType(choices=['cancelled', 'unsuccessful'], default='cancelled')
 
 class TenderAuctionPeriod(Period):
     """The auction period."""
@@ -245,8 +253,8 @@ class Bid(BaseBid):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues'),
-            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status'),
+            'create': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues'),
+            'edit': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues', 'status'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
@@ -419,7 +427,9 @@ class Tender(BaseTender):
     def next_check(self):
         now = get_now()
         checks = []
-        if self.status == 'active.tendering' and self.tenderPeriod.endDate and not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]):
+        if self.status == 'active.tendering' and self.tenderPeriod.endDate and \
+            not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]) and \
+            not any([i.id for i in self.questions if not i.answer]):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
         elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate and not any([
             i.status in BLOCK_COMPLAINT_STATUS
@@ -473,6 +483,9 @@ class Tender(BaseTender):
 
 
     def validate_tenderPeriod(self, data, period):
+        # if data['_rev'] is None when tender was created just now
+        if not data['_rev'] and calculate_business_date(get_now(), -timedelta(minutes=10), data) >= period.startDate:
+            raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
         if period and calculate_business_date(period.startDate, TENDERING_DURATION, data) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than {} days".format(TENDERING_DAYS))
 
