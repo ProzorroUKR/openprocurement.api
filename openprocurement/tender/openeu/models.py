@@ -153,8 +153,16 @@ class Complaint(BaseComplaint):
 
 
 class Cancellation(BaseCancellation):
-    documents = ListType(ModelType(Document), default=list())
+    class Options:
+        roles = {
+            'create': whitelist('reason', 'status', 'reasonType', 'cancellationOf', 'relatedLot'),
+            'edit': whitelist('status', 'reasonType'),
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+        }
 
+    documents = ListType(ModelType(Document), default=list())
+    reasonType = StringType(choices=['cancelled', 'unsuccessful'], default='cancelled')
 
 class TenderAuctionPeriod(Period):
     """The auction period."""
