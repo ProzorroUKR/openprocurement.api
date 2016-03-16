@@ -1,5 +1,4 @@
 #
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
@@ -156,9 +155,4 @@ msgstr "Замовник підтверджує кваліфікацію пер�
 msgid "Bidder can register bids for all lots:"
 msgstr "Учасник може зареєструвати пропозиції для всіх лотів:"
 
-#~ msgid "Bidder can register a bid for all lots:"
-#~ msgstr "Учасник може зареєструвати пропозицію для всіх лотів:"
 
-#~ msgid "Open EU procedure requires bids value qualification."
-#~ msgstr ""
-#~ "Європейська процедура відкритих торгів вимагає кваліфікації пропозицій."

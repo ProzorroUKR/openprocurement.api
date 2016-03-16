@@ -1,4 +1,4 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
@@ -229,5 +229,3 @@ msgstr "`ru` - російська мова"
 msgid "Specifies the language of communication."
 msgstr "Визначає мови спілкування."
 
-#~ msgid "|ocdsDescription| Specifies the language of communication."
-#~ msgstr ""

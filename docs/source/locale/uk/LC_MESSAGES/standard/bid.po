@@ -1,4 +1,4 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
@@ -161,5 +161,3 @@ msgstr "Схема роботи"
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
 
-#~ msgid "List of :ref:`Document` objects"
-#~ msgstr "Список об’єктів :ref:`Document`"

@@ -1,23 +1,23 @@
-POST /api/2.0/tenders/c5218c4f746f440bb451180039f080c3/bids/143c1c292033432f9c3271cce0e05d6b/qualification_documents?acc_token=3864695dd9574af088d068a533fdcaa8 HTTP/1.0
+POST /api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/bids/b1307614bde14ae6856865096857e2d1/qualification_documents?acc_token=2dd3e635e02f45119edf9045bffbda9e HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 202
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy289650394347$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy180052563971$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/c5218c4f746f440bb451180039f080c3/bids/143c1c292033432f9c3271cce0e05d6b/qualification_documents/66d59d6d1e0b46d9969592b55555c870
+Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/bids/b1307614bde14ae6856865096857e2d1/qualification_documents/3bb85a7e17474a579eb7a8cc67aa82d4
 {
   "data": {
     "confidentiality": "public", 
     "language": "uk", 
     "title": "qualification_document.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/c5218c4f746f440bb451180039f080c3/bids/143c1c292033432f9c3271cce0e05d6b/qualification_documents/66d59d6d1e0b46d9969592b55555c870?download=3e7a03cf714748848afb7296ac184aae", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/bids/b1307614bde14ae6856865096857e2d1/qualification_documents/3bb85a7e17474a579eb7a8cc67aa82d4?download=04556e4a43944abe8db0feb4a8f31eab", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-03-16T14:19:29.987490+02:00", 
-    "id": "66d59d6d1e0b46d9969592b55555c870", 
-    "dateModified": "2016-03-16T14:19:29.987527+02:00"
+    "datePublished": "2016-03-16T17:32:21.501264+02:00", 
+    "id": "3bb85a7e17474a579eb7a8cc67aa82d4", 
+    "dateModified": "2016-03-16T17:32:21.501315+02:00"
   }
 }
 
