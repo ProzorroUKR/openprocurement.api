@@ -1,6 +1,17 @@
-GET /api/2.0/tenders/a431347001c34ac69410e5fccd8c310a/contracts/5f534206686f489bad0000ac19145ba1?acc_token=3948c641afc9455ebd631449b4d9dae9 HTTP/1.0
+PATCH /api/2.0/tenders/a431347001c34ac69410e5fccd8c310a/contracts/5f534206686f489bad0000ac19145ba1?acc_token=3948c641afc9455ebd631449b4d9dae9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
+Content-Length: 118
+Content-Type: application/json
 Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "period": {
+      "startDate": "2016-03-16T12:18:24.649190+02:00", 
+      "endDate": "2017-03-16T12:18:24.649233+02:00"
+    }
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
@@ -63,11 +74,16 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
+    "period": {
+      "startDate": "2016-03-16T12:18:24.649190+02:00", 
+      "endDate": "2017-03-16T12:18:24.649233+02:00"
+    }, 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
+    "dateSigned": "2016-03-16T12:18:24.453977+02:00", 
     "awardID": "dc3e25d72c9d4d559a3c297efc12034f", 
     "id": "5f534206686f489bad0000ac19145ba1", 
     "contractID": "UA-2016-03-16-000001-1"
