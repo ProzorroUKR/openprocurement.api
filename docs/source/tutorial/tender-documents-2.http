@@ -1,4 +1,4 @@
-GET /api/2.0/tenders/67832b95357c4428aa90a1f80d5a7241/documents?acc_token=54f3e74ba9eb4f85b73516efb6a70e78 HTTP/1.0
+GET /api/2.0/tenders/c5218c4f746f440bb451180039f080c3/documents?acc_token=0c71d8bb6a2b426f9143740c95463e3e HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -9,22 +9,22 @@ Content-Type: application/json; charset=UTF-8
     {
       "language": "uk", 
       "title": "Notice.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/67832b95357c4428aa90a1f80d5a7241/documents/747d08ff282940d6a4c408e905e30124?download=44be32474ee349028db5e063d09ec487", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/c5218c4f746f440bb451180039f080c3/documents/6486473ebc8441e981adcf4ba642005b?download=0f9b0887a30243f5a4994c0498e76bbf", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-03-16T12:38:21.595918+02:00", 
-      "id": "747d08ff282940d6a4c408e905e30124", 
-      "dateModified": "2016-03-16T12:38:21.595947+02:00"
+      "datePublished": "2016-03-16T14:19:26.327266+02:00", 
+      "id": "6486473ebc8441e981adcf4ba642005b", 
+      "dateModified": "2016-03-16T14:19:26.327294+02:00"
     }, 
     {
       "language": "uk", 
       "title": "AwardCriteria.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/67832b95357c4428aa90a1f80d5a7241/documents/bde673b30d7d4206a2765491d6a65f52?download=97383fc3144140d09084428c77549523", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/c5218c4f746f440bb451180039f080c3/documents/bfb2951f283d46739af22e81eb197e53?download=ef91caccb33a4110abe5315668427cf8", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-03-16T12:38:21.984974+02:00", 
-      "id": "bde673b30d7d4206a2765491d6a65f52", 
-      "dateModified": "2016-03-16T12:38:21.985013+02:00"
+      "datePublished": "2016-03-16T14:19:26.564898+02:00", 
+      "id": "bfb2951f283d46739af22e81eb197e53", 
+      "dateModified": "2016-03-16T14:19:26.564926+02:00"
     }
   ]
 }

@@ -1,23 +1,23 @@
-POST /api/2.0/tenders/67832b95357c4428aa90a1f80d5a7241/bids/d49f0f902e6343219eca18ac1411ab51/eligibility_documents?acc_token=4e51749492474b27b853e3c08aa60234 HTTP/1.0
+POST /api/2.0/tenders/c5218c4f746f440bb451180039f080c3/bids/143c1c292033432f9c3271cce0e05d6b/eligibility_documents?acc_token=3864695dd9574af088d068a533fdcaa8 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 195
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy834529676169$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy212567962183$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/67832b95357c4428aa90a1f80d5a7241/bids/d49f0f902e6343219eca18ac1411ab51/eligibility_documents/1329c30374124d7b81b811f43eb390f1
+Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/c5218c4f746f440bb451180039f080c3/bids/143c1c292033432f9c3271cce0e05d6b/eligibility_documents/0f6c2647cf1e459d8301cffe6e4cf44b
 {
   "data": {
     "confidentiality": "public", 
     "language": "uk", 
     "title": "eligibility_doc.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/67832b95357c4428aa90a1f80d5a7241/bids/d49f0f902e6343219eca18ac1411ab51/eligibility_documents/1329c30374124d7b81b811f43eb390f1?download=54e3fbd5518947979bba213ee0481c41", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/c5218c4f746f440bb451180039f080c3/bids/143c1c292033432f9c3271cce0e05d6b/eligibility_documents/0f6c2647cf1e459d8301cffe6e4cf44b?download=7ded3eba613f41298565a4a1f1309a26", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-03-16T12:38:25.107037+02:00", 
-    "id": "1329c30374124d7b81b811f43eb390f1", 
-    "dateModified": "2016-03-16T12:38:25.107075+02:00"
+    "datePublished": "2016-03-16T14:19:29.741003+02:00", 
+    "id": "0f6c2647cf1e459d8301cffe6e4cf44b", 
+    "dateModified": "2016-03-16T14:19:29.741041+02:00"
   }
 }
 
