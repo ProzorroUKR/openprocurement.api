@@ -1,23 +1,20 @@
-GET /api/2.0/tenders/2684a5eb40fe484391d6330e056d848d/contracts/ca2e8a75f449481f9d32381564494da5?acc_token=afee9d4ab5634adc9bee3001bfd68893 HTTP/1.0
+PATCH /api/2.0/tenders/2684a5eb40fe484391d6330e056d848d/contracts/ca2e8a75f449481f9d32381564494da5?acc_token=afee9d4ab5634adc9bee3001bfd68893 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
+Content-Length: 60
+Content-Type: application/json
 Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "dateSigned": "2016-03-16T14:16:15.662905+02:00"
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "pending", 
-    "documents": [
-      {
-        "title": "contract_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/2684a5eb40fe484391d6330e056d848d/contracts/ca2e8a75f449481f9d32381564494da5/documents/65f2262af6854f7dad37e6f958267909?download=9933bbca78b94619b3aa33b301d14ce2", 
-        "format": "application/msword", 
-        "documentOf": "tender", 
-        "datePublished": "2016-03-16T14:16:16.342965+02:00", 
-        "id": "65f2262af6854f7dad37e6f958267909", 
-        "dateModified": "2016-03-16T14:16:16.343004+02:00"
-      }
-    ], 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -63,10 +60,6 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "period": {
-      "startDate": "2016-03-16T14:16:15.918225+02:00", 
-      "endDate": "2017-03-16T14:16:15.918301+02:00"
-    }, 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 

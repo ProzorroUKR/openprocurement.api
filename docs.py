@@ -513,12 +513,41 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active"}})
             self.assertEqual(response.status, '200 OK')
 
-        #### Uploading contract documentation
-        #
-
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
                 self.tender_id, owner_token))
         self.contract_id = response.json['data'][0]['id']
+
+        ####  Set contract value
+
+        tender = self.db.get(self.tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+
+        with open('docs/source/tutorial/tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), {"data": {"value": {"amount": 238}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['value']['amount'], 238)
+
+        #### Setting contract signature date
+        #
+
+        with open('docs/source/tutorial/tender-contract-sign-date.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), {'data': {"dateSigned": get_now().isoformat()} })
+            self.assertEqual(response.status, '200 OK')
+
+        #### Setting contract period
+
+        period_dates = {"period": {"startDate": (get_now()).isoformat(), "endDate": (get_now() + timedelta(days=365)).isoformat()}}
+        with open('docs/source/tutorial/tender-contract-period.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, owner_token), {'data': {'period': period_dates["period"]}})
+        self.assertEqual(response.status, '200 OK')
+
+        #### Uploading contract documentation
+        #
 
         with open('docs/source/tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
