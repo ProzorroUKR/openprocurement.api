@@ -83,6 +83,7 @@ class TenderCancellationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         cancellation = response.json['data']
+        self.assertEqual(cancellation['reasonType'], 'cancelled')
         self.assertEqual(cancellation['reason'], 'cancellation reason')
         self.assertIn('id', cancellation)
         self.assertIn(cancellation['id'], response.headers['Location'])
@@ -93,10 +94,11 @@ class TenderCancellationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']["status"], 'active')
 
         response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'reason': 'first cancellation reason'}})
+            self.tender_id, self.tender_token), {'data': {'reason': 'first cancellation reason', 'reasonType': 'unsuccessful'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         first_cancellation = response.json['data']
+        self.assertEqual(first_cancellation['reasonType'], 'unsuccessful')
         self.assertEqual(first_cancellation['reason'], 'first cancellation reason')
 
         response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
@@ -166,6 +168,11 @@ class TenderCancellationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         cancellation = response.json['data']
+
+        response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, cancellation['id'], self.tender_token), {"data": {'reasonType': 'unsuccessful'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["reasonType"], "unsuccessful")
 
         response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, cancellation['id'], self.tender_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
