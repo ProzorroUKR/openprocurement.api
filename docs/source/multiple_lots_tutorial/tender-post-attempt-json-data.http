@@ -1,4 +1,4 @@
-POST /api/0.12/tenders?opt_pretty=1 HTTP/1.0
+POST /api/2.0/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 2938
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-04-10T16:54:17.984440+02:00"
+      "endDate": "2016-04-16T12:28:29.532717+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -93,18 +93,18 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/c3dc236b3dd142bcb7e0e81ceb04a929
+Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/f4c756850aae4aabaa0060d73a7aeae8
 {
   "access": {
-    "token": "9454992befe14e7194eec8b887a38c1c"
+    "token": "d1229925ea354786a714a0617449cb84"
   }, 
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-03-10-000001", 
+    "tenderID": "UA-2016-03-16-000001", 
     "tenderPeriod": {
-      "startDate": "2016-03-10T16:54:47.569028+02:00", 
-      "endDate": "2016-04-10T16:54:17.984440+02:00"
+      "startDate": "2016-03-16T12:28:58.772623+02:00", 
+      "endDate": "2016-04-16T12:28:29.532717+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -114,8 +114,8 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/c3dc236b3dd142
     }, 
     "procurementMethodType": "aboveThresholdEU", 
     "complaintPeriod": {
-      "startDate": "2016-03-10T16:54:47.569028+02:00", 
-      "endDate": "2016-04-06T16:54:17.984440+02:00"
+      "startDate": "2016-03-16T12:28:58.772623+02:00", 
+      "endDate": "2016-04-12T12:28:29.532717+02:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -124,7 +124,7 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/c3dc236b3dd142
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-04-10T17:54:17.984440+03:00", 
+    "next_check": "2016-04-16T13:28:29.532717+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -150,11 +150,11 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/c3dc236b3dd142
       "name": "ЗОСШ #10 м.Вінниці"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-03-10T16:54:47.569028+02:00", 
-      "endDate": "2016-03-31T16:54:17.984440+02:00"
+      "startDate": "2016-03-16T12:28:58.772623+02:00", 
+      "endDate": "2016-04-06T12:28:29.532717+02:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-03-10T16:54:47.724799+02:00", 
+    "dateModified": "2016-03-16T12:28:58.936344+02:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -171,7 +171,7 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/c3dc236b3dd142
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "af8552f3274d4f2f9aa17efdc230e94f", 
+        "id": "7b54b4a7f2af4c2f824c7b65b6d7553b", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -193,7 +193,7 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/c3dc236b3dd142
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "ecde266547f44e1ab61bfd7b5aa3c122", 
+        "id": "54e830c1f51842bf8b67167261e0b1f0", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -201,7 +201,7 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/c3dc236b3dd142
         "quantity": 1
       }
     ], 
-    "id": "c3dc236b3dd142bcb7e0e81ceb04a929", 
+    "id": "f4c756850aae4aabaa0060d73a7aeae8", 
     "awardCriteria": "lowestCost"
   }
 }

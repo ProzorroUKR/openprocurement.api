@@ -1,4 +1,4 @@
-POST /api/0.12/tenders/bfe107c728fa4bf2aeffbb99d9e64cbc/qualifications/71a1916d27bc4832b22a33384cfa7d9d/complaints?acc_token=e3e9bed0aa4b413cb93659437ec0133d HTTP/1.0
+POST /api/2.0/tenders/c9158966979a4e48af21fff9bc9685b4/qualifications/9bcd918822624eb4824f3ef029bd553e/complaints?acc_token=f9895fb826e74a5189f079999eb619cb HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1682
 Content-Type: application/json
@@ -34,10 +34,10 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/bfe107c728fa4bf2aeffbb99d9e64cbc/qualifications/71a1916d27bc4832b22a33384cfa7d9d/complaints/a2f6f950bb4a4b0686231bfcbea05bcc
+Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/c9158966979a4e48af21fff9bc9685b4/qualifications/9bcd918822624eb4824f3ef029bd553e/complaints/ff2ef9338f7444bc8fa8f2ab1dda3888
 {
   "access": {
-    "token": "3162b12889a343a0884dc525751577d0"
+    "token": "5b6407f1d25f480381d372d4bac00ebb"
   }, 
   "data": {
     "status": "draft", 
@@ -64,10 +64,10 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/bfe107c728fa4b
       }
     }, 
     "title": "Недостатньо інформації", 
-    "complaintID": "UA-2016-03-10-000001.1", 
-    "date": "2016-03-10T16:54:54.045025+02:00", 
+    "complaintID": "UA-2016-03-16-000001.1", 
+    "date": "2016-03-16T12:29:05.328632+02:00", 
     "type": "complaint", 
-    "id": "a2f6f950bb4a4b0686231bfcbea05bcc"
+    "id": "ff2ef9338f7444bc8fa8f2ab1dda3888"
   }
 }
 
