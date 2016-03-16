@@ -12,7 +12,7 @@ from openprocurement.api.utils import (
 from barbecue import chef
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
-BLOCK_COMPLAINT_STATUS = ['pending', 'accepted', 'satisfied']
+BLOCK_COMPLAINT_STATUS = ['claim', 'pending', 'accepted', 'satisfied']
 PENDING_COMPLAINT_STATUS = ['claim', 'answered', 'pending', 'accepted', 'satisfied']
 
 
@@ -38,16 +38,16 @@ def check_bids(request):
 
 
 def check_complaint_status(request, complaint):
-    if complaint.status == 'claim':
-        complaint.status = 'ignored'
-    elif complaint.status == 'answered':
+    if complaint.status == 'answered':
         complaint.status = complaint.resolutionType
 
 
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
-    if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]):
+    if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
+        not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]) and \
+        not any([i.id for i in tender.questions if not i.answer]):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
@@ -57,7 +57,9 @@ def check_status(request):
         if tender.numberOfBids < 2 and tender.auctionPeriod:
             tender.auctionPeriod.startDate = None
         return
-    elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]):
+    elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
+        not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]) and \
+        not any([i.id for i in tender.questions if not i.answer]):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),

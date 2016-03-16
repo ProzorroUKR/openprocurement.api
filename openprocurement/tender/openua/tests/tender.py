@@ -383,16 +383,15 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             {u'description': {u'startDate': [u'period should begin before its end']}, u'location': u'body', u'name': u'tenderPeriod'}
         ])
 
-        # data = test_tender_ua_data['tenderPeriod']
-        # test_tender_ua_data['tenderPeriod'] = {'startDate': '2014-10-31T00:00:00', 'endDate': '2015-10-01T00:00:00'}
-        # response = self.app.post_json(request_path, {'data': test_tender_ua_data}, status=422)
-        # test_tender_ua_data['tenderPeriod'] = data
-        # self.assertEqual(response.status, '422 Unprocessable Entity')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertEqual(response.json['status'], 'error')
-        # self.assertEqual(response.json['errors'], [
-        #     {u'description': [u'period should begin after enquiryPeriod'], u'location': u'body', u'name': u'tenderPeriod'}
-        # ])
+        test_tender_ua_data['tenderPeriod']['startDate'] = (get_now() - timedelta(minutes=30)).isoformat()
+        response = self.app.post_json(request_path, {'data': test_tender_ua_data}, status=422)
+        del test_tender_ua_data['tenderPeriod']['startDate']
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'tenderPeriod.startDate should be in greater than current date'], u'location': u'body', u'name': u'tenderPeriod'}
+        ])
 
         now = get_now()
         test_tender_ua_data['awardPeriod'] = {'startDate': now.isoformat(), 'endDate': now.isoformat()}
@@ -458,7 +457,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'additionalClassifications': [u"One of additional classifications should be '\u0414\u041a\u041f\u041f'"]}], u'location': u'body', u'name': u'items'}
+            {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДКПП, MEDT, ДК003, ДК015, ДК018]."]}], u'location': u'body', u'name': u'items'}
         ])
 
         data = test_tender_ua_data["procuringEntity"]["contactPoint"]["telephone"]
@@ -738,7 +737,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertNotIn('features', response.json['data'])
 
-    def test_patch_tender(self):
+    def test_patch_tender_aaa(self):
         response = self.app.get('/tenders')
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 0)
@@ -817,6 +816,12 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(len(response.json['data']['items']), 1)
+
+        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'items': [{"classification": {
+            "scheme": "CPV",
+            "id": "44620000-2",
+            "description": "Cartons 2"
+        }}]}}, status=200)
 
         response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'items': [{"classification": {
             "scheme": "CPV",

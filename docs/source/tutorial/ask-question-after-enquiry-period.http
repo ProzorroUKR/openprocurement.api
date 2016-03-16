@@ -1,4 +1,4 @@
-POST /api/0.12/tenders/7f6f908435924ac09b28954e115d7609/questions HTTP/1.0
+POST /api/2.0/tenders/2684a5eb40fe484391d6330e056d848d/questions HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1506
 Content-Type: application/json
