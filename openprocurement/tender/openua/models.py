@@ -15,6 +15,7 @@ from openprocurement.api.models import Lot as BaseLot
 from openprocurement.api.models import Period, IsoDateTimeType
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import LotValue as BaseLotValue
+from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
@@ -309,6 +310,16 @@ class Lot(BaseLot):
         ]
         return len(bids)
 
+class Cancellation(BaseCancellation):
+    class Options:
+        roles = {
+            'create': whitelist('reason', 'status', 'reasonType', 'cancellationOf', 'relatedLot'),
+            'edit': whitelist('status', 'reasonType'),
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+        }
+
+    reasonType = StringType(choices=['cancelled', 'unsuccessful'], default='cancelled')
 
 @implementer(ITender)
 class Tender(BaseTender):
@@ -355,6 +366,7 @@ class Tender(BaseTender):
     procurementMethodType = StringType(default="aboveThresholdUA")
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+    cancellations = ListType(ModelType(Cancellation), default=list())
 
     def validate_tenderPeriod(self, data, period):
         if period and calculate_business_date(period.startDate, TENDER_PERIOD) > period.endDate:
