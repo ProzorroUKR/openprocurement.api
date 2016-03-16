@@ -52,7 +52,16 @@ class Award(Model):
 
 
 class Cancellation(BaseCancellation):
+    class Options:
+        roles = {
+            'create': whitelist('reason', 'status', 'reasonType', 'cancellationOf', 'relatedLot'),
+            'edit': whitelist('status', 'reasonType'),
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+        }
+
     cancellationOf = StringType(required=True, choices=['tender'], default='tender')
+    reasonType = StringType(choices=['cancelled', 'unsuccessful'], default='cancelled')
 
     def validate_relatedLot(self, data, relatedLot):
         return
