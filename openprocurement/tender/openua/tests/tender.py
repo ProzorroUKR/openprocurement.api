@@ -735,7 +735,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertNotIn('features', response.json['data'])
 
-    def test_patch_tender(self):
+    def test_patch_tender_aaa(self):
         response = self.app.get('/tenders')
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 0)
@@ -814,6 +814,12 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(len(response.json['data']['items']), 1)
+
+        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'items': [{"classification": {
+            "scheme": "CPV",
+            "id": "44620000-2",
+            "description": "Cartons 2"
+        }}]}}, status=200)
 
         response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'items': [{"classification": {
             "scheme": "CPV",
