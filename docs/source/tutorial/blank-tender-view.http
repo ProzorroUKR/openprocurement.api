@@ -1,4 +1,4 @@
-GET /api/2.0/tenders/2684a5eb40fe484391d6330e056d848d HTTP/1.0
+GET /api/2.0/tenders/9c7efe078f264ecfb5b7668d517a9983 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -10,8 +10,8 @@ Content-Type: application/json; charset=UTF-8
     "status": "active.tendering", 
     "tenderID": "UA-2016-03-16-000001", 
     "tenderPeriod": {
-      "startDate": "2016-03-16T14:16:09.831196+02:00", 
-      "endDate": "2016-04-01T14:15:55.496440+02:00"
+      "startDate": "2016-03-16T17:30:46.143136+02:00", 
+      "endDate": "2016-04-01T17:30:35.518226+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -20,11 +20,11 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-04-01T14:15:55.496440+02:00"
+      "shouldStartAfter": "2016-04-01T17:30:35.518226+02:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-03-16T14:16:09.831196+02:00", 
-      "endDate": "2016-03-28T14:15:55.496440+02:00"
+      "startDate": "2016-03-16T17:30:46.143136+02:00", 
+      "endDate": "2016-03-28T17:30:35.518226+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
@@ -34,10 +34,10 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "submissionMethod": "electronicAuction", 
     "enquiryPeriod": {
-      "startDate": "2016-03-16T14:16:09.831196+02:00", 
-      "endDate": "2016-03-22T14:15:55.496440+02:00"
+      "startDate": "2016-03-16T17:30:46.143136+02:00", 
+      "endDate": "2016-03-22T17:30:35.518226+02:00"
     }, 
-    "next_check": "2016-04-01T15:15:55.496440+03:00", 
+    "next_check": "2016-04-01T18:30:35.518226+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -73,7 +73,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "bce1b4f25ce6499e85833a3666a93ead", 
+        "id": "5b5580fb333444669c0c34a0c15cd2ad", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -82,8 +82,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "dateModified": "2016-03-16T14:16:10.006932+02:00", 
-    "id": "2684a5eb40fe484391d6330e056d848d", 
+    "dateModified": "2016-03-16T17:30:46.249344+02:00", 
+    "id": "9c7efe078f264ecfb5b7668d517a9983", 
     "awardCriteria": "lowestCost"
   }
 }

@@ -1,4 +1,4 @@
-GET /api/2.0/tenders/2684a5eb40fe484391d6330e056d848d/documents?acc_token=afee9d4ab5634adc9bee3001bfd68893 HTTP/1.0
+GET /api/2.0/tenders/9c7efe078f264ecfb5b7668d517a9983/documents?acc_token=dc69b427d1384ffeb94af735c4f3f045 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,21 +8,21 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "title": "Notice.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/2684a5eb40fe484391d6330e056d848d/documents/598e371eff1d45c686190376d4ec8875?download=b2e07d88dd9640848110e6f64508579a", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/9c7efe078f264ecfb5b7668d517a9983/documents/641bd6f274894dd78c6cbe59a965054d?download=fe6bab6029854088b55ef2ff03e059a0", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-03-16T14:16:10.585241+02:00", 
-      "id": "598e371eff1d45c686190376d4ec8875", 
-      "dateModified": "2016-03-16T14:16:10.585271+02:00"
+      "datePublished": "2016-03-16T17:30:46.633500+02:00", 
+      "id": "641bd6f274894dd78c6cbe59a965054d", 
+      "dateModified": "2016-03-16T17:30:46.633546+02:00"
     }, 
     {
       "title": "AwardCriteria.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/2684a5eb40fe484391d6330e056d848d/documents/408dc2603b4a49a5865a96741cd586e9?download=5f63a58f858444b49d2dfbc6b8cf3302", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/9c7efe078f264ecfb5b7668d517a9983/documents/e7ca97fbc642482ebe4ff05f5532eb31?download=366a42338931429dbe231955270af4f1", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-03-16T14:16:10.825428+02:00", 
-      "id": "408dc2603b4a49a5865a96741cd586e9", 
-      "dateModified": "2016-03-16T14:16:10.825454+02:00"
+      "datePublished": "2016-03-16T17:30:46.798006+02:00", 
+      "id": "e7ca97fbc642482ebe4ff05f5532eb31", 
+      "dateModified": "2016-03-16T17:30:46.798037+02:00"
     }
   ]
 }
