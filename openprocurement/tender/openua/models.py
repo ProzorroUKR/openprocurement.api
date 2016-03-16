@@ -369,6 +369,9 @@ class Tender(BaseTender):
     cancellations = ListType(ModelType(Cancellation), default=list())
 
     def validate_tenderPeriod(self, data, period):
+        # if data['_rev'] is None when tender was created just now
+        if not data['_rev'] and calculate_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
+            raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
         if period and calculate_business_date(period.startDate, TENDER_PERIOD) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than 15 days")
 

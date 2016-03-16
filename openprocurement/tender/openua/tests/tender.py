@@ -383,16 +383,15 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             {u'description': {u'startDate': [u'period should begin before its end']}, u'location': u'body', u'name': u'tenderPeriod'}
         ])
 
-        # data = test_tender_ua_data['tenderPeriod']
-        # test_tender_ua_data['tenderPeriod'] = {'startDate': '2014-10-31T00:00:00', 'endDate': '2015-10-01T00:00:00'}
-        # response = self.app.post_json(request_path, {'data': test_tender_ua_data}, status=422)
-        # test_tender_ua_data['tenderPeriod'] = data
-        # self.assertEqual(response.status, '422 Unprocessable Entity')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertEqual(response.json['status'], 'error')
-        # self.assertEqual(response.json['errors'], [
-        #     {u'description': [u'period should begin after enquiryPeriod'], u'location': u'body', u'name': u'tenderPeriod'}
-        # ])
+        test_tender_ua_data['tenderPeriod']['startDate'] = (get_now() - timedelta(minutes=30)).isoformat()
+        response = self.app.post_json(request_path, {'data': test_tender_ua_data}, status=422)
+        del test_tender_ua_data['tenderPeriod']['startDate']
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'tenderPeriod.startDate should be in greater than current date'], u'location': u'body', u'name': u'tenderPeriod'}
+        ])
 
         now = get_now()
         test_tender_ua_data['awardPeriod'] = {'startDate': now.isoformat(), 'endDate': now.isoformat()}
