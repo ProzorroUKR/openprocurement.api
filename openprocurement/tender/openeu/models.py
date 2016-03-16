@@ -478,6 +478,9 @@ class Tender(BaseTender):
         return min(checks).isoformat() if checks else None
 
     def validate_tenderPeriod(self, data, period):
+        # if data['_rev'] is None when tender was created just now
+        if not data['_rev'] and calculate_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
+            raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
         if period and calculate_business_date(period.startDate, TENDERING_DURATION) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than {} days".format(TENDERING_DAYS))
 
