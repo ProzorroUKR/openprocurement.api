@@ -57,6 +57,11 @@ class TenderUaQuestionResource(TenderQuestionResource):
             self.request.errors.add('body', 'data', 'Can update question only in active lot status')
             self.request.errors.status = 403
             return
+        now = get_now()
+        if now < tender.tenderPeriod.startDate or now > tender.tenderPeriod.endDate:
+            self.request.errors.add('body', 'data', 'Can update question only in tenderPeriod')
+            self.request.errors.status = 403
+            return
         if apply_patch(self.request, src=self.request.context.serialize()):
             self.LOGGER.info('Updated tender question {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_question_patch'}))
