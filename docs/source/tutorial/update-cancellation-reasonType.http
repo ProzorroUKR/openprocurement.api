@@ -1,23 +1,22 @@
-POST /api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/cancellations?acc_token=77ac0f0854f241f3a0c18ae04d2052f8 HTTP/1.0
+PATCH /api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/cancellations/be4d1bb6e66f45c9999ef80d773975bd?acc_token=77ac0f0854f241f3a0c18ae04d2052f8 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 43
+Content-Length: 40
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "reason": "cancellation reason"
+    "reasonType": "unsuccessful"
   }
 }
 
-Response: 201 Created
+Response: 200 OK
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/cancellations/be4d1bb6e66f45c9999ef80d773975bd
 {
   "data": {
     "status": "pending", 
     "reason": "cancellation reason", 
-    "reasonType": "cancelled", 
+    "reasonType": "unsuccessful", 
     "date": "2016-03-16T17:32:29.349951+02:00", 
     "cancellationOf": "tender", 
     "id": "be4d1bb6e66f45c9999ef80d773975bd"

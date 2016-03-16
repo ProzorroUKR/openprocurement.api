@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/c5218c4f746f440bb451180039f080c3/contracts/2da8355021e242f18ecebe827e3ce9ac?acc_token=0c71d8bb6a2b426f9143740c95463e3e HTTP/1.0
+PATCH /api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/contracts/bf3ce5f7ade045c4b11d3564aacd8b08?acc_token=77ac0f0854f241f3a0c18ae04d2052f8 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 60
 Content-Type: application/json
@@ -6,7 +6,7 @@ Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "dateSigned": "2016-03-16T14:19:35.453689+02:00"
+    "dateSigned": "2016-03-16T17:32:26.942196+02:00"
   }
 }
 
@@ -31,7 +31,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "393cc26e3d46407e99dbb3ce0e1f47f6", 
+        "id": "b73e25ca3404463baf6af7d5a38b8907", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -53,7 +53,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "712b2225bc734a25995d9070730a4c56", 
+        "id": "80768076d777426a9290959455efeaaf", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -88,9 +88,9 @@ Content-Type: application/json; charset=UTF-8
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-03-16T14:19:35.453689+02:00", 
-    "awardID": "7f715a3d1b6146c1a520961745b69265", 
-    "id": "2da8355021e242f18ecebe827e3ce9ac", 
+    "dateSigned": "2016-03-16T17:32:26.942196+02:00", 
+    "awardID": "56e586e0f1e24fb8ad4107a5f27b2c1e", 
+    "id": "bf3ce5f7ade045c4b11d3564aacd8b08", 
     "contractID": "UA-2016-03-16-000001-1"
   }
 }
