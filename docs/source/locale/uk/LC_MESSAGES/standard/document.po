@@ -1,10 +1,11 @@
 #
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 12:53+0200\n"
-"PO-Revision-Date: 2016-03-09 13:58+0200\n"
+"PO-Revision-Date: 2016-03-17 11:15+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -202,7 +203,7 @@ msgstr "`contractAnnexe` - **Додатки до договору**"
 
 #: ../../source/standard/document.rst:93
 msgid "`contractGuarantees` - **Guarantees**"
-msgstr "`contractGuarantees` - **Гарантії**"
+msgstr "`contractGuarantees` - **Забезпечення тендерних пропозицій**"
 
 #: ../../source/standard/document.rst:95
 msgid "`subContract` - **Subcontracts**"
@@ -306,4 +307,5 @@ msgstr "`ru` - російська мова"
 #: ../../source/standard/document.rst:116
 msgid "string, auto-generated"
 msgstr "рядок, генерується автоматично"
+
 
