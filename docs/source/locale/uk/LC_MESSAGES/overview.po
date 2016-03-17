@@ -1,9 +1,4 @@
-# Copyright (C) 2014-2016, Quintagroup, Ltd
-# This file is distributed under the same license as the
-# openprocurement.tender.limited package.
 #
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
@@ -171,19 +166,3 @@ msgstr ""
 "``negotiation.quick`` - скорочена переговорна процедура з п’ятиденним "
 "періодом блокування перед реєстрацією угоди"
 
-#~ msgid ""
-#~ "This tutorial covers `Negotiation procurement procedure` and `reporting "
-#~ "procurement` results."
-#~ msgstr ""
-#~ "Ця документація стосується функціоналу для переговорної процедури та "
-#~ "можливості замовника повідомити систему про проведення закупівлі (зокрема "
-#~ "про визначення переможця та укладання угоди)."
-
-#~ msgid ""
-#~ "You can leave feedback by raising a new issue on the `issue tracker "
-#~ "<https://github.com/openprocurement/openprocurement.api/issues>`_ (GitHub "
-#~ "registration necessary)."
-#~ msgstr ""
-#~ "Повідомляйте про всі проблеми та поради через `issue tracker "
-#~ "<https://github.com/openprocurement/openprocurement.api/issues>`_ "
-#~ "(реєстрація на GitHub обов’язкова)."
