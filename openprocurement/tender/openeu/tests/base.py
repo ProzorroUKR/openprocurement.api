@@ -135,7 +135,6 @@ test_tender_data = {
         }
     ],
     "tenderPeriod": {
-        "startDate": (now).isoformat(),
         "endDate": (now + timedelta(days=TENDERING_DAYS+1)).isoformat()
     },
     "procurementMethodType": "aboveThresholdEU",
