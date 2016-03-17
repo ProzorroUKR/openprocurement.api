@@ -1,11 +1,10 @@
-#
 # Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-05 10:08+0200\n"
-"PO-Revision-Date: 2016-03-17 12:04+0200\n"
+"PO-Revision-Date: 2016-03-17 16:59+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -212,11 +211,11 @@ msgstr "ідентифікатор **переговорної** процедур
 msgid "negotiation.quick procedure indentifier"
 msgstr "ідентифікатор **переговорної процедури за нагальною потребою**"
 
-#: ../../source/standard/tender.rst:134
+#: ../../source/standard/tender.rst:158
 msgid "Tender workflow"
 msgstr "Схема роботи Tender"
 
-#: ../../source/standard/tender.rst:146
+#: ../../source/standard/tender.rst:170
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
 
@@ -228,4 +227,66 @@ msgstr "рядок, генерується автоматично, лише дл
 msgid "string, auto-generated"
 msgstr "рядок, генерується автоматично"
 
+#: ../../source/standard/tender.rst:134
+msgid ""
+"string, required for **negotiation** procedure/ optional for "
+"**negotiation.quick** procedure"
+msgstr ""
+"рядок, обов’язковий для **переговорної процедури** / необов’язковий для "
+"**переговорної процедури за нагальною потребою**"
+
+#: ../../source/standard/tender.rst:136
+msgid "Causes for using negotiation or negotiation.quick procedures."
+msgstr ""
+"Підстава для використання \"звичайної\" переговорної процедури або "
+"переговорної процедури за нагальною потребою."
+
+#: ../../source/standard/tender.rst:138
+msgid "Possible values for **negotiation** procedure:"
+msgstr "Можливі значення для \"звичайної\" **переговорної процедури**:"
+
+#: ../../source/standard/tender.rst:140
+msgid "`artContestIP`"
+msgstr "`artContestIP`"
+
+#: ../../source/standard/tender.rst:141
+msgid "`noCompetition`"
+msgstr "`noCompetition`"
+
+#: ../../source/standard/tender.rst:142
+msgid "`twiceUnsuccessful`"
+msgstr "`twiceUnsuccessful`"
+
+#: ../../source/standard/tender.rst:143
+msgid "`additionalPurchase`"
+msgstr "`additionalPurchase`"
+
+#: ../../source/standard/tender.rst:144
+msgid "`additionalConstruction`"
+msgstr "`additionalConstruction`"
+
+#: ../../source/standard/tender.rst:145
+msgid "`stateLegalServices`"
+msgstr "`stateLegalServices`"
+
+#: ../../source/standard/tender.rst:147
+msgid "Possible values for **negotiation.quick** procedure:"
+msgstr "Можливі значення для **переговорної процедури за нагальною потребою**:"
+
+#: ../../source/standard/tender.rst:149
+msgid "`quick`"
+msgstr "`quick`"
+
+#: ../../source/standard/tender.rst:152
+msgid ""
+"string, required for **negotiation** and **negotiation.quick** procedures"
+msgstr ""
+"рядок, обов’язковий для **переговорної процедури** та **переговорної "
+"процедури за нагальною потребою**"
+
+#: ../../source/standard/tender.rst:154
+msgid "Reasoning behind usage of negotiation or negotiation.quick procedures."
+msgstr ""
+"Обгрунтування використання \"звичайної\" переговорної процедури або "
+"переговорної процедури за нагальною потребою."
 

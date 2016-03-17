@@ -130,6 +130,30 @@ Schema
 :owner:
     string, auto-generated
 
+:cause:
+   string, required for **negotiation** procedure/ optional for **negotiation.quick** procedure
+    
+   Causes for using negotiation or negotiation.quick procedures.
+
+       Possible values for **negotiation** procedure:
+        
+   * `artContestIP`
+   * `noCompetition`
+   * `twiceUnsuccessful`
+   * `additionalPurchase`
+   * `additionalConstruction`
+   * `stateLegalServices`
+
+    Possible values for **negotiation.quick** procedure:
+
+   * `quick`
+    
+:causeDescription:
+   string, required for **negotiation** and **negotiation.quick** procedures
+    
+   Reasoning behind usage of negotiation or negotiation.quick procedures.
+    
+    
 Tender workflow
 ---------------
 
