@@ -1,4 +1,4 @@
-GET /api/2.0/tenders/2684a5eb40fe484391d6330e056d848d/documents?acc_token=afee9d4ab5634adc9bee3001bfd68893 HTTP/1.0
+GET /api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/documents?acc_token=8dc013d938cc4e04a0f5aef8c8fb3f00 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,21 +8,21 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "title": "Notice.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/2684a5eb40fe484391d6330e056d848d/documents/598e371eff1d45c686190376d4ec8875?download=b2e07d88dd9640848110e6f64508579a", 
+      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/documents/dc8d28af5f3f4c86961ae7d95fe95577?download=5e8df95b2e9a49858097ec228eb7ab04", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-03-16T14:16:10.585241+02:00", 
-      "id": "598e371eff1d45c686190376d4ec8875", 
-      "dateModified": "2016-03-16T14:16:10.585271+02:00"
+      "datePublished": "2016-03-16T18:09:57.350654+02:00", 
+      "id": "dc8d28af5f3f4c86961ae7d95fe95577", 
+      "dateModified": "2016-03-16T18:09:57.350700+02:00"
     }, 
     {
       "title": "AwardCriteria.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/2684a5eb40fe484391d6330e056d848d/documents/408dc2603b4a49a5865a96741cd586e9?download=5f63a58f858444b49d2dfbc6b8cf3302", 
+      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/documents/08afcdea4b6f4280a0c3e2cc8e2856b5?download=f6cdce3b6fdd4c2dba443f0f16f17994", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-03-16T14:16:10.825428+02:00", 
-      "id": "408dc2603b4a49a5865a96741cd586e9", 
-      "dateModified": "2016-03-16T14:16:10.825454+02:00"
+      "datePublished": "2016-03-16T18:09:57.516858+02:00", 
+      "id": "08afcdea4b6f4280a0c3e2cc8e2856b5", 
+      "dateModified": "2016-03-16T18:09:57.516903+02:00"
     }
   ]
 }
