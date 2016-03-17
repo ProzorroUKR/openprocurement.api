@@ -15,6 +15,7 @@ from openprocurement.api.models import Lot as BaseLot
 from openprocurement.api.models import Period, IsoDateTimeType
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import LotValue as BaseLotValue
+from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
@@ -171,8 +172,8 @@ class Bid(BaseBid):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues'),
-            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status'),
+            'create': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues'),
+            'edit': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues', 'status'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
@@ -234,7 +235,7 @@ class Complaint(BaseComplaint):
             'embedded': (blacklist('owner_token', 'owner') + schematics_embedded_role),
             'view': (blacklist('owner_token', 'owner') + schematics_default_role),
         }
-    status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled', 'satisfied', 'ignored'], default='draft')
+    status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled', 'satisfied'], default='draft')
     acceptance = BooleanType()
     dateAccepted = IsoDateTimeType()
     rejectReason = StringType(choices=['lawNonСompliance', 'noPaymentReceived', 'buyerViolationsСorrected'])
@@ -309,6 +310,16 @@ class Lot(BaseLot):
         ]
         return len(bids)
 
+class Cancellation(BaseCancellation):
+    class Options:
+        roles = {
+            'create': whitelist('reason', 'status', 'reasonType', 'cancellationOf', 'relatedLot'),
+            'edit': whitelist('status', 'reasonType'),
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+        }
+
+    reasonType = StringType(choices=['cancelled', 'unsuccessful'], default='cancelled')
 
 @implementer(ITender)
 class Tender(BaseTender):
@@ -355,8 +366,12 @@ class Tender(BaseTender):
     procurementMethodType = StringType(default="aboveThresholdUA")
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+    cancellations = ListType(ModelType(Cancellation), default=list())
 
     def validate_tenderPeriod(self, data, period):
+        # if data['_rev'] is None when tender was created just now
+        if not data['_rev'] and calculate_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
+            raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
         if period and calculate_business_date(period.startDate, TENDER_PERIOD) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than 15 days")
 
@@ -380,7 +395,9 @@ class Tender(BaseTender):
     def next_check(self):
         now = get_now()
         checks = []
-        if self.status == 'active.tendering' and self.tenderPeriod.endDate and not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]):
+        if self.status == 'active.tendering' and self.tenderPeriod.endDate and \
+            not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]) and \
+            not any([i.id for i in self.questions if not i.answer]):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
         elif not self.lots and self.status == 'active.auction' and self.auctionPeriod and self.auctionPeriod.startDate and not self.auctionPeriod.endDate:
             if now < self.auctionPeriod.startDate:

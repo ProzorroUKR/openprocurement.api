@@ -176,6 +176,11 @@ Bidder can register a bid:
 .. include:: tutorial/register-bidder.http
    :code:
 
+Bidder can set bid guarantee:
+
+.. include:: tutorial/set-bid-guarantee.http
+   :code:
+
 Proposal Uploading
 ~~~~~~~~~~~~~~~~~~
 
@@ -239,6 +244,36 @@ Qualification commission registers its decision via the following call:
 .. include:: tutorial/confirm-qualification.http
    :code:
 
+Setting contract value
+----------------------
+
+By default contract value is set based on the award, but there is a possibility to set custom contract value. 
+
+If you want to **lower contract value**, you can insert new one into the `amount` field.
+
+.. include:: tutorial/tender-contract-set-contract-value.http
+   :code:
+
+`200 OK` response was returned. The value was modified successfully.
+
+Setting contract signature date
+-------------------------------
+
+There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field.
+
+If this date is not set, it will be auto-generated on the date of contract registration.
+
+.. include:: tutorial/tender-contract-sign-date.http
+   :code:
+
+Setting contract validity period
+--------------------------------
+
+Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
+
+.. include:: tutorial/tender-contract-period.http
+   :code:
+
 Uploading contract documentation
 --------------------------------
 
@@ -255,7 +290,6 @@ Let's view the uploaded contract document:
 
 .. include:: tutorial/tender-contract-get.http
    :code:
-
 
 Cancelling tender
 -----------------
@@ -281,6 +315,13 @@ You should pass `reason`, `status` defaults to `pending`.
 
 .. include::  tutorial/prepare-cancellation.http
    :code:
+   
+There are two possible types of cancellation reason - auction was `cancelled` or `unsuccessful`. By default ``reasonType`` value is `cancelled`.
+
+You can change ``reasonType`` value to `unsuccessful`.
+
+.. include::  tutorial/update-cancellation-reasonType.http
+     :code:
 
 Filling cancellation with protocol and supplementary documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

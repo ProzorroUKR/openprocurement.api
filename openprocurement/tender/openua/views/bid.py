@@ -105,8 +105,12 @@ class TenderUABidResource(TenderBidResource):
         # See https://github.com/open-contracting/standard/issues/78#issuecomment-59830415
         # for more info upon schema
         tender = self.request.validated['tender']
-        if self.request.validated['tender_status'] != 'active.tendering' or tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate:
+        if self.request.validated['tender_status'] != 'active.tendering':
             self.request.errors.add('body', 'data', 'Can\'t add bid in current ({}) tender status'.format(self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        if tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate:
+            self.request.errors.add('body', 'data', 'Bid can be added only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate, tender.tenderPeriod.endDate))
             self.request.errors.status = 403
             return
         bid = self.request.validated['bid']
