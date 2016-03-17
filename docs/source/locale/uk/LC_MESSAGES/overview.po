@@ -1,10 +1,11 @@
 #
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-15 13:01+0200\n"
-"PO-Revision-Date: 2016-03-01 11:46+0200\n"
+"PO-Revision-Date: 2016-03-17 12:01+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -148,7 +149,9 @@ msgstr "Ця документація стосується трьох проце
 
 #: ../../source/overview.rst:12
 msgid "``reporting`` - reporting with no stand-still period"
-msgstr "``reporting`` - процедура реєстрація угоди (без періоду блокування)"
+msgstr ""
+"``reporting`` - процедура звітування про укладений договір (без періоду "
+"блокування)"
 
 #: ../../source/overview.rst:13
 msgid ""
@@ -163,6 +166,8 @@ msgid ""
 "``negotiation.quick`` - quick negotiation procedure with 5 day stand-still "
 "before contract registration"
 msgstr ""
-"``negotiation.quick`` - скорочена переговорна процедура з п’ятиденним "
+"``negotiation.quick`` - переговорна процедура за нагальною потребою з "
+"п’ятиденним "
 "періодом блокування перед реєстрацією угоди"
+
 

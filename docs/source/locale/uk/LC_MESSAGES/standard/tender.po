@@ -1,10 +1,11 @@
 #
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-05 10:08+0200\n"
-"PO-Revision-Date: 2016-03-09 13:13+0200\n"
+"PO-Revision-Date: 2016-03-17 12:04+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -201,7 +202,7 @@ msgstr "Повний доступний бюджет закупівлі."
 
 #: ../../source/standard/tender.rst:118
 msgid "reporting procedure indentifier"
-msgstr "ідентифікатор процедури **реєстрації угоди**"
+msgstr "ідентифікатор процедури **звітування про укладений договір**"
 
 #: ../../source/standard/tender.rst:121
 msgid "negotiation procedure indentifier"
@@ -209,7 +210,7 @@ msgstr "ідентифікатор **переговорної** процедур
 
 #: ../../source/standard/tender.rst:124
 msgid "negotiation.quick procedure indentifier"
-msgstr "ідентифікатор **скороченої переговорної** процедури"
+msgstr "ідентифікатор **переговорної процедури за нагальною потребою**"
 
 #: ../../source/standard/tender.rst:134
 msgid "Tender workflow"
@@ -226,4 +227,5 @@ msgstr "рядок, генерується автоматично, лише дл
 #: ../../source/standard/tender.rst:102 ../../source/standard/tender.rst:131
 msgid "string, auto-generated"
 msgstr "рядок, генерується автоматично"
+
 

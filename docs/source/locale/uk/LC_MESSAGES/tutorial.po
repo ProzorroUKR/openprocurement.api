@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-15 13:01+0200\n"
-"PO-Revision-Date: 2016-03-17 10:07+0200\n"
+"PO-Revision-Date: 2016-03-17 12:08+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -263,7 +263,9 @@ msgstr "Можна створити три процедури:"
 
 #: ../../source/tutorial.rst:10
 msgid "``reporting`` - reporting with no stand-still period"
-msgstr "``reporting`` - процедура реєстрація угоди (без періоду блокування)"
+msgstr ""
+"``reporting`` - процедура звітування про укладений договір (без періоду "
+"блокування)"
 
 #: ../../source/tutorial.rst:11
 msgid ""
@@ -278,12 +280,13 @@ msgid ""
 "``negotiation.quick`` - quick negotiation procedure with 5 day stand-still "
 "before contract registration"
 msgstr ""
-"``negotiation.quick`` - скорочена переговорна процедура з п’ятиденним "
+"``negotiation.quick`` - переговорна процедура за нагальною потребою з "
+"п’ятиденним "
 "періодом блокування перед реєстрацією угоди"
 
 #: ../../source/tutorial.rst:16
 msgid "Creating tender for reporting procedure"
-msgstr "Створення закупівлі для процедури реєстрації угоди"
+msgstr "Створення закупівлі для процедури звітування про укладений договір"
 
 #: ../../source/tutorial.rst:36
 msgid "Creating tender for negotiation procedure"
@@ -291,7 +294,7 @@ msgstr "Створення закупівлі для переговорної п
 
 #: ../../source/tutorial.rst:45
 msgid "Creating tender for negotiation.quick procedure"
-msgstr "Створення закупівлі для скороченої переговорної процедури"
+msgstr "Створення закупівлі для переговорної процедури за нагальною потребою"
 
 #: ../../source/tutorial.rst:95
 msgid "Addition of supplier information is the same for all procedures."
@@ -307,7 +310,8 @@ msgid ""
 "To create tender for **reporting** procedure you should set ``reporting`` "
 "value for ``procurementMethodType``."
 msgstr ""
-"Щоб створити закупівлю за процедурою **реєстрації угоди**, потрібно "
+"Щоб створити закупівлю за процедурою **звітування про укладений договір**, "
+"потрібно "
 "встановити значення ``reporting`` для ``procurementMethodType``."
 
 #: ../../source/tutorial.rst:38
@@ -323,15 +327,16 @@ msgid ""
 "To create tender for **negotiation.quick** procedure you should set "
 "``negotiation.quick`` value for ``procurementMethodType``."
 msgstr ""
-"Щоб створити закупівлю за **скороченою переговорною** процедурою, потрібно "
+"Щоб створити закупівлю для **переговорної процедури за нагальною потребою**, "
+"потрібно "
 "встановити значення ``negotiation.quick`` для ``procurementMethodType``."
 
 #: ../../source/tutorial.rst:97
 msgid ""
 "Procuring entity registers supplier information for **reporting** procedure:"
 msgstr ""
-"Замовник реєструє інформацію про постачальника для процедури **реєстрації "
-"угоди**:"
+"Замовник реєструє інформацію про постачальника для процедури **звітування про "
+"укладений договір**:"
 
 #: ../../source/tutorial.rst:102
 msgid ""
@@ -354,15 +359,16 @@ msgid ""
 "Procuring entity registers supplier information for **negotiation.quick** "
 "procedure:"
 msgstr ""
-"Замовник реєструє інформацію про постачальника для **скороченої "
-"переговорної** процедури:"
+"Замовник реєструє інформацію про постачальника для переговорної процедури за "
+"нагальною потребою:"
 
 #: ../../source/tutorial.rst:114
 msgid ""
 "Award for **negotiation.quick** procedure also has ``complaintPeriod`` "
 "record with ``startDate`` value."
 msgstr ""
-"Визначення переможця для **скороченої переговорної** процедури також має "
+"Визначення переможця для **переговорної процедури за нагальною потребою** "
+"також має "
 "запис ``complaintPeriod`` із полем ``startDate``."
 
 #: ../../source/tutorial.rst:153
@@ -380,8 +386,8 @@ msgstr ""
 #: ../../source/tutorial.rst:160
 msgid "Award confirmation for **negotiation.quick** procedure:"
 msgstr ""
-"Підтвердження визначення переможця для **скороченої переговорної** "
-"процедури:"
+"Підтвердження визначення переможця для **переговорної процедури за нагальною "
+"потребою** процедури:"
 
 #: ../../source/tutorial.rst:165
 msgid ""
@@ -389,7 +395,8 @@ msgid ""
 "record for **negotiation.quick** is 5 days."
 msgstr ""
 "Різниця між початковою ( ``startDate``) та кінцевою (``endDate``) датою "
-"запису ``complaintPeriod`` для **скороченої переговорної** процедури "
+"запису ``complaintPeriod`` для **переговорної процедури за нагальною "
+"потребою** "
 "становить 5 днів."
 
 #: ../../source/tutorial.rst:198
@@ -397,7 +404,8 @@ msgid ""
 "**Reporting** tender contract can be registered immediately after award "
 "confirmation:"
 msgstr ""
-"Угода про закупівлю за процедурою **реєстрації угоди** може бути "
+"Угода про закупівлю за процедурою **звітування про укладений договір** може "
+"бути "
 "зареєстрована одразу після підтвердження визначення переможця:"
 
 #: ../../source/tutorial.rst:203
@@ -414,9 +422,9 @@ msgid ""
 "**Negotiation.quick** tender contract can be registered after the stand-"
 "still (5 day period after the award confirmation):"
 msgstr ""
-"Угода про закупівлю за **скороченою переговорною** процедурою може бути "
-"зареєстрована одразу після `блокування` (п’ятиденний період після "
-"підтвердження визначення переможця):"
+"Угода про закупівлю для **переговорної процедури за нагальною потребою** "
+"може бути зареєстрована одразу після `блокування` (п’ятиденний період "
+"після підтвердження визначення переможця):"
 
 #: ../../source/tutorial.rst:238
 msgid ""
@@ -431,4 +439,5 @@ msgstr ""
 #: ../../source/tutorial.rst:241
 msgid "You can change ``reasonType`` value to `unsuccessful`."
 msgstr "Ви можете виправити тип на `unsuccessful` (торги не відбулися)."
+
 
