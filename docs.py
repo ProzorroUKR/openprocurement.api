@@ -134,9 +134,12 @@ complaint = {
 
 test_tender_negotiation_data = deepcopy(test_tender_data)
 test_tender_negotiation_data['procurementMethodType'] = "negotiation"
+test_tender_negotiation_data['cause'] = "twiceUnsuccessful"
+test_tender_negotiation_data['causeDescription'] = "original tender has failed twice"
 
 test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 test_tender_negotiation_quick_data['procurementMethodType'] = "negotiation.quick"
+test_tender_negotiation_quick_data['causeDescription'] = "chupacabra"
 
 class DumpsTestAppwebtest(TestApp):
 

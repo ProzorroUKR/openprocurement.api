@@ -1,6 +1,6 @@
-POST /api/2.0/tenders?opt_pretty=1 HTTP/1.0
+POST /api/0.12/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 2311
+Content-Length: 2397
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
@@ -8,6 +8,7 @@ Host: api-sandbox.openprocurement.org
   "data": {
     "procurementMethod": "limited", 
     "status": "active", 
+    "causeDescription": "original tender has failed twice", 
     "title": "Послуги шкільних їдалень", 
     "items": [
       {
@@ -55,6 +56,7 @@ Host: api-sandbox.openprocurement.org
       }
     }, 
     "owner": "broker", 
+    "cause": "twiceUnsuccessful", 
     "dateModified": "2016-01-14T16:48:35.636859+02:00", 
     "tenderID": "UA-2016-01-14-000003"
   }
@@ -62,14 +64,15 @@ Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/acabf6e78b25435d9a390a1de00e3a36
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/d4c953a9a2ec4cb3b910a1ae6430b610
 {
   "access": {
-    "token": "71e7d5d077ea4f61b3ebd4cece527215"
+    "token": "b7e275ad94184ee2a1647d703751e503"
   }, 
   "data": {
     "procurementMethod": "limited", 
     "status": "active", 
+    "causeDescription": "original tender has failed twice", 
     "title": "Послуги шкільних їдалень", 
     "items": [
       {
@@ -95,7 +98,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/acabf6e78b25435
       "amount": 500000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateModified": "2016-03-16T17:33:34.302563+02:00", 
+    "dateModified": "2016-03-17T16:49:32.494051+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -117,8 +120,9 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/acabf6e78b25435
       }
     }, 
     "owner": "broker", 
-    "id": "acabf6e78b25435d9a390a1de00e3a36", 
-    "tenderID": "UA-2016-03-16-000001"
+    "cause": "twiceUnsuccessful", 
+    "id": "d4c953a9a2ec4cb3b910a1ae6430b610", 
+    "tenderID": "UA-2016-03-17-000001"
   }
 }
 
