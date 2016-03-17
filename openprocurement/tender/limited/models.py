@@ -179,6 +179,10 @@ ReportingTender = Tender
 @implementer(ITender)
 class Tender(ReportingTender):
     """ Negotiation """
+    cause = StringType(choices=['artContestIP', 'noCompetition', 'twiceUnsuccessful',
+                                'additionalPurchase', 'additionalConstruction', 'stateLegalServices'],
+                       required=True)
+    causeDescription = StringType(required=True, min_length=1)
     procurementMethodType = StringType(default="negotiation")
 
 NegotiationTender = Tender
@@ -187,6 +191,7 @@ NegotiationTender = Tender
 @implementer(ITender)
 class Tender(NegotiationTender):
     """ Negotiation """
+    cause = StringType(choices=['quick'], required=False)
     procurementMethodType = StringType(default="negotiation.quick")
 
 NegotiationQuickTender = Tender

@@ -1,15 +1,11 @@
-# Copyright (C) 2014-2016, Quintagroup, Ltd
-# This file is distributed under the same license as the
-# openprocurement.tender.limited package.
 #
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 # Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-15 13:01+0200\n"
-"PO-Revision-Date: 2016-03-01 11:46+0200\n"
+"PO-Revision-Date: 2016-03-17 12:01+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -153,7 +149,9 @@ msgstr "Ця документація стосується трьох проце
 
 #: ../../source/overview.rst:12
 msgid "``reporting`` - reporting with no stand-still period"
-msgstr "``reporting`` - процедура реєстрація угоди (без періоду блокування)"
+msgstr ""
+"``reporting`` - процедура звітування про укладений договір (без періоду "
+"блокування)"
 
 #: ../../source/overview.rst:13
 msgid ""
@@ -168,22 +166,8 @@ msgid ""
 "``negotiation.quick`` - quick negotiation procedure with 5 day stand-still "
 "before contract registration"
 msgstr ""
-"``negotiation.quick`` - скорочена переговорна процедура з п’ятиденним "
+"``negotiation.quick`` - переговорна процедура за нагальною потребою з "
+"п’ятиденним "
 "періодом блокування перед реєстрацією угоди"
 
-#~ msgid ""
-#~ "This tutorial covers `Negotiation procurement procedure` and `reporting "
-#~ "procurement` results."
-#~ msgstr ""
-#~ "Ця документація стосується функціоналу для переговорної процедури та "
-#~ "можливості замовника повідомити систему про проведення закупівлі (зокрема "
-#~ "про визначення переможця та укладання угоди)."
 
-#~ msgid ""
-#~ "You can leave feedback by raising a new issue on the `issue tracker "
-#~ "<https://github.com/openprocurement/openprocurement.api/issues>`_ (GitHub "
-#~ "registration necessary)."
-#~ msgstr ""
-#~ "Повідомляйте про всі проблеми та поради через `issue tracker "
-#~ "<https://github.com/openprocurement/openprocurement.api/issues>`_ "
-#~ "(реєстрація на GitHub обов’язкова)."
