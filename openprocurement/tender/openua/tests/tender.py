@@ -823,7 +823,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             "description": "Cartons 2"
         }}]}}, status=200)
 
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'items': [{"classification": {
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'items': [{"classification": {
             "scheme": "CPV",
             "id": "55523100-3",
             "description": "Послуги з харчування у школах"

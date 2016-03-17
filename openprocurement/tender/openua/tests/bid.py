@@ -158,7 +158,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         data = deepcopy(test_tender_ua_data)
         data["tenderPeriod"]["endDate"] = (now + timedelta(days=17)).isoformat()
         data["tenderPeriod"]["startDate"] = (now + timedelta(days=1)).isoformat()
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'tenderPeriod': data["tenderPeriod"]}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {'tenderPeriod': data["tenderPeriod"]}})
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.post_json('/tenders/{}/bids'.format(
