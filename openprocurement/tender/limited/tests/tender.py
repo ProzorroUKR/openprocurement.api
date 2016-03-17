@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.models import get_now
@@ -1046,13 +1047,103 @@ class TenderProcessTest(BaseTenderWebTest):
         tender = response.json['data']
         self.assertEqual(tender['status'], 'complete')
 
-
 class TenderNegotiationProcessTest(TenderProcessTest):
     initial_data = test_tender_negotiation_data
+
+    def test_tender_cause(self):
+        data = deepcopy(self.initial_data)
+        del data['cause']
+        response = self.app.post_json('/tenders', {"data": data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'cause'}
+        ])
+
+        data['cause'] = 'unexisting value'
+        response = self.app.post_json('/tenders', {"data": data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u"Value must be one of ['artContestIP', 'noCompetition', 'twiceUnsuccessful', 'additionalPurchase', 'additionalConstruction', 'stateLegalServices']."],
+             u'location': u'body', u'name': u'cause'}
+        ])
+
+        data['cause'] = 'noCompetition'
+        del data['causeDescription']
+        response = self.app.post_json('/tenders', {"data": data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'causeDescription'}
+        ])
+
+        data['causeDescription'] = ''
+        response = self.app.post_json('/tenders', {"data": data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'String value is too short.'], u'location': u'body', u'name': u'causeDescription'}
+        ])
+
+        data['causeDescription'] = "blue pine"
+        response = self.app.post_json('/tenders', {"data": data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['causeDescription'], 'blue pine')
+        tender_id = self.tender_id = response.json['data']['id']
+        owner_token = response.json['access']['token']
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"cause": "artContestIP"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['cause'], 'artContestIP')
 
 
 class TenderNegotiationQuickProcessTest(TenderNegotiationProcessTest):
     initial_data = test_tender_negotiation_quick_data
+
+    def test_tender_cause(self):
+        data = deepcopy(self.initial_data)
+        self.assertNotIn('cause', data)
+        response = self.app.post_json('/tenders', {"data": data})
+        self.assertEqual(response.status, '201 Created')
+
+        data['cause'] = 'unexisting value'
+        response = self.app.post_json('/tenders', {"data": data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u"Value must be one of ['quick']."],
+             u'location': u'body', u'name': u'cause'}
+        ])
+
+        data['cause'] = 'quick'
+        del data['causeDescription']
+        response = self.app.post_json('/tenders', {"data": data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'causeDescription'}
+        ])
+
+        data['causeDescription'] = ''
+        response = self.app.post_json('/tenders', {"data": data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'String value is too short.'], u'location': u'body', u'name': u'causeDescription'}
+        ])
+
+        data['causeDescription'] = "blue pine"
+        response = self.app.post_json('/tenders', {"data": data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['causeDescription'], 'blue pine')
 
 
 def suite():
