@@ -1,10 +1,10 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-27 13:38+0200\n"
-"PO-Revision-Date: 2016-03-16 16:18+0200\n"
+"PO-Revision-Date: 2016-03-17 10:37+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -235,23 +235,23 @@ msgstr "Статус закупівлі ``active.tendering`` дозволяє п
 msgid "Bidder can register a bid:"
 msgstr "Учасник може зареєструвати цінову пропозицію:"
 
-#: ../../source/tutorial.rst:180
+#: ../../source/tutorial.rst:185
 msgid "Proposal Uploading"
 msgstr "Завантаження пропозиції"
 
-#: ../../source/tutorial.rst:182
+#: ../../source/tutorial.rst:187
 msgid "Then bidder should upload proposal document(s):"
 msgstr "Потім учасник повинен завантажити документ(и) пропозиції:"
 
-#: ../../source/tutorial.rst:187
+#: ../../source/tutorial.rst:192
 msgid "It is possible to check the uploaded documents:"
 msgstr "Можна перевірити завантажені документи:"
 
-#: ../../source/tutorial.rst:193
+#: ../../source/tutorial.rst:198
 msgid "Bid invalidation"
 msgstr "Пропозиція стає недійсною"
 
-#: ../../source/tutorial.rst:195
+#: ../../source/tutorial.rst:200
 msgid ""
 "If tender is modified, status of all bid proposals will be changed to "
 "``invalid``. Bid proposal will look the following way after tender has been "
@@ -261,15 +261,15 @@ msgstr ""
 "``invalid`` (недійсний). Ось так пропозиція буде виглядати після редагування"
 " закупівлі:"
 
-#: ../../source/tutorial.rst:201
+#: ../../source/tutorial.rst:206
 msgid "Bid confirmation"
 msgstr "Підтвердження пропозиції"
 
-#: ../../source/tutorial.rst:203
+#: ../../source/tutorial.rst:208
 msgid "Bidder should confirm bid proposal:"
 msgstr "Учасник повинен підтвердити свою пропозицію:"
 
-#: ../../source/tutorial.rst:208
+#: ../../source/tutorial.rst:213
 msgid ""
 "Open UA procedure demands at least two bidders, so there should be at least "
 "two bid proposals registered to move to auction stage:"
@@ -278,11 +278,11 @@ msgstr ""
 "хоча б два учасника, тобто хоча б дві пропозиції повинні бути зареєстровані "
 "до початку аукціону:"
 
-#: ../../source/tutorial.rst:217
+#: ../../source/tutorial.rst:222
 msgid "Auction"
 msgstr "Аукціон"
 
-#: ../../source/tutorial.rst:219
+#: ../../source/tutorial.rst:224
 msgid ""
 "After auction is scheduled anybody can visit it to watch. The auction can be"
 " reached at `Tender.auctionUrl`:"
@@ -290,12 +290,12 @@ msgstr ""
 "Після того, як аукціон заплановано, будь-хто може його відвідати для "
 "перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:"
 
-#: ../../source/tutorial.rst:224
+#: ../../source/tutorial.rst:229
 msgid "Bidders can find out their participation URLs via their bids:"
 msgstr ""
 "Учасники можуть дізнатись свої URL-адреси для участі через свої пропозиції:"
 
-#: ../../source/tutorial.rst:229
+#: ../../source/tutorial.rst:234
 msgid ""
 "See the `Bid.participationUrl` in the response. Similar, but different, URL "
 "can be retrieved for other participants:"
@@ -303,19 +303,19 @@ msgstr ""
 "Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу "
 "можна отримати для інших учасників."
 
-#: ../../source/tutorial.rst:235
+#: ../../source/tutorial.rst:240
 msgid "Confirming qualification"
 msgstr "Підтвердження кваліфікації"
 
-#: ../../source/tutorial.rst:237
+#: ../../source/tutorial.rst:242
 msgid "Qualification commission registers its decision via the following call:"
 msgstr "Кваліфікаційна комісія реєструє своє рішення:"
 
-#: ../../source/tutorial.rst:290
+#: ../../source/tutorial.rst:295
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"
 
-#: ../../source/tutorial.rst:292
+#: ../../source/tutorial.rst:297
 msgid ""
 "Tender creator can cancel tender anytime. The following steps should be "
 "applied:"
@@ -323,19 +323,19 @@ msgstr ""
 "Той, хто створив закупівлю, може скасувати її у будь-який момент. Для цього "
 "виконайте наступні кроки:"
 
-#: ../../source/tutorial.rst:294
+#: ../../source/tutorial.rst:299
 msgid "Prepare cancellation request."
 msgstr "Приготуйте запит на скасування."
 
-#: ../../source/tutorial.rst:295
+#: ../../source/tutorial.rst:300
 msgid "Fill it with the protocol describing the cancellation reasons."
 msgstr "Наповніть його протоколом про причини скасування."
 
-#: ../../source/tutorial.rst:296
+#: ../../source/tutorial.rst:301
 msgid "Cancel the tender with the prepared reasons."
 msgstr "Скасуйте закупівлю через подані причини."
 
-#: ../../source/tutorial.rst:298
+#: ../../source/tutorial.rst:303
 msgid ""
 "Only the request that has been activated (3rd step above) has power to "
 "cancel tender.  I.e.  you have to not only prepare cancellation request but "
@@ -345,61 +345,61 @@ msgstr ""
 "тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку,"
 " але і активувати її."
 
-#: ../../source/tutorial.rst:302
+#: ../../source/tutorial.rst:307
 msgid "See :ref:`cancellation` data structure for details."
 msgstr ""
 "Дивіться структуру запиту :ref:`cancellation` для більш детальної "
 "інформації."
 
-#: ../../source/tutorial.rst:305
+#: ../../source/tutorial.rst:310
 msgid "Preparing the cancellation request"
 msgstr "Формування запиту на скасування"
 
-#: ../../source/tutorial.rst:307
+#: ../../source/tutorial.rst:312
 msgid "You should pass `reason`, `status` defaults to `pending`."
 msgstr "Ви повинні передати змінні `reason`, `status` у стані `pending`."
 
-#: ../../source/tutorial.rst:309
+#: ../../source/tutorial.rst:314
 msgid "`id` is autogenerated and passed in the `Location` header of response."
 msgstr ""
 "`id` генерується автоматично і повертається у додатковому заголовку "
 "відповіді `Location`:"
 
-#: ../../source/tutorial.rst:315
+#: ../../source/tutorial.rst:327
 msgid "Filling cancellation with protocol and supplementary documentation"
 msgstr "Наповнення протоколом та іншою супровідною документацією"
 
-#: ../../source/tutorial.rst:317
+#: ../../source/tutorial.rst:329
 msgid "Upload the file contents"
 msgstr "Завантажити вміст файлу"
 
-#: ../../source/tutorial.rst:322
+#: ../../source/tutorial.rst:334
 msgid "Change the document description and other properties"
 msgstr "Зміна опису документа та інших властивостей"
 
-#: ../../source/tutorial.rst:328
+#: ../../source/tutorial.rst:340
 msgid "Upload new version of the document"
 msgstr "Завантажити нову версію документа"
 
-#: ../../source/tutorial.rst:335
+#: ../../source/tutorial.rst:347
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
 
-#: ../../source/tutorial.rst:273
+#: ../../source/tutorial.rst:278
 msgid "Uploading contract documentation"
 msgstr "Завантаження документації по угоді"
 
-#: ../../source/tutorial.rst:275
+#: ../../source/tutorial.rst:280
 msgid "You can upload contract documents for the OpenUA procedure."
 msgstr ""
 "Ви можете завантажити документи угоди для Української процедури відкритих "
 "торгів."
 
-#: ../../source/tutorial.rst:277
+#: ../../source/tutorial.rst:282
 msgid "Let's upload contract document:"
 msgstr "Завантажимо документ угоди:"
 
-#: ../../source/tutorial.rst:282
+#: ../../source/tutorial.rst:287
 msgid ""
 "`201 Created` response code and `Location` header confirm that this document"
 " was added."
@@ -407,15 +407,15 @@ msgstr ""
 "Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
 "документ було додано."
 
-#: ../../source/tutorial.rst:284
+#: ../../source/tutorial.rst:289
 msgid "Let's view the uploaded contract document:"
 msgstr "Подивимось на список документів пов’язаних з угодою:"
 
-#: ../../source/tutorial.rst:252
+#: ../../source/tutorial.rst:257
 msgid "`200 OK` response was returned. The value was modified successfully."
 msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
 
-#: ../../source/tutorial.rst:267
+#: ../../source/tutorial.rst:272
 msgid ""
 "Setting contract validity period is optional, but if it is needed, you can "
 "set appropriate `startDate` and `endDate`."
@@ -424,11 +424,11 @@ msgstr ""
 "можете встановити відповідну дату початку `startDate` та кінця `endDate` "
 "терміну дії."
 
-#: ../../source/tutorial.rst:243
+#: ../../source/tutorial.rst:248
 msgid "Setting contract value"
 msgstr "Встановлення вартості угоди"
 
-#: ../../source/tutorial.rst:245
+#: ../../source/tutorial.rst:250
 msgid ""
 "By default contract value is set based on the award, but there is a "
 "possibility to set custom contract value."
@@ -436,19 +436,19 @@ msgstr ""
 "За замовчуванням вартість угоди встановлюється на основі рішення про "
 "визначення переможця, але є можливість змінити це значення. "
 
-#: ../../source/tutorial.rst:247
+#: ../../source/tutorial.rst:252
 msgid ""
 "If you want to **lower contract value**, you can insert new one into the "
 "`amount` field."
 msgstr ""
-"Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове значення "
-"для поля `amount`."
+"Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове "
+"значення для поля `amount`."
 
-#: ../../source/tutorial.rst:255
+#: ../../source/tutorial.rst:260
 msgid "Setting contract signature date"
 msgstr "Встановлення дати підписання угоди"
 
-#: ../../source/tutorial.rst:257
+#: ../../source/tutorial.rst:262
 msgid ""
 "There is a possibility to set custom contract signature date. You can insert"
 " appropriate date into the `dateSigned` field."
@@ -456,7 +456,7 @@ msgstr ""
 "Є можливість встановити дату підписання угоди. Для цього вставте відповідну "
 "дату в поле `dateSigned`."
 
-#: ../../source/tutorial.rst:259
+#: ../../source/tutorial.rst:264
 msgid ""
 "If this date is not set, it will be auto-generated on the date of contract "
 "registration."
@@ -464,7 +464,25 @@ msgstr ""
 "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично "
 "під час реєстрації угоди."
 
-#: ../../source/tutorial.rst:265
+#: ../../source/tutorial.rst:270
 msgid "Setting contract validity period"
 msgstr "Встановлення терміну дії угоди"
+
+#: ../../source/tutorial.rst:179
+msgid "Bidder can set bid guarantee:"
+msgstr "Учасник може встановити забезпечення тендерної пропозиції:"
+
+#: ../../source/tutorial.rst:319
+msgid ""
+"There are two possible types of cancellation reason - auction was "
+"`cancelled` or `unsuccessful`. By default ``reasonType`` value is "
+"`cancelled`."
+msgstr ""
+"При скасуванні, замовник має визначити один з двох типів ``reasonType``: "
+"торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За "
+"замовчуванням, значення ``reasonType`` рівне `cancelled`."
+
+#: ../../source/tutorial.rst:321
+msgid "You can change ``reasonType`` value to `unsuccessful`."
+msgstr "Ви можете виправити тип на `unsuccessful` (торги не відбулися)."
 
