@@ -64,7 +64,7 @@ class TenderNegotiationQuickTest(TenderNegotiationTest):
     initial_data = test_tender_negotiation_quick_data
 
     def test_simple_add_tender(self):
-        u = NegotiationTender(test_tender_negotiation_quick_data)
+        u = NegotiationQuickTender(test_tender_negotiation_quick_data)
         u.tenderID = "UA-X"
 
         assert u.id is None
@@ -453,9 +453,14 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
-        self.assertEqual(set(tender), set([u'id', u'dateModified', u'tenderID', u'status',
-                                           u'items', u'value', u'procuringEntity', u'owner',
-                                           u'procurementMethod', u'procurementMethodType', u'title']))
+        fields = [u'id', u'dateModified', u'tenderID', u'status', u'items',
+                  u'value', u'procuringEntity', u'owner', u'procurementMethod',
+                  u'procurementMethodType', u'title']
+        if "negotiation" == self.initial_data['procurementMethodType']:
+            fields.append(u'cause')
+        if "negotiation" in self.initial_data['procurementMethodType']:
+            fields.append(u'causeDescription')
+        self.assertEqual(set(tender), set(fields))
         self.assertNotEqual(data['id'], tender['id'])
         self.assertNotEqual(data['doc_id'], tender['id'])
         self.assertNotEqual(data['tenderID'], tender['tenderID'])

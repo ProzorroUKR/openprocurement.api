@@ -18,9 +18,12 @@ test_tender_data['procurementMethodType'] = "reporting"
 
 test_tender_negotiation_data = deepcopy(test_tender_data)
 test_tender_negotiation_data['procurementMethodType'] = "negotiation"
+test_tender_negotiation_data['cause'] = "37"
+test_tender_negotiation_data['causeDescription'] = "chupacabra"
 
 test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 test_tender_negotiation_quick_data['procurementMethodType'] = "negotiation.quick"
+test_tender_negotiation_quick_data['causeDescription'] = "chupacabra"
 
 
 class BaseTenderWebTest(BaseTenderWebTest):
