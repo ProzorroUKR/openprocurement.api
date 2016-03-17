@@ -3,7 +3,7 @@ from openprocurement.api.models import get_now
 from openprocurement.api.utils import opresource
 from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
 from openprocurement.tender.openua.views.tender_document import TenderUaDocumentResource as TenderDocumentResource
-from openprocurement.tender.openuadefense.utils import calculate_business_date
+from openprocurement.tender.openua.utils import calculate_business_date
 
 
 @opresource(name='Tender UA.defense Documents',
