@@ -180,7 +180,7 @@ class Tender(ReportingTender):
     cause = StringType(choices=['artContestIP', 'noCompetition', 'twiceUnsuccessful',
                                 'additionalPurchase', 'additionalConstruction', 'stateLegalServices'],
                        required=True)
-    causeDescription = StringType(required=True)
+    causeDescription = StringType(required=True, min_length=1)
     procurementMethodType = StringType(default="negotiation")
 
 NegotiationTender = Tender
