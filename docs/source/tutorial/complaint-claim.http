@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/001d1c1212554d01849545a3d1c13bbe/complaints/15cf37c994f94f93a029f5a79f0f7bf7?acc_token=22d17ab149dc4d22a20a4a2156725358 HTTP/1.0
+PATCH /api/0.12/tenders/683188068994432296e5320961ac5230/complaints/c8a99fc8be16467491cc9a6c09c907c9?acc_token=ad933ef948e74aa1843e3071725d8e53 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 29
 Content-Type: application/json
@@ -20,21 +20,21 @@ Content-Type: application/json; charset=UTF-8
         "author": "complaint_owner", 
         "language": "uk", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/001d1c1212554d01849545a3d1c13bbe/complaints/15cf37c994f94f93a029f5a79f0f7bf7/documents/bc7a342fa37e4f368cb13e9435903310?download=e762b7449b0d4291bec83adc47e191ab", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/683188068994432296e5320961ac5230/complaints/c8a99fc8be16467491cc9a6c09c907c9/documents/04960a2099c84560ac35a7b85978e250?download=9b959a7f304e4850b2cd1ba721a0a902", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T17:32:14.175614+02:00", 
-        "id": "bc7a342fa37e4f368cb13e9435903310", 
-        "dateModified": "2016-03-16T17:32:14.175651+02:00"
+        "datePublished": "2016-03-16T19:44:49.707432+02:00", 
+        "id": "04960a2099c84560ac35a7b85978e250", 
+        "dateModified": "2016-03-16T19:44:49.707515+02:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2016-03-16T17:32:14.291659+02:00", 
+    "dateSubmitted": "2016-03-16T19:44:49.830259+02:00", 
     "complaintID": "UA-2016-03-16-000001.1", 
-    "date": "2016-03-16T17:32:14.065606+02:00", 
+    "date": "2016-03-16T19:44:49.587755+02:00", 
     "type": "claim", 
-    "id": "15cf37c994f94f93a029f5a79f0f7bf7"
+    "id": "c8a99fc8be16467491cc9a6c09c907c9"
   }
 }
 

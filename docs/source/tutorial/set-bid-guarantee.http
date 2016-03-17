@@ -1,20 +1,15 @@
-PATCH /api/0.12/tenders/a7642f39b5b34bd09073ed168cc557c8/bids/1de77238f4c8451aab3351777cb4e946?acc_token=cd36d054194f47b6839c601f4a9a0d7b HTTP/1.0
+PATCH /api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69/bids/3fcb1802c01a4643b2bc25dfb4ccafab?acc_token=45bcbe22ec5243c9b05a6bc9868a6b60 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 124
+Content-Length: 57
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "pending", 
-    "lotValues": [
-      {
-        "relatedLot": "6fd3ca6199b240acaae3ae6de863794f", 
-        "value": {
-          "amount": 500
-        }
-      }
-    ]
+    "guarantee": {
+      "currency": "USD", 
+      "amount": 8
+    }
   }
 }
 
@@ -22,21 +17,12 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "date": "2016-03-16T19:45:09.090684+02:00", 
     "status": "pending", 
-    "id": "1de77238f4c8451aab3351777cb4e946", 
-    "lotValues": [
-      {
-        "relatedLot": "6fd3ca6199b240acaae3ae6de863794f", 
-        "date": "2016-03-16T19:45:09.092184+02:00", 
-        "status": "pending", 
-        "value": {
-          "currency": "UAH", 
-          "amount": 500.0, 
-          "valueAddedTaxIncluded": true
-        }
-      }
-    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
     "tenderers": [
       {
         "contactPoint": {
@@ -58,7 +44,13 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }
-    ]
+    ], 
+    "date": "2016-03-16T19:44:56.307992+02:00", 
+    "id": "3fcb1802c01a4643b2bc25dfb4ccafab", 
+    "guarantee": {
+      "currency": "USD", 
+      "amount": 8.0
+    }
   }
 }
 

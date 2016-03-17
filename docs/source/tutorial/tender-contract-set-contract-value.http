@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/dd420d3036f04ebc8e6f12d0a0bf86ba/contracts/bf3ce5f7ade045c4b11d3564aacd8b08?acc_token=77ac0f0854f241f3a0c18ae04d2052f8 HTTP/1.0
+PATCH /api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69/contracts/7bf18ab7270a47a88d20eb26883155d3?acc_token=76496a084e5940338d92505c66df2c0d HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 36
 Content-Type: application/json
@@ -33,7 +33,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "b73e25ca3404463baf6af7d5a38b8907", 
+        "id": "ccaf50470f9a4047bbfb7ed45dc98786", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -55,7 +55,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "80768076d777426a9290959455efeaaf", 
+        "id": "f7f27900035749c8ab4979773778a1bb", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -90,8 +90,8 @@ Content-Type: application/json; charset=UTF-8
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "awardID": "56e586e0f1e24fb8ad4107a5f27b2c1e", 
-    "id": "bf3ce5f7ade045c4b11d3564aacd8b08", 
+    "awardID": "efcbf94add4649338abff3c2c2eca7d4", 
+    "id": "7bf18ab7270a47a88d20eb26883155d3", 
     "contractID": "UA-2016-03-16-000001-1"
   }
 }
