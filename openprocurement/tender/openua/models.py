@@ -13,8 +13,11 @@ from openprocurement.api.models import Complaint as BaseComplaint
 from openprocurement.api.models import ListType
 from openprocurement.api.models import Lot as BaseLot
 from openprocurement.api.models import Period, IsoDateTimeType
+from openprocurement.api.models import Address as BaseAddress
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import LotValue as BaseLotValue
+from openprocurement.api.models import Item as BaseItem
+from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
@@ -23,7 +26,7 @@ from openprocurement.api.models import (
     Administrator_bid_role, Administrator_role, schematics_default_role,
     TZ, get_now, schematics_embedded_role, validate_lots_uniq,
     embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
-    ComplaintModelType,
+    ComplaintModelType, validate_cpv_group, validate_items_uniq
 )
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.utils import (
@@ -149,6 +152,27 @@ class LotAuctionPeriod(Period):
             decision_dates.append(tender.tenderPeriod.endDate)
             return max(decision_dates).isoformat()
 
+class PeriodStartEndRequired(Period):
+    startDate = IsoDateTimeType(required=True, default=get_now)  # The state date for the period.
+    endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
+
+class Address(BaseAddress):
+
+    streetAddress = StringType(required=True)
+    locality = StringType(required=True)
+    region = StringType(required=True)
+    postalCode = StringType(required=True)
+
+class Item(BaseItem):
+    """A good, service, or work to be contracted."""
+
+    deliveryDate = ModelType(PeriodStartEndRequired, required=True)
+    deliveryAddress = ModelType(Address, required=True)
+
+class Contract(BaseContract):
+
+    items = ListType(ModelType(Item))
+
 class LotValue(BaseLotValue):
 
     def validate_value(self, data, value):
@@ -213,12 +237,6 @@ class Bid(BaseBid):
     def validate_parameters(self, data, parameters):
         BaseBid._validator_functions['parameters'](self, data, parameters)
 
-
-class PeriodStartEndRequired(Period):
-    startDate = IsoDateTimeType(required=True, default=get_now)  # The state date for the period.
-    endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
-
-
 class Complaint(BaseComplaint):
     class Options:
         roles = {
@@ -281,6 +299,7 @@ class Complaint(BaseComplaint):
 
 class Award(BaseAward):
     complaints = ListType(ModelType(Complaint), default=list())
+    items = ListType(ModelType(Item))
 
 
 class Lot(BaseLot):
@@ -367,6 +386,7 @@ class Tender(BaseTender):
     procurementMethodType = StringType(default="aboveThresholdUA")
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     cancellations = ListType(ModelType(Cancellation), default=list())
 
     def validate_tenderPeriod(self, data, period):
