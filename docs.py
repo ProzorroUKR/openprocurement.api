@@ -412,6 +412,15 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             bids_access[bid1_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
 
+        # Setting Bid guarantee
+        #
+
+        with open('docs/source/tutorial/set-bid-guarantee.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(
+                self.tender_id, bid1_id, bids_access[bid1_id]), {"data": {"guarantee": {"amount": 8, "currency": "USD"}}})
+            self.assertEqual(response.status, '200 OK')
+            self.assertIn('guarantee', response.json['data'])
+
         #### Proposal Uploading
         #
 
@@ -513,7 +522,52 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active"}})
             self.assertEqual(response.status, '200 OK')
 
+        response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
+                self.tender_id, owner_token))
+        self.contract_id = response.json['data'][0]['id']
 
+        ####  Set contract value
+
+        tender = self.db.get(self.tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+
+        with open('docs/source/tutorial/tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), {"data": {"value": {"amount": 238}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['value']['amount'], 238)
+
+        #### Setting contract signature date
+        #
+
+        with open('docs/source/tutorial/tender-contract-sign-date.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), {'data': {"dateSigned": get_now().isoformat()} })
+            self.assertEqual(response.status, '200 OK')
+
+        #### Setting contract period
+
+        period_dates = {"period": {"startDate": (get_now()).isoformat(), "endDate": (get_now() + timedelta(days=365)).isoformat()}}
+        with open('docs/source/tutorial/tender-contract-period.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, owner_token), {'data': {'period': period_dates["period"]}})
+        self.assertEqual(response.status, '200 OK')
+
+        #### Uploading contract documentation
+        #
+
+        with open('docs/source/tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
+            response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), upload_files=[('file', 'contract_document.doc', 'content')])
+            self.assertEqual(response.status, '201 Created')
+            self.document_id = response.json['data']['id']
+
+        with open('docs/source/tutorial/tender-contract-get.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token))
+            self.assertEqual(response.status, '200 OK')
 
         #### Preparing the cancellation request
         #
@@ -524,6 +578,11 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             self.assertEqual(response.status, '201 Created')
 
         cancellation_id = response.json['data']['id']
+
+        with open('docs/source/tutorial/update-cancellation-reasonType.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(
+                    self.tender_id, cancellation_id, owner_token), {"data":{'reasonType': 'unsuccessful'}})
+            self.assertEqual(response.status, '200 OK')
 
         #### Filling cancellation with protocol and supplementary documentation
         #

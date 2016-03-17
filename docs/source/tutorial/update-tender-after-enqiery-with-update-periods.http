@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/5bcb2e8d7e834cffad3af544ba1686a8?acc_token=97b18b2d6f144292872de0df3d67c2de HTTP/1.0
+PATCH /api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643?acc_token=8dc013d938cc4e04a0f5aef8c8fb3f00 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 120
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-03-16T16:31:23.891024+02:00"
+      "endDate": "2016-03-24T18:09:58.326677+02:00"
     }, 
     "value": {
       "currency": "UAH", 
@@ -25,36 +25,36 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "Notice.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/5bcb2e8d7e834cffad3af544ba1686a8/documents/f99ed44af5514aeaa626d3d70d38c09f?download=418f81b4b82d424cb83357f78aac7acf", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/documents/dc8d28af5f3f4c86961ae7d95fe95577?download=5e8df95b2e9a49858097ec228eb7ab04", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-08T16:31:22.940014+02:00", 
-        "id": "f99ed44af5514aeaa626d3d70d38c09f", 
-        "dateModified": "2016-03-08T16:31:22.940059+02:00"
+        "datePublished": "2016-03-16T18:09:57.350654+02:00", 
+        "id": "dc8d28af5f3f4c86961ae7d95fe95577", 
+        "dateModified": "2016-03-16T18:09:57.350700+02:00"
       }, 
       {
         "title": "AwardCriteria.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/5bcb2e8d7e834cffad3af544ba1686a8/documents/86a7d0c995144d60bdc2b391a9318b44?download=ce39350363224030939f02965704500d", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/documents/08afcdea4b6f4280a0c3e2cc8e2856b5?download=f6cdce3b6fdd4c2dba443f0f16f17994", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-08T16:31:23.099249+02:00", 
-        "id": "86a7d0c995144d60bdc2b391a9318b44", 
-        "dateModified": "2016-03-08T16:31:23.099278+02:00"
+        "datePublished": "2016-03-16T18:09:57.516858+02:00", 
+        "id": "08afcdea4b6f4280a0c3e2cc8e2856b5", 
+        "dateModified": "2016-03-16T18:09:57.516903+02:00"
       }, 
       {
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/5bcb2e8d7e834cffad3af544ba1686a8/documents/86a7d0c995144d60bdc2b391a9318b44?download=2b5b4c7ee0ab4254b5421ca362554852", 
+        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/documents/08afcdea4b6f4280a0c3e2cc8e2856b5?download=419fe0d442464d13948cc8943b42e47f", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-08T16:31:23.099249+02:00", 
-        "id": "86a7d0c995144d60bdc2b391a9318b44", 
-        "dateModified": "2016-03-08T16:31:23.264983+02:00"
+        "datePublished": "2016-03-16T18:09:57.516858+02:00", 
+        "id": "08afcdea4b6f4280a0c3e2cc8e2856b5", 
+        "dateModified": "2016-03-16T18:09:57.678097+02:00"
       }
     ], 
-    "tenderID": "UA-2016-03-08-000001", 
+    "tenderID": "UA-2016-03-16-000001", 
     "tenderPeriod": {
-      "startDate": "2016-02-24T16:31:23.649801+02:00", 
-      "endDate": "2016-03-16T16:31:23.891024+02:00"
+      "startDate": "2016-03-03T18:09:58.081578+02:00", 
+      "endDate": "2016-03-24T18:09:58.326677+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -63,12 +63,12 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "auctionPeriod": {
-      "startDate": "2016-03-10T16:31:23.649801+02:00", 
-      "shouldStartAfter": "2016-03-16T16:31:23.891024+02:00"
+      "startDate": "2016-03-18T18:09:58.081578+02:00", 
+      "shouldStartAfter": "2016-03-24T18:09:58.326677+02:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-02-24T16:31:23.649801+02:00", 
-      "endDate": "2016-03-12T16:31:23.891024+02:00"
+      "startDate": "2016-03-03T18:09:58.081578+02:00", 
+      "endDate": "2016-03-20T18:09:58.326677+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
@@ -78,10 +78,10 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "submissionMethod": "electronicAuction", 
     "enquiryPeriod": {
-      "startDate": "2016-02-24T16:31:23.649801+02:00", 
-      "endDate": "2016-03-06T16:31:23.891024+02:00"
+      "startDate": "2016-03-03T18:09:58.081578+02:00", 
+      "endDate": "2016-03-14T18:09:58.326677+02:00"
     }, 
-    "next_check": "2016-03-16T16:31:23.891024+02:00", 
+    "next_check": "2016-03-24T18:09:58.326677+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -106,9 +106,9 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
         "title": "Калорійність", 
-        "date": "2016-03-08T16:31:23.386256+02:00", 
+        "date": "2016-03-16T18:09:57.815775+02:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "06900806f1814e52ae34991d3266a1bc", 
+        "id": "fded597457c04cbf8a621b3a88f586bc", 
         "questionOf": "tender"
       }
     ], 
@@ -127,7 +127,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "7b5ec2ad2cee4cf89587b7b86b6426bd", 
+        "id": "ead80900ac77421793ea3c0a47ccda96", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -136,8 +136,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "dateModified": "2016-03-08T16:31:23.989674+02:00", 
-    "id": "5bcb2e8d7e834cffad3af544ba1686a8", 
+    "dateModified": "2016-03-16T18:09:58.424383+02:00", 
+    "id": "fd002ab62dc14a21a5f4b5b881a90643", 
     "awardCriteria": "lowestCost"
   }
 }

@@ -37,7 +37,6 @@ Tender Conditions Claims/Complaints
         pending -> {accepted,invalid};
         accepted -> {declined,satisfied};
         edge[label="auction" style=dotted];
-        claim -> ignored;
         answered -> {declined,resolved,invalid};
     }
 
