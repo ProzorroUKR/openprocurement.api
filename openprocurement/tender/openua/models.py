@@ -388,6 +388,19 @@ class Tender(BaseTender):
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     cancellations = ListType(ModelType(Cancellation), default=list())
 
+    def __acl__(self):
+        acl = [
+            (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_award_complaint')
+            for i in self.bids
+            if i.status == 'active'
+        ]
+        acl.extend([
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_tender'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
+        ])
+        return acl
+
     def validate_tenderPeriod(self, data, period):
         # if data['_rev'] is None when tender was created just now
         if not data['_rev'] and calculate_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
