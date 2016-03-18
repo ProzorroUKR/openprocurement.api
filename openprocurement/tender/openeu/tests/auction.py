@@ -37,7 +37,7 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
         for qualific in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-                self.tender_id, qualific['id'], self.tender_token), {'data': {"status": "active"}})
+                self.tender_id, qualific['id'], self.tender_token), {'data': {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
@@ -348,7 +348,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         for qualific in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
-                self.tender_id, qualific['id']), {'data': {"status": "active"}})
+                self.tender_id, qualific['id']), {'data': {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, '200 OK')
 
         # switch to active.pre-qualification.stand-still

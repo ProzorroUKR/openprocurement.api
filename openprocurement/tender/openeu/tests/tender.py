@@ -1083,16 +1083,16 @@ class TenderProcessTest(BaseTenderWebTest):
         self.assertEqual(len(qualifications), 2)
         # approve first qualification/bid
         self.app.authorization = None
-        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(tender_id, qualifications[0]['id']), {"data": {"status": "active"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(tender_id, qualifications[0]['id']), {"data": {"status": "active", "qualified": True, "eligible": True}}, status=403)
         self.assertEqual(response.status, "403 Forbidden")
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(tender_id, qualifications[0]['id']), {"data": {"status": "active"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(tender_id, qualifications[0]['id']), {"data": {"status": "active", "qualified": True, "eligible": True}}, status=403)
         self.assertEqual(response.status, "403 Forbidden")
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[0]['id'], "c"*32), {"data": {"status": "active"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[0]['id'], "c"*32), {"data": {"status": "active", "qualified": True, "eligible": True}}, status=403)
         self.assertEqual(response.status, "403 Forbidden")
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[0]['id'], tender_owner_token), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[0]['id'], tender_owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
         # bid should be activated
         response = self.app.get('/tenders/{}/bids/{}'.format(tender_id, qualifications[0]['bidID']))
@@ -1156,9 +1156,9 @@ class TenderProcessTest(BaseTenderWebTest):
         self.assertEqual(len(qualifications), 3)
         # approve first two bids qualification/bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[0]['id'], tender_owner_token), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[0]['id'], tender_owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
-        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[1]['id'], tender_owner_token), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[1]['id'], tender_owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
         # cancel qualification for second bid
         response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[1]['id'], tender_owner_token),
@@ -1169,7 +1169,7 @@ class TenderProcessTest(BaseTenderWebTest):
         qualification_id  = new_qualification_location[-32:]
         # approve the bid again
         response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualification_id,
-                                                                                           tender_owner_token), {"data": {"status": "active"}})
+                                                                                           tender_owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
         # try to change tender state by chronograph leaving one bid unreviewed
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -1245,7 +1245,7 @@ class TenderProcessTest(BaseTenderWebTest):
         self.assertNotEqual(award_id, award2_id)
         # set award as active
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award2_id, tender_owner_token),
-                            {"data": {"status": "active"}})
+                            {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
         # get contract id
         response = self.app.get('/tenders/{}'.format(tender_id))

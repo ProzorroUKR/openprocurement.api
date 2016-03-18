@@ -17,7 +17,6 @@ from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Lot as BaseLot
-from openprocurement.api.models import Award as BaseAward
 from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import LotValue as BaseLotValue
 from openprocurement.api.models import Lot as BaseLot
@@ -34,11 +33,10 @@ from openprocurement.api.models import (
 from openprocurement.tender.openua.utils import (
     calculate_business_date, BLOCK_COMPLAINT_STATUS,
 )
-from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import (
+    Complaint as BaseComplaint, Award as BaseAward, Item as BaseItem,
     PeriodStartEndRequired, SifterListType, COMPLAINT_SUBMIT_TIME,
 )
-from openprocurement.tender.openua.models import Item as BaseItem
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
 edit_role_eu = edit_role + eu_role
@@ -341,17 +339,17 @@ class Qualification(Model):
     class Options:
         roles = {
             'create': blacklist('id', 'status', 'documents', 'date'),
-            'edit': whitelist('status'),
+            'edit': whitelist('status', 'qualified', 'eligible'),
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
         }
-    # title = StringType()
-    # title_en = StringType()
-    # title_ru = StringType()
-    # description = StringType()
-    # description_en = StringType()
-    # description_ru = StringType()
 
+    title = StringType()
+    title_en = StringType()
+    title_ru = StringType()
+    description = StringType()
+    description_en = StringType()
+    description_ru = StringType()
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     bidID = StringType(required=True)
     lotID = MD5Type()
@@ -359,12 +357,16 @@ class Qualification(Model):
     date = IsoDateTimeType()
     documents = ListType(ModelType(Document), default=list())
     complaints = ListType(ModelType(Complaint), default=list())
+    qualified = BooleanType(default=False)
+    eligible = BooleanType(default=False)
 
-    # qualified = BooleanType(default=False)
-    # eligible = BooleanType(default=False)
-    #
-    # def validate_qualified(self, data, value):
-    #     import pdb; pdb.set_trace()  # debug ktarasz
+    def validate_qualified(self, data, qualified):
+        if data['status'] == 'active' and not qualified:
+            raise ValidationError(u'This field is required.')
+
+    def validate_eligible(self, data, eligible):
+        if data['status'] == 'active' and not eligible:
+            raise ValidationError(u'This field is required.')
 
     def validate_lotID(self, data, lotID):
         if isinstance(data['__parent__'], Model):
