@@ -179,6 +179,17 @@ class Contract(BaseContract):
     items = ListType(ModelType(Item))
 
 class LotValue(BaseLotValue):
+    class Options:
+        roles = {
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+            'create': whitelist('value', 'relatedLot', 'subcontractingDetails'),
+            'edit': whitelist('value', 'relatedLot', 'subcontractingDetails'),
+            'auction_view': whitelist('value', 'date', 'relatedLot', 'participationUrl'),
+            'auction_post': whitelist('value', 'date', 'relatedLot'),
+            'auction_patch': whitelist('participationUrl', 'relatedLot'),
+        }
+    subcontractingDetails = StringType()
 
     def validate_value(self, data, value):
         if value and isinstance(data['__parent__'], Bid) and ( data['__parent__'].status not in ('invalid')) and data['relatedLot']:
@@ -201,8 +212,8 @@ class Bid(BaseBid):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues', 'selfQualified', 'selfEligible'),
-            'edit': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues', 'status'),
+            'create': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
+            'edit': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues', 'status', 'subcontractingDetails'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
@@ -219,6 +230,7 @@ class Bid(BaseBid):
         }
 
     lotValues = ListType(ModelType(LotValue), default=list())
+    subcontractingDetails = StringType()
     status = StringType(choices=['active', 'invalid', 'deleted'], default='active')
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])

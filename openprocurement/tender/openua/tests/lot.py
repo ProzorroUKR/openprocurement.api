@@ -879,7 +879,8 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                                'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"subcontractingDetails": "test",
+                                                                                                                      "value": {"amount": 500}, 'relatedLot': lot_id}]}})
         # switch to active.qualification
         response = self.set_status('active.auction', {"lots": [{"auctionPeriod": {"startDate": None}}], 'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -937,7 +938,8 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                                'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 450}, 'relatedLot': lot_id}]}})
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"subcontractingDetails": "test",
+                                                                                                                      "value": {"amount": 450}, 'relatedLot': lot_id}]}})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
         # create second bid
