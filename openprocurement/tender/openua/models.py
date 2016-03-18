@@ -196,8 +196,8 @@ class Bid(BaseBid):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues'),
-            'edit': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues', 'status'),
+            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues'),
+            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
@@ -306,8 +306,8 @@ class Lot(BaseLot):
 
     class Options:
         roles = {
-            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'minimalStep'),
-            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'minimalStep'),
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
             'embedded': embedded_lot_role,
             'view': default_lot_role,
             'default': default_lot_role,

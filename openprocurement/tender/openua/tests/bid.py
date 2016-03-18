@@ -142,17 +142,6 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(bid['tenderers'][0]['name'], test_tender_ua_data["procuringEntity"]['name'])
         self.assertIn('id', bid)
         self.assertIn(bid['id'], response.headers['Location'])
-        self.assertNotIn('guarantee', bid)
-
-        response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 499},
-                                       'guarantee': {"amount": 100500, "currency": "USD"}}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        bid2 = response.json['data']
-        self.assertIn('guarantee', bid2)
-        self.assertEqual(bid2['guarantee']['amount'], 100500)
-        self.assertEqual(bid2['guarantee']['currency'], "USD")
 
         # set tender period in future
         data = deepcopy(test_tender_ua_data)
@@ -181,20 +170,6 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
-
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"guarantee": {"valueAddedTaxIncluded": True}}}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.json['errors'][0], {u'description': {u'valueAddedTaxIncluded': u'Rogue field'}, u'location': u'body', u'name': u'guarantee'})
-
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"guarantee": {"amount": 12}}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertIn('guarantee', response.json['data'])
-        self.assertEqual(response.json['data']['guarantee']['amount'], 12)
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
-
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"guarantee": {"currency": "USD"}}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
 
         response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"value": {"amount": 600}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
