@@ -17,6 +17,38 @@ del test_tender_ua_data["enquiryPeriod"]
 test_tender_ua_data["tenderPeriod"] = {
         "endDate": (now + timedelta(days=16)).isoformat()
 }
+test_tender_ua_data["items"] = [{
+        "description": u"футляри до державних нагород",
+        "description_en": u"Cases for state awards",
+        "classification": {
+            "scheme": u"CPV",
+            "id": u"44617100-9",
+            "description": u"Cartons"
+        },
+        "additionalClassifications": [
+            {
+                "scheme": u"ДКПП",
+                "id": u"17.21.1",
+                "description": u"папір і картон гофровані, паперова й картонна тара"
+            }
+        ],
+        "unit": {
+            "name": u"item",
+            "code": u"44617100-9"
+        },
+        "quantity": 5,
+        "deliveryDate": {
+            "startDate": (now + timedelta(days=2)).isoformat(),
+            "endDate": (now + timedelta(days=5)).isoformat()
+        },
+        "deliveryAddress": {
+            "countryName": u"Україна",
+            "postalCode": "79000",
+            "region": u"м. Київ",
+            "locality": u"м. Київ",
+            "streetAddress": u"вул. Банкова 1"
+        }
+}]
 
 # test_tender_ua_data["tenderPeriod"] = test_tender_ua_data["enquiryPeriod"].copy()
 
@@ -27,6 +59,8 @@ del test_features_tender_ua_data["enquiryPeriod"]
 test_features_tender_ua_data["tenderPeriod"] = {
         "endDate": (now + timedelta(days=16)).isoformat()
 }
+test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_ua_data["items"][0]["deliveryDate"]
+test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_ua_data["items"][0]["deliveryAddress"]
 # test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
 
 
