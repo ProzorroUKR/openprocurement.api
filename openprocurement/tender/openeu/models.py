@@ -49,9 +49,11 @@ eu_auction_role = auction_role
 
 TENDERING_DAYS = 30
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
+TENDERING_AUCTION = timedelta(days=35)
 QUESTIONS_STAND_STILL = timedelta(days=10)
 PREQUALIFICATION_COMPLAINT_STAND_STILL = timedelta(days=5)
 COMPLAINT_STAND_STILL = timedelta(days=10)
+
 
 
 def bids_validation_wrapper(validation_func):
@@ -173,11 +175,13 @@ class TenderAuctionPeriod(Period):
         if self.endDate:
             return
         tender = self.__parent__
-        if tender.lots or tender.status not in ['active.pre-qualification.stand-still', 'active.auction'] or not tender.qualificationPeriod or not tender.qualificationPeriod.endDate:
+        if tender.lots or tender.status not in ['active.tendering', 'active.pre-qualification.stand-still', 'active.auction']:
             return
-        if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
+        if tender.status == 'active.tendering' and tender.tenderPeriod.endDate:
+            return calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION).isoformat()
+        elif self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
             return calc_auction_end_time(tender.numberOfBids, self.startDate).isoformat()
-        else:
+        elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
             return tender.qualificationPeriod.endDate.isoformat()
 
 
@@ -190,11 +194,13 @@ class LotAuctionPeriod(Period):
             return
         tender = get_tender(self)
         lot = self.__parent__
-        if tender.status not in ['active.pre-qualification.stand-still', 'active.auction'] or lot.status != 'active' or not tender.qualificationPeriod or not tender.qualificationPeriod.endDate:
+        if tender.status not in ['active.tendering', 'active.pre-qualification.stand-still', 'active.auction'] or lot.status != 'active':
             return
-        if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
+        if tender.status == 'active.tendering' and tender.tenderPeriod.endDate:
+            return calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION).isoformat()
+        elif self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
             return calc_auction_end_time(lot.numberOfBids, self.startDate).isoformat()
-        else:
+        elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
             return tender.qualificationPeriod.endDate.isoformat()
 
 
