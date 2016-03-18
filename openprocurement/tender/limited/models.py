@@ -11,14 +11,15 @@ from openprocurement.api.models import (
     chronograph_role, chronograph_view_role,
 )
 from openprocurement.api.models import (
-    Value, IsoDateTimeType, Document, Organization, Item, SchematicsDocument,
-    Model, Contract, Revision, Period,
+    Value, IsoDateTimeType, Document, Organization, SchematicsDocument,
+    Model, Revision, Period,
 )
 from openprocurement.api.models import validate_cpv_group, validate_items_uniq
 from openprocurement.api.models import get_now
 from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.models import Complaint
+from openprocurement.tender.openua.models import Item, Contract
 
 
 class Award(Model):
