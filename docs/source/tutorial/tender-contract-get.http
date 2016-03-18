@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69/contracts/7bf18ab7270a47a88d20eb26883155d3?acc_token=76496a084e5940338d92505c66df2c0d HTTP/1.0
+GET /api/2.0/tenders/875bccb8079448419db42ee024419900/contracts/c770746bcbe04f5084458f858c284d1c?acc_token=5b38bae696d94227a71156cc736054d2 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -11,24 +11,24 @@ Content-Type: application/json; charset=UTF-8
       {
         "language": "uk", 
         "title": "contract_first_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69/contracts/7bf18ab7270a47a88d20eb26883155d3/documents/83dbb2777e2e4a47b763b80d45353e72?download=1d568a272f494a97897231afcf8936d6", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/875bccb8079448419db42ee024419900/contracts/c770746bcbe04f5084458f858c284d1c/documents/6cf55e0cdd7e460da39be0a7da14f8fe?download=12b32f136a4f42e985f8a0ac05ee2b85", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T19:45:03.902686+02:00", 
-        "id": "83dbb2777e2e4a47b763b80d45353e72", 
-        "dateModified": "2016-03-16T19:45:03.902733+02:00"
+        "datePublished": "2016-03-18T17:08:25.636438+02:00", 
+        "id": "6cf55e0cdd7e460da39be0a7da14f8fe", 
+        "dateModified": "2016-03-18T17:08:25.636490+02:00"
       }, 
       {
         "language": "en", 
         "title": "contract_second_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69/contracts/7bf18ab7270a47a88d20eb26883155d3/documents/19bdaa45acd44c13979a8aeb0dace8dc?download=fa291aca32c0461b9ef43b52e0cb8252", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/875bccb8079448419db42ee024419900/contracts/c770746bcbe04f5084458f858c284d1c/documents/1e270fe9724346ee97d03a32794f603b?download=1cb616510d794790b3ee840039c9dd8b", 
         "format": "application/msword", 
         "title_en": "Title of Document", 
         "description_en": "Description of Document", 
-        "datePublished": "2016-03-16T19:45:04.377788+02:00", 
+        "datePublished": "2016-03-18T17:08:25.942715+02:00", 
         "documentOf": "tender", 
-        "id": "19bdaa45acd44c13979a8aeb0dace8dc", 
-        "dateModified": "2016-03-16T19:45:04.377834+02:00"
+        "id": "1e270fe9724346ee97d03a32794f603b", 
+        "dateModified": "2016-03-18T17:08:25.942753+02:00"
       }
     ], 
     "items": [
@@ -47,7 +47,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "ccaf50470f9a4047bbfb7ed45dc98786", 
+        "id": "d9d8432b7ee2493891a4491620620a1d", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -69,7 +69,7 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "f7f27900035749c8ab4979773778a1bb", 
+        "id": "5c8e2fc58ec6416d8faf8c2f52233ea8", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -100,18 +100,18 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-03-16T19:45:03.357132+02:00", 
-      "endDate": "2017-03-16T19:45:03.357185+02:00"
+      "startDate": "2016-03-18T17:08:25.258940+02:00", 
+      "endDate": "2017-03-18T17:08:25.258980+02:00"
     }, 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-03-16T19:45:03.040621+02:00", 
-    "awardID": "efcbf94add4649338abff3c2c2eca7d4", 
-    "id": "7bf18ab7270a47a88d20eb26883155d3", 
-    "contractID": "UA-2016-03-16-000001-1"
+    "dateSigned": "2016-03-18T17:08:25.021531+02:00", 
+    "awardID": "f997b3e008134acb941459e23be8a0e3", 
+    "id": "c770746bcbe04f5084458f858c284d1c", 
+    "contractID": "UA-2016-03-18-000001-1"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69/documents?acc_token=76496a084e5940338d92505c66df2c0d HTTP/1.0
+GET /api/2.0/tenders/875bccb8079448419db42ee024419900/documents?acc_token=5b38bae696d94227a71156cc736054d2 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -9,22 +9,22 @@ Content-Type: application/json; charset=UTF-8
     {
       "language": "uk", 
       "title": "Notice.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69/documents/9a74d798b62c4995b15cd3570d6592f0?download=ea5e8898090f45f6b58897e5c4194642", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/875bccb8079448419db42ee024419900/documents/e49406a5c129489ba01885ba77cfcb11?download=ebd7b3cf25804e9381f03e0f7aeceb2e", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-03-16T19:44:54.856435+02:00", 
-      "id": "9a74d798b62c4995b15cd3570d6592f0", 
-      "dateModified": "2016-03-16T19:44:54.856489+02:00"
+      "datePublished": "2016-03-18T17:08:17.855364+02:00", 
+      "id": "e49406a5c129489ba01885ba77cfcb11", 
+      "dateModified": "2016-03-18T17:08:17.855395+02:00"
     }, 
     {
       "language": "uk", 
       "title": "AwardCriteria.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69/documents/8a2b76ed7fd24056bf3105bc627b8920?download=2923b6e23b484b0dadf242e483ce470a", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/875bccb8079448419db42ee024419900/documents/67b6258258ac44d3ba28e135959f4211?download=562dcb039e264b52a42f2a4232ee1773", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-03-16T19:44:55.036597+02:00", 
-      "id": "8a2b76ed7fd24056bf3105bc627b8920", 
-      "dateModified": "2016-03-16T19:44:55.036645+02:00"
+      "datePublished": "2016-03-18T17:08:18.026619+02:00", 
+      "id": "67b6258258ac44d3ba28e135959f4211", 
+      "dateModified": "2016-03-18T17:08:18.026655+02:00"
     }
   ]
 }

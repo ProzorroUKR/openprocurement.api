@@ -1,6 +1,6 @@
-PATCH /api/0.12/tenders/a7642f39b5b34bd09073ed168cc557c8/bids/1de77238f4c8451aab3351777cb4e946?acc_token=cd36d054194f47b6839c601f4a9a0d7b HTTP/1.0
+PATCH /api/2.0/tenders/67f06af3ad0e44da98e77be18ea6545d/bids/4c4ffe1fe7344cab8083cf7258c3271c?acc_token=1663fce0c80a4d2cafd63911ec16085e HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 124
+Content-Length: 214
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -9,10 +9,11 @@ DATA:
     "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "6fd3ca6199b240acaae3ae6de863794f", 
+        "relatedLot": "8c65be60ac65448a98ee23358e07c9b1", 
         "value": {
           "amount": 500
-        }
+        }, 
+        "subcontractingDetails": "ДКП «Орфей»"
       }
     ]
   }
@@ -22,21 +23,22 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "date": "2016-03-16T19:45:09.090684+02:00", 
     "status": "pending", 
-    "id": "1de77238f4c8451aab3351777cb4e946", 
+    "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "6fd3ca6199b240acaae3ae6de863794f", 
-        "date": "2016-03-16T19:45:09.092184+02:00", 
+        "relatedLot": "8c65be60ac65448a98ee23358e07c9b1", 
+        "date": "2016-03-18T17:08:30.095520+02:00", 
         "status": "pending", 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
-        }
+        }, 
+        "subcontractingDetails": "ДКП «Орфей»"
       }
     ], 
+    "selfQualified": true, 
     "tenderers": [
       {
         "contactPoint": {
@@ -58,7 +60,9 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }
-    ]
+    ], 
+    "date": "2016-03-18T17:08:30.094827+02:00", 
+    "id": "4c4ffe1fe7344cab8083cf7258c3271c"
   }
 }
 

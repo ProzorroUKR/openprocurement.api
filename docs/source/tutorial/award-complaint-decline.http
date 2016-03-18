@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/6fa05dd8a9f04ceaa5efcbd759dfe241/awards/c86bdbf0808a419ab012fa0fda3b606c/complaints/fac2c049c66e44519db35c2885b9433b HTTP/1.0
+PATCH /api/2.0/tenders/2304fcf5551c488e8bc03a05453306dc/awards/028260f867f344d7a244aa4c25908b5f/complaints/bce9e15787e047f68ce4f7ca7cfb6a2d HTTP/1.0
 Authorization: Basic cmV2aWV3ZXI6
 Content-Length: 32
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "declined", 
-    "dateDecision": "2016-03-16T19:44:46.852571+02:00", 
+    "dateDecision": "2016-03-18T17:08:10.328318+02:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -39,13 +39,13 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "acceptance": true, 
-    "dateAccepted": "2016-03-16T19:44:46.121884+02:00", 
-    "dateSubmitted": "2016-03-16T19:44:45.388567+02:00", 
-    "complaintID": "UA-2016-03-16-000001.3", 
-    "date": "2016-03-16T19:44:45.386969+02:00", 
+    "dateAccepted": "2016-03-18T17:08:09.655789+02:00", 
+    "dateSubmitted": "2016-03-18T17:08:09.027360+02:00", 
+    "complaintID": "UA-2016-03-18-000001.3", 
+    "date": "2016-03-18T17:08:09.025899+02:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
-    "id": "fac2c049c66e44519db35c2885b9433b"
+    "id": "bce9e15787e047f68ce4f7ca7cfb6a2d"
   }
 }
 
