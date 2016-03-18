@@ -88,32 +88,35 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
+            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'selfEligible'},
+            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'selfQualified'},
             {u'description': [
-                {u'contactPoint': [u'This field is required.'],
-                 u'identifier': {u'scheme': [u'This field is required.'],
-                                 u'id': [u'This field is required.']},
+                {u'contactPoint': [u'This field is required.'], u'identifier': {u'scheme': [u'This field is required.'], u'id': [u'This field is required.']},
                  u'name': [u'This field is required.'],
-                 u'address': [u'This field is required.']}],
-                u'location': u'body', u'name': u'tenderers'}
+                 u'address': [u'This field is required.']}
+            ], u'location': u'body', u'name': u'tenderers'}
         ])
 
-
-        response = self.app.post_json(request_path, {'data': {'tenderers': [{
+        response = self.app.post_json(request_path, {'data': {'selfEligible': False, 'tenderers': [{
             'name': 'name', 'identifier': {'uri': 'invalid_value'}}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'],[
-            {u'description': [
-                {u'contactPoint': [u'This field is required.'],
-                 u'identifier': {u'scheme': [u'This field is required.'],
-                                 u'id': [u'This field is required.'],
-                                 u'uri': [u'Not a well formed URL.']},
-                 u'address': [u'This field is required.']}],
-                u'location': u'body', u'name': u'tenderers'}])
+            {u'description': [u'Value must be one of [True].'], u'location': u'body', u'name': u'selfEligible'},
+            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'selfQualified'},
+            {u'description': [{
+                u'contactPoint': [u'This field is required.'],
+                u'identifier': {u'scheme': [u'This field is required.'],
+                                u'id': [u'This field is required.'],
+                                u'uri': [u'Not a well formed URL.']},
+                u'address': [u'This field is required.']}],
+                u'location': u'body', u'name': u'tenderers'}
+        ])
 
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': test_bids[0]['tenderers']}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': test_bids[0]['tenderers']}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -121,7 +124,10 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
             {u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500, 'valueAddedTaxIncluded': False}}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': test_bids[0]['tenderers'],
+                                                              "value": {"amount": 500, 'valueAddedTaxIncluded': False}}},
+                                      status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -129,38 +135,33 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
             {u'description': [u'valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender'], u'location': u'body', u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500, 'currency': "USD"}}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': test_bids[0]['tenderers'],
+                                                              "value": {"amount": 500, 'currency': "USD"}}},
+                                      status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
+
         self.assertEqual(response.json['errors'], [
             {u'description': [u'currency of bid should be identical to currency of value of tender'], u'location': u'body', u'name': u'value'},
         ])
 
     def test_create_tender_bidder(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
         self.assertEqual(bid['tenderers'][0]['name'], test_bids[0]['tenderers'][0]['name'])
         self.assertIn('id', bid)
         self.assertIn(bid['id'], response.headers['Location'])
-        self.assertNotIn('guarantee', bid)
-
-        response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 499},
-                                       'guarantee': {"amount": 100500, "currency": "USD"}}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        bid2 = response.json['data']
-        self.assertIn('guarantee', bid2)
-        self.assertEqual(bid2['guarantee']['amount'], 100500)
-        self.assertEqual(bid2['guarantee']['currency'], "USD")
 
         for status in ('active', 'unsuccessful', 'deleted', 'invalid'):
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
-                                          {'data': {'tenderers': test_bids[0]['tenderers'],
+                                          {'data': {'selfEligible': True, 'selfQualified': True,
+                                                    'tenderers': test_bids[0]['tenderers'],
                                                     'value': {"amount": 500},
                                                     'status': status}})
             self.assertEqual(response.status, '201 Created')
@@ -169,32 +170,21 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.set_status('complete')
 
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}}, status=403)
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add bid in current (complete) tender status")
 
     def test_patch_tender_bidder(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       "subcontractingDetails": "test",
+                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
         bid_token = response.json['access']['token']
-
-        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"guarantee": {"valueAddedTaxIncluded": True}}}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.json['errors'][0], {u'description': {u'valueAddedTaxIncluded': u'Rogue field'}, u'location': u'body', u'name': u'guarantee'})
-
-        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"guarantee": {"amount": 12}}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertIn('guarantee', response.json['data'])
-        self.assertEqual(response.json['data']['guarantee']['amount'], 12)
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
-
-        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"guarantee": {"currency": "USD"}}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
 
         response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"value": {"amount": 600}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -260,13 +250,15 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
 
     def test_get_tender_bidder(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
         bid_token = response.json['access']['token']
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 499}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 499}}})
 
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), status=403)
         self.assertEqual(response.status, '403 Forbidden')
@@ -301,7 +293,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         for qualification in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(self.tender_id,
                                                                                   qualification['id']),
-                                           {"data": {"status": "active"}})
+                                           {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
@@ -351,11 +343,11 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
         for b in response.json['data']:
-            self.assertEqual(set(b.keys()), set([u'date', u'status', u'id', u'value', u'tenderers']))
+            self.assertEqual(set(b.keys()), set([u'date', u'status', u'id', u'value', u'tenderers', 'selfEligible', 'selfQualified']))
 
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(set(response.json['data'].keys()), set([u'date', u'status', u'id', u'value', u'tenderers']))
+        self.assertEqual(set(response.json['data'].keys()), set([u'date', u'status', u'id', u'value', u'tenderers', 'selfEligible', 'selfQualified']))
 
         # get awards
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
@@ -364,7 +356,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
 
         self.app.authorization = ('Basic', ('token', ''))
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
-                            {"data": {"status": "active"}})
+                            {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], "active.awarded")
@@ -374,11 +366,11 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
         for b in response.json['data']:
-            self.assertEqual(set(b.keys()), set([u'date', u'status', u'id', u'value', u'tenderers']))
+            self.assertEqual(set(b.keys()), set([u'date', u'status', u'id', u'value', u'tenderers',  'selfEligible', 'selfQualified']))
 
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(set(response.json['data'].keys()), set([u'date', u'status', u'id', u'value', u'tenderers']))
+        self.assertEqual(set(response.json['data'].keys()), set([u'date', u'status', u'id', u'value', u'tenderers',  'selfEligible', 'selfQualified']))
 
         # time travel
         tender = self.db.get(self.tender_id)
@@ -400,15 +392,16 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
         for b in response.json['data']:
-            self.assertEqual(set(b.keys()), set([u'date', u'status', u'id', u'value', u'tenderers']))
+            self.assertEqual(set(b.keys()), set([u'date', u'status', u'id', u'value', u'tenderers', 'selfEligible', 'selfQualified']))
 
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(set(response.json['data'].keys()), set([u'date', u'status', u'id', u'value', u'tenderers']))
+        self.assertEqual(set(response.json['data'].keys()), set([u'date', u'status', u'id', u'value', u'tenderers', 'selfEligible', 'selfQualified']))
 
     def test_delete_tender_bidder(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
@@ -458,7 +451,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
 
         # create new bid
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         bid = response.json['data']
         bid_token = response.json['access']['token']
@@ -484,9 +478,11 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['status'], 'deleted')
 
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 100}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 100}}})
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -500,7 +496,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.app.authorization = ('Basic', ('token', ''))
         for qualification in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
-            self.tender_id, qualification['id']), {"data": {"status": "active"}})
+            self.tender_id, qualification['id']), {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
@@ -532,7 +528,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
 
         self.app.authorization = ('Basic', ('token', ''))
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, award_id, self.tender_token), {"data": {"status": "active"}})
+            self.tender_id, award_id, self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], "active.awarded")
@@ -566,7 +562,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
 
     def test_deleted_bid_is_not_restorable(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
@@ -595,7 +592,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         bids_tokens = []
         for bid_amount in (400, 405):
             response = self.app.post_json('/tenders/{}/bids'.format(
-                self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": bid_amount}}})
+                self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                           'tenderers': test_bids[0]['tenderers'], "value": {"amount": bid_amount}}})
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
             bids.append(response.json['data'])
@@ -609,7 +607,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['status'], 'deleted')
 
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -623,7 +622,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.app.authorization = ('Basic', ('token', ''))
         for qualification in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
-            self.tender_id, qualification['id']), {"data": {"status": "active"}})
+            self.tender_id, qualification['id']), {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
@@ -659,7 +658,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
 
     def test_get_tender_tenderers(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
@@ -670,7 +670,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't view bids in current (active.tendering) tender status")
 
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -684,7 +685,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.app.authorization = ('Basic', ('token', ''))
         for qualification in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
-            self.tender_id, qualification['id']), {"data": {"status": "active"}})
+            self.tender_id, qualification['id']), {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
@@ -730,13 +731,15 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
 
     def test_bid_Administrator_change(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
 
         self.app.authorization = ('Basic', ('administrator', ''))
         response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {
+            'selfEligible': True, 'selfQualified': True,
             'tenderers': [{"identifier": {"id": "00000000"}}],
             "value": {"amount": 400}
         }})
@@ -800,7 +803,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         valid_bid_id = response.json['data']['id']
 
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -814,7 +818,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.app.authorization = ('Basic', ('token', ''))
         for qualification in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
-            self.tender_id, qualification['id']), {"data": {"status": "active"}})
+            self.tender_id, qualification['id']), {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
@@ -940,7 +944,9 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
                     "amount": 469,
                     "currency": "UAH",
                     "valueAddedTaxIncluded": True
-                }
+                },
+                'selfQualified': True,
+                'selfEligible': True
             },
             {
                 "status": "pending",
@@ -956,8 +962,10 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
                     "amount": 479,
                     "currency": "UAH",
                     "valueAddedTaxIncluded": True
-                }
-            }
+                },
+                'selfQualified': True,
+                'selfEligible': True
+            },
         ]
         for i in test_features_bids:
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
@@ -976,7 +984,9 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
                 "amount": 469,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": True
-            }
+            },
+            'selfQualified': True,
+            'selfEligible': True
         }
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -1320,7 +1330,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         for qualification in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(self.tender_id,
                                                                                   qualification['id']),
-                                           {"data": {"status": "active"}})
+                                           {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
@@ -1396,12 +1406,15 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
         self.assertEqual(set(response.json['data'][0].keys()), set([u'date', u'status', u'id', u'value', u'tenderers', u'documents',
-                                                                    u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments']))
-        self.assertEqual(set(response.json['data'][1].keys()), set([u'date', u'status', u'id', u'value', u'tenderers']))
+                                                                    u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments',
+                                                                    u'selfEligible', u'selfQualified']))
+        self.assertEqual(set(response.json['data'][1].keys()), set([u'date', u'status', u'id', u'value', u'tenderers',
+                                                                    u'selfEligible', u'selfQualified']))
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(set(response.json['data'].keys()), set([u'date', u'status', u'id', u'value', u'tenderers', u'documents',
-                                                                  u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments']))
+                                                                 u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments',
+                                                                 u'selfEligible', u'selfQualified']))
         for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
             documents_are_accessible_for_t_and_b_owners(doc_resource)
         all_public_documents_are_accessible_for_others()
@@ -1413,7 +1426,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
 
         self.app.authorization = ('Basic', ('token', ''))
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
-                            {"data": {"status": "active"}})
+                            {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], "active.awarded")
@@ -1423,12 +1436,15 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
         self.assertEqual(set(response.json['data'][0].keys()), set([u'date', u'status', u'id', u'value', u'tenderers', u'documents',
-                                                                    u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments']))
-        self.assertEqual(set(response.json['data'][1].keys()), set([u'date', u'status', u'id', u'value', u'tenderers']))
+                                                                    u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments',
+                                                                    u'selfEligible', u'selfQualified']))
+        self.assertEqual(set(response.json['data'][1].keys()), set([u'date', u'status', u'id', u'value', u'tenderers',
+                                                                    u'selfEligible', u'selfQualified']))
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(set(response.json['data'].keys()), set([u'date', u'status', u'id', u'value', u'tenderers', u'documents',
-                                                                  u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments']))
+                                                                 u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments',
+                                                                 u'selfEligible', u'selfQualified']))
         for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
             documents_are_accessible_for_t_and_b_owners(doc_resource)
         all_public_documents_are_accessible_for_others()
@@ -1453,12 +1469,15 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
         self.assertEqual(set(response.json['data'][0].keys()), set([u'date', u'status', u'id', u'value', u'tenderers', u'documents',
-                                                                    u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments']))
-        self.assertEqual(set(response.json['data'][1].keys()), set([u'date', u'status', u'id', u'value', u'tenderers']))
+                                                                    u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments',
+                                                                    u'selfEligible', u'selfQualified']))
+        self.assertEqual(set(response.json['data'][1].keys()), set([u'date', u'status', u'id', u'value', u'tenderers',
+                                                                    u'selfEligible', u'selfQualified']))
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(set(response.json['data'].keys()), set([u'date', u'status', u'id', u'value', u'tenderers', u'documents',
-                                                                  u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments']))
+                                                                 u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments',
+                                                                 u'selfEligible', u'selfQualified']))
         for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
             documents_are_accessible_for_t_and_b_owners(doc_resource)
         all_public_documents_are_accessible_for_others()
@@ -1552,7 +1571,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
                                                                                                qualification['id'],
                                                                                                self.tender_token),
-                                           {"data": {"status": "active"}})
+                                           {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, "200 OK")
 
 
@@ -1602,7 +1621,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
-                            {"data": {"status": "active"}})
+                            {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], "active.awarded")
@@ -1718,7 +1737,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
                                                                                                qualification['id'],
                                                                                                self.tender_token),
-                                           {"data": {"status": "active"}})
+                                           {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
@@ -1767,7 +1786,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
-                            {"data": {"status": "active"}})
+                            {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], "active.awarded")
@@ -1904,7 +1923,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
                                                                                                qualification['id'],
                                                                                                self.tender_token),
-                                           {"data": {"status": "active"}})
+                                           {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
@@ -1984,7 +2003,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
-                            {"data": {"status": "active"}})
+                            {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], "active.awarded")
@@ -2186,7 +2205,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
                                                                                                qualification['id'],
                                                                                                self.tender_token),
-                                           {"data": {"status": "active"}})
+                                           {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
@@ -2259,7 +2278,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
-                            {"data": {"status": "active"}})
+                            {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], "active.awarded")
@@ -2292,7 +2311,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.app.authorization = ('Basic', ('token', ''))
         for qualification in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
-            self.tender_id, qualification['id']), {"data": {"status": "active"}})
+            self.tender_id, qualification['id']), {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still

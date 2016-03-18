@@ -5,8 +5,8 @@ from datetime import timedelta
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.base import (
-    BaseTenderContentWebTest, test_tender_data, test_features_tender_data)
-from openprocurement.api.tests.base import test_bids, test_lots
+    BaseTenderContentWebTest, test_tender_data, test_features_tender_data, test_bids)
+from openprocurement.api.tests.base import test_lots
 from pprint import pprint
 
 class TenderAuctionResourceTest(BaseTenderContentWebTest):
@@ -37,7 +37,7 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
         for qualific in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-                self.tender_id, qualific['id'], self.tender_token), {'data': {"status": "active"}})
+                self.tender_id, qualific['id'], self.tender_token), {'data': {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
@@ -327,7 +327,9 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
                 "amount": 469,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": True
-            }
+            },
+            'selfQualified': True,
+            'selfEligible': True
         }
         for i in range(3)
     ]
@@ -346,7 +348,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         for qualific in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
-                self.tender_id, qualific['id']), {'data': {"status": "active"}})
+                self.tender_id, qualific['id']), {'data': {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, '200 OK')
 
         # switch to active.pre-qualification.stand-still
@@ -1077,7 +1079,9 @@ class TenderFeaturesAuctionResourceTest(BaseTenderContentWebTest):
                 "amount": 469,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": True
-            }
+            },
+            'selfQualified': True,
+            'selfEligible': True
         },
         {
             "parameters": [
@@ -1094,7 +1098,9 @@ class TenderFeaturesAuctionResourceTest(BaseTenderContentWebTest):
                 "amount": 479,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": True
-            }
+            },
+            'selfQualified': True,
+            'selfEligible': True
         }
     ]
 

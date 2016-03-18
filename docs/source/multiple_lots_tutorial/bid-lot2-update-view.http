@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/a7642f39b5b34bd09073ed168cc557c8/bids/81dceeabe13c485796e65adaebddc46e?acc_token=136b913f0b2e42bdb5aef51a7ad5ca03 HTTP/1.0
+PATCH /api/2.0/tenders/67f06af3ad0e44da98e77be18ea6545d/bids/eb3ab2523e0e4dbf82619f613a0ce945?acc_token=2614194fd2044a6a8f1b5ffd11a00fc9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 124
 Content-Type: application/json
@@ -9,7 +9,7 @@ DATA:
     "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "6fd3ca6199b240acaae3ae6de863794f", 
+        "relatedLot": "8c65be60ac65448a98ee23358e07c9b1", 
         "value": {
           "amount": 500
         }
@@ -22,13 +22,12 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "date": "2016-03-16T19:45:09.225981+02:00", 
     "status": "pending", 
-    "id": "81dceeabe13c485796e65adaebddc46e", 
+    "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "6fd3ca6199b240acaae3ae6de863794f", 
-        "date": "2016-03-16T19:45:09.226688+02:00", 
+        "relatedLot": "8c65be60ac65448a98ee23358e07c9b1", 
+        "date": "2016-03-18T17:08:30.211978+02:00", 
         "status": "pending", 
         "value": {
           "currency": "UAH", 
@@ -37,6 +36,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
+    "selfQualified": true, 
     "tenderers": [
       {
         "contactPoint": {
@@ -58,7 +58,9 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Львів"
         }
       }
-    ]
+    ], 
+    "date": "2016-03-18T17:08:30.211291+02:00", 
+    "id": "eb3ab2523e0e4dbf82619f613a0ce945"
   }
 }
 

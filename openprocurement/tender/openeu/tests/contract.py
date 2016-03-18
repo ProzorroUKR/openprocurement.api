@@ -28,7 +28,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         award = response.json['data']
         self.award_id = award['id']
         self.app.authotization = ('Basic', ('broker', ''))
-        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "active", "qualified": True, "eligible": True}})
 
     def test_contract_termination(self):
         response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
@@ -320,7 +320,7 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
             self.tender_id), {'data': {'suppliers': [supplier_info], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
-        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "active", "qualified": True, "eligible": True}})
         # Create contract for award
         response = self.app.post_json('/tenders/{}/contracts'.format(self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
         contract = response.json['data']

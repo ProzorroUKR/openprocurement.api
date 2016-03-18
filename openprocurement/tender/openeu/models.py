@@ -1,7 +1,8 @@
 from uuid import uuid4
 from datetime import timedelta, time, datetime
+from pyramid.security import Allow
 from zope.interface import implementer
-from schematics.types import StringType, MD5Type
+from schematics.types import StringType, MD5Type, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.transforms import blacklist, whitelist
@@ -11,13 +12,11 @@ from openprocurement.api.models import (Model, Address, Period,
                                         IsoDateTimeType, ListType)
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import Identifier as BaseIdentifier
-from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import Bid as BaseBid
 from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Lot as BaseLot
-from openprocurement.api.models import Award as BaseAward
 from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import LotValue as BaseLotValue
 from openprocurement.api.models import Lot as BaseLot
@@ -34,8 +33,8 @@ from openprocurement.api.models import (
 from openprocurement.tender.openua.utils import (
     calculate_business_date, BLOCK_COMPLAINT_STATUS,
 )
-from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import (
+    Complaint as BaseComplaint, Award as BaseAward, Item as BaseItem,
     PeriodStartEndRequired, SifterListType, COMPLAINT_SUBMIT_TIME,
 )
 
@@ -139,6 +138,7 @@ class ConfidentialDocument(Document):
 
 class Contract(BaseContract):
     documents = ListType(ModelType(Document), default=list())
+    items = ListType(ModelType(Item))
 
 
 class Complaint(BaseComplaint):
@@ -208,8 +208,8 @@ class Lot(BaseLot):
 
     class Options:
         roles = {
-            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'minimalStep'),
-            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'minimalStep'),
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
             'embedded': embedded_lot_role,
             'view': default_lot_role,
             'default': default_lot_role,
@@ -235,9 +235,12 @@ class Lot(BaseLot):
 class LotValue(BaseLotValue):
     class Options:
         roles = {
+            'create': whitelist('value', 'relatedLot', 'subcontractingDetails'),
+            'edit': whitelist('value', 'relatedLot', 'subcontractingDetails'),
             'auction_view': whitelist('value', 'date', 'relatedLot', 'participationUrl', 'status',),
         }
 
+    subcontractingDetails = StringType()
     status = StringType(choices=['pending', 'active', 'unsuccessful'],
                         default='pending')
 
@@ -260,8 +263,8 @@ class Bid(BaseBid):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues'),
-            'edit': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues', 'status'),
+            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'selfQualified', 'selfEligible',),
+            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
@@ -282,10 +285,12 @@ class Bid(BaseBid):
     financialDocuments = ListType(ModelType(ConfidentialDocument), default=list())
     eligibilityDocuments = ListType(ModelType(ConfidentialDocument), default=list())
     qualificationDocuments = ListType(ModelType(ConfidentialDocument), default=list())
+    lotValues = ListType(ModelType(LotValue), default=list())
+    selfQualified = BooleanType(required=True, choices=[True])
+    selfEligible = BooleanType(required=True, choices=[True])
+    subcontractingDetails = StringType()
     status = StringType(choices=['pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
                         default='pending')
-
-    lotValues = ListType(ModelType(LotValue), default=list())
 
     def serialize(self, role=None):
         if role and role != 'create' and self.status in ['invalid', 'deleted']:
@@ -294,7 +299,7 @@ class Bid(BaseBid):
 
     @serializable(serialized_name="status")
     def serialize_status(self):
-        if self.__parent__.status in ['active.tendering', 'active.pre-qualification', 'cancelled']:
+        if self.__parent__.status in ['active.tendering', 'cancelled']:
             return self.status
         if self.__parent__.lots:
             if not self.lotValues:
@@ -338,11 +343,17 @@ class Qualification(Model):
     class Options:
         roles = {
             'create': blacklist('id', 'status', 'documents', 'date'),
-            'edit': whitelist('status'),
+            'edit': whitelist('status', 'qualified', 'eligible'),
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
         }
 
+    title = StringType()
+    title_en = StringType()
+    title_ru = StringType()
+    description = StringType()
+    description_en = StringType()
+    description_ru = StringType()
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     bidID = StringType(required=True)
     lotID = MD5Type()
@@ -350,6 +361,16 @@ class Qualification(Model):
     date = IsoDateTimeType()
     documents = ListType(ModelType(Document), default=list())
     complaints = ListType(ModelType(Complaint), default=list())
+    qualified = BooleanType(default=False)
+    eligible = BooleanType(default=False)
+
+    def validate_qualified(self, data, qualified):
+        if data['status'] == 'active' and not qualified:
+            raise ValidationError(u'This field is required.')
+
+    def validate_eligible(self, data, eligible):
+        if data['status'] == 'active' and not eligible:
+            raise ValidationError(u'This field is required.')
 
     def validate_lotID(self, data, lotID):
         if isinstance(data['__parent__'], Model):
@@ -416,6 +437,24 @@ class Tender(BaseTender):
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+
+    def __acl__(self):
+        acl = [
+            (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_qualification_complaint')
+            for i in self.bids
+            if i.status in ['active', 'unsuccessful']
+        ]
+        acl.extend([
+            (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_award_complaint')
+            for i in self.bids
+            if i.status == 'active'
+        ])
+        acl.extend([
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_tender'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
+        ])
+        return acl
 
     def initialize(self):
         self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)))

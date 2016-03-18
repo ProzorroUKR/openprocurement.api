@@ -1,4 +1,4 @@
-GET /api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69?acc_token=76496a084e5940338d92505c66df2c0d HTTP/1.0
+GET /api/2.0/tenders/875bccb8079448419db42ee024419900?acc_token=5b38bae696d94227a71156cc736054d2 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -7,63 +7,130 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "procurementMethod": "open", 
-    "status": "active.tendering", 
+    "complaintPeriod": {
+      "startDate": "2016-02-19T17:08:18.598050+02:00", 
+      "endDate": "2016-03-16T17:08:18.598050+02:00"
+    }, 
+    "enquiryPeriod": {
+      "startDate": "2016-02-19T17:08:18.598050+02:00", 
+      "endDate": "2016-03-10T17:08:18.598050+02:00"
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "next_check": "2016-03-20T17:08:18.598050+02:00", 
+    "awardCriteria": "lowestCost", 
+    "questions": [
+      {
+        "description": "Просимо додати таблицю потрібної калорійності харчування", 
+        "title": "Калорійність", 
+        "date": "2016-03-18T17:08:18.322254+02:00", 
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
+        "id": "fcb45368bc374c26b3039772b78df158", 
+        "questionOf": "tender"
+      }
+    ], 
+    "owner": "broker", 
+    "title_en": "Services in school canteens", 
+    "id": "875bccb8079448419db42ee024419900", 
     "documents": [
       {
         "language": "uk", 
         "title": "Notice.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69/documents/9a74d798b62c4995b15cd3570d6592f0?download=ea5e8898090f45f6b58897e5c4194642", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/875bccb8079448419db42ee024419900/documents/e49406a5c129489ba01885ba77cfcb11?download=ebd7b3cf25804e9381f03e0f7aeceb2e", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T19:44:54.856435+02:00", 
-        "id": "9a74d798b62c4995b15cd3570d6592f0", 
-        "dateModified": "2016-03-16T19:44:54.856489+02:00"
+        "datePublished": "2016-03-18T17:08:17.855364+02:00", 
+        "id": "e49406a5c129489ba01885ba77cfcb11", 
+        "dateModified": "2016-03-18T17:08:17.855395+02:00"
       }, 
       {
         "language": "uk", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69/documents/8a2b76ed7fd24056bf3105bc627b8920?download=2923b6e23b484b0dadf242e483ce470a", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/875bccb8079448419db42ee024419900/documents/67b6258258ac44d3ba28e135959f4211?download=562dcb039e264b52a42f2a4232ee1773", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T19:44:55.036597+02:00", 
-        "id": "8a2b76ed7fd24056bf3105bc627b8920", 
-        "dateModified": "2016-03-16T19:44:55.036645+02:00"
+        "datePublished": "2016-03-18T17:08:18.026619+02:00", 
+        "id": "67b6258258ac44d3ba28e135959f4211", 
+        "dateModified": "2016-03-18T17:08:18.026655+02:00"
       }, 
       {
         "language": "uk", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69/documents/8a2b76ed7fd24056bf3105bc627b8920?download=93774b9d2bf54a9397f6d7f55931e6cc", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/875bccb8079448419db42ee024419900/documents/67b6258258ac44d3ba28e135959f4211?download=c3d5933b906b4ef9b2a350ab54e18e40", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T19:44:55.036597+02:00", 
-        "id": "8a2b76ed7fd24056bf3105bc627b8920", 
-        "dateModified": "2016-03-16T19:44:55.298022+02:00"
+        "datePublished": "2016-03-18T17:08:18.026619+02:00", 
+        "id": "67b6258258ac44d3ba28e135959f4211", 
+        "dateModified": "2016-03-18T17:08:18.163585+02:00"
       }
     ], 
-    "tenderID": "UA-2016-03-16-000001", 
-    "tenderPeriod": {
-      "startDate": "2016-02-17T19:44:55.804609+02:00", 
-      "endDate": "2016-03-18T19:44:55.804609+02:00"
-    }, 
     "title": "Послуги шкільних їдалень", 
+    "tenderID": "UA-2016-03-18-000001", 
+    "dateModified": "2016-03-18T17:08:18.436881+02:00", 
+    "status": "active.tendering", 
+    "tenderPeriod": {
+      "startDate": "2016-02-19T17:08:18.598050+02:00", 
+      "endDate": "2016-03-20T17:08:18.598050+02:00"
+    }, 
+    "auctionPeriod": {
+      "shouldStartAfter": "2016-04-24T17:08:18.598050+02:00"
+    }, 
+    "procurementMethodType": "aboveThresholdEU", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 35.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "procurementMethodType": "aboveThresholdEU", 
-    "complaintPeriod": {
-      "startDate": "2016-02-17T19:44:55.804609+02:00", 
-      "endDate": "2016-03-14T19:44:55.804609+02:00"
-    }, 
-    "title_en": "Services in school canteens", 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "id": "d9d8432b7ee2493891a4491620620a1d", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }, 
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "id": "5c8e2fc58ec6416d8faf8c2f52233ea8", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "submissionMethod": "electronicAuction", 
-    "next_check": "2016-03-18T19:44:55.804609+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -87,75 +154,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }, 
       "name": "ЗОСШ #10 м.Вінниці"
-    }, 
-    "questions": [
-      {
-        "description": "Просимо додати таблицю потрібної калорійності харчування", 
-        "title": "Калорійність", 
-        "date": "2016-03-16T19:44:55.479446+02:00", 
-        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "4273044d9c45436eaa64a471460521f1", 
-        "questionOf": "tender"
-      }
-    ], 
-    "enquiryPeriod": {
-      "startDate": "2016-02-17T19:44:55.804609+02:00", 
-      "endDate": "2016-03-08T19:44:55.804609+02:00"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2016-03-16T19:44:55.638129+02:00", 
-    "items": [
-      {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "description_en": "Services in school canteens", 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "Послуги шкільних їдалень"
-          }
-        ], 
-        "id": "ccaf50470f9a4047bbfb7ed45dc98786", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 1
-      }, 
-      {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "description_en": "Services in school canteens", 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "Послуги шкільних їдалень"
-          }
-        ], 
-        "id": "f7f27900035749c8ab4979773778a1bb", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 1
-      }
-    ], 
-    "id": "aa6128fa6a7a43e58bba316b9102ee69", 
-    "awardCriteria": "lowestCost"
+    }
   }
 }
 
-PATCH /api/0.12/tenders/aa6128fa6a7a43e58bba316b9102ee69?acc_token=76496a084e5940338d92505c66df2c0d HTTP/1.0
+PATCH /api/2.0/tenders/875bccb8079448419db42ee024419900?acc_token=5b38bae696d94227a71156cc736054d2 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 38
 Content-Type: application/json
