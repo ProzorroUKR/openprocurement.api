@@ -38,7 +38,9 @@ test_bids = [
             "amount": 469,
             "currency": "UAH",
             "valueAddedTaxIncluded": True
-        }
+        },
+        'selfQualified': True,
+        'selfEligible': True
     },
     {
         "tenderers": [{
@@ -67,7 +69,9 @@ test_bids = [
             "amount": 479,
             "currency": "UAH",
             "valueAddedTaxIncluded": True
-        }
+        },
+        'selfQualified': True,
+        'selfEligible': True
     }
 ]
 now = datetime.now()

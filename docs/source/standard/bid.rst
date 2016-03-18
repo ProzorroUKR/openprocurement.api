@@ -43,6 +43,16 @@ Schema
 
     Bid guarantee
 
+:selfEligible':
+    True, required
+
+    Confirms compliance of eligibility criteria set by the customer in the tendering documents
+
+:selfQualified:
+    True, required
+
+    Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On public procurement"
+
 :documents:
     List of :ref:`ConfidentialDocument` objects
 

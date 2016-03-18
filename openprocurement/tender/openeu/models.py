@@ -1,7 +1,7 @@
 from uuid import uuid4
 from datetime import timedelta, time, datetime
 from zope.interface import implementer
-from schematics.types import StringType, MD5Type
+from schematics.types import StringType, MD5Type, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.transforms import blacklist, whitelist
@@ -254,7 +254,7 @@ class Bid(BaseBid):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues'),
+            'create': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues', 'selfQualified', 'selfEligible',),
             'edit': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues', 'status'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
@@ -277,7 +277,8 @@ class Bid(BaseBid):
     eligibilityDocuments = ListType(ModelType(ConfidentialDocument), default=list())
     qualificationDocuments = ListType(ModelType(ConfidentialDocument), default=list())
     lotValues = ListType(ModelType(LotValue), default=list())
-
+    selfQualified = BooleanType(required=True, choices=[True])
+    selfEligible = BooleanType(required=True, choices=[True])
     status = StringType(choices=['pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
                         default='pending')
 
@@ -336,6 +337,12 @@ class Qualification(Model):
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
         }
+    # title = StringType()
+    # title_en = StringType()
+    # title_ru = StringType()
+    # description = StringType()
+    # description_en = StringType()
+    # description_ru = StringType()
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     bidID = StringType(required=True)
@@ -344,6 +351,12 @@ class Qualification(Model):
     date = IsoDateTimeType()
     documents = ListType(ModelType(Document), default=list())
     complaints = ListType(ModelType(Complaint), default=list())
+
+    # qualified = BooleanType(default=False)
+    # eligible = BooleanType(default=False)
+    #
+    # def validate_qualified(self, data, value):
+    #     import pdb; pdb.set_trace()  # debug ktarasz
 
     def validate_lotID(self, data, lotID):
         if isinstance(data['__parent__'], Model):

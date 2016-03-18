@@ -463,7 +463,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДКПП, MEDT, ДК003, ДК015, ДК018]."]}], u'location': u'body', u'name': u'items'}
+            {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."]}], u'location': u'body', u'name': u'items'}
         ])
 
         data = test_tender_data["procuringEntity"]["contactPoint"]["telephone"]
@@ -1021,7 +1021,8 @@ class TenderProcessTest(BaseTenderWebTest):
         del bidder_data['contactPoint']['availableLanguage']
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [bidder_data], "value": {"amount": 500}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [bidder_data], "value": {"amount": 500}}})
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -1047,9 +1048,11 @@ class TenderProcessTest(BaseTenderWebTest):
         del bidder_data['contactPoint']['availableLanguage']
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [bidder_data], "value": {"amount": 500}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [bidder_data], "value": {"amount": 500}}})
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [bidder_data], "value": {"amount": 499}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [bidder_data], "value": {"amount": 499}}})
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -1113,13 +1116,16 @@ class TenderProcessTest(BaseTenderWebTest):
         del bidder_data['contactPoint']['availableLanguage']
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [bidder_data], "value": {"amount": 500}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [bidder_data], "value": {"amount": 500}}})
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [bidder_data], "value": {"amount": 499}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [bidder_data], "value": {"amount": 499}}})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [bidder_data], "value": {"amount": 498}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [bidder_data], "value": {"amount": 498}}})
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
