@@ -14,7 +14,7 @@ from openprocurement.api.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
 )
-from openprocurement.tender.openua.models import CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
+from openprocurement.tender.openua.models import CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME
 from openprocurement.tender.openua.utils import calculate_business_date
 
 
@@ -118,8 +118,9 @@ class TenderUaComplaintResource(TenderComplaintResource):
         # tender_owner
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('status', self.context.status) == self.context.status:
             now = get_now()
-            if now < tender.tenderPeriod.startDate or now > tender.tenderPeriod.endDate:
-                self.request.errors.add('body', 'data', 'Can update claim only in tenderPeriod')
+            #TODO business days
+            if now > calculate_business_date(tender.enquiryPeriod.endDate, ENQUIRY_STAND_STILL_TIME):
+                self.request.errors.add('body', 'data', 'Can update claim only in enquiryPeriod.stand-still')
                 self.request.errors.status = 403
                 return
             apply_patch(self.request, save=False, src=self.context.serialize())
@@ -127,8 +128,9 @@ class TenderUaComplaintResource(TenderComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('resolution', self.context.resolution) and data.get('resolutionType', self.context.resolutionType) and data.get('status', self.context.status) == 'answered':
             now = get_now()
-            if now < tender.tenderPeriod.startDate or now > tender.tenderPeriod.endDate:
-                self.request.errors.add('body', 'data', 'Can update claim only in tenderPeriod')
+            #TODO business days
+            if now > calculate_business_date(tender.enquiryPeriod.endDate, ENQUIRY_STAND_STILL_TIME):
+                self.request.errors.add('body', 'data', 'Can update claim only in enquiryPeriod.stand-still')
                 self.request.errors.status = 403
                 return
             if len(data.get('resolution', self.context.resolution)) < 20:

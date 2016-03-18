@@ -519,7 +519,8 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
 
     def test_create_tender_bidder_invalid(self):
         request_path = '/tenders/{}/bids'.format(self.tender_id)
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -527,7 +528,8 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [u'This field is required.'], u'location': u'body', u'name': u'lotValues'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -535,7 +537,8 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'relatedLot': [u'This field is required.']}], u'location': u'body', u'name': u'lotValues'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': "0" * 32}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': "0" * 32}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -543,7 +546,8 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'relatedLot': [u'relatedLot should be one of lots']}], u'location': u'body', u'name': u'lotValues'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 5000000}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 5000000}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -551,7 +555,8 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'value': [u'value of bid should be less than value of lot']}], u'location': u'body', u'name': u'lotValues'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500, 'valueAddedTaxIncluded': False}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500, 'valueAddedTaxIncluded': False}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -559,7 +564,8 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'value': [u'valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot']}], u'location': u'body', u'name': u'lotValues'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500, 'currency': "USD"}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500, 'currency': "USD"}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -567,7 +573,8 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'value': [u'currency of bid should be identical to currency of value of lot']}], u'location': u'body', u'name': u'lotValues'},
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -575,7 +582,8 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [u'value should be posted for each lot of bid'], u'location': u'body', u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': test_tender_ua_data["procuringEntity"], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': test_tender_ua_data["procuringEntity"], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -585,7 +593,9 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
 
     def test_patch_tender_bidder(self):
         lot_id = self.initial_lots[0]['id']
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                                                                           'tenderers': [test_tender_ua_data["procuringEntity"]],
+                                                                                           'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bidder = response.json['data']
@@ -691,7 +701,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 
     def test_create_tender_bidder_invalid(self):
         request_path = '/tenders/{}/bids'.format(self.tender_id)
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -700,7 +711,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [u'This field is required.'], u'location': u'body', u'name': u'lotValues'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -708,7 +720,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'relatedLot': [u'This field is required.']}], u'location': u'body', u'name': u'lotValues'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': "0" * 32}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': "0" * 32}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -716,7 +729,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'relatedLot': [u'relatedLot should be one of lots']}], u'location': u'body', u'name': u'lotValues'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 5000000}, 'relatedLot': self.lot_id}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 5000000}, 'relatedLot': self.lot_id}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -724,7 +738,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'value': [u'value of bid should be less than value of lot']}], u'location': u'body', u'name': u'lotValues'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500, 'valueAddedTaxIncluded': False}, 'relatedLot': self.lot_id}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500, 'valueAddedTaxIncluded': False}, 'relatedLot': self.lot_id}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -732,7 +747,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'value': [u'valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot']}], u'location': u'body', u'name': u'lotValues'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500, 'currency': "USD"}, 'relatedLot': self.lot_id}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500, 'currency': "USD"}, 'relatedLot': self.lot_id}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -740,7 +756,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'value': [u'currency of bid should be identical to currency of value of lot']}], u'location': u'body', u'name': u'lotValues'},
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': test_tender_ua_data["procuringEntity"], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': test_tender_ua_data["procuringEntity"], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -748,7 +765,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': u"invalid literal for int() with base 10: 'contactPoint'", u'location': u'body', u'name': u'data'},
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -756,7 +774,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [u'All features parameters is required.'], u'location': u'body', u'name': u'parameters'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}], 'parameters': [{"code": "code_item", "value": 0.01}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}], 'parameters': [{"code": "code_item", "value": 0.01}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -764,7 +783,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [u'All features parameters is required.'], u'location': u'body', u'name': u'parameters'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}], 'parameters': [{"code": "code_invalid", "value": 0.01}]}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}], 'parameters': [{"code": "code_invalid", "value": 0.01}]}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -772,7 +792,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'code': [u'code should be one of feature code.']}], u'location': u'body', u'name': u'parameters'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}], 'parameters': [
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}], 'parameters': [
             {"code": "code_item", "value": 0.01},
             {"code": "code_tenderer", "value": 0},
             {"code": "code_lot", "value": 0.01},
@@ -786,7 +807,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 
     def test_create_tender_bidder(self):
         request_path = '/tenders/{}/bids'.format(self.tender_id)
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}], 'parameters': [
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}], 'parameters': [
             {"code": "code_item", "value": 0.01},
             {"code": "code_tenderer", "value": 0.01},
             {"code": "code_lot", "value": 0.01},
@@ -800,7 +822,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 
         self.set_status('complete')
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}], 'parameters': [
+        response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
+                                                              'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.lot_id}], 'parameters': [
             {"code": "code_item", "value": 0.01},
             {"code": "code_tenderer", "value": 0.01},
             {"code": "code_lot", "value": 0.01},
@@ -855,7 +878,9 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"subcontractingDetails": "test",
+                                                                                                                      "value": {"amount": 500}, 'relatedLot': lot_id}]}})
         # switch to active.qualification
         response = self.set_status('active.auction', {"lots": [{"auctionPeriod": {"startDate": None}}], 'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -880,7 +905,8 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
@@ -911,13 +937,16 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 450}, 'relatedLot': lot_id}]}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"subcontractingDetails": "test",
+                                                                                                                      "value": {"amount": 450}, 'relatedLot': lot_id}]}})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 475}, 'relatedLot': lot_id}]}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 475}, 'relatedLot': lot_id}]}})
         # switch to active.auction
         self.set_status('active.auction')
         # get auction info
@@ -1006,7 +1035,8 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
 
             self.app.authorization = ('Basic', ('broker', ''))
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                          {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 450}, 'relatedLot': lot_id}]}})
+                                          {'data': {'selfEligible': True, 'selfQualified': True,
+                                                    'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [{"value": {"amount": 450}, 'relatedLot': lot_id}]}})
             bids_data[response.json['data']['id']] = response.json['access']['token']
 
         response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(tender_id, lot_id, owner_token), {'data': {'value': {'amount': 1000}}})
@@ -1176,10 +1206,13 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         ]})
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
-            {"value": {"amount": 500}, 'relatedLot': lot_id}
-            for lot_id in lots
-        ]}})
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
+                                                {"value": {"amount": 500}, 'relatedLot': lot_id}
+                                                for lot_id in lots
+                                            ]}}
+        )
         # switch to active.qualification
         response = self.set_status('active.auction', {
             "lots": [
@@ -1190,40 +1223,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
-        # # for first lot
-        # lot_id = lots[0]
-        # # cancel lot
-        # self.app.authorization = ('Basic', ('broker', ''))
-        # response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender_id, owner_token), {'data': {
-        #     'reason': 'cancellation reason',
-        #     'status': 'active',
-        #     "cancellationOf": "lot",
-        #     "relatedLot": lot_id
-        # }})
-        # # for second lot
-        # lot_id = lots[1]
-        # # get awards
-        # self.app.authorization = ('Basic', ('broker', ''))
-        # response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
-        # # get pending award
-        # award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == lot_id][0]
-        # # set award as unsuccessful
-        # self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "unsuccessful"}})
-        # # after stand slill period
-        # self.set_status('complete', {'status': 'active.awarded'})
-        # # time travel
-        # tender = self.db.get(tender_id)
-        # for i in tender.get('awards', []):
-        #     i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        # self.db.save(tender)
-        # # check tender status
-        # self.app.authorization = ('Basic', ('chronograph', ''))
-        # response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
-        # # check status
-        # self.app.authorization = ('Basic', ('broker', ''))
-        # response = self.app.get('/tenders/{}'.format(tender_id))
-        # self.assertEqual([i['status'] for i in response.json['data']['lots']], [u'cancelled', u'unsuccessful'])
-        # self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
 
     def test_2lot_1bid_2com_1win(self):
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1249,10 +1249,12 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         ]})
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
-            {"value": {"amount": 500}, 'relatedLot': lot_id}
-            for lot_id in lots
-        ]}})
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
+                                                    {"value": {"amount": 500}, 'relatedLot': lot_id}
+                                                    for lot_id in lots
+                                                ]}})
         # switch to active.qualification
         response = self.set_status('active.auction', {
             "lots": [
@@ -1316,7 +1318,8 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         ]})
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                                                                      'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
             {"value": {"amount": 500}, 'relatedLot': lot_id}
             for lot_id in lots
         ]}})
@@ -1356,7 +1359,8 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         ]})
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                                                                      'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
             {"value": {"amount": 500}, 'relatedLot': lot_id}
             for lot_id in lots
         ]}})
@@ -1370,52 +1374,6 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
-        # # for first lot
-        # lot_id = lots[0]
-        # # get awards
-        # self.app.authorization = ('Basic', ('broker', ''))
-        # response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
-        # # get pending award
-        # award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == lot_id][0]
-        # # set award as active
-        # self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "active"}})
-        # # get contract id
-        # response = self.app.get('/tenders/{}'.format(tender_id))
-        # contract_id = response.json['data']['contracts'][-1]['id']
-        # # after stand slill period
-        # self.set_status('complete', {'status': 'active.awarded'})
-        # # time travel
-        # tender = self.db.get(tender_id)
-        # for i in tender.get('awards', []):
-        #     i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        # self.db.save(tender)
-        # # sign contract
-        # self.app.authorization = ('Basic', ('broker', ''))
-        # self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
-        # # for second lot
-        # lot_id = lots[1]
-        # # get awards
-        # self.app.authorization = ('Basic', ('broker', ''))
-        # response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
-        # # get pending award
-        # award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == lot_id][0]
-        # # set award as unsuccessful
-        # self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "unsuccessful"}})
-        # # after stand slill period
-        # self.set_status('complete', {'status': 'active.awarded'})
-        # # time travel
-        # tender = self.db.get(tender_id)
-        # for i in tender.get('awards', []):
-        #     i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        # self.db.save(tender)
-        # # check tender status
-        # self.app.authorization = ('Basic', ('chronograph', ''))
-        # response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
-        # # check status
-        # self.app.authorization = ('Basic', ('broker', ''))
-        # response = self.app.get('/tenders/{}'.format(tender_id))
-        # self.assertEqual([i['status'] for i in response.json['data']['lots']], [u'complete', u'unsuccessful'])
-        # self.assertEqual(response.json['data']['status'], 'complete')
 
     def test_2lot_2bid_2com_2win(self):
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1442,13 +1400,15 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         ]})
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                                                                      'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
             {"value": {"amount": 500}, 'relatedLot': lot_id}
             for lot_id in lots
         ]}})
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                                                                      'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
             {"value": {"amount": 500}, 'relatedLot': lot_id}
             for lot_id in lots
         ]}})
