@@ -305,8 +305,22 @@ class Complaint(BaseComplaint):
 
 
 class Award(BaseAward):
+    class Options:
+        roles = {
+            'edit': whitelist('status', 'qualified', 'eligible'),
+        }
     complaints = ListType(ModelType(Complaint), default=list())
     items = ListType(ModelType(Item))
+    qualified = BooleanType(default=False)
+    eligible = BooleanType(default=False)
+
+    def validate_qualified(self, data, qualified):
+        if data['status'] == 'active' and not qualified:
+            raise ValidationError(u'This field is required.')
+
+    def validate_eligible(self, data, eligible):
+        if data['status'] == 'active' and not eligible:
+            raise ValidationError(u'This field is required.')
 
 
 class Lot(BaseLot):
