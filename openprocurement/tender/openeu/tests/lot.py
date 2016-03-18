@@ -945,6 +945,13 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
                                       {"data": {'status': 'active'}})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'active')
+
+        response = self.app.get('/tenders/{}?acc_token={}'.format(tender_id, owner_token))
+        self.assertEqual(response.status, '200 OK')
+
+        for bid in response.json['data']['bids']:
+            self.assertEqual(bid['status'], 'active')
+
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
                                        {"data": {"status": "active.pre-qualification.stand-still"}})
         self.assertEqual(response.status, "200 OK")

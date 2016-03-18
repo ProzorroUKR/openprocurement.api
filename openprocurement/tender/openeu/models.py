@@ -276,10 +276,10 @@ class Bid(BaseBid):
     financialDocuments = ListType(ModelType(ConfidentialDocument), default=list())
     eligibilityDocuments = ListType(ModelType(ConfidentialDocument), default=list())
     qualificationDocuments = ListType(ModelType(ConfidentialDocument), default=list())
+    lotValues = ListType(ModelType(LotValue), default=list())
+
     status = StringType(choices=['pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
                         default='pending')
-
-    lotValues = ListType(ModelType(LotValue), default=list())
 
     def serialize(self, role=None):
         if role and role != 'create' and self.status in ['invalid', 'deleted']:
@@ -288,7 +288,7 @@ class Bid(BaseBid):
 
     @serializable(serialized_name="status")
     def serialize_status(self):
-        if self.__parent__.status in ['active.tendering', 'active.pre-qualification', 'cancelled']:
+        if self.__parent__.status in ['active.tendering', 'cancelled']:
             return self.status
         if self.__parent__.lots:
             if not self.lotValues:
