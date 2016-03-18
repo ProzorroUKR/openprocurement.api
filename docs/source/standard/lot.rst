@@ -29,6 +29,12 @@ Schema
 
    Total available tender lot budget. Bids greater then ``value`` will be rejected.
 
+:guarantee:
+    :ref:`Guarantee`
+
+    Bid guarantee
+
+
 :minimalStep:
    :ref:`value`, required
 

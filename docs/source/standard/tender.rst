@@ -54,6 +54,11 @@ Schema
    |ocdsDescription|
    The total estimated value of the procurement.
 
+:guarantee:
+    :ref:`Guarantee`
+
+    Bid guarantee
+
 :items:
    list of :ref:`item` objects, required
 
