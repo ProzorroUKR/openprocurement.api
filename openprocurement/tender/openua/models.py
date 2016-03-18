@@ -37,7 +37,7 @@ edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 
 
 STAND_STILL_TIME = timedelta(days=10)
-COMPLAINT_STAND_STILL_TIME = timedelta(days=3)
+ENQUIRY_STAND_STILL_TIME = timedelta(days=3)
 CLAIM_SUBMIT_TIME = timedelta(days=10)
 COMPLAINT_SUBMIT_TIME = timedelta(days=4)
 TENDER_PERIOD = timedelta(days=15)

@@ -12,6 +12,8 @@ from openprocurement.api.validation import (
     validate_patch_question_data,
 )
 from openprocurement.api.views.question import TenderQuestionResource
+from openprocurement.tender.openua.models import ENQUIRY_STAND_STILL_TIME
+from openprocurement.tender.openua.utils import calculate_business_date
 
 
 @opresource(name='Tender UA Questions',
@@ -58,8 +60,9 @@ class TenderUaQuestionResource(TenderQuestionResource):
             self.request.errors.status = 403
             return
         now = get_now()
-        if now < tender.tenderPeriod.startDate or now > tender.tenderPeriod.endDate:
-            self.request.errors.add('body', 'data', 'Can update question only in tenderPeriod')
+        #TODO business days
+        if now > calculate_business_date(tender.enquiryPeriod.endDate, ENQUIRY_STAND_STILL_TIME):
+            self.request.errors.add('body', 'data', 'Can update question only in enquiryPeriod.stand-still')
             self.request.errors.status = 403
             return
         if apply_patch(self.request, src=self.request.context.serialize()):
