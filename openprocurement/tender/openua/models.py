@@ -26,7 +26,7 @@ from openprocurement.api.models import (
     Administrator_bid_role, Administrator_role, schematics_default_role,
     TZ, get_now, schematics_embedded_role, validate_lots_uniq,
     embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
-    ComplaintModelType, validate_cpv_group, validate_items_uniq
+    ComplaintModelType, validate_cpv_group, validate_items_uniq, Model,
 )
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.utils import (
@@ -37,7 +37,7 @@ edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 
 
 STAND_STILL_TIME = timedelta(days=10)
-COMPLAINT_STAND_STILL_TIME = timedelta(days=3)
+ENQUIRY_STAND_STILL_TIME = timedelta(days=3)
 CLAIM_SUBMIT_TIME = timedelta(days=10)
 COMPLAINT_SUBMIT_TIME = timedelta(days=4)
 TENDER_PERIOD = timedelta(days=15)
@@ -152,6 +152,11 @@ class LotAuctionPeriod(Period):
             decision_dates.append(tender.tenderPeriod.endDate)
             return max(decision_dates).isoformat()
 
+class PeriodEndRequired(Model):
+
+    startDate = IsoDateTimeType()  # The state date for the period.
+    endDate = IsoDateTimeType(required=True)  # The end date for the period.
+
 class PeriodStartEndRequired(Period):
     startDate = IsoDateTimeType(required=True, default=get_now)  # The state date for the period.
     endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
@@ -166,7 +171,7 @@ class Address(BaseAddress):
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
 
-    deliveryDate = ModelType(PeriodStartEndRequired, required=True)
+    deliveryDate = ModelType(PeriodEndRequired, required=True)
     deliveryAddress = ModelType(Address, required=True)
 
 class Contract(BaseContract):
