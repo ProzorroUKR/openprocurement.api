@@ -534,7 +534,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         with open('docs/source/tutorial/confirm-qualification.http', 'w') as self.app.file_obj:
-            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active"}})
+            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
@@ -802,7 +802,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active"}})
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/award-complaint-submission.http', 'w') as self.app.file_obj:
