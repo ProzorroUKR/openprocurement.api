@@ -1,5 +1,6 @@
 from uuid import uuid4
 from datetime import timedelta, time, datetime
+from pyramid.security import Allow
 from zope.interface import implementer
 from schematics.types import StringType, MD5Type
 from schematics.types.compound import ModelType
@@ -415,6 +416,24 @@ class Tender(BaseTender):
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+
+    def __acl__(self):
+        acl = [
+            (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_qualification_complaint')
+            for i in self.bids
+            if i.status in ['active', 'unsuccessful']
+        ]
+        acl.extend([
+            (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_award_complaint')
+            for i in self.bids
+            if i.status == 'active'
+        ])
+        acl.extend([
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_tender'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
+        ])
+        return acl
 
     def initialize(self):
         self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL)))
