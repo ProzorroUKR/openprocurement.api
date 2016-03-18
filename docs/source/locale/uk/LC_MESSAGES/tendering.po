@@ -9,17 +9,17 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-27 14:17+0200\n"
-"PO-Revision-Date: 2016-01-27 14:57+0200\n"
+"PO-Revision-Date: 2016-03-18 17:41+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
-"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.8.5\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Generated-By: Babel 2.2.0\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../../source/tendering.rst:5
 msgid "Tendering"
@@ -37,21 +37,10 @@ msgstr ""
 msgid "Constraints"
 msgstr "Обмеження"
 
-#: ../../source/tendering.rst:16
-msgid "`tenderPeriod` cannot be shorter than 15 days."
-msgstr ""
-"Період подання пропозицій `tenderPeriod` не може бути коротший ніж 15 днів."
-
-#: ../../source/tendering.rst:18
-msgid "`enquiryPeriod` always ends 3 days before tenderPeriod ends."
-msgstr ""
-"Період уточнень `enquiryPeriod` завжди закінчується за 3 дні до закінчення "
-"періоду подання пропозицій."
-
 #: ../../source/tendering.rst:20
 msgid ""
-"If tender conditions are modified with less than 7 days left to `tenderPeriod."
-"endDate`, it has to be extended to meet the constraint."
+"If tender conditions are modified with less than 7 days left to "
+"`tenderPeriod.endDate`, it has to be extended to meet the constraint."
 msgstr ""
 "Якщо умови закупівлі змінюються менше ніж за 7 днів до завершення періоду "
 "подання пропозицій `tenderPeriod.endDate`, цей період треба продовжити на 7 "
@@ -66,8 +55,8 @@ msgid ""
 "Claims can be submitted only if there are more than 10 days left in "
 "tenderPeriod."
 msgstr ""
-"Вимоги можна подавати не пізніше ніж за 10 днів до завершення періоду подання "
-"пропозицій."
+"Вимоги можна подавати не пізніше ніж за 10 днів до завершення періоду "
+"подання пропозицій."
 
 #: ../../source/tendering.rst:29
 msgid ""
@@ -76,3 +65,23 @@ msgid ""
 msgstr ""
 "Скарги можна подавати не пізніше ніж за 4 дні до завершення періоду подання "
 "пропозицій."
+
+#: ../../source/tendering.rst:16
+msgid "`tenderPeriod` cannot be shorter than 5 days."
+msgstr ""
+"Період подання пропозицій `tenderPeriod` не може бути коротший ніж 5 днів."
+
+#: ../../source/tendering.rst:18
+msgid "`enquiryPeriod` always ends 2 days before tenderPeriod ends."
+msgstr ""
+"Період уточнень `enquiryPeriod` завжди закінчується за 2 дні до закінчення "
+"періоду подання пропозицій."
+
+#~ msgid "`tenderPeriod` cannot be shorter than 15 days."
+#~ msgstr ""
+#~ "Період подання пропозицій `tenderPeriod` не може бути коротший ніж 15 днів."
+
+#~ msgid "`enquiryPeriod` always ends 3 days before tenderPeriod ends."
+#~ msgstr ""
+#~ "Період уточнень `enquiryPeriod` завжди закінчується за 3 дні до закінчення "
+#~ "періоду подання пропозицій."
