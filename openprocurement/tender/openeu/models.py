@@ -236,9 +236,12 @@ class Lot(BaseLot):
 class LotValue(BaseLotValue):
     class Options:
         roles = {
+            'create': whitelist('value', 'relatedLot', 'subcontractingDetails'),
+            'edit': whitelist('value', 'relatedLot', 'subcontractingDetails'),
             'auction_view': whitelist('value', 'date', 'relatedLot', 'participationUrl', 'status',),
         }
 
+    subcontractingDetails = StringType()
     status = StringType(choices=['pending', 'active', 'unsuccessful'],
                         default='pending')
 
@@ -286,6 +289,7 @@ class Bid(BaseBid):
     lotValues = ListType(ModelType(LotValue), default=list())
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
+    subcontractingDetails = StringType()
     status = StringType(choices=['pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
                         default='pending')
 
