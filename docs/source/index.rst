@@ -6,7 +6,7 @@
 .. title:: OpenProcurement tender openuadefense
 
 Welcome to openprocurement.tender.openuadefense's documentation!
-=========================================================
+================================================================
 
 Please report any problems or suggestions for improvement either via the
 `mailing list <http://groups.google.com/group/open-procurement-general>`_ or

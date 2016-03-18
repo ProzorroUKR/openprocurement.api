@@ -45,7 +45,7 @@ body of response reveals the information about the created tender: its internal
 `dateModified` datestamp stating the moment in time when tender was last
 modified.  Note that tender is created with `active.tendering` status.
 
-The peculiarity of the Open UA procedure is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdUA.defense``.
+The peculiarity of the Defense open tender is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdUA.defense``.
 Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically.
 
 Let's access the URL of the created object (the `Location` header of the response):
@@ -205,7 +205,7 @@ Bidder should confirm bid proposal:
 .. include:: tutorial/bidder-activate-after-changing-tender.http
    :code:
 
-Open UA procedure demands at least two bidders, so there should be at least two bid proposals registered to move to auction stage:
+Defense open tender demands at least two bidders, so there should be at least two bid proposals registered to move to auction stage:
 
 .. include:: tutorial/register-2nd-bidder.http
    :code:
@@ -242,7 +242,7 @@ Qualification commission registers its decision via the following call:
 Uploading contract documentation
 --------------------------------
 
-You can upload contract documents for the OpenUA procedure.
+You can upload contract documents for the Defense open tender procedure.
 
 Let's upload contract document:
 

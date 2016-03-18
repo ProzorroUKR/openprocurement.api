@@ -13,9 +13,9 @@ the following diagram:
 Constraints
 -----------
 
- - `tenderPeriod` cannot be shorter than 15 days.
+ - `tenderPeriod` cannot be shorter than 5 days.
 
- - `enquiryPeriod` always ends 3 days before tenderPeriod ends.
+ - `enquiryPeriod` always ends 2 days before tenderPeriod ends.
 
  - If tender conditions are modified with less than 7 days left to
    `tenderPeriod.endDate`, it has to be extended to meet the constraint.

@@ -1,10 +1,8 @@
 Overview
 ========
 
-The Open Procurement Open UA procedure is plugin to `Open Procurement API
-<http://api-docs.openprocurement.org/>`_ software.  It requires 0.12 version
-of `openprocurement.api package
-<https://github.com/openprocurement/openprocurement.api>`_ to work.
+The Defense open tender is plugin to `Open Procurement API
+<http://api-docs.openprocurement.org/>`_ software.
 
 REST-ful interface to plugin is in line with core software design principles. 
 
@@ -18,14 +16,13 @@ This plugin conventions follow the `Open Procurement API conventions
 Main responsibilities
 ---------------------
 
-Open Procurement Open UA procedure is dedicated to Open Tender procedure for
-Ukrainian above threshold procurements.  The code for that type of procedure
+The Defense open tender is a procedure dedicated to Ukrainian above threshold procurements for defense purposes.  The code for this type of procedure
 is `aboveThresholdUA.defense`.
 
 Business logic
 --------------
 
-The approach to Open UA procedure is different from core Open Procurement API
+The approach to Defense open tender is different from core Open Procurement API
 procedure (that is used for below threshold procurements) mainly in
 :ref:`stage that precedes <tendering>` auction.  Differences are in the
 following aspects:
@@ -52,10 +49,10 @@ Project status
 
 The project is in active development and has pilot installations.
 
-The source repository for this project is on GitHub: https://github.com/openprocurement/openprocurement.tender.openua
+The source repository for this project is on GitHub: https://github.com/openprocurement/openprocurement.tender.openuadefense
 
 You can leave feedback by raising a new issue on the `issue tracker
-<https://github.com/openprocurement/openprocurement.tender.openua/issues>`_ (GitHub
+<https://github.com/openprocurement/openprocurement.tender.openuadefense/issues>`_ (GitHub
 registration necessary).  For general discussion use `Open Procurement
 General <https://groups.google.com/group/open-procurement-general>`_
 maillist.
@@ -70,26 +67,10 @@ maillist <https://groups.google.com/group/open-procurement-api>`_.
 Change log
 ----------
 
-0.2
-~~~
-Released: unreleased
-
- New features:
-
- - Above Threshold :ref:`Complaint workflow <complaint_workflow>`
-
- Modifications:
-
 0.1
 ~~~
 
-Released: 2016-01-25
-
- New features:
-
- - no `active.enquiries` status
- - Bid invalidation
- - Open Tender UA validation rules
+Released: not released yet
 
 Next steps
 ----------
