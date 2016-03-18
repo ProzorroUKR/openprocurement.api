@@ -124,6 +124,7 @@ bid = {
         "value": {
             "amount": 500
         },
+        "subcontractingDetails": "ДКП «Орфей», Україна",
         'selfEligible': True,
         'selfQualified': True,
     }
@@ -1282,14 +1283,18 @@ class TenderResourceTest(BaseTenderWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         with open('docs/source/multiple_lots_tutorial/bid-lot1.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                {'data': {'tenderers': bid['data']["tenderers"], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id1}]}})
+                {'data': {'selfEligible': True, 'selfQualified': True,
+                          'tenderers': bid['data']["tenderers"], 'lotValues': [{"subcontractingDetails": "ДКП «Орфей», Україна",
+                                                                                "value": {"amount": 500}, 'relatedLot': lot_id1}]}})
             self.assertEqual(response.status, '201 Created')
             bid1_token = response.json['access']['token']
             bid1_id = response.json['data']['id']
 
         with open('docs/source/multiple_lots_tutorial/bid-lot2.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                {'data': {'tenderers': bid2['data']["tenderers"], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id1}, {"value": {"amount": 500}, 'relatedLot': lot_id2}]}})
+                {'data': {'selfEligible': True, 'selfQualified': True,
+                          'tenderers': bid2['data']["tenderers"],
+                          'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id1}, {"subcontractingDetails": "ДКП «Укр Прінт», Україна", "value": {"amount": 500}, 'relatedLot': lot_id2}]}})
             self.assertEqual(response.status, '201 Created')
             bid2_id = response.json['data']['id']
             bid2_token = response.json['access']['token']
@@ -1304,7 +1309,8 @@ class TenderResourceTest(BaseTenderWebTest):
 
         with open('docs/source/multiple_lots_tutorial/bid-lot1-update-view.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid1_id, bid1_token),
-                                           {'data': {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id1}], 'status': 'pending'}})
+                                           {'data': {'lotValues': [{"subcontractingDetails": "ДКП «Орфей»",
+                                                                    "value": {"amount": 500}, 'relatedLot': lot_id1}], 'status': 'pending'}})
             self.assertEqual(response.status, '200 OK')
 
 

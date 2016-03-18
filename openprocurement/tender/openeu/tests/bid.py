@@ -191,6 +191,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
     def test_patch_tender_bidder(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
             self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       "subcontractingDetails": "test",
                                        'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -207,7 +208,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['guarantee']['amount'], 12)
         self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
 
-        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"guarantee": {"currency": "USD"}}})
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"subcontractingDetails": "test1",
+                                                                                                                                  "guarantee": {"currency": "USD"}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
 
