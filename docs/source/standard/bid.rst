@@ -37,6 +37,21 @@ Schema
     * `currency` should either be absent or match `Tender.value.currency`
     * `valueAddedTaxIncluded` should either be absent or match `Tender.value.valueAddedTaxIncluded`
 
+:selfEligible':
+    True, required
+
+    Confirms compliance of eligibility criteria set by the customer in the tendering documents
+
+:selfQualified:
+    True, required
+
+    Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On public procurement"
+
+:subcontractingDetails:
+    string
+
+    When submitting proposals, participant can fill in the text field of any length about subcontractor.
+
 :documents:
     List of :ref:`Document` objects
 
@@ -93,6 +108,11 @@ Schema
 
 :date:
     string, :ref:`date`, auto-generated
+
+:subcontractingDetails:
+    string
+
+    When submitting proposals, participant can fill in the text field of any length about subcontractor.
 
 :participationUrl:
     url

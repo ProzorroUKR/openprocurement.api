@@ -57,6 +57,17 @@ test_tender_ua_data = {
         }
       ],
       "description": "Послуги шкільних їдалень",
+      "deliveryDate": {
+            "startDate": (get_now() + timedelta(days=20)).isoformat(),
+            "endDate": (get_now() + timedelta(days=50)).isoformat()
+      },
+      "deliveryAddress": {
+            "countryName": u"Україна",
+            "postalCode": "79000",
+            "region": u"м. Київ",
+            "locality": u"м. Київ",
+            "streetAddress": u"вул. Банкова 1"
+      },
       "classification": {
         "scheme": "CPV",
         "id": "37810000-9",
@@ -95,9 +106,11 @@ bid = {
                 "name": "ДКП «Школяр»"
             }
         ],
+        "subcontractingDetails": "ДКП «книга», Україна, м. Львів, вул. Островського, 33",
         "value": {
             "amount": 500
-        }
+        },
+        'selfEligible': True, 'selfQualified': True,
     }
 }
 
@@ -127,7 +140,8 @@ bid2 = {
         ],
         "value": {
             "amount": 499
-        }
+        },
+        'selfEligible': True, 'selfQualified': True,
     }
 }
 

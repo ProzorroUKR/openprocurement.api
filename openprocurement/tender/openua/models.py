@@ -26,7 +26,7 @@ from openprocurement.api.models import (
     Administrator_bid_role, Administrator_role, schematics_default_role,
     TZ, get_now, schematics_embedded_role, validate_lots_uniq,
     embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
-    ComplaintModelType, validate_cpv_group, validate_items_uniq
+    ComplaintModelType, validate_cpv_group, validate_items_uniq, Model,
 )
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.utils import (
@@ -37,7 +37,7 @@ edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 
 
 STAND_STILL_TIME = timedelta(days=10)
-COMPLAINT_STAND_STILL_TIME = timedelta(days=3)
+ENQUIRY_STAND_STILL_TIME = timedelta(days=3)
 CLAIM_SUBMIT_TIME = timedelta(days=10)
 COMPLAINT_SUBMIT_TIME = timedelta(days=4)
 TENDER_PERIOD = timedelta(days=15)
@@ -152,6 +152,11 @@ class LotAuctionPeriod(Period):
             decision_dates.append(tender.tenderPeriod.endDate)
             return max(decision_dates).isoformat()
 
+class PeriodEndRequired(Model):
+
+    startDate = IsoDateTimeType()  # The state date for the period.
+    endDate = IsoDateTimeType(required=True)  # The end date for the period.
+
 class PeriodStartEndRequired(Period):
     startDate = IsoDateTimeType(required=True, default=get_now)  # The state date for the period.
     endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
@@ -166,7 +171,7 @@ class Address(BaseAddress):
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
 
-    deliveryDate = ModelType(PeriodStartEndRequired, required=True)
+    deliveryDate = ModelType(PeriodEndRequired, required=True)
     deliveryAddress = ModelType(Address, required=True)
 
 class Contract(BaseContract):
@@ -174,6 +179,17 @@ class Contract(BaseContract):
     items = ListType(ModelType(Item))
 
 class LotValue(BaseLotValue):
+    class Options:
+        roles = {
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+            'create': whitelist('value', 'relatedLot', 'subcontractingDetails'),
+            'edit': whitelist('value', 'relatedLot', 'subcontractingDetails'),
+            'auction_view': whitelist('value', 'date', 'relatedLot', 'participationUrl'),
+            'auction_post': whitelist('value', 'date', 'relatedLot'),
+            'auction_patch': whitelist('participationUrl', 'relatedLot'),
+        }
+    subcontractingDetails = StringType()
 
     def validate_value(self, data, value):
         if value and isinstance(data['__parent__'], Bid) and ( data['__parent__'].status not in ('invalid')) and data['relatedLot']:
@@ -196,8 +212,8 @@ class Bid(BaseBid):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues'),
-            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status'),
+            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
+            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'subcontractingDetails'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
@@ -214,7 +230,10 @@ class Bid(BaseBid):
         }
 
     lotValues = ListType(ModelType(LotValue), default=list())
+    subcontractingDetails = StringType()
     status = StringType(choices=['active', 'invalid', 'deleted'], default='active')
+    selfQualified = BooleanType(required=True, choices=[True])
+    selfEligible = BooleanType(required=True, choices=[True])
 
     def serialize(self, role=None):
         if role and self.status in ['invalid', 'deleted']:
@@ -298,8 +317,22 @@ class Complaint(BaseComplaint):
 
 
 class Award(BaseAward):
+    class Options:
+        roles = {
+            'edit': whitelist('status', 'qualified', 'eligible'),
+        }
     complaints = ListType(ModelType(Complaint), default=list())
     items = ListType(ModelType(Item))
+    qualified = BooleanType(default=False)
+    eligible = BooleanType(default=False)
+
+    def validate_qualified(self, data, qualified):
+        if data['status'] == 'active' and not qualified:
+            raise ValidationError(u'This field is required.')
+
+    def validate_eligible(self, data, eligible):
+        if data['status'] == 'active' and not eligible:
+            raise ValidationError(u'This field is required.')
 
 
 class Lot(BaseLot):
