@@ -92,6 +92,11 @@ That is why tenderPeriod has to be extended by 7 days.
 .. include:: tutorial/update-tender-after-enqiery-with-update-periods.http
    :code:
 
+Tender owner can set bid guarantee:
+
+.. include:: tutorial/set-bid-guarantee.http
+   :code:
+
 
 .. index:: Document
 
@@ -174,11 +179,6 @@ Tender status ``active.tendering`` allows registration of bids.
 Bidder can register a bid:
 
 .. include:: tutorial/register-bidder.http
-   :code:
-
-Bidder can set bid guarantee:
-
-.. include:: tutorial/set-bid-guarantee.http
    :code:
 
 Proposal Uploading
