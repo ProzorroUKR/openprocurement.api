@@ -179,7 +179,6 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
     def test_patch_tender_bidder(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
             self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                       "subcontractingDetails": "test",
                                        'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')

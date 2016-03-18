@@ -347,6 +347,12 @@ class Qualification(Model):
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
         }
+    # title = StringType()
+    # title_en = StringType()
+    # title_ru = StringType()
+    # description = StringType()
+    # description_en = StringType()
+    # description_ru = StringType()
 
     title = StringType()
     title_en = StringType()
@@ -371,6 +377,12 @@ class Qualification(Model):
     def validate_eligible(self, data, eligible):
         if data['status'] == 'active' and not eligible:
             raise ValidationError(u'This field is required.')
+
+    # qualified = BooleanType(default=False)
+    # eligible = BooleanType(default=False)
+    #
+    # def validate_qualified(self, data, value):
+    #     import pdb; pdb.set_trace()  # debug ktarasz
 
     def validate_lotID(self, data, lotID):
         if isinstance(data['__parent__'], Model):
