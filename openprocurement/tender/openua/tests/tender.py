@@ -1051,7 +1051,8 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
 
         bid_id = self.bid_id = response.json['data']['id']
 
@@ -1075,7 +1076,8 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
         # switch to active.qualification
         self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -1098,13 +1100,15 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 450}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 450}}})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 475}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 475}}})
         # switch to active.auction
         self.set_status('active.auction')
 

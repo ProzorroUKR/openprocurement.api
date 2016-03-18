@@ -97,7 +97,8 @@ bid = {
         ],
         "value": {
             "amount": 500
-        }
+        },
+        'selfEligible': True, 'selfQualified': True,
     }
 }
 
@@ -127,7 +128,8 @@ bid2 = {
         ],
         "value": {
             "amount": 499
-        }
+        },
+        'selfEligible': True, 'selfQualified': True,
     }
 }
 

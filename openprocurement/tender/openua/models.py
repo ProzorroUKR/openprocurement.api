@@ -196,7 +196,7 @@ class Bid(BaseBid):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues'),
+            'create': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues', 'selfQualified', 'selfEligible'),
             'edit': whitelist('value', 'guarantee', 'tenderers', 'parameters', 'lotValues', 'status'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
@@ -215,6 +215,8 @@ class Bid(BaseBid):
 
     lotValues = ListType(ModelType(LotValue), default=list())
     status = StringType(choices=['active', 'invalid', 'deleted'], default='active')
+    selfQualified = BooleanType(required=True, choices=[True])
+    selfEligible = BooleanType(required=True, choices=[True])
 
     def serialize(self, role=None):
         if role and self.status in ['invalid', 'deleted']:
