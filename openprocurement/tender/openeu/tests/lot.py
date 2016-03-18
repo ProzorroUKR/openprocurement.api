@@ -139,7 +139,7 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
 
         lot2 = deepcopy(test_lots[0])
         lot2['guarantee'] = {"amount": 100500, "currency": "USD"}
-        response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': lot2})
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token), {'data': lot2})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         data = response.json['data']
@@ -168,13 +168,13 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["title"], "new title")
 
-        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"guarantee": {"amount": 12}}})
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"guarantee": {"amount": 12}}})
         self.assertEqual(response.status, '200 OK')
         self.assertIn('guarantee', response.json['data'])
         self.assertEqual(response.json['data']['guarantee']['amount'], 12)
         self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
 
-        response = self.app.patch_json('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']), {"data": {"guarantee": {"currency": "USD"}}})
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"guarantee": {"currency": "USD"}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
 
