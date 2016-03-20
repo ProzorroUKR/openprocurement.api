@@ -24,6 +24,7 @@ from openprocurement.planning.api.utils import (
     plan_serialize,
     apply_patch,
     opresource,
+    APIResource
 )
 from openprocurement.planning.api.validation import (
     validate_patch_plan_data,
@@ -50,12 +51,7 @@ FEED = {
 @opresource(name='Plans',
             path='/plans',
             description="Planing http://ocds.open-contracting.org/standard/r/1__0__0/en/schema/reference/#planning")
-class PlansResource(object):
-    def __init__(self, request, context):
-        self.request = request
-        self.server = request.registry.couchdb_server
-        self.db = request.registry.db
-        self.server_id = request.registry.server_id
+class PlansResource(APIResource):
 
     @json_view(permission='view_plan')
     def get(self):
@@ -362,10 +358,7 @@ class PlansResource(object):
 @opresource(name='Plan',
             path='/plans/{plan_id}',
             description="Planing http://ocds.open-contracting.org/standard/r/1__0__0/en/schema/reference/#planning")
-class PlanResource(object):
-    def __init__(self, request, context):
-        self.request = request
-        self.db = request.registry.db
+class PlanResource(APIResource):
 
     @json_view(permission='view_plan')
     def get(self):

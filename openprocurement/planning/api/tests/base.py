@@ -4,7 +4,6 @@ import webtest
 import os
 from copy import deepcopy
 from datetime import datetime, timedelta
-from uuid import uuid4
 
 from openprocurement.api.utils import VERSION
 
@@ -149,3 +148,22 @@ class BaseWebTest(unittest.TestCase):
     def tearDown(self):
         del self.couchdb_server[self.db.name]
 
+
+class BasePlanWebTest(BaseWebTest):
+    initial_data = test_plan_data
+
+    def setUp(self):
+        super(BasePlanWebTest, self).setUp()
+        self.create_plan()
+
+    def create_plan(self):
+        data = deepcopy(self.initial_data)
+
+        response = self.app.post_json('/plans', {'data': data})
+        plan = response.json['data']
+        self.plan_token = response.json['access']['token']
+        self.plan_id = plan['id']
+
+    def tearDown(self):
+        del self.db[self.plan_id]
+        super(BasePlanWebTest, self).tearDown()

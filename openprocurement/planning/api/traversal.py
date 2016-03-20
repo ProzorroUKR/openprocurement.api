@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.traversal import get_item
 
 from pyramid.security import (
     ALL_PERMISSIONS,
@@ -22,7 +23,6 @@ class Root(object):
         self.request = request
         self.db = request.registry.db
 
-
 def factory(request):
     request.validated['plan_src'] = {}
     root = Root(request)
@@ -34,6 +34,7 @@ def factory(request):
     request.validated['plan'] = plan
     if request.method != 'GET':
         request.validated['plan_src'] = plan.serialize('plain')
-
+    if request.matchdict.get('document_id'):
+        return get_item(plan, 'document', request)
     request.validated['id'] = request.matchdict['plan_id']
     return plan

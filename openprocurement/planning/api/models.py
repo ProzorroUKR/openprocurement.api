@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
+import os
 from uuid import uuid4
 from couchdb_schematics.document import SchematicsDocument
 from schematics.exceptions import ValidationError
 from openprocurement.api.models import Model, Period, Revision
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier
-from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
-from openprocurement.api.models import validate_cpv_group, validate_items_uniq, validate_dkpp
+from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType, MD5Type
+from openprocurement.api.models import validate_cpv_group, validate_items_uniq, validate_dkpp, get_now
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
-from schematics.types import StringType, IntType, FloatType
-from schematics.types.compound import ModelType
+from schematics.types import StringType, IntType, FloatType, BaseType
+from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer, Interface
 from itertools import chain
@@ -68,6 +69,47 @@ class PlanOrganization(Model):
     name_ru = StringType()
     identifier = ModelType(Identifier, required=True)
 
+class Document(Model):
+    class Options:
+        roles = {
+            'edit': blacklist('id', 'url', 'datePublished', 'dateModified', ''),
+            'embedded': schematics_embedded_role,
+            'view': (blacklist('revisions') + schematics_default_role),
+            'revisions': whitelist('url', 'dateModified'),
+        }
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    documentType = StringType()
+    title = StringType()  # A title of the document.
+    title_en = StringType()
+    title_ru = StringType()
+    description = StringType()  # A description of the document.
+    description_en = StringType()
+    description_ru = StringType()
+    format = StringType(regex='^[-\w]+/[-\.\w\+]+$')
+    url = StringType()  # Link to the document or attachment.
+    datePublished = IsoDateTimeType(default=get_now)
+    dateModified = IsoDateTimeType(default=get_now)  # Date that the document was last dateModified
+    language = StringType()
+    documentOf = StringType(required=True, choices=['tender', 'item', 'lot'], default='tender')
+    relatedItem = MD5Type()
+    author = StringType()
+
+    def import_data(self, raw_data, **kw):
+        """
+        Converts and imports the raw data into the instance of the model
+        according to the fields in the model.
+        :param raw_data:
+            The data to be imported.
+        """
+        data = self.convert(raw_data, **kw)
+        del_keys = [k for k in data.keys() if data[k] == getattr(self, k)]
+        for k in del_keys:
+            del data[k]
+
+        self._data.update(data)
+        return self
+
 PROCEDURES = {
   '': ('',),
   'open': ('belowThreshold', 'aboveThresholdUA', 'aboveThresholdEU'),
@@ -86,10 +128,10 @@ class PlanTender(Model):
 
 
 # roles
-plain_role = (blacklist('revisions', 'dateModified') + schematics_embedded_role)
-create_role = (blacklist('owner_token', 'owner', 'revisions', 'dateModified', 'planID', 'doc_id', '_attachments') + schematics_embedded_role)
+plain_role = (blacklist('_attachments', 'rev isions', 'dateModified') + schematics_embedded_role)
+create_role = (blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'planID', 'doc_id', '_attachments') + schematics_embedded_role)
 edit_role = (
-    blacklist('owner_token', 'owner', 'revisions', 'dateModified', 'doc_id', 'planID', 'mode', '_attachments') + schematics_embedded_role)
+    blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'doc_id', 'planID', 'mode', '_attachments') + schematics_embedded_role)
 view_role = (blacklist('owner', 'owner_token', '_attachments', 'revisions') + schematics_embedded_role)
 listing_role = whitelist('dateModified', 'doc_id')
 Administrator_role = whitelist('status', 'mode', 'procuringEntity')
@@ -144,9 +186,13 @@ class Plan(SchematicsDocument, Model):
     # additionalClassifications[0]:description
     additionalClassifications = ListType(ModelType(Classification), default=list(), required=False)
 
+    documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
+
     planID = StringType()
     mode = StringType(choices=['test'])  # flag for test data ?
     items = ListType(ModelType(PlanItem), required=False, validators=[validate_cpv_group, validate_items_uniq])
+
+    _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     dateModified = IsoDateTimeType()
     owner_token = StringType()
     owner = StringType()
@@ -162,6 +208,7 @@ class Plan(SchematicsDocument, Model):
         ]
         acl.extend([
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_plan'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_plan_documents'),
         ])
         return acl
 
