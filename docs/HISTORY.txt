@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0.1 (2016-03-21)
+------------------
+
+- added documents workflow to plan model.
+
 1.0.0.dev0 (2015-12-22)
 ------------------
 
