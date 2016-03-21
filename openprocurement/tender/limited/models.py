@@ -5,6 +5,7 @@ from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, BaseType, MD5Type
 from schematics.types.compound import ModelType, ListType, DictType
 from schematics.types.serializable import serializable
+from schematics.exceptions import ValidationError
 from openprocurement.api.models import (
     plain_role, view_role, create_role, edit_role, enquiries_role, listing_role,
     Administrator_role, schematics_default_role, schematics_embedded_role,
@@ -18,9 +19,17 @@ from openprocurement.api.models import validate_cpv_group, validate_items_uniq
 from openprocurement.api.models import get_now
 from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import ITender
+from openprocurement.api.models import Contract as BaseContract
 from openprocurement.tender.openua.models import Complaint
-from openprocurement.tender.openua.models import Item, Contract
+from openprocurement.tender.openua.models import Item
 
+
+class Contract(BaseContract):
+    items = ListType(ModelType(Item))
+
+    def validate_dateSigned(self, data, value):
+        if value and value > get_now():
+            raise ValidationError(u"Contract signature date can't be in the future")
 
 class Award(Model):
     """ An award for the given procurement. There may be more than one award
@@ -174,6 +183,8 @@ class Tender(SchematicsDocument, Model):
 
 ReportingTender = Tender
 
+class Contract(BaseContract):
+    items = ListType(ModelType(Item))
 
 @implementer(ITender)
 class Tender(ReportingTender):
