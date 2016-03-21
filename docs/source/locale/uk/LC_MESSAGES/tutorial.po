@@ -1,10 +1,10 @@
-#
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-27 13:38+0200\n"
-"PO-Revision-Date: 2016-03-17 10:37+0200\n"
+"PO-Revision-Date: 2016-03-21 15:32+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -144,11 +144,11 @@ msgstr ""
 msgid "That is why tenderPeriod has to be extended by 7 days."
 msgstr "Ось чому потрібно продовжити період подання пропозицій на 7 днів."
 
-#: ../../source/tutorial.rst:99
+#: ../../source/tutorial.rst:104
 msgid "Uploading documentation"
 msgstr "Завантаження документів"
 
-#: ../../source/tutorial.rst:101
+#: ../../source/tutorial.rst:106
 msgid ""
 "Procuring entity can upload PDF files into the created tender. Uploading "
 "should follow the :ref:`upload` rules."
@@ -156,7 +156,7 @@ msgstr ""
 "Замовник може завантажити PDF файл у створену закупівлю. Завантаження "
 "повинно відбуватись згідно правил :ref:`upload`."
 
-#: ../../source/tutorial.rst:107
+#: ../../source/tutorial.rst:112
 msgid ""
 "`201 Created` response code and `Location` header confirm document creation."
 " We can additionally query the `documents` collection API endpoint to "
@@ -166,7 +166,7 @@ msgstr ""
 "документ було створено. Додатково можна зробити запит точки входу API "
 "колекції `документів`, щоб підтвердити дію:"
 
-#: ../../source/tutorial.rst:114
+#: ../../source/tutorial.rst:119
 msgid ""
 "The single array element describes the uploaded document. We can upload more"
 " documents:"
@@ -174,11 +174,11 @@ msgstr ""
 "Один елемент масиву описує завантажений документ. Ми можемо завантажити "
 "більше документів:"
 
-#: ../../source/tutorial.rst:119
+#: ../../source/tutorial.rst:124
 msgid "And again we can confirm that there are two documents uploaded."
 msgstr "І знову можна перевірити, що є два завантажених документа."
 
-#: ../../source/tutorial.rst:124
+#: ../../source/tutorial.rst:129
 msgid ""
 "In case we made an error, we can reupload the document over the older "
 "version:"
@@ -186,15 +186,15 @@ msgstr ""
 "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої "
 "версії:"
 
-#: ../../source/tutorial.rst:129
+#: ../../source/tutorial.rst:134
 msgid "And we can see that it is overriding the original version:"
 msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
 
-#: ../../source/tutorial.rst:138
+#: ../../source/tutorial.rst:143
 msgid "Enquiries"
 msgstr "Уточнення і запитання"
 
-#: ../../source/tutorial.rst:140
+#: ../../source/tutorial.rst:145
 msgid ""
 "When tender has ``active.tendering`` status and "
 "``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can "
@@ -205,33 +205,33 @@ msgstr ""
 "зацікавлені учасники можуть задавати питання чи просити уточнень умов "
 "закупівлі:"
 
-#: ../../source/tutorial.rst:145
+#: ../../source/tutorial.rst:150
 msgid "Procuring entity can answer them:"
 msgstr "Замовник може відповісти на них:"
 
-#: ../../source/tutorial.rst:150
+#: ../../source/tutorial.rst:155
 msgid "One can retrieve either questions list:"
 msgstr "Можна отримати список запитань:"
 
-#: ../../source/tutorial.rst:155
+#: ../../source/tutorial.rst:160
 msgid "or individual answer:"
 msgstr "або окрему відповідь:"
 
-#: ../../source/tutorial.rst:161
+#: ../../source/tutorial.rst:166
 msgid "Enquiries can be made only during ``Tender.enqueryPeriod``"
 msgstr ""
 "Запитання можна задавати лише протягом періоду уточнень "
 "``Tender.enqueryPeriod``."
 
-#: ../../source/tutorial.rst:170
+#: ../../source/tutorial.rst:175
 msgid "Registering bid"
 msgstr "Реєстрація пропозиції"
 
-#: ../../source/tutorial.rst:172
+#: ../../source/tutorial.rst:177
 msgid "Tender status ``active.tendering`` allows registration of bids."
 msgstr "Статус закупівлі ``active.tendering`` дозволяє подання пропозицій."
 
-#: ../../source/tutorial.rst:174
+#: ../../source/tutorial.rst:179
 msgid "Bidder can register a bid:"
 msgstr "Учасник може зареєструвати цінову пропозицію:"
 
@@ -468,21 +468,34 @@ msgstr ""
 msgid "Setting contract validity period"
 msgstr "Встановлення терміну дії угоди"
 
-#: ../../source/tutorial.rst:179
-msgid "Bidder can set bid guarantee:"
-msgstr "Учасник може встановити забезпечення тендерної пропозиції:"
+#: ../../source/tutorial.rst:321
+msgid "You can change ``reasonType`` value to `unsuccessful`."
+msgstr "Ви можете виправити тип на `unsuccessful` (торги не відбулися)."
 
 #: ../../source/tutorial.rst:319
 msgid ""
-"There are two possible types of cancellation reason - auction was "
-"`cancelled` or `unsuccessful`. By default ``reasonType`` value is "
-"`cancelled`."
+"There are two possible types of cancellation reason - tender was `cancelled`"
+" or `unsuccessful`. By default ``reasonType`` value is `cancelled`."
 msgstr ""
 "При скасуванні, замовник має визначити один з двох типів ``reasonType``: "
 "торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За "
 "замовчуванням, значення ``reasonType`` рівне `cancelled`."
 
-#: ../../source/tutorial.rst:321
-msgid "You can change ``reasonType`` value to `unsuccessful`."
-msgstr "Ви можете виправити тип на `unsuccessful` (торги не відбулися)."
+#: ../../source/tutorial.rst:95
+msgid "Procuring entity can set bid guarantee:"
+msgstr "Замовник може встановити забезпечення тендерної пропозиції:"
 
+#~ msgid "Tender owner can set bid guarantee:"
+#~ msgstr ""
+
+#~ msgid "Bidder can set bid guarantee:"
+#~ msgstr "Учасник може встановити забезпечення тендерної пропозиції:"
+
+#~ msgid ""
+#~ "There are two possible types of cancellation reason - auction was "
+#~ "`cancelled` or `unsuccessful`. By default ``reasonType`` value is "
+#~ "`cancelled`."
+#~ msgstr ""
+#~ "При скасуванні, замовник має визначити один з двох типів ``reasonType``: "
+#~ "торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За "
+#~ "замовчуванням, значення ``reasonType`` рівне `cancelled`."
