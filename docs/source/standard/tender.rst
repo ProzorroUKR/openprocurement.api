@@ -28,7 +28,7 @@ Schema
 :tenderID:
    string, auto-generated, read-only
 
-   The tender identifier to refer tender to in "paper" documentation.
+   The tender identifier that can be used to find tender in "paper" documentation.
 
    |ocdsDescription|
    TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
@@ -133,20 +133,32 @@ Schema
 :cause:
    string, required for **negotiation** procedure/ optional for **negotiation.quick** procedure
     
-   Causes for using negotiation or negotiation.quick procedures.
+   Causes for using negotiation or negotiation.quick procedures. For more details see Article 35 of the Law of Ukraine "On Public Procurement".
 
        Possible values for **negotiation** procedure:
         
    * `artContestIP`
+   Purchase of art or intellectual property
+
    * `noCompetition`
+   Lack of competition
+
    * `twiceUnsuccessful`
+   Two tenders have already been cancelled due to lack of participants
+
    * `additionalPurchase`
+   Need to use the same supplier for unification, standardization, etc.
+
    * `additionalConstruction`
+   Need of additional construction works
+
    * `stateLegalServices`
+   Purchase of legal services connected with protection of rights and interests of Ukraine
 
     Possible values for **negotiation.quick** procedure:
 
    * `quick`
+   Procurement is urgent
     
 :causeDescription:
    string, required for **negotiation** and **negotiation.quick** procedures

@@ -264,7 +264,7 @@ You should pass `reason`, `status` defaults to `pending`.
 .. include::  tutorial/prepare-cancellation.http
    :code:
 
-There are two possible types of cancellation reason - auction was `cancelled` or `unsuccessful`. By default 
+There are two possible types of cancellation reason - tender was `cancelled` or `unsuccessful`. By default 
 ``reasonType`` value is `cancelled`.
 
 You can change ``reasonType`` value to `unsuccessful`.
