@@ -9,8 +9,6 @@ from openprocurement.tender.limited.tests.tender import BaseTenderWebTest
 from webtest import TestApp
 
 test_tender_data = {
-        "dateModified": "2016-01-14T16:48:35.636859+02:00",
-        "id": "2d06f1999dcf436fb61ccd0168702459",
         "items": [
             {
                 "additionalClassifications": [
@@ -58,7 +56,6 @@ test_tender_data = {
             "currency": "UAH",
             "valueAddedTaxIncluded": "true"
         },
-        "tenderID": "UA-2016-01-14-000003",
         "title": "Послуги шкільних їдалень",
 }
 
