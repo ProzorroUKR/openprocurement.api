@@ -11,8 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
 #: ../../source/standard/organization.rst:9
@@ -62,10 +61,6 @@ msgid "Identifier"
 msgstr "Identifier"
 
 #: ../../source/standard/organization.rst:45
-#: ../../source/standard/organization.rst:92
-#: ../../source/standard/organization.rst:98
-#: ../../source/standard/organization.rst:104
-#: ../../source/standard/organization.rst:110
 #: ../../source/standard/organization.rst:145
 #: ../../source/standard/organization.rst:151
 #: ../../source/standard/organization.rst:163
@@ -85,6 +80,10 @@ msgstr ""
 "Ідентифікації Організацій."
 
 #: ../../source/standard/organization.rst:54
+#: ../../source/standard/organization.rst:92
+#: ../../source/standard/organization.rst:98
+#: ../../source/standard/organization.rst:104
+#: ../../source/standard/organization.rst:110
 #: ../../source/standard/organization.rst:116
 msgid "string, required"
 msgstr "рядок, обов’язковий"
@@ -228,4 +227,3 @@ msgstr "`ru` - російська мова"
 #: ../../source/standard/organization.rst:171
 msgid "Specifies the language of communication."
 msgstr "Визначає мови спілкування."
-
