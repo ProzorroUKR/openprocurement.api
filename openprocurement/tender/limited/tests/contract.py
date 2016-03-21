@@ -416,6 +416,7 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active")
+        self.assertIn(u"dateSigned", response.json['data'].keys())
 
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
             self.tender_id, self.contract_id, self.tender_token), {"data": {"status": "cancelled"}}, status=403)
