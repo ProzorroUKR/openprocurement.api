@@ -22,8 +22,12 @@ Schema
     |ocdsDescription|
     The `Award.id` against which this contract is being issued.
 
-contractID:
+:contractID:
     string, auto-generated, read-only
+
+:contractNumber:
+    string
+
 
 :title:
     string, required

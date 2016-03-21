@@ -1,11 +1,13 @@
-POST /api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/bids HTTP/1.0
+POST /api/2.0/tenders/e2b439a8a7a5473b9b0bb65a8f97b74a/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 704
+Content-Length: 749
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
+    "selfEligible": true, 
+    "selfQualified": true, 
     "value": {
       "amount": 499
     }, 
@@ -36,20 +38,20 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/bids/4b742459b1bc4eddbbbd759a9a432d05
+Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/e2b439a8a7a5473b9b0bb65a8f97b74a/bids/6eeb76cd75b54d49a141dc90e835bf61
 {
   "access": {
-    "token": "7fc89cb252404a0fa000317d5d9e2d92"
+    "token": "ebac01631233453d9f5d8fedafafdef4"
   }, 
   "data": {
-    "date": "2016-03-16T18:09:59.581976+02:00", 
     "status": "active", 
-    "id": "4b742459b1bc4eddbbbd759a9a432d05", 
+    "selfEligible": true, 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 
       "valueAddedTaxIncluded": true
     }, 
+    "selfQualified": true, 
     "tenderers": [
       {
         "contactPoint": {
@@ -71,7 +73,9 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/fd002ab62dc14a
           "locality": "м. Львів"
         }
       }
-    ]
+    ], 
+    "date": "2016-03-21T15:54:33.625087+02:00", 
+    "id": "6eeb76cd75b54d49a141dc90e835bf61"
   }
 }
 
