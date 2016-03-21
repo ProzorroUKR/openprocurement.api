@@ -91,9 +91,6 @@ class Document(Model):
     datePublished = IsoDateTimeType(default=get_now)
     dateModified = IsoDateTimeType(default=get_now)  # Date that the document was last dateModified
     language = StringType()
-    documentOf = StringType(required=True, choices=['tender', 'item', 'lot'], default='tender')
-    relatedItem = MD5Type()
-    author = StringType()
 
     def import_data(self, raw_data, **kw):
         """
