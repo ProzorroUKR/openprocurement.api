@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/20a01aaf77b54546bf0d964dddf4c478/cancellations/92e2ba138e6840eb84583e62abe6a06b?acc_token=a27778dbf2c94d8cb9f105d38ab1703c HTTP/1.0
+PATCH /api/0.12/tenders/958e22d2b07d42b68d56982dd38930bb/cancellations/0e172d750d494cb2a18073da7f26eb17?acc_token=8d72f594776d443391d33e3bce29b060 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 40
 Content-Type: application/json
@@ -17,9 +17,9 @@ Content-Type: application/json; charset=UTF-8
     "status": "pending", 
     "reason": "cancellation reason", 
     "reasonType": "unsuccessful", 
-    "date": "2016-03-17T16:49:29.375968+02:00", 
+    "date": "2016-03-21T17:41:19.211258+02:00", 
     "cancellationOf": "tender", 
-    "id": "92e2ba138e6840eb84583e62abe6a06b"
+    "id": "0e172d750d494cb2a18073da7f26eb17"
   }
 }
 

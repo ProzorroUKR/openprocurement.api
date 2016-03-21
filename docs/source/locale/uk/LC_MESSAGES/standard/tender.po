@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-05 10:08+0200\n"
-"PO-Revision-Date: 2016-03-17 16:59+0200\n"
+"PO-Revision-Date: 2016-03-21 13:31+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -54,11 +54,6 @@ msgstr "інша інформація"
 #: ../../source/standard/tender.rst:26
 msgid "Detailed description of tender."
 msgstr "Детальний опис закупівлі"
-
-#: ../../source/standard/tender.rst:31
-msgid "The tender identifier to refer tender to in \"paper\" documentation."
-msgstr ""
-"Ідентифікатор закупівлі, щоб знайти закупівлю у  \"паперовій\" документації"
 
 #: ../../source/standard/tender.rst:33
 msgid ""
@@ -211,11 +206,11 @@ msgstr "ідентифікатор **переговорної** процедур
 msgid "negotiation.quick procedure indentifier"
 msgstr "ідентифікатор **переговорної процедури за нагальною потребою**"
 
-#: ../../source/standard/tender.rst:158
+#: ../../source/standard/tender.rst:170
 msgid "Tender workflow"
 msgstr "Схема роботи Tender"
 
-#: ../../source/standard/tender.rst:170
+#: ../../source/standard/tender.rst:182
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
 
@@ -235,12 +230,6 @@ msgstr ""
 "рядок, обов’язковий для **переговорної процедури** / необов’язковий для "
 "**переговорної процедури за нагальною потребою**"
 
-#: ../../source/standard/tender.rst:136
-msgid "Causes for using negotiation or negotiation.quick procedures."
-msgstr ""
-"Підстава для використання \"звичайної\" переговорної процедури або "
-"переговорної процедури за нагальною потребою."
-
 #: ../../source/standard/tender.rst:138
 msgid "Possible values for **negotiation** procedure:"
 msgstr "Можливі значення для \"звичайної\" **переговорної процедури**:"
@@ -249,44 +238,134 @@ msgstr "Можливі значення для \"звичайної\" **пере
 msgid "`artContestIP`"
 msgstr "`artContestIP`"
 
-#: ../../source/standard/tender.rst:141
+#: ../../source/standard/tender.rst:143
 msgid "`noCompetition`"
 msgstr "`noCompetition`"
 
-#: ../../source/standard/tender.rst:142
+#: ../../source/standard/tender.rst:146
 msgid "`twiceUnsuccessful`"
 msgstr "`twiceUnsuccessful`"
 
-#: ../../source/standard/tender.rst:143
+#: ../../source/standard/tender.rst:149
 msgid "`additionalPurchase`"
 msgstr "`additionalPurchase`"
 
-#: ../../source/standard/tender.rst:144
+#: ../../source/standard/tender.rst:152
 msgid "`additionalConstruction`"
 msgstr "`additionalConstruction`"
 
-#: ../../source/standard/tender.rst:145
+#: ../../source/standard/tender.rst:155
 msgid "`stateLegalServices`"
 msgstr "`stateLegalServices`"
 
-#: ../../source/standard/tender.rst:147
+#: ../../source/standard/tender.rst:158
 msgid "Possible values for **negotiation.quick** procedure:"
 msgstr "Можливі значення для **переговорної процедури за нагальною потребою**:"
 
-#: ../../source/standard/tender.rst:149
+#: ../../source/standard/tender.rst:160
 msgid "`quick`"
 msgstr "`quick`"
 
-#: ../../source/standard/tender.rst:152
+#: ../../source/standard/tender.rst:164
 msgid ""
 "string, required for **negotiation** and **negotiation.quick** procedures"
 msgstr ""
 "рядок, обов’язковий для **переговорної процедури** та **переговорної "
 "процедури за нагальною потребою**"
 
-#: ../../source/standard/tender.rst:154
+#: ../../source/standard/tender.rst:166
 msgid "Reasoning behind usage of negotiation or negotiation.quick procedures."
 msgstr ""
 "Обгрунтування використання \"звичайної\" переговорної процедури або "
 "переговорної процедури за нагальною потребою."
 
+#: ../../source/standard/tender.rst:31
+msgid ""
+"The tender identifier that can be used to find tender in \"paper\" "
+"documentation."
+msgstr ""
+"Ідентифікатор закупівлі, щоб знайти закупівлю у “паперовій” документації"
+
+#: ../../source/standard/tender.rst:136
+msgid ""
+"Causes for using negotiation or negotiation.quick procedures. For more "
+"details see Article 35 of the Law of Ukraine \"On Public Procurement\"."
+msgstr ""
+"Підстава для використання “звичайної” переговорної процедури або переговорної "
+"процедури за нагальною потребою. Для більш детальної інформації дивіться "
+"статтю 35 Закону України \"Про публічні закупівлі\"."
+
+#: ../../source/standard/tender.rst:141
+msgid "Purchase of art or intellectual property"
+msgstr ""
+"cт. 35, п. 1 Закупівля творів мистецтва або закупівля, пов’язана із захистом "
+"прав інтелектуальної власності, або укладення договору про закупівлю з "
+"переможцем архітектурного чи мистецького конкурсу."
+
+#: ../../source/standard/tender.rst:144
+msgid "Lack of competition"
+msgstr ""
+"cт. 35, п. 2 Відсутність конкуренції (у тому числі з технічних причин) на "
+"відповідному ринку, внаслідок чого договір про закупівлю може бути укладено "
+"лише з одним постачальником, за відсутності при цьому альтернативи."
+
+#: ../../source/standard/tender.rst:147
+msgid "Two tenders have already been cancelled due to lack of participants"
+msgstr ""
+"cт. 35, п. 4 Якщо замовником було двічі відмінено тендер через відсутність "
+"достатньої кількості учасників, при цьому предмет закупівлі, його технічні та "
+"якісні характеристики, а також вимоги до учасника не повинні відрізнятися від "
+"вимог, що були визначені замовником у тедерній документації."
+
+#: ../../source/standard/tender.rst:150
+msgid "Need to use the same supplier for unification, standardization, etc."
+msgstr ""
+"cт. 35, п. 5 Потреба здійснити додаткову закупівлю в того самого "
+"постачальника з метою уніфікації, стандартизації або забезпечення сумісності "
+"з наявними товарами, технологіями, роботами чи послугами, якщо заміна "
+"попереднього постачальника (виконавця робіт, надавача послуг) може призвести "
+"до несумісності або виникнення проблем технічного характеру, пов’язаних з "
+"експлуатацією та обслуговуванням."
+
+#: ../../source/standard/tender.rst:153
+msgid "Need of additional construction works"
+msgstr ""
+"cт. 35, п. 6 Необхідність проведення додаткових будівельних робіт, не "
+"зазначених у початковому проекті, але які стали через непередбачувані "
+"обставини необхідними для виконання проекту за сукупності таких умов: договір "
+"буде укладено з попереднім виконавцем цих робіт, такі роботи технічно чи "
+"економічно пов’язані з головним (первинним) договором; загальна вартість "
+"додаткових робіт не перевищує 50 відсотків вартості головного (первинного) "
+"договору."
+
+#: ../../source/standard/tender.rst:156
+msgid ""
+"Purchase of legal services connected with protection of rights and interests"
+" of Ukraine"
+msgstr ""
+"cт. 35, п. 7 Закупівля юридичних послуг, пов’язаних із захистом прав та "
+"інтересів України, у тому числі з метою захисту національної безпеки і "
+"оборони, під час врегулювання спорів, розгляду в закордонних юрисдикційних "
+"органах справ за участю іноземного суб’єкта та України, на підставі рішення "
+"Кабінету Міністрів України або введених в дію відповідно до закону рішень "
+"Ради національної безпеки і оборони України."
+
+#: ../../source/standard/tender.rst:161
+msgid "Procurement is urgent"
+msgstr ""
+"cт. 35, п. 3 Нагальна потреба у здійсненні закупівлі у зв’язку з виникненням "
+"особливих економічних чи соціальних обставин, яка унеможливлює дотримання "
+"замовниками строків для проведення тендеру, а саме пов’язаних з негайною "
+"ліквідацією наслідків надзвичайних ситуацій, а також наданням у встановленому "
+"порядку Україною гуманітарної допомоги іншим державам. Застосування "
+"переговорної процедури закупівлі в таких випадках здійснюється за рішенням "
+"замовника щодо кожної процедури."
+
+#~ msgid "Causes for using negotiation or negotiation.quick procedures."
+#~ msgstr ""
+#~ "Підстава для використання \"звичайної\" переговорної процедури або "
+#~ "переговорної процедури за нагальною потребою."
+
+#~ msgid "The tender identifier to refer tender to in \"paper\" documentation."
+#~ msgstr ""
+#~ "Ідентифікатор закупівлі, щоб знайти закупівлю у  \"паперовій\" документації"

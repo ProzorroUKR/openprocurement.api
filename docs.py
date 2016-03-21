@@ -2,15 +2,15 @@
 import json
 import os
 from copy import deepcopy
+from datetime import timedelta, datetime
 
 import openprocurement.tender.limited.tests.base as base_test
 from openprocurement.api.tests.base import PrefixedRequestClass
 from openprocurement.tender.limited.tests.tender import BaseTenderWebTest
 from webtest import TestApp
 
+now = datetime.now()
 test_tender_data = {
-        "dateModified": "2016-01-14T16:48:35.636859+02:00",
-        "id": "2d06f1999dcf436fb61ccd0168702459",
         "items": [
             {
                 "additionalClassifications": [
@@ -26,7 +26,18 @@ test_tender_data = {
                     "scheme": "CPV"
                 },
                 "description": "Послуги шкільних їдалень",
-                "id": "2dc54675d6364e2baffbc0f8e74432ac"
+                "id": "2dc54675d6364e2baffbc0f8e74432ac",
+                "deliveryDate": {
+                    "startDate": (now + timedelta(days=2)).isoformat(),
+                    "endDate": (now + timedelta(days=5)).isoformat()
+                },
+                "deliveryAddress": {
+                    "countryName": u"Україна",
+                    "postalCode": "79000",
+                    "region": u"м. Київ",
+                    "locality": u"м. Київ",
+                    "streetAddress": u"вул. Банкова 1"
+                }
             }
         ],
         "owner": "broker",
@@ -56,9 +67,8 @@ test_tender_data = {
         "value": {
             "amount": 500000,
             "currency": "UAH",
-            "valueAddedTaxIncluded": "true"
+            "valueAddedTaxIncluded": True
         },
-        "tenderID": "UA-2016-01-14-000003",
         "title": "Послуги шкільних їдалень",
 }
 
@@ -291,6 +301,30 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
                 self.tender_id, owner_token))
         self.contract_id = response.json['data'][0]['id']
+
+        ####  Set contract value
+
+        with open('docs/source/tutorial/tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), {"data": {"value": {"amount": 238}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['value']['amount'], 238)
+
+        #### Setting contract signature date
+        #
+
+        with open('docs/source/tutorial/tender-contract-sign-date.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), {'data': {"dateSigned": now.isoformat()} })
+            self.assertEqual(response.status, '200 OK')
+
+        #### Setting contract period
+
+        period_dates = {"period": {"startDate": (now).isoformat(), "endDate": (now + timedelta(days=365)).isoformat()}}
+        with open('docs/source/tutorial/tender-contract-period.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, owner_token), {'data': {'period': period_dates["period"]}})
+        self.assertEqual(response.status, '200 OK')
 
         #### Uploading Contract documentation
         #

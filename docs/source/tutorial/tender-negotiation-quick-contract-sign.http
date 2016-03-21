@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/92fd8b65fa144978bd8a7db13de38168/contracts/0548b82111e644b5a02d87b2d54fa1b3?acc_token=32d374fb82bc48c39bd49fdadf353a2c HTTP/1.0
+PATCH /api/0.12/tenders/a92a2f00c1de4981bcab5520fb9e42e9/contracts/e4aa9aee0fca420891f2966f85b386c5?acc_token=019c106f0aeb4fa09e2e0f4a882d2571 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -17,6 +17,12 @@ Content-Type: application/json; charset=UTF-8
     "status": "active", 
     "items": [
       {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Послуги з харчування у школах", 
+          "id": "55523100-3"
+        }, 
         "additionalClassifications": [
           {
             "scheme": "ДКПП", 
@@ -24,13 +30,18 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "2dc54675d6364e2baffbc0f8e74432ac", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Послуги з харчування у школах", 
-          "id": "55523100-3"
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
         }, 
-        "description": "Послуги шкільних їдалень"
+        "deliveryDate": {
+          "startDate": "2016-03-23T17:41:12.822752+02:00", 
+          "endDate": "2016-03-26T17:41:12.822752+02:00"
+        }, 
+        "id": "2dc54675d6364e2baffbc0f8e74432ac"
       }
     ], 
     "suppliers": [
@@ -61,9 +72,10 @@ Content-Type: application/json; charset=UTF-8
       "amount": 475000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "awardID": "44b6e74afa2b48a4aba92f1151873fe5", 
-    "id": "0548b82111e644b5a02d87b2d54fa1b3", 
-    "contractID": "UA-2016-03-17-000001-1"
+    "dateSigned": "2016-03-21T17:41:32.500224+02:00", 
+    "awardID": "624191d4df644ad1a7fd8036ed6ee1a7", 
+    "id": "e4aa9aee0fca420891f2966f85b386c5", 
+    "contractID": "UA-2016-03-21-000001-1"
   }
 }
 

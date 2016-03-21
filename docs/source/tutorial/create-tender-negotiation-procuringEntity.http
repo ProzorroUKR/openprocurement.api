@@ -1,6 +1,6 @@
 POST /api/0.12/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 2397
+Content-Length: 2651
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
@@ -12,6 +12,12 @@ Host: api-sandbox.openprocurement.org
     "title": "Послуги шкільних їдалень", 
     "items": [
       {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Послуги з харчування у школах", 
+          "id": "55523100-3"
+        }, 
         "additionalClassifications": [
           {
             "scheme": "ДКПП", 
@@ -19,11 +25,16 @@ Host: api-sandbox.openprocurement.org
             "id": "55.51.10.300"
           }
         ], 
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Послуги з харчування у школах", 
-          "id": "55523100-3"
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "region": "м. Київ", 
+          "streetAddress": "вул. Банкова 1", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-03-23T17:41:12.822752", 
+          "endDate": "2016-03-26T17:41:12.822752"
         }, 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
       }
@@ -32,9 +43,8 @@ Host: api-sandbox.openprocurement.org
     "value": {
       "currency": "UAH", 
       "amount": 500000, 
-      "valueAddedTaxIncluded": "true"
+      "valueAddedTaxIncluded": true
     }, 
-    "id": "2d06f1999dcf436fb61ccd0168702459", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -56,18 +66,16 @@ Host: api-sandbox.openprocurement.org
       }
     }, 
     "owner": "broker", 
-    "cause": "twiceUnsuccessful", 
-    "dateModified": "2016-01-14T16:48:35.636859+02:00", 
-    "tenderID": "UA-2016-01-14-000003"
+    "cause": "twiceUnsuccessful"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/d4c953a9a2ec4cb3b910a1ae6430b610
+Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/50fdd1d72a274c5bb96e202f7fe01d21
 {
   "access": {
-    "token": "b7e275ad94184ee2a1647d703751e503"
+    "token": "7a3cd24b381d4f0ba0efe1a3a0be7871"
   }, 
   "data": {
     "procurementMethod": "limited", 
@@ -76,6 +84,12 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/d4c953a9a2ec4c
     "title": "Послуги шкільних їдалень", 
     "items": [
       {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Послуги з харчування у школах", 
+          "id": "55523100-3"
+        }, 
         "additionalClassifications": [
           {
             "scheme": "ДКПП", 
@@ -83,13 +97,18 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/d4c953a9a2ec4c
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "2dc54675d6364e2baffbc0f8e74432ac", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Послуги з харчування у школах", 
-          "id": "55523100-3"
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
         }, 
-        "description": "Послуги шкільних їдалень"
+        "deliveryDate": {
+          "startDate": "2016-03-23T17:41:12.822752+02:00", 
+          "endDate": "2016-03-26T17:41:12.822752+02:00"
+        }, 
+        "id": "2dc54675d6364e2baffbc0f8e74432ac"
       }
     ], 
     "procurementMethodType": "negotiation", 
@@ -98,7 +117,7 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/d4c953a9a2ec4c
       "amount": 500000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateModified": "2016-03-17T16:49:32.494051+02:00", 
+    "dateModified": "2016-03-21T17:41:23.140507+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -121,8 +140,8 @@ Location: http://api-sandbox.openprocurement.org/api/0.12/tenders/d4c953a9a2ec4c
     }, 
     "owner": "broker", 
     "cause": "twiceUnsuccessful", 
-    "id": "d4c953a9a2ec4cb3b910a1ae6430b610", 
-    "tenderID": "UA-2016-03-17-000001"
+    "id": "50fdd1d72a274c5bb96e202f7fe01d21", 
+    "tenderID": "UA-2016-03-21-000001"
   }
 }
 

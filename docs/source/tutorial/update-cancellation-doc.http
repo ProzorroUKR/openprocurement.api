@@ -1,7 +1,7 @@
-PUT /api/0.12/tenders/20a01aaf77b54546bf0d964dddf4c478/cancellations/92e2ba138e6840eb84583e62abe6a06b/documents/5a9e7c61083249a1b290b3e04096b0bd?acc_token=a27778dbf2c94d8cb9f105d38ab1703c HTTP/1.0
+PUT /api/0.12/tenders/958e22d2b07d42b68d56982dd38930bb/cancellations/0e172d750d494cb2a18073da7f26eb17/documents/6dcb59132b644779a6e97d492db70b99?acc_token=8d72f594776d443391d33e3bce29b060 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 189
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy210131146166$
+Content-Length: 187
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy22284403644$
 Host: api-sandbox.openprocurement.org
 
 Response: 200 OK
@@ -10,12 +10,12 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "description": "Changed description", 
     "title": "Notice-2.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/20a01aaf77b54546bf0d964dddf4c478/cancellations/92e2ba138e6840eb84583e62abe6a06b/documents/5a9e7c61083249a1b290b3e04096b0bd?download=3c52fc14b1f04a6a8fff93956e3bfa98", 
+    "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/958e22d2b07d42b68d56982dd38930bb/cancellations/0e172d750d494cb2a18073da7f26eb17/documents/6dcb59132b644779a6e97d492db70b99?download=3514c7e940e64c6190eac3cc1efdf209", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-03-17T16:49:29.668162+02:00", 
-    "id": "5a9e7c61083249a1b290b3e04096b0bd", 
-    "dateModified": "2016-03-17T16:49:29.966978+02:00"
+    "datePublished": "2016-03-21T17:41:19.511939+02:00", 
+    "id": "6dcb59132b644779a6e97d492db70b99", 
+    "dateModified": "2016-03-21T17:41:19.874525+02:00"
   }
 }
 
