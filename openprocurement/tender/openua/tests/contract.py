@@ -116,6 +116,23 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update contract in current (unsuccessful) tender status")
 
+    def test_patch_tender_contract_datesigned(self):
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        contract = response.json['data'][0]
+
+        self.set_status('complete', {'status': 'active.awarded'})
+
+        tender = self.db.get(self.tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["status"], "active")
+        self.assertIn(u"dateSigned", response.json['data'].keys())
+
     def test_patch_tender_contract(self):
         response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
         contract = response.json['data'][0]
