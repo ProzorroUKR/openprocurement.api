@@ -1,4 +1,4 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
@@ -176,18 +176,3 @@ msgstr ""
 "Підтверджує відсутність підстав для відмови від участі відповідно до статті "
 "17 Закону України \"Про державні закупівлі\"."
 
-#~ msgid ""
-#~ "Confirms compliance of eligibility criteria set by the customer in the "
-#~ "tendering documents"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Confirms the absence of grounds for refusal to participate in accordance "
-#~ "with Article 17 of the Law of Ukraine \"On public procurement\""
-#~ msgstr ""
-
-#~ msgid ":ref:`Guarantee`"
-#~ msgstr ":ref:`Guarantee`"
-
-#~ msgid "Bid guarantee"
-#~ msgstr "Забезпечення тендерної пропозиції"
