@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/contracts/c02484f7b36c492dbac210380ffe1c3f?acc_token=8dc013d938cc4e04a0f5aef8c8fb3f00 HTTP/1.0
+PATCH /api/2.0/tenders/e2b439a8a7a5473b9b0bb65a8f97b74a/contracts/378affd9308b411cbf44dd2bade4b1ce?acc_token=598d0fba58f349ab822741755b3d45ce HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 60
 Content-Type: application/json
@@ -6,7 +6,7 @@ Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "dateSigned": "2016-03-16T18:10:01.362043+02:00"
+    "dateSigned": "2016-03-21T15:54:35.455867+02:00"
   }
 }
 
@@ -30,7 +30,18 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "ead80900ac77421793ea3c0a47ccda96", 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-04-10T15:54:17.581675+02:00", 
+          "endDate": "2016-05-10T15:54:17.581740+02:00"
+        }, 
+        "id": "e40f0bc8f76042d5af0185ad44d8779a", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -65,10 +76,10 @@ Content-Type: application/json; charset=UTF-8
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-03-16T18:10:01.362043+02:00", 
-    "awardID": "58643003f9124bf4b65debee438a18ca", 
-    "id": "c02484f7b36c492dbac210380ffe1c3f", 
-    "contractID": "UA-2016-03-16-000001-1"
+    "dateSigned": "2016-03-21T15:54:35.455867+02:00", 
+    "awardID": "aa131b60e3b2433aa588681e89cd87ef", 
+    "id": "378affd9308b411cbf44dd2bade4b1ce", 
+    "contractID": "UA-2016-03-21-000001-1"
   }
 }
 

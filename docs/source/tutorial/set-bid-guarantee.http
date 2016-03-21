@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/bids/bdb31a0645dd48dd982421b12543ce20?acc_token=ef1872a47c7b4339a225531ccd14295c HTTP/1.0
+PATCH /api/2.0/tenders/e2b439a8a7a5473b9b0bb65a8f97b74a?acc_token=598d0fba58f349ab822741755b3d45ce HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 57
 Content-Type: application/json
@@ -17,40 +17,100 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "active", 
+    "procurementMethod": "open", 
+    "status": "active.tendering", 
+    "auctionPeriod": {
+      "shouldStartAfter": "2016-04-05T15:54:40.946841+02:00"
+    }, 
+    "tenderID": "UA-2016-03-21-000001", 
+    "tenderPeriod": {
+      "startDate": "2016-03-21T15:54:30.676224+02:00", 
+      "endDate": "2016-04-05T15:54:40.946841+02:00"
+    }, 
+    "title": "футляри до державних нагород", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "enquiryPeriod": {
+      "startDate": "2016-03-21T15:54:30.676224+02:00", 
+      "endDate": "2016-03-26T15:54:40.946841+02:00"
+    }, 
+    "complaintPeriod": {
+      "startDate": "2016-03-21T15:54:30.676224+02:00", 
+      "endDate": "2016-04-01T15:54:40.946841+02:00"
+    }, 
+    "procurementMethodType": "aboveThresholdUA", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "tenderers": [
+    "submissionMethod": "electronicAuction", 
+    "next_check": "2016-04-05T16:54:40.946841+03:00", 
+    "procuringEntity": {
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name": "Куца Світлана Валентинівна", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "items": [
       {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
         }, 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
-          "uri": "http://www.sc.gov.ua/"
-        }, 
-        "name": "ДКП «Школяр»", 
-        "address": {
-          "postalCode": "21100", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
           "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
-          "locality": "м. Вінниця"
-        }
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-04-10T15:54:17.581675+02:00", 
+          "endDate": "2016-05-10T15:54:17.581740+02:00"
+        }, 
+        "id": "e40f0bc8f76042d5af0185ad44d8779a", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
       }
     ], 
-    "date": "2016-03-16T18:09:58.544428+02:00", 
-    "id": "bdb31a0645dd48dd982421b12543ce20", 
+    "owner": "broker", 
+    "dateModified": "2016-03-21T15:54:31.241969+02:00", 
     "guarantee": {
       "currency": "USD", 
       "amount": 8.0
-    }
+    }, 
+    "id": "e2b439a8a7a5473b9b0bb65a8f97b74a", 
+    "awardCriteria": "lowestCost"
   }
 }
 
