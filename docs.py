@@ -67,7 +67,7 @@ test_tender_data = {
         "value": {
             "amount": 500000,
             "currency": "UAH",
-            "valueAddedTaxIncluded": "true"
+            "valueAddedTaxIncluded": True
         },
         "title": "Послуги шкільних їдалень",
 }
