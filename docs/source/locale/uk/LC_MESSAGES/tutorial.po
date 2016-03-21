@@ -1,10 +1,10 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 12:53+0200\n"
-"PO-Revision-Date: 2016-03-21 11:06+0200\n"
+"PO-Revision-Date: 2016-03-21 15:02+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -374,23 +374,23 @@ msgstr ""
 "`id` генерується автоматично і повертається у додатковому заголовку "
 "відповіді `Location`:"
 
-#: ../../source/tutorial.rst:458
+#: ../../source/tutorial.rst:457
 msgid "Filling cancellation with protocol and supplementary documentation"
 msgstr "Наповнення протоколом та іншою супровідною документацією"
 
-#: ../../source/tutorial.rst:460
+#: ../../source/tutorial.rst:459
 msgid "Upload the file contents"
 msgstr "Завантажте вміст файлу"
 
-#: ../../source/tutorial.rst:465
+#: ../../source/tutorial.rst:464
 msgid "Change the document description and other properties"
 msgstr "Змініть опис документа та інші властивості"
 
-#: ../../source/tutorial.rst:471
+#: ../../source/tutorial.rst:470
 msgid "Upload new version of the document"
 msgstr "Завантажте нову версію документа"
 
-#: ../../source/tutorial.rst:478
+#: ../../source/tutorial.rst:477
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
 
@@ -680,34 +680,20 @@ msgstr ""
 msgid "Setting contract validity period"
 msgstr "Встановлення терміну дії угоди"
 
-#: ../../source/tutorial.rst:452
+#: ../../source/tutorial.rst:451
 msgid "You can change ``reasonType`` value to `unsuccessful`."
 msgstr "Ви можете виправити тип на `unsuccessful` (торги не відбулися)."
-
-#: ../../source/tutorial.rst:449
-msgid ""
-"There are two possible types of cancellation reason: auction was `cancelled`"
-" or `unsuccessful`. By default ``reasonType`` value is `cancelled`."
-msgstr ""
-"При скасуванні, Замовник має визначити один з двох типів ``reasonType``: "
-"торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За "
-"замовчуванням, значення ``reasonType`` рівне `cancelled`."
 
 #: ../../source/tutorial.rst:94
 msgid "Procuring entity can set bid guarantee:"
 msgstr "Замовник може встановити забезпечення тендерної пропозиції"
 
-#~ msgid "Tender owner can set bid guarantee:"
-#~ msgstr ""
+#: ../../source/tutorial.rst:449
+msgid ""
+"There are two possible types of cancellation reason: tender was `cancelled` "
+"or `unsuccessful`. By default ``reasonType`` value is `cancelled`."
+msgstr ""
+"При скасуванні, замовник має визначити один з двох типів ``reasonType``: "
+"торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За "
+"замовчуванням, значення ``reasonType`` рівне `cancelled`."
 
-#~ msgid "Bidder can set bid guarantee:"
-#~ msgstr "Учасник може встановити забезпечення тендерної пропозиції:"
-
-#~ msgid ""
-#~ "There are two possible types of cancellation reason - auction was "
-#~ "`cancelled` or `unsuccessful`. By default ``reasonType`` value is "
-#~ "`cancelled`."
-#~ msgstr ""
-#~ "При скасуванні, Замовник має визначити один з двох типів ``reasonType``: "
-#~ "торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За "
-#~ "замовчуванням, значення ``reasonType`` рівне `cancelled`."

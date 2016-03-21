@@ -1,4 +1,4 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
@@ -190,13 +190,3 @@ msgstr ""
 "При поданні пропозиції учасник може додати інформацію про субпідрядника, "
 "заповнивши текстове поле довільної довжини."
 
-#~ msgid ""
-#~ "When submitting proposals, participant can fill in the text field of any "
-#~ "length about subcontractor."
-#~ msgstr "При поданні пропозиції, учасник "
-
-#~ msgid ":ref:`Guarantee`"
-#~ msgstr ":ref:`Guarantee`"
-
-#~ msgid "Bid guarantee"
-#~ msgstr "Забезпечення тендерної пропозиції"
