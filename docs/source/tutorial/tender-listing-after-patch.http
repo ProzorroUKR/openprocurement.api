@@ -1,18 +1,18 @@
-GET /api/2.1/tenders?opt_pretty=1 HTTP/1.0
+GET /api/0.12/tenders?opt_pretty=1 HTTP/1.0
 Host: api-sandbox.openprocurement.org
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "next_page": {
-    "path": "/api/2.1/tenders?offset=2016-03-21T12%3A46%3A38.658875%2B02%3A00", 
-    "uri": "http://api-sandbox.openprocurement.org/api/2.1/tenders?offset=2016-03-21T12%3A46%3A38.658875%2B02%3A00", 
-    "offset": "2016-03-21T12:46:38.658875+02:00"
+    "path": "/api/0.12/tenders?offset=2016-03-21T17%3A41%3A16.434380%2B02%3A00", 
+    "uri": "http://api-sandbox.openprocurement.org/api/0.12/tenders?offset=2016-03-21T17%3A41%3A16.434380%2B02%3A00", 
+    "offset": "2016-03-21T17:41:16.434380+02:00"
   }, 
   "data": [
     {
-      "id": "1d91eb0b469947d18921f02e1d767d9e", 
-      "dateModified": "2016-03-21T12:46:38.658875+02:00"
+      "id": "958e22d2b07d42b68d56982dd38930bb", 
+      "dateModified": "2016-03-21T17:41:16.434380+02:00"
     }
   ]
 }
