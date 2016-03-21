@@ -91,7 +91,7 @@ That is why tenderPeriod has to be extended by 7 days.
 .. include:: tutorial/update-tender-after-enqiery-with-update-periods.http
    :code:
 
-Tender owner can set bid guarantee:
+Procuring entity can set bid guarantee:
 
 .. include:: tutorial/set-bid-guarantee.http
    :code:
