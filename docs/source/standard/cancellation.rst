@@ -37,7 +37,7 @@ Schema
        Default. Tender was cancelled.
 
      :`unsuccessful`:
-       tender was unsuccessful.
+       Tender was unsuccessful.
 
 :documents:
     List of :ref:`Document` objects
