@@ -76,6 +76,8 @@ class TenderUaAwardContractResource(TenderAwardContractResource):
             self.request.errors.add('body', 'data', 'Can\'t update contract status')
             self.request.errors.status = 403
             return
+        if self.request.context.status == 'active' and not self.request.context.dateSigned:
+            self.request.context.dateSigned = get_now()
         check_tender_status(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
