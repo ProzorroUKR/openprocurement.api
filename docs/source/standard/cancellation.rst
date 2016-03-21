@@ -30,7 +30,7 @@ Schema
 :reasonType:
     string
 
-    There are two possible types of cancellation reason set by procuring entity: : tender was cancelled or unsuccessful.
+    There are two possible types of cancellation reason set by procuring entity:
 
      :`cancelled`:
        Default. Tender was cancelled.
