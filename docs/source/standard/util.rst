@@ -17,7 +17,7 @@ Schema
     The start date for the period.
 
 :endDate:
-    string, :ref:`date`
+    string, :ref:`date`, required 
 
     |ocdsDescription|
     The end date for the period.

@@ -89,25 +89,25 @@ Schema
 ------
 
 :streetAddress:
-    string
+    string, required
     
     |ocdsDescription|
     The street address. For example, 1600 Amphitheatre Pkwy.
     
 :locality:
-    string
+    string, required
     
     |ocdsDescription|
     The locality. For example, Mountain View.
     
 :region:
-    string
+    string, required
     
     |ocdsDescription|
     The region. For example, CA.
     
 :postalCode:
-    string
+    string, required
     
     |ocdsDescription|
     The postal code. For example, 94043.

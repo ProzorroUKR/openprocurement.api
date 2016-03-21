@@ -91,7 +91,7 @@ That is why tenderPeriod has to be extended by 7 days.
 .. include:: tutorial/update-tender-after-enqiery-with-update-periods.http
    :code:
 
-Tender owner can set bid guarantee:
+Procuring entity can set bid guarantee:
 
 .. include:: tutorial/set-bid-guarantee.http
    :code:
@@ -446,8 +446,7 @@ You should pass `reason`, `status` defaults to `pending`.
 .. include::  tutorial/prepare-cancellation.http
    :code:
 
-There are two possible types of cancellation reason: auction was `cancelled` or `unsuccessful`. By default 
-``reasonType`` value is `cancelled`.
+There are two possible types of cancellation reason: tender was `cancelled` or `unsuccessful`. By default ``reasonType`` value is `cancelled`.
 
 You can change ``reasonType`` value to `unsuccessful`.
 
