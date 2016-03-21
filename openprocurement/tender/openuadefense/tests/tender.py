@@ -1046,7 +1046,7 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
+                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
 
         bid_id = self.bid_id = response.json['data']['id']
 
@@ -1070,7 +1070,7 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
+                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
         # switch to active.qualification
         self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -1093,13 +1093,13 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 450}}})
+                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 450}, 'selfEligible': True, 'selfQualified': True}})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 475}}})
+                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 475}, 'selfEligible': True, 'selfQualified': True}})
         # switch to active.auction
         self.set_status('active.auction')
 
@@ -1170,7 +1170,7 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
         # set award as active
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "active"}})
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
         # get contract id
         response = self.app.get('/tenders/{}'.format(tender_id))
         contract_id = response.json['data']['contracts'][-1]['id']
