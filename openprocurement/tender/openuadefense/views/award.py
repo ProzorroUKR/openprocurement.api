@@ -91,7 +91,7 @@ class TenderUaAwardResource(TenderAwardResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
-            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME, tender)
+            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME, tender, True)
             tender.contracts.append(type(tender).contracts.model_class({
                 'awardID': award.id,
                 'suppliers': award.suppliers,
@@ -106,7 +106,7 @@ class TenderUaAwardResource(TenderAwardResource):
                     i.status = 'cancelled'
             add_next_award(self.request)
         elif award_status == 'pending' and award.status == 'unsuccessful':
-            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME, tender)
+            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME, tender, True)
             add_next_award(self.request)
         elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             if tender.status == 'active.awarded':
@@ -125,7 +125,7 @@ class TenderUaAwardResource(TenderAwardResource):
                 if i.awardID in cancelled_awards:
                     i.status = 'cancelled'
             add_next_award(self.request)
-        else:
+        elif not(award_status == 'pending' and award.status == 'pending'):
             self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
             self.request.errors.status = 403
             return
