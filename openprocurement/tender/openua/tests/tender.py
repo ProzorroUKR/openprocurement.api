@@ -742,9 +742,10 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
+        owner_token = response.json['access']['token']
         self.assertEqual(tender['features'], data['features'])
 
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'features': [{
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'features': [{
             "featureOf": "tenderer",
             "relatedItem": None
         }, {}, {}]}})
@@ -752,11 +753,11 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertIn('features', response.json['data'])
         self.assertNotIn('relatedItem', response.json['data']['features'][0])
 
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'tenderPeriod': {'startDate': None}}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'tenderPeriod': {'startDate': None}}})
         self.assertEqual(response.status, '200 OK')
         self.assertIn('features', response.json['data'])
 
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'features': []}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'features': []}})
         self.assertEqual(response.status, '200 OK')
         self.assertNotIn('features', response.json['data'])
 
@@ -777,12 +778,13 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertNotEqual(response.json['data']['status'], 'cancelled')
 
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'cancelled'}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            tender['id'], owner_token), {'data': {'status': 'cancelled'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertNotEqual(response.json['data']['status'], 'cancelled')
 
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']),
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
             {'data': {'tenderPeriod': {'startDate': tender['enquiryPeriod']['endDate']}}},
             status=422
         )
@@ -797,8 +799,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             }
         ])
 
-        response = self.app.patch_json('/tenders/{}'.format(
-            tender['id']), {'data': {'procurementMethodRationale': 'Open'}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            tender['id'], owner_token), {'data': {'procurementMethodRationale': 'Open'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         new_tender = response.json['data']
@@ -807,8 +809,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(tender, new_tender)
         self.assertNotEqual(dateModified, new_dateModified)
 
-        response = self.app.patch_json('/tenders/{}'.format(
-            tender['id']), {'data': {'dateModified': new_dateModified}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            tender['id'], owner_token), {'data': {'dateModified': new_dateModified}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         new_tender2 = response.json['data']
@@ -820,13 +822,13 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(revisions[-1][u'changes'][0]['op'], u'remove')
         self.assertEqual(revisions[-1][u'changes'][0]['path'], u'/procurementMethodRationale')
 
-        response = self.app.patch_json('/tenders/{}'.format(
-            tender['id']), {'data': {'items': [test_tender_ua_data['items'][0]]}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            tender['id'], owner_token), {'data': {'items': [test_tender_ua_data['items'][0]]}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
 
-        response = self.app.patch_json('/tenders/{}'.format(
-            tender['id']), {'data': {'items': [{}, test_tender_ua_data['items'][0]]}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            tender['id'], owner_token), {'data': {'items': [{}, test_tender_ua_data['items'][0]]}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         item0 = response.json['data']['items'][0]
@@ -834,19 +836,19 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertNotEqual(item0.pop('id'), item1.pop('id'))
         self.assertEqual(item0, item1)
 
-        response = self.app.patch_json('/tenders/{}'.format(
-            tender['id']), {'data': {'items': [{}]}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            tender['id'], owner_token), {'data': {'items': [{}]}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(len(response.json['data']['items']), 1)
 
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'items': [{"classification": {
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'items': [{"classification": {
             "scheme": "CPV",
             "id": "44620000-2",
             "description": "Cartons 2"
         }}]}}, status=200)
 
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'items': [{"classification": {
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'items': [{"classification": {
             "scheme": "CPV",
             "id": "55523100-3",
             "description": "Послуги з харчування у школах"
@@ -856,25 +858,25 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't change classification")
 
 
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'items': [{"additionalClassifications": [
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'items': [{"additionalClassifications": [
             tender['items'][0]["additionalClassifications"][0] for i in range(3)
         ]}]}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
 
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'items': [{"additionalClassifications": tender['items'][0]["additionalClassifications"]}]}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'items': [{"additionalClassifications": tender['items'][0]["additionalClassifications"]}]}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
 
-        response = self.app.patch_json('/tenders/{}'.format(
-            tender['id']), {'data': {'enquiryPeriod': {'endDate': new_dateModified2}}}, status=403)
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            tender['id'], owner_token), {'data': {'enquiryPeriod': {'endDate': new_dateModified2}}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't change enquiryPeriod")
 
         self.set_status('complete')
 
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.auction'}}, status=403)
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'status': 'active.auction'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (complete) status")
@@ -935,6 +937,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         response = self.app.post_json('/tenders', {'data': test_tender_ua_data})
         self.assertEqual(response.status, '201 Created')
         tender = response.json['data']
+        owner_token = response.json['access']['token']
         dateModified = tender['dateModified']
 
         response = self.app.get('/tenders/{}'.format(tender['id']))
@@ -942,8 +945,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['dateModified'], dateModified)
 
-        response = self.app.patch_json('/tenders/{}'.format(
-            tender['id']), {'data': {'procurementMethodRationale': 'Open'}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            tender['id'], owner_token), {'data': {'procurementMethodRationale': 'Open'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertNotEqual(response.json['data']['dateModified'], dateModified)
@@ -1007,8 +1010,10 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         response = self.app.post_json('/tenders', {'data': test_tender_ua_data})
         self.assertEqual(response.status, '201 Created')
         tender = response.json['data']
+        owner = response.json['access']['token']
 
-        response = self.app.post_json('/tenders/{}/cancellations'.format(tender['id']), {'data': {'reason': 'cancellation reason', 'status': 'active'}})
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
+            tender['id'], owner), {'data': {'reason': 'cancellation reason', 'status': 'active'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 

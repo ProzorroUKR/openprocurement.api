@@ -178,7 +178,8 @@ class TenderQuestionResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
 
-        response = self.app.patch_json('/tenders/{}/questions/{}'.format(self.tender_id, question['id']), {"data": {"answer": "answer"}})
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(
+            self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["answer"], "answer")
@@ -208,7 +209,8 @@ class TenderQuestionResourceTest(BaseTenderUAContentWebTest):
 
         self.set_status('active.auction')
 
-        response = self.app.patch_json('/tenders/{}/questions/{}'.format(self.tender_id, question['id']), {"data": {"answer": "answer"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(
+            self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update question in current (active.auction) tender status")
@@ -283,7 +285,7 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
     initial_lots = 2 * test_lots
 
     def test_create_tender_question(self):
-        response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
             'reason': 'cancellation reason',
             'status': 'active',
             "cancellationOf": "lot",
@@ -328,7 +330,7 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
 
-        response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
             'reason': 'cancellation reason',
             'status': 'active',
             "cancellationOf": "lot",
@@ -336,7 +338,8 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
         }})
         self.assertEqual(response.status, '201 Created')
 
-        response = self.app.patch_json('/tenders/{}/questions/{}'.format(self.tender_id, question['id']), {"data": {"answer": "answer"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(
+            self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can update question only in active lot status")
@@ -352,7 +355,8 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
 
-        response = self.app.patch_json('/tenders/{}/questions/{}'.format(self.tender_id, question['id']), {"data": {"answer": "answer"}})
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(
+            self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["answer"], "answer")
