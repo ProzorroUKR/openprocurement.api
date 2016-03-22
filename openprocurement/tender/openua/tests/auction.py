@@ -44,6 +44,8 @@ class TenderAuctionResourceTest(BaseTenderUAContentWebTest):
         ])
 
     def test_get_tender_auction(self):
+
+        self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
@@ -337,6 +339,7 @@ class TenderLotAuctionResourceTest(TenderAuctionResourceTest):
 
 
     def test_get_tender_auction(self):
+        self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
@@ -633,6 +636,8 @@ class TenderMultipleLotAuctionResourceTest(TenderAuctionResourceTest):
     initial_lots = 2 * test_lots
 
     def test_get_tender_auction(self):
+
+        self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
@@ -1029,6 +1034,8 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
     ]
 
     def test_get_tender_auction(self):
+
+        self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
