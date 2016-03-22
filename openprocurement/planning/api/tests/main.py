@@ -2,12 +2,13 @@
 
 import unittest
 
-from openprocurement.planning.api.tests import plan
+from openprocurement.planning.api.tests import plan, document
 
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(plan.suite())
+    suite.addTest(document.suite())
     return suite
 
 

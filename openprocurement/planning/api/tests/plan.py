@@ -412,7 +412,7 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
             {u'description': [{u'additionalClassifications': [
-                u"One of additional classifications should be '\u0414\u041a\u041f\u041f'"]}], u'location': u'body',
+                u"One of additional classifications should be one of [\u0414\u041a\u041f\u041f, NONE, \u0414\u041a003, \u0414\u041a015, \u0414\u041a018]."]}], u'location': u'body',
                 u'name': u'items'}
         ])
 

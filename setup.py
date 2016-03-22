@@ -1,7 +1,19 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.0'
+version = '1.0.1'
+
+requires = [
+    'setuptools',
+    'openprocurement.api>=0.12b2',
+]
+test_requires = requires + [
+    'webtest',
+    'python-coveralls',
+]
+docs_requires = requires + [
+    'sphinxcontrib-httpdomain',
+]
 
 entry_points = {
     'openprocurement.api.plugins': [
@@ -26,9 +38,9 @@ setup(name='openprocurement.planning.api',
       namespace_packages=['openprocurement', 'openprocurement.planning'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=[
-          'setuptools',
-          'openprocurement.api',
-      ],
+      install_requires=requires,
+      tests_require=test_requires,
+      extras_require={'test': test_requires, 'docs': docs_requires},
+      test_suite="openprocurement.planning.api.tests.main.suite",
       entry_points=entry_points,
       )
