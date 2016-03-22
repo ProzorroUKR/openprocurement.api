@@ -348,7 +348,8 @@ class Qualification(Model):
     class Options:
         roles = {
             'create': blacklist('id', 'status', 'documents', 'date'),
-            'edit': whitelist('status', 'qualified', 'eligible'),
+            'edit': whitelist('status', 'qualified', 'eligible', 'title', 'title_en', 'title_ru',
+                              'description', 'description_en', 'description_ru'),
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
         }
