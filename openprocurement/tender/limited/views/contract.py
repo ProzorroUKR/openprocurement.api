@@ -12,6 +12,7 @@ from openprocurement.api.validation import (
     validate_patch_contract_data,
 )
 from openprocurement.api.views.contract import TenderAwardContractResource as BaseTenderAwardContractResource
+from openprocurement.tender.openua.utils import PENDING_COMPLAINT_STATUS
 
 
 def check_tender_status(request):
@@ -113,6 +114,14 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
             stand_still_end = award.complaintPeriod.endDate
             if stand_still_end > get_now():
                 self.request.errors.add('body', 'data', 'Can\'t sign contract before stand-still period end ({})'.format(stand_still_end.isoformat()))
+                self.request.errors.status = 403
+                return
+            if any([
+                i.status in PENDING_COMPLAINT_STATUS
+                for a in tender.awards
+                for i in a.complaints
+            ]):
+                self.request.errors.add('body', 'data', 'Can\'t sign contract before reviewing all complaints')
                 self.request.errors.status = 403
                 return
 

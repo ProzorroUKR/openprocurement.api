@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-05 10:08+0200\n"
-"PO-Revision-Date: 2016-03-09 13:13+0200\n"
+"PO-Revision-Date: 2016-03-21 16:40+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -94,17 +94,9 @@ msgstr "ціле число"
 msgid "|ocdsDescription| The number of units required"
 msgstr "|ocdsDescription| Кількість необхідних одиниць."
 
-#: ../../source/standard/item.rst:59
-msgid ":ref:`Period`"
-msgstr ":ref:`Period`"
-
 #: ../../source/standard/item.rst:61
 msgid "Period during which the item should be delivered."
 msgstr "Період, протягом якого елемент повинен бути доставлений."
-
-#: ../../source/standard/item.rst:64
-msgid ":ref:`Address`"
-msgstr ":ref:`Address`"
 
 #: ../../source/standard/item.rst:66
 msgid "Address, where the item should be delivered."
@@ -203,4 +195,12 @@ msgstr "|ocdsDescription| Назва одиниці"
 #: ../../source/standard/item.rst:15
 msgid "string, auto-generated"
 msgstr "рядок, генерується автоматично"
+
+#: ../../source/standard/item.rst:59
+msgid ":ref:`Period`, requred"
+msgstr ":ref:`Period`, обов’язково"
+
+#: ../../source/standard/item.rst:64
+msgid ":ref:`Address`, required"
+msgstr ":ref:`Address`, обов’язково"
 
