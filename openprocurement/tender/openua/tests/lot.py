@@ -1261,6 +1261,51 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
+    def test_2lot_2bid_1lot_del(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        # create tender
+        response = self.app.post_json('/tenders', {"data": test_tender_ua_data})
+        tender_id = self.tender_id = response.json['data']['id']
+        owner_token = response.json['access']['token']
+        lots = []
+        for lot in 2 * test_lots:
+            # add lot
+            response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]})
+            self.assertEqual(response.status, '201 Created')
+            lots.append(response.json['data']['id'])
+        self.initial_lots = lots
+        # add item
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [test_tender_ua_data['items'][0] for i in lots]}})
+        # add relatedLot for item
+        # response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [{'relatedLot': i} for i in lots[]]}})
+        # self.assertEqual(response.status, '200 OK')
+        # switch to active.tendering
+        response = self.set_status('active.tendering', {"lots": [
+            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
+            for i in lots
+        ]})
+        # create bid
+
+        bids = []
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                                                                      'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
+            {"value": {"amount": 500}, 'relatedLot': lot_id}
+            for lot_id in lots
+        ]}})
+        bids.append(response.json)
+        # create second bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                                                                      'tenderers': [test_tender_ua_data["procuringEntity"]], 'lotValues': [
+            {"value": {"amount": 500}, 'relatedLot': lot_id}
+            for lot_id in lots
+        ]}})
+        bids.append(response.json)
+        response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lots[0], owner_token))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
 
     def test_2lot_1bid_2com_1win(self):
         # create tender
