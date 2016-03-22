@@ -27,6 +27,18 @@ Schema
      :`active`:
        Cancellation activated.
 
+
+:reasonType:
+    string
+
+    There are two possible types of cancellation reason set by procuring entity:
+
+     :`cancelled`:
+       Default. Tender was cancelled.
+
+     :`unsuccessful`:
+       Tender was unsuccessful.
+
 :documents:
     List of :ref:`Document` objects
 

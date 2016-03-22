@@ -57,6 +57,17 @@ test_tender_ua_data = {
         }
       ],
       "description": "Послуги шкільних їдалень",
+      "deliveryDate": {
+            "startDate": (get_now() + timedelta(days=20)).isoformat(),
+            "endDate": (get_now() + timedelta(days=50)).isoformat()
+      },
+      "deliveryAddress": {
+            "countryName": u"Україна",
+            "postalCode": "79000",
+            "region": u"м. Київ",
+            "locality": u"м. Київ",
+            "streetAddress": u"вул. Банкова 1"
+      },
       "classification": {
         "scheme": "CPV",
         "id": "37810000-9",
@@ -95,9 +106,11 @@ bid = {
                 "name": "ДКП «Школяр»"
             }
         ],
+        "subcontractingDetails": "ДКП «книга», Україна, м. Львів, вул. Островського, 33",
         "value": {
             "amount": 500
-        }
+        },
+        'selfEligible': True, 'selfQualified': True,
     }
 }
 
@@ -127,7 +140,8 @@ bid2 = {
         ],
         "value": {
             "amount": 499
-        }
+        },
+        'selfEligible': True, 'selfQualified': True,
     }
 }
 
@@ -313,6 +327,16 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         self.tender_id = tender['id']
 
+        # Setting Bid guarantee
+        #
+
+        with open('docs/source/tutorial/set-bid-guarantee.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+                self.tender_id, owner_token), {"data": {"guarantee": {"amount": 8, "currency": "USD"}}})
+            self.assertEqual(response.status, '200 OK')
+            self.assertIn('guarantee', response.json['data'])
+
+
         #### Uploading documentation
         #
 
@@ -412,15 +436,6 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             bids_access[bid1_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
 
-        # Setting Bid guarantee
-        #
-
-        with open('docs/source/tutorial/set-bid-guarantee.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(
-                self.tender_id, bid1_id, bids_access[bid1_id]), {"data": {"guarantee": {"amount": 8, "currency": "USD"}}})
-            self.assertEqual(response.status, '200 OK')
-            self.assertIn('guarantee', response.json['data'])
-
         #### Proposal Uploading
         #
 
@@ -519,7 +534,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         with open('docs/source/tutorial/confirm-qualification.http', 'w') as self.app.file_obj:
-            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active"}})
+            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
@@ -787,7 +802,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active"}})
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/award-complaint-submission.http', 'w') as self.app.file_obj:

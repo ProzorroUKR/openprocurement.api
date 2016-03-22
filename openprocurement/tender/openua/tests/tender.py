@@ -489,13 +489,13 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         data = deepcopy(test_tender_ua_data)
         del data["items"][0]['deliveryAddress']['postalCode']
         del data["items"][0]['deliveryAddress']['locality']
-        del data["items"][0]['deliveryDate']
+        del data["items"][0]['deliveryDate']['endDate']
         response = self.app.post_json(request_path, {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'deliveryDate': [u'This field is required.'], u'deliveryAddress': {u'postalCode': [u'This field is required.'], u'locality': [u'This field is required.']}}], u'location': u'body', u'name': u'items'}
+            {u'description': [{u'deliveryDate': {u'endDate': [u'This field is required.']}, u'deliveryAddress': {u'postalCode': [u'This field is required.'], u'locality': [u'This field is required.']}}], u'location': u'body', u'name': u'items'}
         ])
 
     def test_create_tender_generated(self):
@@ -553,6 +553,16 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         self.assertIn('{\n    "', response.body)
+
+        tender_data = deepcopy(test_tender_ua_data)
+        tender_data['guarantee'] = {"amount": 100500, "currency": "USD"}
+        response = self.app.post_json('/tenders', {'data': tender_data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        data = response.json['data']
+        self.assertIn('guarantee', data)
+        self.assertEqual(data['guarantee']['amount'], 100500)
+        self.assertEqual(data['guarantee']['currency'], "USD")
 
     def test_get_tender(self):
         response = self.app.get('/tenders')
@@ -903,6 +913,20 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.json['data']['tenderPeriod']['endDate'], tenderPeriod_endDate.isoformat())
         self.assertEqual(response.json['data']['enquiryPeriod']['endDate'], enquiryPeriod_endDate.isoformat())
 
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"guarantee": {"valueAddedTaxIncluded": True}}}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.json['errors'][0], {u'description': {u'valueAddedTaxIncluded': u'Rogue field'}, u'location': u'body', u'name': u'guarantee'})
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"guarantee": {"amount": 12}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertIn('guarantee', response.json['data'])
+        self.assertEqual(response.json['data']['guarantee']['amount'], 12)
+        self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"guarantee": {"currency": "USD"}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
+
     def test_dateModified_tender(self):
         response = self.app.get('/tenders')
         self.assertEqual(response.status, '200 OK')
@@ -1056,7 +1080,8 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
 
         bid_id = self.bid_id = response.json['data']['id']
 
@@ -1080,7 +1105,8 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}})
         # switch to active.qualification
         self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -1103,13 +1129,15 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 450}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 450}}})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 475}}})
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 475}}})
         # switch to active.auction
         self.set_status('active.auction')
 
@@ -1180,7 +1208,7 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
         # set award as active
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "active"}})
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
         # get contract id
         response = self.app.get('/tenders/{}'.format(tender_id))
         contract_id = response.json['data']['contracts'][-1]['id']

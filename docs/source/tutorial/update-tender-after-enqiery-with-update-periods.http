@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643?acc_token=8dc013d938cc4e04a0f5aef8c8fb3f00 HTTP/1.0
+PATCH /api/2.0/tenders/e2b439a8a7a5473b9b0bb65a8f97b74a?acc_token=598d0fba58f349ab822741755b3d45ce HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 120
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-03-24T18:09:58.326677+02:00"
+      "endDate": "2016-03-29T15:54:32.455724+02:00"
     }, 
     "value": {
       "currency": "UAH", 
@@ -21,67 +21,119 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "procurementMethod": "open", 
-    "status": "active.tendering", 
+    "complaintPeriod": {
+      "startDate": "2016-03-08T15:54:32.170791+02:00", 
+      "endDate": "2016-03-25T15:54:32.455724+02:00"
+    }, 
+    "enquiryPeriod": {
+      "startDate": "2016-03-08T15:54:32.170791+02:00", 
+      "endDate": "2016-03-19T15:54:32.455724+02:00"
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "next_check": "2016-03-29T16:54:32.455724+03:00", 
+    "awardCriteria": "lowestCost", 
+    "questions": [
+      {
+        "description": "Просимо додати таблицю потрібної калорійності харчування", 
+        "title": "Калорійність", 
+        "date": "2016-03-21T15:54:31.847236+02:00", 
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
+        "id": "757bda120b9343ba992ee7021b6b2265", 
+        "questionOf": "tender"
+      }
+    ], 
+    "owner": "broker", 
+    "id": "e2b439a8a7a5473b9b0bb65a8f97b74a", 
+    "guarantee": {
+      "currency": "USD", 
+      "amount": 8.0
+    }, 
     "documents": [
       {
         "title": "Notice.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/documents/dc8d28af5f3f4c86961ae7d95fe95577?download=5e8df95b2e9a49858097ec228eb7ab04", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/e2b439a8a7a5473b9b0bb65a8f97b74a/documents/ee8fb187df494fdb8ea2d60ba419c00d?download=7860a745f0ad4f69aa0ff501eeb496fd", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T18:09:57.350654+02:00", 
-        "id": "dc8d28af5f3f4c86961ae7d95fe95577", 
-        "dateModified": "2016-03-16T18:09:57.350700+02:00"
+        "datePublished": "2016-03-21T15:54:31.368584+02:00", 
+        "id": "ee8fb187df494fdb8ea2d60ba419c00d", 
+        "dateModified": "2016-03-21T15:54:31.368627+02:00"
       }, 
       {
         "title": "AwardCriteria.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/documents/08afcdea4b6f4280a0c3e2cc8e2856b5?download=f6cdce3b6fdd4c2dba443f0f16f17994", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/e2b439a8a7a5473b9b0bb65a8f97b74a/documents/332b5d251fec417c9ee463b5719c35d7?download=8175974e715a4661a1e75e72e85751c2", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T18:09:57.516858+02:00", 
-        "id": "08afcdea4b6f4280a0c3e2cc8e2856b5", 
-        "dateModified": "2016-03-16T18:09:57.516903+02:00"
+        "datePublished": "2016-03-21T15:54:31.511928+02:00", 
+        "id": "332b5d251fec417c9ee463b5719c35d7", 
+        "dateModified": "2016-03-21T15:54:31.511969+02:00"
       }, 
       {
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/documents/08afcdea4b6f4280a0c3e2cc8e2856b5?download=419fe0d442464d13948cc8943b42e47f", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/e2b439a8a7a5473b9b0bb65a8f97b74a/documents/332b5d251fec417c9ee463b5719c35d7?download=9ba2438151f2469ebea444a7af099daf", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T18:09:57.516858+02:00", 
-        "id": "08afcdea4b6f4280a0c3e2cc8e2856b5", 
-        "dateModified": "2016-03-16T18:09:57.678097+02:00"
+        "datePublished": "2016-03-21T15:54:31.511928+02:00", 
+        "id": "332b5d251fec417c9ee463b5719c35d7", 
+        "dateModified": "2016-03-21T15:54:31.699780+02:00"
       }
     ], 
-    "tenderID": "UA-2016-03-16-000001", 
-    "tenderPeriod": {
-      "startDate": "2016-03-03T18:09:58.081578+02:00", 
-      "endDate": "2016-03-24T18:09:58.326677+02:00"
-    }, 
     "title": "футляри до державних нагород", 
+    "tenderID": "UA-2016-03-21-000001", 
+    "dateModified": "2016-03-21T15:54:32.580078+02:00", 
+    "status": "active.tendering", 
+    "tenderPeriod": {
+      "startDate": "2016-03-08T15:54:32.170791+02:00", 
+      "endDate": "2016-03-29T15:54:32.455724+02:00"
+    }, 
+    "auctionPeriod": {
+      "startDate": "2016-03-23T15:54:32.170791+02:00", 
+      "shouldStartAfter": "2016-03-29T15:54:32.455724+02:00"
+    }, 
+    "procurementMethodType": "aboveThresholdUA", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 35.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "auctionPeriod": {
-      "startDate": "2016-03-18T18:09:58.081578+02:00", 
-      "shouldStartAfter": "2016-03-24T18:09:58.326677+02:00"
-    }, 
-    "complaintPeriod": {
-      "startDate": "2016-03-03T18:09:58.081578+02:00", 
-      "endDate": "2016-03-20T18:09:58.326677+02:00"
-    }, 
-    "procurementMethodType": "aboveThresholdUA", 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-04-10T15:54:17.581675+02:00", 
+          "endDate": "2016-05-10T15:54:17.581740+02:00"
+        }, 
+        "id": "e40f0bc8f76042d5af0185ad44d8779a", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
     "value": {
       "currency": "UAH", 
       "amount": 501.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "submissionMethod": "electronicAuction", 
-    "enquiryPeriod": {
-      "startDate": "2016-03-03T18:09:58.081578+02:00", 
-      "endDate": "2016-03-14T18:09:58.326677+02:00"
-    }, 
-    "next_check": "2016-03-24T18:09:58.326677+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -101,44 +153,7 @@ Content-Type: application/json; charset=UTF-8
         "region": "м. Вінниця", 
         "locality": "м. Вінниця"
       }
-    }, 
-    "questions": [
-      {
-        "description": "Просимо додати таблицю потрібної калорійності харчування", 
-        "title": "Калорійність", 
-        "date": "2016-03-16T18:09:57.815775+02:00", 
-        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "fded597457c04cbf8a621b3a88f586bc", 
-        "questionOf": "tender"
-      }
-    ], 
-    "items": [
-      {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "Послуги шкільних їдалень"
-          }
-        ], 
-        "id": "ead80900ac77421793ea3c0a47ccda96", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 1
-      }
-    ], 
-    "owner": "broker", 
-    "dateModified": "2016-03-16T18:09:58.424383+02:00", 
-    "id": "fd002ab62dc14a21a5f4b5b881a90643", 
-    "awardCriteria": "lowestCost"
+    }
   }
 }
 

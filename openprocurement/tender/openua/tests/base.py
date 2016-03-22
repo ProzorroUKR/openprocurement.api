@@ -9,7 +9,7 @@ from openprocurement.api.tests.base import (test_tender_data,
                                             BaseTenderWebTest,
                                             PrefixedRequestClass)
 
-
+from openprocurement.api.tests.base import test_bids as base_test_bids
 test_tender_ua_data = test_tender_data.copy()
 test_tender_ua_data['procurementMethodType'] = "aboveThresholdUA"
 # test_tender_ua_data["enquiryPeriod"] = {}
@@ -49,6 +49,12 @@ test_tender_ua_data["items"] = [{
             "streetAddress": u"вул. Банкова 1"
             }
 }]
+
+test_bids = []
+for i in base_test_bids:
+    i.update({'selfEligible': True, 'selfQualified': True})
+    test_bids.append(i)
+
 
 # test_tender_ua_data["tenderPeriod"] = test_tender_ua_data["enquiryPeriod"].copy()
 

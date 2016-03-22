@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/bids/bdb31a0645dd48dd982421b12543ce20?acc_token=ef1872a47c7b4339a225531ccd14295c HTTP/1.0
+PATCH /api/2.0/tenders/e2b439a8a7a5473b9b0bb65a8f97b74a/bids/ba61a4f2ba714e23972728f3f26a6755?acc_token=72e5d00fe4634894ad4ec2e9447b0f7b HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -18,19 +18,22 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "Proposal.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/bids/bdb31a0645dd48dd982421b12543ce20/documents/7bf756e26d22486782abd0b9c7029d8c?download=b9642a24dbe849f1a27189c79993291a", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/e2b439a8a7a5473b9b0bb65a8f97b74a/bids/ba61a4f2ba714e23972728f3f26a6755/documents/428f2f90e396445c9c28f15256967e76?download=e6d8376d028945388359a9c3a3ee6bec", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T18:09:58.861070+02:00", 
-        "id": "7bf756e26d22486782abd0b9c7029d8c", 
-        "dateModified": "2016-03-16T18:09:58.861120+02:00"
+        "datePublished": "2016-03-21T15:54:32.904255+02:00", 
+        "id": "428f2f90e396445c9c28f15256967e76", 
+        "dateModified": "2016-03-21T15:54:32.904302+02:00"
       }
     ], 
+    "selfEligible": true, 
+    "id": "ba61a4f2ba714e23972728f3f26a6755", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
+    "subcontractingDetails": "ДКП «книга», Україна, м. Львів, вул. Островського, 33", 
     "tenderers": [
       {
         "contactPoint": {
@@ -53,12 +56,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2016-03-16T18:09:58.544428+02:00", 
-    "id": "bdb31a0645dd48dd982421b12543ce20", 
-    "guarantee": {
-      "currency": "USD", 
-      "amount": 8.0
-    }
+    "date": "2016-03-21T15:54:32.720037+02:00", 
+    "selfQualified": true
   }
 }
 

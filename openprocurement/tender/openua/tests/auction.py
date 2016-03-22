@@ -4,8 +4,8 @@ from datetime import timedelta
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.openua.tests.base import (
-    BaseTenderUAContentWebTest, test_tender_ua_data, test_features_tender_ua_data)
-from openprocurement.api.tests.base import test_features_tender_data, test_bids, test_lots
+    BaseTenderUAContentWebTest, test_tender_ua_data, test_features_tender_ua_data, test_bids)
+from openprocurement.api.tests.base import test_features_tender_data, test_lots
 
 # from openprocurement.api.tests.base import BaseTenderWebTest, test_tender_data, test_features_tender_data, test_bids, test_lots
 
@@ -292,7 +292,8 @@ class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):
                 "amount": 469,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": True
-            }
+            },
+            'selfEligible': True, 'selfQualified': True,
         }
         for i in range(3)
     ]
@@ -1009,7 +1010,8 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
                 "amount": 469,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": True
-            }
+            },
+            'selfEligible': True, 'selfQualified': True,
         },
         {
             "parameters": [
@@ -1026,7 +1028,8 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
                 "amount": 479,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": True
-            }
+            },
+            'selfEligible': True, 'selfQualified': True,
         }
     ]
 

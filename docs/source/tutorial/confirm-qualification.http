@@ -1,12 +1,14 @@
-PATCH /api/0.12/tenders/fd002ab62dc14a21a5f4b5b881a90643/awards/58643003f9124bf4b65debee438a18ca?acc_token=8dc013d938cc4e04a0f5aef8c8fb3f00 HTTP/1.0
+PATCH /api/2.0/tenders/e2b439a8a7a5473b9b0bb65a8f97b74a/awards/aa131b60e3b2433aa588681e89cd87ef?acc_token=598d0fba58f349ab822741755b3d45ce HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 30
+Content-Length: 67
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "active"
+    "status": "active", 
+    "qualified": true, 
+    "eligible": true
   }
 }
 
@@ -15,10 +17,7 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "complaintPeriod": {
-      "startDate": "2016-03-16T18:10:00.552772+02:00", 
-      "endDate": "2016-03-26T18:10:00.858154+02:00"
-    }, 
+    "eligible": true, 
     "suppliers": [
       {
         "contactPoint": {
@@ -41,14 +40,19 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "bid_id": "4b742459b1bc4eddbbbd759a9a432d05", 
+    "complaintPeriod": {
+      "startDate": "2016-03-21T15:54:34.679098+02:00", 
+      "endDate": "2016-03-31T15:54:34.919257+02:00"
+    }, 
+    "bid_id": "6eeb76cd75b54d49a141dc90e835bf61", 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2016-03-16T18:10:00.553193+02:00", 
-    "id": "58643003f9124bf4b65debee438a18ca"
+    "qualified": true, 
+    "date": "2016-03-21T15:54:34.679564+02:00", 
+    "id": "aa131b60e3b2433aa588681e89cd87ef"
   }
 }
 
