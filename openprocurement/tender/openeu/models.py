@@ -258,14 +258,18 @@ class LotValue(BaseLotValue):
             if lot.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
                 raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot")
 
+    def validate_relatedLot(self, data, relatedLot):
+        if isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid')) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
+            raise ValidationError(u"relatedLot should be one of lots")
+
 class Bid(BaseBid):
     class Options:
         roles = {
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'selfQualified', 'selfEligible',),
-            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status'),
+            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
+            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'subcontractingDetails'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
