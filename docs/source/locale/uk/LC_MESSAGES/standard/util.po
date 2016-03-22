@@ -1,20 +1,19 @@
-#
 # Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-11-24 18:25+0200\n"
-"PO-Revision-Date: 2016-03-17 10:39+0200\n"
+"PO-Revision-Date: 2016-03-21 16:18+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
 "=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../../source/standard/util.rst:8
 msgid "Period"
@@ -25,8 +24,7 @@ msgstr "Period"
 msgid "Schema"
 msgstr "Схема"
 
-#: ../../source/standard/util.rst:14 ../../source/standard/util.rst:20
-#: ../../source/standard/util.rst:70
+#: ../../source/standard/util.rst:14 ../../source/standard/util.rst:70
 msgid "string, :ref:`date`"
 msgstr "рядок, :ref:`date`"
 
@@ -97,4 +95,8 @@ msgstr "Guarantee"
 #: ../../source/standard/util.rst:94
 msgid "string, required, default = `UAH`"
 msgstr "рядок, обов’язковий, за замовчуванням = `UAH`"
+
+#: ../../source/standard/util.rst:20
+msgid "string, :ref:`date`, required"
+msgstr "рядок, :ref:`date`, обов’язково"
 

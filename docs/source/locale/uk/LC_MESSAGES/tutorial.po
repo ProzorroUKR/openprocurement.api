@@ -1,4 +1,4 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
@@ -485,17 +485,3 @@ msgstr ""
 msgid "Procuring entity can set bid guarantee:"
 msgstr "Замовник може встановити забезпечення тендерної пропозиції:"
 
-#~ msgid "Tender owner can set bid guarantee:"
-#~ msgstr ""
-
-#~ msgid "Bidder can set bid guarantee:"
-#~ msgstr "Учасник може встановити забезпечення тендерної пропозиції:"
-
-#~ msgid ""
-#~ "There are two possible types of cancellation reason - auction was "
-#~ "`cancelled` or `unsuccessful`. By default ``reasonType`` value is "
-#~ "`cancelled`."
-#~ msgstr ""
-#~ "При скасуванні, замовник має визначити один з двох типів ``reasonType``: "
-#~ "торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За "
-#~ "замовчуванням, значення ``reasonType`` рівне `cancelled`."
