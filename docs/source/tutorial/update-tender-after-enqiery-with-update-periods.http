@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/8dc3edd1852d4879ac642a761c4483f1?acc_token=56a8d239d80f4fe78d5d0e04cb1725db HTTP/1.0
+PATCH /api/2.1/tenders/4bafba9f3e5d4ea68be29833767557ff?acc_token=63285d7791a642ccb1292361a5c00058 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 120
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-03-24T15:34:30.451087+02:00"
+      "endDate": "2016-03-30T11:18:20.552994+02:00"
     }, 
     "value": {
       "currency": "UAH", 
@@ -25,36 +25,36 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "Notice.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/8dc3edd1852d4879ac642a761c4483f1/documents/60deafb65d6b43298290389747f0921a?download=5e7c95c01a544f40bbeb5a655ec06759", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/4bafba9f3e5d4ea68be29833767557ff/documents/9e968b370e094b868ec7fee215e79562?download=b20463de176e481bae6de4efddf7d948", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T15:34:29.492457+02:00", 
-        "id": "60deafb65d6b43298290389747f0921a", 
-        "dateModified": "2016-03-16T15:34:29.492494+02:00"
+        "datePublished": "2016-03-22T11:18:19.093571+02:00", 
+        "id": "9e968b370e094b868ec7fee215e79562", 
+        "dateModified": "2016-03-22T11:18:19.093604+02:00"
       }, 
       {
         "title": "AwardCriteria.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/8dc3edd1852d4879ac642a761c4483f1/documents/4178e30104e74e99a1ad6cbb9e7dd6f2?download=a02c41b94c0246fe845b0b34094ac97e", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/4bafba9f3e5d4ea68be29833767557ff/documents/0e5c697965764e1986450f305f8c2359?download=88a26c8d7e2b4cad95e0a3f30cdc77c0", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T15:34:29.655436+02:00", 
-        "id": "4178e30104e74e99a1ad6cbb9e7dd6f2", 
-        "dateModified": "2016-03-16T15:34:29.655473+02:00"
+        "datePublished": "2016-03-22T11:18:19.324182+02:00", 
+        "id": "0e5c697965764e1986450f305f8c2359", 
+        "dateModified": "2016-03-22T11:18:19.324210+02:00"
       }, 
       {
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/8dc3edd1852d4879ac642a761c4483f1/documents/4178e30104e74e99a1ad6cbb9e7dd6f2?download=0c03da8d73394581a4b7f000b76aab54", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/4bafba9f3e5d4ea68be29833767557ff/documents/0e5c697965764e1986450f305f8c2359?download=5c9bfc6543c746bfaa9c999d4c8a5ab1", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-16T15:34:29.655436+02:00", 
-        "id": "4178e30104e74e99a1ad6cbb9e7dd6f2", 
-        "dateModified": "2016-03-16T15:34:29.840288+02:00"
+        "datePublished": "2016-03-22T11:18:19.324182+02:00", 
+        "id": "0e5c697965764e1986450f305f8c2359", 
+        "dateModified": "2016-03-22T11:18:19.552683+02:00"
       }
     ], 
-    "tenderID": "UA-2016-03-16-000001", 
+    "tenderID": "UA-2016-03-22-000001", 
     "tenderPeriod": {
-      "startDate": "2016-03-03T15:34:30.226890+02:00", 
-      "endDate": "2016-03-24T15:34:30.451087+02:00"
+      "startDate": "2016-03-09T11:18:20.236118+02:00", 
+      "endDate": "2016-03-30T11:18:20.552994+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -62,13 +62,13 @@ Content-Type: application/json; charset=UTF-8
       "amount": 35.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "auctionPeriod": {
-      "startDate": "2016-03-18T15:34:30.226890+02:00", 
-      "shouldStartAfter": "2016-03-24T15:34:30.451087+02:00"
+    "enquiryPeriod": {
+      "startDate": "2016-03-09T11:18:20.236118+02:00", 
+      "endDate": "2016-03-28T11:18:20.552994+02:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-03-03T15:34:30.226890+02:00", 
-      "endDate": "2016-03-22T15:34:30.451087+02:00"
+      "startDate": "2016-03-09T11:18:20.236118+02:00", 
+      "endDate": "2016-03-28T11:18:20.552994+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA.defense", 
     "value": {
@@ -77,11 +77,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "enquiryPeriod": {
-      "startDate": "2016-03-03T15:34:30.226890+02:00", 
-      "endDate": "2016-03-22T15:34:30.451087+02:00"
-    }, 
-    "next_check": "2016-03-24T15:34:30.451087+02:00", 
+    "next_check": "2016-03-30T12:18:20.552994+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -106,12 +102,18 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
         "title": "Калорійність", 
-        "date": "2016-03-16T15:34:29.962177+02:00", 
+        "date": "2016-03-22T11:18:19.785410+02:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "fd1b70a322734d8bb6d41683dc7d0740", 
+        "id": "af6853c88a5343ce89a129b5020c7885", 
         "questionOf": "tender"
       }
     ], 
+    "auctionPeriod": {
+      "startDate": "2016-03-24T11:18:20.236118+02:00", 
+      "shouldStartAfter": "2016-03-30T11:18:20.552994+02:00"
+    }, 
+    "owner": "broker", 
+    "dateModified": "2016-03-22T11:18:20.645322+02:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -127,7 +129,18 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "fad68d4039be4629a8b32ecf6e7b5388", 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-03-24T11:18:03.232872+02:00", 
+          "endDate": "2016-03-27T11:18:03.232872+03:00"
+        }, 
+        "id": "e7d26014b9164f988e5da301f543d6d9", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -135,9 +148,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
-    "owner": "broker", 
-    "dateModified": "2016-03-16T15:34:30.551202+02:00", 
-    "id": "8dc3edd1852d4879ac642a761c4483f1", 
+    "id": "4bafba9f3e5d4ea68be29833767557ff", 
     "awardCriteria": "lowestCost"
   }
 }

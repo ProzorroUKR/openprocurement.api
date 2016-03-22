@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import os
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 import openprocurement.tender.openuadefense.tests.base as base_test
 from openprocurement.api.models import get_now
@@ -9,6 +9,7 @@ from openprocurement.api.tests.base import PrefixedRequestClass
 from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest, test_tender_ua_data
 from webtest import TestApp
 
+now = datetime.now()
 test_tender_ua_data = {
   "tenderPeriod": {
     "endDate": "2016-02-11T14:04:18.962451"
@@ -62,7 +63,18 @@ test_tender_ua_data = {
         "id": "37810000-9",
         "description": "Test"
       },
-      "quantity": 1
+      "quantity": 1,
+      "deliveryDate": {
+            "startDate": (now + timedelta(days=2)).isoformat(),
+            "endDate": (now + timedelta(days=5)).isoformat()
+             },
+      "deliveryAddress": {
+            "countryName": u"Україна",
+            "postalCode": "79000",
+            "region": u"м. Київ",
+            "locality": u"м. Київ",
+            "streetAddress": u"вул. Банкова 1"
+       }
     }
   ]
 }
@@ -97,7 +109,8 @@ bid = {
         ],
         "value": {
             "amount": 500
-        }
+        },
+        'selfEligible': True, 'selfQualified': True,
     }
 }
 
@@ -127,7 +140,8 @@ bid2 = {
         ],
         "value": {
             "amount": 499
-        }
+        },
+        'selfEligible': True, 'selfQualified': True,
     }
 }
 
@@ -510,15 +524,44 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         with open('docs/source/tutorial/confirm-qualification.http', 'w') as self.app.file_obj:
-            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active"}})
+            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, '200 OK')
-
-        #### Uploading contract documentation
-        #
 
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
                 self.tender_id, owner_token))
         self.contract_id = response.json['data'][0]['id']
+        
+        
+        tender = self.db.get(self.tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+
+         ####  Set contract value
+
+        with open('docs/source/tutorial/tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), {"data": {"value": {"amount": 238}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['value']['amount'], 238)
+
+        #### Setting contract signature date
+        #
+        with open('docs/source/tutorial/tender-contract-sign-date.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), {'data': {"dateSigned": get_now().isoformat()} })
+            self.assertEqual(response.status, '200 OK')
+
+        #### Setting contract period
+
+        period_dates = {"period": {"startDate": (now).isoformat(), "endDate": (now + timedelta(days=365)).isoformat()}}
+        with open('docs/source/tutorial/tender-contract-period.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, owner_token), {'data': {'period': period_dates["period"]}})
+        self.assertEqual(response.status, '200 OK')
+
+        #### Uploading contract documentation
+        #
 
         with open('docs/source/tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
@@ -744,7 +787,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active"}})
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/award-complaint-submission.http', 'w') as self.app.file_obj:
