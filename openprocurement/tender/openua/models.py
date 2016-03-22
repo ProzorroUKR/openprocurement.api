@@ -325,7 +325,8 @@ class Complaint(BaseComplaint):
 class Award(BaseAward):
     class Options:
         roles = {
-            'edit': whitelist('status', 'qualified', 'eligible'),
+            'edit': whitelist('status', 'qualified', 'eligible', 'title', 'title_en', 'title_ru',
+                              'description', 'description_en', 'description_ru'),
         }
     complaints = ListType(ModelType(Complaint), default=list())
     items = ListType(ModelType(Item))
