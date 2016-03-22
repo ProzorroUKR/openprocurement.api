@@ -257,13 +257,13 @@ class PlanDocumentResourceTest(BasePlanWebTest):
 
         response = self.app.patch_json('/plans/{}/documents/{}'.format(self.plan_id, doc_id), {"data": {
             "description": "document description",
-            "documentType": 'planNotice'
+            "documentType": 'notice'
         }})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertIn("documentType", response.json["data"])
-        self.assertEqual(response.json["data"]["documentType"], 'planNotice')
+        self.assertEqual(response.json["data"]["documentType"], 'notice')
 
         response = self.app.patch_json('/plans/{}/documents/{}'.format(self.plan_id, doc_id), {"data": {
             "documentType": None

@@ -4,6 +4,7 @@ from uuid import uuid4
 from couchdb_schematics.document import SchematicsDocument
 from schematics.exceptions import ValidationError
 from openprocurement.api.models import Model, Period, Revision
+from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType, MD5Type
 from openprocurement.api.models import validate_cpv_group, validate_items_uniq, validate_dkpp, get_now
@@ -69,44 +70,6 @@ class PlanOrganization(Model):
     name_ru = StringType()
     identifier = ModelType(Identifier, required=True)
 
-class Document(Model):
-    class Options:
-        roles = {
-            'edit': blacklist('id', 'url', 'datePublished', 'dateModified', ''),
-            'embedded': schematics_embedded_role,
-            'view': (blacklist('revisions') + schematics_default_role),
-            'revisions': whitelist('url', 'dateModified'),
-        }
-
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    documentType = StringType()
-    title = StringType()  # A title of the document.
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()  # A description of the document.
-    description_en = StringType()
-    description_ru = StringType()
-    format = StringType(regex='^[-\w]+/[-\.\w\+]+$')
-    url = StringType()  # Link to the document or attachment.
-    datePublished = IsoDateTimeType(default=get_now)
-    dateModified = IsoDateTimeType(default=get_now)  # Date that the document was last dateModified
-    language = StringType()
-
-    def import_data(self, raw_data, **kw):
-        """
-        Converts and imports the raw data into the instance of the model
-        according to the fields in the model.
-        :param raw_data:
-            The data to be imported.
-        """
-        data = self.convert(raw_data, **kw)
-        del_keys = [k for k in data.keys() if data[k] == getattr(self, k)]
-        for k in del_keys:
-            del data[k]
-
-        self._data.update(data)
-        return self
-
 PROCEDURES = {
   '': ('',),
   'open': ('belowThreshold', 'aboveThresholdUA', 'aboveThresholdEU'),
@@ -124,8 +87,12 @@ class PlanTender(Model):
             raise ValidationError(u"Value must be one of {!r}.".format(PROCEDURES[data.get('procurementMethod')]))
 
 
+class Document(BaseDocument):
+    documentOf = StringType(required=False)
+
+
 # roles
-plain_role = (blacklist('_attachments', 'rev isions', 'dateModified') + schematics_embedded_role)
+plain_role = (blacklist('_attachments', 'revisions', 'dateModified') + schematics_embedded_role)
 create_role = (blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'planID', 'doc_id', '_attachments') + schematics_embedded_role)
 edit_role = (
     blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'doc_id', 'planID', 'mode', '_attachments') + schematics_embedded_role)
