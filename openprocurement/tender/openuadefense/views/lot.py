@@ -29,8 +29,8 @@ class TenderUaLotResource(TenderLotResource):
             self.request.errors.add('body', 'data', 'Can\'t {} lot in current ({}) tender status'.format(operation, tender.status))
             self.request.errors.status = 403
             return
-        if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD) > tender.tenderPeriod.endDate:
-            self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
+        if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, tender, True) > tender.tenderPeriod.endDate:
+            self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} working days'.format(TENDERING_EXTRA_PERIOD))
             self.request.errors.status = 403
             return
         return True

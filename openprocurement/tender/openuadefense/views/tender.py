@@ -13,7 +13,7 @@ from openprocurement.api.utils import (
     context_unpack,
 )
 from openprocurement.api.models import get_now
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.openuadefense.models import TENDERING_EXTRA_PERIOD
 
 
 @opresource(name='Tender UA.defense',
@@ -82,8 +82,8 @@ class TenderUAResource(TenderResource):
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
                 self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
-                if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD) > self.request.validated['tender'].tenderPeriod.endDate:
-                    self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
+                if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, tender, True) > self.request.validated['tender'].tenderPeriod.endDate:
+                    self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} working days'.format(TENDERING_EXTRA_PERIOD))
                     self.request.errors.status = 403
                     return
                 self.request.validated['tender'].initialize()
