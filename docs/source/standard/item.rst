@@ -56,12 +56,12 @@ Schema
     The number of units required
 
 :deliveryDate:
-    :ref:`Period` , required
+    :ref:`Period`, required
 
     Period during which the item should be delivered.
 
 :deliveryAddress:
-    :ref:`Address` , required
+    :ref:`Address`, required
 
     Address, where the item should be delivered.
 

@@ -36,12 +36,12 @@ Schema
 :eligible:
     bool
 
-    Confirms compliance of eligibility criteria set by the customer in the tendering documents
+    Confirms compliance of eligibility criteria set by the procuring entity in the tendering documents.
 
 :qualified:
     bool
 
-    Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On public procurement"
+    Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On Public Procurement".
 
 :status:
     string

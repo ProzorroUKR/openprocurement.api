@@ -1,9 +1,4 @@
-# Copyright (C) 2014-2016, Quintagroup, Ltd
-# This file is distributed under the same license as the
-# openprocurement.tender.openua package.
-#
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
@@ -57,58 +52,3 @@ msgstr ""
 msgid "Award complaint period is 2 working days."
 msgstr "Період оскаржень рішення про переможця 2 робочі дні."
 
-#~ msgid "`tenderPeriod` cannot be shorter than 5 days."
-#~ msgstr ""
-#~ "Період подання пропозицій `tenderPeriod` не може бути коротший ніж 5 робочих"
-#~ " днів."
-
-#~ msgid "`enquiryPeriod` always ends 2 days before tenderPeriod ends."
-#~ msgstr ""
-#~ "Період уточнень `enquiryPeriod` завжди закінчується за 2 робочі дні до "
-#~ "закінчення періоду подання пропозицій."
-
-#~ msgid "If question is not answered `tenderPeriod` is extended for 2 days."
-#~ msgstr ""
-#~ "У випадку запитання без відповіді, період подання пропозицій "
-#~ "`tenderPeriod`подовжується на 2 робочі дні"
-
-#~ msgid "Award complaint period is 2 days."
-#~ msgstr "Період оскаржень рішення про переможця 2 робочі дні."
-
-#~ msgid ""
-#~ "Open UA procedure has `active.tendering` status and can be represented with "
-#~ "the following diagram:"
-#~ msgstr ""
-#~ "Українська процедура відкритих торгів має `active.tendering` статус і може "
-#~ "бути представлена такою діаграмою:"
-
-#~ msgid ""
-#~ "If tender conditions are modified with less than 7 days left to "
-#~ "`tenderPeriod.endDate`, it has to be extended to meet the constraint."
-#~ msgstr ""
-#~ "Якщо умови закупівлі змінюються менше ніж за 7 днів до завершення періоду "
-#~ "подання пропозицій `tenderPeriod.endDate`, цей період треба продовжити на 7 "
-#~ "днів."
-
-#~ msgid ""
-#~ "Claims can be submitted only if there are more than 10 days left in "
-#~ "tenderPeriod."
-#~ msgstr ""
-#~ "Вимоги можна подавати не пізніше ніж за 10 днів до завершення періоду "
-#~ "подання пропозицій."
-
-#~ msgid ""
-#~ "Complaints can be submitted only if there are 4 or more days left in "
-#~ "tenderPeriod."
-#~ msgstr ""
-#~ "Скарги можна подавати не пізніше ніж за 4 дні до завершення періоду подання "
-#~ "пропозицій."
-
-#~ msgid "`tenderPeriod` cannot be shorter than 15 days."
-#~ msgstr ""
-#~ "Період подання пропозицій `tenderPeriod` не може бути коротший ніж 15 днів."
-
-#~ msgid "`enquiryPeriod` always ends 3 days before tenderPeriod ends."
-#~ msgstr ""
-#~ "Період уточнень `enquiryPeriod` завжди закінчується за 3 дні до закінчення "
-#~ "періоду подання пропозицій."
