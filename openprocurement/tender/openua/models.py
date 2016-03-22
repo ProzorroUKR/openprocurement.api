@@ -161,6 +161,9 @@ class PeriodStartEndRequired(Period):
     startDate = IsoDateTimeType(required=True, default=get_now)  # The state date for the period.
     endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
 
+class EnquiryPeriod(Period):
+    clarificationsUntil = IsoDateTimeType()
+
 class Address(BaseAddress):
 
     streetAddress = StringType(required=True)
@@ -409,7 +412,7 @@ class Tender(BaseTender):
 
     __name__ = ''
 
-    enquiryPeriod = ModelType(Period, required=False)
+    enquiryPeriod = ModelType(EnquiryPeriod, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
@@ -442,11 +445,17 @@ class Tender(BaseTender):
             raise ValidationError(u"tenderPeriod should be greater than 15 days")
 
     def initialize(self):
-        self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME)))
+        endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME)
+        self.enquiryPeriod = EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
+                                                endDate=endDate,
+                                                clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
 
-    @serializable(serialized_name="enquiryPeriod", type=ModelType(Period))
+    @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME)))
+        endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME)
+        return EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
+                                  endDate=endDate,
+                                  clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):

@@ -118,9 +118,8 @@ class TenderUaComplaintResource(TenderComplaintResource):
         # tender_owner
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('status', self.context.status) == self.context.status:
             now = get_now()
-            #TODO business days
-            if now > calculate_business_date(tender.enquiryPeriod.endDate, ENQUIRY_STAND_STILL_TIME):
-                self.request.errors.add('body', 'data', 'Can update claim only in enquiryPeriod.stand-still')
+            if now > tender.enquiryPeriod.clarificationsUntil:
+                self.request.errors.add('body', 'data', 'Can update claim only before enquiryPeriod.clarificationsUntil')
                 self.request.errors.status = 403
                 return
             apply_patch(self.request, save=False, src=self.context.serialize())
@@ -128,9 +127,8 @@ class TenderUaComplaintResource(TenderComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('resolution', self.context.resolution) and data.get('resolutionType', self.context.resolutionType) and data.get('status', self.context.status) == 'answered':
             now = get_now()
-            #TODO business days
-            if now > calculate_business_date(tender.enquiryPeriod.endDate, ENQUIRY_STAND_STILL_TIME):
-                self.request.errors.add('body', 'data', 'Can update claim only in enquiryPeriod.stand-still')
+            if now > tender.enquiryPeriod.clarificationsUntil:
+                self.request.errors.add('body', 'data', 'Can update claim only before enquiryPeriod.clarificationsUntil')
                 self.request.errors.status = 403
                 return
             if len(data.get('resolution', self.context.resolution)) < 20:
