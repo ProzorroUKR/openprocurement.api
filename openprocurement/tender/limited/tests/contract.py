@@ -212,13 +212,9 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"dateSigned": twenty_five_hours_in_past}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't set dateSigned later than 1 day")
+        self.assertEqual(response.json['errors'][0]["description"], "dateSigned has to be within the period of 24 hours before the current date")
 
         custom_signature_date = get_now().isoformat()
-        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"dateSigned": custom_signature_date}})
-        self.assertEqual(response.status, '200 OK')
-
-        # test for patch with current contract dateSigned
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"dateSigned": custom_signature_date}})
         self.assertEqual(response.status, '200 OK')
 

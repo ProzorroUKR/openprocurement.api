@@ -82,7 +82,7 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
 
         if self.request.context.dateSigned != contract_dateSigned:
             if self.request.context.dateSigned < (get_now() - timedelta(days=1)):
-                self.request.errors.add('body', 'data', 'Can\'t set dateSigned later than 1 day')
+                self.request.errors.add('body', 'data', 'dateSigned has to be within the period of 24 hours before the current date')
                 self.request.errors.status = 403
                 return
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
