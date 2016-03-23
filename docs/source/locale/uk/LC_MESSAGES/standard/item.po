@@ -1,5 +1,4 @@
 #
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
@@ -205,8 +204,3 @@ msgstr ":ref:`Period`, обов’язково"
 msgid ":ref:`Address`, required"
 msgstr ":ref:`Address`, обов’язково"
 
-#~ msgid ":ref:`Period`"
-#~ msgstr ":ref:`Period`"
-
-#~ msgid ":ref:`Address`"
-#~ msgstr ":ref:`Address`"

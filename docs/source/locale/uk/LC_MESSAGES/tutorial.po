@@ -79,7 +79,7 @@ msgid ""
 "no opportunity to set up ``enquiryPeriod``, it will be assigned "
 "automatically."
 msgstr ""
-"Особливість європейської процедури відкритих торгів в тому, що "
+"Особливість відкритих торгів з публікацією англ. мовою в тому, що "
 "``procurementMethodType`` було змінено з ``belowThreshold`` на "
 "``aboveThresholdEU``.  Також тут неможливо встановити ``enquiryPeriod``, бо "
 "він буде призначений автоматично."
@@ -275,8 +275,8 @@ msgid ""
 "Open EU procedure demands at least two bidders, so there should be at least "
 "two bid proposals registered to move to auction stage:"
 msgstr ""
-"Для того, щоб європейська процедура відкритих торгів відбулась, необхідно "
-"хоча б два учасника, тобто хоча б дві пропозиції повинні бути зареєстровані "
+"Для того, щоб процедура відкритих торгів з публікацією англ. мовою відбулась, "
+"необхідно хоча б два учасника, тобто хоча б дві пропозиції повинні бути зареєстровані "
 "до початку аукціону:"
 
 #: ../../source/tutorial.rst:287
@@ -407,7 +407,7 @@ msgstr "Зареєструємо ще одну пропозицію:"
 #: ../../source/tutorial.rst:289
 msgid "Open EU procedure requires bid qualification."
 msgstr ""
-"Для європейської процедури відкритих торгів необхідна кваліфікація "
+"Для відкритих торгів з публікацією англ. мовою необхідна кваліфікація "
 "пропозицій."
 
 #: ../../source/tutorial.rst:297
@@ -592,8 +592,8 @@ msgstr "Подивимось список усіх доданих докумен
 #: ../../source/tutorial.rst:388
 msgid "You can upload contract documents for the OpenEU procedure."
 msgstr ""
-"Ви можете завантажити документи угоди для Європейської процедури відкритих "
-"торгів."
+"Ви можете завантажити документи угоди для відкритих "
+"торгів з публікацією англ. мовою."
 
 #: ../../source/tutorial.rst:390
 msgid "Let's upload contract document:"
