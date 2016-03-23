@@ -189,6 +189,7 @@ class Contract(BaseContract):
 @implementer(ITender)
 class Tender(ReportingTender):
     """ Negotiation """
+    contracts = ListType(ModelType(Contract), default=list())
     cause = StringType(choices=['artContestIP', 'noCompetition', 'twiceUnsuccessful',
                                 'additionalPurchase', 'additionalConstruction', 'stateLegalServices'],
                        required=True)
