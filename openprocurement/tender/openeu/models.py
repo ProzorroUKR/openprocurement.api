@@ -353,12 +353,6 @@ class Qualification(Model):
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
         }
-    # title = StringType()
-    # title_en = StringType()
-    # title_ru = StringType()
-    # description = StringType()
-    # description_en = StringType()
-    # description_ru = StringType()
 
     title = StringType()
     title_en = StringType()
@@ -383,12 +377,6 @@ class Qualification(Model):
     def validate_eligible(self, data, eligible):
         if data['status'] == 'active' and not eligible:
             raise ValidationError(u'This field is required.')
-
-    # qualified = BooleanType(default=False)
-    # eligible = BooleanType(default=False)
-    #
-    # def validate_qualified(self, data, value):
-    #     import pdb; pdb.set_trace()  # debug ktarasz
 
     def validate_lotID(self, data, lotID):
         if isinstance(data['__parent__'], Model):
@@ -482,7 +470,7 @@ class Tender(BaseTender):
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
-        endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL)
+        endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
         return EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
                                   endDate=endDate,
                                   clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
