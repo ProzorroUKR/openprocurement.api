@@ -194,6 +194,8 @@ class Tender(ReportingTender):
                                 'additionalPurchase', 'additionalConstruction', 'stateLegalServices'],
                        required=True)
     causeDescription = StringType(required=True, min_length=1)
+    causeDescription_en = StringType(min_length=1)
+    causeDescription_ru = StringType(min_length=1)
     procurementMethodType = StringType(default="negotiation")
 
 NegotiationTender = Tender
