@@ -19,7 +19,7 @@ And check individual complaint:
 Complaint Submission
 ====================
 
-If tender qualification is favoriting certain supplier, or in any other viable case, one can submit Tender Qualification Complaint.
+If tender qualification is favoriting certain supplier, or in any other viable case, participants can submit Tender Qualification Complaint.
 
 Tender Qualification Complaint Submission (with documents)
 ----------------------------------------------------------

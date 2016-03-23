@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 16:16+0200\n"
-"PO-Revision-Date: 2016-03-04 11:35+0200\n"
+"PO-Revision-Date: 2016-03-23 15:05+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -34,14 +34,6 @@ msgstr "І перевірити окрему скаргу:"
 #: ../../source/complaints-award.rst:20
 msgid "Complaint Submission"
 msgstr "Подання скарги"
-
-#: ../../source/complaints-award.rst:22
-msgid ""
-"If tender award is favoriting certain supplier, or in any other viable case,"
-" one can submit Tender Award Complaint."
-msgstr ""
-"Якщо визначення переможця закупівлі є несправедливим або при будь-якому "
-"іншому серйозному порушенні можна подати скаргу на визначення переможця."
 
 #: ../../source/complaints-award.rst:25
 msgid "Tender Award Complaint Submission (with documents)"
@@ -106,4 +98,13 @@ msgstr "Подання вирішення скарги"
 msgid "Cancelling Tender Award Complaint"
 msgstr "Відміна скарги на визначення переможця"
 
+#: ../../source/complaints-award.rst:22
+msgid ""
+"If tender award is favoriting certain supplier, or in any other viable case,"
+" participants who were admitted to auction can submit Tender Award "
+"Complaint."
+msgstr ""
+"Якщо при визначенні переможця надавалась перевага лише одному постачальнику "
+"або при будь-якому іншому серйозному порушенні, учасники, що були допущені до "
+"аукціону, можуть подати скаргу результати визначення переможця."
 
