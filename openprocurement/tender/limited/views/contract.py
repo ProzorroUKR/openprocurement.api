@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
+from openprocurement.api.models import get_now, timedelta
 from openprocurement.api.utils import (
     apply_patch,
     save_tender,
@@ -73,6 +73,7 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
                 self.request.errors.status = 403
                 return
 
+        contract_dateSigned = self.request.context.dateSigned
         contract_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if contract_status != self.request.context.status and contract_status != 'pending' and self.request.context.status != 'active':
@@ -80,6 +81,13 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
             self.request.errors.status = 403
             return
 
+        if self.request.context.dateSigned != contract_dateSigned:
+            if self.request.context.dateSigned < (get_now() - timedelta(days=1)):
+                self.request.errors.add('body', 'data', 'dateSigned has to be within the period of 24 hours before the current date')
+                self.request.errors.status = 403
+                return
+        if self.request.context.status == 'active' and not self.request.context.dateSigned:
+            self.request.context.dateSigned = get_now()
         check_tender_status(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
