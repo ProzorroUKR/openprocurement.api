@@ -19,7 +19,7 @@ And check individual complaint:
 Complaint Submission
 ====================
 
-If tender award is favoriting certain supplier, or in any other viable case, one can submit Tender Award Complaint.
+If tender award is favoriting certain supplier, or in any other viable case, participants who were admitted to auction can submit Tender Award Complaint.
 
 Tender Award Complaint Submission (with documents)
 ---------------------------------------------------
