@@ -456,11 +456,6 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update contract in current (complete) tender status")
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token),
-                                       {"data": {"awardID": "894917dc8b1244b6aab9ab0ad8c8f48a"}}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-
         # at next steps we test to patch contract in 'cancelled' tender status
         response = self.app.post_json('/tenders?acc_token={}',
                                       {"data": self.initial_data})
