@@ -25,7 +25,7 @@ msgid ""
 "Open UA procedure has `active.tendering` status and can be represented with "
 "the following diagram:"
 msgstr ""
-"Українська процедура відкритих торгів має `active.tendering` статус і може "
+"Процедура відкритих торгів має `active.tendering` статус і може "
 "бути представлена такою діаграмою:"
 
 #: ../../source/tendering.rst:14

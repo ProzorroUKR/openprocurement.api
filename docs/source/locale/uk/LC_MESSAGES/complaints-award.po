@@ -1,4 +1,4 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
@@ -104,20 +104,6 @@ msgid ""
 " participants can submit Tender Award Complaint."
 msgstr ""
 "Якщо при визначенні переможця надавалась перевага лише одному постачальнику "
-"або при будь-якому іншому серйозному порушенні, учасники можуть подати на "
-"результати визначення переможця."
+"або при будь-якому іншому серйозному порушенні, учасники можуть подати скаргу"
+"на результати визначення переможця."
 
-#~ msgid ""
-#~ "If tender conditions are favoriting only one supplier, or in any other "
-#~ "viable case, participants can submit Tender Award Claim."
-#~ msgstr ""
-#~ "Якщо умови закупівлі сприятливі лише для одного постачальника або при будь-"
-#~ "якому іншому серйозному порушенні, учасники можуть подати вимогу про "
-#~ "виправлення результатів про визначення переможця."
-
-#~ msgid ""
-#~ "If tender award is favoriting certain supplier, or in any other viable case,"
-#~ " one can submit Tender Award Complaint."
-#~ msgstr ""
-#~ "Якщо визначення переможця закупівлі є несправедливим або при будь-якому "
-#~ "іншому серйозному порушенні можна подати скаргу на визначення переможця."
