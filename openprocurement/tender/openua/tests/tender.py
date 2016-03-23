@@ -979,6 +979,40 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             {u'description': u'Not Found', u'location': u'url', u'name': u'tender_id'}
         ])
 
+    def test_guarantee(self):
+        response = self.app.post_json('/tenders', {'data': test_tender_ua_data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertNotIn('guarantee', response.json['data'])
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                       {'data': {'guarantee': {"amount": 55}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertIn('guarantee', response.json['data'])
+        self.assertEqual(response.json['data']['guarantee']['amount'], 55)
+        self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                       {'data': {'guarantee': {"amount": 100500, "currency": "USD"}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertIn('guarantee', response.json['data'])
+        self.assertEqual(response.json['data']['guarantee']['amount'], 100500)
+        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'guarantee': None}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertIn('guarantee', response.json['data'])
+        self.assertEqual(response.json['data']['guarantee']['amount'], 100500)
+        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
+
+        data = deepcopy(test_tender_ua_data)
+        data['guarantee'] = {"amount": 100, "currency": "USD"}
+        response = self.app.post_json('/tenders', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertIn('guarantee', response.json['data'])
+        self.assertEqual(response.json['data']['guarantee']['amount'], 100)
+        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
+
     def test_tender_Administrator_change(self):
         response = self.app.post_json('/tenders', {'data': test_tender_ua_data})
         self.assertEqual(response.status, '201 Created')
