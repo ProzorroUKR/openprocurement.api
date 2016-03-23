@@ -80,6 +80,14 @@ Schema
 
     |ocdsDescription|
     The date the contract was signed. In the case of multiple signatures, the date of the last signature.
+    
+    Time frame for `dateSigned`:
+    
+    * reporting procedure: 
+        [24 hours ago - now]
+    
+    * negotiation/negotiation.quick procedure: 
+        [complaint period end - now]
 
 :documents:
     List of :ref:`Document` objects
