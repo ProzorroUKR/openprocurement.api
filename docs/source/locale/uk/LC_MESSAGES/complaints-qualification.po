@@ -1,11 +1,10 @@
 #
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 16:16+0200\n"
-"PO-Revision-Date: 2016-03-23 14:01+0200\n"
+"PO-Revision-Date: 2016-03-23 15:07+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -104,13 +103,8 @@ msgid ""
 "If tender qualification is favoriting certain supplier, or in any other "
 "viable case, participants can submit Tender Qualification Complaint."
 msgstr ""
-"Якщо умови закупівлі сприятливі лише для одного постачальника або при "
+"Якщо кваліфікація сприятлива лише для одного постачальника або при "
 "будь-якому іншому серйозному порушенні, учасники можуть подати скаргу на "
 "кваліфікацію."
 
-#~ msgid ""
-#~ "If tender qualification is favoriting certain supplier, or in any other "
-#~ "viable case, one can submit Tender Qualification Complaint."
-#~ msgstr ""
-#~ "Якщо оцінювання учасників відбувається несправедливо або при будь-якому "
-#~ "іншому серйозному порушенні можна подати скаргу на кваліфікацію."
+

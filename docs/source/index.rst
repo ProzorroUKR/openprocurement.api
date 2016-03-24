@@ -18,6 +18,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   overview
    standard/index
    tutorial
    multiple_lots_tutorial

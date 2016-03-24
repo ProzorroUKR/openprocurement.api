@@ -53,18 +53,6 @@ Schema
 
     While submitting bid proposal, participant can fill in the text field of any length about subcontractor.
 
-:documents:
-    List of :ref:`ConfidentialDocument` objects
-
-:financialDocuments:
-    List of :ref:`ConfidentialDocument` objects
-
-:eligibilityDocuments:
-    List of :ref:`ConfidentialDocument` objects
-
-:qualificationDocuments:
-    List of :ref:`ConfidentialDocument` objects
-
 :parameters:
     List of :ref:`Parameter` objects
 
@@ -76,6 +64,21 @@ Schema
 
     A web address for participation in auction.
 
+There are several `envelopes` - document containers that manage time when their information will be revealed:
+
+:documents:
+    List of :ref:`ConfidentialDocument` objects. This envelope has to contain only technical part of proposal (`technicalSpecifications` and `qualificationDocuments`). It is revealed at pre-qualification.
+
+:financialDocuments:
+    List of :ref:`ConfidentialDocument` objects. This envelope can contain financial part of proposal (`commercialProposal` and `billOfQuantity`). It is revealed at post-qualification.
+
+:eligibilityDocuments:
+    List of :ref:`ConfidentialDocument` objects. This envelope can contain `eligibilityDocuments` document type. It is revealed at post-qualification.
+
+:qualificationDocuments:
+    List of :ref:`ConfidentialDocument` objects. This envelope is revealed at post-qualification.
+    
+    
 .. _Parameter:
 
 Parameter

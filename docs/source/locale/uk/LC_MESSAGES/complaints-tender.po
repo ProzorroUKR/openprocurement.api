@@ -1,4 +1,4 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
@@ -153,10 +153,3 @@ msgid "Any registered user can submit Tender Conditions Complaint."
 msgstr ""
 "Будь-який зареєстрований користувач може подати скаргу на умови закупівлі."
 
-#~ msgid ""
-#~ "If tender conditions are favoriting only one provider, or in any other "
-#~ "viable case, one can submit Tender Conditions Claim."
-#~ msgstr ""
-#~ "Якщо умови закупівлі сприятливі лише для одного постачальника або при будь-"
-#~ "якому іншому серйозному порушенні можна подати вимогу про виправлення умов "
-#~ "закупівлі."
