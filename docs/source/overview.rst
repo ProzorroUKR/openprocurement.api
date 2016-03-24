@@ -40,4 +40,4 @@ maillist <https://groups.google.com/group/open-procurement-api>`_.
 
 Next steps
 ----------
-You might find it helpful to look at the :ref:`tutorial`.
+You might find it helpful to look at the :ref:`tutorial` or :ref:`mulitlot_tutorial`.

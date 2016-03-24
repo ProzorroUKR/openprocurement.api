@@ -1,10 +1,11 @@
+#
 # Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-24 11:22+0200\n"
-"PO-Revision-Date: 2016-03-24 12:10+0200\n"
+"PO-Revision-Date: 2016-03-24 15:31+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -112,10 +113,10 @@ msgid "Next steps"
 msgstr "Наступні кроки"
 
 #: ../../source/overview.rst:43
-msgid "You might find it helpful to look at the :ref:`tutorial`."
+msgid ""
+"You might find it helpful to look at the :ref:`tutorial` or "
+":ref:`mulitlot_tutorial`."
 msgstr "Далі читайте :ref:`tutorial` або :ref:`mulitlot_tutorial`."
 
-#~ msgid ""
-#~ "You might find it helpful to look at the :ref:`tutorial`, or the "
-#~ ":ref:`reference`."
-#~ msgstr ""
+#~ msgid "You might find it helpful to look at the :ref:`tutorial`."
+#~ msgstr "Далі читайте :ref:`tutorial` або :ref:`mulitlot_tutorial`."
