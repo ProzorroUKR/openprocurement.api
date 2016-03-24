@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/958e22d2b07d42b68d56982dd38930bb/awards/8459c942e13f43088aa4489fb1121e43?acc_token=8d72f594776d443391d33e3bce29b060 HTTP/1.0
+PATCH /api/2.1/tenders/7f9dc0bae5644166a4197fd104c5537a/awards/36db61cbea7f4e1cba67be9964091f74?acc_token=620b93c6fc8149da9a1e17bbc2654519 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -18,21 +18,21 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "award_first_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/958e22d2b07d42b68d56982dd38930bb/awards/8459c942e13f43088aa4489fb1121e43/documents/62aec387efde494ab49ed07627a6563f?download=4042ee7e997440a19efac888cd5924ce", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/7f9dc0bae5644166a4197fd104c5537a/awards/36db61cbea7f4e1cba67be9964091f74/documents/bc7fe8f400004695ac09a4f2873bcd66?download=06fcb808f8c744c99b2f2a36f4240735", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-21T17:41:17.229917+02:00", 
-        "id": "62aec387efde494ab49ed07627a6563f", 
-        "dateModified": "2016-03-21T17:41:17.229960+02:00"
+        "datePublished": "2016-03-24T13:56:52.873424+02:00", 
+        "id": "bc7fe8f400004695ac09a4f2873bcd66", 
+        "dateModified": "2016-03-24T13:56:52.873467+02:00"
       }, 
       {
         "title": "award_second_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/958e22d2b07d42b68d56982dd38930bb/awards/8459c942e13f43088aa4489fb1121e43/documents/c4dee0d83b3b48edaac714acd7682fea?download=6647748316814901b7d3888973c667d6", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/7f9dc0bae5644166a4197fd104c5537a/awards/36db61cbea7f4e1cba67be9964091f74/documents/cf7778dde2884952abf29a63ffee40fa?download=4f5876cab3c44c63972dc467e203a29b", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-21T17:41:17.409989+02:00", 
-        "id": "c4dee0d83b3b48edaac714acd7682fea", 
-        "dateModified": "2016-03-21T17:41:17.410054+02:00"
+        "datePublished": "2016-03-24T13:56:53.112984+02:00", 
+        "id": "cf7778dde2884952abf29a63ffee40fa", 
+        "dateModified": "2016-03-24T13:56:53.113026+02:00"
       }
     ], 
     "suppliers": [
@@ -63,8 +63,8 @@ Content-Type: application/json; charset=UTF-8
       "amount": 475000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2016-03-21T17:41:17.099756+02:00", 
-    "id": "8459c942e13f43088aa4489fb1121e43"
+    "date": "2016-03-24T13:56:52.681141+02:00", 
+    "id": "36db61cbea7f4e1cba67be9964091f74"
   }
 }
 

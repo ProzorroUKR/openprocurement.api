@@ -26,6 +26,8 @@ test_tender_data = {
                     "scheme": "CPV"
                 },
                 "description": "Послуги шкільних їдалень",
+                "description_en": "Services in school canteens",
+                "description_ru": "Услуги школьных столовых",
                 "id": "2dc54675d6364e2baffbc0f8e74432ac",
                 "deliveryDate": {
                     "startDate": (now + timedelta(days=2)).isoformat(),
@@ -70,6 +72,10 @@ test_tender_data = {
             "valueAddedTaxIncluded": True
         },
         "title": "Послуги шкільних їдалень",
+        "title_en": "Services in school canteens",
+        "title_ru": "Услуги школьных столовых",
+        "description_en": "Services in school canteens",
+        "description_ru": "Услуги школьных столовых",
 }
 
 supplier = {'data':
@@ -145,11 +151,15 @@ complaint = {
 test_tender_negotiation_data = deepcopy(test_tender_data)
 test_tender_negotiation_data['procurementMethodType'] = "negotiation"
 test_tender_negotiation_data['cause'] = "twiceUnsuccessful"
-test_tender_negotiation_data['causeDescription'] = "original tender has failed twice"
+test_tender_negotiation_data['causeDescription'] = "оригінальний тендер не вдався двічі"
+test_tender_negotiation_data['causeDescription_en'] = "original tender has failed twice"
+test_tender_negotiation_data['causeDescription_ru'] = "оригинальный тендер не получился дважды"
 
 test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 test_tender_negotiation_quick_data['procurementMethodType'] = "negotiation.quick"
-test_tender_negotiation_quick_data['causeDescription'] = "chupacabra"
+test_tender_negotiation_quick_data['causeDescription'] = "оригінальний тендер не вдався двічі"
+test_tender_negotiation_quick_data['causeDescription_en'] = "original tender has failed twice"
+test_tender_negotiation_quick_data['causeDescription_ru'] = "оригинальный тендер не получился дважды"
 
 class DumpsTestAppwebtest(TestApp):
 
