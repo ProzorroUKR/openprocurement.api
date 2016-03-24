@@ -26,6 +26,8 @@ test_tender_data = {
                     "scheme": "CPV"
                 },
                 "description": "Послуги шкільних їдалень",
+                "description_en": "Services in school canteens",
+                "description_ru": "Услуги школьных столовых",
                 "id": "2dc54675d6364e2baffbc0f8e74432ac",
                 "deliveryDate": {
                     "startDate": (now + timedelta(days=2)).isoformat(),
@@ -70,6 +72,8 @@ test_tender_data = {
             "valueAddedTaxIncluded": True
         },
         "title": "Послуги шкільних їдалень",
+        "title_en": "Services in school canteens",
+        "title_ru": "Услуги школьных столовых",
 }
 
 supplier = {'data':

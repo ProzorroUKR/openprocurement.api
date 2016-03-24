@@ -1,4 +1,4 @@
-PATCH /api/0.12/tenders/50fdd1d72a274c5bb96e202f7fe01d21/contracts/88244eb226514497bb1af0b3db7fdc46?acc_token=7a3cd24b381d4f0ba0efe1a3a0be7871 HTTP/1.0
+PATCH /api/2.1/tenders/8e8242b50e6d40dea8c10093f9c4d393/contracts/7afe1b6e9a4440f080742fad5710f1ee?acc_token=31410ce1a1d04d76929f894ee7511d09 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -23,6 +23,7 @@ Content-Type: application/json; charset=UTF-8
           "description": "Послуги з харчування у школах", 
           "id": "55523100-3"
         }, 
+        "description_en": "Services in school canteens", 
         "additionalClassifications": [
           {
             "scheme": "ДКПП", 
@@ -38,9 +39,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-03-23T17:41:12.822752+02:00", 
-          "endDate": "2016-03-26T17:41:12.822752+02:00"
+          "startDate": "2016-03-26T13:17:08.250780+02:00", 
+          "endDate": "2016-03-29T13:17:08.250780+03:00"
         }, 
+        "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
       }
     ], 
@@ -72,10 +74,10 @@ Content-Type: application/json; charset=UTF-8
       "amount": 475000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-03-21T17:41:23.681156+02:00", 
-    "awardID": "384877afa5524d1c919049957c780bbe", 
-    "id": "88244eb226514497bb1af0b3db7fdc46", 
-    "contractID": "UA-2016-03-21-000001-1"
+    "dateSigned": "2016-03-24T13:17:19.225622+02:00", 
+    "awardID": "65770cd4436040b6bbfa0574369f824b", 
+    "id": "7afe1b6e9a4440f080742fad5710f1ee", 
+    "contractID": "UA-2016-03-24-000001-1"
   }
 }
 
