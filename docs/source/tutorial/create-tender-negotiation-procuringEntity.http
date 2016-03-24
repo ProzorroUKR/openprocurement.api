@@ -1,6 +1,6 @@
 POST /api/2.1/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 3049
+Content-Length: 3380
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
@@ -10,6 +10,33 @@ Host: api-sandbox.openprocurement.org
     "status": "active", 
     "causeDescription": "original tender has failed twice", 
     "title": "Послуги шкільних їдалень", 
+    "title_en": "Services in school canteens", 
+    "procurementMethodType": "negotiation", 
+    "description_en": "Services in school canteens", 
+    "causeDescription_ru": "rus original tender has failed twice", 
+    "causeDescription_en": "eng original tender has failed twice", 
+    "description_ru": "Услуги школьных столовых", 
+    "procuringEntity": {
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name": "Куца Світлана Валентинівна", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "21027", 
+        "region": "м. Вінниця", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "title_ru": "Услуги школьных столовых", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -34,52 +61,29 @@ Host: api-sandbox.openprocurement.org
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-03-26T13:17:08.250780", 
-          "endDate": "2016-03-29T13:17:08.250780"
+          "startDate": "2016-03-26T13:46:25.649459", 
+          "endDate": "2016-03-29T13:46:25.649459"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
       }
     ], 
-    "title_en": "Services in school canteens", 
+    "owner": "broker", 
     "value": {
       "currency": "UAH", 
       "amount": 500000, 
       "valueAddedTaxIncluded": true
     }, 
-    "procurementMethodType": "negotiation", 
-    "procuringEntity": {
-      "contactPoint": {
-        "url": "http://sch10.edu.vn.ua/", 
-        "name": "Куца Світлана Валентинівна", 
-        "telephone": "+380 (432) 46-53-02"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "21725150", 
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      }, 
-      "name": "ЗОСШ #10 м.Вінниці", 
-      "address": {
-        "countryName": "Україна", 
-        "postalCode": "21027", 
-        "region": "м. Вінниця", 
-        "streetAddress": "вул. Стахурського. 22", 
-        "locality": "м. Вінниця"
-      }
-    }, 
-    "title_ru": "Услуги школьных столовых", 
-    "owner": "broker", 
     "cause": "twiceUnsuccessful"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/8e8242b50e6d40dea8c10093f9c4d393
+Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/8f6b1fa6378648a7ac14343b676525b5
 {
   "access": {
-    "token": "31410ce1a1d04d76929f894ee7511d09"
+    "token": "52f33930ce624500b780fe26fa660361"
   }, 
   "data": {
     "procurementMethod": "limited", 
@@ -110,26 +114,27 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/8e8242b50e6d40d
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-03-26T13:17:08.250780+02:00", 
-          "endDate": "2016-03-29T13:17:08.250780+03:00"
+          "startDate": "2016-03-26T13:46:25.649459+02:00", 
+          "endDate": "2016-03-29T13:46:25.649459+03:00"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
       }
     ], 
-    "title_en": "Services in school canteens", 
+    "procurementMethodType": "negotiation", 
+    "causeDescription_en": "eng original tender has failed twice", 
     "value": {
       "currency": "UAH", 
       "amount": 500000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateModified": "2016-03-24T13:17:18.417844+02:00", 
-    "procurementMethodType": "negotiation", 
-    "tenderID": "UA-2016-03-24-000001", 
+    "dateModified": "2016-03-24T13:46:35.727558+02:00", 
+    "causeDescription_ru": "rus original tender has failed twice", 
+    "title_en": "Services in school canteens", 
+    "description_ru": "Услуги школьных столовых", 
+    "description_en": "Services in school canteens", 
     "title_ru": "Услуги школьных столовых", 
     "owner": "broker", 
-    "cause": "twiceUnsuccessful", 
-    "id": "8e8242b50e6d40dea8c10093f9c4d393", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -149,7 +154,10 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/8e8242b50e6d40d
         "region": "м. Вінниця", 
         "locality": "м. Вінниця"
       }
-    }
+    }, 
+    "cause": "twiceUnsuccessful", 
+    "id": "8f6b1fa6378648a7ac14343b676525b5", 
+    "tenderID": "UA-2016-03-24-000001"
   }
 }
 

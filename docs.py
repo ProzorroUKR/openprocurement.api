@@ -74,6 +74,8 @@ test_tender_data = {
         "title": "Послуги шкільних їдалень",
         "title_en": "Services in school canteens",
         "title_ru": "Услуги школьных столовых",
+        "description_en": "Services in school canteens",
+        "description_ru": "Услуги школьных столовых",
 }
 
 supplier = {'data':
@@ -150,10 +152,14 @@ test_tender_negotiation_data = deepcopy(test_tender_data)
 test_tender_negotiation_data['procurementMethodType'] = "negotiation"
 test_tender_negotiation_data['cause'] = "twiceUnsuccessful"
 test_tender_negotiation_data['causeDescription'] = "original tender has failed twice"
+test_tender_negotiation_data['causeDescription_en'] = "eng original tender has failed twice"
+test_tender_negotiation_data['causeDescription_ru'] = "rus original tender has failed twice"
 
 test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 test_tender_negotiation_quick_data['procurementMethodType'] = "negotiation.quick"
-test_tender_negotiation_quick_data['causeDescription'] = "chupacabra"
+test_tender_negotiation_quick_data['causeDescription'] = "causeDescription"
+test_tender_negotiation_quick_data['causeDescription_en'] = "eng causeDescription"
+test_tender_negotiation_quick_data['causeDescription_ru'] = "rus causeDescription"
 
 class DumpsTestAppwebtest(TestApp):
 
