@@ -1,4 +1,4 @@
-PATCH /api/2.1/tenders/3c70cdab10a342a48973fb96f5fb6d08/cancellations/48ec2705baa046a1a5f91ec3c434d097/documents/b428bd8e55204840894d22c98227ee3b?acc_token=eca8ef5f3af44a389bd4d3795b523491 HTTP/1.0
+PATCH /api/2.1/tenders/7f9dc0bae5644166a4197fd104c5537a/cancellations/9e47b8281e5447718633dc2cd35f81c0/documents/836ef1b5d97a4fe4a972321dc43b34c8?acc_token=620b93c6fc8149da9a1e17bbc2654519 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 48
 Content-Type: application/json
@@ -16,12 +16,12 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "description": "Changed description", 
     "title": "Notice.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/3c70cdab10a342a48973fb96f5fb6d08/cancellations/48ec2705baa046a1a5f91ec3c434d097/documents/b428bd8e55204840894d22c98227ee3b?download=9619552f41a04d2caad2684faeedbbf9", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/7f9dc0bae5644166a4197fd104c5537a/cancellations/9e47b8281e5447718633dc2cd35f81c0/documents/836ef1b5d97a4fe4a972321dc43b34c8?download=b20c8032dcb949ed8885d0c6e72657d2", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-03-24T13:46:32.431998+02:00", 
-    "id": "b428bd8e55204840894d22c98227ee3b", 
-    "dateModified": "2016-03-24T13:46:32.432040+02:00"
+    "datePublished": "2016-03-24T13:56:55.677842+02:00", 
+    "id": "836ef1b5d97a4fe4a972321dc43b34c8", 
+    "dateModified": "2016-03-24T13:56:55.677884+02:00"
   }
 }
 

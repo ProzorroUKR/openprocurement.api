@@ -151,15 +151,15 @@ complaint = {
 test_tender_negotiation_data = deepcopy(test_tender_data)
 test_tender_negotiation_data['procurementMethodType'] = "negotiation"
 test_tender_negotiation_data['cause'] = "twiceUnsuccessful"
-test_tender_negotiation_data['causeDescription'] = "original tender has failed twice"
-test_tender_negotiation_data['causeDescription_en'] = "eng original tender has failed twice"
-test_tender_negotiation_data['causeDescription_ru'] = "rus original tender has failed twice"
+test_tender_negotiation_data['causeDescription'] = "оригінальний тендер не вдався двічі"
+test_tender_negotiation_data['causeDescription_en'] = "original tender has failed twice"
+test_tender_negotiation_data['causeDescription_ru'] = "оригинальный тендер не получился дважды"
 
 test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 test_tender_negotiation_quick_data['procurementMethodType'] = "negotiation.quick"
-test_tender_negotiation_quick_data['causeDescription'] = "causeDescription"
-test_tender_negotiation_quick_data['causeDescription_en'] = "eng causeDescription"
-test_tender_negotiation_quick_data['causeDescription_ru'] = "rus causeDescription"
+test_tender_negotiation_quick_data['causeDescription'] = "оригінальний тендер не вдався двічі"
+test_tender_negotiation_quick_data['causeDescription_en'] = "original tender has failed twice"
+test_tender_negotiation_quick_data['causeDescription_ru'] = "оригинальный тендер не получился дважды"
 
 class DumpsTestAppwebtest(TestApp):
 
