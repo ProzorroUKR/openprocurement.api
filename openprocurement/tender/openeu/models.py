@@ -453,6 +453,9 @@ class Tender(BaseTender):
     status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
+    create_accreditation = 3
+    edit_accreditation = 4
+
     def __acl__(self):
         acl = [
             (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_qualification_complaint')
