@@ -161,6 +161,9 @@ class PeriodStartEndRequired(Period):
     startDate = IsoDateTimeType(required=True, default=get_now)  # The state date for the period.
     endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
 
+class EnquiryPeriod(Period):
+    clarificationsUntil = IsoDateTimeType()
+
 class Address(BaseAddress):
 
     streetAddress = StringType(required=True)
@@ -192,7 +195,7 @@ class LotValue(BaseLotValue):
     subcontractingDetails = StringType()
 
     def validate_value(self, data, value):
-        if value and isinstance(data['__parent__'], Bid) and ( data['__parent__'].status not in ('invalid')) and data['relatedLot']:
+        if value and isinstance(data['__parent__'], Bid) and ( data['__parent__'].status not in ('invalid', 'deleted')) and data['relatedLot']:
             lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
             if not lots:
                 return
@@ -204,6 +207,9 @@ class LotValue(BaseLotValue):
             if lot.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
                 raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot")
 
+    def validate_relatedLot(self, data, relatedLot):
+        if isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted')) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
+            raise ValidationError(u"relatedLot should be one of lots")
 
 class Bid(BaseBid):
 
@@ -319,7 +325,8 @@ class Complaint(BaseComplaint):
 class Award(BaseAward):
     class Options:
         roles = {
-            'edit': whitelist('status', 'qualified', 'eligible'),
+            'edit': whitelist('status', 'qualified', 'eligible', 'title', 'title_en', 'title_ru',
+                              'description', 'description_en', 'description_ru'),
         }
     complaints = ListType(ModelType(Complaint), default=list())
     items = ListType(ModelType(Item))
@@ -410,7 +417,7 @@ class Tender(BaseTender):
     __name__ = ''
 
     procurementMethodDetails = StringType(default='')
-    enquiryPeriod = ModelType(Period, required=False)
+    enquiryPeriod = ModelType(EnquiryPeriod, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
@@ -421,6 +428,9 @@ class Tender(BaseTender):
     status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     cancellations = ListType(ModelType(Cancellation), default=list())
+
+    create_accreditation = 3
+    edit_accreditation = 4
 
     def __acl__(self):
         acl = [
@@ -447,11 +457,18 @@ class Tender(BaseTender):
             raise ValidationError(u"procurementMethodDetails should be used with mode test")
 
     def initialize(self):
-        self.enquiryPeriod = Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)))
+        endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)
+        self.enquiryPeriod = EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
+                                                endDate=endDate,
+                                                clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
 
-    @serializable(serialized_name="enquiryPeriod", type=ModelType(Period))
+    @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
         return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)))
+        endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)
+        return EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
+                                  endDate=endDate,
+                                  clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):

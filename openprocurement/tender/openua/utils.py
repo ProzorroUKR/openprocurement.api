@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
 from pkg_resources import get_distribution
 from datetime import timedelta
 import re
@@ -8,6 +7,7 @@ from openprocurement.api.models import get_now, TZ
 from openprocurement.api.utils import (
     check_tender_status,
     context_unpack,
+    calculate_business_date,
 )
 from barbecue import chef
 PKG = get_distribution(__package__)
@@ -15,13 +15,6 @@ LOGGER = getLogger(PKG.project_name)
 BLOCK_COMPLAINT_STATUS = ['claim', 'pending', 'accepted', 'satisfied']
 PENDING_COMPLAINT_STATUS = ['claim', 'answered', 'pending', 'accepted', 'satisfied']
 
-
-def calculate_business_date(date_obj, timedelta_obj, context=None):
-    if context and  'procurementMethodDetails' in context:
-        re_obj = re.search(r'.accelerator=(?P<accelerator>\d+)', context['procurementMethodDetails'])
-        if re_obj and 'accelerator' in re_obj.groupdict():
-            return date_obj + (timedelta_obj/int(re_obj.groupdict()['accelerator']))
-    return date_obj + timedelta_obj
 
 def check_bids(request):
     tender = request.validated['tender']

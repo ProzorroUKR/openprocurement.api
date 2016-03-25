@@ -60,9 +60,8 @@ class TenderUaQuestionResource(TenderQuestionResource):
             self.request.errors.status = 403
             return
         now = get_now()
-        #TODO business days
-        if now > calculate_business_date(tender.enquiryPeriod.endDate, ENQUIRY_STAND_STILL_TIME):
-            self.request.errors.add('body', 'data', 'Can update question only in enquiryPeriod.stand-still')
+        if now > tender.enquiryPeriod.clarificationsUntil:
+            self.request.errors.add('body', 'data', 'Can update question only before enquiryPeriod.clarificationsUntil')
             self.request.errors.status = 403
             return
         if apply_patch(self.request, src=self.request.context.serialize()):
