@@ -1,10 +1,11 @@
 #
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-05 10:08+0200\n"
-"PO-Revision-Date: 2016-03-09 13:11+0200\n"
+"PO-Revision-Date: 2016-03-23 17:54+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -110,11 +111,11 @@ msgstr ""
 "|ocdsDescription| Дата підписання договору. Якщо було декілька підписань, то"
 " береться дата останнього підписання."
 
-#: ../../source/standard/contract.rst:85
+#: ../../source/standard/contract.rst:93
 msgid "List of :ref:`Document` objects"
 msgstr "Список об’єктів :ref:`Document`"
 
-#: ../../source/standard/contract.rst:87
+#: ../../source/standard/contract.rst:95
 msgid ""
 "|ocdsDescription| All documents and attachments related to the contract, "
 "including any notices."
@@ -122,11 +123,11 @@ msgstr ""
 "|ocdsDescription| Усі документи та додатки пов’язані з договором, включно з "
 "будь-якими повідомленнями."
 
-#: ../../source/standard/contract.rst:91
+#: ../../source/standard/contract.rst:99
 msgid "Contract workflow"
 msgstr "Схема роботи Contract"
 
-#: ../../source/standard/contract.rst:103
+#: ../../source/standard/contract.rst:111
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
 
@@ -135,9 +136,9 @@ msgid ""
 "|ocdsDescription| The goods, services, and any intangible outcomes in this "
 "contract. Note: If the items are the same as the award do not repeat."
 msgstr ""
-"Товари, послуги та інші нематеріальні результати у цій угоді. Звернуть увагу: "
-"Якщо список співпадає з визначенням переможця `award`, то його не потрібно "
-"повторювати."
+"Товари, послуги та інші нематеріальні результати у цій угоді. Зверніть "
+"увагу: Якщо список співпадає з визначенням переможця `award`, то його не "
+"потрібно повторювати."
 
 #: ../../source/standard/contract.rst:14
 msgid "uid, auto-generated"
@@ -154,7 +155,8 @@ msgstr "Список об’єктів :ref:`Item`, генерується ав�
 #: ../../source/standard/contract.rst:47
 msgid "List of :ref:`Organization` objects, auto-generated, read-only"
 msgstr ""
-"Список об’єктів :ref:`Organization`, генерується автоматично, лише для читання"
+"Список об’єктів :ref:`Organization`, генерується автоматично, лише для "
+"читання"
 
 #: ../../source/standard/contract.rst:73
 msgid "`Value` object, auto-generated, read-only"
@@ -163,4 +165,26 @@ msgstr "Об’єкт `Value`, генерується автоматично, л
 #: ../../source/standard/contract.rst:79
 msgid "string, :ref:`date`, auto-generated"
 msgstr "рядок, :ref:`date`, генерується автоматично"
+
+#: ../../source/standard/contract.rst:84
+msgid "Time frame for `dateSigned`:"
+msgstr "Діапазон значень для поля `dateSigned`:"
+
+#: ../../source/standard/contract.rst:87
+msgid "reporting procedure:"
+msgstr "для процедури звітування про укладений договір:"
+
+#: ../../source/standard/contract.rst:87
+msgid "[24 hours ago - now]"
+msgstr "[24 години назад - тепер]"
+
+#: ../../source/standard/contract.rst:90
+msgid "negotiation/negotiation.quick procedure:"
+msgstr ""
+"для переговорної процедури / переговорної процедури за нагальною потребою:"
+
+#: ../../source/standard/contract.rst:90
+msgid "[complaint period end - now]"
+msgstr "[закінчення періоду оскаржень - тепер]"
+
 

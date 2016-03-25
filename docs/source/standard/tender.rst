@@ -161,7 +161,7 @@ Schema
    Procurement is urgent
     
 :causeDescription:
-   string, required for **negotiation** and **negotiation.quick** procedures
+   string, multilingual, required for **negotiation** and **negotiation.quick** procedures
     
    Reasoning behind usage of negotiation or negotiation.quick procedures.
     
