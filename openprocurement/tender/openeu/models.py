@@ -309,6 +309,8 @@ class Bid(BaseBid):
         if self.__parent__.lots:
             if not self.lotValues:
                 return 'invalid'
+            elif [i.relatedLot for i in self.lotValues if i.status == 'pending']:
+                return 'pending'
             elif [i.relatedLot for i in self.lotValues if i.status == 'active']:
                 return 'active'
             else:
