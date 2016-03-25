@@ -38,16 +38,6 @@ Schema
     * `currency` should either be absent or match `Tender.value.currency`
     * `valueAddedTaxIncluded` should either be absent or match `Tender.value.valueAddedTaxIncluded`
 
-:selfEligible:
-    True, required
-
-    Confirms compliance of eligibility criteria set by the customer in the tendering documents
-
-:selfQualified:
-    True, required
-
-    Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On public procurement"
-
 :subcontractingDetails:
     string
 
@@ -63,18 +53,6 @@ Schema
 
     Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On public procurement"
 
-:documents:
-    List of :ref:`ConfidentialDocument` objects
-
-:financialDocuments:
-    List of :ref:`ConfidentialDocument` objects
-
-:eligibilityDocuments:
-    List of :ref:`ConfidentialDocument` objects
-
-:qualificationDocuments:
-    List of :ref:`ConfidentialDocument` objects
-
 :parameters:
     List of :ref:`Parameter` objects
 
@@ -86,6 +64,21 @@ Schema
 
     A web address for participation in auction.
 
+There are several `envelopes` - document containers that manage time when their information will be revealed:
+
+:documents:
+    List of :ref:`ConfidentialDocument` objects. This envelope has to contain only technical part of proposal (`technicalSpecifications` and `qualificationDocuments`). It is revealed at pre-qualification.
+
+:financialDocuments:
+    List of :ref:`ConfidentialDocument` objects. This envelope can contain financial part of proposal (`commercialProposal` and `billOfQuantity`). It is revealed at post-qualification.
+
+:eligibilityDocuments:
+    List of :ref:`ConfidentialDocument` objects. This envelope can contain `eligibilityDocuments` document type. It is revealed at post-qualification.
+
+:qualificationDocuments:
+    List of :ref:`ConfidentialDocument` objects. This envelope is revealed at post-qualification.
+    
+    
 .. _Parameter:
 
 Parameter

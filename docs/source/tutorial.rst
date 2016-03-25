@@ -207,6 +207,8 @@ To define the document as "private" - `confidentiality` and `confidentialityRati
 
 `confidentiality` field value can be either `buyerOnly` (document is private) or `public` (document is publicly accessible).
 
+Content of private documents (`buyerOnly`) can be accessed only by procuring entity or by participant who uploaded them.
+
 `confidentialityRationale` field is required only for private documents and should contain at least 30 characters.
 
 Let's mark the document as "private":
