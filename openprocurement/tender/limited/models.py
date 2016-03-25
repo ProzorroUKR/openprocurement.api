@@ -133,6 +133,9 @@ class Tender(SchematicsDocument, Model):
     owner_token = StringType()
     owner = StringType()
 
+    create_accreditation = 1
+    edit_accreditation = 2
+
     __parent__ = None
     __name__ = ''
 
@@ -197,6 +200,8 @@ class Tender(ReportingTender):
     causeDescription_en = StringType(min_length=1)
     causeDescription_ru = StringType(min_length=1)
     procurementMethodType = StringType(default="negotiation")
+    create_accreditation = 3
+    edit_accreditation = 4
 
 NegotiationTender = Tender
 
@@ -206,5 +211,7 @@ class Tender(NegotiationTender):
     """ Negotiation """
     cause = StringType(choices=['quick'], required=False)
     procurementMethodType = StringType(default="negotiation.quick")
+    create_accreditation = 3
+    edit_accreditation = 4
 
 NegotiationQuickTender = Tender
