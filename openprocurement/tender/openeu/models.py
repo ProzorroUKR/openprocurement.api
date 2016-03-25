@@ -342,6 +342,14 @@ class Award(BaseAward):
     complaints = ListType(ModelType(Complaint), default=list())
     items = ListType(ModelType(Item))
     documents = ListType(ModelType(Document), default=list())
+    qualified = BooleanType()
+    eligible = BooleanType()
+
+    def validate_qualified(self, data, qualified):
+        pass
+
+    def validate_eligible(self, data, eligible):
+        pass
 
 
 class Qualification(Model):
