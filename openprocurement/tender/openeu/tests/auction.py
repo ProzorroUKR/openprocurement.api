@@ -316,8 +316,8 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
 
     initial_status = 'active.auction'
     tenderer_info = deepcopy(test_tender_data["procuringEntity"])
-    del tenderer_info['additionalContactPoints']
-    del tenderer_info['contactPoint']['availableLanguage']
+    #del tenderer_info['additionalContactPoints']
+    #del tenderer_info['contactPoint']['availableLanguage']
     initial_bids = [
         {
             "tenderers": [
@@ -1061,8 +1061,8 @@ class TenderFeaturesAuctionResourceTest(BaseTenderContentWebTest):
     initial_data = test_features_tender_data
     initial_status = 'active.auction'
     tenderer_info = deepcopy(test_tender_data["procuringEntity"])
-    del tenderer_info['additionalContactPoints']
-    del tenderer_info['contactPoint']['availableLanguage']
+    #del tenderer_info['additionalContactPoints']
+    #del tenderer_info['contactPoint']['availableLanguage']
     initial_bids = [
         {
             "parameters": [
@@ -1131,4 +1131,3 @@ def suite():
 
 if __name__ == '__main__':
     unittest.main(defaultTest='suite')
-

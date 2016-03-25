@@ -97,15 +97,8 @@ test_tender_data = {
         "contactPoint": {
             "name": u"Державне управління справами",
             "name_en": u"State administration",
-            "availableLanguage": u"uk",
             "telephone": u"0440000000"
         },
-        "additionalContactPoints": [{
-            "name": u"Державне управління справами",
-            "name_en": u"State administration",
-            "availableLanguage": u"en",
-            "telephone": u"1440000000"
-        }]
     },
     "value": {
         "amount": 500,
