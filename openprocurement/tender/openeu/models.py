@@ -342,6 +342,14 @@ class Award(BaseAward):
     complaints = ListType(ModelType(Complaint), default=list())
     items = ListType(ModelType(Item))
     documents = ListType(ModelType(Document), default=list())
+    qualified = BooleanType()
+    eligible = BooleanType()
+
+    def validate_qualified(self, data, qualified):
+        pass
+
+    def validate_eligible(self, data, eligible):
+        pass
 
 
 class Qualification(Model):
@@ -445,6 +453,9 @@ class Tender(BaseTender):
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+
+    create_accreditation = 3
+    edit_accreditation = 4
 
     def __acl__(self):
         acl = [
