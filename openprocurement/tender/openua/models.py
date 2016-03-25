@@ -428,6 +428,9 @@ class Tender(BaseTender):
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     cancellations = ListType(ModelType(Cancellation), default=list())
 
+    create_accreditation = 3
+    edit_accreditation = 4
+
     def __acl__(self):
         acl = [
             (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_award_complaint')
