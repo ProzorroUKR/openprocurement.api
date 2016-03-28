@@ -1255,7 +1255,7 @@ class TenderResourceTest(BaseTenderWebTest):
         award_id = new_award_id
         
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {
-            "status": "active", "qualified": True, "eligible": True}})
+            "status": "active"}})
         self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/award-complaint-submit.http', 'w') as self.app.file_obj:

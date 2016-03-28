@@ -1,4 +1,4 @@
-PATCH /api/2.1/tenders/623ee4a7ec00482cac216c4eac87de84/qualifications/e183c3397eaa404b83e78d3c2aab90fa?acc_token=8b93ee3ce32d437da9fac9138021cdbd HTTP/1.0
+PATCH /api/2.1/tenders/e0a06e6f91f9412c8b79a42fe59f1fe8/qualifications/69c3403f3ba743cb947da02853f4569b?acc_token=adf9562f13f64db6b5d3049e47f711b7 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 67
 Content-Type: application/json
@@ -17,11 +17,11 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "lotID": "a45e39d2b2af40ad894904681f43e112", 
+    "lotID": "63b35492a3604c269bb6cc34e2297c96", 
     "eligible": true, 
     "qualified": true, 
-    "bidID": "c84a6cafe07b4b0990060550af8b949d", 
-    "id": "e183c3397eaa404b83e78d3c2aab90fa"
+    "bidID": "97fd7d9ddac841a792496ca2aaf06d36", 
+    "id": "69c3403f3ba743cb947da02853f4569b"
   }
 }
 

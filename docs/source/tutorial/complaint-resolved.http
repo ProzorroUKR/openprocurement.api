@@ -1,4 +1,4 @@
-PATCH /api/2.1/tenders/8111c86d9f664af2ba3726682e15954f/complaints/35d6ab39661a4db98eaf08a74dacaf1f?acc_token=eb5f8b27b59c450ab44c9a64ccd37372 HTTP/1.0
+PATCH /api/2.1/tenders/a0bcae5c06bb4af28efad4ba52fba8a7/complaints/819bc52f99cc4854a20a66afa46fed22?acc_token=ff4fec7ed5754f9bb511b902e5ce63e5 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 145
 Content-Type: application/json
@@ -16,8 +16,8 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "resolved", 
-    "dateDecision": "2016-03-28T12:23:27.561466+03:00", 
-    "tendererActionDate": "2016-03-28T12:23:28.052235+03:00", 
+    "dateDecision": "2016-03-28T13:44:10.703353+03:00", 
+    "tendererActionDate": "2016-03-28T13:44:11.204437+03:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -41,11 +41,11 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
-    "id": "35d6ab39661a4db98eaf08a74dacaf1f", 
+    "id": "819bc52f99cc4854a20a66afa46fed22", 
     "tendererAction": "Умови виправлено", 
-    "dateSubmitted": "2016-03-28T12:23:25.401029+03:00", 
+    "dateSubmitted": "2016-03-28T13:44:08.586791+03:00", 
     "complaintID": "UA-2016-03-28-000001.1", 
-    "date": "2016-03-28T12:23:24.094629+03:00", 
+    "date": "2016-03-28T13:44:07.240890+03:00", 
     "acceptance": true, 
     "type": "complaint", 
     "documents": [
@@ -53,26 +53,26 @@ Content-Type: application/json; charset=UTF-8
         "author": "complaint_owner", 
         "language": "uk", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/8111c86d9f664af2ba3726682e15954f/complaints/35d6ab39661a4db98eaf08a74dacaf1f/documents/6831d719c6164f4d828f582699b88040?download=2558a3edd8d84cc3b993638aa9eac4df", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/a0bcae5c06bb4af28efad4ba52fba8a7/complaints/819bc52f99cc4854a20a66afa46fed22/documents/cb0dbc3b4fcb457d840b0f33a9c32b7d?download=3151d0e2ca5b42eda0f3164785d2f478", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-28T12:23:24.284491+03:00", 
-        "id": "6831d719c6164f4d828f582699b88040", 
-        "dateModified": "2016-03-28T12:23:24.284533+03:00"
+        "datePublished": "2016-03-28T13:44:07.413454+03:00", 
+        "id": "cb0dbc3b4fcb457d840b0f33a9c32b7d", 
+        "dateModified": "2016-03-28T13:44:07.413493+03:00"
       }, 
       {
         "author": "aboveThresholdReviewers", 
         "language": "uk", 
         "title": "ComplaintResolution.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/8111c86d9f664af2ba3726682e15954f/complaints/35d6ab39661a4db98eaf08a74dacaf1f/documents/da4553dea7614408a85696668931e657?download=c88010d9cdf4438f8546c344e89cbe17", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/a0bcae5c06bb4af28efad4ba52fba8a7/complaints/819bc52f99cc4854a20a66afa46fed22/documents/f63733dfed2d4aec9aceef814ff6b034?download=233f285c946d41b5abec7c8f92066e89", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-28T12:23:27.328948+03:00", 
-        "id": "da4553dea7614408a85696668931e657", 
-        "dateModified": "2016-03-28T12:23:27.328987+03:00"
+        "datePublished": "2016-03-28T13:44:10.441257+03:00", 
+        "id": "f63733dfed2d4aec9aceef814ff6b034", 
+        "dateModified": "2016-03-28T13:44:10.441298+03:00"
       }
     ], 
-    "dateAccepted": "2016-03-28T12:23:26.906369+03:00"
+    "dateAccepted": "2016-03-28T13:44:09.967444+03:00"
   }
 }
 
