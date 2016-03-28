@@ -1,0 +1,184 @@
+PATCH /api/2.1/tenders/b98a58e2c0ec43d988aebeed4b962888/awards/096ecd2c3339470a876e42a923d4ec33?acc_token=d19f587f54e148a48ce719bb74ced594 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 33
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "cancelled"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/b98a58e2c0ec43d988aebeed4b962888/awards/0d3f2005596c497ab7a85ce5180beb6e
+{
+  "data": {
+    "status": "cancelled", 
+    "eligible": true, 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Книга»", 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 34", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "complaintPeriod": {
+      "startDate": "2016-03-28T12:23:16.544369+03:00", 
+      "endDate": "2016-03-28T12:23:20.498196+03:00"
+    }, 
+    "bid_id": "31beb2503cb247789371f8fb25d0f032", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 499.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "date": "2016-03-28T12:23:16.544686+03:00", 
+    "qualified": true, 
+    "complaints": [
+      {
+        "status": "satisfied", 
+        "dateDecision": "2016-03-28T12:23:19.749557+03:00", 
+        "documents": [
+          {
+            "author": "complaint_owner", 
+            "language": "uk", 
+            "title": "Complaint_Attachement.pdf", 
+            "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/b98a58e2c0ec43d988aebeed4b962888/awards/096ecd2c3339470a876e42a923d4ec33/complaints/385eebb70e404bcc8e3b7648bf0f1848/documents/c0745e660e3a44c9ba320f157fdfdd18?download=9f22df90a20d49b0afdafa2122c06ce5", 
+            "format": "application/pdf", 
+            "documentOf": "tender", 
+            "datePublished": "2016-03-28T12:23:17.570815+03:00", 
+            "id": "c0745e660e3a44c9ba320f157fdfdd18", 
+            "dateModified": "2016-03-28T12:23:17.570856+03:00"
+          }, 
+          {
+            "author": "aboveThresholdReviewers", 
+            "language": "uk", 
+            "title": "ComplaintResolution.pdf", 
+            "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/b98a58e2c0ec43d988aebeed4b962888/awards/096ecd2c3339470a876e42a923d4ec33/complaints/385eebb70e404bcc8e3b7648bf0f1848/documents/407d8230417e4ebcb27c4e11d03f48ed?download=074c294d0bbd4d55bb50d7d0b364cf48", 
+            "format": "application/pdf", 
+            "documentOf": "tender", 
+            "datePublished": "2016-03-28T12:23:19.447133+03:00", 
+            "id": "407d8230417e4ebcb27c4e11d03f48ed", 
+            "dateModified": "2016-03-28T12:23:19.447176+03:00"
+          }
+        ], 
+        "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+        "author": {
+          "contactPoint": {
+            "email": "soleksuk@gmail.com", 
+            "telephone": "+380 (432) 21-69-30", 
+            "name": "Сергій Олексюк"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+            "id": "13313462", 
+            "uri": "http://sch10.edu.vn.ua/"
+          }, 
+          "name": "ДКП «Школяр»", 
+          "address": {
+            "postalCode": "21100", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 33", 
+            "region": "м. Вінниця", 
+            "locality": "м. Вінниця"
+          }
+        }, 
+        "acceptance": true, 
+        "dateAccepted": "2016-03-28T12:23:18.901321+03:00", 
+        "dateSubmitted": "2016-03-28T12:23:17.836573+03:00", 
+        "complaintID": "UA-2016-03-28-000001.1", 
+        "date": "2016-03-28T12:23:17.079032+03:00", 
+        "title": "Недостатньо інформації", 
+        "type": "complaint", 
+        "id": "385eebb70e404bcc8e3b7648bf0f1848"
+      }, 
+      {
+        "status": "invalid", 
+        "dateDecision": "2016-03-28T12:23:18.630247+03:00", 
+        "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+        "author": {
+          "contactPoint": {
+            "email": "soleksuk@gmail.com", 
+            "telephone": "+380 (432) 21-69-30", 
+            "name": "Сергій Олексюк"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+            "id": "13313462", 
+            "uri": "http://sch10.edu.vn.ua/"
+          }, 
+          "name": "ДКП «Школяр»", 
+          "address": {
+            "postalCode": "21100", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 33", 
+            "region": "м. Вінниця", 
+            "locality": "м. Вінниця"
+          }
+        }, 
+        "acceptance": false, 
+        "dateSubmitted": "2016-03-28T12:23:18.102290+03:00", 
+        "complaintID": "UA-2016-03-28-000001.2", 
+        "date": "2016-03-28T12:23:18.100874+03:00", 
+        "title": "Недостатньо інформації", 
+        "type": "complaint", 
+        "id": "57edbaed2a52468a84ca6d99c247cbf9"
+      }, 
+      {
+        "status": "declined", 
+        "dateDecision": "2016-03-28T12:23:20.038068+03:00", 
+        "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+        "author": {
+          "contactPoint": {
+            "email": "soleksuk@gmail.com", 
+            "telephone": "+380 (432) 21-69-30", 
+            "name": "Сергій Олексюк"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+            "id": "13313462", 
+            "uri": "http://sch10.edu.vn.ua/"
+          }, 
+          "name": "ДКП «Школяр»", 
+          "address": {
+            "postalCode": "21100", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 33", 
+            "region": "м. Вінниця", 
+            "locality": "м. Вінниця"
+          }
+        }, 
+        "acceptance": true, 
+        "dateAccepted": "2016-03-28T12:23:19.159175+03:00", 
+        "dateSubmitted": "2016-03-28T12:23:18.363027+03:00", 
+        "complaintID": "UA-2016-03-28-000001.3", 
+        "date": "2016-03-28T12:23:18.360809+03:00", 
+        "title": "Недостатньо інформації", 
+        "type": "complaint", 
+        "id": "9b104da9e1004dc9b814a6391b315849"
+      }
+    ], 
+    "id": "096ecd2c3339470a876e42a923d4ec33"
+  }
+}
+

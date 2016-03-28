@@ -1,23 +1,23 @@
-POST /api/2.0/tenders/875bccb8079448419db42ee024419900/bids/38b0fc1d75df41c8ae0ac8d8c5cffdca/qualification_documents?acc_token=e0cf11d98894440da940f658bf0ebd15 HTTP/1.0
+POST /api/2.1/tenders/2ae0a6552587422eb802cd052f41dd5d/bids/92c65a77a24e4017b544214602e4e240/qualification_documents?acc_token=952b2f117bde4fe4b30c60eacb1abf63 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 202
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy678409393179$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy053779156504$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/875bccb8079448419db42ee024419900/bids/38b0fc1d75df41c8ae0ac8d8c5cffdca/qualification_documents/75549d1e9d3f4dcda9c1801a5d589726
+Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/2ae0a6552587422eb802cd052f41dd5d/bids/92c65a77a24e4017b544214602e4e240/qualification_documents/8c4432ebaf0b4e70a04f50fc94c17dbc
 {
   "data": {
     "confidentiality": "public", 
     "language": "uk", 
     "title": "qualification_document.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/875bccb8079448419db42ee024419900/bids/38b0fc1d75df41c8ae0ac8d8c5cffdca/qualification_documents/75549d1e9d3f4dcda9c1801a5d589726?download=0fa3dc1dd0154e028eaf935925534f3c", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/2ae0a6552587422eb802cd052f41dd5d/bids/92c65a77a24e4017b544214602e4e240/qualification_documents/8c4432ebaf0b4e70a04f50fc94c17dbc?download=66f9adcd181349bb9afd9f7225c2a3a8", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-03-18T17:08:20.550823+02:00", 
-    "id": "75549d1e9d3f4dcda9c1801a5d589726", 
-    "dateModified": "2016-03-18T17:08:20.550862+02:00"
+    "datePublished": "2016-03-28T12:23:35.520036+03:00", 
+    "id": "8c4432ebaf0b4e70a04f50fc94c17dbc", 
+    "dateModified": "2016-03-28T12:23:35.520091+03:00"
   }
 }
 

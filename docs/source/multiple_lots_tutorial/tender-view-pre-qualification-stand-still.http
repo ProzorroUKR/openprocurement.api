@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/67f06af3ad0e44da98e77be18ea6545d?acc_token=a573db5c8b53415380ea9828d31c1c9c HTTP/1.0
+PATCH /api/2.1/tenders/623ee4a7ec00482cac216c4eac87de84?acc_token=8b93ee3ce32d437da9fac9138021cdbd HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 60
 Content-Type: application/json
@@ -17,15 +17,16 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "status": "active.pre-qualification.stand-still", 
     "complaintPeriod": {
-      "startDate": "2016-02-17T17:08:30.808131+02:00", 
-      "endDate": "2016-03-14T17:08:30.808131+02:00"
+      "startDate": "2016-02-27T12:23:50.446389+03:00", 
+      "endDate": "2016-03-24T12:23:50.446389+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-02-17T17:08:30.808131+02:00", 
-      "endDate": "2016-03-08T17:08:30.808131+02:00"
+      "startDate": "2016-02-27T12:23:50.446389+03:00", 
+      "clarificationsUntil": "2016-03-23T12:23:50.446389+03:00", 
+      "endDate": "2016-03-18T12:23:50.446389+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-03-23T17:08:31.756720+02:00", 
+    "next_check": "2016-04-02T12:23:51.760872+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -52,7 +53,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "owner": "broker", 
     "title_en": "Services in school canteens", 
-    "id": "67f06af3ad0e44da98e77be18ea6545d", 
+    "id": "623ee4a7ec00482cac216c4eac87de84", 
     "title": "Послуги шкільних їдалень", 
     "lots": [
       {
@@ -65,14 +66,14 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2016-03-23T17:08:31.756720+02:00"
+          "shouldStartAfter": "2016-04-02T12:23:51.760872+03:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "8c65be60ac65448a98ee23358e07c9b1"
+        "id": "a45e39d2b2af40ad894904681f43e112"
       }, 
       {
         "status": "unsuccessful", 
@@ -88,32 +89,36 @@ Content-Type: application/json; charset=UTF-8
           "amount": 400.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "090e52900a0e484da3094e0659ffe81e"
+        "id": "f577e2cfe811434fb96590b2ad15f238"
       }
     ], 
     "qualificationPeriod": {
-      "startDate": "2016-03-18T17:08:31.065159+02:00", 
-      "endDate": "2016-03-23T17:08:31.756720+02:00"
+      "startDate": "2016-03-28T12:23:50.810395+03:00", 
+      "endDate": "2016-04-02T12:23:51.760872+03:00"
     }, 
-    "tenderID": "UA-2016-03-18-000001", 
-    "dateModified": "2016-03-18T17:08:31.763191+02:00", 
+    "tenderID": "UA-2016-03-28-000001", 
+    "dateModified": "2016-03-28T12:23:51.767598+03:00", 
     "numberOfBids": 2, 
     "tenderPeriod": {
-      "startDate": "2016-02-17T17:08:30.808131+02:00", 
-      "endDate": "2016-03-18T17:08:30.808131+02:00"
+      "startDate": "2016-02-27T12:23:50.446389+03:00", 
+      "endDate": "2016-03-28T12:23:50.446389+03:00"
     }, 
     "qualifications": [
       {
         "status": "active", 
-        "lotID": "8c65be60ac65448a98ee23358e07c9b1", 
-        "id": "7017ad80ad6d4898936110d7972a609f", 
-        "bidID": "4c4ffe1fe7344cab8083cf7258c3271c"
+        "lotID": "a45e39d2b2af40ad894904681f43e112", 
+        "eligible": true, 
+        "qualified": true, 
+        "bidID": "c84a6cafe07b4b0990060550af8b949d", 
+        "id": "e183c3397eaa404b83e78d3c2aab90fa"
       }, 
       {
         "status": "active", 
-        "lotID": "8c65be60ac65448a98ee23358e07c9b1", 
-        "id": "b6918d6fe1ee4e8aa70d6219a819f732", 
-        "bidID": "eb3ab2523e0e4dbf82619f613a0ce945"
+        "lotID": "a45e39d2b2af40ad894904681f43e112", 
+        "eligible": true, 
+        "qualified": true, 
+        "bidID": "f417794765b3425eb39a39e36f51f7f4", 
+        "id": "0e8e64a3c4a24f58af65afea679bdb53"
       }
     ], 
     "procurementMethodType": "aboveThresholdEU", 
@@ -124,7 +129,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "8c65be60ac65448a98ee23358e07c9b1", 
+        "relatedLot": "a45e39d2b2af40ad894904681f43e112", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -139,7 +144,18 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "f5ac2ac340224068b05cc871f1a80a14", 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-04-17T12:23:12.695394+03:00", 
+          "endDate": "2016-05-17T12:23:12.695435+03:00"
+        }, 
+        "id": "82d80d383b0b49b2acd9529ac4d47351", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -147,7 +163,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }, 
       {
-        "relatedLot": "090e52900a0e484da3094e0659ffe81e", 
+        "relatedLot": "f577e2cfe811434fb96590b2ad15f238", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -162,7 +178,18 @@ Content-Type: application/json; charset=UTF-8
             "description": "Послуги шкільних їдалень"
           }
         ], 
-        "id": "dd756cd1a85f4f88a5923a04e05c5ed2", 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-04-17T12:23:12.695462+03:00", 
+          "endDate": "2016-05-17T12:23:12.695478+03:00"
+        }, 
+        "id": "771a2205f9ec44eda308acc4923df0f6", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -173,11 +200,11 @@ Content-Type: application/json; charset=UTF-8
     "bids": [
       {
         "status": "active", 
-        "id": "4c4ffe1fe7344cab8083cf7258c3271c"
+        "id": "c84a6cafe07b4b0990060550af8b949d"
       }, 
       {
         "status": "active", 
-        "id": "eb3ab2523e0e4dbf82619f613a0ce945"
+        "id": "f417794765b3425eb39a39e36f51f7f4"
       }
     ], 
     "value": {
