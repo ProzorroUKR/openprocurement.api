@@ -129,9 +129,6 @@ class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
 
     def test_switch_to_complaint(self):
         user_data = deepcopy(self.initial_data["procuringEntity"])
-        del user_data['additionalContactPoints']
-        del user_data['contactPoint']['availableLanguage']
-
         for status in ['invalid', 'resolved', 'declined']:
             response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
                 'title': 'complaint title',
