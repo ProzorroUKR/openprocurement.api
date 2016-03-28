@@ -6,14 +6,14 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "next_page": {
-    "path": "/api/2.1/tenders?offset=2016-03-28T17%3A22%3A44.846442%2B03%3A00", 
-    "uri": "http://api-sandbox.openprocurement.org/api/2.1/tenders?offset=2016-03-28T17%3A22%3A44.846442%2B03%3A00", 
-    "offset": "2016-03-28T17:22:44.846442+03:00"
+    "path": "/api/2.1/tenders?offset=2016-03-28T18%3A03%3A34.768015%2B03%3A00", 
+    "uri": "http://api-sandbox.openprocurement.org/api/2.1/tenders?offset=2016-03-28T18%3A03%3A34.768015%2B03%3A00", 
+    "offset": "2016-03-28T18:03:34.768015+03:00"
   }, 
   "data": [
     {
-      "id": "11bebb5333a6417fbba49e95735be407", 
-      "dateModified": "2016-03-28T17:22:44.846442+03:00"
+      "id": "9d8028bfafde454ba40131c6974de5f4", 
+      "dateModified": "2016-03-28T18:03:34.768015+03:00"
     }
   ]
 }

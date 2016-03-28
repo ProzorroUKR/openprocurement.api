@@ -624,10 +624,11 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
             response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {
                 "status": "cancelled"}})
             self.assertEqual(response.status, '200 OK')
-
-        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token), supplier)
-        self.assertEqual(response.status, '201 Created')
-        new_award_id = response.json['data']['id']
+        
+        with open('docs/source/tutorial/award-complaint-newaward.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token), supplier)
+            self.assertEqual(response.status, '201 Created')
+            new_award_id = response.json['data']['id']
 
         with open('docs/source/tutorial/award-complaint-resolved.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, award_id, complaint1_id, owner_token), {"data": {

@@ -90,7 +90,9 @@ Cancelling award:
 .. include:: tutorial/award-complaint-satisfied-resolving.http
    :code:
 
-New generated award location present in Location header.
+New created award.
+.. include:: tutorial/award-complaint-newaward.http
+   :code:
 
 Submitting Resolution Confirmation
 ----------------------------------
