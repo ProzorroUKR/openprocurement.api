@@ -27,7 +27,17 @@ def check_initial_bids_count(request):
     tender = request.validated['tender']
     if tender.lots:
         [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod and i.auctionPeriod.startDate]
-        [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2 and i.status == 'active']
+
+        for i in tender.lots:
+            if i.numberOfBids < 2 and i.status == 'active':
+                setattr(i, 'status', 'unsuccessful')
+                for bid_index, bid in enumerate(tender.bids):
+                    for lot_index, lot_value in enumerate(bid.lotValues):
+                        if lot_value.relatedLot == i.id:
+                            setattr(tender.bids[bid_index].lotValues[lot_index], 'status', 'unsuccessful')
+
+        # [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2 and i.status == 'active']
+
         if not set([i.status for i in tender.lots]).difference(set(['unsuccessful', 'cancelled'])):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))

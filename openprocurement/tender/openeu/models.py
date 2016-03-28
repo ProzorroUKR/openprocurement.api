@@ -307,11 +307,12 @@ class Bid(BaseBid):
         if self.__parent__.status in ['active.tendering', 'cancelled']:
             return self.status
         if self.__parent__.lots:
+            active_lots = [lot.id for lot in self.__parent__.lots if lot.status == 'active']
             if not self.lotValues:
                 return 'invalid'
-            elif [i.relatedLot for i in self.lotValues if i.status == 'pending']:
+            elif [i.relatedLot for i in self.lotValues if i.status == 'pending' and i.relatedLot in active_lots]:
                 return 'pending'
-            elif [i.relatedLot for i in self.lotValues if i.status == 'active']:
+            elif [i.relatedLot for i in self.lotValues if i.status == 'active' and i.relatedLot in active_lots]:
                 return 'active'
             else:
                 return 'unsuccessful'
