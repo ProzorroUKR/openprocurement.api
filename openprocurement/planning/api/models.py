@@ -163,6 +163,8 @@ class Plan(SchematicsDocument, Model):
     procurementMethodType = StringType()
     revisions = ListType(ModelType(Revision), default=list())
 
+    create_accreditation = 3
+
     __name__ = ''
 
     def __acl__(self):

@@ -28,6 +28,21 @@ class PlanTest(BaseWebTest):
         u.delete_instance(self.db)
 
 
+class AccreditationPlanTest(BaseWebTest):
+    def test_create_plan_accreditation(self):
+        self.app.authorization = ('Basic', ('broker3', ''))
+        response = self.app.post_json('/plans', {"data": test_plan_data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+        for broker in ['broker1', 'broker2', 'broker4']:
+            self.app.authorization = ('Basic', (broker, ''))
+            response = self.app.post_json('/plans', {"data": test_plan_data}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.json['errors'][0]["description"], "Accreditation not allows to create plan")
+
+
 class PlanResourceTest(BaseWebTest):
     def test_empty_listing(self):
         response = self.app.get('/plans')

@@ -10,6 +10,10 @@ def validate_plan_data(request):
     if data is None:
         return
     model = request.plan_from_data(data, create=False)
+    if hasattr(request, 'check_accreditation') and not request.check_accreditation(model.create_accreditation):
+        request.errors.add('plan', 'accreditation', 'Accreditation not allows to create plan')
+        request.errors.status = 403
+        return
     return validate_data(request, model, data=data)
 
 
