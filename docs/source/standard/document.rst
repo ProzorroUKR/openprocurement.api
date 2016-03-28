@@ -22,37 +22,39 @@ Schema
 
     * `notice` - **Tender notice**
       
-      The formal notice that gives details of a tender. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
+        The formal notice that gives details of a tender. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
     
     * `biddingDocuments` - **Bidding Documents**
       
-      Information for potential suppliers, describing the goals of the contract (e.g. goods and services to be procured), and the bidding process.
+        Information for potential suppliers, describing the goals of the contract (e.g. goods and services to be procured), and the bidding process.
 
     * `technicalSpecifications` - **Technical Specifications**
     
-      Detailed technical information about goods or services to be provided.
+        Detailed technical information about goods or services to be provided. For Open EU procedure `technicalSpecifications` should be contained in `documents` envelope. See :ref:`bid`. 
 
     * `evaluationCriteria` - **Evaluation Criteria**
     
-      Information about how bids will be evaluated.
+        Information about how bids will be evaluated.
     
     * `clarifications` - **Clarifications to bidders questions**
     
-      Including replies to issues raised in pre-bid conferences.
+        Including replies to issues raised in pre-bid conferences.
     
     * `eligibilityCriteria` - **Eligibility Criteria**
    
-      Detailed documents about the eligibility of bidders.
+        Detailed documents about the eligibility of bidders.
     
     * `shortlistedFirms` - **Shortlisted Firms**
     
     * `riskProvisions` - **Provisions for management of risks and liabilities**
     
     * `billOfQuantity` - **Bill Of Quantity**
+      
+        For Open EU procedure `billOfQuantity` should be contained in `financialDocuments` envelope. See :ref:`bid`.
     
     * `bidders` - **Information on bidders**
     
-      Information on bidders or participants, their validation documents and any procedural exemptions for which they qualify.
+       Information on bidders or participants, their validation documents and any procedural exemptions for which they qualify.
     
     * `conflictOfInterest` - **Conflicts of interest uncovered**
     
@@ -66,11 +68,11 @@ Schema
     
     * `notice` - **Award Notice**
     
-      The formal notice that gives details of the contract award. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
+        The formal notice that gives details of the contract award. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
     
     * `evaluationReports` - **Evaluation report**
     
-      Report on the evaluation of the bids and the application of the evaluation criteria, including the justification fo the award.
+        Report on the evaluation of the bids and the application of the evaluation criteria, including the justification fo the award.
     
     * `winningBid` - **Winning Bid**
     
@@ -82,7 +84,7 @@ Schema
     
     * `notice` - **Contract notice**
     
-      The formal notice that gives details of a contract being signed and valid to start implementation. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
+        The formal notice that gives details of a contract being signed and valid to start implementation. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
     
     * `contractSigned` - **Signed Contract**
     
@@ -102,9 +104,15 @@ Schema
     
     * `commercialProposal` - **Сommercial proposal**
     
-    * `qualificationDocuments` - **Qualificatioin documents**
+        For Open EU procedure `commercialProposal` should be contained in `financialDocuments` envelope. See :ref:`bid`. 
+    
+    * `qualificationDocuments` - **Qualification documents**
+    
+        For Open EU procedure `qualificationDocuments` should be contained in `documents` envelope. See :ref:`bid`. 
     
     * `eligibilityDocuments` - **Eligibility documents**
+    
+        For Open EU procedure `eligibilityDocuments` should be contained in `eligibilityDocuments` envelope. See :ref:`bid`. 
 
 
 :title:
