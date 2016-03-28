@@ -1226,13 +1226,41 @@ class TenderResourceTest(BaseTenderWebTest):
             }})
             self.assertEqual(response.status, '200 OK')
 
+        with open('docs/source/tutorial/award-complaints-list.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get('/tenders/{}/awards/{}/complaints'.format(self.tender_id, award_id))
+            self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/tutorial/award-complaint.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint1_id))
+            self.assertEqual(response.status, '200 OK')
+
         self.app.authorization = ('Basic', ('broker', ''))
+        
+        with open('docs/source/tutorial/award-complaint-satisfied-resolving.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {
+                 "status": "cancelled"
+            }})
+            self.assertEqual(response.status, '200 OK')
+            new_award_id = response.headers['Location'][-32:]
+
         with open('docs/source/tutorial/award-complaint-resolved.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, award_id, complaint1_id, owner_token), {"data": {
-                "tendererAction": "Умови виправлено",
+                "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно",
                 "status": "resolved"
             }})
             self.assertEqual(response.status, '200 OK')
+            
+        award_id = new_award_id
+        
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {
+            "status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/tutorial/award-complaint-submit.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint_data)
+            self.assertEqual(response.status, '201 Created')
 
         response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint_data)
         self.assertEqual(response.status, '201 Created')
@@ -1242,16 +1270,6 @@ class TenderResourceTest(BaseTenderWebTest):
                 "cancellationReason": "Умови виправлено",
                 "status": "cancelled"
             }})
-            self.assertEqual(response.status, '200 OK')
-
-        with open('docs/source/tutorial/award-complaints-list.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get('/tenders/{}/awards/{}/complaints'.format(self.tender_id, award_id))
-            self.assertEqual(response.status, '200 OK')
-
-        with open('docs/source/tutorial/award-complaint.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint1_id))
             self.assertEqual(response.status, '200 OK')
 
     def test_multiple_lots(self):

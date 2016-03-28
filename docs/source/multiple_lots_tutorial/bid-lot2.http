@@ -1,4 +1,4 @@
-POST /api/2.0/tenders/67f06af3ad0e44da98e77be18ea6545d/bids HTTP/1.0
+POST /api/2.1/tenders/e0a06e6f91f9412c8b79a42fe59f1fe8/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1047
 Content-Type: application/json
@@ -10,13 +10,13 @@ DATA:
     "selfQualified": true, 
     "lotValues": [
       {
-        "relatedLot": "8c65be60ac65448a98ee23358e07c9b1", 
+        "relatedLot": "63b35492a3604c269bb6cc34e2297c96", 
         "value": {
           "amount": 500
         }
       }, 
       {
-        "relatedLot": "090e52900a0e484da3094e0659ffe81e", 
+        "relatedLot": "d4eafdd4eea444ebb44134af26c42065", 
         "value": {
           "amount": 500
         }, 
@@ -50,18 +50,18 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/67f06af3ad0e44da98e77be18ea6545d/bids/eb3ab2523e0e4dbf82619f613a0ce945
+Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/e0a06e6f91f9412c8b79a42fe59f1fe8/bids/1202aa5cd91d48ad8e2181b8b638a28a
 {
   "access": {
-    "token": "2614194fd2044a6a8f1b5ffd11a00fc9"
+    "token": "2baf0fc72f3d4b7baba4fdc44ae0ef53"
   }, 
   "data": {
     "status": "pending", 
     "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "8c65be60ac65448a98ee23358e07c9b1", 
-        "date": "2016-03-18T17:08:30.211978+02:00", 
+        "relatedLot": "63b35492a3604c269bb6cc34e2297c96", 
+        "date": "2016-03-28T13:44:31.696465+03:00", 
         "status": "pending", 
         "value": {
           "currency": "UAH", 
@@ -70,8 +70,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/67f06af3ad0e44d
         }
       }, 
       {
-        "relatedLot": "090e52900a0e484da3094e0659ffe81e", 
-        "date": "2016-03-18T17:08:30.212482+02:00", 
+        "relatedLot": "d4eafdd4eea444ebb44134af26c42065", 
+        "date": "2016-03-28T13:44:31.696966+03:00", 
         "status": "pending", 
         "value": {
           "currency": "UAH", 
@@ -104,8 +104,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/67f06af3ad0e44d
         }
       }
     ], 
-    "date": "2016-03-18T17:08:30.211291+02:00", 
-    "id": "eb3ab2523e0e4dbf82619f613a0ce945"
+    "date": "2016-03-28T13:44:31.695471+03:00", 
+    "id": "1202aa5cd91d48ad8e2181b8b638a28a"
   }
 }
 

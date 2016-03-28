@@ -1,12 +1,14 @@
-PATCH /api/2.0/tenders/875bccb8079448419db42ee024419900/qualifications/eacefce5e160423b974f7938b3d17abc?acc_token=5b38bae696d94227a71156cc736054d2 HTTP/1.0
+PATCH /api/2.1/tenders/33105b9ad5794a00a5e197cbab0c58be/qualifications/ff4752f5ec8c4e2aaa4faf3e6a4e79d6?acc_token=8439ff811f894ae388d052cd9bffc3c4 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 30
+Content-Length: 67
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "active"
+    "status": "active", 
+    "qualified": true, 
+    "eligible": true
   }
 }
 
@@ -15,8 +17,10 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "id": "eacefce5e160423b974f7938b3d17abc", 
-    "bidID": "cf1d7dc2743341e495fede4da89aff10"
+    "bidID": "b629c523f47f4c9580fa43536e2eb78e", 
+    "qualified": true, 
+    "id": "ff4752f5ec8c4e2aaa4faf3e6a4e79d6", 
+    "eligible": true
   }
 }
 
