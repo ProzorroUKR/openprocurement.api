@@ -1,4 +1,4 @@
-PATCH /api/2.1/tenders/7f9dc0bae5644166a4197fd104c5537a/contracts/a9c2e4d45a3f4f82b36ac3f5e05d1d35?acc_token=620b93c6fc8149da9a1e17bbc2654519 HTTP/1.0
+PATCH /api/2.1/tenders/11bebb5333a6417fbba49e95735be407/contracts/2c025f1727ba4e0d92ff667f21910261?acc_token=8dbeca7d38464057a84101f8cf67cd53 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -18,21 +18,21 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "contract_first_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/7f9dc0bae5644166a4197fd104c5537a/contracts/a9c2e4d45a3f4f82b36ac3f5e05d1d35/documents/7635abf2d4bc48f0a707607ac444c5ae?download=cda0ddf8bdbe49599f70cd31968c6d53", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/11bebb5333a6417fbba49e95735be407/contracts/2c025f1727ba4e0d92ff667f21910261/documents/eb17bc9e289f46d7ac30880ab9c93f6b?download=ba4dc8be36594c3ca338e8427fa83b01", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-24T13:56:54.210187+02:00", 
-        "id": "7635abf2d4bc48f0a707607ac444c5ae", 
-        "dateModified": "2016-03-24T13:56:54.210227+02:00"
+        "datePublished": "2016-03-28T17:22:47.488133+03:00", 
+        "id": "eb17bc9e289f46d7ac30880ab9c93f6b", 
+        "dateModified": "2016-03-28T17:22:47.488173+03:00"
       }, 
       {
         "title": "contract_second_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/7f9dc0bae5644166a4197fd104c5537a/contracts/a9c2e4d45a3f4f82b36ac3f5e05d1d35/documents/9ffe432e273b4477bfe5560bc3485778?download=20e91753ea4e443ca7e737216e256cbb", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/11bebb5333a6417fbba49e95735be407/contracts/2c025f1727ba4e0d92ff667f21910261/documents/265b43da3d2643d2ba1308a9ab39d2ec?download=d98437408c944d4dae2e34c283ea6493", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-24T13:56:54.543945+02:00", 
-        "id": "9ffe432e273b4477bfe5560bc3485778", 
-        "dateModified": "2016-03-24T13:56:54.543984+02:00"
+        "datePublished": "2016-03-28T17:22:47.814691+03:00", 
+        "id": "265b43da3d2643d2ba1308a9ab39d2ec", 
+        "dateModified": "2016-03-28T17:22:47.814734+03:00"
       }
     ], 
     "items": [
@@ -59,8 +59,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-03-26T13:56:48.957993+02:00", 
-          "endDate": "2016-03-29T13:56:48.957993+03:00"
+          "startDate": "2016-03-30T17:22:42.119265+03:00", 
+          "endDate": "2016-04-02T17:22:42.119265+03:00"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac", 
@@ -95,18 +95,18 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-03-24T13:56:48.957993+02:00", 
-      "endDate": "2017-03-24T13:56:48.957993+02:00"
+      "startDate": "2016-03-28T17:22:42.119265+03:00", 
+      "endDate": "2017-03-28T17:22:42.119265+03:00"
     }, 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-03-24T13:56:48.957993+02:00", 
-    "awardID": "36db61cbea7f4e1cba67be9964091f74", 
-    "id": "a9c2e4d45a3f4f82b36ac3f5e05d1d35", 
-    "contractID": "UA-2016-03-24-000001-1"
+    "dateSigned": "2016-03-28T17:22:42.119265+03:00", 
+    "awardID": "1db6fa9cdb2d46b58a63bca23122e342", 
+    "id": "2c025f1727ba4e0d92ff667f21910261", 
+    "contractID": "UA-2016-03-28-000001-1"
   }
 }
 
