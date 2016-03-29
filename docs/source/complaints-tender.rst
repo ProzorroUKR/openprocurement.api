@@ -150,5 +150,23 @@ Submitting Resolution Confirmation
 Cancelling Tender Conditions Complaint
 ======================================
 
+Cancelling not accepted complaint
+---------------------------------
+
 .. include:: tutorial/complaint-cancel.http
+   :code:
+
+Cancelling accepted complaint by Complainant
+--------------------------------------------
+
+.. include:: tutorial/complaint-accepted-stopping.http
+   :code:
+
+.. include:: tutorial/complaint-stopping-stopped.http
+   :code:
+
+Cancelling accepted complaint by Reviewer
+-----------------------------------------
+
+.. include:: tutorial/complaint-accepted-stopped.http
    :code:
