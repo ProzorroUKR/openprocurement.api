@@ -82,10 +82,26 @@ Or declines it:
 .. include:: tutorial/award-complaint-decline.http
    :code:
 
+Correcting problems
+-------------------
+
+Cancelling award:
+
+.. include:: tutorial/award-complaint-satisfied-resolving.http
+   :code:
+
+New generated award location present in Location header.
+
 Submitting Resolution Confirmation
 ----------------------------------
 
 .. include:: tutorial/award-complaint-resolved.http
+   :code:
+
+Submit complaint to new award
+-----------------------------
+
+.. include:: tutorial/award-complaint-submit.http
    :code:
 
 Cancelling Tender Award Complaint
