@@ -80,7 +80,7 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             self.request.errors.add('body', 'data', 'Can update complaint only in active lot status')
             self.request.errors.status = 403
             return
-        if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied']:
+        if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping']:
             self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) status'.format(self.context.status))
             self.request.errors.status = 403
             return
@@ -88,7 +88,10 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         complaintPeriod = self.request.validated['award'].complaintPeriod
         is_complaintPeriod = complaintPeriod.startDate < get_now() and complaintPeriod.endDate > get_now() if complaintPeriod.endDate else complaintPeriod.startDate < get_now()
         # complaint_owner
-        if self.request.authenticated_role == 'complaint_owner' and self.context.status in ['draft', 'claim', 'answered', 'pending', 'accepted'] and data.get('status', self.context.status) == 'cancelled':
+        if self.request.authenticated_role == 'complaint_owner' and self.context.status in ['draft', 'claim', 'answered', 'pending'] and data.get('status', self.context.status) == 'cancelled':
+            apply_patch(self.request, save=False, src=self.context.serialize())
+            self.context.dateCanceled = get_now()
+        elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'stopping':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and is_complaintPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == self.context.status:
@@ -120,6 +123,9 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) in ['declined', 'satisfied']:
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status in ['accepted', 'stopping'] and data.get('status', self.context.status) == 'stopped':
+            apply_patch(self.request, save=False, src=self.context.serialize())
+            self.context.dateCanceled = get_now()
         else:
             self.request.errors.add('body', 'data', 'Can\'t update complaint')
             self.request.errors.status = 403

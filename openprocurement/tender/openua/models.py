@@ -301,6 +301,8 @@ class Complaint(BaseComplaint):
         data = request.json_body['data']
         if request.authenticated_role == 'complaint_owner' and data.get('status', self.status) == 'cancelled':
             role = 'cancellation'
+        elif request.authenticated_role == 'complaint_owner' and self.status == 'accepted' and data.get('status', self.status) == 'stopping':
+            role = 'cancellation'
         elif request.authenticated_role == 'complaint_owner' and self.status == 'draft':
             role = 'draft'
         elif request.authenticated_role == 'complaint_owner' and self.status == 'claim':
@@ -315,11 +317,15 @@ class Complaint(BaseComplaint):
             role = 'satisfy'
         elif request.authenticated_role == 'aboveThresholdReviewers' and self.status == 'pending':
             role = 'pending'
-        elif request.authenticated_role == 'aboveThresholdReviewers' and self.status == 'accepted':
+        elif request.authenticated_role == 'aboveThresholdReviewers' and self.status in ['accepted', 'stopping']:
             role = 'review'
         else:
             role = 'invalid'
         return role
+
+    def validate_cancellationReason(self, data, cancellationReason):
+        if not cancellationReason and data.get('status') in ['cancelled', 'stopping']:
+            raise ValidationError(u'This field is required.')
 
 
 class Award(BaseAward):
