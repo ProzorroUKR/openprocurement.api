@@ -87,7 +87,7 @@ Correcting problems
 
 If tender award complaint was satisfied by the Complaint Review Body, then procuring entity has to correct problems.
 
-One of the possible solution is award cancellation:
+One of the possible solutions is award cancellation:
 
 
 .. include:: tutorial/award-complaint-satisfied-resolving.http
