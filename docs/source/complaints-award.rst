@@ -97,14 +97,13 @@ After award cancellation system generates new award. Its location is present in 
 
 Submitting Resolution Confirmation
 ----------------------------------
+When complaint has been successfully resolved, procuring entity submits resolution confirmation.
 
 .. include:: tutorial/award-complaint-resolved.http
    :code:
 
 Submitting complaint to new award
 ---------------------------------
-
-When complaint was successfully resolved procuring entity submits resolution confirmation.
 
 .. include:: tutorial/award-complaint-submit.http
    :code:
