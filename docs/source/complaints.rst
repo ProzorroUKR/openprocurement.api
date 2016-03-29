@@ -24,7 +24,7 @@ Tender Conditions Claims/Complaints
         }
         subgraph cluster_complaint {
             label = "complaint";
-            pending; satisfied; accepted;
+            pending; satisfied; accepted; stopping;
         }
         claim -> answered;
         satisfied -> resolved;
@@ -32,11 +32,13 @@ Tender Conditions Claims/Complaints
         answered -> {pending,resolved};
         draft -> {claim,pending};
         claim -> pending;
-        {accepted,draft,claim,answered,pending} -> cancelled; 
+        {draft,claim,answered,pending} -> cancelled;
+        accepted -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid};
-        accepted -> {declined,satisfied};
-        edge[label="pre-qualification" style=dotted];
+        accepted -> {declined,satisfied,stopped};
+        stopping -> stopped;
+        edge[label="auction" style=dotted];
         answered -> {declined,resolved,invalid};
     }
 
