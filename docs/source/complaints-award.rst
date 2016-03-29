@@ -30,12 +30,12 @@ At first create a complaint. Send POST request with bidder's access token.
    :code:
 
 Then upload necessary documents:
-   
+
 .. include:: tutorial/award-complaint-submission-upload.http
    :code:
 
 Submit tender award complaint:
-   
+
 .. include:: tutorial/award-complaint-complaint.http
    :code:
 
@@ -85,17 +85,23 @@ Or declines it:
 Correcting problems
 -------------------
 
-Cancelling award:
+If tender award complaint was satisfied by the Complaint Review Body, then procuring entity has to correct problems.
+
+One of the possible solution is award cancellation:
 
 .. include:: tutorial/award-complaint-satisfied-resolving.http
-   :code:
+:code:
 
-New created award.
+Creating new award:
+
 .. include:: tutorial/award-complaint-newaward.http
-   :code:
+
+:code:
 
 Submitting Resolution Confirmation
 ----------------------------------
+
+When complaint has been successfully resolved, procuring entity submits resolution confirmation.
 
 .. include:: tutorial/award-complaint-resolved.http
    :code:
