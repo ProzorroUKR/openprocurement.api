@@ -57,8 +57,8 @@ Host: api-sandbox.openprocurement.org
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-03-26T13:56:48.957993", 
-          "endDate": "2016-03-29T13:56:48.957993"
+          "startDate": "2016-03-30T18:03:32.104429", 
+          "endDate": "2016-04-02T18:03:32.104429"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
@@ -76,10 +76,10 @@ Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/7f9dc0bae5644166a4197fd104c5537a
+Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/9d8028bfafde454ba40131c6974de5f4
 {
   "access": {
-    "token": "620b93c6fc8149da9a1e17bbc2654519"
+    "token": "117bc31601454af1bdee99a9064b78a3"
   }, 
   "data": {
     "procurementMethod": "limited", 
@@ -109,8 +109,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/7f9dc0bae564416
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-03-26T13:56:48.957993+02:00", 
-          "endDate": "2016-03-29T13:56:48.957993+03:00"
+          "startDate": "2016-03-30T18:03:32.104429+03:00", 
+          "endDate": "2016-04-02T18:03:32.104429+03:00"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
@@ -118,7 +118,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/7f9dc0bae564416
     ], 
     "title_en": "Services in school canteens", 
     "description_en": "Services in school canteens", 
-    "dateModified": "2016-03-24T13:56:51.632513+02:00", 
+    "dateModified": "2016-03-28T18:03:34.768015+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -148,8 +148,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/7f9dc0bae564416
     "title_ru": "Услуги школьных столовых", 
     "owner": "broker", 
     "description_ru": "Услуги школьных столовых", 
-    "id": "7f9dc0bae5644166a4197fd104c5537a", 
-    "tenderID": "UA-2016-03-24-000001"
+    "id": "9d8028bfafde454ba40131c6974de5f4", 
+    "tenderID": "UA-2016-03-28-000001"
   }
 }
 

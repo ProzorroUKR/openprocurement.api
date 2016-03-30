@@ -1,4 +1,4 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
@@ -362,17 +362,3 @@ msgstr ""
 "рядок, багатомовний, обов’язковий для **переговорної** процедури та "
 "**переговорної процедури за нагальною потребою**"
 
-#~ msgid ""
-#~ "string, required for **negotiation** and **negotiation.quick** procedures"
-#~ msgstr ""
-#~ "рядок, обов’язковий для **переговорної процедури** та **переговорної "
-#~ "процедури за нагальною потребою**"
-
-#~ msgid "Causes for using negotiation or negotiation.quick procedures."
-#~ msgstr ""
-#~ "Підстава для використання \"звичайної\" переговорної процедури або "
-#~ "переговорної процедури за нагальною потребою."
-
-#~ msgid "The tender identifier to refer tender to in \"paper\" documentation."
-#~ msgstr ""
-#~ "Ідентифікатор закупівлі, щоб знайти закупівлю у  \"паперовій\" документації"

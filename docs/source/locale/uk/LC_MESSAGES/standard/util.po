@@ -1,10 +1,11 @@
 #
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-22 12:52+0200\n"
-"PO-Revision-Date: 2016-03-22 13:02+0200\n"
+"PO-Revision-Date: 2016-03-30 10:59+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +46,6 @@ msgstr "Address"
 
 #: ../../source/standard/util.rst:39 ../../source/standard/util.rst:45
 #: ../../source/standard/util.rst:51 ../../source/standard/util.rst:57
-#: ../../source/standard/util.rst:63
 msgid "string, required"
 msgstr "рядок, обов’язковий"
 
@@ -81,4 +81,8 @@ msgstr "Дата/час, :ref:`date-format`."
 #: ../../source/standard/util.rst:20
 msgid "string, required, :ref:`date`"
 msgstr "рядок, обов’язковий, :ref:`date`"
+
+#: ../../source/standard/util.rst:63
+msgid "string, multilingual, required"
+msgstr "рядок, багатомовний, обов’язковий"
 
