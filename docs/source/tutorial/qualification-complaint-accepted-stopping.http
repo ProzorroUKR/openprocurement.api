@@ -1,0 +1,53 @@
+PATCH /api/2.2/tenders/0c3f5175bbb040c88159443510c51cf0/qualifications/ab31bcbc858b46f19b04172075ae3b83/complaints/6144eb8b59cc49bda2db621fc080df32?acc_token=3c0330abfd4142c580d3a4dcad17ca5c HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 228
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "stopping", 
+    "cancellationReason": "Тендер скасовується замовником"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "stopping", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "author": {
+      "contactPoint": {
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+        "id": "13313462", 
+        "uri": "http://sch10.edu.vn.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "postalCode": "21100", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 33", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "acceptance": true, 
+    "cancellationReason": "Тендер скасовується замовником", 
+    "dateCanceled": "2016-03-30T13:09:34.473119+03:00", 
+    "dateAccepted": "2016-03-30T13:09:32.630527+03:00", 
+    "dateSubmitted": "2016-03-30T13:09:30.607139+03:00", 
+    "complaintID": "UA-2016-03-30-000001.4", 
+    "date": "2016-03-30T13:09:30.604679+03:00", 
+    "title": "Недостатньо інформації", 
+    "type": "complaint", 
+    "id": "6144eb8b59cc49bda2db621fc080df32"
+  }
+}
+

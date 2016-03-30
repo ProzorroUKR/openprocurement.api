@@ -22,8 +22,6 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         super(TenderContractResourceTest, self).setUp()
         # Create award
         self.supplier_info = deepcopy(test_tender_data["procuringEntity"])
-        del self.supplier_info['additionalContactPoints']
-        del self.supplier_info['contactPoint']['availableLanguage']
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [self.supplier_info], 'status': 'pending', 'bid_id': self.initial_bids[0]['id'], 'value': {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}, 'items': test_tender_data["items"]}})
@@ -345,8 +343,6 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award
         supplier_info = deepcopy(test_tender_data["procuringEntity"])
-        del supplier_info['additionalContactPoints']
-        del supplier_info['contactPoint']['availableLanguage']
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [supplier_info], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})

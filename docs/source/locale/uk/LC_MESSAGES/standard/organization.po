@@ -84,7 +84,6 @@ msgstr ""
 #: ../../source/standard/organization.rst:98
 #: ../../source/standard/organization.rst:104
 #: ../../source/standard/organization.rst:110
-#: ../../source/standard/organization.rst:116
 msgid "string, required"
 msgstr "рядок, обов’язковий"
 
@@ -159,6 +158,7 @@ msgstr "|ocdsDescription| Назва країни. Наприклад, Укра�
 msgid "ContactPoint"
 msgstr "ContactPoint"
 
+#: ../../source/standard/organization.rst:116
 #: ../../source/standard/organization.rst:133
 msgid "string, multilingual, required"
 msgstr "рядок, багатомовний, обов’язковий"

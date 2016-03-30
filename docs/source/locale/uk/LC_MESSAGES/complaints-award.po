@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 16:16+0200\n"
-"PO-Revision-Date: 2016-03-23 15:05+0200\n"
+"PO-Revision-Date: 2016-03-30 10:53+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -90,11 +90,11 @@ msgstr "Яке або вирішує скаргу:"
 msgid "Or declines it:"
 msgstr "Або відхиляє скаргу:"
 
-#: ../../source/complaints-award.rst:86
+#: ../../source/complaints-award.rst:99
 msgid "Submitting Resolution Confirmation"
 msgstr "Подання вирішення скарги"
 
-#: ../../source/complaints-award.rst:92
+#: ../../source/complaints-award.rst:112
 msgid "Cancelling Tender Award Complaint"
 msgstr "Відміна скарги на визначення переможця"
 
@@ -105,6 +105,43 @@ msgid ""
 "Complaint."
 msgstr ""
 "Якщо при визначенні переможця надавалась перевага лише одному постачальнику "
-"або при будь-якому іншому серйозному порушенні, учасники, що були допущені до "
-"аукціону, можуть подати скаргу результати визначення переможця."
+"або при будь-якому іншому серйозному порушенні, учасники, що були допущені "
+"до аукціону, можуть подати скаргу результати визначення переможця."
+
+#: ../../source/complaints-award.rst:86
+msgid "Correcting problems"
+msgstr "Виправлення проблем"
+
+#: ../../source/complaints-award.rst:88
+msgid ""
+"If tender award complaint was satisfied by the Complaint Review Body, then "
+"procuring entity has to correct problems."
+msgstr ""
+"Якщо скарга на визначення переможця була задоволена органом оскарження, то "
+"замовник повинен виправити допущені порушення."
+
+#: ../../source/complaints-award.rst:90
+msgid "One of the possible solutions is award cancellation:"
+msgstr ""
+"Одним з можливих рішень є відміна результатів визначення переможця (`award`):"
+
+#: ../../source/complaints-award.rst:96
+msgid ""
+"After award cancellation system generates new award. Its location is present"
+" in the `Location` header of response."
+msgstr ""
+"При відміні результатів визначення переможця система генерує новий `award`. "
+"Шлях до нього передається в `Location` заголовку відповіді."
+
+#: ../../source/complaints-award.rst:100
+msgid ""
+"When complaint has been successfully resolved, procuring entity submits "
+"resolution confirmation."
+msgstr ""
+"Якщо скаргу вирішено і порушення усунуто, то замовник подає підтвердження "
+"вирішення."
+
+#: ../../source/complaints-award.rst:106
+msgid "Submitting complaint to new award"
+msgstr "Подання скарги на нове визначення переможця"
 

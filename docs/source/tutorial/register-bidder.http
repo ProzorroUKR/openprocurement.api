@@ -1,4 +1,4 @@
-POST /api/2.0/tenders/875bccb8079448419db42ee024419900/bids HTTP/1.0
+POST /api/2.1/tenders/33105b9ad5794a00a5e197cbab0c58be/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 917
 Content-Type: application/json
@@ -39,10 +39,10 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/875bccb8079448419db42ee024419900/bids/38b0fc1d75df41c8ae0ac8d8c5cffdca
+Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/33105b9ad5794a00a5e197cbab0c58be/bids/142a856336f04d029d4d0eba0bd1ccf3
 {
   "access": {
-    "token": "e0cf11d98894440da940f658bf0ebd15"
+    "token": "0c95e2b54128454982d1069a764326e8"
   }, 
   "data": {
     "status": "pending", 
@@ -52,6 +52,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/875bccb80794484
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
+    "subcontractingDetails": "ДКП «Орфей», Україна", 
     "selfQualified": true, 
     "tenderers": [
       {
@@ -75,8 +76,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/875bccb80794484
         }
       }
     ], 
-    "date": "2016-03-18T17:08:19.078730+02:00", 
-    "id": "38b0fc1d75df41c8ae0ac8d8c5cffdca"
+    "date": "2016-03-28T13:44:16.546817+03:00", 
+    "id": "142a856336f04d029d4d0eba0bd1ccf3"
   }
 }
 

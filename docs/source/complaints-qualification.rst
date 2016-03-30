@@ -91,5 +91,23 @@ Submitting Resolution Confirmation
 Cancelling Tender Qualification Complaint
 =========================================
 
+Cancelling not accepted complaint
+---------------------------------
+
 .. include:: tutorial/qualification-complaint-cancel.http
+   :code:
+
+Cancelling accepted complaint by Complainant
+--------------------------------------------
+
+.. include:: tutorial/qualification-complaint-accepted-stopping.http
+   :code:
+
+.. include:: tutorial/qualification-complaint-stopping-stopped.http
+   :code:
+
+Cancelling accepted complaint by Reviewer
+-----------------------------------------
+
+.. include:: tutorial/qualification-complaint-accepted-stopped.http
    :code:

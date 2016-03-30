@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/67f06af3ad0e44da98e77be18ea6545d/lots/090e52900a0e484da3094e0659ffe81e?acc_token=a573db5c8b53415380ea9828d31c1c9c HTTP/1.0
+PATCH /api/2.1/tenders/e0a06e6f91f9412c8b79a42fe59f1fe8/lots/d4eafdd4eea444ebb44134af26c42065?acc_token=adf9562f13f64db6b5d3049e47f711b7 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 36
 Content-Type: application/json
@@ -25,14 +25,14 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-05-23T17:08:04.592712+02:00"
+      "shouldStartAfter": "2016-06-02T13:43:55.547846+03:00"
     }, 
     "value": {
       "currency": "UAH", 
       "amount": 400.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "id": "090e52900a0e484da3094e0659ffe81e"
+    "id": "d4eafdd4eea444ebb44134af26c42065"
   }
 }
 
