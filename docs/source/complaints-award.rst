@@ -19,7 +19,7 @@ And check individual complaint:
 Complaint Submission
 ====================
 
-If tender award is favoriting certain supplier, or in any other viable case, one can submit Tender Award Complaint.
+If tender award is favoriting only one supplier, or in any other viable case, participants can submit Tender Award Complaint.
 
 Tender Award Complaint Submission (with documents)
 ---------------------------------------------------
@@ -91,5 +91,23 @@ Submitting Resolution Confirmation
 Cancelling Tender Award Complaint
 =================================
 
+Cancelling not accepted complaint
+---------------------------------
+
 .. include:: tutorial/award-complaint-cancel.http
+   :code:
+
+Cancelling accepted complaint by Complainant
+--------------------------------------------
+
+.. include:: tutorial/award-complaint-accepted-stopping.http
+   :code:
+
+.. include:: tutorial/award-complaint-stopping-stopped.http
+   :code:
+
+Cancelling accepted complaint by Reviewer
+-----------------------------------------
+
+.. include:: tutorial/award-complaint-accepted-stopped.http
    :code:

@@ -1,13 +1,13 @@
-PATCH /api/2.1/tenders/b38a8c36b0b94c5d88114ab9e5dff3e8/awards/d1b8fb9bd5474168b51777b209bfb090/complaints/7fa61dfbb9564255b406e622a5c63ae7?acc_token=372c3e79af124cdd9fc1283c1ebaadb1 HTTP/1.0
+PATCH /api/2.2/tenders/c09c7fe8dd7041da8903eb8fb988a89f/awards/a5105c50b1d648039a74d5d5ec8f3bff/complaints/ac487da8c13b4fb98ce08c30c18d8392?acc_token=31ca28d50f3d42c18571ffc2daa831e9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 145
+Content-Length: 361
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "status": "resolved", 
-    "tendererAction": "Умови виправлено"
+    "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно"
   }
 }
 
@@ -16,27 +16,27 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "resolved", 
-    "dateDecision": "2016-03-22T11:18:08.902609+02:00", 
+    "dateDecision": "2016-03-30T12:45:15.581173+03:00", 
     "documents": [
       {
         "author": "complaint_owner", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/b38a8c36b0b94c5d88114ab9e5dff3e8/awards/d1b8fb9bd5474168b51777b209bfb090/complaints/7fa61dfbb9564255b406e622a5c63ae7/documents/f416331dcba445229550a272a493c64b?download=91c7596c15d74428bfc7b88f5106277f", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.2/tenders/c09c7fe8dd7041da8903eb8fb988a89f/awards/a5105c50b1d648039a74d5d5ec8f3bff/complaints/ac487da8c13b4fb98ce08c30c18d8392/documents/214828f5c2694e0caa3bb840745f58d7?download=afad602a82be49a0979c70944c8c2563", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-22T11:18:06.772350+02:00", 
-        "id": "f416331dcba445229550a272a493c64b", 
-        "dateModified": "2016-03-22T11:18:06.772389+02:00"
+        "datePublished": "2016-03-30T12:45:13.214496+03:00", 
+        "id": "214828f5c2694e0caa3bb840745f58d7", 
+        "dateModified": "2016-03-30T12:45:13.214534+03:00"
       }, 
       {
         "author": "aboveThresholdReviewers", 
         "title": "ComplaintResolution.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/b38a8c36b0b94c5d88114ab9e5dff3e8/awards/d1b8fb9bd5474168b51777b209bfb090/complaints/7fa61dfbb9564255b406e622a5c63ae7/documents/1a7bf846e0bb4d0f81b773a594721269?download=2cd4a272bb2448ef94130fb890c17f2f", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.2/tenders/c09c7fe8dd7041da8903eb8fb988a89f/awards/a5105c50b1d648039a74d5d5ec8f3bff/complaints/ac487da8c13b4fb98ce08c30c18d8392/documents/7e66944721c04d7c8643571ae10e3cc5?download=2b039bd94ad14a43af61c2edb1727515", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-22T11:18:08.641781+02:00", 
-        "id": "1a7bf846e0bb4d0f81b773a594721269", 
-        "dateModified": "2016-03-22T11:18:08.641844+02:00"
+        "datePublished": "2016-03-30T12:45:15.363363+03:00", 
+        "id": "7e66944721c04d7c8643571ae10e3cc5", 
+        "dateModified": "2016-03-30T12:45:15.363402+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -62,15 +62,15 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
-    "tendererAction": "Умови виправлено", 
-    "tendererActionDate": "2016-03-22T11:18:09.429738+02:00", 
-    "dateSubmitted": "2016-03-22T11:18:07.031861+02:00", 
-    "complaintID": "UA-2016-03-22-000001.1", 
-    "date": "2016-03-22T11:18:06.416399+02:00", 
+    "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно", 
+    "tendererActionDate": "2016-03-30T12:45:16.806493+03:00", 
+    "dateSubmitted": "2016-03-30T12:45:13.372174+03:00", 
+    "complaintID": "UA-2016-03-30-000001.1", 
+    "date": "2016-03-30T12:45:12.831626+03:00", 
     "acceptance": true, 
     "type": "complaint", 
-    "id": "7fa61dfbb9564255b406e622a5c63ae7", 
-    "dateAccepted": "2016-03-22T11:18:08.109483+02:00"
+    "id": "ac487da8c13b4fb98ce08c30c18d8392", 
+    "dateAccepted": "2016-03-30T12:45:14.516912+03:00"
   }
 }
 

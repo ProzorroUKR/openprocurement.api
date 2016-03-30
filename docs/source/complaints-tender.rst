@@ -19,7 +19,7 @@ And check individual complaint or claim:
 Claim Submission
 ================
 
-If tender conditions are favoriting only one provider, or in any other viable case, one can submit Tender Conditions Claim.
+If tender conditions are favoriting particular supplier, or in any other viable case, any registered user can submit Tender Conditions Claim.
 
 Tender Conditions Claim Submission (with documents)
 ---------------------------------------------------
@@ -49,6 +49,8 @@ You can submit claim that does not need additional documents:
 
 Complaint Submission
 ====================
+
+If tender conditions are favoriting particular supplier, or in any other viable case, any registered user can submit Tender Conditions Complaint.
 
 Tender Conditions Complaint Submission (with documents)
 -------------------------------------------------------
@@ -148,5 +150,23 @@ Submitting Resolution Confirmation
 Cancelling Tender Conditions Complaint
 ======================================
 
+Cancelling not accepted complaint
+---------------------------------
+
 .. include:: tutorial/complaint-cancel.http
+   :code:
+
+Cancelling accepted complaint by Complainant
+--------------------------------------------
+
+.. include:: tutorial/complaint-accepted-stopping.http
+   :code:
+
+.. include:: tutorial/complaint-stopping-stopped.http
+   :code:
+
+Cancelling accepted complaint by Reviewer
+-----------------------------------------
+
+.. include:: tutorial/complaint-accepted-stopped.http
    :code:
