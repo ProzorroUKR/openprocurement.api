@@ -1,13 +1,13 @@
-PATCH /api/2.2/tenders/ca7e5faf145b41a89fd3dd8dc6466908/complaints/7d601bda409c441cae74a5a18ec5d63b?acc_token=cb34efb3222e412cb724438cfd4ffdac HTTP/1.0
-Authorization: Basic YnJva2VyOg==
-Content-Length: 51
+PATCH /api/2.2/tenders/ca7e5faf145b41a89fd3dd8dc6466908/complaints/5cf3806e13f349a9938c9267def4395a HTTP/1.0
+Authorization: Basic cmV2aWV3ZXI6
+Content-Length: 217
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "pending", 
-    "satisfied": false
+    "status": "stopped", 
+    "decision": "Тендер скасовується замовником"
   }
 }
 
@@ -15,8 +15,15 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "pending", 
+    "status": "stopped", 
+    "dateDecision": "2016-03-30T12:45:23.581044+03:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "decision": "Тендер скасовується замовником", 
+    "acceptance": true, 
+    "cancellationReason": "Тендер скасовується замовником", 
+    "dateCanceled": "2016-03-30T12:45:23.411347+03:00", 
+    "dateAccepted": "2016-03-30T12:45:22.391936+03:00", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -38,17 +45,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "resolutionType": "invalid", 
+    "dateSubmitted": "2016-03-30T12:45:21.630707+03:00", 
+    "complaintID": "UA-2016-03-30-000001.6", 
+    "date": "2016-03-30T12:45:21.629311+03:00", 
     "type": "complaint", 
-    "title": "Недостатньо інформації", 
-    "satisfied": false, 
-    "dateEscalated": "2016-03-30T12:45:21.343837+03:00", 
-    "dateAnswered": "2016-03-30T12:45:21.026865+03:00", 
-    "dateSubmitted": "2016-03-30T12:45:20.558434+03:00", 
-    "complaintID": "UA-2016-03-30-000001.4", 
-    "date": "2016-03-30T12:45:20.557046+03:00", 
-    "resolution": "Вимога не відповідає предмету закупівлі", 
-    "id": "7d601bda409c441cae74a5a18ec5d63b"
+    "id": "5cf3806e13f349a9938c9267def4395a"
   }
 }
 

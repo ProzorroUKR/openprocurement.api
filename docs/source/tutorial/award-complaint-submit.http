@@ -1,12 +1,12 @@
-POST /api/2.2/tenders/ca7e5faf145b41a89fd3dd8dc6466908/complaints HTTP/1.0
+POST /api/2.2/tenders/c09c7fe8dd7041da8903eb8fb988a89f/awards/0b5af775ebb8443f851e507c5838fecb/complaints?acc_token=499dd00f8956416692042d3458fe6048 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 1701
+Content-Length: 1703
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "claim", 
+    "status": "pending", 
     "title": "Недостатньо інформації", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
@@ -35,13 +35,13 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.2/tenders/ca7e5faf145b41a89fd3dd8dc6466908/complaints/0968b10be30844b49e0a30cd9fde18ab
+Location: http://api-sandbox.openprocurement.org/api/2.2/tenders/c09c7fe8dd7041da8903eb8fb988a89f/awards/0b5af775ebb8443f851e507c5838fecb/complaints/d53cd672ec7e40f48ef94402ac27bb7c
 {
   "access": {
-    "token": "bb71f6a62e514bdf8b91b7c1492e4994"
+    "token": "0261da152fb1459db117b4fb42e75ae7"
   }, 
   "data": {
-    "status": "claim", 
+    "status": "pending", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -65,11 +65,11 @@ Location: http://api-sandbox.openprocurement.org/api/2.2/tenders/ca7e5faf145b41a
       }
     }, 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2016-03-30T12:45:20.247385+03:00", 
-    "complaintID": "UA-2016-03-30-000001.2", 
-    "date": "2016-03-30T12:45:20.245976+03:00", 
-    "type": "claim", 
-    "id": "0968b10be30844b49e0a30cd9fde18ab"
+    "dateSubmitted": "2016-03-30T12:45:17.741498+03:00", 
+    "complaintID": "UA-2016-03-30-000001.6", 
+    "date": "2016-03-30T12:45:17.740023+03:00", 
+    "type": "complaint", 
+    "id": "d53cd672ec7e40f48ef94402ac27bb7c"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.1/tenders/7b271212d81c42ffb853e3a3e396dd4e/complaints/e9a92a60c76a4ee795da5152810976a7?acc_token=fb7b126b7d174b2f8307e1ed251037ec HTTP/1.0
+PATCH /api/2.2/tenders/ca7e5faf145b41a89fd3dd8dc6466908/complaints/eefbb4b9c0de4a26ad354e043b3f20d9?acc_token=808fddc65ac24692b8e0b9b65d7903a6 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 145
 Content-Type: application/json
@@ -16,27 +16,27 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "resolved", 
-    "dateDecision": "2016-03-22T11:18:15.424458+02:00", 
+    "dateDecision": "2016-03-30T12:45:22.734415+03:00", 
     "documents": [
       {
         "author": "complaint_owner", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/7b271212d81c42ffb853e3a3e396dd4e/complaints/e9a92a60c76a4ee795da5152810976a7/documents/b1620e49be5d467288ff4920eff50e11?download=92f77a308e744802be2e4833836dca93", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.2/tenders/ca7e5faf145b41a89fd3dd8dc6466908/complaints/eefbb4b9c0de4a26ad354e043b3f20d9/documents/1f2c8b2c18f544668e47b14890676913?download=85aa18f0c9b64b09b20ba60380d4d158", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-22T11:18:12.293064+02:00", 
-        "id": "b1620e49be5d467288ff4920eff50e11", 
-        "dateModified": "2016-03-22T11:18:12.293101+02:00"
+        "datePublished": "2016-03-30T12:45:19.994034+03:00", 
+        "id": "1f2c8b2c18f544668e47b14890676913", 
+        "dateModified": "2016-03-30T12:45:19.994073+03:00"
       }, 
       {
         "author": "aboveThresholdReviewers", 
         "title": "ComplaintResolution.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/7b271212d81c42ffb853e3a3e396dd4e/complaints/e9a92a60c76a4ee795da5152810976a7/documents/a76b840b0c134b79a4ec218676ac8bfb?download=0d74360b8a164b948d1f9c622f06cae2", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.2/tenders/ca7e5faf145b41a89fd3dd8dc6466908/complaints/eefbb4b9c0de4a26ad354e043b3f20d9/documents/572063cd8ff84733baf2e4c3a30cb6eb?download=b983e0481fd5447bbd073db72b31e6de", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-22T11:18:15.158630+02:00", 
-        "id": "a76b840b0c134b79a4ec218676ac8bfb", 
-        "dateModified": "2016-03-22T11:18:15.158668+02:00"
+        "datePublished": "2016-03-30T12:45:22.553175+03:00", 
+        "id": "572063cd8ff84733baf2e4c3a30cb6eb", 
+        "dateModified": "2016-03-30T12:45:22.553221+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -63,14 +63,14 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "title": "Недостатньо інформації", 
     "tendererAction": "Умови виправлено", 
-    "tendererActionDate": "2016-03-22T11:18:15.875405+02:00", 
-    "dateSubmitted": "2016-03-22T11:18:13.326921+02:00", 
-    "complaintID": "UA-2016-03-22-000001.1", 
-    "date": "2016-03-22T11:18:12.127245+02:00", 
+    "tendererActionDate": "2016-03-30T12:45:23.246894+03:00", 
+    "dateSubmitted": "2016-03-30T12:45:20.728708+03:00", 
+    "complaintID": "UA-2016-03-30-000001.1", 
+    "date": "2016-03-30T12:45:19.900537+03:00", 
     "acceptance": true, 
     "type": "complaint", 
-    "id": "e9a92a60c76a4ee795da5152810976a7", 
-    "dateAccepted": "2016-03-22T11:18:14.757978+02:00"
+    "id": "eefbb4b9c0de4a26ad354e043b3f20d9", 
+    "dateAccepted": "2016-03-30T12:45:21.935206+03:00"
   }
 }
 

@@ -1,13 +1,13 @@
-PATCH /api/2.2/tenders/ca7e5faf145b41a89fd3dd8dc6466908/complaints/7d601bda409c441cae74a5a18ec5d63b?acc_token=cb34efb3222e412cb724438cfd4ffdac HTTP/1.0
-Authorization: Basic YnJva2VyOg==
-Content-Length: 51
+PATCH /api/2.2/tenders/ca7e5faf145b41a89fd3dd8dc6466908/complaints/26b6fd86d46b4e7691954ff4140b8b43 HTTP/1.0
+Authorization: Basic cmV2aWV3ZXI6
+Content-Length: 217
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "pending", 
-    "satisfied": false
+    "status": "stopped", 
+    "decision": "Тендер скасовується замовником"
   }
 }
 
@@ -15,8 +15,14 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "pending", 
+    "status": "stopped", 
+    "dateDecision": "2016-03-30T12:45:23.071086+03:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "decision": "Тендер скасовується замовником", 
+    "acceptance": true, 
+    "dateCanceled": "2016-03-30T12:45:23.071125+03:00", 
+    "dateAccepted": "2016-03-30T12:45:22.232688+03:00", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -38,17 +44,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "resolutionType": "invalid", 
+    "dateSubmitted": "2016-03-30T12:45:21.477445+03:00", 
+    "complaintID": "UA-2016-03-30-000001.5", 
+    "date": "2016-03-30T12:45:21.475944+03:00", 
     "type": "complaint", 
-    "title": "Недостатньо інформації", 
-    "satisfied": false, 
-    "dateEscalated": "2016-03-30T12:45:21.343837+03:00", 
-    "dateAnswered": "2016-03-30T12:45:21.026865+03:00", 
-    "dateSubmitted": "2016-03-30T12:45:20.558434+03:00", 
-    "complaintID": "UA-2016-03-30-000001.4", 
-    "date": "2016-03-30T12:45:20.557046+03:00", 
-    "resolution": "Вимога не відповідає предмету закупівлі", 
-    "id": "7d601bda409c441cae74a5a18ec5d63b"
+    "id": "26b6fd86d46b4e7691954ff4140b8b43"
   }
 }
 

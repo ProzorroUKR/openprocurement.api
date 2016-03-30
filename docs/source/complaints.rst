@@ -24,7 +24,7 @@ Tender Conditions Claims/Complaints
         }
         subgraph cluster_complaint {
             label = "complaint";
-            pending; satisfied; accepted;
+            pending; satisfied; accepted; stopping;
         }
         claim -> answered;
         satisfied -> resolved;
@@ -32,12 +32,13 @@ Tender Conditions Claims/Complaints
         answered -> {pending,resolved};
         draft -> {claim,pending};
         claim -> pending;
-        {accepted,draft,claim,answered,pending} -> cancelled; 
+        {draft,claim,answered,pending} -> cancelled;
+        accepted -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid};
-        accepted -> {declined,satisfied};
+        accepted -> {declined,satisfied,stopped};
+        stopping -> stopped;
         edge[label="auction" style=dotted];
-        claim -> ignored;
         answered -> {declined,resolved,invalid};
     }
 
@@ -54,15 +55,17 @@ Tender Award Complaints
     digraph G {
         subgraph cluster_complaint {
             label = "complaint";
-            pending; satisfied; accepted;
+            pending; accepted; stopping; satisfied;
         }
         satisfied -> resolved;
         edge[style=dashed];
         draft -> pending;
-        {accepted,draft,pending} -> cancelled; 
+        {draft,pending} -> cancelled; 
+        accepted -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid};
-        accepted -> {declined,satisfied};
+        stopping -> stopped;
+        accepted -> {declined,satisfied,stopped};
     }
 
 .. toctree::

@@ -1,4 +1,4 @@
-PATCH /api/2.1/tenders/7b271212d81c42ffb853e3a3e396dd4e/complaints/e9a92a60c76a4ee795da5152810976a7?acc_token=bc11d11d9cca4bb497318fe9483eecc9 HTTP/1.0
+PATCH /api/2.2/tenders/ca7e5faf145b41a89fd3dd8dc6466908/complaints/eefbb4b9c0de4a26ad354e043b3f20d9?acc_token=2ba7a9b1d4b745dfa5d9619c3208bb4d HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 31
 Content-Type: application/json
@@ -19,12 +19,12 @@ Content-Type: application/json; charset=UTF-8
       {
         "author": "complaint_owner", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/7b271212d81c42ffb853e3a3e396dd4e/complaints/e9a92a60c76a4ee795da5152810976a7/documents/b1620e49be5d467288ff4920eff50e11?download=92f77a308e744802be2e4833836dca93", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.2/tenders/ca7e5faf145b41a89fd3dd8dc6466908/complaints/eefbb4b9c0de4a26ad354e043b3f20d9/documents/1f2c8b2c18f544668e47b14890676913?download=85aa18f0c9b64b09b20ba60380d4d158", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-22T11:18:12.293064+02:00", 
-        "id": "b1620e49be5d467288ff4920eff50e11", 
-        "dateModified": "2016-03-22T11:18:12.293101+02:00"
+        "datePublished": "2016-03-30T12:45:19.994034+03:00", 
+        "id": "1f2c8b2c18f544668e47b14890676913", 
+        "dateModified": "2016-03-30T12:45:19.994073+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -50,11 +50,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "dateSubmitted": "2016-03-22T11:18:13.326921+02:00", 
-    "complaintID": "UA-2016-03-22-000001.1", 
-    "date": "2016-03-22T11:18:12.127245+02:00", 
+    "dateSubmitted": "2016-03-30T12:45:20.728708+03:00", 
+    "complaintID": "UA-2016-03-30-000001.1", 
+    "date": "2016-03-30T12:45:19.900537+03:00", 
     "type": "complaint", 
-    "id": "e9a92a60c76a4ee795da5152810976a7"
+    "id": "eefbb4b9c0de4a26ad354e043b3f20d9"
   }
 }
 

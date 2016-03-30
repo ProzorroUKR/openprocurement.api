@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import os
-from datetime import timedelta, datetime
+from datetime import timedelta
 
 import openprocurement.tender.openuadefense.tests.base as base_test
 from openprocurement.api.models import get_now
@@ -9,7 +9,6 @@ from openprocurement.api.tests.base import PrefixedRequestClass
 from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest, test_tender_ua_data
 from webtest import TestApp
 
-now = datetime.now()
 test_tender_ua_data = {
   "tenderPeriod": {
     "endDate": "2016-02-11T14:04:18.962451"
@@ -58,23 +57,23 @@ test_tender_ua_data = {
         }
       ],
       "description": "Послуги шкільних їдалень",
-      "classification": {
-        "scheme": "CPV",
-        "id": "37810000-9",
-        "description": "Test"
-      },
-      "quantity": 1,
       "deliveryDate": {
-            "startDate": (now + timedelta(days=2)).isoformat(),
-            "endDate": (now + timedelta(days=5)).isoformat()
-             },
+            "startDate": (get_now() + timedelta(days=20)).isoformat(),
+            "endDate": (get_now() + timedelta(days=50)).isoformat()
+      },
       "deliveryAddress": {
             "countryName": u"Україна",
             "postalCode": "79000",
             "region": u"м. Київ",
             "locality": u"м. Київ",
             "streetAddress": u"вул. Банкова 1"
-       }
+      },
+      "classification": {
+        "scheme": "CPV",
+        "id": "37810000-9",
+        "description": "Test"
+      },
+      "quantity": 1
     }
   ]
 }
@@ -107,6 +106,7 @@ bid = {
                 "name": "ДКП «Школяр»"
             }
         ],
+        "subcontractingDetails": "ДКП «книга», Україна, м. Львів, вул. Островського, 33",
         "value": {
             "amount": 500
         },
@@ -327,6 +327,16 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         self.tender_id = tender['id']
 
+        # Setting Bid guarantee
+        #
+
+        with open('docs/source/tutorial/set-bid-guarantee.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+                self.tender_id, owner_token), {"data": {"guarantee": {"amount": 8, "currency": "USD"}}})
+            self.assertEqual(response.status, '200 OK')
+            self.assertIn('guarantee', response.json['data'])
+
+
         #### Uploading documentation
         #
 
@@ -530,14 +540,13 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
                 self.tender_id, owner_token))
         self.contract_id = response.json['data'][0]['id']
-        
-        
+
+        ####  Set contract value
+
         tender = self.db.get(self.tender_id)
         for i in tender.get('awards', []):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.db.save(tender)
-
-         ####  Set contract value
 
         with open('docs/source/tutorial/tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
@@ -547,6 +556,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
 
         #### Setting contract signature date
         #
+
         with open('docs/source/tutorial/tender-contract-sign-date.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
                 self.tender_id, self.contract_id, owner_token), {'data': {"dateSigned": get_now().isoformat()} })
@@ -554,7 +564,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
 
         #### Setting contract period
 
-        period_dates = {"period": {"startDate": (now).isoformat(), "endDate": (now + timedelta(days=365)).isoformat()}}
+        period_dates = {"period": {"startDate": (get_now()).isoformat(), "endDate": (get_now() + timedelta(days=365)).isoformat()}}
         with open('docs/source/tutorial/tender-contract-period.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
             self.tender_id, self.contract_id, owner_token), {'data': {'period': period_dates["period"]}})
@@ -583,6 +593,11 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             self.assertEqual(response.status, '201 Created')
 
         cancellation_id = response.json['data']['id']
+
+        with open('docs/source/tutorial/update-cancellation-reasonType.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(
+                    self.tender_id, cancellation_id, owner_token), {"data":{'reasonType': 'unsuccessful'}})
+            self.assertEqual(response.status, '200 OK')
 
         #### Filling cancellation with protocol and supplementary documentation
         #
@@ -699,6 +714,16 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             }})
             self.assertEqual(response.status, '200 OK')
 
+        response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), complaint_data)
+        self.assertEqual(response.status, '201 Created')
+        complaint5_id = response.json['data']['id']
+        complaint5_token = response.json['access']['token']
+
+        response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), complaint_data)
+        self.assertEqual(response.status, '201 Created')
+        complaint6_id = response.json['data']['id']
+        complaint6_token = response.json['access']['token']
+
         self.app.authorization = ('Basic', ('reviewer', ''))
         with open('docs/source/tutorial/complaint-reject.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/complaints/{}'.format(self.tender_id, complaint4_id), {"data": {
@@ -713,6 +738,16 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json('/tenders/{}/complaints/{}'.format(self.tender_id, complaint3_id), {"data": {
+            "status": "accepted"
+        }})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/tenders/{}/complaints/{}'.format(self.tender_id, complaint5_id), {"data": {
+            "status": "accepted"
+        }})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/tenders/{}/complaints/{}'.format(self.tender_id, complaint6_id), {"data": {
             "status": "accepted"
         }})
         self.assertEqual(response.status, '200 OK')
@@ -734,6 +769,13 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             }})
             self.assertEqual(response.status, '200 OK')
 
+        with open('docs/source/tutorial/complaint-accepted-stopped.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/complaints/{}'.format(self.tender_id, complaint5_id), {"data": {
+                "decision": "Тендер скасовується замовником",
+                "status": "stopped"
+            }})
+            self.assertEqual(response.status, '200 OK')
+
         self.app.authorization = ('Basic', ('broker', ''))
         with open('docs/source/tutorial/complaint-resolved.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint1_id, owner_token), {"data": {
@@ -742,11 +784,29 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             }})
             self.assertEqual(response.status, '200 OK')
 
+        with open('docs/source/tutorial/complaint-accepted-stopping.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint6_id, complaint6_token), {"data": {
+                "cancellationReason": "Тендер скасовується замовником",
+                "status": "stopping"
+            }})
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('reviewer', ''))
+        with open('docs/source/tutorial/complaint-stopping-stopped.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/complaints/{}'.format(self.tender_id, complaint6_id), {"data": {
+                "decision": "Тендер скасовується замовником",
+                "status": "stopped"
+            }})
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), complaint_data)
         self.assertEqual(response.status, '201 Created')
+        complaint7_id = response.json['data']['id']
+        complaint7_token = response.json['access']['token']
 
         with open('docs/source/tutorial/complaint-cancel.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, response.json['data']['id'], response.json['access']['token']), {"data": {
+            response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint7_id, complaint7_token), {"data": {
                 "cancellationReason": "Умови виправлено",
                 "status": "cancelled"
             }})
@@ -820,6 +880,16 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         complaint3_token = response.json['access']['token']
         complaint3_id = response.json['data']['id']
 
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint_data)
+        self.assertEqual(response.status, '201 Created')
+        complaint4_token = response.json['access']['token']
+        complaint4_id = response.json['data']['id']
+
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint_data)
+        self.assertEqual(response.status, '201 Created')
+        complaint5_token = response.json['access']['token']
+        complaint5_id = response.json['data']['id']
+
         self.app.authorization = ('Basic', ('reviewer', ''))
         with open('docs/source/tutorial/award-complaint-reject.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint2_id), {"data": {
@@ -834,6 +904,16 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint3_id), {"data": {
+            "status": "accepted"
+        }})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint4_id), {"data": {
+            "status": "accepted"
+        }})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint5_id), {"data": {
             "status": "accepted"
         }})
         self.assertEqual(response.status, '200 OK')
@@ -855,21 +935,10 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             }})
             self.assertEqual(response.status, '200 OK')
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        with open('docs/source/tutorial/award-complaint-resolved.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, award_id, complaint1_id, owner_token), {"data": {
-                "tendererAction": "Умови виправлено",
-                "status": "resolved"
-            }})
-            self.assertEqual(response.status, '200 OK')
-
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint_data)
-        self.assertEqual(response.status, '201 Created')
-
-        with open('docs/source/tutorial/award-complaint-cancel.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, award_id, response.json['data']['id'], response.json['access']['token']), {"data": {
-                "cancellationReason": "Умови виправлено",
-                "status": "cancelled"
+        with open('docs/source/tutorial/award-complaint-accepted-stopped.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint5_id), {"data": {
+                "decision": "Тендер скасовується замовником",
+                "status": "stopped"
             }})
             self.assertEqual(response.status, '200 OK')
 
@@ -881,4 +950,51 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         with open('docs/source/tutorial/award-complaint.http', 'w') as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint1_id))
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        with open('docs/source/tutorial/award-complaint-satisfied-resolving.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {
+                "status": "cancelled"
+            }})
+            self.assertEqual(response.status, '200 OK')
+            new_award_id = response.headers['Location'][-32:]
+
+        with open('docs/source/tutorial/award-complaint-resolved.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, award_id, complaint1_id, owner_token), {"data": {
+                "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно",
+                "status": "resolved"
+            }})
+            self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/tutorial/award-complaint-accepted-stopping.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, award_id, complaint4_id, complaint4_token), {"data": {
+                "cancellationReason": "Тендер скасовується замовником",
+                "status": "stopping"
+            }})
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('reviewer', ''))
+        with open('docs/source/tutorial/award-complaint-stopping-stopped.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint4_id), {"data": {
+                "decision": "Тендер скасовується замовником",
+                "status": "stopped"
+            }})
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        award_id = new_award_id
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/tutorial/award-complaint-submit.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint_data)
+            self.assertEqual(response.status, '201 Created')
+
+        with open('docs/source/tutorial/award-complaint-cancel.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, award_id, response.json['data']['id'], response.json['access']['token']), {"data": {
+                "cancellationReason": "Умови виправлено",
+                "status": "cancelled"
+            }})
             self.assertEqual(response.status, '200 OK')
