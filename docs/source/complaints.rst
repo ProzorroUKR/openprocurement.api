@@ -55,15 +55,17 @@ Tender Qualification Complaints
     digraph G {
         subgraph cluster_complaint {
             label = "complaint";
-            pending; satisfied; accepted;
+            pending; accepted; stopping; satisfied;
         }
         satisfied -> resolved;
         edge[style=dashed];
         draft -> pending;
-        {accepted,draft,pending} -> cancelled; 
+        {draft,pending} -> cancelled; 
+        accepted -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid};
-        accepted -> {declined,satisfied};
+        stopping -> stopped;
+        accepted -> {declined,satisfied,stopped};
     }
 
 .. toctree::
@@ -79,15 +81,17 @@ Tender Award Complaints
     digraph G {
         subgraph cluster_complaint {
             label = "complaint";
-            pending; satisfied; accepted;
+            pending; accepted; stopping; satisfied;
         }
         satisfied -> resolved;
         edge[style=dashed];
         draft -> pending;
-        {accepted,draft,pending} -> cancelled; 
+        {draft,pending} -> cancelled; 
+        accepted -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid};
-        accepted -> {declined,satisfied};
+        stopping -> stopped;
+        accepted -> {declined,satisfied,stopped};
     }
 
 .. toctree::

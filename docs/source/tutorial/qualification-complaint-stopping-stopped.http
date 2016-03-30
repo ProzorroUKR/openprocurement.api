@@ -1,13 +1,13 @@
-PATCH /api/2.2/tenders/0ef3104e1bb64b659eb10f03fd733f40/complaints/f776771291fb4f6bb04dc0673ea0ce97?acc_token=c4f5e9ed1b3544038d0fa7e06394a720 HTTP/1.0
-Authorization: Basic YnJva2VyOg==
-Content-Length: 51
+PATCH /api/2.2/tenders/0c3f5175bbb040c88159443510c51cf0/qualifications/ab31bcbc858b46f19b04172075ae3b83/complaints/6144eb8b59cc49bda2db621fc080df32 HTTP/1.0
+Authorization: Basic cmV2aWV3ZXI6
+Content-Length: 217
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "pending", 
-    "satisfied": false
+    "status": "stopped", 
+    "decision": "Тендер скасовується замовником"
   }
 }
 
@@ -15,8 +15,15 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "pending", 
+    "status": "stopped", 
+    "dateDecision": "2016-03-30T13:09:34.704488+03:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "decision": "Тендер скасовується замовником", 
+    "acceptance": true, 
+    "cancellationReason": "Тендер скасовується замовником", 
+    "dateCanceled": "2016-03-30T13:09:34.473119+03:00", 
+    "dateAccepted": "2016-03-30T13:09:32.630527+03:00", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -38,17 +45,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "resolutionType": "invalid", 
-    "type": "complaint", 
-    "title": "Недостатньо інформації", 
-    "satisfied": false, 
-    "dateEscalated": "2016-03-30T13:09:23.871903+03:00", 
-    "dateAnswered": "2016-03-30T13:09:23.545625+03:00", 
-    "dateSubmitted": "2016-03-30T13:09:23.078520+03:00", 
+    "dateSubmitted": "2016-03-30T13:09:30.607139+03:00", 
     "complaintID": "UA-2016-03-30-000001.4", 
-    "date": "2016-03-30T13:09:23.077129+03:00", 
-    "resolution": "Вимога не відповідає предмету закупівлі", 
-    "id": "f776771291fb4f6bb04dc0673ea0ce97"
+    "date": "2016-03-30T13:09:30.604679+03:00", 
+    "type": "complaint", 
+    "id": "6144eb8b59cc49bda2db621fc080df32"
   }
 }
 
