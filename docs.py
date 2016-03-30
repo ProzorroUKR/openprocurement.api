@@ -573,6 +573,16 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         complaint3_token = response.json['access']['token']
         complaint3_id = response.json['data']['id']
 
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, award_id), complaint_data)
+        self.assertEqual(response.status, '201 Created')
+        complaint4_token = response.json['access']['token']
+        complaint4_id = response.json['data']['id']
+
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, award_id), complaint_data)
+        self.assertEqual(response.status, '201 Created')
+        complaint5_token = response.json['access']['token']
+        complaint5_id = response.json['data']['id']
+
         self.app.authorization = ('Basic', ('reviewer', ''))
         with open('docs/source/tutorial/award-complaint-reject.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint2_id), {"data": {
@@ -591,6 +601,16 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         }})
         self.assertEqual(response.status, '200 OK')
 
+        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint4_id), {"data": {
+            "status": "accepted"
+        }})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint5_id), {"data": {
+            "status": "accepted"
+        }})
+        self.assertEqual(response.status, '200 OK')
+
         with open('docs/source/tutorial/award-complaint-resolution-upload.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/awards/{}/complaints/{}/documents'.format(self.tender_id, award_id, complaint1_id),
                                      upload_files=[('file', u'ComplaintResolution.pdf', 'content')])
@@ -605,6 +625,13 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         with open('docs/source/tutorial/award-complaint-decline.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint3_id), {"data": {
                 "status": "declined"
+            }})
+            self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/tutorial/award-complaint-accepted-stopped.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint5_id), {"data": {
+                "decision": "Тендер скасовується замовником",
+                "status": "stopped"
             }})
             self.assertEqual(response.status, '200 OK')
 
@@ -637,6 +664,22 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
             }})
             self.assertEqual(response.status, '200 OK')
 
+        with open('docs/source/tutorial/award-complaint-accepted-stopping.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, award_id, complaint4_id, complaint4_token), {"data": {
+                "cancellationReason": "Тендер скасовується замовником",
+                "status": "stopping"
+            }})
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('reviewer', ''))
+        with open('docs/source/tutorial/award-complaint-stopping-stopped.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint4_id), {"data": {
+                "decision": "Тендер скасовується замовником",
+                "status": "stopped"
+            }})
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('broker', ''))
         award_id = new_award_id
 
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {

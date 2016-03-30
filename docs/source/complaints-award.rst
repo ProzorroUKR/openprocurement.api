@@ -114,5 +114,23 @@ Submitting complaint to new award
 Cancelling Tender Award Complaint
 =================================
 
+Cancelling not accepted complaint
+---------------------------------
+
 .. include:: tutorial/award-complaint-cancel.http
+   :code:
+
+Cancelling accepted complaint by Complainant
+--------------------------------------------
+
+.. include:: tutorial/award-complaint-accepted-stopping.http
+   :code:
+
+.. include:: tutorial/award-complaint-stopping-stopped.http
+   :code:
+
+Cancelling accepted complaint by Reviewer
+-----------------------------------------
+
+.. include:: tutorial/award-complaint-accepted-stopped.http
    :code:
