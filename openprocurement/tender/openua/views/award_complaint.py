@@ -108,7 +108,7 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('tendererAction', self.context.tendererAction) and data.get('status', self.context.status) == 'resolved':
             apply_patch(self.request, save=False, src=self.context.serialize())
         # aboveThresholdReviewers
-        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status in ['pending', 'accepted', 'stopping'] and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
             apply_patch(self.request, save=False, src=self.context.serialize())
@@ -118,21 +118,20 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAccepted = get_now()
             self.context.acceptance = True
-        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == self.context.status:
-            apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) in ['declined', 'satisfied']:
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status in ['accepted', 'stopping'] and data.get('status', self.context.status) == 'stopped':
             apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateCanceled = get_now()
+            self.context.dateDecision = get_now()
+            self.context.dateCanceled = self.context.dateCanceled or get_now()
         else:
             self.request.errors.add('body', 'data', 'Can\'t update complaint')
             self.request.errors.status = 403
             return
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
-        if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied'] and tender.status in ['active.qualification', 'active.awarded']:
+        if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping'] and tender.status in ['active.qualification', 'active.awarded']:
             check_tender_status(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender award complaint {}'.format(self.context.id),

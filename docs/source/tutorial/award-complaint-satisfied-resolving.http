@@ -1,4 +1,4 @@
-PATCH /api/2.2/tenders/e062d80ac31a4d03adfe8ee7f673a737/awards/50dbda37231643578f7faeb07dd2685a?acc_token=b582fd2ecbf24d30b03cd547bec4f4fb HTTP/1.0
+PATCH /api/2.2/tenders/8aaa66fa9640482cb80089e67510009c/awards/426c148fd7ad463e857f5ca44200250a?acc_token=68d481c837f84032989c92ecba0ed8a0 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 33
 Content-Type: application/json
@@ -12,7 +12,7 @@ DATA:
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.2/tenders/e062d80ac31a4d03adfe8ee7f673a737/awards/5dce16b516194065a591553a22902361
+Location: http://api-sandbox.openprocurement.org/api/2.2/tenders/8aaa66fa9640482cb80089e67510009c/awards/fe9a4354742a4030a27ce93093af2be2
 {
   "data": {
     "status": "cancelled", 
@@ -40,41 +40,41 @@ Location: http://api-sandbox.openprocurement.org/api/2.2/tenders/e062d80ac31a4d0
       }
     ], 
     "complaintPeriod": {
-      "startDate": "2016-03-30T00:04:22.535935+03:00", 
-      "endDate": "2016-03-30T00:04:36.654576+03:00"
+      "startDate": "2016-03-30T12:42:32.562356+03:00", 
+      "endDate": "2016-03-30T12:42:36.395202+03:00"
     }, 
-    "bid_id": "08cdf805f19744bc9511922e67cacfc2", 
+    "bid_id": "730115027ba24096b56ca61a02381218", 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2016-03-30T00:04:22.537221+03:00", 
+    "date": "2016-03-30T12:42:32.562820+03:00", 
     "qualified": true, 
     "complaints": [
       {
         "status": "satisfied", 
-        "dateDecision": "2016-03-30T00:04:33.304023+03:00", 
+        "dateDecision": "2016-03-30T12:42:35.467756+03:00", 
         "documents": [
           {
             "author": "complaint_owner", 
             "title": "Complaint_Attachement.pdf", 
-            "url": "http://api-sandbox.openprocurement.org/api/2.2/tenders/e062d80ac31a4d03adfe8ee7f673a737/awards/50dbda37231643578f7faeb07dd2685a/complaints/f18df57172214eb4a7f84c4b2a5b3c07/documents/51226f7ef2994f2c9ab5ba1af3b5a74e?download=a4cb2503474747df8a0610926a119c0e", 
+            "url": "http://api-sandbox.openprocurement.org/api/2.2/tenders/8aaa66fa9640482cb80089e67510009c/awards/426c148fd7ad463e857f5ca44200250a/complaints/edc556aed3bf42079d5d1989b88a330c/documents/0b52eb1bd3e541ca991c5a5caeff84e9?download=d810843e22d54ee8865f1dc6dfd5b0b3", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2016-03-30T00:04:24.696841+03:00", 
-            "id": "51226f7ef2994f2c9ab5ba1af3b5a74e", 
-            "dateModified": "2016-03-30T00:04:24.696947+03:00"
+            "datePublished": "2016-03-30T12:42:33.161737+03:00", 
+            "id": "0b52eb1bd3e541ca991c5a5caeff84e9", 
+            "dateModified": "2016-03-30T12:42:33.161783+03:00"
           }, 
           {
             "author": "aboveThresholdReviewers", 
             "title": "ComplaintResolution.pdf", 
-            "url": "http://api-sandbox.openprocurement.org/api/2.2/tenders/e062d80ac31a4d03adfe8ee7f673a737/awards/50dbda37231643578f7faeb07dd2685a/complaints/f18df57172214eb4a7f84c4b2a5b3c07/documents/ec468cbe78844c739849619a37fdb08c?download=b9c4b3c8513c4583bf8c5452cc37658e", 
+            "url": "http://api-sandbox.openprocurement.org/api/2.2/tenders/8aaa66fa9640482cb80089e67510009c/awards/426c148fd7ad463e857f5ca44200250a/complaints/edc556aed3bf42079d5d1989b88a330c/documents/3ffaf75abd0645cdb47bb3f83235043c?download=c57bfd0915a442faa42ed5b77e1226bb", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2016-03-30T00:04:32.443608+03:00", 
-            "id": "ec468cbe78844c739849619a37fdb08c", 
-            "dateModified": "2016-03-30T00:04:32.443701+03:00"
+            "datePublished": "2016-03-30T12:42:35.245105+03:00", 
+            "id": "3ffaf75abd0645cdb47bb3f83235043c", 
+            "dateModified": "2016-03-30T12:42:35.245144+03:00"
           }
         ], 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -100,17 +100,17 @@ Location: http://api-sandbox.openprocurement.org/api/2.2/tenders/e062d80ac31a4d0
             "locality": "м. Вінниця"
           }
         }, 
-        "dateAccepted": "2016-03-30T00:04:29.348648+03:00", 
-        "dateSubmitted": "2016-03-30T00:04:25.239384+03:00", 
+        "dateAccepted": "2016-03-30T12:42:34.411709+03:00", 
+        "dateSubmitted": "2016-03-30T12:42:33.334419+03:00", 
         "complaintID": "UA-2016-03-30-000001.1", 
-        "date": "2016-03-30T00:04:23.490237+03:00", 
+        "date": "2016-03-30T12:42:32.852615+03:00", 
         "acceptance": true, 
         "type": "complaint", 
-        "id": "f18df57172214eb4a7f84c4b2a5b3c07"
+        "id": "edc556aed3bf42079d5d1989b88a330c"
       }, 
       {
         "status": "invalid", 
-        "dateDecision": "2016-03-30T00:04:28.562234+03:00", 
+        "dateDecision": "2016-03-30T12:42:34.209533+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
         "author": {
           "contactPoint": {
@@ -134,16 +134,16 @@ Location: http://api-sandbox.openprocurement.org/api/2.2/tenders/e062d80ac31a4d0
           }
         }, 
         "acceptance": false, 
-        "dateSubmitted": "2016-03-30T00:04:25.846523+03:00", 
+        "dateSubmitted": "2016-03-30T12:42:33.490098+03:00", 
         "complaintID": "UA-2016-03-30-000001.2", 
-        "date": "2016-03-30T00:04:25.838652+03:00", 
+        "date": "2016-03-30T12:42:33.488521+03:00", 
         "title": "Недостатньо інформації", 
         "type": "complaint", 
-        "id": "482dae7094324c72bad0d386d46bdbcb"
+        "id": "af317045caef45888459ab130b4d762b"
       }, 
       {
         "status": "declined", 
-        "dateDecision": "2016-03-30T00:04:34.124148+03:00", 
+        "dateDecision": "2016-03-30T12:42:35.685835+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
         "author": {
           "contactPoint": {
@@ -167,13 +167,13 @@ Location: http://api-sandbox.openprocurement.org/api/2.2/tenders/e062d80ac31a4d0
           }
         }, 
         "acceptance": true, 
-        "dateAccepted": "2016-03-30T00:04:30.108559+03:00", 
-        "dateSubmitted": "2016-03-30T00:04:26.432495+03:00", 
+        "dateAccepted": "2016-03-30T12:42:34.620139+03:00", 
+        "dateSubmitted": "2016-03-30T12:42:33.655032+03:00", 
         "complaintID": "UA-2016-03-30-000001.3", 
-        "date": "2016-03-30T00:04:26.424851+03:00", 
+        "date": "2016-03-30T12:42:33.653411+03:00", 
         "title": "Недостатньо інформації", 
         "type": "complaint", 
-        "id": "82cfde20563a4a5abacaa41ab3c02800"
+        "id": "721d6d4cdf19465d88cf25d23af2f9f6"
       }, 
       {
         "status": "accepted", 
@@ -200,17 +200,23 @@ Location: http://api-sandbox.openprocurement.org/api/2.2/tenders/e062d80ac31a4d0
           }
         }, 
         "acceptance": true, 
-        "dateAccepted": "2016-03-30T00:04:30.903841+03:00", 
-        "dateSubmitted": "2016-03-30T00:04:27.081364+03:00", 
+        "dateAccepted": "2016-03-30T12:42:34.824572+03:00", 
+        "dateSubmitted": "2016-03-30T12:42:33.824308+03:00", 
         "complaintID": "UA-2016-03-30-000001.4", 
-        "date": "2016-03-30T00:04:27.073933+03:00", 
+        "date": "2016-03-30T12:42:33.822873+03:00", 
         "title": "Недостатньо інформації", 
         "type": "complaint", 
-        "id": "acd20ac64c624d09ba9ad412afa1196f"
+        "id": "5999d66f05774e549bd00b632d567530"
       }, 
       {
         "status": "stopped", 
+        "dateDecision": "2016-03-30T12:42:35.898381+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+        "title": "Недостатньо інформації", 
+        "decision": "Тендер скасовується замовником", 
+        "acceptance": true, 
+        "dateCanceled": "2016-03-30T12:42:35.898407+03:00", 
+        "dateAccepted": "2016-03-30T12:42:35.030832+03:00", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -232,19 +238,14 @@ Location: http://api-sandbox.openprocurement.org/api/2.2/tenders/e062d80ac31a4d0
             "locality": "м. Вінниця"
           }
         }, 
-        "decision": "Тендер скасовується замовником", 
-        "acceptance": true, 
-        "dateCanceled": "2016-03-30T00:04:34.937099+03:00", 
-        "dateAccepted": "2016-03-30T00:04:31.668067+03:00", 
-        "dateSubmitted": "2016-03-30T00:04:27.780765+03:00", 
+        "dateSubmitted": "2016-03-30T12:42:34.006116+03:00", 
         "complaintID": "UA-2016-03-30-000001.5", 
-        "date": "2016-03-30T00:04:27.773418+03:00", 
-        "title": "Недостатньо інформації", 
+        "date": "2016-03-30T12:42:34.004566+03:00", 
         "type": "complaint", 
-        "id": "ceb6ab54dcd54dcb8648c0a6aa93bc10"
+        "id": "ecc3dde0689b4faf888c5ad9dd81d5e2"
       }
     ], 
-    "id": "50dbda37231643578f7faeb07dd2685a"
+    "id": "426c148fd7ad463e857f5ca44200250a"
   }
 }
 
