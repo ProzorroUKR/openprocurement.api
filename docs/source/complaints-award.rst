@@ -85,21 +85,25 @@ Or declines it:
 Correcting problems
 -------------------
 
-Cancelling award:
+If tender award complaint was satisfied by the Complaint Review Body, then procuring entity has to correct problems.
+
+One of the possible solutions is award cancellation:
 
 .. include:: tutorial/award-complaint-satisfied-resolving.http
    :code:
 
-New generated award location present in Location header.
+After award cancellation system generates new award. Its location is present in the `Location` header of response.
 
 Submitting Resolution Confirmation
 ----------------------------------
 
+When complaint has been successfully resolved, procuring entity submits resolution confirmation.
+
 .. include:: tutorial/award-complaint-resolved.http
    :code:
 
-Submit complaint to new award
------------------------------
+Submitting complaint to a new award
+-----------------------------------
 
 .. include:: tutorial/award-complaint-submit.http
    :code:

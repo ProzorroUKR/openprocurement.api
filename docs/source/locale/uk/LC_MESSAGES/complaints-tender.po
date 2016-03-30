@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-04 10:19+0200\n"
-"PO-Revision-Date: 2016-03-23 14:45+0200\n"
+"PO-Revision-Date: 2016-03-30 10:40+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -144,16 +144,28 @@ msgid ""
 "If tender conditions are favoriting particular supplier, or in any other "
 "viable case, any registered user can submit Tender Conditions Claim."
 msgstr ""
-"Якщо умови закупівлі сприятливі лише для одного постачальника або при "
-"будь-якому іншому серйозному порушенні, будь-який зареєстрований користувач "
-"може подати вимогу про виправлення умов закупівлі."
+"Якщо умови закупівлі сприятливі лише для одного постачальника або при будь-"
+"якому іншому серйозному порушенні, будь-який зареєстрований користувач може "
+"подати вимогу про виправлення умов закупівлі."
 
 #: ../../source/complaints-tender.rst:53
 msgid ""
 "If tender conditions are favoriting particular supplier, or in any other "
 "viable case, any registered user can submit Tender Conditions Complaint."
 msgstr ""
-"Якщо умови закупівлі сприятливі лише для одного постачальника або при "
-"будь-якому іншому серйозному порушенні, будь-який зареєстрований користувач "
-"може подати скаргу на умови закупівлі."
+"Якщо умови закупівлі сприятливі лише для одного постачальника або при будь-"
+"якому іншому серйозному порушенні, будь-який зареєстрований користувач може "
+"подати скаргу на умови закупівлі."
+
+#: ../../source/complaints-tender.rst:154
+msgid "Cancelling not accepted complaint"
+msgstr "Відміна не прийнятої скарги"
+
+#: ../../source/complaints-tender.rst:160
+msgid "Cancelling accepted complaint by Complainant"
+msgstr "Відміна прийнятої скарги скаржником"
+
+#: ../../source/complaints-tender.rst:169
+msgid "Cancelling accepted complaint by Reviewer"
+msgstr "Відміна прийнятої скарги рецензентом"
 

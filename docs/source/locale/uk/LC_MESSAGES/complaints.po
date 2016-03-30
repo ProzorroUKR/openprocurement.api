@@ -31,35 +31,35 @@ msgstr ""
 msgid "Tender Conditions Claims/Complaints"
 msgstr "Вимоги/Скарги на умови закупівлі"
 
-#: ../../source/complaints.rst:73
+#: ../../source/complaints.rst:77
 msgid "Roles"
 msgstr "Ролі"
 
-#: ../../source/complaints.rst:76
+#: ../../source/complaints.rst:80
 msgid "dashed"
 msgstr "пунктирна лінія"
 
-#: ../../source/complaints.rst:79
+#: ../../source/complaints.rst:83
 msgid "plain"
 msgstr "звичайна лінія"
 
-#: ../../source/complaints.rst:82
+#: ../../source/complaints.rst:86
 msgid "bold"
 msgstr "жирна лінія"
 
-#: ../../source/complaints.rst:85
+#: ../../source/complaints.rst:89
 msgid "dotted"
 msgstr "пунктирна лінія з крапками"
 
-#: ../../source/complaints.rst:88
+#: ../../source/complaints.rst:92
 msgid "Statuses"
 msgstr "Статуси"
 
-#: ../../source/complaints.rst:91
+#: ../../source/complaints.rst:95
 msgid "Initial status"
 msgstr "Початковий статус"
 
-#: ../../source/complaints.rst:93
+#: ../../source/complaints.rst:97
 msgid ""
 "Complainant can submit claim, upload documents, cancel claim, and re-submit "
 "it."
@@ -67,15 +67,15 @@ msgstr ""
 "На цьому етапі скаржник може подати вимогу, завантажити документи, "
 "відкликати вимогу та подати її знову."
 
-#: ../../source/complaints.rst:96
+#: ../../source/complaints.rst:100
 msgid "Procuring entity can upload documents and answer to claim."
 msgstr "Замовник може завантажити документи та відповісти на вимогу."
 
-#: ../../source/complaints.rst:98 ../../source/complaints.rst:106
+#: ../../source/complaints.rst:102 ../../source/complaints.rst:110
 msgid "Complainant can cancel claim."
 msgstr "Скаржник може відкликати вимогу."
 
-#: ../../source/complaints.rst:101
+#: ../../source/complaints.rst:105
 msgid ""
 "Complainant can cancel claim, upload documents, accept solution or escalate "
 "claim to complaint."
@@ -83,31 +83,31 @@ msgstr ""
 "Скаржник може відкликати вимогу, завантажити документи, погодитись з "
 "вирішенням або перетворити вимогу на скаргу."
 
-#: ../../source/complaints.rst:104
+#: ../../source/complaints.rst:108
 msgid "Reviewer can upload documents and review complaint."
 msgstr "Орган оскарження може завантажувати документи та розглядати скарги."
 
-#: ../../source/complaints.rst:109 ../../source/complaints.rst:114
-#: ../../source/complaints.rst:119 ../../source/complaints.rst:124
+#: ../../source/complaints.rst:113 ../../source/complaints.rst:118
+#: ../../source/complaints.rst:123 ../../source/complaints.rst:128
 msgid "Terminal status"
 msgstr "Кінцевий статус"
 
-#: ../../source/complaints.rst:111
+#: ../../source/complaints.rst:115
 msgid "Complaint recognized as invalid."
 msgstr "Скаргу визнано недійсною."
 
-#: ../../source/complaints.rst:116
+#: ../../source/complaints.rst:120
 msgid "Complaint recognized as declined."
 msgstr "Скаргу визнано відхиленою."
 
-#: ../../source/complaints.rst:121
+#: ../../source/complaints.rst:125
 msgid "Complaint recognized as resolved."
 msgstr "Скаргу визнано вирішеною."
 
-#: ../../source/complaints.rst:126
+#: ../../source/complaints.rst:130
 msgid "Complaint cancelled by complainant."
 msgstr "Скаргу відкликано скаржником."
 
-#: ../../source/complaints.rst:49
+#: ../../source/complaints.rst:51
 msgid "Tender Award Complaints"
 msgstr "Скарги на визначення переможця"
