@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-04 10:19+0200\n"
-"PO-Revision-Date: 2016-03-23 14:55+0200\n"
+"PO-Revision-Date: 2016-03-30 13:01+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -104,8 +104,20 @@ msgid ""
 "case, participants can submit Tender Award Complaint."
 msgstr ""
 "Якщо при визначенні переможця надавалась перевага лише одному постачальнику "
-"або при будь-якому іншому серйозному порушенні, учасники можуть подати скаргу "
-"на результати визначення переможця."
+"або при будь-якому іншому серйозному порушенні, учасники можуть подати "
+"скаргу на результати визначення переможця."
+
+#: ../../source/complaints-award.rst:95
+msgid "Cancelling not accepted complaint"
+msgstr "Відміна не прийнятої скарги"
+
+#: ../../source/complaints-award.rst:101
+msgid "Cancelling accepted complaint by Complainant"
+msgstr "Відміна прийнятої скарги скаржником"
+
+#: ../../source/complaints-award.rst:110
+msgid "Cancelling accepted complaint by Reviewer"
+msgstr "Відміна прийнятої скарги рецензентом"
 
 #~ msgid ""
 #~ "If tender conditions are favoriting only one supplier, or in any other "
