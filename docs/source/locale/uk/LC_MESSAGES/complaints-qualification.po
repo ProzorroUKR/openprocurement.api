@@ -1,10 +1,11 @@
 #
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 16:16+0200\n"
-"PO-Revision-Date: 2016-03-23 15:07+0200\n"
+"PO-Revision-Date: 2016-03-30 13:32+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -103,8 +104,19 @@ msgid ""
 "If tender qualification is favoriting certain supplier, or in any other "
 "viable case, participants can submit Tender Qualification Complaint."
 msgstr ""
-"Якщо кваліфікація сприятлива лише для одного постачальника або при "
-"будь-якому іншому серйозному порушенні, учасники можуть подати скаргу на "
+"Якщо кваліфікація сприятлива лише для одного постачальника або при будь-"
+"якому іншому серйозному порушенні, учасники можуть подати скаргу на "
 "кваліфікацію."
 
+#: ../../source/complaints-qualification.rst:95
+msgid "Cancelling not accepted complaint"
+msgstr "Відміна не прийнятої скарги"
+
+#: ../../source/complaints-qualification.rst:101
+msgid "Cancelling accepted complaint by Complainant"
+msgstr "Відміна прийнятої скарги скаржником"
+
+#: ../../source/complaints-qualification.rst:110
+msgid "Cancelling accepted complaint by Reviewer"
+msgstr "Відміна прийнятої скарги рецензентом"
 
