@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0'
+version = '2.0'
 
 requires = [
     'setuptools',
-    'openprocurement.api>=0.12b1',
+    'openprocurement.api>=2.2',
     'openprocurement.tender.openua',
 ]
 
