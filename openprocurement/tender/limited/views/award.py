@@ -517,7 +517,9 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                 'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) +1) }))
             # add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
-            award.complaintPeriod.endDate = get_now()
+            now = get_now()
+            if award.complaintPeriod.endDate > now:
+                award.complaintPeriod.endDate = now
             for i in tender.contracts:
                 if i.awardID == award.id:
                     i.status = 'cancelled'
