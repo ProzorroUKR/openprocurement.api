@@ -40,7 +40,7 @@ class AccreditationPlanTest(BaseWebTest):
             response = self.app.post_json('/plans', {"data": test_plan_data}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
             self.assertEqual(response.content_type, 'application/json')
-            self.assertEqual(response.json['errors'][0]["description"], "Accreditation not allows to create plan")
+            self.assertEqual(response.json['errors'][0]["description"], "Broker Accreditation level does not permit plan creation")
 
 
 class PlanResourceTest(BaseWebTest):
