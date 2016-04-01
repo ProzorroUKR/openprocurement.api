@@ -11,7 +11,7 @@ def validate_plan_data(request):
         return
     model = request.plan_from_data(data, create=False)
     if hasattr(request, 'check_accreditation') and not request.check_accreditation(model.create_accreditation):
-        request.errors.add('plan', 'accreditation', 'Accreditation not allows to create plan')
+        request.errors.add('plan', 'accreditation', 'Broker Accreditation level does not permit plan creation')
         request.errors.status = 403
         return
     return validate_data(request, model, data=data)
