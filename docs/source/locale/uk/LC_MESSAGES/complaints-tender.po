@@ -1,10 +1,11 @@
 #
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 16:16+0200\n"
-"PO-Revision-Date: 2016-03-23 14:07+0200\n"
+"PO-Revision-Date: 2016-03-30 13:35+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -152,4 +153,16 @@ msgstr ""
 msgid "Any registered user can submit Tender Conditions Complaint."
 msgstr ""
 "Будь-який зареєстрований користувач може подати скаргу на умови закупівлі."
+
+#: ../../source/complaints-tender.rst:155
+msgid "Cancelling not accepted complaint"
+msgstr "Відміна не прийнятої скарги"
+
+#: ../../source/complaints-tender.rst:161
+msgid "Cancelling accepted complaint by Complainant"
+msgstr "Відміна прийнятої скарги скаржником"
+
+#: ../../source/complaints-tender.rst:170
+msgid "Cancelling accepted complaint by Reviewer"
+msgstr "Відміна прийнятої скарги рецензентом"
 
