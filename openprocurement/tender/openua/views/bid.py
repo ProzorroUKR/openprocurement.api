@@ -171,6 +171,11 @@ class TenderUABidResource(TenderBidResource):
             self.request.errors.add('body', 'data', 'Can\'t update bid in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
+        tender = self.request.validated['tender']
+        if self.request.authenticated_role != 'Administrator' and (tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate):
+            self.request.errors.add('body', 'data', 'Bid can be updated only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat()(), tender.tenderPeriod.endDate.isoformat()))
+            self.request.errors.status = 403
+            return
         bid_status_to = self.request.validated['data'].get("status")
         if bid_status_to and bid_status_to != 'active':
             self.request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
@@ -223,6 +228,11 @@ class TenderUABidResource(TenderBidResource):
         bid = self.request.context
         if self.request.validated['tender_status'] != 'active.tendering':
             self.request.errors.add('body', 'data', 'Can\'t delete bid in current ({}) tender status'.format(self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        tender = self.request.validated['tender']
+        if tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate:
+            self.request.errors.add('body', 'data', 'Bid can be deleted only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
             self.request.errors.status = 403
             return
         bid.status = 'deleted'
