@@ -543,24 +543,28 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
 
     def test_tender_lot_guarantee(self):
         data = deepcopy(test_tender_ua_data)
-        data['guarantee'] = {"amount": 100, "currency": "GBP"}
+        data['guarantee'] = {"amount": 100, "currency": "USD"}
         response = self.app.post_json('/tenders', {'data': data})
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.assertEqual(response.status, '201 Created')
         self.assertIn('guarantee', response.json['data'])
         self.assertEqual(response.json['data']['guarantee']['amount'], 100)
-        self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
+        self.assertEqual(response.json['data']['guarantee']['currency'], "USD")
 
         lot = deepcopy(test_lots[0])
         lot['guarantee'] = {"amount": 20, "currency": "USD"}
-        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender['id'], owner_token), {'data': lot}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'lot guarantee currency should be identical to tender guarantee currency'], u'location': u'body', u'name': u'lots'}
-        ])
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender['id'], owner_token), {'data': lot})
+        self.assertEqual(response.status, '201 Created')
+        self.assertIn('guarantee', response.json['data'])
+        self.assertEqual(response.json['data']['guarantee']['amount'], 20)
+        self.assertEqual(response.json['data']['guarantee']['currency'], "USD")
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'guarantee': {"currency": "GBP"}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertIn('guarantee', response.json['data'])
+        self.assertEqual(response.json['data']['guarantee']['amount'], 20)
+        self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
 
         lot['guarantee'] = {"amount": 20, "currency": "GBP"}
         response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender['id'], owner_token), {'data': lot})
@@ -570,7 +574,7 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
 
         response = self.app.get('/tenders/{}'.format(tender['id']))
-        self.assertEqual(response.json['data']['guarantee']['amount'], 20)
+        self.assertEqual(response.json['data']['guarantee']['amount'], 20 + 20)
         self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
 
         lot2 = deepcopy(test_lots[0])
@@ -592,11 +596,11 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
 
         response = self.app.get('/tenders/{}'.format(tender['id']))
         self.assertIn('guarantee', response.json['data'])
-        self.assertEqual(response.json['data']['guarantee']['amount'], 20 + 30)
+        self.assertEqual(response.json['data']['guarantee']['amount'], 20 + 20 + 30)
         self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"guarantee": {"amount": 55}}})
-        self.assertEqual(response.json['data']['guarantee']['amount'], 20 + 30)
+        self.assertEqual(response.json['data']['guarantee']['amount'], 20 + 20 + 30)
         self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
 
         response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(tender['id'], lot2_id, owner_token), {'data': {'guarantee': {"amount": 35, "currency": "GBP"}}})
@@ -605,7 +609,7 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
 
         response = self.app.get('/tenders/{}'.format(tender['id']))
         self.assertIn('guarantee', response.json['data'])
-        self.assertEqual(response.json['data']['guarantee']['amount'], 20 + 35)
+        self.assertEqual(response.json['data']['guarantee']['amount'], 20 + 20 + 35)
         self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
 
         for l_id in (lot_id, lot2_id):
@@ -615,17 +619,18 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
 
         response = self.app.get('/tenders/{}'.format(tender['id']))
         self.assertIn('guarantee', response.json['data'])
-        self.assertEqual(response.json['data']['guarantee']['amount'], 0)
+        self.assertEqual(response.json['data']['guarantee']['amount'], 20)
         self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
 
         for l_id in (lot_id, lot2_id):
-            response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(tender['id'], l_id,owner_token))
+            response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(tender['id'], l_id, owner_token))
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.get('/tenders/{}'.format(tender['id']))
         self.assertIn('guarantee', response.json['data'])
-        self.assertEqual(response.json['data']['guarantee']['amount'], 0)
+        self.assertEqual(response.json['data']['guarantee']['amount'], 20)
         self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
+
 
 class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest):
     initial_lots = 2 * test_lots
