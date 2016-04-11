@@ -563,6 +563,11 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(revisions[-1][u'changes'][0]['op'], u'replace')
         self.assertEqual(revisions[-1][u'changes'][0]['path'], u'/budget/id')
 
+        response = self.app.get('/plans/{}/revisions'.format(plan['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['revisions'], revisions)
+
         response = self.app.patch_json('/plans/{}'.format(
             plan['id']), {'data': {'items': [test_plan_data['items'][0]]}})
         self.assertEqual(response.status, '200 OK')
