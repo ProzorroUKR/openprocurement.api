@@ -8,8 +8,8 @@ from openprocurement.api.utils import (
     error_handler,
     context_unpack,
 )
-from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status, calculate_business_date
-from openprocurement.tender.openeu.models import Qualification, COMPLAINT_STAND_STILL
+from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status
+from openprocurement.tender.openeu.models import Qualification
 from openprocurement.tender.openeu.traversal import (
     qualifications_factory, bid_financial_documents_factory,
     bid_eligibility_documents_factory, bid_qualification_documents_factory)
@@ -85,10 +85,11 @@ def all_bids_are_reviewed(request):
     """
     if request.validated['tender'].lots:
         active_lots = [lot.id for lot in request.validated['tender'].lots if lot.status == 'active']
-        return all([lotValue.status != 'pending'
-                    for bid in request.validated['tender'].bids
-                    for lotValue in bid.lotValues
-                    if lotValue.relatedLot in active_lots
+        return all([
+            lotValue.status != 'pending'
+            for bid in request.validated['tender'].bids
+            for lotValue in bid.lotValues
+            if lotValue.relatedLot in active_lots
         ])
     else:
         return all([bid.status != 'pending' for bid in request.validated['tender'].bids])
@@ -99,8 +100,8 @@ def check_status(request):
     now = get_now()
 
     if tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
-        not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]) and \
-        not any([i.id for i in tender.questions if not i.answer]):
+            not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]) and \
+            not any([i.id for i in tender.questions if not i.answer]):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification'),
@@ -153,7 +154,6 @@ def check_status(request):
     elif tender.lots and tender.status in ['active.qualification', 'active.awarded']:
         if any([i['status'] in ['claim', 'answered', 'pending'] for i in tender.complaints]):
             return
-        lots_ends = []
         for lot in tender.lots:
             if lot['status'] != 'active':
                 continue

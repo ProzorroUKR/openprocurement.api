@@ -1,5 +1,5 @@
 from uuid import uuid4
-from datetime import timedelta, time, datetime
+from datetime import timedelta
 from pyramid.security import Allow
 from zope.interface import implementer
 from schematics.types import StringType, MD5Type, BooleanType
@@ -7,28 +7,19 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.transforms import blacklist, whitelist
 from schematics.exceptions import ValidationError
-from openprocurement.api.models import ITender, TZ
-from openprocurement.api.models import (Model, Address, Period,
-                                        IsoDateTimeType, ListType)
-from openprocurement.api.models import Tender as BaseTender
-from openprocurement.api.models import Identifier as BaseIdentifier
-from openprocurement.api.models import Bid as BaseBid
-from openprocurement.api.models import Contract as BaseContract
-from openprocurement.api.models import Cancellation as BaseCancellation
-from openprocurement.api.models import Document as BaseDocument
-from openprocurement.api.models import Lot as BaseLot
-from openprocurement.api.models import ContactPoint as BaseContactPoint
-from openprocurement.api.models import LotValue as BaseLotValue
-from openprocurement.api.models import Lot as BaseLot
-from openprocurement.api.models import validate_cpv_group, validate_items_uniq, validate_lots_uniq
 from openprocurement.api.models import (
+    ITender, TZ, Model, Address, Period, IsoDateTimeType, ListType,
+    Tender as BaseTender, Identifier as BaseIdentifier, Bid as BaseBid,
+    Contract as BaseContract, Cancellation as BaseCancellation, Lot as BaseLot,
+    Document as BaseDocument, ContactPoint as BaseContactPoint,
+    LotValue as BaseLotValue, ComplaintModelType as BaseComplaintModelType,
     plain_role, create_role, edit_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
     schematics_embedded_role, get_now, embedded_lot_role, default_lot_role,
     calc_auction_end_time, get_tender, validate_lots_uniq,
-    ComplaintModelType as BaseComplaintModelType,
+    validate_cpv_group, validate_items_uniq,
 )
 from openprocurement.tender.openua.utils import (
     calculate_business_date, BLOCK_COMPLAINT_STATUS,
@@ -53,7 +44,6 @@ TENDERING_AUCTION = timedelta(days=35)
 QUESTIONS_STAND_STILL = timedelta(days=10)
 PREQUALIFICATION_COMPLAINT_STAND_STILL = timedelta(days=5)
 COMPLAINT_STAND_STILL = timedelta(days=10)
-
 
 
 def bids_validation_wrapper(validation_func):
@@ -168,6 +158,7 @@ class Cancellation(BaseCancellation):
     documents = ListType(ModelType(Document), default=list())
     reasonType = StringType(choices=['cancelled', 'unsuccessful'], default='cancelled')
 
+
 class TenderAuctionPeriod(Period):
     """The auction period."""
 
@@ -246,7 +237,7 @@ class LotValue(BaseLotValue):
                         default='pending')
 
     def validate_value(self, data, value):
-        if value and isinstance(data['__parent__'], Model) and ( data['__parent__'].status not in ('invalid', 'deleted')) and data['relatedLot']:
+        if value and isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted')) and data['relatedLot']:
             lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
             if not lots:
                 return
@@ -261,6 +252,7 @@ class LotValue(BaseLotValue):
     def validate_relatedLot(self, data, relatedLot):
         if isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted')) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
             raise ValidationError(u"relatedLot should be one of lots")
+
 
 class Bid(BaseBid):
     class Options:
@@ -447,7 +439,7 @@ class Tender(BaseTender):
     cancellations = ListType(ModelType(Cancellation), default=list())
     awards = ListType(ModelType(Award), default=list())
     procuringEntity = ModelType(Organization, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted',])  # A list of all the companies who entered submissions for the tender.
+    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     qualifications = ListType(ModelType(Qualification), default=list())
     qualificationPeriod = ModelType(Period)
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
@@ -498,8 +490,8 @@ class Tender(BaseTender):
         now = get_now()
         checks = []
         if self.status == 'active.tendering' and self.tenderPeriod.endDate and \
-            not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]) and \
-            not any([i.id for i in self.questions if not i.answer]):
+                not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]) and \
+                not any([i.id for i in self.questions if not i.answer]):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
         elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate and not any([
             i.status in BLOCK_COMPLAINT_STATUS
