@@ -3,8 +3,8 @@ import unittest
 from datetime import timedelta
 
 from openprocurement.api.models import get_now
-from openprocurement.api.tests.base import test_bids
-from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest, test_tender_ua_data
+from openprocurement.api.tests.base import test_bids, test_organization
+from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest, test_tender_data
 
 
 class TenderContractResourceTest(BaseTenderUAContentWebTest):
@@ -18,7 +18,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         authorization = self.app.authorization
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [test_tender_ua_data["procuringEntity"]], 'status': 'pending', 'bid_id': self.initial_bids[0]['id'],
+            self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id'],
                                        'value': self.initial_bids[0]['value']}})
         award = response.json['data']
         self.award_id = award['id']
@@ -154,7 +154,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
 
         self.set_status('complete', {'status': 'active.awarded'})
         # response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-        #     self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_tender_ua_data["procuringEntity"]}})
+        #     self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
         # self.assertEqual(response.status, '201 Created')
         # complaint = response.json['data']
         #
@@ -303,7 +303,7 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
         auth = self.app.authorization
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [test_tender_ua_data["procuringEntity"]], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
+            self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
         response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "active", "qualified": True, "eligible": True}})

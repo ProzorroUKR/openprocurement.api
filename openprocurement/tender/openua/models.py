@@ -437,6 +437,7 @@ class Tender(BaseTender):
 
     create_accreditation = 3
     edit_accreditation = 4
+    procuring_entity_kinds = ['general', 'special', 'defense']
 
     def __acl__(self):
         acl = [
