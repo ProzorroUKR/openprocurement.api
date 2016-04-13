@@ -4,6 +4,7 @@ from openprocurement.api.validation import validate_patch_bid_data
 from openprocurement.api.utils import (
     apply_patch,
     opresource,
+    save_tender,
     json_view,
     context_unpack,
 )
@@ -163,3 +164,36 @@ class TenderBidResource(BaseResource):
             self.LOGGER.info('Updated tender bid {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_patch'}))
             return {'data': self.request.context.serialize("view")}
+
+    @json_view(permission='edit_bid')
+    def delete(self):
+        """Cancelling the proposal
+
+        Example request for cancelling the proposal:
+
+        .. sourcecode:: http
+
+            DELETE /tenders/4879d3f8ee2443169b5fbbc9f89fa607/bids/71b6c23ed8944d688e92a31ec8c3f61a HTTP/1.1
+            Host: example.com
+            Accept: application/json
+
+        """
+        bid = self.request.context
+        if self.request.validated['tender_status'] != 'active.tendering':
+            self.request.errors.add('body', 'data', 'Can\'t delete bid in current ({}) tender status'.format(self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        tender = self.request.validated['tender']
+        if tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate:
+            self.request.errors.add('body', 'data', 'Bid can be deleted only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
+            self.request.errors.status = 403
+            return
+        bid.status = 'deleted'
+        if tender.lots:
+            bid.lotValues = []
+        self.request.validated['tender'].modified = False
+        if save_tender(self.request):
+            res = bid.serialize("view")
+            self.LOGGER.info('Deleted tender bid {}'.format(self.request.context.id),
+                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_delete'}))
+            return {'data': res}

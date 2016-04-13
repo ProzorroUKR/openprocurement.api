@@ -6,8 +6,8 @@ from datetime import timedelta
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest, test_tender_data, test_features_tender_data, test_bids)
-from openprocurement.api.tests.base import test_lots
-from pprint import pprint
+from openprocurement.api.tests.base import test_lots, test_organization
+
 
 class TenderAuctionResourceTest(BaseTenderContentWebTest):
     #initial_data = tender_data
@@ -315,7 +315,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
 
 
     initial_status = 'active.auction'
-    tenderer_info = deepcopy(test_tender_data["procuringEntity"])
+    tenderer_info = deepcopy(test_organization)
     initial_bids = [
         {
             "tenderers": [
@@ -1058,7 +1058,7 @@ class TenderMultipleLotAuctionResourceTest(TenderAuctionResourceTest):
 class TenderFeaturesAuctionResourceTest(BaseTenderContentWebTest):
     initial_data = test_features_tender_data
     initial_status = 'active.auction'
-    tenderer_info = deepcopy(test_tender_data["procuringEntity"])
+    tenderer_info = deepcopy(test_organization)
     initial_bids = [
         {
             "parameters": [

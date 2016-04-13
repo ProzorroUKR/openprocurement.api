@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-# from openprocurement.api.tests.base import BaseTenderWebTest, test_lots, test_bids
+from openprocurement.api.tests.base import test_organization
 from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_bids
 from copy import deepcopy
 
@@ -128,7 +128,7 @@ class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
     initial_bids = test_bids
 
     def test_switch_to_complaint(self):
-        user_data = deepcopy(self.initial_data["procuringEntity"])
+        user_data = deepcopy(test_organization)
         for status in ['invalid', 'resolved', 'declined']:
             response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
                 'title': 'complaint title',
@@ -169,7 +169,7 @@ class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
 #         super(TenderAwardComplaintSwitchResourceTest, self).setUp()
 #         # Create award
 #         response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
-#             'suppliers': [self.initial_data["procuringEntity"]],
+#             'suppliers': [test_organization],
 #             'status': 'pending',
 #             'bid_id': self.initial_bids[0]['id'],
 #             'lotID': self.initial_bids[0]['lotValues'][0]['relatedLot']

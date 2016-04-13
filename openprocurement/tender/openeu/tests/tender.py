@@ -5,6 +5,7 @@ from copy import deepcopy
 
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.models import get_now
+from openprocurement.api.tests.base import test_organization
 from openprocurement.tender.openeu.models import Tender
 from openprocurement.tender.openeu.tests.base import (test_tender_data,
                                                       BaseTenderWebTest)
@@ -1007,7 +1008,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '201 Created')
         tender = response.json['data']
 
-        author = deepcopy(test_tender_data["procuringEntity"])
+        author = deepcopy(test_organization)
         response = self.app.post_json('/tenders/{}/questions'.format(tender['id']),
                                       {'data': {'title': 'question title', 'description': 'question description',
                                                 'author': author}})
@@ -1063,7 +1064,7 @@ class TenderProcessTest(BaseTenderWebTest):
         # switch to active.tendering
         self.set_status('active.tendering')
         # create compaint
-        complaint_author = deepcopy(test_tender_data["procuringEntity"])
+        complaint_author = deepcopy(test_organization)
         response = self.app.post_json('/tenders/{}/complaints'.format(tender_id),
                                       {'data': {'title': 'invalid conditions', 'description': 'description', 'author': complaint_author, 'status': 'claim'}})
         complaint_id = response.json['data']['id']
@@ -1099,7 +1100,7 @@ class TenderProcessTest(BaseTenderWebTest):
         tender_id = self.tender_id = response.json['data']['id']
         owner_token = response.json['access']['token']
         # create bid
-        bidder_data = deepcopy(test_tender_data["procuringEntity"])
+        bidder_data = deepcopy(test_organization)
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
@@ -1124,7 +1125,7 @@ class TenderProcessTest(BaseTenderWebTest):
         tender_id = self.tender_id = response.json['data']['id']
         tender_owner_token = response.json['access']['token']
         # create bids
-        bidder_data = deepcopy(test_tender_data["procuringEntity"])
+        bidder_data = deepcopy(test_organization)
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
@@ -1190,7 +1191,7 @@ class TenderProcessTest(BaseTenderWebTest):
         tender_id = self.tender_id = response.json['data']['id']
         tender_owner_token = response.json['access']['token']
         # create bids
-        bidder_data = deepcopy(test_tender_data["procuringEntity"])
+        bidder_data = deepcopy(test_organization)
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
