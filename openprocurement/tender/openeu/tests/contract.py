@@ -4,6 +4,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.models import get_now
+from openprocurement.api.tests.base import test_organization
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_data,
@@ -21,7 +22,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
     def setUp(self):
         super(TenderContractResourceTest, self).setUp()
         # Create award
-        self.supplier_info = deepcopy(test_tender_data["procuringEntity"])
+        self.supplier_info = deepcopy(test_organization)
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [self.supplier_info], 'status': 'pending', 'bid_id': self.initial_bids[0]['id'], 'value': {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}, 'items': test_tender_data["items"]}})
@@ -342,7 +343,7 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award
-        supplier_info = deepcopy(test_tender_data["procuringEntity"])
+        supplier_info = deepcopy(test_organization)
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [supplier_info], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})

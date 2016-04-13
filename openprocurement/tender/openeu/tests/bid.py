@@ -426,10 +426,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
             self.assertEqual(response.json['errors'][0]["description"], "Can't add document to 'deleted' bid")
 
         revisions = self.db.get(self.tender_id).get('revisions')
-        self.assertEqual(revisions[-2][u'changes'][-1]['op'], u'remove')
-        self.assertEqual(revisions[-2][u'changes'][-1]['path'], u'/bids')
-        self.assertEqual(revisions[-1][u'changes'][-1]['op'], u'replace')
-        self.assertEqual(revisions[-1][u'changes'][-1]['path'], u'/bids/0/status')
+        self.assertTrue(any([i for i in revisions[-2][u'changes'] if i['op'] == u'remove' and i['path'] == u'/bids']))
+        self.assertTrue(any([i for i in revisions[-1][u'changes'] if i['op'] == u'replace' and i['path'] == u'/bids/0']))
 
         response = self.app.delete('/tenders/{}/bids/some_id'.format(self.tender_id), status=404)
         self.assertEqual(response.status, '404 Not Found')

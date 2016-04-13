@@ -100,6 +100,17 @@ class Organization(Model):
                                        required=False)
 
 
+class ProcuringEntity(Organization):
+    """An organization."""
+    class Options:
+        roles = {
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+        }
+
+    kind = StringType(choices=['general', 'special', 'defense', 'other'])
+
+
 class Document(BaseDocument):
 
     language = StringType(required=True, choices=['uk', 'en', 'ru'], default='uk')
@@ -438,7 +449,7 @@ class Tender(BaseTender):
     contracts = ListType(ModelType(Contract), default=list())
     cancellations = ListType(ModelType(Cancellation), default=list())
     awards = ListType(ModelType(Award), default=list())
-    procuringEntity = ModelType(Organization, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
+    procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     qualifications = ListType(ModelType(Qualification), default=list())
     qualificationPeriod = ModelType(Period)
@@ -448,6 +459,7 @@ class Tender(BaseTender):
 
     create_accreditation = 3
     edit_accreditation = 4
+    procuring_entity_kinds = ['general', 'special', 'defense']
 
     def __acl__(self):
         acl = [
