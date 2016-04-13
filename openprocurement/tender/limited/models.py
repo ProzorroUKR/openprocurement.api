@@ -20,6 +20,7 @@ from openprocurement.api.models import get_now
 from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import ITender
 from openprocurement.api.models import Contract as BaseContract
+from openprocurement.api.models import ProcuringEntity
 from openprocurement.tender.openua.models import Complaint
 from openprocurement.tender.openua.models import Item
 
@@ -120,7 +121,7 @@ class Tender(SchematicsDocument, Model):
     procurementMethodRationale_en = StringType()
     procurementMethodRationale_ru = StringType()
     procurementMethodType = StringType(default="reporting")
-    procuringEntity = ModelType(Organization, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
+    procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
@@ -135,6 +136,7 @@ class Tender(SchematicsDocument, Model):
 
     create_accreditation = 1
     edit_accreditation = 2
+    procuring_entity_kinds = ['general', 'special', 'defense', 'other']
 
     __parent__ = None
     __name__ = ''
@@ -204,6 +206,7 @@ class Tender(ReportingTender):
     procurementMethodType = StringType(default="negotiation")
     create_accreditation = 3
     edit_accreditation = 4
+    procuring_entity_kinds = ['general', 'special', 'defense']
 
 NegotiationTender = Tender
 
@@ -215,5 +218,6 @@ class Tender(NegotiationTender):
     procurementMethodType = StringType(default="negotiation.quick")
     create_accreditation = 3
     edit_accreditation = 4
+    procuring_entity_kinds = ['general', 'special', 'defense']
 
 NegotiationQuickTender = Tender

@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
-    test_tender_negotiation_quick_data)
+    test_tender_negotiation_quick_data, test_organization)
 
 
 class TenderAwardResourceTest(BaseTenderContentWebTest):
@@ -72,7 +72,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         ])
 
         response = self.app.post_json('/tenders/some_id/awards', {'data': {
-                                      'suppliers': [self.initial_data["procuringEntity"]], 'bid_id': 'some_id'}}, status=404)
+                                      'suppliers': [test_organization], 'bid_id': 'some_id'}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -93,7 +93,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         self.set_status('complete')
 
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
-                                      {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+                                      {'data': {'suppliers': [test_organization],
                                                 'status': 'pending'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
@@ -101,12 +101,12 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
 
     def test_create_tender_award(self):
         request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
-        response = self.app.post_json(request_path, {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
                                                               'status': 'pending'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         award = response.json['data']
-        self.assertEqual(award['suppliers'][0]['name'], self.initial_data["procuringEntity"]['name'])
+        self.assertEqual(award['suppliers'][0]['name'], test_organization['name'])
         self.assertIn('id', award)
         self.assertIn(award['id'], response.headers['Location'])
 
@@ -140,12 +140,12 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
 
     def test_canceling_created_award_and_create_new_one(self):
         request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
-        response = self.app.post_json(request_path, {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
                                                               'status': 'pending'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         award = response.json['data']
-        self.assertEqual(award['suppliers'][0]['name'], self.initial_data["procuringEntity"]['name'])
+        self.assertEqual(award['suppliers'][0]['name'], test_organization['name'])
         self.assertIn('id', award)
         self.assertIn(award['id'], response.headers['Location'])
 
@@ -155,7 +155,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data'][-1], award)
 
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers':[self.initial_data["procuringEntity"]], 'status': 'pending'}}, status=403)
+            self.tender_id, self.tender_token), {'data': {'suppliers':[test_organization], 'status': 'pending'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'][0]["description"], "Can't create new award while any (pending) award exists")
 
@@ -166,7 +166,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['status'], u'active')
 
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers':[self.initial_data["procuringEntity"]], 'status': 'pending'}}, status=403)
+            self.tender_id, self.tender_token), {'data': {'suppliers':[test_organization], 'status': 'pending'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'][0]["description"], "Can't create new award while any (active) award exists")
 
@@ -177,12 +177,12 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['status'], u'cancelled')
 
         # Create new award
-        response = self.app.post_json(request_path, {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
                                                               'status': 'pending'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         new_award = response.json['data']
-        self.assertEqual(new_award['suppliers'][0]['name'], self.initial_data["procuringEntity"]['name'])
+        self.assertEqual(new_award['suppliers'][0]['name'], test_organization['name'])
         self.assertIn('id', new_award)
         self.assertIn(new_award['id'], response.headers['Location'])
 
@@ -209,7 +209,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
 
     def test_patch_tender_award(self):
         request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
-        response = self.app.post_json(request_path, {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
                                                               'status': u'pending', "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -283,7 +283,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
 
         # create new award and test other states
-        response = self.app.post_json(request_path, {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
                                                               'status': u'pending', "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -300,7 +300,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update award in current (unsuccessful) status")
 
-        response = self.app.post_json(request_path, {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
                                                               'status': u'pending', "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -349,7 +349,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
 
     def test_patch_tender_award_unsuccessful(self):
         request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
-        response = self.app.post_json(request_path, {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
                                                               'status': u'pending', "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -381,7 +381,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
 
     def test_get_tender_award(self):
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization],
                                        'status': 'pending'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -427,7 +427,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
         super(TenderNegotiationAwardComplaintResourceTest, self).setUp()
         # Create award
         request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
-        response = self.app.post_json(request_path, {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
                                                               'status': 'pending'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -436,7 +436,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
 
     def test_create_tender_award_complaint_invalid(self):
         response = self.app.post_json('/tenders/some_id/awards/some_id/complaints', {
-                                      'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.initial_data["procuringEntity"]}}, status=404)
+                                      'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -535,13 +535,13 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
         response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
-            'author': self.initial_data["procuringEntity"],
+            'author': test_organization,
             'status': 'pending'
         }})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         complaint = response.json['data']
-        self.assertEqual(complaint['author']['name'], self.initial_data["procuringEntity"]['name'])
+        self.assertEqual(complaint['author']['name'], test_organization['name'])
         self.assertIn('id', complaint)
         self.assertIn(complaint['id'], response.headers['Location'])
 
@@ -553,14 +553,14 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
         self.set_status('unsuccessful')
 
         response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.initial_data["procuringEntity"]}}, status=403)
+            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add complaint in current (unsuccessful) tender status")
 
     def test_patch_tender_award_complaint(self):
         response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.initial_data["procuringEntity"]}})
+            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         complaint = response.json['data']
@@ -643,7 +643,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']["cancellationReason"], "reason")
 
         response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.initial_data["procuringEntity"]}})
+            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         complaint = response.json['data']
@@ -664,7 +664,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
             response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id), {'data': {
                 'title': 'complaint title',
                 'description': 'complaint description',
-                'author': self.initial_data["procuringEntity"],
+                'author': test_organization,
                 'status': 'pending'
             }})
             self.assertEqual(response.status, '201 Created')
@@ -703,7 +703,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
 
     def test_get_tender_award_complaint(self):
         response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.initial_data["procuringEntity"]}})
+            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         complaint = response.json['data']
@@ -733,7 +733,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
 
     def test_get_tender_award_complaints(self):
         response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.initial_data["procuringEntity"]}})
+            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         complaint = response.json['data']
@@ -758,7 +758,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
         self.db.save(tender)
 
         response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.initial_data["procuringEntity"]}}, status=403)
+            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can add complaint only in complaintPeriod")
@@ -776,7 +776,7 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(BaseTenderContentWebTe
         # Create award
         # Create award
         request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
-        response = self.app.post_json(request_path, {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
                                                               'status': 'pending'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -784,7 +784,7 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(BaseTenderContentWebTe
         self.award_id = award['id']
         # Create complaint for award
         response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id),
-                                      {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.initial_data["procuringEntity"]}})
+                                      {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
@@ -1114,7 +1114,7 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
        super(TenderAwardDocumentResourceTest, self).setUp()
        # Create award
        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-           self.tender_id, self.tender_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]], 'status': 'pending'}})
+           self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending'}})
        award = response.json['data']
        self.award_id = award['id']
 
