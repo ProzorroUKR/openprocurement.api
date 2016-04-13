@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.0.1'
+version = '2.3'
 
 requires = [
     'setuptools',
-    'openprocurement.api>=2.2',
+    'openprocurement.api>=2.3',
 ]
 test_requires = requires + [
     'webtest',

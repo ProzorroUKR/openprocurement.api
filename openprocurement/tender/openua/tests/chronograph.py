@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.api.tests.base import test_lots, test_bids
+from openprocurement.api.tests.base import test_lots, test_bids, test_organization
 from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest
 
 
@@ -55,7 +55,7 @@ class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
             response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
                 'title': 'complaint title',
                 'description': 'complaint description',
-                'author': self.initial_data["procuringEntity"],
+                'author': test_organization,
                 'status': 'claim'
             }})
             self.assertEqual(response.status, '201 Created')

@@ -4,8 +4,8 @@ from datetime import timedelta
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.openua.tests.base import (
-    BaseTenderUAContentWebTest, test_tender_ua_data, test_features_tender_ua_data, test_bids)
-from openprocurement.api.tests.base import test_features_tender_data, test_lots
+    BaseTenderUAContentWebTest, test_tender_data, test_features_tender_ua_data, test_bids)
+from openprocurement.api.tests.base import test_features_tender_data, test_lots, test_organization
 
 # from openprocurement.api.tests.base import BaseTenderWebTest, test_tender_data, test_features_tender_data, test_bids, test_lots
 
@@ -286,7 +286,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):
     initial_bids = [
         {
             "tenderers": [
-                test_tender_ua_data["procuringEntity"]
+                test_organization
             ],
             "value": {
                 "amount": 469,
@@ -335,7 +335,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):
 
 class TenderLotAuctionResourceTest(TenderAuctionResourceTest):
     initial_lots = test_lots
-    initial_data = test_tender_ua_data
+    initial_data = test_tender_data
 
 
     def test_get_tender_auction(self):
@@ -1004,7 +1004,7 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
                 for i in test_features_tender_data['features']
             ],
             "tenderers": [
-                test_tender_ua_data["procuringEntity"]
+                test_organization
             ],
             "value": {
                 "amount": 469,
@@ -1022,7 +1022,7 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
                 for i in test_features_tender_data['features']
             ],
             "tenderers": [
-                test_tender_ua_data["procuringEntity"]
+                test_organization
             ],
             "value": {
                 "amount": 479,
