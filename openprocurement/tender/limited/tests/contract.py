@@ -6,7 +6,7 @@ from datetime import timedelta
 from openprocurement.api.models import get_now
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
-    test_tender_negotiation_quick_data)
+    test_tender_negotiation_quick_data, test_organization)
 
 
 class TenderContractResourceTest(BaseTenderContentWebTest):
@@ -18,7 +18,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         super(TenderContractResourceTest, self).setUp()
         # Create award
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]], 'status': 'pending',
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending',
                                                           'value': {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}})
         award = response.json['data']
         self.award_id = award['id']
@@ -241,7 +241,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         tender_token = response.json['access']['token']
 
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            tender_id, tender_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]], 'status': 'pending'}})
+            tender_id, tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending'}})
         award_id = response.json['data']['id']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, tender_token), {"data": {"status": "active"}})
 
@@ -365,7 +365,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
 
         # upload new award
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]]}})
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization]}})
         award = response.json['data']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, award['id'], self.tender_token), {"data": {"status": "active"}})
@@ -464,7 +464,7 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
         tender_token = response.json['access']['token']
 
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            tender_id, tender_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]], 'status': 'pending'}})
+            tender_id, tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending'}})
         award_id = response.json['data']['id']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, tender_token), {"data": {"status": "active"}})
 
@@ -561,7 +561,7 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]], 'status': 'pending'}})
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending'}})
         award = response.json['data']
         self.award_id = award['id']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),

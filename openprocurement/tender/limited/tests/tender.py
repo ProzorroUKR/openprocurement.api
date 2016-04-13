@@ -9,7 +9,9 @@ from openprocurement.tender.limited.models import (NegotiationTender,
                                                    ReportingTender)
 from openprocurement.tender.limited.tests.base import (
     test_tender_data, test_tender_negotiation_data,
-    test_tender_negotiation_quick_data, BaseTenderWebTest)
+    test_tender_negotiation_quick_data, BaseTenderWebTest,
+    test_organization,
+)
 
 
 class TenderTest(BaseTenderWebTest):
@@ -611,7 +613,7 @@ class TenderResourceTest(BaseTenderWebTest):
         # The following operations are performed for a proper transition to the "Complete" tender status
 
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            tender['id'], owner_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]], 'status': 'pending'}})
+            tender['id'], owner_token), {'data': {'suppliers': [test_organization], 'status': 'pending'}})
         award_id = response.json['data']['id']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender['id'], award_id, owner_token),
                                        {"data": {"status": "active"}})
@@ -772,11 +774,11 @@ class TenderProcessTest(BaseTenderWebTest):
 
         # create award
         response = self.app.post_json('/tenders/{}/awards'.format(tender_id),
-                                      {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+                                      {'data': {'suppliers': [test_organization],
                                                 "value": {"amount": 500}}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token),
-                                      {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+                                      {'data': {'suppliers': [test_organization],
                                                 "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
 
@@ -814,7 +816,7 @@ class TenderProcessTest(BaseTenderWebTest):
 
         # create award
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token),
-                                      {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+                                      {'data': {'suppliers': [test_organization],
                                                 "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
 
@@ -872,12 +874,12 @@ class TenderProcessTest(BaseTenderWebTest):
 
         # create award
         response = self.app.post_json('/tenders/{}/awards'.format(tender_id),
-                                      {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+                                      {'data': {'suppliers': [test_organization],
                                                 "value": {"amount": 500}}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
 
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token),
-                                      {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+                                      {'data': {'suppliers': [test_organization],
                                                 "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         award = response.json['data']
@@ -887,7 +889,7 @@ class TenderProcessTest(BaseTenderWebTest):
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token),
-                                      {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+                                      {'data': {'suppliers': [test_organization],
                                                 'value': {"amount": 501}}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'][0]["description"], "Can't create new award while any (active) award exists")
@@ -896,7 +898,7 @@ class TenderProcessTest(BaseTenderWebTest):
                             {"data": {"status": "cancelled"}})
 
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token),
-                                      {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+                                      {'data': {'suppliers': [test_organization],
                                                 "value": {"amount": 505}}})
         self.assertEqual(response.status, '201 Created')
 
@@ -957,7 +959,7 @@ class TenderProcessTest(BaseTenderWebTest):
 
         # create award
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token),
-                                      {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+                                      {'data': {'suppliers': [test_organization],
                                                 "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
 
@@ -980,7 +982,7 @@ class TenderProcessTest(BaseTenderWebTest):
 
         # create award
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token),
-                                      {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+                                      {'data': {'suppliers': [test_organization],
                                                 "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         # get awards
@@ -1016,7 +1018,7 @@ class TenderProcessTest(BaseTenderWebTest):
 
         # create award
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token),
-                                      {'data': {'suppliers': [self.initial_data["procuringEntity"]],
+                                      {'data': {'suppliers': [test_organization],
                                                 "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         # get awards
