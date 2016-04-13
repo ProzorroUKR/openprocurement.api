@@ -296,10 +296,10 @@ class Bid(BaseBid):
 
     @serializable(serialized_name="status")
     def serialize_status(self):
-        if self.__parent__.status in ['active.tendering', 'cancelled']:
+        if self.status in ['invalid', 'deleted'] or self.__parent__.status in ['active.tendering', 'cancelled']:
             return self.status
         if self.__parent__.lots:
-            active_lots = [lot.id for lot in self.__parent__.lots if lot.status == 'active']
+            active_lots = [lot.id for lot in self.__parent__.lots if lot.status in ('active', 'complete',)]
             if not self.lotValues:
                 return 'invalid'
             elif [i.relatedLot for i in self.lotValues if i.status == 'pending' and i.relatedLot in active_lots]:

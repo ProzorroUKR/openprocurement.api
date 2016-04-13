@@ -60,17 +60,18 @@ def prepare_qualifications(request, bids=[], lotId=None):
     if tender.lots:
         active_lots = [lot.id for lot in tender.lots if lot.status == 'active']
         for bid in bids:
-            for lotValue in bid.lotValues:
-                if lotValue.status == 'pending' and lotValue.relatedLot in active_lots:
-                    if lotId:
-                        if lotValue.relatedLot == lotId:
-                            qualification = Qualification({'bidID': bid.id, 'status': 'pending', 'lotID': lotId})
+            if bid.status not in ['invalid', 'deleted']:
+                for lotValue in bid.lotValues:
+                    if lotValue.status == 'pending' and lotValue.relatedLot in active_lots:
+                        if lotId:
+                            if lotValue.relatedLot == lotId:
+                                qualification = Qualification({'bidID': bid.id, 'status': 'pending', 'lotID': lotId})
+                                tender.qualifications.append(qualification)
+                                new_qualifications.append(qualification.id)
+                        else:
+                            qualification = Qualification({'bidID': bid.id, 'status': 'pending', 'lotID': lotValue.relatedLot})
                             tender.qualifications.append(qualification)
                             new_qualifications.append(qualification.id)
-                    else:
-                        qualification = Qualification({'bidID': bid.id, 'status': 'pending', 'lotID': lotValue.relatedLot})
-                        tender.qualifications.append(qualification)
-                        new_qualifications.append(qualification.id)
     else:
         for bid in bids:
             if bid.status == 'pending':
