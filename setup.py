@@ -25,8 +25,7 @@ entry_points = {
 setup(name='openprocurement.contracting.api',
       version=version,
       description="",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      long_description=open("README.rst").read(),
       classifiers=[
         "Framework :: Pylons",
         "License :: OSI Approved :: Apache Software License",
