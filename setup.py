@@ -16,6 +16,12 @@ docs_requires = requires + [
     'sphinxcontrib-httpdomain',
 ]
 
+entry_points = {
+    'openprocurement.api.plugins': [
+        'contracting = openprocurement.contracting.api:includeme'
+    ]
+}
+
 setup(name='openprocurement.contracting.api',
       version=version,
       description="",
@@ -40,7 +46,5 @@ setup(name='openprocurement.contracting.api',
       install_requires=requires,
       tests_require=test_requires,
       extras_require={'test': test_requires, 'docs': docs_requires},
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
+      entry_points=entry_points,
       )
