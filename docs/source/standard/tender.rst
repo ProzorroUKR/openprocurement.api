@@ -40,7 +40,7 @@ Schema
     value: ``aboveThresholdEU``
 
 :procuringEntity:
-   :ref:`organization`, required
+   :ref:`ProcuringEntity`, required
 
    Organization conducting the tender.
 

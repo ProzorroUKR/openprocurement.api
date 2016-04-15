@@ -1,4 +1,4 @@
-GET /api/2.1/tenders/e0a06e6f91f9412c8b79a42fe59f1fe8 HTTP/1.0
+GET /api/2.0/tenders/a45be110426e4c17a9c7935f6050afce HTTP/1.0
 Host: api-sandbox.openprocurement.org
 
 Response: 200 OK
@@ -7,10 +7,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-03-28-000001", 
+    "tenderID": "UA-2016-04-15-000001", 
     "tenderPeriod": {
-      "startDate": "2016-03-28T13:44:30.336738+03:00", 
-      "endDate": "2016-04-28T13:43:55.547846+03:00"
+      "startDate": "2016-04-15T12:37:41.782460+03:00", 
+      "endDate": "2016-05-16T12:36:51.816890+03:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -20,8 +20,8 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "procurementMethodType": "aboveThresholdEU", 
     "complaintPeriod": {
-      "startDate": "2016-03-28T13:44:30.336738+03:00", 
-      "endDate": "2016-04-24T13:43:55.547846+03:00"
+      "startDate": "2016-04-15T12:37:41.782460+03:00", 
+      "endDate": "2016-05-12T12:36:51.816890+03:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -41,14 +41,14 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2016-06-02T13:43:55.547846+03:00"
+          "shouldStartAfter": "2016-06-20T12:36:51.816890+03:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "63b35492a3604c269bb6cc34e2297c96"
+        "id": "c5a7d232754049e7abc555fe1e0a5818"
       }, 
       {
         "status": "active", 
@@ -60,18 +60,27 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2016-06-02T13:43:55.547846+03:00"
+          "shouldStartAfter": "2016-06-20T12:36:51.816890+03:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "d4eafdd4eea444ebb44134af26c42065"
+        "id": "ae9c1c52d8554e19b111013cf68e283f"
       }
     ], 
-    "next_check": "2016-04-28T13:43:55.547846+03:00", 
+    "next_check": "2016-05-16T12:36:51.816890+03:00", 
     "procuringEntity": {
+      "kind": "general", 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }, 
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
         "name_en": "Kutsa Svitlana V.", 
@@ -85,26 +94,18 @@ Content-Type: application/json; charset=UTF-8
         "id": "21725150", 
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
       }, 
-      "name_en": "School #10 of Vinnytsia", 
-      "address": {
-        "postalCode": "21027", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Стахурського. 22", 
-        "region": "м. Вінниця", 
-        "locality": "м. Вінниця"
-      }, 
-      "name": "ЗОСШ #10 м.Вінниці"
+      "name_en": "School #10 of Vinnytsia"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-03-28T13:44:30.336738+03:00", 
-      "clarificationsUntil": "2016-04-21T13:43:55.547846+03:00", 
-      "endDate": "2016-04-18T13:43:55.547846+03:00"
+      "startDate": "2016-04-15T12:37:41.782460+03:00", 
+      "clarificationsUntil": "2016-05-12T12:36:51.816890+03:00", 
+      "endDate": "2016-05-06T12:36:51.816890+03:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-03-28T13:44:31.193323+03:00", 
+    "dateModified": "2016-04-15T12:37:42.466520+03:00", 
     "items": [
       {
-        "relatedLot": "63b35492a3604c269bb6cc34e2297c96", 
+        "relatedLot": "c5a7d232754049e7abc555fe1e0a5818", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -127,10 +128,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T13:43:55.547728+03:00", 
-          "endDate": "2016-05-17T13:43:55.547769+03:00"
+          "startDate": "2016-05-05T12:36:51.816751+03:00", 
+          "endDate": "2016-06-04T12:36:51.816801+03:00"
         }, 
-        "id": "d1ee4d8a2cce449aa7e25e84b75e399d", 
+        "id": "3e4729659b074b8589973501e2c645ff", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -138,7 +139,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }, 
       {
-        "relatedLot": "d4eafdd4eea444ebb44134af26c42065", 
+        "relatedLot": "ae9c1c52d8554e19b111013cf68e283f", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -161,10 +162,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T13:43:55.547796+03:00", 
-          "endDate": "2016-05-17T13:43:55.547829+03:00"
+          "startDate": "2016-05-05T12:36:51.816836+03:00", 
+          "endDate": "2016-06-04T12:36:51.816862+03:00"
         }, 
-        "id": "2eb83999954a4a818ca62c2d99dc2063", 
+        "id": "ec003511189d4cbf9d4b13f9b1b492b7", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -172,7 +173,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
-    "id": "e0a06e6f91f9412c8b79a42fe59f1fe8", 
+    "id": "a45be110426e4c17a9c7935f6050afce", 
     "awardCriteria": "lowestCost"
   }
 }
