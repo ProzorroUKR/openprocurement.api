@@ -45,10 +45,10 @@ LOGGER = getLogger(__name__)
 @contractingresource(name='Contracts',
                      path='/contracts',
                      description="Contracts")
-class ContractingResource(APIResource):
+class ContractsResource(APIResource):
 
     def __init__(self, request, context):
-        super(ContractingResource, self).__init__(request, context)
+        super(ContractsResource, self).__init__(request, context)
         self.server = request.registry.couchdb_server
 
     @json_view(permission='view_contract')
@@ -174,3 +174,12 @@ class ContractingResource(APIResource):
                     'token': contract.owner_token
                 }
             }
+
+@contractingresource(name='Contract',
+                     path='/contracts/{contract_id}',
+                     description="Contract")
+class ContractResource(ContractsResource):
+
+    @json_view(permission='view_contract')
+    def get(self):
+        return {'data': self.request.validated['contract'].serialize("view")}
