@@ -14,6 +14,7 @@ areas that were not covered by it.
 
    tender
    organization
+   procuringentity
    item
    document
    lot
