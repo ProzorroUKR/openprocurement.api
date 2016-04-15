@@ -7,10 +7,10 @@ from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
 from openprocurement.api.models import Contract as BaseContract
+from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import ListType, Revision, IsoDateTimeType
 from openprocurement.api.models import (plain_role, Administrator_role,
                                         schematics_default_role)
-from openprocurement.tender.openeu.models import Document as BaseDocument
 
 contract_create_role = (whitelist(
     'id', 'awardID', 'contractID', 'contractNumber', 'title', 'title_en',
