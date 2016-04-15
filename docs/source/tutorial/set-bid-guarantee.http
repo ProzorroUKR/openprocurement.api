@@ -1,4 +1,4 @@
-PATCH /api/2.1/tenders/33105b9ad5794a00a5e197cbab0c58be?acc_token=8439ff811f894ae388d052cd9bffc3c4 HTTP/1.0
+PATCH /api/2.0/tenders/70d0ba2a1b064d1184fe606b7d74f36d?acc_token=cde3cb8ddf9a4842b5d7d8f1cb3ca510 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 57
 Content-Type: application/json
@@ -19,10 +19,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-03-28-000001", 
+    "tenderID": "UA-2016-04-15-000001", 
     "tenderPeriod": {
-      "startDate": "2016-03-28T13:44:13.555901+03:00", 
-      "endDate": "2016-04-27T13:44:23.982566+03:00"
+      "startDate": "2016-04-15T12:37:21.123800+03:00", 
+      "endDate": "2016-05-15T12:37:31.461424+03:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -31,11 +31,11 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-06-01T13:44:23.982566+03:00"
+      "shouldStartAfter": "2016-06-19T12:37:31.461424+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-03-28T13:44:13.555901+03:00", 
-      "endDate": "2016-04-23T13:44:23.982566+03:00"
+      "startDate": "2016-04-15T12:37:21.123800+03:00", 
+      "endDate": "2016-05-11T12:37:31.461424+03:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -45,11 +45,11 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "submissionMethod": "electronicAuction", 
     "enquiryPeriod": {
-      "startDate": "2016-03-28T13:44:13.555901+03:00", 
-      "clarificationsUntil": "2016-04-21T00:00:00+03:00", 
-      "endDate": "2016-04-17T13:44:23.982566+03:00"
+      "startDate": "2016-04-15T12:37:21.123800+03:00", 
+      "clarificationsUntil": "2016-05-11T12:37:31.461424+03:00", 
+      "endDate": "2016-05-05T12:37:31.461424+03:00"
     }, 
-    "dateModified": "2016-03-28T13:44:14.375779+03:00", 
+    "dateModified": "2016-04-15T12:37:22.013820+03:00", 
     "procurementMethodType": "aboveThresholdEU", 
     "awardCriteria": "lowestCost", 
     "items": [
@@ -76,10 +76,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T13:43:55.547728+03:00", 
-          "endDate": "2016-05-17T13:43:55.547769+03:00"
+          "startDate": "2016-05-05T12:36:51.816751+03:00", 
+          "endDate": "2016-06-04T12:36:51.816801+03:00"
         }, 
-        "id": "e9da76ca9b5f47df9360fbe2ef54cda6", 
+        "id": "deb2cecdf10e4f3db51e10472b86d2f9", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -109,10 +109,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T13:43:55.547796+03:00", 
-          "endDate": "2016-05-17T13:43:55.547829+03:00"
+          "startDate": "2016-05-05T12:36:51.816836+03:00", 
+          "endDate": "2016-06-04T12:36:51.816862+03:00"
         }, 
-        "id": "e0d4489858e348f2afc24d6db895aa0f", 
+        "id": "a77808ea39bf4bab89a6a5e9fb72bfd7", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -121,13 +121,22 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "next_check": "2016-04-27T13:44:23.982566+03:00", 
+    "next_check": "2016-05-15T12:37:31.461424+03:00", 
     "guarantee": {
       "currency": "USD", 
       "amount": 8.0
     }, 
-    "id": "33105b9ad5794a00a5e197cbab0c58be", 
+    "id": "70d0ba2a1b064d1184fe606b7d74f36d", 
     "procuringEntity": {
+      "kind": "general", 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }, 
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
         "name_en": "Kutsa Svitlana V.", 
@@ -141,15 +150,7 @@ Content-Type: application/json; charset=UTF-8
         "id": "21725150", 
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
       }, 
-      "name_en": "School #10 of Vinnytsia", 
-      "address": {
-        "postalCode": "21027", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Стахурського. 22", 
-        "region": "м. Вінниця", 
-        "locality": "м. Вінниця"
-      }, 
-      "name": "ЗОСШ #10 м.Вінниці"
+      "name_en": "School #10 of Vinnytsia"
     }
   }
 }

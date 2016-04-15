@@ -1,4 +1,4 @@
-GET /api/2.1/tenders/e0a06e6f91f9412c8b79a42fe59f1fe8?acc_token=adf9562f13f64db6b5d3049e47f711b7 HTTP/1.0
+GET /api/2.0/tenders/a45be110426e4c17a9c7935f6050afce?acc_token=74670e53e714465ebedfdaecacba667b HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -9,16 +9,25 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "status": "active.pre-qualification", 
     "complaintPeriod": {
-      "startDate": "2016-02-27T13:44:32.624075+03:00", 
-      "endDate": "2016-03-24T13:44:32.624075+03:00"
+      "startDate": "2016-03-16T12:37:44.022172+03:00", 
+      "endDate": "2016-04-11T12:37:44.022172+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-02-27T13:44:32.624075+03:00", 
-      "clarificationsUntil": "2016-03-23T13:44:32.624075+03:00", 
-      "endDate": "2016-03-18T13:44:32.624075+03:00"
+      "startDate": "2016-03-16T12:37:44.022172+03:00", 
+      "clarificationsUntil": "2016-04-08T12:37:44.022172+03:00", 
+      "endDate": "2016-04-05T12:37:44.022172+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "procuringEntity": {
+      "kind": "general", 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }, 
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
         "name_en": "Kutsa Svitlana V.", 
@@ -32,19 +41,11 @@ Content-Type: application/json; charset=UTF-8
         "id": "21725150", 
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
       }, 
-      "name_en": "School #10 of Vinnytsia", 
-      "address": {
-        "postalCode": "21027", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Стахурського. 22", 
-        "region": "м. Вінниця", 
-        "locality": "м. Вінниця"
-      }, 
-      "name": "ЗОСШ #10 м.Вінниці"
+      "name_en": "School #10 of Vinnytsia"
     }, 
     "owner": "broker", 
     "title_en": "Services in school canteens", 
-    "id": "e0a06e6f91f9412c8b79a42fe59f1fe8", 
+    "id": "a45be110426e4c17a9c7935f6050afce", 
     "title": "Послуги шкільних їдалень", 
     "lots": [
       {
@@ -61,7 +62,7 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "63b35492a3604c269bb6cc34e2297c96"
+        "id": "c5a7d232754049e7abc555fe1e0a5818"
       }, 
       {
         "status": "unsuccessful", 
@@ -77,35 +78,35 @@ Content-Type: application/json; charset=UTF-8
           "amount": 400.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "d4eafdd4eea444ebb44134af26c42065"
+        "id": "ae9c1c52d8554e19b111013cf68e283f"
       }
     ], 
     "qualificationPeriod": {
-      "startDate": "2016-03-28T13:44:33.016442+03:00"
+      "startDate": "2016-04-15T12:37:44.789116+03:00"
     }, 
-    "tenderID": "UA-2016-03-28-000001", 
-    "dateModified": "2016-03-28T13:44:33.024679+03:00", 
+    "tenderID": "UA-2016-04-15-000001", 
+    "dateModified": "2016-04-15T12:37:44.812772+03:00", 
     "numberOfBids": 2, 
     "tenderPeriod": {
-      "startDate": "2016-02-27T13:44:32.624075+03:00", 
-      "endDate": "2016-03-28T13:44:32.624075+03:00"
+      "startDate": "2016-03-16T12:37:44.022172+03:00", 
+      "endDate": "2016-04-15T12:37:44.022172+03:00"
     }, 
     "qualifications": [
       {
         "status": "pending", 
-        "lotID": "63b35492a3604c269bb6cc34e2297c96", 
+        "lotID": "c5a7d232754049e7abc555fe1e0a5818", 
         "eligible": false, 
         "qualified": false, 
-        "bidID": "97fd7d9ddac841a792496ca2aaf06d36", 
-        "id": "69c3403f3ba743cb947da02853f4569b"
+        "bidID": "bd8c3711f134468ba7ca33dcfa37cb7b", 
+        "id": "623f66e2e2f44a47973cdffc8f7f3dba"
       }, 
       {
         "status": "pending", 
-        "lotID": "63b35492a3604c269bb6cc34e2297c96", 
+        "lotID": "c5a7d232754049e7abc555fe1e0a5818", 
         "eligible": false, 
         "qualified": false, 
-        "bidID": "1202aa5cd91d48ad8e2181b8b638a28a", 
-        "id": "e0150c4461f94c1c9217420190c3e9d0"
+        "bidID": "f3f7c6c55b984973b691871f5eb05e03", 
+        "id": "4497c52a58974c6cb8d80055f00c00d7"
       }
     ], 
     "procurementMethodType": "aboveThresholdEU", 
@@ -116,7 +117,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "63b35492a3604c269bb6cc34e2297c96", 
+        "relatedLot": "c5a7d232754049e7abc555fe1e0a5818", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -139,10 +140,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T13:43:55.547728+03:00", 
-          "endDate": "2016-05-17T13:43:55.547769+03:00"
+          "startDate": "2016-05-05T12:36:51.816751+03:00", 
+          "endDate": "2016-06-04T12:36:51.816801+03:00"
         }, 
-        "id": "d1ee4d8a2cce449aa7e25e84b75e399d", 
+        "id": "3e4729659b074b8589973501e2c645ff", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -150,7 +151,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }, 
       {
-        "relatedLot": "d4eafdd4eea444ebb44134af26c42065", 
+        "relatedLot": "ae9c1c52d8554e19b111013cf68e283f", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -173,10 +174,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T13:43:55.547796+03:00", 
-          "endDate": "2016-05-17T13:43:55.547829+03:00"
+          "startDate": "2016-05-05T12:36:51.816836+03:00", 
+          "endDate": "2016-06-04T12:36:51.816862+03:00"
         }, 
-        "id": "2eb83999954a4a818ca62c2d99dc2063", 
+        "id": "ec003511189d4cbf9d4b13f9b1b492b7", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -187,11 +188,11 @@ Content-Type: application/json; charset=UTF-8
     "bids": [
       {
         "status": "pending", 
-        "id": "97fd7d9ddac841a792496ca2aaf06d36"
+        "id": "bd8c3711f134468ba7ca33dcfa37cb7b"
       }, 
       {
         "status": "pending", 
-        "id": "1202aa5cd91d48ad8e2181b8b638a28a"
+        "id": "f3f7c6c55b984973b691871f5eb05e03"
       }
     ], 
     "value": {

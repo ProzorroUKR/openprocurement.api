@@ -1,4 +1,4 @@
-GET /api/2.1/tenders/33105b9ad5794a00a5e197cbab0c58be/contracts/0f4bb2924b4140ef9690711cc7b8cdd4/documents HTTP/1.0
+GET /api/2.0/tenders/70d0ba2a1b064d1184fe606b7d74f36d/contracts/7e732e7a4dda4037b9a56b4ea836fbc6/documents HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -9,24 +9,24 @@ Content-Type: application/json; charset=UTF-8
     {
       "language": "uk", 
       "title": "contract_first_document.doc", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/33105b9ad5794a00a5e197cbab0c58be/contracts/0f4bb2924b4140ef9690711cc7b8cdd4/documents/5946fa20ddc34c68b1debdc16f8ab355?download=66083074d3a94b7080098affe2df1816", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/70d0ba2a1b064d1184fe606b7d74f36d/contracts/7e732e7a4dda4037b9a56b4ea836fbc6/documents/ebe8df2589684092a5668eca6fc3640d?download=1e04b52f796c454eb19c76516e182ecf", 
       "format": "application/msword", 
       "documentOf": "tender", 
-      "datePublished": "2016-03-28T13:44:25.675339+03:00", 
-      "id": "5946fa20ddc34c68b1debdc16f8ab355", 
-      "dateModified": "2016-03-28T13:44:25.675377+03:00"
+      "datePublished": "2016-04-15T12:37:35.397044+03:00", 
+      "id": "ebe8df2589684092a5668eca6fc3640d", 
+      "dateModified": "2016-04-15T12:37:35.397090+03:00"
     }, 
     {
       "language": "en", 
       "title": "contract_second_document.doc", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/33105b9ad5794a00a5e197cbab0c58be/contracts/0f4bb2924b4140ef9690711cc7b8cdd4/documents/d238a0e6a2b04ee9abf7aa7ac046409b?download=13178e00fb37416f9fa57204ca2dede3", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/70d0ba2a1b064d1184fe606b7d74f36d/contracts/7e732e7a4dda4037b9a56b4ea836fbc6/documents/f9ea0afd2cb84cefacaeb48abb244b4a?download=d9d3311bea5c4544a7dc5be0b63e6e95", 
       "format": "application/msword", 
       "title_en": "Title of Document", 
       "description_en": "Description of Document", 
-      "datePublished": "2016-03-28T13:44:26.086874+03:00", 
+      "datePublished": "2016-04-15T12:37:36.178728+03:00", 
       "documentOf": "tender", 
-      "id": "d238a0e6a2b04ee9abf7aa7ac046409b", 
-      "dateModified": "2016-03-28T13:44:26.086916+03:00"
+      "id": "f9ea0afd2cb84cefacaeb48abb244b4a", 
+      "dateModified": "2016-04-15T12:37:36.178777+03:00"
     }
   ]
 }

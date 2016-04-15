@@ -25,6 +25,7 @@ test_tender_data = {
     "amount": 500
   },
   "procuringEntity": {
+    "kind": "general",
     "address": {
         "countryName": "Україна",
         "locality": "м. Вінниця",

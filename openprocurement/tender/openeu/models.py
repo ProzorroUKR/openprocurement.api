@@ -106,6 +106,7 @@ class ProcuringEntity(Organization):
         roles = {
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
+            'edit_active.tendering': schematics_default_role + blacklist("kind"),
         }
 
     kind = StringType(choices=['general', 'special', 'defense', 'other'])

@@ -1,13 +1,13 @@
-POST /api/2.1/tenders?opt_pretty=1 HTTP/1.0
+POST /api/2.0/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 3734
+Content-Length: 3753
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-04-28T13:43:55.547846+03:00"
+      "endDate": "2016-05-16T12:36:51.816890+03:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -38,8 +38,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T13:43:55.547728+03:00", 
-          "endDate": "2016-05-17T13:43:55.547769+03:00"
+          "startDate": "2016-05-05T12:36:51.816751+03:00", 
+          "endDate": "2016-06-04T12:36:51.816801+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -70,8 +70,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T13:43:55.547796+03:00", 
-          "endDate": "2016-05-17T13:43:55.547829+03:00"
+          "startDate": "2016-05-05T12:36:51.816836+03:00", 
+          "endDate": "2016-06-04T12:36:51.816862+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -87,6 +87,15 @@ DATA:
     }, 
     "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
+      "kind": "general", 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "21027", 
+        "region": "м. Вінниця", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "locality": "м. Вінниця"
+      }, 
       "name_en": "School #10 of Vinnytsia", 
       "identifier": {
         "scheme": "UA-EDR", 
@@ -100,33 +109,25 @@ DATA:
         "name": "Куца Світлана Валентинівна", 
         "availableLanguage": "uk", 
         "telephone": "+380 (432) 46-53-02"
-      }, 
-      "address": {
-        "countryName": "Україна", 
-        "postalCode": "21027", 
-        "region": "м. Вінниця", 
-        "streetAddress": "вул. Стахурського. 22", 
-        "locality": "м. Вінниця"
-      }, 
-      "name": "ЗОСШ #10 м.Вінниці"
+      }
     }
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/33105b9ad5794a00a5e197cbab0c58be
+Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/70d0ba2a1b064d1184fe606b7d74f36d
 {
   "access": {
-    "token": "8439ff811f894ae388d052cd9bffc3c4"
+    "token": "cde3cb8ddf9a4842b5d7d8f1cb3ca510"
   }, 
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-03-28-000001", 
+    "tenderID": "UA-2016-04-15-000001", 
     "tenderPeriod": {
-      "startDate": "2016-03-28T13:44:13.555901+03:00", 
-      "endDate": "2016-04-28T13:43:55.547846+03:00"
+      "startDate": "2016-04-15T12:37:21.123800+03:00", 
+      "endDate": "2016-05-16T12:36:51.816890+03:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -135,11 +136,11 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/33105b9ad5794a0
       "valueAddedTaxIncluded": true
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-06-02T13:43:55.547846+03:00"
+      "shouldStartAfter": "2016-06-20T12:36:51.816890+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-03-28T13:44:13.555901+03:00", 
-      "endDate": "2016-04-24T13:43:55.547846+03:00"
+      "startDate": "2016-04-15T12:37:21.123800+03:00", 
+      "endDate": "2016-05-12T12:36:51.816890+03:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -148,9 +149,18 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/33105b9ad5794a0
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "dateModified": "2016-03-28T13:44:13.708151+03:00", 
+    "dateModified": "2016-04-15T12:37:21.267872+03:00", 
     "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
+      "kind": "general", 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }, 
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
         "name_en": "Kutsa Svitlana V.", 
@@ -164,23 +174,15 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/33105b9ad5794a0
         "id": "21725150", 
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
       }, 
-      "name_en": "School #10 of Vinnytsia", 
-      "address": {
-        "postalCode": "21027", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Стахурського. 22", 
-        "region": "м. Вінниця", 
-        "locality": "м. Вінниця"
-      }, 
-      "name": "ЗОСШ #10 м.Вінниці"
+      "name_en": "School #10 of Vinnytsia"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-03-28T13:44:13.555901+03:00", 
-      "clarificationsUntil": "2016-04-21T13:43:55.547846+03:00", 
-      "endDate": "2016-04-18T13:43:55.547846+03:00"
+      "startDate": "2016-04-15T12:37:21.123800+03:00", 
+      "clarificationsUntil": "2016-05-12T12:36:51.816890+03:00", 
+      "endDate": "2016-05-06T12:36:51.816890+03:00"
     }, 
     "owner": "broker", 
-    "next_check": "2016-04-28T13:43:55.547846+03:00", 
+    "next_check": "2016-05-16T12:36:51.816890+03:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -205,10 +207,10 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/33105b9ad5794a0
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T13:43:55.547728+03:00", 
-          "endDate": "2016-05-17T13:43:55.547769+03:00"
+          "startDate": "2016-05-05T12:36:51.816751+03:00", 
+          "endDate": "2016-06-04T12:36:51.816801+03:00"
         }, 
-        "id": "e9da76ca9b5f47df9360fbe2ef54cda6", 
+        "id": "deb2cecdf10e4f3db51e10472b86d2f9", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -238,10 +240,10 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/33105b9ad5794a0
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T13:43:55.547796+03:00", 
-          "endDate": "2016-05-17T13:43:55.547829+03:00"
+          "startDate": "2016-05-05T12:36:51.816836+03:00", 
+          "endDate": "2016-06-04T12:36:51.816862+03:00"
         }, 
-        "id": "e0d4489858e348f2afc24d6db895aa0f", 
+        "id": "a77808ea39bf4bab89a6a5e9fb72bfd7", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -249,7 +251,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/33105b9ad5794a0
         "quantity": 1
       }
     ], 
-    "id": "33105b9ad5794a00a5e197cbab0c58be", 
+    "id": "70d0ba2a1b064d1184fe606b7d74f36d", 
     "awardCriteria": "lowestCost"
   }
 }

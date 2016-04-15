@@ -1,4 +1,4 @@
-PATCH /api/2.1/tenders/33105b9ad5794a00a5e197cbab0c58be/contracts/0f4bb2924b4140ef9690711cc7b8cdd4?acc_token=8439ff811f894ae388d052cd9bffc3c4 HTTP/1.0
+PATCH /api/2.0/tenders/70d0ba2a1b064d1184fe606b7d74f36d/contracts/7e732e7a4dda4037b9a56b4ea836fbc6?acc_token=cde3cb8ddf9a4842b5d7d8f1cb3ca510 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 118
 Content-Type: application/json
@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "period": {
-      "startDate": "2016-03-28T13:44:25.201647+03:00", 
-      "endDate": "2017-03-28T13:44:25.201689+03:00"
+      "startDate": "2016-04-15T12:37:34.499751+03:00", 
+      "endDate": "2017-04-15T12:37:34.499796+03:00"
     }
   }
 }
@@ -42,10 +42,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T13:43:55.547728+03:00", 
-          "endDate": "2016-05-17T13:43:55.547769+03:00"
+          "startDate": "2016-05-05T12:36:51.816751+03:00", 
+          "endDate": "2016-06-04T12:36:51.816801+03:00"
         }, 
-        "id": "e9da76ca9b5f47df9360fbe2ef54cda6", 
+        "id": "deb2cecdf10e4f3db51e10472b86d2f9", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -75,10 +75,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T13:43:55.547796+03:00", 
-          "endDate": "2016-05-17T13:43:55.547829+03:00"
+          "startDate": "2016-05-05T12:36:51.816836+03:00", 
+          "endDate": "2016-06-04T12:36:51.816862+03:00"
         }, 
-        "id": "e0d4489858e348f2afc24d6db895aa0f", 
+        "id": "a77808ea39bf4bab89a6a5e9fb72bfd7", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -110,18 +110,18 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "contractNumber": "contract#1", 
     "period": {
-      "startDate": "2016-03-28T13:44:25.201647+03:00", 
-      "endDate": "2017-03-28T13:44:25.201689+03:00"
+      "startDate": "2016-04-15T12:37:34.499751+03:00", 
+      "endDate": "2017-04-15T12:37:34.499796+03:00"
     }, 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-03-28T13:44:24.696681+03:00", 
-    "awardID": "dd7299f2510a49d6ad39daac7c251801", 
-    "id": "0f4bb2924b4140ef9690711cc7b8cdd4", 
-    "contractID": "UA-2016-03-28-000001-1"
+    "dateSigned": "2016-04-15T12:37:33.820132+03:00", 
+    "awardID": "77b1f9067dfe4da6b3cd382ac273ea8a", 
+    "id": "7e732e7a4dda4037b9a56b4ea836fbc6", 
+    "contractID": "UA-2016-04-15-000001-1"
   }
 }
 
