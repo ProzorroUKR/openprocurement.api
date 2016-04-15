@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implementer, Interface
 from couchdb_schematics.document import SchematicsDocument
-from schematics.types import StringType
-from schematics.types.compound import ModelType
+from schematics.types import StringType, BaseType
+from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import ListType, Revision, IsoDateTimeType
@@ -26,6 +26,7 @@ class Contract(SchematicsDocument, BaseContract):
 
     revisions = ListType(ModelType(Revision), default=list())
     dateModified = IsoDateTimeType()
+    _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     owner_token = StringType()
     owner = StringType()
     mode = StringType(choices=['test'])  # XXX is it usable?
