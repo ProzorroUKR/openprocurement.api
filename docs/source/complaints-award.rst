@@ -24,7 +24,7 @@ If tender award is favoriting certain supplier, or in any other viable case, any
 Tender Award Complaint Submission (with documents)
 ---------------------------------------------------
 
-At first create a complaint. Send POST request with bidder's access token.
+At first create a complaint.
 
 .. include:: tutorial/award-complaint-submission.http
    :code:

@@ -20,7 +20,7 @@ from openprocurement.api.models import get_now
 from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import ITender
 from openprocurement.api.models import Contract as BaseContract
-from openprocurement.api.models import ProcuringEntity
+from openprocurement.api.models import ProcuringEntity as BaseProcuringEntity
 from openprocurement.tender.openua.models import Complaint
 from openprocurement.tender.openua.models import Item
 
@@ -76,6 +76,13 @@ class Cancellation(BaseCancellation):
 
     def validate_relatedLot(self, data, relatedLot):
         return
+
+
+class ProcuringEntity(BaseProcuringEntity):
+    class Options:
+        roles = {
+            'edit_active': schematics_default_role + blacklist("kind"),
+        }
 
 
 @implementer(ITender)

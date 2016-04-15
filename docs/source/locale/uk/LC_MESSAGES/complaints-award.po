@@ -1,11 +1,10 @@
-#
 # Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-03 17:38+0200\n"
-"PO-Revision-Date: 2016-03-30 13:45+0300\n"
+"PO-Revision-Date: 2016-04-15 11:28+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -39,13 +38,6 @@ msgstr "Подання скарги"
 #: ../../source/complaints-award.rst:25
 msgid "Tender Award Complaint Submission (with documents)"
 msgstr "Подання скарги на визначення переможця (з документами)"
-
-#: ../../source/complaints-award.rst:27
-msgid ""
-"At first create a complaint. Send POST request with bidder's access token."
-msgstr ""
-"Спочатку створимо вимогу. В POST запиті потрібно передати токен доступу "
-"одного з учасників, який вже подав пропозицію."
 
 #: ../../source/complaints-award.rst:32
 msgid "Then upload necessary documents:"
@@ -154,3 +146,12 @@ msgstr "Відміна прийнятої скарги скаржником"
 msgid "Cancelling accepted complaint by Reviewer"
 msgstr "Відміна прийнятої скарги рецензентом"
 
+#: ../../source/complaints-award.rst:27
+msgid "At first create a complaint."
+msgstr "Спочатку створимо вимогу."
+
+#~ msgid ""
+#~ "At first create a complaint. Send POST request with bidder's access token."
+#~ msgstr ""
+#~ "Спочатку створимо вимогу. В POST запиті потрібно передати токен доступу "
+#~ "одного з учасників, який вже подав пропозицію."

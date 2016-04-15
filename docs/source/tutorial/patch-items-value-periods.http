@@ -1,4 +1,4 @@
-PATCH /api/2.1/tenders/9d8028bfafde454ba40131c6974de5f4?acc_token=117bc31601454af1bdee99a9064b78a3 HTTP/1.0
+PATCH /api/2.0/tenders/247f8e174faa4c0abbce39c4d655b47f?acc_token=5812431d2c2441d0a7c573a6e77b8045 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 80
 Content-Type: application/json
@@ -49,8 +49,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-03-30T18:03:32.104429+03:00", 
-          "endDate": "2016-04-02T18:03:32.104429+03:00"
+          "startDate": "2016-04-17T12:58:51.540194+03:00", 
+          "endDate": "2016-04-20T12:58:51.540194+03:00"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac", 
@@ -63,7 +63,7 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "title_en": "Services in school canteens", 
     "description_en": "Services in school canteens", 
-    "dateModified": "2016-03-28T18:03:35.036200+03:00", 
+    "dateModified": "2016-04-15T12:58:55.333762+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -76,6 +76,7 @@ Content-Type: application/json; charset=UTF-8
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
       }, 
       "name": "ЗОСШ #10 м.Вінниці", 
+      "kind": "general", 
       "address": {
         "postalCode": "21027", 
         "countryName": "Україна", 
@@ -93,8 +94,8 @@ Content-Type: application/json; charset=UTF-8
     "title_ru": "Услуги школьных столовых", 
     "owner": "broker", 
     "description_ru": "Услуги школьных столовых", 
-    "id": "9d8028bfafde454ba40131c6974de5f4", 
-    "tenderID": "UA-2016-03-28-000001"
+    "id": "247f8e174faa4c0abbce39c4d655b47f", 
+    "tenderID": "UA-2016-04-15-000001"
   }
 }
 

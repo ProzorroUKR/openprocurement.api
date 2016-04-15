@@ -34,12 +34,14 @@ Schema
    TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
 
 :procuringEntity:
-   :ref:`organization`, required
+   :ref:`ProcuringEntity`, required
 
    Organization conducting the tender.
 
    |ocdsDescription|
    The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
+
+   If :code:`procurementMethodType` is :code:`negotiation` or :code:`negotiation.quick`, then possible value of :code:`ProcuringEntity.kind` is limited to :code:`['general', 'special', 'defense']`
 
 :value:
    :ref:`value`, required

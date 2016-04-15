@@ -47,6 +47,7 @@ test_tender_data = {
         "procurementMethodType": "reporting",
         "status": "active",
         "procuringEntity": {
+            "kind": "general",
             "address": {
                 "countryName": "Україна",
                 "locality": "м. Вінниця",
