@@ -19,6 +19,18 @@ PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
 
 
+def extract_contract(request):
+    db = request.registry.db
+    contract_id = request.matchdict['contract_id']
+    doc = db.get(contract_id)
+    if doc is None:
+        request.errors.add('url', 'plan_id', 'Not Found')
+        request.errors.status = 404
+        raise error_handler(request.errors)
+
+    return request.contract_from_data(doc)
+
+
 def contract_from_data(request, data, raise_error=True, create=True):
     if create:
         return Contract(data)
