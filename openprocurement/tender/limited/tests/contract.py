@@ -567,7 +567,7 @@ class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         # Create award
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [self.initial_data["procuringEntity"]], 'status': 'pending'}})
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending'}})
         award = response.json['data']
         self.award_id = award['id']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
