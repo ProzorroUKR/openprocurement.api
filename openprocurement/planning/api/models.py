@@ -98,6 +98,7 @@ edit_role = (
     blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'doc_id', 'planID', 'mode', '_attachments') + schematics_embedded_role)
 view_role = (blacklist('owner', 'owner_token', '_attachments', 'revisions') + schematics_embedded_role)
 listing_role = whitelist('dateModified', 'doc_id')
+revision_role = whitelist('revisions')
 Administrator_role = whitelist('status', 'mode', 'procuringEntity')
 
 
@@ -108,6 +109,7 @@ class Plan(SchematicsDocument, Model):
     class Options:
         roles = {
             'plain': plain_role,
+            'revision': revision_role,
             'create': create_role,
             'edit': edit_role,
             'view': view_role,
