@@ -28,6 +28,7 @@ class Contract(SchematicsDocument, BaseContract):
     dateModified = IsoDateTimeType()
     owner_token = StringType()
     owner = StringType()
+    mode = StringType(choices=['test'])  # XXX is it usable?
 
     create_accreditation = 3  # TODO
 
