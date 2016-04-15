@@ -79,3 +79,7 @@ class Contract(SchematicsDocument, BaseContract):
     def doc_id(self):
         """A property that is serialized by schematics exports."""
         return self._id
+
+    def validate_status(self, data, status):
+        if status == 'pending':
+            raise ValidationError(u"'pending' contracts are not allowed.")
