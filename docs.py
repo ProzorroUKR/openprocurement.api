@@ -6,7 +6,7 @@ from datetime import timedelta
 import openprocurement.tender.openuadefense.tests.base as base_test
 from openprocurement.api.models import get_now
 from openprocurement.api.tests.base import PrefixedRequestClass
-from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest, test_tender_ua_data
+from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest, test_tender_data
 from webtest import TestApp
 
 test_tender_ua_data = {
@@ -24,6 +24,7 @@ test_tender_ua_data = {
     "amount": 500
   },
   "procuringEntity": {
+    "kind": "defense",
     "address": {
         "countryName": "Україна",
         "locality": "м. Вінниця",

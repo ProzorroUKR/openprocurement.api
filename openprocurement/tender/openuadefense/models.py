@@ -23,6 +23,7 @@ class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
 
     procurementMethodType = StringType(default="aboveThresholdUA.defense")
+    procuring_entity_kinds = ['defense']
 
     def initialize(self):
         endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self, True)

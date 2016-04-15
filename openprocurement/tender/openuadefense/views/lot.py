@@ -1,19 +1,12 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.openua.views.lot import TenderUaLotResource as TenderLotResource
-from openprocurement.api.utils import (
-    apply_patch,
-    save_tender,
-    opresource,
-    json_view,
-    context_unpack
-)
+from openprocurement.api.utils import opresource, calculate_business_date
 from openprocurement.api.validation import (
     validate_lot_data,
     validate_patch_lot_data,
 )
 from openprocurement.api.models import get_now
-from openprocurement.tender.openua.utils import calculate_business_date
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.openuadefense.models import TENDERING_EXTRA_PERIOD
 
 
 @opresource(name='Tender UA.defense Lots',

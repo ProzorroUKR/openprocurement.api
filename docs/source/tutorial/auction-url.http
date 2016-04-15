@@ -1,4 +1,4 @@
-GET /api/2.1/tenders/4bafba9f3e5d4ea68be29833767557ff HTTP/1.0
+GET /api/2.3/tenders/5b7a37fc850e478380bfdedf9f34e494 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,69 +8,94 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "complaintPeriod": {
-      "startDate": "2016-03-06T11:18:03.231818+02:00", 
-      "endDate": "2016-03-20T11:18:03.231818+02:00"
+      "startDate": "2016-03-30T16:34:34.829996+03:00", 
+      "endDate": "2016-04-13T16:34:34.829996+03:00"
     }, 
-    "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/4bafba9f3e5d4ea68be29833767557ff", 
+    "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/5b7a37fc850e478380bfdedf9f34e494", 
     "enquiryPeriod": {
-      "startDate": "2016-03-06T11:18:03.231818+02:00", 
-      "endDate": "2016-03-20T11:18:03.231818+02:00"
+      "startDate": "2016-03-30T16:34:34.829996+03:00", 
+      "clarificationsUntil": "2016-04-18T16:34:34.829996+03:00", 
+      "endDate": "2016-04-13T16:34:34.829996+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-03-22T11:54:03.231818+02:00", 
-    "awardCriteria": "lowestCost", 
+    "next_check": "2016-04-15T17:10:34.829996+03:00", 
+    "procuringEntity": {
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name": "Куца Світлана Валентинівна", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "kind": "defense", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
     "questions": [
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
         "title": "Калорійність", 
-        "date": "2016-03-22T11:18:19.785410+02:00", 
+        "date": "2016-04-15T16:34:52.879362+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "af6853c88a5343ce89a129b5020c7885", 
+        "id": "bcb69c1375f14b77850cf8a495124e1a", 
         "questionOf": "tender"
       }
     ], 
     "owner": "broker", 
-    "id": "4bafba9f3e5d4ea68be29833767557ff", 
+    "id": "5b7a37fc850e478380bfdedf9f34e494", 
+    "guarantee": {
+      "currency": "USD", 
+      "amount": 8.0
+    }, 
     "documents": [
       {
         "title": "Notice.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/4bafba9f3e5d4ea68be29833767557ff/documents/9e968b370e094b868ec7fee215e79562?download=b20463de176e481bae6de4efddf7d948", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/5b7a37fc850e478380bfdedf9f34e494/documents/e5ce1c53e4784d238f788c9869a787b3?download=f5b29ff7ec3847aabd03e66c3f875f5b", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-22T11:18:19.093571+02:00", 
-        "id": "9e968b370e094b868ec7fee215e79562", 
-        "dateModified": "2016-03-22T11:18:19.093604+02:00"
+        "datePublished": "2016-04-15T16:34:52.425521+03:00", 
+        "id": "e5ce1c53e4784d238f788c9869a787b3", 
+        "dateModified": "2016-04-15T16:34:52.425574+03:00"
       }, 
       {
         "title": "AwardCriteria.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/4bafba9f3e5d4ea68be29833767557ff/documents/0e5c697965764e1986450f305f8c2359?download=88a26c8d7e2b4cad95e0a3f30cdc77c0", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/5b7a37fc850e478380bfdedf9f34e494/documents/474b1af359a84a71abead48e6d9879d1?download=10103cddc0f84c2b99edd87ce47db8d8", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-22T11:18:19.324182+02:00", 
-        "id": "0e5c697965764e1986450f305f8c2359", 
-        "dateModified": "2016-03-22T11:18:19.324210+02:00"
+        "datePublished": "2016-04-15T16:34:52.601982+03:00", 
+        "id": "474b1af359a84a71abead48e6d9879d1", 
+        "dateModified": "2016-04-15T16:34:52.602032+03:00"
       }, 
       {
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/4bafba9f3e5d4ea68be29833767557ff/documents/0e5c697965764e1986450f305f8c2359?download=5c9bfc6543c746bfaa9c999d4c8a5ab1", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/5b7a37fc850e478380bfdedf9f34e494/documents/474b1af359a84a71abead48e6d9879d1?download=ac8e7de17eb340a98605479901e3ab6e", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-22T11:18:19.324182+02:00", 
-        "id": "0e5c697965764e1986450f305f8c2359", 
-        "dateModified": "2016-03-22T11:18:19.552683+02:00"
+        "datePublished": "2016-04-15T16:34:52.601982+03:00", 
+        "id": "474b1af359a84a71abead48e6d9879d1", 
+        "dateModified": "2016-04-15T16:34:52.745845+03:00"
       }
     ], 
     "title": "футляри до державних нагород", 
-    "tenderID": "UA-2016-03-22-000001", 
-    "dateModified": "2016-03-22T11:18:22.531130+02:00", 
+    "tenderID": "UA-2016-04-15-000001", 
+    "dateModified": "2016-04-15T16:34:55.021942+03:00", 
     "status": "active.auction", 
     "tenderPeriod": {
-      "startDate": "2016-03-06T11:18:03.231818+02:00", 
-      "endDate": "2016-03-22T11:18:03.231818+02:00"
+      "startDate": "2016-03-30T16:34:34.829996+03:00", 
+      "endDate": "2016-04-15T16:34:34.829996+03:00"
     }, 
     "auctionPeriod": {
-      "startDate": "2016-03-22T11:18:03.231818+02:00", 
-      "shouldStartAfter": "2016-03-22T11:18:03.231818+02:00"
+      "startDate": "2016-04-15T16:34:34.829996+03:00", 
+      "shouldStartAfter": "2016-04-15T16:34:34.829996+03:00"
     }, 
     "procurementMethodType": "aboveThresholdUA.defense", 
     "minimalStep": {
@@ -101,10 +126,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-03-24T11:18:03.232872+02:00", 
-          "endDate": "2016-03-27T11:18:03.232872+03:00"
+          "startDate": "2016-05-05T16:34:34.831230+03:00", 
+          "endDate": "2016-06-04T16:34:34.831271+03:00"
         }, 
-        "id": "e7d26014b9164f988e5da301f543d6d9", 
+        "id": "6db7f71f6c164f9ea8962d1a56014ce5", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -117,26 +142,7 @@ Content-Type: application/json; charset=UTF-8
       "amount": 501.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "procuringEntity": {
-      "contactPoint": {
-        "url": "http://sch10.edu.vn.ua/", 
-        "name": "Куца Світлана Валентинівна", 
-        "telephone": "+380 (432) 46-53-02"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "21725150", 
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      }, 
-      "name": "ЗОСШ #10 м.Вінниці", 
-      "address": {
-        "postalCode": "21027", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Стахурського. 22", 
-        "region": "м. Вінниця", 
-        "locality": "м. Вінниця"
-      }
-    }
+    "awardCriteria": "lowestCost"
   }
 }
 

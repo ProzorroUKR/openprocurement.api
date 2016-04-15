@@ -39,7 +39,7 @@ Schema
     value: ``aboveThresholdUA.defense``
 
 :procuringEntity:
-   :ref:`organization`, required
+   :ref:`ProcuringEntity`, required
 
    Organization conducting the tender.
 

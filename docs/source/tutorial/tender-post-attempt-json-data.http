@@ -1,13 +1,13 @@
-POST /api/2.1/tenders?opt_pretty=1 HTTP/1.0
+POST /api/2.3/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 2473
+Content-Length: 2504
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-04-07T11:18:03.232917+02:00"
+      "endDate": "2016-05-01T16:34:34.831295+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -37,8 +37,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-03-24T11:18:03.232872", 
-          "endDate": "2016-03-27T11:18:03.232872"
+          "startDate": "2016-05-05T16:34:34.831230+03:00", 
+          "endDate": "2016-06-04T16:34:34.831271+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -53,42 +53,43 @@ DATA:
       "amount": 500
     }, 
     "procuringEntity": {
-      "contactPoint": {
-        "url": "http://sch10.edu.vn.ua/", 
-        "name": "Куца Світлана Валентинівна", 
-        "telephone": "+380 (432) 46-53-02"
-      }, 
+      "kind": "defense", 
       "identifier": {
         "scheme": "UA-EDR", 
         "id": "21725150", 
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
       }, 
-      "name": "ЗОСШ #10 м.Вінниці", 
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name": "Куца Світлана Валентинівна", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
       "address": {
         "countryName": "Україна", 
         "postalCode": "21027", 
         "region": "м. Вінниця", 
         "streetAddress": "вул. Стахурського. 22", 
         "locality": "м. Вінниця"
-      }
+      }, 
+      "name": "ЗОСШ #10 м.Вінниці"
     }
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/3ec5b11aae3d46719e1beda608317bc0
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/6cfa7e16446344109de545c6eb92df58
 {
   "access": {
-    "token": "f8001a0f971f4a8e85a1c2ac9e14cafd"
+    "token": "bc0af33703c3416eb839e58daa9505e6"
   }, 
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-03-22-000002", 
+    "tenderID": "UA-2016-04-15-000002", 
     "tenderPeriod": {
-      "startDate": "2016-03-22T11:18:26.512729+02:00", 
-      "endDate": "2016-04-07T11:18:03.232917+02:00"
+      "startDate": "2016-04-15T16:34:58.425955+03:00", 
+      "endDate": "2016-05-01T16:34:34.831295+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -97,12 +98,13 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/3ec5b11aae3d467
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-03-22T11:18:26.512729+02:00", 
-      "endDate": "2016-04-05T11:18:03.232917+02:00"
+      "startDate": "2016-04-15T16:34:58.425955+03:00", 
+      "clarificationsUntil": "2016-05-05T00:00:00+03:00", 
+      "endDate": "2016-04-28T00:00:00+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-03-22T11:18:26.512729+02:00", 
-      "endDate": "2016-04-05T11:18:03.232917+02:00"
+      "startDate": "2016-04-15T16:34:58.425955+03:00", 
+      "endDate": "2016-04-29T16:34:34.831295+03:00"
     }, 
     "procurementMethodType": "aboveThresholdUA.defense", 
     "value": {
@@ -111,7 +113,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/3ec5b11aae3d467
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-04-07T12:18:03.232917+03:00", 
+    "next_check": "2016-05-01T16:34:34.831295+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -124,6 +126,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/3ec5b11aae3d467
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
       }, 
       "name": "ЗОСШ #10 м.Вінниці", 
+      "kind": "defense", 
       "address": {
         "postalCode": "21027", 
         "countryName": "Україна", 
@@ -133,10 +136,10 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/3ec5b11aae3d467
       }
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-04-07T11:18:03.232917+02:00"
+      "shouldStartAfter": "2016-05-01T16:34:34.831295+03:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-03-22T11:18:26.707725+02:00", 
+    "dateModified": "2016-04-15T16:34:58.536488+03:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -160,10 +163,10 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/3ec5b11aae3d467
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-03-24T11:18:03.232872+02:00", 
-          "endDate": "2016-03-27T11:18:03.232872+03:00"
+          "startDate": "2016-05-05T16:34:34.831230+03:00", 
+          "endDate": "2016-06-04T16:34:34.831271+03:00"
         }, 
-        "id": "d9af1821b7564a53a9fdfa21d5cbf42b", 
+        "id": "23f9e1547ba848329039664cbd7077b5", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -171,7 +174,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/3ec5b11aae3d467
         "quantity": 1
       }
     ], 
-    "id": "3ec5b11aae3d46719e1beda608317bc0", 
+    "id": "6cfa7e16446344109de545c6eb92df58", 
     "awardCriteria": "lowestCost"
   }
 }

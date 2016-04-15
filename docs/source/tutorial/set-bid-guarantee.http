@@ -1,6 +1,17 @@
-GET /api/2.3/tenders/5b7a37fc850e478380bfdedf9f34e494 HTTP/1.0
+PATCH /api/2.3/tenders/5b7a37fc850e478380bfdedf9f34e494?acc_token=3f785577e40441f381edd5949097d241 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
+Content-Length: 57
+Content-Type: application/json
 Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "guarantee": {
+      "currency": "USD", 
+      "amount": 8
+    }
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
@@ -8,10 +19,13 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
+    "auctionPeriod": {
+      "shouldStartAfter": "2016-04-30T16:35:02.053840+03:00"
+    }, 
     "tenderID": "UA-2016-04-15-000001", 
     "tenderPeriod": {
       "startDate": "2016-04-15T16:34:51.776347+03:00", 
-      "endDate": "2016-05-01T16:34:34.831295+03:00"
+      "endDate": "2016-04-30T16:35:02.053840+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -26,7 +40,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "complaintPeriod": {
       "startDate": "2016-04-15T16:34:51.776347+03:00", 
-      "endDate": "2016-04-29T16:34:34.831295+03:00"
+      "endDate": "2016-04-28T16:35:02.053840+03:00"
     }, 
     "procurementMethodType": "aboveThresholdUA.defense", 
     "value": {
@@ -35,7 +49,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-05-01T16:34:34.831295+03:00", 
+    "next_check": "2016-04-30T16:35:02.053840+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -57,11 +71,6 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "auctionPeriod": {
-      "shouldStartAfter": "2016-05-01T16:34:34.831295+03:00"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2016-04-15T16:34:51.855623+03:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -96,6 +105,12 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
+    "owner": "broker", 
+    "dateModified": "2016-04-15T16:34:52.308290+03:00", 
+    "guarantee": {
+      "currency": "USD", 
+      "amount": 8.0
+    }, 
     "id": "5b7a37fc850e478380bfdedf9f34e494", 
     "awardCriteria": "lowestCost"
   }

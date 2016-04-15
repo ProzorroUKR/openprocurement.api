@@ -1,4 +1,4 @@
-PATCH /api/2.1/tenders/4bafba9f3e5d4ea68be29833767557ff/bids/361e24f35722431e805e75f703de5566?acc_token=2c3b3e4e5e5b42e29efe11ecda43084e HTTP/1.0
+PATCH /api/2.3/tenders/5b7a37fc850e478380bfdedf9f34e494/bids/cda6c56fc33e43cc8ccfdbbbbea81708?acc_token=3b0471054cad4267a1c3705dcea90dea HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -18,21 +18,22 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "Proposal.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.1/tenders/4bafba9f3e5d4ea68be29833767557ff/bids/361e24f35722431e805e75f703de5566/documents/3881780f12d2460ba4e6fb0a895910f5?download=1c5b523f2ba0496f958191aacafbbf2c", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/5b7a37fc850e478380bfdedf9f34e494/bids/cda6c56fc33e43cc8ccfdbbbbea81708/documents/2031ffe2c8f7438498a26242be4e6023?download=8ec15732eff1467d90c2fe1b916f3995", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-03-22T11:18:21.078180+02:00", 
-        "id": "3881780f12d2460ba4e6fb0a895910f5", 
-        "dateModified": "2016-03-22T11:18:21.078220+02:00"
+        "datePublished": "2016-04-15T16:34:53.924731+03:00", 
+        "id": "2031ffe2c8f7438498a26242be4e6023", 
+        "dateModified": "2016-04-15T16:34:53.924760+03:00"
       }
     ], 
     "selfEligible": true, 
+    "id": "cda6c56fc33e43cc8ccfdbbbbea81708", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "id": "361e24f35722431e805e75f703de5566", 
+    "subcontractingDetails": "ДКП «книга», Україна, м. Львів, вул. Островського, 33", 
     "tenderers": [
       {
         "contactPoint": {
@@ -55,7 +56,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2016-03-22T11:18:20.848427+02:00", 
+    "date": "2016-04-15T16:34:53.741615+03:00", 
     "selfQualified": true
   }
 }
