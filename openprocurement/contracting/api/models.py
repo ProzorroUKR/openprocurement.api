@@ -47,6 +47,7 @@ class Contract(SchematicsDocument, BaseContract):
     revisions = ListType(ModelType(Revision), default=list())
     dateModified = IsoDateTimeType()
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
+    tender_token = StringType()
     owner_token = StringType()
     owner = StringType()
     mode = StringType(choices=['test'])  # XXX is it usable?
@@ -64,7 +65,8 @@ class Contract(SchematicsDocument, BaseContract):
         }
 
     def __local_roles__(self):
-        return dict([('{}_{}'.format(self.owner, self.owner_token), 'contract_owner')])
+        return dict([('{}_{}'.format(self.owner, self.owner_token), 'contract_owner'),
+                     ('{}_{}'.format(self.owner, self.tender_token), 'tender_owner')])
 
     def get_role(self):
         root = self.__parent__
