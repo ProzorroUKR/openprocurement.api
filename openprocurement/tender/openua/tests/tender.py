@@ -782,6 +782,11 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertNotEqual(response.json['data']['status'], 'cancelled')
 
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'procuringEntity': {'kind': 'defense'}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertNotEqual(response.json['data']['procuringEntity']['kind'], 'defense')
+
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
             {'data': {'tenderPeriod': {'startDate': tender['enquiryPeriod']['endDate']}}},
             status=422
