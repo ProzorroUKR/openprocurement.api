@@ -2,10 +2,11 @@
 import unittest
 from copy import deepcopy
 
+from openprocurement.api.tests.base import test_organization
 from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
-    test_tender_ua_data,
+    test_tender_data,
     test_features_tender_ua_data)
 
 
@@ -14,7 +15,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
 
     def test_create_tender_biddder_invalid(self):
         response = self.app.post_json('/tenders/some_id/bids', {
-                                      'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}}}, status=404)
+                                      'data': {'tenderers': [test_organization], "value": {"amount": 500}}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -100,7 +101,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
             {u'description': [{u'contactPoint': [u'This field is required.'], u'identifier': {u'scheme': [u'This field is required.'], u'id': [u'This field is required.'], u'uri': [u'Not a well formed URL.']}, u'address': [u'This field is required.']}], u'location': u'body', u'name': u'tenderers'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], 'selfEligible': True, 'selfQualified': True}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'tenderers': [test_organization], 'selfEligible': True, 'selfQualified': True}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -108,7 +109,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
             {u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500, 'valueAddedTaxIncluded': False}, 'selfEligible': True, 'selfQualified': True}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'tenderers': [test_organization], "value": {"amount": 500, 'valueAddedTaxIncluded': False}, 'selfEligible': True, 'selfQualified': True}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -116,7 +117,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
             {u'description': [u'valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender'], u'location': u'body', u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500, 'currency': "USD"}, 'selfEligible': True, 'selfQualified': True}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'tenderers': [test_organization], "value": {"amount": 500, 'currency': "USD"}, 'selfEligible': True, 'selfQualified': True}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -124,7 +125,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
             {u'description': [u'currency of bid should be identical to currency of value of tender'], u'location': u'body', u'name': u'value'},
         ])
 
-        response = self.app.post_json(request_path, {'data': {'tenderers': test_tender_ua_data["procuringEntity"], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'tenderers': test_organization, "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -134,25 +135,25 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
 
     def test_create_tender_bidder(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
+            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
-        self.assertEqual(bid['tenderers'][0]['name'], test_tender_ua_data["procuringEntity"]['name'])
+        self.assertEqual(bid['tenderers'][0]['name'], test_organization['name'])
         self.assertIn('id', bid)
         self.assertIn(bid['id'], response.headers['Location'])
 
         self.set_status('complete')
 
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}}, status=403)
+            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add bid in current (complete) tender status")
 
     def test_patch_tender_bidder(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
+            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
@@ -171,7 +172,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['date'], bid['date'])
         self.assertNotEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
 
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"value": {"amount": 500}, 'tenderers': [test_tender_ua_data["procuringEntity"]]}})
+        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"value": {"amount": 500}, 'tenderers': [test_organization]}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['date'], bid['date'])
@@ -215,7 +216,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
 
     def test_get_tender_bidder(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
+            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
@@ -266,7 +267,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
 
     def test_delete_tender_bidder(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
+            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
@@ -282,10 +283,8 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertFalse('date' in response.json['data'])
 
         revisions = self.db.get(self.tender_id).get('revisions')
-        self.assertEqual(revisions[-2][u'changes'][-1]['op'], u'remove')
-        self.assertEqual(revisions[-2][u'changes'][-1]['path'], u'/bids')
-        self.assertEqual(revisions[-1][u'changes'][-1]['op'], u'replace')
-        self.assertEqual(revisions[-1][u'changes'][-1]['path'], u'/bids/0/status')
+        self.assertTrue(any([i for i in revisions[-2][u'changes'] if i['op'] == u'remove' and i['path'] == u'/bids']))
+        self.assertTrue(any([i for i in revisions[-1][u'changes'] if i['op'] == u'replace' and i['path'] == u'/bids/0']))
 
         response = self.app.delete('/tenders/{}/bids/some_id'.format(self.tender_id), status=404)
         self.assertEqual(response.status, '404 Not Found')
@@ -320,7 +319,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
 
     def test_deleted_bid_is_not_restorable(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
+            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
@@ -348,7 +347,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         bids = []
         for bid_amount in (400, 405):
             response = self.app.post_json('/tenders/{}/bids'.format(
-                self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": bid_amount}, 'selfEligible': True, 'selfQualified': True}})
+                self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": bid_amount}, 'selfEligible': True, 'selfQualified': True}})
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
             bids.append(response.json['data'])
@@ -378,7 +377,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
 
     def test_get_tender_tenderers(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
+            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
@@ -406,7 +405,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
 
     def test_bid_Administrator_change(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
+            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
@@ -566,7 +565,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
                     for i in self.initial_data['features']
                 ],
                 "tenderers": [
-                    test_tender_ua_data["procuringEntity"]
+                    test_organization
                 ],
                 "value": {
                     "amount": 469,
@@ -586,7 +585,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
                     for i in self.initial_data['features']
                 ],
                 "tenderers": [
-                    test_tender_ua_data["procuringEntity"]
+                    test_organization
                 ],
                 "value": {
                     "amount": 479,
@@ -610,7 +609,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     def test_features_bidder_invalid(self):
         data = {
             "tenderers": [
-                test_tender_ua_data["procuringEntity"]
+                test_organization
             ],
             "value": {
                 "amount": 469,
@@ -669,7 +668,7 @@ class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bid
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
+            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
         bid = response.json['data']
         self.bid_id = bid['id']
         self.bid_token = response.json['access']['token']
@@ -970,7 +969,7 @@ class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest):
 
     def test_create_tender_bidder_document_nopending(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_tender_ua_data["procuringEntity"]], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
+            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
         bid = response.json['data']
         bid_id = bid['id']
 

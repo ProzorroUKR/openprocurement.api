@@ -3,21 +3,24 @@ import os
 import webtest
 from datetime import datetime, timedelta
 from openprocurement.api.models import get_now
-from openprocurement.api.tests.base import (test_tender_data,
+from openprocurement.api.tests.base import (test_tender_data as test_tender_data_api,
+                                            test_procuringEntity as test_procuringEntity_api,
                                             now,
                                             test_features_tender_data,
                                             BaseTenderWebTest,
                                             PrefixedRequestClass)
 
-
-test_tender_ua_data = test_tender_data.copy()
-test_tender_ua_data['procurementMethodType'] = "aboveThresholdUA.defense"
-# test_tender_ua_data["enquiryPeriod"] = {}
-del test_tender_ua_data["enquiryPeriod"]
-test_tender_ua_data["tenderPeriod"] = {
+test_tender_data = test_tender_ua_data = test_tender_data_api.copy()
+test_tender_data['procurementMethodType'] = "aboveThresholdUA.defense"
+test_procuringEntity = test_procuringEntity_api.copy()
+test_procuringEntity["kind"] = "defense"
+test_tender_data["procuringEntity"] = test_procuringEntity
+# test_tender_data["enquiryPeriod"] = {}
+del test_tender_data["enquiryPeriod"]
+test_tender_data["tenderPeriod"] = {
         "endDate": (now + timedelta(days=16)).isoformat()
 }
-test_tender_ua_data["items"] = [{
+test_tender_data["items"] = [{
         "description": u"футляри до державних нагород",
         "description_en": u"Cases for state awards",
         "classification": {
@@ -50,24 +53,25 @@ test_tender_ua_data["items"] = [{
         }
 }]
 
-# test_tender_ua_data["tenderPeriod"] = test_tender_ua_data["enquiryPeriod"].copy()
+# test_tender_data["tenderPeriod"] = test_tender_data["enquiryPeriod"].copy()
 
 test_features_tender_ua_data = test_features_tender_data.copy()
 test_features_tender_ua_data['procurementMethodType'] = "aboveThresholdUA.defense"
+test_features_tender_ua_data["procuringEntity"] = test_procuringEntity
 # test_features_tender_ua_data["enquiryPeriod"] = {}
 del test_features_tender_ua_data["enquiryPeriod"]
 test_features_tender_ua_data["tenderPeriod"] = {
         "endDate": (now + timedelta(days=16)).isoformat()
 }
-test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_ua_data["items"][0]["deliveryDate"]
-test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_ua_data["items"][0]["deliveryAddress"]
+test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_data["items"][0]["deliveryDate"]
+test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["items"][0]["deliveryAddress"]
 # test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
 
 
 from openprocurement.api.utils import VERSION, apply_data_patch
 
 class BaseTenderUAWebTest(BaseTenderWebTest):
-    initial_data = test_tender_ua_data
+    initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     initial_lots = None
@@ -247,7 +251,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
 
 
 class BaseTenderUAContentWebTest(BaseTenderUAWebTest):
-    initial_data = test_tender_ua_data
+    initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     initial_lots = None

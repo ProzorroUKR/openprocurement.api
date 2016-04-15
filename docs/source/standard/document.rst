@@ -102,7 +102,7 @@ Schema
     
     * `commercialProposal` - **Сommercial proposal**
     
-    * `qualificationDocuments` - **Qualificatioin documents**
+    * `qualificationDocuments` - **Qualification documents**
     
     * `eligibilityDocuments` - **Eligibility documents**
 

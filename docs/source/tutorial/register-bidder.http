@@ -1,16 +1,12 @@
-POST /api/2.1/tenders/4bafba9f3e5d4ea68be29833767557ff/bids HTTP/1.0
+POST /api/2.3/tenders/5b7a37fc850e478380bfdedf9f34e494/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 783
+Content-Length: 1055
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "selfEligible": true, 
-    "selfQualified": true, 
-    "value": {
-      "amount": 500
-    }, 
     "tenderers": [
       {
         "contactPoint": {
@@ -32,26 +28,32 @@ DATA:
           "locality": "м. Вінниця"
         }
       }
-    ]
+    ], 
+    "selfQualified": true, 
+    "value": {
+      "amount": 500
+    }, 
+    "subcontractingDetails": "ДКП «книга», Україна, м. Львів, вул. Островського, 33"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/4bafba9f3e5d4ea68be29833767557ff/bids/361e24f35722431e805e75f703de5566
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/5b7a37fc850e478380bfdedf9f34e494/bids/cda6c56fc33e43cc8ccfdbbbbea81708
 {
   "access": {
-    "token": "2c3b3e4e5e5b42e29efe11ecda43084e"
+    "token": "3b0471054cad4267a1c3705dcea90dea"
   }, 
   "data": {
     "status": "active", 
     "selfEligible": true, 
+    "id": "cda6c56fc33e43cc8ccfdbbbbea81708", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "selfQualified": true, 
+    "subcontractingDetails": "ДКП «книга», Україна, м. Львів, вул. Островського, 33", 
     "tenderers": [
       {
         "contactPoint": {
@@ -74,8 +76,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.1/tenders/4bafba9f3e5d4ea
         }
       }
     ], 
-    "date": "2016-03-22T11:18:20.848427+02:00", 
-    "id": "361e24f35722431e805e75f703de5566"
+    "date": "2016-04-15T16:34:53.741615+03:00", 
+    "selfQualified": true
   }
 }
 
