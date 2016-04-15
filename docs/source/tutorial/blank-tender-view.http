@@ -1,4 +1,4 @@
-GET /api/2.0/tenders/e2b439a8a7a5473b9b0bb65a8f97b74a HTTP/1.0
+GET /api/2.0/tenders/056822c2e05240c3b8324958a852baa6 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,10 +8,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-03-21-000001", 
+    "tenderID": "UA-2016-04-15-000001", 
     "tenderPeriod": {
-      "startDate": "2016-03-21T15:54:30.676224+02:00", 
-      "endDate": "2016-04-06T15:54:17.581774+02:00"
+      "startDate": "2016-04-15T12:29:03.578433+03:00", 
+      "endDate": "2016-05-01T12:28:37.518175+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -20,12 +20,13 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-03-21T15:54:30.676224+02:00", 
-      "endDate": "2016-03-27T15:54:17.581774+02:00"
+      "startDate": "2016-04-15T12:29:03.578433+03:00", 
+      "clarificationsUntil": "2016-04-26T12:28:37.518175+03:00", 
+      "endDate": "2016-04-21T12:28:37.518175+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-03-21T15:54:30.676224+02:00", 
-      "endDate": "2016-04-02T15:54:17.581774+02:00"
+      "startDate": "2016-04-15T12:29:03.578433+03:00", 
+      "endDate": "2016-04-27T12:28:37.518175+03:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
@@ -34,7 +35,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-04-06T16:54:17.581774+03:00", 
+    "next_check": "2016-05-01T12:28:37.518175+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -47,6 +48,7 @@ Content-Type: application/json; charset=UTF-8
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
       }, 
       "name": "ЗОСШ #10 м.Вінниці", 
+      "kind": "special", 
       "address": {
         "postalCode": "21027", 
         "countryName": "Україна", 
@@ -56,10 +58,10 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-04-06T15:54:17.581774+02:00"
+      "shouldStartAfter": "2016-05-01T12:28:37.518175+03:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-03-21T15:54:30.761947+02:00", 
+    "dateModified": "2016-04-15T12:29:03.682412+03:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -83,10 +85,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-10T15:54:17.581675+02:00", 
-          "endDate": "2016-05-10T15:54:17.581740+02:00"
+          "startDate": "2016-05-05T12:28:37.518087+03:00", 
+          "endDate": "2016-06-04T12:28:37.518144+03:00"
         }, 
-        "id": "e40f0bc8f76042d5af0185ad44d8779a", 
+        "id": "2725b978679343039b197df4f98011e6", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -94,7 +96,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
-    "id": "e2b439a8a7a5473b9b0bb65a8f97b74a", 
+    "id": "056822c2e05240c3b8324958a852baa6", 
     "awardCriteria": "lowestCost"
   }
 }
