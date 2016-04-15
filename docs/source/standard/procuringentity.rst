@@ -33,9 +33,11 @@ Schema
     :ref:`ContactPoint`, required
 
 :kind:
-    string, Type of customer
+    string
+    
+    Type of procuring entity
 
-    choices:
-        - 'general' - Customer (general)
-        - 'special' - The customer that operates in specific areas of management
-        - 'defense' - Customer carrying out procurement for defense
+     Possible values:
+        - ``general`` - Procuring entity (general)
+        - ``special`` - Procuring entity that operates in certain spheres of economic activity
+        - ``defense`` - Procuring entity that conducts procurement for the defense needs
