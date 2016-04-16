@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implementer, Interface
 from couchdb_schematics.document import SchematicsDocument
+from pyramid.security import Allow
 from schematics.types import StringType, BaseType
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
@@ -16,7 +17,7 @@ contract_create_role = (whitelist(
     'id', 'awardID', 'contractID', 'contractNumber', 'title', 'title_en',
     'title_ru', 'description', 'description_en', 'description_ru', 'status',
     'period', 'value', 'dateSigned', 'documents', 'items', 'suppliers',
-    'owner', 'owner_token', 'tender_token', 'mode'
+    'owner', 'tender_token', 'mode'
 ))
 
 contract_edit_role = (whitelist(
@@ -47,10 +48,10 @@ class Contract(SchematicsDocument, BaseContract):
     revisions = ListType(ModelType(Revision), default=list())
     dateModified = IsoDateTimeType()
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
-    tender_token = StringType()
+    tender_token = StringType(required=True)
     owner_token = StringType()
     owner = StringType()
-    mode = StringType(choices=['test'])  # XXX is it usable?
+    mode = StringType(choices=['test'])
 
     create_accreditation = 3  # TODO
 
@@ -67,6 +68,14 @@ class Contract(SchematicsDocument, BaseContract):
     def __local_roles__(self):
         return dict([('{}_{}'.format(self.owner, self.owner_token), 'contract_owner'),
                      ('{}_{}'.format(self.owner, self.tender_token), 'tender_owner')])
+
+    def __acl__(self):
+        acl = [
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_contract'),
+            (Allow, '{}_{}'.format(self.owner, self.tender_token), 'get_credentials'),
+            (Allow, '{}_{}'.format(self.owner, self.tender_token), 'generate_credentials')
+        ]
+        return acl
 
     def get_role(self):
         root = self.__parent__
