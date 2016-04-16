@@ -40,8 +40,6 @@ FEED = {
     u'changes': CHANGES_VIEW_MAP,
 }
 
-LOGGER = getLogger(__name__)
-
 
 @contractingresource(name='Contracts',
                      path='/contracts',
@@ -165,9 +163,9 @@ class ContractsResource(APIResource):
         self.request.validated['contract'] = contract
         self.request.validated['contract_src'] = {}
         if save_contract(self.request):
-            LOGGER.info('Created contract {} ({})'.format(contract.id, contract.contractID),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_create'},
-                                             {'contract_id': contract.id, 'contractID': contract.contractID}))
+            self.LOGGER.info('Created contract {} ({})'.format(contract.id, contract.contractID),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_create'},
+                                                  {'contract_id': contract.id, 'contractID': contract.contractID}))
             self.request.response.status = 201
             return {
                 'data': contract.serialize("view"),
