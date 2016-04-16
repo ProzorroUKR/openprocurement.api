@@ -480,6 +480,7 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(ContractTest))
     suite.addTest(unittest.makeSuite(ContractResourceTest))
+    suite.addTest(unittest.makeSuite(ContractCredentialsTest))
     return suite
 
 
