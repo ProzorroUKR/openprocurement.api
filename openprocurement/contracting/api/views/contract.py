@@ -10,6 +10,7 @@ from openprocurement.api.utils import (
 
 from openprocurement.contracting.api.utils import (contractingresource,
                                                    contract_serialize,
+                                                   set_ownership,
                                                    save_contract)
 from openprocurement.contracting.api.validation import validate_contract_data
 from openprocurement.contracting.api.design import (
@@ -183,3 +184,37 @@ class ContractResource(ContractsResource):
     @json_view(permission='view_contract')
     def get(self):
         return {'data': self.request.validated['contract'].serialize("view")}
+
+
+@contractingresource(name='Contract credentials',
+                     path='/contracts/{contract_id}/credentials',
+                     description="Contract credentials")
+class ContractCredentialsResource(APIResource):
+
+    def __init__(self, request, context):
+        super(ContractCredentialsResource, self).__init__(request, context)
+        self.server = request.registry.couchdb_server
+
+    @json_view(permission='get_credentials')
+    def get(self):
+        contract = self.request.validated['contract']
+        return {
+            'data': contract.serialize("view"),
+            'access': {
+                'token': contract.owner_token
+            }
+        }
+
+    @json_view(permission='generate_credentials')
+    def patch(self):
+        contract = self.request.validated['contract']
+        set_ownership(contract, self.request)
+        if save_contract(self.request):
+            self.LOGGER.info('Generate Contract credentials {}'.format(contract.id),
+                        extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_patch'}))
+            return {
+                'data': contract.serialize("view"),
+                'access': {
+                    'token': contract.owner_token
+                }
+            }

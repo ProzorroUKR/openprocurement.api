@@ -180,3 +180,7 @@ def apply_patch(request, data=None, save=True, src=None):
         request.context.import_data(patch)
         if save:
             return save_contract(request)
+
+
+def set_ownership(item, request):
+    item.owner_token = generate_id()
