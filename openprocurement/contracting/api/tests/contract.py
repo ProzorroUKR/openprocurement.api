@@ -422,6 +422,11 @@ class ContractResourceTest(BaseWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertIn('{\n    "', response.body)
 
+        # broker has no permissions to create contract
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/contracts', {"data": test_contract_data}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+
 
 class ContractCredentialsTest(BaseContractWebTest):
     """ Contract credentials tests """
