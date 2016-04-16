@@ -13,7 +13,7 @@ class Root(object):
     __parent__ = None
     __acl__ = [
         (Allow, Everyone, 'view_contract'),
-        (Allow, 'g:brokers', 'create_contract'),
+        (Allow, 'g:databridge', 'create_contract'),
         (Allow, 'g:brokers', 'edit_contract'),
         (Allow, 'g:Administrator', 'edit_contract'),
         (Allow, 'g:admins', ALL_PERMISSIONS),
