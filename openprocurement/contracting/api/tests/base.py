@@ -81,7 +81,9 @@ test_contract_data = {
     "dateSigned": "2016-03-18T18:48:05.762961+02:00",
     "awardID": "8481d7eb01694c25b18658036c236c5d",
     "id": "2359720ade994a56b488a92f2fa577b2",
-    "contractID": "UA-2016-03-18-000001-1"
+    "contractID": "UA-2016-03-18-000001-1",
+    "tender_token": "4555720ade994a56b488a92f2fa577b2",
+    "owner": "broker"
 }
 
 documents = [
@@ -119,12 +121,13 @@ class BaseWebTest(unittest.TestCase):
 
     It setups the database before each test and delete it after.
     """
+    initial_auth = ('Basic', ('token', ''))
 
     def setUp(self):
         self.app = webtest.TestApp(
             "config:tests.ini", relative_to=os.path.dirname(__file__))
         self.app.RequestClass = PrefixedRequestClass
-        self.app.authorization = ('Basic', ('token', ''))
+        self.app.authorization = self.initial_auth
         self.couchdb_server = self.app.app.registry.couchdb_server
         self.db = self.app.app.registry.db
 
@@ -142,10 +145,13 @@ class BaseContractWebTest(BaseWebTest):
     def create_contract(self):
         data = deepcopy(self.initial_data)
 
+        orig_auth = self.app.authorization
+        self.app.authorization = ('Basic', ('databridge', ''))
         response = self.app.post_json('/contracts', {'data': data})
         contract = response.json['data']
         self.contract_token = response.json['access']['token']
         self.contract_id = contract['id']
+        self.app.authorization = orig_auth
 
     def tearDown(self):
         del self.db[self.contract_id]
