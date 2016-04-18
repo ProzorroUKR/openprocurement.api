@@ -96,7 +96,7 @@ plain_role = (blacklist('_attachments', 'revisions', 'dateModified') + schematic
 create_role = (blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'planID', 'doc_id', '_attachments') + schematics_embedded_role)
 edit_role = (
     blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'doc_id', 'planID', 'mode', '_attachments') + schematics_embedded_role)
-view_role = (blacklist('owner', 'owner_token', '_attachments', 'revisions') + schematics_embedded_role)
+view_role = (blacklist('owner_token', '_attachments', 'revisions') + schematics_embedded_role)
 listing_role = whitelist('dateModified', 'doc_id')
 revision_role = whitelist('revisions')
 Administrator_role = whitelist('status', 'mode', 'procuringEntity')
