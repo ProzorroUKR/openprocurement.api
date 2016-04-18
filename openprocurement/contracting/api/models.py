@@ -73,7 +73,6 @@ class Contract(SchematicsDocument, BaseContract):
         acl = [
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_contract'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_contract_documents'),
-            (Allow, '{}_{}'.format(self.owner, self.tender_token), 'get_credentials'),
             (Allow, '{}_{}'.format(self.owner, self.tender_token), 'generate_credentials')
         ]
         return acl

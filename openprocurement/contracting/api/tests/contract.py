@@ -435,23 +435,9 @@ class ContractCredentialsTest(BaseContractWebTest):
     initial_data = test_contract_data
 
     def test_get_credentials(self):
-        response = self.app.get('/contracts/{0}/credentials'.format(self.contract_id), status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-
-        response = self.app.get('/contracts/{0}/credentials?acc_token={1}'.format(self.contract_id, "fake_token"), status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-
-        response = self.app.get('/contracts/{0}/credentials?acc_token={1}'.format(self.contract_id, uuid4().hex), status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-
-        tender_token = self.initial_data['tender_token']
-        response = self.app.get('/contracts/{0}/credentials?acc_token={1}'.format(self.contract_id, tender_token))
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['id'], self.initial_data['id'])
-        self.assertNotIn('tender_token', response.json['data'])
-        self.assertNotIn('owner_token', response.json['data'])
-        self.assertEqual(response.json['data']['owner'], 'broker')
-        self.assertIn('token', response.json['access'])
+        response = self.app.get('/contracts/{0}/credentials?acc_token={1}'.format(self.contract_id,
+                                                                                  self.initial_data['tender_token']), status=405)
+        self.assertEqual(response.status, '405 Method Not Allowed')
 
     def test_generate_credentials(self):
         tender_token = self.initial_data['tender_token']
@@ -471,9 +457,6 @@ class ContractCredentialsTest(BaseContractWebTest):
         self.assertEqual(len(response.json['access']['token']), 32)
         token2 = response.json['access']['token']
         self.assertNotEqual(token1, token2)
-
-        response = self.app.get('/contracts/{0}/credentials?acc_token={1}'.format(self.contract_id, tender_token))
-        self.assertEqual(response.json['access']['token'], token2)
 
 
 def suite():

@@ -193,16 +193,6 @@ class ContractCredentialsResource(APIResource):
         super(ContractCredentialsResource, self).__init__(request, context)
         self.server = request.registry.couchdb_server
 
-    @json_view(permission='get_credentials')
-    def get(self):
-        contract = self.request.validated['contract']
-        return {
-            'data': contract.serialize("view"),
-            'access': {
-                'token': contract.owner_token
-            }
-        }
-
     @json_view(permission='generate_credentials')
     def patch(self):
         contract = self.request.validated['contract']
