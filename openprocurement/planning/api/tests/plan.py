@@ -466,7 +466,7 @@ class PlanResourceTest(BaseWebTest):
         plan = response.json['data']
         self.assertEqual(set(plan), set([
             u'id', u'dateModified', u'planID', u'budget', u'tender',
-            u'classification', u'additionalClassifications', u'items', u'procuringEntity'
+            u'classification', u'additionalClassifications', u'items', u'procuringEntity', u'owner'
         ]))
         self.assertNotEqual(data['id'], plan['id'])
         self.assertNotEqual(data['doc_id'], plan['id'])
@@ -481,7 +481,7 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         plan = response.json['data']
-        self.assertEqual(set(plan) - set(test_plan_data), set([u'id', u'dateModified', u'planID']))
+        self.assertEqual(set(plan) - set(test_plan_data), set([u'id', u'dateModified', u'planID', u'owner']))
         self.assertIn(plan['id'], response.headers['Location'])
 
         response = self.app.get('/plans/{}'.format(plan['id']))
