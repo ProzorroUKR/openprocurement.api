@@ -16,6 +16,7 @@ class ContractTest(BaseWebTest):
         u.contractID = "UA-C"
 
         assert u.id == test_contract_data['id']
+        assert u.doc_id == test_contract_data['id']
         assert u.rev is None
 
         u.store(self.db)
