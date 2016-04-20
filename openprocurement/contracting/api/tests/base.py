@@ -69,10 +69,10 @@ test_contract_data = {
                 }
             ],
     "contractNumber": "contract #13111",
-        "period": {
-                    "startDate": "2016-03-18T18:47:47.155143+02:00",
-                    "endDate": "2017-03-18T18:47:47.155143+02:00"
-                },
+    "period": {
+                "startDate": "2016-03-18T18:47:47.155143+02:00",
+                "endDate": "2017-03-18T18:47:47.155143+02:00"
+            },
     "value": {
         "currency": "UAH",
         "amount": 238.0,
