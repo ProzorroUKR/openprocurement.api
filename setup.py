@@ -6,6 +6,9 @@ version = '1.0'
 requires = [
     'setuptools',
     'openprocurement.api',
+    'gevent',
+    'PyYAML',
+    'openprocurement_client'
 ]
 
 test_requires = requires + [
