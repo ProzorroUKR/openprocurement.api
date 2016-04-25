@@ -85,17 +85,17 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/openprocurementtenderopeneu.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/openprocurementcontractingapi.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/openprocurementtenderopeneu.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/openprocurementcontractingapi.qhc"
 
 devhelp:
 	$(SPHINXBUILD) -b devhelp $(ALLSPHINXOPTS) $(BUILDDIR)/devhelp
 	@echo
 	@echo "Build finished."
 	@echo "To view the help file:"
-	@echo "# mkdir -p $$HOME/.local/share/devhelp/openprocurementtenderopeneu"
-	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/openprocurementtenderopeneu"
+	@echo "# mkdir -p $$HOME/.local/share/devhelp/openprocurementcontractingapi"
+	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/openprocurementcontractingapi"
 	@echo "# devhelp"
 
 epub:

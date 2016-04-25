@@ -50,7 +50,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'openprocurement.tender.openeu'
+project = u'openprocurement.contracting.api'
 copyright = u'2014-2016, Quintagroup, Ltd'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -183,7 +183,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'openprocurementtenderopeneudoc'
+htmlhelp_basename = 'openprocurementcontractingapidoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -203,7 +203,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'openprocurementtenderopeneu.tex', u'openprocurement.tender.openeu Documentation',
+  ('index', 'openprocurementcontractingapi.tex', u'openprocurement.contracting.api Documentation',
    u'Myroslav Opyr', 'manual'),
 ]
 
@@ -233,7 +233,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'openprocurementtenderopeneu', u'openprocurement.tender.openeu Documentation',
+    ('index', 'openprocurementcontractingapi', u'openprocurement.contracting.api Documentation',
      [u'Myroslav Opyr'], 1)
 ]
 
@@ -247,8 +247,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'openprocurementtenderopeneu', u'openprocurement.tender.openeu Documentation',
-   u'Myroslav Opyr', 'openprocurementtenderopeneu', 'One line description of project.',
+  ('index', 'openprocurementcontractingapi', u'openprocurement.contracting.api Documentation',
+   u'Myroslav Opyr', 'openprocurementcontractingapi', 'One line description of project.',
    'Miscellaneous'),
 ]
 
