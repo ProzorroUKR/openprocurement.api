@@ -1,17 +1,12 @@
-.. openprocurement.api documentation master file, created by
-   sphinx-quickstart on Wed Oct  1 02:29:13 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. title:: OpenProcurement Contracting
 
-.. title:: OpenProcurement tender openeu
-
-Welcome to openprocurement.tender.openeu's documentation!
-=========================================================
+Welcome to openprocurement.contracting.api's documentation!
+==========================================================
 
 Please report any problems or suggestions for improvement either via the
 `mailing list <http://groups.google.com/group/open-procurement-general>`_ or
 the `issue tracker
-<https://github.com/openprocurement/openprocurement.tender.openeu/issues>`_.
+<https://github.com/openprocurement/openprocurement.contracting.api/issues>`_.
 
 Contents:
 
