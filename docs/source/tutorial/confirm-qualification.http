@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/70d0ba2a1b064d1184fe606b7d74f36d/awards/77b1f9067dfe4da6b3cd382ac273ea8a?acc_token=cde3cb8ddf9a4842b5d7d8f1cb3ca510 HTTP/1.0
+PATCH /api/2.3/tenders/9a3fe3666dbb4679aed131a85372f4af/awards/7e4be786ea7746048aefdebb00eed2c7?acc_token=7c9a72d8d9ee4762bc968f7a5cbb9b13 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 67
 Content-Type: application/json
@@ -41,18 +41,18 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "complaintPeriod": {
-      "startDate": "2016-04-15T12:37:31.681337+03:00", 
-      "endDate": "2016-04-25T12:37:32.472869+03:00"
+      "startDate": "2016-04-25T15:45:08.221556+03:00", 
+      "endDate": "2016-05-05T15:45:08.511362+03:00"
     }, 
-    "bid_id": "dcbea377778848738d5953d013fb4371", 
+    "bid_id": "2d4f9343d69c441b824f49622bbe4061", 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 
       "valueAddedTaxIncluded": true
     }, 
     "qualified": true, 
-    "date": "2016-04-15T12:37:31.681833+03:00", 
-    "id": "77b1f9067dfe4da6b3cd382ac273ea8a"
+    "date": "2016-04-25T15:45:08.221982+03:00", 
+    "id": "7e4be786ea7746048aefdebb00eed2c7"
   }
 }
 

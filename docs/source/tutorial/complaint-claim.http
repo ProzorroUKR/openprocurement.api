@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/310245fb01604a7192597a7dba2333cc/complaints/6c135ddb752d426f8e267d862974426a?acc_token=a0b5fb10e9d742b6bf74b2c327126d57 HTTP/1.0
+PATCH /api/2.3/tenders/76b53a3568e94fcfbd592a16a11ebe89/complaints/58d875be958948af97b7805c33dec2fa?acc_token=823a70704db44fcdb98a1595ac5d68cc HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 29
 Content-Type: application/json
@@ -20,21 +20,21 @@ Content-Type: application/json; charset=UTF-8
         "author": "complaint_owner", 
         "language": "uk", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.0/tenders/310245fb01604a7192597a7dba2333cc/complaints/6c135ddb752d426f8e267d862974426a/documents/bbbfebaaeaf845cdaf2e86f6fff73bb1?download=a74b7a20582e4f598757aa496b109ac7", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/76b53a3568e94fcfbd592a16a11ebe89/complaints/58d875be958948af97b7805c33dec2fa/documents/b54510abbe354ac28737585510340273?download=7686a0e4a69045829a7d6faeba36dc90", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-04-15T12:37:10.805715+03:00", 
-        "id": "bbbfebaaeaf845cdaf2e86f6fff73bb1", 
-        "dateModified": "2016-04-15T12:37:10.805763+03:00"
+        "datePublished": "2016-04-25T15:44:54.935531+03:00", 
+        "id": "b54510abbe354ac28737585510340273", 
+        "dateModified": "2016-04-25T15:44:54.935568+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2016-04-15T12:37:11.003683+03:00", 
-    "complaintID": "UA-2016-04-15-000001.1", 
-    "date": "2016-04-15T12:37:10.620114+03:00", 
+    "dateSubmitted": "2016-04-25T15:44:55.047174+03:00", 
+    "complaintID": "UA-2016-04-25-000001.1", 
+    "date": "2016-04-25T15:44:54.836725+03:00", 
     "type": "claim", 
-    "id": "6c135ddb752d426f8e267d862974426a"
+    "id": "58d875be958948af97b7805c33dec2fa"
   }
 }
 

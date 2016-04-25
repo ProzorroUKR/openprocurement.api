@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/70d0ba2a1b064d1184fe606b7d74f36d?acc_token=cde3cb8ddf9a4842b5d7d8f1cb3ca510 HTTP/1.0
+PATCH /api/2.3/tenders/9a3fe3666dbb4679aed131a85372f4af?acc_token=7c9a72d8d9ee4762bc968f7a5cbb9b13 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 75
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-05-15T12:37:31.461424+03:00"
+      "endDate": "2016-05-25T15:45:10.900948+03:00"
     }
   }
 }
@@ -18,10 +18,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-04-15-000001", 
+    "tenderID": "UA-2016-04-25-000001", 
     "tenderPeriod": {
-      "startDate": "2016-04-15T12:37:21.123800+03:00", 
-      "endDate": "2016-05-15T12:37:31.461424+03:00"
+      "startDate": "2016-04-25T15:45:00.640223+03:00", 
+      "endDate": "2016-05-25T15:45:10.900948+03:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -30,11 +30,11 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-06-19T12:37:31.461424+03:00"
+      "shouldStartAfter": "2016-06-29T15:45:10.900948+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-04-15T12:37:21.123800+03:00", 
-      "endDate": "2016-05-11T12:37:31.461424+03:00"
+      "startDate": "2016-04-25T15:45:00.640223+03:00", 
+      "endDate": "2016-05-21T15:45:10.900948+03:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -43,7 +43,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "dateModified": "2016-04-15T12:37:21.656021+03:00", 
+    "dateModified": "2016-04-25T15:45:00.973555+03:00", 
     "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
       "kind": "general", 
@@ -71,12 +71,13 @@ Content-Type: application/json; charset=UTF-8
       "name_en": "School #10 of Vinnytsia"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-04-15T12:37:21.123800+03:00", 
-      "clarificationsUntil": "2016-05-11T12:37:31.461424+03:00", 
-      "endDate": "2016-05-05T12:37:31.461424+03:00"
+      "startDate": "2016-04-25T15:45:00.640223+03:00", 
+      "clarificationsUntil": "2016-05-19T00:00:00+03:00", 
+      "endDate": "2016-05-15T15:45:10.900948+03:00", 
+      "invalidationDate": "2016-04-25T15:45:00.970084+03:00"
     }, 
     "owner": "broker", 
-    "next_check": "2016-05-15T12:37:31.461424+03:00", 
+    "next_check": "2016-05-25T15:45:10.900948+03:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -101,10 +102,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-05T12:36:51.816751+03:00", 
-          "endDate": "2016-06-04T12:36:51.816801+03:00"
+          "startDate": "2016-05-15T15:44:43.825967+03:00", 
+          "endDate": "2016-06-14T15:44:43.826018+03:00"
         }, 
-        "id": "deb2cecdf10e4f3db51e10472b86d2f9", 
+        "id": "b65fca7f1ffc40a792f2168d1a24183b", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -134,10 +135,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-05T12:36:51.816836+03:00", 
-          "endDate": "2016-06-04T12:36:51.816862+03:00"
+          "startDate": "2016-05-15T15:44:43.826052+03:00", 
+          "endDate": "2016-06-14T15:44:43.826077+03:00"
         }, 
-        "id": "a77808ea39bf4bab89a6a5e9fb72bfd7", 
+        "id": "60da17608d974c11a39c9c53b2bcb15f", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -145,7 +146,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
-    "id": "70d0ba2a1b064d1184fe606b7d74f36d", 
+    "id": "9a3fe3666dbb4679aed131a85372f4af", 
     "awardCriteria": "lowestCost"
   }
 }

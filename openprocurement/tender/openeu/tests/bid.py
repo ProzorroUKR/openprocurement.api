@@ -426,7 +426,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
 
         revisions = self.db.get(self.tender_id).get('revisions')
         self.assertTrue(any([i for i in revisions[-2][u'changes'] if i['op'] == u'remove' and i['path'] == u'/bids']))
-        self.assertTrue(any([i for i in revisions[-1][u'changes'] if i['op'] == u'replace' and i['path'] == u'/bids/0']))
+        self.assertTrue(any([i for i in revisions[-1][u'changes'] if i['op'] == u'replace' and i['path'] == u'/bids/0/status']))
 
         response = self.app.delete('/tenders/{}/bids/some_id'.format(self.tender_id), status=404)
         self.assertEqual(response.status, '404 Not Found')

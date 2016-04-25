@@ -1,4 +1,4 @@
-GET /api/2.0/tenders/70d0ba2a1b064d1184fe606b7d74f36d HTTP/1.0
+GET /api/2.3/tenders/9a3fe3666dbb4679aed131a85372f4af HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,10 +8,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-04-15-000001", 
+    "tenderID": "UA-2016-04-25-000001", 
     "tenderPeriod": {
-      "startDate": "2016-04-15T12:37:21.123800+03:00", 
-      "endDate": "2016-05-16T12:36:51.816890+03:00"
+      "startDate": "2016-04-25T15:45:00.640223+03:00", 
+      "endDate": "2016-05-26T15:44:43.826103+03:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -20,11 +20,11 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-06-20T12:36:51.816890+03:00"
+      "shouldStartAfter": "2016-06-30T15:44:43.826103+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-04-15T12:37:21.123800+03:00", 
-      "endDate": "2016-05-12T12:36:51.816890+03:00"
+      "startDate": "2016-04-25T15:45:00.640223+03:00", 
+      "endDate": "2016-05-22T15:44:43.826103+03:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -33,7 +33,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "dateModified": "2016-04-15T12:37:21.267872+03:00", 
+    "dateModified": "2016-04-25T15:45:00.719840+03:00", 
     "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
       "kind": "general", 
@@ -61,12 +61,12 @@ Content-Type: application/json; charset=UTF-8
       "name_en": "School #10 of Vinnytsia"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-04-15T12:37:21.123800+03:00", 
-      "clarificationsUntil": "2016-05-12T12:36:51.816890+03:00", 
-      "endDate": "2016-05-06T12:36:51.816890+03:00"
+      "startDate": "2016-04-25T15:45:00.640223+03:00", 
+      "clarificationsUntil": "2016-05-19T15:44:43.826103+03:00", 
+      "endDate": "2016-05-16T15:44:43.826103+03:00"
     }, 
     "owner": "broker", 
-    "next_check": "2016-05-16T12:36:51.816890+03:00", 
+    "next_check": "2016-05-26T15:44:43.826103+03:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -91,10 +91,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-05T12:36:51.816751+03:00", 
-          "endDate": "2016-06-04T12:36:51.816801+03:00"
+          "startDate": "2016-05-15T15:44:43.825967+03:00", 
+          "endDate": "2016-06-14T15:44:43.826018+03:00"
         }, 
-        "id": "deb2cecdf10e4f3db51e10472b86d2f9", 
+        "id": "b65fca7f1ffc40a792f2168d1a24183b", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -124,10 +124,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-05T12:36:51.816836+03:00", 
-          "endDate": "2016-06-04T12:36:51.816862+03:00"
+          "startDate": "2016-05-15T15:44:43.826052+03:00", 
+          "endDate": "2016-06-14T15:44:43.826077+03:00"
         }, 
-        "id": "a77808ea39bf4bab89a6a5e9fb72bfd7", 
+        "id": "60da17608d974c11a39c9c53b2bcb15f", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -135,7 +135,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
-    "id": "70d0ba2a1b064d1184fe606b7d74f36d", 
+    "id": "9a3fe3666dbb4679aed131a85372f4af", 
     "awardCriteria": "lowestCost"
   }
 }

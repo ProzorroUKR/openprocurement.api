@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/1ab41f6499f64046abdda33d155de8c9/awards/606e0f0a4e884569acf42e14def6d029/complaints/23a53b93d38946c1acaf4e226701651e?acc_token=b087e047d17b4482abf952d392825289 HTTP/1.0
+PATCH /api/2.3/tenders/be4ede8b31e24e3e89aea37bc2a23bd6/awards/cbb0b18265374e988b6e7d93e90d7317/complaints/9687b62e2d2a4323aa95999d11e2b5e2?acc_token=4244fbc23d7b44debd8ca86b8eb80f8d HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 228
 Content-Type: application/json
@@ -40,14 +40,14 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "acceptance": true, 
     "cancellationReason": "Тендер скасовується замовником", 
-    "dateCanceled": "2016-04-15T12:37:04.723436+03:00", 
-    "dateAccepted": "2016-04-15T12:37:01.232158+03:00", 
-    "dateSubmitted": "2016-04-15T12:36:59.173345+03:00", 
-    "complaintID": "UA-2016-04-15-000001.4", 
-    "date": "2016-04-15T12:36:59.171436+03:00", 
+    "dateCanceled": "2016-04-25T15:44:52.037349+03:00", 
+    "dateAccepted": "2016-04-25T15:44:49.721947+03:00", 
+    "dateSubmitted": "2016-04-25T15:44:48.527214+03:00", 
+    "complaintID": "UA-2016-04-25-000001.4", 
+    "date": "2016-04-25T15:44:48.525783+03:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
-    "id": "23a53b93d38946c1acaf4e226701651e"
+    "id": "9687b62e2d2a4323aa95999d11e2b5e2"
   }
 }
 

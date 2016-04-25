@@ -485,6 +485,7 @@ class Tender(BaseTender):
         endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
         self.enquiryPeriod = EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
                                                 endDate=endDate,
+                                                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
                                                 clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
@@ -492,6 +493,7 @@ class Tender(BaseTender):
         endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
         return EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
                                   endDate=endDate,
+                                  invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
                                   clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
 
     @serializable(type=ModelType(Period))
@@ -571,6 +573,7 @@ class Tender(BaseTender):
         return len([bid for bid in self.bids if bid.status in ("active", "pending",)])
 
     def invalidate_bids_data(self):
+        self.enquiryPeriod.invalidationDate = get_now()
         for bid in self.bids:
             if bid.status != "deleted":
                 bid.status = "invalid"

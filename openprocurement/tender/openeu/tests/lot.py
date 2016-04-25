@@ -222,7 +222,7 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
 
         response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"guarantee": {"currency": "USD"}}})
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.body, 'null')
+        self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
 
         response = self.app.patch_json('/tenders/{}/lots/some_id'.format(self.tender_id), {"data": {"title": "other title"}}, status=404)
         self.assertEqual(response.status, '404 Not Found')

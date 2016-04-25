@@ -1,10 +1,11 @@
 #
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 12:53+0200\n"
-"PO-Revision-Date: 2016-03-21 10:55+0200\n"
+"PO-Revision-Date: 2016-04-15 14:38+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -81,10 +82,6 @@ msgstr "рядок"
 #: ../../source/standard/tender.rst:40
 msgid "value: ``aboveThresholdEU``"
 msgstr "значення: ``aboveThresholdEU``"
-
-#: ../../source/standard/tender.rst:43
-msgid ":ref:`organization`, required"
-msgstr ":ref:`organization`, обов’язково"
 
 #: ../../source/standard/tender.rst:45
 msgid "Organization conducting the tender."
@@ -405,3 +402,9 @@ msgstr ":ref:`Guarantee`"
 msgid "Bid guarantee"
 msgstr "Забезпечення тендерних пропозицій"
 
+#: ../../source/standard/tender.rst:43
+msgid ":ref:`ProcuringEntity`, required"
+msgstr ":ref:`ProcuringEntity`, обов’язково"
+
+#~ msgid ":ref:`organization`, required"
+#~ msgstr ":ref:`organization`, обов’язково"
