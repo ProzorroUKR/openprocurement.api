@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from hashlib import md5
 from zope.interface import implementer, Interface
 from couchdb_schematics.document import SchematicsDocument
 from pyramid.security import Allow
@@ -9,6 +10,7 @@ from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
 from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import Document as BaseDocument
+from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import ListType, Revision, IsoDateTimeType
 from openprocurement.api.models import (plain_role, Administrator_role,
                                         schematics_default_role)
@@ -17,7 +19,7 @@ contract_create_role = (whitelist(
     'id', 'awardID', 'contractID', 'contractNumber', 'title', 'title_en',
     'title_ru', 'description', 'description_en', 'description_ru', 'status',
     'period', 'value', 'dateSigned', 'documents', 'items', 'suppliers',
-    'owner', 'tender_token', 'mode'
+    'owner', 'tender_token', 'tender_id', 'mode'
 ))
 
 contract_edit_role = (whitelist(
@@ -29,7 +31,7 @@ contract_view_role = (whitelist(
     'id', 'awardID', 'contractID', 'dateModified', 'contractNumber', 'title',
     'title_en', 'title_ru', 'description', 'description_en', 'description_ru',
     'status', 'period', 'value', 'dateSigned', 'documents', 'items',
-    'suppliers', 'owner', 'mode'
+    'suppliers', 'owner', 'mode', 'tender_id'
 ))
 
 
@@ -41,6 +43,11 @@ class Document(BaseDocument):
     """ Contract Document """
 
 
+class Item(BaseItem):
+    def validate_relatedLot(self, data, relatedLot):
+        pass
+
+
 @implementer(IContract)
 class Contract(SchematicsDocument, BaseContract):
     """ Contract """
@@ -48,7 +55,9 @@ class Contract(SchematicsDocument, BaseContract):
     revisions = ListType(ModelType(Revision), default=list())
     dateModified = IsoDateTimeType()
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
+    items = ListType(ModelType(Item))
     tender_token = StringType(required=True)
+    tender_id = StringType(required=True)
     owner_token = StringType()
     owner = StringType()
     mode = StringType(choices=['test'])
@@ -73,7 +82,7 @@ class Contract(SchematicsDocument, BaseContract):
         acl = [
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_contract'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_contract_documents'),
-            (Allow, '{}_{}'.format(self.owner, self.tender_token), 'generate_credentials')
+            (Allow, '{}_{}'.format(self.owner, md5(self.tender_token).hexdigest()), 'generate_credentials')
         ]
         return acl
 
@@ -94,3 +103,7 @@ class Contract(SchematicsDocument, BaseContract):
     def validate_status(self, data, status):
         if status == 'pending':
             raise ValidationError(u"'pending' contracts are not allowed.")
+    def validate_awardID(self, data, awardID):
+        pass
+    def validate_dateSigned(self, data, value):
+        pass
