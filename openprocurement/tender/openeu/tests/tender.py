@@ -115,16 +115,25 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.content_type, 'application/json')
             tenders.append(response.json['data'])
 
-        response = self.app.get('/tenders')
-        self.assertEqual(response.status, '200 OK')
+        ids = ','.join([i['id'] for i in tenders])
+
+        while True:
+            response = self.app.get('/tenders')
+            self.assertTrue(ids.startswith(','.join([i['id'] for i in response.json['data']])))
+            if len(response.json['data']) == 3:
+                break
+
         self.assertEqual(len(response.json['data']), 3)
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
         self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
         self.assertEqual(set([i['dateModified'] for i in response.json['data']]), set([i['dateModified'] for i in tenders]))
         self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders]))
 
-        response = self.app.get('/tenders?offset={}'.format(offset))
-        self.assertEqual(response.status, '200 OK')
+        while True:
+            response = self.app.get('/tenders?offset={}'.format(offset))
+            self.assertEqual(response.status, '200 OK')
+            if len(response.json['data']) == 1:
+                break
         self.assertEqual(len(response.json['data']), 1)
 
         response = self.app.get('/tenders?limit=2')
@@ -183,7 +192,11 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 
-        response = self.app.get('/tenders?mode=test')
+        while True:
+            response = self.app.get('/tenders?mode=test')
+            self.assertEqual(response.status, '200 OK')
+            if len(response.json['data']) == 1:
+                break
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 1)
 
@@ -204,8 +217,14 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.content_type, 'application/json')
             tenders.append(response.json['data'])
 
-        response = self.app.get('/tenders?feed=changes')
-        self.assertEqual(response.status, '200 OK')
+        ids = ','.join([i['id'] for i in tenders])
+
+        while True:
+            response = self.app.get('/tenders?feed=changes')
+            self.assertTrue(ids.startswith(','.join([i['id'] for i in response.json['data']])))
+            if len(response.json['data']) == 3:
+                break
+
         self.assertEqual(len(response.json['data']), 3)
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
         self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
@@ -268,8 +287,11 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 
-        response = self.app.get('/tenders?feed=changes&mode=test')
-        self.assertEqual(response.status, '200 OK')
+        while True:
+            response = self.app.get('/tenders?feed=changes&mode=test')
+            self.assertEqual(response.status, '200 OK')
+            if len(response.json['data']) == 1:
+                break
         self.assertEqual(len(response.json['data']), 1)
 
         response = self.app.get('/tenders?feed=changes&mode=_all_')
@@ -778,29 +800,33 @@ class TenderResourceTest(BaseTenderWebTest):
             tender['id'], owner_token), {'data': {'procurementMethodRationale': 'Open'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
+        self.assertIn('invalidationDate', response.json['data']['enquiryPeriod'])
         new_tender = response.json['data']
+        new_enquiryPeriod = new_tender.pop('enquiryPeriod')
         new_dateModified = new_tender.pop('dateModified')
+        tender.pop('enquiryPeriod')
         tender['procurementMethodRationale'] = 'Open'
         self.assertEqual(tender, new_tender)
         self.assertNotEqual(dateModified, new_dateModified)
+
+        revisions = self.db.get(tender['id']).get('revisions')
+        self.assertTrue(any([i for i in revisions[-1][u'changes'] if i['op'] == u'remove' and i['path'] == u'/procurementMethodRationale']))
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
             tender['id'], owner_token), {'data': {'dateModified': new_dateModified}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         new_tender2 = response.json['data']
+        new_enquiryPeriod2 = new_tender2.pop('enquiryPeriod')
         new_dateModified2 = new_tender2.pop('dateModified')
         self.assertEqual(new_tender, new_tender2)
-        self.assertEqual(new_dateModified, new_dateModified2)
+        self.assertNotEqual(new_enquiryPeriod, new_enquiryPeriod2)
+        self.assertNotEqual(new_dateModified, new_dateModified2)
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'procuringEntity': {'kind': 'defense'}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertNotEqual(response.json['data']['procuringEntity']['kind'], 'defense')
-
-        revisions = self.db.get(tender['id']).get('revisions')
-        self.assertEqual(revisions[-1][u'changes'][0]['op'], u'remove')
-        self.assertEqual(revisions[-1][u'changes'][0]['path'], u'/procurementMethodRationale')
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
             tender['id'], owner_token), {'data': {'items': [test_tender_data['items'][0]]}})
