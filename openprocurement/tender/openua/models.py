@@ -152,17 +152,22 @@ class LotAuctionPeriod(Period):
             decision_dates.append(tender.tenderPeriod.endDate)
             return max(decision_dates).isoformat()
 
+
 class PeriodEndRequired(Model):
 
     startDate = IsoDateTimeType()  # The state date for the period.
     endDate = IsoDateTimeType(required=True)  # The end date for the period.
 
+
 class PeriodStartEndRequired(Period):
     startDate = IsoDateTimeType(required=True, default=get_now)  # The state date for the period.
     endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
 
+
 class EnquiryPeriod(Period):
     clarificationsUntil = IsoDateTimeType()
+    invalidationDate = IsoDateTimeType()
+
 
 class Address(BaseAddress):
 
@@ -467,6 +472,7 @@ class Tender(BaseTender):
         endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)
         self.enquiryPeriod = EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
                                                 endDate=endDate,
+                                                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
                                                 clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
@@ -474,6 +480,7 @@ class Tender(BaseTender):
         endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)
         return EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
                                   endDate=endDate,
+                                  invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
                                   clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
 
     @serializable(type=ModelType(Period))
@@ -537,6 +544,7 @@ class Tender(BaseTender):
         return min(checks).isoformat() if checks else None
 
     def invalidate_bids_data(self):
+        self.enquiryPeriod.invalidationDate = get_now()
         for bid in self.bids:
             if bid.status != "deleted":
                 bid.status = "invalid"
