@@ -20,7 +20,8 @@ from uuid import uuid4
 import gevent
 from gevent.queue import Queue
 
-from openprocurement_client.client import TendersClient, ContractingClient
+from openprocurement_client.client import TendersClient
+from openprocurement_client.contract import ContractingClient
 from openprocurement_client.client import ResourceNotFound
 from yaml import load
 
