@@ -1,0 +1,206 @@
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.contracting.api 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-25 17:22+0300\n"
+"PO-Revision-Date: 2016-04-25 18:33+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <support@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: ../../source/tutorial.rst:4
+msgid "Tutorial"
+msgstr "Туторіал"
+
+#: ../../source/tutorial.rst:7
+msgid "Exploring basic rules"
+msgstr "Розглянемо основні правила"
+
+#: ../../source/tutorial.rst:9
+msgid "Let's try exploring the `/contracts` endpoint:"
+msgstr "Подивимось як працює точка входу `/contracts`:"
+
+#: ../../source/tutorial.rst:14
+msgid "Just invoking it reveals an empty set."
+msgstr "При виклику видає пустий набір."
+
+#: ../../source/tutorial.rst:16
+msgid "Contract is transferred from the tender system by an automated process."
+msgstr ""
+"Перенесенням договору із системи закупівель займається автоматизований "
+"процес."
+
+#: ../../source/tutorial.rst:21
+msgid "Creating contract"
+msgstr "Створення договору"
+
+#: ../../source/tutorial.rst:28
+msgid "Getting contract"
+msgstr "Отримання договору"
+
+#: ../../source/tutorial.rst:30
+msgid ""
+"Let's access the URL of the created object (the `Location` header of the "
+"response):"
+msgstr "Використаємо URL створеного об’єкта (заголовок відповіді `Location`):"
+
+#: ../../source/tutorial.rst:40
+msgid ""
+"We do see the internal `id` of a contract (that can be used to construct "
+"full URL by prepending `http://api-"
+"sandbox.openprocurement.org/api/0/contracts/`) and its `dateModified` "
+"datestamp."
+msgstr ""
+"Ми бачимо внутрішнє `id` договору (що може бути використано для побудови "
+"повної URL-адреси, якщо додати `http://api-sandbox.openprocurement.org/api/0/c"
+"ontracts/`) та його dateModified дату."
+
+#: ../../source/tutorial.rst:62
+msgid "Uploading documentation"
+msgstr "Завантаження документації"
+
+#: ../../source/tutorial.rst:70
+msgid ""
+"`201 Created` response code and `Location` header confirm document creation."
+" We can additionally query the `documents` collection API endpoint to "
+"confirm the action:"
+msgstr ""
+"Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
+"документ було створено. Додатково можна зробити запит точки входу API "
+"колекції документів, щоб підтвердити дію:"
+
+#: ../../source/tutorial.rst:77
+msgid ""
+"The single array element describes the uploaded document. We can upload more"
+" documents:"
+msgstr ""
+"Один елемент масиву описує завантажений документ. Ми можемо завантажити "
+"більше документів:"
+
+#: ../../source/tutorial.rst:82
+msgid "And again we can confirm that there are two documents uploaded."
+msgstr "І знову можна перевірити, що є два завантажених документа."
+
+#: ../../source/tutorial.rst:87
+msgid ""
+"In case we made an error, we can reupload the document over the older "
+"version:"
+msgstr ""
+"Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої "
+"версії:"
+
+#: ../../source/tutorial.rst:92
+msgid "And we can see that it is overriding the original version:"
+msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
+
+#: ../../source/tutorial.rst:23
+msgid ""
+"Let's say that we have conducted tender and it has ``complete`` status. When"
+" the tender is completed,  contract (that has been created in the tender "
+"system) is transferred to the contract system **automatically**."
+msgstr ""
+"Нехай у нас відбулась закупівля і вона є в статусі  ``complete``. Після цього "
+"договір, створений в системі закупівель, потрапляє в систему договорів."
+
+#: ../../source/tutorial.rst:25
+msgid "*Brokers (eMalls) can't create contracts in the contract system.*"
+msgstr ""
+"*Майданчики (брокери) не мають можливості створювати договори в системі "
+"договорів.*"
+
+#: ../../source/tutorial.rst:35
+msgid "Let's see what listing of contracts reveals us:"
+msgstr "Подивимось, що показує список договорів:"
+
+#: ../../source/tutorial.rst:42
+msgid "*Contract id is the same in both tender and contract system.*"
+msgstr ""
+"*Ідентифікатор `id` договору однаковий в системах закіпівель та договорів.*"
+
+#: ../../source/tutorial.rst:45
+msgid "Modifying contract"
+msgstr "Редагування договору"
+
+#: ../../source/tutorial.rst:47
+msgid ""
+"Let's update contract by supplementing it with all other essential "
+"properties."
+msgstr "Оновимо договір шляхом надання йому усіх інших важливих властивостей."
+
+#: ../../source/tutorial.rst:52
+msgid ""
+"We see the added properties have merged with existing contract data. "
+"Additionally, the `dateModified` property was updated to reflect the last "
+"modification datestamp."
+msgstr ""
+"Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. "
+"Додатково оновлена властивість `dateModified`, щоб відображати останню дату "
+"модифікації."
+
+#: ../../source/tutorial.rst:54
+msgid "Checking the listing again reflects the new modification date."
+msgstr "Ще одна перевірка списку відображає нову дату модифікації."
+
+#: ../../source/tutorial.rst:64
+msgid ""
+"Procuring entity can upload PDF files into the created contract. Uploading "
+"should follow the :ref:`upload` rules."
+msgstr ""
+"Замовник може завантажити PDF файл у створений договір. Завантаження повинно "
+"відбуватись згідно правил :ref:`upload`."
+
+#~ msgid ""
+#~ "Let's say that we have conducted tender and it has ``complete`` status. When"
+#~ " the tender is comleted,  contract, that has been created in the tender "
+#~ "system, is transferred to the contract system automatically."
+#~ msgstr ""
+#~ "Нехай у нас відбулась закупівля і вона є в ``complete`` статусі. Після цього"
+#~ " договір, створений в системі закупівель, потрапляє в систему контрактів."
+
+#~ msgid "Brokers (eMalls) can't create contract in the contract system."
+#~ msgstr ""
+
+#~ msgid "We can see the same response we got after creating tender."
+#~ msgstr ""
+
+#~ msgid "Let's see what listing of tenders reveals us:"
+#~ msgstr ""
+
+#~ msgid "Modifying tender"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Let's update tender by supplementing it with all other essential properties:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "We see the added properies have merged with existing tender data. "
+#~ "Additionally, the `dateModified` property was updated to reflect the last "
+#~ "modification datestamp."
+#~ msgstr ""
+
+#~ msgid "Checking the listing again reflects the new modification date:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Procuring entity can not change tender if there are less than 7 days before "
+#~ "tenderPeriod ends. Changes will not be accepted by API."
+#~ msgstr ""
+
+#~ msgid "That is why tenderPeriod has to be extended by 7 days."
+#~ msgstr ""
+
+#~ msgid "Procuring entity can set bid guarantee:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Procuring entity can upload PDF files into the created tender. Uploading "
+#~ "should follow the :ref:`upload` rules."
+#~ msgstr ""
