@@ -1,5 +1,4 @@
 #
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
@@ -47,13 +46,3 @@ msgstr ""
 "`розсилку <http://groups.google.com/group/open-procurement-general>`_ або "
 "через `issue tracker "
 "<https://github.com/openprocurement/openprocurement.contracting.api/issues>`_."
-
-#~ msgid "Welcome to openprocurement.tender.openeu's documentation!"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Please report any problems or suggestions for improvement either via the "
-#~ "`mailing list <http://groups.google.com/group/open-procurement-general>`_ or"
-#~ " the `issue tracker "
-#~ "<https://github.com/openprocurement/openprocurement.tender.openeu/issues>`_."
-#~ msgstr ""

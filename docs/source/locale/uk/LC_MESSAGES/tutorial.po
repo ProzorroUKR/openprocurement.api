@@ -1,4 +1,4 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
@@ -155,52 +155,3 @@ msgid ""
 msgstr ""
 "Замовник може завантажити PDF файл у створений договір. Завантаження повинно "
 "відбуватись згідно правил :ref:`upload`."
-
-#~ msgid ""
-#~ "Let's say that we have conducted tender and it has ``complete`` status. When"
-#~ " the tender is comleted,  contract, that has been created in the tender "
-#~ "system, is transferred to the contract system automatically."
-#~ msgstr ""
-#~ "Нехай у нас відбулась закупівля і вона є в ``complete`` статусі. Після цього"
-#~ " договір, створений в системі закупівель, потрапляє в систему контрактів."
-
-#~ msgid "Brokers (eMalls) can't create contract in the contract system."
-#~ msgstr ""
-
-#~ msgid "We can see the same response we got after creating tender."
-#~ msgstr ""
-
-#~ msgid "Let's see what listing of tenders reveals us:"
-#~ msgstr ""
-
-#~ msgid "Modifying tender"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Let's update tender by supplementing it with all other essential properties:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "We see the added properies have merged with existing tender data. "
-#~ "Additionally, the `dateModified` property was updated to reflect the last "
-#~ "modification datestamp."
-#~ msgstr ""
-
-#~ msgid "Checking the listing again reflects the new modification date:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Procuring entity can not change tender if there are less than 7 days before "
-#~ "tenderPeriod ends. Changes will not be accepted by API."
-#~ msgstr ""
-
-#~ msgid "That is why tenderPeriod has to be extended by 7 days."
-#~ msgstr ""
-
-#~ msgid "Procuring entity can set bid guarantee:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Procuring entity can upload PDF files into the created tender. Uploading "
-#~ "should follow the :ref:`upload` rules."
-#~ msgstr ""
