@@ -2,6 +2,7 @@
 import unittest
 from uuid import uuid4
 from copy import deepcopy
+from datetime import timedelta
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.contracting.api.models import Contract
 from openprocurement.contracting.api.tests.base import (
@@ -427,6 +428,77 @@ class ContractResourceTest(BaseWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/contracts', {"data": test_contract_data}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
+
+
+class ContractResource4BrokersTest(BaseContractWebTest):
+    """ contract resource test """
+    initial_auth = ('Basic', ('broker', ''))
+
+    def test_patch_tender_contract(self):
+        response = self.app.patch_json('/contracts/{}'.format(self.contract['id']), {"data": {"title": "New Title"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+
+        tender_token = self.initial_data['tender_token']
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], tender_token),
+                                       {"data": {"title": "New Title"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+
+        response = self.app.patch_json('/contracts/{}/credentials?acc_token={}'.format(self.contract['id'], tender_token),
+                                       {'data': ''})
+        self.assertEqual(response.status, '200 OK')
+        token = response.json['access']['token']
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"title": "New Title"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['title'], "New Title")
+
+        # response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract['id'], token),
+                                       # {"data": {"value": {"currency": "USD"}}})
+        # response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract['id'], token),
+                                       # {"data": {"value": {"valueAddedTaxIncluded": False}}})
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"value": {"amount": 238}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['value']['amount'], 238)
+
+        custom_period_start_date = get_now().isoformat()
+        custom_period_end_date = (get_now() + timedelta(days=3)).isoformat()
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"period": {'startDate': custom_period_start_date,
+                                                            'endDate': custom_period_end_date}}})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"status": "terminated"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'terminated')
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"status": "active"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"title": "fff"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+
+        response = self.app.patch_json('/contracts/some_id', {"data": {"status": "active"}}, status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'contract_id'}
+        ])
+
+        response = self.app.get('/contracts/{}'.format(self.contract['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["status"], "terminated")
+        self.assertEqual(response.json['data']["value"]['amount'], 238)
+        self.assertEqual(response.json['data']['period']['startDate'], custom_period_start_date)
+        self.assertEqual(response.json['data']['period']['endDate'], custom_period_end_date)
 
 
 class ContractCredentialsTest(BaseContractWebTest):
