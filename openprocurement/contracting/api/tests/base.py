@@ -2,6 +2,7 @@
 import os
 import unittest
 import webtest
+from uuid import uuid4
 from copy import deepcopy
 from datetime import datetime
 
@@ -80,10 +81,10 @@ test_contract_data = {
         },
     "dateSigned": "2016-03-18T18:48:05.762961+02:00",
     "awardID": "8481d7eb01694c25b18658036c236c5d",
-    "id": "2359720ade994a56b488a92f2fa577b2",
+    "id": uuid4().hex,
     "contractID": "UA-2016-03-18-000001-1",
-    "tender_id": "fffffffffffffff6b488a92f2fa577b2",
-    "tender_token": "4555720ade994a56b488a92f2fa577b2",
+    "tender_id": uuid4().hex,
+    "tender_token": uuid4().hex,
     "owner": "broker"
 }
 
