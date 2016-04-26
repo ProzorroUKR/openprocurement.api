@@ -82,6 +82,7 @@ test_contract_data = {
     "awardID": "8481d7eb01694c25b18658036c236c5d",
     "id": "2359720ade994a56b488a92f2fa577b2",
     "contractID": "UA-2016-03-18-000001-1",
+    "tender_id": "fffffffffffffff6b488a92f2fa577b2",
     "tender_token": "4555720ade994a56b488a92f2fa577b2",
     "owner": "broker"
 }
