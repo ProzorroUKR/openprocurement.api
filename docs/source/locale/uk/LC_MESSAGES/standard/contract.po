@@ -4,14 +4,15 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 12:53+0200\n"
-"PO-Revision-Date: 2016-03-09 13:57+0200\n"
+"PO-Revision-Date: 2016-04-26 11:28+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
 #: ../../source/standard/contract.rst:8
@@ -135,7 +136,7 @@ msgid ""
 "contract. Note: If the items are the same as the award do not repeat."
 msgstr ""
 "|ocdsDescription| Товари, послуги та інші нематеріальні результати у цій "
-"угоді. Звернуть увагу: Якщо список співпадає з визначенням переможця "
+"угоді. Зверніть увагу: Якщо список співпадає з визначенням переможця "
 "`award`, то його не потрібно повторювати."
 
 #: ../../source/standard/contract.rst:14
@@ -148,8 +149,7 @@ msgstr "рядок, генерується автоматично, лише дл
 
 #: ../../source/standard/contract.rst:67
 msgid "List of :ref:`Item` objects, auto-generated, read-only"
-msgstr ""
-"Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
+msgstr "Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
 
 #: ../../source/standard/contract.rst:73
 msgid "List of :ref:`Organization` objects, auto-generated, read-only"
@@ -165,5 +165,3 @@ msgstr "Об’єкт :ref:`Value`, генерується автоматичн�
 msgid "string, :ref:`date`, auto-generated"
 msgstr "рядок, :ref:`date`, генерується автоматично"
 
-#~ msgid "contractID:"
-#~ msgstr "contractID:"

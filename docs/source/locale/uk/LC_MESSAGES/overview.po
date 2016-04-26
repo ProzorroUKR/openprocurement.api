@@ -1,5 +1,4 @@
 #
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
@@ -118,5 +117,3 @@ msgid ""
 ":ref:`mulitlot_tutorial`."
 msgstr "Далі читайте :ref:`tutorial` або :ref:`mulitlot_tutorial`."
 
-#~ msgid "You might find it helpful to look at the :ref:`tutorial`."
-#~ msgstr "Далі читайте :ref:`tutorial` або :ref:`mulitlot_tutorial`."
