@@ -136,6 +136,18 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertIn(doc_id, response.headers['Location'])
         self.assertNotIn('acc_token', response.headers['Location'])
 
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, self.contract_token),
+                                       {"data": {"status": "terminated"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'terminated')
+
+        response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
+            self.contract_id, self.contract_token),
+            upload_files=[('file', u'укр.doc'.encode("ascii", "xmlcharrefreplace"), 'contentX')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [{u'description': u"Can't add document in current (terminated) contract status",
+                                                    u'location': u'body', u'name': u'data'}])
+
 
     def test_put_contract_document(self):
         from six import BytesIO
@@ -247,6 +259,17 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
             self.assertEqual(response.content_length, 8)
             self.assertEqual(response.body, 'content3')
 
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, self.contract_token),
+                                       {"data": {"status": "terminated"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'terminated')
+
+        response = self.app.put('/contracts/{}/documents/{}?acc_token={}'.format(
+            self.contract_id, doc_id, self.contract_token), 'contentX', content_type='application/msword', status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [{u'description': u"Can't update document in current (terminated) contract status",
+                                                    u'location': u'body', u'name': u'data'}])
+
     def test_patch_contract_document(self):
         response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
             self.contract_id, self.contract_token), upload_files=[('file', str(Header(u'укр.doc', 'utf-8')), 'content')])
@@ -281,6 +304,17 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertEqual('document description', response.json["data"]["description"])
 
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, self.contract_token),
+                                       {"data": {"status": "terminated"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'terminated')
+
+        response = self.app.patch_json('/contracts/{}/documents/{}?acc_token={}'.format(self.contract_id, doc_id, self.contract_token), {"data": {
+            "description": "document description X",
+        }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [{u'description': u"Can't update document in current (terminated) contract status",
+                                                    u'location': u'body', u'name': u'data'}])
 
 class ContractDocumentWithS3ResourceTest(ContractDocumentResourceTest):
     s3_connection = True
