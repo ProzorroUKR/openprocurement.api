@@ -40,6 +40,12 @@ class ContractsDocumentResource(APIResource):
     @json_view(permission='upload_contract_documents', validators=(validate_file_upload,))
     def collection_post(self):
         """Contract Document Upload"""
+        if self.request.validated['contract'].status != 'active':
+            self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) contract status'.format(
+                self.request.validated['contract'].status))
+            self.request.errors.status = 403
+            return
+
         document = upload_file(self.request)
         self.context.documents.append(document)
         if save_contract(self.request):
@@ -67,6 +73,12 @@ class ContractsDocumentResource(APIResource):
     @json_view(permission='upload_contract_documents', validators=(validate_file_update,))
     def put(self):
         """Contract Document Update"""
+        if self.request.validated['contract'].status != 'active':
+            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) contract status'.format(
+                self.request.validated['contract'].status))
+            self.request.errors.status = 403
+            return
+
         document = upload_file(self.request)
         self.request.validated['contract'].documents.append(document)
         if save_contract(self.request):
@@ -77,6 +89,12 @@ class ContractsDocumentResource(APIResource):
     @json_view(content_type="application/json", permission='upload_contract_documents', validators=(validate_patch_document_data,))
     def patch(self):
         """Contract Document Update"""
+        if self.request.validated['contract'].status != 'active':
+            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) contract status'.format(
+                self.request.validated['contract'].status))
+            self.request.errors.status = 403
+            return
+
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
             self.LOGGER.info('Updated contract document {}'.format(self.request.context.id),
