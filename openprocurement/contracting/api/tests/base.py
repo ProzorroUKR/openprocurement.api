@@ -146,7 +146,7 @@ class BaseContractWebTest(BaseWebTest):
         data = deepcopy(self.initial_data)
 
         orig_auth = self.app.authorization
-        self.app.authorization = ('Basic', ('databridge', ''))
+        self.app.authorization = ('Basic', ('contracting', ''))
         response = self.app.post_json('/contracts', {'data': data})
         self.contract = response.json['data']
         # self.contract_token = response.json['access']['token']
