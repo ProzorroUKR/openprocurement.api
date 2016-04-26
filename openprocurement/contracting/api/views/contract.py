@@ -8,11 +8,11 @@ from openprocurement.api.utils import (
     APIResource
 )
 
-from openprocurement.contracting.api.utils import (contractingresource,
-                                                   contract_serialize,
-                                                   set_ownership,
-                                                   save_contract)
-from openprocurement.contracting.api.validation import validate_contract_data
+from openprocurement.contracting.api.utils import (
+    contractingresource, apply_patch, contract_serialize, set_ownership,
+    save_contract)
+from openprocurement.contracting.api.validation import (
+    validate_contract_data, validate_patch_contract_data)
 from openprocurement.contracting.api.design import (
     FIELDS,
     contracts_by_dateModified_view,
@@ -174,6 +174,7 @@ class ContractsResource(APIResource):
                 }
             }
 
+
 @contractingresource(name='Contract',
                      path='/contracts/{contract_id}',
                      description="Contract")
@@ -182,6 +183,24 @@ class ContractResource(ContractsResource):
     @json_view(permission='view_contract')
     def get(self):
         return {'data': self.request.validated['contract'].serialize("view")}
+
+    @json_view(content_type="application/json", permission='edit_contract',
+               validators=(validate_patch_contract_data,))
+    def patch(self):
+        """Contract Edit (partial)
+        """
+        contract = self.request.validated['contract']
+
+        data = self.request.validated['data']
+        if 'status' in data and data['status'] != contract.status:
+            # status change
+            if contract.status not in ['active',]:
+                self.request.errors.add('body', 'data', 'Can\'t update contract status'.format(contract.status))
+
+        apply_patch(self.request, src=self.request.validated['contract_src'])
+        self.LOGGER.info('Updated contract {}'.format(contract.id),
+                         extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_patch'}))
+        return {'data': contract.serialize('view')}
 
 
 @contractingresource(name='Contract credentials',
