@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from hashlib import md5
+from uuid import uuid4
 from zope.interface import implementer, Interface
 from couchdb_schematics.document import SchematicsDocument
 from pyramid.security import Allow
@@ -58,7 +59,7 @@ class Contract(SchematicsDocument, BaseContract):
     items = ListType(ModelType(Item))
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
-    owner_token = StringType()
+    owner_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
     mode = StringType(choices=['test'])
 
@@ -68,7 +69,8 @@ class Contract(SchematicsDocument, BaseContract):
         roles = {  # TODO
             'plain': plain_role,
             'create': contract_create_role,
-            'edit': contract_edit_role,
+            'edit_draft': whitelist("status"),
+            'edit_active': contract_edit_role,
             'view': contract_view_role,
             'Administrator': Administrator_role,
             'default': schematics_default_role,
@@ -82,7 +84,7 @@ class Contract(SchematicsDocument, BaseContract):
         acl = [
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_contract'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_contract_documents'),
-            (Allow, '{}_{}'.format(self.owner, md5(self.tender_token).hexdigest()), 'generate_credentials')
+            (Allow, '{}_{}'.format(self.owner, self.tender_token), 'generate_credentials')
         ]
         return acl
 
