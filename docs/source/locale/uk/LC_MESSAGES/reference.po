@@ -1,9 +1,4 @@
-# Copyright (C) 2014-2016, Quintagroup, Ltd
-# This file is distributed under the same license as the
-# openprocurement.tender.openua package.
 #
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
