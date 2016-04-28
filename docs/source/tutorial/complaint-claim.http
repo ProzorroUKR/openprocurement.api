@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/cc60958edc704be8a7bb56f20c118a20/complaints/74f170afe3fb412289f6567018e73289?acc_token=b65c226c60b542129af59ca07580acbc HTTP/1.0
+PATCH /api/2.3/tenders/3f575c44c12e4463a75ee249c60736e3/complaints/af7df76979214bfca5e0039b2028d1dc?acc_token=1d182b7704c24fbdba9b39cd9399a45f HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 29
 Content-Type: application/json
@@ -19,21 +19,21 @@ Content-Type: application/json; charset=UTF-8
       {
         "author": "complaint_owner", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/cc60958edc704be8a7bb56f20c118a20/complaints/74f170afe3fb412289f6567018e73289/documents/d2b3cd9f33704eeabc6f8f583e5bcd1c?download=688c73a5992543b589d8ce6cb6d6cf82", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/3f575c44c12e4463a75ee249c60736e3/complaints/af7df76979214bfca5e0039b2028d1dc/documents/c5d1c80832fe418c83f80a0f4aa1dc60?download=dfdfeeb987e34a08a1381f4220cf7d64", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-04-15T16:34:45.389214+03:00", 
-        "id": "d2b3cd9f33704eeabc6f8f583e5bcd1c", 
-        "dateModified": "2016-04-15T16:34:45.389252+03:00"
+        "datePublished": "2016-04-28T13:07:13.759567+03:00", 
+        "id": "c5d1c80832fe418c83f80a0f4aa1dc60", 
+        "dateModified": "2016-04-28T13:07:13.759660+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2016-04-15T16:34:45.543376+03:00", 
-    "complaintID": "UA-2016-04-15-000001.1", 
-    "date": "2016-04-15T16:34:45.294099+03:00", 
+    "dateSubmitted": "2016-04-28T13:07:13.871295+03:00", 
+    "complaintID": "UA-2016-04-28-000001.1", 
+    "date": "2016-04-28T13:07:13.622437+03:00", 
     "type": "claim", 
-    "id": "74f170afe3fb412289f6567018e73289"
+    "id": "af7df76979214bfca5e0039b2028d1dc"
   }
 }
 

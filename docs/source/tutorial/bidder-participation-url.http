@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/5b7a37fc850e478380bfdedf9f34e494/bids/cda6c56fc33e43cc8ccfdbbbbea81708?acc_token=3b0471054cad4267a1c3705dcea90dea HTTP/1.0
+GET /api/2.3/tenders/a1966d1d8b374e48bedb7c24b4185423/bids/8b83c10147954cabb63839011d16bb70?acc_token=a51b5287f2474b0fadbde0be9e36215d HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -10,16 +10,16 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "Proposal.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/5b7a37fc850e478380bfdedf9f34e494/bids/cda6c56fc33e43cc8ccfdbbbbea81708/documents/2031ffe2c8f7438498a26242be4e6023?download=8ec15732eff1467d90c2fe1b916f3995", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/a1966d1d8b374e48bedb7c24b4185423/bids/8b83c10147954cabb63839011d16bb70/documents/5cb46b0a414b441895e24a9f017aa553?download=9e2f08719cf742a38429f04fc1c64a45", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-04-15T16:34:53.924731+03:00", 
-        "id": "2031ffe2c8f7438498a26242be4e6023", 
-        "dateModified": "2016-04-15T16:34:53.924760+03:00"
+        "datePublished": "2016-04-28T13:07:22.112403+03:00", 
+        "id": "5cb46b0a414b441895e24a9f017aa553", 
+        "dateModified": "2016-04-28T13:07:22.112448+03:00"
       }
     ], 
     "selfEligible": true, 
-    "id": "cda6c56fc33e43cc8ccfdbbbbea81708", 
+    "id": "8b83c10147954cabb63839011d16bb70", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
@@ -48,9 +48,9 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2016-04-15T16:34:53.741615+03:00", 
+    "date": "2016-04-28T13:07:21.927143+03:00", 
     "selfQualified": true, 
-    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/5b7a37fc850e478380bfdedf9f34e494?key_for_bid=cda6c56fc33e43cc8ccfdbbbbea81708"
+    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/a1966d1d8b374e48bedb7c24b4185423?key_for_bid=8b83c10147954cabb63839011d16bb70"
   }
 }
 
