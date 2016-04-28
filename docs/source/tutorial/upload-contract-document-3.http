@@ -1,0 +1,20 @@
+PUT /api/2.3/contracts/7d43086cb00145c2a1fa686cedc49b33/documents/dfc79dc058f24c33a6a6820ebe44a384?acc_token=f29bb9b5198a4f8e8874ffd88e46d620 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 199
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy463216813015$
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "title": "contract_update.doc", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/7d43086cb00145c2a1fa686cedc49b33/documents/dfc79dc058f24c33a6a6820ebe44a384?download=083ae815e3bc40f797afe60eaac3d841", 
+    "format": "application/msword", 
+    "documentOf": "tender", 
+    "datePublished": "2016-04-28T17:14:03.239503+03:00", 
+    "id": "dfc79dc058f24c33a6a6820ebe44a384", 
+    "dateModified": "2016-04-28T17:14:03.365355+03:00"
+  }
+}
+

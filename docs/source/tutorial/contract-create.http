@@ -1,0 +1,157 @@
+POST /api/2.3/contracts HTTP/1.0
+Authorization: Basic Y29udHJhY3Rpbmc6
+Content-Length: 2448
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "active", 
+    "tender_token": "7f73d095878ae93b62bdef9fddd4cd055abedf4a4f480ecc40b085110e3978a7fe077dfbf22fa4c54e717a16e66116e7cd924904fc1a66d387ab9798bef017e2", 
+    "items": [
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-04-30T17:13:58.405092+03:00", 
+          "endDate": "2016-05-03T17:13:58.405092+03:00"
+        }, 
+        "id": "31e376b7fa5b4b94b48e434dc407b48b", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "name": "Державне управління справами", 
+          "telephone": "0440000000"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00037256", 
+          "uri": "http://www.dus.gov.ua/"
+        }, 
+        "name": "Державне управління справами", 
+        "address": {
+          "postalCode": "01220", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "dateSigned": "2016-04-28T17:14:02.259536+03:00", 
+    "contractID": "UA-2016-04-28-000001-1", 
+    "owner": "broker", 
+    "awardID": "3173bad2d423406aac88db17ef83ee6d", 
+    "id": "7d43086cb00145c2a1fa686cedc49b33", 
+    "tender_id": "9debb416ffc84af8a4925181b063aef6"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+{
+  "access": {
+    "token": "a80467d45e624b70a17a44966350d028"
+  }, 
+  "data": {
+    "status": "active", 
+    "items": [
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-04-30T17:13:58.405092+03:00", 
+          "endDate": "2016-05-03T17:13:58.405092+03:00"
+        }, 
+        "id": "31e376b7fa5b4b94b48e434dc407b48b", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "name": "Державне управління справами", 
+          "telephone": "0440000000"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00037256", 
+          "uri": "http://www.dus.gov.ua/"
+        }, 
+        "name": "Державне управління справами", 
+        "address": {
+          "postalCode": "01220", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }
+      }
+    ], 
+    "dateSigned": "2016-04-28T17:14:02.259536+03:00", 
+    "id": "7d43086cb00145c2a1fa686cedc49b33", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "contractID": "UA-2016-04-28-000001-1", 
+    "owner": "broker", 
+    "awardID": "3173bad2d423406aac88db17ef83ee6d", 
+    "dateModified": "2016-04-28T17:14:02.519390+03:00", 
+    "tender_id": "9debb416ffc84af8a4925181b063aef6"
+  }
+}
+

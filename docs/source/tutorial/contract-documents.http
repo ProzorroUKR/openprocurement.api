@@ -1,0 +1,10 @@
+GET /api/2.3/contracts/7d43086cb00145c2a1fa686cedc49b33/documents?acc_token=f29bb9b5198a4f8e8874ffd88e46d620 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": []
+}
+

@@ -1,0 +1,117 @@
+PATCH /api/2.3/contracts/7d43086cb00145c2a1fa686cedc49b33?acc_token=f29bb9b5198a4f8e8874ffd88e46d620 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 32
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "title": "New Title"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "documents": [
+      {
+        "title": "contract.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/7d43086cb00145c2a1fa686cedc49b33/documents/429a2e06edaa44039efe7007dc4d2416?download=1d19a7bd2fc546e39237a4b52629d44b", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2016-04-28T17:14:03.088354+03:00", 
+        "id": "429a2e06edaa44039efe7007dc4d2416", 
+        "dateModified": "2016-04-28T17:14:03.088392+03:00"
+      }, 
+      {
+        "title": "contract_update.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/7d43086cb00145c2a1fa686cedc49b33/documents/dfc79dc058f24c33a6a6820ebe44a384?download=473d0a5033d74c189d3ea0a7ba6ff5bd", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2016-04-28T17:14:03.239503+03:00", 
+        "id": "dfc79dc058f24c33a6a6820ebe44a384", 
+        "dateModified": "2016-04-28T17:14:03.239544+03:00"
+      }, 
+      {
+        "title": "contract_update.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/7d43086cb00145c2a1fa686cedc49b33/documents/dfc79dc058f24c33a6a6820ebe44a384?download=083ae815e3bc40f797afe60eaac3d841", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2016-04-28T17:14:03.239503+03:00", 
+        "id": "dfc79dc058f24c33a6a6820ebe44a384", 
+        "dateModified": "2016-04-28T17:14:03.365355+03:00"
+      }
+    ], 
+    "title": "New Title", 
+    "items": [
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-04-30T17:13:58.405092+03:00", 
+          "endDate": "2016-05-03T17:13:58.405092+03:00"
+        }, 
+        "id": "31e376b7fa5b4b94b48e434dc407b48b", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "name": "Державне управління справами", 
+          "telephone": "0440000000"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00037256", 
+          "uri": "http://www.dus.gov.ua/"
+        }, 
+        "name": "Державне управління справами", 
+        "address": {
+          "postalCode": "01220", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "id": "7d43086cb00145c2a1fa686cedc49b33", 
+    "dateSigned": "2016-04-28T17:14:02.259536+03:00", 
+    "contractID": "UA-2016-04-28-000001-1", 
+    "owner": "broker", 
+    "awardID": "3173bad2d423406aac88db17ef83ee6d", 
+    "dateModified": "2016-04-28T17:14:03.568306+03:00", 
+    "tender_id": "9debb416ffc84af8a4925181b063aef6"
+  }
+}
+
