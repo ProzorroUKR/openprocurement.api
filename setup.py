@@ -21,6 +21,9 @@ docs_requires = requires + [
 ]
 
 entry_points = {
+    'console_scripts': [
+        'contracting_data_bridge = openprocurement.contracting.api.databridge:main'
+    ],
     'openprocurement.api.plugins': [
         'contracting = openprocurement.contracting.api:includeme'
     ]
