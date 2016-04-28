@@ -436,6 +436,7 @@ class Tender(BaseTender):
             'chronograph_view': chronograph_view_role,
             'Administrator': Administrator_role,
             'default': schematics_default_role,
+            'contracting': whitelist('doc_id', 'owner'),
         }
 
     procurementMethodType = StringType(default="aboveThresholdEU")
