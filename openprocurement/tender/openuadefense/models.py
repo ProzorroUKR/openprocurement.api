@@ -29,6 +29,7 @@ class Tender(BaseTender):
         endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self, True)
         self.enquiryPeriod = EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
                                                 endDate=endDate,
+                                                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
                                                 clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
@@ -36,6 +37,7 @@ class Tender(BaseTender):
         endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self, True)
         return EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
                                   endDate=endDate,
+                                  invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
                                   clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
 
     def validate_tenderPeriod(self, data, period):
