@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from pyramid.events import ContextFound
 from logging import getLogger
 from pkg_resources import get_distribution
 from openprocurement.contracting.api.design import add_design
