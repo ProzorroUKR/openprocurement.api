@@ -112,6 +112,7 @@ class Tender(SchematicsDocument, Model):
             'chronograph': chronograph_role,  # remove after chronograph fix
             'chronograph_view': chronograph_view_role, # remove after chronograph fix
             'default': schematics_default_role,
+            'contracting': whitelist('doc_id', 'owner'),
         }
 
     title = StringType(required=True)
@@ -158,6 +159,8 @@ class Tender(SchematicsDocument, Model):
             role = 'Administrator'
         elif request.authenticated_role == 'chronograph':
             role = 'chronograph'
+        elif request.authenticated_role == 'contracting':
+            role = 'contracting'
         else:
             role = 'edit_{}'.format(request.context.status)
         return role
