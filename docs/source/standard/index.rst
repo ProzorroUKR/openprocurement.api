@@ -11,6 +11,7 @@ areas that were not covered by it.
 .. toctree::
    :maxdepth: 1
 
+   procuringentity
    contract
    item
    document

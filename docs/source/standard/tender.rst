@@ -41,7 +41,7 @@ Schema
    |ocdsDescription|
    The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
 
-   If :code:`procurementMethodType` is :code:`negotiation` or :code:`negotiation.quick`, then possible value of :code:`ProcuringEntity.kind` is limited to :code:`['general', 'special', 'defense']`
+   If :code:`procurementMethodType` is :code:`negotiation` or :code:`negotiation.quick`, then possible values of :code:`ProcuringEntity.kind` are limited to :code:`['general', 'special', 'defense']`.
 
 :value:
    :ref:`value`, required
