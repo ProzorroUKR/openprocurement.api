@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 17:09+0300\n"
-"PO-Revision-Date: 2016-04-26 11:33+0300\n"
+"PO-Revision-Date: 2016-04-28 17:54+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -24,11 +24,10 @@ msgid ""
 "The Open Procurement `Contracting` is plugin to `Open Procurement API <http"
 "://api-docs.openprocurement.org/>`_ software."
 msgstr ""
-"Open Procurement `Contracting` це плагін до `Open "
-"Procurement API <http://api-docs.openprocurement.org/>`_. Цей модуль "
-"призначений для реєстрації метаінформації та документів (бінарних файлів), "
-"які пов’язані з договором і генеруються при його підписанні, виконанні та "
-"завершенні."
+"Open Procurement `Contracting` це плагін до `Open Procurement API <http"
+"://api-docs.openprocurement.org/>`_. Цей модуль призначений для реєстрації "
+"метаінформації та документів (бінарних файлів), які пов’язані з договором і "
+"генеруються при його підписанні, виконанні та завершенні."
 
 #: ../../source/overview.rst:7
 msgid ""
@@ -50,11 +49,11 @@ msgstr ""
 "Цей плагін підтримує `домовленості Open Procurement API <http://api-"
 "docs.openprocurement.org/en/latest/overview.html#conventions>`_."
 
-#: ../../source/overview.rst:17
+#: ../../source/overview.rst:30
 msgid "API stability"
 msgstr "Стабільність API"
 
-#: ../../source/overview.rst:18
+#: ../../source/overview.rst:31
 msgid ""
 "API is highly unstable, and while API endpoints are expected to remain "
 "relatively stable the data exchange formats are expected to be changed a "
@@ -66,11 +65,53 @@ msgstr ""
 "через `Open Procurement API <https://groups.google.com/group/open-"
 "procurement-api>`_."
 
-#: ../../source/overview.rst:24
+#: ../../source/overview.rst:37
 msgid "Next steps"
 msgstr "Наступні кроки"
 
-#: ../../source/overview.rst:25
+#: ../../source/overview.rst:38
 msgid "You might find it helpful to look at the :ref:`tutorial`."
 msgstr "Далі читайте :ref:`tutorial` або :ref:`tutorial`."
+
+#: ../../source/overview.rst:17
+msgid "Documentation of related packages"
+msgstr "Документація пов’язаних пакетів"
+
+#: ../../source/overview.rst:19
+msgid "`OpenProcurement API <http://api-docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`OpenProcurement API <http://api-docs.openprocurement.org/uk_UA/latest/>`_"
+
+#: ../../source/overview.rst:21
+msgid ""
+"`Open tender procedure (OpenUA) <http://openua.api-"
+"docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`Відкриті торги (OpenUA) <http://openua.api-"
+"docs.openprocurement.org/uk/latest/>`_"
+
+#: ../../source/overview.rst:23
+msgid ""
+"`Open tender procedure with publication in English (OpenEU) <http://openeu"
+".api-docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`Відкриті торги з публікацією англійською мовою (OpenEU) <http://openeu.api-"
+"docs.openprocurement.org/uk/latest/>`_"
+
+#: ../../source/overview.rst:25
+msgid ""
+"`Reporting, negotiation procurement procedure and negotiation procedure for "
+"the urgent need  <http://limited.api-docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`Процедура звітування про укладений договір, переговорна процедура і "
+"переговорна процедура за нагальною потребою <http://limited.api-"
+"docs.openprocurement.org/uk/latest/>`_"
+
+#: ../../source/overview.rst:27
+msgid ""
+"`Defense open tender <http://defense.api-"
+"docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`Процедура відкритих торгів для оборонних цілей <http://defense.api-"
+"docs.openprocurement.org/uk/latest/>`_"
 

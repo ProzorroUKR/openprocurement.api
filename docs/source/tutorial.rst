@@ -27,7 +27,8 @@ Let's say that we have conducted tender and it has ``complete`` status. When the
 
 Getting contract
 ----------------
-Contract in the tenders system
+
+Contract in the tender system
 
 .. include:: tutorial/example_contract.http
    :code:
@@ -37,11 +38,11 @@ Let's access the URL of the created object:
 .. include:: tutorial/contract-view.http
    :code:
 
-Для того щоб отримати створений обєкт майданчиком необхідно  `PATCH: /contracts/{id}/credentials?acc_token={tender_token}`
-id - ідентифікатор контракту
-tender_token - токен тендера (використовується для генерування токена контракту)
+In order to get rights for future contract editing, you need to use this view ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}`` with the API key of the eMall (broker), where tender was generated.
 
-У відповіді буде access.token для контракту, який буде використовуватись для модифікації контракту
+Use ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``, where ``id`` is contract id, ``tender_token`` is tender's token (is used for contract token generation).
+
+Response will contain ``access.token`` for the contract that can be used for further contract modification.
 
 .. include:: tutorial/contract-credentials.http
    :code:

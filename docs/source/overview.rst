@@ -13,6 +13,19 @@ Conventions
 This plugin conventions follow the `Open Procurement API conventions
 <http://api-docs.openprocurement.org/en/latest/overview.html#conventions>`_.
 
+Documentation of related packages
+---------------------------------
+
+* `OpenProcurement API <http://api-docs.openprocurement.org/en/latest/>`_
+
+* `Open tender procedure (OpenUA) <http://openua.api-docs.openprocurement.org/en/latest/>`_
+
+* `Open tender procedure with publication in English (OpenEU) <http://openeu.api-docs.openprocurement.org/en/latest/>`_
+
+* `Reporting, negotiation procurement procedure and negotiation procedure for the urgent need  <http://limited.api-docs.openprocurement.org/en/latest/>`_
+
+* `Defense open tender <http://defense.api-docs.openprocurement.org/en/latest/>`_
+
 API stability
 -------------
 API is highly unstable, and while API endpoints are expected to remain
