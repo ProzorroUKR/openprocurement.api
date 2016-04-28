@@ -38,9 +38,16 @@ Let's access the URL of the created object:
 .. include:: tutorial/contract-view.http
    :code:
 
+Getting access
+--------------
+
 In order to get rights for future contract editing, you need to use this view ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}`` with the API key of the eMall (broker), where tender was generated.
 
-Use ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``, where ``id`` is contract id, ``tender_token`` is tender's token (is used for contract token generation).
+In the ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``: 
+
+* ``id`` stands for contract id, 
+
+* ``tender_token`` is tender's token (is used for contract token generation).
 
 Response will contain ``access.token`` for the contract that can be used for further contract modification.
 
