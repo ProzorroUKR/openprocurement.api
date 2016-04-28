@@ -4,11 +4,8 @@ import os
 version = '1.0'
 
 requires = [
+    'couchdb',
     'setuptools',
-    'openprocurement.api',
-    'gevent',
-    'PyYAML',
-    'openprocurement_client'
 ]
 
 test_requires = requires + [
@@ -18,6 +15,16 @@ test_requires = requires + [
 
 docs_requires = requires + [
     'sphinxcontrib-httpdomain',
+]
+
+databridge_requires = requires + [
+    'PyYAML',
+    'gevent',
+    'openprocurement_client'
+]
+
+api_requires = requires + [
+    'openprocurement.api',
 ]
 
 entry_points = {
@@ -51,6 +58,7 @@ setup(name='openprocurement.contracting.api',
       zip_safe=False,
       install_requires=requires,
       tests_require=test_requires,
-      extras_require={'test': test_requires, 'docs': docs_requires},
+      extras_require={'api': api_requires, 'databridge': databridge_requires,
+                      'test': test_requires, 'docs': docs_requires},
       entry_points=entry_points,
       )
