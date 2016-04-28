@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/7e97c943a4ce4f64a3ef5379cb89fa5c/complaints/4f41019954284e5591e3fed2449b7199?acc_token=c921ba7c2c22428facc79ecc7834c658 HTTP/1.0
+PATCH /api/2.3/tenders/07e8d0908bfa4519a56f60cfc334d3d8/complaints/e60c04d377ab4e5c85454c8fe03a6997?acc_token=1305de7ccbb3411da28c8ed29df2a931 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 250
 Content-Type: application/json
@@ -21,12 +21,12 @@ Content-Type: application/json; charset=UTF-8
     "title": "Недостатньо інформації", 
     "resolutionType": "resolved", 
     "type": "claim", 
-    "dateAnswered": "2016-04-15T12:28:54.411877+03:00", 
-    "dateSubmitted": "2016-04-15T12:28:53.378640+03:00", 
-    "complaintID": "UA-2016-04-15-000001.2", 
-    "date": "2016-04-15T12:28:53.373672+03:00", 
+    "dateAnswered": "2016-04-25T14:46:54.899821+03:00", 
+    "dateSubmitted": "2016-04-25T14:46:54.249992+03:00", 
+    "complaintID": "UA-2016-04-25-000001.2", 
+    "date": "2016-04-25T14:46:54.248044+03:00", 
     "resolution": "Виправлено неконкурентні умови", 
-    "id": "4f41019954284e5591e3fed2449b7199"
+    "id": "e60c04d377ab4e5c85454c8fe03a6997"
   }
 }
 

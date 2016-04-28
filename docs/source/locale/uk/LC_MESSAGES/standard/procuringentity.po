@@ -1,4 +1,4 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
@@ -80,16 +80,3 @@ msgid ""
 "needs"
 msgstr "``defense`` - Замовник, що здійснює закупівлі для потреб оборони"
 
-#~ msgid "'general' - Procuring entity (general)"
-#~ msgstr "``general`` - Замовник (загальний)"
-
-#~ msgid ""
-#~ "'special' - Procuring entity that operates in certain spheres of economic "
-#~ "activity"
-#~ msgstr ""
-#~ "``special`` - Замовник, що здійснює діяльність в окремих сферах "
-#~ "господарювання"
-
-#~ msgid ""
-#~ "'defense' - Procuring entity that conducts procurement for the defense needs"
-#~ msgstr "``defense`` - Замовник, що здійснює закупівлі для потреб оборони"

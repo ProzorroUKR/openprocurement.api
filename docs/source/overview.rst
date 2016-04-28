@@ -45,8 +45,7 @@ following aspects:
 
 6) Placed bids are invalidated after any tender condition editing and have to
    be re-confirmed.
-
-
+   
 Project status
 --------------
 
@@ -57,8 +56,22 @@ The source repository for this project is on GitHub: https://github.com/openproc
 You can leave feedback by raising a new issue on the `issue tracker
 <https://github.com/openprocurement/openprocurement.tender.openua/issues>`_ (GitHub
 registration necessary).  For general discussion use `Open Procurement
-General <https://groups.google.com/group/open-procurement-general>`_
-maillist.
+General <https://groups.google.com/group/open-procurement-general>`_ maillist.
+
+
+Documentation of related packages
+---------------------------------
+
+* `OpenProcurement API <http://api-docs.openprocurement.org/en/latest/>`_
+
+* `Open tender procedure with publication in English (OpenEU) <http://openeu.api-docs.openprocurement.org/en/latest/>`_
+
+* `Reporting, negotiation procurement procedure and negotiation procedure for the urgent need  <http://limited.api-docs.openprocurement.org/en/latest/>`_
+
+* `Defense open tender <http://defense.api-docs.openprocurement.org/en/latest/>`_
+
+* `Contracting API interface to OpenProcurement database <http://contracting.api-docs.openprocurement.org/en/latest/>`_
+
 
 API stability
 -------------
