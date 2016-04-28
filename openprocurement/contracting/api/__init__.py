@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from pkg_resources import get_distribution
-from openprocurement.contracting.api.design import add_design
-from openprocurement.contracting.api.utils import contract_from_data, extract_contract
 
 PKG = get_distribution(__package__)
 
@@ -10,6 +8,8 @@ LOGGER = getLogger(PKG.project_name)
 
 
 def includeme(config):
+    from openprocurement.contracting.api.utils import contract_from_data, extract_contract
+    from openprocurement.contracting.api.design import add_design
     LOGGER.info('Init contracting plugin.')
     add_design()
     config.add_request_method(extract_contract, 'contract', reify=True)
