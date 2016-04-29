@@ -57,6 +57,20 @@ registration necessary).  For general discussion use `Open Procurement
 General <https://groups.google.com/group/open-procurement-general>`_
 maillist.
 
+Documentation of related packages
+---------------------------------
+
+* `OpenProcurement API <http://api-docs.openprocurement.org/en/latest/>`_
+
+* `Open tender procedure (OpenUA) <http://openua.api-docs.openprocurement.org/en/latest/>`_
+
+* `Open tender procedure with publication in English (OpenEU) <http://openeu.api-docs.openprocurement.org/en/latest/>`_
+
+* `Reporting, negotiation procurement procedure and negotiation procedure for the urgent need  <http://limited.api-docs.openprocurement.org/en/latest/>`_
+
+* `Contracting API interface to OpenProcurement database <http://contracting.api-docs.openprocurement.org/en/latest/>`_
+
+
 API stability
 -------------
 API is highly unstable, and while API endpoints are expected to remain
