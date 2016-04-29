@@ -13,7 +13,7 @@ from openprocurement.api.models import (
     Contract as BaseContract, Cancellation as BaseCancellation, Lot as BaseLot,
     Document as BaseDocument, ContactPoint as BaseContactPoint,
     LotValue as BaseLotValue, ComplaintModelType as BaseComplaintModelType,
-    plain_role, create_role, edit_role, view_role, listing_role,
+    plain_role, create_role, edit_role, view_role, listing_role, draft_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
@@ -33,9 +33,7 @@ from openprocurement.tender.openua.models import (
 eu_role = blacklist('enquiryPeriod', 'qualifications')
 edit_role_eu = edit_role + eu_role
 create_role_eu = create_role + eu_role
-tendering_role = enquiries_role
 pre_qualifications_role = (blacklist('owner_token', '_attachments', 'revisions') + schematics_embedded_role)
-qualifications_role = enquiries_role + whitelist('bids')
 eu_auction_role = auction_role
 
 TENDERING_DAYS = 30
@@ -409,6 +407,7 @@ class Tender(BaseTender):
             'plain': plain_role,
             'create': create_role_eu,
             'edit': edit_role_eu,
+            'edit_draft': edit_role_eu,
             'edit_active.tendering': edit_role_eu,
             'edit_active.pre-qualification': whitelist('status'),
             'edit_active.pre-qualification.stand-still': whitelist(),
@@ -423,7 +422,8 @@ class Tender(BaseTender):
             'auction_view': auction_view_role,
             'auction_post': auction_post_role,
             'auction_patch': auction_patch_role,
-            'active.tendering': qualifications_role,
+            'draft': enquiries_role,
+            'active.tendering': enquiries_role,
             'active.pre-qualification': pre_qualifications_role,
             'active.pre-qualification.stand-still': pre_qualifications_role,
             'active.auction': pre_qualifications_role,
@@ -456,7 +456,7 @@ class Tender(BaseTender):
     qualifications = ListType(ModelType(Qualification), default=list())
     qualificationPeriod = ModelType(Period)
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
-    status = StringType(choices=['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
+    status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
     create_accreditation = 3
