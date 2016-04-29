@@ -1,5 +1,4 @@
 #
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
@@ -265,6 +264,3 @@ msgid "`qualificationDocuments` - **Qualification documents**"
 msgstr ""
 "`qualificationDocuments` - **Документи, що підтверджують кваліфікацію**"
 
-#~ msgid "`qualificationDocuments` - **Qualificatioin documents**"
-#~ msgstr ""
-#~ "`qualificationDocuments` - **Документи, що підтверджують кваліфікацію**"

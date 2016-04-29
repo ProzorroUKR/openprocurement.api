@@ -1,11 +1,10 @@
 #
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-15 13:01+0200\n"
-"PO-Revision-Date: 2016-03-31 10:55+0300\n"
+"PO-Revision-Date: 2016-04-29 14:00+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -97,26 +96,7 @@ msgid ""
 "documents."
 msgstr "Замовник публікує угоду, укладену з переможцем, та інші документи."
 
-#: ../../source/overview.rst:38
-msgid "Important links"
-msgstr "Корисні посилання"
-
-#: ../../source/overview.rst:40
-msgid ""
-"The source repository for this documentation is on GitHub: "
-"https://github.com/openprocurement/openprocurement.tender.limited"
-msgstr ""
-"Репозиторій джерельних текстів цього проекту: "
-"https://github.com/openprocurement/openprocurement.tender.limited."
-
-#: ../../source/overview.rst:42
-msgid ""
-"The source repository for the API is on GitHub: "
-"https://github.com/openprocurement/openprocurement.api"
-msgstr ""
-"Репозиторій API: https://github.com/openprocurement/openprocurement.api."
-
-#: ../../source/overview.rst:47
+#: ../../source/overview.rst:53
 msgid ""
 "For general discussion use `Open Procurement General "
 "<https://groups.google.com/group/open-procurement-general>`_ maillist."
@@ -124,7 +104,7 @@ msgstr ""
 "Загальне обговорення відбувається через розсилку `Open Procurement General "
 "<https://groups.google.com/group/open-procurement-general>`_."
 
-#: ../../source/overview.rst:49
+#: ../../source/overview.rst:55
 msgid ""
 "General information, roadmap, and technical specifications for the Open "
 "Procurement project can be found at `openprocurement.org "
@@ -133,7 +113,7 @@ msgstr ""
 "Загальну інформацію, пояснення та технічні специфікації можна знайти на "
 "сайті `openprocurement.org <http://openprocurement.org/en>`_."
 
-#: ../../source/overview.rst:44
+#: ../../source/overview.rst:50
 msgid ""
 "You can leave feedback by raising a new issue on the `issue tracker "
 "<https://github.com/openprocurement/openprocurement.tender.limited/issues>`_"
@@ -158,8 +138,8 @@ msgid ""
 "``negotiation`` - negotiation procedure with 10 day stand-still before "
 "contract registration"
 msgstr ""
-"``negotiation`` - переговорна процедура з десятиденним періодом "
-"очікування скарг перед реєстрацією угоди"
+"``negotiation`` - переговорна процедура з десятиденним періодом очікування "
+"скарг перед реєстрацією угоди"
 
 #: ../../source/overview.rst:14
 msgid ""
@@ -169,4 +149,44 @@ msgstr ""
 "``negotiation.quick`` - переговорна процедура за нагальною потребою з "
 "п’ятиденним періодом очікування скарг перед реєстрацією угоди"
 
+#: ../../source/overview.rst:38
+msgid "Documentation of related packages"
+msgstr "Документація пов’язаних пакетів"
+
+#: ../../source/overview.rst:40
+msgid "`OpenProcurement API <http://api-docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`OpenProcurement API <http://api-docs.openprocurement.org/uk_UA/latest/>`_"
+
+#: ../../source/overview.rst:42
+msgid ""
+"`Open tender procedure (OpenUA) <http://openua.api-"
+"docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`Відкриті торги (OpenUA) <http://openua.api-"
+"docs.openprocurement.org/uk/latest/>`_"
+
+#: ../../source/overview.rst:44
+msgid ""
+"`Open tender procedure with publication in English (OpenEU) <http://openeu"
+".api-docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`Відкриті торги з публікацією англійською мовою (OpenEU) <http://openeu.api-"
+"docs.openprocurement.org/uk/latest/>`_"
+
+#: ../../source/overview.rst:46
+msgid ""
+"`Defense open tender <http://defense.api-"
+"docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`Процедура відкритих торгів для оборонних цілей <http://defense.api-"
+"docs.openprocurement.org/uk/latest/>`_"
+
+#: ../../source/overview.rst:48
+msgid ""
+"`Contracting API interface to OpenProcurement database <http://contracting"
+".api-docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`API для реєстрації даних пов’язаних з договором <http://contracting.api-"
+"docs.openprocurement.org/uk/latest/>`_"
 

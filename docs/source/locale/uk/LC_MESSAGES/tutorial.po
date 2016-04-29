@@ -1,4 +1,4 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
@@ -492,11 +492,3 @@ msgstr ""
 "торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За "
 "замовчуванням, значення ``reasonType`` рівне `cancelled`."
 
-#~ msgid ""
-#~ "There are two possible types of cancellation reason - auction was "
-#~ "`cancelled` or `unsuccessful`. By default ``reasonType`` value is "
-#~ "`cancelled`."
-#~ msgstr ""
-#~ "При скасуванні, замовник має визначити один з двох типів ``reasonType``: "
-#~ "торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За "
-#~ "замовчуванням, значення ``reasonType`` рівне `cancelled`."

@@ -1,4 +1,4 @@
-# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
@@ -150,8 +150,3 @@ msgstr "Відміна прийнятої скарги рецензентом"
 msgid "At first create a complaint."
 msgstr "Спочатку створимо вимогу."
 
-#~ msgid ""
-#~ "At first create a complaint. Send POST request with bidder's access token."
-#~ msgstr ""
-#~ "Спочатку створимо вимогу. В POST запиті потрібно передати токен доступу "
-#~ "одного з учасників, який вже подав пропозицію."

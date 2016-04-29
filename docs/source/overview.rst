@@ -34,12 +34,18 @@ According to the results of conducted negotiations with participant(s) Procuring
 
 The Procuring entity publishes purchase agreement and accompanying documents.
 
-Important links
----------------
+Documentation of related packages
+---------------------------------
 
-The source repository for this documentation is on GitHub: https://github.com/openprocurement/openprocurement.tender.limited 
+* `OpenProcurement API <http://api-docs.openprocurement.org/en/latest/>`_
 
-The source repository for the API is on GitHub: https://github.com/openprocurement/openprocurement.api
+* `Open tender procedure (OpenUA) <http://openua.api-docs.openprocurement.org/en/latest/>`_
+
+* `Open tender procedure with publication in English (OpenEU) <http://openeu.api-docs.openprocurement.org/en/latest/>`_
+
+* `Defense open tender <http://defense.api-docs.openprocurement.org/en/latest/>`_
+
+* `Contracting API interface to OpenProcurement database <http://contracting.api-docs.openprocurement.org/en/latest/>`_
 
 You can leave feedback by raising a new issue on the `issue tracker <https://github.com/openprocurement/openprocurement.tender.limited/issues>`_ (GitHub
 registration necessary).  
