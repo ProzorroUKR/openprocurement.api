@@ -215,6 +215,11 @@ class ContractCredentialsResource(APIResource):
     @json_view(permission='generate_credentials')
     def patch(self):
         contract = self.request.validated['contract']
+        if contract.status != "draft":
+            self.request.errors.add('body', 'data', 'Can\'t generate credentials in current ({}) contract status'.format(contract.status))
+            self.request.errors.status = 403
+            return
+
         set_ownership(contract, self.request)
         if save_contract(self.request):
             self.LOGGER.info('Generate Contract credentials {}'.format(contract.id),
