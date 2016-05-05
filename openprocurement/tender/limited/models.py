@@ -9,7 +9,7 @@ from schematics.exceptions import ValidationError
 from openprocurement.api.models import (
     plain_role, view_role, create_role, edit_role, enquiries_role, listing_role,
     Administrator_role, schematics_default_role, schematics_embedded_role,
-    chronograph_role, chronograph_view_role,
+    chronograph_role, chronograph_view_role, draft_role,
 )
 from openprocurement.api.models import (
     Value, IsoDateTimeType, Document, Organization, SchematicsDocument,
@@ -96,6 +96,7 @@ class Tender(SchematicsDocument, Model):
             'plain': plain_role,
             'create': create_role,
             'edit': edit_role,
+            'edit_draft': draft_role,
             'edit_active': edit_role,
             'edit_active.awarded': whitelist(),
             'edit_complete': whitelist(),
@@ -103,6 +104,7 @@ class Tender(SchematicsDocument, Model):
             'edit_cancelled': whitelist(),
             'view': view_role,
             'listing': listing_role,
+            'draft': enquiries_role,
             'active': enquiries_role,
             'active.awarded': view_role,
             'complete': view_role,
@@ -134,7 +136,7 @@ class Tender(SchematicsDocument, Model):
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     revisions = ListType(ModelType(Revision), default=list())
-    status = StringType(choices=['active', 'complete', 'cancelled', 'unsuccessful'], default='active')
+    status = StringType(choices=['draft', 'active', 'complete', 'cancelled', 'unsuccessful'], default='active')
     mode = StringType(choices=['test'])
     cancellations = ListType(ModelType(Cancellation), default=list())
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
