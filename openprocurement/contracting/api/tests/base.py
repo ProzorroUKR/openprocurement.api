@@ -12,7 +12,6 @@ from openprocurement.api.utils import VERSION
 now = datetime.now()
 
 test_contract_data = {
-    "status": "active",
     "items": [
         {
         "description": "футляри до державних нагород",
