@@ -3,9 +3,18 @@ from openprocurement.api.utils import apply_data_patch
 
 def validate_patch_tender_ua_data(request):
     data = validate_json_data(request)
-    items = request.context.items
+    if request.context.status == 'draft':
+        default_status = type(request.tender).fields['status'].default
+        if data.get('status') != default_status:
+            request.errors.add('body', 'data', 'Can\'t update tender in current (draft) status')
+            request.errors.status = 403
+            return
+        request.validated['data'] = {}
+        request.context.status = default_status
+        return
     if data:
         if 'items' in data:
+            items = request.context.items
             cpv_group_lists = [i.classification.id[:3] for i in items]
             for item in data['items']:
                 if 'classification' in item and 'id' in item['classification']:
@@ -20,4 +29,4 @@ def validate_patch_tender_ua_data(request):
                 request.errors.status = 403
                 return None
 
-    return validate_data(request, request.tender.__class__, True, data)
+    return validate_data(request, type(request.tender), True, data)

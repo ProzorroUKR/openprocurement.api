@@ -24,7 +24,7 @@ from openprocurement.api.models import (
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
-    TZ, get_now, schematics_embedded_role, validate_lots_uniq,
+    TZ, get_now, schematics_embedded_role, validate_lots_uniq, draft_role,
     embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
     ComplaintModelType, validate_cpv_group, validate_items_uniq, Model,
 )
@@ -400,6 +400,7 @@ class Tender(BaseTender):
             'plain': plain_role,
             'create': create_role,
             'edit': edit_role_ua,
+            'edit_draft': draft_role,
             'edit_active.tendering': edit_role_ua,
             'edit_active.auction': whitelist(),
             'edit_active.qualification': whitelist(),
@@ -412,6 +413,7 @@ class Tender(BaseTender):
             'auction_view': auction_view_role,
             'auction_post': auction_post_role,
             'auction_patch': auction_patch_role,
+            'draft': enquiries_role,
             'active.tendering': enquiries_role,
             'active.auction': auction_role,
             'active.qualification': view_role,
@@ -437,7 +439,7 @@ class Tender(BaseTender):
     complaints = ListType(ComplaintModelType(Complaint), default=list())
     procurementMethodType = StringType(default="aboveThresholdUA")
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
-    status = StringType(choices=['active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+    status = StringType(choices=['draft', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     cancellations = ListType(ModelType(Cancellation), default=list())
 
