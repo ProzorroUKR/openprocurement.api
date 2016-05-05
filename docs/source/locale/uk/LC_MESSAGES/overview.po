@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-27 12:52+0200\n"
-"PO-Revision-Date: 2016-03-18 17:33+0200\n"
+"PO-Revision-Date: 2016-04-29 12:46+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -98,11 +98,11 @@ msgstr "Стан проекту"
 msgid "The project is in active development and has pilot installations."
 msgstr "Цей проект активно розробляється і має пілотні встановлення."
 
-#: ../../source/overview.rst:61
+#: ../../source/overview.rst:75
 msgid "API stability"
 msgstr "Стабільність API"
 
-#: ../../source/overview.rst:62
+#: ../../source/overview.rst:76
 msgid ""
 "API is highly unstable, and while API endpoints are expected to remain "
 "relatively stable the data exchange formats are expected to be changed a "
@@ -114,19 +114,19 @@ msgstr ""
 "через `Open Procurement API <https://groups.google.com/group/open-"
 "procurement-api>`_ розсилку."
 
-#: ../../source/overview.rst:68
+#: ../../source/overview.rst:82
 msgid "Change log"
 msgstr "Звіт про зміни"
 
-#: ../../source/overview.rst:71
+#: ../../source/overview.rst:85
 msgid "0.1"
 msgstr "0.1"
 
-#: ../../source/overview.rst:76
+#: ../../source/overview.rst:90
 msgid "Next steps"
 msgstr "Наступні кроки"
 
-#: ../../source/overview.rst:77
+#: ../../source/overview.rst:91
 msgid ""
 "You might find it helpful to look at the :ref:`tutorial`, or the "
 ":ref:`reference`."
@@ -137,9 +137,8 @@ msgid ""
 "The Defense open tender is plugin to `Open Procurement API <http://api-"
 "docs.openprocurement.org/>`_ software."
 msgstr ""
-"Процедура відкритих закупівель для оборонних цілей (оборонні закупівлі) - це "
-"плагін до `Open Procurement API <http://api-"
-"docs.openprocurement.org/>`_."
+"Процедура відкритих закупівель для оборонних цілей (оборонні закупівлі) - це"
+" плагін до `Open Procurement API <http://api-docs.openprocurement.org/>`_."
 
 #: ../../source/overview.rst:19
 msgid ""
@@ -149,8 +148,8 @@ msgid ""
 msgstr ""
 "Відкриті торги (особливості оборони), або оборонні закупівлі, що описані в "
 "цій документації, стосуються процедури українських відкритих торгів для "
-"понадпорогових закупівель зі скороченими термінами, за якою будуть виконувати "
-"закупівлі для потреб АТО. Код процедури такого типу - "
+"понадпорогових закупівель зі скороченими термінами, за якою будуть "
+"виконувати закупівлі для потреб АТО. Код процедури такого типу - "
 "`aboveThresholdUA.defense`."
 
 #: ../../source/overview.rst:25
@@ -161,17 +160,17 @@ msgid ""
 "following aspects:"
 msgstr ""
 "Підхід до оборонних закупівель відрізняється від основної процедури Open "
-"Procurement API (яка використовується для допорогових закупівель) в основному "
-":ref:`етапом закупівлі, що проходить перед <tendering>` аукціоном. Детально "
-"різницю описано в пунктах нижче:"
+"Procurement API (яка використовується для допорогових закупівель) в "
+"основному :ref:`етапом закупівлі, що проходить перед <tendering>` аукціоном."
+" Детально різницю описано в пунктах нижче:"
 
 #: ../../source/overview.rst:52
 msgid ""
 "The source repository for this project is on GitHub: "
 "https://github.com/openprocurement/openprocurement.tender.openuadefense"
 msgstr ""
-"Репозиторій цього проекту є на GitHub: https://github.com/openprocurement/open"
-"procurement.tender.openuadefense"
+"Репозиторій цього проекту є на GitHub: "
+"https://github.com/openprocurement/openprocurement.tender.openuadefense"
 
 #: ../../source/overview.rst:54
 msgid ""
@@ -182,14 +181,56 @@ msgid ""
 "Procurement General <https://groups.google.com/group/open-procurement-"
 "general>`_ maillist."
 msgstr ""
-"Повідомляйте про всі проблеми та поради через `issue tracker <"
-"https://github.com/openprocurement/openprocurement.tender.openuadefense/issue"
-"s>`_ (реєстрація на GitHub обов’язкова). Загальне обговорення відбувається "
-"через розсилку `Open Procurement General <"
-"https://groups.google.com/group/open-procurement-"
-"general>`_."
+"Повідомляйте про всі проблеми та поради через `issue tracker "
+"<https://github.com/openprocurement/openprocurement.tender.openuadefense/issue"
+"s>`_"
+" (реєстрація на GitHub обов’язкова). Загальне обговорення відбувається через"
+" розсилку `Open Procurement General <https://groups.google.com/group/open-"
+"procurement-general>`_."
 
-#: ../../source/overview.rst:73
+#: ../../source/overview.rst:87
 msgid "Released: not released yet"
 msgstr "Випущено: ще ні"
+
+#: ../../source/overview.rst:61
+msgid "Documentation of related packages"
+msgstr "Документація пов’язаних пакетів"
+
+#: ../../source/overview.rst:63
+msgid "`OpenProcurement API <http://api-docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`OpenProcurement API <http://api-docs.openprocurement.org/uk_UA/latest/>`_"
+
+#: ../../source/overview.rst:65
+msgid ""
+"`Open tender procedure (OpenUA) <http://openua.api-"
+"docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`Відкриті торги (OpenUA) <http://openua.api-"
+"docs.openprocurement.org/uk/latest/>`_"
+
+#: ../../source/overview.rst:67
+msgid ""
+"`Open tender procedure with publication in English (OpenEU) <http://openeu"
+".api-docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`Відкриті торги з публікацією англійською мовою (OpenEU) <http://openeu.api-"
+"docs.openprocurement.org/uk/latest/>`_"
+
+#: ../../source/overview.rst:69
+msgid ""
+"`Reporting, negotiation procurement procedure and negotiation procedure for "
+"the urgent need  <http://limited.api-docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`Процедура звітування про укладений договір, переговорна процедура і "
+"переговорна процедура за нагальною потребою <http://limited.api-"
+"docs.openprocurement.org/uk/latest/>`_"
+
+#: ../../source/overview.rst:71
+msgid ""
+"`Contracting API interface to OpenProcurement database <http://contracting"
+".api-docs.openprocurement.org/en/latest/>`_"
+msgstr ""
+"`API для реєстрації даних пов’язаних з договором <http://contracting.api-"
+"docs.openprocurement.org/uk/latest/>`_"
 
