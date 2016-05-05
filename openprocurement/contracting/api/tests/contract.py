@@ -398,6 +398,7 @@ class ContractResourceTest(BaseWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         contract = response.json['data']
+        self.assertEqual(contract['status'], 'draft')
 
         response = self.app.get('/contracts/{}'.format(contract['id']))
         self.assertEqual(response.status, '200 OK')
@@ -447,6 +448,16 @@ class ContractResource4BrokersTest(BaseContractWebTest):
                                        {'data': ''})
         self.assertEqual(response.status, '200 OK')
         token = response.json['access']['token']
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"title": "New Title"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [
+            {"location": "body", "name": "data", "description": "Can't update contract in current (draft) status"}])
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
                                        {"data": {"title": "New Title"}})
