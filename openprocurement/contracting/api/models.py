@@ -62,6 +62,7 @@ class Contract(SchematicsDocument, BaseContract):
     owner_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
     mode = StringType(choices=['test'])
+    status = StringType(choices=['draft', 'terminated', 'active'], default='draft')
 
     create_accreditation = 3  # TODO
 
