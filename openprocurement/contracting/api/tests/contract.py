@@ -542,6 +542,32 @@ class ContractCredentialsTest(BaseContractWebTest):
         token2 = response.json['access']['token']
         self.assertNotEqual(token1, token2)
 
+        # first access token is non-workable
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, token1),
+                                       {"data": {"status": "active"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+
+        # activate contract and try to generate credentials
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, token2),
+                                       {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/contracts/{0}/credentials?acc_token={1}'.format(self.contract_id, tender_token),
+                                       {'data': ''}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u"Can't generate credentials in current (active) contract status", u'location': u'body', u'name': u'data'}])
+
+        # terminated contract is also protected
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, token2),
+                                       {"data": {"status": "terminated"}})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/contracts/{0}/credentials?acc_token={1}'.format(self.contract_id, tender_token),
+                                       {'data': ''}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u"Can't generate credentials in current (terminated) contract status", u'location': u'body', u'name': u'data'}])
 
 def suite():
     suite = unittest.TestSuite()
