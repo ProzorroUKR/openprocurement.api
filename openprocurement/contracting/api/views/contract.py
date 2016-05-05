@@ -192,10 +192,16 @@ class ContractResource(ContractsResource):
         contract = self.request.validated['contract']
 
         data = self.request.validated['data']
-        if 'status' in data and data['status'] != contract.status:
-            # status change
-            if contract.status not in ['active',]:
-                self.request.errors.add('body', 'data', 'Can\'t update contract status'.format(contract.status))
+        if 'status' in data and data['status'] != contract.status:  # if status change
+            # old status vs new status
+            if contract.status not in ['draft', 'active'] or data['status'] not in ['active', 'terminated']:
+                self.request.errors.add('body', 'data', 'Can\'t update contract status')
+                self.request.errors.status = 403
+                return
+        elif contract.status != 'active':
+            self.request.errors.add('body', 'data', 'Can\'t update contract in current ({}) status'.format(contract.status))
+            self.request.errors.status = 403
+            return
 
         apply_patch(self.request, src=self.request.validated['contract_src'])
         self.LOGGER.info('Updated contract {}'.format(contract.id),
