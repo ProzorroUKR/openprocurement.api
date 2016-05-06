@@ -67,6 +67,12 @@ Schema
     |ocdsDescription|
     The goods, services, and any intangible outcomes in this contract. Note: If the items are the same as the award do not repeat.
 
+:procuringEntity:
+   :ref:`ProcuringEntity`
+
+   |ocdsDescription|
+   The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
+
 :suppliers:
     List of :ref:`Organization` objects, auto-generated, read-only
 
