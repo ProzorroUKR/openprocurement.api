@@ -1,11 +1,20 @@
-GET /api/2.3/contracts/6fcb4217dba94b3bb4a0be2a4f9295e8 HTTP/1.0
+PATCH /api/2.3/contracts/6fcb4217dba94b3bb4a0be2a4f9295e8?acc_token=c3519c536a6949a097b0917669859dc6 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 30
+Content-Type: application/json
 Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "active"
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "draft", 
+    "status": "active", 
     "items": [
       {
         "description": "футляри до державних нагород", 
@@ -71,7 +80,7 @@ Content-Type: application/json; charset=UTF-8
     "contractID": "UA-2016-05-06-000001-1", 
     "owner": "broker", 
     "awardID": "d74d7e2719c7439d9a26bef7177fac11", 
-    "dateModified": "2016-05-06T13:05:07.673053+03:00", 
+    "dateModified": "2016-05-06T13:05:07.976869+03:00", 
     "tender_id": "7bb7573b1cd04f8aa238da49ee9059cb"
   }
 }

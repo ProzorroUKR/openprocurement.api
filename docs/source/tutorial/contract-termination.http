@@ -1,0 +1,121 @@
+PATCH /api/2.3/contracts/6fcb4217dba94b3bb4a0be2a4f9295e8?acc_token=c3519c536a6949a097b0917669859dc6 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 34
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "terminated"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "terminated", 
+    "documents": [
+      {
+        "title": "contract.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/6fcb4217dba94b3bb4a0be2a4f9295e8/documents/085b12492dad438784bdad25ecea9c34?download=d52861ca683b448cb98a6d29cf0a1f61", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2016-05-06T13:05:08.575843+03:00", 
+        "id": "085b12492dad438784bdad25ecea9c34", 
+        "dateModified": "2016-05-06T13:05:08.575885+03:00"
+      }, 
+      {
+        "title": "contract_additional_docs.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/6fcb4217dba94b3bb4a0be2a4f9295e8/documents/e5c0d24defe04c849626ae365ec8a2d2?download=afff2bf7f7c945ecaa37b0bb853d16fa", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2016-05-06T13:05:08.746551+03:00", 
+        "id": "e5c0d24defe04c849626ae365ec8a2d2", 
+        "dateModified": "2016-05-06T13:05:08.746596+03:00"
+      }, 
+      {
+        "title": "contract_additional_docs.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/6fcb4217dba94b3bb4a0be2a4f9295e8/documents/e5c0d24defe04c849626ae365ec8a2d2?download=89d45ad994a9449181e953481e043561", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2016-05-06T13:05:08.746551+03:00", 
+        "id": "e5c0d24defe04c849626ae365ec8a2d2", 
+        "dateModified": "2016-05-06T13:05:08.873422+03:00"
+      }
+    ], 
+    "title": "New Title", 
+    "items": [
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-05-08T13:05:00.557188+03:00", 
+          "endDate": "2016-05-11T13:05:00.557188+03:00"
+        }, 
+        "id": "f1313c1c4d1b48e0977260ff43b180a0", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "name": "Державне управління справами", 
+          "telephone": "0440000000"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00037256", 
+          "uri": "http://www.dus.gov.ua/"
+        }, 
+        "name": "Державне управління справами", 
+        "address": {
+          "postalCode": "01220", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }
+      }
+    ], 
+    "period": {
+      "startDate": "2016-05-06T13:05:08.093238+03:00", 
+      "endDate": "2016-06-05T13:05:08.093324+03:00"
+    }, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 438.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "id": "6fcb4217dba94b3bb4a0be2a4f9295e8", 
+    "dateSigned": "2016-05-06T13:05:07.386234+03:00", 
+    "contractID": "UA-2016-05-06-000001-1", 
+    "owner": "broker", 
+    "awardID": "d74d7e2719c7439d9a26bef7177fac11", 
+    "dateModified": "2016-05-06T13:05:09.072182+03:00", 
+    "tender_id": "7bb7573b1cd04f8aa238da49ee9059cb"
+  }
+}
+

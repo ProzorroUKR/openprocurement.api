@@ -38,6 +38,8 @@ Let's access the URL of the created object:
 .. include:: tutorial/contract-view.http
    :code:
 
+Notice that contract is created in `draft` status.
+
 Getting access
 --------------
 
@@ -62,6 +64,14 @@ Let's see what listing of contracts reveals us:
 We do see the internal `id` of a contract (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/contracts/`) and its `dateModified` datestamp.
 
 *Contract id is the same in both tender and contract system.*
+
+Contract activation
+-------------------
+Before any contract modification you have to activate contract.
+
+.. include:: tutorial/contract-activation.http
+   :code:
+
 
 Modifying contract
 ------------------
@@ -107,3 +117,11 @@ And we can see that it is overriding the original version:
 
 .. index:: Enquiries, Question, Answer
 
+Finalize contract
+-----------------
+Contract can be finalized by switching to `terminated` status.
+
+.. include:: tutorial/contact-termitation.http
+   :code:
+
+Any future modification to the contract are not allowed.
