@@ -1,92 +1,4 @@
-PATCH /api/2.3/contracts/6fcb4217dba94b3bb4a0be2a4f9295e8?acc_token=c3519c536a6949a097b0917669859dc6 HTTP/1.0
-Authorization: Basic YnJva2VyOg==
-Content-Length: 32
-Content-Type: application/json
-Host: api-sandbox.openprocurement.org
-DATA:
-{
-  "data": {
-    "title": "New Title"
-  }
-}
-
-Response: 200 OK
-Content-Type: application/json; charset=UTF-8
-{
-  "data": {
-    "status": "active", 
-    "title": "New Title", 
-    "items": [
-      {
-        "description": "футляри до державних нагород", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Cartons", 
-          "id": "44617100-9"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2016-05-08T13:05:00.557188+03:00", 
-          "endDate": "2016-05-11T13:05:00.557188+03:00"
-        }, 
-        "id": "f1313c1c4d1b48e0977260ff43b180a0", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 5
-      }
-    ], 
-    "suppliers": [
-      {
-        "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
-        }, 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00037256", 
-          "uri": "http://www.dus.gov.ua/"
-        }, 
-        "name": "Державне управління справами", 
-        "address": {
-          "postalCode": "01220", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }
-      }
-    ], 
-    "dateSigned": "2016-05-06T13:05:07.386234+03:00", 
-    "id": "6fcb4217dba94b3bb4a0be2a4f9295e8", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "contractID": "UA-2016-05-06-000001-1", 
-    "owner": "broker", 
-    "awardID": "d74d7e2719c7439d9a26bef7177fac11", 
-    "dateModified": "2016-05-06T13:05:08.073732+03:00", 
-    "tender_id": "7bb7573b1cd04f8aa238da49ee9059cb"
-  }
-}
-
-PATCH /api/2.3/contracts/6fcb4217dba94b3bb4a0be2a4f9295e8?acc_token=c3519c536a6949a097b0917669859dc6 HTTP/1.0
+PATCH /api/2.3/contracts/be333b5e2b744c46a98d833db05c7f28?acc_token=98846660ed4c42ca901926437178b306 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 144
 Content-Type: application/json
@@ -95,8 +7,8 @@ DATA:
 {
   "data": {
     "period": {
-      "startDate": "2016-05-06T13:05:08.093238+03:00", 
-      "endDate": "2016-06-05T13:05:08.093324+03:00"
+      "startDate": "2016-05-06T13:24:52.380065+03:00", 
+      "endDate": "2016-06-05T13:24:52.380104+03:00"
     }, 
     "value": {
       "amount": 438
@@ -109,7 +21,6 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "title": "New Title", 
     "items": [
       {
         "description": "футляри до державних нагород", 
@@ -133,10 +44,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-08T13:05:00.557188+03:00", 
-          "endDate": "2016-05-11T13:05:00.557188+03:00"
+          "startDate": "2016-05-08T13:24:44.735520+03:00", 
+          "endDate": "2016-05-11T13:24:44.735520+03:00"
         }, 
-        "id": "f1313c1c4d1b48e0977260ff43b180a0", 
+        "id": "02e4c5f1ff5943449b2758082dfe1e14", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -166,21 +77,21 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-05-06T13:05:08.093238+03:00", 
-      "endDate": "2016-06-05T13:05:08.093324+03:00"
+      "startDate": "2016-05-06T13:24:52.380065+03:00", 
+      "endDate": "2016-06-05T13:24:52.380104+03:00"
     }, 
+    "dateSigned": "2016-05-06T13:24:51.742218+03:00", 
+    "id": "be333b5e2b744c46a98d833db05c7f28", 
     "value": {
       "currency": "UAH", 
       "amount": 438.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "id": "6fcb4217dba94b3bb4a0be2a4f9295e8", 
-    "dateSigned": "2016-05-06T13:05:07.386234+03:00", 
     "contractID": "UA-2016-05-06-000001-1", 
     "owner": "broker", 
-    "awardID": "d74d7e2719c7439d9a26bef7177fac11", 
-    "dateModified": "2016-05-06T13:05:08.183574+03:00", 
-    "tender_id": "7bb7573b1cd04f8aa238da49ee9059cb"
+    "awardID": "0f8c519bac1e48c787440cb54dfada19", 
+    "dateModified": "2016-05-06T13:24:52.466037+03:00", 
+    "tender_id": "78bf608e144e454aa548eb588cb27f75"
   }
 }
 
