@@ -1,0 +1,20 @@
+GET /api/2.3/contracts HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "next_page": {
+    "path": "/api/2.3/contracts?offset=2016-05-06T19%3A38%3A48.858485%2B03%3A00", 
+    "uri": "http://api-sandbox.openprocurement.org/api/2.3/contracts?offset=2016-05-06T19%3A38%3A48.858485%2B03%3A00", 
+    "offset": "2016-05-06T19:38:48.858485+03:00"
+  }, 
+  "data": [
+    {
+      "id": "112a2925d5f64355a04f78ae71e40add", 
+      "dateModified": "2016-05-06T19:38:48.858485+03:00"
+    }
+  ]
+}
+
