@@ -226,13 +226,22 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't sign contract before reviewing all complaints")
 
         response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, complaint['id'], owner_token), {"data": {
-            "status": "cancelled",
+            "status": "stopping",
             "cancellationReason": "reason"
         }})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "cancelled")
+        self.assertEqual(response.json['data']["status"], "stopping")
 
+        authorization = self.app.authorization
+        self.app.authorization = ('Basic', ('reviewer', ''))
+        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, self.award_id, complaint['id']), {'data': {
+            'status': 'stopped'
+        }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']["status"], "stopped")
+
+        self.app.authorization = authorization
         response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']), {"data": {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')

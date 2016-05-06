@@ -814,12 +814,12 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']["status"], "pending")
 
         response = self.app.patch_json('/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.qualification_id, complaint['id'], owner_token), {"data": {
-            "status": "cancelled",
+            "status": "stopping",
             "cancellationReason": "reason"
         }})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "cancelled")
+        self.assertEqual(response.json['data']["status"], "stopping")
         self.assertEqual(response.json['data']["cancellationReason"], "reason")
 
         response = self.app.patch_json('/tenders/{}/qualifications/{}/complaints/some_id'.format(self.tender_id, self.qualification_id), {"data": {"status": "resolved", "resolution": "resolution text"}}, status=404)
@@ -846,7 +846,7 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
         }}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update complaint in current (cancelled) status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update complaint")
 
         response = self.app.patch_json('/tenders/{}/qualifications/some_id/complaints/some_id'.format(self.tender_id), {"data": {"status": "resolved", "resolution": "resolution text"}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
@@ -860,7 +860,7 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, self.qualification_id, complaint['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "cancelled")
+        self.assertEqual(response.json['data']["status"], "stopping")
         self.assertEqual(response.json['data']["cancellationReason"], "reason")
 
         response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]),
@@ -1028,10 +1028,10 @@ class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintRe
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "pending")
 
-        response = self.app.patch_json('/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.qualification_id, complaint['id'], owner_token), {"data": {"status": "cancelled", "cancellationReason": "reason"}})
+        response = self.app.patch_json('/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.qualification_id, complaint['id'], owner_token), {"data": {"status": "stopping", "cancellationReason": "reason"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "cancelled")
+        self.assertEqual(response.json['data']["status"], "stopping")
         self.assertEqual(response.json['data']["cancellationReason"], "reason")
 
         response = self.app.patch_json('/tenders/{}/qualifications/{}/complaints/some_id'.format(self.tender_id, self.qualification_id), {"data": {"status": "resolved", "resolution": "resolution text"}}, status=404)
@@ -1058,7 +1058,7 @@ class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintRe
         }}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update complaint in current (cancelled) status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update complaint")
 
         response = self.app.patch_json('/tenders/{}/qualifications/some_id/complaints/some_id'.format(self.tender_id), {"data": {"status": "resolved", "resolution": "resolution text"}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
@@ -1072,7 +1072,7 @@ class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintRe
         response = self.app.get('/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, self.qualification_id, complaint['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "cancelled")
+        self.assertEqual(response.json['data']["status"], "stopping")
         self.assertEqual(response.json['data']["cancellationReason"], "reason")
 
         response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]),

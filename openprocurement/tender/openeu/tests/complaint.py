@@ -247,12 +247,12 @@ class TenderComplaintResourceTest(BaseTenderContentWebTest):
         ])
 
         response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint['id'], owner_token), {"data": {
-            "status": "cancelled",
+            "status": "stopping",
             "cancellationReason": "reason"
         }})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "cancelled")
+        self.assertEqual(response.json['data']["status"], "stopping")
         self.assertEqual(response.json['data']["cancellationReason"], "reason")
 
         response = self.app.patch_json('/tenders/{}/complaints/some_id'.format(self.tender_id), {"data": {"status": "resolved", "resolution": "resolution text"}}, status=404)
@@ -276,7 +276,7 @@ class TenderComplaintResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/complaints/{}'.format(self.tender_id, complaint['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "cancelled")
+        self.assertEqual(response.json['data']["status"], "stopping")
         self.assertEqual(response.json['data']["cancellationReason"], "reason")
         self.assertEqual(response.json['data']["resolutionType"], "resolved")
         self.assertEqual(response.json['data']["resolution"], "resolution text" * 2)
