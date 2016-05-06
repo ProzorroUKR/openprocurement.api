@@ -1002,7 +1002,7 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.status, '200 OK')
 
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), complaint_data)
+        response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), complaint)
         self.assertEqual(response.status, '201 Created')
         complaint7_id = response.json['data']['id']
         complaint7_token = response.json['access']['token']
@@ -1103,7 +1103,7 @@ class TenderResourceTest(BaseTenderWebTest):
         complaint5_token = response.json['access']['token']
         complaint5_id = response.json['data']['id']
 
-        response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token), complaint_data)
+        response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token), complaint)
         self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/qualification-complaint-cancel.http', 'w') as self.app.file_obj:
@@ -1387,7 +1387,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/award-complaint-submit.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint_data)
+            response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint)
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/award-complaint-cancel.http', 'w') as self.app.file_obj:
