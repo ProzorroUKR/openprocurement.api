@@ -121,7 +121,7 @@ Finalize contract
 -----------------
 Contract can be finalized by switching to ``terminated`` status.
 
-.. include:: tutorial/contact-termitation.http
+.. include:: tutorial/contract-termination.http
    :code:
 
 Any future modification to the contract are not allowed.
