@@ -88,10 +88,10 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         complaintPeriod = self.request.validated['award'].complaintPeriod
         is_complaintPeriod = complaintPeriod.startDate < get_now() and complaintPeriod.endDate > get_now() if complaintPeriod.endDate else complaintPeriod.startDate < get_now()
         # complaint_owner
-        if self.request.authenticated_role == 'complaint_owner' and self.context.status in ['draft', 'claim', 'answered', 'pending'] and data.get('status', self.context.status) == 'cancelled':
+        if self.request.authenticated_role == 'complaint_owner' and self.context.status in ['draft', 'claim', 'answered'] and data.get('status', self.context.status) == 'cancelled':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
-        elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'stopping':
+        elif self.request.authenticated_role == 'complaint_owner' and self.context.status in ['pending', 'accepted'] and data.get('status', self.context.status) == 'stopping':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and is_complaintPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == self.context.status:
