@@ -384,7 +384,7 @@ class ContractResourceTest(BaseWebTest):
         self.assertEqual(set(contract), set([
             u'id', u'dateModified', u'contractID', u'status', u'suppliers',
             u'contractNumber', u'period', u'dateSigned', u'value', u'awardID',
-            u'items', u'owner', u'tender_id']))
+            u'items', u'owner', u'tender_id', u'procuringEntity']))
         self.assertEqual(data['id'], contract['id'])
         self.assertNotEqual(data['doc_id'], contract['id'])
         self.assertEqual(data['contractID'], contract['contractID'])
