@@ -34,6 +34,7 @@ Contract in the tender system
    :code:
 
 *Contract id is the same in both tender and contract system.*
+
 Let's access the URL of the created object:
 
 .. include:: tutorial/contract-view.http
@@ -72,6 +73,7 @@ Before any contract modification you have to activate contract.
    :code:
 
 Let's see what listing of contracts reveals us:
+
 .. include:: tutorial/contracts-listing-2.http
    :code:
 
