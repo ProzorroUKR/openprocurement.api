@@ -11,8 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
 #: ../../source/standard/contract.rst:8
@@ -108,7 +107,8 @@ msgstr "|ocdsDescription| Дата початку та завершення до
 
 #: ../../source/standard/contract.rst:67
 msgid "List of :ref:`Item` objects, auto-generated, read-only"
-msgstr "Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
+msgstr ""
+"Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
 
 #: ../../source/standard/contract.rst:69
 msgid ""
@@ -160,8 +160,4 @@ msgstr ""
 #: ../../source/standard/contract.rst:94
 msgid "Workflow"
 msgstr "Схема роботи"
-
-#: ../../source/standard/contract.rst:109
-msgid "\\* marks initial state"
-msgstr "\\* позначає початковий стан"
 
