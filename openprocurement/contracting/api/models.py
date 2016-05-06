@@ -8,14 +8,16 @@ from schematics.types import StringType, BaseType
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
-from schematics.transforms import whitelist
+from schematics.transforms import whitelist, blacklist
 from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import Document as BaseDocument
+from openprocurement.api.models import Organization as BaseOrganization
+from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import Item as BaseItem
-from openprocurement.api.models import (ListType, Revision, IsoDateTimeType,
-                                        ProcuringEntity)
+from openprocurement.api.models import (ListType, Revision, IsoDateTimeType)
 from openprocurement.api.models import (plain_role, Administrator_role,
-                                        schematics_default_role)
+                                        schematics_default_role,
+                                        schematics_embedded_role)
 
 contract_create_role = (whitelist(
     'id', 'awardID', 'contractID', 'contractNumber', 'title', 'title_en',
@@ -45,6 +47,29 @@ class Document(BaseDocument):
     """ Contract Document """
 
 
+class ContactPoint(BaseContactPoint):
+    availableLanguage = StringType()
+
+
+class Organization(BaseOrganization):
+    """An organization."""
+    contactPoint = ModelType(ContactPoint, required=True)
+    additionalContactPoints = ListType(ModelType(ContactPoint, required=True),
+                                       required=False)
+
+
+class ProcuringEntity(Organization):
+    """An organization."""
+    class Options:
+        roles = {
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+            'edit_active': schematics_default_role + blacklist("kind"),
+        }
+
+    kind = StringType(choices=['general', 'special', 'defense', 'other'])
+
+
 class Item(BaseItem):
     def validate_relatedLot(self, data, relatedLot):
         pass
@@ -64,6 +89,7 @@ class Contract(SchematicsDocument, BaseContract):
     owner = StringType()
     mode = StringType(choices=['test'])
     status = StringType(choices=['draft', 'terminated', 'active'], default='draft')
+    suppliers = ListType(ModelType(Organization), min_size=1, max_size=1)
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
 
     create_accreditation = 3  # TODO
