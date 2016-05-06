@@ -423,6 +423,20 @@ class ContractResourceTest(BaseWebTest):
         self.assertEqual(set(response.json['data']), set(contract))
         self.assertEqual(response.json['data'], contract)
 
+        # test eu contract create
+        data = deepcopy(test_contract_data)
+        data['id'] = uuid4().hex
+        additionalContactPoint = {"name": u"Державне управління справами2", "telephone": u"0440000001"}
+        data['procuringEntity']['additionalContactPoints'] = [additionalContactPoint]
+        data['procuringEntity']['contactPoint']['availableLanguage'] = 'en'
+        response = self.app.post_json('/contracts', {"data": data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        contract = response.json['data']
+        self.assertEqual(contract['status'], 'draft')
+        self.assertEqual(contract['procuringEntity']['contactPoint']['availableLanguage'], 'en')
+        self.assertEqual(contract['procuringEntity']['additionalContactPoints'], [additionalContactPoint])
+
         data = deepcopy(test_contract_data)
         data['id'] = uuid4().hex
         response = self.app.post_json('/contracts?opt_jsonp=callback', {"data": data})
