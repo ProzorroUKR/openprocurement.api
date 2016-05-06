@@ -165,11 +165,6 @@ class TenderResourceTest(BaseTenderWebTest):
 
         # Modifying contract
         with open('docs/source/tutorial/contracts-patch.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract_id, contract_token),
-                                           {"data": {"title": "New Title"}})
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['title'], "New Title")
-
             custom_period_start_date = get_now().isoformat()
             custom_period_end_date = (get_now() + timedelta(days=30)).isoformat()
             response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract_id, contract_token),
