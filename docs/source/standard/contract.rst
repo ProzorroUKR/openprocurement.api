@@ -48,7 +48,7 @@ Schema
 
     Possible values are:
 
-    * `draft` - this contract has been transfered, but is not yet in force.
+    * `draft` - this contract has been transferred (from the tender system), but is not yet in force.
     * `active` - this contract has been signed by all the parties, and is
       now legally in force.
     * `terminated` - this contract was signed and in force, and has now come
