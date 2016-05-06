@@ -1,10 +1,20 @@
-GET /api/2.3/contracts/7d43086cb00145c2a1fa686cedc49b33/documents?acc_token=f29bb9b5198a4f8e8874ffd88e46d620 HTTP/1.0
+GET /api/2.3/contracts/6fcb4217dba94b3bb4a0be2a4f9295e8/documents?acc_token=c3519c536a6949a097b0917669859dc6 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
-  "data": []
+  "data": [
+    {
+      "title": "contract.doc", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/6fcb4217dba94b3bb4a0be2a4f9295e8/documents/085b12492dad438784bdad25ecea9c34?download=d52861ca683b448cb98a6d29cf0a1f61", 
+      "format": "application/msword", 
+      "documentOf": "tender", 
+      "datePublished": "2016-05-06T13:05:08.575843+03:00", 
+      "id": "085b12492dad438784bdad25ecea9c34", 
+      "dateModified": "2016-05-06T13:05:08.575885+03:00"
+    }
+  ]
 }
 
