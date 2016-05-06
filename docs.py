@@ -11,7 +11,6 @@ from webtest import TestApp
 from openprocurement.api.tests.base import test_tender_data, test_organization
 
 
-
 class DumpsTestAppwebtest(TestApp):
     def do_request(self, req, status=None, expect_errors=None):
         req.headers.environ["HTTP_HOST"] = "api-sandbox.openprocurement.org"
@@ -143,8 +142,6 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.get('/contracts/{}'.format(test_contract_data['id']))
             self.assertEqual(response.status, '200 OK')
 
-
-
         with open('docs/source/tutorial/contracts-listing-1.http', 'w') as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get(request_path)
@@ -157,7 +154,6 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.status, '200 OK')
         contract_token = response.json['access']['token']
         contract_id = test_contract_data['id']
-
 
         with open('docs/source/tutorial/contract-documents.http', 'w') as self.app.file_obj:
             response = self.app.get('/contracts/{}/documents?acc_token={}'.format(
