@@ -25,7 +25,7 @@ contracts_all_view = ViewDefinition('contracts', 'all', '''function(doc) {
 
 
 contracts_by_dateModified_view = ViewDefinition('contracts', 'by_dateModified', '''function(doc) {
-    if(doc.doc_type == 'Contract') {
+    if(doc.doc_type == 'Contract' && doc.status != 'draft') {
         var fields=%s, data={};
         for (var i in fields) {
             if (doc[fields[i]]) {
@@ -37,7 +37,7 @@ contracts_by_dateModified_view = ViewDefinition('contracts', 'by_dateModified', 
 }''' % FIELDS)
 
 contracts_real_by_dateModified_view = ViewDefinition('contracts', 'real_by_dateModified', '''function(doc) {
-    if(doc.doc_type == 'Contract' && !doc.mode) {
+    if(doc.doc_type == 'Contract' && doc.status != 'draft' && !doc.mode) {
         var fields=%s, data={};
         for (var i in fields) {
             if (doc[fields[i]]) {
@@ -49,7 +49,7 @@ contracts_real_by_dateModified_view = ViewDefinition('contracts', 'real_by_dateM
 }''' % FIELDS)
 
 contracts_test_by_dateModified_view = ViewDefinition('contracts', 'test_by_dateModified', '''function(doc) {
-    if(doc.doc_type == 'Contract' && doc.mode == 'test') {
+    if(doc.doc_type == 'Contract' && doc.status != 'draft' && doc.mode == 'test') {
         var fields=%s, data={};
         for (var i in fields) {
             if (doc[fields[i]]) {
@@ -61,7 +61,7 @@ contracts_test_by_dateModified_view = ViewDefinition('contracts', 'test_by_dateM
 }''' % FIELDS)
 
 contracts_by_local_seq_view = ViewDefinition('contracts', 'by_local_seq', '''function(doc) {
-    if(doc.doc_type == 'Contract') {
+    if(doc.doc_type == 'Contract' && doc.status != 'draft') {
         var fields=%s, data={};
         for (var i in fields) {
             if (doc[fields[i]]) {
@@ -73,7 +73,7 @@ contracts_by_local_seq_view = ViewDefinition('contracts', 'by_local_seq', '''fun
 }''' % CHANGES_FIELDS)
 
 contracts_real_by_local_seq_view = ViewDefinition('contracts', 'real_by_local_seq', '''function(doc) {
-    if(doc.doc_type == 'Contract' && !doc.mode) {
+    if(doc.doc_type == 'Contract' && doc.status != 'draft' && !doc.mode) {
         var fields=%s, data={};
         for (var i in fields) {
             if (doc[fields[i]]) {
@@ -85,7 +85,7 @@ contracts_real_by_local_seq_view = ViewDefinition('contracts', 'real_by_local_se
 }''' % CHANGES_FIELDS)
 
 contracts_test_by_local_seq_view = ViewDefinition('contracts', 'test_by_local_seq', '''function(doc) {
-    if(doc.doc_type == 'Contract' && doc.mode == 'test') {
+    if(doc.doc_type == 'Contract' && doc.status != 'draft' && doc.mode == 'test') {
         var fields=%s, data={};
         for (var i in fields) {
             if (doc[fields[i]]) {
