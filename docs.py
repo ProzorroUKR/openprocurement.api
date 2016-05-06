@@ -691,7 +691,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
             response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, award_id), complaint_data)
             self.assertEqual(response.status, '201 Created')
 
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, award_id), complaint_data)
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, award_id), complaint)
         self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/award-complaint-cancel.http', 'w') as self.app.file_obj:
