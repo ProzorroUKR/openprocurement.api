@@ -64,7 +64,7 @@ class Contract(SchematicsDocument, BaseContract):
     owner = StringType()
     mode = StringType(choices=['test'])
     status = StringType(choices=['draft', 'terminated', 'active'], default='draft')
-    procuringEntity = ModelType(ProcuringEntity, required=False)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
+    procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
 
     create_accreditation = 3  # TODO
 
