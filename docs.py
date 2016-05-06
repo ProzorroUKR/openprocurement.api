@@ -157,12 +157,18 @@ class TenderResourceTest(BaseTenderWebTest):
         with open('docs/source/tutorial/contracts-listing-1.http', 'w') as self.app.file_obj:
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')
+            self.assertEqual(len(response.json['data']), 0)
 
         # Contract activation
         with open('docs/source/tutorial/contract-activation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract_id, contract_token),
                                            {"data": {"status": "active"}})
             self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/tutorial/contracts-listing-2.http', 'w') as self.app.file_obj:
+            response = self.app.get(request_path)
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(len(response.json['data']), 1)
 
         # Modifying contract
         with open('docs/source/tutorial/contracts-patch.http', 'w') as self.app.file_obj:
