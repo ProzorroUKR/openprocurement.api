@@ -306,7 +306,7 @@ class Complaint(BaseComplaint):
         data = request.json_body['data']
         if request.authenticated_role == 'complaint_owner' and data.get('status', self.status) == 'cancelled':
             role = 'cancellation'
-        elif request.authenticated_role == 'complaint_owner' and self.status == 'accepted' and data.get('status', self.status) == 'stopping':
+        elif request.authenticated_role == 'complaint_owner' and self.status in ['pending', 'accepted'] and data.get('status', self.status) == 'stopping':
             role = 'cancellation'
         elif request.authenticated_role == 'complaint_owner' and self.status == 'draft':
             role = 'draft'
