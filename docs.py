@@ -801,7 +801,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             self.assertEqual(response.status, '200 OK')
 
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), complaint_data)
+        response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), complaint)
         self.assertEqual(response.status, '201 Created')
         complaint7_id = response.json['data']['id']
         complaint7_token = response.json['access']['token']
@@ -990,7 +990,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/award-complaint-submit.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint_data)
+            response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint)
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/award-complaint-cancel.http', 'w') as self.app.file_obj:
