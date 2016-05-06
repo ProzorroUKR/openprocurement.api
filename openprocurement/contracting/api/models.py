@@ -12,7 +12,8 @@ from schematics.transforms import whitelist
 from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Item as BaseItem
-from openprocurement.api.models import ListType, Revision, IsoDateTimeType
+from openprocurement.api.models import (ListType, Revision, IsoDateTimeType,
+                                        ProcuringEntity)
 from openprocurement.api.models import (plain_role, Administrator_role,
                                         schematics_default_role)
 
@@ -20,7 +21,7 @@ contract_create_role = (whitelist(
     'id', 'awardID', 'contractID', 'contractNumber', 'title', 'title_en',
     'title_ru', 'description', 'description_en', 'description_ru', 'status',
     'period', 'value', 'dateSigned', 'documents', 'items', 'suppliers',
-    'owner', 'tender_token', 'tender_id', 'mode'
+    'procuringEntity', 'owner', 'tender_token', 'tender_id', 'mode'
 ))
 
 contract_edit_role = (whitelist(
@@ -32,7 +33,7 @@ contract_view_role = (whitelist(
     'id', 'awardID', 'contractID', 'dateModified', 'contractNumber', 'title',
     'title_en', 'title_ru', 'description', 'description_en', 'description_ru',
     'status', 'period', 'value', 'dateSigned', 'documents', 'items',
-    'suppliers', 'owner', 'mode', 'tender_id'
+    'suppliers', 'procuringEntity', 'owner', 'mode', 'tender_id'
 ))
 
 
@@ -63,6 +64,7 @@ class Contract(SchematicsDocument, BaseContract):
     owner = StringType()
     mode = StringType(choices=['test'])
     status = StringType(choices=['draft', 'terminated', 'active'], default='draft')
+    procuringEntity = ModelType(ProcuringEntity, required=False)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
 
     create_accreditation = 3  # TODO
 
