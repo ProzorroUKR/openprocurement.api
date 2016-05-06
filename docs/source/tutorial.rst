@@ -38,7 +38,7 @@ Let's access the URL of the created object:
 .. include:: tutorial/contract-view.http
    :code:
 
-Notice that contract is created in `draft` status.
+Notice that contract is created in ``draft`` status.
 
 Getting access
 --------------
@@ -119,7 +119,7 @@ And we can see that it is overriding the original version:
 
 Finalize contract
 -----------------
-Contract can be finalized by switching to `terminated` status.
+Contract can be finalized by switching to ``terminated`` status.
 
 .. include:: tutorial/contact-termitation.http
    :code:
