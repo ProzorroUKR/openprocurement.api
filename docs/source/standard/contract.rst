@@ -48,11 +48,9 @@ Schema
 
     Possible values are:
 
-    * `pending` - this contract has been proposed, but is not yet in force.
-      It may be awaiting signature.
+    * `draft` - this contract has been transfered, but is not yet in force.
     * `active` - this contract has been signed by all the parties, and is
       now legally in force.
-    * `cancelled` - this contract has been cancelled prior to being signed.
     * `terminated` - this contract was signed and in force, and has now come
       to a close.  This may be due to a successful completion of the contract,
       or may be early termination due to some non-completion issue.
@@ -96,9 +94,11 @@ Workflow
 .. graphviz::
 
     digraph G {
-        A [ label="pending" ]
+        A [ label="draft*" ]
         B [ label="active"]
-        C [ label="cancelled"]
-        D [ label="terminated"]
-         B -> D;
+        C [ label="terminated"]
+         A -> B;
+         B -> C;
     }
+
+\* marks initial state
