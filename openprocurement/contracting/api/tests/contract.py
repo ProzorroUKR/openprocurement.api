@@ -103,14 +103,26 @@ class ContractResourceTest(BaseWebTest):
         self.assertEqual(len(response.json['data']), 0)
 
         contracts = []
+        contracts_ids = []
 
         for i in range(3):
-            offset = get_now().isoformat()
             data = deepcopy(test_contract_data)
             data['id'] = uuid4().hex
             response = self.app.post_json('/contracts', {'data': data})
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
+            contracts_ids.append(response.json['data']['id'])
+
+        # 'draft' contracts is not visible
+        response = self.app.get('/contracts')
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 0)
+
+        # reveal contracts
+        for contract_id in contracts_ids:
+            offset = get_now().isoformat()
+            response = self.app.patch_json('/contracts/{}'.format(contract_id), {'data': {'status': 'active'}})
+            self.assertEqual(response.status, '200 OK')
             contracts.append(response.json['data'])
 
         response = self.app.get('/contracts')
@@ -177,6 +189,9 @@ class ContractResourceTest(BaseWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 
+        response = self.app.patch_json('/contracts/{}'.format(response.json['data']['id']), {'data': {'status': 'active'}})
+        self.assertEqual(response.status, '200 OK')
+
         response = self.app.get('/contracts?mode=test')
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 1)
@@ -194,6 +209,7 @@ class ContractResourceTest(BaseWebTest):
 
         for i in range(3):
             data = deepcopy(test_contract_data)
+            data['status'] = 'active'
             data['id'] = uuid4().hex
             response = self.app.post_json('/contracts', {'data': data})
             self.assertEqual(response.status, '201 Created')
@@ -256,6 +272,7 @@ class ContractResourceTest(BaseWebTest):
 
         test_contract_data2 = test_contract_data.copy()
         test_contract_data2['mode'] = 'test'
+        test_contract_data2['status'] = 'active'
         response = self.app.post_json('/contracts', {'data': test_contract_data2})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
