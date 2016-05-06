@@ -86,7 +86,9 @@ class ContractingDataBridge(object):
             request_id = generate_req_id()
             client.headers.update({'X-Client-Request-ID': request_id})
             tenders_list = list(client.get_tenders())
+            delay = 101
             if tenders_list:
+                delay = 15
                 logger.info("Client params: {}".format(client.params))
             for tender in tenders_list:
                 if tender['status'] in ("active.qualification",
@@ -102,7 +104,7 @@ class ContractingDataBridge(object):
                     logger.debug('Skipping tender {} in status {}'.format(tender['id'], tender['status']))
 
             logger.info('Sleep...')
-            time.sleep(15)
+            time.sleep(delay)
 
     def get_tender_contracts(self):
         while True:
