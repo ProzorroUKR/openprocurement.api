@@ -125,6 +125,7 @@ class ContractingDataBridge(object):
                         continue
 
                     contract['tender_id'] = tender['id']
+                    contract['procuringEntity'] = tender['procuringEntity']
                     self.handicap_contracts_queue.put(contract)
 
     def prepare_contract_data(self):
