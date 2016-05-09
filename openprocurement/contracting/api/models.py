@@ -15,6 +15,7 @@ from openprocurement.api.models import Organization as BaseOrganization
 from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import (ListType, Revision, IsoDateTimeType)
+from openprocurement.api.models import validate_cpv_group, validate_items_uniq
 from openprocurement.api.models import (plain_role, Administrator_role,
                                         schematics_default_role,
                                         schematics_embedded_role)
@@ -84,7 +85,7 @@ class Contract(SchematicsDocument, BaseContract):
     revisions = ListType(ModelType(Revision), default=list())
     dateModified = IsoDateTimeType()
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
-    items = ListType(ModelType(Item))
+    items = ListType(ModelType(Item), required=False, validators=[validate_cpv_group, validate_items_uniq])
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
     owner_token = StringType(default=lambda: uuid4().hex)
