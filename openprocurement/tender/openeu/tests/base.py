@@ -6,7 +6,7 @@ from uuid import uuid4
 from copy import deepcopy
 from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass
 from openprocurement.api.utils import apply_data_patch
-from openprocurement.api.models import get_now
+from openprocurement.api.models import get_now, SANDBOX_MODE
 from openprocurement.tender.openeu.models import TENDERING_DAYS, TENDERING_DURATION, QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL
 
 
@@ -148,6 +148,8 @@ test_tender_data = {
     },
     "procurementMethodType": "aboveThresholdEU",
 }
+if SANDBOX_MODE:
+    test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
 
 test_features_tender_data = test_tender_data.copy()
 test_features_item = test_features_tender_data['items'][0].copy()
@@ -217,11 +219,11 @@ class BaseTenderWebTest(BaseTenderWebTest):
         self.set_status('active.tendering', {
             "enquiryPeriod": {
                 "startDate": (now - timedelta(days=28)).isoformat(),
-                "endDate": (now - timedelta(days=1)).isoformat()
+                "endDate": (now - (timedelta(minutes=1) if SANDBOX_MODE else timedelta(days=1))).isoformat()
             },
             "tenderPeriod": {
                 "startDate": (now - timedelta(days=28)).isoformat(),
-                "endDate": (now + timedelta(days=2)).isoformat()
+                "endDate": (now + (timedelta(minutes=2) if SANDBOX_MODE else timedelta(days=2))).isoformat()
             }
         })
 

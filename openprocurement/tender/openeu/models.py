@@ -440,7 +440,6 @@ class Tender(BaseTender):
         }
 
     procurementMethodType = StringType(default="aboveThresholdEU")
-    procurementMethodDetails = StringType(default='')
     title_en = StringType(required=True, min_length=1)
 
     enquiryPeriod = ModelType(EnquiryPeriod, required=False)
@@ -558,8 +557,6 @@ class Tender(BaseTender):
             if lots_ends:
                 checks.append(min(lots_ends))
         return min(checks).isoformat() if checks else None
-
-
 
     def validate_tenderPeriod(self, data, period):
         # if data['_rev'] is None when tender was created just now
