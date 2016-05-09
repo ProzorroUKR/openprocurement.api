@@ -38,6 +38,8 @@ contract_view_role = (whitelist(
     'suppliers', 'procuringEntity', 'owner', 'mode', 'tender_id'
 ))
 
+contract_administrator_role = (Administrator_role + whitelist('suppliers',))
+
 
 class IContract(Interface):
     """ Contract marker interface """
@@ -95,13 +97,14 @@ class Contract(SchematicsDocument, BaseContract):
     create_accreditation = 3  # TODO
 
     class Options:
-        roles = {  # TODO
+        roles = {
             'plain': plain_role,
             'create': contract_create_role,
             'edit_draft': whitelist("status"),
             'edit_active': contract_edit_role,
+            'edit_terminated': whitelist(),
             'view': contract_view_role,
-            'Administrator': Administrator_role,
+            'Administrator': contract_administrator_role,
             'default': schematics_default_role,
         }
 
