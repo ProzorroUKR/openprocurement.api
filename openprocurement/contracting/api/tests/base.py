@@ -14,25 +14,25 @@ now = datetime.now()
 test_contract_data = {
     "items": [
         {
-        "description": "футляри до державних нагород",
+        "description": u"футляри до державних нагород",
         "classification": {
-                        "scheme": "CPV",
-                        "description": "Cartons",
-                        "id": "44617100-9"
+                        "scheme": u"CPV",
+                        "description": u"Cartons",
+                        "id": u"44617100-9"
                     },
         "additionalClassifications": [
                         {
-                                        "scheme": "ДКПП",
-                                        "id": "17.21.1",
-                                        "description": "папір і картон гофровані, паперова й картонна тара"
+                                        "scheme": u"ДКПП",
+                                        "id": u"17.21.1",
+                                        "description": u"папір і картон гофровані, паперова й картонна тара"
                                     }
                     ],
         "deliveryAddress": {
-                        "postalCode": "79000",
-                        "countryName": "Україна",
-                        "streetAddress": "вул. Банкова 1",
-                        "region": "м. Київ",
-                        "locality": "м. Київ"
+                        "postalCode": u"79000",
+                        "countryName": u"Україна",
+                        "streetAddress": u"вул. Банкова 1",
+                        "region": u"м. Київ",
+                        "locality": u"м. Київ"
                     },
         "deliveryDate": {
                         "startDate": "2016-03-20T18:47:47.136678+02:00",
@@ -68,26 +68,26 @@ test_contract_data = {
     "suppliers": [
         {
         "contactPoint": {
-            "email": "aagt@gmail.com",
-            "telephone": "+380 (322) 91-69-30",
-            "name": "Андрій Олексюк"
+            "email": u"aagt@gmail.com",
+            "telephone": u"+380 (322) 91-69-30",
+            "name": u"Андрій Олексюк"
         },
         "identifier": {
-            "scheme": "UA-EDR",
-            "id": "00137226",
-            "uri": "http://www.sc.gov.ua/"
+            "scheme": u"UA-EDR",
+            "id": u"00137226",
+            "uri": u"http://www.sc.gov.ua/"
         },
-        "name": "ДКП «Книга»",
-                    "address": {
-                                "postalCode": "79013",
-                                "countryName": "Україна",
-                                "streetAddress": "вул. Островського, 34",
-                                "region": "м. Львів",
-                                "locality": "м. Львів"
-                                }
-                }
-            ],
-    "contractNumber": "contract #13111",
+        "name": u"ДКП «Книга»",
+        "address": {
+                    "postalCode": u"79013",
+                    "countryName": u"Україна",
+                    "streetAddress": u"вул. Островського, 34",
+                    "region": u"м. Львів",
+                    "locality": u"м. Львів"
+                    }
+        }
+    ],
+    "contractNumber": u"contract #13111",
     "period": {
                 "startDate": "2016-03-18T18:47:47.155143+02:00",
                 "endDate": "2017-03-18T18:47:47.155143+02:00"
