@@ -718,6 +718,8 @@ def suite():
     suite.addTest(unittest.makeSuite(ContractTest))
     suite.addTest(unittest.makeSuite(ContractResourceTest))
     suite.addTest(unittest.makeSuite(ContractCredentialsTest))
+    suite.addTest(unittest.makeSuite(ContractResource4BrokersTest))
+    suite.addTest(unittest.makeSuite(ContractResource4AdministratorTest))
     return suite
 
 
