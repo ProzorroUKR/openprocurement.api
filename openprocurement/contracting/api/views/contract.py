@@ -198,7 +198,7 @@ class ContractResource(ContractsResource):
                 self.request.errors.add('body', 'data', 'Can\'t update contract status')
                 self.request.errors.status = 403
                 return
-        elif contract.status != 'active':
+        elif self.request.authenticated_role != 'Administrator' and contract.status != 'active':
             self.request.errors.add('body', 'data', 'Can\'t update contract in current ({}) status'.format(contract.status))
             self.request.errors.status = 403
             return
