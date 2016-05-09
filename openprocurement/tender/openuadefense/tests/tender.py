@@ -561,13 +561,14 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
+        if 'procurementMethodDetails' in tender:
+            tender.pop('procurementMethodDetails')
         self.assertEqual(set(tender), set([
             u'procurementMethodType', u'id', u'dateModified', u'tenderID',
             u'status', u'enquiryPeriod', u'tenderPeriod', u'complaintPeriod',
             u'minimalStep', u'items', u'value', u'procuringEntity',
             u'next_check', u'procurementMethod', u'awardCriteria',
             u'submissionMethod', u'auctionPeriod', u'title', u'owner',
-            u'procurementMethodDetails',
         ]))
         self.assertNotEqual(data['id'], tender['id'])
         self.assertNotEqual(data['doc_id'], tender['id'])
@@ -606,11 +607,13 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
-        self.assertEqual(set(tender) - set(test_tender_data), set([
+        tender_set = set(tender)
+        if 'procurementMethodDetails' in tender_set:
+            tender_set.remove('procurementMethodDetails')
+        self.assertEqual(tender_set - set(test_tender_data), set([
             u'id', u'dateModified', u'enquiryPeriod', u'auctionPeriod',
             u'complaintPeriod', u'tenderID', u'status', u'procurementMethod',
             u'awardCriteria', u'submissionMethod', u'next_check', u'owner',
-            u'procurementMethodDetails',
         ]))
         self.assertIn(tender['id'], response.headers['Location'])
 

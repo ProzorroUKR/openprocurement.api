@@ -2,7 +2,7 @@
 import os
 import webtest
 from datetime import datetime, timedelta
-from openprocurement.api.models import get_now
+from openprocurement.api.models import get_now, SANDBOX_MODE
 from openprocurement.api.tests.base import (test_tender_data as test_tender_data_api,
                                             test_procuringEntity as test_procuringEntity_api,
                                             now,
@@ -52,6 +52,9 @@ test_tender_data["items"] = [{
             "streetAddress": u"вул. Банкова 1"
         }
 }]
+if SANDBOX_MODE:
+    test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
+
 
 # test_tender_data["tenderPeriod"] = test_tender_data["enquiryPeriod"].copy()
 
@@ -81,11 +84,11 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
         self.set_status('active.tendering', {
             "enquiryPeriod": {
                 "startDate": (now - timedelta(days=13)).isoformat(),
-                "endDate": (now - timedelta(days=1)).isoformat()
+                "endDate": (now - (timedelta(minutes=1) if SANDBOX_MODE else timedelta(days=1))).isoformat()
             },
             "tenderPeriod": {
                 "startDate": (now - timedelta(days=13)).isoformat(),
-                "endDate": (now + timedelta(days=2)).isoformat()
+                "endDate": (now + (timedelta(minutes=2) if SANDBOX_MODE else timedelta(days=2))).isoformat()
             },
             "auctionPeriod": {
                 "startDate": (now + timedelta(days=2)).isoformat()
