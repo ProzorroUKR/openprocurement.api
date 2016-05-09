@@ -134,10 +134,10 @@ class Contract(SchematicsDocument, BaseContract):
         """A property that is serialized by schematics exports."""
         return self._id
 
-    def validate_status(self, data, status):
-        if status == 'pending':
-            raise ValidationError(u"'pending' contracts are not allowed.")
     def validate_awardID(self, data, awardID):
+        # awardID is not validatable without tender data
         pass
+
     def validate_dateSigned(self, data, value):
+        # dateSigned changes is denied by roles
         pass
