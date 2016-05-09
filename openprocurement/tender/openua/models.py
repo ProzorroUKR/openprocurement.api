@@ -430,7 +430,6 @@ class Tender(BaseTender):
 
     __name__ = ''
 
-    procurementMethodDetails = StringType(default='')
     enquiryPeriod = ModelType(EnquiryPeriod, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
@@ -466,10 +465,6 @@ class Tender(BaseTender):
             raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
         if period and calculate_business_date(period.startDate, TENDER_PERIOD, data) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than 15 days")
-
-    def validate_procurementMethodDetails(self, *args, **kw):
-        if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
-            raise ValidationError(u"procurementMethodDetails should be used with mode test")
 
     def initialize(self):
         endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)
