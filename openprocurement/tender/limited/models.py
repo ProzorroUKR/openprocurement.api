@@ -9,7 +9,7 @@ from schematics.exceptions import ValidationError
 from openprocurement.api.models import (
     plain_role, view_role, create_role, edit_role, enquiries_role, listing_role,
     Administrator_role, schematics_default_role, schematics_embedded_role,
-    chronograph_role, chronograph_view_role, draft_role,
+    chronograph_role, chronograph_view_role, draft_role, SANDBOX_MODE,
 )
 from openprocurement.api.models import (
     Value, IsoDateTimeType, Document, Organization, SchematicsDocument,
@@ -143,6 +143,8 @@ class Tender(SchematicsDocument, Model):
     dateModified = IsoDateTimeType()
     owner_token = StringType()
     owner = StringType()
+    if SANDBOX_MODE:
+        procurementMethodDetails = StringType()
 
     create_accreditation = 1
     edit_accreditation = 2
@@ -150,8 +152,6 @@ class Tender(SchematicsDocument, Model):
 
     __parent__ = None
     __name__ = ''
-
-    procurementMethodDetails = StringType(default='')
 
     def __local_roles__(self):
         return dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])
@@ -176,6 +176,10 @@ class Tender(SchematicsDocument, Model):
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
         ]
+
+    def validate_procurementMethodDetails(self, *args, **kw):
+        if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
+            raise ValidationError(u"procurementMethodDetails should be used with mode test")
 
     def __repr__(self):
         return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)

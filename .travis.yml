@@ -4,6 +4,12 @@ python:
   - "2.7"
 services:
   - couchdb
+env:
+  global:
+    - TZ=Europe/Kiev
+  matrix:
+    - SANDBOX_MODE=
+    - SANDBOX_MODE=True
 cache:
   directories:
     - eggs

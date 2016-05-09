@@ -567,8 +567,15 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
-        self.assertEqual(set(tender) - set(self.initial_data), set(
-            [u'id', u'dateModified', u'owner', u'tenderID', u'status', u'procurementMethod', u'procurementMethodDetails']))
+        tender_set = set(tender)
+        if 'procurementMethodDetails' in tender_set:
+            tender_set.remove('procurementMethodDetails')
+        if u'cause' in tender_set:
+            tender_set.remove(u'cause')
+        if u'causeDescription' in tender_set:
+            tender_set.remove(u'causeDescription')
+        self.assertEqual(tender_set - set(test_tender_data), set(
+            [u'id', u'dateModified', u'owner', u'tenderID', u'status', u'procurementMethod']))
         self.assertIn(tender['id'], response.headers['Location'])
 
         response = self.app.get('/tenders/{}'.format(tender['id']))

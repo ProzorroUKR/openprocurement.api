@@ -4,7 +4,7 @@ import time
 from iso8601 import parse_date
 from datetime import timedelta
 
-from openprocurement.api.models import get_now
+from openprocurement.api.models import get_now, SANDBOX_MODE
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
     test_tender_negotiation_quick_data, test_organization)
@@ -408,7 +408,7 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
         start = parse_date(award['complaintPeriod']['startDate'])
         end = parse_date(award['complaintPeriod']['endDate'])
         delta = end - start
-        self.assertEqual(delta.days, self.stand_still_period_days)
+        self.assertEqual(delta.days, 0 if SANDBOX_MODE else self.stand_still_period_days)
 
         # at next steps we test to patch contract in 'complete' tender status
         tender = self.db.get(self.tender_id)
