@@ -607,6 +607,55 @@ class ContractResource4BrokersTest(BaseContractWebTest):
         self.assertEqual(response.json['data']['period']['endDate'], custom_period_end_date)
 
 
+class ContractResource4AdministratorTest(BaseContractWebTest):
+    """ contract resource test """
+    initial_auth = ('Basic', ('administrator', ''))
+
+    def test_contract_administrator_change(self):
+        response = self.app.patch_json('/contracts/{}'.format(self.contract['id']),
+                                       {'data': {'mode': u'test',
+                                                 "suppliers": [{
+                                                    "contactPoint": {
+                                                        "email": "fff@gmail.com",
+                                                    },
+                                                    "address": {"postalCode": "79014"}
+                                                 }],
+                                                 'procuringEntity': {"identifier": {"id": "11111111"},
+                                                                     "contactPoint": {"telephone": "102"}}
+                                                 }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['mode'], u'test')
+        self.assertEqual(response.json['data']["procuringEntity"]["identifier"]["id"], "11111111")
+        self.assertEqual(response.json['data']["procuringEntity"]["contactPoint"]["telephone"], "102")
+        self.assertEqual(response.json['data']["suppliers"][0]["contactPoint"]["email"], "fff@gmail.com")
+        self.assertEqual(response.json['data']["suppliers"][0]["contactPoint"]["telephone"], "+380 (322) 91-69-30") # old field value left untouchable
+        self.assertEqual(response.json['data']["suppliers"][0]["address"]["postalCode"], "79014")
+        self.assertEqual(response.json['data']["suppliers"][0]["address"]["countryName"], u"Україна") # old field value left untouchable
+
+        # status change
+        response = self.app.patch_json('/contracts/{}'.format(self.contract['id']),
+                                       {'data': {'status': 'active'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], u'active')
+
+        # administrator has permissions to update only: mode, procuringEntity, suppliers
+        response = self.app.patch_json('/contracts/{}'.format(self.contract['id']), {'data': {
+            'value': {'amount': 100500},
+            'id': '1234' * 8,
+            'owner': 'kapitoshka',
+            'items': [],
+            'contractID': "UA-00-00-00",
+            'dateSigned': get_now().isoformat(),
+        }})
+        self.assertEqual(response.json['data']['value']['amount'], 238)
+        self.assertEqual(response.json['data']['id'], self.initial_data['id'])
+        self.assertEqual(response.json['data']['owner'], self.initial_data['owner'])
+        self.assertEqual(len(response.json['data']['items']), len(self.initial_data['items']))
+        self.assertEqual(response.json['data']['contractID'], self.initial_data['contractID'])
+        self.assertEqual(response.json['data']['dateSigned'], self.initial_data['dateSigned'])
+
+
 class ContractCredentialsTest(BaseContractWebTest):
     """ Contract credentials tests """
 
