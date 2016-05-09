@@ -58,12 +58,12 @@ Response will contain ``access.token`` for the contract that can be used for fur
 .. include:: tutorial/contract-credentials.http
    :code:
 
-Contracts in ``draft`` status is not visible in listings.
+Contracts in ``draft`` status are not visible in listings.
 
 .. include:: tutorial/contracts-listing-1.http
    :code:
 
-Contract shoul be ``active`` to become available in listings.
+Contract should be ``active`` to become available in listings.
 
 Contract activation
 -------------------

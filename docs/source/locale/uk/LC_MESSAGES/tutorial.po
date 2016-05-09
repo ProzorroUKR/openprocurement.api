@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 17:22+0300\n"
-"PO-Revision-Date: 2016-05-06 13:43+0300\n"
+"PO-Revision-Date: 2016-05-09 10:58+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr "Створення договору"
 msgid "Getting contract"
 msgstr "Отримання договору"
 
-#: ../../source/tutorial.rst:64
+#: ../../source/tutorial.rst:80
 msgid ""
 "We do see the internal `id` of a contract (that can be used to construct "
 "full URL by prepending `http://api-"
@@ -56,11 +56,11 @@ msgstr ""
 "повної URL-адреси, якщо додати `http://api-"
 "sandbox.openprocurement.org/api/0/contracts/`) та його dateModified дату."
 
-#: ../../source/tutorial.rst:87
+#: ../../source/tutorial.rst:94
 msgid "Uploading documentation"
 msgstr "Завантаження документації"
 
-#: ../../source/tutorial.rst:95
+#: ../../source/tutorial.rst:102
 msgid ""
 "`201 Created` response code and `Location` header confirm document creation."
 " We can additionally query the `documents` collection API endpoint to "
@@ -70,11 +70,11 @@ msgstr ""
 "документ було створено. Додатково можна зробити запит точки входу API "
 "колекції документів, щоб підтвердити дію:"
 
-#: ../../source/tutorial.rst:102
+#: ../../source/tutorial.rst:109
 msgid "And again we can confirm that there are two documents uploaded."
 msgstr "І знову можна перевірити, що є два завантажених документа."
 
-#: ../../source/tutorial.rst:107
+#: ../../source/tutorial.rst:114
 msgid ""
 "In case we made an error, we can reupload the document over the older "
 "version:"
@@ -82,7 +82,7 @@ msgstr ""
 "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої "
 "версії:"
 
-#: ../../source/tutorial.rst:112
+#: ../../source/tutorial.rst:119
 msgid "And we can see that it is overriding the original version:"
 msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
 
@@ -102,26 +102,26 @@ msgstr ""
 "*Майданчики (брокери) не мають можливості створювати договори в системі "
 "договорів.*"
 
-#: ../../source/tutorial.rst:59
+#: ../../source/tutorial.rst:75
 msgid "Let's see what listing of contracts reveals us:"
 msgstr "Подивимось, що показує список договорів:"
 
-#: ../../source/tutorial.rst:66
+#: ../../source/tutorial.rst:36
 msgid "*Contract id is the same in both tender and contract system.*"
 msgstr ""
 "*Ідентифікатор `id` договору однаковий в системах закіпівель та договорів.*"
 
-#: ../../source/tutorial.rst:77
+#: ../../source/tutorial.rst:84
 msgid "Modifying contract"
 msgstr "Редагування договору"
 
-#: ../../source/tutorial.rst:79
+#: ../../source/tutorial.rst:86
 msgid ""
 "Let's update contract by supplementing it with all other essential "
 "properties."
 msgstr "Оновимо договір шляхом надання йому усіх інших важливих властивостей."
 
-#: ../../source/tutorial.rst:84
+#: ../../source/tutorial.rst:91
 msgid ""
 "We see the added properties have merged with existing contract data. "
 "Additionally, the `dateModified` property was updated to reflect the last "
@@ -131,7 +131,7 @@ msgstr ""
 "Додатково оновлена властивість `dateModified`, щоб відображати останню дату "
 "модифікації."
 
-#: ../../source/tutorial.rst:89
+#: ../../source/tutorial.rst:96
 msgid ""
 "Procuring entity can upload PDF files into the created contract. Uploading "
 "should follow the :ref:`upload` rules."
@@ -139,11 +139,11 @@ msgstr ""
 "Замовник може завантажити PDF файл у створений договір. Завантаження повинно"
 " відбуватись згідно правил :ref:`upload`."
 
-#: ../../source/tutorial.rst:36
+#: ../../source/tutorial.rst:38
 msgid "Let's access the URL of the created object:"
 msgstr "Використаємо URL створеного об’єкта:"
 
-#: ../../source/tutorial.rst:46
+#: ../../source/tutorial.rst:48
 msgid ""
 "In order to get rights for future contract editing, you need to use this "
 "view ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}`` with "
@@ -154,7 +154,7 @@ msgstr ""
 "/contracts/{id}/credentials?acc_token={tender_token}`` з API ключем "
 "майданчика, де була згенерована закупівля."
 
-#: ../../source/tutorial.rst:54
+#: ../../source/tutorial.rst:56
 msgid ""
 "Response will contain ``access.token`` for the contract that can be used for"
 " further contract modification."
@@ -166,19 +166,19 @@ msgstr ""
 msgid "Contract in the tender system"
 msgstr "Договір в системі закупівель"
 
-#: ../../source/tutorial.rst:44
+#: ../../source/tutorial.rst:46
 msgid "Getting access"
 msgstr "Отримання доступу"
 
-#: ../../source/tutorial.rst:48
+#: ../../source/tutorial.rst:50
 msgid "In the ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``:"
 msgstr "В ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``:"
 
-#: ../../source/tutorial.rst:50
+#: ../../source/tutorial.rst:52
 msgid "``id`` stands for contract id,"
 msgstr "``id`` - це ідентифікатор договору,"
 
-#: ../../source/tutorial.rst:52
+#: ../../source/tutorial.rst:54
 msgid ""
 "``tender_token`` is tender's token (is used for contract token generation)."
 msgstr ""
@@ -192,21 +192,30 @@ msgstr "Активація договору"
 #: ../../source/tutorial.rst:70
 msgid "Before any contract modification you have to activate contract."
 msgstr ""
-"Перед тим, як додавати будь-які зміни до договору, ви повинні його активувати."
+"Перед тим, як додавати будь-які зміни до договору, ви повинні його "
+"активувати."
 
-#: ../../source/tutorial.rst:128
+#: ../../source/tutorial.rst:135
 msgid "Any future modification to the contract are not allowed."
 msgstr "Після цього додання змін до договору не дозволяється."
 
-#: ../../source/tutorial.rst:41
+#: ../../source/tutorial.rst:43
 msgid "Note that contract is created in ``draft`` status."
 msgstr "Зверніть увагу на те, що договір створюється у статусі ``draft``."
 
-#: ../../source/tutorial.rst:121
+#: ../../source/tutorial.rst:128
 msgid "Completing contract"
 msgstr "Завершення договору"
 
-#: ../../source/tutorial.rst:123
+#: ../../source/tutorial.rst:130
 msgid "Contract can be completed by switching to ``terminated`` status."
 msgstr "Договір завершується переключенням у статус ``terminated``."
+
+#: ../../source/tutorial.rst:61
+msgid "Contracts in ``draft`` status are not visible in listings."
+msgstr "Договори в статусі ``draft`` не показуються в списках."
+
+#: ../../source/tutorial.rst:66
+msgid "Contract should be ``active`` to become available in listings."
+msgstr "Договір повинен мати статус ``active``, щоб бути видимим у списках."
 
