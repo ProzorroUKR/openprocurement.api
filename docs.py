@@ -2,6 +2,7 @@
 import json
 import os
 from datetime import timedelta
+from copy import deepcopy
 
 from openprocurement.api.models import get_now
 import openprocurement.contracting.api.tests.base as base_test
@@ -179,6 +180,31 @@ class TenderResourceTest(BaseTenderWebTest):
                                                      "period": {'startDate': custom_period_start_date,
                                                                 'endDate': custom_period_end_date}}})
             self.assertEqual(response.status, '200 OK')
+
+        # add item
+        with open('docs/source/tutorial/add-contract-item.http', 'w') as self.app.file_obj:
+            item = deepcopy(response.json['data']['items'][0])
+            del item['id']
+            item["description"] = u"коробки для футлярів до державних нагород"
+            response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract_id, contract_token),
+                                           {"data": {"items": [{}, item]}})
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(len(response.json['data']['items']), 2)
+
+        # update item
+        with open('docs/source/tutorial/update-contract-item.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract_id, contract_token),
+                                           {"data": {"items": [{}, {'quantity': 2}]}, })
+            self.assertEqual(response.status, '200 OK')
+            item2 = response.json['data']['items'][1]
+            self.assertEqual(item2['quantity'], 2)
+
+        # delete item
+        with open('docs/source/tutorial/delete-contract-item.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract_id, contract_token),
+                                           {"data": {"items": [item2]}, })
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(len(response.json['data']['items']), 1)
 
         # Uploading documentation
         with open('docs/source/tutorial/upload-contract-document.http', 'w') as self.app.file_obj:
