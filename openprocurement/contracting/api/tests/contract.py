@@ -530,6 +530,98 @@ class ContractResource4BrokersTest(BaseContractWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'terminated')
 
+    def test_contract_items_change(self):
+        tender_token = self.initial_data['tender_token']
+
+        response = self.app.patch_json('/contracts/{}/credentials?acc_token={}'.format(self.contract['id'], tender_token),
+                                       {'data': ''})
+        self.assertEqual(response.status, '200 OK')
+        token = response.json['access']['token']
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        response = self.app.get('/contracts/{}'.format(self.contract['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        items = response.json['data']["items"]
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"items": [{
+                                           "quantity": 12,
+                                           'description': 'тапочки для тараканів'
+                                       }]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['items'][0]['quantity'], 12)
+        self.assertEqual(response.json['data']['items'][0]['description'], u'тапочки для тараканів')
+
+        # add one more item
+        item = deepcopy(items[0])
+        item['quantity'] = 11
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"items": [{}, item]}}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.json['errors'], [
+            {"location": "body", "name": "items", "description": ["Item id should be uniq for all items"]}
+        ])
+
+        item['id'] = uuid4().hex
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"items": [{}, item]}})
+        self.assertEqual(len(response.json['data']['items']), 2)
+
+        # try to change classification
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"items": [{}, {
+                                           'classification': {'id': '19433000-0'},
+                                       }]}}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.json['errors'], [
+            {"location": "body", "name": "items", "description": ["CPV group of items be identical"]}
+        ])
+
+        # add additional classification
+        item_classific = deepcopy(self.initial_data['items'][0]['classification'])
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"items": [{}, {
+                                           'additionalClassifications': [{}, item_classific],
+                                       }]}})
+        self.assertEqual(len(response.json['data']['items']), 2)
+        item_1 = response.json['data']['items'][0]
+        self.assertEqual(len(item_1['additionalClassifications']), 1)
+        item_2 = response.json['data']['items'][1]
+        self.assertEqual(len(item_2['additionalClassifications']), 2)
+
+        # update item fields
+        startDate = get_now().isoformat()
+        endDate = (get_now() + timedelta(days=90)).isoformat()
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"items": [{}, {
+                                           'deliveryAddress': {u"postalCode": u"79011", u"streetAddress": u"вул. Літаючого Хом’яка",},
+                                           'deliveryDate': {u"startDate": startDate, u"endDate": endDate}
+                                       }]}})
+        self.assertEqual(response.json['data']['items'][1]['deliveryAddress']['postalCode'], u"79011")
+        self.assertEqual(response.json['data']['items'][1]['deliveryAddress']['streetAddress'], u"вул. Літаючого Хом’яка")
+        self.assertEqual(response.json['data']['items'][1]['deliveryAddress']['region'], u"м. Київ")
+        self.assertEqual(response.json['data']['items'][1]['deliveryAddress']['locality'], u"м. Київ")
+        self.assertEqual(response.json['data']['items'][1]['deliveryAddress']['countryName'], u"Україна")
+        self.assertEqual(response.json['data']['items'][1]['deliveryDate']['startDate'], startDate)
+        self.assertEqual(response.json['data']['items'][1]['deliveryDate']['endDate'], endDate)
+
+        # remove first item
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"items": [item_2]}})
+        self.assertEqual(len(response.json['data']['items']), 1)
+        self.assertEqual(response.json['data']['items'][0], item_2)
+
+        # try to remove all items
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"items": []}}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+
+
     def test_patch_tender_contract(self):
         response = self.app.patch_json('/contracts/{}'.format(self.contract['id']), {"data": {"title": "New Title"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
@@ -644,14 +736,12 @@ class ContractResource4AdministratorTest(BaseContractWebTest):
             'value': {'amount': 100500},
             'id': '1234' * 8,
             'owner': 'kapitoshka',
-            'items': [],
             'contractID': "UA-00-00-00",
             'dateSigned': get_now().isoformat(),
         }})
         self.assertEqual(response.json['data']['value']['amount'], 238)
         self.assertEqual(response.json['data']['id'], self.initial_data['id'])
         self.assertEqual(response.json['data']['owner'], self.initial_data['owner'])
-        self.assertEqual(len(response.json['data']['items']), len(self.initial_data['items']))
         self.assertEqual(response.json['data']['contractID'], self.initial_data['contractID'])
         self.assertEqual(response.json['data']['dateSigned'], self.initial_data['dateSigned'])
 
