@@ -12,98 +12,98 @@ from openprocurement.api.utils import VERSION
 now = datetime.now()
 
 test_contract_data = {
-    "items": [
+    u"items": [
         {
-        "description": u"футляри до державних нагород",
-        "classification": {
-                        "scheme": u"CPV",
-                        "description": u"Cartons",
-                        "id": u"44617100-9"
+        u"description": u"футляри до державних нагород",
+        u"classification": {
+                        u"scheme": u"CPV",
+                        u"description": u"Cartons",
+                        u"id": u"44617100-9"
                     },
-        "additionalClassifications": [
+        u"additionalClassifications": [
                         {
-                                        "scheme": u"ДКПП",
-                                        "id": u"17.21.1",
-                                        "description": u"папір і картон гофровані, паперова й картонна тара"
+                                        u"scheme": u"ДКПП",
+                                        u"id": u"17.21.1",
+                                        u"description": u"папір і картон гофровані, паперова й картонна тара"
                                     }
                     ],
-        "deliveryAddress": {
-                        "postalCode": u"79000",
-                        "countryName": u"Україна",
-                        "streetAddress": u"вул. Банкова 1",
-                        "region": u"м. Київ",
-                        "locality": u"м. Київ"
+        u"deliveryAddress": {
+                        u"postalCode": u"79000",
+                        u"countryName": u"Україна",
+                        u"streetAddress": u"вул. Банкова 1",
+                        u"region": u"м. Київ",
+                        u"locality": u"м. Київ"
                     },
-        "deliveryDate": {
-                        "startDate": "2016-03-20T18:47:47.136678+02:00",
-                        "endDate": "2016-03-23T18:47:47.136678+02:00"
+        u"deliveryDate": {
+                        u"startDate": u"2016-03-20T18:47:47.136678+02:00",
+                        u"endDate": u"2016-03-23T18:47:47.136678+02:00"
                     },
-        "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
-        "unit": {
-            "code": "44617100-9",
-            "name": "item"
+        u"id": u"c6c6e8ed4b1542e4bf13d3f98ec5ab59",
+        u"unit": {
+            u"code": u"44617100-9",
+            u"name": u"item"
         },
-        "quantity": 5
+        u"quantity": 5
         }
     ],
-    "procuringEntity": {
-        "name": u"Державне управління справами",
-        "identifier": {
-            "scheme": u"UA-EDR",
-            "id": u"00037256",
-            "uri": u"http://www.dus.gov.ua/"
+    u"procuringEntity": {
+        u"name": u"Державне управління справами",
+        u"identifier": {
+            u"scheme": u"UA-EDR",
+            u"id": u"00037256",
+            u"uri": u"http://www.dus.gov.ua/"
         },
-        "address": {
-            "countryName": u"Україна",
-            "postalCode": u"01220",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова, 11, корпус 1"
+        u"address": {
+            u"countryName": u"Україна",
+            u"postalCode": u"01220",
+            u"region": u"м. Київ",
+            u"locality": u"м. Київ",
+            u"streetAddress": u"вул. Банкова, 11, корпус 1"
         },
-        "contactPoint": {
-            "name": u"Державне управління справами",
-            "telephone": u"0440000000"
+        u"contactPoint": {
+            u"name": u"Державне управління справами",
+            u"telephone": u"0440000000"
         }
     },
-    "suppliers": [
+    u"suppliers": [
         {
-        "contactPoint": {
-            "email": u"aagt@gmail.com",
-            "telephone": u"+380 (322) 91-69-30",
-            "name": u"Андрій Олексюк"
+        u"contactPoint": {
+            u"email": u"aagt@gmail.com",
+            u"telephone": u"+380 (322) 91-69-30",
+            u"name": u"Андрій Олексюк"
         },
-        "identifier": {
-            "scheme": u"UA-EDR",
-            "id": u"00137226",
-            "uri": u"http://www.sc.gov.ua/"
+        u"identifier": {
+            u"scheme": u"UA-EDR",
+            u"id": u"00137226",
+            u"uri": u"http://www.sc.gov.ua/"
         },
-        "name": u"ДКП «Книга»",
-        "address": {
-                    "postalCode": u"79013",
-                    "countryName": u"Україна",
-                    "streetAddress": u"вул. Островського, 34",
-                    "region": u"м. Львів",
-                    "locality": u"м. Львів"
+        u"name": u"ДКП «Книга»",
+        u"address": {
+                    u"postalCode": u"79013",
+                    u"countryName": u"Україна",
+                    u"streetAddress": u"вул. Островського, 34",
+                    u"region": u"м. Львів",
+                    u"locality": u"м. Львів"
                     }
         }
     ],
-    "contractNumber": u"contract #13111",
-    "period": {
-                "startDate": "2016-03-18T18:47:47.155143+02:00",
-                "endDate": "2017-03-18T18:47:47.155143+02:00"
+    u"contractNumber": u"contract #13111",
+    u"period": {
+                u"startDate": u"2016-03-18T18:47:47.155143+02:00",
+                u"endDate": u"2017-03-18T18:47:47.155143+02:00"
             },
-    "value": {
-        "currency": "UAH",
-        "amount": 238.0,
-        "valueAddedTaxIncluded": True
+    u"value": {
+        u"currency": u"UAH",
+        u"amount": 238.0,
+        u"valueAddedTaxIncluded": True
         },
-    "dateSigned": "2016-03-18T18:48:05.762961+02:00",
-    "awardID": "8481d7eb01694c25b18658036c236c5d",
-    "id": uuid4().hex,
-    "contractID": "UA-2016-03-18-000001-1",
-    "tender_id": uuid4().hex,
-    "tender_token": uuid4().hex,
-    "owner": "broker"
+    u"dateSigned": u"2016-03-18T18:48:05.762961+02:00",
+    u"awardID": u"8481d7eb01694c25b18658036c236c5d",
+    u"id": uuid4().hex,
+    u"contractID": u"UA-2016-03-18-000001-1",
+    u"tender_id": uuid4().hex,
+    u"tender_token": uuid4().hex,
+    u"owner": u"broker"
 }
 
 documents = [
