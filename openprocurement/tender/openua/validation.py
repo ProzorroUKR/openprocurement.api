@@ -9,7 +9,7 @@ def validate_patch_tender_ua_data(request):
             request.errors.add('body', 'data', 'Can\'t update tender in current (draft) status')
             request.errors.status = 403
             return
-        request.validated['data'] = {}
+        request.validated['data'] = {'status': default_status}
         request.context.status = default_status
         return
     if data:
