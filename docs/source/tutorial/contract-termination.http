@@ -1,4 +1,4 @@
-PATCH /api/2.3/contracts/112a2925d5f64355a04f78ae71e40add?acc_token=c4c1e960ef11492b958715b14d4f4108 HTTP/1.0
+PATCH /api/2.3/contracts/2b96ac8412b94512a3db4613143b7150?acc_token=df4891826c6d4e4eabd56e02b6540e49 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 34
 Content-Type: application/json
@@ -23,35 +23,35 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "contract.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/112a2925d5f64355a04f78ae71e40add/documents/83e3070b4deb452b9d841f31be69e793?download=a7a3c0faebc8415694a876bc344f3dfe", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/2b96ac8412b94512a3db4613143b7150/documents/7dd48b2d4fa144118abae6cb0a6e863c?download=36b9133e1182494a908e2328afcc0b10", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-05-06T19:38:49.357409+03:00", 
-        "id": "83e3070b4deb452b9d841f31be69e793", 
-        "dateModified": "2016-05-06T19:38:49.357448+03:00"
+        "datePublished": "2016-05-10T20:18:01.776394+03:00", 
+        "id": "7dd48b2d4fa144118abae6cb0a6e863c", 
+        "dateModified": "2016-05-10T20:18:01.776434+03:00"
       }, 
       {
         "title": "contract_additional_docs.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/112a2925d5f64355a04f78ae71e40add/documents/c13e3f975380428f8859d5303a2291e7?download=282706bf41e444b49988f47e7a840956", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/2b96ac8412b94512a3db4613143b7150/documents/17637852feb34b008ccbb85e1d1670f2?download=34a6e90292ea4145980c9f0515a118c8", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-05-06T19:38:49.559330+03:00", 
-        "id": "c13e3f975380428f8859d5303a2291e7", 
-        "dateModified": "2016-05-06T19:38:49.559384+03:00"
+        "datePublished": "2016-05-10T20:18:01.939029+03:00", 
+        "id": "17637852feb34b008ccbb85e1d1670f2", 
+        "dateModified": "2016-05-10T20:18:01.939068+03:00"
       }, 
       {
         "title": "contract_additional_docs.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/112a2925d5f64355a04f78ae71e40add/documents/c13e3f975380428f8859d5303a2291e7?download=a0f2d43bcfa24c06bd8d61ef700ebbc3", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/2b96ac8412b94512a3db4613143b7150/documents/17637852feb34b008ccbb85e1d1670f2?download=df1c91a1db17495fa41ec37d62a4e31d", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-05-06T19:38:49.559330+03:00", 
-        "id": "c13e3f975380428f8859d5303a2291e7", 
-        "dateModified": "2016-05-06T19:38:49.700923+03:00"
+        "datePublished": "2016-05-10T20:18:01.939029+03:00", 
+        "id": "17637852feb34b008ccbb85e1d1670f2", 
+        "dateModified": "2016-05-10T20:18:02.060127+03:00"
       }
     ], 
     "items": [
       {
-        "description": "футляри до державних нагород", 
+        "description": "коробки для футлярів до державних нагород", 
         "classification": {
           "scheme": "CPV", 
           "description": "Cartons", 
@@ -72,15 +72,15 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-08T19:38:41.557380+03:00", 
-          "endDate": "2016-05-11T19:38:41.557380+03:00"
+          "startDate": "2016-05-12T20:17:53.323918+03:00", 
+          "endDate": "2016-05-15T20:17:53.323918+03:00"
         }, 
-        "id": "438dca8a73c84dc2bf89a42dc53b9a47", 
+        "id": "11e3a693845648b8bfb5885fe90d18e6", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
         }, 
-        "quantity": 5
+        "quantity": 2
       }
     ], 
     "suppliers": [
@@ -105,11 +105,11 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-05-06T19:38:48.936160+03:00", 
-      "endDate": "2016-06-05T19:38:48.936217+03:00"
+      "startDate": "2016-05-10T20:18:00.931684+03:00", 
+      "endDate": "2016-06-09T20:18:00.931730+03:00"
     }, 
-    "dateSigned": "2016-05-06T19:38:48.268149+03:00", 
-    "id": "112a2925d5f64355a04f78ae71e40add", 
+    "dateSigned": "2016-05-10T20:18:00.261487+03:00", 
+    "id": "2b96ac8412b94512a3db4613143b7150", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -130,11 +130,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "contractID": "UA-2016-05-06-000001-1", 
+    "contractID": "UA-2016-05-10-000001-1", 
     "owner": "broker", 
-    "awardID": "ef55ed1e521c41f1a9c950fd1f8689b0", 
-    "dateModified": "2016-05-06T19:38:49.879608+03:00", 
-    "tender_id": "f972af91ab884861b59ecfdfd7c3dae6"
+    "awardID": "23c3dd35c91842c3940b829b7ed8d663", 
+    "dateModified": "2016-05-10T20:18:02.257537+03:00", 
+    "tender_id": "1dba363f861a402d89a1db556b684e0a"
   }
 }
 
