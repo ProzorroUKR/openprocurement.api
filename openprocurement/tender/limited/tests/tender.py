@@ -524,7 +524,9 @@ class TenderResourceTest(BaseTenderWebTest):
         tender = response.json['data']
         fields = [u'id', u'dateModified', u'tenderID', u'status', u'items',
                   u'value', u'procuringEntity', u'owner', u'procurementMethod',
-                  u'procurementMethodType', u'title', u'procurementMethodDetails']
+                  u'procurementMethodType', u'title']
+        if u'procurementMethodDetails' in self.initial_data:
+            fields.append(u'procurementMethodDetails')
         if "negotiation" == self.initial_data['procurementMethodType']:
             fields.append(u'cause')
         if "negotiation" in self.initial_data['procurementMethodType']:
@@ -570,9 +572,9 @@ class TenderResourceTest(BaseTenderWebTest):
         tender_set = set(tender)
         if 'procurementMethodDetails' in tender_set:
             tender_set.remove('procurementMethodDetails')
-        if u'cause' in tender_set:
+        if "negotiation" == self.initial_data['procurementMethodType']:
             tender_set.remove(u'cause')
-        if u'causeDescription' in tender_set:
+        if "negotiation" in self.initial_data['procurementMethodType']:
             tender_set.remove(u'causeDescription')
         self.assertEqual(tender_set - set(test_tender_data), set(
             [u'id', u'dateModified', u'owner', u'tenderID', u'status', u'procurementMethod']))

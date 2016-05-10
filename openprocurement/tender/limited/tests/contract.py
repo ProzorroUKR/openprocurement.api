@@ -572,6 +572,7 @@ class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
         self.award_id = award['id']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
 
+    @unittest.skipUnless(SANDBOX_MODE, "not supported accelerator")
     def test_create_tender_contract_negotination_quick(self):
         response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
         self.contract_id = response.json['data'][0]['id']
