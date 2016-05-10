@@ -29,7 +29,7 @@ contract_create_role = (whitelist(
 
 contract_edit_role = (whitelist(
     'title', 'title_en', 'title_ru', 'description', 'description_en',
-    'description_ru', 'status', 'period', 'value' , 'mode'
+    'description_ru', 'status', 'period', 'value' , 'mode', 'items'
 ))
 
 contract_view_role = (whitelist(
@@ -40,6 +40,11 @@ contract_view_role = (whitelist(
 ))
 
 contract_administrator_role = (Administrator_role + whitelist('suppliers',))
+
+item_edit_role = whitelist(
+    'description', 'description_en', 'description_ru', 'classification',
+    'additionalClassifications', 'unit', 'deliveryDate', 'deliveryAddress',
+    'deliveryLocation', 'quantity', 'id')
 
 
 class IContract(Interface):
@@ -74,6 +79,14 @@ class ProcuringEntity(Organization):
 
 
 class Item(BaseItem):
+
+    class Options:
+        roles = {
+            'edit_active': item_edit_role,
+            'view': schematics_default_role,
+            'embedded': schematics_embedded_role,
+        }
+
     def validate_relatedLot(self, data, relatedLot):
         pass
 
@@ -85,7 +98,7 @@ class Contract(SchematicsDocument, BaseContract):
     revisions = ListType(ModelType(Revision), default=list())
     dateModified = IsoDateTimeType()
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
-    items = ListType(ModelType(Item), required=False, validators=[validate_cpv_group, validate_items_uniq])
+    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
     owner_token = StringType(default=lambda: uuid4().hex)
