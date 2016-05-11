@@ -1,5 +1,6 @@
 from uuid import uuid4
 from datetime import timedelta
+from iso8601 import parse_date
 from pyramid.security import Allow
 from zope.interface import implementer
 from schematics.types import StringType, MD5Type, BooleanType
@@ -27,7 +28,7 @@ from openprocurement.tender.openua.utils import (
 from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint, Award as BaseAward, Item as BaseItem,
     PeriodStartEndRequired, SifterListType, COMPLAINT_SUBMIT_TIME,
-    EnquiryPeriod, ENQUIRY_STAND_STILL_TIME,
+    EnquiryPeriod, ENQUIRY_STAND_STILL_TIME, AUCTION_PERIOD_TIME,
 )
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
@@ -571,6 +572,13 @@ class Tender(BaseTender):
         return len([bid for bid in self.bids if bid.status in ("active", "pending",)])
 
     def invalidate_bids_data(self):
+        if self.auctionPeriod and self.auctionPeriod.startDate and self.auctionPeriod.shouldStartAfter \
+                and self.auctionPeriod.startDate > calculate_business_date(parse_date(self.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True):
+            self.auctionPeriod.startDate = None
+        for lot in self.lots:
+            if lot.auctionPeriod and lot.auctionPeriod.startDate and lot.auctionPeriod.shouldStartAfter \
+                    and lot.auctionPeriod.startDate > calculate_business_date(parse_date(lot.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True):
+                lot.auctionPeriod.startDate = None
         self.enquiryPeriod.invalidationDate = get_now()
         for bid in self.bids:
             if bid.status != "deleted":
