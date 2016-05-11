@@ -280,11 +280,11 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
         for b in response.json['data']:
-            self.assertEqual(set(b.keys()), set(['id', 'status']))
+            self.assertEqual(set(b.keys()), set(['id', 'status', 'tenderers']))
 
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(set(response.json['data'].keys()), set(['id', 'status']))
+        self.assertEqual(set(response.json['data'].keys()), set(['id', 'status', 'tenderers']))
 
         # qualify bids
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
@@ -304,11 +304,11 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
         for b in response.json['data']:
-            self.assertEqual(set(b.keys()), set(['id', 'status']))
+            self.assertEqual(set(b.keys()), set(['id', 'status', 'tenderers']))
 
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(set(response.json['data'].keys()), set(['id', 'status']))
+        self.assertEqual(set(response.json['data'].keys()), set(['id', 'status', 'tenderers']))
 
         # switch to active.auction
         self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
@@ -321,11 +321,11 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
         for b in response.json['data']:
-            self.assertEqual(set(b.keys()), set(['id', 'status']))
+            self.assertEqual(set(b.keys()), set(['id', 'status', 'tenderers']))
 
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(set(response.json['data'].keys()), set(['id', 'status']))
+        self.assertEqual(set(response.json['data'].keys()), set(['id', 'status', 'tenderers']))
 
         # switch to qualification
         self.app.authorization = ('Basic', ('auction', ''))
@@ -1299,11 +1299,11 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
-        self.assertEqual(set(response.json['data'][0].keys()), set(['id', 'status', 'documents']))
-        self.assertEqual(set(response.json['data'][1].keys()), set(['id', 'status']))
+        self.assertEqual(set(response.json['data'][0].keys()), set(['id', 'status', 'documents', 'tenderers']))
+        self.assertEqual(set(response.json['data'][1].keys()), set(['id', 'status', 'tenderers']))
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(set(response.json['data'].keys()), set(['id', 'status', 'documents']))
+        self.assertEqual(set(response.json['data'].keys()), set(['id', 'status', 'documents', 'tenderers']))
         response = self.app.get('/tenders/{}/bids/{}/documents'.format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
@@ -1338,11 +1338,11 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
-        self.assertEqual(set(response.json['data'][0].keys()), set(['id', 'status', 'documents']))
-        self.assertEqual(set(response.json['data'][1].keys()), set(['id', 'status']))
+        self.assertEqual(set(response.json['data'][0].keys()), set(['id', 'status', 'documents', 'tenderers']))
+        self.assertEqual(set(response.json['data'][1].keys()), set(['id', 'status', 'tenderers']))
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(set(response.json['data'].keys()), set(['id', 'status', 'documents']))
+        self.assertEqual(set(response.json['data'].keys()), set(['id', 'status', 'documents', 'tenderers']))
         response = self.app.get('/tenders/{}/bids/{}/documents'.format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
@@ -1368,11 +1368,11 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
-        self.assertEqual(set(response.json['data'][0].keys()), set(['id', 'status', 'documents']))
-        self.assertEqual(set(response.json['data'][1].keys()), set(['id', 'status']))
+        self.assertEqual(set(response.json['data'][0].keys()), set(['id', 'status', 'documents', 'tenderers']))
+        self.assertEqual(set(response.json['data'][1].keys()), set(['id', 'status', 'tenderers']))
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(set(response.json['data'].keys()), set(['id', 'status', 'documents']))
+        self.assertEqual(set(response.json['data'].keys()), set(['id', 'status', 'documents', 'tenderers']))
         response = self.app.get('/tenders/{}/bids/{}/documents'.format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 2)
