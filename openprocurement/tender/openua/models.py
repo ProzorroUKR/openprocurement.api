@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta, time, datetime
+from iso8601 import parse_date
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
@@ -43,6 +44,7 @@ COMPLAINT_SUBMIT_TIME = timedelta(days=4)
 TENDER_PERIOD = timedelta(days=15)
 ENQUIRY_PERIOD_TIME = timedelta(days=10)
 TENDERING_EXTRA_PERIOD = timedelta(days=7)
+AUCTION_PERIOD_TIME = timedelta(days=2)
 
 
 def bids_validation_wrapper(validation_func):
@@ -542,6 +544,13 @@ class Tender(BaseTender):
         return min(checks).isoformat() if checks else None
 
     def invalidate_bids_data(self):
+        if self.auctionPeriod and self.auctionPeriod.startDate and self.auctionPeriod.shouldStartAfter \
+                and self.auctionPeriod.startDate > calculate_business_date(parse_date(self.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True):
+            self.auctionPeriod.startDate = None
+        for lot in self.lots:
+            if lot.auctionPeriod and lot.auctionPeriod.startDate and lot.auctionPeriod.shouldStartAfter \
+                    and lot.auctionPeriod.startDate > calculate_business_date(parse_date(lot.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True):
+                lot.auctionPeriod.startDate = None
         self.enquiryPeriod.invalidationDate = get_now()
         for bid in self.bids:
             if bid.status != "deleted":
