@@ -132,6 +132,7 @@ class Contract(SchematicsDocument, BaseContract):
     suppliers = ListType(ModelType(Organization), min_size=1, max_size=1)
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     changes = ListType(ModelType(Change), default=list())
+    documents = ListType(ModelType(Document), default=list())
 
     create_accreditation = 3  # TODO
 
