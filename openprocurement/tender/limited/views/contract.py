@@ -76,6 +76,7 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
         contract_dateSigned = self.request.context.dateSigned
         contract_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
+        self.request.context.date = get_now()
         if contract_status != self.request.context.status and contract_status != 'pending' and self.request.context.status != 'active':
             self.request.errors.add('body', 'data', 'Can\'t update contract status')
             self.request.errors.status = 403
@@ -148,6 +149,7 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
 
         contract_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
+        self.request.context.date = get_now()
         if contract_status != self.request.context.status and contract_status != 'pending' and self.request.context.status != 'active':
             self.request.errors.add('body', 'data', 'Can\'t update contract status')
             self.request.errors.status = 403
