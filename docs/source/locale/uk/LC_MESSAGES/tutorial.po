@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 17:22+0300\n"
-"PO-Revision-Date: 2016-05-11 11:24+0300\n"
+"PO-Revision-Date: 2016-05-12 17:24+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -56,11 +56,11 @@ msgstr ""
 "повної URL-адреси, якщо додати `http://api-"
 "sandbox.openprocurement.org/api/0/contracts/`) та його dateModified дату."
 
-#: ../../source/tutorial.rst:112
+#: ../../source/tutorial.rst:114
 msgid "Uploading documentation"
 msgstr "Завантаження документації"
 
-#: ../../source/tutorial.rst:120
+#: ../../source/tutorial.rst:122
 msgid ""
 "`201 Created` response code and `Location` header confirm document creation."
 " We can additionally query the `documents` collection API endpoint to "
@@ -70,11 +70,11 @@ msgstr ""
 "документ було створено. Додатково можна зробити запит точки входу API "
 "колекції документів, щоб підтвердити дію:"
 
-#: ../../source/tutorial.rst:127
+#: ../../source/tutorial.rst:129
 msgid "And again we can confirm that there are two documents uploaded."
 msgstr "І знову можна перевірити, що є два завантажених документа."
 
-#: ../../source/tutorial.rst:132
+#: ../../source/tutorial.rst:134
 msgid ""
 "In case we made an error, we can reupload the document over the older "
 "version:"
@@ -82,7 +82,7 @@ msgstr ""
 "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої "
 "версії:"
 
-#: ../../source/tutorial.rst:137
+#: ../../source/tutorial.rst:139
 msgid "And we can see that it is overriding the original version:"
 msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
 
@@ -131,7 +131,7 @@ msgstr ""
 "Додатково оновлена властивість `dateModified`, щоб відображати останню дату "
 "модифікації."
 
-#: ../../source/tutorial.rst:114
+#: ../../source/tutorial.rst:116
 msgid ""
 "Procuring entity can upload PDF files into the created contract. Uploading "
 "should follow the :ref:`upload` rules."
@@ -195,7 +195,7 @@ msgstr ""
 "Перед тим, як додавати будь-які зміни до договору, ви повинні його "
 "активувати."
 
-#: ../../source/tutorial.rst:153
+#: ../../source/tutorial.rst:155
 msgid "Any future modification to the contract are not allowed."
 msgstr "Після цього додання змін до договору не дозволяється."
 
@@ -203,11 +203,11 @@ msgstr "Після цього додання змін до договору не
 msgid "Note that contract is created in ``draft`` status."
 msgstr "Зверніть увагу на те, що договір створюється у статусі ``draft``."
 
-#: ../../source/tutorial.rst:146
+#: ../../source/tutorial.rst:148
 msgid "Completing contract"
 msgstr "Завершення договору"
 
-#: ../../source/tutorial.rst:148
+#: ../../source/tutorial.rst:150
 msgid "Contract can be completed by switching to ``terminated`` status."
 msgstr "Договір завершується переключенням у статус ``terminated``."
 
@@ -228,14 +228,18 @@ msgstr ""
 "`value.amount`, `period`, `items`."
 
 #: ../../source/tutorial.rst:95
-msgid "Add item:"
-msgstr "Додати елемент `item`:"
+msgid "See examples of `items` customization below. You can:"
+msgstr "Дивіться приклади зміни елемента (`items`) нижче. Ви можете:"
 
-#: ../../source/tutorial.rst:100
-msgid "Update item:"
-msgstr "Оновити елемент `item`:"
+#: ../../source/tutorial.rst:97
+msgid "add item:"
+msgstr "додати елемент (`items`):"
 
-#: ../../source/tutorial.rst:105
-msgid "Delete item:"
-msgstr "Видалити елемент `item`:"
+#: ../../source/tutorial.rst:102
+msgid "update item:"
+msgstr "оновити елемент (`items`):"
+
+#: ../../source/tutorial.rst:107
+msgid "delete item:"
+msgstr "видалити елемент (`items`):"
 
