@@ -92,17 +92,19 @@ We see the added properties have merged with existing contract data. Additionall
 
 Fields that can be modified: `title`, `description`, `status`, `value.amount`, `period`, `items`.
 
-Add item:
+See examples of `items` customization below. You can:
+
+* add item:
 
 .. include:: tutorial/add-contract-item.http
    :code:
 
-Update item:
+* update item:
 
 .. include:: tutorial/update-contract-item.http
    :code:
 
-Delete item:
+* delete item:
 
 .. include:: tutorial/delete-contract-item.http
    :code:
