@@ -100,6 +100,19 @@ class TenderUaAwardResource(TenderAwardResource):
                 'items': [i for i in tender.items if i.relatedLot == award.lotID ],
                 'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) +1) }))
             add_next_award(self.request)
+        elif award_status == 'active' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
+            now = get_now()
+            cancelled_awards = []
+            for i in tender.awards:
+                if i.lotID != award.lotID:
+                    continue
+                i.complaintPeriod.endDate = now
+                i.status = 'cancelled'
+                cancelled_awards.append(i.id)
+            for i in tender.contracts:
+                if i.awardID in cancelled_awards:
+                    i.status = 'cancelled'
+            add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
             award.complaintPeriod.endDate = get_now()
             for i in tender.contracts:
