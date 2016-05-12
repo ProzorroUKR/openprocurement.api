@@ -55,6 +55,8 @@ class IContract(Interface):
 
 class Document(BaseDocument):
     """ Contract Document """
+    documentOf = StringType(required=True, choices=[
+        'tender', 'item', 'lot', 'contract', 'change'], default='contract')
 
 
 class ContactPoint(BaseContactPoint):
