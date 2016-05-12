@@ -36,5 +36,7 @@ def factory(request):
         request.validated['contract_src'] = contract.serialize('plain')
     if request.matchdict.get('document_id'):
         return get_item(contract, 'document', request)
+    if request.matchdict.get('change_id'):
+        return get_item(contract, 'change', request)
     request.validated['id'] = request.matchdict['contract_id']
     return contract
