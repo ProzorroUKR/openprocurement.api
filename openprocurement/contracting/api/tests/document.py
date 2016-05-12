@@ -100,6 +100,7 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
         self.assertEqual(u'укр.doc', response.json["data"]["title"])
+        self.assertEqual(response.json["data"]["documentOf"], "contract")
         key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
         response = self.app.get('/contracts/{}/documents'.format(self.contract_id))
