@@ -518,6 +518,14 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                 'items': tender.items,
                 'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) +1) }))
             # add_next_award(self.request)
+        elif award_status == 'active' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
+            now = get_now()
+            for i in tender.awards:
+                if i.complaintPeriod.endDate > now:
+                    i.complaintPeriod.endDate = now
+                i.status = 'cancelled'
+            for i in tender.contracts:
+                i.status = 'cancelled'
         elif award_status == 'active' and award.status == 'cancelled':
             now = get_now()
             if award.complaintPeriod.endDate > now:
@@ -530,7 +538,13 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             award.complaintPeriod.endDate = calculate_business_date(get_now(), self.stand_still_delta, tender)
             # add_next_award(self.request)
         elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
-            award.complaintPeriod.endDate = get_now()
+            now = get_now()
+            for i in tender.awards:
+                if i.complaintPeriod.endDate > now:
+                    i.complaintPeriod.endDate = now
+                i.status = 'cancelled'
+            for i in tender.contracts:
+                i.status = 'cancelled'
         elif award_status != award.status:
             self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
             self.request.errors.status = 403
