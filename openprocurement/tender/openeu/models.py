@@ -286,7 +286,7 @@ class Bid(BaseBid):
             'complete': view_bid_role,
             'unsuccessful': view_bid_role,
             'cancelled': view_bid_role,
-            'invalid': whitelist('id', 'status', 'documents', 'tenderers'),
+            'invalid': whitelist('id', 'status'),
             'deleted': whitelist('id', 'status'),
         }
     documents = ListType(ModelType(ConfidentialDocument), default=list())
