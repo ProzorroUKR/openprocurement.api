@@ -31,7 +31,7 @@ contract_create_role = (whitelist(
 
 contract_edit_role = (whitelist(
     'title', 'title_en', 'title_ru', 'description', 'description_en',
-    'description_ru', 'status', 'period', 'value' , 'mode', 'items'
+    'description_ru', 'status', 'period', 'value' , 'items'
 ))
 
 contract_view_role = (whitelist(
