@@ -144,6 +144,22 @@ And we can see that it is overriding the original version:
 
 .. index:: Enquiries, Question, Answer
 
+
+Submitting contract change
+--------------------------
+
+.. include:: tutorial/add-contract-change.http
+   :code:
+
+.. include:: tutorial/patch-contract-change.http
+   :code:
+
+.. include:: tutorial/add-contract-change-document.http
+   :code:
+
+.. include:: tutorial/apply-contract-change.http
+   :code:
+
 Completing contract
 -------------------
 

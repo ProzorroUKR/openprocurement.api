@@ -1,0 +1,25 @@
+POST /api/2.3/contracts/61e18d8bf0684f9ea5a7458f8a9059a7/changes?acc_token=36e988b25a144175b8e88bafa299a701 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 215
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "rationale_en": "Contract change cause", 
+    "rationale": "Опис причини змін контракту"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "date": "2016-05-13T20:19:28.234951+03:00", 
+    "rationale_en": "Contract change cause", 
+    "id": "2d92c925f25245519a3d094395f0de1f", 
+    "rationale": "Опис причини змін контракту"
+  }
+}
+

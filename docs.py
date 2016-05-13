@@ -229,6 +229,44 @@ class TenderResourceTest(BaseTenderWebTest):
         with open('docs/source/tutorial/get-contract-document-3.http', 'w') as self.app.file_obj:
             response = self.app.get('/contracts/{}/documents/{}?acc_token={}'.format(contract_id, doc_id, contract_token))
 
+        # Submitting contract change
+        # add contract change
+        with open('docs/source/tutorial/add-contract-change.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(contract_id, contract_token),
+                                          {'data': {'rationale': u'Опис причини змін контракту',
+                                                    'rationale_en': 'Contract change cause'}})
+            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.content_type, 'application/json')
+            change = response.json['data']
+
+        with open('docs/source/tutorial/patch-contract-change.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(contract_id, change['id'], contract_token),
+                                          {'data': {'rationale': u'Друга і третя поставка має бути розфасована'}})
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.content_type, 'application/json')
+            change = response.json['data']
+
+        # add contract change document
+        with open('docs/source/tutorial/add-contract-change-document.http', 'w') as self.app.file_obj:
+            response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
+                contract_id, contract_token), upload_files=[('file', 'contract_changes.doc', 'content')])
+            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.content_type, 'application/json')
+            doc_id = response.json["data"]['id']
+
+            response = self.app.patch_json('/contracts/{}/documents/{}?acc_token={}'.format(contract_id, doc_id, contract_token), {"data": {
+                "documentOf": "change",
+                "relatedItem": change['id'],
+            }})
+            self.assertEqual(response.status, '200 OK')
+
+        # apply contract change
+        with open('docs/source/tutorial/apply-contract-change.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(contract_id, change['id'], contract_token),
+                                           {'data': {'status': 'active'}})
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.content_type, 'application/json')
+
         # Finalize contract
         with open('docs/source/tutorial/contract-termination.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract_id, contract_token),
