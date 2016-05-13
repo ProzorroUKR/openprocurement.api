@@ -4,7 +4,8 @@ from openprocurement.api.utils import (
     decrypt,
     encrypt,
     json_view,
-    APIResource
+    APIResource,
+    get_now
 )
 
 from openprocurement.contracting.api.utils import (
@@ -72,6 +73,7 @@ class ContractsChangesResource(APIResource):
                 self.request.errors.add('body', 'data', 'Can\'t update contract change in current ({}) status'.format(change.status))
                 self.request.errors.status = 403
                 return
+            change['date'] = get_now()
 
         if apply_patch(self.request, src=change.serialize()):
             self.LOGGER.info('Updated contract change {}'.format(change.id),
