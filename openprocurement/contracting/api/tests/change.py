@@ -202,6 +202,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         change = response.json['data']
         self.assertEqual(change['status'], 'pending')
         self.assertEqual(change['contractNumber'], u'№ 146')
+        creation_date = change['date']
 
         now = get_now().isoformat()
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
@@ -213,11 +214,15 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
                                        {'data': {'rationale_ru': 'шота на руськом'}})
         self.assertEqual(response.status, '200 OK')
         self.assertIn('rationale_ru', response.json['data'])
+        first_patch_date = response.json['data']['date']
+        self.assertEqual(first_patch_date, creation_date)
 
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
                                        {'data': {'rationale_en': 'another cause desctiption'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['rationale_en'], 'another cause desctiption')
+        second_patch_date = response.json['data']['date']
+        self.assertEqual(first_patch_date, second_patch_date)
 
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
                                        {'data': {'id': '1234' * 8}})
@@ -237,6 +242,9 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
                                        {'data': {'status': 'active'}})
         self.assertEqual(response.status, '200 OK')
+        self.assertNotEqual(response.json['data']['date'], creation_date)
+        self.assertNotEqual(response.json['data']['date'], first_patch_date)
+        self.assertNotEqual(response.json['data']['date'], second_patch_date)
 
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
                                        {'data': {'status': 'pending'}}, status=403)
