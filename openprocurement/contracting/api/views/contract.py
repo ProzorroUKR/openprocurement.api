@@ -203,10 +203,10 @@ class ContractResource(ContractsResource):
             self.request.errors.status = 403
             return
 
-        apply_patch(self.request, src=self.request.validated['contract_src'])
-        self.LOGGER.info('Updated contract {}'.format(contract.id),
-                         extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_patch'}))
-        return {'data': contract.serialize('view')}
+        if apply_patch(self.request, src=self.request.validated['contract_src']):
+            self.LOGGER.info('Updated contract {}'.format(contract.id),
+                            extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_patch'}))
+            return {'data': contract.serialize('view')}
 
 
 @contractingresource(name='Contract credentials',
