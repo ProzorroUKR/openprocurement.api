@@ -203,7 +203,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
                                        {'data': {'date': now}})
         self.assertEqual(response.status, '200 OK')
-        self.assertNotEqual(response.json['data']['date'], now)
+        self.assertEqual(response.body, 'null')
 
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
                                        {'data': {'rationale_ru': 'шота на руськом'}})
@@ -218,12 +218,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
                                        {'data': {'id': '1234' * 8}})
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['id'], change['id'])
-
-        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
-                                       {'data': {'id': '1234' * 8}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['id'], change['id'])
+        self.assertEqual(response.body, 'null')
 
         self.app.authorization = None
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
