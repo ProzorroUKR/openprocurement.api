@@ -1,4 +1,4 @@
-GET /api/2.3/contracts/2b96ac8412b94512a3db4613143b7150/documents/17637852feb34b008ccbb85e1d1670f2?acc_token=df4891826c6d4e4eabd56e02b6540e49 HTTP/1.0
+GET /api/2.3/contracts/61e18d8bf0684f9ea5a7458f8a9059a7/documents/6545864e7bfa4b91a9fd745c9cc563a5?acc_token=36e988b25a144175b8e88bafa299a701 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -7,23 +7,23 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "title": "contract_additional_docs.doc", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/2b96ac8412b94512a3db4613143b7150/documents/17637852feb34b008ccbb85e1d1670f2?download=df1c91a1db17495fa41ec37d62a4e31d", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/61e18d8bf0684f9ea5a7458f8a9059a7/documents/6545864e7bfa4b91a9fd745c9cc563a5?download=e9be8a58041e4c488aa2bf002aa17cb7", 
     "format": "application/msword", 
-    "documentOf": "tender", 
-    "datePublished": "2016-05-10T20:18:01.939029+03:00", 
+    "documentOf": "contract", 
+    "datePublished": "2016-05-13T20:19:27.977416+03:00", 
     "previousVersions": [
       {
         "title": "contract_additional_docs.doc", 
-        "url": "/contracts/2b96ac8412b94512a3db4613143b7150/documents/17637852feb34b008ccbb85e1d1670f2?download=34a6e90292ea4145980c9f0515a118c8", 
+        "url": "/contracts/61e18d8bf0684f9ea5a7458f8a9059a7/documents/6545864e7bfa4b91a9fd745c9cc563a5?download=17a05d0575514a2e946fcb7368220a75", 
         "format": "application/msword", 
-        "documentOf": "tender", 
-        "datePublished": "2016-05-10T20:18:01.939029+03:00", 
-        "id": "17637852feb34b008ccbb85e1d1670f2", 
-        "dateModified": "2016-05-10T20:18:01.939068+03:00"
+        "documentOf": "contract", 
+        "datePublished": "2016-05-13T20:19:27.977416+03:00", 
+        "id": "6545864e7bfa4b91a9fd745c9cc563a5", 
+        "dateModified": "2016-05-13T20:19:27.977464+03:00"
       }
     ], 
-    "id": "17637852feb34b008ccbb85e1d1670f2", 
-    "dateModified": "2016-05-10T20:18:02.060127+03:00"
+    "id": "6545864e7bfa4b91a9fd745c9cc563a5", 
+    "dateModified": "2016-05-13T20:19:28.109475+03:00"
   }
 }
 
