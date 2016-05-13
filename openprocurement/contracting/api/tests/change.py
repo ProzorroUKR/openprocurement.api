@@ -132,6 +132,10 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], self.contract_token),
                                        {'data': {'changes': [{'rationale': "penguin"}]}})
         self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.body, 'null')
+
+        response = self.app.get('/contracts/{}?acc_token={}'.format(self.contract['id'], self.contract_token))
+        self.assertEqual(response.status, '200 OK')
         self.assertNotIn('changes', response.json['data'])
 
     def test_create_change(self):

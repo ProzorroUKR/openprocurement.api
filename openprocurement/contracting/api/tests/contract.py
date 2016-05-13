@@ -657,9 +657,9 @@ class ContractResource4BrokersTest(BaseContractWebTest):
                                        # {"data": {"value": {"valueAddedTaxIncluded": False}}})
 
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                       {"data": {"value": {"amount": 238}}})
+                                       {"data": {"value": {"amount": 235}}})
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['value']['amount'], 238)
+        self.assertEqual(response.json['data']['value']['amount'], 235)
 
         custom_period_start_date = get_now().isoformat()
         custom_period_end_date = (get_now() + timedelta(days=3)).isoformat()
@@ -694,7 +694,7 @@ class ContractResource4BrokersTest(BaseContractWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "terminated")
-        self.assertEqual(response.json['data']["value"]['amount'], 238)
+        self.assertEqual(response.json['data']["value"]['amount'], 235)
         self.assertEqual(response.json['data']['period']['startDate'], custom_period_start_date)
         self.assertEqual(response.json['data']['period']['endDate'], custom_period_end_date)
 
@@ -739,6 +739,9 @@ class ContractResource4AdministratorTest(BaseContractWebTest):
             'contractID': "UA-00-00-00",
             'dateSigned': get_now().isoformat(),
         }})
+        self.assertEqual(response.body, 'null')
+
+        response = self.app.get('/contracts/{}'.format(self.contract['id']))
         self.assertEqual(response.json['data']['value']['amount'], 238)
         self.assertEqual(response.json['data']['id'], self.initial_data['id'])
         self.assertEqual(response.json['data']['owner'], self.initial_data['owner'])
