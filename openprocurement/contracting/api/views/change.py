@@ -73,7 +73,7 @@ class ContractsChangesResource(APIResource):
                 self.request.errors.status = 403
                 return
 
-        apply_patch(self.request, src=change.serialize())
-        self.LOGGER.info('Updated contract change {}'.format(change.id),
-                         extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_change_patch'}))
-        return {'data': change.serialize('view')}
+        if apply_patch(self.request, src=change.serialize()):
+            self.LOGGER.info('Updated contract change {}'.format(change.id),
+                            extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_change_patch'}))
+            return {'data': change.serialize('view')}
