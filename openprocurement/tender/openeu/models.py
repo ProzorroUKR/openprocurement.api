@@ -571,7 +571,7 @@ class Tender(BaseTender):
         """A property that is serialized by schematics exports."""
         return len([bid for bid in self.bids if bid.status in ("active", "pending",)])
 
-    def invalidate_bids_data(self):
+    def check_auction_time(self):
         if self.auctionPeriod and self.auctionPeriod.startDate and self.auctionPeriod.shouldStartAfter \
                 and self.auctionPeriod.startDate > calculate_business_date(parse_date(self.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True):
             self.auctionPeriod.startDate = None
@@ -579,6 +579,9 @@ class Tender(BaseTender):
             if lot.auctionPeriod and lot.auctionPeriod.startDate and lot.auctionPeriod.shouldStartAfter \
                     and lot.auctionPeriod.startDate > calculate_business_date(parse_date(lot.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True):
                 lot.auctionPeriod.startDate = None
+
+    def invalidate_bids_data(self):
+        self.check_auction_time()
         self.enquiryPeriod.invalidationDate = get_now()
         for bid in self.bids:
             if bid.status != "deleted":
