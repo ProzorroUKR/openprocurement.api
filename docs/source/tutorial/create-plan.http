@@ -1,0 +1,248 @@
+POST /api/2.3/plans?opt_pretty=1 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 2406
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+
+{
+  "data": {
+    "classification": {
+      "scheme": "CPV", 
+      "description": "Seeds", 
+      "id": "03111000-2"
+    }, 
+    "items": [
+      {
+        "description": "Насіння гірчиці", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Mustard seeds", 
+          "id": "03111600-8"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.11.92", 
+            "description": "Насіння гірчиці"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2016-05-30T23:26:56.153527"
+        }, 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 1000
+      }, 
+      {
+        "description": "Насіння соняшнику", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Sunflower seeds", 
+          "id": "03111300-5"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.11.95", 
+            "description": "Насіння соняшнику"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2016-05-31T23:26:56.153527"
+        }, 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 2000
+      }, 
+      {
+        "description": "Насіння бавовнику", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Cotton seeds", 
+          "id": "03111400-6"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.11.84", 
+            "description": "Насіння бавовнику"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2016-06-01T23:26:56.153527"
+        }, 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 3000
+      }
+    ], 
+    "budget": {
+      "amountNet": 12222, 
+      "description": "budget_description", 
+      "project": {
+        "name": "proj_name", 
+        "id": "123"
+      }, 
+      "currency": "UAH", 
+      "amount": 10000, 
+      "id": "12303111000-2"
+    }, 
+    "additionalClassifications": [
+      {
+        "scheme": "КЕКВ", 
+        "id": "1", 
+        "description": "-"
+      }
+    ], 
+    "procuringEntity": {
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "111983", 
+        "legalName": "ДП Державне Управління Справами"
+      }, 
+      "name": "ДУС"
+    }, 
+    "tender": {
+      "procurementMethod": "open", 
+      "procurementMethodType": "belowThreshold", 
+      "tenderPeriod": {
+        "startDate": "2016-05-22T23:26:56.153527"
+      }
+    }
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.3/plans/c834673ae78c4ec7a595bdd6b01f0817
+{
+  "access": {
+    "token": "1c04ffce20d5475cae136e0be85604ec"
+  }, 
+  "data": {
+    "classification": {
+      "scheme": "CPV", 
+      "description": "Seeds", 
+      "id": "03111000-2"
+    }, 
+    "items": [
+      {
+        "description": "Насіння гірчиці", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Mustard seeds", 
+          "id": "03111600-8"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.11.92", 
+            "description": "Насіння гірчиці"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2016-05-30T23:26:56.153527+03:00"
+        }, 
+        "id": "b282d47971c34994b09ac06d7cdc253f", 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 1000
+      }, 
+      {
+        "description": "Насіння соняшнику", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Sunflower seeds", 
+          "id": "03111300-5"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.11.95", 
+            "description": "Насіння соняшнику"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2016-05-31T23:26:56.153527+03:00"
+        }, 
+        "id": "bf70aa5aada241b980b9dcc5c12da9d4", 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 2000
+      }, 
+      {
+        "description": "Насіння бавовнику", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Cotton seeds", 
+          "id": "03111400-6"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.11.84", 
+            "description": "Насіння бавовнику"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2016-06-01T23:26:56.153527+03:00"
+        }, 
+        "id": "6e11d21f6b0947fb8c9e4c1a3984c0f3", 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 3000
+      }
+    ], 
+    "planID": "UA-P-2016-05-16-000001", 
+    "budget": {
+      "amountNet": 12222.0, 
+      "description": "budget_description", 
+      "project": {
+        "id": "123", 
+        "name": "proj_name"
+      }, 
+      "currency": "UAH", 
+      "amount": 10000.0, 
+      "id": "12303111000-2"
+    }, 
+    "datePublished": "2016-05-16T01:26:56.882978+03:00", 
+    "tender": {
+      "procurementMethod": "open", 
+      "procurementMethodType": "belowThreshold", 
+      "tenderPeriod": {
+        "startDate": "2016-05-22T23:26:56.153527+03:00"
+      }
+    }, 
+    "additionalClassifications": [
+      {
+        "scheme": "КЕКВ", 
+        "id": "1", 
+        "description": "-"
+      }
+    ], 
+    "procuringEntity": {
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "111983", 
+        "legalName": "ДП Державне Управління Справами"
+      }, 
+      "name": "ДУС"
+    }, 
+    "owner": "broker", 
+    "dateModified": "2016-05-16T01:26:56.976021+03:00", 
+    "id": "c834673ae78c4ec7a595bdd6b01f0817"
+  }
+}
+
