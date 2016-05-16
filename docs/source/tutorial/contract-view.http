@@ -1,4 +1,4 @@
-GET /api/2.3/contracts/61e18d8bf0684f9ea5a7458f8a9059a7 HTTP/1.0
+GET /api/2.3/contracts/2994862db7644382bc67fc71ee23982e HTTP/1.0
 Host: api-sandbox.openprocurement.org
 
 Response: 200 OK
@@ -34,10 +34,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-15T20:19:18.837510+03:00", 
-          "endDate": "2016-05-18T20:19:18.837510+03:00"
+          "startDate": "2016-05-18T17:40:14.224909+03:00", 
+          "endDate": "2016-05-21T17:40:14.224909+03:00"
         }, 
-        "id": "2a35845d06254067ad1754064a093b8b", 
+        "id": "286ecbd99fc4417487728fd4573e8d7b", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -66,8 +66,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "dateSigned": "2016-05-13T20:19:26.189940+03:00", 
-    "dateModified": "2016-05-13T20:19:26.463613+03:00", 
+    "dateSigned": "2016-05-16T17:40:21.397448+03:00", 
+    "dateModified": "2016-05-16T17:40:21.747196+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -88,11 +88,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "contractID": "UA-2016-05-13-000001-1", 
+    "contractID": "UA-2016-05-16-000001-1", 
     "owner": "broker", 
-    "awardID": "871852e8574b4cf8bce1ad59698ac87f", 
-    "id": "61e18d8bf0684f9ea5a7458f8a9059a7", 
-    "tender_id": "81127431444c4e9b88f913960334f3a8"
+    "awardID": "71bf8da7eb954af88dd7b8c419ac0b5c", 
+    "id": "2994862db7644382bc67fc71ee23982e", 
+    "tender_id": "6e952466097a4c19832e44fda9a4b437"
   }
 }
 

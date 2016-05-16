@@ -1,4 +1,4 @@
-PATCH /api/2.3/contracts/61e18d8bf0684f9ea5a7458f8a9059a7/changes/2d92c925f25245519a3d094395f0de1f?acc_token=36e988b25a144175b8e88bafa299a701 HTTP/1.0
+PATCH /api/2.3/contracts/2994862db7644382bc67fc71ee23982e/changes/5b4df996ae8341b4abd7f053a57d2b40?acc_token=1b5cdf87f3e84cb7b25ca1a1b8e2d04e HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -15,9 +15,9 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "date": "2016-05-13T20:19:28.721124+03:00", 
+    "date": "2016-05-16T17:40:24.008075+03:00", 
     "rationale_en": "Contract change cause", 
-    "id": "2d92c925f25245519a3d094395f0de1f", 
+    "id": "5b4df996ae8341b4abd7f053a57d2b40", 
     "rationale": "Друга і третя поставка має бути розфасована"
   }
 }
