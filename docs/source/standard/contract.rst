@@ -94,6 +94,9 @@ Schema
     |ocdsDescription|
     All documents and attachments related to the contract, including any notices.
 
+:changes:
+    List of :ref:`Change` objects.
+
 Workflow
 --------
 

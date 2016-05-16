@@ -91,10 +91,12 @@ Schema
     Possible values are:
 
     * `tender`
+    * `contract`
+    * `change`
     * `item`
     * `lot`
 
 :relatedItem:
     string
 
-    Id of related :ref:`lot` or :ref:`item`.
+    Id of related :ref:`contract`, :ref:`change`, :ref:`lot` or :ref:`item`.

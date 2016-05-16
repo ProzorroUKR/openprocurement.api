@@ -96,3 +96,45 @@ Schema
     |ocdsDescription|
     The currency in 3-letter ISO 4217 format.
 
+
+Change
+======
+
+Schema
+------
+
+:id:
+    uid, auto-generated
+    The identifier for this Change.
+
+:rationale:
+    string, multilingual, required
+
+:dateSigned:
+    string, :ref:`date`, auto-generated
+
+:contractNumber:
+    string
+
+:status:
+    string, required
+
+    The current status of the change.
+
+    Possible values are:
+
+    * `pending` - this change has been added.
+    * `active` - this change has been confirmed.
+
+Workflow
+--------
+
+.. graphviz::
+
+    digraph G {
+        A [ label="pending*" ]
+        B [ label="active"]
+         A -> B;
+    }
+
+\* marks initial state
