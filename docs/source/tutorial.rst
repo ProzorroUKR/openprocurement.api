@@ -150,11 +150,11 @@ Submitting contract change
 
 You can make changes to the contract in cases described in the 4th part of Article 36 of the Law "On the Public Procurement". 
 
-All changes are processed by the endpoint `/contracts/{id}/changes`.
+**Essential contract terms** can be modified by the submission of a new `Change` object to the `Contract.changes` container.
 
-`Change` here is referred to the submission of a new `Change` object to the `Contract.changes` container.
+All `changes` are processed by the endpoint `/contracts/{id}/changes`.
 
-Required field: ``rationale``.
+Let's add new `change` to the contract:
 
 .. include:: tutorial/add-contract-change.http
    :code:
@@ -173,16 +173,12 @@ Document can be added only while `change` is in the ``pending`` status.
 
 Document has to be added in two stages:
 
-1) add document
+* you should upload document
   
 .. include:: tutorial/add-contract-change-document.http
    :code:
 
-2) add connection to the `change`:
- 
-      ``"documentOf": "change"``
-      
-      ``"relatedItem": "{change.id}"``
+* set document properties ``"documentOf": "change"`` and ``"relatedItem": "{change.id}"`` in order to bind the uploaded document to the `change`:
 
 .. include:: tutorial/set-document-of-change.http
    :code:
