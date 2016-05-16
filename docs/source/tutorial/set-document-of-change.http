@@ -1,0 +1,28 @@
+PATCH /api/2.3/contracts/2994862db7644382bc67fc71ee23982e/documents/5efdd97262a24156ad257d9289c8000d?acc_token=1b5cdf87f3e84cb7b25ca1a1b8e2d04e HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 85
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "documentOf": "change", 
+    "relatedItem": "5b4df996ae8341b4abd7f053a57d2b40"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "title": "contract_changes.doc", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/2994862db7644382bc67fc71ee23982e/documents/5efdd97262a24156ad257d9289c8000d?download=0d930da91289445485e6e3a5cfe3ba69", 
+    "format": "application/msword", 
+    "documentOf": "change", 
+    "datePublished": "2016-05-16T17:40:23.771187+03:00", 
+    "id": "5efdd97262a24156ad257d9289c8000d", 
+    "relatedItem": "5b4df996ae8341b4abd7f053a57d2b40", 
+    "dateModified": "2016-05-16T17:40:23.771233+03:00"
+  }
+}
+

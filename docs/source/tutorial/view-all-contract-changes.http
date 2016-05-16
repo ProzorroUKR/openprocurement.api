@@ -1,0 +1,18 @@
+GET /api/2.3/contracts/2994862db7644382bc67fc71ee23982e/changes HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "status": "active", 
+      "date": "2016-05-16T17:40:24.008075+03:00", 
+      "rationale_en": "Contract change cause", 
+      "id": "5b4df996ae8341b4abd7f053a57d2b40", 
+      "rationale": "Друга і третя поставка має бути розфасована"
+    }
+  ]
+}
+

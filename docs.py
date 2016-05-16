@@ -239,6 +239,11 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.content_type, 'application/json')
             change = response.json['data']
 
+        with open('docs/source/tutorial/view-contract-change.http', 'w') as self.app.file_obj:
+            response = self.app.get('/contracts/{}/changes/{}'.format(contract_id, change['id']))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['id'], change['id'])
+
         with open('docs/source/tutorial/patch-contract-change.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(contract_id, change['id'], contract_token),
                                           {'data': {'rationale': u'Друга і третя поставка має бути розфасована'}})
@@ -254,6 +259,7 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.content_type, 'application/json')
             doc_id = response.json["data"]['id']
 
+        with open('docs/source/tutorial/set-document-of-change.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/contracts/{}/documents/{}?acc_token={}'.format(contract_id, doc_id, contract_token), {"data": {
                 "documentOf": "change",
                 "relatedItem": change['id'],
@@ -266,6 +272,17 @@ class TenderResourceTest(BaseTenderWebTest):
                                            {'data': {'status': 'active'}})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.content_type, 'application/json')
+
+        with open('docs/source/tutorial/view-all-contract-changes.http', 'w') as self.app.file_obj:
+            response = self.app.get('/contracts/{}/changes'.format(contract_id))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(len(response.json['data']), 1)
+
+        with open('docs/source/tutorial/view-contract.http', 'w') as self.app.file_obj:
+            response = self.app.get('/contracts/{}'.format(contract_id))
+            self.assertEqual(response.status, '200 OK')
+            self.assertIn('changes', response.json['data'])
+
 
         # Finalize contract
         with open('docs/source/tutorial/contract-termination.http', 'w') as self.app.file_obj:

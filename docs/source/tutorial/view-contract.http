@@ -1,0 +1,151 @@
+GET /api/2.3/contracts/2994862db7644382bc67fc71ee23982e HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 438.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "documents": [
+      {
+        "title": "contract.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/2994862db7644382bc67fc71ee23982e/documents/9fb5e6cb1e464f4ea8d454bac98f2276?download=51a556129377486abcc2da1e3f1c9e06", 
+        "format": "application/msword", 
+        "documentOf": "contract", 
+        "datePublished": "2016-05-16T17:40:23.068420+03:00", 
+        "id": "9fb5e6cb1e464f4ea8d454bac98f2276", 
+        "dateModified": "2016-05-16T17:40:23.068459+03:00"
+      }, 
+      {
+        "title": "contract_additional_docs.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/2994862db7644382bc67fc71ee23982e/documents/514ff721dc484d8fb735b50179871f11?download=dceb3c103abe4d8ea30f008589f7d11f", 
+        "format": "application/msword", 
+        "documentOf": "contract", 
+        "datePublished": "2016-05-16T17:40:23.238706+03:00", 
+        "id": "514ff721dc484d8fb735b50179871f11", 
+        "dateModified": "2016-05-16T17:40:23.238745+03:00"
+      }, 
+      {
+        "title": "contract_additional_docs.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/2994862db7644382bc67fc71ee23982e/documents/514ff721dc484d8fb735b50179871f11?download=fcdd484874c44039a21d956bb29f7e04", 
+        "format": "application/msword", 
+        "documentOf": "contract", 
+        "datePublished": "2016-05-16T17:40:23.238706+03:00", 
+        "id": "514ff721dc484d8fb735b50179871f11", 
+        "dateModified": "2016-05-16T17:40:23.364593+03:00"
+      }, 
+      {
+        "title": "contract_changes.doc", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/2994862db7644382bc67fc71ee23982e/documents/5efdd97262a24156ad257d9289c8000d?download=0d930da91289445485e6e3a5cfe3ba69", 
+        "format": "application/msword", 
+        "documentOf": "change", 
+        "datePublished": "2016-05-16T17:40:23.771187+03:00", 
+        "id": "5efdd97262a24156ad257d9289c8000d", 
+        "relatedItem": "5b4df996ae8341b4abd7f053a57d2b40", 
+        "dateModified": "2016-05-16T17:40:23.771233+03:00"
+      }
+    ], 
+    "items": [
+      {
+        "description": "коробки для футлярів до державних нагород", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-05-18T17:40:14.224909+03:00", 
+          "endDate": "2016-05-21T17:40:14.224909+03:00"
+        }, 
+        "id": "dfb7ee65ab0c43508f524cc6848f18ea", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 2
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "name": "Державне управління справами", 
+          "telephone": "0440000000"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00037256", 
+          "uri": "http://www.dus.gov.ua/"
+        }, 
+        "name": "Державне управління справами", 
+        "address": {
+          "postalCode": "01220", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }
+      }
+    ], 
+    "period": {
+      "startDate": "2016-05-16T17:40:22.200236+03:00", 
+      "endDate": "2016-06-15T17:40:22.200298+03:00"
+    }, 
+    "dateSigned": "2016-05-16T17:40:21.397448+03:00", 
+    "id": "2994862db7644382bc67fc71ee23982e", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "contractID": "UA-2016-05-16-000001-1", 
+    "owner": "broker", 
+    "awardID": "71bf8da7eb954af88dd7b8c419ac0b5c", 
+    "changes": [
+      {
+        "status": "active", 
+        "date": "2016-05-16T17:40:24.008075+03:00", 
+        "rationale_en": "Contract change cause", 
+        "id": "5b4df996ae8341b4abd7f053a57d2b40", 
+        "rationale": "Друга і третя поставка має бути розфасована"
+      }
+    ], 
+    "dateModified": "2016-05-16T17:40:24.014698+03:00", 
+    "tender_id": "6e952466097a4c19832e44fda9a4b437"
+  }
+}
+

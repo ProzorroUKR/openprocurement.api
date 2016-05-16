@@ -152,7 +152,7 @@ You can make changes to the contract in cases described in the 4th part of Artic
 
 All changes are processed by the endpoint `/contracts/{id}/changes`.
 
-`Change` is a submit of new `Change` object to the `changes` container. 
+`Change` here is referred to the submission of a new `Change` object to the `Contract.changes` container.
 
 Required field: ``rationale``.
 
@@ -161,7 +161,8 @@ Required field: ``rationale``.
 
 You can view the `change`:
 
-.. :code:
+.. include:: tutorial/view-contract-change.http
+   :code:
 
 `Change` can be modified while it is in the ``pending`` status:
    
@@ -177,14 +178,14 @@ Document has to be added in two stages:
 .. include:: tutorial/add-contract-change-document.http
    :code:
 
-
 2) add connection to the `change`:
  
       ``"documentOf": "change"``
       
       ``"relatedItem": "{change.id}"``
 
-.. :code:
+.. include:: tutorial/set-document-of-change.http
+   :code:
 
 `Change` has to be applied by switching to the ``active`` status. After this `change` can't be modified anymore.
    
@@ -193,9 +194,14 @@ Document has to be added in two stages:
 
 You can view all changes:
 
-.. :code:
+.. include:: tutorial/view-all-contract-changes.http
+   :code:
 
-All changes are present on the contract view.
+All changes are also listed on the contract view.
+
+.. include:: tutorial/view-contract.http
+   :code:
+
    
 Completing contract
 -------------------
