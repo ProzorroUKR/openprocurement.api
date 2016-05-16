@@ -110,23 +110,30 @@ class ContractingDataBridge(object):
         while True:
             request_id = generate_req_id()
             self.tenders_client_backward.headers.update({'X-Client-Request-ID': request_id})
-            tender = self.tenders_client_backward.get_tender(self.tenders_queue.get()['id'])['data']
-            if 'contracts' not in tender:
-                logger.warn('!!!No contracts found in tender {}'.format(tender['id']))
-                continue
-            for contract in tender['contracts']:
-                if contract["status"] == "active":
-                    try:
-                        self.contracting_client.get_contract(contract['id'])
-                    except ResourceNotFound:
-                        logger.info('Sync contract {} of tender {}'.format(contract['id'], tender['id']))
-                    else:
-                        logger.info('Contract exists {}'.format(contract['id']))
-                        continue
+            try:
+                tender_to_sync = self.tenders_queue.get()
+                tender = self.tenders_client_backward.get_tender(tender_to_sync['id'])['data']
+            except Exception, e:
+                logger.exception(e)
+                logger.info('Put tender {} back to tenders queue'.format(tender_to_sync['id']))
+                self.tenders_queue.put(tender_to_sync)
+            else:
+                if 'contracts' not in tender:
+                    logger.warn('!!!No contracts found in tender {}'.format(tender['id']))
+                    continue
+                for contract in tender['contracts']:
+                    if contract["status"] == "active":
+                        try:
+                            self.contracting_client.get_contract(contract['id'])
+                        except ResourceNotFound:
+                            logger.info('Sync contract {} of tender {}'.format(contract['id'], tender['id']))
+                        else:
+                            logger.info('Contract exists {}'.format(contract['id']))
+                            continue
 
-                    contract['tender_id'] = tender['id']
-                    contract['procuringEntity'] = tender['procuringEntity']
-                    self.handicap_contracts_queue.put(contract)
+                        contract['tender_id'] = tender['id']
+                        contract['procuringEntity'] = tender['procuringEntity']
+                        self.handicap_contracts_queue.put(contract)
 
     def prepare_contract_data(self):
         while True:
