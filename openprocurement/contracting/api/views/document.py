@@ -95,6 +95,13 @@ class ContractsDocumentResource(APIResource):
             self.request.errors.status = 403
             return
 
+        data = self.request.validated['data']
+        if "relatedItem" in data and data.get('documentOf') == 'change':
+            if not [1 for c in self.request.validated['contract'].changes if c.id == data['relatedItem'] and c.status == 'pending']:
+                self.request.errors.add('body', 'data', 'Can\'t add document to \'active\' change')
+                self.request.errors.status = 403
+                return
+
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
             self.LOGGER.info('Updated contract document {}'.format(self.request.context.id),
