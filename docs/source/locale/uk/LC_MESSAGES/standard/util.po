@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 17:09+0300\n"
-"PO-Revision-Date: 2016-04-26 10:59+0300\n"
+"PO-Revision-Date: 2016-05-17 11:27+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,7 @@ msgstr "Period"
 
 #: ../../source/standard/util.rst:11 ../../source/standard/util.rst:41
 #: ../../source/standard/util.rst:67 ../../source/standard/util.rst:83
+#: ../../source/standard/util.rst:105
 msgid "Schema"
 msgstr "Схема"
 
@@ -68,7 +69,7 @@ msgstr "|ocdsDescription| Кількість як число."
 msgid "Should be positive."
 msgstr "Повинно бути додатнім."
 
-#: ../../source/standard/util.rst:52
+#: ../../source/standard/util.rst:52 ../../source/standard/util.rst:122
 msgid "string, required"
 msgstr "рядок, обов’язковий"
 
@@ -99,4 +100,52 @@ msgstr "Guarantee"
 #: ../../source/standard/util.rst:94
 msgid "string, required, default = `UAH`"
 msgstr "рядок, обов’язковий, за замовчуванням = `UAH`"
+
+#: ../../source/standard/util.rst:102
+msgid "Change"
+msgstr "Change"
+
+#: ../../source/standard/util.rst:108
+msgid "uid, auto-generated"
+msgstr "uid, генерується автоматично"
+
+#: ../../source/standard/util.rst:110
+msgid "The identifier for this Change."
+msgstr "Ідентифікатор цієї зміни."
+
+#: ../../source/standard/util.rst:113
+msgid "string, multilingual, required"
+msgstr "рядок, багатомовний, обов’язковий"
+
+#: ../../source/standard/util.rst:116
+msgid "string, :ref:`date`, auto-generated"
+msgstr "рядок, :ref:`date`, генерується автоматично"
+
+#: ../../source/standard/util.rst:119
+msgid "string"
+msgstr "рядок"
+
+#: ../../source/standard/util.rst:124
+msgid "The current status of the change."
+msgstr "Поточний статус зміни."
+
+#: ../../source/standard/util.rst:126
+msgid "Possible values are:"
+msgstr "Можливі значення:"
+
+#: ../../source/standard/util.rst:128
+msgid "`pending` - this change has been added."
+msgstr "`pending` - ця зміна додана."
+
+#: ../../source/standard/util.rst:129
+msgid "`active` - this change has been confirmed."
+msgstr "`active` - ця зміна підтверджена/застосована."
+
+#: ../../source/standard/util.rst:132
+msgid "Workflow"
+msgstr "Схема роботи"
+
+#: ../../source/standard/util.rst:142
+msgid "\\* marks initial state"
+msgstr "\\* позначає початковий стан"
 

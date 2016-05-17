@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 17:22+0300\n"
-"PO-Revision-Date: 2016-05-12 17:24+0300\n"
+"PO-Revision-Date: 2016-05-17 11:23+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -195,7 +195,7 @@ msgstr ""
 "Перед тим, як додавати будь-які зміни до договору, ви повинні його "
 "активувати."
 
-#: ../../source/tutorial.rst:155
+#: ../../source/tutorial.rst:210
 msgid "Any future modification to the contract are not allowed."
 msgstr "Після цього додання змін до договору не дозволяється."
 
@@ -203,11 +203,11 @@ msgstr "Після цього додання змін до договору не
 msgid "Note that contract is created in ``draft`` status."
 msgstr "Зверніть увагу на те, що договір створюється у статусі ``draft``."
 
-#: ../../source/tutorial.rst:148
+#: ../../source/tutorial.rst:203
 msgid "Completing contract"
 msgstr "Завершення договору"
 
-#: ../../source/tutorial.rst:150
+#: ../../source/tutorial.rst:205
 msgid "Contract can be completed by switching to ``terminated`` status."
 msgstr "Договір завершується переключенням у статус ``terminated``."
 
@@ -242,4 +242,80 @@ msgstr "оновити елемент (`items`):"
 #: ../../source/tutorial.rst:107
 msgid "delete item:"
 msgstr "видалити елемент (`items`):"
+
+#: ../../source/tutorial.rst:149
+msgid "Submitting contract change"
+msgstr "Подання змін до договору"
+
+#: ../../source/tutorial.rst:151
+msgid ""
+"You can make changes to the contract in cases described in the 4th part of "
+"Article 36 of the Law \"On the Public Procurement\"."
+msgstr ""
+"Внесення змін до істотних умов договору можливі у випадках, описаних "
+"частиною четвертою статті 36 Закону України “Про публічні закупівлі”."
+
+#: ../../source/tutorial.rst:155
+msgid "All `changes` are processed by the endpoint `/contracts/{id}/changes`."
+msgstr ""
+"Всі зміни `change` обробляються точкою входу (endpoint) "
+"`/contracts/{id}/changes`."
+
+#: ../../source/tutorial.rst:157
+msgid "Let's add new `change` to the contract:"
+msgstr "Додамо нову зміну `change` до договору:"
+
+#: ../../source/tutorial.rst:162
+msgid "You can view the `change`:"
+msgstr "Ви можете переглянути зміну `change`:"
+
+#: ../../source/tutorial.rst:167
+msgid "`Change` can be modified while it is in the ``pending`` status:"
+msgstr "Зміну `change` можна модифікувати доки вона має статус ``pending``."
+
+#: ../../source/tutorial.rst:172
+msgid "Document can be added only while `change` is in the ``pending`` status."
+msgstr "Документ можна додати доки зміна `change` має статус ``pending``."
+
+#: ../../source/tutorial.rst:174
+msgid "Document has to be added in two stages:"
+msgstr "Документ додається в два етапи:"
+
+#: ../../source/tutorial.rst:176
+msgid "you should upload document"
+msgstr "ви повинні завантажити документ"
+
+#: ../../source/tutorial.rst:186
+msgid ""
+"`Change` has to be applied by switching to the ``active`` status. After this"
+" `change` can't be modified anymore."
+msgstr ""
+"Зміна `change` буде застосована при переключенні в статус ``active``. ПІсля "
+"цього модифікувати зміну `change` вже не можна."
+
+#: ../../source/tutorial.rst:191
+msgid "You can view all changes:"
+msgstr "Ви можете переглянути всі зміни:"
+
+#: ../../source/tutorial.rst:196
+msgid "All changes are also listed on the contract view."
+msgstr "Всі зміни присутні при перегляді контракту."
+
+#: ../../source/tutorial.rst:153
+msgid ""
+"**Essential contract terms** can be modified by the submission of a new "
+":ref:`change` object to the `Contract.changes` container."
+msgstr ""
+"**Істотні умови договору** можуть бути змінені поданням нового об’єкта "
+":ref:`change` в котейнер `Contract.changes`."
+
+#: ../../source/tutorial.rst:181
+msgid ""
+"you should set document properties ``\"documentOf\": \"change\"`` and "
+"``\"relatedItem\": \"{change.id}\"`` in order to bind the uploaded document "
+"to the `change`:"
+msgstr ""
+"ви повинні задати властивості документа: ``\"documentOf\": \"change\"`` та "
+"``\"relatedItem\": \"{change.id}\"``, щоб \"прив’язати\" завантажений "
+"документ до зміни `change`:"
 
