@@ -234,7 +234,8 @@ class TenderResourceTest(BaseTenderWebTest):
         with open('docs/source/tutorial/add-contract-change.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(contract_id, contract_token),
                                           {'data': {'rationale': u'Опис причини змін контракту',
-                                                    'rationale_en': 'Contract change cause'}})
+                                                    'rationale_en': 'Contract change cause',
+                                                    'rationaleType': 'volumeCuts'}})
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
             change = response.json['data']
