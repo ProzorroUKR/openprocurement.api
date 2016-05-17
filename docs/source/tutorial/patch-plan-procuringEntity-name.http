@@ -1,0 +1,112 @@
+PATCH /api/2.3/plans/c834673ae78c4ec7a595bdd6b01f0817?acc_token=1c04ffce20d5475cae136e0be85604ec HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 640
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+
+{
+  "data": {
+    "items": [
+      {
+        "description": "Насіння овочевих культур", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Vegetable seeds", 
+          "id": "03111700-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.13.6", 
+            "description": "Насіння овочевих культур"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2016-06-01T23:06:30.023018+03:00"
+        }, 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 5000
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "classification": {
+      "scheme": "CPV", 
+      "description": "Seeds", 
+      "id": "03111000-2"
+    }, 
+    "items": [
+      {
+        "description": "Насіння овочевих культур", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Vegetable seeds", 
+          "id": "03111700-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.13.6", 
+            "description": "Насіння овочевих культур"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2016-06-01T23:06:30.023018+03:00"
+        }, 
+        "id": "b282d47971c34994b09ac06d7cdc253f", 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 5000
+      }
+    ], 
+    "planID": "UA-P-2016-05-16-000001", 
+    "budget": {
+      "amountNet": 12222.0, 
+      "description": "budget_description", 
+      "project": {
+        "id": "123", 
+        "name": "proj_name"
+      }, 
+      "currency": "UAH", 
+      "amount": 10000.0, 
+      "id": "12303111000-2"
+    }, 
+    "datePublished": "2016-05-16T01:26:56.882978+03:00", 
+    "tender": {
+      "procurementMethod": "open", 
+      "procurementMethodType": "belowThreshold", 
+      "tenderPeriod": {
+        "startDate": "2016-05-22T23:26:56.153527+03:00"
+      }
+    }, 
+    "additionalClassifications": [
+      {
+        "scheme": "КЕКВ", 
+        "id": "1", 
+        "description": "-"
+      }
+    ], 
+    "procuringEntity": {
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "111983", 
+        "legalName": "ДП Державне Управління Справами"
+      }, 
+      "name": "ДУС"
+    }, 
+    "owner": "broker", 
+    "dateModified": "2016-05-16T01:26:57.210149+03:00", 
+    "id": "c834673ae78c4ec7a595bdd6b01f0817"
+  }
+}
+

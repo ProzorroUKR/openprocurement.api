@@ -233,7 +233,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'openprocurementplannigapi', u'openprocurement.planning.api Documentation',
+    ('index', 'openprocurementplanningapi', u'openprocurement.planning.api Documentation',
      [u'Myroslav Opyr'], 1)
 ]
 
@@ -247,8 +247,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'openprocurementplannigapi', u'openprocurement.planning.api Documentation',
-   u'Myroslav Opyr', 'openprocurementplannigapi', 'One line description of project.',
+  ('index', 'openprocurementplanningapi', u'openprocurement.planning.api Documentation',
+   u'Myroslav Opyr', 'openprocurementplanningapi', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -270,4 +270,4 @@ gettext_compact = False     # optional.
 intersphinx_mapping = {
     'python': ('http://docs.python.org/dev', None),
     'openprocurementapi': ('http://openprocurementapi.readthedocs.org/en/latest/', None),
-}
+    }

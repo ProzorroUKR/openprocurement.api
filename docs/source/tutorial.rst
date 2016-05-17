@@ -29,7 +29,7 @@ Modifying plan
 
 Let's update plan by supplementing it with all other essential properties:
 
-.. include:: tutorial/patch-items-value-periods.http
+.. include:: tutorial/patch-plan-procuringEntity-name.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
