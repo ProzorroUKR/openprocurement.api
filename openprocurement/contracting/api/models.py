@@ -121,7 +121,10 @@ class Change(Model):
     rationale = StringType(required=True, min_length=1)
     rationale_en = StringType()
     rationale_ru = StringType()
-    rationaleType = StringType()
+    rationaleType = StringType(choices=['volumeCuts', 'itemPriceVariation',
+                                        'qualityImprovement', 'durationExtension',
+                                        'priceReduction', 'taxRate', 'thirdParty',
+                                        'fiscalYearExtension'], required=True)
     contractNumber = StringType()
 
 
