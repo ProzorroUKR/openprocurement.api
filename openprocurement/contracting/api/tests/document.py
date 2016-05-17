@@ -361,7 +361,8 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
 
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
                                       {'data': {'rationale': u'причина зміни укр',
-                                                'rationale_en': 'change cause en'}})
+                                                'rationale_en': 'change cause en',
+                                                'rationaleType': 'priceReduction'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         change = response.json['data']

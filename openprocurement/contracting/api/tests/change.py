@@ -39,7 +39,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
 
     def test_get_change(self):
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                      {'data': {'rationale': 'penguin'}}, status=403)
+                                      {'data': {'rationale': 'penguin', 'rationaleType': 'priceReduction'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'], [
             {"location": "body", "name": "data", "description": "Can't add contract change in current (draft) contract status"}
@@ -56,7 +56,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
                                                 'rationale_ru': u'ff',
                                                 'rationale_en': 'asdf',
                                                 'contractNumber': 12,
-                                                'rationaleType': 'TODO'}})
+                                                'rationaleType': 'priceReduction'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         change = response.json['data']
@@ -105,11 +105,12 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
                                       {'data': {}}, status=422)
         self.assertEqual(response.json['errors'], [
+            {"location": "body", "name": "rationaleType", "description": ["This field is required."]},
             {"location": "body", "name": "rationale", "description": ["This field is required."]}
         ])
 
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                      {'data': {'rationale': ""}}, status=422)
+                                      {'data': {'rationale': "", 'rationaleType': 'volumeCuts'}}, status=422)
         self.assertEqual(response.json['errors'], [
             {"location": "body", "name": "rationale", "description": ["String value is too short."]}
         ])
@@ -130,7 +131,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         self.assertEqual(response.status, '403 Forbidden')
 
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                       {'data': {'changes': [{'rationale': "penguin"}]}})
+                                       {'data': {'changes': [{'rationale': "penguin", 'rationaleType': 'volumeCuts'}]}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.body, 'null')
 
@@ -140,7 +141,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
 
     def test_create_change(self):
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                      {'data': {'rationale': 'penguin'}}, status=403)
+                                      {'data': {'rationale': 'penguin', 'rationaleType': 'qualityImprovement'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'], [
             {"location": "body", "name": "data", "description": "Can't add contract change in current (draft) contract status"}
@@ -154,7 +155,8 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
 
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
                                       {'data': {'rationale': u'причина зміни укр',
-                                                'rationale_en': 'change cause en'}})
+                                                'rationale_en': 'change cause en',
+                                                'rationaleType': 'qualityImprovement'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         change = response.json['data']
@@ -166,7 +168,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         self.assertEqual(len(response.json['data']), 1)
 
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                      {'data': {'rationale': u'трататата'}}, status=403)
+                                      {'data': {'rationale': u'трататата', 'rationaleType': 'priceReduction'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'], [
             {"location": "body", "name": "data", "description": "Can't create new contract change while any (pending) change exists"}
@@ -178,7 +180,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         self.assertEqual(response.json['data']['status'], 'active')
 
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                      {'data': {'rationale': u'трататата'}})
+                                      {'data': {'rationale': u'трататата', 'rationaleType': 'priceReduction'}})
         self.assertEqual(response.status, '201 Created')
         change2 = response.json['data']
         self.assertEqual(change2['status'], 'pending')
@@ -196,6 +198,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
                                       {'data': {'rationale': u'причина зміни укр',
                                                 'rationale_en': u'change cause en',
+                                                'rationaleType': 'priceReduction',
                                                 'contractNumber': u'№ 146'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -223,6 +226,11 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         self.assertEqual(response.json['data']['rationale_en'], 'another cause desctiption')
         second_patch_date = response.json['data']['date']
         self.assertEqual(first_patch_date, second_patch_date)
+
+        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
+                                       {'data': {'rationaleType': 'fiscalYearExtension'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['rationaleType'], 'fiscalYearExtension')
 
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
                                        {'data': {'id': '1234' * 8}})
