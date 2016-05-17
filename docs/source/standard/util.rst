@@ -96,7 +96,8 @@ Schema
     |ocdsDescription|
     The currency in 3-letter ISO 4217 format.
 
-
+.. _Change:
+    
 Change
 ======
 
@@ -105,6 +106,7 @@ Schema
 
 :id:
     uid, auto-generated
+    
     The identifier for this Change.
 
 :rationale:

@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 17:09+0300\n"
-"PO-Revision-Date: 2016-05-06 17:13+0300\n"
+"PO-Revision-Date: 2016-05-17 11:28+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -82,9 +82,9 @@ msgid ""
 "close.  This may be due to a successful completion of the contract, or may "
 "be early termination due to some non-completion issue."
 msgstr ""
-"`terminated` - договір був підписаний та діяв, але вже завершився. Це "
-"може бути пов'язано з виконанням договору, або з достроковим припиненням "
-"через якусь незавершеність."
+"`terminated` - договір був підписаний та діяв, але вже завершився. Це може "
+"бути пов'язано з виконанням договору, або з достроковим припиненням через "
+"якусь незавершеність."
 
 #: ../../source/standard/contract.rst:59
 msgid ":ref:`Period`"
@@ -145,7 +145,7 @@ msgstr ""
 "|ocdsDescription| Усі документи та додатки пов’язані з договором, включно з "
 "будь-якими повідомленнями."
 
-#: ../../source/standard/contract.rst:98
+#: ../../source/standard/contract.rst:101
 msgid "Workflow"
 msgstr "Схема роботи"
 
@@ -161,7 +161,7 @@ msgstr ""
 "|ocdsDescription| Об’єкт, що управляє закупівлею. Він не обов’язково є "
 "покупцем, який платить / використовує закуплені елементи."
 
-#: ../../source/standard/contract.rst:110
+#: ../../source/standard/contract.rst:113
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
 
@@ -171,3 +171,8 @@ msgid ""
 "is not yet in force."
 msgstr ""
 "`draft` - договір вже перенесено (з системи закупівель), але він ще не діє."
+
+#: ../../source/standard/contract.rst:98
+msgid "List of :ref:`Change` objects."
+msgstr "Список пов’язаних об’єктів :ref:`Change`"
+
