@@ -95,7 +95,7 @@ class ContractingDataBridge(object):
                                         "active.awarded", "complete"):
                     if hasattr(tender, "lots"):
                         if any([1 for lot in tender['lots'] if lot['status'] == "complete"]):
-                            logger.info('found multilot tender {} in status {}'.format(tender['id'], tender['status']))
+                            logger.info('Found multilot tender {} in status {}'.format(tender['id'], tender['status']))
                             yield tender
                     elif tender['status'] == "complete":
                         logger.info('Found tender in complete status {}'.format(tender['id']))
@@ -105,6 +105,7 @@ class ContractingDataBridge(object):
 
             logger.info('Sleep...')
             time.sleep(delay)
+            logger.info('Restore sync')
 
     def get_tender_contracts(self):
         while True:
@@ -142,6 +143,7 @@ class ContractingDataBridge(object):
                 logger.info("Getting extra info for tender {}".format(contract['tender_id']))
                 tender_data = self.get_tender_credentials(contract['tender_id'])
             except Exception, e:
+                logger.exception(e)
                 logger.info("Can't get tender credentials {}".format(contract['tender_id']))
                 self.handicap_contracts_queue.put(contract)
             else:
@@ -164,7 +166,10 @@ class ContractingDataBridge(object):
                     contract['id'], contract['tender_id']))
                 data = {"data": contract.toDict()}
                 self.contracting_client.create_contract(data)
+                logger.info("Successfully created contract {} of tender {}".format(
+                    contract['id'], contract['tender_id']))
             except Exception, e:
+                logger.exception(e)
                 logger.info("Unsuccessful put for contract {0} of tender {1}".format(
                     contract['id'], contract['tender_id']))
                 logger.info("Schedule retry for contract {0}".format(contract['id']))
@@ -190,7 +195,7 @@ class ContractingDataBridge(object):
             except:
                 contract = self.contracts_retry_put_queue.get()
                 del contract['tender_token']  # do not reveal tender credentials in logs
-                logger.warn("can't create contract {}".format(contract))
+                logger.warn("Can't create contract {}".format(contract))
             else:
                 self.contracts_retry_put_queue.get()
             gevent.sleep(0)
