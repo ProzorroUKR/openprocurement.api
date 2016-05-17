@@ -1,4 +1,4 @@
-PATCH /api/2.3/contracts/2994862db7644382bc67fc71ee23982e/documents/5efdd97262a24156ad257d9289c8000d?acc_token=1b5cdf87f3e84cb7b25ca1a1b8e2d04e HTTP/1.0
+PATCH /api/2.3/contracts/8557f68ba13b475b90221cc16fe0b6d8/documents/2cb637610cf44940bc4741197c1c4479?acc_token=0fcbfece591446fa9f1a226ff7e80fab HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 85
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "documentOf": "change", 
-    "relatedItem": "5b4df996ae8341b4abd7f053a57d2b40"
+    "relatedItem": "83281f80f98d40788d9947014a394d9b"
   }
 }
 
@@ -16,13 +16,13 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "title": "contract_changes.doc", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/2994862db7644382bc67fc71ee23982e/documents/5efdd97262a24156ad257d9289c8000d?download=0d930da91289445485e6e3a5cfe3ba69", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/8557f68ba13b475b90221cc16fe0b6d8/documents/2cb637610cf44940bc4741197c1c4479?download=865c7df073ba41d09b6424d3b83ec3ab", 
     "format": "application/msword", 
     "documentOf": "change", 
-    "datePublished": "2016-05-16T17:40:23.771187+03:00", 
-    "id": "5efdd97262a24156ad257d9289c8000d", 
-    "relatedItem": "5b4df996ae8341b4abd7f053a57d2b40", 
-    "dateModified": "2016-05-16T17:40:23.771233+03:00"
+    "datePublished": "2016-05-17T17:06:28.390874+03:00", 
+    "id": "2cb637610cf44940bc4741197c1c4479", 
+    "relatedItem": "83281f80f98d40788d9947014a394d9b", 
+    "dateModified": "2016-05-17T17:06:28.390924+03:00"
   }
 }
 

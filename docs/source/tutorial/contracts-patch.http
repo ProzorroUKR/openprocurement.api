@@ -1,4 +1,4 @@
-PATCH /api/2.3/contracts/2994862db7644382bc67fc71ee23982e?acc_token=1b5cdf87f3e84cb7b25ca1a1b8e2d04e HTTP/1.0
+PATCH /api/2.3/contracts/8557f68ba13b475b90221cc16fe0b6d8?acc_token=0fcbfece591446fa9f1a226ff7e80fab HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 144
 Content-Type: application/json
@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "period": {
-      "startDate": "2016-05-16T17:40:22.200236+03:00", 
-      "endDate": "2016-06-15T17:40:22.200298+03:00"
+      "startDate": "2016-05-17T17:06:26.427328+03:00", 
+      "endDate": "2016-06-16T17:06:26.427387+03:00"
     }, 
     "value": {
       "amount": 438
@@ -49,10 +49,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-18T17:40:14.224909+03:00", 
-          "endDate": "2016-05-21T17:40:14.224909+03:00"
+          "startDate": "2016-05-19T17:06:18.190924+03:00", 
+          "endDate": "2016-05-22T17:06:18.190924+03:00"
         }, 
-        "id": "286ecbd99fc4417487728fd4573e8d7b", 
+        "id": "fdaeb7064efc4b2c8cb97b6468d7f59a", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -82,11 +82,11 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-05-16T17:40:22.200236+03:00", 
-      "endDate": "2016-06-15T17:40:22.200298+03:00"
+      "startDate": "2016-05-17T17:06:26.427328+03:00", 
+      "endDate": "2016-06-16T17:06:26.427387+03:00"
     }, 
-    "dateSigned": "2016-05-16T17:40:21.397448+03:00", 
-    "id": "2994862db7644382bc67fc71ee23982e", 
+    "dateSigned": "2016-05-17T17:06:25.738641+03:00", 
+    "id": "8557f68ba13b475b90221cc16fe0b6d8", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -107,11 +107,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "contractID": "UA-2016-05-16-000001-1", 
+    "contractID": "UA-2016-05-17-000001-1", 
     "owner": "broker", 
-    "awardID": "71bf8da7eb954af88dd7b8c419ac0b5c", 
-    "dateModified": "2016-05-16T17:40:22.295122+03:00", 
-    "tender_id": "6e952466097a4c19832e44fda9a4b437"
+    "awardID": "75afe0e34c8c498aafb08581aa7efbf0", 
+    "dateModified": "2016-05-17T17:06:26.533155+03:00", 
+    "tender_id": "2f45a5c0878f4a11a6fa162a391483cc"
   }
 }
 

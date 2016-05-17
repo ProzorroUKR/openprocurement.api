@@ -1,4 +1,4 @@
-GET /api/2.3/contracts/2994862db7644382bc67fc71ee23982e/changes/5b4df996ae8341b4abd7f053a57d2b40 HTTP/1.0
+GET /api/2.3/contracts/8557f68ba13b475b90221cc16fe0b6d8/changes/83281f80f98d40788d9947014a394d9b HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -7,10 +7,11 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "pending", 
-    "date": "2016-05-16T17:40:23.519745+03:00", 
+    "rationaleType": "volumeCuts", 
     "rationale_en": "Contract change cause", 
-    "id": "5b4df996ae8341b4abd7f053a57d2b40", 
-    "rationale": "Опис причини змін контракту"
+    "rationale": "Опис причини змін контракту", 
+    "date": "2016-05-17T17:06:28.106532+03:00", 
+    "id": "83281f80f98d40788d9947014a394d9b"
   }
 }
 
