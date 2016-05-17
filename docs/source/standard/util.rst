@@ -111,10 +111,16 @@ Schema
 
 :rationale:
     string, multilingual, required
+    
+    Reason for contract change
 
 :rationaleType:
     string, required
 
+    Type of the rationale behind contract change
+    
+    Changes to the contract can be made in cases described in the 4th part of Article 36 of the Law “On the Public Procurement”.
+    
     Possible values are:
 
     * `volumeCuts` - reduction of the procurement’s volume, particularly taking into account the actual expenditures of the procuring entity;
@@ -133,8 +139,7 @@ Schema
 
     * `fiscalYearExtension` - changes in contract terms according to the provisions of part 5 of Article 36.
 
-
-    Article 36 Part 5. Effect of the procurement contract may be continued for a period sufficient for conduction of the procurement procedure at the beginning of the next year in volume that does not exceed 20% of the sum specified in the contract concluded in the previous year, if expenditures for this purpose are approved in the prescribed manner.
+      Article 36 Part 5. Effect of the procurement contract may be continued for a period sufficient for conduction of the procurement procedure at the beginning of the next year in volume that does not exceed 20% of the sum specified in the contract concluded in the previous year, if expenditures for this purpose are approved in the prescribed manner.
 
 :dateSigned:
     string, :ref:`date`, auto-generated
