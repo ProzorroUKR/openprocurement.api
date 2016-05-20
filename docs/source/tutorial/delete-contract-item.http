@@ -1,4 +1,4 @@
-PATCH /api/2.3/contracts/8557f68ba13b475b90221cc16fe0b6d8?acc_token=0fcbfece591446fa9f1a226ff7e80fab HTTP/1.0
+PATCH /api/2.3/contracts/5202ba63c8984cba89150812ad45e70d?acc_token=ea84637bf71b4be28b616cd205ea5ab0 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1216
 Content-Type: application/json
@@ -29,10 +29,10 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-19T17:06:18.190924+03:00", 
-          "endDate": "2016-05-22T17:06:18.190924+03:00"
+          "startDate": "2016-05-22T17:45:06.445682+03:00", 
+          "endDate": "2016-05-25T17:45:06.445682+03:00"
         }, 
-        "id": "f1f37aafe8094536aa1bf7f585a6beff", 
+        "id": "81667d42ff3f4cf7a11e5a30b047a7b5", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -76,10 +76,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-19T17:06:18.190924+03:00", 
-          "endDate": "2016-05-22T17:06:18.190924+03:00"
+          "startDate": "2016-05-22T17:45:06.445682+03:00", 
+          "endDate": "2016-05-25T17:45:06.445682+03:00"
         }, 
-        "id": "f1f37aafe8094536aa1bf7f585a6beff", 
+        "id": "81667d42ff3f4cf7a11e5a30b047a7b5", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -109,11 +109,11 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-05-17T17:06:26.427328+03:00", 
-      "endDate": "2016-06-16T17:06:26.427387+03:00"
+      "startDate": "2016-05-20T17:45:12.285543+03:00", 
+      "endDate": "2016-06-19T17:45:12.285587+03:00"
     }, 
-    "dateSigned": "2016-05-17T17:06:25.738641+03:00", 
-    "id": "8557f68ba13b475b90221cc16fe0b6d8", 
+    "dateSigned": "2016-05-20T17:45:11.615401+03:00", 
+    "id": "5202ba63c8984cba89150812ad45e70d", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -134,11 +134,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "contractID": "UA-2016-05-17-000001-1", 
+    "contractID": "UA-2016-05-20-000001-1", 
     "owner": "broker", 
-    "awardID": "75afe0e34c8c498aafb08581aa7efbf0", 
-    "dateModified": "2016-05-17T17:06:27.253662+03:00", 
-    "tender_id": "2f45a5c0878f4a11a6fa162a391483cc"
+    "awardID": "48ecfe1c29894bbca9570c0c97e19a66", 
+    "dateModified": "2016-05-20T17:45:12.955391+03:00", 
+    "tender_id": "817f808830d84ae4b5f5b1406287df5e"
   }
 }
 

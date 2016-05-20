@@ -58,24 +58,11 @@ Response will contain ``access.token`` for the contract that can be used for fur
 .. include:: tutorial/contract-credentials.http
    :code:
 
-Contracts in ``draft`` status are not visible in listings.
+Let's view contracts.
 
 .. include:: tutorial/contracts-listing-1.http
    :code:
 
-Contract should be ``active`` to become available in listings.
-
-Contract activation
--------------------
-Before any contract modification you have to activate contract.
-
-.. include:: tutorial/contract-activation.http
-   :code:
-
-Let's see what listing of contracts reveals us:
-
-.. include:: tutorial/contracts-listing-2.http
-   :code:
 
 We do see the internal `id` of a contract (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/contracts/`) and its `dateModified` datestamp.
 

@@ -136,7 +136,7 @@ class TenderResourceTest(BaseTenderWebTest):
 
         response = self.app.post_json(request_path, {"data": test_contract_data})
         self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.json['data']['status'], 'draft')
+        self.assertEqual(response.json['data']['status'], 'active')
 
         # Getting contract
         self.app.authorization = None
@@ -145,7 +145,7 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.get('/contracts/{}'.format(test_contract_data['id']))
             self.assertEqual(response.status, '200 OK')
             contract = response.json['data']
-            self.assertEqual(contract['status'], 'draft')
+            self.assertEqual(contract['status'], 'active')
 
         # Getting access
         self.app.authorization = ('Basic', ('broker', ''))
@@ -156,17 +156,6 @@ class TenderResourceTest(BaseTenderWebTest):
         contract_id = test_contract_data['id']
 
         with open('docs/source/tutorial/contracts-listing-1.http', 'w') as self.app.file_obj:
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(len(response.json['data']), 0)
-
-        # Contract activation
-        with open('docs/source/tutorial/contract-activation.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract_id, contract_token),
-                                           {"data": {"status": "active"}})
-            self.assertEqual(response.status, '200 OK')
-
-        with open('docs/source/tutorial/contracts-listing-2.http', 'w') as self.app.file_obj:
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(len(response.json['data']), 1)

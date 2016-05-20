@@ -1,4 +1,4 @@
-PATCH /api/2.3/contracts/8557f68ba13b475b90221cc16fe0b6d8/changes/83281f80f98d40788d9947014a394d9b?acc_token=0fcbfece591446fa9f1a226ff7e80fab HTTP/1.0
+PATCH /api/2.3/contracts/5202ba63c8984cba89150812ad45e70d/changes/c1d84ecefc1949659ac4dac293c5fb92?acc_token=ea84637bf71b4be28b616cd205ea5ab0 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 255
 Content-Type: application/json
@@ -18,8 +18,8 @@ Content-Type: application/json; charset=UTF-8
     "rationaleType": "volumeCuts", 
     "rationale_en": "Contract change cause", 
     "rationale": "Друга і третя поставка має бути розфасована", 
-    "date": "2016-05-17T17:06:28.106532+03:00", 
-    "id": "83281f80f98d40788d9947014a394d9b"
+    "date": "2016-05-20T17:45:13.852427+03:00", 
+    "id": "c1d84ecefc1949659ac4dac293c5fb92"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/2f45a5c0878f4a11a6fa162a391483cc/contracts/8557f68ba13b475b90221cc16fe0b6d8 HTTP/1.0
+GET /api/2.3/tenders/817f808830d84ae4b5f5b1406287df5e/contracts/5202ba63c8984cba89150812ad45e70d HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -30,10 +30,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-19T17:06:18.190924+03:00", 
-          "endDate": "2016-05-22T17:06:18.190924+03:00"
+          "startDate": "2016-05-22T17:45:06.445682+03:00", 
+          "endDate": "2016-05-25T17:45:06.445682+03:00"
         }, 
-        "id": "fdaeb7064efc4b2c8cb97b6468d7f59a", 
+        "id": "da7f6394f251459dba2a2cbd773c054a", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -67,10 +67,11 @@ Content-Type: application/json; charset=UTF-8
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-05-17T17:06:25.738641+03:00", 
-    "awardID": "75afe0e34c8c498aafb08581aa7efbf0", 
-    "id": "8557f68ba13b475b90221cc16fe0b6d8", 
-    "contractID": "UA-2016-05-17-000001-1"
+    "dateSigned": "2016-05-20T17:45:11.615401+03:00", 
+    "date": "2016-05-20T17:45:11.615350+03:00", 
+    "awardID": "48ecfe1c29894bbca9570c0c97e19a66", 
+    "id": "5202ba63c8984cba89150812ad45e70d", 
+    "contractID": "UA-2016-05-20-000001-1"
   }
 }
 
