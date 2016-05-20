@@ -195,7 +195,14 @@ class ContractResource(ContractsResource):
             self.request.errors.status = 403
             return
 
-        if apply_patch(self.request, src=self.request.validated['contract_src']):
+        apply_patch(self.request, save=False, src=self.request.validated['contract_src'])
+
+        if contract.status == 'terminated' and not contract.amountPaid:
+            self.request.errors.add('body', 'data', 'Can\'t terminate contract while \'amountPaid\' is not set')
+            self.request.errors.status = 403
+            return
+
+        if save_contract(self.request):
             self.LOGGER.info('Updated contract {}'.format(contract.id),
                             extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_patch'}))
             return {'data': contract.serialize('view')}
