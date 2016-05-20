@@ -138,7 +138,7 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertNotIn('acc_token', response.headers['Location'])
 
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, self.contract_token),
-                                       {"data": {"status": "terminated"}})
+                                       {"data": {"status": "terminated", "amountPaid": {"amount": 12}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'terminated')
 
@@ -265,7 +265,7 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
             self.assertEqual(response.body, 'content3')
 
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, self.contract_token),
-                                       {"data": {"status": "terminated"}})
+                                       {"data": {"status": "terminated", "amountPaid": {"amount": 400}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'terminated')
 
@@ -315,7 +315,7 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertEqual('document description', response.json["data"]["description"])
 
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, self.contract_token),
-                                       {"data": {"status": "terminated"}})
+                                       {"data": {"status": "terminated", "amountPaid": {"amount": 455}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'terminated')
 

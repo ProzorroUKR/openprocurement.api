@@ -471,7 +471,13 @@ class ContractResource4BrokersTest(BaseContractWebTest):
 
         # active > terminated allowed
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                       {"data": {"status": "terminated"}})
+                                       {"data": {"status": "terminated"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u"Can't terminate contract while 'amountPaid' is not set", u'location': u'body', u'name': u'data'}])
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"status": "terminated", "amountPaid": {"amount": 100, "valueAddedTaxIncluded": True, "currency": "UAH"}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'terminated')
 
@@ -604,9 +610,13 @@ class ContractResource4BrokersTest(BaseContractWebTest):
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                       {"data": {"status": "terminated"}})
+                                       {"data": {"status": "terminated",
+                                                 "amountPaid": {"amount": 100500},
+                                                 "terminationDetails": "sink"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'terminated')
+        self.assertEqual(response.json['data']['amountPaid']['amount'], 100500)
+        self.assertEqual(response.json['data']['terminationDetails'], 'sink')
 
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
                                        {"data": {"status": "active"}}, status=403)
@@ -632,6 +642,8 @@ class ContractResource4BrokersTest(BaseContractWebTest):
         self.assertEqual(response.json['data']["value"]['amount'], 235)
         self.assertEqual(response.json['data']['period']['startDate'], custom_period_start_date)
         self.assertEqual(response.json['data']['period']['endDate'], custom_period_end_date)
+        self.assertEqual(response.json['data']['amountPaid']['amount'], 100500)
+        self.assertEqual(response.json['data']['terminationDetails'], 'sink')
 
 
 class ContractResource4AdministratorTest(BaseContractWebTest):
@@ -715,7 +727,7 @@ class ContractCredentialsTest(BaseContractWebTest):
 
         # terminated contract is also protected
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, token2),
-                                       {"data": {"status": "terminated"}})
+                                       {"data": {"status": "terminated", "amountPaid": {"amount": 777}}})
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json('/contracts/{0}/credentials?acc_token={1}'.format(self.contract_id, tender_token),
