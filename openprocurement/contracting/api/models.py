@@ -15,7 +15,7 @@ from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Organization as BaseOrganization
 from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import Item as BaseItem
-from openprocurement.api.models import (Model, ListType, Revision,
+from openprocurement.api.models import (Model, ListType, Revision, Value,
                                         IsoDateTimeType)
 from openprocurement.api.models import validate_cpv_group, validate_items_uniq
 from openprocurement.api.models import (plain_role, Administrator_role,
@@ -31,14 +31,16 @@ contract_create_role = (whitelist(
 
 contract_edit_role = (whitelist(
     'title', 'title_en', 'title_ru', 'description', 'description_en',
-    'description_ru', 'status', 'period', 'value' , 'items'
+    'description_ru', 'status', 'period', 'value' , 'items', 'amountPaid',
+    'terminationDetails'
 ))
 
 contract_view_role = (whitelist(
     'id', 'awardID', 'contractID', 'dateModified', 'contractNumber', 'title',
     'title_en', 'title_ru', 'description', 'description_en', 'description_ru',
     'status', 'period', 'value', 'dateSigned', 'documents', 'items',
-    'suppliers', 'procuringEntity', 'owner', 'mode', 'tender_id', 'changes'
+    'suppliers', 'procuringEntity', 'owner', 'mode', 'tender_id', 'changes',
+    'amountPaid', 'terminationDetails'
 ))
 
 contract_administrator_role = (Administrator_role + whitelist('suppliers',))
@@ -146,6 +148,8 @@ class Contract(SchematicsDocument, BaseContract):
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     changes = ListType(ModelType(Change), default=list())
     documents = ListType(ModelType(Document), default=list())
+    amountPaid = ModelType(Value)
+    terminationDetails = StringType()
 
     create_accreditation = 3  # TODO
 
