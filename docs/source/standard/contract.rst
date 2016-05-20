@@ -48,7 +48,6 @@ Schema
 
     Possible values are:
 
-    * `draft` - this contract has been transferred (from the tender system), but is not yet in force.
     * `active` - this contract has been signed by all the parties, and is
       now legally in force.
     * `terminated` - this contract was signed and in force, and has now come
@@ -103,11 +102,9 @@ Workflow
 .. graphviz::
 
     digraph G {
-        A [ label="draft*" ]
-        B [ label="active"]
-        C [ label="terminated"]
+        A [ label="active*" ]
+        B [ label="terminated"]
          A -> B;
-         B -> C;
     }
 
 \* marks initial state
