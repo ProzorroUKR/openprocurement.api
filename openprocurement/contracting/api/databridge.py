@@ -154,7 +154,6 @@ class ContractingDataBridge(object):
                     contract['mode'] = data['mode']
                 contract['owner'] = data['owner']
                 contract['tender_token'] = data['tender_token']
-                del contract['status']  # create contract in 'draft' status
                 self.contracts_put_queue.put(contract)
             gevent.sleep(0)
 

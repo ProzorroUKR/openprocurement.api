@@ -39,19 +39,6 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
 
     def test_get_change(self):
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                      {'data': {'rationale': 'penguin', 'rationaleType': 'priceReduction'}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'], [
-            {"location": "body", "name": "data", "description": "Can't add contract change in current (draft) contract status"}
-        ])
-
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                       {'data': {'status': 'active'}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'active')
-        self.assertNotIn('changes', response.json['data'])
-
-        response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
                                       {'data': {'rationale': u'Принцеси не какають.',
                                                 'rationale_ru': u'ff',
                                                 'rationale_en': 'asdf',
@@ -88,12 +75,6 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
                          set(['id', 'date', 'status', 'rationaleType', 'rationale', 'rationale_ru', 'rationale_en', 'contractNumber']))
 
     def test_create_change_invalid(self):
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                       {'data': {'status': 'active'}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'active')
-        self.assertNotIn('changes', response.json['data'])
-
         response = self.app.post('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
                                       'data', status=415)
         self.assertEqual(response.status, '415 Unsupported Media Type')
@@ -141,19 +122,6 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
 
     def test_create_change(self):
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                      {'data': {'rationale': 'penguin', 'rationaleType': 'qualityImprovement'}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'], [
-            {"location": "body", "name": "data", "description": "Can't add contract change in current (draft) contract status"}
-        ])
-
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                       {'data': {'status': 'active'}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'active')
-        self.assertNotIn('changes', response.json['data'])
-
-        response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
                                       {'data': {'rationale': u'причина зміни укр',
                                                 'rationale_en': 'change cause en',
                                                 'rationaleType': 'qualityImprovement'}})
@@ -190,11 +158,6 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         self.assertEqual(len(response.json['data']), 2)
 
     def test_patch_change(self):
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                       {'data': {'status': 'active'}})
-        self.assertEqual(response.json['data']['status'], 'active')
-        self.assertNotIn('changes', response.json['data'])
-
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
                                       {'data': {'rationale': u'причина зміни укр',
                                                 'rationale_en': u'change cause en',

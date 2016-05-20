@@ -103,27 +103,16 @@ class ContractResourceTest(BaseWebTest):
         self.assertEqual(len(response.json['data']), 0)
 
         contracts = []
-        contracts_ids = []
 
         for i in range(3):
             data = deepcopy(test_contract_data)
             data['id'] = uuid4().hex
+            offset = get_now().isoformat()
             response = self.app.post_json('/contracts', {'data': data})
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
-            contracts_ids.append(response.json['data']['id'])
-
-        # 'draft' contracts is not visible
-        response = self.app.get('/contracts')
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']), 0)
-
-        # reveal contracts
-        for contract_id in contracts_ids:
-            offset = get_now().isoformat()
-            response = self.app.patch_json('/contracts/{}'.format(contract_id), {'data': {'status': 'active'}})
-            self.assertEqual(response.status, '200 OK')
             contracts.append(response.json['data'])
+
 
         response = self.app.get('/contracts')
         self.assertEqual(response.status, '200 OK')
@@ -188,9 +177,6 @@ class ContractResourceTest(BaseWebTest):
         response = self.app.post_json('/contracts', {'data': test_contract_data2})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
-
-        response = self.app.patch_json('/contracts/{}'.format(response.json['data']['id']), {'data': {'status': 'active'}})
-        self.assertEqual(response.status, '200 OK')
 
         response = self.app.get('/contracts?mode=test')
         self.assertEqual(response.status, '200 OK')
@@ -415,7 +401,7 @@ class ContractResourceTest(BaseWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         contract = response.json['data']
-        self.assertEqual(contract['status'], 'draft')
+        self.assertEqual(contract['status'], 'active')
 
         response = self.app.get('/contracts/{}'.format(contract['id']))
         self.assertEqual(response.status, '200 OK')
@@ -433,7 +419,7 @@ class ContractResourceTest(BaseWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         contract = response.json['data']
-        self.assertEqual(contract['status'], 'draft')
+        self.assertEqual(contract['status'], 'active')
         self.assertEqual(contract['procuringEntity']['contactPoint']['availableLanguage'], 'en')
         self.assertEqual(contract['procuringEntity']['additionalContactPoints'], [additionalContactPoint])
 
@@ -472,7 +458,7 @@ class ContractResource4BrokersTest(BaseContractWebTest):
         response = self.app.get('/contracts/{}'.format(self.contract['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "draft")
+        self.assertEqual(response.json['data']["status"], "active")
 
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], tender_token),
                                        {"data": {"status": "active"}}, status=403)
@@ -482,17 +468,6 @@ class ContractResource4BrokersTest(BaseContractWebTest):
                                        {'data': ''})
         self.assertEqual(response.status, '200 OK')
         token = response.json['access']['token']
-
-        # draft > active allowed
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                       {"data": {"status": "active"}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'active')
-
-        # active > draft not allowed
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                       {"data": {"status": "draft"}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
 
         # active > terminated allowed
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
@@ -505,31 +480,6 @@ class ContractResource4BrokersTest(BaseContractWebTest):
                                        {"data": {"status": "active"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
 
-        # terminated > draft not allowed
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                       {"data": {"status": "draft"}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-
-        # draft > terminated allowed ?
-        data = deepcopy(self.initial_data)
-        data['id'] = uuid4().hex
-        self.app.authorization = ('Basic', ('contracting', ''))
-        response = self.app.post_json('/contracts', {"data": data})
-        self.app.authorization = self.initial_auth
-        self.assertEqual(response.status, '201 Created')
-        contract = response.json['data']
-        self.assertEqual(contract['status'], 'draft')
-
-        response = self.app.patch_json('/contracts/{}/credentials?acc_token={}'.format(contract['id'], data['tender_token']),
-                                       {'data': ''})
-        self.assertEqual(response.status, '200 OK')
-        token = response.json['access']['token']
-
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract['id'], token),
-                                       {"data": {"status": "terminated"}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'terminated')
-
     def test_contract_items_change(self):
         tender_token = self.initial_data['tender_token']
 
@@ -537,11 +487,6 @@ class ContractResource4BrokersTest(BaseContractWebTest):
                                        {'data': ''})
         self.assertEqual(response.status, '200 OK')
         token = response.json['access']['token']
-
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                       {"data": {"status": "active"}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'active')
 
         response = self.app.get('/contracts/{}'.format(self.contract['id']))
         self.assertEqual(response.status, '200 OK')
@@ -637,16 +582,6 @@ class ContractResource4BrokersTest(BaseContractWebTest):
         token = response.json['access']['token']
 
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                       {"data": {"title": "New Title"}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'], [
-            {"location": "body", "name": "data", "description": "Can't update contract in current (draft) status"}])
-
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                       {"data": {"status": "active"}})
-        self.assertEqual(response.status, '200 OK')
-
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
                                        {"data": {"title": "New Title"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['title'], "New Title")
@@ -725,12 +660,6 @@ class ContractResource4AdministratorTest(BaseContractWebTest):
         self.assertEqual(response.json['data']["suppliers"][0]["address"]["postalCode"], "79014")
         self.assertEqual(response.json['data']["suppliers"][0]["address"]["countryName"], u"Україна") # old field value left untouchable
 
-        # status change
-        response = self.app.patch_json('/contracts/{}'.format(self.contract['id']),
-                                       {'data': {'status': 'active'}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], u'active')
-
         # administrator has permissions to update only: mode, procuringEntity, suppliers
         response = self.app.patch_json('/contracts/{}'.format(self.contract['id']), {'data': {
             'value': {'amount': 100500},
@@ -783,17 +712,6 @@ class ContractCredentialsTest(BaseContractWebTest):
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, token1),
                                        {"data": {"status": "active"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
-
-        # activate contract and try to generate credentials
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, token2),
-                                       {"data": {"status": "active"}})
-        self.assertEqual(response.status, '200 OK')
-
-        response = self.app.patch_json('/contracts/{0}/credentials?acc_token={1}'.format(self.contract_id, tender_token),
-                                       {'data': ''}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u"Can't generate credentials in current (active) contract status", u'location': u'body', u'name': u'data'}])
 
         # terminated contract is also protected
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, token2),

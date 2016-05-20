@@ -190,15 +190,7 @@ class ContractResource(ContractsResource):
         """Contract Edit (partial)
         """
         contract = self.request.validated['contract']
-
-        data = self.request.validated['data']
-        if 'status' in data and data['status'] != contract.status:  # if status change
-            # old status vs new status
-            if contract.status not in ['draft', 'active'] or data['status'] not in ['active', 'terminated']:
-                self.request.errors.add('body', 'data', 'Can\'t update contract status')
-                self.request.errors.status = 403
-                return
-        elif self.request.authenticated_role != 'Administrator' and contract.status != 'active':
+        if self.request.authenticated_role != 'Administrator' and contract.status != 'active':
             self.request.errors.add('body', 'data', 'Can\'t update contract in current ({}) status'.format(contract.status))
             self.request.errors.status = 403
             return
@@ -221,7 +213,7 @@ class ContractCredentialsResource(APIResource):
     @json_view(permission='generate_credentials')
     def patch(self):
         contract = self.request.validated['contract']
-        if contract.status != "draft":
+        if contract.status != "active":
             self.request.errors.add('body', 'data', 'Can\'t generate credentials in current ({}) contract status'.format(contract.status))
             self.request.errors.status = 403
             return

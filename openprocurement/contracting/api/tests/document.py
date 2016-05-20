@@ -84,16 +84,6 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertEqual(response.json, {"data": []})
 
         response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
-            self.contract_id, self.contract_token), upload_files=[('file', u'укр.doc', 'content')], status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'], [{u'description': u"Can't add document in current (draft) contract status",
-                                                    u'location': u'body', u'name': u'data'}])
-
-        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, self.contract_token),
-                                       {"data": {"status": "active"}})
-        self.assertEqual(response.status, '200 OK')
-
-        response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
             self.contract_id, self.contract_token), upload_files=[('file', u'укр.doc', 'content')])
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')

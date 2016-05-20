@@ -141,7 +141,7 @@ class Contract(SchematicsDocument, BaseContract):
     owner_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
     mode = StringType(choices=['test'])
-    status = StringType(choices=['draft', 'terminated', 'active'], default='draft')
+    status = StringType(choices=['terminated', 'active'], default='active')
     suppliers = ListType(ModelType(Organization), min_size=1, max_size=1)
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     changes = ListType(ModelType(Change), default=list())
@@ -153,7 +153,6 @@ class Contract(SchematicsDocument, BaseContract):
         roles = {
             'plain': plain_role,
             'create': contract_create_role,
-            'edit_draft': whitelist("status"),
             'edit_active': contract_edit_role,
             'edit_terminated': whitelist(),
             'view': contract_view_role,
