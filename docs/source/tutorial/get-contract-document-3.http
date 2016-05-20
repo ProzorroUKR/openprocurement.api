@@ -1,4 +1,4 @@
-GET /api/2.3/contracts/5202ba63c8984cba89150812ad45e70d/documents/1c8d8e2afe0a42078a684a337bad31de?acc_token=ea84637bf71b4be28b616cd205ea5ab0 HTTP/1.0
+GET /api/2.3/contracts/5cceaf781c3f4b6893cc4e8766f79200/documents/ced0567673ee42f1aebb0f2dca826518?acc_token=5afe1f7f8c204337b8d012df0eb117eb HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -7,23 +7,23 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "title": "contract_additional_docs.doc", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5202ba63c8984cba89150812ad45e70d/documents/1c8d8e2afe0a42078a684a337bad31de?download=3d547374f3bb48e2acaa264d2af1ae8a", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5cceaf781c3f4b6893cc4e8766f79200/documents/ced0567673ee42f1aebb0f2dca826518?download=26a9d119df9e4fa5984af02e29a5f73a", 
     "format": "application/msword", 
     "documentOf": "contract", 
-    "datePublished": "2016-05-20T17:45:13.612842+03:00", 
+    "datePublished": "2016-05-20T19:52:53.488851+03:00", 
     "previousVersions": [
       {
         "title": "contract_additional_docs.doc", 
-        "url": "/contracts/5202ba63c8984cba89150812ad45e70d/documents/1c8d8e2afe0a42078a684a337bad31de?download=a21135c174f24b83af273b1a15d24d32", 
+        "url": "/contracts/5cceaf781c3f4b6893cc4e8766f79200/documents/ced0567673ee42f1aebb0f2dca826518?download=7259709391474bccbfc37cc7db3c33d9", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2016-05-20T17:45:13.612842+03:00", 
-        "id": "1c8d8e2afe0a42078a684a337bad31de", 
-        "dateModified": "2016-05-20T17:45:13.612889+03:00"
+        "datePublished": "2016-05-20T19:52:53.488851+03:00", 
+        "id": "ced0567673ee42f1aebb0f2dca826518", 
+        "dateModified": "2016-05-20T19:52:53.488902+03:00"
       }
     ], 
-    "id": "1c8d8e2afe0a42078a684a337bad31de", 
-    "dateModified": "2016-05-20T17:45:13.718061+03:00"
+    "id": "ced0567673ee42f1aebb0f2dca826518", 
+    "dateModified": "2016-05-20T19:52:53.626471+03:00"
   }
 }
 

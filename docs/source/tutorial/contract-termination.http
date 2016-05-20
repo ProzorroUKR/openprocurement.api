@@ -1,12 +1,15 @@
-PATCH /api/2.3/contracts/5202ba63c8984cba89150812ad45e70d?acc_token=ea84637bf71b4be28b616cd205ea5ab0 HTTP/1.0
+PATCH /api/2.3/contracts/5cceaf781c3f4b6893cc4e8766f79200?acc_token=5afe1f7f8c204337b8d012df0eb117eb HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 34
+Content-Length: 65
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "terminated"
+    "status": "terminated", 
+    "amountPaid": {
+      "amount": 430
+    }
   }
 }
 
@@ -20,43 +23,53 @@ Content-Type: application/json; charset=UTF-8
       "amount": 438.0, 
       "valueAddedTaxIncluded": true
     }, 
+    "changes": [
+      {
+        "status": "active", 
+        "rationaleType": "volumeCuts", 
+        "rationale_en": "Contract change cause", 
+        "rationale": "Друга і третя поставка має бути розфасована", 
+        "date": "2016-05-20T19:52:54.287842+03:00", 
+        "id": "ad59e18b89aa4ff2b4d4de1f4f98091d"
+      }
+    ], 
     "documents": [
       {
         "title": "contract.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5202ba63c8984cba89150812ad45e70d/documents/c93238eff8f148eb9c098b16359d4e8d?download=e1a27250aa804760863bad8ba0370c13", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5cceaf781c3f4b6893cc4e8766f79200/documents/fc5be96fb43a4f73b2615186f5708bf1?download=d82843380d224527976eb4edc69c9a1e", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2016-05-20T17:45:13.439962+03:00", 
-        "id": "c93238eff8f148eb9c098b16359d4e8d", 
-        "dateModified": "2016-05-20T17:45:13.440013+03:00"
+        "datePublished": "2016-05-20T19:52:53.308970+03:00", 
+        "id": "fc5be96fb43a4f73b2615186f5708bf1", 
+        "dateModified": "2016-05-20T19:52:53.309018+03:00"
       }, 
       {
         "title": "contract_additional_docs.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5202ba63c8984cba89150812ad45e70d/documents/1c8d8e2afe0a42078a684a337bad31de?download=a21135c174f24b83af273b1a15d24d32", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5cceaf781c3f4b6893cc4e8766f79200/documents/ced0567673ee42f1aebb0f2dca826518?download=7259709391474bccbfc37cc7db3c33d9", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2016-05-20T17:45:13.612842+03:00", 
-        "id": "1c8d8e2afe0a42078a684a337bad31de", 
-        "dateModified": "2016-05-20T17:45:13.612889+03:00"
+        "datePublished": "2016-05-20T19:52:53.488851+03:00", 
+        "id": "ced0567673ee42f1aebb0f2dca826518", 
+        "dateModified": "2016-05-20T19:52:53.488902+03:00"
       }, 
       {
         "title": "contract_additional_docs.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5202ba63c8984cba89150812ad45e70d/documents/1c8d8e2afe0a42078a684a337bad31de?download=3d547374f3bb48e2acaa264d2af1ae8a", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5cceaf781c3f4b6893cc4e8766f79200/documents/ced0567673ee42f1aebb0f2dca826518?download=26a9d119df9e4fa5984af02e29a5f73a", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2016-05-20T17:45:13.612842+03:00", 
-        "id": "1c8d8e2afe0a42078a684a337bad31de", 
-        "dateModified": "2016-05-20T17:45:13.718061+03:00"
+        "datePublished": "2016-05-20T19:52:53.488851+03:00", 
+        "id": "ced0567673ee42f1aebb0f2dca826518", 
+        "dateModified": "2016-05-20T19:52:53.626471+03:00"
       }, 
       {
         "title": "contract_changes.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5202ba63c8984cba89150812ad45e70d/documents/aa0b0af7a54d41ccb81a96df535f73af?download=f17a5e0a8ac841d5ac06eaf7b084d717", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5cceaf781c3f4b6893cc4e8766f79200/documents/c7f20de393d0438a995894f0d1190531?download=980d099f682d4ac0a40981eca38d245e", 
         "format": "application/msword", 
         "documentOf": "change", 
-        "datePublished": "2016-05-20T17:45:14.116305+03:00", 
-        "id": "aa0b0af7a54d41ccb81a96df535f73af", 
-        "relatedItem": "c1d84ecefc1949659ac4dac293c5fb92", 
-        "dateModified": "2016-05-20T17:45:14.116362+03:00"
+        "datePublished": "2016-05-20T19:52:54.081405+03:00", 
+        "id": "c7f20de393d0438a995894f0d1190531", 
+        "relatedItem": "ad59e18b89aa4ff2b4d4de1f4f98091d", 
+        "dateModified": "2016-05-20T19:52:54.081456+03:00"
       }
     ], 
     "items": [
@@ -82,10 +95,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-22T17:45:06.445682+03:00", 
-          "endDate": "2016-05-25T17:45:06.445682+03:00"
+          "startDate": "2016-05-22T19:52:47.082076+03:00", 
+          "endDate": "2016-05-25T19:52:47.082076+03:00"
         }, 
-        "id": "81667d42ff3f4cf7a11e5a30b047a7b5", 
+        "id": "5a71ea0994f44b4db467ccdac3ee5db0", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -115,11 +128,11 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-05-20T17:45:12.285543+03:00", 
-      "endDate": "2016-06-19T17:45:12.285587+03:00"
+      "startDate": "2016-05-20T19:52:52.252462+03:00", 
+      "endDate": "2016-06-19T19:52:52.252508+03:00"
     }, 
-    "dateSigned": "2016-05-20T17:45:11.615401+03:00", 
-    "id": "5202ba63c8984cba89150812ad45e70d", 
+    "dateSigned": "2016-05-20T19:52:51.641958+03:00", 
+    "id": "5cceaf781c3f4b6893cc4e8766f79200", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -142,19 +155,14 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "contractID": "UA-2016-05-20-000001-1", 
     "owner": "broker", 
-    "awardID": "48ecfe1c29894bbca9570c0c97e19a66", 
-    "changes": [
-      {
-        "status": "active", 
-        "rationaleType": "volumeCuts", 
-        "rationale_en": "Contract change cause", 
-        "rationale": "Друга і третя поставка має бути розфасована", 
-        "date": "2016-05-20T17:45:14.358741+03:00", 
-        "id": "c1d84ecefc1949659ac4dac293c5fb92"
-      }
-    ], 
-    "dateModified": "2016-05-20T17:45:14.671193+03:00", 
-    "tender_id": "817f808830d84ae4b5f5b1406287df5e"
+    "awardID": "2a2e206c07c1454ca24229e2935d7292", 
+    "amountPaid": {
+      "currency": "UAH", 
+      "amount": 430.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "dateModified": "2016-05-20T19:52:54.593221+03:00", 
+    "tender_id": "f41e80d3d3234f9bb5bf84fcd0f21450"
   }
 }
 

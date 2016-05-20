@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/817f808830d84ae4b5f5b1406287df5e HTTP/1.0
+GET /api/2.3/tenders/f41e80d3d3234f9bb5bf84fcd0f21450 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -9,12 +9,12 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "status": "complete", 
     "awardPeriod": {
-      "startDate": "2016-05-10T17:45:06.445682+03:00", 
-      "endDate": "2016-05-10T17:45:06.445682+03:00"
+      "startDate": "2016-05-10T19:52:47.082076+03:00", 
+      "endDate": "2016-05-10T19:52:47.082076+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-04-25T17:45:06.445682+03:00", 
-      "endDate": "2016-05-02T17:45:06.445682+03:00"
+      "startDate": "2016-04-25T19:52:47.082076+03:00", 
+      "endDate": "2016-05-02T19:52:47.082076+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "procuringEntity": {
@@ -38,14 +38,14 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "owner": "broker", 
-    "id": "817f808830d84ae4b5f5b1406287df5e", 
+    "id": "f41e80d3d3234f9bb5bf84fcd0f21450", 
     "title": "футляри до державних нагород", 
     "tenderID": "UA-2016-05-20-000001", 
-    "dateModified": "2016-05-20T17:45:11.622522+03:00", 
+    "dateModified": "2016-05-20T19:52:51.648732+03:00", 
     "numberOfBids": 1, 
     "tenderPeriod": {
-      "startDate": "2016-05-02T17:45:06.445682+03:00", 
-      "endDate": "2016-05-09T17:45:06.445682+03:00"
+      "startDate": "2016-05-02T19:52:47.082076+03:00", 
+      "endDate": "2016-05-09T19:52:47.082076+03:00"
     }, 
     "contracts": [
       {
@@ -73,10 +73,10 @@ Content-Type: application/json; charset=UTF-8
               "locality": "м. Київ"
             }, 
             "deliveryDate": {
-              "startDate": "2016-05-22T17:45:06.445682+03:00", 
-              "endDate": "2016-05-25T17:45:06.445682+03:00"
+              "startDate": "2016-05-22T19:52:47.082076+03:00", 
+              "endDate": "2016-05-25T19:52:47.082076+03:00"
             }, 
-            "id": "da7f6394f251459dba2a2cbd773c054a", 
+            "id": "70b5bf4d32864ab7abac5ae7ac53d0e6", 
             "unit": {
               "code": "44617100-9", 
               "name": "item"
@@ -110,24 +110,24 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "dateSigned": "2016-05-20T17:45:11.615401+03:00", 
-        "date": "2016-05-20T17:45:11.615350+03:00", 
-        "awardID": "48ecfe1c29894bbca9570c0c97e19a66", 
-        "id": "5202ba63c8984cba89150812ad45e70d", 
+        "dateSigned": "2016-05-20T19:52:51.641958+03:00", 
+        "date": "2016-05-20T19:52:51.641912+03:00", 
+        "awardID": "2a2e206c07c1454ca24229e2935d7292", 
+        "id": "5cceaf781c3f4b6893cc4e8766f79200", 
         "contractID": "UA-2016-05-20-000001-1"
       }
     ], 
     "auctionPeriod": {
-      "startDate": "2016-05-09T17:45:06.445682+03:00", 
-      "endDate": "2016-05-10T17:45:06.445682+03:00"
+      "startDate": "2016-05-09T19:52:47.082076+03:00", 
+      "endDate": "2016-05-10T19:52:47.082076+03:00"
     }, 
     "procurementMethodType": "belowThreshold", 
     "awards": [
       {
         "status": "active", 
         "complaintPeriod": {
-          "startDate": "2016-05-20T17:45:10.955789+03:00", 
-          "endDate": "2016-05-20T17:45:10.955789+03:00"
+          "startDate": "2016-05-20T19:52:51.075756+03:00", 
+          "endDate": "2016-05-20T19:52:51.075756+03:00"
         }, 
         "suppliers": [
           {
@@ -150,14 +150,14 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bid_id": "8ecd4f7a12dc41249c6941ab1f3cbcb2", 
+        "bid_id": "1f2022cc396c4de388fc4aa6dc86e56c", 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2016-05-20T17:45:11.140719+03:00", 
-        "id": "48ecfe1c29894bbca9570c0c97e19a66"
+        "date": "2016-05-20T19:52:51.223187+03:00", 
+        "id": "2a2e206c07c1454ca24229e2935d7292"
       }
     ], 
     "minimalStep": {
@@ -188,10 +188,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-22T17:45:06.445682+03:00", 
-          "endDate": "2016-05-25T17:45:06.445682+03:00"
+          "startDate": "2016-05-22T19:52:47.082076+03:00", 
+          "endDate": "2016-05-25T19:52:47.082076+03:00"
         }, 
-        "id": "da7f6394f251459dba2a2cbd773c054a", 
+        "id": "70b5bf4d32864ab7abac5ae7ac53d0e6", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -201,8 +201,8 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "bids": [
       {
-        "date": "2016-05-20T17:45:10.648644+03:00", 
-        "id": "8ecd4f7a12dc41249c6941ab1f3cbcb2", 
+        "date": "2016-05-20T19:52:50.756778+03:00", 
+        "id": "1f2022cc396c4de388fc4aa6dc86e56c", 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
