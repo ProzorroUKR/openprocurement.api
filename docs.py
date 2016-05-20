@@ -277,5 +277,5 @@ class TenderResourceTest(BaseTenderWebTest):
         # Finalize contract
         with open('docs/source/tutorial/contract-termination.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract_id, contract_token),
-                                           {"data": {"status": "terminated"}})
+                                           {"data": {"status": "terminated", "amountPaid": {"amount": 430}}})
             self.assertEqual(response.status, '200 OK')
