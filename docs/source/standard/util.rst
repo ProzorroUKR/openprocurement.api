@@ -157,7 +157,7 @@ Schema
 
       Article 36 Part 5. Effect of the procurement contract may be continued for a period sufficient for conduction of the procurement procedure at the beginning of the next year in volume that does not exceed 20% of the sum specified in the contract concluded in the previous year, if expenditures for this purpose are approved in the prescribed manner.
 
-:dateSigned:
+:date:
     string, :ref:`date`, auto-generated
 
 :contractNumber:
