@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import get_now
-from openprocurement.api.utils import opresource, calculate_business_date
+from openprocurement.api.utils import opresource
+from openprocurement.tender.openuadefense.utils import calculate_business_date
 from openprocurement.tender.openua.views.tender_document import TenderUaDocumentResource as TenderDocumentResource
 from openprocurement.tender.openuadefense.models import TENDERING_EXTRA_PERIOD
 

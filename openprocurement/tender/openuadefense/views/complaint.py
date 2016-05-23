@@ -15,7 +15,7 @@ from openprocurement.api.validation import (
     validate_patch_complaint_data,
 )
 from openprocurement.tender.openuadefense.models import CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
-from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.openuadefense.utils import calculate_business_date
 
 
 @opresource(name='Tender UA.defense Complaints',

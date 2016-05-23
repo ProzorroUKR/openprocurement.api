@@ -10,7 +10,8 @@ from openprocurement.api.utils import (
     opresource,
 )
 from openprocurement.tender.openuadefense.models import STAND_STILL_TIME
-from openprocurement.tender.openua.utils import add_next_award, calculate_business_date
+from openprocurement.tender.openua.utils import add_next_award
+from openprocurement.tender.openuadefense.utils import calculate_business_date
 
 
 @opresource(name='Tender UA.defense Awards',
