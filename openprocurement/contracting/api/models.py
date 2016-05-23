@@ -55,6 +55,12 @@ class IContract(Interface):
     """ Contract marker interface """
 
 
+def get_contract(model):
+    while not IContract.providedBy(model):
+        model = model.__parent__
+    return model
+
+
 class Document(BaseDocument):
     """ Contract Document """
     documentOf = StringType(required=True, choices=[
@@ -64,7 +70,7 @@ class Document(BaseDocument):
         if not relatedItem and data.get('documentOf') in ['item', 'change']:
             raise ValidationError(u'This field is required.')
         if relatedItem and isinstance(data['__parent__'], Model):
-            contract = data['__parent__']
+            contract = get_contract(data['__parent__'])
             if data.get('documentOf') == 'change' and relatedItem not in [i.id for i in contract.changes]:
                 raise ValidationError(u"relatedItem should be one of changes")
             if data.get('documentOf') == 'item' and relatedItem not in [i.id for i in contract.items]:
