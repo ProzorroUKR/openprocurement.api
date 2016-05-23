@@ -4,14 +4,15 @@ msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 17:09+0300\n"
-"PO-Revision-Date: 2016-05-17 11:28+0300\n"
+"PO-Revision-Date: 2016-05-23 11:20+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
 #: ../../source/standard/contract.rst:8
@@ -95,8 +96,7 @@ msgstr "|ocdsDescription| Дата початку та завершення до
 
 #: ../../source/standard/contract.rst:64
 msgid "List of :ref:`Item` objects, auto-generated, read-only"
-msgstr ""
-"Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
+msgstr "Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
 
 #: ../../source/standard/contract.rst:66
 msgid ""
@@ -145,7 +145,7 @@ msgstr ""
 "|ocdsDescription| Усі документи та додатки пов’язані з договором, включно з "
 "будь-якими повідомленнями."
 
-#: ../../source/standard/contract.rst:100
+#: ../../source/standard/contract.rst:111
 msgid "Workflow"
 msgstr "Схема роботи"
 
@@ -161,7 +161,7 @@ msgstr ""
 "|ocdsDescription| Об’єкт, що управляє закупівлею. Він не обов’язково є "
 "покупцем, який платить / використовує закуплені елементи."
 
-#: ../../source/standard/contract.rst:110
+#: ../../source/standard/contract.rst:121
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
 
@@ -169,8 +169,23 @@ msgstr "\\* позначає початковий стан"
 msgid "List of :ref:`Change` objects."
 msgstr "Список пов’язаних об’єктів :ref:`Change`"
 
-#~ msgid ""
-#~ "`draft` - this contract has been transferred (from the tender system), but "
-#~ "is not yet in force."
-#~ msgstr ""
-#~ "`draft` - договір вже перенесено (з системи закупівель), але він ще не діє."
+#: ../../source/standard/contract.rst:100
+msgid ":ref:`Value` object."
+msgstr "об’єкт :ref:`Value`."
+
+#: ../../source/standard/contract.rst:102
+msgid "Amount of money actually paid."
+msgstr "Дійсно оплачена сума."
+
+#: ../../source/standard/contract.rst:105
+msgid "string, required for unsuccessful contract"
+msgstr "рядок, обов’язковий для неуспішних договорів"
+
+#: ../../source/standard/contract.rst:107
+msgid ""
+"Reasons for contract termination. Presence of this field indicates that "
+"contract is unsuccessful."
+msgstr ""
+"Причина припинення договору. Наявність цього поля вказує, що договір є "
+"неуспішним."
+
