@@ -367,6 +367,12 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertEqual(response.json["data"]["documentOf"], 'change')
         self.assertEqual(response.json["data"]["relatedItem"], change['id'])
 
+        response = self.app.put('/contracts/{}/documents/{}?acc_token={}'.format(
+            self.contract_id, doc_id, self.contract_token), upload_files=[('file', str(Header(u'укр2.doc', 'utf-8')), 'content2')])
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
                                         {'data': {'status': 'active'}})
         self.assertEqual(response.status, '200 OK')
