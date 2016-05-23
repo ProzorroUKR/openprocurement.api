@@ -284,7 +284,7 @@ class Bid(BaseBid):
             'active.qualification': view_bid_role,
             'active.awarded': view_bid_role,
             'complete': view_bid_role,
-            'unsuccessful': view_bid_role,
+            'unsuccessful':  whitelist('id', 'status', 'tenderers', 'parameters', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
             'cancelled': view_bid_role,
             'invalid': whitelist('id', 'status'),
             'deleted': whitelist('id', 'status'),
