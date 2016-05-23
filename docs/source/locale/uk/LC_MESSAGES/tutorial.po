@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 17:22+0300\n"
-"PO-Revision-Date: 2016-05-23 10:15+0300\n"
+"PO-Revision-Date: 2016-05-23 11:26+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -181,7 +181,7 @@ msgstr ""
 "``tender_token`` - це токен закупівлі (використовується для генерування "
 "токена договору)."
 
-#: ../../source/tutorial.rst:199
+#: ../../source/tutorial.rst:202
 msgid "Any future modification to the contract are not allowed."
 msgstr "Після цього додання змін до договору не дозволяється."
 
@@ -299,11 +299,20 @@ msgstr "Переглянемо договори."
 
 #: ../../source/tutorial.rst:192
 msgid ""
-"Before contract can be completed ``amountPaid`` field value should be set. "
-"Contract can be completed by switching to ``terminated`` status. Let's "
-"perform these actions in single request:"
+"Before contract can be completed ``amountPaid`` field value should be set "
+"(regardless whether the contract was successful or unsuccessful). Contract "
+"can be completed by switching to ``terminated`` status. Let's perform these "
+"actions in single request:"
 msgstr ""
-"Перед завершенням договору необхідно встановити значення поля  "
-"``amountPaid``. Договір можна завершити переключенням у статус "
-"``terminated``. Виконаємо ці дії єдиним запитом:"
+"Перед завершенням договору необхідно встановити значення поля  ``amountPaid`` "
+"(незалежно від того успішний договір чи ні). Договір можна завершити "
+"переключенням у статус ``terminated``. Виконаємо ці дії єдиним запитом:"
+
+#: ../../source/tutorial.rst:200
+msgid ""
+"If contract is unsuccessful reasons for termination ``terminationDetails`` "
+"should be specified."
+msgstr ""
+"Якщо договір неуспішний, то потрібно вказати причини його припинення "
+"``terminationDetails``."
 

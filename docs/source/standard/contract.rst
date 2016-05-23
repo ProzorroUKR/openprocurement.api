@@ -104,7 +104,7 @@ Schema
 :terminationDetails:
     string, required for unsuccessful contract
 
-    Reasons for contract termination. Presense of this field indicates that contract is unsuccessful.
+    Reasons for contract termination. Presence of this field indicates that contract is unsuccessful.
 
 
 Workflow
