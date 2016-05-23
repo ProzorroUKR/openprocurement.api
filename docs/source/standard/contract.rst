@@ -96,6 +96,17 @@ Schema
 :changes:
     List of :ref:`Change` objects.
 
+:amountPaid:
+    :ref:`Value` object.
+
+    Amount of money actually paid.
+
+:terminationDetails:
+    string, required for unsuccessful contract
+
+    Reasons for contract termination. Presense of this field indicates that contract is unsuccessful.
+
+
 Workflow
 --------
 

@@ -189,11 +189,14 @@ All changes are also listed on the contract view.
 Completing contract
 -------------------
 
-Before contract can be completed ``amountPaid`` field value should be set.
+Before contract can be completed ``amountPaid`` field value should be set (regardless whether the contract was successful or unsuccessful).
 Contract can be completed by switching to ``terminated`` status.
 Let's perform these actions in single request:
 
 .. include:: tutorial/contract-termination.http
    :code:
+
+
+If contract is unsuccessful reasons for termination ``terminationDetails`` should be specified.
 
 Any future modification to the contract are not allowed.
