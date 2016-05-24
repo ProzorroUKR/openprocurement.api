@@ -598,6 +598,13 @@ class ContractResource4BrokersTest(BaseContractWebTest):
                                        # {"data": {"value": {"valueAddedTaxIncluded": False}}})
 
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"amountPaid": {"amount": 900, "currency": "USD", "valueAddedTaxIncluded": False}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['amountPaid']['amount'], 900)
+        self.assertEqual(response.json['data']['amountPaid']['currency'], "UAH")
+        self.assertEqual(response.json['data']['amountPaid']['valueAddedTaxIncluded'], True)
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
                                        {"data": {"value": {"amount": 235}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['value']['amount'], 235)
