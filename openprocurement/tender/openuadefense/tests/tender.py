@@ -875,7 +875,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
                 "location": "body",
                 "name": "tenderPeriod",
                 "description": [
-                    "tenderPeriod should be greater than 5 working days"
+                    "tenderPeriod should be greater than 6 working days"
                 ]
             }
         ])
