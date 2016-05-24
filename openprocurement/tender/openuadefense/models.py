@@ -9,12 +9,12 @@ from openprocurement.api.models import ITender, Period
 from openprocurement.tender.openua.models import Tender as BaseTender, EnquiryPeriod
 from openprocurement.tender.openua.utils import calculate_business_date
 
-STAND_STILL_TIME = timedelta(days=2)
-ENQUIRY_STAND_STILL_TIME = timedelta(days=3)
+STAND_STILL_TIME = timedelta(days=4)
+ENQUIRY_STAND_STILL_TIME = timedelta(days=2)
 CLAIM_SUBMIT_TIME = timedelta(days=2)
-COMPLAINT_SUBMIT_TIME = timedelta(days=2)
-TENDER_PERIOD = timedelta(days=5)
-ENQUIRY_PERIOD_TIME = timedelta(days=2)
+COMPLAINT_SUBMIT_TIME = timedelta(days=3)
+TENDER_PERIOD = timedelta(days=6)
+ENQUIRY_PERIOD_TIME = timedelta(days=3)
 TENDERING_EXTRA_PERIOD = timedelta(days=2)
 
 
