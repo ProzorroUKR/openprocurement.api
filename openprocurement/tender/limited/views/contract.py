@@ -73,7 +73,6 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
                 self.request.errors.status = 403
                 return
 
-        contract_dateSigned = self.request.context.dateSigned
         contract_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         self.request.context.date = get_now()
@@ -82,11 +81,6 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
             self.request.errors.status = 403
             return
 
-        if self.request.context.dateSigned != contract_dateSigned:
-            if self.request.context.dateSigned < (get_now() - timedelta(days=14)):
-                self.request.errors.add('body', 'data', 'dateSigned has to be within the period of 24 hours before the current date')
-                self.request.errors.status = 403
-                return
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
         check_tender_status(self.request)
