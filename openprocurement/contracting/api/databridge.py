@@ -128,6 +128,10 @@ class ContractingDataBridge(object):
                             self.contracting_client.get_contract(contract['id'])
                         except ResourceNotFound:
                             logger.info('Sync contract {} of tender {}'.format(contract['id'], tender['id']))
+                        except Exception, e:
+                            logger.exception(e)
+                            self.tenders_queue.put(tender_to_sync)
+                            break
                         else:
                             logger.info('Contract exists {}'.format(contract['id']))
                             continue
