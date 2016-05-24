@@ -304,12 +304,6 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.json['errors'], [{u'description': [u"Contract signature date can't be in the future"], u'location': u'body', u'name': u'dateSigned'}])
 
-        twenty_five_hours_in_past = (get_now() - timedelta(hours=25*14)).isoformat()
-        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"dateSigned": twenty_five_hours_in_past}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "dateSigned has to be within the period of 24 hours before the current date")
-
         custom_signature_date = get_now().isoformat()
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token), {"data": {"dateSigned": custom_signature_date}})
         self.assertEqual(response.status, '200 OK')
