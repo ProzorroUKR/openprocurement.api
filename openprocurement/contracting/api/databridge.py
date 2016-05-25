@@ -215,6 +215,54 @@ class ContractingDataBridge(object):
             logger.info('Backward sync: Put tender to process...')
             self.tenders_queue.put(tender_data)
 
+    def sync_single_tender(self, tender_id):
+        transfered_contracts = []
+        try:
+            logger.info("Getting tender {}".format(tender_id))
+            tender = self.tenders_client_backward.get_tender(tender_id)['data']
+            logger.info("Got tender {} in status {}".format(tender['id'], tender['status']))
+
+            logger.info("Getting tender {} credentials".format(tender_id))
+            tender_credentials = self.get_tender_credentials(tender_id)['data']
+            logger.info("Got tender {} credentials".format(tender_id))
+
+            for contract in tender.get('contracts', []):
+                if contract['status'] != 'active':
+                    logger.info("Skip contract {} in status {}".format(contract['id'], contract['status']))
+                    continue
+
+                logger.info("Checking if contract {} already exists".format(contract['id']))
+                try:
+                    self.contracting_client.get_contract(contract['id'])
+                except ResourceNotFound:
+                    logger.info('Contract {} does not exists. Prepare contract for creation.'.format(contract['id']))
+                else:
+                    logger.info('Contract exists {}'.format(contract['id']))
+                    continue
+
+                logger.info("Extending contract {} with extra data".format(contract['id']))
+                if tender.get('mode'):
+                    contract['mode'] = tender['mode']
+                contract['tender_id'] = tender['id']
+                contract['procuringEntity'] = tender['procuringEntity']
+                contract['owner'] = tender['owner']
+                contract['tender_token'] = tender_credentials['tender_token']
+                data = {"data": contract.toDict()}
+                logger.info("Creating contract {}".format(contract['id']))
+                response = self.contracting_client.create_contract(data)
+                assert 'data' in response
+                logger.info("Contract {} created".format(contract['id']))
+                transfered_contracts.append(contract['id'])
+        except Exception, e:
+            logger.exception(e)
+            raise
+        else:
+            if transfered_contracts:
+                logger.info("Successfully transfered contracts: {}".format(transfered_contracts))
+            else:
+                logger.info("Tender {} does not contain contracts to transfer".format(tender_id))
+
+
     def run(self):
         try:
             logger.info('Start Contracting Data Bridge')
@@ -235,12 +283,16 @@ class ContractingDataBridge(object):
 def main():
     parser = argparse.ArgumentParser(description='Contracting Data Bridge')
     parser.add_argument('config', type=str, help='Path to configuration file')
+    parser.add_argument('--tender', type=str, help='Tender id to sync', dest="tender_id")
     params = parser.parse_args()
     if os.path.isfile(params.config):
         with open(params.config) as config_file_obj:
             config = load(config_file_obj.read())
         logging.config.dictConfig(config)
-        ContractingDataBridge(config).run()
+        if params.tender_id:
+            ContractingDataBridge(config).sync_single_tender(params.tender_id)
+        else:
+            ContractingDataBridge(config).run()
     else:
         logger.info('Invalid configuration file. Exiting...')
 
