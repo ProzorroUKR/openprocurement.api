@@ -76,14 +76,14 @@ Schema
     
     Reason for contract change
 
-:rationaleType:
-    string, required
+:rationaleTypes:
+    List of strings, required
 
     Type of the rationale behind contract change
     
     Changes to the contract can be made in cases described in the 4th part of Article 36 of the Law “On the Public Procurement”.
     
-    Possible values are:
+    Possible string values are:
 
     * `volumeCuts` - Reduction of the procurement’s volume
     
