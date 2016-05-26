@@ -40,7 +40,6 @@ Let's access the URL of the created object:
 .. include:: tutorial/contract-view.http
    :code:
 
-Note that contract is created in ``draft`` status.
 
 Getting access
 --------------
