@@ -76,7 +76,7 @@ Let's update contract by supplementing it with all other essential properties.
 
 We see the added properties have merged with existing contract data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
 
-Fields that can be modified: `title`, `description`, `status`, `value.amount`, `period`, `items`.
+Fields that can be modified: `title`, `description`, `status`, `value.amount`, `period`, `items`, `amountPaid`, `terminationDetails`.
 
 See examples of `items` customization below. You can:
 
