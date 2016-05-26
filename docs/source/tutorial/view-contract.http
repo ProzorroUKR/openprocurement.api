@@ -1,4 +1,4 @@
-GET /api/2.3/contracts/5cceaf781c3f4b6893cc4e8766f79200 HTTP/1.0
+GET /api/2.3/contracts/5e58f434fe5245a785b8db082e578e05 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -15,40 +15,40 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "contract.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5cceaf781c3f4b6893cc4e8766f79200/documents/fc5be96fb43a4f73b2615186f5708bf1?download=d82843380d224527976eb4edc69c9a1e", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5e58f434fe5245a785b8db082e578e05/documents/eb3f9d7bf8b44e72a73f880e96ca0c75?download=415458371da44c2da612c4f9a3d639b9", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2016-05-20T19:52:53.308970+03:00", 
-        "id": "fc5be96fb43a4f73b2615186f5708bf1", 
-        "dateModified": "2016-05-20T19:52:53.309018+03:00"
+        "datePublished": "2016-05-26T19:12:27.835124+03:00", 
+        "id": "eb3f9d7bf8b44e72a73f880e96ca0c75", 
+        "dateModified": "2016-05-26T19:12:27.835175+03:00"
       }, 
       {
         "title": "contract_additional_docs.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5cceaf781c3f4b6893cc4e8766f79200/documents/ced0567673ee42f1aebb0f2dca826518?download=7259709391474bccbfc37cc7db3c33d9", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5e58f434fe5245a785b8db082e578e05/documents/b308f5192e414d63a93db0bb01c289e3?download=322391e57f904d169814eac593e5570d", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2016-05-20T19:52:53.488851+03:00", 
-        "id": "ced0567673ee42f1aebb0f2dca826518", 
-        "dateModified": "2016-05-20T19:52:53.488902+03:00"
+        "datePublished": "2016-05-26T19:12:28.003190+03:00", 
+        "id": "b308f5192e414d63a93db0bb01c289e3", 
+        "dateModified": "2016-05-26T19:12:28.003255+03:00"
       }, 
       {
         "title": "contract_additional_docs.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5cceaf781c3f4b6893cc4e8766f79200/documents/ced0567673ee42f1aebb0f2dca826518?download=26a9d119df9e4fa5984af02e29a5f73a", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5e58f434fe5245a785b8db082e578e05/documents/b308f5192e414d63a93db0bb01c289e3?download=e4d0210ae6c446c4b40267942526ffc1", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2016-05-20T19:52:53.488851+03:00", 
-        "id": "ced0567673ee42f1aebb0f2dca826518", 
-        "dateModified": "2016-05-20T19:52:53.626471+03:00"
+        "datePublished": "2016-05-26T19:12:28.003190+03:00", 
+        "id": "b308f5192e414d63a93db0bb01c289e3", 
+        "dateModified": "2016-05-26T19:12:28.111336+03:00"
       }, 
       {
         "title": "contract_changes.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5cceaf781c3f4b6893cc4e8766f79200/documents/c7f20de393d0438a995894f0d1190531?download=980d099f682d4ac0a40981eca38d245e", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/5e58f434fe5245a785b8db082e578e05/documents/64a0c583943c44f98bb986bb52be0a6b?download=72df8bbd44604537b38bd8d521b6c642", 
         "format": "application/msword", 
         "documentOf": "change", 
-        "datePublished": "2016-05-20T19:52:54.081405+03:00", 
-        "id": "c7f20de393d0438a995894f0d1190531", 
-        "relatedItem": "ad59e18b89aa4ff2b4d4de1f4f98091d", 
-        "dateModified": "2016-05-20T19:52:54.081456+03:00"
+        "datePublished": "2016-05-26T19:12:28.575401+03:00", 
+        "id": "64a0c583943c44f98bb986bb52be0a6b", 
+        "relatedItem": "06d8fc7770a94ebe93cd60e3c258d2c4", 
+        "dateModified": "2016-05-26T19:12:28.575455+03:00"
       }
     ], 
     "items": [
@@ -74,10 +74,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-22T19:52:47.082076+03:00", 
-          "endDate": "2016-05-25T19:52:47.082076+03:00"
+          "startDate": "2016-05-28T19:12:20.406602+03:00", 
+          "endDate": "2016-05-31T19:12:20.406602+03:00"
         }, 
-        "id": "5a71ea0994f44b4db467ccdac3ee5db0", 
+        "id": "b12e00fb399042839ac9a93e2d29967f", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -107,11 +107,11 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-05-20T19:52:52.252462+03:00", 
-      "endDate": "2016-06-19T19:52:52.252508+03:00"
+      "startDate": "2016-05-26T19:12:26.636459+03:00", 
+      "endDate": "2016-06-25T19:12:26.636507+03:00"
     }, 
-    "dateSigned": "2016-05-20T19:52:51.641958+03:00", 
-    "id": "5cceaf781c3f4b6893cc4e8766f79200", 
+    "dateSigned": "2016-05-26T19:12:26.038876+03:00", 
+    "id": "5e58f434fe5245a785b8db082e578e05", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -132,21 +132,24 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "contractID": "UA-2016-05-20-000001-1", 
+    "contractID": "UA-2016-05-26-000001-1", 
     "owner": "broker", 
-    "awardID": "2a2e206c07c1454ca24229e2935d7292", 
+    "awardID": "a6400b3c11df4cb994f78d436b1f9481", 
     "changes": [
       {
         "status": "active", 
-        "rationaleType": "volumeCuts", 
+        "rationaleTypes": [
+          "volumeCuts", 
+          "priceReduction"
+        ], 
         "rationale_en": "Contract change cause", 
         "rationale": "Друга і третя поставка має бути розфасована", 
-        "date": "2016-05-20T19:52:54.287842+03:00", 
-        "id": "ad59e18b89aa4ff2b4d4de1f4f98091d"
+        "date": "2016-05-26T19:12:28.848605+03:00", 
+        "id": "06d8fc7770a94ebe93cd60e3c258d2c4"
       }
     ], 
-    "dateModified": "2016-05-20T19:52:54.291961+03:00", 
-    "tender_id": "f41e80d3d3234f9bb5bf84fcd0f21450"
+    "dateModified": "2016-05-26T19:12:28.855491+03:00", 
+    "tender_id": "345b04bde83c4ea58f157f15f53653c6"
   }
 }
 
