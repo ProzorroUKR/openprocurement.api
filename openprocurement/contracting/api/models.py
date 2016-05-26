@@ -117,8 +117,8 @@ class Change(Model):
     class Options:
         roles = {
             # 'edit': blacklist('id', 'date'),
-            'create': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleType', 'contractNumber'),
-            'edit': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleType', 'contractNumber', 'status'),
+            'create': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleTypes', 'contractNumber'),
+            'edit': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleTypes', 'contractNumber', 'status'),
             'view': schematics_default_role,
             'embedded': schematics_embedded_role,
         }
@@ -129,10 +129,11 @@ class Change(Model):
     rationale = StringType(required=True, min_length=1)
     rationale_en = StringType()
     rationale_ru = StringType()
-    rationaleType = StringType(choices=['volumeCuts', 'itemPriceVariation',
-                                        'qualityImprovement', 'durationExtension',
-                                        'priceReduction', 'taxRate', 'thirdParty',
-                                        'fiscalYearExtension'], required=True)
+    rationaleTypes = ListType(StringType(choices=['volumeCuts', 'itemPriceVariation',
+                                                  'qualityImprovement', 'thirdParty',
+                                                  'durationExtension', 'priceReduction',
+                                                  'taxRate', 'fiscalYearExtension'],
+                                         required=True), min_size=1, required=True)
     contractNumber = StringType()
 
 
