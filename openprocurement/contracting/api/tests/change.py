@@ -43,7 +43,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
                                                 'rationale_ru': u'ff',
                                                 'rationale_en': 'asdf',
                                                 'contractNumber': 12,
-                                                'rationaleType': 'priceReduction'}})
+                                                'rationaleTypes': ['priceReduction']}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         change = response.json['data']
@@ -65,14 +65,14 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         self.assertIn('changes', response.json['data'])
         self.assertEqual(len(response.json['data']['changes']), 1)
         self.assertEqual(set(response.json['data']['changes'][0].keys()),
-                         set(['id', 'date', 'status', 'rationaleType', 'rationale', 'rationale_ru', 'rationale_en', 'contractNumber']))
+                         set(['id', 'date', 'status', 'rationaleTypes', 'rationale', 'rationale_ru', 'rationale_en', 'contractNumber']))
 
         self.app.authorization = None
         response = self.app.get('/contracts/{}/changes'.format(self.contract['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 1)
         self.assertEqual(set(response.json['data'][0].keys()),
-                         set(['id', 'date', 'status', 'rationaleType', 'rationale', 'rationale_ru', 'rationale_en', 'contractNumber']))
+                         set(['id', 'date', 'status', 'rationaleTypes', 'rationale', 'rationale_ru', 'rationale_en', 'contractNumber']))
 
     def test_create_change_invalid(self):
         response = self.app.post('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
@@ -86,12 +86,12 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
                                       {'data': {}}, status=422)
         self.assertEqual(response.json['errors'], [
-            {"location": "body", "name": "rationaleType", "description": ["This field is required."]},
+            {"location": "body", "name": "rationaleTypes", "description": ["This field is required."]},
             {"location": "body", "name": "rationale", "description": ["This field is required."]}
         ])
 
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                      {'data': {'rationale': "", 'rationaleType': 'volumeCuts'}}, status=422)
+                                      {'data': {'rationale': "", 'rationaleTypes': ['volumeCuts']}}, status=422)
         self.assertEqual(response.json['errors'], [
             {"location": "body", "name": "rationale", "description": ["String value is too short."]}
         ])
@@ -112,7 +112,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         self.assertEqual(response.status, '403 Forbidden')
 
         response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                       {'data': {'changes': [{'rationale': "penguin", 'rationaleType': 'volumeCuts'}]}})
+                                       {'data': {'changes': [{'rationale': "penguin", 'rationaleTypes': ['volumeCuts']}]}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.body, 'null')
 
@@ -124,7 +124,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
                                       {'data': {'rationale': u'причина зміни укр',
                                                 'rationale_en': 'change cause en',
-                                                'rationaleType': 'qualityImprovement'}})
+                                                'rationaleTypes': ['qualityImprovement']}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         change = response.json['data']
@@ -136,7 +136,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         self.assertEqual(len(response.json['data']), 1)
 
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                      {'data': {'rationale': u'трататата', 'rationaleType': 'priceReduction'}}, status=403)
+                                      {'data': {'rationale': u'трататата', 'rationaleTypes': ['priceReduction']}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'], [
             {"location": "body", "name": "data", "description": "Can't create new contract change while any (pending) change exists"}
@@ -148,7 +148,14 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         self.assertEqual(response.json['data']['status'], 'active')
 
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
-                                      {'data': {'rationale': u'трататата', 'rationaleType': 'priceReduction'}})
+                                      {'data': {'rationale': u'трататата', 'rationaleTypes': ['non-existing-rationale']}}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.json['errors'], [
+            {"location": "body", "name": "rationaleTypes", "description": [["Value must be one of ['volumeCuts', 'itemPriceVariation', 'qualityImprovement', 'thirdParty', 'durationExtension', 'priceReduction', 'taxRate', 'fiscalYearExtension']."]]}
+        ])
+
+        response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
+                                      {'data': {'rationale': u'трататата', 'rationaleTypes': ['priceReduction']}})
         self.assertEqual(response.status, '201 Created')
         change2 = response.json['data']
         self.assertEqual(change2['status'], 'pending')
@@ -161,7 +168,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
                                       {'data': {'rationale': u'причина зміни укр',
                                                 'rationale_en': u'change cause en',
-                                                'rationaleType': 'priceReduction',
+                                                'rationaleTypes': ['priceReduction'],
                                                 'contractNumber': u'№ 146'}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -191,9 +198,33 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
         self.assertEqual(first_patch_date, second_patch_date)
 
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
-                                       {'data': {'rationaleType': 'fiscalYearExtension'}})
+                                       {'data': {'rationaleTypes': ['fiscalYearExtension', 'priceReduction']}})
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['rationaleType'], 'fiscalYearExtension')
+        self.assertEqual(response.json['data']['rationaleTypes'], ['fiscalYearExtension', 'priceReduction'])
+
+        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
+                                       {'data': {'rationaleTypes': ['fiscalYearExtension', 'volumeCuts', 'taxRate']}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['rationaleTypes'], ['fiscalYearExtension', 'volumeCuts', 'taxRate'])
+
+        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
+                                       {'data': {'rationaleTypes': 'fiscalYearExtension'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['rationaleTypes'], ['fiscalYearExtension'])
+
+        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
+                                       {'data': {'rationaleTypes': 'fiscalYearExtension, volumeCuts'}}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.json['errors'], [
+            {"location": "body", "name": "rationaleTypes", "description": [["Value must be one of ['volumeCuts', 'itemPriceVariation', 'qualityImprovement', 'thirdParty', 'durationExtension', 'priceReduction', 'taxRate', 'fiscalYearExtension']."]]}
+        ])
+
+        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
+                                      {'data': {'rationaleTypes': []}}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.json['errors'], [
+            {"location": "body", "name": "rationaleTypes", "description": ["Please provide at least 1 item."]}
+        ])
 
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
                                        {'data': {'id': '1234' * 8}})
