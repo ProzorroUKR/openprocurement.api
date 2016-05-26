@@ -145,6 +145,8 @@ Let's add new `change` to the contract:
 .. include:: tutorial/add-contract-change.http
    :code:
 
+Note that you can provide more than one value in ``rationaleTypes`` field.
+
 You can view the `change`:
 
 .. include:: tutorial/view-contract-change.http
