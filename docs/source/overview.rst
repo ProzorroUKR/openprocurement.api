@@ -30,8 +30,9 @@ API stability
 -------------
 API is highly unstable, and while API endpoints are expected to remain
 relatively stable the data exchange formats are expected to be changed a
-lot.  The changes in the API are communicated via `Open Procurement API
-maillist <https://groups.google.com/group/open-procurement-api>`_.
+lot. The changes in the API are communicated via `Open Procurement API
+maillist <https://groups.google.com/group/open-procurement-api>`_. Questions 
+can be asked via `Gitter <https://gitter.im/openprocurement/openprocurement.contracting.api>`_.
 
 Next steps
 ----------

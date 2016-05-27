@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 17:22+0300\n"
-"PO-Revision-Date: 2016-05-23 11:26+0300\n"
+"PO-Revision-Date: 2016-05-27 10:15+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr "Створення договору"
 msgid "Getting contract"
 msgstr "Отримання договору"
 
-#: ../../source/tutorial.rst:67
+#: ../../source/tutorial.rst:66
 msgid ""
 "We do see the internal `id` of a contract (that can be used to construct "
 "full URL by prepending `http://api-"
@@ -56,11 +56,11 @@ msgstr ""
 "повної URL-адреси, якщо додати `http://api-"
 "sandbox.openprocurement.org/api/0/contracts/`) та його dateModified дату."
 
-#: ../../source/tutorial.rst:101
+#: ../../source/tutorial.rst:100
 msgid "Uploading documentation"
 msgstr "Завантаження документації"
 
-#: ../../source/tutorial.rst:109
+#: ../../source/tutorial.rst:108
 msgid ""
 "`201 Created` response code and `Location` header confirm document creation."
 " We can additionally query the `documents` collection API endpoint to "
@@ -70,11 +70,11 @@ msgstr ""
 "документ було створено. Додатково можна зробити запит точки входу API "
 "колекції документів, щоб підтвердити дію:"
 
-#: ../../source/tutorial.rst:116
+#: ../../source/tutorial.rst:115
 msgid "And again we can confirm that there are two documents uploaded."
 msgstr "І знову можна перевірити, що є два завантажених документа."
 
-#: ../../source/tutorial.rst:121
+#: ../../source/tutorial.rst:120
 msgid ""
 "In case we made an error, we can reupload the document over the older "
 "version:"
@@ -82,7 +82,7 @@ msgstr ""
 "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої "
 "версії:"
 
-#: ../../source/tutorial.rst:126
+#: ../../source/tutorial.rst:125
 msgid "And we can see that it is overriding the original version:"
 msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
 
@@ -107,17 +107,17 @@ msgid "*Contract id is the same in both tender and contract system.*"
 msgstr ""
 "*Ідентифікатор `id` договору однаковий в системах закіпівель та договорів.*"
 
-#: ../../source/tutorial.rst:71
+#: ../../source/tutorial.rst:70
 msgid "Modifying contract"
 msgstr "Редагування договору"
 
-#: ../../source/tutorial.rst:73
+#: ../../source/tutorial.rst:72
 msgid ""
 "Let's update contract by supplementing it with all other essential "
 "properties."
 msgstr "Оновимо договір шляхом надання йому усіх інших важливих властивостей."
 
-#: ../../source/tutorial.rst:78
+#: ../../source/tutorial.rst:77
 msgid ""
 "We see the added properties have merged with existing contract data. "
 "Additionally, the `dateModified` property was updated to reflect the last "
@@ -127,7 +127,7 @@ msgstr ""
 "Додатково оновлена властивість `dateModified`, щоб відображати останню дату "
 "модифікації."
 
-#: ../../source/tutorial.rst:103
+#: ../../source/tutorial.rst:102
 msgid ""
 "Procuring entity can upload PDF files into the created contract. Uploading "
 "should follow the :ref:`upload` rules."
@@ -137,9 +137,9 @@ msgstr ""
 
 #: ../../source/tutorial.rst:38
 msgid "Let's access the URL of the created object:"
-msgstr "Використаємо URL створеного об’єкта:"
+msgstr "Спробуємо доступитись до URL створеного об’єкта:"
 
-#: ../../source/tutorial.rst:48
+#: ../../source/tutorial.rst:47
 msgid ""
 "In order to get rights for future contract editing, you need to use this "
 "view ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}`` with "
@@ -150,7 +150,7 @@ msgstr ""
 "/contracts/{id}/credentials?acc_token={tender_token}`` з API ключем "
 "майданчика, де була згенерована закупівля."
 
-#: ../../source/tutorial.rst:56
+#: ../../source/tutorial.rst:55
 msgid ""
 "Response will contain ``access.token`` for the contract that can be used for"
 " further contract modification."
@@ -162,66 +162,54 @@ msgstr ""
 msgid "Contract in the tender system"
 msgstr "Договір в системі закупівель"
 
-#: ../../source/tutorial.rst:46
+#: ../../source/tutorial.rst:45
 msgid "Getting access"
 msgstr "Отримання доступу"
 
-#: ../../source/tutorial.rst:50
+#: ../../source/tutorial.rst:49
 msgid "In the ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``:"
 msgstr "В ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``:"
 
-#: ../../source/tutorial.rst:52
+#: ../../source/tutorial.rst:51
 msgid "``id`` stands for contract id,"
 msgstr "``id`` - це ідентифікатор договору,"
 
-#: ../../source/tutorial.rst:54
+#: ../../source/tutorial.rst:53
 msgid ""
 "``tender_token`` is tender's token (is used for contract token generation)."
 msgstr ""
 "``tender_token`` - це токен закупівлі (використовується для генерування "
 "токена договору)."
 
-#: ../../source/tutorial.rst:202
+#: ../../source/tutorial.rst:203
 msgid "Any future modification to the contract are not allowed."
 msgstr "Після цього додання змін до договору не дозволяється."
 
-#: ../../source/tutorial.rst:43
-msgid "Note that contract is created in ``draft`` status."
-msgstr "Зверніть увагу на те, що договір створюється у статусі ``draft``."
-
-#: ../../source/tutorial.rst:190
+#: ../../source/tutorial.rst:191
 msgid "Completing contract"
 msgstr "Завершення договору"
 
-#: ../../source/tutorial.rst:80
-msgid ""
-"Fields that can be modified: `title`, `description`, `status`, "
-"`value.amount`, `period`, `items`."
-msgstr ""
-"Поля, які можна модифікувати: `title`, `description`, `status`, "
-"`value.amount`, `period`, `items`."
-
-#: ../../source/tutorial.rst:82
+#: ../../source/tutorial.rst:81
 msgid "See examples of `items` customization below. You can:"
 msgstr "Дивіться приклади зміни елемента (`items`) нижче. Ви можете:"
 
-#: ../../source/tutorial.rst:84
+#: ../../source/tutorial.rst:83
 msgid "add item:"
 msgstr "додати елемент (`items`):"
 
-#: ../../source/tutorial.rst:89
+#: ../../source/tutorial.rst:88
 msgid "update item:"
 msgstr "оновити елемент (`items`):"
 
-#: ../../source/tutorial.rst:94
+#: ../../source/tutorial.rst:93
 msgid "delete item:"
 msgstr "видалити елемент (`items`):"
 
-#: ../../source/tutorial.rst:136
+#: ../../source/tutorial.rst:135
 msgid "Submitting contract change"
 msgstr "Подання змін до договору"
 
-#: ../../source/tutorial.rst:138
+#: ../../source/tutorial.rst:137
 msgid ""
 "You can make changes to the contract in cases described in the 4th part of "
 "Article 36 of the Law \"On the Public Procurement\"."
@@ -229,37 +217,37 @@ msgstr ""
 "Внесення змін до істотних умов договору можливі у випадках, описаних "
 "частиною четвертою статті 36 Закону України “Про публічні закупівлі”."
 
-#: ../../source/tutorial.rst:142
+#: ../../source/tutorial.rst:141
 msgid "All `changes` are processed by the endpoint `/contracts/{id}/changes`."
 msgstr ""
 "Всі зміни `change` обробляються точкою входу (endpoint) "
 "`/contracts/{id}/changes`."
 
-#: ../../source/tutorial.rst:144
+#: ../../source/tutorial.rst:143
 msgid "Let's add new `change` to the contract:"
 msgstr "Додамо нову зміну `change` до договору:"
 
-#: ../../source/tutorial.rst:149
+#: ../../source/tutorial.rst:150
 msgid "You can view the `change`:"
 msgstr "Ви можете переглянути зміну `change`:"
 
-#: ../../source/tutorial.rst:154
+#: ../../source/tutorial.rst:155
 msgid "`Change` can be modified while it is in the ``pending`` status:"
 msgstr "Зміну `change` можна модифікувати доки вона має статус ``pending``."
 
-#: ../../source/tutorial.rst:159
+#: ../../source/tutorial.rst:160
 msgid "Document can be added only while `change` is in the ``pending`` status."
 msgstr "Документ можна додати доки зміна `change` має статус ``pending``."
 
-#: ../../source/tutorial.rst:161
+#: ../../source/tutorial.rst:162
 msgid "Document has to be added in two stages:"
 msgstr "Документ додається в два етапи:"
 
-#: ../../source/tutorial.rst:163
+#: ../../source/tutorial.rst:164
 msgid "you should upload document"
 msgstr "ви повинні завантажити документ"
 
-#: ../../source/tutorial.rst:173
+#: ../../source/tutorial.rst:174
 msgid ""
 "`Change` has to be applied by switching to the ``active`` status. After this"
 " `change` can't be modified anymore."
@@ -267,15 +255,15 @@ msgstr ""
 "Зміна `change` буде застосована при переключенні в статус ``active``. ПІсля "
 "цього модифікувати зміну `change` вже не можна."
 
-#: ../../source/tutorial.rst:178
+#: ../../source/tutorial.rst:179
 msgid "You can view all changes:"
 msgstr "Ви можете переглянути всі зміни:"
 
-#: ../../source/tutorial.rst:183
+#: ../../source/tutorial.rst:184
 msgid "All changes are also listed on the contract view."
 msgstr "Всі зміни присутні при перегляді контракту."
 
-#: ../../source/tutorial.rst:140
+#: ../../source/tutorial.rst:139
 msgid ""
 "**Essential contract terms** can be modified by the submission of a new "
 ":ref:`change` object to the `Contract.changes` container."
@@ -283,7 +271,7 @@ msgstr ""
 "**Істотні умови договору** можуть бути змінені поданням нового об’єкта "
 ":ref:`change` в котейнер `Contract.changes`."
 
-#: ../../source/tutorial.rst:168
+#: ../../source/tutorial.rst:169
 msgid ""
 "you should set document properties ``\"documentOf\": \"change\"`` and "
 "``\"relatedItem\": \"{change.id}\"`` in order to bind the uploaded document "
@@ -293,26 +281,42 @@ msgstr ""
 "``\"relatedItem\": \"{change.id}\"``, щоб \"прив’язати\" завантажений "
 "документ до зміни `change`:"
 
-#: ../../source/tutorial.rst:61
+#: ../../source/tutorial.rst:60
 msgid "Let's view contracts."
 msgstr "Переглянемо договори."
 
-#: ../../source/tutorial.rst:192
+#: ../../source/tutorial.rst:193
 msgid ""
 "Before contract can be completed ``amountPaid`` field value should be set "
 "(regardless whether the contract was successful or unsuccessful). Contract "
 "can be completed by switching to ``terminated`` status. Let's perform these "
 "actions in single request:"
 msgstr ""
-"Перед завершенням договору необхідно встановити значення поля  ``amountPaid`` "
-"(незалежно від того успішний договір чи ні). Договір можна завершити "
-"переключенням у статус ``terminated``. Виконаємо ці дії єдиним запитом:"
+"Перед завершенням договору необхідно встановити значення поля  "
+"``amountPaid`` (незалежно від того успішний договір чи ні). Договір можна "
+"завершити переключенням у статус ``terminated``. Виконаємо ці дії єдиним "
+"запитом:"
 
-#: ../../source/tutorial.rst:200
+#: ../../source/tutorial.rst:201
 msgid ""
 "If contract is unsuccessful reasons for termination ``terminationDetails`` "
 "should be specified."
 msgstr ""
 "Якщо договір неуспішний, то потрібно вказати причини його припинення "
 "``terminationDetails``."
+
+#: ../../source/tutorial.rst:79
+msgid ""
+"Fields that can be modified: `title`, `description`, `status`, "
+"`value.amount`, `period`, `items`, `amountPaid`, `terminationDetails`."
+msgstr ""
+"Поля, які можна модифікувати: `title`, `description`, `status`, "
+"`value.amount`, `period`, `items`, `amountPaid`, `terminationDetails`."
+
+#: ../../source/tutorial.rst:148
+msgid ""
+"Note that you can provide more than one value in ``rationaleTypes`` field."
+msgstr ""
+"Зверніть увагу на те, що ви можете надати більше ніж одне значення для поля "
+"``rationaleTypes``."
 

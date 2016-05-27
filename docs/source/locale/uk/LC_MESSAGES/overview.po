@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 17:09+0300\n"
-"PO-Revision-Date: 2016-04-28 17:54+0300\n"
+"PO-Revision-Date: 2016-05-27 09:49+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -53,25 +53,13 @@ msgstr ""
 msgid "API stability"
 msgstr "Стабільність API"
 
-#: ../../source/overview.rst:31
-msgid ""
-"API is highly unstable, and while API endpoints are expected to remain "
-"relatively stable the data exchange formats are expected to be changed a "
-"lot.  The changes in the API are communicated via `Open Procurement API "
-"maillist <https://groups.google.com/group/open-procurement-api>`_."
-msgstr ""
-"API є дуже нестабільним. Хоча точки входу API будуть відносно стабільними, "
-"формати обміну даними будуть часно змінюватись. Зміни в API обговорюються "
-"через `Open Procurement API <https://groups.google.com/group/open-"
-"procurement-api>`_."
-
-#: ../../source/overview.rst:37
+#: ../../source/overview.rst:38
 msgid "Next steps"
 msgstr "Наступні кроки"
 
-#: ../../source/overview.rst:38
+#: ../../source/overview.rst:39
 msgid "You might find it helpful to look at the :ref:`tutorial`."
-msgstr "Далі читайте :ref:`tutorial` або :ref:`tutorial`."
+msgstr "Далі читайте :ref:`tutorial`."
 
 #: ../../source/overview.rst:17
 msgid "Documentation of related packages"
@@ -114,4 +102,20 @@ msgid ""
 msgstr ""
 "`Процедура відкритих торгів для оборонних цілей <http://defense.api-"
 "docs.openprocurement.org/uk/latest/>`_"
+
+#: ../../source/overview.rst:31
+msgid ""
+"API is highly unstable, and while API endpoints are expected to remain "
+"relatively stable the data exchange formats are expected to be changed a "
+"lot. The changes in the API are communicated via `Open Procurement API "
+"maillist <https://groups.google.com/group/open-procurement-api>`_. Questions"
+" can be asked via `Gitter "
+"<https://gitter.im/openprocurement/openprocurement.contracting.api>`_."
+msgstr ""
+"API є дуже нестабільним. Хоча точки входу API залишатимуться відносно "
+"стабільними, "
+"формати обміну даними будуть часно змінюватись. Зміни в API обговорюються "
+"через `Open Procurement API <https://groups.google.com/group/open-"
+"procurement-api>`_. Питання можна задати через `Gitter <"
+"https://gitter.im/openprocurement/openprocurement.contracting.api>`_."
 
