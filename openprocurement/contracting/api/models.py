@@ -32,7 +32,7 @@ contract_create_role = (whitelist(
 contract_edit_role = (whitelist(
     'title', 'title_en', 'title_ru', 'description', 'description_en',
     'description_ru', 'status', 'period', 'value' , 'items', 'amountPaid',
-    'terminationDetails'
+    'terminationDetails', 'contract_amountPaid',
 ))
 
 contract_view_role = (whitelist(
@@ -40,7 +40,7 @@ contract_view_role = (whitelist(
     'title_en', 'title_ru', 'description', 'description_en', 'description_ru',
     'status', 'period', 'value', 'dateSigned', 'documents', 'items',
     'suppliers', 'procuringEntity', 'owner', 'mode', 'tender_id', 'changes',
-    'amountPaid', 'terminationDetails'
+    'amountPaid', 'terminationDetails', 'contract_amountPaid',
 ))
 
 contract_administrator_role = (Administrator_role + whitelist('suppliers',))
@@ -196,6 +196,13 @@ class Contract(SchematicsDocument, BaseContract):
     def doc_id(self):
         """A property that is serialized by schematics exports."""
         return self._id
+
+    @serializable(serialized_name='amountPaid', serialize_when_none=False, type=ModelType(Value))
+    def contract_amountPaid(self):
+        if self.amountPaid:
+            return Value(dict(amount=self.amountPaid.amount,
+                              currency=self.value.currency,
+                              valueAddedTaxIncluded=self.value.valueAddedTaxIncluded))
 
     def validate_awardID(self, data, awardID):
         # awardID is not validatable without tender data
