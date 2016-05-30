@@ -301,6 +301,43 @@ class ContractResourceTest(BaseWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 0)
 
+        response = self.app.post_json('/contracts', {'data': test_contract_data})
+        self.assertEqual(response.status, '201 Created')
+        contract = response.json['data']
+        self.assertEqual(contract['id'], test_contract_data['id'])
+
+        response = self.app.get('/contracts')
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 1)
+
+        tender_id = test_contract_data['tender_id']
+        response = self.app.get('/contracts/{}'.format(tender_id), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+
+        from openprocurement.api.tests.base import test_tender_data
+        orig_auth = self.app.authorization
+        self.app.authorization = ('Basic', ('broker1', ''))
+        response = self.app.post_json('/tenders', {"data": test_tender_data})
+        self.assertEqual(response.status, '201 Created')
+        tender = response.json['data']
+        self.app.authorization = orig_auth
+
+        response = self.app.get('/contracts/{}'.format(tender['id']), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+
+        data = deepcopy(test_contract_data)
+        data['id'] = uuid4().hex
+        data['tender_id'] = tender['id']
+        response = self.app.post_json('/contracts', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        contract = response.json['data']
+
+        response = self.app.get('/contracts/{}'.format(tender['id']), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+
+        response = self.app.get('/contracts/{}'.format(data['id']))
+        self.assertEqual(response.status, '200 OK')
+
         response = self.app.get('/contracts/some_id', status=404)
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
