@@ -206,6 +206,7 @@ Let's perform these actions in single request:
 .. include:: tutorial/contract-termination.http
    :code:
 
+Note that you can set/change only ``amountPaid.amount`` value. ``amountPaid.currency`` and ``amountPaid.valueAddedTaxIncluded`` fields values are generated from Contract.value field.
 
 If contract is unsuccessful reasons for termination ``terminationDetails`` should be specified.
 
