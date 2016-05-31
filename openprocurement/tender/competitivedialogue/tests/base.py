@@ -10,87 +10,24 @@ from openprocurement.api.models import get_now, SANDBOX_MODE
 from openprocurement.tender.competitivedialogue.models import (TENDERING_DAYS, TENDERING_DURATION,
                                                                QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL)
 
+from openprocurement.tender.openua.tests.base import test_tender_data as base_test_tender_data_ua
+from openprocurement.tender.openeu.tests.base import test_tender_data as base_test_tender_data_eu
 
 now = datetime.now()
-test_tender_data = {
-    "title": u"футляри до державних нагород",
-    "title_en": u"Cases for state awards",
-    "procuringEntity": {
-        "kind": 'general',
-        "name": u"Державне управління справами",
-        "name_en": u"State administration",
-        "identifier": {
-            "legalName_en": u"dus.gov.ua",
-            "scheme": u"UA-EDR",
-            "id": u"00037256",
-            "uri": u"http://www.dus.gov.ua/"
-        },
-        "address": {
-            "countryName": u"Україна",
-            "postalCode": u"01220",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова, 11, корпус 1"
-        },
-        "contactPoint": {
-            "name": u"Державне управління справами",
-            "name_en": u"State administration",
-            "telephone": u"0440000000"
-        },
-    },
-    "value": {
-        "amount": 500,
-        "currency": u"UAH"
-    },
-    "minimalStep": {
-        "amount": 35,
-        "currency": u"UAH"
-    },
-    "items": [
-        {
-            "description": u"футляри до державних нагород",
-            "description_en": u"Cases for state awards",
-            "classification": {
-                "scheme": u"CPV",
-                "id": u"44617100-9",
-                "description": u"Cartons"
-            },
-            "additionalClassifications": [
-                {
-                    "scheme": u"ДКПП",
-                    "id": u"17.21.1",
-                    "description": u"папір і картон гофровані, паперова й картонна тара"
-                }
-            ],
-            "unit": {
-                "name": u"item",
-                "code": u"44617100-9"
-            },
-            "quantity": 5,
-            "deliveryDate": {
-                 "startDate": (now + timedelta(days=2)).isoformat(),
-                 "endDate": (now + timedelta(days=5)).isoformat()
-             },
-            "deliveryAddress": {
-                "countryName": u"Україна",
-                "postalCode": "79000",
-                "region": u"м. Київ",
-                "locality": u"м. Київ",
-                "streetAddress": u"вул. Банкова 1"
-            }
-        }
-    ],
-    "tenderPeriod": {
-        "endDate": (now + timedelta(days=TENDERING_DAYS+1)).isoformat()
-    },
-    "procurementMethodType": "competitiveDialogue.aboveThresholdUA",
-}
+test_tender_data_eu = base_test_tender_data_eu.copy()
+test_tender_data_eu["procurementMethodType"] = "competitiveDialogue.aboveThresholdEU"
+test_tender_data_ua = base_test_tender_data_ua.copy()
+test_tender_data_ua["procurementMethodType"] = "competitiveDialogue.aboveThresholdUA"
+test_tender_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
+
+
 if SANDBOX_MODE:
-    test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
+    test_tender_data_eu['procurementMethodDetails'] = 'quick, accelerator=1440'
+    test_tender_data_ua['procurementMethodDetails'] = 'quick, accelerator=1440'
 
 
-class BaseTenderWebTest(BaseTenderWebTest):
-    initial_data = test_tender_data
+class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
+    initial_data = None
     initial_status = None
     initial_bids = None
     initial_lots = None
@@ -177,8 +114,8 @@ class BaseTenderWebTest(BaseTenderWebTest):
                     lot_data = {'id': lot['id']}
                     if lot['status'] is 'active':
                         lot_data["auctionPeriod"] = {
-                        "startDate": (now + COMPLAINT_STAND_STILL).isoformat()
-                    }
+                            "startDate": (now + COMPLAINT_STAND_STILL).isoformat()
+                        }
                     data['lots'].append(lot_data)
             else:
                 data.update({
@@ -426,7 +363,7 @@ class BaseTenderWebTest(BaseTenderWebTest):
 
         authorization = self.app.authorization
         self.app.authorization = ('Basic', ('chronograph', ''))
-        #response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        # response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.app.authorization = authorization
         self.assertEqual(response.status, '200 OK')
@@ -434,12 +371,9 @@ class BaseTenderWebTest(BaseTenderWebTest):
         return response
 
 
-class BaseTenderContentWebTest(BaseTenderWebTest):
-    initial_data = test_tender_data
-    initial_status = None
-    initial_bids = None
-    initial_lots = None
+class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
+    initial_data = test_tender_data_eu
 
-    def setUp(self):
-        super(BaseTenderContentWebTest, self).setUp()
-        self.create_tender()
+
+class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
+    initial_data = test_tender_data_ua
