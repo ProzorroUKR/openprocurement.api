@@ -6,7 +6,8 @@ from zope.interface import implementer
 from openprocurement.api.models import ITender, get_now
 from openprocurement.tender.openua.models import Tender as TenderUA
 from openprocurement.tender.openeu.models import Tender as TenderEU
-from openprocurement.tender.openeu.models import TENDERING_DAYS, TENDERING_DURATION
+from openprocurement.tender.openeu.models import (TENDERING_DAYS, TENDERING_DURATION,
+                                                  QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL)  # Need for test/tender.py
 from openprocurement.tender.openua.utils import calculate_business_date
 
 
