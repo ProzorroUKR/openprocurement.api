@@ -69,14 +69,60 @@ We do see the internal `id` of a contract (that can be used to construct full UR
 Modifying contract
 ------------------
 
-Let's update contract by supplementing it with all other essential properties.
+You can make changes to the contract in cases described in the 4th part of Article 36 of the Law "On the Public Procurement". 
+
+**Essential contract terms** can be modified by the submission of a new :ref:`change` object to the `Contract.changes` container.
+
+All `changes` are processed by the endpoint `/contracts/{id}/changes`.
+
+Submitting a change
+~~~~~~~~~~~~~~~~~~~
+
+Let's add new `change` to the contract:
+
+.. include:: tutorial/add-contract-change.http
+   :code:
+
+Note that you can provide more than one value in ``rationaleTypes`` field.
+
+You can view the `change`:
+
+.. include:: tutorial/view-contract-change.http
+   :code:
+
+`Change` can be modified while it is in the ``pending`` status:
+   
+.. include:: tutorial/patch-contract-change.http
+   :code:
+
+Uploading change document
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Document can be added only while `change` is in the ``pending`` status.
+
+Document has to be added in two stages:
+
+* you should upload document
+  
+.. include:: tutorial/add-contract-change-document.http
+   :code:
+
+* you should set document properties ``"documentOf": "change"`` and ``"relatedItem": "{change.id}"`` in order to bind the uploaded document to the `change`:
+
+.. include:: tutorial/set-document-of-change.http
+   :code:
+
+Updating contract properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now you can update contract properties which belong to the Change.
 
 .. include:: tutorial/contracts-patch.http
    :code:
 
 We see the added properties have merged with existing contract data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
 
-Fields that can be modified: `title`, `description`, `status`, `value.amount`, `period`, `items`, `amountPaid`, `terminationDetails`.
+Fields that can be modified: `title`, `description`, `status`, `value.amount`, `period`, `items`, `amountPaid.amount`, `terminationDetails`.
 
 See examples of `items` customization below. You can:
 
@@ -93,6 +139,24 @@ See examples of `items` customization below. You can:
 * delete item:
 
 .. include:: tutorial/delete-contract-item.http
+   :code:
+
+Applying the change
+~~~~~~~~~~~~~~~~~~~
+
+`Change` has to be applied by switching to the ``active`` status. After this `change` can't be modified anymore.
+   
+.. include:: tutorial/apply-contract-change.http
+   :code:
+
+You can view all changes:
+
+.. include:: tutorial/view-all-contract-changes.http
+   :code:
+
+All changes are also listed on the contract view.
+
+.. include:: tutorial/view-contract.http
    :code:
 
 
@@ -130,61 +194,6 @@ And we can see that it is overriding the original version:
 
 .. index:: Enquiries, Question, Answer
 
-
-Submitting contract change
---------------------------
-
-You can make changes to the contract in cases described in the 4th part of Article 36 of the Law "On the Public Procurement". 
-
-**Essential contract terms** can be modified by the submission of a new :ref:`change` object to the `Contract.changes` container.
-
-All `changes` are processed by the endpoint `/contracts/{id}/changes`.
-
-Let's add new `change` to the contract:
-
-.. include:: tutorial/add-contract-change.http
-   :code:
-
-Note that you can provide more than one value in ``rationaleTypes`` field.
-
-You can view the `change`:
-
-.. include:: tutorial/view-contract-change.http
-   :code:
-
-`Change` can be modified while it is in the ``pending`` status:
-   
-.. include:: tutorial/patch-contract-change.http
-   :code:
-
-Document can be added only while `change` is in the ``pending`` status.
-
-Document has to be added in two stages:
-
-* you should upload document
-  
-.. include:: tutorial/add-contract-change-document.http
-   :code:
-
-* you should set document properties ``"documentOf": "change"`` and ``"relatedItem": "{change.id}"`` in order to bind the uploaded document to the `change`:
-
-.. include:: tutorial/set-document-of-change.http
-   :code:
-
-`Change` has to be applied by switching to the ``active`` status. After this `change` can't be modified anymore.
-   
-.. include:: tutorial/apply-contract-change.http
-   :code:
-
-You can view all changes:
-
-.. include:: tutorial/view-all-contract-changes.http
-   :code:
-
-All changes are also listed on the contract view.
-
-.. include:: tutorial/view-contract.http
-   :code:
 
    
 Completing contract
