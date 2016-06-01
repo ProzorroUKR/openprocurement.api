@@ -97,7 +97,10 @@ Schema
     List of :ref:`Change` objects.
 
 :amountPaid:
-    :ref:`Value` object.
+
+    :amount: float, required
+    :currency: string, required, auto-generated
+    :valueAddedTaxIncluded: bool, required , auto-generated
 
     Amount of money actually paid.
 

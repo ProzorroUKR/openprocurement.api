@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: openprocurement.contracting.api 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 17:09+0300\n"
-"PO-Revision-Date: 2016-05-23 11:20+0300\n"
+"PO-Revision-Date: 2016-06-01 11:20+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,7 @@ msgstr ""
 "|ocdsDescription| Усі документи та додатки пов’язані з договором, включно з "
 "будь-якими повідомленнями."
 
-#: ../../source/standard/contract.rst:111
+#: ../../source/standard/contract.rst:114
 msgid "Workflow"
 msgstr "Схема роботи"
 
@@ -161,7 +161,7 @@ msgstr ""
 "|ocdsDescription| Об’єкт, що управляє закупівлею. Він не обов’язково є "
 "покупцем, який платить / використовує закуплені елементи."
 
-#: ../../source/standard/contract.rst:121
+#: ../../source/standard/contract.rst:124
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
 
@@ -169,23 +169,31 @@ msgstr "\\* позначає початковий стан"
 msgid "List of :ref:`Change` objects."
 msgstr "Список пов’язаних об’єктів :ref:`Change`"
 
-#: ../../source/standard/contract.rst:100
-msgid ":ref:`Value` object."
-msgstr "об’єкт :ref:`Value`."
-
-#: ../../source/standard/contract.rst:102
+#: ../../source/standard/contract.rst:105
 msgid "Amount of money actually paid."
 msgstr "Дійсно оплачена сума."
 
-#: ../../source/standard/contract.rst:105
+#: ../../source/standard/contract.rst:108
 msgid "string, required for unsuccessful contract"
 msgstr "рядок, обов’язковий для неуспішних договорів"
 
-#: ../../source/standard/contract.rst:107
+#: ../../source/standard/contract.rst:110
 msgid ""
 "Reasons for contract termination. Presence of this field indicates that "
 "contract is unsuccessful."
 msgstr ""
 "Причина припинення договору. Наявність цього поля вказує, що договір є "
 "неуспішним."
+
+#: ../../source/standard/contract.rst:101
+msgid "float, required"
+msgstr "число з рухомою комою, обов’язкове"
+
+#: ../../source/standard/contract.rst:102
+msgid "string, required, auto-generated"
+msgstr "рядок, обов’язковий, генерується автоматично"
+
+#: ../../source/standard/contract.rst:103
+msgid "bool, required , auto-generated"
+msgstr "логічний (булевий) тип даних, обов’язковий, генерується автоматично"
 

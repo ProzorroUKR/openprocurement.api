@@ -645,6 +645,21 @@ class ContractResource4BrokersTest(BaseContractWebTest):
                                        {"data": {"value": {"amount": 235}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['value']['amount'], 235)
+        self.assertEqual(response.json['data']['value']['currency'], "UAH")
+        self.assertEqual(response.json['data']['value']['valueAddedTaxIncluded'], True)
+        self.assertEqual(response.json['data']['amountPaid']['amount'], 900)
+        self.assertEqual(response.json['data']['amountPaid']['currency'], "UAH")
+        self.assertEqual(response.json['data']['amountPaid']['valueAddedTaxIncluded'], True)
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"value": {"currency": "USD", "valueAddedTaxIncluded": False}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['value']['currency'], "USD")
+        self.assertEqual(response.json['data']['value']['valueAddedTaxIncluded'], False)
+        self.assertEqual(response.json['data']['value']['amount'], 235)
+        self.assertEqual(response.json['data']['amountPaid']['amount'], 900)
+        self.assertEqual(response.json['data']['amountPaid']['currency'], "USD")
+        self.assertEqual(response.json['data']['amountPaid']['valueAddedTaxIncluded'], False)
 
         custom_period_start_date = get_now().isoformat()
         custom_period_end_date = (get_now() + timedelta(days=3)).isoformat()
