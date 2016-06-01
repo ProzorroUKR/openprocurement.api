@@ -253,7 +253,7 @@ class ContractingDataBridge(object):
         transfered_contracts = []
         try:
             logger.info("Getting tender {}".format(tender_id))
-            tender = self.tenders_client_backward.get_tender(tender_id)['data']
+            tender = self.tenders_sync_client.get_tender(tender_id)['data']
             logger.info("Got tender {} in status {}".format(tender['id'], tender['status']))
 
             logger.info("Getting tender {} credentials".format(tender_id))
