@@ -20,7 +20,7 @@ docs_requires = requires + [
 databridge_requires = requires + [
     'PyYAML',
     'gevent',
-    'openprocurement_client'
+    'openprocurement_client>=1.0b2'
 ]
 
 api_requires = requires + [
