@@ -1,31 +1,31 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import opresource
 from openprocurement.api.views.cancellation import TenderCancellationResource
-from openprocurement.tender.openua.utils import add_next_award
+from openprocurement.tender.competitivedialogue.utils import (cancellation_ua_cancel_lot, cancellation_eu_cancel_lot,
+                                                              cancellation_eu_cancel_tender)
 
 
 @opresource(name='Competitive Dialogue UA Cancellations',
             collection_path='/tenders/{tender_id}/cancellations',
             path='/tenders/{tender_id}/cancellations/{cancellation_id}',
             procurementMethodType='competitiveDialogue.aboveThresholdUA',
-            description="Competitive Dialogue cancellations")
-class TenderUaCancellationResource(TenderCancellationResource):
+            description="Competitive Dialogue UA cancellations")
+class CompetitiveDialogueUACancellationResource(TenderCancellationResource):
 
     def cancel_lot(self, cancellation=None):
-        if not cancellation:
-            cancellation = self.context
-        tender = self.request.validated['tender']
-        [setattr(i, 'status', 'cancelled') for i in tender.lots if i.id == cancellation.relatedLot]
-        statuses = set([lot.status for lot in tender.lots])
-        if statuses == set(['cancelled']):
-            self.cancel_tender()
-        elif not statuses.difference(set(['unsuccessful', 'cancelled'])):
-            tender.status = 'unsuccessful'
-        elif not statuses.difference(set(['complete', 'unsuccessful', 'cancelled'])):
-            tender.status = 'complete'
-        if tender.status == 'active.auction' and all([
-            i.auctionPeriod and i.auctionPeriod.endDate
-            for i in self.request.validated['tender'].lots
-            if i.status == 'active'
-        ]):
-            add_next_award(self.request)
+        return cancellation_ua_cancel_lot(self, cancellation=cancellation)
+
+
+@opresource(name='Competitive Dialogue EU Cancellations',
+            collection_path='/tenders/{tender_id}/cancellations',
+            path='/tenders/{tender_id}/cancellations/{cancellation_id}',
+            procurementMethodType='competitiveDialogue.aboveThresholdEU',
+            description="Competitive Dialogue UE cancellations")
+class CompetitiveDialogueEUCancellationResource(TenderCancellationResource):
+    """ TenderEU Cancellations """
+
+    def cancel_tender(self):
+        return cancellation_eu_cancel_tender(self)
+
+    def cancel_lot(self, cancellation=None):
+        return cancellation_eu_cancel_lot(self, cancellation=cancellation)

@@ -11,7 +11,8 @@ from openprocurement.tender.competitivedialogue.models import (TENDERING_DAYS, T
                                                                QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL)
 
 from openprocurement.tender.openua.tests.base import test_tender_data as base_test_tender_data_ua
-from openprocurement.tender.openeu.tests.base import test_tender_data as base_test_tender_data_eu
+from openprocurement.tender.openeu.tests.base import (test_tender_data as base_test_tender_data_eu,
+                                                      test_bids as test_bids_ua)
 
 now = datetime.now()
 test_tender_data_eu = base_test_tender_data_eu.copy()
