@@ -3,7 +3,7 @@ from openprocurement.tender.openua.views.question import TenderUaQuestionResourc
 from openprocurement.api.utils import opresource
 
 
-@opresource(name='CompetitiveDialogue UA Questions',
+@opresource(name='Competitive Dialogue UA Questions',
             collection_path='/tenders/{tender_id}/questions',
             path='/tenders/{tender_id}/questions/{question_id}',
             procurementMethodType='competitiveDialogue.aboveThresholdUA',
@@ -12,7 +12,7 @@ class CompetitiveDialogueUAQuestionResource(BaseResource):
     """ TenderEU Questions """
 
 
-@opresource(name='CompetitiveDialogue EU Questions',
+@opresource(name='Competitive Dialogue EU Questions',
             collection_path='/tenders/{tender_id}/questions',
             path='/tenders/{tender_id}/questions/{question_id}',
             procurementMethodType='competitiveDialogue.aboveThresholdEU',

@@ -57,9 +57,10 @@ roles = {
 @implementer(ITender)
 class Tender(TenderUA):
     procurementMethodType = StringType(default="competitiveDialogue.aboveThresholdUA")
-    status = StringType(
-        choices=['draft', 'active.tendering', 'active.qualification', 'active.awarded', 'complete',
-                 'cancelled', 'unsuccessful'], default='active.tendering')
+    status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
+                                 'active.pre-qualification.stand-still', 'active.qualification',
+                                 'active.awarded', 'complete', 'cancelled', 'unsuccessful'],
+                        default='active.tendering')
 
     class Options:
         roles = roles.copy()
@@ -78,9 +79,10 @@ CompetitiveDialogUA = Tender
 @implementer(ITender)
 class Tender(TenderEU):
     procurementMethodType = StringType(default="competitiveDialogue.aboveThresholdEU")
-    status = StringType(
-        choices=['draft', 'active.tendering', 'active.qualification', 'active.awarded', 'complete',
-                 'cancelled', 'unsuccessful'], default='active.tendering')
+    status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
+                                 'active.pre-qualification.stand-still', 'active.qualification',
+                                 'active.awarded', 'complete', 'cancelled', 'unsuccessful'],
+                        default='active.tendering')
 
     class Options:
         roles = roles.copy()

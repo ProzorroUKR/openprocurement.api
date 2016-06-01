@@ -233,35 +233,6 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
                     "startDate": (now + COMPLAINT_STAND_STILL).isoformat()
                 }
             })
-        elif status == 'active.auction':
-            data.update({
-                "enquiryPeriod": {
-                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat(),
-                    "endDate": (now - COMPLAINT_STAND_STILL - TENDERING_DURATION + QUESTIONS_STAND_STILL).isoformat()
-                },
-                "tenderPeriod": {
-                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat(),
-                    "endDate": (now - COMPLAINT_STAND_STILL).isoformat()
-                },
-                "qualificationPeriod": {
-                    "startDate": (now - COMPLAINT_STAND_STILL).isoformat(),
-                    "endDate": (now).isoformat()
-                },
-                "auctionPeriod": {
-                    "startDate": (now).isoformat()
-                }
-            })
-            if self.initial_lots:
-                data.update({
-                    'lots': [
-                        {
-                            "auctionPeriod": {
-                                "startDate": (now).isoformat()
-                            }
-                        }
-                        for i in self.initial_lots
-                    ]
-                })
         elif status == 'active.qualification':
             data.update({
                 "enquiryPeriod": {
@@ -333,6 +304,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
                     "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=4)).isoformat(),
                     "endDate": (now - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat()
                 },
+                # TODO: remove auctionPeriod, because we didn't have action in dialog
                 "auctionPeriod": {
                     "startDate": (now - timedelta(days=3)).isoformat(),
                     "endDate": (now - timedelta(days=2)).isoformat()
@@ -377,3 +349,25 @@ class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
 
 class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_data_ua
+
+
+class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):
+    initial_data = test_tender_data_ua
+    initial_status = None
+    initial_bids = None
+    initial_lots = None
+
+    def setUp(self):
+        super(BaseCompetitiveDialogUAContentWebTest, self).setUp()
+        self.create_tender()
+
+
+class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
+    initial_data = test_tender_data_eu
+    initial_status = None
+    initial_bids = None
+    initial_lots = None
+
+    def setUp(self):
+        super(BaseCompetitiveDialogEUContentWebTest, self).setUp()
+        self.create_tender()

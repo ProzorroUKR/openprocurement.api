@@ -1021,7 +1021,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'status': 'active.auction'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], [u"Value must be one of ['draft', 'active.tendering', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful']."])
+        self.assertEqual(response.json['errors'][0]["description"], [u"Value must be one of ['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful']."])
 
     def test_patch_tender_eu(self):
         """
@@ -2166,7 +2166,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'status': 'active.auction'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], [u"Value must be one of ['draft', 'active.tendering', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful']."])
+        self.assertEqual(response.json['errors'][0]["description"], [u"Value must be one of ['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful']."])
 
     def test_patch_tender_ua(self):
         response = self.app.post_json('/tenders', {'data': test_tender_data_ua})

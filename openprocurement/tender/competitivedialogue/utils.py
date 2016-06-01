@@ -7,7 +7,7 @@ from openprocurement.tender.openeu.utils import check_status, all_bids_are_revie
 from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
 
 
-# todo move to openprocurement.api (utils.py) and use in openua plugin
+# TODO: move to openprocurement.api (utils.py) and use in openua plugin
 def patch_ua(self):
     """Tender Edit for UA procedure (partial)
 
@@ -64,12 +64,11 @@ def patch_ua(self):
         return
     data = self.request.validated['data']
 
-    if self.request.authenticated_role == 'tender_owner' and self.request.validated[
-        'tender_status'] == 'active.tendering':
+    if self.request.authenticated_role == 'tender_owner' \
+            and self.request.validated['tender_status'] == 'active.tendering':
         if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
             self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
-            if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, context=tender) > self.request.validated[
-                'tender'].tenderPeriod.endDate:
+            if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, context=tender) > self.request.validated['tender'].tenderPeriod.endDate:
                 self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(
                     TENDERING_EXTRA_PERIOD))
                 self.request.errors.status = 403
@@ -90,7 +89,7 @@ def patch_ua(self):
     return {'data': tender.serialize(tender.status)}
 
 
-# todo move to openprocurement.api (utils.py) and use in openeu plugin
+# TODO: move to openprocurement.api (utils.py) and use in openeu plugin
 def patch_eu(self):
     """Tender Edit (partial)
 
