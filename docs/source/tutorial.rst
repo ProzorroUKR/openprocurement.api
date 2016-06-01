@@ -115,7 +115,7 @@ Document has to be added in two stages:
 Updating contract properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now you can update contract properties which belong to the Change.
+Now you can update contract properties which belong to the change.
 
 .. include:: tutorial/contracts-patch.http
    :code:
@@ -206,7 +206,7 @@ Let's perform these actions in single request:
 .. include:: tutorial/contract-termination.http
    :code:
 
-Note that you can set/change only ``amountPaid.amount`` value. ``amountPaid.currency`` and ``amountPaid.valueAddedTaxIncluded`` fields values are generated from Contract.value field.
+Note that you can set/change only ``amountPaid.amount`` value. ``amountPaid.currency`` and ``amountPaid.valueAddedTaxIncluded`` fields' values are generated from ``Contract.value`` field.
 
 If contract is unsuccessful reasons for termination ``terminationDetails`` should be specified.
 
