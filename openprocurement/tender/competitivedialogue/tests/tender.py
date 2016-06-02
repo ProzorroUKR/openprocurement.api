@@ -61,7 +61,6 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
       Check base work with tender. (crete, get, edit)
     """
 
-
     initial_auth = ('Basic', ('broker', ''))
 
     def test_empty_listing(self):
