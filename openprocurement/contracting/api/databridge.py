@@ -157,13 +157,13 @@ class ContractingDataBridge(object):
                         contract['tender_id'] = tender['id']
                         contract['procuringEntity'] = tender['procuringEntity']
 
-                        if 'items' not in contract:
+                        if not contract.get('items'):
                             logger.info('Copying contract {} items'.format(contract['id']))
-                            if 'lots' in tender:
+                            if tender.get('lots'):
                                 related_awards = [aw for aw in tender['awards'] if aw['id'] == contract['awardID']]
                                 if related_awards:
                                     award = related_awards[0]
-                                    if 'items' in award:
+                                    if award.get("items"):
                                         logger.debug('Copying items from related award {}'.format(award['id']))
                                         contract['items'] = award['items']
                                     else:
@@ -175,7 +175,7 @@ class ContractingDataBridge(object):
                                 logger.debug('Copying all tender {} items into contract {}'.format(tender['id'], contract['id']))
                                 contract['items'] = tender['items']
 
-                        if 'items' not in contract:
+                        if not contract.get('items'):
                             logger.warn('Contact {} of tender {} does not contain items info'.format(contract['id'], tender['id']))
 
                         self.handicap_contracts_queue.put(contract)
