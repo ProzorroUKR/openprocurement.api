@@ -532,266 +532,347 @@ class CompetitiveDialogUALotsCancellationResourceTest(BaseCompetitiveDialogUACon
         self.assertEqual(response.json['data']["reason"], "cancellation reason")
 
 
-# class TenderCancellationDocumentResourceTest(BaseCompetitiveDialogUAContentWebTest):
-#
-#     def setUp(self):
-#         super(BaseCompetitiveDialogUAContentWebTest, self).setUp()
-#         # Create cancellation
-#         response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
-#             self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
-#         cancellation = response.json['data']
-#         self.cancellation_id = cancellation['id']
-#
-#     def test_not_found(self):
-#         response = self.app.post('/tenders/some_id/cancellations/some_id/documents', status=404, upload_files=[
-#                                  ('file', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'tender_id'}
-#         ])
-#
-#         response = self.app.post('/tenders/{}/cancellations/some_id/documents?acc_token={}'.format(
-#             self.tender_id, self.tender_token), status=404, upload_files=[('file', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'cancellation_id'}
-#         ])
-#
-#         response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id, self.cancellation_id, self.tender_token), status=404, upload_files=[
-#                                  ('invalid_value', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'body', u'name': u'file'}
-#         ])
-#
-#         response = self.app.get('/tenders/some_id/cancellations/some_id/documents', status=404)
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'tender_id'}
-#         ])
-#
-#         response = self.app.get('/tenders/{}/cancellations/some_id/documents'.format(self.tender_id), status=404)
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'cancellation_id'}
-#         ])
-#
-#         response = self.app.get('/tenders/some_id/cancellations/some_id/documents/some_id', status=404)
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'tender_id'}
-#         ])
-#
-#         response = self.app.get('/tenders/{}/cancellations/some_id/documents/some_id'.format(self.tender_id), status=404)
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'cancellation_id'}
-#         ])
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/some_id'.format(self.tender_id, self.cancellation_id), status=404)
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'document_id'}
-#         ])
-#
-#         response = self.app.put('/tenders/some_id/cancellations/some_id/documents/some_id', status=404,
-#                                 upload_files=[('file', 'name.doc', 'content2')])
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'tender_id'}
-#         ])
-#
-#         response = self.app.put('/tenders/{}/cancellations/some_id/documents/some_id?acc_token={}'.format(
-#             self.tender_id, self.tender_token), status=404, upload_files=[('file', 'name.doc', 'content2')])
-#
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'cancellation_id'}
-#         ])
-#
-#         response = self.app.put('/tenders/{}/cancellations/{}/documents/some_id?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, self.tender_token), status=404, upload_files=[('file', 'name.doc', 'content2')])
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location': u'url', u'name': u'document_id'}
-#         ])
-#
-#     def test_create_tender_cancellation_document(self):
-#         response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '201 Created')
-#         self.assertEqual(response.content_type, 'application/json')
-#         doc_id = response.json["data"]['id']
-#         self.assertIn(doc_id, response.headers['Location'])
-#         self.assertEqual('name.doc', response.json["data"]["title"])
-#         key = response.json["data"]["url"].split('?')[-1]
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents'.format(self.tender_id, self.cancellation_id))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"][0]["id"])
-#         self.assertEqual('name.doc', response.json["data"][0]["title"])
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents?all=true'.format(self.tender_id, self.cancellation_id))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"][0]["id"])
-#         self.assertEqual('name.doc', response.json["data"][0]["title"])
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?download=some_id'.format(
-#             self.tender_id, self.cancellation_id, doc_id), status=404)
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
-#         ])
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?{}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, key))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/msword')
-#         self.assertEqual(response.content_length, 7)
-#         self.assertEqual(response.body, 'content')
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}'.format(
-#             self.tender_id, self.cancellation_id, doc_id))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"]["id"])
-#         self.assertEqual('name.doc', response.json["data"]["title"])
-#
-#         self.set_status('complete')
-#
-#         response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
-#         self.assertEqual(response.status, '403 Forbidden')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
-#
-#     def test_put_tender_cancellation_document(self):
-#         response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '201 Created')
-#         self.assertEqual(response.content_type, 'application/json')
-#         doc_id = response.json["data"]['id']
-#         self.assertIn(doc_id, response.headers['Location'])
-#
-#         response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, self.tender_token),
-#                                 status=404, upload_files=[('invalid_name', 'name.doc', 'content')])
-#
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'body', u'name': u'file'}
-#         ])
-#
-#         response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content2')])
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"]["id"])
-#         key = response.json["data"]["url"].split('?')[-1]
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?{}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, key))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/msword')
-#         self.assertEqual(response.content_length, 8)
-#         self.assertEqual(response.body, 'content2')
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}'.format(
-#             self.tender_id, self.cancellation_id, doc_id))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"]["id"])
-#         self.assertEqual('name.doc', response.json["data"]["title"])
-#
-#         response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, self.tender_token), 'content3', content_type='application/msword')
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"]["id"])
-#         key = response.json["data"]["url"].split('?')[-1]
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?{}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, key))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/msword')
-#         self.assertEqual(response.content_length, 8)
-#         self.assertEqual(response.body, 'content3')
-#
-#         self.set_status('complete')
-#
-#         response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content3')], status=403)
-#         self.assertEqual(response.status, '403 Forbidden')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
-#
-#     def test_patch_tender_cancellation_document(self):
-#         response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '201 Created')
-#         self.assertEqual(response.content_type, 'application/json')
-#         doc_id = response.json["data"]['id']
-#         self.assertIn(doc_id, response.headers['Location'])
-#
-#         response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, self.tender_token), {"data": {"description": "document description"}})
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"]["id"])
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}'.format(
-#             self.tender_id, self.cancellation_id, doc_id))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"]["id"])
-#         self.assertEqual('document description', response.json["data"]["description"])
-#
-#         self.set_status('complete')
-#
-#         response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, self.tender_token), {"data": {"description": "document description"}}, status=403)
-#         self.assertEqual(response.status, '403 Forbidden')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
+class CompetitiveDialogUACancellationDocumentResourceTest(BaseCompetitiveDialogUAContentWebTest):
+
+    def setUp(self):
+        super(CompetitiveDialogUACancellationDocumentResourceTest, self).setUp()
+        # Create cancellation
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
+        cancellation = response.json['data']
+        self.cancellation_id = cancellation['id']
+
+    def test_not_found(self):
+        """
+            Test add cancellation document with wrong params
+        """
+
+        # Try add document to cancellation by bad dialog id
+        response = self.app.post('/tenders/some_id/cancellations/some_id/documents', status=404,
+                                 upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'tender_id'}
+        ])
+
+        # Try add cancellation document by bad cancellation id
+        response = self.app.post('/tenders/{}/cancellations/some_id/documents?acc_token={}'.format(self.tender_id,
+                                                                                                   self.tender_token),
+                                 status=404, upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'cancellation_id'}
+        ])
+
+        # Try add document without description
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id,
+                                                                                              self.cancellation_id,
+                                                                                              self.tender_token),
+                                 status=404, upload_files=[('invalid_value', 'name.doc', 'content')])
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'body', u'name': u'file'}
+        ])
+
+        # Try get document by bad dialog id
+        response = self.app.get('/tenders/some_id/cancellations/some_id/documents', status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'tender_id'}
+        ])
+
+        # Try get document by bad cancellation id
+        response = self.app.get('/tenders/{}/cancellations/some_id/documents'.format(self.tender_id), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'cancellation_id'}
+        ])
+
+        # Try get dialog token by bad dialog id, cancellation id, document id
+        response = self.app.get('/tenders/some_id/cancellations/some_id/documents/some_id', status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'tender_id'}
+        ])
+
+        # Try get document by bad document id
+        response = self.app.get('/tenders/{}/cancellations/some_id/documents/some_id'.format(self.tender_id), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'cancellation_id'}
+        ])
+
+        # Try get document with bad document id
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/some_id'.format(self.tender_id,
+                                                                                        self.cancellation_id), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'document_id'}
+        ])
+
+        # Try put document with bad dialog id, cancellation id, document id
+        response = self.app.put('/tenders/some_id/cancellations/some_id/documents/some_id', status=404, upload_files=[('file', 'name.doc', 'content2')])
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'tender_id'}
+        ])
+
+        # Try put document with bad cancellation id and document id
+        response = self.app.put('/tenders/{}/cancellations/some_id/documents/some_id?acc_token={}'.format(self.tender_id,
+                                                                                                          self.tender_token),
+                                status=404, upload_files=[('file', 'name.doc', 'content2')])
+
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'cancellation_id'}
+        ])
+
+        # Try put document by bad document id, and ok dialog id and cancellation id
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/some_id?acc_token={}'.format(self.tender_id,
+                                                                                                     self.cancellation_id,
+                                                                                                     self.tender_token),
+                                status=404, upload_files=[('file', 'name.doc', 'content2')])
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'document_id'}
+        ])
+
+    def test_create_tender_cancellation_document(self):
+        """
+          Test create dialog cancellation document
+        """
+
+        # Create cancellation document, and check response fields
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id,
+                                                                                              self.cancellation_id,
+                                                                                              self.tender_token),
+                                 upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+        self.assertEqual('name.doc', response.json["data"]["title"])
+        key = response.json["data"]["url"].split('?')[-1]
+
+        # Get cancellation documents by dialog id, and cancellation id
+        response = self.app.get('/tenders/{}/cancellations/{}/documents'.format(self.tender_id, self.cancellation_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"][0]["id"])
+        self.assertEqual('name.doc', response.json["data"][0]["title"])
+
+        # Get cancellation documents by dialog id, and cancellation id with uri param all=true
+        response = self.app.get('/tenders/{}/cancellations/{}/documents?all=true'.format(self.tender_id,
+                                                                                         self.cancellation_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"][0]["id"])
+        self.assertEqual('name.doc', response.json["data"][0]["title"])
+
+        # Try get cancellation documents by dialog id, and cancellation id with uri param download=some_id
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?download=some_id'.format(self.tender_id,
+                                                                                                    self.cancellation_id,
+                                                                                                    doc_id),
+                                status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
+        ])
+
+        # Get cancellation document with by dialog id, cancellation id and key
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?{}'.format(
+            self.tender_id, self.cancellation_id, doc_id, key))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/msword')
+        self.assertEqual(response.content_length, 7)
+        self.assertEqual(response.body, 'content')
+
+        # Get cancellation document, by dialog id, cancellation id, and document id
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}'.format(self.tender_id,
+                                                                                   self.cancellation_id,
+                                                                                   doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual('name.doc', response.json["data"]["title"])
+
+        self.set_status('complete')  # Set dialog status to complete
+
+        # Try add cancellation document when dialog status is complete
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id,
+                                                                                              self.cancellation_id,
+                                                                                              self.tender_token),
+                                 upload_files=[('file', 'name.doc', 'content')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
+
+    def test_put_tender_cancellation_document(self):
+        """
+          Test put dialog cancellation document
+        """
+        # Create document and save doc_id
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id,
+                                                                                              self.cancellation_id,
+                                                                                              self.tender_token),
+                                 upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        # Try put document with invalid param name
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id,
+                                                                                                self.cancellation_id,
+                                                                                                doc_id,
+                                                                                                self.tender_token),
+                                status=404, upload_files=[('invalid_name', 'name.doc', 'content')])
+
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'body', u'name': u'file'}
+        ])
+
+        # Put document
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id,
+                                                                                                self.cancellation_id,
+                                                                                                doc_id,
+                                                                                                self.tender_token),
+                                upload_files=[('file', 'name.doc', 'content2')])
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        key = response.json["data"]["url"].split('?')[-1]
+
+        # Get document which we put before and check fields
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?{}'.format(self.tender_id,
+                                                                                      self.cancellation_id,
+                                                                                      doc_id, key))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/msword')
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, 'content2')
+
+        # Get document by dialog id, cancellation id and document id
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}'.format(self.tender_id,
+                                                                                   self.cancellation_id,
+                                                                                   doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual('name.doc', response.json["data"]["title"])
+
+        # Put document
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id,
+                                                                                                self.cancellation_id,
+                                                                                                doc_id,
+                                                                                                self.tender_token),
+                                'content3',
+                                content_type='application/msword')
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        key = response.json["data"]["url"].split('?')[-1]
+
+        # Get document which we put before and check response
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?{}'.format(
+            self.tender_id, self.cancellation_id, doc_id, key))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/msword')
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, 'content3')
+
+        self.set_status('complete')  # Set dialog status to complete
+
+        # Try put document when dialog status is complete
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content3')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
+
+    def test_patch_tender_cancellation_document(self):
+        """
+          Test path dialog cancellation document
+        """
+        # Create cancellation document, and save doc_id
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id,
+                                                                                              self.cancellation_id,
+                                                                                              self.tender_token),
+                                 upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        # Update description for cancellation document
+        response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id,
+                                                                                                       self.cancellation_id,
+                                                                                                       doc_id,
+                                                                                                       self.tender_token),
+                                       {"data": {"description": "document description"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+
+        # Get cancellation document and check description
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}'.format(self.tender_id,
+                                                                                   self.cancellation_id,
+                                                                                   doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual('document description', response.json["data"]["description"])
+
+        self.set_status('complete')  # Set dialog status to complete
+
+        # Try update cancellation document when dialog status is complete
+        response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id,
+                                                                                                       self.cancellation_id,
+                                                                                                       doc_id,
+                                                                                                       self.tender_token),
+                                       {"data": {"description": "document description"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
+
 
 class CompetitiveDialogEUCancellationResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
@@ -1322,262 +1403,304 @@ class CompetitiveDialogEULotsCancellationResourceTest(BaseCompetitiveDialogEUCon
         self.assertEqual(response.json['data']["reason"], "cancellation reason")
 
 
-# class TenderCancellationDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
-#
-#     initial_auth = ('Basic', ('broker', ''))
-#     def setUp(self):
-#         super(TenderCancellationDocumentResourceTest, self).setUp()
-#         # Create cancellation
-#         response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
-#             self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
-#         cancellation = response.json['data']
-#         self.cancellation_id = cancellation['id']
-#
-#     def test_not_found(self):
-#         response = self.app.post('/tenders/some_id/cancellations/some_id/documents', status=404, upload_files=[
-#                                  ('file', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'tender_id'}
-#         ])
-#
-#         response = self.app.post('/tenders/{}/cancellations/some_id/documents'.format(self.tender_id), status=404, upload_files=[('file', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'cancellation_id'}
-#         ])
-#
-#         response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id, self.cancellation_id, self.tender_token), status=404, upload_files=[
-#                                  ('invalid_value', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'body', u'name': u'file'}
-#         ])
-#
-#         response = self.app.get('/tenders/some_id/cancellations/some_id/documents', status=404)
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'tender_id'}
-#         ])
-#
-#         response = self.app.get('/tenders/{}/cancellations/some_id/documents'.format(self.tender_id), status=404)
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'cancellation_id'}
-#         ])
-#
-#         response = self.app.get('/tenders/some_id/cancellations/some_id/documents/some_id', status=404)
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'tender_id'}
-#         ])
-#
-#         response = self.app.get('/tenders/{}/cancellations/some_id/documents/some_id'.format(self.tender_id), status=404)
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'cancellation_id'}
-#         ])
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/some_id'.format(self.tender_id, self.cancellation_id), status=404)
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'document_id'}
-#         ])
-#
-#         response = self.app.put('/tenders/some_id/cancellations/some_id/documents/some_id', status=404,
-#                                 upload_files=[('file', 'name.doc', 'content2')])
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'tender_id'}
-#         ])
-#
-#         response = self.app.put('/tenders/{}/cancellations/some_id/documents/some_id'.format(self.tender_id), status=404, upload_files=[
-#                                 ('file', 'name.doc', 'content2')])
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'url', u'name': u'cancellation_id'}
-#         ])
-#
-#         response = self.app.put('/tenders/{}/cancellations/{}/documents/some_id'.format(
-#             self.tender_id, self.cancellation_id), status=404, upload_files=[('file', 'name.doc', 'content2')])
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location': u'url', u'name': u'document_id'}
-#         ])
-#
-#     def test_create_tender_cancellation_document(self):
-#         response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '201 Created')
-#         self.assertEqual(response.content_type, 'application/json')
-#         doc_id = response.json["data"]['id']
-#         self.assertIn(doc_id, response.headers['Location'])
-#         self.assertEqual('name.doc', response.json["data"]["title"])
-#         key = response.json["data"]["url"].split('?')[-1]
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents'.format(self.tender_id, self.cancellation_id))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"][0]["id"])
-#         self.assertEqual('name.doc', response.json["data"][0]["title"])
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents?all=true'.format(self.tender_id, self.cancellation_id))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"][0]["id"])
-#         self.assertEqual('name.doc', response.json["data"][0]["title"])
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?download=some_id'.format(
-#             self.tender_id, self.cancellation_id, doc_id), status=404)
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
-#         ])
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?{}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, key))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/msword')
-#         self.assertEqual(response.content_length, 7)
-#         self.assertEqual(response.body, 'content')
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}'.format(
-#             self.tender_id, self.cancellation_id, doc_id))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"]["id"])
-#         self.assertEqual('name.doc', response.json["data"]["title"])
-#
-#         self.set_status('complete')
-#
-#         response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
-#         self.assertEqual(response.status, '403 Forbidden')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
-#
-#     def test_put_tender_cancellation_document(self):
-#         response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '201 Created')
-#         self.assertEqual(response.content_type, 'application/json')
-#         doc_id = response.json["data"]['id']
-#         self.assertIn(doc_id, response.headers['Location'])
-#
-#         response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id, self.cancellation_id, doc_id, self.tender_token),
-#                                 status=404,
-#                                 upload_files=[('invalid_name', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '404 Not Found')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['status'], 'error')
-#         self.assertEqual(response.json['errors'], [
-#             {u'description': u'Not Found', u'location':
-#                 u'body', u'name': u'file'}
-#         ])
-#
-#         response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content2')])
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"]["id"])
-#         key = response.json["data"]["url"].split('?')[-1]
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?{}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, key))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/msword')
-#         self.assertEqual(response.content_length, 8)
-#         self.assertEqual(response.body, 'content2')
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}'.format(
-#             self.tender_id, self.cancellation_id, doc_id))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"]["id"])
-#         self.assertEqual('name.doc', response.json["data"]["title"])
-#
-#         response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, self.tender_token), 'content3', content_type='application/msword')
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"]["id"])
-#         key = response.json["data"]["url"].split('?')[-1]
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?{}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, key))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/msword')
-#         self.assertEqual(response.content_length, 8)
-#         self.assertEqual(response.body, 'content3')
-#
-#         self.set_status('complete')
-#
-#         response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content3')], status=403)
-#         self.assertEqual(response.status, '403 Forbidden')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
-#
-#     def test_patch_tender_cancellation_document(self):
-#         response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
-#             self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
-#         self.assertEqual(response.status, '201 Created')
-#         self.assertEqual(response.content_type, 'application/json')
-#         doc_id = response.json["data"]['id']
-#         self.assertIn(doc_id, response.headers['Location'])
-#
-#         response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id, self.cancellation_id, doc_id, self.tender_token), {"data": {"description": "document description"}})
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"]["id"])
-#
-#         response = self.app.get('/tenders/{}/cancellations/{}/documents/{}'.format(
-#             self.tender_id, self.cancellation_id, doc_id))
-#         self.assertEqual(response.status, '200 OK')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(doc_id, response.json["data"]["id"])
-#         self.assertEqual('document description', response.json["data"]["description"])
-#
-#         self.set_status('complete')
-#
-#         response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id, self.cancellation_id, doc_id, self.tender_token), {"data": {"description": "document description"}}, status=403)
-#         self.assertEqual(response.status, '403 Forbidden')
-#         self.assertEqual(response.content_type, 'application/json')
-#         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
+class CompetitiveDialogEUCancellationDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
+
+    initial_auth = ('Basic', ('broker', ''))
+
+    def setUp(self):
+        super(CompetitiveDialogEUCancellationDocumentResourceTest, self).setUp()
+        # Create cancellation
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id,
+                                                                                      self.tender_token),
+                                      {'data': {'reason': 'cancellation reason'}})
+        cancellation = response.json['data']
+        self.cancellation_id = cancellation['id']
+
+    def test_not_found(self):
+        """
+          Test add cancellation document with wrong params
+        """
+
+        # Try add document to cancellation by bad dialog id
+        response = self.app.post('/tenders/some_id/cancellations/some_id/documents', status=404,
+                                 upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'tender_id'}
+        ])
+
+        # Try add document to cancellation by bad dialog id
+        response = self.app.post('/tenders/{}/cancellations/some_id/documents'.format(self.tender_id),status=404,
+                                 upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'cancellation_id'}
+        ])
+
+        # Try add document to cancellation with bad token
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id,
+                                                                                              self.cancellation_id,
+                                                                                              self.tender_token),
+                                 status=404, upload_files=[('invalid_value', 'name.doc', 'content')])
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'body', u'name': u'file'}
+        ])
+
+        # Try get cancellation documents by wrong dialog id
+        response = self.app.get('/tenders/some_id/cancellations/some_id/documents', status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'tender_id'}
+        ])
+
+        # Try get cancellation documents by wrong cancellation id
+        response = self.app.get('/tenders/{}/cancellations/some_id/documents'.format(self.tender_id), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'cancellation_id'}
+        ])
+
+        # Try get cancellation documents bt bad document id
+        response = self.app.get('/tenders/some_id/cancellations/some_id/documents/some_id', status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'tender_id'}
+        ])
+
+        # Try get document by ok dialog id, and bad cancellation id, document id
+        response = self.app.get('/tenders/{}/cancellations/some_id/documents/some_id'.format(self.tender_id),
+                                status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'cancellation_id'}
+        ])
+
+        # Try get document bu ok dialog id and cancellation id, but bad document id
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/some_id'.format(self.tender_id,
+                                                                                        self.cancellation_id),
+                                status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'document_id'}
+        ])
+
+        # Try put document by bad dialog id, cancellation id, document id
+        response = self.app.put('/tenders/some_id/cancellations/some_id/documents/some_id', status=404,
+                                upload_files=[('file', 'name.doc', 'content2')])
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'tender_id'}
+        ])
+
+        # Try put document by bad cancellation id and document id, but ok dialog id
+        response = self.app.put('/tenders/{}/cancellations/some_id/documents/some_id'.format(self.tender_id),
+                                status=404, upload_files=[('file', 'name.doc', 'content2')])
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'url', u'name': u'cancellation_id'}
+        ])
+
+        # Try put document with bad document id, but ok document id, cancellation id,
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/some_id'.format(self.tender_id,
+                                                                                        self.cancellation_id),
+                                status=404,
+                                upload_files=[('file', 'name.doc', 'content2')])
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'document_id'}
+        ])
+
+    def test_create_tender_cancellation_document(self):
+        """
+          Test create dialog cancellation document
+        """
+        # Add document, and check response
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id,
+                                                                                              self.cancellation_id,
+                                                                                              self.tender_token),
+                                 upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+        self.assertEqual('name.doc', response.json["data"]["title"])
+        key = response.json["data"]["url"].split('?')[-1]
+
+        # Get documents which we make before
+        response = self.app.get('/tenders/{}/cancellations/{}/documents'.format(self.tender_id, self.cancellation_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"][0]["id"])
+        self.assertEqual('name.doc', response.json["data"][0]["title"])
+
+        # Get documents with url args
+        response = self.app.get('/tenders/{}/cancellations/{}/documents?all=true'.format(self.tender_id,
+                                                                                         self.cancellation_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"][0]["id"])
+        self.assertEqual('name.doc', response.json["data"][0]["title"])
+
+        # Try get document with url param download
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?download=some_id'.format(self.tender_id,
+                                                                                                    self.cancellation_id,
+                                                                                                    doc_id),
+                                status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
+        ])
+
+        # Get document with key
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?{}'.format(
+            self.tender_id, self.cancellation_id, doc_id, key))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/msword')
+        self.assertEqual(response.content_length, 7)
+        self.assertEqual(response.body, 'content')
+
+        # Get document by document id
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}'.format(
+            self.tender_id, self.cancellation_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual('name.doc', response.json["data"]["title"])
+
+        self.set_status('complete')  # Set status complete for dialog
+
+        # Try add document when dialog status is complete
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id,
+                                                                                              self.cancellation_id,
+                                                                                              self.tender_token),
+                                 upload_files=[('file', 'name.doc', 'content')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
+
+    def test_put_tender_cancellation_document(self):
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id, self.cancellation_id, doc_id, self.tender_token),
+                                status=404,
+                                upload_files=[('invalid_name', 'name.doc', 'content')])
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location':
+                u'body', u'name': u'file'}
+        ])
+
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content2')])
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        key = response.json["data"]["url"].split('?')[-1]
+
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?{}'.format(
+            self.tender_id, self.cancellation_id, doc_id, key))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/msword')
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, 'content2')
+
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}'.format(
+            self.tender_id, self.cancellation_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual('name.doc', response.json["data"]["title"])
+
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, doc_id, self.tender_token), 'content3', content_type='application/msword')
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        key = response.json["data"]["url"].split('?')[-1]
+
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}?{}'.format(
+            self.tender_id, self.cancellation_id, doc_id, key))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/msword')
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, 'content3')
+
+        self.set_status('complete')
+
+        response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content3')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
+
+    def test_patch_tender_cancellation_document(self):
+        response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
+            self.tender_id, self.cancellation_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id, self.cancellation_id, doc_id, self.tender_token), {"data": {"description": "document description"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+
+        response = self.app.get('/tenders/{}/cancellations/{}/documents/{}'.format(
+            self.tender_id, self.cancellation_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual('document description', response.json["data"]["description"])
+
+        self.set_status('complete')
+
+        response = self.app.patch_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(self.tender_id, self.cancellation_id, doc_id, self.tender_token), {"data": {"description": "document description"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
 
 def suite():
     suite = unittest.TestSuite()
