@@ -146,14 +146,14 @@ def patch_eu(self):
         self.request.errors.status = 403
         return
     data = self.request.validated['data']
-    if self.request.authenticated_role == 'tender_owner' and 'status' in data and data['status'] not in [
-        'active.pre-qualification.stand-still', tender.status]:
+    if self.request.authenticated_role == 'tender_owner' and 'status' in data \
+            and data['status'] not in ['active.pre-qualification.stand-still', tender.status]:
         self.request.errors.add('body', 'data', 'Can\'t update tender status')
         self.request.errors.status = 403
         return
 
-    if self.request.authenticated_role == 'tender_owner' and self.request.validated[
-        'tender_status'] == 'active.tendering':
+    if self.request.authenticated_role == 'tender_owner' \
+            and self.request.validated['tender_status'] == 'active.tendering':
         if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
             self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
             if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated['tender']) > \
@@ -171,15 +171,15 @@ def patch_eu(self):
         check_status(self.request)
     elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.tendering':
         tender.invalidate_bids_data()
-    elif self.request.authenticated_role == 'tender_owner' and self.request.validated[
-        'tender_status'] == 'active.pre-qualification' and tender.status == "active.pre-qualification.stand-still":
+    elif self.request.authenticated_role == 'tender_owner' \
+            and self.request.validated['tender_status'] == 'active.pre-qualification' \
+            and tender.status == "active.pre-qualification.stand-still":
         if all_bids_are_reviewed(self.request):
             tender.qualificationPeriod.endDate = calculate_business_date(get_now(), COMPLAINT_STAND_STILL,
                                                                          self.request.validated['tender'])
             tender.check_auction_time()
         else:
-            self.request.errors.add('body', 'data',
-                                    'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
+            self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
             self.request.errors.status = 403
             return
 
