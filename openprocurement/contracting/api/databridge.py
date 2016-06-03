@@ -160,6 +160,7 @@ class ContractingDataBridge(object):
                             self.tenders_queue.put(tender_to_sync)
                             break
                         else:
+                            db.put(contract['id'], True)
                             logger.info('Contract exists {}'.format(contract['id']))
                             continue
 
