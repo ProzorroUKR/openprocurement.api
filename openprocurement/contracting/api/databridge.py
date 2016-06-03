@@ -136,8 +136,13 @@ class ContractingDataBridge(object):
         while True:
             try:
                 tender_to_sync = self.tenders_queue.get()
+                stored = db.get(tender_to_sync['id'])
+                if stored and stored['dateModified'] == tender_to_sync['dateModified']:
+                    logger.info('Tender {} not modified from last check. Skipping'.format(tender_to_sync['id']), extra={"TENDER_ID": tender_to_sync['id']})
+                    continue
                 tender = self.tenders_sync_client.get_tender(tender_to_sync['id'],
                                                              extra_headers={'X-Client-Request-ID': generate_req_id()})['data']
+                db.put(tender_to_sync['id'], {'dateModified': tender_to_sync['dateModified']})
             except Exception, e:
                 logger.exception(e)
                 logger.info('Put tender {} back to tenders queue'.format(tender_to_sync['id']), extra={"TENDER_ID": tender_to_sync['id']})
