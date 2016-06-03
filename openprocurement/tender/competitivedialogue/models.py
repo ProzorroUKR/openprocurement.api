@@ -21,6 +21,7 @@ from openprocurement.api.models import (
     embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
     ComplaintModelType, validate_cpv_group, validate_items_uniq, Model,
 )
+from openprocurement.tender.openeu.models import Document
 from schematics.transforms import whitelist, blacklist
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 
@@ -30,7 +31,6 @@ roles = {
     'edit': edit_role_ua,
     'edit_draft': draft_role,
     'edit_active.tendering': edit_role_ua,
-    'edit_active.auction': whitelist(),
     'edit_active.qualification': whitelist(),
     'edit_active.awarded': whitelist(),
     'edit_complete': whitelist(),
@@ -40,7 +40,6 @@ roles = {
     'listing': listing_role,
     'draft': enquiries_role,
     'active.tendering': enquiries_role,
-    'active.auction': auction_role,
     'active.qualification': view_role,
     'active.awarded': view_role,
     'complete': view_role,
@@ -61,6 +60,7 @@ class Tender(TenderUA):
                                  'active.pre-qualification.stand-still', 'active.qualification',
                                  'active.awarded', 'complete', 'cancelled', 'unsuccessful'],
                         default='active.tendering')
+    auctionPeriod = None  # We don't need this field more
 
     class Options:
         roles = roles.copy()
@@ -83,9 +83,25 @@ class Tender(TenderEU):
                                  'active.pre-qualification.stand-still', 'active.qualification',
                                  'active.awarded', 'complete', 'cancelled', 'unsuccessful'],
                         default='active.tendering')
+    auctionPeriod = None  # We don't need this field more
 
     class Options:
         roles = roles.copy()
 
 
 CompetitiveDialogEU = Tender
+
+
+class DescriptionDocument(Document):
+    """ Description of the decision to purchase """
+
+    class Options:
+        roles = {
+            'edit': blacklist('id', 'url', 'datePublished', 'dateModified', ''),
+            'embedded': schematics_embedded_role,
+            'view': (blacklist('revisions') + schematics_default_role),
+            'restricted_view': (blacklist('revisions', 'url') + schematics_default_role),
+            'revisions': whitelist('url', 'dateModified'),
+        }
+
+    confidentiality = StringType(choices=['public', 'buyerOnly'], default='public')
