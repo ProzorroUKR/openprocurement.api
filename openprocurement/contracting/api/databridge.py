@@ -320,24 +320,29 @@ class ContractingDataBridge(object):
 
 
     def run(self):
+        logger.info('Start Contracting Data Bridge')
+        self.immortal_jobs = [
+            gevent.spawn(self.get_tender_contracts),
+            gevent.spawn(self.prepare_contract_data),
+            gevent.spawn(self.put_contracts),
+            gevent.spawn(self.retry_put_contracts),
+        ]
         while True:
             try:
-                logger.info('Start Contracting Data Bridge')
+                logger.info('Starting forward and backward sync workers')
                 self.jobs = [
                     gevent.spawn(self.get_tender_contracts_backward),
-                    gevent.spawn(self.get_tender_contracts),
-                    gevent.spawn(self.prepare_contract_data),
-                    gevent.spawn(self.put_contracts),
-                    gevent.spawn(self.retry_put_contracts),
                     gevent.spawn(self.get_tender_contracts_forward),
                 ]
                 gevent.joinall(self.jobs)
             except KeyboardInterrupt:
                 logger.info('Exiting...')
-                gevent.killall(self.jobs)
+                gevent.killall(self.jobs, timeout=5)
                 break
             except Exception, e:
                 logger.exception(e)
+
+            logger.warn("Restarting synchronization")
 
 
 def main():
