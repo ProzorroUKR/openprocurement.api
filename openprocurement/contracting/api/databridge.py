@@ -135,10 +135,6 @@ class ContractingDataBridge(object):
         while True:
             try:
                 tender_to_sync = self.tenders_queue.get()
-                stored = db.get(tender_to_sync['id'])
-                if stored and stored['dateModified'] == tender_to_sync['dateModified']:
-                    logger.info('Tender {} not modified from last check. Skipping'.format(tender_to_sync['id']), extra={"TENDER_ID": tender_to_sync['id']})
-                    continue
                 tender = self.tenders_sync_client.get_tender(tender_to_sync['id'],
                                                              extra_headers={'X-Client-Request-ID': generate_req_id()})['data']
                 db.put(tender_to_sync['id'], {'dateModified': tender_to_sync['dateModified']})
@@ -288,6 +284,10 @@ class ContractingDataBridge(object):
         params = {'opt_fields': 'status,lots', 'descending': 1, 'mode': '_all_'}
         try:
             for tender_data in self.get_tenders(params=params, direction="backward"):
+                stored = db.get(tender_data['id'])
+                if stored and stored['dateModified'] == tender_data['dateModified']:
+                    logger.info('Tender {} not modified from last check. Skipping'.format(tender_data['id']), extra={"TENDER_ID": tender_data['id']})
+                    continue
                 logger.info('Backward sync: Put tender {} to process...'.format(tender_data['id']),
                             extra={"TENDER_ID": tender_data['id']})
                 self.tenders_queue.put(tender_data)
