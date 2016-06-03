@@ -7,7 +7,6 @@ try:
 except ImportError:
     pass
 
-import time
 import logging
 import logging.config
 import os
@@ -127,7 +126,7 @@ class ContractingDataBridge(object):
                                  extra={"TENDER_ID": tender['id']})
 
             logger.info('Sleep {} sync...'.format(direction))
-            time.sleep(delay)
+            gevent.sleep(delay)
             logger.info('Restore {} sync'.format(direction))
             logger.debug('{} {}'.format(direction, params))
             response = self.tenders_sync_client.sync_tenders(params, extra_headers={'X-Client-Request-ID': generate_req_id()})
