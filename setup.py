@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.3.1'
+version = '2.3.3dev1'
 
 requires = [
     'couchdb',
@@ -20,6 +20,7 @@ docs_requires = requires + [
 databridge_requires = requires + [
     'PyYAML',
     'gevent',
+    'LazyDB',
     'ExtendedJournalHandler',
     'openprocurement_client>=1.0b2'
 ]

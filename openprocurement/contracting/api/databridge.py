@@ -29,6 +29,10 @@ from yaml import load
 logger = logging.getLogger("openprocurement.contracting.api.databridge")
 # logger = logging.getLogger(__name__)
 
+from lazydb import Db
+
+db = Db('databridge_cache_db')
+
 
 def generate_req_id():
     return b'contracting-data-bridge-req-' + str(uuid4()).encode('ascii')
@@ -143,7 +147,11 @@ class ContractingDataBridge(object):
                     if contract["status"] == "active":
 
                         try:
-                            self.contracting_client.get_contract(contract['id'])
+                            if not db.has(contract['id']):
+                                self.contracting_client.get_contract(contract['id'])
+                            else:
+                                logger.info('Contract {} exists in local db'.format(contract['id']), extra={"CONTRACT_ID": contract['id']})
+                                continue
                         except ResourceNotFound:
                             logger.info('Sync contract {} of tender {}'.format(contract['id'], tender['id']), extra={"CONTRACT_ID": contract['id'],
                                                                                                                      "TENDER_ID": tender['id']})
@@ -153,6 +161,7 @@ class ContractingDataBridge(object):
                             self.tenders_queue.put(tender_to_sync)
                             break
                         else:
+                            db.put(contract['id'], True)
                             logger.info('Contract exists {}'.format(contract['id']), extra={"CONTRACT_ID": contract['id']})
                             continue
 
@@ -218,6 +227,7 @@ class ContractingDataBridge(object):
                 self.contracting_client.create_contract(data)
                 logger.info("Successfully created contract {} of tender {}".format(contract['id'], contract['tender_id']),
                             extra={"CONTRACT_ID": contract['id'], "TENDER_ID": contract['tender_id']})
+                db.put(contract['id'], True)
             except Exception, e:
                 logger.exception(e)
                 logger.info("Unsuccessful put for contract {0} of tender {1}".format(contract['id'], contract['tender_id']),
