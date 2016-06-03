@@ -20,6 +20,7 @@ docs_requires = requires + [
 databridge_requires = requires + [
     'PyYAML',
     'gevent',
+    'LazyDB',
     'ExtendedJournalHandler',
     'openprocurement_client>=1.0b2'
 ]
