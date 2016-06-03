@@ -115,13 +115,16 @@ class ContractingDataBridge(object):
                                         "active.awarded", "complete"):
                     if hasattr(tender, "lots"):
                         if any([1 for lot in tender['lots'] if lot['status'] == "complete"]):
-                            logger.info('{} sync: Found multilot tender {} in status {}'.format(direction.capitalize(), tender['id'], tender['status']))
+                            logger.info('{} sync: Found multilot tender {} in status {}'.format(direction.capitalize(), tender['id'], tender['status']),
+                                        extra={"TENDER_ID": tender['id']})
                             yield tender
                     elif tender['status'] == "complete":
-                        logger.info('{} sync: Found tender in complete status {}'.format(direction.capitalize(), tender['id']))
+                        logger.info('{} sync: Found tender in complete status {}'.format(direction.capitalize(), tender['id']),
+                                    extra={"TENDER_ID": tender['id']})
                         yield tender
                 else:
-                    logger.debug('{} sync: Skipping tender {} in status {}'.format(direction.capitalize(), tender['id'], tender['status']))
+                    logger.debug('{} sync: Skipping tender {} in status {}'.format(direction.capitalize(), tender['id'], tender['status']),
+                                 extra={"TENDER_ID": tender['id']})
 
             logger.info('Sleep {} sync...'.format(direction))
             time.sleep(delay)
