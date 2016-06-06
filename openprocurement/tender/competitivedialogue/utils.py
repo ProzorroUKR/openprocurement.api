@@ -285,13 +285,13 @@ def check_status(request):
         prepare_qualifications(request)
         return
 
-    elif tender.status == 'active.pre-qualification.stand-still' and tender.qualificationPeriod and tender.qualificationPeriod.endDate <= now and not any([
-        i.status in BLOCK_COMPLAINT_STATUS
-        for q in tender.qualifications
-        for i in q.complaints
-    ]):
-        LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
-                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
-        tender.status = 'active.auction'
-        check_initial_bids_count(request)
-        return
+    # elif tender.status == 'active.pre-qualification.stand-still' and tender.qualificationPeriod and tender.qualificationPeriod.endDate <= now and not any([
+    #     i.status in BLOCK_COMPLAINT_STATUS
+    #     for q in tender.qualifications
+    #     for i in q.complaints
+    # ]):
+    #     LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
+    #                 extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
+    #     tender.status = 'active.auction'
+    #     check_initial_bids_count(request)
+    #     return

@@ -77,6 +77,9 @@ class Document(ConfidentialDocument):
 
 class Bid(BidEU):
     documents = ListType(ModelType(Document), default=list())
+    financialDocuments = ListType(ModelType(Document), default=list())
+    eligibilityDocuments = ListType(ModelType(Document), default=list())
+    qualificationDocuments = ListType(ModelType(Document), default=list())
 
 
 @implementer(ITender)
@@ -86,6 +89,9 @@ class Tender(TenderUA):
                                  'active.pre-qualification.stand-still', 'active.qualification',
                                  'active.awarded', 'complete', 'cancelled', 'unsuccessful'],
                         default='active.tendering')
+    # A list of all the companies who entered submissions for the tender.
+    bids = SifterListType(ModelType(Bid), default=list(),
+                          filter_by='status', filter_in_values=['invalid', 'deleted'])
 
     class Options:
         roles = roles.copy()
