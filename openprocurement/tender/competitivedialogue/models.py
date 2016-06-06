@@ -19,6 +19,7 @@ from openprocurement.api.models import (
     ListType, BooleanType
 )
 from schematics.transforms import whitelist, blacklist
+from openprocurement.tender.openeu.models import pre_qualifications_role
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 
@@ -35,6 +36,8 @@ roles = {
     'edit_cancelled': whitelist(),
     'view': view_role,
     'listing': listing_role,
+    'active.pre-qualification': pre_qualifications_role,
+    'active.pre-qualification.stand-still': pre_qualifications_role,
     'draft': enquiries_role,
     'active.tendering': enquiries_role,
     'active.qualification': view_role,
@@ -83,7 +86,6 @@ class Tender(TenderUA):
                                  'active.pre-qualification.stand-still', 'active.qualification',
                                  'active.awarded', 'complete', 'cancelled', 'unsuccessful'],
                         default='active.tendering')
-    auctionPeriod = None  # We don't need this field more
 
     class Options:
         roles = roles.copy()
@@ -106,7 +108,6 @@ class Tender(TenderEU):
                                  'active.pre-qualification.stand-still', 'active.qualification',
                                  'active.awarded', 'complete', 'cancelled', 'unsuccessful'],
                         default='active.tendering')
-    auctionPeriod = None  # We don't need this field more
     # A list of all the companies who entered submissions for the tender.
     bids = SifterListType(ModelType(Bid), default=list(),
                           filter_by='status', filter_in_values=['invalid', 'deleted'])

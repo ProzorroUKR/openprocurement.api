@@ -7,8 +7,8 @@ from copy import deepcopy
 from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass, test_features_tender_data, test_bids
 from openprocurement.api.utils import apply_data_patch
 from openprocurement.api.models import get_now, SANDBOX_MODE
-from openprocurement.tender.competitivedialogue.models import (TENDERING_DAYS, TENDERING_DURATION,
-                                                               QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL)
+from openprocurement.tender.openeu.models import (TENDERING_DURATION, QUESTIONS_STAND_STILL,
+                                                  COMPLAINT_STAND_STILL)
 
 from openprocurement.tender.openua.tests.base import test_tender_data as base_test_tender_data_ua
 from openprocurement.tender.openeu.tests.base import (test_tender_data as base_test_tender_data_eu,

@@ -2398,6 +2398,30 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['mode'], u'test')
 
+    def test_update_status_complete_owner(self):
+        """
+        Try update dialog status by owner, when it's complete
+        """
+        # Create tender
+        response = self.app.post_json('/tenders', {'data': test_tender_data_ua})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        tender = response.json['data']
+        token = response.json['access']['token']
+        self.tender_id = tender['id']
+
+        self.set_status('complete')
+
+        response = self.app.get('/tenders/{tender_id}'.format(tender_id=self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['status'], 'complete')
+        response = self.app.patch_json('/tenders/{tender_id}?acc_token={token}'.format(tender_id=self.tender_id,
+                                                                                       token=token),
+                                       {'data': {"status": "active.pre-qualification"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]['description'], "Can't update tender in current (complete) status")
+
 
 def suite():
     suite = unittest.TestSuite()
