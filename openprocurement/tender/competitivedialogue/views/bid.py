@@ -8,9 +8,8 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
 )
-from openprocurement.tender.openua.views.bid import TenderUABidResource as BaseResource
-from openprocurement.tender.competitivedialogue.utils import (bid_collection_get_eu, bid_get_eu, bid_patch_eu,
-                                                              bid_delete_eu)
+from openprocurement.tender.openua.views.bid import TenderUABidResource as BaseResourceUA
+from openprocurement.tender.openeu.views.bid import TenderBidResource as BaseResourceEU
 
 
 @opresource(name='Competitive Dialogue EU Bids',
@@ -18,20 +17,17 @@ from openprocurement.tender.competitivedialogue.utils import (bid_collection_get
             path='/tenders/{tender_id}/bids/{bid_id}',
             procurementMethodType='competitiveDialogue.aboveThresholdEU',
             description="Competitive Dialogue EU bids")
-class CompetitiveDialogueEUBidResource(BaseResource):
+class CompetitiveDialogueEUBidResource(BaseResourceEU):
     """ Tender EU bids """
-    @json_view(permission='view_tender')
-    def collection_get(self):
-        return bid_collection_get_eu(self)
+    pass
 
-    @json_view(permission='view_tender')
-    def get(self):
-        return bid_get_eu(self)
 
-    @json_view(content_type="application/json", permission='edit_bid', validators=(validate_patch_bid_data,))
-    def patch(self):
-        return bid_patch_eu(self)
+@opresource(name='Competitive Dialogue UA Bids',
+            collection_path='/tenders/{tender_id}/bids',
+            path='/tenders/{tender_id}/bids/{bid_id}',
+            procurementMethodType='competitiveDialogue.aboveThresholdUA',
+            description="Competitive Dialogue UA bids")
+class CompetitiveDialogueUABidResource(BaseResourceUA):
+    """ Tender EU bids """
+    pass
 
-    @json_view(permission='edit_bid')
-    def delete(self):
-        return bid_delete_eu(self)
