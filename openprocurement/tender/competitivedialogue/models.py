@@ -3,26 +3,23 @@ from datetime import timedelta
 from schematics.types import StringType
 from schematics.exceptions import ValidationError
 from zope.interface import implementer
-from schematics.types.serializable import serializable
 from schematics.types.compound import ModelType
 from openprocurement.api.models import ITender, get_now
-from openprocurement.tender.openua.models import Tender as TenderUA
+from openprocurement.tender.openua.models import Tender as TenderUA, SifterListType
 from openprocurement.tender.openeu.models import Tender as TenderEU
-from openprocurement.tender.openeu.models import (TENDERING_DAYS, TENDERING_DURATION,
-                                                  QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL,
-                                                  EnquiryPeriod, ENQUIRY_STAND_STILL_TIME)
+from openprocurement.tender.openeu.models import TENDERING_DAYS, TENDERING_DURATION
 from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.openeu.models import Document, Bid as BidEU, ConfidentialDocument
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
-    auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
-    auction_role, chronograph_role, chronograph_view_role, view_bid_role,
-    Administrator_bid_role, Administrator_role, schematics_default_role,
-    TZ, get_now, schematics_embedded_role, validate_lots_uniq, draft_role,
-    embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
-    ComplaintModelType, validate_cpv_group, validate_items_uniq, Model,
+    enquiries_role,
+    chronograph_role, chronograph_view_role,
+    Administrator_role, schematics_default_role,
+    get_now, schematics_embedded_role, draft_role,
+    ListType, BooleanType
 )
-from openprocurement.tender.openeu.models import Document
 from schematics.transforms import whitelist, blacklist
+
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 
 roles = {
@@ -50,7 +47,33 @@ roles = {
     'Administrator': Administrator_role,
     'default': schematics_default_role,
     'contracting': whitelist('doc_id', 'owner'),
-    }
+}
+
+
+class Document(ConfidentialDocument):
+    """ Description of the decision to purchase """
+
+    class Options:
+        roles = {
+            'edit': blacklist('id', 'url', 'datePublished', 'dateModified', ''),
+            'embedded': schematics_embedded_role,
+            'view': (blacklist('revisions') + schematics_default_role),
+            'restricted_view': (blacklist('revisions', 'url') + schematics_default_role),
+            'revisions': whitelist('url', 'dateModified'),
+        }
+
+    isDescriptionDecision = BooleanType(default=False)
+
+    def validate_confidentialityRationale(self, data, val):
+        if data['confidentiality'] != 'public' and not data['isDescriptionDecision']:
+            if not val:
+                raise ValidationError(u"confidentialityRationale is required")
+            elif len(val) < 30:
+                raise ValidationError(u"confidentialityRationale should contain at least 30 characters")
+
+
+class Bid(BidEU):
+    documents = ListType(ModelType(Document), default=list())
 
 
 @implementer(ITender)
@@ -84,24 +107,12 @@ class Tender(TenderEU):
                                  'active.awarded', 'complete', 'cancelled', 'unsuccessful'],
                         default='active.tendering')
     auctionPeriod = None  # We don't need this field more
+    # A list of all the companies who entered submissions for the tender.
+    bids = SifterListType(ModelType(Bid), default=list(),
+                          filter_by='status', filter_in_values=['invalid', 'deleted'])
 
     class Options:
         roles = roles.copy()
 
 
 CompetitiveDialogEU = Tender
-
-
-class DescriptionDocument(Document):
-    """ Description of the decision to purchase """
-
-    class Options:
-        roles = {
-            'edit': blacklist('id', 'url', 'datePublished', 'dateModified', ''),
-            'embedded': schematics_embedded_role,
-            'view': (blacklist('revisions') + schematics_default_role),
-            'restricted_view': (blacklist('revisions', 'url') + schematics_default_role),
-            'revisions': whitelist('url', 'dateModified'),
-        }
-
-    confidentiality = StringType(choices=['public', 'buyerOnly'], default='public')
