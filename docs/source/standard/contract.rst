@@ -82,12 +82,12 @@ Schema
     string, :ref:`date`, auto-generated
 
     |ocdsDescription|
-    The date the contract was signed. In the case of multiple signatures, the date of the last signature.
+    The date when the contract was signed. In the case of multiple signatures, the date of the last signature.
 
 :date:
     string, :ref:`date`
 
-    The date the contract was changed or activated.
+    The date when the contract was changed or activated.
 
 :documents:
     List of :ref:`Document` objects
