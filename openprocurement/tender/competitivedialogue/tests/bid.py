@@ -5,7 +5,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     test_tender_data_eu,
     test_features_tender_eu_data,
-    test_bids
+    test_bids_eu as test_bids
 )
 from openprocurement.tender.openeu.tests.base import (
     test_tender_data,

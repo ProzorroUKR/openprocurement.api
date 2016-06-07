@@ -4,21 +4,21 @@ import webtest
 from datetime import datetime, timedelta
 from uuid import uuid4
 from copy import deepcopy
-from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass, test_bids
+from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass
 from openprocurement.api.utils import apply_data_patch
 from openprocurement.api.models import get_now, SANDBOX_MODE
 from openprocurement.tender.openeu.models import (TENDERING_DURATION, QUESTIONS_STAND_STILL,
                                                   COMPLAINT_STAND_STILL)
 
-from openprocurement.tender.openua.tests.base import test_tender_data as base_test_tender_data_ua
 from openprocurement.tender.openeu.tests.base import (test_tender_data as base_test_tender_data_eu,
                                                       test_features_tender_data,
-                                                      test_bids as test_bids_ua)
+                                                      test_bids as test_bids_eu)
 
 now = datetime.now()
 test_tender_data_eu = base_test_tender_data_eu.copy()
 test_tender_data_eu["procurementMethodType"] = "competitiveDialogue.aboveThresholdEU"
-test_tender_data_ua = base_test_tender_data_ua.copy()
+test_tender_data_ua = base_test_tender_data_eu.copy()
+del test_tender_data_ua["title_en"]
 test_tender_data_ua["procurementMethodType"] = "competitiveDialogue.aboveThresholdUA"
 test_tender_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
 

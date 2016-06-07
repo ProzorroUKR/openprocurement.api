@@ -85,31 +85,6 @@ class Bid(BidEU):
 
 
 @implementer(ITender)
-class Tender(TenderUA):
-    procurementMethodType = StringType(default="competitiveDialogue.aboveThresholdUA")
-    status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
-                                 'active.pre-qualification.stand-still', 'active.qualification',
-                                 'active.awarded', 'complete', 'cancelled', 'unsuccessful'],
-                        default='active.tendering')
-    # A list of all the companies who entered submissions for the tender.
-    bids = SifterListType(ModelType(Bid), default=list(),
-                          filter_by='status', filter_in_values=['invalid', 'deleted'])
-
-    class Options:
-        roles = roles.copy()
-
-    def validate_tenderPeriod(self, data, period):
-        # if data['_rev'] is None when tender was created just now
-        if not data['_rev'] and calculate_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
-            raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
-        if period and calculate_business_date(period.startDate, TENDERING_DURATION, data) > period.endDate:
-            raise ValidationError(u"tenderPeriod should be greater than {} days".format(TENDERING_DAYS))
-
-
-CompetitiveDialogUA = Tender
-
-
-@implementer(ITender)
 class Tender(TenderEU):
     procurementMethodType = StringType(default="competitiveDialogue.aboveThresholdEU")
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
@@ -125,3 +100,10 @@ class Tender(TenderEU):
 
 
 CompetitiveDialogEU = Tender
+
+@implementer(ITender)
+class Tender(CompetitiveDialogEU):
+    procurementMethodType = StringType(default="competitiveDialogue.aboveThresholdUA")
+    title_en = StringType()
+
+CompetitiveDialogUA = Tender
