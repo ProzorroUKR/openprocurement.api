@@ -1044,8 +1044,9 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
 
         # active.tendering
         for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
-            response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(
-                self.tender_id, self.bid_id, doc_resource, self.bid_token), upload_files=[('file', 'name_{}.doc'.format(doc_resource[:-1]), 'content')])
+            response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id,
+                                                                                  doc_resource, self.bid_token),
+                                     upload_files=[('file', 'name_{}.doc'.format(doc_resource[:-1]), 'content')])
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
             doc_id = response.json["data"]['id']
@@ -1055,8 +1056,9 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
             doc_id_by_type[doc_resource] = {'id': doc_id, 'key': key}
 
             # upload private document
-            response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(
-                self.tender_id, self.bid_id, doc_resource, self.bid_token), upload_files=[('file', 'name_{}_private.doc'.format(doc_resource[:-1]), 'content')])
+            response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id,
+                                                                                  doc_resource, self.bid_token),
+                                     upload_files=[('file', 'name_{}_private.doc'.format(doc_resource[:-1]), 'content')])
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
             doc_id = response.json["data"]['id']

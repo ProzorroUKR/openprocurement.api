@@ -9,7 +9,7 @@ from openprocurement.tender.openua.models import Tender as TenderUA, SifterListT
 from openprocurement.tender.openeu.models import Tender as TenderEU
 from openprocurement.tender.openeu.models import TENDERING_DAYS, TENDERING_DURATION
 from openprocurement.tender.openua.utils import calculate_business_date
-from openprocurement.tender.openeu.models import Document, Bid as BidEU, ConfidentialDocument
+from openprocurement.tender.openeu.models import Bid as BidEU, ConfidentialDocument
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     enquiries_role,
@@ -77,6 +77,8 @@ class Document(ConfidentialDocument):
 
 class Bid(BidEU):
     documents = ListType(ModelType(Document), default=list())
+    # We must redefine all type of documents because openprocurement.api.utils.py №89
+    # always take Bid.documents as base model when create
     financialDocuments = ListType(ModelType(Document), default=list())
     eligibilityDocuments = ListType(ModelType(Document), default=list())
     qualificationDocuments = ListType(ModelType(Document), default=list())
