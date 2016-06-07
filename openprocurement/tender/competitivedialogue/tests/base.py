@@ -12,6 +12,7 @@ from openprocurement.tender.openeu.models import (TENDERING_DURATION, QUESTIONS_
 
 from openprocurement.tender.openeu.tests.base import (test_tender_data as base_test_tender_data_eu,
                                                       test_features_tender_data,
+                                                      test_bids,
                                                       test_bids as test_bids_eu)
 
 now = datetime.now()

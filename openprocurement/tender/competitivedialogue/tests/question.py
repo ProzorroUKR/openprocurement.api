@@ -4,7 +4,7 @@ import unittest
 from datetime import datetime, timedelta
 from openprocurement.api.models import get_now
 from openprocurement.api.tests.base import test_lots, test_organization
-from openprocurement.tender.competitivedialogue.tests.base import (test_tender_data_ua, test_bids_ua,
+from openprocurement.tender.competitivedialogue.tests.base import (test_tender_data_ua, test_bids,
                                                                    BaseCompetitiveDialogUAContentWebTest,
                                                                    BaseCompetitiveDialogEUContentWebTest)
 
@@ -469,7 +469,7 @@ class CompetitiveDialogUEQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
         response = self.app.post_json('/tenders/some_id/questions',
                                       {'data': {'title': 'question title',
                                                 'description': 'question description',
-                                                'author': test_bids_ua[0]['tenderers'][0]}}, status=404)
+                                                'author': test_bids[0]['tenderers'][0]}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -594,7 +594,7 @@ class CompetitiveDialogUEQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                       {'data': {'title': 'question title',
                                                 'description': 'question description',
-                                                'author': test_bids_ua[0]['tenderers'][0],
+                                                'author': test_bids[0]['tenderers'][0],
                                                 'questionOf': 'lot'}
                                        },
                                       status=422)
@@ -609,7 +609,7 @@ class CompetitiveDialogUEQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                       {'data': {'title': 'question title',
                                                 'description': 'question description',
-                                                'author': test_bids_ua[0]['tenderers'][0],
+                                                'author': test_bids[0]['tenderers'][0],
                                                 'questionOf': 'lot',
                                                 'relatedItem': '0' * 32}
                                        },
@@ -630,12 +630,12 @@ class CompetitiveDialogUEQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                       {'data': {'title': 'question title',
                                                 'description': 'question description',
-                                                'author': test_bids_ua[0]['tenderers'][0]}
+                                                'author': test_bids[0]['tenderers'][0]}
                                        })
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
-        self.assertEqual(question['author']['name'], test_bids_ua[0]['tenderers'][0]['name'])
+        self.assertEqual(question['author']['name'], test_bids[0]['tenderers'][0]['name'])
         self.assertIn('id', question)
         self.assertIn(question['id'], response.headers['Location'])
 
@@ -646,7 +646,7 @@ class CompetitiveDialogUEQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                       {'data': {'title': 'question title',
                                                 'description': 'question description',
-                                                'author': test_bids_ua[0]['tenderers'][0]}},
+                                                'author': test_bids[0]['tenderers'][0]}},
                                       status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
@@ -659,7 +659,7 @@ class CompetitiveDialogUEQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                       {'data': {'title': 'question title',
                                                 'description': 'question description',
-                                                'author': test_bids_ua[0]['tenderers'][0]}},
+                                                'author': test_bids[0]['tenderers'][0]}},
                                       status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
@@ -674,7 +674,7 @@ class CompetitiveDialogUEQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                       {'data': {'title': 'question title',
                                                 'description': 'question description',
-                                                'author': test_bids_ua[0]['tenderers'][0]}
+                                                'author': test_bids[0]['tenderers'][0]}
                                        })
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -737,7 +737,7 @@ class CompetitiveDialogUEQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                       {'data': {'title': 'question title',
                                                 'description': 'question description',
-                                                'author': test_bids_ua[0]['tenderers'][0]}})
+                                                'author': test_bids[0]['tenderers'][0]}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']  # save question
@@ -795,7 +795,7 @@ class CompetitiveDialogUEQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                       {'data': {'title': 'question title',
                                                 'description': 'question description',
-                                                'author': test_bids_ua[0]['tenderers'][0]}})
+                                                'author': test_bids[0]['tenderers'][0]}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
@@ -856,7 +856,7 @@ class CompetitiveDialogUELotQuestionResourceTest(BaseCompetitiveDialogEUContentW
                                                 'description': 'question description',
                                                 'questionOf': 'lot',
                                                 'relatedItem': self.initial_lots[0]['id'],
-                                                'author': test_bids_ua[0]['tenderers'][0]}
+                                                'author': test_bids[0]['tenderers'][0]}
                                        },
                                       status=403)
         self.assertEqual(response.status, '403 Forbidden')
@@ -869,12 +869,12 @@ class CompetitiveDialogUELotQuestionResourceTest(BaseCompetitiveDialogEUContentW
                                                 'description': 'question description',
                                                 'questionOf': 'lot',
                                                 'relatedItem': self.initial_lots[1]['id'],
-                                                'author': test_bids_ua[0]['tenderers'][0]}
+                                                'author': test_bids[0]['tenderers'][0]}
                                        })
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
-        self.assertEqual(question['author']['name'], test_bids_ua[0]['tenderers'][0]['name'])
+        self.assertEqual(question['author']['name'], test_bids[0]['tenderers'][0]['name'])
         self.assertIn('id', question)
         self.assertIn(question['id'], response.headers['Location'])
 
@@ -888,7 +888,7 @@ class CompetitiveDialogUELotQuestionResourceTest(BaseCompetitiveDialogEUContentW
                                                 'description': 'question description',
                                                 'questionOf': 'lot',
                                                 'relatedItem': self.initial_lots[0]['id'],
-                                                'author': test_bids_ua[0]['tenderers'][0]}
+                                                'author': test_bids[0]['tenderers'][0]}
                                        })
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -919,7 +919,7 @@ class CompetitiveDialogUELotQuestionResourceTest(BaseCompetitiveDialogEUContentW
                                                 'description': 'question description',
                                                 'questionOf': 'lot',
                                                 'relatedItem': self.initial_lots[1]['id'],
-                                                'author': test_bids_ua[0]['tenderers'][0]}
+                                                'author': test_bids[0]['tenderers'][0]}
                                        })
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
