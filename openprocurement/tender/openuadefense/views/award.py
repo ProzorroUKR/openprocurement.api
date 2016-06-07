@@ -128,7 +128,8 @@ class TenderUaAwardResource(TenderAwardResource):
                 tender.status = 'active.qualification'
                 tender.awardPeriod.endDate = None
             now = get_now()
-            award.complaintPeriod.endDate = now
+            if award.complaintPeriod.endDate > now:
+                award.complaintPeriod.endDate = now
             cancelled_awards = []
             for i in tender.awards:
                 if i.lotID != award.lotID:
