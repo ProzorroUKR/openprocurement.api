@@ -40,8 +40,6 @@ roles = {
     'active.pre-qualification.stand-still': pre_qualifications_role,
     'draft': enquiries_role,
     'active.tendering': enquiries_role,
-    'active.qualification': view_role,
-    'active.awarded': view_role,
     'complete': view_role,
     'unsuccessful': view_role,
     'cancelled': view_role,
