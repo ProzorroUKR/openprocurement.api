@@ -165,7 +165,7 @@ class ContractsResource(APIResource):
         if save_contract(self.request):
             self.LOGGER.info('Created contract {} ({})'.format(contract.id, contract.contractID),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_create'},
-                                                  {'contract_id': contract.id, 'contractID': contract.contractID}))
+                                                  {'contract_id': contract.id, 'contractID': contract.contractID or ''}))
             self.request.response.status = 201
             return {
                 'data': contract.serialize("view"),
