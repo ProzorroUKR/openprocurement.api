@@ -26,14 +26,6 @@ edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 roles = {
     'plain': plain_role,
     'create': create_role,
-    'edit': edit_role_ua,
-    'edit_draft': draft_role,
-    'edit_active.tendering': edit_role_ua,
-    'edit_active.qualification': whitelist(),
-    'edit_active.awarded': whitelist(),
-    'edit_complete': whitelist(),
-    'edit_unsuccessful': whitelist(),
-    'edit_cancelled': whitelist(),
     'view': view_role,
     'listing': listing_role,
     'active.pre-qualification': pre_qualifications_role,
@@ -86,8 +78,8 @@ class Bid(BidEU):
 class Tender(TenderEU):
     procurementMethodType = StringType(default="competitiveDialogue.aboveThresholdEU")
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
-                                 'active.pre-qualification.stand-still', 'active.qualification',
-                                 'active.awarded', 'complete', 'cancelled', 'unsuccessful'],
+                                 'active.pre-qualification.stand-still',
+                                 'complete', 'cancelled', 'unsuccessful'],
                         default='active.tendering')
     # A list of all the companies who entered submissions for the tender.
     bids = SifterListType(ModelType(Bid), default=list(),
