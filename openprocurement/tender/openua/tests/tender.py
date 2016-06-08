@@ -1224,7 +1224,7 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
-    def test_one_invalid_bid_tender(self):
+    def test_1invalid_and_1draft_bids_tender(self):
         self.app.authorization = ('Basic', ('broker', ''))
         # empty tenders listing
         response = self.app.get('/tenders')
@@ -1238,6 +1238,11 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_organization], "value": {"amount": 500}}})
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True, 'status': 'draft',
                                                 'tenderers': [test_organization], "value": {"amount": 500}}})
         # switch to active.qualification
         self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
