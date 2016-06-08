@@ -16,9 +16,9 @@ from openprocurement.tender.openeu.tests.base import (test_tender_data as base_t
                                                       test_bids as test_bids_eu)
 
 now = datetime.now()
-test_tender_data_eu = base_test_tender_data_eu.copy()
+test_tender_data_eu = deepcopy(base_test_tender_data_eu)
 test_tender_data_eu["procurementMethodType"] = "competitiveDialogue.aboveThresholdEU"
-test_tender_data_ua = base_test_tender_data_eu.copy()
+test_tender_data_ua = deepcopy(base_test_tender_data_eu)
 del test_tender_data_ua["title_en"]
 test_tender_data_ua["procurementMethodType"] = "competitiveDialogue.aboveThresholdUA"
 test_tender_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
@@ -236,36 +236,6 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
                     "startDate": (now + COMPLAINT_STAND_STILL).isoformat()
                 }
             })
-        elif status == 'active.qualification':
-            data.update({
-                "enquiryPeriod": {
-                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
-                    "endDate": (now - QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat()
-                },
-                "tenderPeriod": {
-                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
-                    "endDate": (now - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat()
-                },
-                "auctionPeriod": {
-                    "startDate": (now - timedelta(days=1)).isoformat(),
-                    "endDate": (now).isoformat()
-                },
-                "awardPeriod": {
-                    "startDate": (now).isoformat()
-                }
-            })
-            if self.initial_lots:
-                data.update({
-                    'lots': [
-                        {
-                            "auctionPeriod": {
-                                "startDate": (now - timedelta(days=1)).isoformat(),
-                                "endDate": (now).isoformat()
-                            }
-                        }
-                        for i in self.initial_lots
-                    ]
-                })
         elif status == 'active.auction':
             data.update({
                 "enquiryPeriod": {
