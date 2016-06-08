@@ -7,6 +7,7 @@ from openprocurement.api.utils import (
     check_tender_status,
     error_handler,
     context_unpack,
+    remove_draft_bids
 )
 from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status
 from openprocurement.tender.openeu.models import Qualification
@@ -89,6 +90,7 @@ def all_bids_are_reviewed(request):
         return all([
             lotValue.status != 'pending'
             for bid in request.validated['tender'].bids
+            if bid.status not in ['invalid', 'deleted']
             for lotValue in bid.lotValues
             if lotValue.relatedLot in active_lots
         ])
@@ -109,6 +111,7 @@ def check_status(request):
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.pre-qualification'}))
         tender.status = 'active.pre-qualification'
         tender.qualificationPeriod = type(tender).qualificationPeriod({'startDate': now})
+        remove_draft_bids(request)
         check_initial_bids_count(request)
         prepare_qualifications(request)
         return

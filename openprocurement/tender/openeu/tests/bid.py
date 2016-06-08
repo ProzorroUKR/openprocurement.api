@@ -163,9 +163,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
                                           {'data': {'selfEligible': True, 'selfQualified': True,
                                                     'tenderers': test_bids[0]['tenderers'],
                                                     'value': {"amount": 500},
-                                                    'status': status}})
-            self.assertEqual(response.status, '201 Created')
-            self.assertEqual(response.json['data']['status'], 'pending')
+                                                    'status': status}}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
 
         self.set_status('complete')
 

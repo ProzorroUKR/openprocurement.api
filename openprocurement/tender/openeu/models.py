@@ -47,7 +47,7 @@ COMPLAINT_STAND_STILL = timedelta(days=10)
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
-        if data['status'] in ('deleted', 'invalid'):
+        if data['status'] in ('deleted', 'invalid', 'draft'):
             # skip not valid bids
             return
         tender = data['__parent__']
@@ -271,7 +271,7 @@ class Bid(BaseBid):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
+            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
             'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'subcontractingDetails'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
@@ -297,7 +297,7 @@ class Bid(BaseBid):
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
     subcontractingDetails = StringType()
-    status = StringType(choices=['pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
+    status = StringType(choices=['draft','pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
                         default='pending')
 
     def serialize(self, role=None):
@@ -307,7 +307,7 @@ class Bid(BaseBid):
 
     @serializable(serialized_name="status")
     def serialize_status(self):
-        if self.status in ['invalid', 'deleted'] or self.__parent__.status in ['active.tendering', 'cancelled']:
+        if self.status in ['draft', 'invalid', 'deleted'] or self.__parent__.status in ['active.tendering', 'cancelled']:
             return self.status
         if self.__parent__.lots:
             active_lots = [lot.id for lot in self.__parent__.lots if lot.status in ('active', 'complete',)]
@@ -584,5 +584,5 @@ class Tender(BaseTender):
         self.check_auction_time()
         self.enquiryPeriod.invalidationDate = get_now()
         for bid in self.bids:
-            if bid.status != "deleted":
+            if bid.status not in ["deleted", "draft"]:
                 bid.status = "invalid"
