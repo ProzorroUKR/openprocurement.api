@@ -7,16 +7,19 @@ from copy import deepcopy
 from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass
 from openprocurement.api.utils import apply_data_patch
 from openprocurement.api.models import get_now, SANDBOX_MODE
-from openprocurement.tender.competitivedialogue.models import (TENDERING_DAYS, TENDERING_DURATION,
-                                                               QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL)
+from openprocurement.tender.openeu.models import (TENDERING_DURATION, QUESTIONS_STAND_STILL,
+                                                  COMPLAINT_STAND_STILL)
 
-from openprocurement.tender.openua.tests.base import test_tender_data as base_test_tender_data_ua
-from openprocurement.tender.openeu.tests.base import test_tender_data as base_test_tender_data_eu
+from openprocurement.tender.openeu.tests.base import (test_tender_data as base_test_tender_data_eu,
+                                                      test_features_tender_data,
+                                                      test_bids,
+                                                      test_bids as test_bids_eu)
 
 now = datetime.now()
 test_tender_data_eu = base_test_tender_data_eu.copy()
 test_tender_data_eu["procurementMethodType"] = "competitiveDialogue.aboveThresholdEU"
-test_tender_data_ua = base_test_tender_data_ua.copy()
+test_tender_data_ua = base_test_tender_data_eu.copy()
+del test_tender_data_ua["title_en"]
 test_tender_data_ua["procurementMethodType"] = "competitiveDialogue.aboveThresholdUA"
 test_tender_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
 
@@ -263,6 +266,35 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
                         for i in self.initial_lots
                     ]
                 })
+        elif status == 'active.auction':
+            data.update({
+                "enquiryPeriod": {
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat(),
+                    "endDate": (now - COMPLAINT_STAND_STILL - TENDERING_DURATION + QUESTIONS_STAND_STILL).isoformat()
+                },
+                "tenderPeriod": {
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat(),
+                    "endDate": (now - COMPLAINT_STAND_STILL).isoformat()
+                },
+                "qualificationPeriod": {
+                    "startDate": (now - COMPLAINT_STAND_STILL).isoformat(),
+                    "endDate": (now).isoformat()
+                },
+                "auctionPeriod": {
+                    "startDate": (now).isoformat()
+                }
+            })
+            if self.initial_lots:
+                data.update({
+                    'lots': [
+                        {
+                            "auctionPeriod": {
+                                "startDate": (now).isoformat()
+                            }
+                        }
+                        for i in self.initial_lots
+                        ]
+                })
         elif status == 'active.awarded':
             data.update({
                 "enquiryPeriod": {
@@ -371,3 +403,7 @@ class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
     def setUp(self):
         super(BaseCompetitiveDialogEUContentWebTest, self).setUp()
         self.create_tender()
+
+
+test_features_tender_eu_data = test_features_tender_data.copy()
+test_features_tender_eu_data['procurementMethodType'] = "competitiveDialogue.aboveThresholdEU"

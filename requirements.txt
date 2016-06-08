@@ -48,3 +48,4 @@ git+https://github.com/openprocurement/python-json-patch.git
 git+https://github.com/openprocurement/rfc6266.git
 -e git+https://github.com/openprocurement/openprocurement.api.git@master#egg=openprocurement.api 
 -e git+https://github.com/openprocurement/openprocurement.tender.openua.git@master#egg=openprocurement.tender.openua
+-e git+https://github.com/openprocurement/openprocurement.tender.openeu.git@master#egg=openprocurement.tender.openeu

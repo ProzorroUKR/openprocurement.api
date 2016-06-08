@@ -61,7 +61,6 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
       Check base work with tender. (crete, get, edit)
     """
 
-
     initial_auth = ('Basic', ('broker', ''))
 
     def test_empty_listing(self):
@@ -654,6 +653,24 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         tender = response.json['data']
         self.assertEqual(tender['status'], 'active.tendering')
 
+    def test_path_complete_tender(self):
+        """
+          Try update dialog when status is complete
+        """
+        response = self.app.post_json('/tenders', {'data': test_tender_data_ua})
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        self.tender_id = tender['id']
+        self.set_status('complete')
+        response = self.app.patch_json('/tenders/{tender_id}?acc_token={token}'.format(tender_id=tender['id'],
+                                                                                       token=owner_token),
+                                       {'data': {'guarantee': None}},
+                                       status=403)
+
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (complete) status")
+
     def test_create_tender(self):
         """
         Create tender with every possible way
@@ -1208,10 +1225,9 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         tender = response.json['data']
         owner_token = response.json['access']['token']
 
-        # TODO: Add cancellations.py, and after remove commit
-        # response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender['id'], owner_token), {'data': {'reason': 'cancellation reason', 'status': 'active'}})
-        # self.assertEqual(response.status, '201 Created')
-        # self.assertEqual(response.content_type, 'application/json')
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender['id'], owner_token), {'data': {'reason': 'cancellation reason', 'status': 'active'}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
 
         self.app.authorization = ('Basic', ('administrator', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'mode': u'test'}})
@@ -1705,10 +1721,10 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
             {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."]}], u'location': u'body', u'name': u'items'}
         ])
 
-        data = test_organization["contactPoint"]["telephone"]
-        del test_organization["contactPoint"]["telephone"]
+        data = test_tender_data_ua["procuringEntity"]["contactPoint"]["telephone"]
+        del test_tender_data_ua["procuringEntity"]["contactPoint"]["telephone"]
         response = self.app.post_json(request_path, {'data': test_tender_data_ua}, status=422)
-        test_organization["contactPoint"]["telephone"] = data
+        test_tender_data_ua["procuringEntity"]["contactPoint"]["telephone"] = data
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -2302,19 +2318,57 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         self.assertEqual(response.json['data']['guarantee']['amount'], 100)
         self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
 
+    def test_path_complete_tender(self):
+        """
+          Try update dialog when status is complete
+        """
+        response = self.app.post_json('/tenders', {'data': test_tender_data_ua})
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        self.tender_id = tender['id']
+        self.set_status('complete')
+        response = self.app.patch_json('/tenders/{tender_id}?acc_token={token}'.format(tender_id=tender['id'],
+                                                                                       token=owner_token),
+                                       {'data': {'guarantee': None}},
+                                       status=403)
+
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (complete) status")
+
+    # def test_owner_update_status(self): # TODO: uncommit when path with status will be return 403
+    #     """
+    #       Try update status by owner
+    #     """
+    #     response = self.app.post_json('/tenders', {'data': test_tender_data_ua})
+    #     tender = response.json['data']
+    #     response = self.app.patch_json('/tenders/{}'.format(tender['id']),
+    #                                    {'data': {'status': 'complete'}},
+    #                                    status=403)
+    #
+    #     self.assertEqual(response.status, '403 Forbidden')
+    #     self.assertEqual(response.content_type, 'application/json')
+    #     self.assertEqual(response.json['description'], "Can't update tender status")
+
     def test_tender_Administrator_change(self):
         response = self.app.post_json('/tenders', {'data': test_tender_data_ua})
         self.assertEqual(response.status, '201 Created')
         tender = response.json['data']
 
-        response = self.app.post_json('/tenders/{}/questions'.format(tender['id']), {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}})
+        response = self.app.post_json('/tenders/{}/questions'.format(tender['id']),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'author': test_organization}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
 
         authorization = self.app.authorization
         self.app.authorization = ('Basic', ('administrator', ''))
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'mode': u'test', 'procuringEntity': {"identifier":{"id": "00000000"}}}})
+        response = self.app.patch_json('/tenders/{}'.format(tender['id']),
+                                       {'data': {'mode': u'test',
+                                                 'procuringEntity': {"identifier": {"id": "00000000"}}}
+                                        })
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['mode'], u'test')
@@ -2333,17 +2387,40 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         tender = response.json['data']
         owner = response.json['access']['token']
 
-        # TODO: Add cancellations.py, and after remove commit
-        # response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
-        #     tender['id'], owner), {'data': {'reason': 'cancellation reason', 'status': 'active'}})
-        # self.assertEqual(response.status, '201 Created')
-        # self.assertEqual(response.content_type, 'application/json')
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
+            tender['id'], owner), {'data': {'reason': 'cancellation reason', 'status': 'active'}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
 
         self.app.authorization = ('Basic', ('administrator', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'mode': u'test'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['mode'], u'test')
+
+    def test_update_status_complete_owner(self):
+        """
+        Try update dialog status by owner, when it's complete
+        """
+        # Create tender
+        response = self.app.post_json('/tenders', {'data': test_tender_data_ua})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        tender = response.json['data']
+        token = response.json['access']['token']
+        self.tender_id = tender['id']
+
+        self.set_status('complete')
+
+        response = self.app.get('/tenders/{tender_id}'.format(tender_id=self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['status'], 'complete')
+        response = self.app.patch_json('/tenders/{tender_id}?acc_token={token}'.format(tender_id=self.tender_id,
+                                                                                       token=token),
+                                       {'data': {"status": "active.pre-qualification"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]['description'], "Can't update tender in current (complete) status")
 
 
 def suite():
