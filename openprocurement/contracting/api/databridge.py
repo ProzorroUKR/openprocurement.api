@@ -185,7 +185,7 @@ class ContractingDataBridge(object):
                                                                                                             "CONTRACT_ID": contract['id']}))
                             continue
 
-                            contract['tender_id'] = tender['id']
+                        contract['tender_id'] = tender['id']
                         contract['procuringEntity'] = tender['procuringEntity']
 
                         if not contract.get('items'):
