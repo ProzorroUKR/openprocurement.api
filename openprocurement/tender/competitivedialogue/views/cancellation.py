@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import opresource
-from openprocurement.api.views.cancellation import TenderCancellationResource
-from openprocurement.tender.competitivedialogue.utils import (cancellation_ua_cancel_lot, cancellation_eu_cancel_lot,
-                                                              cancellation_eu_cancel_tender)
+from openprocurement.tender.openeu.views.cancellation import TenderCancellationResource
 
 
 @opresource(name='Competitive Dialogue UA Cancellations',
@@ -11,9 +9,7 @@ from openprocurement.tender.competitivedialogue.utils import (cancellation_ua_ca
             procurementMethodType='competitiveDialogue.aboveThresholdUA',
             description="Competitive Dialogue UA cancellations")
 class CompetitiveDialogueUACancellationResource(TenderCancellationResource):
-
-    def cancel_lot(self, cancellation=None):
-        return cancellation_ua_cancel_lot(self, cancellation=cancellation)
+    pass
 
 
 @opresource(name='Competitive Dialogue EU Cancellations',
@@ -23,9 +19,4 @@ class CompetitiveDialogueUACancellationResource(TenderCancellationResource):
             description="Competitive Dialogue UE cancellations")
 class CompetitiveDialogueEUCancellationResource(TenderCancellationResource):
     """ TenderEU Cancellations """
-
-    def cancel_tender(self):
-        return cancellation_eu_cancel_tender(self)
-
-    def cancel_lot(self, cancellation=None):
-        return cancellation_eu_cancel_lot(self, cancellation=cancellation)
+    pass

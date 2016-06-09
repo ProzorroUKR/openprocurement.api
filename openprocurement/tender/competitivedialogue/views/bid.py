@@ -27,7 +27,7 @@ class CompetitiveDialogueEUBidResource(BaseResourceEU):
             path='/tenders/{tender_id}/bids/{bid_id}',
             procurementMethodType='competitiveDialogue.aboveThresholdUA',
             description="Competitive Dialogue UA bids")
-class CompetitiveDialogueUABidResource(BaseResourceUA):
+class CompetitiveDialogueUABidResource(BaseResourceEU):
     """ Tender EU bids """
     pass
 
