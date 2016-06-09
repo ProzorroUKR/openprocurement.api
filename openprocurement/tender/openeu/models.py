@@ -284,7 +284,8 @@ class Bid(BaseBid):
             'active.qualification': view_bid_role,
             'active.awarded': view_bid_role,
             'complete': view_bid_role,
-            'unsuccessful':  whitelist('id', 'status', 'tenderers', 'parameters', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
+            'unsuccessful': view_bid_role,
+            'bid.unsuccessful':  whitelist('id', 'status', 'tenderers', 'parameters', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
             'cancelled': view_bid_role,
             'invalid': whitelist('id', 'status'),
             'deleted': whitelist('id', 'status'),
@@ -303,6 +304,8 @@ class Bid(BaseBid):
     def serialize(self, role=None):
         if role and role != 'create' and self.status in ['invalid', 'deleted']:
             role = self.status
+        elif role and role != 'create' and self.status == 'unsuccessful':
+            role = 'bid.unsuccessful'
         return super(Bid, self).serialize(role)
 
     @serializable(serialized_name="status")

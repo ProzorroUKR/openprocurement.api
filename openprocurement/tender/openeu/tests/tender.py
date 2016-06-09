@@ -1269,6 +1269,7 @@ class TenderProcessTest(BaseTenderWebTest):
         response = self.app.get('/tenders/{}/bids/{}'.format(tender_id, qualifications[1]['bidID']))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "unsuccessful")
+        self.assertNotIn('value', response.json['data'])
         # switch to next status
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_owner_token),
                                        {"data": {"status": "active.pre-qualification.stand-still"}})

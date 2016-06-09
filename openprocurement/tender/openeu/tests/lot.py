@@ -770,7 +770,7 @@ class TenderLotBidderResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bidder['id'], bid_token))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']['lotValues'][0]["value"]["amount"], 400)
+        self.assertNotIn('lotValues', response.json['data'])
 
         response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bidder['id'], bid_token), {"data": {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}], 'status': 'active'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
@@ -1466,8 +1466,7 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
         bid_id = bids[2].keys()[0]
         bid_token = bids[2].values()[0]
         response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token))
-        self.assertNotEqual(response.json['data']['lotValues'][0].get('participationUrl', None), 'https://tender.auction.url/for_bid/{}'.format(bid_id))
-        self.assertEqual(response.json['data']['lotValues'][0].get('participationUrl', None), None)
+        self.assertNotIn('lotValues', response.json['data'])
 
         # posting auction results
         self.app.authorization = ('Basic', ('auction', ''))
