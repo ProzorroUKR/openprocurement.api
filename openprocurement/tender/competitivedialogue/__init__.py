@@ -1,6 +1,5 @@
 from logging import getLogger
 from pkg_resources import get_distribution
-from openprocurement.tender.competitivedialogue.models import CompetitiveDialogUA, CompetitiveDialogEU
 
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
@@ -12,6 +11,7 @@ def includeme(config):
     :param config: Pyramid server configuration
     :return:
     """
+    from openprocurement.tender.competitivedialogue.models import CompetitiveDialogUA, CompetitiveDialogEU
     LOGGER.info('init competitivedialogue plugin')
     # add two types of Competitive Dialogue
     config.add_tender_procurementMethodType(CompetitiveDialogUA)

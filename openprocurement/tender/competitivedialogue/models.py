@@ -84,6 +84,7 @@ class Tender(TenderEU):
     # A list of all the companies who entered submissions for the tender.
     bids = SifterListType(ModelType(Bid), default=list(),
                           filter_by='status', filter_in_values=['invalid', 'deleted'])
+    TenderID = StringType(required=False)
 
     class Options:
         roles = roles.copy()
