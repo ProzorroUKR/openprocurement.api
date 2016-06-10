@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-05-11T14:46:44.085706+03:00"
+      "endDate": "2016-06-26T15:46:21.093281+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -37,8 +37,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-15T14:46:44.085637+03:00", 
-          "endDate": "2016-06-14T14:46:44.085681+03:00"
+          "startDate": "2016-06-30T15:46:21.093225+03:00", 
+          "endDate": "2016-07-30T15:46:21.093258+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -78,18 +78,18 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/13fdc4f2938146e483ff50085c32736f
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/aa0e84dd40024261a583e096bbb5e69f
 {
   "access": {
-    "token": "2e3c80da04a74229866b3c4f6b1406b8"
+    "token": "7cc4b987b8e74c59bc53f7eb52160c22"
   }, 
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-04-25-000002", 
+    "tenderID": "UA-2016-06-10-000002", 
     "tenderPeriod": {
-      "startDate": "2016-04-25T14:47:06.383446+03:00", 
-      "endDate": "2016-05-11T14:46:44.085706+03:00"
+      "startDate": "2016-06-10T15:46:42.129522+03:00", 
+      "endDate": "2016-06-26T15:46:21.093281+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -98,13 +98,13 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/13fdc4f2938146e
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-04-25T14:47:06.383446+03:00", 
-      "clarificationsUntil": "2016-05-10T00:00:00+03:00", 
-      "endDate": "2016-05-01T14:46:44.085706+03:00"
+      "startDate": "2016-06-10T15:46:42.129522+03:00", 
+      "clarificationsUntil": "2016-06-22T15:46:21.093281+03:00", 
+      "endDate": "2016-06-16T15:46:21.093281+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-04-25T14:47:06.383446+03:00", 
-      "endDate": "2016-05-07T14:46:44.085706+03:00"
+      "startDate": "2016-06-10T15:46:42.129522+03:00", 
+      "endDate": "2016-06-22T15:46:21.093281+03:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
@@ -113,7 +113,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/13fdc4f2938146e
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-05-11T14:46:44.085706+03:00", 
+    "next_check": "2016-06-26T15:46:21.093281+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -136,10 +136,10 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/13fdc4f2938146e
       }
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-05-11T14:46:44.085706+03:00"
+      "shouldStartAfter": "2016-06-26T15:46:21.093281+03:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-04-25T14:47:06.504945+03:00", 
+    "dateModified": "2016-06-10T15:46:42.239125+03:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -163,10 +163,10 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/13fdc4f2938146e
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-15T14:46:44.085637+03:00", 
-          "endDate": "2016-06-14T14:46:44.085681+03:00"
+          "startDate": "2016-06-30T15:46:21.093225+03:00", 
+          "endDate": "2016-07-30T15:46:21.093258+03:00"
         }, 
-        "id": "926cdad2695a46f5952dfd52f93448cf", 
+        "id": "b5de388f82be42a1a19939ce99093f02", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -174,7 +174,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/13fdc4f2938146e
         "quantity": 1
       }
     ], 
-    "id": "13fdc4f2938146e483ff50085c32736f", 
+    "id": "aa0e84dd40024261a583e096bbb5e69f", 
     "awardCriteria": "lowestCost"
   }
 }
