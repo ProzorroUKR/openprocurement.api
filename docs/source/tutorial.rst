@@ -175,9 +175,13 @@ Registering bid
 
 Tender status ``active.tendering`` allows registration of bids.
 
-Bidder can register a bid:
+Bidder can register a bid with `draft` status:
 
 .. include:: tutorial/register-bidder.http
+   :code:
+anjd approve to pending status:
+
+.. include:: tutorial/activate-bidder.http
    :code:
 
 Proposal Uploading
