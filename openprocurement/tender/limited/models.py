@@ -230,7 +230,8 @@ NegotiationTender = Tender
 @implementer(ITender)
 class Tender(NegotiationTender):
     """ Negotiation """
-    cause = StringType(choices=['quick'], required=False)
+    cause = StringType(choices=['quick', 'artContestIP', 'noCompetition', 'twiceUnsuccessful',
+                                'additionalPurchase', 'additionalConstruction', 'stateLegalServices'], required=False)
     procurementMethodType = StringType(default="negotiation.quick")
     create_accreditation = 3
     edit_accreditation = 4
