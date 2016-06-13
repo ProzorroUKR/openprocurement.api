@@ -102,13 +102,15 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     def test_create_tender_award(self):
         request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
         response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
-                                                              'status': 'pending'}})
+                                                              'status': 'pending',
+                                                              'qualified': True}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         award = response.json['data']
         self.assertEqual(award['suppliers'][0]['name'], test_organization['name'])
         self.assertIn('id', award)
         self.assertIn(award['id'], response.headers['Location'])
+        self.assertEqual(award['qualified'], True)
 
         response = self.app.get(request_path)
         self.assertEqual(response.status, '200 OK')
