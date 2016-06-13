@@ -49,6 +49,7 @@ class Award(Model):
     title = StringType()  # Award title
     title_en = StringType()
     title_ru = StringType()
+    subcontractingDetails = StringType()
     description = StringType()  # Award description
     description_en = StringType()
     description_ru = StringType()
