@@ -28,6 +28,7 @@ from openprocurement.api.models import (
     TZ, get_now, schematics_embedded_role, validate_lots_uniq, draft_role,
     embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
     ComplaintModelType, validate_cpv_group, validate_items_uniq, Model,
+    rounding_shouldStartAfter,
 )
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.utils import (
@@ -121,7 +122,7 @@ class TenderAuctionPeriod(Period):
         if tender.lots or tender.status not in ['active.tendering', 'active.auction']:
             return
         if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
-            return calc_auction_end_time(tender.numberOfBids, self.startDate).isoformat()
+            start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
         else:
             decision_dates = [
                 datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
@@ -129,7 +130,8 @@ class TenderAuctionPeriod(Period):
                 if complaint.dateDecision
             ]
             decision_dates.append(tender.tenderPeriod.endDate)
-            return max(decision_dates).isoformat()
+            start_after = max(decision_dates)
+        return rounding_shouldStartAfter(start_after, tender).isoformat()
 
 
 class LotAuctionPeriod(Period):
@@ -144,7 +146,7 @@ class LotAuctionPeriod(Period):
         if tender.status not in ['active.tendering', 'active.auction'] or lot.status != 'active':
             return
         if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
-            return calc_auction_end_time(lot.numberOfBids, self.startDate).isoformat()
+            start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
         else:
             decision_dates = [
                 datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
@@ -152,7 +154,8 @@ class LotAuctionPeriod(Period):
                 if complaint.dateDecision
             ]
             decision_dates.append(tender.tenderPeriod.endDate)
-            return max(decision_dates).isoformat()
+            start_after = max(decision_dates)
+        return rounding_shouldStartAfter(start_after, tender).isoformat()
 
 
 class PeriodEndRequired(Model):
