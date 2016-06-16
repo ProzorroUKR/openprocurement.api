@@ -2,7 +2,7 @@
 import unittest
 from datetime import timedelta
 from openprocurement.api.models import get_now, SANDBOX_MODE
-from openprocurement.api import ROUTE_PREFIX
+from openprocurement.api.utils import ROUTE_PREFIX
 from openprocurement.api.tests.base import BaseWebTest, test_organization
 from openprocurement.tender.competitivedialogue.models import TenderUA, TenderEU
 

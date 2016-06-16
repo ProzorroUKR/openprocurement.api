@@ -9,5 +9,15 @@ from openprocurement.tender.openeu.views.qualification import TenderQualificatio
     path='/tenders/{tender_id}/qualifications/{qualification_id}',
     procurementMethodType='competitiveDialogue.aboveThresholdEU',
     description="Competitive Dialogue EU Qualification")
-class CompetitiveDialogueQualificationResource(TenderQualificationResource):
+class CompetitiveDialogueEUQualificationResource(TenderQualificationResource):
+    pass
+
+
+@qualifications_resource(
+    name='Competitive Dialogue UA Qualification',
+    collection_path='/tenders/{tender_id}/qualifications',
+    path='/tenders/{tender_id}/qualifications/{qualification_id}',
+    procurementMethodType='competitiveDialogue.aboveThresholdUA',
+    description="Competitive Dialogue UA Qualification")
+class CompetitiveDialogueUAQualificationResource(TenderQualificationResource):
     pass
