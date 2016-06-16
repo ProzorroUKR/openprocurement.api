@@ -374,12 +374,12 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(set(response.json['data'].keys()), set(['id', 'status', 'tenderers']))
 
-        # try switch to active.auction
-        self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
+        # try switch to active.waiting-stage2
+        self.set_status('active.waiting-stage2', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
                                        {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        self.assertEqual(response.json['data']['status'], "active.waiting-stage2")
 
         # switch to qualification
         self.app.authorization = ('Basic', ('auction', ''))
@@ -387,7 +387,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': {'bids': {}}}, status=404)  # Try update auction
 
         response = self.app.get('/tenders/{}'.format(self.tender_id))  # Get dialog and check status
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        self.assertEqual(response.json['data']['status'], "active.waiting-stage2")
 
     def test_deleted_bid_is_not_restorable(self):
         """
@@ -462,12 +462,11 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
                                        {"data": {"status": 'active.pre-qualification.stand-still'}})
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
 
-        # switch to active.auction
-        self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
+        # switch to active.waiting-stage2
+        self.set_status('active.waiting-stage2', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertNotEqual(response.json['data']['status'], "active.auction")  # dialog haven't status auction
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        self.assertEqual(response.json['data']['status'], "active.waiting-stage2")
 
         # switch to qualification
         self.app.authorization = ('Basic', ('auction', ''))
@@ -475,16 +474,18 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertNotEqual(response.json['data']['status'], "active.qualification")
-        self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
+        self.assertEqual(response.json['data']['status'], 'active.waiting-stage2')
 
         # check bids
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.app.authorization = ('Basic', ('anon', ''))
+        response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(len(response.json['data']['bids']), 3)
-        self.assertEqual(response.json['data']['bids'][0]['status'], 'deleted')
-        self.assertEqual(response.json['data']['bids'][1]['status'], 'active')
-        self.assertEqual(response.json['data']['bids'][2]['status'], 'active')
+        for b in response.json['data']:
+            if b['status'] in [u'invalid', u'deleted']:
+                self.assertEqual(set(b.keys()), set(['id', 'status']))
+            else:
+                self.assertEqual(set(b.keys()), set(['id', 'status', 'tenderers']))
 
     def test_get_tender_tenderers(self):
         # Create bid
@@ -526,12 +527,11 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
                                        {"data": {"status": 'active.pre-qualification.stand-still'}})
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
 
-        # switch to active.auction
-        self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
+        # switch to active.waiting-stage2
+        self.set_status('active.waiting-stage2', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertNotEqual(response.json['data']['status'], "active.auction")
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        self.assertEqual(response.json['data']['status'], "active.waiting-stage2")
 
         response = self.app.get('/tenders/some_id/bids', status=404)
         self.assertEqual(response.status, '404 Not Found')
@@ -631,31 +631,30 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
                                        {"data": {"status": 'active.pre-qualification.stand-still'}})
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
 
-        # switch to active.auction
-        self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
+        # switch to active.waiting-stage2
+        self.set_status('active.waiting-stage2', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(
             self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertNotEqual(response.json['data']['status'], "active.auction")
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        self.assertEqual(response.json['data']['status'], "active.waiting-stage2")
 
         # Try switch to qualification
         self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=404)
-
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertNotEqual(response.json['data']['status'], "active.auction")
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        self.assertEqual(response.json['data']['status'], "active.waiting-stage2")
 
         # tender should display all bids
-        self.assertEqual(len(response.json['data']['bids']), 4)
-        # invalidated bids should show only 'id' and 'status' fields
-        for bid in response.json['data']['bids']:
-            if bid['status'] == 'invalid':
-                self.assertTrue('id' in bid)
-                self.assertFalse('value' in bid)
-                self.assertFalse('tenderers' in bid)
-                self.assertFalse('date' in bid)
+        self.app.authorization = ('Basic', ('anon', ''))
+        response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 4)
+        for b in response.json['data']:
+            if b['status'] == u'invalid':
+                self.assertEqual(set(b.keys()), set(['id', 'status']))
+            else:
+                self.assertEqual(set(b.keys()), set(['id', 'status', 'tenderers']))
 
         # invalidated bids stay invalidated
         for bid_id, token in bids_access.items():

@@ -236,7 +236,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
                     "startDate": (now + COMPLAINT_STAND_STILL).isoformat()
                 }
             })
-        elif status == 'active.auction':
+        elif status == 'active.waiting-stage2':
             data.update({
                 "enquiryPeriod": {
                     "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat(),

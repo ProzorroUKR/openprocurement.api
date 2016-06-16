@@ -6,7 +6,7 @@ from zope.interface import implementer
 from schematics.types.compound import ModelType
 from openprocurement.api.models import ITender, get_now
 from openprocurement.tender.openua.models import Tender as TenderUA, SifterListType
-from openprocurement.tender.openeu.models import Tender as TenderEU
+from openprocurement.tender.openeu.models import Tender as TenderEU, Administrator_bid_role, view_bid_role
 from openprocurement.tender.openeu.models import TENDERING_DAYS, TENDERING_DURATION
 from openprocurement.tender.openua.utils import calculate_business_date
 from openprocurement.tender.openeu.models import Bid as BidEU, ConfidentialDocument
@@ -30,6 +30,9 @@ roles = {
     'listing': listing_role,
     'active.pre-qualification': pre_qualifications_role,
     'active.pre-qualification.stand-still': pre_qualifications_role,
+    'active.waiting-stage2': enquiries_role,
+    'active.ready-stage2': pre_qualifications_role,
+    'edit_active.waiting-stage2': pre_qualifications_role,
     'draft': enquiries_role,
     'active.tendering': enquiries_role,
     'complete': view_role,
@@ -66,20 +69,38 @@ class Document(ConfidentialDocument):
 
 
 class Bid(BidEU):
+    class Options:
+        roles = {
+            'Administrator': Administrator_bid_role,
+            'embedded': view_bid_role,
+            'view': view_bid_role,
+            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues',
+                                'status', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
+            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'subcontractingDetails'),
+            'active.enquiries': whitelist(),
+            'active.tendering': whitelist(),
+            'active.pre-qualification': whitelist('id', 'status', 'documents', 'tenderers'),
+            'active.pre-qualification.stand-still': whitelist('id', 'status', 'documents', 'tenderers'),
+            'active.auction': whitelist('id', 'status', 'documents', 'tenderers'),
+            'active.waiting-stage2': whitelist('id', 'status', 'documents', 'tenderers'),
+            'active.qualification': view_bid_role,
+            'complete': view_bid_role,
+            'unsuccessful': view_bid_role,
+            'bid.unsuccessful': whitelist('id', 'status', 'tenderers', 'parameters',
+                                          'selfQualified', 'selfEligible', 'subcontractingDetails'),
+            'cancelled': view_bid_role,
+            'invalid': whitelist('id', 'status'),
+            'deleted': whitelist('id', 'status'),
+        }
     documents = ListType(ModelType(Document), default=list())
-    # We must redefine all type of documents because openprocurement.api.utils.py №89
-    # always take Bid.documents as base model when create
-    financialDocuments = ListType(ModelType(Document), default=list())
-    eligibilityDocuments = ListType(ModelType(Document), default=list())
-    qualificationDocuments = ListType(ModelType(Document), default=list())
 
 
 @implementer(ITender)
 class Tender(TenderEU):
     procurementMethodType = StringType(default="competitiveDialogue.aboveThresholdEU")
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
-                                 'active.pre-qualification.stand-still',
-                                 'complete', 'cancelled', 'unsuccessful'],
+                                 'active.pre-qualification.stand-still', 'active.waiting-stage2',
+                                 'active.ready-stage2', 'complete', 'cancelled', 'unsuccessful'],
                         default='active.tendering')
     # A list of all the companies who entered submissions for the tender.
     bids = SifterListType(ModelType(Bid), default=list(),
