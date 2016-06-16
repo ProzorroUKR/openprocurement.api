@@ -3,7 +3,7 @@ import unittest
 from datetime import timedelta
 from openprocurement.api.models import get_now, SANDBOX_MODE
 from openprocurement.api import ROUTE_PREFIX
-from openprocurement.api.tests.base import BaseWebTest, test_organization
+from openprocurement.api.tests.base import BaseWebTest, test_organization, test_lots
 from openprocurement.tender.openua.models import Tender
 from openprocurement.tender.openua.tests.base import test_tender_data, BaseTenderUAWebTest
 from copy import deepcopy
@@ -1245,6 +1245,48 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         # get awards
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
+    def test_activate_bid_after_adding_lot(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        # empty tenders listing
+        response = self.app.get('/tenders')
+        self.assertEqual(response.json['data'], [])
+        # create tender
+        response = self.app.post_json('/tenders',
+                                      {"data": test_tender_data})
+        tender_id = self.tender_id = response.json['data']['id']
+        owner_token = response.json['access']['token']
+        # create bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [test_organization], "value": {"amount": 500}}})
+
+        bid_id = response.json['data']['id']
+        bid_token = response.json['access']['token']
+
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(
+            self.tender_id, owner_token), {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot_id = response.json['data']['id']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token))
+
+        self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token),
+                            {'data': {'status': 'active', 'value': None, 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
+
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token))
+
+        self.assertNotIn("value", response.json)
+        # switch to active.qualification
+        self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
+        # get awards
+        self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
 
     def test_first_bid_tender(self):
         self.app.authorization = ('Basic', ('broker', ''))
