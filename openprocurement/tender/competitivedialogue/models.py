@@ -30,9 +30,9 @@ roles = {
     'listing': listing_role,
     'active.pre-qualification': pre_qualifications_role,
     'active.pre-qualification.stand-still': pre_qualifications_role,
-    'active.waiting-stage2': enquiries_role,
-    'active.ready-stage2': pre_qualifications_role,
-    'edit_active.waiting-stage2': pre_qualifications_role,
+    'active.stage2.pending': enquiries_role,
+    'active.stage2.waiting': pre_qualifications_role,
+    'edit_active.stage2.pending': pre_qualifications_role,
     'draft': enquiries_role,
     'active.tendering': enquiries_role,
     'complete': view_role,
@@ -82,7 +82,7 @@ class Bid(BidEU):
             'active.pre-qualification': whitelist('id', 'status', 'documents', 'tenderers'),
             'active.pre-qualification.stand-still': whitelist('id', 'status', 'documents', 'tenderers'),
             'active.auction': whitelist('id', 'status', 'documents', 'tenderers'),
-            'active.waiting-stage2': whitelist('id', 'status', 'documents', 'tenderers'),
+            'active.stage2.pending': whitelist('id', 'status', 'documents', 'tenderers'),
             'active.qualification': view_bid_role,
             'complete': view_bid_role,
             'unsuccessful': view_bid_role,
@@ -99,8 +99,8 @@ class Bid(BidEU):
 class Tender(TenderEU):
     procurementMethodType = StringType(default="competitiveDialogue.aboveThresholdEU")
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
-                                 'active.pre-qualification.stand-still', 'active.waiting-stage2',
-                                 'active.ready-stage2', 'complete', 'cancelled', 'unsuccessful'],
+                                 'active.pre-qualification.stand-still', 'active.stage2.pending',
+                                 'active.stage2.waiting', 'complete', 'cancelled', 'unsuccessful'],
                         default='active.tendering')
     # A list of all the companies who entered submissions for the tender.
     bids = SifterListType(ModelType(Bid), default=list(),

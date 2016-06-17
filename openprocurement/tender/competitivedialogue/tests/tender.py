@@ -1038,7 +1038,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'status': 'active.auction'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], [u"Value must be one of ['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.waiting-stage2', 'active.ready-stage2', 'complete', 'cancelled', 'unsuccessful']."])
+        self.assertEqual(response.json['errors'][0]["description"], [u"Value must be one of ['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.stage2.pending', 'active.stage2.waiting', 'complete', 'cancelled', 'unsuccessful']."])
 
     def test_patch_tender_eu(self):
         """
@@ -1313,20 +1313,20 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
         # time traver
-        self.set_status('active.waiting-stage2', {"id": tender_id, 'status': 'active.pre-qualification.stand-still'})
+        self.set_status('active.stage2.pending', {"id": tender_id, 'status': 'active.pre-qualification.stand-still'})
         # change tender state
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "active.waiting-stage2")
+        self.assertEqual(response.json['data']['status'], "active.stage2.pending")
 
         # get auction info
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.patch_json('/tenders/{tender_id}?acc_token={token}'.format(tender_id=tender_id,
                                                                                        token=tender_owner_token),
-                                       {"data": {"status": "active.ready-stage2"}})
+                                       {"data": {"status": "active.stage2.waiting"}})
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "active.ready-stage2")
+        self.assertEqual(response.json['data']['status'], "active.stage2.waiting")
 
     def test_try_go_to_ready_stage(self):
         # create tender
@@ -1410,7 +1410,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.patch_json('/tenders/{tender_id}?acc_token={token}'.format(tender_id=tender_id,
                                                                                        token=tender_owner_token),
-                                       {"data": {"status": "active.ready-stage2"}})
+                                       {"data": {"status": "active.stage2.waiting"}})
         self.assertEqual(response.status, "200 OK")
 
         # ensure that tender has been switched to "active.pre-qualification.stand-still"
@@ -2365,7 +2365,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'status': 'active.auction'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], [u"Value must be one of ['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.waiting-stage2', 'active.ready-stage2', 'complete', 'cancelled', 'unsuccessful']."])
+        self.assertEqual(response.json['errors'][0]["description"], [u"Value must be one of ['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.stage2.pending', 'active.stage2.waiting', 'complete', 'cancelled', 'unsuccessful']."])
 
     def test_patch_tender_ua(self):
         response = self.app.post_json('/tenders', {'data': test_tender_data_ua})

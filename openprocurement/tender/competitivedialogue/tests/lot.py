@@ -1159,7 +1159,7 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
                                    {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
         self.assertIn("auctionPeriod", response.json['data']['lots'][0])
         # switch to unsuccessful
-        response = self.set_status('active.waiting-stage2', {"lots": [{"auctionPeriod": {"startDate": None}}],
+        response = self.set_status('active.stage2.pending', {"lots": [{"auctionPeriod": {"startDate": None}}],
                                                       'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
@@ -2879,7 +2879,7 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
                                    {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
         self.assertIn("auctionPeriod", response.json['data']['lots'][0])
         # switch to unsuccessful
-        response = self.set_status('active.waiting-stage2', {"lots": [{"auctionPeriod": {"startDate": None}}],
+        response = self.set_status('active.stage2.pending', {"lots": [{"auctionPeriod": {"startDate": None}}],
                                                              'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})

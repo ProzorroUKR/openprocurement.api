@@ -236,7 +236,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
                     "startDate": (now + COMPLAINT_STAND_STILL).isoformat()
                 }
             })
-        elif status == 'active.waiting-stage2':
+        elif status == 'active.stage2.pending':
             data.update({
                 "enquiryPeriod": {
                     "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat(),
@@ -249,9 +249,6 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
                 "qualificationPeriod": {
                     "startDate": (now - COMPLAINT_STAND_STILL).isoformat(),
                     "endDate": (now).isoformat()
-                },
-                "auctionPeriod": {
-                    "startDate": (now).isoformat()
                 }
             })
             if self.initial_lots:
