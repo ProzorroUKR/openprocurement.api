@@ -13,7 +13,6 @@ from openprocurement.tender.openeu.utils import check_initial_bids_count, prepar
 LOGGER = getLogger(__name__)
 
 
-# TODO: move to openprocurement.api (utils.py) and use in openeu plugin
 def patch_eu(self):
     """Tender Edit (partial)
 
@@ -70,7 +69,7 @@ def patch_eu(self):
         return
     data = self.request.validated['data']
     if self.request.authenticated_role == 'tender_owner' and 'status' in data and \
-            data['status'] not in ['active.pre-qualification.stand-still', tender.status]:
+            data['status'] not in ['active.pre-qualification.stand-still', 'active.stage2.waiting', tender.status]:
         self.request.errors.add('body', 'data', 'Can\'t update tender status')
         self.request.errors.status = 403
         return
@@ -129,13 +128,12 @@ def check_status(request):
         prepare_qualifications(request)
         return
 
-    # elif tender.status == 'active.pre-qualification.stand-still' and tender.qualificationPeriod and tender.qualificationPeriod.endDate <= now and not any([
-    #     i.status in BLOCK_COMPLAINT_STATUS
-    #     for q in tender.qualifications
-    #     for i in q.complaints
-    # ]):
-    #     LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
-    #                 extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
-    #     tender.status = 'active.auction'
-    #     check_initial_bids_count(request)
-    #     return
+    elif tender.status == 'active.pre-qualification.stand-still' and tender.qualificationPeriod and tender.qualificationPeriod.endDate <= now and not any([
+        i.status in BLOCK_COMPLAINT_STATUS
+        for q in tender.qualifications
+        for i in q.complaints
+    ]):
+        LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.stage2.pending'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
+        tender.status = 'active.stage2.pending'
+        return

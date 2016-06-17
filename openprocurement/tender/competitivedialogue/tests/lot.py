@@ -1159,7 +1159,7 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
                                    {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
         self.assertIn("auctionPeriod", response.json['data']['lots'][0])
         # switch to unsuccessful
-        response = self.set_status('active.auction', {"lots": [{"auctionPeriod": {"startDate": None}}],
+        response = self.set_status('active.stage2.pending', {"lots": [{"auctionPeriod": {"startDate": None}}],
                                                       'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
@@ -1296,7 +1296,7 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
                                                 'tenderers': test_bids[1]["tenderers"],
                                                 'lotValues': [{"value": {"amount": 475},
                                                                'relatedLot': lot_id}]}})
-        # switch to active.auction
+        # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
@@ -1402,7 +1402,7 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         response = self.app.delete('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bids[2].keys()[0],
                                                                              bids[2].values()[0]))
         self.assertEqual(response.status, '200 OK')
-        # switch to active.auction
+        # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
@@ -1456,7 +1456,7 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
                                                                    'relatedLot': lot_id}]}})
             bids.append({response.json['data']['id']: response.json['access']['token']})
 
-        # switch to active.auction
+        # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
@@ -2879,8 +2879,8 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
                                    {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
         self.assertIn("auctionPeriod", response.json['data']['lots'][0])
         # switch to unsuccessful
-        response = self.set_status('active.auction', {"lots": [{"auctionPeriod": {"startDate": None}}],
-                                                      'status': 'active.tendering'})
+        response = self.set_status('active.stage2.pending', {"lots": [{"auctionPeriod": {"startDate": None}}],
+                                                             'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.json['data']["lots"][0]['status'], 'unsuccessful')
@@ -3016,7 +3016,7 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
                                                 'tenderers': test_bids[1]["tenderers"],
                                                 'lotValues': [{"value": {"amount": 475},
                                                                'relatedLot': lot_id}]}})
-        # switch to active.auction
+        # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
@@ -3122,7 +3122,7 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         response = self.app.delete('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bids[2].keys()[0],
                                                                              bids[2].values()[0]))
         self.assertEqual(response.status, '200 OK')
-        # switch to active.auction
+        # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
@@ -3176,7 +3176,7 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
                                                                    'relatedLot': lot_id}]}})
             bids.append({response.json['data']['id']: response.json['access']['token']})
 
-        # switch to active.auction
+        # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
