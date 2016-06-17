@@ -170,6 +170,8 @@ class ContractingDataBridge(object):
 
                         contract['tender_id'] = tender['id']
                         contract['procuringEntity'] = tender['procuringEntity']
+                        if tender.get('mode'):
+                            contract['mode'] = tender['mode']
 
                         if not contract.get('items'):
                             logger.info('Copying contract {} items'.format(contract['id']), extra={"CONTRACT_ID": contract['id']})
@@ -213,8 +215,6 @@ class ContractingDataBridge(object):
                 logger.debug("Got extra info for tender {}".format(contract['tender_id']),
                              extra={"TENDER_ID": contract['tender_id']})
                 data = tender_data.data
-                if data.get('mode'):
-                    contract['mode'] = data['mode']
                 contract['owner'] = data['owner']
                 contract['tender_token'] = data['tender_token']
                 self.contracts_put_queue.put(contract)
