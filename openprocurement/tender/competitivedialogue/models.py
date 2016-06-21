@@ -6,14 +6,12 @@ from schematics.types.compound import ModelType
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.models import SifterListType, Item as BaseItem
 from openprocurement.tender.openeu.models import (Tender as TenderEU, Administrator_bid_role, view_bid_role,
-                                                  Identifier as BaseIdentifier,
-                                                  Organization as BaseOrganization,
-                                                  ContactPoint as BaseContactPoint,
-                                                  Bid as BidEU, ConfidentialDocument)
+                                                  Organization as BaseOrganization, Bid as BidEU, ConfidentialDocument)
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     enquiries_role, validate_cpv_group, validate_items_uniq,
     chronograph_role, chronograph_view_role,
+    Identifier as BaseIdentifier, ContactPoint as BaseContactPoint,
     Administrator_role, schematics_default_role,
     schematics_embedded_role, ListType, BooleanType
 )
@@ -45,24 +43,12 @@ roles = {
 }
 
 
-class Identifier(BaseIdentifier):
-    """Redefinition model Identifier for UA dialogue"""
-
-    legalName_en = StringType()  # not required for UA dialogue
-
-
-class ContactPoint(BaseContactPoint):
-    """Redefinition model ContactPoint for UA dialogue"""
-
-    name_en = StringType()  # not required for UA dialogue
-
-
 class Organization(BaseOrganization):
     """Redefinition model Organization for UA dialogue"""
 
     name_en = StringType()  # not required for UA dialogue
-    identifier = ModelType(Identifier, required=True)
-    contactPoint = ModelType(ContactPoint, required=True)
+    identifier = ModelType(BaseIdentifier, required=True)
+    contactPoint = ModelType(BaseContactPoint, required=True)
 
 
 class ProcuringEntity(Organization):
@@ -76,12 +62,6 @@ class ProcuringEntity(Organization):
         }
 
     kind = StringType(choices=['general', 'special', 'defense', 'other'])
-
-
-class Item(BaseItem):
-    """Redefinition object Item for UA dialogue"""
-
-    description_en = StringType()
 
 
 class Document(ConfidentialDocument):
@@ -157,7 +137,7 @@ CompetitiveDialogEU = Tender
 class Tender(CompetitiveDialogEU):
     procurementMethodType = StringType(default="competitiveDialogue.aboveThresholdUA")
     title_en = StringType()
-    items = ListType(ModelType(Item), required=True, min_size=1,
+    items = ListType(ModelType(BaseItem), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])
     procuringEntity = ModelType(ProcuringEntity, required=True)
 
