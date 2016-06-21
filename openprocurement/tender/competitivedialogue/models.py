@@ -6,7 +6,7 @@ from schematics.types.compound import ModelType
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.models import SifterListType, Item as BaseItem
 from openprocurement.tender.openeu.models import (Tender as TenderEU, Administrator_bid_role, view_bid_role,
-                                                  Organization as BaseOrganization, Bid as BidEU, ConfidentialDocument)
+                                                  pre_qualifications_role, Bid as BidEU, ConfidentialDocument)
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     enquiries_role, validate_cpv_group, validate_items_uniq,
@@ -15,7 +15,10 @@ from openprocurement.api.models import (
     schematics_embedded_role, ListType, BooleanType
 )
 from schematics.transforms import whitelist, blacklist
-from openprocurement.tender.openeu.models import pre_qualifications_role
+
+# constants for procurementMethodtype
+CD_UA_TYPE = "competitiveDialogueUA"
+CD_EU_TYPE = "competitiveDialogueEU"
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 
@@ -93,7 +96,7 @@ class Bid(BidEU):
 
 @implementer(ITender)
 class Tender(TenderEU):
-    procurementMethodType = StringType(default="competitiveDialogue.aboveThresholdEU")
+    procurementMethodType = StringType(default=CD_EU_TYPE)
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
                                  'active.pre-qualification.stand-still', 'active.stage2.pending',
                                  'active.stage2.waiting', 'complete', 'cancelled', 'unsuccessful'],
@@ -112,7 +115,7 @@ CompetitiveDialogEU = Tender
 
 @implementer(ITender)
 class Tender(CompetitiveDialogEU):
-    procurementMethodType = StringType(default="competitiveDialogue.aboveThresholdUA")
+    procurementMethodType = StringType(default=CD_UA_TYPE)
     title_en = StringType()
     items = ListType(ModelType(BaseItem), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])
