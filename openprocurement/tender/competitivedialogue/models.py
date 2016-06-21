@@ -10,8 +10,7 @@ from openprocurement.tender.openeu.models import (Tender as TenderEU, Administra
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     enquiries_role, validate_cpv_group, validate_items_uniq,
-    chronograph_role, chronograph_view_role,
-    Identifier as BaseIdentifier, ContactPoint as BaseContactPoint,
+    chronograph_role, chronograph_view_role, ProcuringEntity as BaseProcuringEntity,
     Administrator_role, schematics_default_role,
     schematics_embedded_role, ListType, BooleanType
 )
@@ -41,28 +40,6 @@ roles = {
     'default': schematics_default_role,
     'contracting': whitelist('doc_id', 'owner'),
 }
-
-
-class Organization(BaseOrganization):
-    """Redefinition model Organization for UA dialogue"""
-
-    name_en = StringType()  # not required for UA dialogue
-    identifier = ModelType(BaseIdentifier, required=True)
-    contactPoint = ModelType(BaseContactPoint, required=True)
-
-
-class ProcuringEntity(Organization):
-    """Redefinition model ProcuringEntity for UA dialogue"""
-
-    class Options:
-        roles = {
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
-            'edit_active.tendering': schematics_default_role + blacklist("kind"),
-        }
-
-    kind = StringType(choices=['general', 'special', 'defense', 'other'])
-
 
 class Document(ConfidentialDocument):
     """ Document model with new feature as Description of the decision to purchase """
@@ -139,7 +116,7 @@ class Tender(CompetitiveDialogEU):
     title_en = StringType()
     items = ListType(ModelType(BaseItem), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])
-    procuringEntity = ModelType(ProcuringEntity, required=True)
+    procuringEntity = ModelType(BaseProcuringEntity, required=True)
 
 
 CompetitiveDialogUA = Tender
