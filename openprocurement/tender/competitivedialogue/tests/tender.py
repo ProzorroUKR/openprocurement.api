@@ -4,7 +4,7 @@ from datetime import timedelta
 from openprocurement.api.models import get_now, SANDBOX_MODE
 from openprocurement.api.utils import ROUTE_PREFIX
 from openprocurement.api.tests.base import BaseWebTest, test_organization
-from openprocurement.tender.competitivedialogue.models import TenderUA, TenderEU
+from openprocurement.tender.competitivedialogue.models import CompetitiveDialogUA, CompetitiveDialogEU
 
 from openprocurement.tender.competitivedialogue.tests.base import (test_tender_data_ua,
                                                                    test_tender_data_eu,
@@ -16,7 +16,7 @@ from copy import deepcopy
 class CompetitiveDialogTest(BaseWebTest):
 
     def test_simple_add_tender_ua(self):
-        u = TenderUA(test_tender_data_ua)
+        u = CompetitiveDialogUA(test_tender_data_ua)
         u.tenderID = "UA-X"
 
         assert u.id is None
@@ -36,7 +36,7 @@ class CompetitiveDialogTest(BaseWebTest):
         u.delete_instance(self.db)
 
     def test_simple_add_tender_eu(self):
-        u = TenderEU(test_tender_data_eu)
+        u = CompetitiveDialogEU(test_tender_data_eu)
         u.tenderID = "UA-X"
 
         assert u.id is None
