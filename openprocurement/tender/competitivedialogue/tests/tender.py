@@ -11,7 +11,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (test_tender_d
                                                                    BaseCompetitiveDialogEUWebTest,
                                                                    BaseCompetitiveDialogUAWebTest)
 from copy import deepcopy
-
+from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE
 
 class CompetitiveDialogTest(BaseWebTest):
 
@@ -31,7 +31,7 @@ class CompetitiveDialogTest(BaseWebTest):
 
         assert u.tenderID == fromdb['tenderID']
         assert u.doc_type == "Tender"
-        assert u.procurementMethodType == "competitiveDialogue.aboveThresholdUA"
+        assert u.procurementMethodType == CD_UA_TYPE
 
         u.delete_instance(self.db)
 
@@ -51,7 +51,7 @@ class CompetitiveDialogTest(BaseWebTest):
 
         assert u.tenderID == fromdb['tenderID']
         assert u.doc_type == "Tender"
-        assert u.procurementMethodType == "competitiveDialogue.aboveThresholdEU"
+        assert u.procurementMethodType == CD_EU_TYPE
 
         u.delete_instance(self.db)
 

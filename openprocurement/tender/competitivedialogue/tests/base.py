@@ -14,13 +14,14 @@ from openprocurement.tender.openeu.tests.base import (test_tender_data as base_t
                                                       test_features_tender_data,
                                                       test_bids,
                                                       test_bids as test_bids_eu)
+from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE
 
 now = datetime.now()
 test_tender_data_eu = deepcopy(base_test_tender_data_eu)
-test_tender_data_eu["procurementMethodType"] = "competitiveDialogue.aboveThresholdEU"
+test_tender_data_eu["procurementMethodType"] = CD_EU_TYPE
 test_tender_data_ua = deepcopy(base_test_tender_data_eu)
 del test_tender_data_ua["title_en"]
-test_tender_data_ua["procurementMethodType"] = "competitiveDialogue.aboveThresholdUA"
+test_tender_data_ua["procurementMethodType"] = CD_UA_TYPE
 test_tender_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
 
 
@@ -373,4 +374,4 @@ class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
 
 
 test_features_tender_eu_data = test_features_tender_data.copy()
-test_features_tender_eu_data['procurementMethodType'] = "competitiveDialogue.aboveThresholdEU"
+test_features_tender_eu_data['procurementMethodType'] = CD_EU_TYPE
