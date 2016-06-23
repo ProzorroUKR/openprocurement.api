@@ -102,6 +102,8 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
         self.app.authorization = ('Basic', ('token', ''))
         self.couchdb_server = self.app.app.registry.couchdb_server
         self.db = self.app.app.registry.db
+        if self.docservice:
+            self.setUpDS()
 
     def set_status(self, status, extra=None):
         data = {'status': status}
@@ -248,8 +250,9 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
         self.assertEqual(response.content_type, 'application/json')
         return response
 
-
     def tearDown(self):
+        if self.docservice:
+            self.tearDownDS()
         del self.couchdb_server[self.db.name]
 
 
