@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 from email.header import Header
-from openprocurement.api.tests.document import MockConnection
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
     test_tender_negotiation_quick_data)
@@ -9,7 +8,7 @@ from openprocurement.tender.limited.tests.base import (
 
 class TenderDocumentResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_data
-    s3_connection = False
+    docservice = False
 
     def test_not_found(self):
         response = self.app.get('/tenders/some_id/documents', status=404)
@@ -91,7 +90,18 @@ class TenderDocumentResourceTest(BaseTenderContentWebTest):
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
         self.assertEqual(u'укр.doc', response.json["data"]["title"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            tender = self.db.get(self.tender_id)
+            self.assertIn(key, tender['documents'][-1]["url"])
+            self.assertIn('Signature=', tender['documents'][-1]["url"])
+            self.assertIn('KeyID=', tender['documents'][-1]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
         response = self.app.get('/tenders/{}/documents'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
@@ -99,21 +109,24 @@ class TenderDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(doc_id, response.json["data"][0]["id"])
         self.assertEqual(u'укр.doc', response.json["data"][0]["title"])
 
-        if self.s3_connection:
+        response = self.app.get('/tenders/{}/documents/{}?download=some_id'.format(
+            self.tender_id, doc_id), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
+        ])
+
+        if self.docservice:
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
                 self.tender_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.tender_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
-            response = self.app.get('/tenders/{}/documents/{}?download=some_id'.format(
-                self.tender_id, doc_id), status=404)
-            self.assertEqual(response.status, '404 Not Found')
-            self.assertEqual(response.content_type, 'application/json')
-            self.assertEqual(response.json['status'], 'error')
-            self.assertEqual(response.json['errors'], [
-                {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
-            ])
-
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
                 self.tender_id, doc_id, key))
             self.assertEqual(response.status, '200 OK')
@@ -180,13 +193,27 @@ class TenderDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            tender = self.db.get(self.tender_id)
+            self.assertIn(key, tender['documents'][-1]["url"])
+            self.assertIn('Signature=', tender['documents'][-1]["url"])
+            self.assertIn('KeyID=', tender['documents'][-1]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
-        if self.s3_connection:
+        if self.docservice:
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
                 self.tender_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.tender_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
                 self.tender_id, doc_id, key))
@@ -240,13 +267,27 @@ class TenderDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            tender = self.db.get(self.tender_id)
+            self.assertIn(key, tender['documents'][-1]["url"])
+            self.assertIn('Signature=', tender['documents'][-1]["url"])
+            self.assertIn('KeyID=', tender['documents'][-1]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
-        if self.s3_connection:
+        if self.docservice:
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
                 self.tender_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.tender_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
                 self.tender_id, doc_id, key))
@@ -310,24 +351,14 @@ class TenderNegotiationQuickDocumentResourceTest(TenderNegotiationDocumentResour
     initial_data = test_tender_negotiation_quick_data
 
 
-class TenderDocumentWithS3ResourceTest(TenderDocumentResourceTest):
-    s3_connection = True
-
-    def setUp(self):
-        super(TenderDocumentWithS3ResourceTest, self).setUp()
-        # Create mock s3 connection
-        connection = MockConnection()
-        self.app.app.registry.s3_connection = connection
-        bucket_name = 'bucket'
-        if bucket_name not in [b.name for b in connection.get_all_buckets()]:
-            connection.create_bucket(bucket_name)
-        self.app.app.registry.bucket_name = bucket_name
+class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest):
+    docservice = True
 
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderDocumentWithS3ResourceTest))
+    suite.addTest(unittest.makeSuite(TenderDocumentWithDSResourceTest))
     return suite
 
 
