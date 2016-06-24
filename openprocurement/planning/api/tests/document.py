@@ -96,7 +96,7 @@ class PlanDocumentResourceTest(BasePlanWebTest):
             self.assertIn(key, plan['documents'][-1]["url"])
             self.assertIn('Signature=', plan['documents'][-1]["url"])
             self.assertIn('KeyID=', plan['documents'][-1]["url"])
-            self.assertNotIn('Expires=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', plan['documents'][-1]["url"])
         else:
             key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
@@ -191,7 +191,7 @@ class PlanDocumentResourceTest(BasePlanWebTest):
             self.assertIn(key, plan['documents'][-1]["url"])
             self.assertIn('Signature=', plan['documents'][-1]["url"])
             self.assertIn('KeyID=', plan['documents'][-1]["url"])
-            self.assertNotIn('Expires=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', plan['documents'][-1]["url"])
         else:
             key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
@@ -265,7 +265,7 @@ class PlanDocumentResourceTest(BasePlanWebTest):
             self.assertIn(key, plan['documents'][-1]["url"])
             self.assertIn('Signature=', plan['documents'][-1]["url"])
             self.assertIn('KeyID=', plan['documents'][-1]["url"])
-            self.assertNotIn('Expires=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', plan['documents'][-1]["url"])
         else:
             key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
@@ -421,7 +421,7 @@ class PlanDocumentWithDSResourceTest(PlanDocumentResourceTest):
         self.assertIn(key, plan['documents'][-1]["url"])
         self.assertIn('Signature=', plan['documents'][-1]["url"])
         self.assertIn('KeyID=', plan['documents'][-1]["url"])
-        self.assertNotIn('Expires=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', plan['documents'][-1]["url"])
 
         response = self.app.get('/plans/{}/documents'.format(self.plan_id))
         self.assertEqual(response.status, '200 OK')
@@ -501,7 +501,7 @@ class PlanDocumentWithDSResourceTest(PlanDocumentResourceTest):
         self.assertIn(key, plan['documents'][-1]["url"])
         self.assertIn('Signature=', plan['documents'][-1]["url"])
         self.assertIn('KeyID=', plan['documents'][-1]["url"])
-        self.assertNotIn('Expires=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', plan['documents'][-1]["url"])
 
         response = self.app.get('/plans/{}/documents/{}?download={}'.format(
             self.plan_id, doc_id, key))
@@ -565,7 +565,7 @@ class PlanDocumentWithDSResourceTest(PlanDocumentResourceTest):
         self.assertIn(key, plan['documents'][-1]["url"])
         self.assertIn('Signature=', plan['documents'][-1]["url"])
         self.assertIn('KeyID=', plan['documents'][-1]["url"])
-        self.assertNotIn('Expires=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', plan['documents'][-1]["url"])
 
         response = self.app.get('/plans/{}/documents/{}?download={}'.format(
             self.plan_id, doc_id, key))
@@ -621,7 +621,7 @@ class PlanDocumentWithDSResourceTest(PlanDocumentResourceTest):
         self.assertIn(key, plan['documents'][-1]["url"])
         self.assertIn('Signature=', plan['documents'][-1]["url"])
         self.assertIn('KeyID=', plan['documents'][-1]["url"])
-        self.assertNotIn('Expires=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', plan['documents'][-1]["url"])
 
         response = self.app.get('/plans/{}/documents/{}?download={}'.format(
             self.plan_id, doc_id, key))
@@ -684,7 +684,7 @@ class PlanDocumentWithDSResourceTest(PlanDocumentResourceTest):
         self.assertIn(key, plan['documents'][-1]["url"])
         self.assertIn('Signature=', plan['documents'][-1]["url"])
         self.assertIn('KeyID=', plan['documents'][-1]["url"])
-        self.assertNotIn('Expires=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', plan['documents'][-1]["url"])
 
         response = self.app.get('/plans/{}/documents/{}?download={}'.format(
             self.plan_id, doc_id, key))
