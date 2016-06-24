@@ -3,10 +3,9 @@ import unittest
 from email.header import Header
 from openprocurement.planning.api.tests.base import BasePlanWebTest
 
-from openprocurement.api.tests.document import MockConnection
 
 class PlanDocumentResourceTest(BasePlanWebTest):
-    s3_connection = False
+    docservice = False
 
     def test_not_found(self):
         response = self.app.get('/plans/some_id/documents', status=404)
@@ -88,7 +87,18 @@ class PlanDocumentResourceTest(BasePlanWebTest):
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
         self.assertEqual(u'укр.doc', response.json["data"]["title"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            plan = self.db.get(self.plan_id)
+            self.assertIn(key, plan['documents'][-1]["url"])
+            self.assertIn('Signature=', plan['documents'][-1]["url"])
+            self.assertIn('KeyID=', plan['documents'][-1]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
         response = self.app.get('/plans/{}/documents'.format(self.plan_id))
         self.assertEqual(response.status, '200 OK')
@@ -96,21 +106,24 @@ class PlanDocumentResourceTest(BasePlanWebTest):
         self.assertEqual(doc_id, response.json["data"][0]["id"])
         self.assertEqual(u'укр.doc', response.json["data"][0]["title"])
 
-        if self.s3_connection:
+        response = self.app.get('/plans/{}/documents/{}?download=some_id'.format(
+            self.plan_id, doc_id), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
+        ])
+
+        if self.docservice:
             response = self.app.get('/plans/{}/documents/{}?download={}'.format(
                 self.plan_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.plan_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
-            response = self.app.get('/plans/{}/documents/{}?download=some_id'.format(
-                self.plan_id, doc_id), status=404)
-            self.assertEqual(response.status, '404 Not Found')
-            self.assertEqual(response.content_type, 'application/json')
-            self.assertEqual(response.json['status'], 'error')
-            self.assertEqual(response.json['errors'], [
-                {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
-            ])
-
             response = self.app.get('/plans/{}/documents/{}?download={}'.format(
                 self.plan_id, doc_id, key))
             self.assertEqual(response.status, '200 OK')
@@ -133,7 +146,6 @@ class PlanDocumentResourceTest(BasePlanWebTest):
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
         self.assertNotIn('acc_token', response.headers['Location'])
-
 
     def test_put_plan_document(self):
         from six import BytesIO
@@ -170,13 +182,27 @@ class PlanDocumentResourceTest(BasePlanWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            plan = self.db.get(self.plan_id)
+            self.assertIn(key, plan['documents'][-1]["url"])
+            self.assertIn('Signature=', plan['documents'][-1]["url"])
+            self.assertIn('KeyID=', plan['documents'][-1]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
-        if self.s3_connection:
+        if self.docservice:
             response = self.app.get('/plans/{}/documents/{}?download={}'.format(
                 self.plan_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.plan_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
             response = self.app.get('/plans/{}/documents/{}?download={}'.format(
                 self.plan_id, doc_id, key))
@@ -230,13 +256,27 @@ class PlanDocumentResourceTest(BasePlanWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            plan = self.db.get(self.plan_id)
+            self.assertIn(key, plan['documents'][-1]["url"])
+            self.assertIn('Signature=', plan['documents'][-1]["url"])
+            self.assertIn('KeyID=', plan['documents'][-1]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
-        if self.s3_connection:
+        if self.docservice:
             response = self.app.get('/plans/{}/documents/{}?download={}'.format(
                 self.plan_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.plan_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
             response = self.app.get('/plans/{}/documents/{}?download={}'.format(
                 self.plan_id, doc_id, key))
@@ -279,24 +319,386 @@ class PlanDocumentResourceTest(BasePlanWebTest):
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertEqual('document description', response.json["data"]["description"])
 
-class PlanDocumentWithS3ResourceTest(PlanDocumentResourceTest):
-    s3_connection = True
 
-    def setUp(self):
-        super(PlanDocumentWithS3ResourceTest, self).setUp()
-        # Create mock s3 connection
-        connection = MockConnection()
-        self.app.app.registry.s3_connection = connection
-        bucket_name = 'bucket'
-        if bucket_name not in [b.name for b in connection.get_all_buckets()]:
-            connection.create_bucket(bucket_name)
-        self.app.app.registry.bucket_name = bucket_name
+class PlanDocumentWithDSResourceTest(PlanDocumentResourceTest):
+    docservice = True
+
+    def test_create_plan_document_json_invalid(self):
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url(),
+                'format': 'application/msword',
+            }}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "This field is required.")
+
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id),
+            {'data': {
+                'title': u'укр.doc',
+                'url': 'http://invalid.docservice.url/get/uuid',
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can add document only from document service.")
+
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id),
+            {'data': {
+                'title': u'укр.doc',
+                'url': '/'.join(self.generate_docservice_url().split('/')[:4]),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can add document only from document service.")
+
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url().split('?')[0],
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can add document only from document service.")
+
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url().replace(self.app.app.registry.keyring.keys()[-1], '0' * 8),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Document url expired.")
+
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url().replace("Signature=", "Signature=ABC"),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Document url signature invalid.")
+
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url().replace("Signature=", "Signature=bw%3D%3D"),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Document url invalid.")
+
+    def test_create_plan_document_json(self):
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+        self.assertEqual(u'укр.doc', response.json["data"]["title"])
+        self.assertIn('Signature=', response.json["data"]["url"])
+        self.assertIn('KeyID=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+        key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+        plan = self.db.get(self.plan_id)
+        self.assertIn(key, plan['documents'][-1]["url"])
+        self.assertIn('Signature=', plan['documents'][-1]["url"])
+        self.assertIn('KeyID=', plan['documents'][-1]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+
+        response = self.app.get('/plans/{}/documents'.format(self.plan_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"][0]["id"])
+        self.assertEqual(u'укр.doc', response.json["data"][0]["title"])
+
+        response = self.app.get('/plans/{}/documents/{}?download=some_id'.format(
+            self.plan_id, doc_id), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
+        ])
+
+        response = self.app.get('/plans/{}/documents/{}?download={}'.format(
+            self.plan_id, doc_id, key))
+        self.assertEqual(response.status, '302 Moved Temporarily')
+        self.assertIn('http://localhost/get/', response.location)
+        self.assertIn('Signature=', response.location)
+        self.assertIn('KeyID=', response.location)
+        self.assertNotIn('Expires=', response.location)
+
+        response = self.app.get('/plans/{}/documents/{}'.format(
+            self.plan_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual(u'укр.doc', response.json["data"]["title"])
+
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(u'укр.doc', response.json["data"]["title"])
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+        self.assertNotIn('acc_token', response.headers['Location'])
+
+    def test_put_plan_document_json(self):
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(u'укр.doc', response.json["data"]["title"])
+        doc_id = response.json["data"]['id']
+        dateModified = response.json["data"]['dateModified']
+        datePublished = response.json["data"]['datePublished']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        response = self.app.put_json('/plans/{}/documents/{}'.format(self.plan_id, doc_id),
+            {'data': {
+                'title': u'name.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertIn('Signature=', response.json["data"]["url"])
+        self.assertIn('KeyID=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+        key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+        plan = self.db.get(self.plan_id)
+        self.assertIn(key, plan['documents'][-1]["url"])
+        self.assertIn('Signature=', plan['documents'][-1]["url"])
+        self.assertIn('KeyID=', plan['documents'][-1]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+
+        response = self.app.get('/plans/{}/documents/{}?download={}'.format(
+            self.plan_id, doc_id, key))
+        self.assertEqual(response.status, '302 Moved Temporarily')
+        self.assertIn('http://localhost/get/', response.location)
+        self.assertIn('Signature=', response.location)
+        self.assertIn('KeyID=', response.location)
+        self.assertNotIn('Expires=', response.location)
+
+        response = self.app.get('/plans/{}/documents/{}'.format(
+            self.plan_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual(u'укр.doc', response.json["data"]["title"])
+        dateModified2 = response.json["data"]['dateModified']
+        self.assertTrue(dateModified < dateModified2)
+        self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]['dateModified'])
+        self.assertEqual(response.json["data"]['datePublished'], datePublished)
+
+        response = self.app.get('/plans/{}/documents?all=true'.format(self.plan_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(dateModified, response.json["data"][0]['dateModified'])
+        self.assertEqual(dateModified2, response.json["data"][1]['dateModified'])
+
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id, doc_id),
+            {'data': {
+                'title': 'name.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        dateModified = response.json["data"]['dateModified']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        response = self.app.get('/plans/{}/documents'.format(self.plan_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(dateModified2, response.json["data"][0]['dateModified'])
+        self.assertEqual(dateModified, response.json["data"][1]['dateModified'])
+
+        response = self.app.put_json('/plans/{}/documents/{}'.format(self.plan_id, doc_id),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertIn('Signature=', response.json["data"]["url"])
+        self.assertIn('KeyID=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+        key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+        plan = self.db.get(self.plan_id)
+        self.assertIn(key, plan['documents'][-1]["url"])
+        self.assertIn('Signature=', plan['documents'][-1]["url"])
+        self.assertIn('KeyID=', plan['documents'][-1]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+
+        response = self.app.get('/plans/{}/documents/{}?download={}'.format(
+            self.plan_id, doc_id, key))
+        self.assertEqual(response.status, '302 Moved Temporarily')
+        self.assertIn('http://localhost/get/', response.location)
+        self.assertIn('Signature=', response.location)
+        self.assertIn('KeyID=', response.location)
+        self.assertNotIn('Expires=', response.location)
+
+        self.set_status('active.planing')
+
+        response = self.app.put_json('/plans/{}/documents/{}'.format(self.plan_id, doc_id),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.planing) plan status")
+
+    def test_put_plan_document_json(self):
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id),
+            {'data': {
+                'title': u'name name.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(u'name name.doc', response.json["data"]["title"])
+        doc_id = response.json["data"]['id']
+        dateModified = response.json["data"]['dateModified']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        response = self.app.put_json('/plans/{}/documents/{}'.format(self.plan_id, doc_id),
+            {'data': {
+                'title': u'name.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertIn('Signature=', response.json["data"]["url"])
+        self.assertIn('KeyID=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+        key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+        plan = self.db.get(self.plan_id)
+        self.assertIn(key, plan['documents'][-1]["url"])
+        self.assertIn('Signature=', plan['documents'][-1]["url"])
+        self.assertIn('KeyID=', plan['documents'][-1]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+
+        response = self.app.get('/plans/{}/documents/{}?download={}'.format(
+            self.plan_id, doc_id, key))
+        self.assertEqual(response.status, '302 Moved Temporarily')
+        self.assertIn('http://localhost/get/', response.location)
+        self.assertIn('Signature=', response.location)
+        self.assertIn('KeyID=', response.location)
+        self.assertNotIn('Expires=', response.location)
+
+        response = self.app.get('/plans/{}/documents/{}'.format(
+            self.plan_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual('name name.doc', response.json["data"]["title"])
+        dateModified2 = response.json["data"]['dateModified']
+        self.assertTrue(dateModified < dateModified2)
+        self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]['dateModified'])
+
+        response = self.app.get('/plans/{}/documents?all=true'.format(self.plan_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(dateModified, response.json["data"][0]['dateModified'])
+        self.assertEqual(dateModified2, response.json["data"][1]['dateModified'])
+
+        response = self.app.post_json('/plans/{}/documents'.format(self.plan_id),
+            {'data': {
+                'title': u'name.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        dateModified = response.json["data"]['dateModified']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        response = self.app.get('/plans/{}/documents'.format(self.plan_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(dateModified2, response.json["data"][0]['dateModified'])
+        self.assertEqual(dateModified, response.json["data"][1]['dateModified'])
+
+        response = self.app.put_json('/plans/{}/documents/{}'.format(self.plan_id, doc_id),
+            {'data': {
+                'title': u'name.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertIn('Signature=', response.json["data"]["url"])
+        self.assertIn('KeyID=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+        key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+        plan = self.db.get(self.plan_id)
+        self.assertIn(key, plan['documents'][-1]["url"])
+        self.assertIn('Signature=', plan['documents'][-1]["url"])
+        self.assertIn('KeyID=', plan['documents'][-1]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+
+        response = self.app.get('/plans/{}/documents/{}?download={}'.format(
+            self.plan_id, doc_id, key))
+        self.assertEqual(response.status, '302 Moved Temporarily')
+        self.assertIn('http://localhost/get/', response.location)
+        self.assertIn('Signature=', response.location)
+        self.assertIn('KeyID=', response.location)
+        self.assertNotIn('Expires=', response.location)
 
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(PlanDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(PlanDocumentWithS3ResourceTest))
+    suite.addTest(unittest.makeSuite(PlanDocumentWithDSResourceTest))
     return suite
 
 
