@@ -31,7 +31,7 @@ def factory(request):
     request.validated['contract_id'] = request.matchdict['contract_id']
     contract = request.contract
     contract.__parent__ = root
-    request.validated['contract'] = contract
+    request.validated['contract'] = request.validated['db_doc'] = contract
     if request.method != 'GET':
         request.validated['contract_src'] = contract.serialize('plain')
     if request.matchdict.get('document_id'):

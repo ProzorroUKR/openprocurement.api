@@ -6,7 +6,7 @@ from datetime import timedelta
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.contracting.api.models import Contract
 from openprocurement.contracting.api.tests.base import (
-    test_contract_data, BaseWebTest, BaseContractWebTest)
+    test_contract_data, BaseWebTest, BaseContractWebTest, documents)
 from openprocurement.api.models import get_now
 
 
@@ -483,6 +483,30 @@ class ContractResourceTest(BaseWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/contracts', {"data": test_contract_data}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
+
+
+class ContractWDocumentsWithDSResourceTest(BaseWebTest):
+    docservice = True
+
+    def test_create_contract_w_documents(self):
+        data = deepcopy(test_contract_data)
+        data['documents'] = documents
+        response = self.app.post_json('/contracts', {"data": data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        contract = response.json['data']
+        self.assertEqual(contract['status'], 'active')
+
+        self.assertIn('Signature=', response.json["data"]['documents'][-1]["url"])
+        self.assertIn('KeyID=', response.json["data"]['documents'][-1]["url"])
+        self.assertNotIn('Expires=', response.json["data"]['documents'][-1]["url"])
+
+        contract = self.db.get(contract['id'])
+        self.assertIn('Prefix=ce536c5f46d543ec81ffa86ce4c77c8b%2F9c8b66120d4c415cb334bbad33f94ba9', contract['documents'][-1]["url"])
+        self.assertIn('/da839a4c3d7a41d2852d17f90aa14f47?', contract['documents'][-1]["url"])
+        self.assertIn('Signature=', contract['documents'][-1]["url"])
+        self.assertIn('KeyID=', contract['documents'][-1]["url"])
+        self.assertNotIn('Expires=', contract['documents'][-1]["url"])
 
 
 class ContractResource4BrokersTest(BaseContractWebTest):

@@ -2,12 +2,12 @@
 from openprocurement.contracting.api.utils import (
     save_contract,
     contractingresource,
-    upload_file,
-    update_file_content_type,
-    get_file,
     apply_patch,
 )
 from openprocurement.api.utils import (
+    upload_file,
+    update_file_content_type,
+    get_file,
     context_unpack,
     APIResource,
     json_view

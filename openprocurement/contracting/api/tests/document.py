@@ -3,11 +3,9 @@ import unittest
 from email.header import Header
 from openprocurement.contracting.api.tests.base import BaseContractContentWebTest
 
-from openprocurement.api.tests.document import MockConnection
-
 
 class ContractDocumentResourceTest(BaseContractContentWebTest):
-    s3_connection = False
+    docservice = False
     initial_auth = ('Basic', ('broker', ''))
 
     def test_not_found(self):
@@ -91,7 +89,18 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertIn(doc_id, response.headers['Location'])
         self.assertEqual(u'укр.doc', response.json["data"]["title"])
         self.assertEqual(response.json["data"]["documentOf"], "contract")
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            contract = self.db.get(self.contract_id)
+            self.assertIn(key, contract['documents'][-1]["url"])
+            self.assertIn('Signature=', contract['documents'][-1]["url"])
+            self.assertIn('KeyID=', contract['documents'][-1]["url"])
+            self.assertNotIn('Expires=', contract['documents'][-1]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
         response = self.app.get('/contracts/{}/documents'.format(self.contract_id))
         self.assertEqual(response.status, '200 OK')
@@ -99,21 +108,24 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertEqual(doc_id, response.json["data"][0]["id"])
         self.assertEqual(u'укр.doc', response.json["data"][0]["title"])
 
-        if self.s3_connection:
+        response = self.app.get('/contracts/{}/documents/{}?download=some_id'.format(
+            self.contract_id, doc_id), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
+        ])
+
+        if self.docservice:
             response = self.app.get('/contracts/{}/documents/{}?download={}'.format(
                 self.contract_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.contract_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
-            response = self.app.get('/contracts/{}/documents/{}?download=some_id'.format(
-                self.contract_id, doc_id), status=404)
-            self.assertEqual(response.status, '404 Not Found')
-            self.assertEqual(response.content_type, 'application/json')
-            self.assertEqual(response.json['status'], 'error')
-            self.assertEqual(response.json['errors'], [
-                {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
-            ])
-
             response = self.app.get('/contracts/{}/documents/{}?download={}'.format(
                 self.contract_id, doc_id, key))
             self.assertEqual(response.status, '200 OK')
@@ -148,7 +160,6 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'], [{u'description': u"Can't add document in current (terminated) contract status",
                                                     u'location': u'body', u'name': u'data'}])
-
 
     def test_put_contract_document(self):
         from six import BytesIO
@@ -189,13 +200,27 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            contract = self.db.get(self.contract_id)
+            self.assertIn(key, contract['documents'][-1]["url"])
+            self.assertIn('Signature=', contract['documents'][-1]["url"])
+            self.assertIn('KeyID=', contract['documents'][-1]["url"])
+            self.assertNotIn('Expires=', contract['documents'][-1]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
-        if self.s3_connection:
+        if self.docservice:
             response = self.app.get('/contracts/{}/documents/{}?download={}'.format(
                 self.contract_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.contract_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
             response = self.app.get('/contracts/{}/documents/{}?download={}'.format(
                 self.contract_id, doc_id, key))
@@ -249,13 +274,27 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            contract = self.db.get(self.contract_id)
+            self.assertIn(key, contract['documents'][-1]["url"])
+            self.assertIn('Signature=', contract['documents'][-1]["url"])
+            self.assertIn('KeyID=', contract['documents'][-1]["url"])
+            self.assertNotIn('Expires=', contract['documents'][-1]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
-        if self.s3_connection:
+        if self.docservice:
             response = self.app.get('/contracts/{}/documents/{}?download={}'.format(
                 self.contract_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.contract_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
             response = self.app.get('/contracts/{}/documents/{}?download={}'.format(
                 self.contract_id, doc_id, key))
@@ -390,24 +429,385 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertEqual(response.json['errors'], [
             {"location": "body", "name": "data", "description": "Can't add document to 'active' change"}])
 
-class ContractDocumentWithS3ResourceTest(ContractDocumentResourceTest):
-    s3_connection = True
+class ContractDocumentWithDSResourceTest(ContractDocumentResourceTest):
+    docservice = True
 
-    def setUp(self):
-        super(ContractDocumentWithS3ResourceTest, self).setUp()
-        # Create mock s3 connection
-        connection = MockConnection()
-        self.app.app.registry.s3_connection = connection
-        bucket_name = 'bucket'
-        if bucket_name not in [b.name for b in connection.get_all_buckets()]:
-            connection.create_bucket(bucket_name)
-        self.app.app.registry.bucket_name = bucket_name
+    def test_create_contract_document_json_invalid(self):
+        response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(self.contract_id, self.contract_token),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url(),
+                'format': 'application/msword',
+            }}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "This field is required.")
+
+        response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(self.contract_id, self.contract_token),
+            {'data': {
+                'title': u'укр.doc',
+                'url': 'http://invalid.docservice.url/get/uuid',
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can add document only from document service.")
+
+        response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(self.contract_id, self.contract_token),
+            {'data': {
+                'title': u'укр.doc',
+                'url': '/'.join(self.generate_docservice_url().split('/')[:4]),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can add document only from document service.")
+
+        response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(self.contract_id, self.contract_token),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url().split('?')[0],
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can add document only from document service.")
+
+        response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(self.contract_id, self.contract_token),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url().replace(self.app.app.registry.keyring.keys()[-1], '0' * 8),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Document url expired.")
+
+        response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(self.contract_id, self.contract_token),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url().replace("Signature=", "Signature=ABC"),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Document url signature invalid.")
+
+        response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(self.contract_id, self.contract_token),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url().replace("Signature=", "Signature=bw%3D%3D"),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Document url invalid.")
+
+    def test_create_contract_document_json(self):
+        response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(self.contract_id, self.contract_token),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+        self.assertEqual(u'укр.doc', response.json["data"]["title"])
+        self.assertIn('Signature=', response.json["data"]["url"])
+        self.assertIn('KeyID=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+        key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+        contract = self.db.get(self.contract_id)
+        self.assertIn(key, contract['documents'][-1]["url"])
+        self.assertIn('Signature=', contract['documents'][-1]["url"])
+        self.assertIn('KeyID=', contract['documents'][-1]["url"])
+        self.assertNotIn('Expires=', contract['documents'][-1]["url"])
+
+        response = self.app.get('/contracts/{}/documents'.format(self.contract_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"][0]["id"])
+        self.assertEqual(u'укр.doc', response.json["data"][0]["title"])
+
+        response = self.app.get('/contracts/{}/documents/{}?download=some_id'.format(
+            self.contract_id, doc_id), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
+        ])
+
+        response = self.app.get('/contracts/{}/documents/{}?download={}'.format(
+            self.contract_id, doc_id, key))
+        self.assertEqual(response.status, '302 Moved Temporarily')
+        self.assertIn('http://localhost/get/', response.location)
+        self.assertIn('Signature=', response.location)
+        self.assertIn('KeyID=', response.location)
+        self.assertNotIn('Expires=', response.location)
+
+        response = self.app.get('/contracts/{}/documents/{}'.format(
+            self.contract_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual(u'укр.doc', response.json["data"]["title"])
+
+        response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(self.contract_id, self.contract_token),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(u'укр.doc', response.json["data"]["title"])
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+        self.assertNotIn('acc_token', response.headers['Location'])
+
+    def test_put_contract_document_json(self):
+        response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(self.contract_id, self.contract_token),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(u'укр.doc', response.json["data"]["title"])
+        doc_id = response.json["data"]['id']
+        dateModified = response.json["data"]['dateModified']
+        datePublished = response.json["data"]['datePublished']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        response = self.app.put_json('/contracts/{}/documents/{}?acc_token={}'.format(self.contract_id, doc_id, self.contract_token),
+            {'data': {
+                'title': u'name.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertIn('Signature=', response.json["data"]["url"])
+        self.assertIn('KeyID=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+        key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+        contract = self.db.get(self.contract_id)
+        self.assertIn(key, contract['documents'][-1]["url"])
+        self.assertIn('Signature=', contract['documents'][-1]["url"])
+        self.assertIn('KeyID=', contract['documents'][-1]["url"])
+        self.assertNotIn('Expires=', contract['documents'][-1]["url"])
+
+        response = self.app.get('/contracts/{}/documents/{}?download={}'.format(
+            self.contract_id, doc_id, key))
+        self.assertEqual(response.status, '302 Moved Temporarily')
+        self.assertIn('http://localhost/get/', response.location)
+        self.assertIn('Signature=', response.location)
+        self.assertIn('KeyID=', response.location)
+        self.assertNotIn('Expires=', response.location)
+
+        response = self.app.get('/contracts/{}/documents/{}'.format(
+            self.contract_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual(u'укр.doc', response.json["data"]["title"])
+        dateModified2 = response.json["data"]['dateModified']
+        self.assertTrue(dateModified < dateModified2)
+        self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]['dateModified'])
+        self.assertEqual(response.json["data"]['datePublished'], datePublished)
+
+        response = self.app.get('/contracts/{}/documents?all=true'.format(self.contract_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(dateModified, response.json["data"][0]['dateModified'])
+        self.assertEqual(dateModified2, response.json["data"][1]['dateModified'])
+
+        response = self.app.post_json('/contracts/{}/documents'.format(self.contract_id, doc_id),
+            {'data': {
+                'title': 'name.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        dateModified = response.json["data"]['dateModified']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        response = self.app.get('/contracts/{}/documents'.format(self.contract_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(dateModified2, response.json["data"][0]['dateModified'])
+        self.assertEqual(dateModified, response.json["data"][1]['dateModified'])
+
+        response = self.app.put_json('/contracts/{}/documents/{}?acc_token={}'.format(self.contract_id, doc_id, self.contract_token),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertIn('Signature=', response.json["data"]["url"])
+        self.assertIn('KeyID=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+        key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+        contract = self.db.get(self.contract_id)
+        self.assertIn(key, contract['documents'][-1]["url"])
+        self.assertIn('Signature=', contract['documents'][-1]["url"])
+        self.assertIn('KeyID=', contract['documents'][-1]["url"])
+        self.assertNotIn('Expires=', contract['documents'][-1]["url"])
+
+        response = self.app.get('/contracts/{}/documents/{}?download={}'.format(
+            self.contract_id, doc_id, key))
+        self.assertEqual(response.status, '302 Moved Temporarily')
+        self.assertIn('http://localhost/get/', response.location)
+        self.assertIn('Signature=', response.location)
+        self.assertIn('KeyID=', response.location)
+        self.assertNotIn('Expires=', response.location)
+
+        self.set_status('active.contracting')
+
+        response = self.app.put_json('/contracts/{}/documents/{}?acc_token={}'.format(self.contract_id, doc_id, self.contract_token),
+            {'data': {
+                'title': u'укр.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.contracting) contract status")
+
+    def test_put_contract_document_json(self):
+        response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(self.contract_id, self.contract_token),
+            {'data': {
+                'title': u'name name.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(u'name name.doc', response.json["data"]["title"])
+        doc_id = response.json["data"]['id']
+        dateModified = response.json["data"]['dateModified']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        response = self.app.put_json('/contracts/{}/documents/{}?acc_token={}'.format(self.contract_id, doc_id, self.contract_token),
+            {'data': {
+                'title': u'name.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertIn('Signature=', response.json["data"]["url"])
+        self.assertIn('KeyID=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+        key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+        contract = self.db.get(self.contract_id)
+        self.assertIn(key, contract['documents'][-1]["url"])
+        self.assertIn('Signature=', contract['documents'][-1]["url"])
+        self.assertIn('KeyID=', contract['documents'][-1]["url"])
+        self.assertNotIn('Expires=', contract['documents'][-1]["url"])
+
+        response = self.app.get('/contracts/{}/documents/{}?download={}'.format(
+            self.contract_id, doc_id, key))
+        self.assertEqual(response.status, '302 Moved Temporarily')
+        self.assertIn('http://localhost/get/', response.location)
+        self.assertIn('Signature=', response.location)
+        self.assertIn('KeyID=', response.location)
+        self.assertNotIn('Expires=', response.location)
+
+        response = self.app.get('/contracts/{}/documents/{}'.format(
+            self.contract_id, doc_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual('name name.doc', response.json["data"]["title"])
+        dateModified2 = response.json["data"]['dateModified']
+        self.assertTrue(dateModified < dateModified2)
+        self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]['dateModified'])
+
+        response = self.app.get('/contracts/{}/documents?all=true'.format(self.contract_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(dateModified, response.json["data"][0]['dateModified'])
+        self.assertEqual(dateModified2, response.json["data"][1]['dateModified'])
+
+        response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(self.contract_id, self.contract_token),
+            {'data': {
+                'title': u'name.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        dateModified = response.json["data"]['dateModified']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        response = self.app.get('/contracts/{}/documents'.format(self.contract_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(dateModified2, response.json["data"][0]['dateModified'])
+        self.assertEqual(dateModified, response.json["data"][1]['dateModified'])
+
+        response = self.app.put_json('/contracts/{}/documents/{}?acc_token={}'.format(self.contract_id, doc_id, self.contract_token),
+            {'data': {
+                'title': u'name.doc',
+                'url': self.generate_docservice_url(),
+                'md5': '0' * 32,
+                'format': 'application/msword',
+            }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertIn('Signature=', response.json["data"]["url"])
+        self.assertIn('KeyID=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+        key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+        contract = self.db.get(self.contract_id)
+        self.assertIn(key, contract['documents'][-1]["url"])
+        self.assertIn('Signature=', contract['documents'][-1]["url"])
+        self.assertIn('KeyID=', contract['documents'][-1]["url"])
+        self.assertNotIn('Expires=', contract['documents'][-1]["url"])
+
+        response = self.app.get('/contracts/{}/documents/{}?download={}'.format(
+            self.contract_id, doc_id, key))
+        self.assertEqual(response.status, '302 Moved Temporarily')
+        self.assertIn('http://localhost/get/', response.location)
+        self.assertIn('Signature=', response.location)
+        self.assertIn('KeyID=', response.location)
+        self.assertNotIn('Expires=', response.location)
 
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(ContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(ContractDocumentWithS3ResourceTest))
+    suite.addTest(unittest.makeSuite(ContractDocumentWithDSResourceTest))
     return suite
 
 
