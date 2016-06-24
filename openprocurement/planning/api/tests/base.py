@@ -193,6 +193,11 @@ class BasePlanWebTest(BaseWebTest):
         self.plan_token = response.json['access']['token']
         self.plan_id = plan['id']
 
+    def tearDownDS(self):
+        SESSION.request = self._srequest
+
     def tearDown(self):
+        if self.docservice:
+            self.tearDownDS()
         del self.db[self.plan_id]
         super(BasePlanWebTest, self).tearDown()
