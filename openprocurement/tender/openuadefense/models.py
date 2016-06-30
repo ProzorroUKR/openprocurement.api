@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
+from datetime import timedelta, datetime
 from schematics.exceptions import ValidationError
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
-from openprocurement.api.models import ITender, Period
+from openprocurement.api.models import ITender, Period, TZ
 from openprocurement.tender.openua.models import Tender as BaseTender, EnquiryPeriod
 from openprocurement.tender.openua.utils import calculate_business_date
 
@@ -13,6 +13,8 @@ STAND_STILL_TIME = timedelta(days=4)
 ENQUIRY_STAND_STILL_TIME = timedelta(days=2)
 CLAIM_SUBMIT_TIME = timedelta(days=3)
 COMPLAINT_SUBMIT_TIME = timedelta(days=2)
+COMPLAINT_OLD_SUBMIT_TIME = timedelta(days=3)
+COMPLAINT_OLD_SUBMIT_TIME_BEFORE = datetime(2016, 7, 1, tzinfo=TZ)
 TENDER_PERIOD = timedelta(days=6)
 ENQUIRY_PERIOD_TIME = timedelta(days=3)
 TENDERING_EXTRA_PERIOD = timedelta(days=2)
@@ -46,5 +48,9 @@ class Tender(BaseTender):
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
-        return Period(dict(startDate=self.tenderPeriod.startDate,
-                           endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self, True)))
+        if self.tenderPeriod.startDate < COMPLAINT_OLD_SUBMIT_TIME_BEFORE:
+            return Period(dict(startDate=self.tenderPeriod.startDate,
+                               endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_OLD_SUBMIT_TIME, self)))
+        else:
+            return Period(dict(startDate=self.tenderPeriod.startDate,
+                               endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self, True)))
