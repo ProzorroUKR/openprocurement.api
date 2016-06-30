@@ -131,6 +131,26 @@ class Tender(TenderEU):
             role = 'edit_{}'.format(request.context.status)
         return role
 
+    def __acl__(self):
+        acl = [
+            (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_qualification_complaint')
+            for i in self.bids
+            if i.status in ['active', 'unsuccessful']
+            ]
+        acl.extend([
+                       (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_award_complaint')
+                       for i in self.bids
+                       if i.status == 'active'
+                       ])
+        acl.extend([
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_tender'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
+            (Allow, 'g:competitive_dialogue', 'extract_credentials'),
+            (Allow, 'g:competitive_dialogue', 'edit_tender')
+        ])
+        return acl
+
 
 CompetitiveDialogEU = Tender
 
