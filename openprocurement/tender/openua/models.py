@@ -474,6 +474,7 @@ class Tender(BaseTender):
                                                 endDate=endDate,
                                                 invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
                                                 clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
+        self.date = get_now()
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):

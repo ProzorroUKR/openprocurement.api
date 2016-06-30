@@ -170,6 +170,7 @@ def add_next_award(request):
                     'bid_id': bid['id'],
                     'lotID': lot.id,
                     'status': 'pending',
+                    'date': get_now(),
                     'value': bid['value'],
                     'suppliers': bid['tenderers'],
                     'complaintPeriod': {
@@ -197,6 +198,7 @@ def add_next_award(request):
                 award = tender.__class__.awards.model_class({
                     'bid_id': bid['id'],
                     'status': 'pending',
+                    'date': get_now(),
                     'value': bid['value'],
                     'suppliers': bid['tenderers'],
                     'complaintPeriod': {
