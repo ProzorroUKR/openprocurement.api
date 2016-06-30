@@ -11,8 +11,8 @@ from openprocurement.tender.openua.utils import calculate_business_date
 
 STAND_STILL_TIME = timedelta(days=4)
 ENQUIRY_STAND_STILL_TIME = timedelta(days=2)
-CLAIM_SUBMIT_TIME = timedelta(days=2)
-COMPLAINT_SUBMIT_TIME = timedelta(days=3)
+CLAIM_SUBMIT_TIME = timedelta(days=3)
+COMPLAINT_SUBMIT_TIME = timedelta(days=2)
 TENDER_PERIOD = timedelta(days=6)
 ENQUIRY_PERIOD_TIME = timedelta(days=3)
 TENDERING_EXTRA_PERIOD = timedelta(days=2)
@@ -47,4 +47,4 @@ class Tender(BaseTender):
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
         return Period(dict(startDate=self.tenderPeriod.startDate,
-                           endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)))
+                           endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self, True)))
