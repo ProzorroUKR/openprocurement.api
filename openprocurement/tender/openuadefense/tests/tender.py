@@ -568,7 +568,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             u'status', u'enquiryPeriod', u'tenderPeriod', u'complaintPeriod',
             u'minimalStep', u'items', u'value', u'procuringEntity',
             u'next_check', u'procurementMethod', u'awardCriteria',
-            u'submissionMethod', u'auctionPeriod', u'title', u'owner',
+            u'submissionMethod', u'auctionPeriod', u'title', u'owner',  u'date',
         ]))
         self.assertNotEqual(data['id'], tender['id'])
         self.assertNotEqual(data['doc_id'], tender['id'])
@@ -619,7 +619,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(tender_set - set(test_tender_data), set([
             u'id', u'dateModified', u'enquiryPeriod', u'auctionPeriod',
             u'complaintPeriod', u'tenderID', u'status', u'procurementMethod',
-            u'awardCriteria', u'submissionMethod', u'next_check', u'owner',
+            u'awardCriteria', u'submissionMethod', u'next_check', u'owner', u'date'
         ]))
         self.assertIn(tender['id'], response.headers['Location'])
 
