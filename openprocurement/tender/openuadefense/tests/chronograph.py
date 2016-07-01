@@ -31,13 +31,13 @@ class TenderSwitch0BidResourceTest(BaseTenderUAContentWebTest):
 class TenderSwitch1BidResourceTest(BaseTenderUAContentWebTest):
     initial_bids = test_bids[:1]
 
-    def test_switch_to_unsuccessful(self):
+    def test_not_switch_to_unsuccessful(self):
         self.set_status('active.auction', {'status': self.initial_status})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "unsuccessful")
+        self.assertEqual(response.json['data']["status"], "active.qualification")
 
 
 class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
@@ -170,7 +170,7 @@ class TenderLotSwitch1BidResourceTest(BaseTenderUAContentWebTest):
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "unsuccessful")
+        self.assertEqual(response.json['data']["status"], "active.qualification")
 
 
 class TenderLotSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
