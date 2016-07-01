@@ -56,8 +56,9 @@ class TenderStage2UEResource(TenderResource):
 
 
 @opresource(name='Tender stage2 credentials',
-                             path='/tenders/{tender_id}/credentials',
-                             description="Tender stage2 credentials")
+            path='/tenders/{tender_id}/credentials',
+            procurementMethodType=STAGE_2_EU_TYPE,
+            description="Tender stage2 credentials")
 class TenderStage2CredentialsResource(TenderResource):
     def __init__(self, request, context):
         super(TenderStage2CredentialsResource, self).__init__(request, context)
