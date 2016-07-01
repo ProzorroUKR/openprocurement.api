@@ -3,7 +3,7 @@ from logging import getLogger
 from openprocurement.tender.openua.utils import calculate_business_date
 from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
 from openprocurement.api.models import get_now
-from openprocurement.api.utils import save_tender, apply_patch, opresource, json_view, context_unpack
+from openprocurement.api.utils import save_tender, apply_patch, opresource, json_view, context_unpack, generate_id
 from openprocurement.tender.openeu.utils import check_status, all_bids_are_reviewed
 from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
 from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status, add_next_award
@@ -134,6 +134,9 @@ def check_status(request):
         for i in q.complaints
     ]):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.stage2.pending'),
-                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active_stage2_pending'}))
         tender.status = 'active.stage2.pending'
         return
+
+def set_ownership(item):
+    item.owner_token = generate_id()
