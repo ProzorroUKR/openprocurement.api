@@ -20,6 +20,8 @@ def set_db_schema_version(db, version):
 
 
 def migrate_data(registry, destination=None):
+    if registry.settings.get('plugins') and 'planning' not in registry.settings['plugins'].split(','):
+        return
     cur_version = get_db_schema_version(registry.db)
     if cur_version == SCHEMA_VERSION:
         return cur_version
