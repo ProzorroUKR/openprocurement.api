@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from functools import partial
 from logging import getLogger
 from openprocurement.api.utils import (
     context_unpack,
@@ -49,6 +50,7 @@ class ContractsResource(APIResource):
     def __init__(self, request, context):
         super(ContractsResource, self).__init__(request, context)
         self.server = request.registry.couchdb_server
+        self.update_after = request.registry.update_after
 
     @json_view(permission='view_contract')
     def get(self):
@@ -100,16 +102,20 @@ class ContractsResource(APIResource):
             else:
                 view_offset = '9' if descending else ''
         list_view = view_map.get(mode, view_map[u''])
+        if self.update_after:
+            view = partial(list_view, self.db, limit=view_limit, startkey=view_offset, descending=descending, stale='update_after')
+        else:
+            view = partial(list_view, self.db, limit=view_limit, startkey=view_offset, descending=descending)
         if fields:
             if not changes and set(fields).issubset(set(FIELDS)):
                 results = [
                     (dict([(i, j) for i, j in x.value.items() + [('id', x.id), ('dateModified', x.key)] if i in view_fields]), x.key)
-                    for x in list_view(self.db, limit=view_limit, startkey=view_offset, descending=descending)
+                    for x in view()
                 ]
             elif changes and set(fields).issubset(set(FIELDS)):
                 results = [
                     (dict([(i, j) for i, j in x.value.items() + [('id', x.id)] if i in view_fields]), x.key)
-                    for x in list_view(self.db, limit=view_limit, startkey=view_offset, descending=descending)
+                    for x in view()
                 ]
             elif fields:
                 self.LOGGER.info('Used custom fields for tenders list: {}'.format(','.join(sorted(fields))),
@@ -117,12 +123,12 @@ class ContractsResource(APIResource):
 
                 results = [
                     (contract_serialize(self.request, i[u'doc'], view_fields), i.key)
-                    for i in list_view(self.db, limit=view_limit, startkey=view_offset, descending=descending, include_docs=True)
+                    for i in view()
                 ]
         else:
             results = [
                 ({'id': i.id, 'dateModified': i.value['dateModified']} if changes else {'id': i.id, 'dateModified': i.key}, i.key)
-                for i in list_view(self.db, limit=view_limit, startkey=view_offset, descending=descending)
+                for i in view()
             ]
         if results:
             params['offset'], pparams['offset'] = results[-1][1], results[0][1]
