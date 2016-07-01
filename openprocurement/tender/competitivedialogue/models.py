@@ -22,8 +22,8 @@ from schematics.transforms import whitelist, blacklist
 # constants for procurementMethodtype
 CD_UA_TYPE = "competitiveDialogueUA"
 CD_EU_TYPE = "competitiveDialogueEU"
-STAGE_2_EU_TYPE = "aboveThresholdEU.stage2"
-STAGE_2_UA_TYPE = "aboveThresholdUA.stage2"
+STAGE_2_EU_TYPE = "competitiveDialogueEU.stage2"
+STAGE_2_UA_TYPE = "competitiveDialogueUA.stage2"
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 edit_stage2_pending = whitelist('status')
