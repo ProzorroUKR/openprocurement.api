@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
-from datetime import timedelta
-from iso8601 import parse_date
-from openprocurement.api.models import CPV_CODES, STAND_STILL_TIME, TZ, get_now
 from openprocurement.planning.api.traversal import Root
 from openprocurement.planning.api.models import Plan
-from email.header import decode_header
-
 
 LOGGER = logging.getLogger(__name__)
 SCHEMA_VERSION = 1
@@ -29,7 +24,7 @@ def migrate_data(registry, destination=None):
     if cur_version == SCHEMA_VERSION:
         return cur_version
     for step in xrange(cur_version, destination or SCHEMA_VERSION):
-        LOGGER.info("Migrate openprocurement schema from {} to {}".format(step, step + 1), extra={'MESSAGE_ID': 'migrate_data'})
+        LOGGER.info("Migrate openprocurement plans schema from {} to {}".format(step, step + 1), extra={'MESSAGE_ID': 'migrate_data'})
         migration_func = globals().get('from{}to{}'.format(step, step + 1))
         if migration_func:
             migration_func(registry)
@@ -52,7 +47,7 @@ def from0to1(registry):
             doc = plan.to_primitive()
             docs.append(doc)
         if len(docs) >= 2 ** 7:
-            result = registry.db.update(docs)
+            registry.db.update(docs)
             docs = []
     if docs:
         registry.db.update(docs)
