@@ -55,13 +55,44 @@ class TenderStage2UEResource(TenderResource):
         return patch_eu(self)
 
 
-@opresource(name='Tender stage2 credentials',
+@opresource(name='Tender stage2 EU credentials',
             path='/tenders/{tender_id}/credentials',
             procurementMethodType=STAGE_2_EU_TYPE,
-            description="Tender stage2 credentials")
-class TenderStage2CredentialsResource(TenderResource):
+            description="Tender stage2 UE credentials")
+class TenderStage2EUCredentialsResource(TenderResource):
     def __init__(self, request, context):
-        super(TenderStage2CredentialsResource, self).__init__(request, context)
+        super(TenderStage2EUCredentialsResource, self).__init__(request, context)
+        self.server = request.registry.couchdb_server
+
+    @json_view(permission='generate_credentials')
+    def patch(self):
+        tender = self.request.validated['tender']
+        if tender.status != "draft":
+            self.request.errors.add('body', 'data',
+                                    'Can\'t generate credentials in current ({}) contract status'.format(
+                                        tender.status))
+            self.request.errors.status = 403
+            return
+
+        set_ownership(tender)
+        if save_tender(self.request):
+            self.LOGGER.info('Generate Tender stage2 credentials {}'.format(tender.id),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
+            return {
+                'data': tender.serialize("view"),
+                'access': {
+                    'token': tender.owner_token
+                }
+            }
+
+
+@opresource(name='Tender stage2 UA credentials',
+            path='/tenders/{tender_id}/credentials',
+            procurementMethodType=STAGE_2_UA_TYPE,
+            description="Tender stage2 UA credentials")
+class TenderStage2UACredentialsResource(TenderResource):
+    def __init__(self, request, context):
+        super(TenderStage2UACredentialsResource, self).__init__(request, context)
         self.server = request.registry.couchdb_server
 
     @json_view(permission='generate_credentials')
