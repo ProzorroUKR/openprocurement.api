@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
     apply_patch,
     save_tender,
@@ -30,6 +31,7 @@ class TenderCancellationResource(APIResource):
             self.request.errors.status = 403
             return
         cancellation = self.request.validated['cancellation']
+        cancellation.date = get_now()
         if cancellation.status == 'active':
             tender.status = 'cancelled'
         tender.cancellations.append(cancellation)
