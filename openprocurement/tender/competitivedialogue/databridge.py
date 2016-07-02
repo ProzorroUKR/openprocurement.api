@@ -237,13 +237,14 @@ class CompetitiveDialogueDataBridge(object):
                     new_tender['title_ru'] = tender['title_ru']
                 if tender.get('mode'):
                     new_tender['mode'] = tender['mode']
+                # We need send for tenderPeriod validation
+                new_tender['tenderPeriod'] = {'endDate': (get_now() + timedelta(days=200)).isoformat()}
                 if tender['procurementMethodType'].endswith('EU'):
                     new_tender['procurementMethodType'] = STAGE_2_EU_TYPE
                     new_tender['title_en'] = tender['title_en']
-                    new_tender['tenderPeriod'] = {'endDate': (get_now() + timedelta(days=31)).isoformat()}
                 else:
                     new_tender['procurementMethodType'] = STAGE_2_UA_TYPE
-                    new_tender['tenderPeriod'] = {'endDate': (get_now() + timedelta(days=16)).isoformat()}
+
                 old_lots, items, short_listed_firms = dict(), list(), dict()
                 for qualification in tender['qualifications']:
                     if qualification['status'] == 'active':  # check if qualification has status active
@@ -315,10 +316,6 @@ class CompetitiveDialogueDataBridge(object):
             logger.info("Creating new tender from dialog {}".format(new_tender['dialogueID']),
                         extra=journal_context({"MESSAGE_ID": DATABRIDGE_CREATE_NEW_TENDER},
                                               {"TENDER_ID": new_tender['dialogueID']}))
-            if new_tender['procurementMethodType'] == STAGE_2_EU_TYPE:
-                new_tender['tenderPeriod'] = {'endDate': (get_now() + timedelta(days=31)).isoformat()}
-            else:
-                new_tender['tenderPeriod'] = {'endDate': (get_now() + timedelta(days=16)).isoformat()}
             data = {"data": new_tender}
             try:
                 res = self.client.create_tender(data)
@@ -409,10 +406,6 @@ class CompetitiveDialogueDataBridge(object):
 
     @retry(stop_max_attempt_number=15, wait_exponential_multiplier=1000 * 60)
     def _put_with_retry(self, new_tender):
-        if new_tender['procurementMethodType'] == STAGE_2_EU_TYPE:
-            new_tender['tenderPeriod'] = {'endDate': (get_now() + timedelta(days=31)).isoformat()}
-        else:
-            new_tender['tenderPeriod'] = {'endDate': (get_now() + timedelta(days=16)).isoformat()}
         data = {"data": new_tender}
         logger.info("Creating new tender of tender {0}".format(new_tender['dialogueID']),
                     extra=journal_context({"MESSAGE_ID": DATABRIDGE_CREATE_NEW_TENDER},

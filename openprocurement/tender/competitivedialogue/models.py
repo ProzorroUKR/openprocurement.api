@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 from schematics.types import StringType
 from schematics.exceptions import ValidationError
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.types.compound import ModelType
 from openprocurement.api.models import ITender, Identifier, Model
+from openprocurement.api.utils import calculate_business_date, get_now
 from openprocurement.tender.openua.models import SifterListType, Item as BaseItem
 from openprocurement.tender.openeu.models import (Tender as TenderEU, Administrator_bid_role, view_bid_role,
                                                   pre_qualifications_role, Bid as BidEU, ConfidentialDocument,
                                                   edit_role_eu, auction_patch_role, auction_view_role,
-                                                  auction_post_role)
+                                                  auction_post_role, QUESTIONS_STAND_STILL, ENQUIRY_STAND_STILL_TIME,
+                                                  PeriodStartEndRequired, EnquiryPeriod)
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     enquiries_role, validate_cpv_group, validate_items_uniq,
@@ -187,7 +190,7 @@ close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'd
 
 stage_2_roles = {
     'plain': plain_role,
-    'create': (blacklist('owner_token', '_attachments', 'revisions', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role),
+    'create': (blacklist('owner_token', 'tenderPeriod', '_attachments', 'revisions', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role),
     'edit': edit_role_eu + close_edit_technical_fields,
     'edit_draft': edit_role_eu + close_edit_technical_fields,
     'edit_active.tendering': edit_role_eu + close_edit_technical_fields,
@@ -253,6 +256,16 @@ class Tender(TenderEU):
         ])
         return acl
 
+    def initialize(self):
+        self.tenderPeriod = PeriodStartEndRequired(dict(startDate=get_now(),
+                                                        endDate=calculate_business_date(get_now(), timedelta(days=30), self)))
+        endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
+        self.enquiryPeriod = EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
+                                                endDate=endDate,
+                                                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
+                                                clarificationsUntil=calculate_business_date(endDate,
+                                                                                            ENQUIRY_STAND_STILL_TIME,
+                                                                                            self, True)))
 
 TenderStage2EU = Tender
 
