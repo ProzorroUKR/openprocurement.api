@@ -113,10 +113,17 @@ class ContractResourceTest(BaseWebTest):
             self.assertEqual(response.content_type, 'application/json')
             contracts.append(response.json['data'])
 
+        ids = ','.join([i['id'] for i in contracts])
 
-        response = self.app.get('/contracts')
-        self.assertEqual(response.status, '200 OK')
+        while True:
+            response = self.app.get('/contracts')
+            self.assertEqual(response.status, '200 OK')
+            self.assertTrue(ids.startswith(','.join([i['id'] for i in response.json['data']])))
+            if len(response.json['data']) == 3:
+                break
+
         self.assertEqual(len(response.json['data']), 3)
+        self.assertEqual(','.join([i['id'] for i in response.json['data']]), ids)
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
         self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in contracts]))
         self.assertEqual(set([i['dateModified'] for i in response.json['data']]),
@@ -178,8 +185,11 @@ class ContractResourceTest(BaseWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 
-        response = self.app.get('/contracts?mode=test')
-        self.assertEqual(response.status, '200 OK')
+        while True:
+            response = self.app.get('/contracts?mode=test')
+            self.assertEqual(response.status, '200 OK')
+            if len(response.json['data']) == 1:
+                break
         self.assertEqual(len(response.json['data']), 1)
 
         response = self.app.get('/contracts?mode=_all_')
@@ -202,9 +212,17 @@ class ContractResourceTest(BaseWebTest):
             self.assertEqual(response.content_type, 'application/json')
             contracts.append(response.json['data'])
 
-        response = self.app.get('/contracts?feed=changes')
-        self.assertEqual(response.status, '200 OK')
+        ids = ','.join([i['id'] for i in contracts])
+
+        while True:
+            response = self.app.get('/contracts?feed=changes')
+            self.assertEqual(response.status, '200 OK')
+            self.assertTrue(ids.startswith(','.join([i['id'] for i in response.json['data']])))
+            if len(response.json['data']) == 3:
+                break
+
         self.assertEqual(len(response.json['data']), 3)
+        self.assertEqual(','.join([i['id'] for i in response.json['data']]), ids)
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
         self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in contracts]))
         self.assertEqual(set([i['dateModified'] for i in response.json['data']]),
@@ -263,8 +281,11 @@ class ContractResourceTest(BaseWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 
-        response = self.app.get('/contracts?feed=changes&mode=test')
-        self.assertEqual(response.status, '200 OK')
+        while True:
+            response = self.app.get('/contracts?feed=changes&mode=test')
+            self.assertEqual(response.status, '200 OK')
+            if len(response.json['data']) == 1:
+                break
         self.assertEqual(len(response.json['data']), 1)
 
         response = self.app.get('/contracts?feed=changes&mode=_all_')
@@ -306,8 +327,11 @@ class ContractResourceTest(BaseWebTest):
         contract = response.json['data']
         self.assertEqual(contract['id'], test_contract_data['id'])
 
-        response = self.app.get('/contracts')
-        self.assertEqual(response.status, '200 OK')
+        while True:
+            response = self.app.get('/contracts')
+            self.assertEqual(response.status, '200 OK')
+            if len(response.json['data']) == 1:
+                break
         self.assertEqual(len(response.json['data']), 1)
 
         tender_id = test_contract_data['tender_id']
