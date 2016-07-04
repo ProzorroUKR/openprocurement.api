@@ -164,7 +164,7 @@ class TenderLotSwitch1BidResourceTest(BaseTenderUAContentWebTest):
     initial_lots = test_lots
     initial_bids = test_bids[:1]
 
-    def test_switch_to_unsuccessful(self):
+    def test_switch_to_qualification(self):
         self.set_status('active.auction', {'status': self.initial_status})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
