@@ -231,6 +231,11 @@ class Tender(TenderEU):
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
     shortlistedFirms = ListType(ModelType(Firms), required=True)
+    tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
+                             default=PeriodStartEndRequired({"startDate": get_now(),
+                                                             "endDate": calculate_business_date(get_now(),
+                                                                                                timedelta(days=30))
+                                                             }))
 
     class Options:
         roles = stage_2_roles.copy()
@@ -257,8 +262,8 @@ class Tender(TenderEU):
         return acl
 
     def initialize(self):
-        self.tenderPeriod = PeriodStartEndRequired(dict(startDate=get_now(),
-                                                        endDate=calculate_business_date(get_now(), timedelta(days=30), self)))
+        self.tenderPeriod = PeriodStartEndRequired(
+            dict(startDate=get_now(), endDate=calculate_business_date(get_now(), timedelta(days=30), self)))
         endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
         self.enquiryPeriod = EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
                                                 endDate=endDate,
@@ -266,6 +271,7 @@ class Tender(TenderEU):
                                                 clarificationsUntil=calculate_business_date(endDate,
                                                                                             ENQUIRY_STAND_STILL_TIME,
                                                                                             self, True)))
+
 
 TenderStage2EU = Tender
 

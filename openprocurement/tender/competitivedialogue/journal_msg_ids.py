@@ -1,7 +1,6 @@
 DATABRIDGE_RESTART = "cd_bridge_restart"
 DATABRIDGE_GET_CREDENTIALS = "cd_bridge_get_tender_credentials"
 DATABRIDGE_GOT_CREDENTIALS = "cd_bridge_got_tender_credentials"
-DATABRIDGE_FOUND_MULTILOT_COMPLETE = "cd_bridge_found_multilot"
 DATABRIDGE_FOUND_NOLOT = "cd_bridge_found_nolot"
 DATABRIDGE_COPY_TENDER_ITEMS = "cd_bridge_prepare_items"
 DATABRIDGE_GET_EXTRA_INFO = "cd_bridge_get_credentials"

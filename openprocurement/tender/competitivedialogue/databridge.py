@@ -25,6 +25,7 @@ from gevent.queue import Queue
 from openprocurement_client.client import TendersClientSync, TendersClient
 from yaml import load
 from pytz import timezone
+from openprocurement.api.utils import generate_id
 from openprocurement.tender.competitivedialogue.models import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.journal_msg_ids import (
     DATABRIDGE_RESTART, DATABRIDGE_GET_CREDENTIALS, DATABRIDGE_GOT_CREDENTIALS,
@@ -40,10 +41,6 @@ from openprocurement.tender.competitivedialogue.journal_msg_ids import (
 TZ = timezone(os.environ['TZ'] if 'TZ' in os.environ else 'Europe/Kiev')
 
 
-def get_now():
-    return datetime.now(TZ)
-
-
 logger = logging.getLogger("openprocurement.tender.competitivedialogue.databridge")
 
 from lazydb import Db
@@ -53,10 +50,6 @@ db = Db('competitivedialogue_databridge_cache_db')
 
 def generate_req_id():
     return b'competitive-dialogue-data-bridge-req-' + str(uuid4()).encode('ascii')
-
-
-def generate_id():
-    return uuid4().hex
 
 
 def journal_context(record={}, params={}):
@@ -237,8 +230,8 @@ class CompetitiveDialogueDataBridge(object):
                     new_tender['title_ru'] = tender['title_ru']
                 if tender.get('mode'):
                     new_tender['mode'] = tender['mode']
-                # We need send for tenderPeriod validation
-                new_tender['tenderPeriod'] = {'endDate': (get_now() + timedelta(days=200)).isoformat()}
+                if tender.get('procurementMethodDetails'):
+                    new_tender['procurementMethodDetails'] = tender['procurementMethodDetails']
                 if tender['procurementMethodType'].endswith('EU'):
                     new_tender['procurementMethodType'] = STAGE_2_EU_TYPE
                     new_tender['title_en'] = tender['title_en']
@@ -442,7 +435,7 @@ class CompetitiveDialogueDataBridge(object):
 
     def get_tender_forward(self):
         logger.info('Start forward data sync worker...')
-        params = {'opt_fields': 'status,lots', 'mode': '_all_'}
+        params = {'opt_fields': 'status', 'mode': '_all_'}
         try:
             for tender_data in self.get_tenders(params=params, direction="forward"):
                 logger.info('Forward sync: Put tender {} to process...'.format(tender_data['id']),
@@ -458,7 +451,7 @@ class CompetitiveDialogueDataBridge(object):
 
     def get_tender_backward(self):
         logger.info('Start backward data sync worker...')
-        params = {'opt_fields': 'status,lots', 'descending': 1, 'mode': '_all_'}
+        params = {'opt_fields': 'status', 'descending': 1, 'mode': '_all_'}
         try:
             for tender_data in self.get_tenders(params=params, direction="backward"):
                 stored = db.get(tender_data['id'])
