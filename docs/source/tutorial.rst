@@ -213,6 +213,15 @@ Defense open tender demands at least two bidders, so there should be at least tw
 
 .. index:: Awarding, Qualification
 
+
+Pay attention!
+
+If there are no bidders, procurement is `unsuccessful`.
+
+If there is only 1 bidder, then procedure will move to `active.qualification` status (see `confirming qualification <http://defense.api-docs.openprocurement.org/en/latest/tutorial.html#confirming-qualification>`_).
+
+If there are 2 or more bidders, then auction will start.
+
 Auction
 -------
 
