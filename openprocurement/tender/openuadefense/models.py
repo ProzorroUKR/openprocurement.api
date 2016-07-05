@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, time
 from schematics.exceptions import ValidationError
 from schematics.types import StringType
 from openprocurement.api.models import ListType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
-from openprocurement.api.models import ITender, Period, get_now,TZ
+from openprocurement.api.models import ITender, Period, get_now, TZ
 from openprocurement.tender.openua.models import (
     Tender as BaseTender, EnquiryPeriod, Lot as BaseLot, get_tender, calc_auction_end_time, validate_lots_uniq,
 )
@@ -48,6 +48,7 @@ class LotAuctionPeriod(Period):
             ]
             decision_dates.append(tender.tenderPeriod.endDate)
             return max(decision_dates).isoformat()
+
 
 class Lot(BaseLot):
 
