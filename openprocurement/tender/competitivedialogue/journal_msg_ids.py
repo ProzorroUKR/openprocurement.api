@@ -30,3 +30,5 @@ DATABRIDGE_PATCH_DIALOG_STATUS = "cd_bridge_patch_dialog_status"
 DATABRIDGE_UNSUCCESSFUL_PATCH_DIALOG_STATUS = "cd_bridge_unsuccessful_patch_dialog_status"
 DATABRIDGE_SUCCESSFUL_PATCH_DIALOG_STATUS = "cd_bridge_successful_patch_dialog_status"
 DATABRIDGE_ONLY_PATCH = 'cd_bridge_need_patch'
+DATABRIDGE_TENDER_STAGE2_NOT_EXIST = 'cd_bridge_tender_stage2_not_exist'
+
