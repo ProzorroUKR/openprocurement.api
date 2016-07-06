@@ -5,6 +5,7 @@ from openprocurement.tender.openua.validation import validate_patch_tender_ua_da
 from openprocurement.tender.competitivedialogue.utils import patch_eu, set_ownership
 from openprocurement.api.utils import opresource, json_view, save_tender, context_unpack, APIResource
 from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.tender.competitivedialogue.validation import validate_patch_tender_stage2_data
 
 
 @opresource(name='Competitive Dialogue for EU procedure',
@@ -35,10 +36,10 @@ class CompetitiveDialogueUAResource(TenderResource):
             path='/tenders/{tender_id}',
             procurementMethodType=STAGE_2_UA_TYPE,
             description="")
-class TenderStage2UAResource(TenderResource):
+class TenderStage2UAResource(TenderEUResource):
     """ Resource handler for tender stage 2 UA"""
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data,), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_tender_stage2_data,), permission='edit_tender')
     def patch(self):
         return patch_eu(self)
 
@@ -47,10 +48,10 @@ class TenderStage2UAResource(TenderResource):
             path='/tenders/{tender_id}',
             procurementMethodType=STAGE_2_EU_TYPE,
             description="")
-class TenderStage2UEResource(TenderResource):
+class TenderStage2UEResource(TenderEUResource):
     """ Resource handler for tender stage 2 EU"""
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data,), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_tender_stage2_data,), permission='edit_tender')
     def patch(self):
         return patch_eu(self)
 
