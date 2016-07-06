@@ -1158,7 +1158,7 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
-        self.assertEqual(response.json['data']['status'], 'unsuccessful')
+        self.assertEqual(response.json['data']['status'], 'active.qualification')
 
     def test_one_invalid_bid_tender(self):
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1179,6 +1179,25 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         # get awards
+        self.assertEqual(response.json['data']['status'], 'active.qualification')
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
+        # get pending award
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        # set award as unsuccessful
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token),
+                                       {"data": {"status": "unsuccessful"}})
+        # time travel
+        tender = self.db.get(tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+        # set tender status after stand slill period
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
+        # check status
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}'.format(tender_id))
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
     def test_first_bid_tender(self):
@@ -1247,26 +1266,12 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # get pending award
         award2_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
         self.assertNotEqual(award_id, award2_id)
-        # # create first award complaint
-        # self.app.authorization = ('Basic', ('broker', ''))
-        # response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(tender_id, award_id, bid_token),
-        #                               {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
-        # complaint_id = response.json['data']['id']
-        # complaint_owner_token = response.json['access']['token']
-        # # create first award complaint #2
-        # response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(tender_id, award_id, bid_token),
-        #                               {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
-        # # answering claim
-        # self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(tender_id, award_id, complaint_id, owner_token), {"data": {
-        #     "status": "answered",
-        #     "resolutionType": "resolved",
-        #     "resolution": "resolution text"
-        # }})
-        # # satisfying resolution
-        # self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(tender_id, award_id, complaint_id, complaint_owner_token), {"data": {
-        #     "satisfied": True,
-        #     "status": "resolved"
-        # }})
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
+        # get pending award
+        award2_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        self.assertNotEqual(award_id, award2_id)
+        # create first award complaint
         # get awards
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
@@ -1277,6 +1282,12 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         # get contract id
         response = self.app.get('/tenders/{}'.format(tender_id))
         contract_id = response.json['data']['contracts'][-1]['id']
+        # create tender contract document for test
+        response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(tender_id, contract_id, owner_token), upload_files=[('file', 'name.doc', 'content')], status=201)
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
         # after stand slill period
         self.app.authorization = ('Basic', ('chronograph', ''))
         self.set_status('complete', {'status': 'active.awarded'})
@@ -1292,6 +1303,21 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}'.format(tender_id))
         self.assertEqual(response.json['data']['status'], 'complete')
+
+        response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(tender_id, contract_id, owner_token), upload_files=[('file', 'name.doc', 'content')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(tender_id, contract_id, doc_id, owner_token), {"data": {"description": "document description"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
+
+        response = self.app.put('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(tender_id, contract_id, doc_id, owner_token), upload_files=[('file', 'name.doc', 'content3')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
 
 
 def suite():
