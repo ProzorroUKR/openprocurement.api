@@ -3,14 +3,15 @@ from logging import getLogger
 from openprocurement.tender.openua.utils import calculate_business_date
 from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
 from openprocurement.api.models import get_now
-from openprocurement.api.utils import save_tender, apply_patch, opresource, json_view, context_unpack, generate_id
+from openprocurement.api.utils import save_tender, apply_patch, context_unpack, generate_id
 from openprocurement.tender.openeu.utils import check_status, all_bids_are_reviewed
 from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
-from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status, add_next_award
-from openprocurement.tender.openeu.utils import check_initial_bids_count, prepare_qualifications
+from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status
+from openprocurement.tender.openeu.utils import prepare_qualifications
 
 
 LOGGER = getLogger(__name__)
+MINIMAL_NUMBER_OF_BITS = 3
 
 
 def patch_eu(self):
@@ -109,6 +110,29 @@ def patch_eu(self):
     self.LOGGER.info('Updated tender {}'.format(tender.id),
                      extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
     return {'data': tender.serialize(tender.status)}
+
+
+def check_initial_bids_count(request):
+    tender = request.validated['tender']
+    if tender.lots:
+        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < MINIMAL_NUMBER_OF_BITS and i.auctionPeriod and i.auctionPeriod.startDate]
+
+        for i in tender.lots:
+            if i.numberOfBids < MINIMAL_NUMBER_OF_BITS and i.status == 'active':
+                setattr(i, 'status', 'unsuccessful')
+                for bid_index, bid in enumerate(tender.bids):
+                    for lot_index, lot_value in enumerate(bid.lotValues):
+                        if lot_value.relatedLot == i.id:
+                            setattr(tender.bids[bid_index].lotValues[lot_index], 'status', 'unsuccessful')
+
+        if not set([i.status for i in tender.lots]).difference(set(['unsuccessful', 'cancelled'])):
+            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
+            tender.status = 'unsuccessful'
+    elif tender.numberOfBids < MINIMAL_NUMBER_OF_BITS:
+        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
+        tender.status = 'unsuccessful'
 
 
 def check_status(request):
