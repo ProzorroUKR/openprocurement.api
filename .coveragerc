@@ -1,6 +1,7 @@
 [run]
 omit =
     *tests*
+    *databridge.py
 
 [report]
 exclude_lines =
