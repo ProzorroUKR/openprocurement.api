@@ -106,8 +106,8 @@ def prepare_lot(orig_tender, lot_id, items):
 
 class CompetitiveDialogueDataBridge(object):
     """ Competitive Dialogue Data Bridge """
-    copy_name_fields = ('title_ru', 'mode', 'procurementMethodDetails', 'title_en', 'description',
-                        'title', 'minimalStep', 'value', 'procuringEntity')
+    copy_name_fields = ('title_ru', 'mode', 'procurementMethodDetails', 'title_en', 'description', 'description_en',
+                        'description_ru', 'title', 'minimalStep', 'value', 'procuringEntity')
 
     def __init__(self, config):
         super(CompetitiveDialogueDataBridge, self).__init__()
@@ -397,10 +397,6 @@ class CompetitiveDialogueDataBridge(object):
                 logger.warn("Can't patch competitive dialogue id={0}".format(dialog['id']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_CD_UNSUCCESSFUL_PATCH_STAGE2_ID,
                                                    "TENDER_ID": dialog['id']}))
-                try:
-                    dialog_work.remove(dialog['id'])  # delete from local, and restart from begin
-                except KeyError:
-                    pass
                 self.competitive_dialogues_queue.put({"id": dialog['id']})
             gevent.sleep(0)
 
@@ -470,10 +466,6 @@ class CompetitiveDialogueDataBridge(object):
                 logger.warn("Can't patch competitive dialogue id={0} with status {1}".format(patch_data['id'], patch_data['status']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_PATCH_DIALOG_STATUS,
                                                    "TENDER_ID": patch_data['id']}))
-                try:
-                    dialog_work.remove(patch_data['id'])
-                except KeyError:
-                    pass
                 self.competitive_dialogues_queue.put({"id": patch_data['id']})
             gevent.sleep(0)
 
@@ -498,10 +490,6 @@ class CompetitiveDialogueDataBridge(object):
                 logger.warn("Can't patch tender stage2 id={0} with status {1}".format(patch_data['id'], patch_data['status']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_PATCH_NEW_TENDER_STATUS,
                                                    "TENDER_ID": path_data['id']}))
-                try:
-                    dialog_work.remove(patch_data['dialogueID'])  # delete from local, and restart from begin
-                except KeyError:
-                    pass
                 self.competitive_dialogues_queue.put({"id": patch_data['dialogueID']})
             gevent.sleep(0)
 
@@ -532,7 +520,7 @@ class CompetitiveDialogueDataBridge(object):
                 logger.warn("Can't create tender stage2 from competitive dialogue id={0}".format(new_tender['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_CREATE_ERROR,
                                                    "TENDER_ID": new_tender['dialogueID']}))
-                self.handicap_competitive_dialogues_queue.put({"id": new_tender['dialogueID']})
+                self.competitive_dialogues_queue.put({"id": new_tender['dialogueID']})
             gevent.sleep(0)
 
     def get_competitive_dialogue_forward(self):
