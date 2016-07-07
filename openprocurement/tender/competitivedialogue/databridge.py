@@ -62,7 +62,7 @@ def journal_context(record=None, params=None):
 def get_item_by_related_lot(items, lot_id):
     for item in items:
         if item['relatedLot'] == lot_id:
-            return item
+            yield item
 
 
 def get_lot_by_id(tender, lot_id):
@@ -95,12 +95,13 @@ def prepare_lot(orig_tender, lot_id, items):
     :param items: list with related item for lot
     :return: lot with new id
     """
-    item = get_item_by_related_lot(orig_tender['items'], lot_id)
-    item['id'] = generate_id()
-    item['relatedLot'] = generate_id()
-    items.append(item)
+    new_lot_id = generate_id()
+    for item in get_item_by_related_lot(orig_tender['items'], lot_id):
+        item['id'] = generate_id()
+        item['relatedLot'] = new_lot_id
+        items.append(item)
     lot = get_lot_by_id(orig_tender, lot_id)
-    lot['id'] = item['relatedLot']
+    lot['id'] = new_lot_id
     return lot
 
 
