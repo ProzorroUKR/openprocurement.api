@@ -12,6 +12,8 @@ from openprocurement.tender.openeu.tests.base import (
     test_features_tender_data as test_features_tender_eu_data
 )
 
+test_bids.append(test_bids[0].copy())  # Minimal number of bits is 3
+
 
 class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
@@ -315,6 +317,11 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         # Create another bidder
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': test_bids[0]['tenderers'], "value": {"amount": 499}}})
+
+        # Create another 2 bidder
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
                                        'tenderers': test_bids[0]['tenderers'], "value": {"amount": 499}}})
 
         # Try get bidder when dialog status active.tendering
@@ -339,7 +346,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.app.authorization = ('Basic', ('anon', ''))
         response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']), 2)
+        self.assertEqual(len(response.json['data']), 3)
         for b in response.json['data']:
             self.assertEqual(set(b.keys()), set(['id', 'status', 'tenderers']))
 
@@ -365,7 +372,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.app.authorization = ('Basic', ('anon', ''))
         response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']), 2)
+        self.assertEqual(len(response.json['data']), 3)
         for b in response.json['data']:
             self.assertEqual(set(b.keys()), set(['id', 'status', 'tenderers']))
 
@@ -441,6 +448,10 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
                                        'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
+        # Create new bid
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -507,6 +518,10 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
                                        'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
+        # Create another bid
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': test_bids[2]['tenderers'], "value": {"amount": 111}}})
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -607,9 +622,13 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.assertEqual(response.status, '201 Created')
         valid_bid_id = response.json['data']['id']
 
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
-                                      {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
+        self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                           {'data': {'selfEligible': True, 'selfQualified': True,
+                            'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
+
+        self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                           {'data': {'selfEligible': True, 'selfQualified': True,
+                            'tenderers': test_bids[2]['tenderers'], "value": {"amount": 101}}})
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -649,7 +668,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.app.authorization = ('Basic', ('anon', ''))
         response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']), 4)
+        self.assertEqual(len(response.json['data']), 7)
         for b in response.json['data']:
             if b['status'] == u'invalid':
                 self.assertEqual(set(b.keys()), set(['id', 'status']))
@@ -670,7 +689,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.set_status('complete')
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']['bids']), 4)
+        self.assertEqual(len(response.json['data']['bids']), 7)
         for bid in response.json['data']['bids']:
             if bid['id'] in bids_access:  # previously invalidated bids
                 self.assertEqual(bid['status'], 'invalid')
@@ -844,6 +863,11 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
         self.bid2_id = bid2['id']
         self.bid2_token = response.json['access']['token']
 
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[1]})
+        bid3 = response.json['data']
+        self.bid3_id = bid3['id']
+        self.bid3_token = response.json['access']['token']
+
     def test_get_tender_bidder_document(self):
 
         doc_id_by_type = {}
@@ -943,7 +967,7 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
             doc_resource = 'documents'
             response = self.app.get('/tenders/{}/bids/{}/{}'.format(self.tender_id, self.bid_id, doc_resource))
             self.assertEqual(response.status, '200 OK')
-            self.assertEqual(len(response.json['data']), 2)
+            self.assertEqual(len(response.json['data']), 3)
             self.assertIn(doc_id_by_type[doc_resource]['key'], response.json['data'][0]['url'])
             self.assertNotIn('url', response.json['data'][1])
             response = self.app.get('/tenders/{}/bids/{}/{}/{}'.format(self.tender_id, self.bid_id, doc_resource,
@@ -1003,7 +1027,7 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
         self.app.authorization = ('Basic', ('anon', ''))
         response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']), 2)
+        self.assertEqual(len(response.json['data']), 3)
         self.assertEqual(set(response.json['data'][0].keys()), set(['id', 'status', 'documents', 'tenderers']))
         self.assertEqual(set(response.json['data'][1].keys()), set(['id', 'status', 'tenderers']))
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, self.bid_id))
@@ -1040,7 +1064,7 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
         self.app.authorization = ('Basic', ('anon', ''))
         response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']), 2)
+        self.assertEqual(len(response.json['data']), 3)
         self.assertEqual(set(response.json['data'][0].keys()), set(['id', 'status', 'documents', 'tenderers']))
         self.assertEqual(set(response.json['data'][1].keys()), set(['id', 'status', 'tenderers']))
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, self.bid_id))

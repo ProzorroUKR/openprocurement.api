@@ -9,6 +9,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (BaseCompetiti
                                                                    test_tender_data_eu as test_tender_data)
 from openprocurement.tender.openeu.tests.base import test_lots, test_bids
 
+test_bids.append(test_bids[0].copy())  # Minimal number of bits is 3
+
 
 class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
@@ -1235,6 +1237,12 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
                                                 'tenderers': test_bids[1]["tenderers"],
                                                 'lotValues': [{"value": {"amount": 500},
                                                                'relatedLot': lot_id}]}})
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'selfEligible': True,
+                                                'selfQualified': True,
+                                                'tenderers': test_bids[2]["tenderers"],
+                                                'lotValues': [{"value": {"amount": 500},
+                                                               'relatedLot': lot_id}]}})
         # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
@@ -1256,6 +1264,12 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
                                        {"data": {'status': 'unsuccessful'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
+                                                                                           qualifications[2]['id'],
+                                                                                           owner_token),
+                                       {"data": {'status': 'active', "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
                                        {"data": {"status": "active.pre-qualification.stand-still"}})
 
@@ -1295,6 +1309,13 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
                                                 'selfQualified': True,
                                                 'tenderers': test_bids[1]["tenderers"],
                                                 'lotValues': [{"value": {"amount": 475},
+                                                               'relatedLot': lot_id}]}})
+        # create third
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'selfEligible': True,
+                                                'selfQualified': True,
+                                                'tenderers': test_bids[2]["tenderers"],
+                                                'lotValues': [{"value": {"amount": 470},
                                                                'relatedLot': lot_id}]}})
         # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
@@ -1390,11 +1411,11 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         bids = []
-        for i in range(3):
+        for test_bid in test_bids:
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                           {'data': {'selfEligible': True,
                                                     'selfQualified': True,
-                                                    'tenderers': test_bids[0]["tenderers"],
+                                                    'tenderers': test_bid["tenderers"],
                                                     'lotValues': [{"value": {"amount": 450},
                                                                    'relatedLot': lot_id}]}})
             bids.append({response.json['data']['id']: response.json['access']['token']})
@@ -1645,6 +1666,13 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
                                                 'lotValues': [{"value": {"amount": 499}, 'relatedLot': lot_id}
                                                               for lot_id in lots]}})
 
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'selfEligible': True,
+                                                'selfQualified': True,
+                                                'tenderers': test_bids[2]['tenderers'],
+                                                'lotValues': [{"value": {"amount": 499}, 'relatedLot': lot_id}
+                                                              for lot_id in lots]}})
+
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender_id, owner_token),
                                       {'data': {'reason': 'cancellation reason',
@@ -1660,7 +1688,7 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
         self.assertEqual(response.content_type, 'application/json')
         qualifications = response.json['data']
-        self.assertEqual(len(qualifications), 2)
+        self.assertEqual(len(qualifications), 3)
 
         for qualification in qualifications:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
@@ -1698,15 +1726,20 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                          {'data': {'selfEligible': True,
-                                    'selfQualified': True,
-                                    'tenderers': test_bids[0]['tenderers'],
-                                    'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}
-                                                  for lot_id in lots]}})
+                           {'data': {'selfEligible': True,
+                                     'selfQualified': True,
+                                     'tenderers': test_bids[0]['tenderers'],
+                                     'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}
+                                                   for lot_id in lots]}})
         # create second bid
-        self.app.authorization = ('Basic', ('broker', ''))
         self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                            'tenderers': test_bids[1]['tenderers'],
+                                                                           'lotValues': [{"value": {"amount": 500},
+                                                                                          'relatedLot': lot_id}
+                                                                                         for lot_id in lots]}})
+        # create third bid
+        self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                                                           'tenderers': test_bids[2]['tenderers'],
                                                                            'lotValues': [{"value": {"amount": 500},
                                                                                           'relatedLot': lot_id}
                                                                                          for lot_id in lots]}})
@@ -1716,13 +1749,13 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
         self.assertEqual(response.content_type, 'application/json')
         qualifications = response.json['data']
-        self.assertEqual(len(qualifications), 4)
+        self.assertEqual(len(qualifications), 6)
 
         for qualification in qualifications:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
                                                                                                qualification['id'],
                                                                                                owner_token),
-                                      {"data": {'status': 'active', "qualified": True, "eligible": True}})
+                                           {"data": {'status': 'active', "qualified": True, "eligible": True}})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'active')
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
@@ -2942,19 +2975,25 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         self.assertEqual(response.status, '200 OK')
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'selfEligible': True,
-                                                'selfQualified': True,
-                                                'tenderers': test_bids[0]["tenderers"],
-                                                'lotValues': [{"value": {"amount": 500},
-                                                               'relatedLot': lot_id}]}})
+        self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                           {'data': {'selfEligible': True,
+                                     'selfQualified': True,
+                                     'tenderers': test_bids[0]["tenderers"],
+                                     'lotValues': [{"value": {"amount": 500},
+                                     'relatedLot': lot_id}]}})
 
-        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                      {'data': {'selfEligible': True,
-                                                'selfQualified': True,
-                                                'tenderers': test_bids[1]["tenderers"],
-                                                'lotValues': [{"value": {"amount": 500},
-                                                               'relatedLot': lot_id}]}})
+        self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                           {'data': {'selfEligible': True,
+                                     'selfQualified': True,
+                                     'tenderers': test_bids[1]["tenderers"],
+                                     'lotValues': [{"value": {"amount": 500},
+                                     'relatedLot': lot_id}]}})
+        self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                           {'data': {'selfEligible': True,
+                                     'selfQualified': True,
+                                     'tenderers': test_bids[2]["tenderers"],
+                                     'lotValues': [{"value": {"amount": 500},
+                                                    'relatedLot': lot_id}]}})
         # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
@@ -2976,6 +3015,13 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
                                        {"data": {'status': 'unsuccessful'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
+                                                                                           qualifications[2]['id'],
+                                                                                           owner_token),
+                                       {"data": {'status': 'active', "qualified": True, "eligible": True}})
+
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
                                        {"data": {"status": "active.pre-qualification.stand-still"}})
 
@@ -3015,6 +3061,12 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
                                                 'selfQualified': True,
                                                 'tenderers': test_bids[1]["tenderers"],
                                                 'lotValues': [{"value": {"amount": 475},
+                                                               'relatedLot': lot_id}]}})
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'selfEligible': True,
+                                                'selfQualified': True,
+                                                'tenderers': test_bids[2]["tenderers"],
+                                                'lotValues': [{"value": {"amount": 470},
                                                                'relatedLot': lot_id}]}})
         # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
@@ -3110,11 +3162,11 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         bids = []
-        for i in range(3):
+        for test_bid in test_bids:
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                           {'data': {'selfEligible': True,
                                                     'selfQualified': True,
-                                                    'tenderers': test_bids[0]["tenderers"],
+                                                    'tenderers': test_bid["tenderers"],
                                                     'lotValues': [{"value": {"amount": 450},
                                                                    'relatedLot': lot_id}]}})
             bids.append({response.json['data']['id']: response.json['access']['token']})
@@ -3365,6 +3417,13 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
                                                 'lotValues': [{"value": {"amount": 499}, 'relatedLot': lot_id}
                                                               for lot_id in lots]}})
 
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'selfEligible': True,
+                                                'selfQualified': True,
+                                                'tenderers': test_bids[2]['tenderers'],
+                                                'lotValues': [{"value": {"amount": 499}, 'relatedLot': lot_id}
+                                                              for lot_id in lots]}})
+
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender_id, owner_token),
                                       {'data': {'reason': 'cancellation reason',
@@ -3380,7 +3439,7 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
         self.assertEqual(response.content_type, 'application/json')
         qualifications = response.json['data']
-        self.assertEqual(len(qualifications), 2)
+        self.assertEqual(len(qualifications), 3)
 
         for qualification in qualifications:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
@@ -3424,9 +3483,14 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
                                     'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}
                                                   for lot_id in lots]}})
         # create second bid
-        self.app.authorization = ('Basic', ('broker', ''))
         self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                            'tenderers': test_bids[1]['tenderers'],
+                                                                           'lotValues': [{"value": {"amount": 500},
+                                                                                          'relatedLot': lot_id}
+                                                                                         for lot_id in lots]}})
+        # create third bid
+        self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                                                           'tenderers': test_bids[2]['tenderers'],
                                                                            'lotValues': [{"value": {"amount": 500},
                                                                                           'relatedLot': lot_id}
                                                                                          for lot_id in lots]}})
@@ -3436,7 +3500,7 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
         self.assertEqual(response.content_type, 'application/json')
         qualifications = response.json['data']
-        self.assertEqual(len(qualifications), 4)
+        self.assertEqual(len(qualifications), 6)
 
         for qualification in qualifications:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
