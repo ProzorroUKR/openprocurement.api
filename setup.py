@@ -20,6 +20,9 @@ docs_requires = requires + [
 ]
 
 entry_points = {
+    'console_scripts': [
+        'competitive_dialogue_data_bridge = openprocurement.tender.competitivedialogue.databridge:main'
+    ],
     'openprocurement.api.plugins': [
         'competitivedialogue = openprocurement.tender.competitivedialogue:includeme'
     ]

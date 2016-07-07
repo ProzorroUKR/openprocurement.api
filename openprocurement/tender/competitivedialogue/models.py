@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 from schematics.types import StringType
 from schematics.exceptions import ValidationError
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.types.compound import ModelType
 from openprocurement.api.models import ITender, Identifier, Model
+from openprocurement.api.utils import calculate_business_date, get_now
 from openprocurement.tender.openua.models import SifterListType, Item as BaseItem
 from openprocurement.tender.openeu.models import (Tender as TenderEU, Administrator_bid_role, view_bid_role,
                                                   pre_qualifications_role, Bid as BidEU, ConfidentialDocument,
                                                   edit_role_eu, auction_patch_role, auction_view_role,
-                                                  auction_post_role)
+                                                  auction_post_role, QUESTIONS_STAND_STILL, ENQUIRY_STAND_STILL_TIME,
+                                                  PeriodStartEndRequired, EnquiryPeriod)
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     enquiries_role, validate_cpv_group, validate_items_uniq,
@@ -24,6 +27,8 @@ CD_UA_TYPE = "competitiveDialogueUA"
 CD_EU_TYPE = "competitiveDialogueEU"
 STAGE_2_EU_TYPE = "competitiveDialogueEU.stage2"
 STAGE_2_UA_TYPE = "competitiveDialogueUA.stage2"
+
+STAGE2_STATUS = 'draft.stage2'
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 edit_stage2_pending = whitelist('status')
@@ -187,7 +192,7 @@ close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'd
 
 stage_2_roles = {
     'plain': plain_role,
-    'create': (blacklist('owner_token', '_attachments', 'revisions', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role),
+    'create': (blacklist('owner_token', 'tenderPeriod', '_attachments', 'revisions', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role),
     'edit': edit_role_eu + close_edit_technical_fields,
     'edit_draft': edit_role_eu + close_edit_technical_fields,
     'edit_active.tendering': edit_role_eu + close_edit_technical_fields,
@@ -204,7 +209,8 @@ stage_2_roles = {
     'auction_view': auction_view_role,
     'auction_post': auction_post_role,
     'auction_patch': auction_patch_role,
-    'draft': enquiries_role + hide_dialogue_token,
+    'draft': enquiries_role + blacklist('dialogue_token', 'shortlistedFirms'),
+    'draft.stage2': enquiries_role + hide_dialogue_token,
     'active.tendering': enquiries_role + hide_dialogue_token,
     'active.pre-qualification': pre_qualifications_role + hide_dialogue_token,
     'active.pre-qualification.stand-still': pre_qualifications_role + hide_dialogue_token,
@@ -219,8 +225,13 @@ stage_2_roles = {
     'Administrator': Administrator_role,
     'default': schematics_default_role,
     'contracting': whitelist('doc_id', 'owner'),
+    'competitive_dialogue': edit_stage2_waiting
 }
 
+
+def init_PeriodStartEndRequired():
+    return PeriodStartEndRequired({"startDate": get_now(),
+                                   "endDate": calculate_business_date(get_now(), timedelta(days=30))})
 
 @implementer(ITender)
 class Tender(TenderEU):
@@ -228,6 +239,14 @@ class Tender(TenderEU):
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
     shortlistedFirms = ListType(ModelType(Firms), required=True)
+    tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
+                             default=init_PeriodStartEndRequired)
+    status = StringType(
+        choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
+                 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
+                 'unsuccessful', STAGE2_STATUS],
+        default='active.tendering')
+
 
     class Options:
         roles = stage_2_roles.copy()
@@ -249,9 +268,21 @@ class Tender(TenderEU):
         acl.extend([
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_tender'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint')
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
+            (Allow, 'g:competitive_dialogue', 'edit_tender')
         ])
         return acl
+
+    def initialize(self):
+        self.tenderPeriod = PeriodStartEndRequired(
+            dict(startDate=get_now(), endDate=calculate_business_date(get_now(), timedelta(days=30), self)))
+        endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
+        self.enquiryPeriod = EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
+                                                endDate=endDate,
+                                                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
+                                                clarificationsUntil=calculate_business_date(endDate,
+                                                                                            ENQUIRY_STAND_STILL_TIME,
+                                                                                            self, True)))
 
 
 TenderStage2EU = Tender
