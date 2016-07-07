@@ -5,7 +5,7 @@ from schematics.types import StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
-from openprocurement.api.models import ITender, Period
+from openprocurement.api.models import ITender, Period, get_now
 from openprocurement.tender.openua.models import Tender as BaseTender, EnquiryPeriod
 from openprocurement.tender.openua.utils import calculate_business_date
 
@@ -31,6 +31,11 @@ class Tender(BaseTender):
                                                 endDate=endDate,
                                                 invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
                                                 clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
+        now = get_now()
+        self.date = now
+        if self.lots:
+            for lot in self.lots:
+                lot.date = now
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
