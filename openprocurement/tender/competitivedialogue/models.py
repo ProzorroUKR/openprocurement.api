@@ -5,14 +5,16 @@ from schematics.exceptions import ValidationError
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.types.compound import ModelType
-from openprocurement.api.models import ITender, Identifier, Model
+from schematics.types.serializable import serializable
+from openprocurement.api.models import ITender, Identifier, Model, Value
 from openprocurement.api.utils import calculate_business_date, get_now
 from openprocurement.tender.openua.models import SifterListType, Item as BaseItem
 from openprocurement.tender.openeu.models import (Tender as TenderEU, Administrator_bid_role, view_bid_role,
                                                   pre_qualifications_role, Bid as BidEU, ConfidentialDocument,
                                                   edit_role_eu, auction_patch_role, auction_view_role,
                                                   auction_post_role, QUESTIONS_STAND_STILL, ENQUIRY_STAND_STILL_TIME,
-                                                  PeriodStartEndRequired, EnquiryPeriod)
+                                                  PeriodStartEndRequired, EnquiryPeriod, Lot as BaseLot,
+                                                  validate_lots_uniq, embedded_lot_role, default_lot_role)
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     enquiries_role, validate_cpv_group, validate_items_uniq,
@@ -33,28 +35,29 @@ STAGE2_STATUS = 'draft.stage2'
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 edit_stage2_pending = whitelist('status')
 edit_stage2_waiting = whitelist('status', 'stage2TenderID')
+hide_minimal_step = blacklist('minimalStep')
 
 roles = {
-    'plain': plain_role,
-    'create': create_role,
-    'view': view_role,
+    'plain': plain_role + hide_minimal_step,
+    'create': create_role + hide_minimal_step,
+    'view': view_role + hide_minimal_step,
     'listing': listing_role,
-    'active.pre-qualification': pre_qualifications_role,
-    'active.pre-qualification.stand-still': pre_qualifications_role,
-    'active.stage2.pending': enquiries_role,
-    'active.stage2.waiting': pre_qualifications_role,
+    'active.pre-qualification': pre_qualifications_role + hide_minimal_step,
+    'active.pre-qualification.stand-still': pre_qualifications_role + hide_minimal_step,
+    'active.stage2.pending': enquiries_role + hide_minimal_step,
+    'active.stage2.waiting': pre_qualifications_role + hide_minimal_step,
     'edit_active.stage2.pending': whitelist('status'),
-    'draft': enquiries_role,
-    'active.tendering': enquiries_role,
-    'complete': view_role,
-    'unsuccessful': view_role,
-    'cancelled': view_role,
+    'draft': enquiries_role + hide_minimal_step,
+    'active.tendering': enquiries_role + hide_minimal_step,
+    'complete': view_role + hide_minimal_step,
+    'unsuccessful': view_role + hide_minimal_step,
+    'cancelled': view_role + hide_minimal_step,
     'chronograph': chronograph_role,
     'chronograph_view': chronograph_view_role,
     'Administrator': Administrator_role,
-    'default': schematics_default_role,
+    'default': schematics_default_role + hide_minimal_step,
     'contracting': whitelist('doc_id', 'owner'),
-    'competitive_dialogue': edit_stage2_waiting,
+    'competitive_dialogue': edit_stage2_waiting
 }
 
 
@@ -107,6 +110,32 @@ class Bid(BidEU):
 
     documents = ListType(ModelType(Document), default=list())
 
+lot_roles = {
+    'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee'),
+    'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee'),
+    'embedded': embedded_lot_role,
+    'view': default_lot_role + blacklist('minimalStep'),
+    'default': default_lot_role + blacklist('minimalStep'),
+    'chronograph': whitelist('id', 'auctionPeriod'),
+    'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
+}
+
+
+class Lot(BaseLot):
+
+    minimalStep = ModelType(Value, required=False)
+
+    def validate_minimalStep(self, data, value):
+        if data.get('minimalStep'):
+            raise ValidationError(u"Rogue field")
+
+    @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
+    def lot_minimalStep(self):
+        return None
+
+    class Options:
+        roles = lot_roles.copy()
+
 
 @implementer(ITender)
 class Tender(TenderEU):
@@ -120,6 +149,16 @@ class Tender(TenderEU):
                           filter_by='status', filter_in_values=['invalid', 'deleted'])
     TenderID = StringType(required=False)
     stage2TenderID = StringType(required=False)
+    minimalStep = ModelType(Value, required=False, serialize_when_none=False)
+    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
+
+    def validate_minimalStep(self, data, data_from_request):
+        if data.get('minimalStep'):
+            raise ValidationError(u"Rogue field")
+
+    @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none = False)
+    def tender_minimalStep(self):
+        return None
 
     class Options:
         roles = roles.copy()

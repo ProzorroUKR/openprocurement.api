@@ -3,10 +3,10 @@ import unittest
 
 from datetime import datetime, timedelta
 from openprocurement.api.models import get_now
-from openprocurement.api.tests.base import test_lots, test_organization
+from openprocurement.api.tests.base import test_organization
 from openprocurement.tender.competitivedialogue.tests.base import (test_tender_data_ua, test_bids,
                                                                    BaseCompetitiveDialogUAContentWebTest,
-                                                                   BaseCompetitiveDialogEUContentWebTest)
+                                                                   BaseCompetitiveDialogEUContentWebTest, test_lots)
 
 
 class CompetitiveDialogUAQuestionResourceTest(BaseCompetitiveDialogUAContentWebTest):

@@ -18,11 +18,21 @@ from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_
 
 now = datetime.now()
 test_tender_data_eu = deepcopy(base_test_tender_data_eu)
+del test_tender_data_eu["minimalStep"]
 test_tender_data_eu["procurementMethodType"] = CD_EU_TYPE
 test_tender_data_ua = deepcopy(base_test_tender_data_eu)
 del test_tender_data_ua["title_en"]
+del test_tender_data_ua["minimalStep"]
 test_tender_data_ua["procurementMethodType"] = CD_UA_TYPE
 test_tender_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
+
+test_lots = [
+    {
+        'title': 'lot title',
+        'description': 'lot description',
+        'value': test_tender_data_eu['value']
+    }
+]
 
 
 if SANDBOX_MODE:
