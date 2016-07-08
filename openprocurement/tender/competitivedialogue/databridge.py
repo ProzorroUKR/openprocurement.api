@@ -37,7 +37,7 @@ from openprocurement.tender.competitivedialogue.journal_msg_ids import (
     DATABRIDGE_CD_PATCHED_STAGE2_ID, DATABRIDGE_PATCH_NEW_TENDER_STATUS, DATABRIDGE_SUCCESSFUL_PATCH_NEW_TENDER_STATUS,
     DATABRIDGE_UNSUCCESSFUL_PATCH_NEW_TENDER_STATUS, DATABRIDGE_PATCH_DIALOG_STATUS,
     DATABRIDGE_UNSUCCESSFUL_PATCH_DIALOG_STATUS, DATABRIDGE_SUCCESSFUL_PATCH_DIALOG_STATUS, DATABRIDGE_ONLY_PATCH,
-    DATABRIDGE_TENDER_STAGE2_NOT_EXIST)
+    DATABRIDGE_TENDER_STAGE2_NOT_EXIST, DATABRIDGE_CREATE_NEW_STAGE2)
 
 
 dialog_work = set()  # local storage for current competitive dialogue in main queue
@@ -109,6 +109,10 @@ class CompetitiveDialogueDataBridge(object):
     """ Competitive Dialogue Data Bridge """
     copy_name_fields = ('title_ru', 'mode', 'procurementMethodDetails', 'title_en', 'description', 'description_en',
                         'description_ru', 'title', 'minimalStep', 'value', 'procuringEntity')
+    rewrite_statuses = ['draft']
+    allowed_statuses = ['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
+                        'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
+                        'unsuccessful', STAGE2_STATUS]
 
     def __init__(self, config):
         super(CompetitiveDialogueDataBridge, self).__init__()
@@ -233,7 +237,7 @@ class CompetitiveDialogueDataBridge(object):
                                     extra=journal_context({"MESSAGE_ID": DATABRIDGE_TENDER_STAGE2_NOT_EXIST},
                                                           {"TENDER_ID": tender['id']}))
                     else:
-                        if tender_stage2.get('status') == 'draft.stage2':
+                        if tender_stage2.get('status') in self.allowed_statuses:
                             logger.info('For dialog {0} tender stage 2 already exists, need only patch'.format(tender['id']),
                                         extra=journal_context({"MESSAGE_ID": DATABRIDGE_ONLY_PATCH},
                                                               {"TENDER_ID": tender['id']}))
@@ -241,6 +245,10 @@ class CompetitiveDialogueDataBridge(object):
                                           "status": "complete"}
                             self.dialog_set_complete_queue.put(patch_data)
                             continue
+                        elif tender_stage2.get('status') in self.rewrite_statuses:
+                            logger.info('Tender stage 2 id={0} has bad status need to create new '.format(tender['id']),
+                                        extra=journal_context({"MESSAGE_ID": DATABRIDGE_CREATE_NEW_STAGE2},
+                                                              {"TENDER_ID": tender['id']}))
 
                 logger.info('Copy competitive dialogue data, id={} '.format(tender['id']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_COPY_TENDER_ITEMS},
