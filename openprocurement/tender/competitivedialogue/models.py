@@ -225,6 +225,13 @@ CompetitiveDialogUA = Tender
 
 # stage 2 models
 
+class Lot(BaseLot):
+
+    minimalStep = ModelType(Value, required=True, default=Value({"amount": 0}))
+
+
+LotStage2 = Lot
+
 hide_dialogue_token = blacklist('dialogue_token')
 close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'dialogueID')
 
@@ -280,6 +287,8 @@ class Tender(TenderEU):
     shortlistedFirms = ListType(ModelType(Firms), required=True)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired)
+    minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
+    lots = ListType(ModelType(LotStage2), default=list())
     status = StringType(
         choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
                  'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
