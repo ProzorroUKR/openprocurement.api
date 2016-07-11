@@ -449,7 +449,6 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         self.assertEqual(response.json['status'], 'error')
         self.assertIn({u'description': [u"Value must be one of ['open', 'selective', 'limited']."], u'location': u'body', u'name': u'procurementMethod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderPeriod'}, response.json['errors'])
-        self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'enquiryPeriod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}, response.json['errors'])
@@ -515,38 +514,6 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
             {u'description': [u'period should begin after auctionPeriod'], u'location': u'body', u'name': u'awardPeriod'}
         ])
 
-        data = test_tender_data_eu['minimalStep']
-        test_tender_data_eu['minimalStep'] = {'amount': '1000.0'}
-        response = self.app.post_json(request_path, {'data': test_tender_data_eu}, status=422)
-        test_tender_data_eu['minimalStep'] = data
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'value should be less than value of tender'], u'location': u'body', u'name': u'minimalStep'}
-        ])
-
-        data = test_tender_data_eu['minimalStep']
-        test_tender_data_eu['minimalStep'] = {'amount': '100.0', 'valueAddedTaxIncluded': False}
-        response = self.app.post_json(request_path, {'data': test_tender_data_eu}, status=422)
-        test_tender_data_eu['minimalStep'] = data
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender'], u'location': u'body', u'name': u'minimalStep'}
-        ])
-
-        data = test_tender_data_eu['minimalStep']
-        test_tender_data_eu['minimalStep'] = {'amount': '100.0', 'currency': "USD"}
-        response = self.app.post_json(request_path, {'data': test_tender_data_eu}, status=422)
-        test_tender_data_eu['minimalStep'] = data
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'currency should be identical to currency of value of tender'], u'location': u'body', u'name': u'minimalStep'}
-        ])
 
         data = test_tender_data_eu["items"][0]["additionalClassifications"][0]["scheme"]
         test_tender_data_eu["items"][0]["additionalClassifications"][0]["scheme"] = 'Не ДКПП'
@@ -613,9 +580,10 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         self.assertEqual(set(tender), set([
             u'procurementMethodType', u'id', u'dateModified', u'tenderID',
             u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod',
-            u'complaintPeriod', u'minimalStep', u'items', u'value', u'owner',
+            u'complaintPeriod', u'items', u'value', u'owner',
             u'procuringEntity', u'next_check', u'procurementMethod',
-            u'awardCriteria', u'submissionMethod', u'title', u'title_en']))
+            u'awardCriteria', u'submissionMethod', u'title', u'title_en',
+            u'date']))
         self.assertNotEqual(data['id'], tender['id'])
         self.assertNotEqual(data['doc_id'], tender['id'])
         self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -689,7 +657,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         self.assertEqual(tender_set - set(test_tender_data_eu), set([
             u'id', u'dateModified', u'enquiryPeriod', u'auctionPeriod',
             u'complaintPeriod', u'tenderID', u'status', u'procurementMethod',
-            u'awardCriteria', u'submissionMethod', u'next_check', u'owner'
+            u'awardCriteria', u'submissionMethod', u'next_check', u'owner', u'date'
         ]))
         self.assertIn(tender['id'], response.headers['Location'])
 
@@ -1794,7 +1762,6 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         self.assertEqual(response.json['status'], 'error')
         self.assertIn({u'description': [u"Value must be one of ['open', 'selective', 'limited']."], u'location': u'body', u'name': u'procurementMethod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderPeriod'}, response.json['errors'])
-        self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'enquiryPeriod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}, response.json['errors'])
@@ -1860,39 +1827,6 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
             {u'description': [u'period should begin after auctionPeriod'], u'location': u'body', u'name': u'awardPeriod'}
         ])
 
-        data = test_tender_data_ua['minimalStep']
-        test_tender_data_ua['minimalStep'] = {'amount': '1000.0'}
-        response = self.app.post_json(request_path, {'data': test_tender_data_ua}, status=422)
-        test_tender_data_ua['minimalStep'] = data
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'value should be less than value of tender'], u'location': u'body', u'name': u'minimalStep'}
-        ])
-
-        data = test_tender_data_ua['minimalStep']
-        test_tender_data_ua['minimalStep'] = {'amount': '100.0', 'valueAddedTaxIncluded': False}
-        response = self.app.post_json(request_path, {'data': test_tender_data_ua}, status=422)
-        test_tender_data_ua['minimalStep'] = data
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender'], u'location': u'body', u'name': u'minimalStep'}
-        ])
-
-        data = test_tender_data_ua['minimalStep']
-        test_tender_data_ua['minimalStep'] = {'amount': '100.0', 'currency': "USD"}
-        response = self.app.post_json(request_path, {'data': test_tender_data_ua}, status=422)
-        test_tender_data_ua['minimalStep'] = data
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'currency should be identical to currency of value of tender'], u'location': u'body', u'name': u'minimalStep'}
-        ])
-
         data = test_tender_data_ua["items"][0]["additionalClassifications"][0]["scheme"]
         test_tender_data_ua["items"][0]["additionalClassifications"][0]["scheme"] = 'Не ДКПП'
         response = self.app.post_json(request_path, {'data': test_tender_data_ua}, status=422)
@@ -1954,9 +1888,10 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         self.assertEqual(set(tender), set([
             u'procurementMethodType', u'id', u'dateModified', u'tenderID',
             u'status', u'enquiryPeriod', u'tenderPeriod', u'complaintPeriod',
-            u'minimalStep', u'items', u'value', u'procuringEntity',
+            u'items', u'value', u'procuringEntity',
             u'next_check', u'procurementMethod', u'awardCriteria',
             u'submissionMethod', u'auctionPeriod', u'title', u'owner',
+            u'date'
         ]))
         self.assertNotEqual(data['id'], tender['id'])
         self.assertNotEqual(data['doc_id'], tender['id'])
@@ -2008,6 +1943,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
             u'id', u'dateModified', u'enquiryPeriod', u'auctionPeriod',
             u'complaintPeriod', u'tenderID', u'status', u'procurementMethod',
             u'awardCriteria', u'submissionMethod', u'next_check', u'owner',
+            u'date'
         ]))
         self.assertIn(tender['id'], response.headers['Location'])
 

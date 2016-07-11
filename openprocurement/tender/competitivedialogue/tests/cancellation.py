@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.api.tests.base import test_lots
 from openprocurement.tender.competitivedialogue.tests.base import (BaseCompetitiveDialogUAContentWebTest,
-                                                                   BaseCompetitiveDialogEUContentWebTest)
+                                                                   BaseCompetitiveDialogEUContentWebTest,
+                                                                   test_lots as base_test_lots)
 
+test_lots = base_test_lots
 
 class CompetitiveDialogUACancellationResourceTest(BaseCompetitiveDialogUAContentWebTest):
 
@@ -1178,6 +1179,7 @@ class CompetitiveDialogEUCancellationResourceTest(BaseCompetitiveDialogEUContent
 
 class CompetitiveDialogEULotCancellationResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_lots = test_lots
+
     initial_auth = ('Basic', ('broker', ''))
 
     def test_create_tender_cancellation(self):
