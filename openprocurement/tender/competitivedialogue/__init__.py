@@ -20,3 +20,4 @@ def includeme(config):
     config.add_tender_procurementMethodType(TenderStage2EU)
     config.add_tender_procurementMethodType(TenderStage2UA)
     config.scan("openprocurement.tender.competitivedialogue.views")
+    config.scan("openprocurement.tender.competitivedialogue.views.stage2")
