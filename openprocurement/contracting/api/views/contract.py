@@ -123,7 +123,7 @@ class ContractsResource(APIResource):
 
                 results = [
                     (contract_serialize(self.request, i[u'doc'], view_fields), i.key)
-                    for i in view()
+                    for i in view(include_docs=True)
                 ]
         else:
             results = [
