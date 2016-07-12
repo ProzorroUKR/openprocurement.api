@@ -45,6 +45,7 @@ TENDER_PERIOD = timedelta(days=15)
 ENQUIRY_PERIOD_TIME = timedelta(days=10)
 TENDERING_EXTRA_PERIOD = timedelta(days=7)
 AUCTION_PERIOD_TIME = timedelta(days=2)
+PERIOD_END_REQUIRED_FROM = datetime(2016, 7, 15, tzinfo=TZ)
 
 
 def bids_validation_wrapper(validation_func):
@@ -159,6 +160,11 @@ class PeriodEndRequired(Model):
 
     startDate = IsoDateTimeType()  # The state date for the period.
     endDate = IsoDateTimeType(required=True)  # The end date for the period.
+
+    def validate_startDate(self, data, value):
+        tender = get_tender(data['__parent__'])
+        if value and data.get('endDate') and data.get('endDate') < value and (tender.enquiryPeriod.startDate or get_now()) > PERIOD_END_REQUIRED_FROM:
+            raise ValidationError(u"period should begin before its end")
 
 
 class PeriodStartEndRequired(Period):
@@ -437,6 +443,7 @@ class Tender(BaseTender):
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     awards = ListType(ModelType(Award), default=list())
+    contracts = ListType(ModelType(Contract), default=list())
     complaints = ListType(ComplaintModelType(Complaint), default=list())
     procurementMethodType = StringType(default="aboveThresholdUA")
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
