@@ -525,7 +525,7 @@ class CompetitiveDialogueDataBridge(object):
                 new_tender = self.dialogs_stage2_retry_put_queue.get()
                 self._put_with_retry(new_tender)
             except:
-                del new_tender['tender_token']  # do not reveal tender credentials in logs
+                del new_tender['dialogue_token']  # do not reveal tender credentials in logs
                 logger.warn("Can't create tender stage2 from competitive dialogue id={0}".format(new_tender['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_CREATE_ERROR,
                                                    "TENDER_ID": new_tender['dialogueID']}))

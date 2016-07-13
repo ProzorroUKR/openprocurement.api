@@ -8,13 +8,15 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import ITender, Identifier, Model, Value
 from openprocurement.api.utils import calculate_business_date, get_now
-from openprocurement.tender.openua.models import SifterListType, Item as BaseItem
-from openprocurement.tender.openeu.models import (Tender as TenderEU, Administrator_bid_role, view_bid_role,
+from openprocurement.tender.openua.models import (SifterListType, Item as BaseItem, Tender as BaseTenderUA,
+                                                  TENDER_PERIOD as TENDERING_DURATION_UA)
+from openprocurement.tender.openeu.models import (Tender as BaseTenderEU, Administrator_bid_role, view_bid_role,
                                                   pre_qualifications_role, Bid as BidEU, ConfidentialDocument,
                                                   edit_role_eu, auction_patch_role, auction_view_role,
                                                   auction_post_role, QUESTIONS_STAND_STILL, ENQUIRY_STAND_STILL_TIME,
                                                   PeriodStartEndRequired, EnquiryPeriod, Lot as BaseLot,
-                                                  validate_lots_uniq, embedded_lot_role, default_lot_role)
+                                                  validate_lots_uniq, embedded_lot_role, default_lot_role,
+                                                  TENDERING_DURATION as TENDERING_DURATION_EU)
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     enquiries_role, validate_cpv_group, validate_items_uniq,
@@ -138,7 +140,7 @@ class Lot(BaseLot):
 
 
 @implementer(ITender)
-class Tender(TenderEU):
+class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=CD_EU_TYPE)
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
                                  'active.pre-qualification.stand-still', 'active.stage2.pending',
@@ -241,6 +243,7 @@ stage_2_roles = {
     'create': (blacklist('owner_token', 'tenderPeriod', '_attachments', 'revisions', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role),
     'edit': edit_role_eu + close_edit_technical_fields,
     'edit_draft': edit_role_eu + close_edit_technical_fields,
+    'edit_'+STAGE2_STATUS: edit_role_eu + close_edit_technical_fields,
     'edit_active.tendering': edit_role_eu + close_edit_technical_fields,
     'edit_active.pre-qualification': whitelist('status'),
     'edit_active.pre-qualification.stand-still': whitelist(),
@@ -275,18 +278,43 @@ stage_2_roles = {
 }
 
 
-def init_PeriodStartEndRequired():
-    return PeriodStartEndRequired({"startDate": get_now(),
-                                   "endDate": calculate_business_date(get_now(), timedelta(days=30))})
+def init_PeriodStartEndRequired(tendering_duration):
+    def wrapper():
+        return PeriodStartEndRequired({"startDate": get_now(),
+                                       "endDate": calculate_business_date(get_now(), tendering_duration)})
+    return wrapper
+
+
+def stage2__acl__(obj):
+    acl = [
+        (Allow, '{}_{}'.format(obj.owner, obj.dialogue_token), 'generate_credentials')
+    ]
+    acl.extend([
+               (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_qualification_complaint')
+               for i in obj.bids
+               if i.status in ['active', 'unsuccessful']
+               ])
+    acl.extend([
+               (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_award_complaint')
+               for i in obj.bids
+               if i.status == 'active'])
+    acl.extend([
+        (Allow, '{}_{}'.format(obj.owner, obj.owner_token), 'edit_tender'),
+        (Allow, '{}_{}'.format(obj.owner, obj.owner_token), 'upload_tender_documents'),
+        (Allow, '{}_{}'.format(obj.owner, obj.owner_token), 'edit_complaint'),
+        (Allow, 'g:competitive_dialogue', 'edit_tender')
+    ])
+    return acl
+
 
 @implementer(ITender)
-class Tender(TenderEU):
+class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=STAGE_2_EU_TYPE)
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
     shortlistedFirms = ListType(ModelType(Firms), required=True)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
-                             default=init_PeriodStartEndRequired)
+                             default=init_PeriodStartEndRequired(TENDERING_DURATION_EU))
     minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
     lots = ListType(ModelType(LotStage2), default=list())
     status = StringType(
@@ -295,50 +323,41 @@ class Tender(TenderEU):
                  'unsuccessful', STAGE2_STATUS],
         default='active.tendering')
 
+    create_accreditation = 'c'
 
     class Options:
         roles = stage_2_roles.copy()
 
     def __acl__(self):
-        acl = [
-            (Allow, '{}_{}'.format(self.owner, self.dialogue_token), 'generate_credentials')
-        ]
-        acl.extend([
-            (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_qualification_complaint')
-            for i in self.bids
-            if i.status in ['active', 'unsuccessful']
-            ])
-        acl.extend([
-            (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_award_complaint')
-            for i in self.bids
-            if i.status == 'active'
-            ])
-        acl.extend([
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_tender'),
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
-            (Allow, 'g:competitive_dialogue', 'edit_tender')
-        ])
-        return acl
-
-    def initialize(self):
-        self.tenderPeriod = PeriodStartEndRequired(
-            dict(startDate=get_now(), endDate=calculate_business_date(get_now(), timedelta(days=30), self)))
-        endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
-        self.enquiryPeriod = EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
-                                                endDate=endDate,
-                                                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                                                clarificationsUntil=calculate_business_date(endDate,
-                                                                                            ENQUIRY_STAND_STILL_TIME,
-                                                                                            self, True)))
+        return stage2__acl__(self)
 
 
 TenderStage2EU = Tender
 
 
 @implementer(ITender)
-class Tender(TenderStage2EU):
+class Tender(BaseTenderUA):
     procurementMethodType = StringType(default=STAGE_2_UA_TYPE)
-    title_en = StringType()
+    dialogue_token = StringType(required=True)
+    dialogueID = StringType()
+    shortlistedFirms = ListType(ModelType(Firms), required=True)
+    tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
+                             default=init_PeriodStartEndRequired(TENDERING_DURATION_UA))
+    minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
+    lots = ListType(ModelType(LotStage2), default=list())
+    status = StringType(
+        choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
+                 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
+                 'unsuccessful', STAGE2_STATUS],
+        default='active.tendering')
+
+    create_accreditation = 'c'
+
+    class Options:
+        roles = stage_2_roles.copy()
+
+    def __acl__(self):
+        return stage2__acl__(self)
+
 
 TenderStage2UA = Tender
