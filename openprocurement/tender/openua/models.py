@@ -50,7 +50,7 @@ NORMALIZED_COMPLAINT_PERIOD_FROM = datetime(2016, 7, 15, tzinfo=TZ)
 
 def calculate_normalized_date(dt, tender, ceil=False):
     if (tender.revisions[0].date if tender.revisions else get_now()) > NORMALIZED_COMPLAINT_PERIOD_FROM and \
-            not (SANDBOX_MODE and tender.submissionMethodDetails and u'quick' in tender.submissionMethodDetails):
+            not (SANDBOX_MODE and tender.procurementMethodDetails):
         if ceil:
             return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
         return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0)
