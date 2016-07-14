@@ -39,3 +39,12 @@ def validate_patch_tender_stage2_data(request):
         data = validate_data(request, type(request.tender), True, data)
 
     return data
+
+
+def validate_patch_lot_data(request):
+    model = type(request.tender).lots.model_class
+    res = validate_data(request, model, True)
+    if request.validated['data']['value'] != request.validated['lot']['value'].to_primitive():
+        request.errors.add('body', 'data', 'Can\'t change value for lot')
+        request.errors.status = 403
+    return res
