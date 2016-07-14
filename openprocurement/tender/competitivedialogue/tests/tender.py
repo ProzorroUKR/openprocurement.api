@@ -801,15 +801,6 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         self.assertEqual(response.json['errors'], [
             {u'description': [u'Feature code should be uniq for all features'], u'location': u'body', u'name': u'features'}
         ])
-        data['features'][1]["code"] = u"OCDS-123454-YEARS"
-        data['features'][1]["enum"][0]["value"] = 0.2
-        response = self.app.post_json('/tenders', {'data': data}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'Sum of max value of all features should be less then or equal to 30%'], u'location': u'body', u'name': u'features'}
-        ])
 
     def test_tender_features(self):
         """
@@ -833,7 +824,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
                         "title": u"До 1000 Вт"
                     },
                     {
-                        "value": 0.1,
+                        "value": 0.2,
                         "title": u"Більше 1000 Вт"
                     }
                 ]
@@ -850,7 +841,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
                         "title": u"До 3 років"
                     },
                     {
-                        "value": 0.1,
+                        "value": 0.2,
                         "title": u"Більше 3 років"
                     }
                 ]
@@ -867,7 +858,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
                         "title": u"До 90 днів"
                     },
                     {
-                        "value": 0.1,
+                        "value": 0.2,
                         "title": u"Більше 90 днів"
                     }
                 ]
@@ -2081,15 +2072,6 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         self.assertEqual(response.json['errors'], [
             {u'description': [u'Feature code should be uniq for all features'], u'location': u'body', u'name': u'features'}
         ])
-        data['features'][1]["code"] = u"OCDS-123454-YEARS"
-        data['features'][1]["enum"][0]["value"] = 0.2
-        response = self.app.post_json('/tenders', {'data': data}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'Sum of max value of all features should be less then or equal to 30%'], u'location': u'body', u'name': u'features'}
-        ])
 
     def test_tender_features(self):
         data = test_tender_data_ua.copy()
@@ -2110,7 +2092,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
                         "title": u"До 1000 Вт"
                     },
                     {
-                        "value": 0.1,
+                        "value": 0.2,
                         "title": u"Більше 1000 Вт"
                     }
                 ]
@@ -2127,7 +2109,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
                         "title": u"До 3 років"
                     },
                     {
-                        "value": 0.1,
+                        "value": 0.2,
                         "title": u"Більше 3 років"
                     }
                 ]
@@ -2144,7 +2126,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
                         "title": u"До 90 днів"
                     },
                     {
-                        "value": 0.1,
+                        "value": 0.2,
                         "title": u"Більше 90 днів"
                     }
                 ]

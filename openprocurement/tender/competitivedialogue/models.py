@@ -198,6 +198,9 @@ class Tender(BaseTenderEU):
         ])
         return acl
 
+    def validate_features(self, data, features):
+        pass
+
 
 CompetitiveDialogEU = Tender
 
@@ -331,6 +334,8 @@ class Tender(BaseTenderEU):
     def __acl__(self):
         return stage2__acl__(self)
 
+    def validate_features(self, data, features):
+        pass
 
 TenderStage2EU = Tender
 
@@ -359,5 +364,7 @@ class Tender(BaseTenderUA):
     def __acl__(self):
         return stage2__acl__(self)
 
+    def validate_features(self, data, features):
+        pass
 
 TenderStage2UA = Tender
