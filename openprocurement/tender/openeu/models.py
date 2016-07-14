@@ -29,6 +29,7 @@ from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint, Award as BaseAward, Item as BaseItem,
     PeriodStartEndRequired, SifterListType, COMPLAINT_SUBMIT_TIME,
     EnquiryPeriod, ENQUIRY_STAND_STILL_TIME, AUCTION_PERIOD_TIME,
+    calculate_normalized_date,
 )
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
@@ -502,8 +503,8 @@ class Tender(BaseTender):
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
-        return Period(dict(startDate=self.tenderPeriod.startDate,
-                           endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)))
+        normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self)))
 
     @serializable(serialize_when_none=False)
     def next_check(self):
