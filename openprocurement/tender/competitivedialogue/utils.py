@@ -9,6 +9,14 @@ from openprocurement.tender.openeu.utils import check_status, all_bids_are_revie
 from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
 from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status
 from openprocurement.tender.openeu.utils import prepare_qualifications
+from openprocurement.api.utils import (
+    save_tender,
+    set_ownership as api_set_ownership,
+    apply_patch,
+    context_unpack,
+    generate_id,
+)
+
 from barbecue import vnmax
 
 LOGGER = getLogger(__name__)
@@ -178,3 +186,78 @@ def check_status(request):
 
 def set_ownership(item):
     item.owner_token = generate_id()
+
+
+def prepare_shortlistedFirms(shortlistedFirms):
+    """ Make list with keys
+        key = {identifier_id}_{identifier_scheme}_{lot_id}
+    """
+    all_keys = list()
+    for firm in shortlistedFirms:
+        key = "{firm_id}_{firm_scheme}".format(firm_id=firm['identifier']['id'], firm_scheme=firm['identifier']['scheme'])
+        if firm.get('lots'):
+            keys = ["{key}_{lot_id}".format(key=key, lot_id=lot['id']) for lot in firm.get('lots')]
+        else:
+            keys = [key]
+        all_keys.append(keys)
+    return all_keys
+
+
+def prepare_bid_identifier(bid):
+    """ Make list with keys
+        key = {identifier_id}_{identifier_scheme}_{lot_id}
+    """
+    all_keys = list()
+    for tenderer in bid['tenderers']:
+        key = '{id}_{scheme}'.format(id=tenderer['identifier']['id'], scheme=tenderer['identifier']['scheme'])
+        if bid.get('lotValues'):
+            keys = ['{key}_{lot_id}'.format(key=key, lot_id=lot['relatedLot']) for lot in bid.get('lotValues')]
+        else:
+            keys = [key]
+        all_keys.append(keys)
+    return all_keys
+
+
+def stage2_bid_post(self):
+    tender = self.request.validated['tender']
+    if self.request.validated['tender_status'] != 'active.tendering':
+        self.request.errors.add('body', 'data', 'Can\'t add bid in current ({}) tender status'.format(
+            self.request.validated['tender_status']))
+        self.request.errors.status = 403
+        return
+    if tender.tenderPeriod.startDate and \
+            get_now() < tender.tenderPeriod.startDate or \
+            get_now() > tender.tenderPeriod.endDate:
+        self.request.errors.add('body', 'data',
+                                'Bid can be added only during the tendering period: from ({}) to ({}).'.format(
+                                    tender.tenderPeriod.startDate, tender.tenderPeriod.endDate))
+        self.request.errors.status = 403
+        return
+    data = self.request.validated['data']
+    firm_keys = prepare_shortlistedFirms(tender.shortlistedFirms)
+    bid_keys = prepare_bid_identifier(data)
+    for bid_key in bid_keys:
+        if bid_key in firm_keys:
+            continue  # This firm can crate bid, so lets check next
+
+        self.request.errors.add('body', 'data', 'Firm can\'t create bid')
+        self.request.errors.status = 403
+        return
+
+    bid = self.request.validated['bid']
+    tender.modified = False
+    api_set_ownership(bid, self.request)
+    tender.bids.append(bid)
+    if save_tender(self.request):
+        self.LOGGER.info('Created tender bid {}'.format(bid.id),
+                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_create'},
+                                              {'bid_id': bid.id}))
+        self.request.response.status = 201
+        self.request.response.headers['Location'] = self.request.route_url('Tender Bids', tender_id=tender.id,
+                                                                           bid_id=bid['id'])
+        return {
+            'data': bid.serialize('view'),
+            'access': {
+                'token': bid.owner_token
+            }
+        }
