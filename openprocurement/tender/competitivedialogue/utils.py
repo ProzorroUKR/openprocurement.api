@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
+from schematics.exceptions import ValidationError
 from openprocurement.tender.openua.utils import calculate_business_date
 from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
 from openprocurement.api.models import get_now
@@ -8,7 +9,7 @@ from openprocurement.tender.openeu.utils import check_status, all_bids_are_revie
 from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
 from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status
 from openprocurement.tender.openeu.utils import prepare_qualifications
-
+from barbecue import vnmax
 
 LOGGER = getLogger(__name__)
 MINIMAL_NUMBER_OF_BITS = 3
@@ -133,6 +134,19 @@ def check_initial_bids_count(request):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
         tender.status = 'unsuccessful'
+
+def validate_features_custom_weight(self, data, features, max_sum):
+    if features and data['lots'] and any([
+        round(vnmax([
+            i
+            for i in features
+            if i.featureOf == 'tenderer' or i.featureOf == 'lot' and i.relatedItem == lot['id'] or i.featureOf == 'item' and i.relatedItem in [j.id for j in data['items'] if j.relatedLot == lot['id']]
+        ]), 15) > max_sum
+        for lot in data['lots']
+    ]):
+        raise ValidationError(u"Sum of max value of all features for lot should be less then or equal to {:.0f}%".format(max_sum * 100))
+    elif features and not data['lots'] and round(vnmax(features), 15) > max_sum:
+        raise ValidationError(u"Sum of max value of all features should be less then or equal to {:.0f}%".format(max_sum * 100))
 
 
 def check_status(request):
