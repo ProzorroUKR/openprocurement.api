@@ -94,10 +94,6 @@ class TenderStage2UAResource(TenderUAResource):
                     return
                 self.request.validated['tender'].initialize()
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
-        if self.request.authenticated_role == 'tender_owner' and data['value'] != tender['value'].to_primitive():
-            self.request.errors.add('body', 'data', 'Can\'t change value for tender')
-            self.request.errors.status = 403
-            return
 
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if self.request.authenticated_role == 'chronograph':
@@ -207,11 +203,6 @@ class TenderStage2UEResource(TenderEUResource):
                 self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
                 self.request.errors.status = 403
                 return
-        elif self.request.authenticated_role == 'tender_owner' and \
-                tender['value'] != data['tender']['value']:
-            self.request.errors.add('body', 'data', 'Can\'t change value for tender')
-            self.request.errors.status = 403
-            return
 
         save_tender(self.request)
         self.LOGGER.info('Updated tender {}'.format(tender.id),

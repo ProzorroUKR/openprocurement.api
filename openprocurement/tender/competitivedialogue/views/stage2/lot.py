@@ -5,7 +5,6 @@ from openprocurement.api.utils import (
     json_view,
 )
 from openprocurement.tender.openua.views.lot import TenderUaLotResource
-from openprocurement.tender.competitivedialogue.validation import validate_patch_lot_data
 
 
 @opresource(name='Tender stage2 UA Lots',
@@ -22,12 +21,6 @@ class TenderStage2UALotResource(TenderUaLotResource):
         self.request.errors.add('body', 'data', 'Can\'t create lot for tender stage2')
         self.request.errors.status = 403
         return
-
-    @json_view(content_type="application/json", validators=(validate_patch_lot_data,), permission='edit_tender')
-    def patch(self):
-        """Update of lot
-        """
-        return super(TenderStage2UALotResource, self).patch()
 
     @json_view(permission='edit_tender')
     def delete(self):
