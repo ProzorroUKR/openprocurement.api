@@ -46,7 +46,7 @@ TENDER_PERIOD = timedelta(days=15)
 ENQUIRY_PERIOD_TIME = timedelta(days=10)
 TENDERING_EXTRA_PERIOD = timedelta(days=7)
 AUCTION_PERIOD_TIME = timedelta(days=2)
-PERIOD_END_REQUIRED_FROM = datetime(2016, 7, 15, tzinfo=TZ)
+PERIOD_END_REQUIRED_FROM = datetime(2016, 7, 16, tzinfo=TZ)
 
 
 def bids_validation_wrapper(validation_func):
