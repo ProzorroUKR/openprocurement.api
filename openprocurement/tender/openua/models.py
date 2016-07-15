@@ -28,7 +28,7 @@ from openprocurement.api.models import (
     TZ, get_now, schematics_embedded_role, validate_lots_uniq, draft_role,
     embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
     ComplaintModelType, validate_cpv_group, validate_items_uniq, Model,
-    rounding_shouldStartAfter,
+    rounding_shouldStartAfter, PeriodEndRequired as BasePeriodEndRequired,
 )
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.utils import (
@@ -46,6 +46,7 @@ TENDER_PERIOD = timedelta(days=15)
 ENQUIRY_PERIOD_TIME = timedelta(days=10)
 TENDERING_EXTRA_PERIOD = timedelta(days=7)
 AUCTION_PERIOD_TIME = timedelta(days=2)
+PERIOD_END_REQUIRED_FROM = datetime(2016, 7, 16, tzinfo=TZ)
 
 
 def bids_validation_wrapper(validation_func):
@@ -158,10 +159,14 @@ class LotAuctionPeriod(Period):
         return rounding_shouldStartAfter(start_after, tender).isoformat()
 
 
-class PeriodEndRequired(Model):
+class PeriodEndRequired(BasePeriodEndRequired):
 
-    startDate = IsoDateTimeType()  # The state date for the period.
-    endDate = IsoDateTimeType(required=True)  # The end date for the period.
+    def validate_startDate(self, data, value):
+        tender = get_tender(data['__parent__'])
+        if (tender.revisions[0].date if tender.revisions else get_now()) < PERIOD_END_REQUIRED_FROM:
+            return
+        if value and data.get('endDate') and data.get('endDate') < value:
+            raise ValidationError(u"period should begin before its end")
 
 
 class PeriodStartEndRequired(Period):
@@ -440,6 +445,7 @@ class Tender(BaseTender):
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     awards = ListType(ModelType(Award), default=list())
+    contracts = ListType(ModelType(Contract), default=list())
     complaints = ListType(ComplaintModelType(Complaint), default=list())
     procurementMethodType = StringType(default="aboveThresholdUA")
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
