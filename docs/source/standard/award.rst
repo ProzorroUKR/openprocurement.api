@@ -71,6 +71,11 @@ Schema
     |ocdsDescription|
     All documents and attachments related to the award, including any notices.
 
+:subcontractingDetails:
+    string
+
+    The text field of any length about subcontractor.
+
 Award workflow
 --------------
 
