@@ -25,6 +25,7 @@ from openprocurement.api.models import (
     schematics_embedded_role, ListType, BooleanType
 )
 from schematics.transforms import whitelist, blacklist
+from openprocurement.tender.competitivedialogue.utils import validate_features_custom_weight
 
 # constants for procurementMethodtype
 CD_UA_TYPE = "competitiveDialogueUA"
@@ -33,6 +34,8 @@ STAGE_2_EU_TYPE = "competitiveDialogueEU.stage2"
 STAGE_2_UA_TYPE = "competitiveDialogueUA.stage2"
 
 STAGE2_STATUS = 'draft.stage2'
+
+FEATURES_MAX_SUM = 1
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 edit_stage2_pending = whitelist('status')
@@ -198,6 +201,9 @@ class Tender(BaseTenderEU):
         ])
         return acl
 
+    def validate_features(self, data, features):
+        validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
+
 
 CompetitiveDialogEU = Tender
 
@@ -331,6 +337,8 @@ class Tender(BaseTenderEU):
     def __acl__(self):
         return stage2__acl__(self)
 
+    def validate_features(self, data, features):
+        validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
 
 TenderStage2EU = Tender
 
@@ -359,5 +367,7 @@ class Tender(BaseTenderUA):
     def __acl__(self):
         return stage2__acl__(self)
 
+    def validate_features(self, data, features):
+        validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
 
 TenderStage2UA = Tender

@@ -11,7 +11,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (test_tender_d
                                                                    BaseCompetitiveDialogEUWebTest,
                                                                    BaseCompetitiveDialogUAWebTest)
 from copy import deepcopy
-from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
 
 class CompetitiveDialogTest(BaseWebTest):
 
@@ -801,14 +801,22 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         self.assertEqual(response.json['errors'], [
             {u'description': [u'Feature code should be uniq for all features'], u'location': u'body', u'name': u'features'}
         ])
+
         data['features'][1]["code"] = u"OCDS-123454-YEARS"
-        data['features'][1]["enum"][0]["value"] = 0.2
+        data['features'][1]["enum"][0]["value"] = 0.3
+        data['features'].append(data['features'][0].copy())
+        data['features'][2]["code"] = u"OCDS-123455-YEARS"
+        data['features'][2]["enum"][0]["value"] = 0.3
+        data['features'].append(data['features'][0].copy())
+        data['features'][3]["code"] = u"OCDS-123456-YEARS"
+        data['features'][3]["enum"][0]["value"] = 0.3
         response = self.app.post_json('/tenders', {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u'Sum of max value of all features should be less then or equal to 30%'], u'location': u'body', u'name': u'features'}
+            {u'description': [u'Sum of max value of all features should be less then or equal to {:.0f}%'.format(FEATURES_MAX_SUM * 100)],
+             u'location': u'body', u'name': u'features'}
         ])
 
     def test_tender_features(self):
@@ -833,7 +841,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
                         "title": u"До 1000 Вт"
                     },
                     {
-                        "value": 0.1,
+                        "value": 0.3,
                         "title": u"Більше 1000 Вт"
                     }
                 ]
@@ -850,7 +858,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
                         "title": u"До 3 років"
                     },
                     {
-                        "value": 0.1,
+                        "value": 0.3,
                         "title": u"Більше 3 років"
                     }
                 ]
@@ -867,7 +875,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
                         "title": u"До 90 днів"
                     },
                     {
-                        "value": 0.1,
+                        "value": 0.3,
                         "title": u"Більше 90 днів"
                     }
                 ]
@@ -2081,14 +2089,23 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         self.assertEqual(response.json['errors'], [
             {u'description': [u'Feature code should be uniq for all features'], u'location': u'body', u'name': u'features'}
         ])
+
         data['features'][1]["code"] = u"OCDS-123454-YEARS"
-        data['features'][1]["enum"][0]["value"] = 0.2
+        data['features'][1]["enum"][0]["value"] = 0.3
+        data['features'].append(data['features'][0].copy())
+        data['features'][2]["code"] = u"OCDS-123455-YEARS"
+        data['features'][2]["enum"][0]["value"] = 0.3
+        data['features'].append(data['features'][0].copy())
+        data['features'][3]["code"] = u"OCDS-123456-YEARS"
+        data['features'][3]["enum"][0]["value"] = 0.3
         response = self.app.post_json('/tenders', {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u'Sum of max value of all features should be less then or equal to 30%'], u'location': u'body', u'name': u'features'}
+            {u'description': [u'Sum of max value of all features should be less then or equal to {:.0f}%'.format(
+                FEATURES_MAX_SUM * 100)],
+             u'location': u'body', u'name': u'features'}
         ])
 
     def test_tender_features(self):
@@ -2110,7 +2127,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
                         "title": u"До 1000 Вт"
                     },
                     {
-                        "value": 0.1,
+                        "value": 0.2,
                         "title": u"Більше 1000 Вт"
                     }
                 ]
@@ -2127,7 +2144,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
                         "title": u"До 3 років"
                     },
                     {
-                        "value": 0.1,
+                        "value": 0.2,
                         "title": u"Більше 3 років"
                     }
                 ]
@@ -2144,7 +2161,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
                         "title": u"До 90 днів"
                     },
                     {
-                        "value": 0.1,
+                        "value": 0.2,
                         "title": u"Більше 90 днів"
                     }
                 ]
