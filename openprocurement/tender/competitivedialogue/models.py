@@ -233,15 +233,31 @@ CompetitiveDialogUA = Tender
 
 # stage 2 models
 
+stage_2_lot_roles = {
+    'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
+    'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStep'),
+    'embedded': embedded_lot_role,
+    'view': default_lot_role,
+    'default': default_lot_role,
+    'auction_view': default_lot_role,
+    'auction_patch': whitelist('id', 'auctionUrl'),
+    'chronograph': whitelist('id', 'auctionPeriod'),
+    'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
+}
+
+
 class Lot(BaseLot):
 
     minimalStep = ModelType(Value, required=True, default=Value({"amount": 0}))
+
+    class Options:
+        roles = stage_2_lot_roles.copy()
 
 
 LotStage2 = Lot
 
 hide_dialogue_token = blacklist('dialogue_token')
-close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'dialogueID')
+close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'dialogueID', 'value')
 
 
 stage_2_roles = {
