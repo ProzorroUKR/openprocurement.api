@@ -192,14 +192,14 @@ def prepare_shortlistedFirms(shortlistedFirms):
     """ Make list with keys
         key = {identifier_id}_{identifier_scheme}_{lot_id}
     """
-    all_keys = list()
+    all_keys = set()
     for firm in shortlistedFirms:
         key = "{firm_id}_{firm_scheme}".format(firm_id=firm['identifier']['id'], firm_scheme=firm['identifier']['scheme'])
         if firm.get('lots'):
-            keys = ["{key}_{lot_id}".format(key=key, lot_id=lot['id']) for lot in firm.get('lots')]
+            keys = set(["{key}_{lot_id}".format(key=key, lot_id=lot['id']) for lot in firm.get('lots')])
         else:
-            keys = [key]
-        all_keys.append(keys)
+            keys = set([key])
+        all_keys |= keys
     return all_keys
 
 
@@ -207,14 +207,14 @@ def prepare_bid_identifier(bid):
     """ Make list with keys
         key = {identifier_id}_{identifier_scheme}_{lot_id}
     """
-    all_keys = list()
+    all_keys = set()
     for tenderer in bid['tenderers']:
         key = '{id}_{scheme}'.format(id=tenderer['identifier']['id'], scheme=tenderer['identifier']['scheme'])
         if bid.get('lotValues'):
-            keys = ['{key}_{lot_id}'.format(key=key, lot_id=lot['relatedLot']) for lot in bid.get('lotValues')]
+            keys = set(['{key}_{lot_id}'.format(key=key, lot_id=lot['relatedLot']) for lot in bid.get('lotValues')])
         else:
-            keys = [key]
-        all_keys.append(keys)
+            keys = set([key])
+        all_keys |= keys
     return all_keys
 
 
@@ -233,18 +233,14 @@ def stage2_bid_post(self):
                                     tender.tenderPeriod.startDate, tender.tenderPeriod.endDate))
         self.request.errors.status = 403
         return
-    data = self.request.validated['data']
+    bid = self.request.validated['bid']
     firm_keys = prepare_shortlistedFirms(tender.shortlistedFirms)
-    bid_keys = prepare_bid_identifier(data)
-    for bid_key in bid_keys:
-        if bid_key in firm_keys:
-            continue  # This firm can crate bid, so lets check next
-
+    bid_keys = prepare_bid_identifier(bid)
+    if not (bid_keys <= firm_keys):
         self.request.errors.add('body', 'data', 'Firm can\'t create bid')
         self.request.errors.status = 403
         return
 
-    bid = self.request.validated['bid']
     tender.modified = False
     api_set_ownership(bid, self.request)
     tender.bids.append(bid)
