@@ -119,7 +119,7 @@ class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
         item = response.json['data']
         self.assertIn('auctionPeriod', item)
         self.assertIn('shouldStartAfter', item['auctionPeriod'])
-        self.assertEqual(item['auctionPeriod']['shouldStartAfter'], response.json['data']['tenderPeriod']['endDate'])
+        self.assertGreaterEqual(item['auctionPeriod']['shouldStartAfter'], response.json['data']['tenderPeriod']['endDate'])
         self.assertEqual(response.json['data']['next_check'], response.json['data']['tenderPeriod']['endDate'])
 
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {"auctionPeriod": {"startDate": "9999-01-01T00:00:00+00:00"}}})
@@ -225,7 +225,7 @@ class TenderLotSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
         item = response.json['data']["lots"][0]
         self.assertIn('auctionPeriod', item)
         self.assertIn('shouldStartAfter', item['auctionPeriod'])
-        self.assertEqual(item['auctionPeriod']['shouldStartAfter'], response.json['data']['tenderPeriod']['endDate'])
+        self.assertGreaterEqual(item['auctionPeriod']['shouldStartAfter'], response.json['data']['tenderPeriod']['endDate'])
         self.assertEqual(response.json['data']['next_check'], response.json['data']['tenderPeriod']['endDate'])
 
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {"lots": [{"auctionPeriod": {"startDate": "9999-01-01T00:00:00+00:00"}} for i in self.initial_lots]}})
