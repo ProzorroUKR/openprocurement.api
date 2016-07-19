@@ -102,13 +102,17 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     def test_create_tender_award(self):
         request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
         response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
-                                                              'status': 'pending'}})
+                                                              'subcontractingDetails': 'Details',
+                                                              'status': 'pending',
+                                                              'qualified': True}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         award = response.json['data']
         self.assertEqual(award['suppliers'][0]['name'], test_organization['name'])
         self.assertIn('id', award)
         self.assertIn(award['id'], response.headers['Location'])
+        self.assertEqual(response.json['data']["subcontractingDetails"], "Details")
+        self.assertEqual(award['qualified'], True)
 
         response = self.app.get(request_path)
         self.assertEqual(response.status, '200 OK')
@@ -119,6 +123,12 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
                                        {"data": {"description": "description data"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
+
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                       {"data": {"subcontractingDetails": "subcontractingDetails"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["subcontractingDetails"], "subcontractingDetails")
 
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
                                        {"data": {"status": "active"}})

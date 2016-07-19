@@ -2,7 +2,7 @@ from uuid import uuid4
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
-from schematics.types import StringType, BaseType, MD5Type
+from schematics.types import StringType, BaseType, MD5Type, BooleanType
 from schematics.types.compound import ModelType, ListType, DictType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
@@ -49,6 +49,8 @@ class Award(Model):
     title = StringType()  # Award title
     title_en = StringType()
     title_ru = StringType()
+    subcontractingDetails = StringType()
+    qualified = BooleanType()
     description = StringType()  # Award description
     description_en = StringType()
     description_ru = StringType()
