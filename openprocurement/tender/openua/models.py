@@ -28,6 +28,7 @@ from openprocurement.api.models import (
     TZ, get_now, schematics_embedded_role, validate_lots_uniq, draft_role,
     embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
     ComplaintModelType, validate_cpv_group, validate_items_uniq, Model,
+    rounding_shouldStartAfter, PeriodEndRequired as BasePeriodEndRequired,
 )
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.utils import (
@@ -45,6 +46,7 @@ TENDER_PERIOD = timedelta(days=15)
 ENQUIRY_PERIOD_TIME = timedelta(days=10)
 TENDERING_EXTRA_PERIOD = timedelta(days=7)
 AUCTION_PERIOD_TIME = timedelta(days=2)
+PERIOD_END_REQUIRED_FROM = datetime(2016, 7, 16, tzinfo=TZ)
 NORMALIZED_COMPLAINT_PERIOD_FROM = datetime(2016, 7, 15, tzinfo=TZ)
 
 
@@ -131,7 +133,7 @@ class TenderAuctionPeriod(Period):
         if tender.lots or tender.status not in ['active.tendering', 'active.auction']:
             return
         if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
-            return calc_auction_end_time(tender.numberOfBids, self.startDate).isoformat()
+            start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
         else:
             decision_dates = [
                 datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
@@ -139,7 +141,8 @@ class TenderAuctionPeriod(Period):
                 if complaint.dateDecision
             ]
             decision_dates.append(tender.tenderPeriod.endDate)
-            return max(decision_dates).isoformat()
+            start_after = max(decision_dates)
+        return rounding_shouldStartAfter(start_after, tender).isoformat()
 
 
 class LotAuctionPeriod(Period):
@@ -154,7 +157,7 @@ class LotAuctionPeriod(Period):
         if tender.status not in ['active.tendering', 'active.auction'] or lot.status != 'active':
             return
         if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
-            return calc_auction_end_time(lot.numberOfBids, self.startDate).isoformat()
+            start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
         else:
             decision_dates = [
                 datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
@@ -162,13 +165,18 @@ class LotAuctionPeriod(Period):
                 if complaint.dateDecision
             ]
             decision_dates.append(tender.tenderPeriod.endDate)
-            return max(decision_dates).isoformat()
+            start_after = max(decision_dates)
+        return rounding_shouldStartAfter(start_after, tender).isoformat()
 
 
-class PeriodEndRequired(Model):
+class PeriodEndRequired(BasePeriodEndRequired):
 
-    startDate = IsoDateTimeType()  # The state date for the period.
-    endDate = IsoDateTimeType(required=True)  # The end date for the period.
+    def validate_startDate(self, data, value):
+        tender = get_tender(data['__parent__'])
+        if (tender.revisions[0].date if tender.revisions else get_now()) < PERIOD_END_REQUIRED_FROM:
+            return
+        if value and data.get('endDate') and data.get('endDate') < value:
+            raise ValidationError(u"period should begin before its end")
 
 
 class PeriodStartEndRequired(Period):
@@ -447,6 +455,7 @@ class Tender(BaseTender):
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     awards = ListType(ModelType(Award), default=list())
+    contracts = ListType(ModelType(Contract), default=list())
     complaints = ListType(ComplaintModelType(Complaint), default=list())
     procurementMethodType = StringType(default="aboveThresholdUA")
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
