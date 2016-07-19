@@ -47,7 +47,7 @@ ENQUIRY_PERIOD_TIME = timedelta(days=10)
 TENDERING_EXTRA_PERIOD = timedelta(days=7)
 AUCTION_PERIOD_TIME = timedelta(days=2)
 PERIOD_END_REQUIRED_FROM = datetime(2016, 7, 16, tzinfo=TZ)
-NORMALIZED_COMPLAINT_PERIOD_FROM = datetime(2016, 7, 15, tzinfo=TZ)
+NORMALIZED_COMPLAINT_PERIOD_FROM = datetime(2016, 7, 20, tzinfo=TZ)
 
 
 def calculate_normalized_date(dt, tender, ceil=False):
