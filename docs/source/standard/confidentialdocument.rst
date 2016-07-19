@@ -95,20 +95,20 @@ Schema
     * `subContract` - **Subcontracts**
 
 
-    Possible values for :ref:`bid`
-    
-    
-    * `financialDocuments` - **Сommercial proposal**
-    
-        For Open EU procedure `financialDocuments` should be contained in `financialDocuments` envelope. See :ref:`bid`. 
-    
+    Possible values for :ref:`bid`		
+   
+
+    * `commercialProposal` - **Сommercial proposal**
+   
+        For Open EU procedure `commercialProposal` should be contained in `financialDocuments` envelope. See :ref:`bid`.
+
     * `qualificationDocuments` - **Qualification documents**
-    
-        For Open EU procedure `qualificationDocuments` should be contained in `qualificationDocuments` envelope. See :ref:`bid`. 
-    
+   
+        For Open EU procedure `qualificationDocuments` should be contained in `documents` envelope. See :ref:`bid`.
+        
     * `eligibilityDocuments` - **Eligibility documents**
-    
-        For Open EU procedure `eligibilityDocuments` should be contained in `eligibilityDocuments` envelope. See :ref:`bid`. 
+
+        For Open EU procedure `eligibilityDocuments` should be contained in `eligibilityDocuments` envelope. See :ref:`bid`.
 
 
 :title:
@@ -184,4 +184,4 @@ Schema
 :relatedItem:
     string
 
-    Id of related :ref:`lot` or :ref:`item`.
+    ID of related :ref:`lot` or :ref:`item`.
