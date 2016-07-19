@@ -1,5 +1,4 @@
 #
-# sorenabell <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
@@ -376,11 +375,3 @@ msgid "`qualificationDocuments` - **Qualification documents**"
 msgstr ""
 "`qualificationDocuments` - **Документи, що підтверджують кваліфікацію**"
 
-#~ msgid "`commercialProposal` **Сommercial proposal**"
-#~ msgstr ""
-
-#~ msgid "`qualificationDocuments` **Qualification documents**"
-#~ msgstr ""
-
-#~ msgid "`eligibilityDocuments` **Eligibility documents**"
-#~ msgstr ""

@@ -1,5 +1,4 @@
 #
-# sorenabell <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
@@ -718,40 +717,3 @@ msgstr ""
 " `financialDocuments` та  `qualificationDocuments` атрибутах :ref:`Bid`"
 " відповідно."
 
-#~ msgid "There is possibility to upload financial document:"
-#~ msgstr "Є можливість завантажити фінансовий документ:"
-
-#~ msgid ""
-#~ "Financial documents will be stored in `financial_documents` attribute of "
-#~ ":ref:`Bid`."
-#~ msgstr ""
-#~ "Фінансові документи зберігатимуться в атрибуті `financial_documents` об’єкта"
-#~ " :ref:`Bid`."
-
-#~ msgid ""
-#~ "There is possibility to upload eligibility and qualification documents:"
-#~ msgstr ""
-#~ "Є можливість завантажити кваліфікаційні документи та документи для критеріїв"
-#~ " прийнятності."
-
-#~ msgid ""
-#~ "Eligibility documents will be stored in `eligibility_documents` attribute of"
-#~ " :ref:`Bid`."
-#~ msgstr ""
-#~ "Документи для критеріїв прийнятності зберігатимуться в атрибуті "
-#~ "`eligibility_documents` об’єкта :ref:`Bid`."
-
-#~ msgid ""
-#~ "Qualification documents will be stored in `qualificationDocuments` attribute"
-#~ " of :ref:`Bid`."
-#~ msgstr ""
-#~ "Кваліфікаційні документи зберігатимуться в атрибуті `qualificationDocuments`"
-#~ " об’єкта :ref:`Bid`."
-
-#~ msgid ""
-#~ "Financial, eligibility and qualification documents will be publicly "
-#~ "accessible after the auction. Here is bidder proposal with all documents."
-#~ msgstr ""
-#~ "Документи для критеріїв прийнятності, фінансові та кваліфікаційні документи "
-#~ "стануть публічно доступні після аукціону. Ось пропозиція учасника з усіма "
-#~ "документами."

@@ -1,5 +1,4 @@
 #
-# sorenabell <sorenabell@quintagroup.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
@@ -231,9 +230,3 @@ msgstr ""
 " документа `eligibilityDocuments`. Розкривається на "
 "прекваліфікації."
 
-#~ msgid ""
-#~ "List of :ref:`ConfidentialDocument` objects. This envelope can contain "
-#~ "`eligibilityDocuments` document type. It is revealed at post-qualification."
-#~ msgstr ""
-#~ "Список об’єктів :ref:`ConfidentialDocument`. Цей конверт може містити тип "
-#~ "документів `eligibilityDocuments`. Розкривається на посткваліфікації."

@@ -1,4 +1,4 @@
-# sorenabell <sorenabell@quintagroup.com>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
@@ -370,36 +370,3 @@ msgstr "`eligibilityDocuments` - **Документи, що підтверджу
 msgid "`commercialProposal` - **Сommercial proposal**"
 msgstr "`commercialProposal` - **Цінова пропозиція**"
 
-#~ msgid "`commercialProposal` **Сommercial proposal**"
-#~ msgstr ""
-
-#~ msgid "`qualificationDocuments` **Qualification documents**"
-#~ msgstr ""
-
-#~ msgid "`eligibilityDocuments` **Eligibility documents**"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "For Open EU procedure `financialDocuments` should be contained in "
-#~ "`financialDocuments` envelope. See :ref:`bid`."
-#~ msgstr ""
-#~ "Документи цінової пропозиції. Для процедури відкритих торгів з публікацією "
-#~ "англ. мовою `financialDocuments` повинні міститись у конверті "
-#~ "`financialDocuments`. Див. :ref:`bid`."
-
-#~ msgid ""
-#~ "For Open EU procedure `qualificationDocuments` should be contained in "
-#~ "`qualificationDocuments` envelope. See :ref:`bid`."
-#~ msgstr ""
-#~ "Документи, що підтверджують кваліфікацію. Для процедури відкритих торгів з "
-#~ "публікацією англ. мовою `qualificationDocuments` повинні міститись в "
-#~ "конверті `qualificationDocuments`. Див. :ref:`bid`."
-
-#~ msgid "`financialDocuments` - **Documents for commercial proposal**"
-#~ msgstr "`financialDocuments` - **Фінансові документи**"
-
-#~ msgid "Id of related :ref:`lot` or :ref:`item`."
-#~ msgstr "ID пов’язаних :ref:`lot` або :ref:`item`."
-
-#~ msgid "`financialDocuments` - **Сommercial proposal**"
-#~ msgstr ""
