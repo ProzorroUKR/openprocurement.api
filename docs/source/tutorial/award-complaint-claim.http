@@ -1,12 +1,12 @@
-PATCH /api/2.3/tenders/feb9cd1a8095418b87ee7179eb420f34/awards/8d3f273f4d8848b784876a078bd6e9a1/complaints/7f7d293372e94f4d855855465b33f928 HTTP/1.0
-Authorization: Basic cmV2aWV3ZXI6
-Content-Length: 32
+PATCH /api/2.3/tenders/feb9cd1a8095418b87ee7179eb420f34/awards/8d3f273f4d8848b784876a078bd6e9a1/complaints/8caf16b8caab43d49ead33ce7cf0959f?acc_token=7bef2f08ae7946fbbd801159f3c00b5a HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 29
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "declined"
+    "status": "claim"
   }
 }
 
@@ -14,8 +14,7 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "declined", 
-    "dateDecision": "2016-07-19T14:01:26.655749+03:00", 
+    "status": "claim", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -38,14 +37,12 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "acceptance": true, 
-    "dateAccepted": "2016-07-19T14:01:25.275188+03:00", 
-    "dateSubmitted": "2016-07-19T14:01:22.271633+03:00", 
-    "complaintID": "UA-2016-07-19-000001.3", 
-    "date": "2016-07-19T14:01:26.671103+03:00", 
     "title": "Недостатньо інформації", 
-    "type": "complaint", 
-    "id": "7f7d293372e94f4d855855465b33f928"
+    "dateSubmitted": "2016-07-19T14:01:24.519723+03:00", 
+    "complaintID": "UA-2016-07-19-000001.8", 
+    "date": "2016-07-19T14:01:24.530436+03:00", 
+    "type": "claim", 
+    "id": "8caf16b8caab43d49ead33ce7cf0959f"
   }
 }
 

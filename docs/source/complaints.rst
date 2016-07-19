@@ -58,10 +58,15 @@ Tender Award Complaints
             label = "complaint";
             pending; accepted; stopping; satisfied;
         }
+        subgraph cluster_claim {
+            label = "claim";
+            claim; answered;
+        }
+        claim -> answered;
         satisfied -> resolved;
         edge[style=dashed];
-        draft -> pending;
-        draft -> cancelled; 
+        draft -> {claim,pending};
+        {draft,claim,answered} -> cancelled;
         pending -> stopping;
         accepted -> stopping;
         edge[style=bold];

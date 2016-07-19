@@ -13,7 +13,7 @@ from barbecue import chef
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
 BLOCK_COMPLAINT_STATUS = ['claim', 'pending', 'accepted', 'satisfied', 'stopping']
-PENDING_COMPLAINT_STATUS = ['claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping']
+PENDING_COMPLAINT_STATUS = ['pending', 'accepted', 'satisfied', 'stopping']
 
 
 def check_bids(request):

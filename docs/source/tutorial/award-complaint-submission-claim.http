@@ -1,11 +1,14 @@
 POST /api/2.3/tenders/feb9cd1a8095418b87ee7179eb420f34/awards/8d3f273f4d8848b784876a078bd6e9a1/complaints?acc_token=70102131d6704b3aa38399cb4ec939b8 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 1682
+Content-Length: 1701
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
+    "status": "claim", 
+    "title": "Недостатньо інформації", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
         "telephone": "+380 (432) 21-69-30", 
@@ -26,21 +29,19 @@ DATA:
         "streetAddress": "вул. Островського, 33", 
         "locality": "м. Вінниця"
       }
-    }, 
-    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "title": "Недостатньо інформації"
+    }
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/feb9cd1a8095418b87ee7179eb420f34/awards/8d3f273f4d8848b784876a078bd6e9a1/complaints/5fe0223bdd3644aba067713c03415395
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/feb9cd1a8095418b87ee7179eb420f34/awards/8d3f273f4d8848b784876a078bd6e9a1/complaints/d5f7f36b16684fbca5dd7fd8271cfbc0
 {
   "access": {
-    "token": "92981198e196459cadbb2fd18d4a9311"
+    "token": "77f74874b9724724919551bcddc4c97b"
   }, 
   "data": {
-    "status": "draft", 
+    "status": "claim", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -64,10 +65,11 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/feb9cd1a8095418
       }
     }, 
     "title": "Недостатньо інформації", 
-    "complaintID": "UA-2016-07-19-000001.1", 
-    "date": "2016-07-19T14:01:21.422529+03:00", 
+    "dateSubmitted": "2016-07-19T14:01:22.874573+03:00", 
+    "complaintID": "UA-2016-07-19-000001.6", 
+    "date": "2016-07-19T14:01:22.873060+03:00", 
     "type": "claim", 
-    "id": "5fe0223bdd3644aba067713c03415395"
+    "id": "d5f7f36b16684fbca5dd7fd8271cfbc0"
   }
 }
 
