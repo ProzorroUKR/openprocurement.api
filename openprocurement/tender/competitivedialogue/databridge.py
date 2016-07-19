@@ -85,10 +85,8 @@ def prepare_lot(orig_tender, lot_id, items):
     :return: lot with new id
     """
     for item in get_item_by_related_lot(orig_tender['items'], lot_id):
-        item['relatedLot'] = lot_id
         items.append(item)
     lot = get_lot_by_id(orig_tender, lot_id)
-    lot['id'] = lot_id
     return lot
 
 
