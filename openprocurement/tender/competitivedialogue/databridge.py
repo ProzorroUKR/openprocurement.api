@@ -24,7 +24,6 @@ from gevent.queue import Queue
 from openprocurement_client.client import TendersClient, TendersClientSync
 from yaml import load
 from pytz import timezone
-from openprocurement.api.utils import generate_id
 from openprocurement.tender.competitivedialogue.models import CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
 from openprocurement.tender.competitivedialogue.journal_msg_ids import (
     DATABRIDGE_RESTART, DATABRIDGE_GET_CREDENTIALS, DATABRIDGE_GOT_CREDENTIALS,
@@ -77,16 +76,6 @@ def get_bid_by_id(bids, bid_id):
             return bid
 
 
-def generate_new_id_for_items(orig_tender):
-    """
-    Generate new item id for every item in tender
-    :param orig_tender: competitive dialogue tender
-    :return: None
-    """
-    for item in orig_tender['items']:
-        item['id'] = generate_id()
-
-
 def prepare_lot(orig_tender, lot_id, items):
     """
     Replace new id in lot and related items
@@ -95,13 +84,11 @@ def prepare_lot(orig_tender, lot_id, items):
     :param items: list with related item for lot
     :return: lot with new id
     """
-    new_lot_id = generate_id()
     for item in get_item_by_related_lot(orig_tender['items'], lot_id):
-        item['id'] = generate_id()
-        item['relatedLot'] = new_lot_id
+        item['relatedLot'] = lot_id
         items.append(item)
     lot = get_lot_by_id(orig_tender, lot_id)
-    lot['id'] = new_lot_id
+    lot['id'] = lot_id
     return lot
 
 
@@ -281,7 +268,6 @@ class CompetitiveDialogueDataBridge(object):
                                     short_listed_firms[bid_tender['identifier']['id']]['lots'].append(
                                         {"id": old_lots[qualification['lotID']]['id']})
                         else:
-                            generate_new_id_for_items(tender)
                             new_tender['items'] = copy.deepcopy(tender['items'])  # add all items, with new id
                             bid = get_bid_by_id(tender['bids'], qualification['bidID'])
                             for bid_tender in bid['tenderers']:
