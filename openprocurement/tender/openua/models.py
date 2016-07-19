@@ -21,7 +21,7 @@ from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import (
-    plain_role, create_role, edit_role, view_role, listing_role,
+    plain_role, create_role, edit_role, view_role, listing_role, SANDBOX_MODE,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
@@ -47,6 +47,16 @@ ENQUIRY_PERIOD_TIME = timedelta(days=10)
 TENDERING_EXTRA_PERIOD = timedelta(days=7)
 AUCTION_PERIOD_TIME = timedelta(days=2)
 PERIOD_END_REQUIRED_FROM = datetime(2016, 7, 16, tzinfo=TZ)
+NORMALIZED_COMPLAINT_PERIOD_FROM = datetime(2016, 7, 20, tzinfo=TZ)
+
+
+def calculate_normalized_date(dt, tender, ceil=False):
+    if (tender.revisions[0].date if tender.revisions else get_now()) > NORMALIZED_COMPLAINT_PERIOD_FROM and \
+            not (SANDBOX_MODE and tender.procurementMethodDetails):
+        if ceil:
+            return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
+        return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0)
+    return dt
 
 
 def bids_validation_wrapper(validation_func):
@@ -494,7 +504,8 @@ class Tender(BaseTender):
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)))
+        normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self)))
 
     @serializable
     def numberOfBids(self):
