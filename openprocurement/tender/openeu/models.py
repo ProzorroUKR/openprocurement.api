@@ -23,7 +23,7 @@ from openprocurement.api.models import (
     validate_cpv_group, validate_items_uniq, rounding_shouldStartAfter,
 )
 from openprocurement.tender.openua.utils import (
-    calculate_business_date, BLOCK_COMPLAINT_STATUS,
+    calculate_business_date, BLOCK_COMPLAINT_STATUS, PENDING_COMPLAINT_STATUS,
 )
 from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint, Award as BaseAward, Item as BaseItem,
@@ -521,7 +521,7 @@ class Tender(BaseTender):
                 not any([i.id for i in self.questions if not i.answer]):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
         elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate and not any([
-            i.status in BLOCK_COMPLAINT_STATUS
+            i.status in PENDING_COMPLAINT_STATUS
             for q in self.qualifications
             for i in q.complaints
         ]):
