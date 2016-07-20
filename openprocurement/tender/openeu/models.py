@@ -20,7 +20,7 @@ from openprocurement.api.models import (
     Administrator_bid_role, Administrator_role, schematics_default_role,
     schematics_embedded_role, get_now, embedded_lot_role, default_lot_role,
     calc_auction_end_time, get_tender, validate_lots_uniq,
-    validate_cpv_group, validate_items_uniq,
+    validate_cpv_group, validate_items_uniq, rounding_shouldStartAfter,
 )
 from openprocurement.tender.openua.utils import (
     calculate_business_date, BLOCK_COMPLAINT_STATUS,
@@ -29,6 +29,7 @@ from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint, Award as BaseAward, Item as BaseItem,
     PeriodStartEndRequired, SifterListType, COMPLAINT_SUBMIT_TIME,
     EnquiryPeriod, ENQUIRY_STAND_STILL_TIME, AUCTION_PERIOD_TIME,
+    calculate_normalized_date,
 )
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
@@ -180,12 +181,15 @@ class TenderAuctionPeriod(Period):
         tender = self.__parent__
         if tender.lots or tender.status not in ['active.tendering', 'active.pre-qualification.stand-still', 'active.auction']:
             return
+        start_after = None
         if tender.status == 'active.tendering' and tender.tenderPeriod.endDate:
-            return calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender).isoformat()
+            start_after = calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
         elif self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
-            return calc_auction_end_time(tender.numberOfBids, self.startDate).isoformat()
+            start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
-            return tender.qualificationPeriod.endDate.isoformat()
+            start_after = tender.qualificationPeriod.endDate
+        if start_after:
+            return rounding_shouldStartAfter(start_after, tender).isoformat()
 
 
 class LotAuctionPeriod(Period):
@@ -199,12 +203,15 @@ class LotAuctionPeriod(Period):
         lot = self.__parent__
         if tender.status not in ['active.tendering', 'active.pre-qualification.stand-still', 'active.auction'] or lot.status != 'active':
             return
+        start_after = None
         if tender.status == 'active.tendering' and tender.tenderPeriod.endDate:
-            return calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender).isoformat()
+            start_after = calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
         elif self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
-            return calc_auction_end_time(lot.numberOfBids, self.startDate).isoformat()
+            start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
-            return tender.qualificationPeriod.endDate.isoformat()
+            start_after = tender.qualificationPeriod.endDate
+        if start_after:
+            return rounding_shouldStartAfter(start_after, tender).isoformat()
 
 
 class Lot(BaseLot):
@@ -502,8 +509,8 @@ class Tender(BaseTender):
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
-        return Period(dict(startDate=self.tenderPeriod.startDate,
-                           endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)))
+        normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self)))
 
     @serializable(serialize_when_none=False)
     def next_check(self):
