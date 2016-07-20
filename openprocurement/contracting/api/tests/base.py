@@ -165,7 +165,7 @@ class BaseWebTest(unittest.TestCase):
                 url = test.generate_docservice_url()
                 response.status_code = 200
                 response.encoding = 'application/json'
-                response._content = '{{"data":{{"url":"{url}","md5":"{md5}","format":"application/msword","title":"name.doc"}},"get_url":"{url}"}}'.format(url=url, md5='0'*32)
+                response._content = '{{"data":{{"url":"{url}","hash":"{md5}","format":"application/msword","title":"name.doc"}},"get_url":"{url}"}}'.format(url=url, md5='0'*32)
                 response.reason = '200 OK'
             return response
 
