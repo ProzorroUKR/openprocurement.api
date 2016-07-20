@@ -1229,7 +1229,7 @@ class TenderNegotiationQuickProcessTest(TenderNegotiationProcessTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u"Value must be one of ['quick']."],
+            {u'description': [u"Value must be one of ['quick', 'artContestIP', 'noCompetition', 'twiceUnsuccessful', 'additionalPurchase', 'additionalConstruction', 'stateLegalServices']."],
              u'location': u'body', u'name': u'cause'}
         ])
 

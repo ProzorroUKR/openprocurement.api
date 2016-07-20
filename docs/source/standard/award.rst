@@ -71,6 +71,16 @@ Schema
     |ocdsDescription|
     All documents and attachments related to the award, including any notices.
 
+:subcontractingDetails:
+    string
+
+    The text field of any length about subcontractor.
+
+:qualified:
+    bool
+
+    Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On Public Procurement".
+
 Award workflow
 --------------
 

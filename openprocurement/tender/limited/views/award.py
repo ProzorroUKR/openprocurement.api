@@ -15,6 +15,7 @@ from openprocurement.api.validation import (
 )
 from openprocurement.tender.limited.models import Award
 from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.openua.models import calculate_normalized_date
 
 
 def validate_patch_award_data(request):
@@ -510,7 +511,8 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         award.date = get_now()
         if award_status == 'pending' and award.status == 'active':
-            award.complaintPeriod.endDate = calculate_business_date(get_now(), self.stand_still_delta, tender)
+            normalized_end = calculate_normalized_date(award.date, tender, True)
+            award.complaintPeriod.endDate = calculate_business_date(normalized_end, self.stand_still_delta, tender)
             tender.contracts.append(type(tender).contracts.model_class({
                 'awardID': award.id,
                 'suppliers': award.suppliers,
@@ -535,7 +537,8 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                     i.status = 'cancelled'
             # add_next_award(self.request)
         elif award_status == 'pending' and award.status == 'unsuccessful':
-            award.complaintPeriod.endDate = calculate_business_date(get_now(), self.stand_still_delta, tender)
+            normalized_end = calculate_normalized_date(award.date, tender, True)
+            award.complaintPeriod.endDate = calculate_business_date(normalized_end, self.stand_still_delta, tender)
             # add_next_award(self.request)
         elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             now = get_now()
