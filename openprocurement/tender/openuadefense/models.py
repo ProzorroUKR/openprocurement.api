@@ -8,7 +8,8 @@ from schematics.types.serializable import serializable
 from zope.interface import implementer
 from openprocurement.api.models import ITender, Period, get_now, TZ
 from openprocurement.tender.openua.models import (
-    Tender as BaseTender, EnquiryPeriod, Lot as BaseLot, get_tender, calc_auction_end_time, validate_lots_uniq,
+    Tender as BaseTender, EnquiryPeriod, Lot as BaseLot, get_tender,
+    calc_auction_end_time, validate_lots_uniq, calculate_normalized_date,
 )
 
 from openprocurement.tender.openua.utils import calculate_business_date
@@ -88,5 +89,6 @@ class Tender(BaseTender):
             return Period(dict(startDate=self.tenderPeriod.startDate,
                                endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_OLD_SUBMIT_TIME, self)))
         else:
+            normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
             return Period(dict(startDate=self.tenderPeriod.startDate,
-                               endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self, True)))
+                               endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self, True)))
