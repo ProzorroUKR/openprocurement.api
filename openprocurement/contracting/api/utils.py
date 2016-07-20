@@ -11,6 +11,7 @@ from schematics.exceptions import ModelValidationError
 from openprocurement.api.utils import (error_handler, get_revision_changes,
                                        context_unpack, update_logging_context,
                                        apply_data_patch, generate_id,
+                                       set_modetest_titles,
                                        get_filename, DOCUMENT_BLACKLISTED_FIELDS
                                        )
 from openprocurement.api.models import Revision, get_now
@@ -55,6 +56,9 @@ def save_contract(request):
     :return: True if Ok
     """
     contract = request.validated['contract']
+
+    if contract.mode == u'test':
+        set_modetest_titles(contract)
     patch = get_revision_changes(contract.serialize("plain"),
                                  request.validated['contract_src'])
     if patch:
