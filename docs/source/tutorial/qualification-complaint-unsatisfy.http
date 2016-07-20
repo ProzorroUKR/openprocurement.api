@@ -1,13 +1,12 @@
-PATCH /api/2.3/tenders/2436da94a50f460b89c1e014f8b95738/qualifications/c476a711da764a05b93089fd742d52a8/complaints/1fd44309087742e7b3cb957a834aa0d2?acc_token=46bf592969a249c6947841a2fff08445 HTTP/1.0
+PATCH /api/2.3/tenders/2436da94a50f460b89c1e014f8b95738/qualifications/c476a711da764a05b93089fd742d52a8/complaints/4f8936e30b894c6c8a90955958436a4f?acc_token=9265640894b941349ad08b75979dd650 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 228
+Content-Length: 30
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "stopping", 
-    "cancellationReason": "Тендер скасовується замовником"
+    "satisfied": false
   }
 }
 
@@ -15,7 +14,7 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "stopping", 
+    "status": "answered", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -38,16 +37,16 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "acceptance": true, 
-    "cancellationReason": "Тендер скасовується замовником", 
-    "dateCanceled": "2016-07-19T18:44:40.169160+03:00", 
-    "dateAccepted": "2016-07-19T18:44:38.254798+03:00", 
-    "dateSubmitted": "2016-07-19T18:44:34.748552+03:00", 
-    "complaintID": "UA-2016-07-19-000001.4", 
-    "date": "2016-07-19T18:44:40.181749+03:00", 
-    "title": "Недостатньо інформації", 
+    "resolutionType": "invalid", 
     "type": "complaint", 
-    "id": "1fd44309087742e7b3cb957a834aa0d2"
+    "title": "Недостатньо інформації", 
+    "satisfied": false, 
+    "dateAnswered": "2016-07-19T18:44:35.983982+03:00", 
+    "dateSubmitted": "2016-07-19T18:44:35.760329+03:00", 
+    "complaintID": "UA-2016-07-19-000001.7", 
+    "date": "2016-07-19T18:44:35.994227+03:00", 
+    "resolution": "Вимога не відповідає предмету закупівлі", 
+    "id": "4f8936e30b894c6c8a90955958436a4f"
   }
 }
 

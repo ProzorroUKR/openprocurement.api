@@ -8,7 +8,7 @@ from openprocurement.api.utils import (
     error_handler,
     context_unpack,
 )
-from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status
+from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, PENDING_COMPLAINT_STATUS, check_complaint_status
 from openprocurement.tender.openeu.models import Qualification
 from openprocurement.tender.openeu.traversal import (
     qualifications_factory, bid_financial_documents_factory,
@@ -114,7 +114,7 @@ def check_status(request):
         return
 
     elif tender.status == 'active.pre-qualification.stand-still' and tender.qualificationPeriod and tender.qualificationPeriod.endDate <= now and not any([
-        i.status in BLOCK_COMPLAINT_STATUS
+        i.status in PENDING_COMPLAINT_STATUS
         for q in tender.qualifications
         for i in q.complaints
     ]):
