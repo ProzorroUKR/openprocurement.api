@@ -582,7 +582,8 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
             u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod',
             u'complaintPeriod', u'items', u'value', u'owner',
             u'procuringEntity', u'next_check', u'procurementMethod',
-            u'awardCriteria', u'submissionMethod', u'title', u'title_en']))
+            u'awardCriteria', u'submissionMethod', u'title', u'title_en',
+            u'date']))
         self.assertNotEqual(data['id'], tender['id'])
         self.assertNotEqual(data['doc_id'], tender['id'])
         self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -656,7 +657,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         self.assertEqual(tender_set - set(test_tender_data_eu), set([
             u'id', u'dateModified', u'enquiryPeriod', u'auctionPeriod',
             u'complaintPeriod', u'tenderID', u'status', u'procurementMethod',
-            u'awardCriteria', u'submissionMethod', u'next_check', u'owner'
+            u'awardCriteria', u'submissionMethod', u'next_check', u'owner', u'date'
         ]))
         self.assertIn(tender['id'], response.headers['Location'])
 
@@ -1897,7 +1898,8 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
             u'status', u'enquiryPeriod', u'tenderPeriod', u'complaintPeriod',
             u'items', u'value', u'procuringEntity',
             u'next_check', u'procurementMethod', u'awardCriteria',
-            u'submissionMethod', u'auctionPeriod', u'title', u'owner'
+            u'submissionMethod', u'auctionPeriod', u'title', u'owner',
+            u'date'
         ]))
         self.assertNotEqual(data['id'], tender['id'])
         self.assertNotEqual(data['doc_id'], tender['id'])
@@ -1948,7 +1950,8 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         self.assertEqual(tender_set - set(test_tender_data_ua), set([
             u'id', u'dateModified', u'enquiryPeriod', u'auctionPeriod',
             u'complaintPeriod', u'tenderID', u'status', u'procurementMethod',
-            u'awardCriteria', u'submissionMethod', u'next_check', u'owner'
+            u'awardCriteria', u'submissionMethod', u'next_check', u'owner',
+            u'date'
         ]))
         self.assertIn(tender['id'], response.headers['Location'])
 
@@ -2536,7 +2539,6 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         Try update dialog status by owner, when it's complete
         """
         # Create tender
-        self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders', {'data': test_tender_data_ua})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
