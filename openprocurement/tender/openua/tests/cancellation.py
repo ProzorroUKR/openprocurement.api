@@ -105,6 +105,7 @@ class TenderCancellationResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         cancellation = response.json['data']
+        self.assertIn('date', cancellation)
         self.assertEqual(cancellation['reasonType'], 'cancelled')
         self.assertEqual(cancellation['reason'], 'cancellation reason')
         self.assertIn('id', cancellation)
@@ -143,7 +144,7 @@ class TenderCancellationResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         cancellation = response.json['data']
-
+        old_date_status = response.json['data']['date']
         response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, cancellation['id'], self.tender_token), {"data": {'reasonType': 'unsuccessful'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
@@ -154,6 +155,7 @@ class TenderCancellationResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active")
+        self.assertNotEqual(old_date_status, response.json['data']['date'])
 
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')

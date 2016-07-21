@@ -90,7 +90,6 @@ class TenderUaAwardResource(TenderAwardResource):
             return
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
-        award.date = get_now()
         if award_status == 'pending' and award.status == 'active':
             normalized_end = calculate_normalized_date(award.date, tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, STAND_STILL_TIME, tender)

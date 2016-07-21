@@ -42,6 +42,7 @@ class TenderUaLotResource(TenderLotResource):
         if not self.validate_update_tender('add'):
             return
         lot = self.request.validated['lot']
+        lot.date = get_now()
         tender = self.request.validated['tender']
         tender.lots.append(lot)
         if self.request.authenticated_role == 'tender_owner':

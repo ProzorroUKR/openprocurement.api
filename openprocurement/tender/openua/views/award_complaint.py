@@ -46,6 +46,7 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             self.request.errors.status = 403
             return
         complaint = self.request.validated['complaint']
+        complaint.date = get_now()
         complaint.relatedLot = self.context.lotID
         complaint.type = 'complaint'
         if complaint.status == 'pending':
