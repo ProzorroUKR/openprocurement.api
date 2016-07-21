@@ -131,6 +131,7 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(lot['title'], 'lot title')
         self.assertEqual(lot['description'], 'lot description')
         self.assertIn('id', lot)
+        self.assertIn('date', lot)
         self.assertIn(lot['id'], response.headers['Location'])
 
         response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': lot}, status=422)
@@ -339,7 +340,7 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(set(response.json['data']), set([u'status', u'description', u'title', u'minimalStep', u'auctionPeriod', u'value', u'id']))
+        self.assertEqual(set(response.json['data']), set([u'status', u'description', u'date', u'title', u'minimalStep', u'auctionPeriod', u'value', u'id']))
 
         self.set_status('active.qualification')
 
@@ -376,7 +377,7 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
         response = self.app.get('/tenders/{}/lots'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(set(response.json['data'][0]), set([u'status', u'description', u'title', u'minimalStep', u'auctionPeriod', u'value', u'id']))
+        self.assertEqual(set(response.json['data'][0]), set([u'status', u'description', u'date', u'title', u'minimalStep', u'auctionPeriod', u'value', u'id']))
 
         self.set_status('active.qualification')
 
