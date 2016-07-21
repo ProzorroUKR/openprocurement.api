@@ -1,23 +1,23 @@
-POST /api/2.3/tenders/9a3fe3666dbb4679aed131a85372f4af/bids/868c11ee64324f9daf0ae7fdbaab2f3c/qualification_documents?acc_token=db56c50d42c646edb71f8bbc98402cae HTTP/1.0
+POST /api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a/qualification_documents?acc_token=f8306e73d0544899bbf82e4af348b066 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 202
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy907261333797$
+Content-Length: 200
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy25779415277$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/9a3fe3666dbb4679aed131a85372f4af/bids/868c11ee64324f9daf0ae7fdbaab2f3c/qualification_documents/6edf2c8577a64c658b7e2049a15947cc
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a/qualification_documents/6e34700423de45d59e814f6496d08649
 {
   "data": {
     "confidentiality": "public", 
     "language": "uk", 
     "title": "qualification_document.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/9a3fe3666dbb4679aed131a85372f4af/bids/868c11ee64324f9daf0ae7fdbaab2f3c/qualification_documents/6edf2c8577a64c658b7e2049a15947cc?download=d42efef7c01b41a595560fa1ab727e15", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a/qualification_documents/6e34700423de45d59e814f6496d08649?download=18d3b4a9768a48efb71d3d723bb6b6ac", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-04-25T15:45:03.995083+03:00", 
-    "id": "6edf2c8577a64c658b7e2049a15947cc", 
-    "dateModified": "2016-04-25T15:45:03.995114+03:00"
+    "datePublished": "2016-06-10T16:04:00.330333+03:00", 
+    "id": "6e34700423de45d59e814f6496d08649", 
+    "dateModified": "2016-06-10T16:04:00.330370+03:00"
   }
 }
 
