@@ -612,7 +612,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         self.assertEqual(tender_set - set(self.initial_data), set([
             u'id', u'dateModified', u'enquiryPeriod',
             u'complaintPeriod', u'tenderID',
-            u'awardCriteria', u'submissionMethod'
+            u'awardCriteria', u'submissionMethod', u'date'
         ]))
         self.assertIn(tender['id'], response.headers['Location'])
 
@@ -699,6 +699,10 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
                     {
                         "value": 0.15,
                         "title": u"Більше 1000 Вт"
+                    },
+                    {
+                        "value": 0.3,
+                        "title": u"До 500 Вт"
                     }
                 ]
             }
@@ -758,16 +762,20 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
             {u'description': [u'Feature code should be uniq for all features'], u'location': u'body',
              u'name': u'features'}
         ])
-        data['features'][1]["code"] = u"OCDS-123454-YEARS"
-        data['features'][1]["enum"][0]["value"] = 0.2
-        response = self.app.post_json('/tenders', {'data': data}, status=422)
+        copy_data = deepcopy(data)
+        copy_data['features'][1]["code"] = u"OCDS-123454-YEARS"
+        copy_data['features'][1]["enum"][0]["value"] = 0.2
+        copy_data['features'].append(copy_data['features'][1])
+        copy_data['features'].append(copy_data['features'][1])
+        response = self.app.post_json('/tenders', {'data': copy_data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u'Sum of max value of all features should be less then or equal to 30%'],
+            {u'description': [u'Sum of max value of all features should be less then or equal to 100%'],
              u'location': u'body', u'name': u'features'}
         ])
+        del copy_data
 
     def test_tender_features(self):
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))
