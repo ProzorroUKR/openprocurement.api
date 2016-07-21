@@ -111,6 +111,7 @@ bid = {
         "value": {
             "amount": 500
         },
+        "status": "draft",
         'selfEligible': True, 'selfQualified': True,
     }
 }
@@ -436,6 +437,11 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             bid1_id = response.json['data']['id']
             bids_access[bid1_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
+
+        with open('docs/source/tutorial/activate-bidder.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(
+                self.tender_id, bid1_id, bids_access[bid1_id]), {"data": {"status": "active"}})
+            self.assertEqual(response.status, '200 OK')
 
         #### Proposal Uploading
         #
@@ -831,6 +837,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
 
+        del bid['data']['status']
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid)
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']

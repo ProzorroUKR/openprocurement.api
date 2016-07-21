@@ -61,7 +61,7 @@ def calculate_normalized_date(dt, tender, ceil=False):
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
-        if data['status'] in ('deleted', 'invalid'):
+        if data['status'] in ('deleted', 'invalid', 'draft'):
             # skip not valid bids
             return
         tender = data['__parent__']
@@ -220,7 +220,7 @@ class LotValue(BaseLotValue):
     subcontractingDetails = StringType()
 
     def validate_value(self, data, value):
-        if value and isinstance(data['__parent__'], Bid) and ( data['__parent__'].status not in ('invalid', 'deleted')) and data['relatedLot']:
+        if value and isinstance(data['__parent__'], Bid) and ( data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:
             lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
             if not lots:
                 return
@@ -243,7 +243,7 @@ class Bid(BaseBid):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
+            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
             'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'subcontractingDetails'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
@@ -262,7 +262,7 @@ class Bid(BaseBid):
 
     lotValues = ListType(ModelType(LotValue), default=list())
     subcontractingDetails = StringType()
-    status = StringType(choices=['active', 'invalid', 'deleted'], default='active')
+    status = StringType(choices=['draft', 'active', 'invalid', 'deleted'], default='active')
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
 
@@ -578,5 +578,5 @@ class Tender(BaseTender):
                 lot.auctionPeriod.startDate = None
         self.enquiryPeriod.invalidationDate = get_now()
         for bid in self.bids:
-            if bid.status != "deleted":
+            if bid.status not in ["deleted", "draft"]:
                 bid.status = "invalid"

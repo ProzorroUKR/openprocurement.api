@@ -8,6 +8,7 @@ from openprocurement.api.utils import (
     check_tender_status,
     context_unpack,
     calculate_business_date,
+    remove_draft_bids,
 )
 from barbecue import chef
 PKG = get_distribution(__package__)
@@ -46,6 +47,7 @@ def check_status(request):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
         tender.status = 'active.auction'
+        remove_draft_bids(request)
         check_bids(request)
         if tender.numberOfBids < 2 and tender.auctionPeriod:
             tender.auctionPeriod.startDate = None
@@ -58,6 +60,7 @@ def check_status(request):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
         tender.status = 'active.auction'
+        remove_draft_bids(request)
         check_bids(request)
         [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod]
         return
