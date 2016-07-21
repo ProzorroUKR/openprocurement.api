@@ -21,9 +21,6 @@ from copy import deepcopy
 from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE
 
 
-
-
-@attr('stage2')
 class CompetitiveDialogStage2Test(BaseWebTest):
     def test_simple_add_cd__tender_eu(self):
         u = TenderStage2EU(test_tender_stage2_data_eu)
@@ -65,16 +62,7 @@ class CompetitiveDialogStage2Test(BaseWebTest):
 
         u.delete_instance(self.db)
 
-@attr('stage3')
-class CompetitiveDialogStage2ResourceTest(BaseCompetitiveDialogEUStage2WebTest):
 
-    def test_empty(self):
-        pass
-
-    def test_empty2(self):
-        pass
-
-@attr('stage2')
 class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest):
 
     initial_auth = ('Basic', ('competitive_dialogue', ''))
@@ -765,8 +753,12 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         copy_data = deepcopy(data)
         copy_data['features'][1]["code"] = u"OCDS-123454-YEARS"
         copy_data['features'][1]["enum"][0]["value"] = 0.2
-        copy_data['features'].append(copy_data['features'][1])
-        copy_data['features'].append(copy_data['features'][1])
+        feature = deepcopy(copy_data['features'][1])
+        feature["code"] = u"OCDS-123455-YEARS"
+        copy_data['features'].append(feature)
+        feature = deepcopy(copy_data['features'][1])
+        feature["code"] = u"OCDS-123456-YEARS"
+        copy_data['features'].append(feature)
         response = self.app.post_json('/tenders', {'data': copy_data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
@@ -776,6 +768,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
              u'location': u'body', u'name': u'features'}
         ])
         del copy_data
+        del feature
 
     def test_tender_features(self):
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))
@@ -1179,54 +1172,60 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         self.assertEqual(response.json['data']['guarantee']['amount'], 100)
         self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
 
-    # def test_tender_Administrator_change(self):
-    #     self.app.authorization = ('Basic', ('competitive_dialogue', ''))
-    #
-    #     response = self.app.post_json('/tenders', {'data': test_tender_stage2_data_eu})
-    #     self.assertEqual(response.status, '201 Created')
-    #     tender = response.json['data']
-    #
-    #     author = deepcopy(test_organization)
-    #     response = self.app.post_json('/tenders/{}/questions'.format(tender['id']),
-    #                                   {'data': {'title': 'question title', 'description': 'question description',
-    #                                             'author': author}})
-    #     self.assertEqual(response.status, '201 Created')
-    #     self.assertEqual(response.content_type, 'application/json')
-    #     question = response.json['data']
-    #
-    #     authorization = self.app.authorization
-    #     self.app.authorization = ('Basic', ('administrator', ''))
-    #     response = self.app.patch_json('/tenders/{}'.format(tender['id']), {
-    #         'data': {'mode': u'test', 'procuringEntity': {"identifier": {"id": "00000000"}}}})
-    #     self.assertEqual(response.status, '200 OK')
-    #     self.assertEqual(response.content_type, 'application/json')
-    #     self.assertEqual(response.json['data']['mode'], u'test')
-    #     self.assertEqual(response.json['data']["procuringEntity"]["identifier"]["id"], "00000000")
-    #
-    #     response = self.app.patch_json('/tenders/{}/questions/{}'.format(tender['id'], question['id']),
-    #                                    {"data": {"answer": "answer"}}, status=403)
-    #     self.assertEqual(response.status, '403 Forbidden')
-    #     self.assertEqual(response.content_type, 'application/json')
-    #     self.assertEqual(response.json['errors'], [
-    #         {"location": "url", "name": "role", "description": "Forbidden"}
-    #     ])
-    #     self.app.authorization = authorization
-    #
-    #     response = self.app.post_json('/tenders', {'data': test_tender_stage2_data_eu})
-    #     self.assertEqual(response.status, '201 Created')
-    #     tender = response.json['data']
-    #     owner_token = response.json['access']['token']
-    #
-    #     response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender['id'], owner_token),
-    #                                   {'data': {'reason': 'cancellation reason', 'status': 'active'}})
-    #     self.assertEqual(response.status, '201 Created')
-    #     self.assertEqual(response.content_type, 'application/json')
-    #
-    #     self.app.authorization = ('Basic', ('administrator', ''))
-    #     response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'mode': u'test'}})
-    #     self.assertEqual(response.status, '200 OK')
-    #     self.assertEqual(response.content_type, 'application/json')
-    #     self.assertEqual(response.json['data']['mode'], u'test')
+    def test_tender_Administrator_change(self):
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+
+        response = self.app.post_json('/tenders', {'data': test_tender_stage2_data_eu})
+        self.assertEqual(response.status, '201 Created')
+        tender = response.json['data']
+
+        self.set_tender_status(tender, response.json['access']['token'], 'draft.stage2')
+        response = self.set_tender_status(tender, response.json['access']['token'], 'active.tendering')
+
+        tender = response.json['data']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        author = deepcopy(test_organization)
+        response = self.app.post_json('/tenders/{}/questions'.format(tender['id']),
+                                      {'data': {'title': 'question title', 'description': 'question description',
+                                                'author': author}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        question = response.json['data']
+
+        authorization = self.app.authorization
+        self.app.authorization = ('Basic', ('administrator', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {
+            'data': {'mode': u'test', 'procuringEntity': {"identifier": {"id": "00000000"}}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['mode'], u'test')
+        self.assertEqual(response.json['data']["procuringEntity"]["identifier"]["id"], "00000000")
+
+        response = self.app.patch_json('/tenders/{}/questions/{}'.format(tender['id'], question['id']),
+                                       {"data": {"answer": "answer"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'], [
+            {"location": "url", "name": "role", "description": "Forbidden"}
+        ])
+
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        response = self.app.post_json('/tenders', {'data': test_tender_stage2_data_eu})
+        self.assertEqual(response.status, '201 Created')
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender['id'], owner_token),
+                                      {'data': {'reason': 'cancellation reason', 'status': 'active'}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+        self.app.authorization = ('Basic', ('administrator', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'mode': u'test'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['mode'], u'test')
 
 
 if __name__ == '__main__':
