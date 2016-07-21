@@ -3,7 +3,6 @@ import unittest
 
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_data,
     test_features_tender_data,
     test_bids
 )
@@ -798,6 +797,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
         self.assertEqual(response.status, '201 Created')
         valid_bid_id = response.json['data']['id']
+        valid_bid_token = response.json['access']['token']
+        valid_bid_date = response.json['data']['date']
 
         response = self.app.post_json('/tenders/{}/bids'.format(
             self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
@@ -817,6 +818,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
             response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
             self.tender_id, qualification['id']), {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, "200 OK")
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, valid_bid_id, valid_bid_token))
+        self.assertEqual(response.json['data']['status'], 'active')
 
         # switch to active.pre-qualification.stand-still
         response = self.app.patch_json('/tenders/{}'.format(
@@ -841,6 +844,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['status'], "active.qualification")
         # tender should display all bids
         self.assertEqual(len(response.json['data']['bids']), 4)
+        self.assertEqual(response.json['data']['bids'][2]['date'], valid_bid_date)
         # invalidated bids should show only 'id' and 'status' fields
         for bid in response.json['data']['bids']:
             if bid['status'] == 'invalid':
