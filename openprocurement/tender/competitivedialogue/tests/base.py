@@ -15,6 +15,9 @@ from openprocurement.tender.openeu.tests.base import (test_tender_data as base_t
                                                       test_bids,
                                                       test_bids as test_bids_eu)
 from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.api.design import sync_design
+from openprocurement.api.tests.base import PrefixedRequestClass, test_organization
+from openprocurement.tender.openua.tests.base import (test_tender_data as base_test_tender_data_ua, BaseTenderWebTest)
 
 now = datetime.now()
 test_tender_data_eu = deepcopy(base_test_tender_data_eu)
@@ -47,6 +50,14 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     initial_lots = None
     initial_auth = None
 
+    @classmethod
+    def setUpClass(cls):
+        cls.app = webtest.TestApp("config:tests.ini", relative_to=os.path.dirname(__file__))
+        cls.app.RequestClass = PrefixedRequestClass
+        cls.couchdb_server = cls.app.app.registry.couchdb_server
+        cls.db = cls.app.app.registry.db
+        cls.db_name = cls.db.name
+
     def go_to_enquiryPeriod_end(self):
         now = get_now()
         self.set_status('active.tendering', {
@@ -61,18 +72,19 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
         })
 
     def setUp(self):
-        self.app = webtest.TestApp(
-            "config:tests.ini", relative_to=os.path.dirname(__file__))
-        self.app.RequestClass = PrefixedRequestClass
         if self.initial_auth:
             self.app.authorization = self.initial_auth
         else:
-            self.app.authorization = ('Basic', ('token', ''))
-        self.couchdb_server = self.app.app.registry.couchdb_server
-        self.db = self.app.app.registry.db
+            self.app.authorization = ('Basic', ('broker', ''))
 
     def tearDown(self):
-        del self.couchdb_server[self.db.name]
+        self.couchdb_server.delete(self.db_name)
+        self.couchdb_server.create(self.db_name)
+        db = self.couchdb_server[self.db_name]
+        # sync couchdb views
+        sync_design(db)
+        self.app.app.registry.db = db
+        self.db = self.app.app.registry.db
 
     def check_chronograph(self):
         authorization = self.app.authorization
@@ -368,6 +380,7 @@ class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):
     initial_lots = None
 
     def setUp(self):
+        self.app.authorization = ('Basic', ('broker', ''))
         super(BaseCompetitiveDialogUAContentWebTest, self).setUp()
         self.create_tender()
 
@@ -379,6 +392,7 @@ class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
     initial_lots = None
 
     def setUp(self):
+        self.app.authorization = ('Basic', ('broker', ''))
         super(BaseCompetitiveDialogEUContentWebTest, self).setUp()
         self.create_tender()
 
