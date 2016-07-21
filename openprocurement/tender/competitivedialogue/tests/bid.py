@@ -194,7 +194,8 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
                                                     'status': status}},
                                           status=403)
             self.assertEqual(response.status, '403 Forbidden')
-            self.assertEqual(response.json['errors'][0]['description'], "Bid can be added only with status: ['draft', 'pending'].")
+            self.assertEqual(response.json['errors'][0]['description'],
+                             "Bid can be added only with status: ['draft', 'pending'].")
 
         self.set_status('complete')  # set tender status to complete
 
