@@ -307,6 +307,7 @@ class TenderAwardResource(APIResource):
             tender.contracts.append(type(tender).contracts.model_class({
                 'awardID': award.id,
                 'suppliers': award.suppliers,
+                'date': get_now(),
                 'value': award.value,
                 'items': tender.items,
                 'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) +1) }))
@@ -516,6 +517,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             tender.contracts.append(type(tender).contracts.model_class({
                 'awardID': award.id,
                 'suppliers': award.suppliers,
+                'date': get_now(),
                 'value': award.value,
                 'items': tender.items,
                 'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) +1) }))

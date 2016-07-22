@@ -125,6 +125,7 @@ class Tender(SchematicsDocument, Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
+    date = IsoDateTimeType()
     tenderID = StringType()  # TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
@@ -178,6 +179,9 @@ class Tender(SchematicsDocument, Model):
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
         ]
+
+    def initialize(self):
+        self.date = get_now()
 
     def validate_procurementMethodDetails(self, *args, **kw):
         if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
