@@ -819,6 +819,20 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
              u'location': u'body', u'name': u'features'}
         ])
 
+        data = deepcopy(test_tender_data_eu)
+        data['minimalStep'] = {"amount": 100}
+        response = self.app.post_json('/tenders', {'data': data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.json['status'], 'error')
+
+        self.assertEqual(response.json['errors'], [{
+            "location": "body",
+            "name": "minimalStep",
+            "description": [
+                "Rogue field"
+            ]
+        }])
+
     def test_tender_features(self):
         """
           Try create tender features
@@ -1882,6 +1896,20 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         self.assertEqual(response.json['errors'], [
             {u'description': [{u'deliveryDate': {u'endDate': [u'This field is required.']}, u'deliveryAddress': {u'postalCode': [u'This field is required.'], u'locality': [u'This field is required.']}}], u'location': u'body', u'name': u'items'}
         ])
+
+        data = deepcopy(test_tender_data_eu)
+        data['minimalStep'] = {"amount": 100}
+        response = self.app.post_json('/tenders', {'data': data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.json['status'], 'error')
+
+        self.assertEqual(response.json['errors'], [{
+            "location": "body",
+            "name": "minimalStep",
+            "description": [
+                "Rogue field"
+            ]
+        }])
 
     def test_create_tender_generated(self):
         data = test_tender_data_ua.copy()
