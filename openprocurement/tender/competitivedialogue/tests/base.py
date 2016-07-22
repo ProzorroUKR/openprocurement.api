@@ -40,12 +40,25 @@ test_tender_stage2_data_eu["procurementMethod"] = "selective"
 test_tender_stage2_data_ua["procurementMethod"] = "selective"
 test_shortlistedFirms = [
     {
-        "lots": [{"id": uuid4().hex}],
-        "identifier": test_organization["identifier"],
-        "name": test_organization["name"]
-    }
+        "identifier": {"scheme": test_organization["identifier"]['scheme'],
+                       "id": u'00037257',
+                       "uri": test_organization["identifier"]['uri']},
+        "name": "Test org name 1"
+    },
+    {
+        "identifier": {"scheme": test_organization["identifier"]['scheme'],
+                       "id": u'00037257',
+                       "uri": test_organization["identifier"]['uri']},
+        "name": "Test org name 2"
+    },
+    {
+        "identifier": {"scheme": test_organization["identifier"]['scheme'],
+                       "id": u'00037257',
+                       "uri": test_organization["identifier"]['uri']},
+        "name": "Test org name 3"
+    },
 ]
-test_access_token_stage1 = uuid4().hex;
+test_access_token_stage1 = uuid4().hex
 test_tender_stage2_data_eu["shortlistedFirms"] = test_shortlistedFirms
 test_tender_stage2_data_ua["shortlistedFirms"] = test_shortlistedFirms
 test_tender_stage2_data_eu["dialogue_token"] = sha512(test_access_token_stage1).hexdigest()

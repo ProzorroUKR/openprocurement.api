@@ -6,7 +6,7 @@ from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.models import ITender, Identifier, Model, Value
+from openprocurement.api.models import ITender, Identifier, Model, Value, get_tender
 from openprocurement.api.utils import calculate_business_date, get_now
 from openprocurement.tender.openua.models import (SifterListType, Item as BaseItem, Tender as BaseTenderUA,
                                                   TENDER_PERIOD as TENDERING_DURATION_UA)
@@ -211,6 +211,10 @@ CompetitiveDialogEU = Tender
 class LotId(Model):
     id = StringType()
 
+    def validate_id(self, data, lot_id):
+        if lot_id and isinstance(data['__parent__'], Model) and lot_id not in [i.id for i in get_tender(data['__parent__']).lots]:
+            raise ValidationError(u"id should be one of lots")
+
 
 class Firms(Model):
     identifier = ModelType(Identifier, required=True)
@@ -334,7 +338,7 @@ class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=STAGE_2_EU_TYPE)
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
-    shortlistedFirms = ListType(ModelType(Firms), required=True)
+    shortlistedFirms = ListType(ModelType(Firms), min_size=3, required=True)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired(TENDERING_DURATION_EU))
     minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
@@ -364,7 +368,7 @@ class Tender(BaseTenderUA):
     procurementMethodType = StringType(default=STAGE_2_UA_TYPE)
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
-    shortlistedFirms = ListType(ModelType(Firms), required=True)
+    shortlistedFirms = ListType(ModelType(Firms), min_size=3, required=True)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired(TENDERING_DURATION_UA))
     minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
