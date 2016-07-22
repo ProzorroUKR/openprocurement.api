@@ -176,10 +176,6 @@ class TenderAwardResource(APIResource):
             self.request.errors.status = 403
             return
         award = self.request.validated['award']
-        if award.status == "active" and not award.qualified:
-            self.request.errors.add('body', 'data', 'Can\'t create new award in active status and not qualified')
-            self.request.errors.status = 403
-            return
         tender.awards.append(award)
         if save_tender(self.request):
             self.LOGGER.info('Created tender award {}'.format(award.id),
