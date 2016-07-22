@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import webtest
+from hashlib import sha512
 from datetime import datetime, timedelta
 from uuid import uuid4
 from copy import deepcopy
@@ -14,7 +15,7 @@ from openprocurement.tender.openeu.tests.base import (test_tender_data as base_t
                                                       test_features_tender_data,
                                                       test_bids,
                                                       test_bids as test_bids_eu)
-from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.api.design import sync_design
 from openprocurement.api.tests.base import PrefixedRequestClass, test_organization
 from openprocurement.tender.openua.tests.base import (test_tender_data as base_test_tender_data_ua, BaseTenderWebTest)
@@ -28,6 +29,34 @@ del test_tender_data_ua["title_en"]
 del test_tender_data_ua["minimalStep"]
 test_tender_data_ua["procurementMethodType"] = CD_UA_TYPE
 test_tender_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
+
+
+# stage 2
+test_tender_stage2_data_eu = deepcopy(base_test_tender_data_eu)
+test_tender_stage2_data_ua = deepcopy(base_test_tender_data_ua)
+test_tender_stage2_data_eu["procurementMethodType"] = STAGE_2_EU_TYPE
+test_tender_stage2_data_ua["procurementMethodType"] = STAGE_2_UA_TYPE
+test_tender_stage2_data_eu["procurementMethod"] = "selective"
+test_tender_stage2_data_ua["procurementMethod"] = "selective"
+test_shortlistedFirms = [
+    {
+        "lots": [{"id": uuid4().hex}],
+        "identifier": test_organization["identifier"],
+        "name": test_organization["name"]
+    }
+]
+test_access_token_stage1 = uuid4().hex;
+test_tender_stage2_data_eu["shortlistedFirms"] = test_shortlistedFirms
+test_tender_stage2_data_ua["shortlistedFirms"] = test_shortlistedFirms
+test_tender_stage2_data_eu["dialogue_token"] = sha512(test_access_token_stage1).hexdigest()
+test_tender_stage2_data_ua["dialogue_token"] = sha512(test_access_token_stage1).hexdigest()
+test_tender_stage2_data_ua["owner"] = "broker"
+test_tender_stage2_data_eu["owner"] = "broker"
+test_tender_stage2_data_ua["status"] = "draft"
+test_tender_stage2_data_eu["status"] = "draft"
+test_tender_stage2_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
+test_tender_stage2_data_eu["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
+
 
 test_lots = [
     {
@@ -363,6 +392,14 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         return response
+
+
+class BaseCompetitiveDialogEUStage2WebTest(BaseCompetitiveDialogWebTest):
+    initial_data = test_tender_stage2_data_eu
+
+
+class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
+    initial_data = test_tender_stage2_data_ua
 
 
 class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
