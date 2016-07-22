@@ -6,7 +6,7 @@ from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.models import ITender, Identifier, Model, Value
+from openprocurement.api.models import ITender, Identifier, Model, Value, get_tender
 from openprocurement.api.utils import calculate_business_date, get_now
 from openprocurement.tender.openua.models import (SifterListType, Item as BaseItem, Tender as BaseTenderUA,
                                                   TENDER_PERIOD as TENDERING_DURATION_UA)
@@ -211,6 +211,10 @@ CompetitiveDialogEU = Tender
 class LotId(Model):
     id = StringType()
 
+    def validate_id(self, data, lot_id):
+        if lot_id and isinstance(data['__parent__'], Model) and lot_id not in [i.id for i in get_tender(data['__parent__']).lots]:
+            raise ValidationError(u"id should be one of lots")
+
 
 class Firms(Model):
     identifier = ModelType(Identifier, required=True)
@@ -355,6 +359,10 @@ class Tender(BaseTenderEU):
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
+
+    def validate_shortlistedFirms(self, data, shortlist):
+        if len(shortlist) < 3:
+            raise ValidationError(u"Minimal number of shortlistedFirm is 3")
 
 TenderStage2EU = Tender
 
