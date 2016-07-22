@@ -517,9 +517,9 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         ])
 
         data = test_organization["contactPoint"]["telephone"]
-        del test_organization["contactPoint"]["telephone"]
+        del test_tender_data["procuringEntity"]["contactPoint"]["telephone"]
         response = self.app.post_json(request_path, {'data': test_tender_data}, status=422)
-        test_organization["contactPoint"]["telephone"] = data
+        test_tender_data["procuringEntity"]["contactPoint"]["telephone"] = data
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')

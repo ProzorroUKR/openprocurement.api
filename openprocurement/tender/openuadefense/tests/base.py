@@ -14,6 +14,10 @@ test_tender_data = test_tender_ua_data = test_tender_data_api.copy()
 test_tender_data['procurementMethodType'] = "aboveThresholdUA.defense"
 test_procuringEntity = test_procuringEntity_api.copy()
 test_procuringEntity["kind"] = "defense"
+test_contactPoint = test_procuringEntity_api["contactPoint"].copy()
+test_contactPoint["availableLanguage"] = 'uk'
+test_procuringEntity["contactPoint"] = test_contactPoint
+test_procuringEntity["additionalContactPoints"] = [test_contactPoint.copy()]
 test_tender_data["procuringEntity"] = test_procuringEntity
 # test_tender_data["enquiryPeriod"] = {}
 del test_tender_data["enquiryPeriod"]
