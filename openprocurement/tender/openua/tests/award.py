@@ -226,10 +226,13 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(len(response.json['data']), 2)
         self.assertIn(response.json['data'][1]['id'], new_award_location)
         new_award = response.json['data'][-1]
+        old_date = new_award['date']
 
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award['id'], self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
+        self.assertNotEqual(old_date, response.json['data']['date'])
+        old_date = response.json['data']['date']
 
         response = self.app.get(request_path)
         self.assertEqual(response.status, '200 OK')
@@ -238,6 +241,7 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
 
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, new_award['id'], self.tender_token), {"data": {"status": "cancelled"}})
+        self.assertNotEqual(old_date, response.json['data']['date'])
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertIn('Location', response.headers)

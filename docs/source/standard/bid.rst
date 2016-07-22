@@ -23,7 +23,8 @@ Schema
     string
 
     Possible values are:
-
+    
+    * `draft`
     * `active`
     * `invalid`
     * `deleted`
