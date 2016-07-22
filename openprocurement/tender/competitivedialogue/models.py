@@ -338,7 +338,7 @@ class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=STAGE_2_EU_TYPE)
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
-    shortlistedFirms = ListType(ModelType(Firms), required=True)
+    shortlistedFirms = ListType(ModelType(Firms), min_size=3, required=True)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired(TENDERING_DURATION_EU))
     minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
@@ -360,10 +360,6 @@ class Tender(BaseTenderEU):
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
 
-    def validate_shortlistedFirms(self, data, shortlist):
-        if len(shortlist) < 3:
-            raise ValidationError(u"Minimal number of shortlistedFirm is 3")
-
 TenderStage2EU = Tender
 
 
@@ -372,7 +368,7 @@ class Tender(BaseTenderUA):
     procurementMethodType = StringType(default=STAGE_2_UA_TYPE)
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
-    shortlistedFirms = ListType(ModelType(Firms), required=True)
+    shortlistedFirms = ListType(ModelType(Firms), min_size=3, required=True)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired(TENDERING_DURATION_UA))
     minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
