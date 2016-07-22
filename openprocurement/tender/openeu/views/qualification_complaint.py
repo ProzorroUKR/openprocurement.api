@@ -48,6 +48,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         complaint = self.request.validated['complaint']
         complaint.relatedLot = self.context.lotID
         complaint.type = 'complaint'
+        complaint.date = get_now()
         if complaint.status == 'pending':
             complaint.dateSubmitted = get_now()
         else:

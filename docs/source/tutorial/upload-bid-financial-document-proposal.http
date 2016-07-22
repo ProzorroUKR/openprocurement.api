@@ -1,23 +1,23 @@
-POST /api/2.3/tenders/9a3fe3666dbb4679aed131a85372f4af/bids/868c11ee64324f9daf0ae7fdbaab2f3c/financial_documents?acc_token=db56c50d42c646edb71f8bbc98402cae HTTP/1.0
+POST /api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a/financial_documents?acc_token=f8306e73d0544899bbf82e4af348b066 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 191
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy726069469066$
+Content-Length: 193
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy0492835557041$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/9a3fe3666dbb4679aed131a85372f4af/bids/868c11ee64324f9daf0ae7fdbaab2f3c/financial_documents/939da32cce7f4fe0b57a6e95ad324394
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a/financial_documents/9a62ac90489f41fa9b606362d7d88f7c
 {
   "data": {
     "confidentiality": "public", 
     "language": "uk", 
     "title": "financial_doc.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/9a3fe3666dbb4679aed131a85372f4af/bids/868c11ee64324f9daf0ae7fdbaab2f3c/financial_documents/939da32cce7f4fe0b57a6e95ad324394?download=641b4f4cc2ab45f395b0dbe2846d71af", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a/financial_documents/9a62ac90489f41fa9b606362d7d88f7c?download=2aa3fcefebc44260ba8116a737ca8968", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-04-25T15:45:03.402377+03:00", 
-    "id": "939da32cce7f4fe0b57a6e95ad324394", 
-    "dateModified": "2016-04-25T15:45:03.402407+03:00"
+    "datePublished": "2016-06-10T16:03:59.692239+03:00", 
+    "id": "9a62ac90489f41fa9b606362d7d88f7c", 
+    "dateModified": "2016-06-10T16:03:59.692276+03:00"
   }
 }
 
