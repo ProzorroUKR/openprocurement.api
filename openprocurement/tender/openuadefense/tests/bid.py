@@ -153,32 +153,31 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
 
     def test_patch_tender_bidder(self):
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True, 'status': 'draft',
+                                       'tenderers': [test_organization], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
+        bid_token = response.json['access']['token']
 
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"value": {"amount": 600}}}, status=422)
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {"value": {"amount": 600}}}, status=200)
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {'status': 'active'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
             {u'description': [u'value of bid should be less than value of tender'], u'location': u'body', u'name': u'value'}
         ])
-
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {'tenderers': [{"name": u"Державне управління управлінням справами"}]}})
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(
+            self.tender_id, bid['id'], bid_token), {"data": {'status': 'active', "value": {"amount": 500}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']['date'], bid['date'])
-        self.assertNotEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
+        bid = response.json['data']
 
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"value": {"amount": 500}, 'tenderers': [test_organization]}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']['date'], bid['date'])
-        self.assertEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
-
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"value": {"amount": 400}}})
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(
+            self.tender_id, bid['id'], bid_token), {"data": {"value": {"amount": 400}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["value"]["amount"], 400)
@@ -209,7 +208,8 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["value"]["amount"], 400)
 
-        response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), {"data": {"value": {"amount": 400}}}, status=403)
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(
+            self.tender_id, bid['id'], bid_token), {"data": {"value": {"amount": 400}}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update bid in current (complete) tender status")
