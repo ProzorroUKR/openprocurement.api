@@ -49,6 +49,7 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
             self.request.errors.status = 403
             return
         complaint = self.request.validated['complaint']
+        complaint.date = get_now()
         complaint.type = 'complaint'
         if complaint.status == 'pending':
             complaint.dateSubmitted = get_now()

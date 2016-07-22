@@ -524,7 +524,7 @@ class TenderResourceTest(BaseTenderWebTest):
         tender = response.json['data']
         fields = [u'id', u'dateModified', u'tenderID', u'status', u'items',
                   u'value', u'procuringEntity', u'owner', u'procurementMethod',
-                  u'procurementMethodType', u'title']
+                  u'procurementMethodType', u'title', u'date']
         if u'procurementMethodDetails' in self.initial_data:
             fields.append(u'procurementMethodDetails')
         if "negotiation" == self.initial_data['procurementMethodType']:
@@ -583,7 +583,7 @@ class TenderResourceTest(BaseTenderWebTest):
         if "negotiation" in self.initial_data['procurementMethodType']:
             tender_set.remove(u'causeDescription')
         self.assertEqual(tender_set - set(test_tender_data), set(
-            [u'id', u'dateModified', u'owner', u'tenderID', u'status', u'procurementMethod']))
+            [u'id', u'date', u'dateModified', u'owner', u'tenderID', u'status', u'procurementMethod']))
         self.assertIn(tender['id'], response.headers['Location'])
 
         response = self.app.get('/tenders/{}'.format(tender['id']))
@@ -1237,7 +1237,7 @@ class TenderNegotiationQuickProcessTest(TenderNegotiationProcessTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u"Value must be one of ['quick']."],
+            {u'description': [u"Value must be one of ['quick', 'artContestIP', 'noCompetition', 'twiceUnsuccessful', 'additionalPurchase', 'additionalConstruction', 'stateLegalServices']."],
              u'location': u'body', u'name': u'cause'}
         ])
 
