@@ -848,17 +848,12 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
                                        }, {}, {}]}})
         self.assertEqual(response.status, '200 OK')
         self.assertIn('features', response.json['data'])
-        self.assertNotIn('relatedItem', response.json['data']['features'][0])
-
-        # response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
-        #                                {'data': {'tenderPeriod': {'startDate': None}}})
-        # self.assertEqual(response.status, '200 OK')
-        # self.assertIn('features', response.json['data'])
+        self.assertIn('relatedItem', response.json['data']['features'][0])
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
                                        {'data': {'features': []}})
         self.assertEqual(response.status, '200 OK')
-        self.assertNotIn('features', response.json['data'])
+        self.assertIn('features', response.json['data'])
 
     def test_patch_tender(self):
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))

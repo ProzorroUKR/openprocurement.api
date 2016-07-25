@@ -261,7 +261,7 @@ class Lot(BaseLot):
 LotStage2 = Lot
 
 hide_dialogue_token = blacklist('dialogue_token')
-close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'dialogueID', 'value')
+close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'dialogueID', 'value', 'features')
 
 
 stage_2_roles = {
