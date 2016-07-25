@@ -447,5 +447,72 @@ class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
         self.create_tender()
 
 
+class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest):
+    initial_data = test_tender_stage2_data_ua
+    initial_status = None
+    initial_bids = None
+    initial_lots = None
+
+    def setUp(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        super(BaseCompetitiveDialogEUStage2ContentWebTest, self).setUp()
+        self.create_tender()
+
+    def create_tender(self):
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        data = deepcopy(self.initial_data)
+        if self.initial_lots:
+            lots = []
+            for i in self.initial_lots:
+                lot = deepcopy(i)
+                lot['id'] = uuid4().hex
+                lots.append(lot)
+            data['lots'] = self.initial_lots = lots
+            for i, item in enumerate(data['items']):
+                item['relatedLot'] = lots[i % len(lots)]['id']
+            for firm in data['shortlistedFirms']:
+                firm['lots'] = [dict(id=lot['id']) for lot in lots]
+            self.lots_id = [lot['id'] for lot in lots]
+        response = self.app.post_json('/tenders', {'data': data})
+        tender = response.json['data']
+        self.tender = tender
+        self.tender_token = response.json['access']['token']
+        self.tender_id = tender['id']
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
+                                                                     token=self.tender_token),
+                                       {'data': {'status': 'draft.stage2'}})
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
+                                                                     token=self.tender_token),
+                                       {'data': {'status': 'active.tendering'}})
+        status = tender['status']
+        if self.initial_bids:
+            self.initial_bids_tokens = {}
+            response = self.set_status('active.tendering')
+            status = response.json['data']['status']
+            bids = []
+            for i in self.initial_bids:
+                if self.initial_lots:
+                    i = i.copy()
+                    value = i.pop('value')
+                    i['lotValues'] = [
+                        {
+                            'value': value,
+                            'relatedLot': l['id'],
+                        }
+                        for l in self.initial_lots
+                        ]
+                response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
+                self.assertEqual(response.status, '201 Created')
+                bids.append(response.json['data'])
+                self.initial_bids_tokens[response.json['data']['id']] = response.json['access']['token']
+            self.initial_bids = bids
+        if self.initial_status != status:
+            self.set_status(self.initial_status)
+        self.app.authorization = auth
+
 test_features_tender_eu_data = test_features_tender_data.copy()
 test_features_tender_eu_data['procurementMethodType'] = CD_EU_TYPE
