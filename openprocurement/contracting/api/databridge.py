@@ -197,6 +197,15 @@ class ContractingDataBridge(object):
                             logger.warn('Contact {} of tender {} does not contain items info'.format(contract['id'], tender['id']),
                                         extra={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']})
 
+                        for item in contract.get('items', []):
+                            if 'deliveryDate' in item and 'startDate' in item['deliveryDate']:
+                                if item['deliveryDate']['startDate'] > item['deliveryDate']['endDate']:
+                                    logger.info("Found dates missmatch {} and {}".format(item['deliveryDate']['startDate'], item['deliveryDate']['endDate']),
+                                                extra={"TENDER_ID": contract['tender_id'], "CONTRACT_ID": contract['id']})
+                                    del item['deliveryDate']['startDate']
+                                    logger.info("startDate value cleaned.",
+                                                extra={"TENDER_ID": contract['tender_id'], "CONTRACT_ID": contract['id']})
+
                         self.handicap_contracts_queue.put(contract)
 
     def prepare_contract_data(self):
