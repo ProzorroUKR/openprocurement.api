@@ -48,7 +48,7 @@ Tender Conditions Claims/Complaints
 
     complaints-tender
 
-Tender Award Complaints
+Tender Award Claims/Complaints
 ------------------------------
 
 .. graphviz::
