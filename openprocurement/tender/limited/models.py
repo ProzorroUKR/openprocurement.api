@@ -13,7 +13,7 @@ from openprocurement.api.models import (
 )
 from openprocurement.api.models import (
     Value, IsoDateTimeType, Document, Organization, SchematicsDocument,
-    Model, Revision, Period,
+    Model, Revision, Period, view_bid_role,
 )
 from openprocurement.api.models import validate_cpv_group, validate_items_uniq
 from openprocurement.api.models import get_now
@@ -21,8 +21,15 @@ from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import ITender
 from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import ProcuringEntity as BaseProcuringEntity
-from openprocurement.tender.openua.models import Complaint
+from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import Item
+
+
+class Complaint(BaseComplaint):
+    class Options:
+        roles = {
+            'active': view_bid_role,
+        }
 
 
 class Contract(BaseContract):
