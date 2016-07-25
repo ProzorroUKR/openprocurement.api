@@ -222,10 +222,10 @@ class ContractingDataBridge(object):
                             if 'deliveryDate' in item and 'startDate' in item['deliveryDate']:
                                 if item['deliveryDate']['startDate'] > item['deliveryDate']['endDate']:
                                     logger.info("Found dates missmatch {} and {}".format(item['deliveryDate']['startDate'], item['deliveryDate']['endDate']),
-                                                extra={"TENDER_ID": contract['tender_id'], "CONTRACT_ID": contract['id']})
+                                                extra=journal_context(params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
                                     del item['deliveryDate']['startDate']
                                     logger.info("startDate value cleaned.",
-                                                extra={"TENDER_ID": contract['tender_id'], "CONTRACT_ID": contract['id']})
+                                                extra=journal_context(params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
 
                         self.handicap_contracts_queue.put(contract)
 
