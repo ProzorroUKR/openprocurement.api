@@ -510,9 +510,8 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         award = self.request.context
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
-        award.date = get_now()
         if award_status == 'pending' and award.status == 'active':
-            normalized_end = calculate_normalized_date(award.date, tender, True)
+            normalized_end = calculate_normalized_date(get_now(), tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, self.stand_still_delta, tender)
             tender.contracts.append(type(tender).contracts.model_class({
                 'awardID': award.id,
@@ -539,7 +538,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                     i.status = 'cancelled'
             # add_next_award(self.request)
         elif award_status == 'pending' and award.status == 'unsuccessful':
-            normalized_end = calculate_normalized_date(award.date, tender, True)
+            normalized_end = calculate_normalized_date(get_now(), tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, self.stand_still_delta, tender)
             # add_next_award(self.request)
         elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
