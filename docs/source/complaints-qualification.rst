@@ -34,7 +34,7 @@ Then upload necessary documents:
 .. include:: tutorial/qualification-complaint-submission-upload.http
    :code:
 
-Submit tender award claim:
+Submit tender qualification claim:
 
 .. include:: tutorial/qualification-complaint-claim.http
    :code:

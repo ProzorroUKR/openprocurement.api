@@ -48,8 +48,8 @@ Tender Conditions Claims/Complaints
 
     complaints-tender
 
-Tender Qualification Complaints
--------------------------------
+Tender Qualification Claims/Complaints
+--------------------------------------
 
 .. graphviz::
 
@@ -79,7 +79,7 @@ Tender Qualification Complaints
 
     complaints-qualification
 
-Tender Award Complaints
+Tender Award Claims/Complaints
 ------------------------------
 
 .. graphviz::
