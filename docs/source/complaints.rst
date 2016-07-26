@@ -28,7 +28,7 @@ Tender Award Complaints
         {pending,accepted} -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid};
-        stopping -> stopped;
+        stopping -> {stopped,invalid};
         accepted -> {declined,satisfied,stopped};
     }
 
