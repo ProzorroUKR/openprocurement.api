@@ -1116,6 +1116,13 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
                 self.assertEqual(response.content_type, 'application/json')
                 self.assertEqual(response.json['data']["decision"], 'accepted:{} complaint'.format(status))
 
+                self.app.authorization = ('Basic', ('token', ''))
+                response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}}, status=403)
+                self.assertEqual(response.status, '403 Forbidden')
+                self.assertEqual(response.content_type, 'application/json')
+                self.assertEqual(response.json['errors'][0]["description"], "Can't update award with accepted complaint")
+
+            self.app.authorization = ('Basic', ('reviewer', ''))
             response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, self.award_id, complaint['id']), {"data": {
                 "status": status
             }})
