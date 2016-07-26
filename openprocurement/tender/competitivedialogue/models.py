@@ -342,7 +342,7 @@ class Tender(BaseTenderEU):
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired(TENDERING_DURATION_EU))
     minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
-    lots = ListType(ModelType(LotStage2), default=list())
+    lots = ListType(ModelType(LotStage2), default=list(), validators=[validate_lots_uniq])
     status = StringType(
         choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
                  'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
@@ -372,7 +372,7 @@ class Tender(BaseTenderUA):
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired(TENDERING_DURATION_UA))
     minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
-    lots = ListType(ModelType(LotStage2), default=list())
+    lots = ListType(ModelType(LotStage2), default=list(), validators=[validate_lots_uniq])
     status = StringType(
         choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
                  'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',

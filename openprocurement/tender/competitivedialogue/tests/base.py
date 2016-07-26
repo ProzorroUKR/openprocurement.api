@@ -69,7 +69,8 @@ test_tender_stage2_data_ua["status"] = "draft"
 test_tender_stage2_data_eu["status"] = "draft"
 test_tender_stage2_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
 test_tender_stage2_data_eu["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
-
+test_tender_stage2_data_ua["dialogueID"] = uuid4().hex
+test_tender_stage2_data_eu["dialogueID"] = uuid4().hex
 
 test_lots = [
     {
@@ -327,6 +328,35 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
                         for i in self.initial_lots
                         ]
                 })
+        elif status == 'active.auction':
+            data.update({
+                "enquiryPeriod": {
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat(),
+                    "endDate": (now - COMPLAINT_STAND_STILL - TENDERING_DURATION + QUESTIONS_STAND_STILL).isoformat()
+                },
+                "tenderPeriod": {
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat(),
+                    "endDate": (now - COMPLAINT_STAND_STILL).isoformat()
+                },
+                "qualificationPeriod": {
+                    "startDate": (now - COMPLAINT_STAND_STILL).isoformat(),
+                    "endDate": (now).isoformat()
+                },
+                "auctionPeriod": {
+                    "startDate": (now).isoformat()
+                }
+            })
+            if self.initial_lots:
+                data.update({
+                    'lots': [
+                        {
+                            "auctionPeriod": {
+                                "startDate": (now).isoformat()
+                            }
+                        }
+                        for i in self.initial_lots
+                        ]
+                })
         elif status == 'active.awarded':
             data.update({
                 "enquiryPeriod": {
@@ -446,6 +476,81 @@ class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
         super(BaseCompetitiveDialogEUContentWebTest, self).setUp()
         self.create_tender()
 
+
+class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest):
+    initial_data = test_tender_stage2_data_eu
+    initial_status = None
+    initial_bids = None
+    initial_lots = None
+    initial_features = None
+
+    def setUp(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        super(BaseCompetitiveDialogEUStage2ContentWebTest, self).setUp()
+        self.create_tender()
+
+    def create_tender(self):
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        data = deepcopy(self.initial_data)
+        if self.initial_lots:
+            lots = []
+            for i in self.initial_lots:
+                lot = deepcopy(i)
+                lot['id'] = uuid4().hex
+                lots.append(lot)
+            data['lots'] = self.initial_lots = lots
+            for i, item in enumerate(data['items']):
+                item['relatedLot'] = lots[i % len(lots)]['id']
+            for firm in data['shortlistedFirms']:
+                firm['lots'] = [dict(id=lot['id']) for lot in lots]
+            self.lots_id = [lot['id'] for lot in lots]
+        if self.initial_features:
+            for feature in self.initial_features:
+                if feature['featureOf'] == 'lot':
+                    feature['relatedItem'] = data['lots'][0]['id']
+                if feature['featureOf'] == 'item':
+                    feature['relatedItem'] = data['items'][0]['id']
+            data['features'] = self.initial_features
+        response = self.app.post_json('/tenders', {'data': data})
+        tender = response.json['data']
+        self.tender = tender
+        self.tender_token = response.json['access']['token']
+        self.tender_id = tender['id']
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
+                                                                     token=self.tender_token),
+                            {'data': {'status': 'draft.stage2'}})
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
+                                                                     token=self.tender_token),
+                            {'data': {'status': 'active.tendering'}})
+        # status = tender['status']
+        # if self.initial_bids:
+        #     self.initial_bids_tokens = {}
+        #     response = self.set_status('active.tendering')
+        #     status = response.json['data']['status']
+        #     bids = []
+        #     for i in self.initial_bids:
+        #         if self.initial_lots:
+        #             i = i.copy()
+        #             value = i.pop('value')
+        #             i['lotValues'] = [
+        #                 {
+        #                     'value': value,
+        #                     'relatedLot': l['id'],
+        #                 }
+        #                 for l in self.initial_lots
+        #                 ]
+        #         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
+        #         self.assertEqual(response.status, '201 Created')
+        #         bids.append(response.json['data'])
+        #         self.initial_bids_tokens[response.json['data']['id']] = response.json['access']['token']
+        #     self.initial_bids = bids
+        # if self.initial_status != status:
+        #     self.set_status(self.initial_status)
+        self.app.authorization = auth
 
 test_features_tender_eu_data = test_features_tender_data.copy()
 test_features_tender_eu_data['procurementMethodType'] = CD_EU_TYPE
