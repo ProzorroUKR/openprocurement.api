@@ -560,6 +560,17 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
     initial_lots = None
     initial_features = None
 
+    def create_tenderers(self, count=1):
+        tenderers = []
+        for i in xrange(count):
+            tenderer = deepcopy(test_bids[0]["tenderers"])
+            tenderer[0]['identifier']['id'] = self.initial_data['shortlistedFirms'][i if i < 3 else 3]['identifier'][
+                'id']
+            tenderer[0]['identifier']['scheme'] = \
+                self.initial_data['shortlistedFirms'][i if i < 3 else 3]['identifier']['scheme']
+            tenderers.append(tenderer)
+        return tenderers
+
     def setUp(self):
         self.app.authorization = ('Basic', ('broker', ''))
         super(BaseCompetitiveDialogUAStage2ContentWebTest, self).setUp()
