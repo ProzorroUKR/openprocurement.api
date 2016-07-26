@@ -35,9 +35,9 @@ Tender Conditions Claims/Complaints
         {draft,claim,answered} -> cancelled;
         {pending,accepted} -> stopping;
         edge[style=bold];
-        pending -> {accepted,invalid};
         accepted -> {declined,satisfied,stopped};
-        stopping -> stopped;
+        pending -> {accepted,invalid};
+        stopping -> {stopped,invalid};
         edge[label="auction" style=dotted];
         answered -> {declined,resolved,invalid};
     }
@@ -63,7 +63,7 @@ Tender Award Complaints
         {pending,accepted} -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid};
-        stopping -> stopped;
+        stopping -> {stopped,invalid};
         accepted -> {declined,satisfied,stopped};
     }
 
