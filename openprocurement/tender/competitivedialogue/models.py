@@ -40,27 +40,26 @@ FEATURES_MAX_SUM = 1
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 edit_stage2_pending = whitelist('status')
 edit_stage2_waiting = whitelist('status', 'stage2TenderID')
-hide_minimal_step = blacklist('minimalStep')
 
 roles = {
-    'plain': plain_role + hide_minimal_step,
-    'create': create_role + hide_minimal_step,
-    'view': view_role + hide_minimal_step,
+    'plain': plain_role,
+    'create': create_role,
+    'view': view_role,
     'listing': listing_role,
-    'active.pre-qualification': pre_qualifications_role + hide_minimal_step,
-    'active.pre-qualification.stand-still': pre_qualifications_role + hide_minimal_step,
-    'active.stage2.pending': enquiries_role + hide_minimal_step,
-    'active.stage2.waiting': pre_qualifications_role + hide_minimal_step,
+    'active.pre-qualification': pre_qualifications_role,
+    'active.pre-qualification.stand-still': pre_qualifications_role,
+    'active.stage2.pending': enquiries_role,
+    'active.stage2.waiting': pre_qualifications_role,
     'edit_active.stage2.pending': whitelist('status'),
-    'draft': enquiries_role + hide_minimal_step,
-    'active.tendering': enquiries_role + hide_minimal_step,
-    'complete': view_role + hide_minimal_step,
-    'unsuccessful': view_role + hide_minimal_step,
-    'cancelled': view_role + hide_minimal_step,
+    'draft': enquiries_role,
+    'active.tendering': enquiries_role,
+    'complete': view_role,
+    'unsuccessful': view_role,
+    'cancelled': view_role,
     'chronograph': chronograph_role,
     'chronograph_view': chronograph_view_role,
     'Administrator': Administrator_role,
-    'default': schematics_default_role + hide_minimal_step,
+    'default': schematics_default_role,
     'contracting': whitelist('doc_id', 'owner'),
     'competitive_dialogue': edit_stage2_waiting
 }
@@ -116,30 +115,14 @@ class Bid(BidEU):
     documents = ListType(ModelType(Document), default=list())
 
 lot_roles = {
-    'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee'),
-    'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee'),
+    'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
+    'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
     'embedded': embedded_lot_role,
-    'view': default_lot_role + blacklist('minimalStep'),
-    'default': default_lot_role + blacklist('minimalStep'),
+    'view': default_lot_role,
+    'default': default_lot_role,
     'chronograph': whitelist('id', 'auctionPeriod'),
     'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
 }
-
-
-class Lot(BaseLotEU):
-
-    minimalStep = ModelType(Value, required=False)
-
-    def validate_minimalStep(self, data, value):
-        if data.get('minimalStep'):
-            raise ValidationError(u"Rogue field")
-
-    @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
-    def lot_minimalStep(self):
-        return None
-
-    class Options:
-        roles = lot_roles.copy()
 
 
 @implementer(ITender)
@@ -154,16 +137,6 @@ class Tender(BaseTenderEU):
                           filter_by='status', filter_in_values=['invalid', 'deleted'])
     TenderID = StringType(required=False)
     stage2TenderID = StringType(required=False)
-    minimalStep = ModelType(Value, required=False, serialize_when_none=False)
-    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
-
-    def validate_minimalStep(self, data, data_from_request):
-        if data.get('minimalStep'):
-            raise ValidationError(u"Rogue field")
-
-    @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none = False)
-    def tender_minimalStep(self):
-        return None
 
     class Options:
         roles = roles.copy()
@@ -236,39 +209,6 @@ CompetitiveDialogUA = Tender
 
 
 # stage 2 models
-
-stage_2_lot_roles = {
-    'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
-    'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStep'),
-    'embedded': embedded_lot_role,
-    'view': default_lot_role,
-    'default': default_lot_role,
-    'auction_view': default_lot_role,
-    'auction_patch': whitelist('id', 'auctionUrl'),
-    'chronograph': whitelist('id', 'auctionPeriod'),
-    'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
-}
-
-
-class Lot(BaseLotEU):
-
-    minimalStep = ModelType(Value, required=True, default=Value({"amount": 0}))
-
-    class Options:
-        roles = stage_2_lot_roles.copy()
-
-
-LotStage2EU = Lot
-
-
-class Lot(BaseLotUa):
-
-    minimalStep = ModelType(Value, required=True, default=Value({"amount": 0}))
-
-    class Options:
-        roles = stage_2_lot_roles.copy()
-
-LotStage2UA = Lot
 
 hide_dialogue_token = blacklist('dialogue_token')
 close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'dialogueID', 'value', 'features')
@@ -351,8 +291,6 @@ class Tender(BaseTenderEU):
     shortlistedFirms = ListType(ModelType(Firms), min_size=3, required=True)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired(TENDERING_DURATION_EU))
-    minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
-    lots = ListType(ModelType(LotStage2EU), default=list(), validators=[validate_lots_uniq])
     status = StringType(
         choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
                  'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
@@ -381,8 +319,6 @@ class Tender(BaseTenderUA):
     shortlistedFirms = ListType(ModelType(Firms), min_size=3, required=True)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired(TENDERING_DURATION_UA))
-    minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
-    lots = ListType(ModelType(LotStage2UA), default=list(), validators=[validate_lots_uniq])
     status = StringType(
         choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
                  'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',

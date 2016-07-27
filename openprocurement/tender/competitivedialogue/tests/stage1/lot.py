@@ -75,6 +75,7 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
+            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'},
             {u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'},
             {u'description': [u'This field is required.'], u'location': u'body', u'name': u'title'},
         ])
@@ -99,16 +100,33 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
              u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'title': 'lot title',
-                                                              'description': 'lot description',
-                                                              'value': {'amount': '500.0'}}
-                                                     })
+        response = self.app.post_json(request_path, {'data': {
+            'title': 'lot title',
+            'description': 'lot description',
+            'value': {'amount': '100.0'},
+            'minimalStep': {'amount': '500.0'},
+        }}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'value should be less than value of lot'], u'location': u'body', u'name': u'minimalStep'}
+        ])
+
+        response = self.app.post_json(request_path, {'data': {
+            'title': 'lot title',
+            'description': 'lot description',
+            'value': {'amount': '500.0'},
+            'minimalStep': {'amount': '100.0', 'currency': "USD"}
+        }})
         self.assertEqual(response.status, '201 Created')
         # but minimalStep currency stays unchanged
         response = self.app.get(request_path)
         self.assertEqual(response.content_type, 'application/json')
         lots = response.json['data']
         self.assertEqual(len(lots), 1)
+        self.assertEqual(lots[0]['minimalStep']['currency'], "UAH")
+        self.assertEqual(lots[0]['minimalStep']['amount'], 100)
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
                                        {"data": {"items": [{'relatedLot': '0' * 32}]}},
@@ -287,9 +305,23 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
         lot = response.json['data']
         self.assertEqual(lot['value']['currency'], "UAH")
 
+        # update tender currency without mimimalStep currency change
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"value": {"currency": "GBP"}}}, status=422)
+
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'currency should be identical to currency of value of tender'],
+             u'location': u'body', u'name': u'minimalStep'}
+        ])
+
         # update tender currency
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {"data": {"value": {"currency": "GBP"}}})
+                                       {"data": {"value": {"currency": "GBP"},
+                                                 "minimalStep": {"currency": "GBP"}}
+                                        })
 
         self.assertEqual(response.status, '200 OK')
         # log currency is updated too
@@ -300,7 +332,8 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
         self.assertEqual(lot['value']['currency'], "GBP")
 
         # try to update lot currency
-        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'],
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id,
+                                                                                 lot['id'],
                                                                                  self.tender_token),
                                        {"data": {"value": {"currency": "USD"}}})
         self.assertEqual(response.status, '200 OK')
@@ -311,6 +344,33 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
         lot = response.json['data']
         self.assertEqual(lot['value']['currency'], "GBP")
 
+        # try to update minimalStep currency
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id,
+                                                                                 lot['id'],
+                                                                                 self.tender_token),
+                                       {"data": {"minimalStep": {"currency": "USD"}}})
+        self.assertEqual(response.status, '200 OK')
+        # but the value stays unchanged
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertEqual(lot['minimalStep']['currency'], "GBP")
+
+        # try to update lot minimalStep currency and lot value currency in single request
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id,
+                                                                                 lot['id'],
+                                                                                 self.tender_token),
+                                       {"data": {"value": {"currency": "USD"},
+                                                 "minimalStep": {"currency": "USD"}}})
+        self.assertEqual(response.status, '200 OK')
+        # but the value stays unchanged
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertEqual(lot['value']['currency'], "GBP")
+        self.assertEqual(lot['minimalStep']['currency'], "GBP")
 
     def test_patch_tender_vat(self):
         # set tender VAT
@@ -330,7 +390,8 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
 
         # update tender VAT
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {"data": {"value": {"valueAddedTaxIncluded": False}}})
+                                       {"data": {"value": {"valueAddedTaxIncluded": False},
+                                                 "minimalStep": {"valueAddedTaxIncluded": False}}})
 
         self.assertEqual(response.status, '200 OK')
         # log VAT is updated too
@@ -341,7 +402,8 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
         self.assertFalse(lot['value']['valueAddedTaxIncluded'])
 
         # try to update lot VAT
-        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'],
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id,
+                                                                                 lot['id'],
                                                                                  self.tender_token),
                                        {"data": {"value": {"valueAddedTaxIncluded": True}}})
         self.assertEqual(response.status, '200 OK')
@@ -352,10 +414,25 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
         lot = response.json['data']
         self.assertFalse(lot['value']['valueAddedTaxIncluded'])
 
-        # try to update minimalStep VAT and value VAT in single request
-        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'],
+        # try to update minimalStep VAT
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id,
+                                                                                 lot['id'],
                                                                                  self.tender_token),
-                                       {"data": {"value": {"valueAddedTaxIncluded": True}}})
+                                       {"data": {"minimalStep": {"valueAddedTaxIncluded": True}}})
+        self.assertEqual(response.status, '200 OK')
+        # but the value stays unchanged
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertFalse(lot['minimalStep']['valueAddedTaxIncluded'])
+
+        # try to update minimalStep VAT and value VAT in single request
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id,
+                                                                                 lot['id'],
+                                                                                 self.tender_token),
+                                       {"data": {"value": {"valueAddedTaxIncluded": True},
+                                                 "minimalStep": {"valueAddedTaxIncluded": True}}})
         self.assertEqual(response.status, '200 OK')
         # but the value stays unchanged
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -363,6 +440,7 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
         self.assertFalse(lot['value']['valueAddedTaxIncluded'])
+        self.assertEqual(lot['minimalStep']['valueAddedTaxIncluded'], lot['value']['valueAddedTaxIncluded'])
 
     def test_get_tender_lot(self):
         response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
@@ -375,7 +453,8 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(set(response.json['data']), set([u'id', u'title', u'date', u'description', u'value', u'status', u'auctionPeriod']))
+        self.assertEqual(set(response.json['data']), set([u'id', u'title', u'date', u'description',
+                                                          u'value', u'status', u'auctionPeriod', u'minimalStep']))
 
         self.set_status('active.qualification')
 
@@ -414,7 +493,8 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
         response = self.app.get('/tenders/{}/lots'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(set(response.json['data'][0]), set([u'id', u'title', u'date', u'description', u'value', u'status', u'auctionPeriod']))
+        self.assertEqual(set(response.json['data'][0]), set([u'id', u'title', u'date', u'description',
+                                                             u'value', u'status', u'auctionPeriod', u'minimalStep']))
 
         self.set_status('active.qualification')
 
@@ -1760,8 +1840,9 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
+            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'},
             {u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'},
-            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'title'},
+            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'title'}
         ])
 
         response = self.app.post_json(request_path, {'data': {
@@ -1784,16 +1865,33 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
              u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'title': 'lot title',
-                                                              'description': 'lot description',
-                                                              'value': {'amount': '500.0'}}
-                                                     })
+        response = self.app.post_json(request_path, {'data': {
+            'title': 'lot title',
+            'description': 'lot description',
+            'value': {'amount': '100.0'},
+            'minimalStep': {'amount': '500.0'},
+        }}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'value should be less than value of lot'], u'location': u'body', u'name': u'minimalStep'}
+        ])
+
+        response = self.app.post_json(request_path, {'data': {
+            'title': 'lot title',
+            'description': 'lot description',
+            'value': {'amount': '500.0'},
+            'minimalStep': {'amount': '100.0', 'currency': "USD"}
+        }})
         self.assertEqual(response.status, '201 Created')
         # but minimalStep currency stays unchanged
         response = self.app.get(request_path)
         self.assertEqual(response.content_type, 'application/json')
         lots = response.json['data']
         self.assertEqual(len(lots), 1)
+        self.assertEqual(lots[0]['minimalStep']['currency'], "UAH")
+        self.assertEqual(lots[0]['minimalStep']['amount'], 100)
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
                                        {"data": {"items": [{'relatedLot': '0' * 32}]}},
@@ -1974,8 +2072,21 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
 
         # update tender currency without mimimalStep currency change
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {"data": {"value": {"currency": "GBP"}}})
+                                       {"data": {"value": {"currency": "GBP"}}}, status=422)
 
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'currency should be identical to currency of value of tender'],
+             u'location': u'body', u'name': u'minimalStep'}
+        ])
+
+        # update tender currency
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"value": {"currency": "GBP"},
+                                                 "minimalStep": {"currency": "GBP"}}
+                                        })
         self.assertEqual(response.status, '200 OK')
         # log currency is updated too
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -1985,7 +2096,8 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
         self.assertEqual(lot['value']['currency'], "GBP")
 
         # try to update lot currency
-        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'],
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id,
+                                                                                 lot['id'],
                                                                                  self.tender_token),
                                        {"data": {"value": {"currency": "USD"}}})
         self.assertEqual(response.status, '200 OK')
@@ -1996,10 +2108,25 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
         lot = response.json['data']
         self.assertEqual(lot['value']['currency'], "GBP")
 
-        # try to update lot minimalStep currency and lot value currency in single request
-        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'],
+        # try to update minimalStep currency
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id,
+                                                                                 lot['id'],
                                                                                  self.tender_token),
-                                       {"data": {"value": {"currency": "USD"}}})
+                                       {"data": {"minimalStep": {"currency": "USD"}}})
+        self.assertEqual(response.status, '200 OK')
+        # but the value stays unchanged
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertEqual(lot['minimalStep']['currency'], "GBP")
+
+        # try to update lot minimalStep currency and lot value currency in single request
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id,
+                                                                                 lot['id'],
+                                                                                 self.tender_token),
+                                       {"data": {"value": {"currency": "USD"},
+                                                 "minimalStep": {"currency": "USD"}}})
         self.assertEqual(response.status, '200 OK')
         # but the value stays unchanged
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -2007,6 +2134,7 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
         self.assertEqual(lot['value']['currency'], "GBP")
+        self.assertEqual(lot['minimalStep']['currency'], "GBP")
 
     def test_patch_tender_vat(self):
         # set tender VAT
@@ -2025,8 +2153,8 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
         self.assertTrue(lot['value']['valueAddedTaxIncluded'])
 
         # update tender VAT
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {"data": {"value": {"valueAddedTaxIncluded": False}}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {
+            "data": {"value": {"valueAddedTaxIncluded": False}, "minimalStep": {"valueAddedTaxIncluded": False}}})
 
         self.assertEqual(response.status, '200 OK')
         # log VAT is updated too
@@ -2037,9 +2165,9 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
         self.assertFalse(lot['value']['valueAddedTaxIncluded'])
 
         # try to update lot VAT
-        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'],
-                                                                                 self.tender_token),
-                                       {"data": {"value": {"valueAddedTaxIncluded": True}}})
+        response = self.app.patch_json(
+            '/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
+            {"data": {"value": {"valueAddedTaxIncluded": True}}})
         self.assertEqual(response.status, '200 OK')
         # but the value stays unchanged
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -2048,10 +2176,25 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
         lot = response.json['data']
         self.assertFalse(lot['value']['valueAddedTaxIncluded'])
 
-        # try to update minimalStep VAT and value VAT in single request
-        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'],
+        # try to update minimalStep VAT
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id,
+                                                                                 lot['id'],
                                                                                  self.tender_token),
-                                       {"data": {"value": {"valueAddedTaxIncluded": True}}})
+                                       {"data": {"minimalStep": {"valueAddedTaxIncluded": True}}})
+        self.assertEqual(response.status, '200 OK')
+        # but the value stays unchanged
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.assertFalse(lot['minimalStep']['valueAddedTaxIncluded'])
+
+        # try to update minimalStep VAT and value VAT in single request
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id,
+                                                                                 lot['id'],
+                                                                                 self.tender_token),
+                                       {"data": {"value": {"valueAddedTaxIncluded": True},
+                                                 "minimalStep": {"valueAddedTaxIncluded": True}}})
         self.assertEqual(response.status, '200 OK')
         # but the value stays unchanged
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
@@ -2059,6 +2202,7 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
         self.assertFalse(lot['value']['valueAddedTaxIncluded'])
+        self.assertEqual(lot['minimalStep']['valueAddedTaxIncluded'], lot['value']['valueAddedTaxIncluded'])
 
     def test_get_tender_lot(self):
         response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
@@ -2071,7 +2215,8 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(set(response.json['data']), set([u'id', u'title', u'date', u'description', u'value', u'status', u'auctionPeriod']))
+        self.assertEqual(set(response.json['data']), set([u'id', u'title', u'date', u'description',
+                                                          u'value', u'status', u'auctionPeriod', u'minimalStep']))
 
         self.set_status('active.qualification')
 
@@ -2110,7 +2255,8 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
         response = self.app.get('/tenders/{}/lots'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(set(response.json['data'][0]), set([u'id', u'title', u'date', u'description', u'value', u'status', u'auctionPeriod']))
+        self.assertEqual(set(response.json['data'][0]), set([u'id', u'title', u'date', u'description',
+                                                             u'value', u'status', u'auctionPeriod', u'minimalStep']))
 
         self.set_status('active.qualification')
 
