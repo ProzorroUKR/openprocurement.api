@@ -35,7 +35,7 @@ STAGE_2_UA_TYPE = "competitiveDialogueUA.stage2"
 
 STAGE2_STATUS = 'draft.stage2'
 
-FEATURES_MAX_SUM = 1
+FEATURES_MAX_SUM = 0.99
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 edit_stage2_pending = whitelist('status')
