@@ -93,9 +93,9 @@ class Bid(BidEU):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues',
+            'create': whitelist('value', 'tenderers', 'lotValues',
                                 'status', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
-            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'subcontractingDetails'),
+            'edit': whitelist('value', 'tenderers', 'lotValues', 'status', 'subcontractingDetails'),
             'active.enquiries': whitelist(),
             'active.tendering': whitelist(),
             'active.pre-qualification': whitelist('id', 'status', 'documents', 'tenderers'),
@@ -113,6 +113,9 @@ class Bid(BidEU):
         }
 
     documents = ListType(ModelType(Document), default=list())
+
+    def validate_parameters(self, data, parameters):
+        pass  # remove validation on stage 1
 
 lot_roles = {
     'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
