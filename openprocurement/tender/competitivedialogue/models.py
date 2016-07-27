@@ -9,12 +9,12 @@ from schematics.types.serializable import serializable
 from openprocurement.api.models import ITender, Identifier, Model, Value, get_tender
 from openprocurement.api.utils import calculate_business_date, get_now
 from openprocurement.tender.openua.models import (SifterListType, Item as BaseItem, Tender as BaseTenderUA,
-                                                  TENDER_PERIOD as TENDERING_DURATION_UA)
+                                                  TENDER_PERIOD as TENDERING_DURATION_UA, Lot as BaseLotUa)
 from openprocurement.tender.openeu.models import (Tender as BaseTenderEU, Administrator_bid_role, view_bid_role,
                                                   pre_qualifications_role, Bid as BidEU, ConfidentialDocument,
                                                   edit_role_eu, auction_patch_role, auction_view_role,
                                                   auction_post_role, QUESTIONS_STAND_STILL, ENQUIRY_STAND_STILL_TIME,
-                                                  PeriodStartEndRequired, EnquiryPeriod, Lot as BaseLot,
+                                                  PeriodStartEndRequired, EnquiryPeriod, Lot as BaseLotEU,
                                                   validate_lots_uniq, embedded_lot_role, default_lot_role,
                                                   TENDERING_DURATION as TENDERING_DURATION_EU)
 from openprocurement.api.models import (
@@ -126,7 +126,7 @@ lot_roles = {
 }
 
 
-class Lot(BaseLot):
+class Lot(BaseLotEU):
 
     minimalStep = ModelType(Value, required=False)
 
@@ -250,7 +250,7 @@ stage_2_lot_roles = {
 }
 
 
-class Lot(BaseLot):
+class Lot(BaseLotEU):
 
     minimalStep = ModelType(Value, required=True, default=Value({"amount": 0}))
 
@@ -258,7 +258,17 @@ class Lot(BaseLot):
         roles = stage_2_lot_roles.copy()
 
 
-LotStage2 = Lot
+LotStage2EU = Lot
+
+
+class Lot(BaseLotUa):
+
+    minimalStep = ModelType(Value, required=True, default=Value({"amount": 0}))
+
+    class Options:
+        roles = stage_2_lot_roles.copy()
+
+LotStage2UA = Lot
 
 hide_dialogue_token = blacklist('dialogue_token')
 close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'dialogueID', 'value', 'features')
@@ -342,7 +352,7 @@ class Tender(BaseTenderEU):
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired(TENDERING_DURATION_EU))
     minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
-    lots = ListType(ModelType(LotStage2), default=list(), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(LotStage2EU), default=list(), validators=[validate_lots_uniq])
     status = StringType(
         choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
                  'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
@@ -372,7 +382,7 @@ class Tender(BaseTenderUA):
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired(TENDERING_DURATION_UA))
     minimalStep = ModelType(Value, required=True, default=Value({'amount': 0}))
-    lots = ListType(ModelType(LotStage2), default=list(), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(LotStage2UA), default=list(), validators=[validate_lots_uniq])
     status = StringType(
         choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
                  'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
