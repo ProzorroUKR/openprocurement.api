@@ -583,7 +583,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
             u'complaintPeriod', u'items', u'value', u'owner',
             u'procuringEntity', u'next_check', u'procurementMethod',
             u'awardCriteria', u'submissionMethod', u'title', u'title_en',
-            u'date']))
+            u'date', u'minimalStep']))
         self.assertNotEqual(data['id'], tender['id'])
         self.assertNotEqual(data['doc_id'], tender['id'])
         self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -818,20 +818,6 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
             {u'description': [u'Sum of max value of all features should be less then or equal to {:.0f}%'.format(FEATURES_MAX_SUM * 100)],
              u'location': u'body', u'name': u'features'}
         ])
-
-        data = deepcopy(test_tender_data_eu)
-        data['minimalStep'] = {"amount": 100}
-        response = self.app.post_json('/tenders', {'data': data}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.json['status'], 'error')
-
-        self.assertEqual(response.json['errors'], [{
-            "location": "body",
-            "name": "minimalStep",
-            "description": [
-                "Rogue field"
-            ]
-        }])
 
     def test_tender_features(self):
         """
@@ -1897,19 +1883,6 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
             {u'description': [{u'deliveryDate': {u'endDate': [u'This field is required.']}, u'deliveryAddress': {u'postalCode': [u'This field is required.'], u'locality': [u'This field is required.']}}], u'location': u'body', u'name': u'items'}
         ])
 
-        data = deepcopy(test_tender_data_eu)
-        data['minimalStep'] = {"amount": 100}
-        response = self.app.post_json('/tenders', {'data': data}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.json['status'], 'error')
-
-        self.assertEqual(response.json['errors'], [{
-            "location": "body",
-            "name": "minimalStep",
-            "description": [
-                "Rogue field"
-            ]
-        }])
 
     def test_create_tender_generated(self):
         data = test_tender_data_ua.copy()
@@ -1927,7 +1900,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
             u'items', u'value', u'procuringEntity',
             u'next_check', u'procurementMethod', u'awardCriteria',
             u'submissionMethod', u'auctionPeriod', u'title', u'owner',
-            u'date'
+            u'date', u'minimalStep'
         ]))
         self.assertNotEqual(data['id'], tender['id'])
         self.assertNotEqual(data['doc_id'], tender['id'])
@@ -2500,19 +2473,19 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (complete) status")
 
-    # def test_owner_update_status(self): # TODO: uncommit when path with status will be return 403
-    #     """
-    #       Try update status by owner
-    #     """
-    #     response = self.app.post_json('/tenders', {'data': test_tender_data_ua})
-    #     tender = response.json['data']
-    #     response = self.app.patch_json('/tenders/{}'.format(tender['id']),
-    #                                    {'data': {'status': 'complete'}},
-    #                                    status=403)
-    #
-    #     self.assertEqual(response.status, '403 Forbidden')
-    #     self.assertEqual(response.content_type, 'application/json')
-    #     self.assertEqual(response.json['description'], "Can't update tender status")
+    def test_owner_update_status(self):
+        """
+          Try update status by owner
+        """
+        response = self.app.post_json('/tenders', {'data': test_tender_data_ua})
+        tender = response.json['data']
+        response = self.app.patch_json('/tenders/{}'.format(tender['id']),
+                                       {'data': {'status': 'complete'}},
+                                       status=403)
+
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['description'], "Can't update tender status")
 
     def test_tender_Administrator_change(self):
         response = self.app.post_json('/tenders', {'data': test_tender_data_ua})
