@@ -2473,20 +2473,6 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (complete) status")
 
-    def test_owner_update_status(self):
-        """
-          Try update status by owner
-        """
-        response = self.app.post_json('/tenders', {'data': test_tender_data_ua})
-        tender = response.json['data']
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']),
-                                       {'data': {'status': 'complete'}},
-                                       status=403)
-
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['description'], "Can't update tender status")
-
     def test_tender_Administrator_change(self):
         response = self.app.post_json('/tenders', {'data': test_tender_data_ua})
         self.assertEqual(response.status, '201 Created')
