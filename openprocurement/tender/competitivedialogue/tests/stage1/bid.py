@@ -208,6 +208,75 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add bid in current (complete) tender status")
 
+    def create_bid_without_parameters(self):
+        """ Create tender set features and then create bid without parameters """
+        # Create lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {'data': {'minimalStep': {'amount': 35},
+                                                 'description': 'Опис Лот №1',
+                                                 'value': {'amount': 500},
+                                                 'title': 'Лот №1'}
+                                        })
+        lot = response.json['data']
+        response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token))
+        item = response.json['data']['items'][0]
+        # Set relatedLot for item
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {'data': {'items': [{'relatedLot': lot['id']}]}})
+        self.assertEqual(response.status, '200 OK')
+        # Add features
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {'data': {'features': [{"code": "code_item",
+                                                               "featureOf": "item",
+                                                               "relatedItem": item['id'],
+                                                               "title": u"item feature",
+                                                               "enum": [{"value": 0.01, "title": u"good"},
+                                                                        {"value": 0.02, "title": u"best"}]
+                                                               },
+                                                              {"code": "code_lot",
+                                                               "featureOf": "lot",
+                                                               "relatedItem": lot['id'],
+                                                               "title": u"lot feature",
+                                                               "enum": [{"value": 0.01, "title": u"good"},
+                                                                        {"value": 0.02, "title": u"best"}]
+                                                               },
+                                                              {"code": "code_tenderer",
+                                                               "featureOf": "tenderer",
+                                                               "title": u"tenderer feature",
+                                                               "enum": [{"value": 0.01, "title": u"good"},
+                                                                        {"value": 0.02, "title": u"best"}]
+                                                               }]}
+                                        })
+        self.assertEqual(response.status, '200 OK')
+        # Create bid without parameters
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                      {"data": {"selfEligible": True,
+                                                "selfQualified": True,
+                                                "lotValues": [{"relatedLot": lot['id'],
+                                                               "value": {"amount": 500}}],
+                                                "tenderers": test_bids[0]['tenderers']}
+                                       })
+        self.assertEqual(response.status, '201 Created')
+        # Create another bid and send parameters
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                      {"data": {"selfEligible": True,
+                                                "selfQualified": True,
+                                                "lotValues": [{"relatedLot": lot['id'],
+                                                               "value": {"amount": 500}}],
+                                                "tenderers": test_bids[0]['tenderers'],
+                                                'parameters': [{"code": "code_item", "value": 0.01},
+                                                               {"code": "code_tenderer", "value": 0.01},
+                                                               {"code": "code_lot", "value": 0.01}]
+                                                }
+                                       })
+        self.assertEqual(response.status, '201 Created')
+        bid = response.json['data']
+        bid_token = response.json['access']['token']
+        # Get bid and check parameters
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token))
+        self.assertNotIn('parameters', response.json['data'])
+
+
     def test_patch_tender_bidder(self):
         """
           Test path dialog bidder
