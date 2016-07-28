@@ -7,6 +7,7 @@ from openprocurement.api.utils import (
     check_tender_status,
     error_handler,
     context_unpack,
+    remove_draft_bids
 )
 from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status
 from openprocurement.tender.openeu.models import Qualification
@@ -66,16 +67,19 @@ def prepare_qualifications(request, bids=[], lotId=None):
                         if lotId:
                             if lotValue.relatedLot == lotId:
                                 qualification = Qualification({'bidID': bid.id, 'status': 'pending', 'lotID': lotId})
+                                qualification.date = get_now()
                                 tender.qualifications.append(qualification)
                                 new_qualifications.append(qualification.id)
                         else:
                             qualification = Qualification({'bidID': bid.id, 'status': 'pending', 'lotID': lotValue.relatedLot})
+                            qualification.date = get_now()
                             tender.qualifications.append(qualification)
                             new_qualifications.append(qualification.id)
     else:
         for bid in bids:
             if bid.status == 'pending':
                 qualification = Qualification({'bidID': bid.id, 'status': 'pending'})
+                qualification.date = get_now()
                 tender.qualifications.append(qualification)
                 new_qualifications.append(qualification.id)
     return new_qualifications
@@ -89,6 +93,7 @@ def all_bids_are_reviewed(request):
         return all([
             lotValue.status != 'pending'
             for bid in request.validated['tender'].bids
+            if bid.status not in ['invalid', 'deleted']
             for lotValue in bid.lotValues
             if lotValue.relatedLot in active_lots
         ])
@@ -109,6 +114,7 @@ def check_status(request):
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.pre-qualification'}))
         tender.status = 'active.pre-qualification'
         tender.qualificationPeriod = type(tender).qualificationPeriod({'startDate': now})
+        remove_draft_bids(request)
         check_initial_bids_count(request)
         prepare_qualifications(request)
         return
@@ -229,6 +235,7 @@ def add_next_award(request):
                     'bid_id': bid['id'],
                     'lotID': lot.id,
                     'status': 'pending',
+                    'date': get_now(),
                     'value': bid['value'],
                     'suppliers': bid['tenderers'],
                     'complaintPeriod': {
@@ -256,6 +263,7 @@ def add_next_award(request):
                 award = tender.__class__.awards.model_class({
                     'bid_id': bid['id'],
                     'status': 'pending',
+                    'date': get_now(),
                     'value': bid['value'],
                     'suppliers': bid['tenderers'],
                     'complaintPeriod': {

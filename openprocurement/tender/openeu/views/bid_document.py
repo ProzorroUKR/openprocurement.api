@@ -195,6 +195,7 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
 class TenderEUBidEligibilityDocumentResource(TenderEUBidFinancialDocumentResource):
     """ Tender EU Bid Eligibility Documents """
     container = "eligibilityDocuments"
+    view_forbidden_states = ['active.tendering']
 
 
 @bid_qualification_documents_resource(name='Tender EU Bid Qualification Documents',

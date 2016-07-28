@@ -30,7 +30,7 @@ msgstr ""
 msgid "Tender Conditions Claims/Complaints"
 msgstr "Вимоги/Скарги на умови закупівлі"
 
-#: ../../source/complaints.rst:51
+#: ../../source/complaints.rst:52
 msgid "Tender Qualification Complaints"
 msgstr "Скарги на кваліфікацію"
 
@@ -38,35 +38,35 @@ msgstr "Скарги на кваліфікацію"
 msgid "Tender Award Complaints"
 msgstr "Скарги на визначення переможця"
 
-#: ../../source/complaints.rst:103
+#: ../../source/complaints.rst:102
 msgid "Roles"
 msgstr "Ролі"
 
-#: ../../source/complaints.rst:106
+#: ../../source/complaints.rst:105
 msgid "dashed"
 msgstr "пунктирна лінія"
 
-#: ../../source/complaints.rst:109
+#: ../../source/complaints.rst:108
 msgid "plain"
 msgstr "звичайна лінія"
 
-#: ../../source/complaints.rst:112
+#: ../../source/complaints.rst:111
 msgid "bold"
 msgstr "жирна лінія"
 
-#: ../../source/complaints.rst:115
+#: ../../source/complaints.rst:114
 msgid "dotted"
 msgstr "пунктирна лінія з крапками"
 
-#: ../../source/complaints.rst:118
+#: ../../source/complaints.rst:117
 msgid "Statuses"
 msgstr "Статуси"
 
-#: ../../source/complaints.rst:121
+#: ../../source/complaints.rst:120
 msgid "Initial status"
 msgstr "Початковий статус"
 
-#: ../../source/complaints.rst:123
+#: ../../source/complaints.rst:122
 msgid ""
 "Complainant can submit claim, upload documents, cancel claim, and re-submit "
 "it."
@@ -74,15 +74,15 @@ msgstr ""
 "На цьому етапі скаржник може подати вимогу, завантажити документи, "
 "відкликати вимогу та подати її знову."
 
-#: ../../source/complaints.rst:126
+#: ../../source/complaints.rst:125
 msgid "Procuring entity can upload documents and answer to claim."
 msgstr "Замовник може завантажити документи та відповісти на вимогу."
 
-#: ../../source/complaints.rst:128 ../../source/complaints.rst:136
+#: ../../source/complaints.rst:127 ../../source/complaints.rst:135
 msgid "Complainant can cancel claim."
 msgstr "Скаржник може відкликати вимогу."
 
-#: ../../source/complaints.rst:131
+#: ../../source/complaints.rst:130
 msgid ""
 "Complainant can cancel claim, upload documents, accept solution or escalate "
 "claim to complaint."
@@ -90,27 +90,27 @@ msgstr ""
 "Скаржник може відкликати вимогу, завантажити документи, погодитись з "
 "вирішенням або перетворити вимогу на скаргу."
 
-#: ../../source/complaints.rst:134
+#: ../../source/complaints.rst:133
 msgid "Reviewer can upload documents and review complaint."
 msgstr "Орган оскарження може завантажувати документи та розглядати скарги."
 
-#: ../../source/complaints.rst:139 ../../source/complaints.rst:144
-#: ../../source/complaints.rst:149 ../../source/complaints.rst:154
+#: ../../source/complaints.rst:138 ../../source/complaints.rst:143
+#: ../../source/complaints.rst:148 ../../source/complaints.rst:153
 msgid "Terminal status"
 msgstr "Кінцевий статус"
 
-#: ../../source/complaints.rst:141
+#: ../../source/complaints.rst:140
 msgid "Complaint recognized as invalid."
 msgstr "Скаргу визнано недійсною."
 
-#: ../../source/complaints.rst:146
+#: ../../source/complaints.rst:145
 msgid "Complaint recognized as declined."
 msgstr "Скаргу визнано відхиленою."
 
-#: ../../source/complaints.rst:151
+#: ../../source/complaints.rst:150
 msgid "Complaint recognized as resolved."
 msgstr "Скаргу визнано вирішеною."
 
-#: ../../source/complaints.rst:156
+#: ../../source/complaints.rst:155
 msgid "Complaint cancelled by complainant."
 msgstr "Скаргу відкликано скаржником."

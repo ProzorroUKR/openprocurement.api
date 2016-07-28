@@ -20,7 +20,7 @@ from openprocurement.api.models import (
     Administrator_bid_role, Administrator_role, schematics_default_role,
     schematics_embedded_role, get_now, embedded_lot_role, default_lot_role,
     calc_auction_end_time, get_tender, validate_lots_uniq,
-    validate_cpv_group, validate_items_uniq,
+    validate_cpv_group, validate_items_uniq, rounding_shouldStartAfter,
 )
 from openprocurement.tender.openua.utils import (
     calculate_business_date, BLOCK_COMPLAINT_STATUS,
@@ -29,6 +29,7 @@ from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint, Award as BaseAward, Item as BaseItem,
     PeriodStartEndRequired, SifterListType, COMPLAINT_SUBMIT_TIME,
     EnquiryPeriod, ENQUIRY_STAND_STILL_TIME, AUCTION_PERIOD_TIME,
+    calculate_normalized_date,
 )
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
@@ -47,7 +48,7 @@ COMPLAINT_STAND_STILL = timedelta(days=10)
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
-        if data['status'] in ('deleted', 'invalid'):
+        if data['status'] in ('deleted', 'invalid', 'draft'):
             # skip not valid bids
             return
         tender = data['__parent__']
@@ -180,12 +181,15 @@ class TenderAuctionPeriod(Period):
         tender = self.__parent__
         if tender.lots or tender.status not in ['active.tendering', 'active.pre-qualification.stand-still', 'active.auction']:
             return
+        start_after = None
         if tender.status == 'active.tendering' and tender.tenderPeriod.endDate:
-            return calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender).isoformat()
+            start_after = calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
         elif self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
-            return calc_auction_end_time(tender.numberOfBids, self.startDate).isoformat()
+            start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
-            return tender.qualificationPeriod.endDate.isoformat()
+            start_after = tender.qualificationPeriod.endDate
+        if start_after:
+            return rounding_shouldStartAfter(start_after, tender).isoformat()
 
 
 class LotAuctionPeriod(Period):
@@ -199,12 +203,15 @@ class LotAuctionPeriod(Period):
         lot = self.__parent__
         if tender.status not in ['active.tendering', 'active.pre-qualification.stand-still', 'active.auction'] or lot.status != 'active':
             return
+        start_after = None
         if tender.status == 'active.tendering' and tender.tenderPeriod.endDate:
-            return calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender).isoformat()
+            start_after = calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
         elif self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
-            return calc_auction_end_time(lot.numberOfBids, self.startDate).isoformat()
+            start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
-            return tender.qualificationPeriod.endDate.isoformat()
+            start_after = tender.qualificationPeriod.endDate
+        if start_after:
+            return rounding_shouldStartAfter(start_after, tender).isoformat()
 
 
 class Lot(BaseLot):
@@ -271,21 +278,21 @@ class Bid(BaseBid):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
+            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
             'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'subcontractingDetails'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
             'active.enquiries': whitelist(),
             'active.tendering': whitelist(),
-            'active.pre-qualification': whitelist('id', 'status', 'documents', 'tenderers'),
-            'active.pre-qualification.stand-still': whitelist('id', 'status', 'documents', 'tenderers'),
-            'active.auction': whitelist('id', 'status', 'documents', 'tenderers'),
+            'active.pre-qualification': whitelist('id', 'status', 'documents', 'eligibilityDocuments', 'tenderers'),
+            'active.pre-qualification.stand-still': whitelist('id', 'status', 'documents', 'eligibilityDocuments', 'tenderers'),
+            'active.auction': whitelist('id', 'status', 'documents', 'eligibilityDocuments', 'tenderers'),
             'active.qualification': view_bid_role,
             'active.awarded': view_bid_role,
             'complete': view_bid_role,
             'unsuccessful': view_bid_role,
-            'bid.unsuccessful':  whitelist('id', 'status', 'documents', 'tenderers', 'parameters', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
+            'bid.unsuccessful':  whitelist('id', 'status', 'tenderers', 'documents', 'eligibilityDocuments', 'parameters', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
             'cancelled': view_bid_role,
             'invalid': whitelist('id', 'status'),
             'deleted': whitelist('id', 'status'),
@@ -298,7 +305,7 @@ class Bid(BaseBid):
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
     subcontractingDetails = StringType()
-    status = StringType(choices=['pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
+    status = StringType(choices=['draft','pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
                         default='pending')
 
     def serialize(self, role=None):
@@ -310,7 +317,7 @@ class Bid(BaseBid):
 
     @serializable(serialized_name="status")
     def serialize_status(self):
-        if self.status in ['invalid', 'deleted'] or self.__parent__.status in ['active.tendering', 'cancelled']:
+        if self.status in ['draft', 'invalid', 'deleted'] or self.__parent__.status in ['active.tendering', 'cancelled']:
             return self.status
         if self.__parent__.lots:
             active_lots = [lot.id for lot in self.__parent__.lots if lot.status in ('active', 'complete',)]
@@ -491,6 +498,11 @@ class Tender(BaseTender):
                                                 endDate=endDate,
                                                 invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
                                                 clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
+        now = get_now()
+        self.date = now
+        if self.lots:
+            for lot in self.lots:
+                lot.date = now
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
@@ -502,8 +514,8 @@ class Tender(BaseTender):
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
-        return Period(dict(startDate=self.tenderPeriod.startDate,
-                           endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)))
+        normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self)))
 
     @serializable(serialize_when_none=False)
     def next_check(self):
@@ -587,5 +599,5 @@ class Tender(BaseTender):
         self.check_auction_time()
         self.enquiryPeriod.invalidationDate = get_now()
         for bid in self.bids:
-            if bid.status != "deleted":
+            if bid.status not in ["deleted", "draft"]:
                 bid.status = "invalid"

@@ -3,7 +3,7 @@ from openprocurement.api.models import get_now
 from openprocurement.api.views.tender import TenderResource
 from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
 from openprocurement.tender.openeu.utils import check_status, all_bids_are_reviewed
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD, calculate_normalized_date
 from openprocurement.tender.openua.utils import calculate_business_date
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.api.utils import (
@@ -99,7 +99,8 @@ class TenderEUResource(TenderResource):
             tender.invalidate_bids_data()
         elif self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.pre-qualification' and tender.status == "active.pre-qualification.stand-still":
             if all_bids_are_reviewed(self.request):
-                tender.qualificationPeriod.endDate = calculate_business_date(get_now(), COMPLAINT_STAND_STILL, self.request.validated['tender'])
+                normalized_date = calculate_normalized_date(get_now(), tender, True)
+                tender.qualificationPeriod.endDate = calculate_business_date(normalized_date, COMPLAINT_STAND_STILL, self.request.validated['tender'])
                 tender.check_auction_time()
             else:
                 self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')

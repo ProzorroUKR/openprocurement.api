@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/9a3fe3666dbb4679aed131a85372f4af/bids/4232fc8386014d56ad498814367d78dd?acc_token=7c9a72d8d9ee4762bc968f7a5cbb9b13 HTTP/1.0
+GET /api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/82a0c48a7f8b4e56bd86cc558f9ecb30?acc_token=0219bee565f845878079d8754f1c4570 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -7,7 +7,31 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "unsuccessful", 
-    "id": "4232fc8386014d56ad498814367d78dd"
+    "selfEligible": true, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "fake@mail.com", 
+          "telephone": "+380 (322) 12-34-56", 
+          "name": "Іван Іваненко"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "«Снігур»", 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 35", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "selfQualified": true, 
+    "id": "82a0c48a7f8b4e56bd86cc558f9ecb30"
   }
 }
 

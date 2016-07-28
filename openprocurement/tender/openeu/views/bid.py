@@ -17,6 +17,9 @@ from openprocurement.tender.openua.views.bid import TenderUABidResource as BaseR
             procurementMethodType='aboveThresholdEU',
             description="Tender EU bids")
 class TenderBidResource(BaseResource):
+
+    allowed_bid_status_on_create = ['draft', 'pending']
+
     """ Tender EU bids """
     @json_view(permission='view_tender')
     def collection_get(self):
@@ -147,7 +150,7 @@ class TenderBidResource(BaseResource):
             return
         if self.request.authenticated_role != 'Administrator':
             bid_status_to = self.request.validated['data'].get("status", self.request.context.status)
-            if bid_status_to != 'pending':
+            if bid_status_to not in ['pending', 'draft']:
                 self.request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
                 self.request.errors.status = 403
                 return

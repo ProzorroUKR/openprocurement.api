@@ -147,6 +147,7 @@ bid = {
         "value": {
             "amount": 500
         },
+        "status": "draft",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         'selfEligible': True,
         'selfQualified': True,
@@ -523,6 +524,10 @@ class TenderResourceTest(BaseTenderWebTest):
             bids_access[bid1_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
 
+        with open('docs/source/tutorial/activate-bidder.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(
+                self.tender_id, bid1_id, bids_access[bid1_id]), {"data": {"status": "pending"}})
+            self.assertEqual(response.status, '200 OK')
         #### Proposal Uploading
         #
 
@@ -1035,6 +1040,10 @@ class TenderResourceTest(BaseTenderWebTest):
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid)
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
+
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(
+                self.tender_id, bid_id, bid_token), {"data": {"status": "pending"}})
+
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid2)
@@ -1208,6 +1217,9 @@ class TenderResourceTest(BaseTenderWebTest):
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid)
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
+
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(
+                self.tender_id, bid_id, bid_token), {"data": {"status": "pending"}})
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid2)

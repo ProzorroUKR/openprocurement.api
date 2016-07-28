@@ -74,6 +74,7 @@ class TenderQualificationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['description'], 'description')
         self.assertEqual(response.json['data']['qualified'], True)
         self.assertEqual(response.json['data']['eligible'], True)
+        self.assertEqual(response.json['data']['date'], qualifications[0]['date'])
 
         # first qualification manipulations
         response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, q1_id, self.tender_token),
@@ -81,7 +82,7 @@ class TenderQualificationResourceTest(BaseTenderContentWebTest):
                                                 "status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'active')
-
+        self.assertNotEqual(response.json['data']['date'], qualifications[0]['date'])
         self.assertEqual(response.json['data']['title'], 'title')
         self.assertEqual(response.json['data']['description'], 'description')
 
