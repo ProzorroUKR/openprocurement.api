@@ -9,7 +9,7 @@ from schematics.types.serializable import serializable
 from openprocurement.api.models import ITender, Identifier, Model, Value, get_tender
 from openprocurement.api.utils import calculate_business_date, get_now
 from openprocurement.tender.openua.models import (SifterListType, Item as BaseItem, Tender as BaseTenderUA,
-                                                  TENDER_PERIOD as TENDERING_DURATION_UA, Lot as BaseLotUa)
+                                                  TENDER_PERIOD as TENDERING_DURATION_UA, Lot as BaseLotUA)
 from openprocurement.tender.openeu.models import (Tender as BaseTenderEU, Administrator_bid_role, view_bid_role,
                                                   pre_qualifications_role, Bid as BidEU, ConfidentialDocument,
                                                   edit_role_eu, auction_patch_role, auction_view_role,
@@ -220,10 +220,10 @@ close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'd
 stage_2_roles = {
     'plain': plain_role,
     'create': (blacklist('owner_token', 'tenderPeriod', '_attachments', 'revisions', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role),
-    'edit': edit_role_eu + close_edit_technical_fields,
-    'edit_draft': edit_role_eu + close_edit_technical_fields,
-    'edit_'+STAGE2_STATUS: edit_role_eu + close_edit_technical_fields,
-    'edit_active.tendering': edit_role_eu + close_edit_technical_fields,
+    'edit': whitelist('tenderPeriod'),
+    'edit_draft': whitelist('status'),  # only bridge must change only status
+    'edit_'+STAGE2_STATUS: whitelist('tenderPeriod', 'status'),
+    'edit_active.tendering': whitelist('tenderPeriod'),
     'edit_active.pre-qualification': whitelist('status'),
     'edit_active.pre-qualification.stand-still': whitelist(),
     'edit_active.auction': whitelist(),
@@ -286,6 +286,35 @@ def stage2__acl__(obj):
     return acl
 
 
+lot_stage2_roles = {
+    'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
+    'edit': whitelist(),
+    'embedded': embedded_lot_role,
+    'view': default_lot_role,
+    'default': default_lot_role,
+    'auction_view': default_lot_role,
+    'auction_patch': whitelist('id', 'auctionUrl'),
+    'chronograph': whitelist('id', 'auctionPeriod'),
+    'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
+}
+
+
+class Lot(BaseLotUA):
+
+    class Options:
+        roles = lot_stage2_roles
+
+LotStage2UA = Lot
+
+
+class Lot(BaseLotEU):
+
+    class Options:
+        roles = lot_stage2_roles
+
+LotStage2EU = Lot
+
+
 @implementer(ITender)
 class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=STAGE_2_EU_TYPE)
@@ -299,6 +328,7 @@ class Tender(BaseTenderEU):
                  'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
                  'unsuccessful', STAGE2_STATUS],
         default='active.tendering')
+    lots = ListType(ModelType(LotStage2EU), default=list(), validators=[validate_lots_uniq])
 
     create_accreditation = 'c'
 
@@ -327,6 +357,7 @@ class Tender(BaseTenderUA):
                  'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
                  'unsuccessful', STAGE2_STATUS],
         default='active.tendering')
+    lots = ListType(ModelType(LotStage2UA), default=list(), validators=[validate_lots_uniq])
 
     create_accreditation = 'c'
 

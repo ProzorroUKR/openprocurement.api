@@ -19,8 +19,15 @@ from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
 class TenderStage2UALotResource(TenderUaLotResource):
 
     @json_view(content_type="application/json", permission='edit_tender')
+    def patch(self):
+        """ Update of lot """
+        self.request.errors.add('body', 'data', 'Can\'t update lot for tender stage2')
+        self.request.errors.status = 403
+        return
+
+    @json_view(content_type="application/json", permission='edit_tender')
     def collection_post(self):
-        """Add a lot
+        """ Add a lot
         """
         self.request.errors.add('body', 'data', 'Can\'t create lot for tender stage2')
         self.request.errors.status = 403
@@ -34,20 +41,6 @@ class TenderStage2UALotResource(TenderUaLotResource):
         self.request.errors.status = 403
         return
 
-    def validate_update_tender(self, operation):
-        tender = self.request.validated['tender']
-        if tender.status not in ['active.tendering', STAGE2_STATUS]:
-            self.request.errors.add('body', 'data',
-                                    'Can\'t {} lot in current ({}) tender status'.format(operation, tender.status))
-            self.request.errors.status = 403
-            return
-        if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, tender) > tender.tenderPeriod.endDate:
-            self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(
-                TENDERING_EXTRA_PERIOD))
-            self.request.errors.status = 403
-            return
-        return True
-
 
 @opresource(name='Tender stage2 EU Lots',
             collection_path='/tenders/{tender_id}/lots',
@@ -55,6 +48,14 @@ class TenderStage2UALotResource(TenderUaLotResource):
             procurementMethodType=STAGE_2_EU_TYPE,
             description="Tender stage2 EU lots")
 class TenderStage2EULotResource(TenderEULotResource):
+
+    @json_view(content_type="application/json", permission='edit_tender')
+    def patch(self):
+        """Update of lot
+        """
+        self.request.errors.add('body', 'data', 'Can\'t update lot for tender stage2')
+        self.request.errors.status = 403
+        return
 
     @json_view(content_type="application/json", permission='edit_tender')
     def collection_post(self):
@@ -71,17 +72,3 @@ class TenderStage2EULotResource(TenderEULotResource):
         self.request.errors.add('body', 'data', 'Can\'t delete lot for tender stage2')
         self.request.errors.status = 403
         return
-
-    def validate_update_tender(self, operation):
-        tender = self.request.validated['tender']
-        if tender.status not in ['active.tendering', STAGE2_STATUS]:
-            self.request.errors.add('body', 'data',
-                                    'Can\'t {} lot in current ({}) tender status'.format(operation, tender.status))
-            self.request.errors.status = 403
-            return
-        if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, tender) > tender.tenderPeriod.endDate:
-            self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(
-                TENDERING_EXTRA_PERIOD))
-            self.request.errors.status = 403
-            return
-        return True

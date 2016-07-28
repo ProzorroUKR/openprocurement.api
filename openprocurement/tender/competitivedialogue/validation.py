@@ -33,8 +33,8 @@ def validate_patch_tender_stage2_data(request):
     if request.context.status == STAGE2_STATUS and data.get('status') == 'active.tendering':
         data = validate_data(request, type(request.tender), True, data)
         if data:  # if no error then add status to validate data
-            request.context.status = data.get('status')
-            data['status'] = data.get('status')
+            request.context.status = 'active.tendering'
+            data['status'] = 'active.tendering'
     else:
         data = validate_data(request, type(request.tender), True, data)
 
