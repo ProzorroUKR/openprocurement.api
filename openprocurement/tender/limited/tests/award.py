@@ -425,6 +425,35 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
 class TenderNegotiationAwardResourceTest(TenderAwardResourceTest):
     initial_data = test_tender_negotiation_data
 
+    def test_patch_tender_award_Administrator_change(self):
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending'}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        award = response.json['data']
+        complaintPeriod = award['complaintPeriod'][u'startDate']
+
+        authorization = self.app.authorization
+        self.app.authorization = ('Basic', ('administrator', ''))
+        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, award['id']), {"data": {"complaintPeriod": {"endDate": award['complaintPeriod'][u'startDate']}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertIn("endDate", response.json['data']['complaintPeriod'])
+        self.assertEqual(response.json['data']['complaintPeriod']["endDate"], complaintPeriod)
+
+        self.app.authorization = authorization
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                       {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        self.app.authorization = ('Basic', ('administrator', ''))
+        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, award['id']), {"data": {"complaintPeriod": {"endDate": award['complaintPeriod'][u'startDate']}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertIn("endDate", response.json['data']['complaintPeriod'])
+        self.assertEqual(response.json['data']['complaintPeriod']["endDate"], complaintPeriod)
+
 
 class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest):
     initial_data = test_tender_negotiation_quick_data
