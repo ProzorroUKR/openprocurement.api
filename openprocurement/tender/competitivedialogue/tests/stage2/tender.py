@@ -839,19 +839,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         self.tender_id = response.json['data']['id']
         # switch to draft.stage2
         self.set_status(STAGE2_STATUS)
-
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
-                                       {'data': {'features': [{
-                                           "featureOf": "tenderer",
-                                           "relatedItem": None
-                                       }, {}, {}]}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertIn('features', response.json['data'])
-        self.assertIn('relatedItem', response.json['data']['features'][0])
-
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
-                                       {'data': {'features': []}})
+        response = self.app.get('/tenders/{}?acc_token={}'.format(tender['id'], token))
         self.assertEqual(response.status, '200 OK')
         self.assertIn('features', response.json['data'])
 
@@ -873,12 +861,12 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
 
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.patch_json('/tenders/{}/credentials?acc_token={}'.format(tender['id'], owner_token),
-            {'data': ''}, status=403)
+                                       {'data': ''}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
 
-        response = self.app.patch_json(
-            '/tenders/{}/credentials?acc_token={}'.format(tender['id'], test_access_token_stage1),
-            {'data': ''})
+        response = self.app.patch_json('/tenders/{}/credentials?acc_token={}'.format(tender['id'],
+                                                                                     test_access_token_stage1),
+                                       {'data': ''})
         self.assertEqual(response.status, '200 OK')
 
         owner_token = response.json['access']['token']
@@ -887,43 +875,10 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         self.set_status('active.tendering')
         tender["status"] = 'active.tendering'
 
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-            tender['id'], owner_token), {'data': {'procurementMethodRationale': 'Open'}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                       {'data': {'tenderPeriod': {"endDate": response.json['data']['tenderPeriod']['endDate']}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertIn('invalidationDate', response.json['data']['enquiryPeriod'])
-        new_tender = response.json['data']
-        new_enquiryPeriod = new_tender.pop('enquiryPeriod')
-        tender["tenderPeriod"] = new_tender.get('tenderPeriod')
-        tender["complaintPeriod"] = new_tender.get('complaintPeriod')
-        new_dateModified = new_tender.pop('dateModified')
-        tender.pop('enquiryPeriod')
-        new_tender.pop('next_check')
-        new_tender.pop('auctionPeriod')
-        new_tender.pop('shortlistedFirms')
-        tender['procurementMethodRationale'] = 'Open'
-
-        self.assertEqual(tender, new_tender)
-        self.assertNotEqual(dateModified, new_dateModified)
-
-        revisions = self.db.get(tender['id']).get('revisions')
-        self.assertTrue(any([i for i in revisions[-1][u'changes'] if
-                             i['op'] == u'remove' and i['path'] == u'/procurementMethodRationale']))
-
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-            tender['id'], owner_token), {'data': {'dateModified': new_dateModified}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        new_tender2 = response.json['data']
-        new_tender2.pop('shortlistedFirms')
-        new_tender2.pop('next_check')
-        new_tender2.pop('auctionPeriod')
-        new_enquiryPeriod2 = new_tender2.pop('enquiryPeriod')
-        new_dateModified2 = new_tender2.pop('dateModified')
-        self.maxDiff = None
-        self.assertEqual(new_tender, new_tender2)
-        self.assertNotEqual(new_enquiryPeriod, new_enquiryPeriod2)
-        self.assertNotEqual(new_dateModified, new_dateModified2)
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                        {'data': {'procuringEntity': {'kind': 'defense'}}})
@@ -963,11 +918,6 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
 
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-            tender['id'], owner_token), {'data': {'enquiryPeriod': {'endDate': new_dateModified2}}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                        {"data": {"guarantee": {"valueAddedTaxIncluded": True}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -978,22 +928,12 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                        {"data": {"guarantee": {"amount": 12}}})
         self.assertEqual(response.status, '200 OK')
-        self.assertIn('guarantee', response.json['data'])
-        self.assertEqual(response.json['data']['guarantee']['amount'], 12)
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
+        self.assertNotIn('guarantee', response.json['data'])
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                       {"data": {"guarantee": {"currency": "USD"}}})
+                                       {"data": {"guarantee": {"amount": 100, "currency": "USD"}}})
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
-
-        # response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.auction'}})
-        # self.assertEqual(response.status, '200 OK')
-
-        # response = self.app.get('/tenders/{}'.format(tender['id']))
-        # self.assertEqual(response.status, '200 OK')
-        # self.assertEqual(response.content_type, 'application/json')
-        # self.assertIn('auctionUrl', response.json['data'])
+        self.assertNotIn('guarantee', response.json['data'])
 
         self.set_status('complete')
 
@@ -1029,7 +969,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data':
             {
                 "value": {
-                    "amount": 501,
+                    "amount": 502,
                     "currency": u"UAH"
                 },
                 "tenderPeriod": {
@@ -1041,6 +981,8 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['tenderPeriod']['endDate'], tenderPeriod_endDate.isoformat())
         self.assertEqual(response.json['data']['enquiryPeriod']['endDate'], enquiryPeriod_endDate.isoformat())
+        self.assertNotEqual(response.json['data']['value']['amount'], 502)
+        self.assertNotEqual(response.json['data']['value']['amount'], 501)
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                        {"data": {"guarantee": {"valueAddedTaxIncluded": True}}}, status=422)
@@ -1052,14 +994,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                        {"data": {"guarantee": {"amount": 12}}})
         self.assertEqual(response.status, '200 OK')
-        self.assertIn('guarantee', response.json['data'])
-        self.assertEqual(response.json['data']['guarantee']['amount'], 12)
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
-
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                       {"data": {"guarantee": {"currency": "USD"}}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
+        self.assertNotIn('guarantee', response.json['data'])
 
     def test_dateModified_tender(self):
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))
@@ -1086,8 +1021,8 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         self.app.authorization = ('Basic', ('broker', ''))
 
 
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-            tender['id'], owner_token), {'data': {'procurementMethodRationale': 'Open'}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                       {'data': {'procurementMethodRationale': 'Open'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertNotEqual(response.json['data']['dateModified'], dateModified)
@@ -1127,9 +1062,11 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
 
     def test_guarantee(self):
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))
-        response = self.app.post_json('/tenders', {'data': test_tender_stage2_data_eu})
+        data = deepcopy(test_tender_stage2_data_eu)
+        data['guarantee'] = {"amount": 55}
+        response = self.app.post_json('/tenders', {'data': data})
         self.assertEqual(response.status, '201 Created')
-        self.assertNotIn('guarantee', response.json['data'])
+        self.assertIn('guarantee', response.json['data'])
         tender = response.json['data']
         self.tender_id = response.json['data']['id']
         # switch to active.tendering
@@ -1138,34 +1075,11 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         owner_token = response.json['access']['token']
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                       {'data': {'guarantee': {"amount": 55}}})
+                                       {'data': {'guarantee': {"amount": 70}}})
         self.assertEqual(response.status, '200 OK')
         self.assertIn('guarantee', response.json['data'])
         self.assertEqual(response.json['data']['guarantee']['amount'], 55)
         self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
-
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                       {'data': {'guarantee': {"amount": 100500, "currency": "USD"}}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertIn('guarantee', response.json['data'])
-        self.assertEqual(response.json['data']['guarantee']['amount'], 100500)
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
-
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                       {'data': {'guarantee': None}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertIn('guarantee', response.json['data'])
-        self.assertEqual(response.json['data']['guarantee']['amount'], 100500)
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
-
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
-        data = deepcopy(test_tender_stage2_data_eu)
-        data['guarantee'] = {"amount": 100, "currency": "USD"}
-        response = self.app.post_json('/tenders', {'data': data})
-        self.assertEqual(response.status, '201 Created')
-        self.assertIn('guarantee', response.json['data'])
-        self.assertEqual(response.json['data']['guarantee']['amount'], 100)
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
 
     def test_tender_Administrator_change(self):
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))

@@ -220,10 +220,10 @@ close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'd
 stage_2_roles = {
     'plain': plain_role,
     'create': (blacklist('owner_token', 'tenderPeriod', '_attachments', 'revisions', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role),
-    'edit': edit_role_eu + close_edit_technical_fields,
-    'edit_draft': edit_role_eu + close_edit_technical_fields,
-    'edit_'+STAGE2_STATUS: edit_role_eu + close_edit_technical_fields,
-    'edit_active.tendering': edit_role_eu + close_edit_technical_fields,
+    'edit': whitelist('tenderPeriod'),
+    'edit_draft': whitelist('status'),  # only bridge must change only status
+    'edit_'+STAGE2_STATUS: whitelist('tenderPeriod', 'status'),
+    'edit_active.tendering': whitelist('tenderPeriod'),
     'edit_active.pre-qualification': whitelist('status'),
     'edit_active.pre-qualification.stand-still': whitelist(),
     'edit_active.auction': whitelist(),
