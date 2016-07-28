@@ -20,6 +20,53 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
     initial_auth = ('Basic', ('broker', ''))
     initial_lots = 3 * test_lots
 
+    def setUp(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+
+    def create_tender(self, initial_lots=None, initial_data=None, features=None):
+        if initial_lots is None:
+            initial_lots = self.initial_lots
+        if initial_data is None:
+            initial_data = self.initial_data
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        data = deepcopy(initial_data)
+        if initial_lots:
+            lots = []
+            for i in initial_lots:
+                lot = deepcopy(i)
+                if 'id' not in lot:
+                    lot['id'] = uuid4().hex
+                lots.append(lot)
+            data['lots'] = self.lots = lots
+            for i, item in enumerate(data['items']):
+                item['relatedLot'] = lots[i % len(lots)]['id']
+            for firm in data['shortlistedFirms']:
+                firm['lots'] = [dict(id=lot['id']) for lot in lots]
+            self.lots_id = [lot['id'] for lot in lots]
+        if features:
+            for feature in features:
+                if feature['featureOf'] == 'lot':
+                    feature['relatedItem'] = data['lots'][0]['id']
+                if feature['featureOf'] == 'item':
+                    feature['relatedItem'] = data['items'][0]['id']
+            data['features'] = self.features = features
+        response = self.app.post_json('/tenders', {'data': data})
+        tender = response.json['data']
+        self.tender = tender
+        self.tender_token = response.json['access']['token']
+        self.tender_id = tender['id']
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
+                                                                     token=self.tender_token),
+                            {'data': {'status': 'draft.stage2'}})
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
+                                                                     token=self.tender_token),
+                            {'data': {'status': 'active.tendering'}})
+        self.app.authorization = auth
+
     def test_create_tender_lot_invalid(self):
         """ Try create invalid lot """
         response = self.app.post_json('/tenders/some_id/lots', {'data': {'title': 'lot title', 'description': 'lot description'}}, status=404)
@@ -118,6 +165,7 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
 
     def test_patch_tender_lot(self):
         """ Patch tender lot which came from first stage """
+        self.create_tender()
         lot_id = self.lots_id[0]
 
         # Add new title
@@ -182,6 +230,7 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
                          "Can't update lot in current (unsuccessful) tender status")
 
     def test_patch_tender_currency(self):
+        self.create_tender()
         lot = self.initial_lots[0]
         self.assertEqual(lot['value']['currency'], "UAH")
 
@@ -201,8 +250,7 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {
             "data": {
                 "value": {"currency": "GBP"},
-                "minimalStep": {"currency": "GBP"
-                }
+                "minimalStep": {"currency": "GBP"}
             }
         })
 
@@ -212,7 +260,7 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
-        self.assertEqual(lot['value']['currency'], "GBP")
+        self.assertEqual(lot['value']['currency'], "UAH")
 
         # try to update lot currency
         response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
@@ -223,7 +271,7 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
-        self.assertEqual(lot['value']['currency'], "GBP")
+        self.assertEqual(lot['value']['currency'], "UAH")  # it's still UAH
 
         # try to update minimalStep currency
         response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
@@ -234,7 +282,7 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
-        self.assertEqual(lot['minimalStep']['currency'], "GBP")
+        self.assertEqual(lot['minimalStep']['currency'], "UAH")
 
         # try to update lot minimalStep currency and lot value currency in single request
         response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
@@ -245,33 +293,33 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
-        self.assertEqual(lot['value']['currency'], "GBP")
-        self.assertEqual(lot['minimalStep']['currency'], "GBP")
+        self.assertEqual(lot['value']['currency'], "UAH")
+        self.assertEqual(lot['minimalStep']['currency'], "UAH")
 
     def test_patch_tender_vat(self):
         # set tender VAT
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {"data": {"value": {"valueAddedTaxIncluded": True}}})
+        data = deepcopy(self.initial_data)
+        data['value']['valueAddedTaxIncluded'] = True
+        self.create_tender(initial_data=data)
 
-        self.assertEqual(response.status, '200 OK')
-
+        response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token))
         # create lot
         lot = response.json['data']['lots'][0]
         self.assertTrue(lot['value']['valueAddedTaxIncluded'])
 
-        # update tender VAT
+        # Try update tender VAT
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
                                        {"data": {"value": {"valueAddedTaxIncluded": False},
                                                  "minimalStep": {"valueAddedTaxIncluded": False}}
                                         })
 
         self.assertEqual(response.status, '200 OK')
-        # log VAT is updated too
+        # log VAT is not updated too
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
-        self.assertFalse(lot['value']['valueAddedTaxIncluded'])
+        self.assertTrue(lot['value']['valueAddedTaxIncluded'])
 
         # try to update lot VAT
         response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
@@ -282,7 +330,7 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
-        self.assertFalse(lot['value']['valueAddedTaxIncluded'])
+        self.assertTrue(lot['value']['valueAddedTaxIncluded'])
 
         # try to update minimalStep VAT
         response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
@@ -293,23 +341,14 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         lot = response.json['data']
-        self.assertFalse(lot['minimalStep']['valueAddedTaxIncluded'])
-
-        # try to update minimalStep VAT and value VAT in single request
-        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),{
-            "data": {"value": {"valueAddedTaxIncluded": True}, "minimalStep": {"valueAddedTaxIncluded": True}}})
-        self.assertEqual(response.status, '200 OK')
-        # but the value stays unchanged
-        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        lot = response.json['data']
-        self.assertFalse(lot['value']['valueAddedTaxIncluded'])
-        self.assertEqual(lot['minimalStep']['valueAddedTaxIncluded'], lot['value']['valueAddedTaxIncluded'])
+        self.assertTrue(lot['minimalStep']['valueAddedTaxIncluded'])
 
     def test_get_tender_lot(self):
+        self.create_tender()
         response = self.app.get('/tenders/{}/lots'.format(self.tender_id))
         lot = response.json['data'][0]
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.json['data']['status'], 'active.tendering')
 
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
         self.assertEqual(response.status, '200 OK')
