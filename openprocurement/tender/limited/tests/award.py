@@ -112,7 +112,10 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         self.assertIn('id', award)
         self.assertIn(award['id'], response.headers['Location'])
         self.assertEqual(response.json['data']["subcontractingDetails"], "Details")
-        self.assertEqual(award['qualified'], True)
+        if self.initial_data['procurementMethodType'] == "reporting":
+            self.assertNotIn('qualified', award)
+        else:
+            self.assertEqual(award['qualified'], True)
 
         response = self.app.get(request_path)
         self.assertEqual(response.status, '200 OK')

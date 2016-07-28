@@ -1,29 +1,18 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import get_now
-from openprocurement.api.validation import validate_data
 from openprocurement.api.views.award_complaint import TenderAwardComplaintResource
 from openprocurement.api.utils import (
     apply_patch,
-    check_tender_status,
     context_unpack,
     json_view,
     opresource,
     save_tender,
     set_ownership,
-    update_logging_context,
 )
-
-
-def validate_complaint_data(request):
-    update_logging_context(request, {'complaint_id': '__new__'})
-    model = type(request.context).complaints.model_class
-    return validate_data(request, model)
-
-
-def validate_patch_complaint_data(request):
-    model = type(request.context.__parent__).complaints.model_class
-    return validate_data(request, model, True)
-
+from openprocurement.api.validation import (
+    validate_complaint_data,
+    validate_patch_complaint_data,
+)
 
 
 @opresource(name='Tender negotiation Award Complaints',

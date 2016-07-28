@@ -10,16 +10,11 @@ from openprocurement.api.utils import (
     APIResource
 )
 from openprocurement.api.validation import (
+    validate_patch_award_data,
     validate_award_data,
-    validate_data,
 )
-from openprocurement.tender.limited.models import Award
 from openprocurement.tender.openua.utils import calculate_business_date
 from openprocurement.tender.openua.models import calculate_normalized_date
-
-
-def validate_patch_award_data(request):
-    return validate_data(request, Award, True)
 
 
 @opresource(name='Tender Limited Awards',
@@ -303,10 +298,6 @@ class TenderAwardResource(APIResource):
         award = self.request.context
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
-        if award.status == "active" and not award.qualified:
-            self.request.errors.add('body', 'data', 'Can\'t update award to active status with not qualified')
-            self.request.errors.status = 403
-            return
         if award_status == 'pending' and award.status == 'active':
             tender.contracts.append(type(tender).contracts.model_class({
                 'awardID': award.id,
@@ -314,7 +305,7 @@ class TenderAwardResource(APIResource):
                 'date': get_now(),
                 'value': award.value,
                 'items': tender.items,
-                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) +1) }))
+                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) + 1)}))
             # add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
             for i in tender.contracts:
@@ -337,6 +328,7 @@ class TenderAwardResource(APIResource):
             self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}, {'TENDER_REV': tender.rev}))
             return {'data': award.serialize("view")}
+
 
 @opresource(name='Tender Negotiation Awards',
             collection_path='/tenders/{tender_id}/awards',
@@ -531,7 +523,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                 'date': get_now(),
                 'value': award.value,
                 'items': tender.items,
-                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) +1) }))
+                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) + 1)}))
             # add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             now = get_now()
