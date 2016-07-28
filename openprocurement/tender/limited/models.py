@@ -50,6 +50,7 @@ class Award(Model):
             'edit': blacklist('id', 'date', 'documents', 'complaints', 'complaintPeriod'),
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
+            'Administrator': whitelist('complaintPeriod'),
         }
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
