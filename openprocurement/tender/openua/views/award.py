@@ -142,7 +142,7 @@ class TenderUaAwardResource(TenderAwardResource):
                 if i.awardID in cancelled_awards:
                     i.status = 'cancelled'
             add_next_award(self.request)
-        elif not(award_status == 'pending' and award.status == 'pending'):
+        elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
             self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
             self.request.errors.status = 403
             return
