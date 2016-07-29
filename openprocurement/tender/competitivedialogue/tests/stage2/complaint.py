@@ -161,13 +161,13 @@ class TenderStage2UEComplaintResourceTest(BaseCompetitiveDialogEUStage2ContentWe
                                                'description': 'complaint description',
                                                'author': bad_author,
                                                'status': 'claim'}},
-                                      status=422)
+                                      status=403)
 
-        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u'Bad author'], u'location': u'body', u'name': u'complaints'}
+            {u'description': u'Author can\'t create complaint', u'location': u'body', u'name': u'author'}
         ])
         bad_author['identifier']['id'] = good_id
         bad_author['identifier']['scheme'] = 'XI-IATI'
@@ -176,13 +176,13 @@ class TenderStage2UEComplaintResourceTest(BaseCompetitiveDialogEUStage2ContentWe
                                                 'description': 'complaint description',
                                                 'author': bad_author,
                                                 'status': 'claim'}},
-                                      status=422)
+                                      status=403)
 
-        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u'Bad author'], u'location': u'body', u'name': u'complaints'}
+            {u'description': u'Author can\'t create complaint', u'location': u'body', u'name': u'author'}
         ])
         bad_author['identifier']['scheme'] = good_scheme
 
@@ -1057,13 +1057,13 @@ class TenderStage2UAComplaintResourceTest(BaseCompetitiveDialogUAStage2ContentWe
                                                 'description': 'complaint description',
                                                 'author': bad_author,
                                                 'status': 'claim'}},
-                                      status=422)
+                                      status=403)
 
-        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u'Bad author'], u'location': u'body', u'name': u'complaints'}
+            {u'description': u'Author can\'t create complaint', u'location': u'body', u'name': u'author'}
         ])
         bad_author['identifier']['id'] = good_id
         bad_author['identifier']['scheme'] = 'XI-IATI'
@@ -1072,13 +1072,13 @@ class TenderStage2UAComplaintResourceTest(BaseCompetitiveDialogUAStage2ContentWe
                                                 'description': 'complaint description',
                                                 'author': bad_author,
                                                 'status': 'claim'}},
-                                      status=422)
+                                      status=403)
 
-        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u'Bad author'], u'location': u'body', u'name': u'complaints'}
+            {u'description': u'Author can\'t create complaint', u'location': u'body', u'name': u'author'}
         ])
         bad_author['identifier']['scheme'] = good_scheme
 

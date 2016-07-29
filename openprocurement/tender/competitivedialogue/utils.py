@@ -203,11 +203,11 @@ def prepare_shortlistedFirms(shortlistedFirms):
     return all_keys
 
 
-def prepare_complaint_author(complaint):
-    base_key = "{id}_{scheme}".format(scheme=complaint['author']['identifier']['scheme'],
-                                      id=complaint['author']['identifier']['id'])
-    if complaint.get('relatedLot'):
-        base_key = "{base_key}_{lotId}".format(base_key=base_key, lotId=complaint['relatedLot'])
+def prepare_author(obj):
+    base_key = "{id}_{scheme}".format(scheme=obj['author']['identifier']['scheme'],
+                                      id=obj['author']['identifier']['id'])
+    if obj.get('relatedLot'):
+        base_key = "{base_key}_{lotId}".format(base_key=base_key, lotId=obj['relatedLot'])
     return base_key
 
 
