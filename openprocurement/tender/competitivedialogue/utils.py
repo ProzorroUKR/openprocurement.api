@@ -203,6 +203,14 @@ def prepare_shortlistedFirms(shortlistedFirms):
     return all_keys
 
 
+def prepare_complaint_author(complaint):
+    base_key = "{id}_{scheme}".format(scheme=complaint['author']['identifier']['scheme'],
+                                      id=complaint['author']['identifier']['id'])
+    if complaint.get('relatedLot'):
+        base_key = "{base_key}_{lotId}".format(base_key=base_key, lotId=complaint['relatedLot'])
+    return base_key
+
+
 def prepare_bid_identifier(bid):
     """ Make list with keys
         key = {identifier_id}_{identifier_scheme}_{lot_id}

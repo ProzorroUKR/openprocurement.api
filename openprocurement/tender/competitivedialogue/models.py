@@ -14,8 +14,9 @@ from openprocurement.tender.openeu.models import (Tender as BaseTenderEU, Admini
                                                   pre_qualifications_role, Bid as BidEU, ConfidentialDocument,
                                                   edit_role_eu, auction_patch_role, auction_view_role,
                                                   auction_post_role, QUESTIONS_STAND_STILL, ENQUIRY_STAND_STILL_TIME,
-                                                  PeriodStartEndRequired, EnquiryPeriod, Lot as BaseLotEU,
+                                                  PeriodStartEndRequired, EnquiryPeriod,
                                                   validate_lots_uniq, embedded_lot_role, default_lot_role,
+                                                  Lot as BaseLotEU,
                                                   TENDERING_DURATION as TENDERING_DURATION_EU)
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
@@ -25,7 +26,9 @@ from openprocurement.api.models import (
     schematics_embedded_role, ListType, BooleanType
 )
 from schematics.transforms import whitelist, blacklist
-from openprocurement.tender.competitivedialogue.utils import validate_features_custom_weight
+from openprocurement.tender.competitivedialogue.utils import (validate_features_custom_weight,
+                                                              prepare_shortlistedFirms,
+                                                              prepare_complaint_author)
 
 # constants for procurementMethodtype
 CD_UA_TYPE = "competitiveDialogueUA"
@@ -315,6 +318,23 @@ class Lot(BaseLotEU):
 LotStage2EU = Lot
 
 
+def validate_complaints_base(data, complaints):
+    """
+      Check that author can create complaints,
+      compare scheme, id and relatedLot if exists
+    """
+    if not complaints:
+        return None
+    firms_key = prepare_shortlistedFirms(data['shortlistedFirms'])
+    for complaint in complaints:
+        author_key = prepare_complaint_author(complaint)
+        for firm in firms_key:
+            if author_key in firm:  # if we found legal firm then check another complaint
+                break
+        else:  # we didn't find legal firm, then return error
+            raise ValidationError("Bad author")
+
+
 @implementer(ITender)
 class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=STAGE_2_EU_TYPE)
@@ -340,6 +360,10 @@ class Tender(BaseTenderEU):
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
+
+    def validate_complaints(self, data, complaints):
+        validate_complaints_base(data, complaints)
+
 
 TenderStage2EU = Tender
 
@@ -369,5 +393,8 @@ class Tender(BaseTenderUA):
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
+
+    def validate_complaints(self, data, complaints):
+        validate_complaints_base(data, complaints)
 
 TenderStage2UA = Tender
