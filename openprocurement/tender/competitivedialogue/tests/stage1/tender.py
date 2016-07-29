@@ -776,13 +776,13 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
             {u'description': [{u'relatedItem': [u'relatedItem should be one of items']}], u'location': u'body', u'name': u'features'}
         ])
         data['features'][0]["relatedItem"] = "1"
-        data['features'][0]["enum"][0]["value"] = 0.5
+        data['features'][0]["enum"][0]["value"] = 1.0
         response = self.app.post_json('/tenders', {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.3.']}]}], u'location': u'body', u'name': u'features'}
+            {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.99.']}]}], u'location': u'body', u'name': u'features'}
         ])
         data['features'][0]["enum"][0]["value"] = 0.15
         response = self.app.post_json('/tenders', {'data': data}, status=422)
@@ -2065,13 +2065,13 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
             {u'description': [{u'relatedItem': [u'relatedItem should be one of items']}], u'location': u'body', u'name': u'features'}
         ])
         data['features'][0]["relatedItem"] = "1"
-        data['features'][0]["enum"][0]["value"] = 0.5
+        data['features'][0]["enum"][0]["value"] = 1.0
         response = self.app.post_json('/tenders', {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.3.']}]}], u'location': u'body', u'name': u'features'}
+            {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.99.']}]}], u'location': u'body', u'name': u'features'}
         ])
         data['features'][0]["enum"][0]["value"] = 0.15
         response = self.app.post_json('/tenders', {'data': data}, status=422)

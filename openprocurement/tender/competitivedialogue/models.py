@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from schematics.types import StringType
+from schematics.types import StringType, FloatType
 from schematics.exceptions import ValidationError
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.models import ITender, Identifier, Model, Value, get_tender
+from openprocurement.api.models import ITender, Identifier, Model, Value, validate_values_uniq, get_tender, validate_features_uniq, Feature as BaseFeature, FeatureValue as BaseFeatureValue
 from openprocurement.api.utils import calculate_business_date, get_now
 from openprocurement.tender.openua.models import (SifterListType, Item as BaseItem, Tender as BaseTenderUA,
                                                   TENDER_PERIOD as TENDERING_DURATION_UA, Lot as BaseLotUA)
@@ -117,6 +117,12 @@ class Bid(BidEU):
     def validate_parameters(self, data, parameters):
         pass  # remove validation on stage 1
 
+class FeatureValue(BaseFeatureValue):
+    value = FloatType(required=True, min_value=0.0, max_value=FEATURES_MAX_SUM)
+
+class Feature(BaseFeature):
+    enum = ListType(ModelType(FeatureValue), default=list(), min_size=1, validators=[validate_values_uniq])
+
 lot_roles = {
     'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
     'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
@@ -140,6 +146,7 @@ class Tender(BaseTenderEU):
                           filter_by='status', filter_in_values=['invalid', 'deleted'])
     TenderID = StringType(required=False)
     stage2TenderID = StringType(required=False)
+    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
 
     class Options:
         roles = roles.copy()

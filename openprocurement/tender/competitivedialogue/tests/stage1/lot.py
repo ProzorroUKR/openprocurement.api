@@ -700,7 +700,7 @@ class CompetitiveDialogueEULotFeatureResourceTest(BaseCompetitiveDialogEUContent
                 "title": u"Потужність всмоктування",
                 "enum": [
                     {
-                        "value": 0.5,
+                        "value": 1.0,
                         "title": u"До 1000 Вт"
                     },
                     {
@@ -715,7 +715,7 @@ class CompetitiveDialogueEULotFeatureResourceTest(BaseCompetitiveDialogEUContent
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.3.']}]}],
+            {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.99.']}]}],
              u'location': u'body',
              u'name': u'features'}
         ])
@@ -2394,7 +2394,7 @@ class CompetitiveDialogueUALotFeatureResourceTest(BaseCompetitiveDialogUAContent
                 "title": u"Потужність всмоктування",
                 "enum": [
                     {
-                        "value": 0.5,
+                        "value": 1.0,
                         "title": u"До 1000 Вт"
                     },
                     {
@@ -2409,7 +2409,7 @@ class CompetitiveDialogueUALotFeatureResourceTest(BaseCompetitiveDialogUAContent
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.3.']}]}],
+            {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.99.']}]}],
              u'location': u'body',
              u'name': u'features'}
         ])
