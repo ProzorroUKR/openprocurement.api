@@ -516,9 +516,6 @@ class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest
                 if feature['featureOf'] == 'item':
                     feature['relatedItem'] = data['items'][0]['id']
             data['features'] = self.features = features
-        import json
-        with open('t.json', 'wt') as f:
-            json.dump(data, f, indent=4)
         response = self.app.post_json('/tenders', {'data': data})
         tender = response.json['data']
         self.tender = tender
