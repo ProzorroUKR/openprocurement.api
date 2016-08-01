@@ -248,7 +248,7 @@ class CompetitiveDialogueDataBridge(object):
                     new_tender['procurementMethodType'] = STAGE_2_EU_TYPE
                 else:
                     new_tender['procurementMethodType'] = STAGE_2_UA_TYPE
-
+                new_tender['tenderID'] = '{}.2'.format(tender['tenderID']) # set tenderID as in stage1 + '.2'
                 old_lots, items, short_listed_firms = dict(), list(), dict()
                 for qualification in tender['qualifications']:
                     if qualification['status'] == 'active':  # check if qualification has status active
