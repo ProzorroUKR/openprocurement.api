@@ -538,8 +538,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                     i.status = 'cancelled'
             # add_next_award(self.request)
         elif award_status == 'pending' and award.status == 'unsuccessful':
-            normalized_end = calculate_normalized_date(get_now(), tender, True)
-            award.complaintPeriod.endDate = calculate_business_date(normalized_end, self.stand_still_delta, tender)
+            award.complaintPeriod.endDate = get_now()
             # add_next_award(self.request)
         elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             now = get_now()
