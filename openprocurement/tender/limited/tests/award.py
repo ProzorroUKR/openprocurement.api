@@ -449,7 +449,7 @@ class TenderNegotiationAwardResourceTest(TenderAwardResourceTest):
 
         self.app.authorization = authorization
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
-                                       {"data": {"status": "active"}})
+                                       {"data": {"status": "active", 'qualified': True}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
 
