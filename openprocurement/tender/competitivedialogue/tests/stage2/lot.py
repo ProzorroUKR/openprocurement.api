@@ -2878,8 +2878,7 @@ class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
         tenderers = []
         for i in xrange(count):
             tenderer = deepcopy(test_bids[0]["tenderers"])
-            tenderer[0]['identifier']['id'] = self.initial_data['shortlistedFirms'][i if i < 3 else 3]['identifier'][
-                'id']
+            tenderer[0]['identifier']['id'] = self.initial_data['shortlistedFirms'][i if i < 3 else 3]['identifier']['id']
             tenderer[0]['identifier']['scheme'] = self.initial_data['shortlistedFirms'][i if i < 3 else 3]['identifier']['scheme']
             tenderers.append(tenderer)
         return tenderers

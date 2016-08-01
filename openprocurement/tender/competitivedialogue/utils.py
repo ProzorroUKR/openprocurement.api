@@ -203,6 +203,14 @@ def prepare_shortlistedFirms(shortlistedFirms):
     return all_keys
 
 
+def prepare_author(obj):
+    base_key = "{id}_{scheme}".format(scheme=obj['author']['identifier']['scheme'],
+                                      id=obj['author']['identifier']['id'])
+    if obj.get('relatedLot'):
+        base_key = "{base_key}_{lotId}".format(base_key=base_key, lotId=obj['relatedLot'])
+    return base_key
+
+
 def prepare_bid_identifier(bid):
     """ Make list with keys
         key = {identifier_id}_{identifier_scheme}_{lot_id}

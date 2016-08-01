@@ -14,8 +14,9 @@ from openprocurement.tender.openeu.models import (Tender as BaseTenderEU, Admini
                                                   pre_qualifications_role, Bid as BidEU, ConfidentialDocument,
                                                   edit_role_eu, auction_patch_role, auction_view_role,
                                                   auction_post_role, QUESTIONS_STAND_STILL, ENQUIRY_STAND_STILL_TIME,
-                                                  PeriodStartEndRequired, EnquiryPeriod, Lot as BaseLotEU,
+                                                  PeriodStartEndRequired, EnquiryPeriod,
                                                   validate_lots_uniq, embedded_lot_role, default_lot_role,
+                                                  Lot as BaseLotEU,
                                                   TENDERING_DURATION as TENDERING_DURATION_EU)
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
@@ -25,7 +26,7 @@ from openprocurement.api.models import (
     schematics_embedded_role, ListType, BooleanType
 )
 from schematics.transforms import whitelist, blacklist
-from openprocurement.tender.competitivedialogue.utils import validate_features_custom_weight
+from openprocurement.tender.competitivedialogue.utils import (validate_features_custom_weight)
 
 # constants for procurementMethodtype
 CD_UA_TYPE = "competitiveDialogueUA"
@@ -348,6 +349,7 @@ class Tender(BaseTenderEU):
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
 
+
 TenderStage2EU = Tender
 
 
@@ -376,5 +378,6 @@ class Tender(BaseTenderUA):
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
+
 
 TenderStage2UA = Tender
