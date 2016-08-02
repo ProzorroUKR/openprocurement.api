@@ -42,7 +42,9 @@ def validate_patch_tender_stage2_data(request):
     return data
 
 
-def validate_author(request, shortlistedFirms, obj, error_message='Author can\'t create complaint'):
+def validate_author(request, shortlistedFirms, obj):
+    error_message = 'Author can\'t {} {}'.format('create' if request.method == 'POST' else 'patch',
+                                                 obj.__class__.__name__.lower())
     firms_key = prepare_shortlistedFirms(shortlistedFirms)
     author_key = prepare_author(obj)
     for firm in firms_key:
@@ -53,7 +55,6 @@ def validate_author(request, shortlistedFirms, obj, error_message='Author can\'t
         request.errors.status = 403
         return False
     return True
-
 
 def validate_complaint_data_stage2(request):
     if not request.check_accreditation(request.tender.edit_accreditation):
@@ -79,9 +80,7 @@ def validate_patch_complaint_data_stage2(request):
     model = type(request.tender).complaints.model_class
     data = validate_data(request, model, True)
     if data:
-        if validate_author(request, request.tender['shortlistedFirms'],
-                           request.validated['complaint'],
-                           'Author can\'t patch complaint'):
+        if validate_author(request, request.tender['shortlistedFirms'], request.validated['complaint']):
             return data  # validate is OK
         else:
             return None  # we catch errors
@@ -101,9 +100,7 @@ def validate_post_question_data_stage2(request):
     model = type(request.tender).questions.model_class
     data = validate_data(request, model)
     if data:
-        if validate_author(request, request.tender['shortlistedFirms'],
-                           request.validated['question'],
-                           'Author can\'t create question'):
+        if validate_author(request, request.tender['shortlistedFirms'], request.validated['question']):
             return data  # validate is OK
         else:
             return None  # we catch errors
