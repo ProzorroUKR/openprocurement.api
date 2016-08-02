@@ -1095,8 +1095,12 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
 
         self.app.authorization = ('Basic', ('broker', ''))
         author = deepcopy(test_organization)
+        tender_db = self.db.get(tender['id'])
+        author['identifier']['id'] = tender_db['shortlistedFirms'][0]['identifier']['id']
+        author['identifier']['scheme'] = tender_db['shortlistedFirms'][0]['identifier']['scheme']
         response = self.app.post_json('/tenders/{}/questions'.format(tender['id']),
-                                      {'data': {'title': 'question title', 'description': 'question description',
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
                                                 'author': author}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
