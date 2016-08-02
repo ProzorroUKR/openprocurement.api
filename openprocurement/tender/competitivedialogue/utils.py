@@ -206,8 +206,8 @@ def prepare_shortlistedFirms(shortlistedFirms):
 def prepare_author(obj):
     base_key = "{id}_{scheme}".format(scheme=obj['author']['identifier']['scheme'],
                                       id=obj['author']['identifier']['id'])
-    if obj.get('relatedLot'):
-        base_key = "{base_key}_{lotId}".format(base_key=base_key, lotId=obj['relatedLot'])
+    if obj.get('relatedLot') or obj.get('relatedItem'):
+        base_key = "{base_key}_{lotId}".format(base_key=base_key, lotId=obj.get('relatedLot') or obj.get('relatedItem'))
     return base_key
 
 

@@ -425,6 +425,29 @@ class TenderStage2EULotQuestionResourceTest(BaseCompetitiveDialogEUStage2Content
         self.assertIn('id', question)
         self.assertIn(question['id'], response.headers['Location'])
 
+    def test_create_question_on_lot_without_perm(self):
+        tender = self.db.get(self.tender_id)
+        lot_id = self.lots[0]['id']
+        for firm in tender['shortlistedFirms']:
+            firm['lots'] = [{'id': self.lots[1]['id']}]
+        self.db.save(tender)
+
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'lot',
+                                                'relatedItem': lot_id,
+                                                'author': author}},
+                                      status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Author can\'t create question',
+             u'location': u'body',
+             u'name': u'author'}
+        ])
+
     def test_patch_tender_question(self):
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                       {'data': {'title': 'question title',
@@ -891,6 +914,29 @@ class TenderStage2UALotQuestionResourceTest(BaseCompetitiveDialogUAStage2Content
         self.assertEqual(question['author']['name'], test_bids[0]['tenderers'][0]['name'])
         self.assertIn('id', question)
         self.assertIn(question['id'], response.headers['Location'])
+
+    def test_create_question_on_lot_without_perm(self):
+        tender = self.db.get(self.tender_id)
+        lot_id = self.lots[0]['id']
+        for firm in tender['shortlistedFirms']:
+            firm['lots'] = [{'id': self.lots[1]['id']}]
+        self.db.save(tender)
+
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'lot',
+                                                'relatedItem': lot_id,
+                                                'author': author}},
+                                      status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Author can\'t create question',
+             u'location': u'body',
+             u'name': u'author'}
+        ])
 
     def test_patch_tender_question(self):
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
