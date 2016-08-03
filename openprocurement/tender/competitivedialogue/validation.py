@@ -53,10 +53,13 @@ def validate_author(request, shortlistedFirms, obj):
                                                  obj.__class__.__name__.lower())
     firms_keys = prepare_shortlistedFirms(shortlistedFirms)
     author_key = prepare_author(obj)
-    if obj.get('questionOf') == 'item' and shortlistedFirms[0].get('lots'):  # question can create on item
-        item_id = author_key.split('_')[-1]
-        item = get_item_by_id(request.validated['tender'], item_id)
-        author_key = author_key.replace(author_key.split('_')[-1], item['relatedLot'])
+    if obj.get('questionOf') == 'item':
+        if shortlistedFirms[0].get('lots'):  # question can create on item
+            item_id = author_key.split('_')[-1]
+            item = get_item_by_id(request.validated['tender'], item_id)
+            author_key = author_key.replace(author_key.split('_')[-1], item['relatedLot'])
+        else:
+            author_key = '_'.join(author_key.split('_')[:-1])
     for firm in firms_keys:
         if author_key in firm:  # if we found legal firm then check another complaint
             break
