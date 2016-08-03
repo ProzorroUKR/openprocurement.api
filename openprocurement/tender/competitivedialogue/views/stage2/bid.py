@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.openeu.views.bid import TenderBidResource as BaseResourceEU
-from openprocurement.tender.openua.views.bid import TenderBidResource as BaseResourceUA
+from openprocurement.tender.openua.views.bid import TenderUABidResource as BaseResourceUA
 from openprocurement.tender.competitivedialogue.models import STAGE_2_UA_TYPE, STAGE_2_EU_TYPE
 from openprocurement.tender.competitivedialogue.utils import stage2_bid_post
 from openprocurement.api.utils import (
@@ -19,6 +19,7 @@ from openprocurement.api.validation import (
             description="Competitive Dialogue  Stage2EU bids")
 class CompetitiveDialogueStage2EUBidResource(BaseResourceEU):
     """ Tender Stage2 EU  bids """
+    allowed_bid_status_on_create = ['draft', 'pending']
 
     @json_view(content_type="application/json", permission='create_bid', validators=(validate_bid_data,))
     def collection_post(self):
@@ -32,6 +33,7 @@ class CompetitiveDialogueStage2EUBidResource(BaseResourceEU):
             description="Competitive Dialogue Stage2 UA bids")
 class CompetitiveDialogueStage2UABidResource(BaseResourceUA):
     """ Tender Stage2 UA Stage2 bids """
+    allowed_bid_status_on_create = ['draft', 'active']
 
     @json_view(content_type="application/json", permission='create_bid', validators=(validate_bid_data,))
     def collection_post(self):

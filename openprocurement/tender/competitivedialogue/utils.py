@@ -248,7 +248,11 @@ def stage2_bid_post(self):
         self.request.errors.add('body', 'data', 'Firm can\'t create bid')
         self.request.errors.status = 403
         return
-
+    if bid.status not in self.allowed_bid_status_on_create:
+        self.request.errors.add('body', 'data',
+                                'Bid can be added only with status: {}.'.format(self.allowed_bid_status_on_create))
+        self.request.errors.status = 403
+        return
     tender.modified = False
     api_set_ownership(bid, self.request)
     tender.bids.append(bid)
