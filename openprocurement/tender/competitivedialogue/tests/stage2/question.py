@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
+from uuid import uuid4
 
 from openprocurement.tender.competitivedialogue.tests.base import (test_lots, test_bids, test_shortlistedFirms,
                                                                    BaseCompetitiveDialogEUStage2ContentWebTest,
@@ -385,6 +386,28 @@ class TenderStage2EUQuestionResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
                 u'url', u'name': u'tender_id'}
         ])
 
+    def create_question_on_item(self):
+        tender = self.db.get(self.tender_id)
+        item = tender['items'][0]
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'item',
+                                                'relatedItem': item['id'],
+                                                'author': author}})
+
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'tender',
+                                                'author': author}})
+
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
 
 class TenderStage2EULotQuestionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
 
@@ -447,6 +470,56 @@ class TenderStage2EULotQuestionResourceTest(BaseCompetitiveDialogEUStage2Content
              u'location': u'body',
              u'name': u'author'}
         ])
+
+    def create_question_on_item(self):
+        tender = self.db.get(self.tender_id)
+        item = tender['items'][0]
+        new_item = deepcopy(item)
+        new_item['id'] = uuid4().hex
+        new_item['relatedLot'] = self.lots[1]['id']
+        tender['items'] = [item, new_item]
+        for firm in tender['shortlistedFirms']:
+            firm['lots'] = [{'id': self.lots[1]['id']}]
+        self.db.save(tender)
+
+        # Create question on item
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'item',
+                                                'relatedItem': new_item['id'],
+                                                'author': author}})
+
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # Can't create question on item, on which we haven't access
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'item',
+                                                'relatedItem': item['id'],
+                                                'author': author}},
+                                      status=403)
+
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Author can\'t create question',
+             u'location': u'body',
+             u'name': u'author'}
+        ])
+
+        # Create question on tender
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'tender',
+                                                'author': author}})
+
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
 
     def test_patch_tender_question(self):
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
@@ -875,6 +948,28 @@ class TenderStage2UAQuestionResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
                 u'url', u'name': u'tender_id'}
         ])
 
+    def create_question_on_item(self):
+        tender = self.db.get(self.tender_id)
+        item = tender['items'][0]
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'item',
+                                                'relatedItem': item['id'],
+                                                'author': author}})
+
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'tender',
+                                                'author': author}})
+
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
 
 class TenderStage2UALotQuestionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
 
@@ -989,6 +1084,56 @@ class TenderStage2UALotQuestionResourceTest(BaseCompetitiveDialogUAStage2Content
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["answer"], "answer")
+
+    def create_question_on_item(self):
+        tender = self.db.get(self.tender_id)
+        item = tender['items'][0]
+        new_item = deepcopy(item)
+        new_item['id'] = uuid4().hex
+        new_item['relatedLot'] = self.lots[1]['id']
+        tender['items'] = [item, new_item]
+        for firm in tender['shortlistedFirms']:
+            firm['lots'] = [{'id': self.lots[1]['id']}]
+        self.db.save(tender)
+
+        # Create question on item
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'item',
+                                                'relatedItem': new_item['id'],
+                                                'author': author}})
+
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # Can't create question on item, on which we haven't access
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'item',
+                                                'relatedItem': item['id'],
+                                                'author': author}},
+                                      status=403)
+
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Author can\'t create question',
+             u'location': u'body',
+             u'name': u'author'}
+        ])
+
+        # Create question on tender
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'tender',
+                                                'author': author}})
+
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
 
 
 def suite():

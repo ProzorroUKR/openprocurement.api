@@ -42,12 +42,25 @@ def validate_patch_tender_stage2_data(request):
     return data
 
 
+def get_item_by_id(tender, id):
+    for item in tender['items']:
+        if item['id'] == id:
+            return item
+
+
 def validate_author(request, shortlistedFirms, obj):
     error_message = 'Author can\'t {} {}'.format('create' if request.method == 'POST' else 'patch',
                                                  obj.__class__.__name__.lower())
-    firms_key = prepare_shortlistedFirms(shortlistedFirms)
+    firms_keys = prepare_shortlistedFirms(shortlistedFirms)
     author_key = prepare_author(obj)
-    for firm in firms_key:
+    if obj.get('questionOf') == 'item':
+        if shortlistedFirms[0].get('lots'):  # question can create on item
+            item_id = author_key.split('_')[-1]
+            item = get_item_by_id(request.validated['tender'], item_id)
+            author_key = author_key.replace(author_key.split('_')[-1], item['relatedLot'])
+        else:
+            author_key = '_'.join(author_key.split('_')[:-1])
+    for firm in firms_keys:
         if author_key in firm:  # if we found legal firm then check another complaint
             break
     else:  # we didn't find legal firm, then return error
