@@ -19,11 +19,12 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         super(TenderContractResourceTest, self).setUp()
         # Create award
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending',
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending', 'qualified': True,
                                                           'value': {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}})
         award = response.json['data']
         self.award_id = award['id']
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+                                       {"data": {"status": "active"}})
 
     def test_create_tender_contract_invalid(self):
         # This can not be, but just in case check
@@ -244,7 +245,8 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
             tender_id, tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending'}})
         award_id = response.json['data']['id']
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, tender_token), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, tender_token),
+                                       {"data": {'qualified': True, "status": "active"}})
 
         response = self.app.get('/tenders/{}/contracts'.format(
                 tender_id))
@@ -363,7 +365,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
             self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization]}})
         award = response.json['data']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, award['id'], self.tender_token), {"data": {"status": "active"}})
+            self.tender_id, award['id'], self.tender_token), {"data": {'qualified': True, "status": "active"}})
         response = self.app.get('/tenders/{}/contracts'.format(
                 self.tender_id))
         contract = response.json['data'][-1]
@@ -461,7 +463,8 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
             tender_id, tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending'}})
         award_id = response.json['data']['id']
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, tender_token), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, tender_token),
+                                       {"data": {'qualified': True, "status": "active"}})
 
         response = self.app.get('/tenders/{}/contracts'.format(
                 tender_id))
@@ -564,7 +567,8 @@ class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
             self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending'}})
         award = response.json['data']
         self.award_id = award['id']
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+                                       {"data": {'qualified': True, "status": "active"}})
 
     @unittest.skipUnless(SANDBOX_MODE, "not supported accelerator")
     def test_create_tender_contract_negotination_quick(self):
@@ -597,7 +601,7 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
         award = response.json['data']
         self.award_id = award['id']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
-                                       {"data": {"status": "active"}})
+                                       {"data": {"status": "active", 'qualified': True}})
         response = self.app.get('/tenders/{}/contracts'.format(
                 self.tender_id))
         self.contract_id = response.json['data'][0]['id']
@@ -861,7 +865,8 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual('document description', response.json["data"]["description"])
 
         # cancel contract by award cancellation
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "cancelled"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+                                       {"data": {"status": "cancelled"}})
         self.assertEqual(response.json['data']["status"], "cancelled")
 
         response = self.app.patch_json('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(self.tender_id, self.contract_id, doc_id, self.tender_token), {"data": {"description": "document description"}}, status=403)

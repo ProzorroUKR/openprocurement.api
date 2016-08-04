@@ -39,6 +39,13 @@ class Contract(BaseContract):
         if value and value > get_now():
             raise ValidationError(u"Contract signature date can't be in the future")
 
+
+award_edit_role = blacklist('id', 'date', 'documents', 'complaints', 'complaintPeriod')
+award_create_role = blacklist('id', 'status', 'date', 'documents', 'complaints', 'complaintPeriod')
+award_create_reporting_role = award_create_role + blacklist('qualified')
+award_edit_reporting_role = award_edit_role + blacklist('qualified')
+
+
 class Award(Model):
     """ An award for the given procurement. There may be more than one award
         per contracting process e.g. because the contract is split amongst
@@ -46,8 +53,8 @@ class Award(Model):
     """
     class Options:
         roles = {
-            'create': blacklist('id', 'status', 'date', 'documents', 'complaints', 'complaintPeriod'),
-            'edit': blacklist('id', 'date', 'documents', 'complaints', 'complaintPeriod'),
+            'create': award_create_reporting_role,
+            'edit': award_edit_reporting_role,
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
             'Administrator': whitelist('complaintPeriod'),
@@ -71,6 +78,7 @@ class Award(Model):
     complaints = ListType(ModelType(Complaint), default=list())
     complaintPeriod = ModelType(Period)
 
+ReportingAward = Award
 
 class Cancellation(BaseCancellation):
     class Options:
@@ -220,12 +228,22 @@ class Tender(SchematicsDocument, Model):
 
 ReportingTender = Tender
 
+
+class Award(ReportingAward):
+    class Options:
+        roles = {
+            'create': award_create_role,
+            'edit': award_edit_role,
+        }
+
+
 class Contract(BaseContract):
     items = ListType(ModelType(Item))
 
 @implementer(ITender)
 class Tender(ReportingTender):
     """ Negotiation """
+    awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     cause = StringType(choices=['artContestIP', 'noCompetition', 'twiceUnsuccessful',
                                 'additionalPurchase', 'additionalConstruction', 'stateLegalServices'],
