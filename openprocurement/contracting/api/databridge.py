@@ -219,7 +219,7 @@ class ContractingDataBridge(object):
                                                               {"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
 
                         for item in contract.get('items', []):
-                            if 'deliveryDate' in item and 'startDate' in item['deliveryDate']:
+                            if 'deliveryDate' in item and item['deliveryDate'].get('startDate') and item['deliveryDate'].get('endDate'):
                                 if item['deliveryDate']['startDate'] > item['deliveryDate']['endDate']:
                                     logger.info("Found dates missmatch {} and {}".format(item['deliveryDate']['startDate'], item['deliveryDate']['endDate']),
                                                 extra=journal_context(params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
