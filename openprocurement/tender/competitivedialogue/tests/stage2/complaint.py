@@ -7,7 +7,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (test_lots, te
                                                                    BaseCompetitiveDialogEUStage2ContentWebTest,
                                                                    BaseCompetitiveDialogUAStage2ContentWebTest)
 
-author = test_bids[0]["tenderers"][0]
+author = deepcopy(test_bids[0]["tenderers"][0])
 author['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
 author['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
 
