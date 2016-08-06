@@ -488,11 +488,13 @@ class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest
         super(BaseCompetitiveDialogEUStage2ContentWebTest, self).setUp()
         self.create_tender()
 
-    def create_tender(self, initial_lots=None, initial_data=None, features=None):
+    def create_tender(self, initial_lots=None, initial_data=None, features=None, initial_bids=None):
         if initial_lots is None:
             initial_lots = self.initial_lots
         if initial_data is None:
             initial_data = self.initial_data
+        if initial_bids is None:
+            initial_bids = self.initial_bids
         auth = self.app.authorization
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))
         data = deepcopy(initial_data)
@@ -531,6 +533,27 @@ class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest
                                                                      token=self.tender_token),
                             {'data': {'status': 'active.tendering'}})
         self.app.authorization = auth
+        if initial_bids:
+            self.initial_bids_tokens = {}
+            response = self.set_status('active.tendering')
+            status = response.json['data']['status']
+            bids = []
+            for i in initial_bids:
+                if initial_lots:
+                    i = i.copy()
+                    value = i.pop('value')
+                    i['lotValues'] = [
+                        {
+                            'value': value,
+                            'relatedLot': l['id'],
+                        }
+                        for l in initial_lots
+                        ]
+                response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
+                self.assertEqual(response.status, '201 Created')
+                bids.append(response.json['data'])
+                self.initial_bids_tokens[response.json['data']['id']] = response.json['access']['token']
+            self.bids = bids
 
 
 class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest):
