@@ -18,6 +18,8 @@ Tender Award Complaints
 .. graphviz::
 
     digraph G {
+        rankdir=LR;
+        {rank=same; mistaken; invalid; resolved; declined; stopped; cancelled;}
         subgraph cluster_complaint {
             label = "complaint";
             pending; accepted; stopping; satisfied;
@@ -30,6 +32,7 @@ Tender Award Complaints
         pending -> {accepted,invalid};
         stopping -> {stopped,invalid};
         accepted -> {declined,satisfied,stopped};
+        {pending;stopping} -> mistaken;
     }
 
 .. toctree::
