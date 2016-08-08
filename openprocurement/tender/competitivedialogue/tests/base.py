@@ -476,6 +476,77 @@ class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
         self.create_tender()
 
 
+def create_tender_stage2(self, initial_lots=None, initial_data=None, features=None, initial_bids=None):
+    if initial_lots is None:
+        initial_lots = self.initial_lots
+    if initial_data is None:
+        initial_data = self.initial_data
+    if initial_bids is None:
+        initial_bids = self.initial_bids
+    auth = self.app.authorization
+    self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+    data = deepcopy(initial_data)
+    if initial_lots:  # add lots
+        lots = []
+        for i in initial_lots:
+            lot = deepcopy(i)
+            if 'id' not in lot:
+                lot['id'] = uuid4().hex
+            lots.append(lot)
+        data['lots'] = self.lots = lots
+        for i, item in enumerate(data['items']):
+            item['relatedLot'] = lots[i % len(lots)]['id']
+        for firm in data['shortlistedFirms']:
+            firm['lots'] = [dict(id=lot['id']) for lot in lots]
+        self.lots_id = [lot['id'] for lot in lots]
+    if features:  # add features
+        for feature in features:
+            if feature['featureOf'] == 'lot':
+                feature['relatedItem'] = data['lots'][0]['id']
+            if feature['featureOf'] == 'item':
+                feature['relatedItem'] = data['items'][0]['id']
+        data['features'] = self.features = features
+    response = self.app.post_json('/tenders', {'data': data})  # create tender
+    tender = response.json['data']
+    status = response.json['data']['status']
+    self.tender = tender
+    self.tender_token = response.json['access']['token']
+    self.tender_id = tender['id']
+    self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+    self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
+                                                                 token=self.tender_token),
+                        {'data': {'status': 'draft.stage2'}})
+
+    self.app.authorization = ('Basic', ('broker', ''))
+    self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
+                                                                 token=self.tender_token),
+                        {'data': {'status': 'active.tendering'}})
+    self.app.authorization = auth
+    if initial_bids:
+        self.initial_bids_tokens = {}
+        response = self.set_status('active.tendering')
+        status = response.json['data']['status']
+        bids = []
+        for i in initial_bids:
+            if initial_lots:
+                i = i.copy()
+                value = i.pop('value')
+                i['lotValues'] = [
+                    {
+                        'value': value,
+                        'relatedLot': l['id'],
+                    }
+                    for l in self.lots
+                    ]
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
+            self.assertEqual(response.status, '201 Created')
+            bids.append(response.json['data'])
+            self.initial_bids_tokens[response.json['data']['id']] = response.json['access']['token']
+        self.bids = bids
+    if self.initial_status and self.initial_status != status:
+        self.set_status(self.initial_status)
+
+
 class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest):
     initial_data = test_tender_stage2_data_eu
     initial_status = None
@@ -488,49 +559,7 @@ class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest
         super(BaseCompetitiveDialogEUStage2ContentWebTest, self).setUp()
         self.create_tender()
 
-    def create_tender(self, initial_lots=None, initial_data=None, features=None):
-        if initial_lots is None:
-            initial_lots = self.initial_lots
-        if initial_data is None:
-            initial_data = self.initial_data
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
-        data = deepcopy(initial_data)
-        if initial_lots:
-            lots = []
-            for i in initial_lots:
-                lot = deepcopy(i)
-                if 'id' not in lot:
-                    lot['id'] = uuid4().hex
-                lots.append(lot)
-            data['lots'] = self.lots = lots
-            for i, item in enumerate(data['items']):
-                item['relatedLot'] = lots[i % len(lots)]['id']
-            for firm in data['shortlistedFirms']:
-                firm['lots'] = [dict(id=lot['id']) for lot in lots]
-            self.lots_id = [lot['id'] for lot in lots]
-        if features:
-            for feature in features:
-                if feature['featureOf'] == 'lot':
-                    feature['relatedItem'] = data['lots'][0]['id']
-                if feature['featureOf'] == 'item':
-                    feature['relatedItem'] = data['items'][0]['id']
-            data['features'] = self.features = features
-        response = self.app.post_json('/tenders', {'data': data})
-        tender = response.json['data']
-        self.tender = tender
-        self.tender_token = response.json['access']['token']
-        self.tender_id = tender['id']
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
-        self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
-                                                                     token=self.tender_token),
-                            {'data': {'status': 'draft.stage2'}})
-
-        self.app.authorization = ('Basic', ('broker', ''))
-        self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
-                                                                     token=self.tender_token),
-                            {'data': {'status': 'active.tendering'}})
-        self.app.authorization = auth
+    create_tender = create_tender_stage2
 
 
 class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest):
@@ -556,49 +585,7 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
         super(BaseCompetitiveDialogUAStage2ContentWebTest, self).setUp()
         self.create_tender()
 
-    def create_tender(self, initial_lots=None, initial_data=None, features=None):
-        if initial_lots is None:
-            initial_lots = self.initial_lots
-        if initial_data is None:
-            initial_data = self.initial_data
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
-        data = deepcopy(initial_data)
-        if initial_lots:
-            lots = []
-            for i in initial_lots:
-                lot = deepcopy(i)
-                if 'id' not in lot:
-                    lot['id'] = uuid4().hex
-                lots.append(lot)
-            data['lots'] = self.lots = lots
-            for i, item in enumerate(data['items']):
-                item['relatedLot'] = lots[i % len(lots)]['id']
-            for firm in data['shortlistedFirms']:
-                firm['lots'] = [dict(id=lot['id']) for lot in lots]
-            self.lots_id = [lot['id'] for lot in lots]
-        if features:
-            for feature in features:
-                if feature['featureOf'] == 'lot':
-                    feature['relatedItem'] = data['lots'][0]['id']
-                if feature['featureOf'] == 'item':
-                    feature['relatedItem'] = data['items'][0]['id']
-            data['features'] = self.features = features
-        response = self.app.post_json('/tenders', {'data': data})
-        tender = response.json['data']
-        self.tender = tender
-        self.tender_token = response.json['access']['token']
-        self.tender_id = tender['id']
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
-        self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
-                                                                     token=self.tender_token),
-                            {'data': {'status': 'draft.stage2'}})
-
-        self.app.authorization = ('Basic', ('broker', ''))
-        self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
-                                                                     token=self.tender_token),
-                            {'data': {'status': 'active.tendering'}})
-        self.app.authorization = auth
+    create_tender = create_tender_stage2
 
     def set_status(self, status, extra=None):
         data = {'status': status}
