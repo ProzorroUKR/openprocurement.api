@@ -8,8 +8,9 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import ITender, Identifier, Model, Value, validate_values_uniq, get_tender, validate_features_uniq, Feature as BaseFeature, FeatureValue as BaseFeatureValue
 from openprocurement.api.utils import calculate_business_date, get_now
-from openprocurement.tender.openua.models import (SifterListType, Item as BaseItem, Tender as BaseTenderUA,
-                                                  TENDER_PERIOD as TENDERING_DURATION_UA, Lot as BaseLotUA)
+from openprocurement.tender.openua.models import (SifterListType, Item as BaseUAItem, Tender as BaseTenderUA,
+                                                  TENDER_PERIOD as TENDERING_DURATION_UA, Lot as BaseLotUA,
+                                                  PeriodEndRequired as BasePeriodEndRequired)
 from openprocurement.tender.openeu.models import (Tender as BaseTenderEU, Administrator_bid_role, view_bid_role,
                                                   pre_qualifications_role, Bid as BidEU, ConfidentialDocument,
                                                   edit_role_eu, auction_patch_role, auction_view_role,
@@ -17,7 +18,8 @@ from openprocurement.tender.openeu.models import (Tender as BaseTenderEU, Admini
                                                   PeriodStartEndRequired, EnquiryPeriod,
                                                   validate_lots_uniq, embedded_lot_role, default_lot_role,
                                                   Lot as BaseLotEU,
-                                                  TENDERING_DURATION as TENDERING_DURATION_EU)
+                                                  TENDERING_DURATION as TENDERING_DURATION_EU,
+                                                  Item as BaseEUItem)
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     enquiries_role, validate_cpv_group, validate_items_uniq,
@@ -210,7 +212,7 @@ class Firms(Model):
 class Tender(CompetitiveDialogEU):
     procurementMethodType = StringType(default=CD_UA_TYPE)
     title_en = StringType()
-    items = ListType(ModelType(BaseItem), required=True, min_size=1,
+    items = ListType(ModelType(BaseUAItem), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])
     procuringEntity = ModelType(BaseProcuringEntity, required=True)
     stage2TenderID = StringType(required=False)
@@ -228,10 +230,10 @@ close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'd
 stage_2_roles = {
     'plain': plain_role,
     'create': (blacklist('owner_token', 'tenderPeriod', '_attachments', 'revisions', 'dateModified', 'doc_id', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role),
-    'edit': whitelist('tenderPeriod', 'deliveryDate'),
+    'edit': whitelist('tenderPeriod'),
     'edit_draft': whitelist('status'),  # only bridge must change only status
-    'edit_'+STAGE2_STATUS: whitelist('tenderPeriod', 'status', 'deliveryDate'),
-    'edit_active.tendering': whitelist('tenderPeriod', 'deliveryDate'),
+    'edit_'+STAGE2_STATUS: whitelist('tenderPeriod', 'status'),
+    'edit_active.tendering': whitelist('tenderPeriod', 'items'),
     'edit_active.pre-qualification': whitelist('status'),
     'edit_active.pre-qualification.stand-still': whitelist(),
     'edit_active.auction': whitelist(),
@@ -323,6 +325,34 @@ class Lot(BaseLotEU):
 LotStage2EU = Lot
 
 
+class PeriodEndRequired(BasePeriodEndRequired):
+
+    class Options:
+        roles = {'edit_active.tendering': whitelist('endDate')}
+
+
+class Item(BaseEUItem):
+
+    deliveryDate = ModelType(PeriodEndRequired, required=True)
+
+    class Options:
+        roles = {'edit_active.tendering': whitelist('deliveryDate')}
+
+
+ItemStage2EU = Item
+
+
+class Item(BaseEUItem):
+
+    deliveryDate = ModelType(PeriodEndRequired, required=True)
+
+    class Options:
+        roles = {'edit_active.tendering': whitelist('deliveryDate')}
+
+
+ItemStage2UA = Item
+
+
 @implementer(ITender)
 class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=STAGE_2_EU_TYPE)
@@ -337,6 +367,10 @@ class Tender(BaseTenderEU):
                  'unsuccessful', STAGE2_STATUS],
         default='active.tendering')
     lots = ListType(ModelType(LotStage2EU), default=list(), validators=[validate_lots_uniq])
+
+    # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    items = ListType(ModelType(ItemStage2EU), required=True, min_size=1, validators=[validate_cpv_group,
+                                                                                     validate_items_uniq])
 
     create_accreditation = 'c'
 
@@ -367,6 +401,8 @@ class Tender(BaseTenderUA):
                  'unsuccessful', STAGE2_STATUS],
         default='active.tendering')
     lots = ListType(ModelType(LotStage2UA), default=list(), validators=[validate_lots_uniq])
+    items = ListType(ModelType(ItemStage2UA), required=True, min_size=1, validators=[validate_cpv_group,
+                                                                                     validate_items_uniq])
 
     create_accreditation = 'c'
 
