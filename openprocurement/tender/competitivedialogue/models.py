@@ -325,15 +325,7 @@ class Lot(BaseLotEU):
 LotStage2EU = Lot
 
 
-class PeriodEndRequired(BasePeriodEndRequired):
-
-    class Options:
-        roles = {'edit_active.tendering': whitelist('endDate')}
-
-
 class Item(BaseEUItem):
-
-    deliveryDate = ModelType(PeriodEndRequired, required=True)
 
     class Options:
         roles = {'edit_active.tendering': whitelist('deliveryDate')}
@@ -343,8 +335,6 @@ ItemStage2EU = Item
 
 
 class Item(BaseUAItem):
-
-    deliveryDate = ModelType(PeriodEndRequired, required=True)
 
     class Options:
         roles = {'edit_active.tendering': whitelist('deliveryDate')}
