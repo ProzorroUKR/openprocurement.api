@@ -443,6 +443,151 @@ class BaseCompetitiveDialogEUStage2WebTest(BaseCompetitiveDialogWebTest):
 class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_stage2_data_ua
 
+    def set_status(self, status, extra=None):
+        data = {'status': status}
+        if status == 'active.tendering':
+            data.update({
+                "enquiryPeriod": {
+                    "startDate": (now).isoformat(),
+                    "endDate": (now + timedelta(days=13)).isoformat()
+                },
+                "tenderPeriod": {
+                    "startDate": (now).isoformat(),
+                    "endDate": (now + timedelta(days=16)).isoformat()
+                }
+            })
+        elif status == 'active.auction':
+            data.update({
+                "enquiryPeriod": {
+                    "startDate": (now - timedelta(days=16)).isoformat(),
+                    "endDate": (now - timedelta(days=3)).isoformat()
+                },
+                "tenderPeriod": {
+                    "startDate": (now - timedelta(days=16)).isoformat(),
+                    "endDate": (now).isoformat()
+                },
+                "auctionPeriod": {
+                    "startDate": (now).isoformat()
+                }
+            })
+            if self.initial_lots:
+                data.update({
+                    'lots': [
+                        {
+                            "auctionPeriod": {
+                                "startDate": (now).isoformat()
+                            }
+                        }
+                        for i in self.initial_lots
+                        ]
+                })
+        elif status == 'active.qualification':
+            data.update({
+                "enquiryPeriod": {
+                    "startDate": (now - timedelta(days=17)).isoformat(),
+                    "endDate": (now - timedelta(days=4)).isoformat()
+                },
+                "tenderPeriod": {
+                    "startDate": (now - timedelta(days=17)).isoformat(),
+                    "endDate": (now - timedelta(days=1)).isoformat()
+                },
+                "auctionPeriod": {
+                    "startDate": (now - timedelta(days=1)).isoformat(),
+                    "endDate": (now).isoformat()
+                },
+                "awardPeriod": {
+                    "startDate": (now).isoformat()
+                }
+            })
+            if self.initial_lots:
+                data.update({
+                    'lots': [
+                        {
+                            "auctionPeriod": {
+                                "startDate": (now - timedelta(days=1)).isoformat(),
+                                "endDate": (now).isoformat()
+                            }
+                        }
+                        for i in self.initial_lots
+                        ]
+                })
+        elif status == 'active.awarded':
+            data.update({
+                "enquiryPeriod": {
+                    "startDate": (now - timedelta(days=17)).isoformat(),
+                    "endDate": (now - timedelta(days=4)).isoformat()
+                },
+                "tenderPeriod": {
+                    "startDate": (now - timedelta(days=17)).isoformat(),
+                    "endDate": (now - timedelta(days=1)).isoformat()
+                },
+                "auctionPeriod": {
+                    "startDate": (now - timedelta(days=1)).isoformat(),
+                    "endDate": (now).isoformat()
+                },
+                "awardPeriod": {
+                    "startDate": (now).isoformat(),
+                    "endDate": (now).isoformat()
+                }
+            })
+            if self.initial_lots:
+                data.update({
+                    'lots': [
+                        {
+                            "auctionPeriod": {
+                                "startDate": (now - timedelta(days=1)).isoformat(),
+                                "endDate": (now).isoformat()
+                            }
+                        }
+                        for i in self.initial_lots
+                        ]
+                })
+        elif status == 'complete':
+            data.update({
+                "enquiryPeriod": {
+                    "startDate": (now - timedelta(days=25)).isoformat(),
+                    "endDate": (now - timedelta(days=11)).isoformat()
+                },
+                "tenderPeriod": {
+                    "startDate": (now - timedelta(days=25)).isoformat(),
+                    "endDate": (now - timedelta(days=8)).isoformat()
+                },
+                "auctionPeriod": {
+                    "startDate": (now - timedelta(days=8)).isoformat(),
+                    "endDate": (now - timedelta(days=7)).isoformat()
+                },
+                "awardPeriod": {
+                    "startDate": (now - timedelta(days=7)).isoformat(),
+                    "endDate": (now - timedelta(days=7)).isoformat()
+                }
+            })
+            if self.initial_lots:
+                data.update({
+                    'lots': [
+                        {
+                            "auctionPeriod": {
+                                "startDate": (now - timedelta(days=8)).isoformat(),
+                                "endDate": (now - timedelta(days=7)).isoformat()
+                            }
+                        }
+                        for i in self.initial_lots
+                        ]
+                })
+        if extra:
+            data.update(extra)
+
+        tender = self.db.get(self.tender_id)
+        tender.update(apply_data_patch(tender, data))
+        self.db.save(tender)
+
+        authorization = self.app.authorization
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.app.authorization = authorization
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        return response
+
 
 class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_data_eu
