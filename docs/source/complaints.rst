@@ -18,6 +18,8 @@ Tender Conditions Claims/Complaints
 .. graphviz::
 
     digraph G {
+        rankdir=LR;
+        {rank=same; mistaken; invalid; resolved; declined; stopped; cancelled;}
         subgraph cluster_claim {
             label = "claim";
             claim; answered;
@@ -39,6 +41,7 @@ Tender Conditions Claims/Complaints
         accepted -> {declined,satisfied,stopped};
         pending -> {accepted,invalid};
         stopping -> {stopped,invalid};
+        {pending;stopping} -> mistaken;
         edge[label="auction" style=dotted];
         answered -> {invalid,declined,resolved};
     }
@@ -54,6 +57,8 @@ Tender Award Complaints
 .. graphviz::
 
     digraph G {
+        rankdir=LR;
+        {rank=same; mistaken; invalid; resolved; declined; stopped; cancelled;}
         subgraph cluster_complaint {
             label = "complaint";
             pending; accepted; stopping; satisfied;
@@ -68,6 +73,7 @@ Tender Award Complaints
         pending -> {accepted,invalid};
         stopping -> {stopped,invalid};
         accepted -> {declined,satisfied,stopped};
+        {pending;stopping} -> mistaken;
     }
 
 .. toctree::
