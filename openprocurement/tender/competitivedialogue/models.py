@@ -342,7 +342,7 @@ class Item(BaseEUItem):
 ItemStage2EU = Item
 
 
-class Item(BaseEUItem):
+class Item(BaseUAItem):
 
     deliveryDate = ModelType(PeriodEndRequired, required=True)
 
