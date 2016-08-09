@@ -10,7 +10,7 @@ from openprocurement.tender.competitivedialogue.models import STAGE_2_EU_TYPE, S
             path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
             procurementMethodType=STAGE_2_EU_TYPE,
             description="Competitive Dialogue Stage 2 EU award complaints")
-class CompetitiveDialogueEUAwardComplaintResource(TenderEUAwardComplaintResource):
+class CompetitiveDialogueStage2EUAwardComplaintResource(TenderEUAwardComplaintResource):
     pass
 
 
@@ -19,5 +19,5 @@ class CompetitiveDialogueEUAwardComplaintResource(TenderEUAwardComplaintResource
             path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
             procurementMethodType=STAGE_2_UA_TYPE,
             description="Competitive Dialogue Stage 2 UA award complaints")
-class CompetitiveDialogueEUAwardComplaintResource(TenderUaAwardComplaintResource):
+class CompetitiveDialogueStage2UAAwardComplaintResource(TenderUaAwardComplaintResource):
     pass

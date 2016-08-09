@@ -19,6 +19,6 @@ class CompetitiveDialogueStage2EUAwardDocumentResource(TenderEUAwardDocumentReso
             path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
             procurementMethodType=STAGE_2_UA_TYPE,
             description="Competitive Dialogue Stage 2 UA award documents")
-class CompetitiveDialogueStage2EUAwardDocumentResource(TenderUaAwardDocumentResource):
+class CompetitiveDialogueStage2UAAwardDocumentResource(TenderUaAwardDocumentResource):
     pass
 
