@@ -31,7 +31,7 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
 
     container = "documents"
     view_forbidden_states = ['active.tendering']
-    view_forbidden_bid_states = []
+    view_forbidden_bid_states = ['invalid', 'deleted']
 
     def _doc_access_restricted(self, doc):
         is_bid_owner = self.request.authenticated_role == 'bid_owner'
@@ -196,7 +196,7 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
     container = "financialDocuments"
     view_forbidden_states = ['active.tendering', 'active.pre-qualification',
                              'active.pre-qualification.stand-still', 'active.auction']
-    view_forbidden_bid_states = ['invalid.pre-qualification']
+    view_forbidden_bid_states = ['invalid', 'deleted', 'invalid.pre-qualification', 'unsuccessful']
 
 @bid_eligibility_documents_resource(name='Tender EU Bid Eligibility Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/eligibility_documents',
@@ -208,7 +208,7 @@ class TenderEUBidEligibilityDocumentResource(TenderEUBidFinancialDocumentResourc
     """ Tender EU Bid Eligibility Documents """
     container = "eligibilityDocuments"
     view_forbidden_states = ['active.tendering']
-    view_forbidden_bid_states = []
+    view_forbidden_bid_states = ['invalid', 'deleted']
 
 
 @bid_qualification_documents_resource(name='Tender EU Bid Qualification Documents',
