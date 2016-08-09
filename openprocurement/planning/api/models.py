@@ -166,7 +166,7 @@ class Plan(SchematicsDocument, Model):
     procurementMethodType = StringType()
     revisions = ListType(ModelType(Revision), default=list())
 
-    create_accreditation = 3
+    create_accreditations = (1, 3,)
 
     __name__ = ''
 

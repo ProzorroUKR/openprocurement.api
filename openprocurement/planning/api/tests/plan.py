@@ -35,7 +35,7 @@ class AccreditationPlanTest(BaseWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 
-        for broker in ['broker1', 'broker2', 'broker4']:
+        for broker in ['broker2', 'broker4']:
             self.app.authorization = ('Basic', (broker, ''))
             response = self.app.post_json('/plans', {"data": test_plan_data}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
