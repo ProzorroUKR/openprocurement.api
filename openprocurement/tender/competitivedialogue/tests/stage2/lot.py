@@ -335,7 +335,9 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         lot.pop('auctionPeriod')
-        self.assertEqual(response.json['data'], lot)
+        res = response.json['data']
+        res.pop('auctionPeriod')
+        self.assertEqual(res, lot)
 
         response = self.app.get('/tenders/{}/lots/some_id'.format(self.tender_id), status=404)
         self.assertEqual(response.status, '404 Not Found')
@@ -371,7 +373,9 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         lot.pop('auctionPeriod')
-        self.assertEqual(response.json['data'][0], lot)
+        res = response.json['data'][0]
+        res.pop('auctionPeriod')
+        self.assertEqual(res, lot,)
 
         response = self.app.get('/tenders/some_id/lots', status=404)
         self.assertEqual(response.status, '404 Not Found')
