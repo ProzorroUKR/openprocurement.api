@@ -32,7 +32,7 @@ from openprocurement.contracting.api.journal_msg_ids import (
     DATABRIDGE_GOT_EXTRA_INFO, DATABRIDGE_CREATE_CONTRACT, DATABRIDGE_EXCEPTION,
     DATABRIDGE_CONTRACT_CREATED, DATABRIDGE_RETRY_CREATE,
     DATABRIDGE_TENDER_PROCESS, DATABRIDGE_SKIP_NOT_MODIFIED,
-    DATABRIDGE_SYNC_SLEEP, DATABRIDGE_SYNC_RESUME)
+    DATABRIDGE_SYNC_SLEEP, DATABRIDGE_SYNC_RESUME, DATABRIDGE_CACHED)
 
 
 logger = logging.getLogger("openprocurement.contracting.api.databridge")
@@ -172,7 +172,7 @@ class ContractingDataBridge(object):
                             if not db.has(contract['id']):
                                 self.contracting_client.get_contract(contract['id'])
                             else:
-                                logger.info('Contract {} exists in local db'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_CACHED, params={"CONTRACT_ID": contract['id']}))
+                                logger.info('Contract {} exists in local db'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_CACHED}, params={"CONTRACT_ID": contract['id']}))
                                 continue
                         except ResourceNotFound:
                             logger.info('Sync contract {} of tender {}'.format(contract['id'], tender['id']), extra=journal_context(
