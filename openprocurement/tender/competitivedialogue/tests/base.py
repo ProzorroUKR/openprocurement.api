@@ -284,6 +284,36 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
                     "startDate": (now).isoformat(),
                 }
             })
+        elif status == 'active.qualification':
+            data.update({
+                "enquiryPeriod": {
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
+                    "endDate": (now - QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat()
+                },
+                "tenderPeriod": {
+                    "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
+                    "endDate": (now - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat()
+                },
+                "auctionPeriod": {
+                    "startDate": (now - timedelta(days=1)).isoformat(),
+                    "endDate": (now).isoformat()
+                },
+                "awardPeriod": {
+                    "startDate": (now).isoformat()
+                }
+            })
+            if self.initial_lots:
+                data.update({
+                    'lots': [
+                        {
+                            "auctionPeriod": {
+                                "startDate": (now - timedelta(days=1)).isoformat(),
+                                "endDate": (now).isoformat()
+                            }
+                        }
+                        for i in self.initial_lots
+                        ]
+                })
         elif status == 'active.pre-qualification.stand-still':
             data.update({
                 "enquiryPeriod": {
@@ -397,7 +427,6 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
                     "startDate": (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=4)).isoformat(),
                     "endDate": (now - COMPLAINT_STAND_STILL - timedelta(days=3)).isoformat()
                 },
-                # TODO: remove auctionPeriod, because we didn't have action in dialog
                 "auctionPeriod": {
                     "startDate": (now - timedelta(days=3)).isoformat(),
                     "endDate": (now - timedelta(days=2)).isoformat()
