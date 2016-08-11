@@ -90,6 +90,10 @@ class TenderUaAwardResource(TenderAwardResource):
             self.request.errors.add('body', 'data', 'Can update award only in active lot status')
             self.request.errors.status = 403
             return
+        if any([any([c.status == 'accepted' for c in i.complaints]) for i in tender.awards if i.lotID == award.lotID]):
+            self.request.errors.add('body', 'data', 'Can\'t update award with accepted complaint')
+            self.request.errors.status = 403
+            return
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
