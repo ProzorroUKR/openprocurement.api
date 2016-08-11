@@ -32,7 +32,7 @@ from openprocurement.api.models import (
 )
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.utils import (
-    calculate_business_date, BLOCK_COMPLAINT_STATUS,
+    calculate_business_date, BLOCK_COMPLAINT_STATUS, PENDING_COMPLAINT_STATUS,
 )
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
@@ -538,34 +538,47 @@ class Tender(BaseTender):
                     checks.append(lot.auctionPeriod.startDate.astimezone(TZ))
                 elif now < calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ):
                     checks.append(calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ))
-        elif not self.lots and self.status == 'active.awarded':
+        elif not self.lots and self.status == 'active.awarded' and not any([
+                i.status in PENDING_COMPLAINT_STATUS
+                for i in self.complaints
+            ]) and not any([
+                i.status in PENDING_COMPLAINT_STATUS
+                for a in self.awards
+                for i in a.complaints
+            ]):
             standStillEnds = [
                 a.complaintPeriod.endDate.astimezone(TZ)
                 for a in self.awards
                 if a.complaintPeriod.endDate
             ]
-            if standStillEnds:
-                standStillEnd = max(standStillEnds)
-                if standStillEnd > now:
-                    checks.append(standStillEnd)
-        elif self.lots and self.status in ['active.qualification', 'active.awarded']:
-            lots_ends = []
+            last_award_status = self.awards[-1].status if self.awards else ''
+            if standStillEnds and last_award_status == 'unsuccessful':
+                checks.append(max(standStillEnds))
+        elif self.lots and self.status in ['active.qualification', 'active.awarded'] and not any([
+                i.status in PENDING_COMPLAINT_STATUS and i.relatedLot is None
+                for i in self.complaints
+            ]):
             for lot in self.lots:
                 if lot['status'] != 'active':
                     continue
                 lot_awards = [i for i in self.awards if i.lotID == lot.id]
+                pending_complaints = any([
+                    i['status'] in PENDING_COMPLAINT_STATUS and i.relatedLot == lot.id
+                    for i in self.complaints
+                ])
+                pending_awards_complaints = any([
+                    i.status in PENDING_COMPLAINT_STATUS
+                    for a in lot_awards
+                    for i in a.complaints
+                ])
                 standStillEnds = [
                     a.complaintPeriod.endDate.astimezone(TZ)
                     for a in lot_awards
                     if a.complaintPeriod.endDate
                 ]
-                if not standStillEnds:
-                    continue
-                standStillEnd = max(standStillEnds)
-                if standStillEnd > now:
-                    lots_ends.append(standStillEnd)
-            if lots_ends:
-                checks.append(min(lots_ends))
+                last_award_status = lot_awards[-1].status if lot_awards else ''
+                if not pending_complaints and not pending_awards_complaints and standStillEnds and lot_awards and last_award_status == 'unsuccessful':
+                    checks.append(max(standStillEnds))
         return min(checks).isoformat() if checks else None
 
     def invalidate_bids_data(self):
