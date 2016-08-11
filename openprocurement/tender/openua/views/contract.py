@@ -33,6 +33,10 @@ class TenderUaAwardContractResource(TenderAwardContractResource):
             self.request.errors.add('body', 'data', 'Can update contract only in active lot status')
             self.request.errors.status = 403
             return
+        if any([any([c.status == 'accepted' for c in i.complaints]) for i in tender.awards if i.lotID in [a.lotID for a in tender.awards if a.id == self.request.context.awardID]]):
+            self.request.errors.add('body', 'data', 'Can\'t update contract with accepted complaint')
+            self.request.errors.status = 403
+            return
         data = self.request.validated['data']
 
         if data['value']:
