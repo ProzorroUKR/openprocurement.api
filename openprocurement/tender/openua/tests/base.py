@@ -79,6 +79,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
+    relative_to = os.path.dirname(__file__)
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
@@ -97,12 +98,9 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
         })
 
     def setUp(self):
-        self.app = webtest.TestApp(
-            "config:tests.ini", relative_to=os.path.dirname(__file__))
-        self.app.RequestClass = PrefixedRequestClass
+        super(BaseTenderWebTest, self).setUp()
         self.app.authorization = ('Basic', ('broker', ''))
-        self.couchdb_server = self.app.app.registry.couchdb_server
-        self.db = self.app.app.registry.db
+
 
     def set_status(self, status, extra=None):
         data = {'status': status}
@@ -248,10 +246,6 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         return response
-
-
-    def tearDown(self):
-        del self.couchdb_server[self.db.name]
 
 
 class BaseTenderUAContentWebTest(BaseTenderUAWebTest):
