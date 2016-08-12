@@ -165,7 +165,7 @@ class ContractingDataBridge(object):
         else:
             if 'contracts' not in tender:
                 logger.warn('!!!No contracts found in tender {}'.format(tender['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"TENDER_ID": tender['id']}))
-                continue
+                return
             for contract in tender['contracts']:
                 if contract["status"] == "active":
 
