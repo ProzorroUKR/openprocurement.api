@@ -12,7 +12,6 @@ from openprocurement.api.validation import (
     validate_patch_contract_data,
 )
 from openprocurement.api.views.contract import TenderAwardContractResource as BaseTenderAwardContractResource
-from openprocurement.tender.openua.utils import PENDING_COMPLAINT_STATUS
 
 
 def check_tender_status(request):
@@ -120,7 +119,7 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
                 self.request.errors.status = 403
                 return
             if any([
-                i.status in PENDING_COMPLAINT_STATUS
+                i.status in tender.block_complaint_status
                 for a in tender.awards
                 for i in a.complaints
             ]):
