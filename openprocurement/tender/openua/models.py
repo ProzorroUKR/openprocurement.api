@@ -579,7 +579,7 @@ class Tender(BaseTender):
                     if a.complaintPeriod.endDate
                 ]
                 last_award_status = lot_awards[-1].status if lot_awards else ''
-                if not pending_complaints and not pending_awards_complaints and standStillEnds and lot_awards and last_award_status == 'unsuccessful':
+                if not pending_complaints and not pending_awards_complaints and standStillEnds and last_award_status == 'unsuccessful':
                     checks.append(max(standStillEnds))
         return min(checks).isoformat() if checks else None
 
