@@ -4,7 +4,7 @@ import webtest
 from datetime import datetime, timedelta
 from uuid import uuid4
 from copy import deepcopy
-from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass
+from openprocurement.api.tests.base import BaseTenderWebTest as BaseBaseTenderWebTest
 from openprocurement.api.utils import apply_data_patch
 from openprocurement.api.models import get_now, SANDBOX_MODE
 from openprocurement.tender.openeu.models import TENDERING_DAYS, TENDERING_DURATION, QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL
@@ -207,12 +207,13 @@ test_lots = [
 ]
 
 
-class BaseTenderWebTest(BaseTenderWebTest):
+class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     initial_lots = None
     initial_auth = None
+    relative_to = os.path.dirname(__file__)
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
@@ -228,18 +229,11 @@ class BaseTenderWebTest(BaseTenderWebTest):
         })
 
     def setUp(self):
-        self.app = webtest.TestApp(
-            "config:tests.ini", relative_to=os.path.dirname(__file__))
-        self.app.RequestClass = PrefixedRequestClass
+        super(BaseBaseTenderWebTest, self).setUp()
         if self.initial_auth:
             self.app.authorization = self.initial_auth
         else:
             self.app.authorization = ('Basic', ('token', ''))
-        self.couchdb_server = self.app.app.registry.couchdb_server
-        self.db = self.app.app.registry.db
-
-    def tearDown(self):
-        del self.couchdb_server[self.db.name]
 
     def check_chronograph(self):
         authorization = self.app.authorization
