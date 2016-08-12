@@ -59,6 +59,7 @@ class ContractingDataBridge(object):
     def __init__(self, config):
         super(ContractingDataBridge, self).__init__()
         self.config = config
+        self.on_error_delay = self.config_get('on_error_sleep_delay') or 5
 
         self.tenders_sync_client = TendersClientSync('',
             host_url=self.config_get('tenders_api_server'),
@@ -160,6 +161,7 @@ class ContractingDataBridge(object):
             logger.exception(e)
             logger.info('Put tender {} back to tenders queue'.format(tender_to_sync['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"TENDER_ID": tender_to_sync['id']}))
             self.tenders_queue.put(tender_to_sync)
+            gevent.sleep(self.on_error_delay)
         else:
             if 'contracts' not in tender:
                 logger.warn('!!!No contracts found in tender {}'.format(tender['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"TENDER_ID": tender['id']}))
@@ -239,6 +241,7 @@ class ContractingDataBridge(object):
             except Exception, e:
                 logger.warn("Fail to handle tender contracts", extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, {}))
                 logger.exception(e)
+                gevent.sleep(self.on_error_delay)
             gevent.sleep(0)
 
     def prepare_contract_data(self):
@@ -255,6 +258,7 @@ class ContractingDataBridge(object):
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, {"TENDER_ID": contract['tender_id'], "CONTRACT_ID": contract['id']}))
                 logger.exception(e)
                 self.handicap_contracts_queue.put(contract)
+                gevent.sleep(self.on_error_delay)
             else:
                 logger.debug("Got extra info for tender {}".format(contract['tender_id']),
                              extra=journal_context({"MESSAGE_ID": DATABRIDGE_GOT_EXTRA_INFO}, {"TENDER_ID": contract['tender_id'], "CONTRACT_ID": contract['id']}))
