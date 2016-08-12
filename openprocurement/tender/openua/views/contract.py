@@ -10,7 +10,6 @@ from openprocurement.api.utils import (
     save_tender,
 )
 from openprocurement.api.validation import validate_patch_contract_data
-from openprocurement.tender.openua.utils import PENDING_COMPLAINT_STATUS
 
 
 @opresource(name='Tender UA Contracts',
@@ -62,13 +61,13 @@ class TenderUaAwardContractResource(TenderAwardContractResource):
             pending_complaints = [
                 i
                 for i in tender.complaints
-                if i.status in PENDING_COMPLAINT_STATUS and i.relatedLot in [None, award.lotID]
+                if i.status in tender.block_complaint_status and i.relatedLot in [None, award.lotID]
             ]
             pending_awards_complaints = [
                 i
                 for a in tender.awards
                 for i in a.complaints
-                if i.status in PENDING_COMPLAINT_STATUS and a.lotID == award.lotID
+                if i.status in tender.block_complaint_status and a.lotID == award.lotID
             ]
             if pending_complaints or pending_awards_complaints:
                 self.request.errors.add('body', 'data', 'Can\'t sign contract before reviewing all complaints')

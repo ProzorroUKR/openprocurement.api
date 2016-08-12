@@ -13,8 +13,6 @@ from openprocurement.api.utils import (
 from barbecue import chef
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
-BLOCK_COMPLAINT_STATUS = ['claim', 'pending', 'accepted', 'satisfied', 'stopping']
-PENDING_COMPLAINT_STATUS = ['claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping']
 
 
 def check_bids(request):
@@ -40,7 +38,7 @@ def check_status(request):
     tender = request.validated['tender']
     now = get_now()
     if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
-        not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]) and \
+        not any([i.status in tender.block_tender_complaint_status for i in tender.complaints]) and \
         not any([i.id for i in tender.questions if not i.answer]):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
@@ -53,7 +51,7 @@ def check_status(request):
             tender.auctionPeriod.startDate = None
         return
     elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
-        not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]) and \
+        not any([i.status in tender.block_tender_complaint_status for i in tender.complaints]) and \
         not any([i.id for i in tender.questions if not i.answer]):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
@@ -74,26 +72,9 @@ def check_status(request):
             return
         standStillEnd = max(standStillEnds)
         if standStillEnd <= now:
-            pending_complaints = any([
-                i['status'] in PENDING_COMPLAINT_STATUS
-                for i in tender.complaints
-            ])
-            pending_awards_complaints = any([
-                i['status'] in PENDING_COMPLAINT_STATUS
-                for a in tender.awards
-                for i in a.complaints
-            ])
-            awarded = any([
-                i['status'] == 'active'
-                for i in tender.awards
-            ])
-            if not pending_complaints and not pending_awards_complaints and not awarded:
-                LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
-                            extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
-                check_tender_status(request)
-                return
+            check_tender_status(request)
     elif tender.lots and tender.status in ['active.qualification', 'active.awarded']:
-        if any([i['status'] in PENDING_COMPLAINT_STATUS and i.relatedLot is None for i in tender.complaints]):
+        if any([i['status'] in tender.block_complaint_status and i.relatedLot is None for i in tender.complaints]):
             return
         for lot in tender.lots:
             if lot['status'] != 'active':
@@ -108,23 +89,8 @@ def check_status(request):
                 continue
             standStillEnd = max(standStillEnds)
             if standStillEnd <= now:
-                pending_complaints = any([
-                    i['status'] in PENDING_COMPLAINT_STATUS and i.relatedLot == lot.id
-                    for i in tender.complaints
-                ])
-                pending_awards_complaints = any([
-                    i['status'] in PENDING_COMPLAINT_STATUS
-                    for a in lot_awards
-                    for i in a.complaints
-                ])
-                awarded = any([
-                    i['status'] == 'active'
-                    for i in lot_awards
-                ])
-                if not pending_complaints and not pending_awards_complaints and not awarded:
-                    LOGGER.info('Switched lot {} of tender {} to {}'.format(lot['id'], tender.id, 'unsuccessful'),
-                                extra=context_unpack(request, {'MESSAGE_ID': 'switched_lot_unsuccessful'}, {'LOT_ID': lot['id']}))
-                    check_tender_status(request)
+                check_tender_status(request)
+                return
 
 
 def add_next_award(request):
