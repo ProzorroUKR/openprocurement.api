@@ -1,0 +1,29 @@
+GET /api/2.3/tenders/cff7af8207e64d729beeb2df846873bf/documents?acc_token=5ebcd4d769164a98ab864600b9eecc96 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "title": "Notice.pdf", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/cff7af8207e64d729beeb2df846873bf/documents/41da14b358ff491692680ce47641c662?download=d6783e678ece4feea1a6913752a01c0c", 
+      "format": "application/pdf", 
+      "documentOf": "tender", 
+      "datePublished": "2016-08-17T11:57:12.879804+03:00", 
+      "id": "41da14b358ff491692680ce47641c662", 
+      "dateModified": "2016-08-17T11:57:12.879821+03:00"
+    }, 
+    {
+      "title": "AwardCriteria.pdf", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/cff7af8207e64d729beeb2df846873bf/documents/5bbdfa3cf3ce4976bd74d43bf3326724?download=8ca230cff1494334a32dd7f66646232a", 
+      "format": "application/pdf", 
+      "documentOf": "tender", 
+      "datePublished": "2016-08-17T11:57:12.921449+03:00", 
+      "id": "5bbdfa3cf3ce4976bd74d43bf3326724", 
+      "dateModified": "2016-08-17T11:57:12.921466+03:00"
+    }
+  ]
+}
+

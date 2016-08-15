@@ -1,0 +1,48 @@
+GET /api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/bids/ac725ca7be874d2a836bc9e4474a0b6e/documents?acc_token=040e082f270b4b82b4f4345d513a53f9 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "confidentiality": "public", 
+      "language": "uk", 
+      "title": "Proposal.pdf", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/bids/ac725ca7be874d2a836bc9e4474a0b6e/documents/a4a2ba69cebf43988c6a87063cf30dc8?download=e50f1345c5fa4f6a8c0fd33a42571fa0", 
+      "format": "application/pdf", 
+      "isDescriptionDecision": false, 
+      "documentOf": "tender", 
+      "datePublished": "2016-08-17T11:56:57.085493+03:00", 
+      "id": "a4a2ba69cebf43988c6a87063cf30dc8", 
+      "dateModified": "2016-08-17T11:56:57.085510+03:00"
+    }, 
+    {
+      "confidentiality": "buyerOnly", 
+      "language": "uk", 
+      "title": "DescriptiveProposal.pdf", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/bids/ac725ca7be874d2a836bc9e4474a0b6e/documents/2960390fccad440193c802ed1d1ef11f?download=158dd555a95d48b5a11f0b6ccf80df0b", 
+      "format": "application/pdf", 
+      "isDescriptionDecision": true, 
+      "documentOf": "tender", 
+      "datePublished": "2016-08-17T11:56:57.141254+03:00", 
+      "id": "2960390fccad440193c802ed1d1ef11f", 
+      "dateModified": "2016-08-17T11:56:57.141270+03:00"
+    }, 
+    {
+      "confidentiality": "buyerOnly", 
+      "language": "uk", 
+      "title": "Proposal_top_secrets.pdf", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/bids/ac725ca7be874d2a836bc9e4474a0b6e/documents/d3cb6720de2a4a76a485723bcb17a8f1?download=2cd66201af194e06a8242203dea1e90f", 
+      "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+      "format": "application/pdf", 
+      "isDescriptionDecision": false, 
+      "documentOf": "tender", 
+      "datePublished": "2016-08-17T11:56:57.255675+03:00", 
+      "id": "d3cb6720de2a4a76a485723bcb17a8f1", 
+      "dateModified": "2016-08-17T11:56:57.255692+03:00"
+    }
+  ]
+}
+

@@ -1,0 +1,68 @@
+PATCH /api/2.3/tenders/0849947f89274771919db9e27c676655/bids/25def5b6d247455da95a97d1505fb9b0?acc_token=558a797fdcc946e5a52ae9fd73e7f3b5 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 214
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "pending", 
+    "lotValues": [
+      {
+        "relatedLot": "01ecf1213b364e0b8265304ba94a401c", 
+        "value": {
+          "amount": 500
+        }, 
+        "subcontractingDetails": "ДКП «Орфей»"
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "selfEligible": true, 
+    "lotValues": [
+      {
+        "relatedLot": "01ecf1213b364e0b8265304ba94a401c", 
+        "date": "2016-08-17T11:56:46.699107+03:00", 
+        "status": "pending", 
+        "value": {
+          "currency": "UAH", 
+          "amount": 500.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "subcontractingDetails": "ДКП «Орфей»"
+      }
+    ], 
+    "selfQualified": true, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "date": "2016-08-17T11:56:46.698766+03:00", 
+    "id": "25def5b6d247455da95a97d1505fb9b0"
+  }
+}
+

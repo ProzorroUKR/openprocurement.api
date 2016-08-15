@@ -1,0 +1,24 @@
+POST /api/2.3/tenders/23a01ece1bc44217b82ef53a03715de7/awards/4c9c840fe5b14fdbbf7b130d3e9528d4/complaints/4784600b03e14d8fbf0e785e89772018/documents HTTP/1.0
+Authorization: Basic cmV2aWV3ZXI6
+Content-Length: 199
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy978478322623$
+Host: api-sandbox.openprocurement.org
+
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/23a01ece1bc44217b82ef53a03715de7/awards/4c9c840fe5b14fdbbf7b130d3e9528d4/complaints/4784600b03e14d8fbf0e785e89772018/documents/855d53d8723e4761afd0d647c1d4ffdc
+{
+  "data": {
+    "author": "aboveThresholdReviewers", 
+    "language": "uk", 
+    "title": "ComplaintResolution.pdf", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/23a01ece1bc44217b82ef53a03715de7/awards/4c9c840fe5b14fdbbf7b130d3e9528d4/complaints/4784600b03e14d8fbf0e785e89772018/documents/855d53d8723e4761afd0d647c1d4ffdc?download=a932a024c6994c54acb875ad311ac0bd", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2016-08-17T11:56:34.425054+03:00", 
+    "id": "855d53d8723e4761afd0d647c1d4ffdc", 
+    "dateModified": "2016-08-17T11:56:34.425072+03:00"
+  }
+}
+

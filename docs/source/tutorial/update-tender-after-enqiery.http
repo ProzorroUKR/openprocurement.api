@@ -1,0 +1,217 @@
+GET /api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687?acc_token=e9863a4dd7774dfa9790e281242f8938 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "open", 
+    "complaintPeriod": {
+      "startDate": "2016-07-20T11:56:56.760338+03:00", 
+      "endDate": "2016-08-15T00:00:00+03:00"
+    }, 
+    "enquiryPeriod": {
+      "startDate": "2016-07-20T11:56:56.760338+03:00", 
+      "clarificationsUntil": "2016-08-12T11:56:56.760338+03:00", 
+      "endDate": "2016-08-09T11:56:56.760338+03:00", 
+      "invalidationDate": "2016-08-17T11:56:56.612997+03:00"
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "next_check": "2016-08-19T11:56:56.760338+03:00", 
+    "awardCriteria": "lowestCost", 
+    "questions": [
+      {
+        "description": "Просимо додати таблицю потрібної калорійності харчування", 
+        "title": "Калорійність", 
+        "date": "2016-08-17T11:56:56.667874+03:00", 
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
+        "id": "dab0fc485af34cf28d524af607920b8e", 
+        "questionOf": "tender"
+      }
+    ], 
+    "owner": "broker", 
+    "title_en": "Services in school canteens", 
+    "id": "157627ed1f20474eaf6b7135e6aff687", 
+    "guarantee": {
+      "currency": "USD", 
+      "amount": 8.0
+    }, 
+    "documents": [
+      {
+        "language": "uk", 
+        "title": "Notice.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/documents/8caca31ceffd44ffabac75a9869125f5?download=2038929d27f847b296b910ecbffc9c4c", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-08-17T11:56:56.508995+03:00", 
+        "id": "8caca31ceffd44ffabac75a9869125f5", 
+        "dateModified": "2016-08-17T11:56:56.509013+03:00"
+      }, 
+      {
+        "language": "uk", 
+        "title": "AwardCriteria.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/documents/bb1000f520f54c25ae00c6c134a29bd4?download=8196e01ba12044629520dc4b81a64d7d", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-08-17T11:56:56.559440+03:00", 
+        "id": "bb1000f520f54c25ae00c6c134a29bd4", 
+        "dateModified": "2016-08-17T11:56:56.559458+03:00"
+      }, 
+      {
+        "language": "uk", 
+        "title": "AwardCriteria-2.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/documents/bb1000f520f54c25ae00c6c134a29bd4?download=f7e18b3b127b40098d5348f783fce7f7", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-08-17T11:56:56.559440+03:00", 
+        "id": "bb1000f520f54c25ae00c6c134a29bd4", 
+        "dateModified": "2016-08-17T11:56:56.612788+03:00"
+      }
+    ], 
+    "title": "Послуги шкільних їдалень", 
+    "tenderID": "UA-2016-08-17-000001", 
+    "dateModified": "2016-08-17T11:56:56.710885+03:00", 
+    "status": "active.tendering", 
+    "tenderPeriod": {
+      "startDate": "2016-07-20T11:56:56.760338+03:00", 
+      "endDate": "2016-08-19T11:56:56.760338+03:00"
+    }, 
+    "auctionPeriod": {
+      "shouldStartAfter": "2016-09-24T00:00:00+03:00"
+    }, 
+    "procurementMethodType": "competitiveDialogueEU", 
+    "date": "2016-08-17T11:56:56.332282+03:00", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-09-06T11:56:24.665995+03:00", 
+          "endDate": "2016-10-06T11:56:24.666034+03:00"
+        }, 
+        "id": "8815214c578b49e5a4a6359fd2c27d83", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }, 
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-09-06T11:56:24.666062+03:00", 
+          "endDate": "2016-10-06T11:56:24.666082+03:00"
+        }, 
+        "id": "5b5490c1f4514267ba7c60c794a59ca0", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "procuringEntity": {
+      "kind": "general", 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }, 
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name_en": "Kutsa Svitlana V.", 
+        "name": "Куца Світлана Валентинівна", 
+        "availableLanguage": "uk", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name_en": "School #10 of Vinnytsia"
+    }
+  }
+}
+
+PATCH /api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687?acc_token=e9863a4dd7774dfa9790e281242f8938 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 38
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "value": {
+      "amount": 501.0
+    }
+  }
+}
+
+Response: 403 Forbidden
+Content-Type: application/json; charset=UTF-8
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": "tenderPeriod should be extended by 7 days", 
+      "location": "body", 
+      "name": "data"
+    }
+  ]
+}
+

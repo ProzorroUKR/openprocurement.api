@@ -1,0 +1,156 @@
+GET /api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/bids?acc_token=e9863a4dd7774dfa9790e281242f8938 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "status": "active", 
+      "documents": [
+        {
+          "confidentiality": "public", 
+          "language": "uk", 
+          "title": "Proposal.pdf", 
+          "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/bids/ac725ca7be874d2a836bc9e4474a0b6e/documents/a4a2ba69cebf43988c6a87063cf30dc8?download=e50f1345c5fa4f6a8c0fd33a42571fa0", 
+          "format": "application/pdf", 
+          "isDescriptionDecision": false, 
+          "documentOf": "tender", 
+          "datePublished": "2016-08-17T11:56:57.085493+03:00", 
+          "id": "a4a2ba69cebf43988c6a87063cf30dc8", 
+          "dateModified": "2016-08-17T11:56:57.085510+03:00"
+        }, 
+        {
+          "confidentiality": "buyerOnly", 
+          "language": "uk", 
+          "title": "DescriptiveProposal.pdf", 
+          "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/bids/ac725ca7be874d2a836bc9e4474a0b6e/documents/2960390fccad440193c802ed1d1ef11f?download=158dd555a95d48b5a11f0b6ccf80df0b", 
+          "format": "application/pdf", 
+          "isDescriptionDecision": true, 
+          "documentOf": "tender", 
+          "datePublished": "2016-08-17T11:56:57.141254+03:00", 
+          "id": "2960390fccad440193c802ed1d1ef11f", 
+          "dateModified": "2016-08-17T11:56:57.141270+03:00"
+        }, 
+        {
+          "confidentiality": "buyerOnly", 
+          "language": "uk", 
+          "title": "Proposal_top_secrets.pdf", 
+          "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/bids/ac725ca7be874d2a836bc9e4474a0b6e/documents/d3cb6720de2a4a76a485723bcb17a8f1?download=2cd66201af194e06a8242203dea1e90f", 
+          "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+          "format": "application/pdf", 
+          "isDescriptionDecision": false, 
+          "documentOf": "tender", 
+          "datePublished": "2016-08-17T11:56:57.255675+03:00", 
+          "id": "d3cb6720de2a4a76a485723bcb17a8f1", 
+          "dateModified": "2016-08-17T11:56:57.255692+03:00"
+        }
+      ], 
+      "id": "ac725ca7be874d2a836bc9e4474a0b6e", 
+      "tenderers": [
+        {
+          "contactPoint": {
+            "email": "soleksuk@gmail.com", 
+            "telephone": "+380 (432) 21-69-30", 
+            "name": "Сергій Олексюк"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "id": "00137256", 
+            "uri": "http://www.sc.gov.ua/"
+          }, 
+          "name": "ДКП «Школяр»", 
+          "address": {
+            "postalCode": "21100", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 33", 
+            "region": "м. Вінниця", 
+            "locality": "м. Вінниця"
+          }
+        }
+      ]
+    }, 
+    {
+      "status": "active", 
+      "id": "9e7717decfe94a55812fbfefa3869fd2", 
+      "tenderers": [
+        {
+          "contactPoint": {
+            "email": "aagt@gmail.com", 
+            "telephone": "+380 (322) 91-69-30", 
+            "name": "Андрій Олексюк"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "id": "00137226", 
+            "uri": "http://www.sc.gov.ua/"
+          }, 
+          "name": "ДКП «Книга»", 
+          "address": {
+            "postalCode": "79013", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 34", 
+            "region": "м. Львів", 
+            "locality": "м. Львів"
+          }
+        }
+      ]
+    }, 
+    {
+      "status": "unsuccessful", 
+      "selfEligible": true, 
+      "tenderers": [
+        {
+          "contactPoint": {
+            "email": "fake@mail.com", 
+            "telephone": "+380 (322) 12-34-56", 
+            "name": "Іван Іваненко"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "id": "00137227", 
+            "uri": "http://www.sc.gov.ua/"
+          }, 
+          "name": "«Снігур»", 
+          "address": {
+            "postalCode": "79013", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 35", 
+            "region": "м. Львів", 
+            "locality": "м. Львів"
+          }
+        }
+      ], 
+      "selfQualified": true, 
+      "id": "261d2ff86237402386349c49f25f5708"
+    }, 
+    {
+      "status": "active", 
+      "id": "0e5be594ed4b4e31a5b256d600fbfe1d", 
+      "tenderers": [
+        {
+          "contactPoint": {
+            "email": "fake@mail.com", 
+            "telephone": "+380 (322) 12-34-56", 
+            "name": "Іван Карпенко"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "id": "00137228", 
+            "uri": "http://www.sc.gov.ua/"
+          }, 
+          "name": "«Кенгуру»", 
+          "address": {
+            "postalCode": "79013", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Коцюбинського, 15", 
+            "region": "м. Запоріжжя", 
+            "locality": "м. Запоріжя"
+          }
+        }
+      ]
+    }
+  ]
+}
+

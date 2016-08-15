@@ -1,0 +1,25 @@
+POST /api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/bids/ac725ca7be874d2a836bc9e4474a0b6e/documents?acc_token=040e082f270b4b82b4f4345d513a53f9 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 199
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy291316684946$
+Host: api-sandbox.openprocurement.org
+
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/bids/ac725ca7be874d2a836bc9e4474a0b6e/documents/2960390fccad440193c802ed1d1ef11f
+{
+  "data": {
+    "confidentiality": "public", 
+    "language": "uk", 
+    "title": "DescriptiveProposal.pdf", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/157627ed1f20474eaf6b7135e6aff687/bids/ac725ca7be874d2a836bc9e4474a0b6e/documents/2960390fccad440193c802ed1d1ef11f?download=158dd555a95d48b5a11f0b6ccf80df0b", 
+    "format": "application/pdf", 
+    "isDescriptionDecision": false, 
+    "documentOf": "tender", 
+    "datePublished": "2016-08-17T11:56:57.141254+03:00", 
+    "id": "2960390fccad440193c802ed1d1ef11f", 
+    "dateModified": "2016-08-17T11:56:57.141270+03:00"
+  }
+}
+

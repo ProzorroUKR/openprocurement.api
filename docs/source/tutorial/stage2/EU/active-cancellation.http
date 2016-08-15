@@ -1,0 +1,49 @@
+PATCH /api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/cancellations/20d21921a1fa4da3861484641e46161b?acc_token=3f9b85d344ce47f19d19885bae6c8169 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 30
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "documents": [
+      {
+        "description": "Changed description", 
+        "language": "uk", 
+        "title": "Notice.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/cancellations/20d21921a1fa4da3861484641e46161b/documents/f39fdaa961c14409a12c62ebd10c1453?download=507ff389449642b8b5fd24380539c0bd", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-08-17T11:57:06.809956+03:00", 
+        "id": "f39fdaa961c14409a12c62ebd10c1453", 
+        "dateModified": "2016-08-17T11:57:06.809974+03:00"
+      }, 
+      {
+        "description": "Changed description", 
+        "language": "uk", 
+        "title": "Notice-2.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/cancellations/20d21921a1fa4da3861484641e46161b/documents/f39fdaa961c14409a12c62ebd10c1453?download=3c01ccadab084f88be95d8f9cb829769", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-08-17T11:57:06.809956+03:00", 
+        "id": "f39fdaa961c14409a12c62ebd10c1453", 
+        "dateModified": "2016-08-17T11:57:07.036441+03:00"
+      }
+    ], 
+    "reason": "cancellation reason", 
+    "reasonType": "unsuccessful", 
+    "date": "2016-08-17T11:57:07.155896+03:00", 
+    "cancellationOf": "tender", 
+    "id": "20d21921a1fa4da3861484641e46161b"
+  }
+}
+
