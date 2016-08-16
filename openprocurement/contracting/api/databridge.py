@@ -12,7 +12,6 @@ import logging.config
 import os
 import argparse
 
-from copy import deepcopy
 from retrying import retry
 from uuid import uuid4
 
