@@ -61,22 +61,30 @@ class ContractingDataBridge(object):
         self.on_error_delay = self.config_get('on_error_sleep_delay') or 5
         queue_size = self.config_get('buffers_size') or 500
 
+        api_server = self.config_get('tenders_api_server')
+        api_version = self.config_get('tenders_api_version')
+        ro_api_server = self.config_get('public_tenders_api_server') or api_server
+
         self.tenders_sync_client = TendersClientSync('',
-            host_url=self.config_get('tenders_api_server'),
-            api_version=self.config_get('tenders_api_version'),
+            host_url=ro_api_server, api_version=api_version,
         )
 
         self.client = TendersClient(
             self.config_get('api_token'),
-            host_url=self.config_get('tenders_api_server'),
-            api_version=self.config_get('tenders_api_version'),
+            host_url=api_server, api_version=api_version,
         )
 
         self.contracting_client = ContractingClient(
             self.config_get('api_token'),
-            host_url=self.config_get('tenders_api_server'),
-            api_version=self.config_get('tenders_api_version')
+            host_url=api_server, api_version=api_version
         )
+
+        self.contracting_client_ro = self.contracting_client
+        if self.config_get('public_tenders_api_server'):
+            self.contracting_client_ro = ContractingClient(
+                self.config_get('api_token'),
+                host_url=ro_api_server, api_version=api_version
+            )
 
         self.initial_sync_point = {}
         self.tenders_queue = Queue(maxsize=queue_size)
@@ -171,7 +179,7 @@ class ContractingDataBridge(object):
 
                     try:
                         if not db.has(contract['id']):
-                            self.contracting_client.get_contract(contract['id'])
+                            self.contracting_client_ro.get_contract(contract['id'])
                         else:
                             logger.info('Contract {} exists in local db'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_CACHED}, params={"CONTRACT_ID": contract['id']}))
                             continue
