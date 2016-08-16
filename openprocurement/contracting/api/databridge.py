@@ -60,6 +60,7 @@ class ContractingDataBridge(object):
         super(ContractingDataBridge, self).__init__()
         self.config = config
         self.on_error_delay = self.config_get('on_error_sleep_delay') or 5
+        queue_size = self.config_get('buffers_size') or 500
 
         self.tenders_sync_client = TendersClientSync('',
             host_url=self.config_get('tenders_api_server'),
@@ -79,10 +80,10 @@ class ContractingDataBridge(object):
         )
 
         self.initial_sync_point = {}
-        self.tenders_queue = Queue(maxsize=500)
-        self.handicap_contracts_queue = Queue(maxsize=500)
-        self.contracts_put_queue = Queue(maxsize=500)
-        self.contracts_retry_put_queue = Queue(maxsize=500)
+        self.tenders_queue = Queue(maxsize=queue_size)
+        self.handicap_contracts_queue = Queue(maxsize=queue_size)
+        self.contracts_put_queue = Queue(maxsize=queue_size)
+        self.contracts_retry_put_queue = Queue(maxsize=queue_size)
 
     def config_get(self, name):
         return self.config.get('main').get(name)
