@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from openprocurement.api.models import SANDBOX_MODE
 from openprocurement.api.utils import apply_data_patch
 from openprocurement.api.tests.base import test_tender_data as base_data
-from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass
+from openprocurement.api.tests.base import BaseTenderWebTest as BaseBaseTenderWebTest
 from openprocurement.api.tests.base import test_organization
 
 now = datetime.now()
@@ -34,22 +34,16 @@ if SANDBOX_MODE:
     test_tender_negotiation_quick_data['procurementMethodDetails'] = 'quick, accelerator=1440'
 
 
-class BaseTenderWebTest(BaseTenderWebTest):
+class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     initial_lots = None
+    relative_to = os.path.dirname(__file__)
 
     def setUp(self):
-        self.app = webtest.TestApp(
-            "config:tests.ini", relative_to=os.path.dirname(__file__))
-        self.app.RequestClass = PrefixedRequestClass
+        super(BaseBaseTenderWebTest, self).setUp()
         self.app.authorization = ('Basic', ('broker', ''))
-        self.couchdb_server = self.app.app.registry.couchdb_server
-        self.db = self.app.app.registry.db
-
-    def tearDown(self):
-        del self.couchdb_server[self.db.name]
 
     def set_status(self, status, extra=None):
         data = {'status': status}
