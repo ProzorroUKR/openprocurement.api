@@ -60,6 +60,8 @@ class ContractingDataBridge(object):
         self.config = config
         self.on_error_delay = self.config_get('on_error_sleep_delay') or 5
         queue_size = self.config_get('buffers_size') or 500
+        self.full_stack_sync_delay = self.config_get('full_stack_sync_delay') or 15
+        self.empty_stack_sync_delay = self.config_get('empty_stack_sync_delay') or 101
 
         api_server = self.config_get('tenders_api_server')
         api_version = self.config_get('tenders_api_version')
@@ -132,9 +134,9 @@ class ContractingDataBridge(object):
             tenders_list = response.data
             params['offset'] = response.next_page.offset
 
-            delay = 101
+            delay = self.empty_stack_sync_delay
             if tenders_list:
-                delay = 15
+                delay = self.full_stack_sync_delay
                 logger.info("Client {} params: {}".format(direction, params))
             for tender in tenders_list:
                 if tender['status'] in ("active.qualification",
