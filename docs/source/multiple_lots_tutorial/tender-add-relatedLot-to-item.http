@@ -1,0 +1,200 @@
+PATCH /api/2.3/tenders/0849947f89274771919db9e27c676655?acc_token=cccd5682b235494ebfec10d65f1ffd75 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 125
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "items": [
+      {
+        "relatedLot": "01ecf1213b364e0b8265304ba94a401c"
+      }, 
+      {
+        "relatedLot": "8d3c1898e9594aa5b5a5130e979d2e98"
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "open", 
+    "status": "active.tendering", 
+    "tenderID": "UA-2016-08-17-000001", 
+    "tenderPeriod": {
+      "startDate": "2016-08-17T11:56:46.471406+03:00", 
+      "endDate": "2016-09-17T11:56:24.666468+03:00"
+    }, 
+    "title": "Послуги шкільних їдалень", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "enquiryPeriod": {
+      "startDate": "2016-08-17T11:56:46.471406+03:00", 
+      "clarificationsUntil": "2016-09-12T11:56:24.666468+03:00", 
+      "endDate": "2016-09-07T11:56:24.666468+03:00", 
+      "invalidationDate": "2016-08-17T11:56:46.636923+03:00"
+    }, 
+    "complaintPeriod": {
+      "startDate": "2016-08-17T11:56:46.471406+03:00", 
+      "endDate": "2016-09-13T00:00:00+03:00"
+    }, 
+    "title_en": "Services in school canteens", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 1000.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "date": "2016-08-17T11:56:46.494736+03:00", 
+    "dateModified": "2016-08-17T11:56:46.639459+03:00", 
+    "procurementMethodType": "competitiveDialogueEU", 
+    "procuringEntity": {
+      "kind": "general", 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }, 
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name_en": "Kutsa Svitlana V.", 
+        "name": "Куца Світлана Валентинівна", 
+        "availableLanguage": "uk", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name_en": "School #10 of Vinnytsia"
+    }, 
+    "items": [
+      {
+        "relatedLot": "01ecf1213b364e0b8265304ba94a401c", 
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-09-06T11:56:24.665995+03:00", 
+          "endDate": "2016-10-06T11:56:24.666034+03:00"
+        }, 
+        "id": "60b67b2deb144ecd9234ef5fb854fb98", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }, 
+      {
+        "relatedLot": "8d3c1898e9594aa5b5a5130e979d2e98", 
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-09-06T11:56:24.666062+03:00", 
+          "endDate": "2016-10-06T11:56:24.666082+03:00"
+        }, 
+        "id": "5942ea3b7632410596fbe2b2491f1556", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
+    "owner": "broker", 
+    "next_check": "2016-09-17T11:56:24.666468+03:00", 
+    "lots": [
+      {
+        "status": "active", 
+        "description": "Опис Лот №1", 
+        "title": "Лот №1", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "auctionPeriod": {
+          "shouldStartAfter": "2016-10-23T00:00:00+03:00"
+        }, 
+        "value": {
+          "currency": "UAH", 
+          "amount": 500.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "date": "2016-08-17T11:56:46.528360+03:00", 
+        "id": "01ecf1213b364e0b8265304ba94a401c"
+      }, 
+      {
+        "status": "active", 
+        "description": "Опис Лот №2", 
+        "title": "Лот №2", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "auctionPeriod": {
+          "shouldStartAfter": "2016-10-23T00:00:00+03:00"
+        }, 
+        "value": {
+          "currency": "UAH", 
+          "amount": 500.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "date": "2016-08-17T11:56:46.561816+03:00", 
+        "id": "8d3c1898e9594aa5b5a5130e979d2e98"
+      }
+    ], 
+    "id": "0849947f89274771919db9e27c676655", 
+    "awardCriteria": "lowestCost"
+  }
+}
+

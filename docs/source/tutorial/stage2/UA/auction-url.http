@@ -1,0 +1,173 @@
+GET /api/2.3/tenders/cff7af8207e64d729beeb2df846873bf HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "selective", 
+    "status": "active.auction", 
+    "complaintPeriod": {
+      "startDate": "2016-08-01T11:56:24.663648+03:00", 
+      "endDate": "2016-08-13T00:00:00+03:00"
+    }, 
+    "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/cff7af8207e64d729beeb2df846873bf", 
+    "enquiryPeriod": {
+      "startDate": "2016-08-01T11:56:24.663648+03:00", 
+      "clarificationsUntil": "2016-08-11T00:00:00+03:00", 
+      "endDate": "2016-08-07T11:56:24.663648+03:00", 
+      "invalidationDate": "2016-08-17T11:57:13.578465+03:00"
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "next_check": "2016-08-17T12:32:24.663648+03:00", 
+    "procuringEntity": {
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name": "Куца Світлана Валентинівна", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "kind": "special", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "questions": [
+      {
+        "description": "Просимо додати таблицю потрібної калорійності харчування", 
+        "title": "Калорійність", 
+        "date": "2016-08-17T11:57:13.035283+03:00", 
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
+        "id": "fd94f4dd2aa14afba7b004fb2cfd7e76", 
+        "questionOf": "tender"
+      }
+    ], 
+    "owner": "broker", 
+    "id": "cff7af8207e64d729beeb2df846873bf", 
+    "documents": [
+      {
+        "title": "Notice.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/cff7af8207e64d729beeb2df846873bf/documents/41da14b358ff491692680ce47641c662?download=d6783e678ece4feea1a6913752a01c0c", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-08-17T11:57:12.879804+03:00", 
+        "id": "41da14b358ff491692680ce47641c662", 
+        "dateModified": "2016-08-17T11:57:12.879821+03:00"
+      }, 
+      {
+        "title": "AwardCriteria.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/cff7af8207e64d729beeb2df846873bf/documents/5bbdfa3cf3ce4976bd74d43bf3326724?download=8ca230cff1494334a32dd7f66646232a", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-08-17T11:57:12.921449+03:00", 
+        "id": "5bbdfa3cf3ce4976bd74d43bf3326724", 
+        "dateModified": "2016-08-17T11:57:12.921466+03:00"
+      }, 
+      {
+        "title": "AwardCriteria-2.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/cff7af8207e64d729beeb2df846873bf/documents/5bbdfa3cf3ce4976bd74d43bf3326724?download=200ad3fb91cc46d780e8ed2839be6f5c", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-08-17T11:57:12.921449+03:00", 
+        "id": "5bbdfa3cf3ce4976bd74d43bf3326724", 
+        "dateModified": "2016-08-17T11:57:12.965462+03:00"
+      }
+    ], 
+    "title": "футляри до державних нагород", 
+    "shortlistedFirms": [
+      {
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Школяр»"
+      }, 
+      {
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Книга»"
+      }, 
+      {
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137228", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "«Кенгуру»"
+      }
+    ], 
+    "tenderID": "UA-2016-08-17-000001", 
+    "dateModified": "2016-08-17T11:57:13.886344+03:00", 
+    "numberOfBids": 2, 
+    "tenderPeriod": {
+      "startDate": "2016-08-01T11:56:24.663648+03:00", 
+      "endDate": "2016-08-17T11:56:24.663648+03:00"
+    }, 
+    "auctionPeriod": {
+      "startDate": "2016-08-17T11:56:24.663648+03:00", 
+      "shouldStartAfter": "2016-08-18T00:00:00+03:00"
+    }, 
+    "procurementMethodType": "competitiveDialogueUA.stage2", 
+    "date": "2016-08-17T11:57:13.578327+03:00", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-09-06T11:56:24.666422+03:00", 
+          "endDate": "2016-09-16T11:57:23.150411+03:00"
+        }, 
+        "id": "033e561e8a534798bdcb519c8e084060", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "awardCriteria": "lowestCost"
+  }
+}
+

@@ -1,0 +1,31 @@
+PATCH /api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/contracts/17ef32037e67480cad803170b64ba4e3/documents/2e8cfbf96d754f72babd5c3ac3ec7ae7?acc_token=3f9b85d344ce47f19d19885bae6c8169 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 106
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "title_en": "Title of Document", 
+    "language": "en", 
+    "description_en": "Description of Document"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "language": "en", 
+    "title": "contract_second_document.doc", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/contracts/17ef32037e67480cad803170b64ba4e3/documents/2e8cfbf96d754f72babd5c3ac3ec7ae7?download=aca2bc6670ac48f298d9f422513ff256", 
+    "format": "application/msword", 
+    "title_en": "Title of Document", 
+    "description_en": "Description of Document", 
+    "datePublished": "2016-08-17T11:57:06.276118+03:00", 
+    "documentOf": "tender", 
+    "id": "2e8cfbf96d754f72babd5c3ac3ec7ae7", 
+    "dateModified": "2016-08-17T11:57:06.276137+03:00"
+  }
+}
+
