@@ -29,3 +29,15 @@ class TenderUaCancellationResource(TenderCancellationResource):
             if i.status == 'active'
         ]):
             add_next_award(self.request)
+
+    def validate_cancellation(self, operation):
+        if not super(TenderUaCancellationResource, self).validate_cancellation(operation):
+            return
+        tender = self.request.validated['tender']
+        cancellation = self.request.validated['cancellation']
+        statuses = set([i.status for i in tender.awards if i.lotID == cancellation.relatedLot])
+        if statuses and not statuses.difference(set(['unsuccessful', 'cancelled'])):
+            self.request.errors.add('body', 'data', 'Can\'t {} cancellation if all awards is unsuccessful'.format(operation))
+            self.request.errors.status = 403
+            return
+        return True
