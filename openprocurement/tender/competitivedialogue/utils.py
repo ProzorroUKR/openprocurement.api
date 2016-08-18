@@ -114,6 +114,12 @@ def patch_eu(self):
             self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
             self.request.errors.status = 403
             return
+    elif self.request.authenticated_role == 'tender_owner' and \
+            self.request.validated['tender_status'] == 'active.pre-qualification' and \
+            tender.status != "active.pre-qualification.stand-still":
+        self.request.errors.add('body', 'data', 'Can\'t update tender status')
+        self.request.errors.status = 403
+        return
 
     save_tender(self.request)
     self.LOGGER.info('Updated tender {}'.format(tender.id),
