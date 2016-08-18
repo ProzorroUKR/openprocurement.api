@@ -31,6 +31,7 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
 
     container = "documents"
     view_forbidden_states = ['active.tendering']
+    view_forbidden_bid_states = ['invalid', 'deleted']
 
     def _doc_access_restricted(self, doc):
         is_bid_owner = self.request.authenticated_role == 'bid_owner'
@@ -42,6 +43,10 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
         """Tender Bid Documents List"""
         if self.request.validated['tender_status'] in self.view_forbidden_states and self.request.authenticated_role != 'bid_owner':
             self.request.errors.add('body', 'data', 'Can\'t view bid documents in current ({}) tender status'.format(self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        if self.context.status in self.view_forbidden_bid_states and self.request.authenticated_role != 'bid_owner':
+            self.request.errors.add('body', 'data', 'Can\'t view bid documents in current ({}) bid status'.format(self.context.status))
             self.request.errors.status = 403
             return
         if self.request.params.get('all', ''):
@@ -92,6 +97,10 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
         is_bid_owner = self.request.authenticated_role == 'bid_owner'
         if self.request.validated['tender_status'] in self.view_forbidden_states and not is_bid_owner:
             self.request.errors.add('body', 'data', 'Can\'t view bid document in current ({}) tender status'.format(self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        if self.request.validated['bid'].status in self.view_forbidden_bid_states and self.request.authenticated_role != 'bid_owner':
+            self.request.errors.add('body', 'data', 'Can\'t view bid documents in current ({}) bid status'.format(self.request.validated['bid'].status))
             self.request.errors.status = 403
             return
 
@@ -187,7 +196,7 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
     container = "financialDocuments"
     view_forbidden_states = ['active.tendering', 'active.pre-qualification',
                              'active.pre-qualification.stand-still', 'active.auction']
-
+    view_forbidden_bid_states = ['invalid', 'deleted', 'invalid.pre-qualification', 'unsuccessful']
 
 @bid_eligibility_documents_resource(name='Tender EU Bid Eligibility Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/eligibility_documents',
@@ -199,6 +208,7 @@ class TenderEUBidEligibilityDocumentResource(TenderEUBidFinancialDocumentResourc
     """ Tender EU Bid Eligibility Documents """
     container = "eligibilityDocuments"
     view_forbidden_states = ['active.tendering']
+    view_forbidden_bid_states = ['invalid', 'deleted']
 
 
 @bid_qualification_documents_resource(name='Tender EU Bid Qualification Documents',

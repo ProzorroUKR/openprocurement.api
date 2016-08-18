@@ -28,6 +28,7 @@ Schema
     * `pending`
     * `active`
     * `invalid`
+    * `invalid.pre-qualification`
     * `deleted`
 
 :value:

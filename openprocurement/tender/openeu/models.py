@@ -295,6 +295,7 @@ class Bid(BaseBid):
             'bid.unsuccessful':  whitelist('id', 'status', 'tenderers', 'eligibilityDocuments', 'parameters', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
             'cancelled': view_bid_role,
             'invalid': whitelist('id', 'status'),
+            'invalid.pre-qualification': whitelist('id', 'status', 'documents', 'eligibilityDocuments', 'tenderers'),
             'deleted': whitelist('id', 'status'),
         }
     documents = ListType(ModelType(ConfidentialDocument), default=list())
@@ -305,11 +306,11 @@ class Bid(BaseBid):
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
     subcontractingDetails = StringType()
-    status = StringType(choices=['draft','pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
+    status = StringType(choices=['draft','pending', 'active', 'invalid', 'invalid.pre-qualification', 'unsuccessful', 'deleted'],
                         default='pending')
 
     def serialize(self, role=None):
-        if role and role != 'create' and self.status in ['invalid', 'deleted']:
+        if role and role != 'create' and self.status in ['invalid', 'invalid.pre-qualification', 'deleted']:
             role = self.status
         elif role and role != 'create' and self.status == 'unsuccessful':
             role = 'bid.unsuccessful'
@@ -463,7 +464,7 @@ class Tender(BaseTender):
     cancellations = ListType(ModelType(Cancellation), default=list())
     awards = ListType(ModelType(Award), default=list())
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
+    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'invalid.pre-qualification', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     qualifications = ListType(ModelType(Qualification), default=list())
     qualificationPeriod = ModelType(Period)
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
