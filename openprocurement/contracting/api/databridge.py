@@ -67,6 +67,9 @@ class ContractingDataBridge(object):
         api_version = self.config_get('tenders_api_version')
         ro_api_server = self.config_get('public_tenders_api_server') or api_server
 
+        contracting_api_server = self.config_get('contracting_api_server')
+        contracting_api_version = self.config_get('contracting_api_version')
+
         self.tenders_sync_client = TendersClientSync('',
             host_url=ro_api_server, api_version=api_version,
         )
@@ -78,15 +81,16 @@ class ContractingDataBridge(object):
 
         self.contracting_client = ContractingClient(
             self.config_get('api_token'),
-            host_url=api_server, api_version=api_version
+            host_url=contracting_api_server, api_version=contracting_api_version
         )
 
         self.contracting_client_ro = self.contracting_client
         if self.config_get('public_tenders_api_server'):
-            self.contracting_client_ro = ContractingClient(
-                self.config_get('api_token'),
-                host_url=ro_api_server, api_version=api_version
-            )
+            if api_server == contracting_api_server and api_version == contracting_api_version:
+                self.contracting_client_ro = ContractingClient(
+                    self.config_get('api_token'),
+                    host_url=ro_api_server, api_version=api_version
+                )
 
         self.initial_sync_point = {}
         self.tenders_queue = Queue(maxsize=queue_size)
