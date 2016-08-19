@@ -5,7 +5,7 @@ from openprocurement.tender.openua.utils import calculate_business_date
 from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
 from openprocurement.api.models import get_now
 from openprocurement.api.utils import save_tender, apply_patch, context_unpack, generate_id
-from openprocurement.tender.openeu.utils import check_status, all_bids_are_reviewed
+from openprocurement.tender.openeu.utils import all_bids_are_reviewed
 from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
 from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status
 from openprocurement.tender.openeu.utils import prepare_qualifications
@@ -127,13 +127,26 @@ def patch_eu(self):
     return {'data': tender.serialize(tender.status)}
 
 
+def validate_unique_bids(bids):
+    """ Return Bool
+        True if number of unique identifier id biggest then MINIMAL_NUMBER_OF_BITS
+        else False
+    """
+    return len(set(bid['tenderers'][0]['identifier']['id'] for bid in bids)) >= MINIMAL_NUMBER_OF_BITS
+
+
 def check_initial_bids_count(request):
     tender = request.validated['tender']
     if tender.lots:
         [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < MINIMAL_NUMBER_OF_BITS and i.auctionPeriod and i.auctionPeriod.startDate]
-
         for i in tender.lots:
-            if i.numberOfBids < MINIMAL_NUMBER_OF_BITS and i.status == 'active':
+            # gather all bids by lot id
+            bids = [bid
+                    for bid in tender.bids
+                    if i.id in [i_lot.relatedLot for i_lot in bid.lotValues
+                                if i_lot.status in ["active", "pending"]] and bid.status in ["active", "pending"]]
+
+            if i.numberOfBids < MINIMAL_NUMBER_OF_BITS or not validate_unique_bids(bids) and i.status == 'active':
                 setattr(i, 'status', 'unsuccessful')
                 for bid_index, bid in enumerate(tender.bids):
                     for lot_index, lot_value in enumerate(bid.lotValues):
@@ -144,10 +157,11 @@ def check_initial_bids_count(request):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
-    elif tender.numberOfBids < MINIMAL_NUMBER_OF_BITS:
+    elif tender.numberOfBids < MINIMAL_NUMBER_OF_BITS or not validate_unique_bids(tender.bids):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
         tender.status = 'unsuccessful'
+
 
 def validate_features_custom_weight(self, data, features, max_sum):
     if features and data['lots'] and any([
@@ -189,6 +203,7 @@ def check_status(request):
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active_stage2_pending'}))
         tender.status = 'active.stage2.pending'
         return
+
 
 def set_ownership(item):
     item.owner_token = generate_id()
