@@ -1172,23 +1172,27 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         self.assertEqual(response.status, '200 OK')
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        bidder_data['identifier']['id'] = u"00037256"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[0]["tenderers"],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 500},
                                                                'relatedLot': lot_id}]}})
 
+        bidder_data['identifier']['id'] = u"00037257"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[1]["tenderers"],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 500},
                                                                'relatedLot': lot_id}]}})
+        bidder_data['identifier']['id'] = u"00037258"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[2]["tenderers"],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 500},
                                                                'relatedLot': lot_id}]}})
         # switch to active.pre-qualification
@@ -1242,27 +1246,31 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         self.assertEqual(response.status, '200 OK')
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        bidder_data['identifier']['id'] = u"00037256"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[0]["tenderers"],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 450},
                                                                'relatedLot': lot_id}]}})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
+        bidder_data['identifier']['id'] = u"00037257"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[1]["tenderers"],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 475},
                                                                'relatedLot': lot_id}]}})
         # create third
+        bidder_data['identifier']['id'] = u"00037258"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[2]["tenderers"],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 470},
                                                                'relatedLot': lot_id}]}})
         # switch to active.pre-qualification
@@ -1359,11 +1367,13 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         bids = []
-        for test_bid in test_bids:
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        for index, test_bid in enumerate(test_bids):
+            bidder_data['identifier']['id'] = str(00037256+index)
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                           {'data': {'selfEligible': True,
                                                     'selfQualified': True,
-                                                    'tenderers': test_bid["tenderers"],
+                                                    'tenderers': [bidder_data],
                                                     'lotValues': [{"value": {"amount": 450},
                                                                    'relatedLot': lot_id}]}})
             bids.append({response.json['data']['id']: response.json['access']['token']})
@@ -1417,10 +1427,12 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         bids = []
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
         for i in range(3):
+            bidder_data['identifier']['id'] = str(00037256 + i)
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                           {'data': {'selfEligible': True, 'selfQualified': True,
-                                                    'tenderers': test_bids[0]["tenderers"],
+                                                    'tenderers': [bidder_data],
                                                     'lotValues': [{"value": {"amount": 450},
                                                                    'relatedLot': lot_id}]}})
             bids.append({response.json['data']['id']: response.json['access']['token']})
@@ -1600,24 +1612,28 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         self.assertEqual(response.status, '200 OK')
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        bidder_data['identifier']['id'] = u"00037256"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[0]['tenderers'],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}
                                                               for lot_id in lots]}})
 
+        bidder_data['identifier']['id'] = u"00037257"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[1]['tenderers'],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 499}, 'relatedLot': lot_id}
                                                               for lot_id in lots]}})
 
+        bidder_data['identifier']['id'] = u"00037258"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[2]['tenderers'],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 499}, 'relatedLot': lot_id}
                                                               for lot_id in lots]}})
 
@@ -1672,22 +1688,26 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
                                        {"data": {"items": [{'relatedLot': i} for i in lots]}})
         self.assertEqual(response.status, '200 OK')
         # create bid
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        bidder_data['identifier']['id'] = u"00037256"
         self.app.authorization = ('Basic', ('broker', ''))
         self.app.post_json('/tenders/{}/bids'.format(tender_id),
                            {'data': {'selfEligible': True,
                                      'selfQualified': True,
-                                     'tenderers': test_bids[0]['tenderers'],
+                                     'tenderers': [bidder_data],
                                      'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}
                                                    for lot_id in lots]}})
         # create second bid
+        bidder_data['identifier']['id'] = u"00037257"
         self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                                                           'tenderers': test_bids[1]['tenderers'],
+                                                                           'tenderers': [bidder_data],
                                                                            'lotValues': [{"value": {"amount": 500},
                                                                                           'relatedLot': lot_id}
                                                                                          for lot_id in lots]}})
         # create third bid
+        bidder_data['identifier']['id'] = u"00037258"
         self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                                                           'tenderers': test_bids[2]['tenderers'],
+                                                                           'tenderers': [bidder_data],
                                                                            'lotValues': [{"value": {"amount": 500},
                                                                                           'relatedLot': lot_id}
                                                                                          for lot_id in lots]}})
@@ -2867,23 +2887,27 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         self.assertEqual(response.status, '200 OK')
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        bidder_data['identifier']['id'] = u"00037256"
         self.app.post_json('/tenders/{}/bids'.format(tender_id),
                            {'data': {'selfEligible': True,
                                      'selfQualified': True,
-                                     'tenderers': test_bids[0]["tenderers"],
+                                     'tenderers': [bidder_data],
                                      'lotValues': [{"value": {"amount": 500},
                                      'relatedLot': lot_id}]}})
 
+        bidder_data['identifier']['id'] = u"00037257"
         self.app.post_json('/tenders/{}/bids'.format(tender_id),
                            {'data': {'selfEligible': True,
                                      'selfQualified': True,
-                                     'tenderers': test_bids[1]["tenderers"],
+                                     'tenderers': [bidder_data],
                                      'lotValues': [{"value": {"amount": 500},
                                      'relatedLot': lot_id}]}})
+        bidder_data['identifier']['id'] = u"00037258"
         self.app.post_json('/tenders/{}/bids'.format(tender_id),
                            {'data': {'selfEligible': True,
                                      'selfQualified': True,
-                                     'tenderers': test_bids[2]["tenderers"],
+                                     'tenderers': [bidder_data],
                                      'lotValues': [{"value": {"amount": 500},
                                                     'relatedLot': lot_id}]}})
         # switch to active.pre-qualification
@@ -2938,26 +2962,30 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         self.assertEqual(response.status, '200 OK')
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        bidder_data['identifier']['id'] = u"00037256"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[0]["tenderers"],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 450},
                                                                'relatedLot': lot_id}]}})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
+        bidder_data['identifier']['id'] = u"00037257"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[1]["tenderers"],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 475},
                                                                'relatedLot': lot_id}]}})
+        bidder_data['identifier']['id'] = u"00037258"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[2]["tenderers"],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 470},
                                                                'relatedLot': lot_id}]}})
         # switch to active.pre-qualification
@@ -3054,11 +3082,13 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         bids = []
-        for test_bid in test_bids:
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        for index, test_bid in enumerate(test_bids):
+            bidder_data['identifier']['id'] = (00037256+index)
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                           {'data': {'selfEligible': True,
                                                     'selfQualified': True,
-                                                    'tenderers': test_bid["tenderers"],
+                                                    'tenderers': [bidder_data],
                                                     'lotValues': [{"value": {"amount": 450},
                                                                    'relatedLot': lot_id}]}})
             bids.append({response.json['data']['id']: response.json['access']['token']})
@@ -3113,9 +3143,11 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         self.app.authorization = ('Basic', ('broker', ''))
         bids = []
         for i in range(3):
+            bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+            bidder_data['identifier']['id'] = str(00037256+i)
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                           {'data': {'selfEligible': True, 'selfQualified': True,
-                                                    'tenderers': test_bids[0]["tenderers"],
+                                                    'tenderers': [bidder_data],
                                                     'lotValues': [{"value": {"amount": 450},
                                                                    'relatedLot': lot_id}]}})
             bids.append({response.json['data']['id']: response.json['access']['token']})
@@ -3295,24 +3327,27 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         self.assertEqual(response.status, '200 OK')
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        bidder_data['identifier']['id'] = u"00037256"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[0]['tenderers'],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}
                                                               for lot_id in lots]}})
-
+        bidder_data['identifier']['id'] = u"00037257"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[1]['tenderers'],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 499}, 'relatedLot': lot_id}
                                                               for lot_id in lots]}})
 
+        bidder_data['identifier']['id'] = u"00037258"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True,
                                                 'selfQualified': True,
-                                                'tenderers': test_bids[2]['tenderers'],
+                                                'tenderers': [bidder_data],
                                                 'lotValues': [{"value": {"amount": 499}, 'relatedLot': lot_id}
                                                               for lot_id in lots]}})
 
@@ -3367,22 +3402,26 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
                                        {"data": {"items": [{'relatedLot': i} for i in lots]}})
         self.assertEqual(response.status, '200 OK')
         # create bid
+        bidder_data = deepcopy(test_bids[1]['tenderers'][0])
+        bidder_data['identifier']['id'] = u"00037256"
         self.app.authorization = ('Basic', ('broker', ''))
         self.app.post_json('/tenders/{}/bids'.format(tender_id),
                           {'data': {'selfEligible': True,
                                     'selfQualified': True,
-                                    'tenderers': test_bids[0]['tenderers'],
+                                    'tenderers': [bidder_data],
                                     'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}
                                                   for lot_id in lots]}})
         # create second bid
+        bidder_data['identifier']['id'] = u"00037257"
         self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                                                           'tenderers': test_bids[1]['tenderers'],
+                                                                           'tenderers': [bidder_data],
                                                                            'lotValues': [{"value": {"amount": 500},
                                                                                           'relatedLot': lot_id}
                                                                                          for lot_id in lots]}})
         # create third bid
+        bidder_data['identifier']['id'] = u"00037258"
         self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                                                           'tenderers': test_bids[2]['tenderers'],
+                                                                           'tenderers': [bidder_data],
                                                                            'lotValues': [{"value": {"amount": 500},
                                                                                           'relatedLot': lot_id}
                                                                                          for lot_id in lots]}})

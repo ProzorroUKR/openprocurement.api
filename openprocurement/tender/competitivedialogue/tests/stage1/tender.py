@@ -1224,11 +1224,13 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
                                                 'tenderers': [bidder_data], "value": {"amount": 500}}})
+        bidder_data['identifier']['id'] = u"00037257"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
                                                 'tenderers': [bidder_data], "value": {"amount": 499}}})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
+        bidder_data['identifier']['id'] = u"00037258"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
                                                 'tenderers': [bidder_data], "value": {"amount": 498}}})
@@ -1317,11 +1319,13 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
                                                 'tenderers': [bidder_data], "value": {"amount": 500}}})
+        bidder_data['identifier']['id'] = u"00037257"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
                                                 'tenderers': [bidder_data], "value": {"amount": 499}}})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
+        bidder_data['identifier']['id'] = u"00037258"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
                                                 'tenderers': [bidder_data], "value": {"amount": 498}}})
