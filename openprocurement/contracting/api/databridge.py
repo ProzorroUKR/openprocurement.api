@@ -60,6 +60,7 @@ class ContractingDataBridge(object):
         super(ContractingDataBridge, self).__init__()
         self.config = config
         self.on_error_delay = self.config_get('on_error_sleep_delay') or 5
+        self.jobs_watcher_delay = self.config_get('jobs_watcher_delay') or 15
 
         self.tenders_sync_client = TendersClientSync('',
             host_url=self.config_get('tenders_api_server'),
@@ -391,30 +392,47 @@ class ContractingDataBridge(object):
                 logger.info("Tender {} does not contain contracts to transfer".format(tender_id))
 
 
+    def _start_synchronization_workers(self):
+        logger.info('Starting forward and backward sync workers')
+        self.jobs = [gevent.spawn(self.get_tender_contracts_backward),
+                     gevent.spawn_later(5, self.get_tender_contracts_forward)]
+
+    def _restart_synchronization_workers(self):
+        logger.warn("Restarting synchronization", extra=journal_context({"MESSAGE_ID": DATABRIDGE_RESTART}, {}))
+        for j in self.jobs:
+            j.kill()
+        self._start_synchronization_workers()
+
+    def _start_contract_sculptors(self):
+        self.immortal_jobs = {'get_tender_contracts': gevent.spawn(self.get_tender_contracts),
+                              'prepare_contract_data': gevent.spawn(self.prepare_contract_data),
+                              'put_contracts': gevent.spawn(self.put_contracts),
+                              'retry_put_contracts': gevent.spawn(self.retry_put_contracts)}
+
     def run(self):
         logger.info('Start Contracting Data Bridge', extra=journal_context({"MESSAGE_ID": DATABRIDGE_START}, {}))
-        self.immortal_jobs = [
-            gevent.spawn(self.get_tender_contracts),
-            gevent.spawn(self.prepare_contract_data),
-            gevent.spawn(self.put_contracts),
-            gevent.spawn(self.retry_put_contracts),
-        ]
-        while True:
-            try:
-                logger.info('Starting forward and backward sync workers')
-                self.jobs = [
-                    gevent.spawn(self.get_tender_contracts_backward),
-                    gevent.spawn(self.get_tender_contracts_forward),
-                ]
-                gevent.joinall(self.jobs)
-            except KeyboardInterrupt:
-                logger.info('Exiting...')
-                gevent.killall(self.jobs, timeout=5)
-                break
-            except Exception, e:
-                logger.exception(e)
+        self._start_contract_sculptors()
+        self._start_synchronization_workers()
+        backward_worker, forward_worker = self.jobs
 
-            logger.warn("Restarting synchronization", extra=journal_context({"MESSAGE_ID": DATABRIDGE_RESTART}, {}))
+        try:
+            while True:
+                gevent.sleep(self.jobs_watcher_delay)
+                if forward_worker.dead or (backward_worker.dead and not backward_worker.successful()):
+                    self._restart_synchronization_workers()
+                    backward_worker, forward_worker = self.jobs
+
+                for name, job in self.immortal_jobs.items():
+                    if job.dead:
+                        logger.warn('Restarting {} worker'.format(name))
+                        self.immortal_jobs[name] = gevent.spawn(getattr(self, name))
+
+        except KeyboardInterrupt:
+            logger.info('Exiting...')
+            gevent.killall(self.jobs, timeout=5)
+            gevent.killall(self.immortal_jobs, timeout=5)
+        except Exception, e:
+            logger.exception(e)
 
 
 def main():
