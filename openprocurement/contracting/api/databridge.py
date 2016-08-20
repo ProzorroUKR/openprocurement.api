@@ -80,6 +80,7 @@ class ContractingDataBridge(object):
         )
 
         self.initial_sync_point = {}
+        self.initialization_event = gevent.event.Event()
         self.tenders_queue = Queue(maxsize=500)
         self.handicap_contracts_queue = Queue(maxsize=500)
         self.contracts_put_queue = Queue(maxsize=500)
@@ -98,22 +99,19 @@ class ContractingDataBridge(object):
                                                                                          {"TENDER_ID": tender_id}))
         return data
 
-    @retry(stop_max_attempt_number=5, wait_exponential_multiplier=1000)
     def initialize_sync(self, params=None, direction=None):
-        # TODO use gevent.Event to wake up forward sync instead of checking
-        # initial sync point
         if direction == "backward":
             assert params['descending']
             response = self.tenders_sync_client.sync_tenders(params, extra_headers={'X-Client-Request-ID': generate_req_id()})
             # set values in reverse order due to 'descending' option
             self.initial_sync_point = {'forward_offset': response.prev_page.offset,
                                        'backward_offset': response.next_page.offset}
+            self.initialization_event.set()  # wake up forward worker
             logger.info("Initial sync point {}".format(self.initial_sync_point))
             return response
-        elif not self.initial_sync_point:
-            raise ValueError
         else:
             assert 'descending' not in params
+            gevent.wait([self.initialization_event])
             params['offset'] = self.initial_sync_point['forward_offset']
             logger.info("Starting forward sync from offset {}".format(params['offset']))
             return self.tenders_sync_client.sync_tenders(params, extra_headers={'X-Client-Request-ID': generate_req_id()})
@@ -395,7 +393,7 @@ class ContractingDataBridge(object):
     def _start_synchronization_workers(self):
         logger.info('Starting forward and backward sync workers')
         self.jobs = [gevent.spawn(self.get_tender_contracts_backward),
-                     gevent.spawn_later(5, self.get_tender_contracts_forward)]
+                     gevent.spawn(self.get_tender_contracts_forward)]
 
     def _restart_synchronization_workers(self):
         logger.warn("Restarting synchronization", extra=journal_context({"MESSAGE_ID": DATABRIDGE_RESTART}, {}))
