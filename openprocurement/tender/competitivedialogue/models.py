@@ -373,6 +373,8 @@ class Tender(BaseTenderEU):
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
 
+    def initialize(self):
+        self.tenderPeriod.endDate = calculate_business_date(self.tenderPeriod.startDate, TENDERING_DURATION_EU, self)
 
 TenderStage2EU = Tender
 
@@ -404,6 +406,9 @@ class Tender(BaseTenderUA):
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
+
+    def initialize(self):
+        self.tenderPeriod.endDate = calculate_business_date(self.tenderPeriod.startDate, TENDERING_DURATION_UA, self)
 
 
 TenderStage2UA = Tender
