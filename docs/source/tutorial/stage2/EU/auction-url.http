@@ -1,0 +1,317 @@
+GET /api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "selective", 
+    "status": "active.auction", 
+    "complaintPeriod": {
+      "startDate": "2016-07-07T11:56:24.663648+03:00", 
+      "endDate": "2016-08-03T00:00:00+03:00"
+    }, 
+    "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/4bf695570c304b6cadccd5f0024a47bc", 
+    "enquiryPeriod": {
+      "startDate": "2016-07-07T11:56:24.663648+03:00", 
+      "clarificationsUntil": "2016-08-02T11:56:24.663648+03:00", 
+      "endDate": "2016-07-28T11:56:24.663648+03:00", 
+      "invalidationDate": "2016-08-17T11:57:04.045921+03:00"
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "procurementMethodType": "competitiveDialogueEU.stage2", 
+    "procuringEntity": {
+      "kind": "general", 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }, 
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name_en": "Kutsa Svitlana V.", 
+        "name": "Куца Світлана Валентинівна", 
+        "availableLanguage": "uk", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name_en": "School #10 of Vinnytsia"
+    }, 
+    "questions": [
+      {
+        "description": "Просимо додати таблицю потрібної калорійності харчування", 
+        "title": "Калорійність", 
+        "date": "2016-08-17T11:57:03.125458+03:00", 
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
+        "id": "9aa49e8ba12240b497a49688b1cec87c", 
+        "questionOf": "tender"
+      }
+    ], 
+    "owner": "broker", 
+    "title_en": "Services in school canteens", 
+    "id": "4bf695570c304b6cadccd5f0024a47bc", 
+    "documents": [
+      {
+        "language": "uk", 
+        "title": "Notice.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/documents/9aad801df0934dc9a1f27b8852782d05?download=c7e1dafb7f2e438d98cd48ed44b193e1", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-08-17T11:57:02.943503+03:00", 
+        "id": "9aad801df0934dc9a1f27b8852782d05", 
+        "dateModified": "2016-08-17T11:57:02.943520+03:00"
+      }, 
+      {
+        "language": "uk", 
+        "title": "AwardCriteria.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/documents/51a5c765bead49e7868d44737690f23f?download=103b665a307b42df925ab0178753345e", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-08-17T11:57:02.993078+03:00", 
+        "id": "51a5c765bead49e7868d44737690f23f", 
+        "dateModified": "2016-08-17T11:57:02.993094+03:00"
+      }, 
+      {
+        "language": "uk", 
+        "title": "AwardCriteria-2.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/documents/51a5c765bead49e7868d44737690f23f?download=b31d03b05bd2413ea1ccaa3e01baf85e", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-08-17T11:57:02.993078+03:00", 
+        "id": "51a5c765bead49e7868d44737690f23f", 
+        "dateModified": "2016-08-17T11:57:03.044299+03:00"
+      }
+    ], 
+    "title": "Послуги шкільних їдалень", 
+    "qualificationPeriod": {
+      "startDate": "2016-08-07T11:56:24.663648+03:00", 
+      "endDate": "2016-08-17T11:56:24.663648+03:00"
+    }, 
+    "shortlistedFirms": [
+      {
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Школяр»"
+      }, 
+      {
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Книга»"
+      }, 
+      {
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137228", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "«Кенгуру»"
+      }
+    ], 
+    "tenderID": "UA-2016-08-17-000001", 
+    "dateModified": "2016-08-17T11:57:05.220129+03:00", 
+    "numberOfBids": 2, 
+    "tenderPeriod": {
+      "startDate": "2016-07-07T11:56:24.663648+03:00", 
+      "endDate": "2016-08-07T11:56:24.663648+03:00"
+    }, 
+    "auctionPeriod": {
+      "startDate": "2016-08-17T11:56:24.663648+03:00", 
+      "shouldStartAfter": "2016-08-17T11:56:24.663648+03:00"
+    }, 
+    "qualifications": [
+      {
+        "status": "active", 
+        "eligible": true, 
+        "qualified": true, 
+        "bidID": "93388bd80ee64d1a930cb5b8ea1be71f", 
+        "date": "2016-08-17T11:57:04.598571+03:00", 
+        "id": "1533ff87d25b46a9b13ae15fe26699f8"
+      }, 
+      {
+        "status": "active", 
+        "eligible": true, 
+        "qualified": true, 
+        "bidID": "07d373a0070340a4b08bb5afd2bb4f3f", 
+        "date": "2016-08-17T11:57:04.681014+03:00", 
+        "id": "3f501da9a7c14dc3b5cbe3d02798d93f"
+      }, 
+      {
+        "status": "unsuccessful", 
+        "eligible": false, 
+        "qualified": false, 
+        "bidID": "30254c822f3f4fe784558be69979949e", 
+        "date": "2016-08-17T11:57:04.758593+03:00", 
+        "id": "ff6684ad25084f619f00bc1925a09ca5"
+      }
+    ], 
+    "date": "2016-08-17T11:57:04.997798+03:00", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-09-06T11:56:24.666277+03:00", 
+          "endDate": "2016-09-16T11:57:13.252080+03:00"
+        }, 
+        "id": "6b633ec1b40243429efa1442de242930", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
+    "bids": [
+      {
+        "status": "active", 
+        "documents": [
+          {
+            "confidentiality": "public", 
+            "language": "uk", 
+            "title": "Proposal.pdf", 
+            "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/bids/93388bd80ee64d1a930cb5b8ea1be71f/documents/6cd5e071c077414988ece01e1f853c51?download=2529a7edce43454682b2db8ac50bda9b", 
+            "format": "application/pdf", 
+            "documentOf": "tender", 
+            "datePublished": "2016-08-17T11:57:03.567143+03:00", 
+            "id": "6cd5e071c077414988ece01e1f853c51", 
+            "dateModified": "2016-08-17T11:57:03.567160+03:00"
+          }, 
+          {
+            "confidentiality": "buyerOnly", 
+            "language": "uk", 
+            "title": "Proposal_top_secrets.pdf", 
+            "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/bids/93388bd80ee64d1a930cb5b8ea1be71f/documents/c94ff5453f9049aa8ca84f631b7066da?download=7c2405484d484cee901d452403a591fc", 
+            "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+            "format": "application/pdf", 
+            "documentOf": "tender", 
+            "datePublished": "2016-08-17T11:57:03.618488+03:00", 
+            "id": "c94ff5453f9049aa8ca84f631b7066da", 
+            "dateModified": "2016-08-17T11:57:03.618507+03:00"
+          }
+        ], 
+        "id": "93388bd80ee64d1a930cb5b8ea1be71f", 
+        "tenderers": [
+          {
+            "contactPoint": {
+              "email": "soleksuk@gmail.com", 
+              "telephone": "+380 (432) 21-69-30", 
+              "name": "Сергій Олексюк"
+            }, 
+            "identifier": {
+              "scheme": "UA-EDR", 
+              "id": "00137256", 
+              "uri": "http://www.sc.gov.ua/"
+            }, 
+            "name": "ДКП «Школяр»", 
+            "address": {
+              "postalCode": "21100", 
+              "countryName": "Україна", 
+              "streetAddress": "вул. Островського, 33", 
+              "region": "м. Вінниця", 
+              "locality": "м. Вінниця"
+            }
+          }
+        ]
+      }, 
+      {
+        "status": "active", 
+        "id": "07d373a0070340a4b08bb5afd2bb4f3f", 
+        "tenderers": [
+          {
+            "contactPoint": {
+              "email": "aagt@gmail.com", 
+              "telephone": "+380 (322) 91-69-30", 
+              "name": "Андрій Олексюк"
+            }, 
+            "identifier": {
+              "scheme": "UA-EDR", 
+              "id": "00137226", 
+              "uri": "http://www.sc.gov.ua/"
+            }, 
+            "name": "ДКП «Книга»", 
+            "address": {
+              "postalCode": "79013", 
+              "countryName": "Україна", 
+              "streetAddress": "вул. Островського, 34", 
+              "region": "м. Львів", 
+              "locality": "м. Львів"
+            }
+          }
+        ]
+      }, 
+      {
+        "status": "unsuccessful", 
+        "id": "30254c822f3f4fe784558be69979949e", 
+        "tenderers": [
+          {
+            "contactPoint": {
+              "email": "fake@mail.com", 
+              "telephone": "+380 (322) 12-34-56", 
+              "name": "Іван Карпенко"
+            }, 
+            "identifier": {
+              "scheme": "UA-EDR", 
+              "id": "00137228", 
+              "uri": "http://www.sc.gov.ua/"
+            }, 
+            "name": "«Кенгуру»", 
+            "address": {
+              "postalCode": "79013", 
+              "countryName": "Україна", 
+              "streetAddress": "вул. Коцюбинського, 15", 
+              "region": "м. Запоріжжя", 
+              "locality": "м. Запоріжя"
+            }
+          }
+        ]
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "next_check": "2016-08-17T12:32:24.663648+03:00", 
+    "awardCriteria": "lowestCost"
+  }
+}
+

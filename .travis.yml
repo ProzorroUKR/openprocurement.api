@@ -15,7 +15,7 @@ before_install:
 install:
   - bin/buildout -N
 script:
-  - bin/nosetests
+  - bin/nosetests openprocurement/tender/competitivedialogue/tests/
 after_success:
   - bin/coveralls
 notifications:

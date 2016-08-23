@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
@@ -170,6 +171,57 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.assertEqual(response.json['errors'], [
             {u'description': [u'currency of bid should be identical to currency of value of tender'], u'location': u'body', u'name': u'value'},
         ])
+
+    def test_status_jumping(self):
+        """ Owner try set active.stage2.waiting status after pre-qualification """
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        bid = response.json['data']
+        bid_token = response.json['access']['token']
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        bidder_data['identifier']['id'] = u"00037256"
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [bidder_data], "value": {"amount": 499}}})
+
+        bidder_data['identifier']['id'] = u"00037257"
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [bidder_data], "value": {"amount": 499}}})
+        bidder_data['identifier']['id'] = u"00037258"
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [bidder_data], "value": {"amount": 499}}})
+
+        response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can't view bid in current (active.tendering) tender status")
+
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data'], bid)
+
+        # switch to active.pre-qualification
+        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {'data': {'status': 'active.stage2.waiting'}},
+                                       status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can't update tender status")
 
     def test_create_tender_bidder(self):
         """ Test create dialog bdder """
@@ -375,9 +427,11 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
           Try get bidder on different tender status
         """
         # Create bidder, and save
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        bidder_data['identifier']['id'] = u"00037256"
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}
+                                       'tenderers': [bidder_data], "value": {"amount": 500}}
                                        })
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -385,14 +439,16 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         bid_token = response.json['access']['token']
 
         # Create another bidder
+        bidder_data['identifier']['id'] = u"00037257"
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                                'tenderers': test_bids[0]['tenderers'], "value": {"amount": 499}}})
+                                                'tenderers': [bidder_data], "value": {"amount": 499}}})
 
         # Create another 2 bidder
+        bidder_data['identifier']['id'] = u"00037258"
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 499}}})
+                                       'tenderers': [bidder_data], "value": {"amount": 499}}})
 
         # Try get bidder when dialog status active.tendering
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), status=403)
@@ -498,10 +554,12 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
     def test_deleted_bid_do_not_locks_tender_in_state(self):
         bids = []
         bids_tokens = []
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
         for bid_amount in (400, 405):  # Create two bids
+            bidder_data['identifier']['id'] = str(00037256 + bid_amount)
             response = self.app.post_json('/tenders/{}/bids'.format(
                 self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                           'tenderers': test_bids[0]['tenderers'], "value": {"amount": bid_amount}}})
+                                           'tenderers': [bidder_data], "value": {"amount": bid_amount}}})
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
             bids.append(response.json['data'])
@@ -515,13 +573,15 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.assertEqual(response.json['data']['status'], 'deleted')
 
         # Create new bid
+        bidder_data['identifier']['id'] = u"00037258"
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
+                                       'tenderers': [bidder_data], "value": {"amount": 101}}})
         # Create new bid
+        bidder_data['identifier']['id'] = u"00037259"
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                                'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
+                                                'tenderers': [bidder_data], "value": {"amount": 101}}})
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -570,9 +630,11 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
     def test_get_tender_tenderers(self):
         # Create bid
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        bidder_data['identifier']['id'] = u"00037256"
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
+                                       'tenderers': [bidder_data], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']  # Save bid
@@ -585,13 +647,15 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
                          "Can't view bids in current (active.tendering) tender status")
 
         # Create bid
+        bidder_data['identifier']['id'] = u"00037257"
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
+                                       'tenderers': [bidder_data], "value": {"amount": 101}}})
         # Create another bid
+        bidder_data['identifier']['id'] = u"00037258"
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                                'tenderers': test_bids[2]['tenderers'], "value": {"amount": 111}}})
+                                                'tenderers': [bidder_data], "value": {"amount": 111}}})
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -686,19 +750,23 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
              u'name': u'value'}
         ])
         # and submit valid bid
-        data = test_bids[0]
+        data = deepcopy(test_bids[0])
         data['value']['amount'] = 299
+        data['tenderers'][0]['identifier']['id'] = u"00037256"
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
         self.assertEqual(response.status, '201 Created')
         valid_bid_id = response.json['data']['id']
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        bidder_data['identifier']['id'] = u"00037257"
 
         self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                            {'data': {'selfEligible': True, 'selfQualified': True,
-                            'tenderers': test_bids[1]['tenderers'], "value": {"amount": 101}}})
+                            'tenderers': [bidder_data], "value": {"amount": 101}}})
 
+        bidder_data['identifier']['id'] = u"00037258"
         self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                            {'data': {'selfEligible': True, 'selfQualified': True,
-                            'tenderers': test_bids[2]['tenderers'], "value": {"amount": 101}}})
+                            'tenderers': [bidder_data], "value": {"amount": 101}}})
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -923,17 +991,22 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
     def setUp(self):
         super(CompetitiveDialogEUBidDocumentResourceTest, self).setUp()
         # Create bid
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[0]})
+        bidder_data = deepcopy(test_bids[0])
+        bidder_data['tenderers'][0]['identifier']['id'] = u"00037256"
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bidder_data})
         bid = response.json['data']
         self.bid_id = bid['id']
         self.bid_token = response.json['access']['token']
         # create second bid
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[1]})
+        bidder_data = deepcopy(test_bids[1])
+        bidder_data['tenderers'][0]['identifier']['id'] = u"00037257"
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bidder_data})
         bid2 = response.json['data']
         self.bid2_id = bid2['id']
         self.bid2_token = response.json['access']['token']
-
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[1]})
+        bidder_data = deepcopy(test_bids[1])
+        bidder_data['tenderers'][0]['identifier']['id'] = u"00037258"
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bidder_data})
         bid3 = response.json['data']
         self.bid3_id = bid3['id']
         self.bid3_token = response.json['access']['token']

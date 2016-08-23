@@ -1,0 +1,31 @@
+GET /api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/documents HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "language": "uk", 
+      "title": "Notice.pdf", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/documents/9aad801df0934dc9a1f27b8852782d05?download=c7e1dafb7f2e438d98cd48ed44b193e1", 
+      "format": "application/pdf", 
+      "documentOf": "tender", 
+      "datePublished": "2016-08-17T11:57:02.943503+03:00", 
+      "id": "9aad801df0934dc9a1f27b8852782d05", 
+      "dateModified": "2016-08-17T11:57:02.943520+03:00"
+    }, 
+    {
+      "language": "uk", 
+      "title": "AwardCriteria-2.pdf", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/documents/51a5c765bead49e7868d44737690f23f?download=b31d03b05bd2413ea1ccaa3e01baf85e", 
+      "format": "application/pdf", 
+      "documentOf": "tender", 
+      "datePublished": "2016-08-17T11:57:02.993078+03:00", 
+      "id": "51a5c765bead49e7868d44737690f23f", 
+      "dateModified": "2016-08-17T11:57:03.044299+03:00"
+    }
+  ]
+}
+

@@ -1,0 +1,75 @@
+POST /api/2.3/tenders/23a01ece1bc44217b82ef53a03715de7/awards/4c9c840fe5b14fdbbf7b130d3e9528d4/complaints?acc_token=a3cba3ae06734697977fee5a91d18b36 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 1703
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "pending", 
+    "title": "Недостатньо інформації", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "author": {
+      "contactPoint": {
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк", 
+        "email": "soleksuk@gmail.com"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+        "id": "13313462", 
+        "uri": "http://sch10.edu.vn.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "21100", 
+        "region": "м. Вінниця", 
+        "streetAddress": "вул. Островського, 33", 
+        "locality": "м. Вінниця"
+      }
+    }
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/23a01ece1bc44217b82ef53a03715de7/awards/4c9c840fe5b14fdbbf7b130d3e9528d4/complaints/8c900e7bd47d47f496706e1a686f72fe
+{
+  "access": {
+    "token": "3fd1f379c5ca41c29c8991edd35b1f13"
+  }, 
+  "data": {
+    "status": "pending", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "author": {
+      "contactPoint": {
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+        "id": "13313462", 
+        "uri": "http://sch10.edu.vn.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "postalCode": "21100", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 33", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "title": "Недостатньо інформації", 
+    "dateSubmitted": "2016-08-17T11:56:33.389319+03:00", 
+    "complaintID": "UA-2016-08-17-000001.2", 
+    "date": "2016-08-17T11:56:33.389306+03:00", 
+    "type": "complaint", 
+    "id": "8c900e7bd47d47f496706e1a686f72fe"
+  }
+}
+

@@ -1,0 +1,37 @@
+GET /api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/bids/30254c822f3f4fe784558be69979949e?acc_token=3f9b85d344ce47f19d19885bae6c8169 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "unsuccessful", 
+    "selfEligible": true, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "fake@mail.com", 
+          "telephone": "+380 (322) 12-34-56", 
+          "name": "Іван Карпенко"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137228", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "«Кенгуру»", 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Коцюбинського, 15", 
+          "region": "м. Запоріжжя", 
+          "locality": "м. Запоріжя"
+        }
+      }
+    ], 
+    "selfQualified": true, 
+    "id": "30254c822f3f4fe784558be69979949e"
+  }
+}
+

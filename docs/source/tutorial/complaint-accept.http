@@ -1,0 +1,63 @@
+PATCH /api/2.3/tenders/d12d338669094ffab2edffdc07e3b250/complaints/168bed8da249468c833becd638009320 HTTP/1.0
+Authorization: Basic cmV2aWV3ZXI6
+Content-Length: 32
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "accepted"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "accepted", 
+    "documents": [
+      {
+        "author": "complaint_owner", 
+        "language": "uk", 
+        "title": "Complaint_Attachement.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/d12d338669094ffab2edffdc07e3b250/complaints/168bed8da249468c833becd638009320/documents/854d2fabf8ca4d5f9ab5d1614254eaed?download=be65756bc4514cfaaaf49c5bf6fdee27", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-08-17T11:56:41.882091+03:00", 
+        "id": "854d2fabf8ca4d5f9ab5d1614254eaed", 
+        "dateModified": "2016-08-17T11:56:41.882110+03:00"
+      }
+    ], 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "author": {
+      "contactPoint": {
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+        "id": "13313462", 
+        "uri": "http://sch10.edu.vn.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "postalCode": "21100", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 33", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "acceptance": true, 
+    "dateAccepted": "2016-08-17T11:56:42.665360+03:00", 
+    "dateSubmitted": "2016-08-17T11:56:42.137631+03:00", 
+    "complaintID": "UA-2016-08-17-000001.1", 
+    "date": "2016-08-17T11:56:42.668979+03:00", 
+    "title": "Недостатньо інформації", 
+    "type": "complaint", 
+    "id": "168bed8da249468c833becd638009320"
+  }
+}
+
