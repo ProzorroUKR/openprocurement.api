@@ -375,6 +375,7 @@ class Tender(BaseTenderEU):
 
     def initialize(self):
         self.tenderPeriod.endDate = calculate_business_date(self.tenderPeriod.startDate, TENDERING_DURATION_EU, self)
+        super(TenderStage2EU, self).initialize()
 
 TenderStage2EU = Tender
 
@@ -409,6 +410,7 @@ class Tender(BaseTenderUA):
 
     def initialize(self):
         self.tenderPeriod.endDate = calculate_business_date(self.tenderPeriod.startDate, TENDERING_DURATION_UA, self)
+        super(TenderStage2UA, self).initialize()
 
 
 TenderStage2UA = Tender
