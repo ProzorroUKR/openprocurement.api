@@ -94,7 +94,7 @@ class CompetitiveDialogueDataBridge(object):
     """ Competitive Dialogue Data Bridge """
     copy_name_fields = ('title_ru', 'mode', 'procurementMethodDetails', 'title_en', 'description', 'description_en',
                         'description_ru', 'title', 'minimalStep', 'value', 'procuringEntity', 'features',
-                        'procurementMethodDetails')
+                        'submissionMethodDetails')
     rewrite_statuses = ['draft']
     allowed_statuses = ['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
                         'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
