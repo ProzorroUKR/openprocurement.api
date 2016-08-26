@@ -7,7 +7,7 @@ from openprocurement.api.models import get_now
 from openprocurement.api.utils import save_tender, apply_patch, context_unpack, generate_id
 from openprocurement.tender.openeu.utils import all_bids_are_reviewed
 from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
-from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status
+from openprocurement.tender.openua.utils import check_complaint_status
 from openprocurement.tender.openeu.utils import prepare_qualifications
 from openprocurement.api.utils import (
     save_tender,
@@ -182,7 +182,7 @@ def check_status(request):
     now = get_now()
 
     if tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
-            not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]) and \
+            not any([i.status in tender.block_complaint_status for i in tender.complaints]) and \
             not any([i.id for i in tender.questions if not i.answer]):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
@@ -195,7 +195,7 @@ def check_status(request):
         return
 
     elif tender.status == 'active.pre-qualification.stand-still' and tender.qualificationPeriod and tender.qualificationPeriod.endDate <= now and not any([
-        i.status in BLOCK_COMPLAINT_STATUS
+        i.status in tender.block_complaint_status
         for q in tender.qualifications
         for i in q.complaints
     ]):
