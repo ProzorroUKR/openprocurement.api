@@ -23,6 +23,7 @@ from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import ProcuringEntity as BaseProcuringEntity
 from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import Item
+from openprocurement.tender.openua.models import Tender as OpenUATender
 
 
 class Complaint(BaseComplaint):
@@ -168,6 +169,7 @@ class Tender(SchematicsDocument, Model):
     create_accreditation = 1
     edit_accreditation = 2
     procuring_entity_kinds = ['general', 'special', 'defense', 'other']
+    block_complaint_status = OpenUATender.block_complaint_status
 
     __parent__ = None
     __name__ = ''
