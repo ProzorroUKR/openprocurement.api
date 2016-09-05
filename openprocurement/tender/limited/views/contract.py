@@ -166,7 +166,7 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
                 self.request.errors.status = 403
                 return
             if any([
-                i.status in tender.block_complaint_status
+                i.status in tender.block_complaint_status and a.lotID == award.lotID
                 for a in tender.awards
                 for i in a.complaints
             ]):
