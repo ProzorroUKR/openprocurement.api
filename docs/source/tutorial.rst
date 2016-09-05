@@ -232,32 +232,36 @@ Financial, eligibility and qualification documents uploading
 
 Financial, eligibility and qualification documents are also a part of Bid but are located in different end-points.
 
-There is possibility to upload financial document:
+In order to create and/or get financial document ``financial_documents`` end-point should be used:
 
 .. include:: tutorial/upload-bid-financial-document-proposal.http
    :code:
 
-Financial documents will be stored in `financial_documents` attribute of :ref:`Bid`.
+Get financial documents:
 
 .. include:: tutorial/bidder-financial-documents.http
    :code:
 
-There is possibility to upload eligibility and qualification documents:
+In order to create and/or get eligibility document ``eligibility_documents`` end-point should be used:
 
 .. include:: tutorial/upload-bid-eligibility-document-proposal.http
    :code:
 
-Eligibility documents will be stored in `eligibility_documents` attribute of :ref:`Bid`.
+In order to create and/or get qualification document ``qualification_documents`` end-point should be used:
 
 .. include:: tutorial/upload-bid-qualification-document-proposal.http
    :code:
 
-Qualification documents will be stored in `qualificationDocuments` attribute of :ref:`Bid`.
 
-Financial, eligibility and qualification documents will be publicly accessible after the auction. Here is bidder proposal with all documents.
+`Financial` and `qualification` documents will be publicly accessible after the auction.
+`Eligibility` documents will become publicly accessible starting from tender pre-qualification period.
+
+Here is bidder proposal with all documents.
 
 .. include:: tutorial/bidder-view-financial-documents.http
    :code:
+
+Note that financial, eligibility, and qualification documents are stored in `financialDocuments`, `eligibilityDocuments`, and `qualificationDocuments` attributes of :ref:`Bid`.
 
 
 Bid invalidation

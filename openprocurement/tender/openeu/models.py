@@ -23,13 +23,13 @@ from openprocurement.api.models import (
     validate_cpv_group, validate_items_uniq, rounding_shouldStartAfter,
 )
 from openprocurement.tender.openua.utils import (
-    calculate_business_date, BLOCK_COMPLAINT_STATUS,
+    calculate_business_date,
 )
 from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint, Award as BaseAward, Item as BaseItem,
     PeriodStartEndRequired, SifterListType, COMPLAINT_SUBMIT_TIME,
     EnquiryPeriod, ENQUIRY_STAND_STILL_TIME, AUCTION_PERIOD_TIME,
-    calculate_normalized_date,
+    calculate_normalized_date, Tender as OpenUATender,
 )
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
@@ -285,16 +285,17 @@ class Bid(BaseBid):
             'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
             'active.enquiries': whitelist(),
             'active.tendering': whitelist(),
-            'active.pre-qualification': whitelist('id', 'status', 'documents', 'tenderers'),
-            'active.pre-qualification.stand-still': whitelist('id', 'status', 'documents', 'tenderers'),
-            'active.auction': whitelist('id', 'status', 'documents', 'tenderers'),
+            'active.pre-qualification': whitelist('id', 'status', 'documents', 'eligibilityDocuments', 'tenderers'),
+            'active.pre-qualification.stand-still': whitelist('id', 'status', 'documents', 'eligibilityDocuments', 'tenderers'),
+            'active.auction': whitelist('id', 'status', 'documents', 'eligibilityDocuments', 'tenderers'),
             'active.qualification': view_bid_role,
             'active.awarded': view_bid_role,
             'complete': view_bid_role,
             'unsuccessful': view_bid_role,
-            'bid.unsuccessful':  whitelist('id', 'status', 'tenderers', 'parameters', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
+            'bid.unsuccessful':  whitelist('id', 'status', 'tenderers', 'documents', 'eligibilityDocuments', 'parameters', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
             'cancelled': view_bid_role,
             'invalid': whitelist('id', 'status'),
+            'invalid.pre-qualification': whitelist('id', 'status', 'documents', 'eligibilityDocuments', 'tenderers'),
             'deleted': whitelist('id', 'status'),
         }
     documents = ListType(ModelType(ConfidentialDocument), default=list())
@@ -305,11 +306,11 @@ class Bid(BaseBid):
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
     subcontractingDetails = StringType()
-    status = StringType(choices=['draft','pending', 'active', 'invalid', 'unsuccessful', 'deleted'],
+    status = StringType(choices=['draft','pending', 'active', 'invalid', 'invalid.pre-qualification', 'unsuccessful', 'deleted'],
                         default='pending')
 
     def serialize(self, role=None):
-        if role and role != 'create' and self.status in ['invalid', 'deleted']:
+        if role and role != 'create' and self.status in ['invalid', 'invalid.pre-qualification', 'deleted']:
             role = self.status
         elif role and role != 'create' and self.status == 'unsuccessful':
             role = 'bid.unsuccessful'
@@ -463,7 +464,7 @@ class Tender(BaseTender):
     cancellations = ListType(ModelType(Cancellation), default=list())
     awards = ListType(ModelType(Award), default=list())
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
+    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'invalid.pre-qualification', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     qualifications = ListType(ModelType(Qualification), default=list())
     qualificationPeriod = ModelType(Period)
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
@@ -473,6 +474,8 @@ class Tender(BaseTender):
     create_accreditation = 3
     edit_accreditation = 4
     procuring_entity_kinds = ['general', 'special', 'defense']
+    block_tender_complaint_status = OpenUATender.block_tender_complaint_status
+    block_complaint_status = OpenUATender.block_complaint_status
 
     def __acl__(self):
         acl = [
@@ -522,11 +525,11 @@ class Tender(BaseTender):
         now = get_now()
         checks = []
         if self.status == 'active.tendering' and self.tenderPeriod.endDate and \
-                not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]) and \
+                not any([i.status in self.block_tender_complaint_status for i in self.complaints]) and \
                 not any([i.id for i in self.questions if not i.answer]):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
         elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate and not any([
-            i.status in BLOCK_COMPLAINT_STATUS
+            i.status in self.block_complaint_status
             for q in self.qualifications
             for i in q.complaints
         ]):
@@ -544,34 +547,47 @@ class Tender(BaseTender):
                     checks.append(lot.auctionPeriod.startDate.astimezone(TZ))
                 elif now < calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ):
                     checks.append(calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ))
-        elif not self.lots and self.status == 'active.awarded':
+        elif not self.lots and self.status == 'active.awarded' and not any([
+                i.status in self.block_complaint_status
+                for i in self.complaints
+            ]) and not any([
+                i.status in self.block_complaint_status
+                for a in self.awards
+                for i in a.complaints
+            ]):
             standStillEnds = [
                 a.complaintPeriod.endDate.astimezone(TZ)
                 for a in self.awards
                 if a.complaintPeriod.endDate
             ]
-            if standStillEnds:
-                standStillEnd = max(standStillEnds)
-                if standStillEnd > now:
-                    checks.append(standStillEnd)
-        elif self.lots and self.status in ['active.qualification', 'active.awarded']:
-            lots_ends = []
+            last_award_status = self.awards[-1].status if self.awards else ''
+            if standStillEnds and last_award_status == 'unsuccessful':
+                checks.append(max(standStillEnds))
+        elif self.lots and self.status in ['active.qualification', 'active.awarded'] and not any([
+                i.status in self.block_complaint_status and i.relatedLot is None
+                for i in self.complaints
+            ]):
             for lot in self.lots:
                 if lot['status'] != 'active':
                     continue
                 lot_awards = [i for i in self.awards if i.lotID == lot.id]
+                pending_complaints = any([
+                    i['status'] in self.block_complaint_status and i.relatedLot == lot.id
+                    for i in self.complaints
+                ])
+                pending_awards_complaints = any([
+                    i.status in self.block_complaint_status
+                    for a in lot_awards
+                    for i in a.complaints
+                ])
                 standStillEnds = [
                     a.complaintPeriod.endDate.astimezone(TZ)
                     for a in lot_awards
                     if a.complaintPeriod.endDate
                 ]
-                if not standStillEnds:
-                    continue
-                standStillEnd = max(standStillEnds)
-                if standStillEnd > now:
-                    lots_ends.append(standStillEnd)
-            if lots_ends:
-                checks.append(min(lots_ends))
+                last_award_status = lot_awards[-1].status if lot_awards else ''
+                if not pending_complaints and not pending_awards_complaints and standStillEnds and last_award_status == 'unsuccessful':
+                    checks.append(max(standStillEnds))
         return min(checks).isoformat() if checks else None
 
     def validate_tenderPeriod(self, data, period):

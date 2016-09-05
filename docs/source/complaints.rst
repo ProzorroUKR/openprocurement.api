@@ -18,6 +18,8 @@ Tender Conditions Claims/Complaints
 .. graphviz::
 
     digraph G {
+        rankdir=LR;
+        {rank=same; mistaken; invalid; resolved; declined; stopped; cancelled;}
         subgraph cluster_claim {
             label = "claim";
             claim; answered;
@@ -36,9 +38,10 @@ Tender Conditions Claims/Complaints
         pending -> stopping;
         accepted -> stopping;
         edge[style=bold];
-        pending -> {accepted,invalid};
         accepted -> {declined,satisfied,stopped};
-        stopping -> stopped;
+        pending -> {accepted,invalid};
+        stopping -> {stopped,invalid};
+        {pending;stopping} -> mistaken;
         edge[label="auction" style=dotted];
         answered -> {declined,resolved,invalid};
     }
@@ -54,6 +57,8 @@ Tender Qualification Complaints
 .. graphviz::
 
     digraph G {
+        rankdir=LR;
+        {rank=same; mistaken; invalid; resolved; declined; stopped; cancelled;}
         subgraph cluster_complaint {
             label = "complaint";
             pending; accepted; stopping; satisfied;
@@ -64,8 +69,9 @@ Tender Qualification Complaints
         {pending,accepted} -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid};
-        stopping -> stopped;
+        stopping -> {stopped,invalid};
         accepted -> {declined,satisfied,stopped};
+        {pending;stopping} -> mistaken;
     }
 
 .. toctree::
@@ -79,6 +85,8 @@ Tender Award Complaints
 .. graphviz::
 
     digraph G {
+        rankdir=LR;
+        {rank=same; mistaken; invalid; resolved; declined; stopped; cancelled;}
         subgraph cluster_complaint {
             label = "complaint";
             pending; accepted; stopping; satisfied;
@@ -89,8 +97,9 @@ Tender Award Complaints
         {pending,accepted} -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid};
-        stopping -> stopped;
+        stopping -> {stopped,invalid};
         accepted -> {declined,satisfied,stopped};
+        {pending;stopping} -> mistaken;
     }
 
 .. toctree::
