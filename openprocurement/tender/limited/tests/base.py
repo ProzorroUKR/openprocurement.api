@@ -33,6 +33,13 @@ test_tender_negotiation_quick_data['causeDescription'] = "chupacabra"
 if SANDBOX_MODE:
     test_tender_negotiation_quick_data['procurementMethodDetails'] = 'quick, accelerator=1440'
 
+test_lots = [
+    {
+        'title': 'lot title',
+        'description': 'lot description',
+        'value': deepcopy(test_tender_negotiation_data['value'])
+    }
+]
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_data = test_tender_data

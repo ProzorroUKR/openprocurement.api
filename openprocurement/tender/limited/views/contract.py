@@ -12,13 +12,59 @@ from openprocurement.api.validation import (
     validate_patch_contract_data,
 )
 from openprocurement.api.views.contract import TenderAwardContractResource as BaseTenderAwardContractResource
-from openprocurement.tender.openua.utils import PENDING_COMPLAINT_STATUS
 
 
 def check_tender_status(request):
     tender = request.validated['tender']
     if tender.contracts and tender.contracts[-1].status == 'active':
         tender.status = 'complete'
+
+
+def check_tender_negotiation_status(request):
+    tender = request.validated['tender']
+    if tender.contracts and tender.contracts[-1].status == 'active':
+        tender.status = 'complete'
+    now = get_now()
+    if tender.lots:
+        if any([i.status in ['claim', 'answered', 'pending'] and i.relatedLot is None for i in tender.complaints]):
+            return
+        for lot in tender.lots:
+            if lot.status != 'active':
+                continue
+            lot_awards = [i for i in tender.awards if i.lotID == lot.id]
+            if not lot_awards:
+                continue
+            last_award = lot_awards[-1]
+            pending_complaints = any([
+                i['status'] in ['claim', 'answered', 'pending'] and i.relatedLot == lot.id
+                for i in tender.complaints
+            ])
+            pending_awards_complaints = any([
+                i.status in ['claim', 'answered', 'pending']
+                for a in lot_awards
+                for i in a.complaints
+            ])
+            stand_still_end = max([
+                a.complaintPeriod.endDate or now
+                for a in lot_awards
+            ])
+            if pending_complaints or pending_awards_complaints or not stand_still_end <= now:
+                continue
+            elif last_award.status == 'unsuccessful':
+                lot.status = 'unsuccessful'
+                continue
+            elif last_award.status == 'active' and any([i.status == 'active' and i.awardID == last_award.id for i in tender.contracts]):
+                lot.status = 'complete'
+        statuses = set([lot.status for lot in tender.lots])
+        if statuses == set(['cancelled']):
+            tender.status = 'cancelled'
+        elif not statuses.difference(set(['unsuccessful', 'cancelled'])):
+            tender.status = 'unsuccessful'
+        elif not statuses.difference(set(['complete', 'unsuccessful', 'cancelled'])):
+            tender.status = 'complete'
+    else:
+        if tender.contracts and tender.contracts[-1].status == 'active':
+            tender.status = 'complete'
 
 
 @opresource(name='Tender Limited Contracts',
@@ -120,7 +166,7 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
                 self.request.errors.status = 403
                 return
             if any([
-                i.status in PENDING_COMPLAINT_STATUS
+                i.status in tender.block_complaint_status and a.lotID == award.lotID
                 for a in tender.awards
                 for i in a.complaints
             ]):
@@ -151,7 +197,7 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
 
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
-        check_tender_status(self.request)
+        check_tender_negotiation_status(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
