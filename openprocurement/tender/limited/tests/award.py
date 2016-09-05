@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
-    test_tender_negotiation_quick_data, test_organization)
+    test_tender_negotiation_quick_data, test_organization, test_lots)
 
 
 class TenderAwardResourceTest(BaseTenderContentWebTest):
@@ -521,6 +521,35 @@ class TenderNegotiationAwardResourceTest(TenderAwardResourceTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"],
                          "Can't update award to active status with not qualified")
+
+    def test_create_two_awards_on_one_lot(self):
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"items": [{'relatedLot': lot['id']}]}})
+        self.assertEqual(response.status, '200 OK')
+
+        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
+                                                              'subcontractingDetails': 'Details',
+                                                              'status': 'pending',
+                                                              'lotID': lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
+                                                              'subcontractingDetails': 'Details',
+                                                              'status': 'pending',
+                                                              'lotID': lot['id']}},
+                                      status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can't create new award on lot while any (pending) award exists")
 
 
 class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest):
