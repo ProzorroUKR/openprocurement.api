@@ -441,10 +441,6 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                                         'Can\'t create new award while any ({}) award exists'.format(tender.awards[-1].status))
                 self.request.errors.status = 403
                 return
-        if award.status == "active" and not award.qualified:
-            self.request.errors.add('body', 'data', 'Can\'t create new award in active status and not qualified')
-            self.request.errors.status = 403
-            return
         award.complaintPeriod = {'startDate': get_now().isoformat()}
         tender.awards.append(award)
         if save_tender(self.request):
