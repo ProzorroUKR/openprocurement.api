@@ -88,10 +88,14 @@ class TenderUaAwardResource(TenderAwardResource):
             self.request.errors.add('body', 'data', 'Can update award only in active lot status')
             self.request.errors.status = 403
             return
+        if any([any([c.status == 'accepted' for c in i.complaints]) for i in tender.awards if i.lotID == award.lotID]):
+            self.request.errors.add('body', 'data', 'Can\'t update award with accepted complaint')
+            self.request.errors.status = 403
+            return
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
-            normalized_end = calculate_normalized_date(award.date, tender, True)
+            normalized_end = calculate_normalized_date(get_now(), tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, STAND_STILL_TIME, tender)
             tender.contracts.append(type(tender).contracts.model_class({
                 'awardID': award.id,
@@ -122,7 +126,7 @@ class TenderUaAwardResource(TenderAwardResource):
                     i.status = 'cancelled'
             add_next_award(self.request)
         elif award_status == 'pending' and award.status == 'unsuccessful':
-            normalized_end = calculate_normalized_date(award.date, tender, True)
+            normalized_end = calculate_normalized_date(get_now(), tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, STAND_STILL_TIME, tender)
             add_next_award(self.request)
         elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
@@ -142,7 +146,7 @@ class TenderUaAwardResource(TenderAwardResource):
                 if i.awardID in cancelled_awards:
                     i.status = 'cancelled'
             add_next_award(self.request)
-        elif not(award_status == 'pending' and award.status == 'pending'):
+        elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
             self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
             self.request.errors.status = 403
             return
