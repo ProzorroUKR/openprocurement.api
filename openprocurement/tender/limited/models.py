@@ -82,6 +82,7 @@ class Award(Model):
 
 ReportingAward = Award
 
+
 class Cancellation(BaseCancellation):
     class Options:
         roles = {
@@ -285,6 +286,7 @@ class Lot(Model):
 
 class Contract(BaseContract):
     items = ListType(ModelType(Item))
+
 
 @implementer(ITender)
 class Tender(ReportingTender):

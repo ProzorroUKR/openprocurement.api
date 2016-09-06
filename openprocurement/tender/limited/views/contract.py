@@ -26,8 +26,6 @@ def check_tender_negotiation_status(request):
         tender.status = 'complete'
     now = get_now()
     if tender.lots:
-        if any([i.status in ['claim', 'answered', 'pending'] and i.relatedLot is None for i in tender.complaints]):
-            return
         for lot in tender.lots:
             if lot.status != 'active':
                 continue
@@ -35,10 +33,6 @@ def check_tender_negotiation_status(request):
             if not lot_awards:
                 continue
             last_award = lot_awards[-1]
-            pending_complaints = any([
-                i['status'] in ['claim', 'answered', 'pending'] and i.relatedLot == lot.id
-                for i in tender.complaints
-            ])
             pending_awards_complaints = any([
                 i.status in ['claim', 'answered', 'pending']
                 for a in lot_awards
@@ -48,7 +42,7 @@ def check_tender_negotiation_status(request):
                 a.complaintPeriod.endDate or now
                 for a in lot_awards
             ])
-            if pending_complaints or pending_awards_complaints or not stand_still_end <= now:
+            if pending_awards_complaints or not stand_still_end <= now:
                 continue
             elif last_award.status == 'unsuccessful':
                 lot.status = 'unsuccessful'
