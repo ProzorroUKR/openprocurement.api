@@ -657,9 +657,11 @@ class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
             self.tender_id, self.contract_id, self.tender_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
 
+
 class TenderNegotiationAccelerationTest(TenderNegotiationQuickAccelerationTest):
     stand_still_period_days = 10
     time_sleep_in_sec = 6
+
 
 class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = 'active'
@@ -989,6 +991,7 @@ class TenderContractNegotiationDocumentResourceTest(TenderContractDocumentResour
 
 class TenderContractNegotiationQuickDocumentResourceTest(TenderContractNegotiationDocumentResourceTest):
     initial_data = test_tender_negotiation_quick_data
+
 
 def suite():
     suite = unittest.TestSuite()
