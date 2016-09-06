@@ -426,16 +426,15 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             self.request.errors.status = 403
             return
         award = self.request.validated['award']
-        # If tender without lots
         if tender.awards:
-            if tender.lots:
+            if tender.lots:  # If tender with lots
                 if award.lotID in [aw.lotID for aw in tender.awards if aw.status in ['pending', 'active']]:
                     self.request.errors.add(
                         'body',
                         'data',
                         'Can\'t create new award on lot while any ({}) award exists'.format(tender.awards[-1].status))
-                self.request.errors.status = 403
-                return
+                    self.request.errors.status = 403
+                    return
             elif tender.awards[-1].status in ['pending', 'active']:
                 self.request.errors.add('body', 'data',
                                         'Can\'t create new award while any ({}) award exists'.format(tender.awards[-1].status))
