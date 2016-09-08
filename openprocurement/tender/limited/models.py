@@ -241,8 +241,8 @@ class Award(ReportingAward):
         if isinstance(data['__parent__'], Model):
             if not lotID and data['__parent__'].lots:
                 raise ValidationError(u'This field is required.')
-        if lotID and lotID not in [i.id for i in data['__parent__'].lots]:
-            raise ValidationError(u"lotID should be one of lots")
+            if lotID and lotID not in [i.id for i in data['__parent__'].lots]:
+                raise ValidationError(u"lotID should be one of lots")
 
     class Options:
         roles = {
