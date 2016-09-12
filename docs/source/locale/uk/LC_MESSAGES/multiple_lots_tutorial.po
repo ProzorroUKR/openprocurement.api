@@ -1,0 +1,122 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.limited 2.3.14\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-12 11:38+0000\n"
+"PO-Revision-Date: 2016-09-12 11:38+0000\n"
+"Last-Translator: Serbokryl Oleg <chezar1995@com.ua>\n"
+"Language-Team: UK <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/multiple_lots_tutorial.rst:4
+msgid "Multiple Lots Tutorial"
+msgstr "Туторіал для багатолотової закупівлі"
+
+#: ../../source/multiple_lots_tutorial.rst:8
+msgid "Creating tender"
+msgstr "Створення закупівлі"
+
+#: ../../source/multiple_lots_tutorial.rst:10
+msgid "Let's create tender:"
+msgstr "Створимо закупівлю:"
+
+#: ../../source/multiple_lots_tutorial.rst:15
+msgid ""
+"Now we can see that new object was created. Response code is `201` and "
+"`Location` response header reports the location of the created object.  The "
+"body of response reveals the information about the created tender: its "
+"internal `id` (that matches the `Location` segment), its official `tenderID`"
+" and `dateModified` datestamp stating the moment in time when tender was "
+"last modified.  Note that tender is created with `active.tendering` status."
+msgstr ""
+"Тепер ми бачимо, що новий об’єкт було створено. Код відповіді - `201`, "
+"заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. "
+"Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` "
+"(яке співпадає з сегментом `Location`), її офіційне `tenderID` та "
+"`dateModified` дату, що показує час, коли закупівля востаннє модифікувалась."
+" Зверніть увагу, що закупівля створюється зі статусом `active.tendering`."
+
+#: ../../source/multiple_lots_tutorial.rst:22
+msgid ""
+"Tender can contain several different lots. We can add lot using the "
+"following way:"
+msgstr ""
+"Закіпівля може складатись із декількох лотів. Можна створити лот таким "
+"чином:"
+
+#: ../../source/multiple_lots_tutorial.rst:27
+msgid "Also you will need to update data about item's related lots:"
+msgstr "Потрібно оновити дані пов’язані із залежністю на лот:"
+
+#: ../../source/multiple_lots_tutorial.rst:32
+msgid "View tender listing:"
+msgstr "Перегляньте список закупівель:"
+
+#: ../../source/multiple_lots_tutorial.rst:37
+msgid "or view tender:"
+msgstr "або перегляньте окрему закупівлю:"
+
+#: ../../source/multiple_lots_tutorial.rst:44
+msgid "Awarding"
+msgstr "Визначення переможця"
+
+#: ../../source/multiple_lots_tutorial.rst:46
+msgid "Addition of supplier information is the same for all procedures."
+msgstr "Спосіб додавання інформації про постачальника однаковий для всіх процедур."
+
+#: ../../source/multiple_lots_tutorial.rst:48
+msgid "Add award for lot №1:"
+msgstr "Додавання інформації про постачальника для лота №1:"
+
+#: ../../source/multiple_lots_tutorial.rst:53
+msgid "Award confirmation:"
+msgstr "Підтвердження визначення переможця:"
+
+#: ../../source/multiple_lots_tutorial.rst:58
+msgid ""
+"The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` "
+"record for **negotiation** is 10 days and for **negotiation.quick** is 5 "
+"days."
+msgstr ""
+"Різниця між початковою (``startDate``) та кінцевою (``endDate``) датою "
+"запису ``complaintPeriod`` для **переговорної** процедури становить 10 днів та 5 днів для **переговорної процедури за нагальною "
+"потребою** "
+
+#: ../../source/multiple_lots_tutorial.rst:62
+msgid "Setting  contract value"
+msgstr "Встановлення вартості угоди"
+
+#: ../../source/multiple_lots_tutorial.rst:64
+msgid ""
+"By default contract value is set based on the award, but there is a "
+"possibility to set custom contract value."
+msgstr ""
+"За замовчуванням вартість угоди встановлюється на основі рішення про "
+"визначення переможця, але є можливість змінити це значення."
+
+#: ../../source/multiple_lots_tutorial.rst:66
+msgid ""
+"If you want to **lower contract value**, you can insert new one into the "
+"`amount` field."
+msgstr ""
+"Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове "
+"значення для поля `amount`."
+
+#: ../../source/multiple_lots_tutorial.rst:71
+msgid "`200 OK` response was returned. The value was modified successfully."
+msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
+
+#: ../../source/multiple_lots_tutorial.rst:75
+msgid "Contract registration"
+msgstr "Реєстрація угоди"
+
+#: ../../source/multiple_lots_tutorial.rst:77
+msgid ""
+"**Negotiation** and **Negotiation.quick** tender contract can be registered only after the stand-still (10 and 5 days period after the award confirmation)."
+msgstr ""
+"Угода про закупівлю за **переговорною** та **переговорної процедури за нагальною потребою** процедурою може бути зареєстрована "
+"одразу після `періоду очікування скарг (десятиденний та пятидений період після "
+"підтвердження визначення переможця)."

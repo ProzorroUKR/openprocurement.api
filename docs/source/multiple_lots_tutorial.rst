@@ -45,7 +45,7 @@ Awarding
 
 Addition of supplier information is the same for all procedures.
 
-Award can register a bid for lot №1:
+Add award for lot №1:
 
 .. include:: multiple_lots_tutorial/tender-award.http
    :code:
@@ -74,8 +74,7 @@ If you want to **lower contract value**, you can insert new one into the `amount
 Contract registration
 ---------------------
 
-**Negotiation** tender contract can be registered only after the stand-still (10 day period after the award confirmation).
-**Negotiation.quick** tender contract can be registered after the stand-still (5 day period after the award confirmation).
+**Negotiation** and **Negotiation.quick** tender contract can be registered only after the stand-still (10 and 5 days period after the award confirmation).
 
 .. include:: multiple_lots_tutorial/tender-contract-sign.http
    :code:
