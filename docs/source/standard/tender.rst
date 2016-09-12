@@ -166,8 +166,13 @@ Schema
    string, multilingual, required for **negotiation** and **negotiation.quick** procedures
     
    Reasoning behind usage of negotiation or negotiation.quick procedures.
-    
-    
+
+:lots:
+   List of :ref:`lot` objects.
+
+   Contains all tender lots.
+   Only if `tender.procurementMethodType` is `negotiation` or `negotiation.quick`.
+
 Tender workflow
 ---------------
 

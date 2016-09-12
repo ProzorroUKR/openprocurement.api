@@ -38,7 +38,8 @@ msgstr "|ocdsDescription| Назва рішення про визначення 
 msgid "|ocdsDescription| Award description."
 msgstr "|ocdsDescription| Опис рішення про визначення переможця."
 
-#: ../../source/standard/award.rst:32
+#: ../../source/standard/award.rst:32 ../../source/standard/award.rst:75
+#: ../../source/standard/award.rst:85
 msgid "string"
 msgstr "рядок"
 
@@ -114,11 +115,11 @@ msgstr "об’єкт `Value`"
 msgid "List of :ref:`Organization` objects"
 msgstr "Список об’єктів :ref:`Organization`"
 
-#: ../../source/standard/award.rst:75
+#: ../../source/standard/award.rst:90
 msgid "Award workflow"
 msgstr "Схема роботи Award"
 
-#: ../../source/standard/award.rst:89
+#: ../../source/standard/award.rst:104
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
 
@@ -132,5 +133,29 @@ msgstr "рядок, :ref:`Date`, генерується автоматично, 
 
 #: ../../source/standard/award.rst:63
 msgid "List of :ref:`Item` objects, auto-generated, read-only"
-msgstr "Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
+msgstr ""
+"Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
 
+#: ../../source/standard/award.rst:77
+msgid "The text field of any length about subcontractor."
+msgstr "Поле будь-якої довжини про постачальника."
+
+#: ../../source/standard/award.rst:80
+msgid "bool"
+msgstr "bool"
+
+#: ../../source/standard/award.rst:82
+msgid ""
+"Confirms the absence of grounds for refusal to participate in accordance "
+"with Article 17 of the Law of Ukraine \"On Public Procurement\"."
+msgstr ""
+"Підтверджує відсутність підстав для відмови від участі відповідно до статті "
+"17 Закону України \"Про державні закупівлі\"."
+
+#: ../../source/standard/award.rst:87
+msgid ""
+"Id of related :ref:`lot`. Only if `tender.procurementMethodType` is "
+"`negotiation` or `negotiation.quick`."
+msgstr ""
+"ID пов’язаного :ref:`lot`. Тільки якщо `tender.procurementMethodType` буде "
+"`negotiation` або `negotiation.quick`."
