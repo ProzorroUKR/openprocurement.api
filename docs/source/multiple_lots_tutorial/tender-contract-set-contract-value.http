@@ -1,0 +1,86 @@
+PATCH /api/2.3/tenders/4bec589c36ec421ebfbc2f785b273fff/contracts/7614c127c74843a59d87c0edb25221be?acc_token=021f23e2ed4548c1b5a3d4104b071dc9 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 36
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+
+{
+  "data": {
+    "value": {
+      "amount": 238
+    }
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "items": [
+      {
+        "relatedLot": "d4d982e10ce844aaa98054c8f113470d", 
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Послуги з харчування у школах", 
+          "id": "55523100-3"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "55.51.10.300", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-09-14T11:29:24.989068+03:00", 
+          "endDate": "2016-09-17T11:29:24.989068+03:00"
+        }, 
+        "description_ru": "Услуги школьных столовых", 
+        "id": "2dc54675d6364e2baffbc0f8e74432ac"
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+          "id": "13313462", 
+          "uri": "http://sch10.edu.vn.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 238.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "date": "2016-09-12T14:29:33.835837+03:00", 
+    "awardID": "66aa55c32fc1417db36eab14982d2d82", 
+    "id": "7614c127c74843a59d87c0edb25221be", 
+    "contractID": "UA-2016-09-12-000001-1"
+  }
+}
+

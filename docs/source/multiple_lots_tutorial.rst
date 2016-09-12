@@ -19,9 +19,6 @@ body of response reveals the information about the created tender: its internal
 `dateModified` datestamp stating the moment in time when tender was last
 modified.  Note that tender is created with `active.tendering` status.
 
-The peculiarity of the Open EU procedure is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdEU``.
-Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically.
-
 Tender can contain several different lots. We can add lot using the following way:
 
 .. include:: multiple_lots_tutorial/tender-add-lot.http
@@ -43,95 +40,42 @@ or view tender:
    :code:
 
 
+Awarding
+--------
 
-Registering bid
----------------
+Addition of supplier information is the same for all procedures.
 
-Tender status ``active.tendering`` allows registration of bids.
+Award can register a bid for lot №1:
 
-Bidder can register a bid for lot №1:
-
-.. include:: multiple_lots_tutorial/bid-lot1.http
+.. include:: multiple_lots_tutorial/tender-award.http
    :code:
 
-Bidder can register bids for all lots:
+Award confirmation:
 
-.. include:: multiple_lots_tutorial/bid-lot2.http
+.. include:: multiple_lots_tutorial/tender-award-approve.http
    :code:
 
-Then bidder should upload technical and private documents of proposal.
+The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation** is 10 days and for **negotiation.quick** is 5 days.
 
-We can update tender during ``active.tendering`` period. Bids will be invalid after updating tender. For example, let's reduce the lot price to 400.
 
-.. include:: multiple_lots_tutorial/tender-invalid-all-bids.http
+Setting  contract value
+-----------------------
+
+By default contract value is set based on the award, but there is a possibility to set custom contract value.
+
+If you want to **lower contract value**, you can insert new one into the `amount` field.
+
+.. include:: multiple_lots_tutorial/tender-contract-set-contract-value.http
    :code:
 
-Here is the bidder's proposal after tender was updated.
+`200 OK` response was returned. The value was modified successfully.
 
-.. include:: multiple_lots_tutorial/bid-lot1-invalid-view.http
+
+Contract registration
+---------------------
+
+**Negotiation** tender contract can be registered only after the stand-still (10 day period after the award confirmation).
+**Negotiation.quick** tender contract can be registered after the stand-still (5 day period after the award confirmation).
+
+.. include:: multiple_lots_tutorial/tender-contract-sign.http
    :code:
-
-Firstly bidder has to renew bid, even if he was placing a bid just for a lot №1.
-
-.. include:: multiple_lots_tutorial/bid-lot1-update-view.http
-   :code:
-
-Then bidder has to renew bid only for a lot №1.
-
-.. include:: multiple_lots_tutorial/bid-lot2-update-view.http
-   :code:
-
-
-Bid Qualification
------------------
-
-CompetitiveDialogue procedure requires bid's value qualification.
-
-Let's view tender: 
-
-.. include:: multiple_lots_tutorial/tender-view-pre-qualification.http
-   :code:
-
-Let's list qualifications:
-
-.. include:: multiple_lots_tutorial/qualifications-view.http
-   :code:
-
-Approve bid's value through qualification objects:
-
-.. include:: multiple_lots_tutorial/tender-activate-qualifications.http
-   :code:
-
-
-Procuring entity approves qualifications by switching to next status:
-
-.. include:: multiple_lots_tutorial/tender-view-pre-qualification-stand-still.http
-   :code:
-
-There is 10 day stand-still period set in `qualificationPeriod`.
-
-Second stage
-------------
-
-On second stage we must register new bids, but register bid can only users who was approved on first stage
-
-Let's try register bid by procuring which didn't was on first stage
-
-.. include:: multiple_lots_tutorial/register_bad_bid.http
-   :code:
-
-We catch error.
-
-Now procuring which was approved on 1 lot.
-
-.. include:: multiple_lots_tutorial/register_ok_bid.http
-   :code:
-
-Successs!
-
-And now try register on lot which he not allowed.
-
-.. include:: multiple_lots_tutorial/register_bad_not_allowed_lot.http
-   :code:
-
-We again catch error. So we can conclude that, only user from first stage can register bid on second stage.
