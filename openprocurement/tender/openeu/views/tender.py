@@ -98,6 +98,10 @@ class TenderEUResource(TenderResource):
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.tendering':
             tender.invalidate_bids_data()
         elif self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.pre-qualification' and tender.status == "active.pre-qualification.stand-still":
+            if any([i['status'] in self.request.validated['tender'].block_complaint_status for q in self.request.validated['tender']['qualifications'] for i in q['complaints']]):
+                self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' before resolve all complaints')
+                self.request.errors.status = 403
+                return
             if all_bids_are_reviewed(self.request):
                 normalized_date = calculate_normalized_date(get_now(), tender, True)
                 tender.qualificationPeriod.endDate = calculate_business_date(normalized_date, COMPLAINT_STAND_STILL, self.request.validated['tender'])
