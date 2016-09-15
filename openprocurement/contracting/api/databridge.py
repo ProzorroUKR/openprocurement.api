@@ -12,7 +12,6 @@ import logging.config
 import os
 import argparse
 
-from copy import deepcopy
 from retrying import retry
 from uuid import uuid4
 
@@ -28,11 +27,11 @@ from openprocurement.contracting.api.journal_msg_ids import (
     DATABRIDGE_FOUND_MULTILOT_COMPLETE, DATABRIDGE_FOUND_NOLOT_COMPLETE,
     DATABRIDGE_CONTRACT_TO_SYNC, DATABRIDGE_CONTRACT_EXISTS,
     DATABRIDGE_COPY_CONTRACT_ITEMS, DATABRIDGE_MISSING_CONTRACT_ITEMS,
-    DATABRIDGE_GET_EXTRA_INFO, DATABRIDGE_MISSING_CREDENTIALS,
-    DATABRIDGE_GOT_EXTRA_INFO, DATABRIDGE_CREATE_CONTRACT,
-    DATABRIDGE_CONTRACT_CREATED, DATABRIDGE_UNSUCCESSFUL_CREATE,
-    DATABRIDGE_RETRY_CREATE, DATABRIDGE_CREATE_ERROR, DATABRIDGE_TENDER_PROCESS,
-    DATABRIDGE_SKIP_NOT_MODIFIED, DATABRIDGE_SYNC_SLEEP, DATABRIDGE_SYNC_RESUME)
+    DATABRIDGE_GET_EXTRA_INFO, DATABRIDGE_WORKER_DIED, DATABRIDGE_START,
+    DATABRIDGE_GOT_EXTRA_INFO, DATABRIDGE_CREATE_CONTRACT, DATABRIDGE_EXCEPTION,
+    DATABRIDGE_CONTRACT_CREATED, DATABRIDGE_RETRY_CREATE,
+    DATABRIDGE_TENDER_PROCESS, DATABRIDGE_SKIP_NOT_MODIFIED,
+    DATABRIDGE_SYNC_SLEEP, DATABRIDGE_SYNC_RESUME, DATABRIDGE_CACHED)
 
 
 logger = logging.getLogger("openprocurement.contracting.api.databridge")
@@ -59,29 +58,47 @@ class ContractingDataBridge(object):
     def __init__(self, config):
         super(ContractingDataBridge, self).__init__()
         self.config = config
+        self.on_error_delay = self.config_get('on_error_sleep_delay') or 5
+        self.jobs_watcher_delay = self.config_get('jobs_watcher_delay') or 15
+        queue_size = self.config_get('buffers_size') or 500
+        self.full_stack_sync_delay = self.config_get('full_stack_sync_delay') or 15
+        self.empty_stack_sync_delay = self.config_get('empty_stack_sync_delay') or 101
+
+        api_server = self.config_get('tenders_api_server')
+        api_version = self.config_get('tenders_api_version')
+        ro_api_server = self.config_get('public_tenders_api_server') or api_server
+
+        contracting_api_server = self.config_get('contracting_api_server')
+        contracting_api_version = self.config_get('contracting_api_version')
 
         self.tenders_sync_client = TendersClientSync('',
-            host_url=self.config_get('tenders_api_server'),
-            api_version=self.config_get('tenders_api_version'),
+            host_url=ro_api_server, api_version=api_version,
         )
 
         self.client = TendersClient(
             self.config_get('api_token'),
-            host_url=self.config_get('tenders_api_server'),
-            api_version=self.config_get('tenders_api_version'),
+            host_url=api_server, api_version=api_version,
         )
 
         self.contracting_client = ContractingClient(
             self.config_get('api_token'),
-            host_url=self.config_get('tenders_api_server'),
-            api_version=self.config_get('tenders_api_version')
+            host_url=contracting_api_server, api_version=contracting_api_version
         )
 
+        self.contracting_client_ro = self.contracting_client
+        if self.config_get('public_tenders_api_server'):
+            if api_server == contracting_api_server and api_version == contracting_api_version:
+                self.contracting_client_ro = ContractingClient(
+                    self.config_get('api_token'),
+                    host_url=ro_api_server, api_version=api_version
+                )
+
         self.initial_sync_point = {}
-        self.tenders_queue = Queue(maxsize=500)
-        self.handicap_contracts_queue = Queue(maxsize=500)
-        self.contracts_put_queue = Queue(maxsize=500)
-        self.contracts_retry_put_queue = Queue(maxsize=500)
+        self.initialization_event = gevent.event.Event()
+        self.tenders_queue = Queue(maxsize=queue_size)
+        self.handicap_contracts_queue = Queue(maxsize=queue_size)
+        self.contracts_put_queue = Queue(maxsize=queue_size)
+        self.contracts_retry_put_queue = Queue(maxsize=queue_size)
 
     def config_get(self, name):
         return self.config.get('main').get(name)
@@ -96,22 +113,19 @@ class ContractingDataBridge(object):
                                                                                          {"TENDER_ID": tender_id}))
         return data
 
-    @retry(stop_max_attempt_number=5, wait_exponential_multiplier=1000)
     def initialize_sync(self, params=None, direction=None):
-        # TODO use gevent.Event to wake up forward sync instead of checking
-        # initial sync point
         if direction == "backward":
             assert params['descending']
             response = self.tenders_sync_client.sync_tenders(params, extra_headers={'X-Client-Request-ID': generate_req_id()})
             # set values in reverse order due to 'descending' option
             self.initial_sync_point = {'forward_offset': response.prev_page.offset,
                                        'backward_offset': response.next_page.offset}
+            self.initialization_event.set()  # wake up forward worker
             logger.info("Initial sync point {}".format(self.initial_sync_point))
             return response
-        elif not self.initial_sync_point:
-            raise ValueError
         else:
             assert 'descending' not in params
+            gevent.wait([self.initialization_event])
             params['offset'] = self.initial_sync_point['forward_offset']
             logger.info("Starting forward sync from offset {}".format(params['offset']))
             return self.tenders_sync_client.sync_tenders(params, extra_headers={'X-Client-Request-ID': generate_req_id()})
@@ -123,9 +137,9 @@ class ContractingDataBridge(object):
             tenders_list = response.data
             params['offset'] = response.next_page.offset
 
-            delay = 101
+            delay = self.empty_stack_sync_delay
             if tenders_list:
-                delay = 15
+                delay = self.full_stack_sync_delay
                 logger.info("Client {} params: {}".format(direction, params))
             for tender in tenders_list:
                 if tender['status'] in ("active.qualification",
@@ -149,101 +163,118 @@ class ContractingDataBridge(object):
             logger.debug('{} {}'.format(direction, params))
             response = self.tenders_sync_client.sync_tenders(params, extra_headers={'X-Client-Request-ID': generate_req_id()})
 
+    def _get_tender_contracts(self):
+        try:
+            tender_to_sync = self.tenders_queue.get()
+            tender = self.tenders_sync_client.get_tender(tender_to_sync['id'],
+                                                         extra_headers={'X-Client-Request-ID': generate_req_id()})['data']
+            db.put(tender_to_sync['id'], {'dateModified': tender_to_sync['dateModified']})
+        except Exception, e:
+            logger.warn('Fail to get tender info {}'.format(tender_to_sync['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"TENDER_ID": tender_to_sync['id']}))
+            logger.exception(e)
+            logger.info('Put tender {} back to tenders queue'.format(tender_to_sync['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"TENDER_ID": tender_to_sync['id']}))
+            self.tenders_queue.put(tender_to_sync)
+            gevent.sleep(self.on_error_delay)
+        else:
+            if 'contracts' not in tender:
+                logger.warn('!!!No contracts found in tender {}'.format(tender['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"TENDER_ID": tender['id']}))
+                return
+            for contract in tender['contracts']:
+                if contract["status"] == "active":
+
+                    try:
+                        if not db.has(contract['id']):
+                            self.contracting_client_ro.get_contract(contract['id'])
+                        else:
+                            logger.info('Contract {} exists in local db'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_CACHED}, params={"CONTRACT_ID": contract['id']}))
+                            continue
+                    except ResourceNotFound:
+                        logger.info('Sync contract {} of tender {}'.format(contract['id'], tender['id']), extra=journal_context(
+                            {"MESSAGE_ID": DATABRIDGE_CONTRACT_TO_SYNC}, {"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
+                    except Exception, e:
+                        logger.warn('Fail to contract existance {}'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"TENDER_ID": tender_to_sync['id'],
+                                                                                                                                                                "CONTRACT_ID": contract['id']}))
+                        logger.exception(e)
+                        logger.info('Put tender {} back to tenders queue'.format(tender_to_sync['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"TENDER_ID": tender_to_sync['id'],
+                                                                                                                                                                            "CONTRACT_ID": contract['id']}))
+                        self.tenders_queue.put(tender_to_sync)
+                        break
+                    else:
+                        db.put(contract['id'], True)
+                        logger.info('Contract exists {}'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_CONTRACT_EXISTS},
+                                                                                                       {"TENDER_ID": tender_to_sync['id'], "CONTRACT_ID": contract['id']}))
+                        continue
+
+                    contract['tender_id'] = tender['id']
+                    contract['procuringEntity'] = tender['procuringEntity']
+                    if tender.get('mode'):
+                        contract['mode'] = tender['mode']
+
+                    if not contract.get('items'):
+                        logger.info('Copying contract {} items'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_COPY_CONTRACT_ITEMS},
+                                                                                                              {"CONTRACT_ID": contract['id'], "TENDER_ID": tender_to_sync['id']}))
+                        if tender.get('lots'):
+                            related_awards = [aw for aw in tender['awards'] if aw['id'] == contract['awardID']]
+                            if related_awards:
+                                award = related_awards[0]
+                                if award.get("items"):
+                                    logger.debug('Copying items from related award {}'.format(award['id']))
+                                    contract['items'] = award['items']
+                                else:
+                                    logger.debug('Copying items matching related lot {}'.format(award['relatedLot']))
+                                    contract['items'] = [item for item in tender['items'] if item['relatedLot'] == award['lotID']]
+                            else:
+                                logger.warn('Not found related award for contact {} of tender {}'.format(contract['id'], tender['id']),
+                                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
+                        else:
+                            logger.debug('Copying all tender {} items into contract {}'.format(tender['id'], contract['id']),
+                                         extra=journal_context({"MESSAGE_ID": DATABRIDGE_COPY_CONTRACT_ITEMS}, params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
+                            contract['items'] = tender['items']
+
+                    if not contract.get('items'):
+                        logger.warn('Contact {} of tender {} does not contain items info'.format(contract['id'], tender['id']),
+                                    extra=journal_context({"MESSAGE_ID": DATABRIDGE_MISSING_CONTRACT_ITEMS},
+                                                          {"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
+
+                    for item in contract.get('items', []):
+                        if 'deliveryDate' in item and 'startDate' in item['deliveryDate']:
+                            if item['deliveryDate']['startDate'] > item['deliveryDate']['endDate']:
+                                logger.info("Found dates missmatch {} and {}".format(item['deliveryDate']['startDate'], item['deliveryDate']['endDate']),
+                                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
+                                del item['deliveryDate']['startDate']
+                                logger.info("startDate value cleaned.",
+                                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
+
+                    self.handicap_contracts_queue.put(contract)
+
     def get_tender_contracts(self):
         while True:
             try:
-                tender_to_sync = self.tenders_queue.get()
-                tender = self.tenders_sync_client.get_tender(tender_to_sync['id'],
-                                                             extra_headers={'X-Client-Request-ID': generate_req_id()})['data']
-                db.put(tender_to_sync['id'], {'dateModified': tender_to_sync['dateModified']})
+                self._get_tender_contracts()
             except Exception, e:
+                logger.warn("Fail to handle tender contracts", extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, {}))
                 logger.exception(e)
-                logger.info('Put tender {} back to tenders queue'.format(tender_to_sync['id']), extra=journal_context(params={"TENDER_ID": tender_to_sync['id']}))
-                self.tenders_queue.put(tender_to_sync)
-            else:
-                if 'contracts' not in tender:
-                    logger.warn('!!!No contracts found in tender {}'.format(tender['id']), extra=journal_context(params={"TENDER_ID": tender['id']}))
-                    continue
-                for contract in tender['contracts']:
-                    if contract["status"] == "active":
-
-                        try:
-                            if not db.has(contract['id']):
-                                self.contracting_client.get_contract(contract['id'])
-                            else:
-                                logger.info('Contract {} exists in local db'.format(contract['id']), extra=journal_context(params={"CONTRACT_ID": contract['id']}))
-                                continue
-                        except ResourceNotFound:
-                            logger.info('Sync contract {} of tender {}'.format(contract['id'], tender['id']), extra=journal_context(
-                                {"MESSAGE_ID": DATABRIDGE_CONTRACT_TO_SYNC}, {"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
-                        except Exception, e:
-                            logger.exception(e)
-                            logger.info('Put tender {} back to tenders queue'.format(tender_to_sync['id']), extra=journal_context(params={"TENDER_ID": tender_to_sync['id']}))
-                            self.tenders_queue.put(tender_to_sync)
-                            break
-                        else:
-                            db.put(contract['id'], True)
-                            logger.info('Contract exists {}'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_CONTRACT_EXISTS},
-                                                                                                           {"CONTRACT_ID": contract['id']}))
-                            continue
-
-                        contract['tender_id'] = tender['id']
-                        contract['procuringEntity'] = tender['procuringEntity']
-                        if tender.get('mode'):
-                            contract['mode'] = tender['mode']
-
-                        if not contract.get('items'):
-                            logger.info('Copying contract {} items'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_COPY_CONTRACT_ITEMS},
-                                                                                                                  {"CONTRACT_ID": contract['id']}))
-                            if tender.get('lots'):
-                                related_awards = [aw for aw in tender['awards'] if aw['id'] == contract['awardID']]
-                                if related_awards:
-                                    award = related_awards[0]
-                                    if award.get("items"):
-                                        logger.debug('Copying items from related award {}'.format(award['id']))
-                                        contract['items'] = award['items']
-                                    else:
-                                        logger.debug('Copying items matching related lot {}'.format(award['relatedLot']))
-                                        contract['items'] = [item for item in tender['items'] if item['relatedLot'] == award['lotID']]
-                                else:
-                                    logger.warn('Not found related award for contact {} of tender {}'.format(contract['id'], tender['id']),
-                                                extra=journal_context(params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
-                            else:
-                                logger.debug('Copying all tender {} items into contract {}'.format(tender['id'], contract['id']),
-                                             extra=journal_context(params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
-                                contract['items'] = tender['items']
-
-                        if not contract.get('items'):
-                            logger.warn('Contact {} of tender {} does not contain items info'.format(contract['id'], tender['id']),
-                                        extra=journal_context({"MESSAGE_ID": DATABRIDGE_MISSING_CONTRACT_ITEMS},
-                                                              {"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
-
-                        for item in contract.get('items', []):
-                            if 'deliveryDate' in item and 'startDate' in item['deliveryDate']:
-                                if item['deliveryDate']['startDate'] > item['deliveryDate']['endDate']:
-                                    logger.info("Found dates missmatch {} and {}".format(item['deliveryDate']['startDate'], item['deliveryDate']['endDate']),
-                                                extra=journal_context(params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
-                                    del item['deliveryDate']['startDate']
-                                    logger.info("startDate value cleaned.",
-                                                extra=journal_context(params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
-
-                        self.handicap_contracts_queue.put(contract)
+                gevent.sleep(self.on_error_delay)
+            gevent.sleep(0)
 
     def prepare_contract_data(self):
         while True:
             contract = self.handicap_contracts_queue.get()
             try:
                 logger.info("Getting extra info for tender {}".format(contract['tender_id']),
-                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_GET_EXTRA_INFO}, {"TENDER_ID": contract['tender_id']}))
+                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_GET_EXTRA_INFO}, {"TENDER_ID": contract['tender_id'], "CONTRACT_ID": contract['id']}))
                 tender_data = self.get_tender_credentials(contract['tender_id'])
+                assert 'owner' in tender_data.data
+                assert 'tender_token' in tender_data.data
             except Exception, e:
+                logger.warn("Can't get tender credentials {}".format(contract['tender_id']),
+                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, {"TENDER_ID": contract['tender_id'], "CONTRACT_ID": contract['id']}))
                 logger.exception(e)
-                logger.info("Can't get tender credentials {}".format(contract['tender_id']),
-                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_MISSING_CREDENTIALS}, {"TENDER_ID": contract['tender_id']}))
                 self.handicap_contracts_queue.put(contract)
+                gevent.sleep(self.on_error_delay)
             else:
                 logger.debug("Got extra info for tender {}".format(contract['tender_id']),
-                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_GOT_EXTRA_INFO}, {"TENDER_ID": contract['tender_id']}))
+                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_GOT_EXTRA_INFO}, {"TENDER_ID": contract['tender_id'], "CONTRACT_ID": contract['id']}))
                 data = tender_data.data
                 contract['owner'] = data['owner']
                 contract['tender_token'] = data['tender_token']
@@ -262,9 +293,9 @@ class ContractingDataBridge(object):
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_CONTRACT_CREATED}, {"CONTRACT_ID": contract['id'], "TENDER_ID": contract['tender_id']}))
                 db.put(contract['id'], True)
             except Exception, e:
-                logger.exception(e)
                 logger.info("Unsuccessful put for contract {0} of tender {1}".format(contract['id'], contract['tender_id']),
-                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE}, {"CONTRACT_ID": contract['id'], "TENDER_ID": contract['tender_id']}))
+                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, {"CONTRACT_ID": contract['id'], "TENDER_ID": contract['tender_id']}))
+                logger.exception(e)
                 logger.info("Schedule retry for contract {0}".format(contract['id']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_RETRY_CREATE}, {"CONTRACT_ID": contract['id'], "TENDER_ID": contract['tender_id']}))
                 self.contracts_retry_put_queue.put(contract)
@@ -284,14 +315,10 @@ class ContractingDataBridge(object):
     def retry_put_contracts(self):
         while True:
             try:
-                contract = self.contracts_retry_put_queue.peek()
+                contract = self.contracts_retry_put_queue.get()
                 self._put_with_retry(contract)
             except:
-                contract = self.contracts_retry_put_queue.get()
-                del contract['tender_token']  # do not reveal tender credentials in logs
-                logger.warn("Can't create contract {}".format(contract),  extra=journal_context({"MESSAGE_ID": DATABRIDGE_CREATE_ERROR}, {"CONTRACT_ID": contract['id']}))
-            else:
-                self.contracts_retry_put_queue.get()
+                logger.warn("Can't create contract {}".format(contract['id']),  extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, {"TENDER_ID": contract['tender_id'], "CONTRACT_ID": contract['id']}))
             gevent.sleep(0)
 
     def get_tender_contracts_forward(self):
@@ -304,10 +331,10 @@ class ContractingDataBridge(object):
                 self.tenders_queue.put(tender_data)
         except Exception, e:
             # TODO reset queues and restart sync
-            logger.warn('Forward worker died!')
+            logger.warn('Forward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
             logger.exception(e)
         else:
-            logger.warn('Forward data sync finished!')  # Should never happen!!!
+            logger.warn('Forward data sync finished!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))  # Should never happen!!!
 
     def get_tender_contracts_backward(self):
         logger.info('Start backward data sync worker...')
@@ -324,7 +351,7 @@ class ContractingDataBridge(object):
                 self.tenders_queue.put(tender_data)
         except Exception, e:
             # TODO reset queues and restart sync
-            logger.warn('Backward worker died!')
+            logger.warn('Backward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
             logger.exception(e)
         else:
             logger.info('Backward data sync finished.')
@@ -377,30 +404,47 @@ class ContractingDataBridge(object):
                 logger.info("Tender {} does not contain contracts to transfer".format(tender_id))
 
 
-    def run(self):
-        logger.info('Start Contracting Data Bridge')
-        self.immortal_jobs = [
-            gevent.spawn(self.get_tender_contracts),
-            gevent.spawn(self.prepare_contract_data),
-            gevent.spawn(self.put_contracts),
-            gevent.spawn(self.retry_put_contracts),
-        ]
-        while True:
-            try:
-                logger.info('Starting forward and backward sync workers')
-                self.jobs = [
-                    gevent.spawn(self.get_tender_contracts_backward),
-                    gevent.spawn(self.get_tender_contracts_forward),
-                ]
-                gevent.joinall(self.jobs)
-            except KeyboardInterrupt:
-                logger.info('Exiting...')
-                gevent.killall(self.jobs, timeout=5)
-                break
-            except Exception, e:
-                logger.exception(e)
+    def _start_synchronization_workers(self):
+        logger.info('Starting forward and backward sync workers')
+        self.jobs = [gevent.spawn(self.get_tender_contracts_backward),
+                     gevent.spawn(self.get_tender_contracts_forward)]
 
-            logger.warn("Restarting synchronization", extra=journal_context({"MESSAGE_ID": DATABRIDGE_RESTART}))
+    def _restart_synchronization_workers(self):
+        logger.warn("Restarting synchronization", extra=journal_context({"MESSAGE_ID": DATABRIDGE_RESTART}, {}))
+        for j in self.jobs:
+            j.kill()
+        self._start_synchronization_workers()
+
+    def _start_contract_sculptors(self):
+        self.immortal_jobs = {'get_tender_contracts': gevent.spawn(self.get_tender_contracts),
+                              'prepare_contract_data': gevent.spawn(self.prepare_contract_data),
+                              'put_contracts': gevent.spawn(self.put_contracts),
+                              'retry_put_contracts': gevent.spawn(self.retry_put_contracts)}
+
+    def run(self):
+        logger.info('Start Contracting Data Bridge', extra=journal_context({"MESSAGE_ID": DATABRIDGE_START}, {}))
+        self._start_contract_sculptors()
+        self._start_synchronization_workers()
+        backward_worker, forward_worker = self.jobs
+
+        try:
+            while True:
+                gevent.sleep(self.jobs_watcher_delay)
+                if forward_worker.dead or (backward_worker.dead and not backward_worker.successful()):
+                    self._restart_synchronization_workers()
+                    backward_worker, forward_worker = self.jobs
+
+                for name, job in self.immortal_jobs.items():
+                    if job.dead:
+                        logger.warn('Restarting {} worker'.format(name))
+                        self.immortal_jobs[name] = gevent.spawn(getattr(self, name))
+
+        except KeyboardInterrupt:
+            logger.info('Exiting...')
+            gevent.killall(self.jobs, timeout=5)
+            gevent.killall(self.immortal_jobs, timeout=5)
+        except Exception, e:
+            logger.exception(e)
 
 
 def main():
