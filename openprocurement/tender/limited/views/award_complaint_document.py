@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import opresource
 from openprocurement.tender.openua.views.award_complaint_document import TenderUaAwardComplaintDocumentResource
-
-STATUS4ROLE = {
-    'complaint_owner': ['draft', 'answered', 'claim'],
-    'aboveThresholdReviewers': ['pending', 'accepted', 'stopping'],
-    'tender_owner': ['claim', 'satisfied'],
-}
+from openprocurement.tender.openua.views.complaint_document import STATUS4ROLE
 
 
 @opresource(name='Tender negotiation Award Complaint Documents',
