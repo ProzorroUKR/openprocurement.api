@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
+from uuid import uuid4
 
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.models import get_now
@@ -514,6 +515,15 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['errors'], [
             {u'description': [{u'deliveryDate': [u'This field is required.'], u'deliveryAddress': {u'postalCode': [u'This field is required.'], u'locality': [u'This field is required.']}}], u'location': u'body', u'name': u'items'}
         ])
+        
+        data = deepcopy(test_tender_data)
+        data['items'][0]['relatedLot'] = uuid4().hex
+        response = self.app.post_json(request_path, {'data':data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'],  [
+            {u'description': [{u'relatedLot': [u'This option is not available']}], u'location': u'body', u'name': u'items'}])
 
     def test_create_tender_generated(self):
         data = self.initial_data.copy()
