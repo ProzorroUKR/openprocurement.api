@@ -22,9 +22,14 @@ from openprocurement.api.models import ITender
 from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import ProcuringEntity as BaseProcuringEntity
 from openprocurement.tender.openua.models import Complaint as BaseComplaint
-from openprocurement.tender.openua.models import Item
+from openprocurement.tender.openua.models import Item as BaseItem
 from openprocurement.tender.openua.models import Tender as OpenUATender
 
+
+class Item(BaseItem):
+    def validate_relatedLot(self, data, relatedLot):
+        if relatedLot and isinstance(data['__parent__'], Model):
+            raise ValidationError(u"This option is not available")
 
 class Complaint(BaseComplaint):
     class Options:
