@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.3.7'
+version = '2.3.9'
 
 requires = [
     'couchdb',
