@@ -1134,10 +1134,18 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(BaseTenderContentWebTe
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']["status"], "pending")
 
-        response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token), 'content', content_type='application/msword', status=403)
-        self.assertEqual(response.status, '403 Forbidden')
+        response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token), 'contentX', content_type='application/msword')
+        self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (pending) complaint status")
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        key = response.json["data"]["url"].split('?')[-1]
+
+        response = self.app.get('/tenders/{}/awards/{}/complaints/{}/documents/{}?{}'.format(
+            self.tender_id, self.award_id, self.complaint_id, doc_id, key))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/msword')
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, 'contentX')
 
         self.set_status('complete')
 
