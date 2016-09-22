@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-from uuid import uuid4
 
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.models import get_now
@@ -257,25 +256,20 @@ class TenderResourceTest(BaseTenderWebTest):
 
     def test_tender_award_create(self):
         data = test_tender_data.copy()
-        award_id = uuid4().hex
+        award_id = "1234"*8
         data['awards'] = [{'suppliers': [test_organization],
                            'subcontractingDetails': 'Details',
                            'status': 'pending',
                            'qualified': True,
                            'id': award_id}
                            ]
-        
+
         data['contracts'] = [{'title': 'contract title', 'description': 'contract description', 'awardID' : award_id}]
         response = self.app.post_json('/tenders', {'data': data})
         self.assertEqual(response.status, '201 Created')
-        
-        if 'contracts' in response.json['data']:
-            if 'awards' in response.json['data']:
-                pass
-            else:
-                self.assertNotIn('awards', response.json['data']) 
-        
-        
+        self.assertNotIn('contracts', response.json['data'])
+        self.assertNotIn('awards', response.json['data'])
+
     def test_listing_changes(self):
         response = self.app.get('/tenders?feed=changes')
         self.assertEqual(response.status, '200 OK')
