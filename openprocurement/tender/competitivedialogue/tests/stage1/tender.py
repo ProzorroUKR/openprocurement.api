@@ -1230,7 +1230,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
                                                 'tenderers': [bidder_data], "value": {"amount": 499}}})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
-        bidder_data['identifier']['id'] = u"00037258"
+        bidder_data['identifier']['id'] = u"00037259"
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
                                                 'tenderers': [bidder_data], "value": {"amount": 498}}})
