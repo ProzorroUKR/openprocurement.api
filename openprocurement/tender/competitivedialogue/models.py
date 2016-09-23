@@ -361,6 +361,7 @@ class Tender(BaseTenderEU):
     # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     items = ListType(ModelType(ItemStage2EU), required=True, min_size=1, validators=[validate_cpv_group,
                                                                                      validate_items_uniq])
+    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
 
     create_accreditation = 'c'
 
@@ -396,6 +397,7 @@ class Tender(BaseTenderUA):
     lots = ListType(ModelType(LotStage2UA), default=list(), validators=[validate_lots_uniq])
     items = ListType(ModelType(ItemStage2UA), required=True, min_size=1, validators=[validate_cpv_group,
                                                                                      validate_items_uniq])
+    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
 
     create_accreditation = 'c'
 
