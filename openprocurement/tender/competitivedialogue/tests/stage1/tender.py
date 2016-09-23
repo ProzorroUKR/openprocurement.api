@@ -1275,11 +1275,11 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json['data']['status'], "active.pre-qualification")
-        # reject third bid
+        # approve third bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.patch_json(
             '/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[2]['id'], tender_owner_token),
-            {"data": {"status": "unsuccessful"}})
+            {"data": {"status": "active", "qualified": True, "eligible": True}})
         self.assertEqual(response.status, "200 OK")
         # switch to next status
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_owner_token),
