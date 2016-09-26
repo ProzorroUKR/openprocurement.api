@@ -202,6 +202,7 @@ def check_status(request):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.stage2.pending'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active_stage2_pending'}))
         tender.status = 'active.stage2.pending'
+        check_initial_bids_count(request)
         return
 
 
