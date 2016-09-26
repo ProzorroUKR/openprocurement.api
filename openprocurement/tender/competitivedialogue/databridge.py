@@ -36,7 +36,7 @@ from openprocurement.tender.competitivedialogue.journal_msg_ids import (
     DATABRIDGE_CD_PATCHED_STAGE2_ID, DATABRIDGE_PATCH_NEW_TENDER_STATUS, DATABRIDGE_SUCCESSFUL_PATCH_NEW_TENDER_STATUS,
     DATABRIDGE_UNSUCCESSFUL_PATCH_NEW_TENDER_STATUS, DATABRIDGE_PATCH_DIALOG_STATUS,
     DATABRIDGE_UNSUCCESSFUL_PATCH_DIALOG_STATUS, DATABRIDGE_SUCCESSFUL_PATCH_DIALOG_STATUS, DATABRIDGE_ONLY_PATCH,
-    DATABRIDGE_TENDER_STAGE2_NOT_EXIST, DATABRIDGE_CREATE_NEW_STAGE2)
+    DATABRIDGE_TENDER_STAGE2_NOT_EXIST, DATABRIDGE_CREATE_NEW_STAGE2, DATABRIDGE_WORKER_DIED)
 
 
 dialog_work = set()  # local storage for current competitive dialogue in main queue
@@ -528,7 +528,7 @@ class CompetitiveDialogueDataBridge(object):
                 self.competitive_dialogues_queue.put(tender_data)
         except Exception, e:
             # TODO reset queues and restart sync
-            logger.warn('Forward worker died!')
+            logger.warn('Forward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
             logger.exception(e)
         else:
             logger.warn('Forward data sync finished!')  # Should never happen!!!
@@ -544,7 +544,7 @@ class CompetitiveDialogueDataBridge(object):
                 self.competitive_dialogues_queue.put(tender_data)
         except Exception, e:
             # TODO reset queues and restart sync
-            logger.warn('Backward worker died!')
+            logger.warn('Backward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
             logger.exception(e)
         else:
             logger.info('Backward data sync finished.')
