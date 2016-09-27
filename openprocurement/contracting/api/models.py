@@ -144,7 +144,7 @@ class Contract(SchematicsDocument, BaseContract):
     revisions = ListType(ModelType(Revision), default=list())
     dateModified = IsoDateTimeType()
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])
+    items = ListType(ModelType(Item), required=False, min_size=1, validators=[validate_cpv_group, validate_items_uniq])
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
     owner_token = StringType(default=lambda: uuid4().hex)
