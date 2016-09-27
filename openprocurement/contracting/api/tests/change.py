@@ -1,7 +1,48 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 from openprocurement.api.models import get_now
-from openprocurement.contracting.api.tests.base import BaseContractContentWebTest
+from openprocurement.contracting.api.tests.base import (
+    BaseWebTest, BaseContractContentWebTest, test_contract_data)
+
+
+class ContractNoItemsChangeTest(BaseWebTest):
+
+    def test_no_items_contract_change(self):
+        data = deepcopy(test_contract_data)
+        del data['items']
+        response = self.app.post_json('/contracts', {"data": data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        contract = response.json['data']
+        self.assertEqual(contract['status'], 'active')
+        self.assertNotIn('items', contract)
+        tender_token = data['tender_token']
+
+        response = self.app.patch_json('/contracts/{}/credentials?acc_token={}'.format(contract['id'], tender_token),
+                                       {'data': ''})
+        self.assertEqual(response.status, '200 OK')
+        token = response.json['access']['token']
+
+        response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(contract['id'], token),
+                                      {'data': {'rationale': u'причина зміни укр',
+                                                'rationaleTypes': ['qualityImprovement']}})
+        self.assertEqual(response.status, '201 Created')
+        change = response.json['data']
+        self.assertEqual(change['status'], 'pending')
+
+        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(contract['id'], change['id'], token),
+                                       {'data': {'status': 'active'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract['id'], token),
+                                       {"data": {"status": "terminated", "amountPaid": {"amount": 100, "valueAddedTaxIncluded": True, "currency": "UAH"}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'terminated')
+
+        response = self.app.get('/contracts/{}'.format(contract['id']))
+        self.assertNotIn('items', response.json['data'])
 
 
 class ContractChangesResourceTest(BaseContractContentWebTest):
