@@ -4,13 +4,16 @@ import os
 version = '0.1'
 
 requires = [
-    'setuptools',
+    'setuptools'
+]
+
+api_requires = requires + [
     'openprocurement.api>=2.3',
     'openprocurement.tender.openua',
     'openprocurement.tender.openeu'
 ]
 
-test_requires = requires + [
+test_requires = api_requires + requires + [
     'webtest',
     'python-coveralls',
 ]
@@ -62,6 +65,6 @@ setup(name='openprocurement.tender.competitivedialogue',
       zip_safe=False,
       install_requires=requires,
       extras_require={'test': test_requires, 'docs': docs_requires,
-                      'databridge': databridge_requires},
+                      'databridge': databridge_requires, 'api': api_requires},
       test_suite="openprocurement.tender.competitivedialogue.tests.main.suite",
       entry_points=entry_points)
