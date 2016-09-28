@@ -14,6 +14,7 @@ import logging.config
 import os
 import argparse
 import copy
+from restkit.errors import ResourceError
 
 from retrying import retry
 from uuid import uuid4
@@ -316,29 +317,29 @@ class CompetitiveDialogueDataBridge(object):
             data = {"data": new_tender}
             try:
                 res = self.client.create_tender(data)
-            except Exception, e:
-                logger.exception(e)
-                logger.info("Unsuccessful put for tender stage2 of competitive dialogue id={0}".format(new_tender['dialogueID']),
-                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
-                                                  {"TENDER_ID": new_tender['dialogueID']}))
-                if e.status_int == 412:  # Update Cookie, and retry
+            except ResourceError as re:
+                if re.status_int == 412:  # Update Cookie, and retry
                     del self.client.headers['Cookie']
                     self.client.head('/api/{version}/spore'.format(version=self.config_get('tenders_api_version')))
-                elif e.status_int == 422:  # WARNING and don't retry
+                elif re.status_int == 422:  # WARNING and don't retry
                     logger.warn("Catch 422 status, stop create tender stage2",
                                 extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
                                                       {"TENDER_ID": new_tender['dialogueID']}))
                     continue
-                elif e.status_int == 404:  # WARNING and don't retry
+                elif re.status_int == 404:  # WARNING and don't retry
                     logger.warn("Catch 404 status, stop create tender stage2",
                                 extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
                                                       {"TENDER_ID": new_tender['dialogueID']}))
                     continue
-
+                logger.info("Unsuccessful put for tender stage2 of competitive dialogue id={0}".format(new_tender['dialogueID']),
+                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
+                                                  {"TENDER_ID": new_tender['dialogueID']}))
                 logger.info("Schedule retry for competitive dialogue id={0}".format(new_tender['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_RETRY_CREATE},
                                                   {"TENDER_ID": new_tender['dialogueID']}))
                 self.dialogs_stage2_retry_put_queue.put(new_tender)
+            except Exception, e:
+                logger.exception(e)
             else:
                 logger.info("Successfully created tender stage2 id={} from competitive dialogue id={}".format(res['data']['id'], res['data']['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_TENDER_CREATED},
