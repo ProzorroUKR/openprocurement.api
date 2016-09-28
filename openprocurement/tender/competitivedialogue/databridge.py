@@ -321,6 +321,20 @@ class CompetitiveDialogueDataBridge(object):
                 logger.info("Unsuccessful put for tender stage2 of competitive dialogue id={0}".format(new_tender['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
                                                   {"TENDER_ID": new_tender['dialogueID']}))
+                if e.status_int == 412:  # Update Cookie, and retry
+                    del self.client.headers['Cookie']
+                    self.client.head('/api/{version}/spore'.format(version=self.config_get('tenders_api_version')))
+                elif e.status_int == 422:  # WARNING and don't retry
+                    logger.warn("Catch 422 status, stop create tender stage2",
+                                extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
+                                                      {"TENDER_ID": new_tender['dialogueID']}))
+                    continue
+                elif e.status_int == 404:  # WARNING and don't retry
+                    logger.warn("Catch 404 status, stop create tender stage2",
+                                extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
+                                                      {"TENDER_ID": new_tender['dialogueID']}))
+                    continue
+
                 logger.info("Schedule retry for competitive dialogue id={0}".format(new_tender['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_RETRY_CREATE},
                                                   {"TENDER_ID": new_tender['dialogueID']}))
