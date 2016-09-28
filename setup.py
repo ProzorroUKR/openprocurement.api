@@ -13,7 +13,7 @@ api_requires = requires + [
     'openprocurement.tender.openeu'
 ]
 
-test_requires = requires + [
+test_requires = api_requires + requires + [
     'webtest',
     'python-coveralls',
 ]
