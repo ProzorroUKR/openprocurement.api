@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/ada1dee88cae40b7b21762be8520847d?acc_token=0911f65908fd4ab98fda15394f286c42 HTTP/1.0
+PATCH /api/2.3/tenders/80cba6dda2404063ad4aabaeb448830b?acc_token=26725d1a8a14470ba2f538d2a02fdba9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 60
 Content-Type: application/json
@@ -17,17 +17,17 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "status": "active.pre-qualification.stand-still", 
     "complaintPeriod": {
-      "startDate": "2016-03-26T15:45:15.379007+03:00", 
-      "endDate": "2016-04-21T15:45:15.379007+03:00"
+      "startDate": "2016-05-11T16:04:12.071602+03:00", 
+      "endDate": "2016-06-06T16:04:12.071602+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-03-26T15:45:15.379007+03:00", 
-      "clarificationsUntil": "2016-04-20T15:45:15.379007+03:00", 
-      "endDate": "2016-04-15T15:45:15.379007+03:00", 
-      "invalidationDate": "2016-04-25T15:45:14.952886+03:00"
+      "startDate": "2016-05-11T16:04:12.071602+03:00", 
+      "clarificationsUntil": "2016-06-03T16:04:12.071602+03:00", 
+      "endDate": "2016-05-31T16:04:12.071602+03:00", 
+      "invalidationDate": "2016-06-10T16:04:11.597622+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-04-30T15:45:16.435835+03:00", 
+    "next_check": "2016-06-15T16:04:13.144335+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -55,7 +55,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "owner": "broker", 
     "title_en": "Services in school canteens", 
-    "id": "ada1dee88cae40b7b21762be8520847d", 
+    "id": "80cba6dda2404063ad4aabaeb448830b", 
     "title": "Послуги шкільних їдалень", 
     "lots": [
       {
@@ -68,14 +68,14 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2016-04-30T15:45:16.435835+03:00"
+          "shouldStartAfter": "2016-06-15T16:04:13.144335+03:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "40519915046449b6a687074d35391f0b"
+        "id": "c7d559ffddc748a1ac4a8b9ac679d0f2"
       }, 
       {
         "status": "unsuccessful", 
@@ -91,36 +91,36 @@ Content-Type: application/json; charset=UTF-8
           "amount": 400.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "id": "6722811322af42399250b7b8fc7df6cf"
+        "id": "1bbb733e77ff4365b2c721786f63fbde"
       }
     ], 
     "qualificationPeriod": {
-      "startDate": "2016-04-25T15:45:15.668562+03:00", 
-      "endDate": "2016-04-30T15:45:16.435835+03:00"
+      "startDate": "2016-06-10T16:04:12.374491+03:00", 
+      "endDate": "2016-06-15T16:04:13.144335+03:00"
     }, 
-    "tenderID": "UA-2016-04-25-000001", 
-    "dateModified": "2016-04-25T15:45:16.442544+03:00", 
+    "tenderID": "UA-2016-06-10-000001", 
+    "dateModified": "2016-06-10T16:04:13.152802+03:00", 
     "numberOfBids": 2, 
     "tenderPeriod": {
-      "startDate": "2016-03-26T15:45:15.379007+03:00", 
-      "endDate": "2016-04-25T15:45:15.379007+03:00"
+      "startDate": "2016-05-11T16:04:12.071602+03:00", 
+      "endDate": "2016-06-10T16:04:12.071602+03:00"
     }, 
     "qualifications": [
       {
         "status": "active", 
-        "lotID": "40519915046449b6a687074d35391f0b", 
+        "lotID": "c7d559ffddc748a1ac4a8b9ac679d0f2", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "b1f84d981136408990ad7439929e7c61", 
-        "id": "4905d0bc6ee34710837ddb8111d0add8"
+        "bidID": "aba1534bae3f4210994c9af738f3e2b9", 
+        "id": "974e9362500744e0894bea98aeab0136"
       }, 
       {
         "status": "active", 
-        "lotID": "40519915046449b6a687074d35391f0b", 
+        "lotID": "c7d559ffddc748a1ac4a8b9ac679d0f2", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "91dfe5a250724df58ab61d38a3972bb0", 
-        "id": "cbd3d8948c414c72aa9475b873b5fa95"
+        "bidID": "804070249beb470a90f56432d34311b5", 
+        "id": "cc64271c8f7845c68328e2710502958a"
       }
     ], 
     "procurementMethodType": "aboveThresholdEU", 
@@ -131,7 +131,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "40519915046449b6a687074d35391f0b", 
+        "relatedLot": "c7d559ffddc748a1ac4a8b9ac679d0f2", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -154,10 +154,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-15T15:44:43.825967+03:00", 
-          "endDate": "2016-06-14T15:44:43.826018+03:00"
+          "startDate": "2016-06-30T16:03:38.558565+03:00", 
+          "endDate": "2016-07-30T16:03:38.558601+03:00"
         }, 
-        "id": "b69e20207b4947f1aad8c5744ae7ec04", 
+        "id": "10b79f0bdc6d4026881faf7fc51f55b6", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -165,7 +165,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }, 
       {
-        "relatedLot": "6722811322af42399250b7b8fc7df6cf", 
+        "relatedLot": "1bbb733e77ff4365b2c721786f63fbde", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "CPV", 
@@ -188,10 +188,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-15T15:44:43.826052+03:00", 
-          "endDate": "2016-06-14T15:44:43.826077+03:00"
+          "startDate": "2016-06-30T16:03:38.558629+03:00", 
+          "endDate": "2016-07-30T16:03:38.558650+03:00"
         }, 
-        "id": "ac688d7ded4f4a45a13fb8d30d00d29f", 
+        "id": "c9ca65544d784fb5acb701fcba48bc23", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -202,11 +202,55 @@ Content-Type: application/json; charset=UTF-8
     "bids": [
       {
         "status": "active", 
-        "id": "b1f84d981136408990ad7439929e7c61"
+        "id": "aba1534bae3f4210994c9af738f3e2b9", 
+        "tenderers": [
+          {
+            "contactPoint": {
+              "email": "soleksuk@gmail.com", 
+              "telephone": "+380 (432) 21-69-30", 
+              "name": "Сергій Олексюк"
+            }, 
+            "identifier": {
+              "scheme": "UA-EDR", 
+              "id": "00137256", 
+              "uri": "http://www.sc.gov.ua/"
+            }, 
+            "name": "ДКП «Школяр»", 
+            "address": {
+              "postalCode": "21100", 
+              "countryName": "Україна", 
+              "streetAddress": "вул. Островського, 33", 
+              "region": "м. Вінниця", 
+              "locality": "м. Вінниця"
+            }
+          }
+        ]
       }, 
       {
         "status": "active", 
-        "id": "91dfe5a250724df58ab61d38a3972bb0"
+        "id": "804070249beb470a90f56432d34311b5", 
+        "tenderers": [
+          {
+            "contactPoint": {
+              "email": "aagt@gmail.com", 
+              "telephone": "+380 (322) 91-69-30", 
+              "name": "Андрій Олексюк"
+            }, 
+            "identifier": {
+              "scheme": "UA-EDR", 
+              "id": "00137226", 
+              "uri": "http://www.sc.gov.ua/"
+            }, 
+            "name": "ДКП «Книга»", 
+            "address": {
+              "postalCode": "79013", 
+              "countryName": "Україна", 
+              "streetAddress": "вул. Островського, 34", 
+              "region": "м. Львів", 
+              "locality": "м. Львів"
+            }
+          }
+        ]
       }
     ], 
     "value": {

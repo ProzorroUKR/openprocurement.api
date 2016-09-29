@@ -1,21 +1,12 @@
-PATCH /api/2.3/tenders/80cba6dda2404063ad4aabaeb448830b/bids/aba1534bae3f4210994c9af738f3e2b9?acc_token=772411107dfb4d9a8ce61e1243facf36 HTTP/1.0
+PATCH /api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a?acc_token=f8306e73d0544899bbf82e4af348b066 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 214
+Content-Length: 31
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "status": "pending", 
-    "lotValues": [
-      {
-        "relatedLot": "c7d559ffddc748a1ac4a8b9ac679d0f2", 
-        "value": {
-          "amount": 500
-        }, 
-        "subcontractingDetails": "ДКП «Орфей»"
-      }
-    ]
+    "status": "pending"
   }
 }
 
@@ -25,19 +16,12 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "pending", 
     "selfEligible": true, 
-    "lotValues": [
-      {
-        "relatedLot": "c7d559ffddc748a1ac4a8b9ac679d0f2", 
-        "date": "2016-06-10T16:04:11.255712+03:00", 
-        "status": "pending", 
-        "value": {
-          "currency": "UAH", 
-          "amount": 500.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "subcontractingDetails": "ДКП «Орфей»"
-      }
-    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "subcontractingDetails": "ДКП «Орфей», Україна", 
     "selfQualified": true, 
     "tenderers": [
       {
@@ -61,8 +45,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2016-06-10T16:04:11.255059+03:00", 
-    "id": "aba1534bae3f4210994c9af738f3e2b9"
+    "date": "2016-06-10T16:03:58.864083+03:00", 
+    "id": "3adfb37218124cc59b6d7b3a06b2356a"
   }
 }
 

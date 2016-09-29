@@ -24,9 +24,11 @@ Schema
 
     Possible values are:
 
+    * `draft`
     * `pending`
     * `active`
     * `invalid`
+    * `invalid.pre-qualification`
     * `deleted`
 
 :value:
@@ -73,7 +75,7 @@ There are several `envelopes` - document containers that manage time when their 
     List of :ref:`ConfidentialDocument` objects. This envelope can contain financial part of proposal (`commercialProposal` and `billOfQuantity`). It is revealed at post-qualification.
 
 :eligibilityDocuments:
-    List of :ref:`ConfidentialDocument` objects. This envelope can contain `eligibilityDocuments` document type. It is revealed at post-qualification.
+    List of :ref:`ConfidentialDocument` objects. This envelope can contain `eligibilityDocuments` document type. It is revealed at pre-qualification.
 
 :qualificationDocuments:
     List of :ref:`ConfidentialDocument` objects. This envelope is revealed at post-qualification.

@@ -5,7 +5,8 @@ from openprocurement.api.utils import (
     save_tender,
     opresource,
     json_view,
-    context_unpack
+    context_unpack,
+    get_now,
 )
 from openprocurement.api.validation import (
     validate_lot_data,
@@ -26,6 +27,7 @@ class TenderEULotResource(TenderLotResource):
         if not self.validate_update_tender('add'):
             return
         lot = self.request.validated['lot']
+        lot.date = get_now()
         tender = self.request.validated['tender']
         tender.lots.append(lot)
         if self.request.authenticated_role == 'tender_owner':

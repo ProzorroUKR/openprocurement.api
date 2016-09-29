@@ -1,12 +1,17 @@
-POST /api/2.3/tenders/9a3fe3666dbb4679aed131a85372f4af/bids HTTP/1.0
+POST /api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 917
+Content-Length: 936
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
+    "status": "draft", 
     "selfEligible": true, 
+    "value": {
+      "amount": 500
+    }, 
+    "subcontractingDetails": "ДКП «Орфей», Україна", 
     "tenderers": [
       {
         "contactPoint": {
@@ -29,23 +34,19 @@ DATA:
         }
       }
     ], 
-    "selfQualified": true, 
-    "value": {
-      "amount": 500
-    }, 
-    "subcontractingDetails": "ДКП «Орфей», Україна"
+    "selfQualified": true
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/9a3fe3666dbb4679aed131a85372f4af/bids/868c11ee64324f9daf0ae7fdbaab2f3c
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a
 {
   "access": {
-    "token": "db56c50d42c646edb71f8bbc98402cae"
+    "token": "f8306e73d0544899bbf82e4af348b066"
   }, 
   "data": {
-    "status": "pending", 
+    "status": "draft", 
     "selfEligible": true, 
     "value": {
       "currency": "UAH", 
@@ -76,8 +77,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/9a3fe3666dbb467
         }
       }
     ], 
-    "date": "2016-04-25T15:45:02.705910+03:00", 
-    "id": "868c11ee64324f9daf0ae7fdbaab2f3c"
+    "date": "2016-06-10T16:03:58.864083+03:00", 
+    "id": "3adfb37218124cc59b6d7b3a06b2356a"
   }
 }
 

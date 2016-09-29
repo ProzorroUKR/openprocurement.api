@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import opresource
-from openprocurement.api.views.contract_document import TenderAwardContractDocumentResource as BaseResource
+from openprocurement.tender.openua.views.contract_document import TenderUaAwardContractDocumentResource as BaseResource
 
 
 @opresource(name='Tender EU Contract Documents',
