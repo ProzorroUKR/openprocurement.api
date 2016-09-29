@@ -46,6 +46,7 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             self.request.errors.status = 403
             return
         complaint = self.request.validated['complaint']
+        complaint.date = get_now()
         complaint.relatedLot = self.context.lotID
         if complaint.status == 'claim':
             complaint.dateSubmitted = get_now()
@@ -124,7 +125,7 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         # aboveThresholdReviewers
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status in ['pending', 'accepted', 'stopping'] and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == 'invalid':
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status in ['pending', 'stopping'] and data.get('status', self.context.status) in ['invalid', 'mistaken']:
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
             self.context.acceptance = False

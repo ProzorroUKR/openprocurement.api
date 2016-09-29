@@ -10,7 +10,6 @@ from openprocurement.api.utils import (
     save_tender,
 )
 from openprocurement.api.validation import validate_patch_contract_data
-from openprocurement.tender.openua.utils import PENDING_COMPLAINT_STATUS
 
 
 @opresource(name='Tender UA Contracts',
@@ -31,6 +30,10 @@ class TenderUaAwardContractResource(TenderAwardContractResource):
         tender = self.request.validated['tender']
         if any([i.status != 'active' for i in tender.lots if i.id in [a.lotID for a in tender.awards if a.id == self.request.context.awardID]]):
             self.request.errors.add('body', 'data', 'Can update contract only in active lot status')
+            self.request.errors.status = 403
+            return
+        if any([any([c.status == 'accepted' for c in i.complaints]) for i in tender.awards if i.lotID in [a.lotID for a in tender.awards if a.id == self.request.context.awardID]]):
+            self.request.errors.add('body', 'data', 'Can\'t update contract with accepted complaint')
             self.request.errors.status = 403
             return
         data = self.request.validated['data']
@@ -58,13 +61,13 @@ class TenderUaAwardContractResource(TenderAwardContractResource):
             pending_complaints = [
                 i
                 for i in tender.complaints
-                if i.status in PENDING_COMPLAINT_STATUS and i.relatedLot in [None, award.lotID]
+                if i.status in tender.block_complaint_status and i.relatedLot in [None, award.lotID]
             ]
             pending_awards_complaints = [
                 i
                 for a in tender.awards
                 for i in a.complaints
-                if i.status in PENDING_COMPLAINT_STATUS and a.lotID == award.lotID
+                if i.status in tender.block_complaint_status and a.lotID == award.lotID
             ]
             if pending_complaints or pending_awards_complaints:
                 self.request.errors.add('body', 'data', 'Can\'t sign contract before reviewing all complaints')
@@ -72,7 +75,6 @@ class TenderUaAwardContractResource(TenderAwardContractResource):
                 return
         contract_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
-        self.request.context.date = get_now()
         if contract_status != self.request.context.status and (contract_status != 'pending' or self.request.context.status != 'active'):
             self.request.errors.add('body', 'data', 'Can\'t update contract status')
             self.request.errors.status = 403

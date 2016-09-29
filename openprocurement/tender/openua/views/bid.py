@@ -21,6 +21,9 @@ from openprocurement.api.validation import (
             procurementMethodType='aboveThresholdUA',
             description="Tender bids")
 class TenderUABidResource(TenderBidResource):
+
+    allowed_bid_status_on_create = ['draft', 'active']
+
     """ """
     @json_view(content_type="application/json", permission='create_bid', validators=(validate_bid_data,))
     def collection_post(self):
@@ -113,7 +116,12 @@ class TenderUABidResource(TenderBidResource):
             self.request.errors.add('body', 'data', 'Bid can be added only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate, tender.tenderPeriod.endDate))
             self.request.errors.status = 403
             return
+
         bid = self.request.validated['bid']
+        if bid.status not in self.allowed_bid_status_on_create:
+            self.request.errors.add('body', 'data', 'Bid can be added only with status: {}.'.format(self.allowed_bid_status_on_create))
+            self.request.errors.status = 403
+            return
         tender.modified = False
         set_ownership(bid, self.request)
         tender.bids.append(bid)
@@ -158,7 +166,7 @@ class TenderUABidResource(TenderBidResource):
 
             {
                 "data": {
-                    "value": {
+                    "activevalue": {
                         "amount": 600,
                         "currency": "UAH",
                         "valueAddedTaxIncluded": true
@@ -176,8 +184,12 @@ class TenderUABidResource(TenderBidResource):
             self.request.errors.add('body', 'data', 'Bid can be updated only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
             self.request.errors.status = 403
             return
-        bid_status_to = self.request.validated['data'].get("status")
-        if bid_status_to and bid_status_to != 'active':
+        bid_status_to = self.request.validated['data'].get("status",  self.request.context.status)
+        if self.request.context.status != 'draft' and bid_status_to == 'draft':
+            self.request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
+            self.request.errors.status = 403
+            return
+        if bid_status_to != self.request.context.status and bid_status_to != 'active':
             self.request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
             self.request.errors.status = 403
             return
