@@ -24,6 +24,7 @@ Schema
 
     Possible values are:
 
+    * `draft`
     * `active`
     * `invalid`
     * `deleted`

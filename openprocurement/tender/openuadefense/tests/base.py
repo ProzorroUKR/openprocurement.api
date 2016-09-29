@@ -7,13 +7,16 @@ from openprocurement.api.tests.base import (test_tender_data as test_tender_data
                                             test_procuringEntity as test_procuringEntity_api,
                                             now,
                                             test_features_tender_data,
-                                            BaseTenderWebTest,
-                                            PrefixedRequestClass)
+                                            BaseTenderWebTest)
 
 test_tender_data = test_tender_ua_data = test_tender_data_api.copy()
 test_tender_data['procurementMethodType'] = "aboveThresholdUA.defense"
 test_procuringEntity = test_procuringEntity_api.copy()
 test_procuringEntity["kind"] = "defense"
+test_contactPoint = test_procuringEntity_api["contactPoint"].copy()
+test_contactPoint["availableLanguage"] = 'uk'
+test_procuringEntity["contactPoint"] = test_contactPoint
+test_procuringEntity["additionalContactPoints"] = [test_contactPoint.copy()]
 test_tender_data["procuringEntity"] = test_procuringEntity
 # test_tender_data["enquiryPeriod"] = {}
 del test_tender_data["enquiryPeriod"]
@@ -78,6 +81,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
+    relative_to = os.path.dirname(__file__)
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
@@ -96,12 +100,8 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
         })
 
     def setUp(self):
-        self.app = webtest.TestApp(
-            "config:tests.ini", relative_to=os.path.dirname(__file__))
-        self.app.RequestClass = PrefixedRequestClass
+        super(BaseTenderWebTest, self).setUp()
         self.app.authorization = ('Basic', ('token', ''))
-        self.couchdb_server = self.app.app.registry.couchdb_server
-        self.db = self.app.app.registry.db
 
     def set_status(self, status, extra=None):
         data = {'status': status}

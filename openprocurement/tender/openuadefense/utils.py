@@ -4,8 +4,7 @@ from pkg_resources import get_distribution
 
 from openprocurement.api.models import read_json, get_now, TZ
 from openprocurement.api.utils import ACCELERATOR_RE, datetime, time, context_unpack, check_tender_status
-from openprocurement.tender.openua.utils import (
-    check_complaint_status, add_next_award, BLOCK_COMPLAINT_STATUS, PENDING_COMPLAINT_STATUS,)
+from openprocurement.tender.openua.utils import check_complaint_status, add_next_award
 
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
@@ -61,7 +60,7 @@ def check_status(request):
     tender = request.validated['tender']
     now = get_now()
     if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
-        not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]) and \
+        not any([i.status in tender.block_tender_complaint_status for i in tender.complaints]) and \
         not any([i.id for i in tender.questions if not i.answer]):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
@@ -73,7 +72,7 @@ def check_status(request):
             tender.auctionPeriod.startDate = None
         return
     elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
-        not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]) and \
+        not any([i.status in tender.block_tender_complaint_status for i in tender.complaints]) and \
         not any([i.id for i in tender.questions if not i.answer]):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
@@ -94,11 +93,11 @@ def check_status(request):
         standStillEnd = max(standStillEnds)
         if standStillEnd <= now:
             pending_complaints = any([
-                i['status'] in PENDING_COMPLAINT_STATUS
+                i['status'] in tender.block_complaint_status
                 for i in tender.complaints
             ])
             pending_awards_complaints = any([
-                i['status'] in PENDING_COMPLAINT_STATUS
+                i['status'] in tender.block_complaint_status
                 for a in tender.awards
                 for i in a.complaints
             ])
@@ -112,7 +111,7 @@ def check_status(request):
                 check_tender_status(request)
                 return
     elif tender.lots and tender.status in ['active.qualification', 'active.awarded']:
-        if any([i['status'] in PENDING_COMPLAINT_STATUS and i.relatedLot is None for i in tender.complaints]):
+        if any([i['status'] in tender.block_complaint_status and i.relatedLot is None for i in tender.complaints]):
             return
         for lot in tender.lots:
             if lot['status'] != 'active':
@@ -128,11 +127,11 @@ def check_status(request):
             standStillEnd = max(standStillEnds)
             if standStillEnd <= now:
                 pending_complaints = any([
-                    i['status'] in PENDING_COMPLAINT_STATUS and i.relatedLot == lot.id
+                    i['status'] in tender.block_complaint_status and i.relatedLot == lot.id
                     for i in tender.complaints
                 ])
                 pending_awards_complaints = any([
-                    i['status'] in PENDING_COMPLAINT_STATUS
+                    i['status'] in tender.block_complaint_status
                     for a in lot_awards
                     for i in a.complaints
                 ])
