@@ -319,8 +319,7 @@ class CompetitiveDialogueDataBridge(object):
                 res = self.client.create_tender(data)
             except ResourceError as re:
                 if re.status_int == 412:  # Update Cookie, and retry
-                    del self.client.headers['Cookie']
-                    self.client.head('/api/{version}/spore'.format(version=self.config_get('tenders_api_version')))
+                    self.client.headers['Cookie'] = re.response.headers['Set-Cookie']
                 elif re.status_int == 422:  # WARNING and don't retry
                     logger.warn("Catch 422 status, stop create tender stage2",
                                 extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
