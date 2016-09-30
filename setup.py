@@ -37,7 +37,8 @@ databridge_requires = requires + [
     'LazyDB',
     'ExtendedJournalHandler',
     'openprocurement_client>=1.0b2',
-    'pytz==2014.10'
+    'pytz==2014.10',
+    'schematics==1.1.1'
 ]
 
 here = os.path.abspath(os.path.dirname(__file__))
