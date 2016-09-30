@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.views.award_document import TenderAwardDocumentResource
 from openprocurement.api.utils import opresource
+from openprocurement.tender.openua.views.award_document import TenderUaAwardDocumentResource as BaseResource
 
 
 @opresource(name='Tender UA.defense Award Documents',
@@ -8,5 +8,5 @@ from openprocurement.api.utils import opresource
             path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
             procurementMethodType='aboveThresholdUA.defense',
             description="Tender award documents")
-class TenderUaAwardDocumentResource(TenderAwardDocumentResource):
+class TenderUaAwardDocumentResource(BaseResource):
     pass

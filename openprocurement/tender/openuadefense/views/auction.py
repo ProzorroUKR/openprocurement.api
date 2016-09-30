@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource
+from openprocurement.api.utils import (
+    save_tender,
+    apply_patch,
+    opresource,
+    json_view,
+    context_unpack,
+)
+from openprocurement.api.validation import validate_tender_auction_data
+from openprocurement.tender.openua.utils import add_next_award
 from openprocurement.tender.openua.views.auction import TenderUaAuctionResource as TenderAuctionResource
 
 
@@ -10,3 +18,24 @@ from openprocurement.tender.openua.views.auction import TenderUaAuctionResource 
             description="Tender UA.defense auction data")
 class TenderUaAuctionResource(TenderAuctionResource):
     """ """
+    @json_view(content_type="application/json", permission='auction', validators=(validate_tender_auction_data))
+    def collection_post(self):
+        """Report auction results.
+        """
+        apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
+        if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.numberOfBids > 1 and i.status == 'active']):
+            add_next_award(self.request)
+        if save_tender(self.request):
+            self.LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_auction_post'}))
+            return {'data': self.request.validated['tender'].serialize(self.request.validated['tender'].status)}
+
+    @json_view(content_type="application/json", permission='auction', validators=(validate_tender_auction_data))
+    def post(self):
+        """Report auction results for lot.
+        """
+        apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
+        if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.numberOfBids > 1 and i.status == 'active']):
+            add_next_award(self.request)
+        if save_tender(self.request):
+            self.LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_auction_post'}))
+            return {'data': self.request.validated['tender'].serialize(self.request.validated['tender'].status)}
