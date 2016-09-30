@@ -4,101 +4,89 @@ msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-16 16:16+0200\n"
-"PO-Revision-Date: 2016-03-30 13:23+0300\n"
+"PO-Revision-Date: 2016-07-25 13:34+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
-"Language-Team: Ukrainian <support@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
 "=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 1.5\n"
-
-#: ../../source/complaints-award.rst:4
-msgid "Complaint Retrieval"
-msgstr "Отримання інформації про скарги"
-
-#: ../../source/complaints-award.rst:7
-msgid "Tender Award Complaint Retrieval"
-msgstr "Отримання інформації про скарги на визначення переможця"
-
-#: ../../source/complaints-award.rst:9
-msgid "You can list all Tender Award Complaints:"
-msgstr "Ви можете отримати список всіх скарг на визначення переможця:"
+"X-Generator: Lokalize 2.0\n"
 
 #: ../../source/complaints-award.rst:14
 msgid "And check individual complaint:"
 msgstr "І перевірити окрему скаргу:"
 
-#: ../../source/complaints-award.rst:20
+#: ../../source/complaints-award.rst:52
 msgid "Complaint Submission"
 msgstr "Подання скарги"
 
-#: ../../source/complaints-award.rst:25
+#: ../../source/complaints-award.rst:57
 msgid "Tender Award Complaint Submission (with documents)"
 msgstr "Подання скарги на визначення переможця (з документами)"
 
-#: ../../source/complaints-award.rst:27
+#: ../../source/complaints-award.rst:59
 msgid ""
 "At first create a complaint. Send POST request with bidder's access token."
 msgstr ""
 "Спочатку створіть вимогу. В POST запиті потрібно передати токен доступу "
 "одного з учасників, який вже подав пропозицію."
 
-#: ../../source/complaints-award.rst:32
+#: ../../source/complaints-award.rst:32 ../../source/complaints-award.rst:64
 msgid "Then upload necessary documents:"
 msgstr "Потім завантажте документи:"
 
-#: ../../source/complaints-award.rst:37
+#: ../../source/complaints-award.rst:69
 msgid "Submit tender award complaint:"
 msgstr "Подайте скаргу на визначення переможця:"
 
-#: ../../source/complaints-award.rst:43
+#: ../../source/complaints-award.rst:75
 msgid "Tender Award Complaint Submission (without documents)"
 msgstr "Подання скарги на визначення переможця (без документів)"
 
-#: ../../source/complaints-award.rst:45
+#: ../../source/complaints-award.rst:77
 msgid "You can submit complaint that does not need additional documents:"
 msgstr "Ви можете подати скаргу, що не потребує додаткових документів:"
 
-#: ../../source/complaints-award.rst:51
+#: ../../source/complaints-award.rst:110
 msgid "Complaint Resolution"
 msgstr "Вирішення скарги"
 
-#: ../../source/complaints-award.rst:54
+#: ../../source/complaints-award.rst:113
 msgid "Rejecting Tender Award Complaint"
 msgstr "Відхилення скарги на визначення переможця"
 
-#: ../../source/complaints-award.rst:61
+#: ../../source/complaints-award.rst:120
 msgid "Accepting Tender Award Complaint"
 msgstr "Прийняття скарги на визначення переможця"
 
-#: ../../source/complaints-award.rst:68
+#: ../../source/complaints-award.rst:127
 msgid "Submitting Tender Award Complaint Resolution"
 msgstr "Подання рішення по скарзі на визначення переможця"
 
-#: ../../source/complaints-award.rst:70
+#: ../../source/complaints-award.rst:129
 msgid "The Complaint Review Body uploads the resolution document:"
 msgstr "Орган оскарження завантажує документ з рішенням:"
 
-#: ../../source/complaints-award.rst:75
+#: ../../source/complaints-award.rst:134
 msgid "And either resolves complaint:"
 msgstr "Яке або вирішує скаргу:"
 
-#: ../../source/complaints-award.rst:80
+#: ../../source/complaints-award.rst:139
 msgid "Or declines it:"
 msgstr "Або відхиляє скаргу:"
 
-#: ../../source/complaints-award.rst:99
+#: ../../source/complaints-award.rst:158
 msgid "Submitting Resolution Confirmation"
 msgstr "Подання вирішення скарги"
 
-#: ../../source/complaints-award.rst:112
+#: ../../source/complaints-award.rst:171
 msgid "Cancelling Tender Award Complaint"
 msgstr "Відміна скарги на визначення переможця"
 
-#: ../../source/complaints-award.rst:22
+#: ../../source/complaints-award.rst:54
 msgid ""
 "If tender award is favoriting certain supplier, or in any other viable case,"
 " participants who were admitted to auction can submit Tender Award "
@@ -108,11 +96,11 @@ msgstr ""
 "або при будь-якому іншому серйозному порушенні, учасники, що були допущені "
 "до аукціону, можуть подати скаргу результати визначення переможця."
 
-#: ../../source/complaints-award.rst:86
+#: ../../source/complaints-award.rst:145
 msgid "Correcting problems"
 msgstr "Виправлення проблем"
 
-#: ../../source/complaints-award.rst:88
+#: ../../source/complaints-award.rst:147
 msgid ""
 "If tender award complaint was satisfied by the Complaint Review Body, then "
 "procuring entity has to correct problems."
@@ -120,13 +108,13 @@ msgstr ""
 "Якщо скарга на визначення переможця була задоволена органом оскарження, то "
 "замовник повинен виправити допущені порушення."
 
-#: ../../source/complaints-award.rst:90
+#: ../../source/complaints-award.rst:149
 msgid "One of the possible solutions is award cancellation:"
 msgstr ""
 "Одним з можливих рішень є відміна результатів визначення переможця "
 "(`award`):"
 
-#: ../../source/complaints-award.rst:96
+#: ../../source/complaints-award.rst:155
 msgid ""
 "After award cancellation system generates new award. Its location is present"
 " in the `Location` header of response."
@@ -134,7 +122,7 @@ msgstr ""
 "При відміні результатів визначення переможця система генерує новий `award`. "
 "Шлях до нього передається в `Location` заголовку відповіді."
 
-#: ../../source/complaints-award.rst:100
+#: ../../source/complaints-award.rst:159
 msgid ""
 "When complaint has been successfully resolved, procuring entity submits "
 "resolution confirmation."
@@ -142,19 +130,86 @@ msgstr ""
 "Якщо скаргу вирішено і порушення усунуто, то замовник подає підтвердження "
 "вирішення."
 
-#: ../../source/complaints-award.rst:106
+#: ../../source/complaints-award.rst:165
 msgid "Submitting complaint to new award"
 msgstr "Подання скарги на нове визначення переможця"
 
-#: ../../source/complaints-award.rst:115
+#: ../../source/complaints-award.rst:174
 msgid "Cancelling not accepted complaint"
 msgstr "Відміна не прийнятої скарги"
 
-#: ../../source/complaints-award.rst:121
+#: ../../source/complaints-award.rst:180
 msgid "Cancelling accepted complaint by Complainant"
 msgstr "Відміна прийнятої скарги скаржником"
 
-#: ../../source/complaints-award.rst:130
+#: ../../source/complaints-award.rst:189
 msgid "Cancelling accepted complaint by Reviewer"
 msgstr "Відміна прийнятої скарги рецензентом"
+
+#: ../../source/complaints-award.rst:4
+msgid "Claim/Complaint Retrieval"
+msgstr "Отримання інформації про звернення/скарги"
+
+#: ../../source/complaints-award.rst:7
+msgid "Tender Award Claim/Complaint Retrieval"
+msgstr "Отримання інформації про звернення/скарги на визначення переможця"
+
+#: ../../source/complaints-award.rst:9
+msgid "You can list all Tender Award Claims/Complaints:"
+msgstr "Ви можете отримати список всіх звернень/скарг на визначення переможця:"
+
+#: ../../source/complaints-award.rst:20
+msgid "Claim Submission"
+msgstr "Подання звернення"
+
+#: ../../source/complaints-award.rst:22
+msgid ""
+"If tender award is favoriting certain supplier, or in any other viable case,"
+" participants can submit Tender Award Claim."
+msgstr ""
+"Якщо при визначенні переможця відбулось порушення чи була допущена помилка,"
+" то учасник закупівлі може подати звернення щодо результатів визначення"
+" переможця."
+
+#: ../../source/complaints-award.rst:25
+msgid "Tender Award Claim Submission (with documents)"
+msgstr "Подання звернення (з документами)"
+
+#: ../../source/complaints-award.rst:27
+msgid "At first create a claim. Send POST request with bidder's access token."
+msgstr ""
+"Створіть звернення. В POST запиті потрібно передати токен доступу одного з"
+" учасників."
+
+#: ../../source/complaints-award.rst:37
+msgid "Submit tender award claim:"
+msgstr "Подайте звернення:"
+
+#: ../../source/complaints-award.rst:43
+msgid "Tender Award Claim Submission (without documents)"
+msgstr "Подання звернення (без документів)"
+
+#: ../../source/complaints-award.rst:45
+msgid "You can submit claim that does not need additional documents:"
+msgstr "Ви можете подати звернення, що не потребує додаткових документів:"
+
+#: ../../source/complaints-award.rst:83
+msgid "Claim's Answer"
+msgstr "Відповідь на звернення"
+
+#: ../../source/complaints-award.rst:86
+msgid "Answer to resolved claim"
+msgstr "Відповідь на вирішене звернення"
+
+#: ../../source/complaints-award.rst:93
+msgid "Satisfied Claim"
+msgstr "Задовільнене звернення"
+
+#: ../../source/complaints-award.rst:96
+msgid "Satisfying resolution"
+msgstr "Рішення про задовільнення звернення"
+
+#: ../../source/complaints-award.rst:103
+msgid "Unsatisfying resolution"
+msgstr "Рішення про відхилення звернення"
 

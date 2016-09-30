@@ -1,12 +1,12 @@
 .. Kicking page rebuild 2014-10-30 17:00:08
 
-Complaint Retrieval
+Claim/Complaint Retrieval
 =========================
 
-Tender Award Complaint Retrieval
+Tender Award Claim/Complaint Retrieval
 -------------------------------------------
 
-You can list all Tender Award Complaints:
+You can list all Tender Award Claims/Complaints:
 
 .. include:: tutorial/award-complaints-list.http
    :code:
@@ -15,6 +15,38 @@ And check individual complaint:
 
 .. include:: tutorial/award-complaint.http
    :code:
+
+Claim Submission
+================
+
+If tender award is favoriting certain supplier, or in any other viable case, participants can submit Tender Award Claim.
+
+Tender Award Claim Submission (with documents)
+----------------------------------------------
+
+At first create a claim. Send POST request with bidder's access token.
+
+.. include:: tutorial/award-complaint-submission.http
+   :code:
+
+Then upload necessary documents:
+
+.. include:: tutorial/award-complaint-submission-upload.http
+   :code:
+
+Submit tender award claim:
+
+.. include:: tutorial/award-complaint-claim.http
+   :code:
+
+Tender Award Claim Submission (without documents)
+-------------------------------------------------
+
+You can submit claim that does not need additional documents:
+
+.. include:: tutorial/award-complaint-submission-claim.http
+   :code:
+
 
 Complaint Submission
 ====================
@@ -46,6 +78,33 @@ You can submit complaint that does not need additional documents:
 
 .. include:: tutorial/award-complaint-submission-complaint.http
    :code:
+
+Claim's Answer
+==============
+
+Answer to resolved claim
+------------------------
+
+.. include:: tutorial/award-complaint-answer.http
+   :code:
+
+
+Satisfied Claim
+===============
+
+Satisfying resolution
+---------------------
+
+.. include:: tutorial/award-complaint-satisfy.http
+   :code:
+
+
+Unsatisfying resolution
+-----------------------
+
+.. include:: tutorial/award-complaint-unsatisfy.http
+   :code:
+
 
 Complaint Resolution
 ====================

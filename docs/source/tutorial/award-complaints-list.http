@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/f13bf4f386d44f7b96a089ce8b75e541/awards/c3b50302840a4ea9bf14e761d781b8a8/complaints HTTP/1.0
+GET /api/2.3/tenders/516ce37c63cd45aab7e6f9890a2370a8/awards/c2e56b6e3ef5448094b64a78c21cbc65/complaints HTTP/1.0
 Host: api-sandbox.openprocurement.org
 
 Response: 200 OK
@@ -7,29 +7,29 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "status": "satisfied", 
-      "dateDecision": "2016-06-10T16:03:45.818650+03:00", 
+      "dateDecision": "2016-07-19T18:18:06.378458+03:00", 
       "documents": [
         {
           "author": "complaint_owner", 
           "language": "uk", 
           "title": "Complaint_Attachement.pdf", 
-          "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/f13bf4f386d44f7b96a089ce8b75e541/awards/c3b50302840a4ea9bf14e761d781b8a8/complaints/9e27257826fe4c7ba14cc8d5a55faa1a/documents/93e401ea5a524c6780253597a5c473e1?download=de8ab6ac0901453ca41b0cf4cb5ca56a", 
+          "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/516ce37c63cd45aab7e6f9890a2370a8/awards/c2e56b6e3ef5448094b64a78c21cbc65/complaints/cf3ca6d77a1f44a9ad0b0a9985c1f18f/documents/d22e341341274110bdb7e12d3020a2e0?download=2e648ad6fbd9480f96d87fa3bd10ecd1", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2016-06-10T16:03:42.723608+03:00", 
-          "id": "93e401ea5a524c6780253597a5c473e1", 
-          "dateModified": "2016-06-10T16:03:42.723644+03:00"
+          "datePublished": "2016-07-19T18:18:00.912756+03:00", 
+          "id": "d22e341341274110bdb7e12d3020a2e0", 
+          "dateModified": "2016-07-19T18:18:00.912798+03:00"
         }, 
         {
           "author": "aboveThresholdReviewers", 
           "language": "uk", 
           "title": "ComplaintResolution.pdf", 
-          "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/f13bf4f386d44f7b96a089ce8b75e541/awards/c3b50302840a4ea9bf14e761d781b8a8/complaints/9e27257826fe4c7ba14cc8d5a55faa1a/documents/9775e405974141229b4a9a4143319a38?download=5a246950599c49ce9429612a0ea151b5", 
+          "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/516ce37c63cd45aab7e6f9890a2370a8/awards/c2e56b6e3ef5448094b64a78c21cbc65/complaints/cf3ca6d77a1f44a9ad0b0a9985c1f18f/documents/c884711b20304dc289580e705b80c8a2?download=6d399ea479aa4e11a0456c4878ae6245", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2016-06-10T16:03:45.522209+03:00", 
-          "id": "9775e405974141229b4a9a4143319a38", 
-          "dateModified": "2016-06-10T16:03:45.522251+03:00"
+          "datePublished": "2016-07-19T18:18:06.062105+03:00", 
+          "id": "c884711b20304dc289580e705b80c8a2", 
+          "dateModified": "2016-07-19T18:18:06.062155+03:00"
         }
       ], 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -55,17 +55,17 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "acceptance": true, 
-      "dateAccepted": "2016-06-10T16:03:44.450522+03:00", 
-      "dateSubmitted": "2016-06-10T16:03:42.933303+03:00", 
-      "complaintID": "UA-2016-06-10-000001.1", 
-      "date": "2016-06-10T16:03:42.309342+03:00", 
+      "dateAccepted": "2016-07-19T18:18:04.802513+03:00", 
+      "dateSubmitted": "2016-07-19T18:18:01.115381+03:00", 
+      "complaintID": "UA-2016-07-19-000001.1", 
+      "date": "2016-07-19T18:18:06.391584+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "9e27257826fe4c7ba14cc8d5a55faa1a"
+      "id": "cf3ca6d77a1f44a9ad0b0a9985c1f18f"
     }, 
     {
       "status": "invalid", 
-      "dateDecision": "2016-06-10T16:03:44.165285+03:00", 
+      "dateDecision": "2016-07-19T18:18:04.491704+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "author": {
         "contactPoint": {
@@ -89,16 +89,16 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "acceptance": false, 
-      "dateSubmitted": "2016-06-10T16:03:43.152979+03:00", 
-      "complaintID": "UA-2016-06-10-000001.2", 
-      "date": "2016-06-10T16:03:43.151089+03:00", 
+      "dateSubmitted": "2016-07-19T18:18:01.314744+03:00", 
+      "complaintID": "UA-2016-07-19-000001.2", 
+      "date": "2016-07-19T18:18:04.505022+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "cca2a77b595348caa67d8eb6c09f209f"
+      "id": "226a041507fb4adface28b29a1cdd82d"
     }, 
     {
       "status": "declined", 
-      "dateDecision": "2016-06-10T16:03:46.072995+03:00", 
+      "dateDecision": "2016-07-19T18:18:06.695138+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "author": {
         "contactPoint": {
@@ -122,13 +122,13 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "acceptance": true, 
-      "dateAccepted": "2016-06-10T16:03:44.712852+03:00", 
-      "dateSubmitted": "2016-06-10T16:03:43.383273+03:00", 
-      "complaintID": "UA-2016-06-10-000001.3", 
-      "date": "2016-06-10T16:03:43.381405+03:00", 
+      "dateAccepted": "2016-07-19T18:18:05.104974+03:00", 
+      "dateSubmitted": "2016-07-19T18:18:01.531105+03:00", 
+      "complaintID": "UA-2016-07-19-000001.3", 
+      "date": "2016-07-19T18:18:06.710297+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "3f1b88d4f18642f59697a40c758da24f"
+      "id": "18e8056999694e89b82766f408501411"
     }, 
     {
       "status": "accepted", 
@@ -155,23 +155,23 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "acceptance": true, 
-      "dateAccepted": "2016-06-10T16:03:44.967055+03:00", 
-      "dateSubmitted": "2016-06-10T16:03:43.631282+03:00", 
-      "complaintID": "UA-2016-06-10-000001.4", 
-      "date": "2016-06-10T16:03:43.629367+03:00", 
+      "dateAccepted": "2016-07-19T18:18:05.408116+03:00", 
+      "dateSubmitted": "2016-07-19T18:18:01.760106+03:00", 
+      "complaintID": "UA-2016-07-19-000001.4", 
+      "date": "2016-07-19T18:18:05.422753+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "b17d790bdd2c42edbfde70bd48055155"
+      "id": "3b39a73b01864e039b0cc5b731f2a20e"
     }, 
     {
       "status": "stopped", 
-      "dateDecision": "2016-06-10T16:03:46.330964+03:00", 
+      "dateDecision": "2016-07-19T18:18:07.008286+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
-      "dateCanceled": "2016-06-10T16:03:46.330987+03:00", 
-      "dateAccepted": "2016-06-10T16:03:45.237964+03:00", 
+      "dateCanceled": "2016-07-19T18:18:07.008311+03:00", 
+      "dateAccepted": "2016-07-19T18:18:05.743703+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -193,11 +193,112 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "dateSubmitted": "2016-06-10T16:03:43.887846+03:00", 
-      "complaintID": "UA-2016-06-10-000001.5", 
-      "date": "2016-06-10T16:03:43.885954+03:00", 
+      "dateSubmitted": "2016-07-19T18:18:01.987370+03:00", 
+      "complaintID": "UA-2016-07-19-000001.5", 
+      "date": "2016-07-19T18:18:07.021948+03:00", 
       "type": "complaint", 
-      "id": "1e5836eb45c549f485f726c2dcdab84a"
+      "id": "eb2fbb93ecd143e8ab5d82cea15fbecc"
+    }, 
+    {
+      "status": "answered", 
+      "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+      "author": {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+          "id": "13313462", 
+          "uri": "http://sch10.edu.vn.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }, 
+      "resolutionType": "resolved", 
+      "type": "claim", 
+      "title": "Недостатньо інформації", 
+      "satisfied": true, 
+      "dateAnswered": "2016-07-19T18:18:02.491324+03:00", 
+      "dateSubmitted": "2016-07-19T18:18:02.228807+03:00", 
+      "complaintID": "UA-2016-07-19-000001.6", 
+      "date": "2016-07-19T18:18:02.502842+03:00", 
+      "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
+      "id": "201732059c6e4a9b8a57ed4a07a2aabf"
+    }, 
+    {
+      "status": "answered", 
+      "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+      "author": {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+          "id": "13313462", 
+          "uri": "http://sch10.edu.vn.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }, 
+      "resolutionType": "invalid", 
+      "type": "claim", 
+      "title": "Недостатньо інформації", 
+      "satisfied": false, 
+      "dateAnswered": "2016-07-19T18:18:03.312775+03:00", 
+      "dateSubmitted": "2016-07-19T18:18:03.040064+03:00", 
+      "complaintID": "UA-2016-07-19-000001.7", 
+      "date": "2016-07-19T18:18:03.325553+03:00", 
+      "resolution": "Вимога не відповідає предмету закупівлі", 
+      "id": "c6e0ca90ceee4a8ba92a78fdff83117e"
+    }, 
+    {
+      "status": "claim", 
+      "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+      "author": {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+          "id": "13313462", 
+          "uri": "http://sch10.edu.vn.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }, 
+      "title": "Недостатньо інформації", 
+      "dateSubmitted": "2016-07-19T18:18:04.201725+03:00", 
+      "complaintID": "UA-2016-07-19-000001.8", 
+      "date": "2016-07-19T18:18:04.215758+03:00", 
+      "type": "claim", 
+      "id": "96876d31e479466bafd8756541e2eb99"
     }
   ]
 }

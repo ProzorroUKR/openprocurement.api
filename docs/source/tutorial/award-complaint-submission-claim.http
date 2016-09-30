@@ -1,11 +1,14 @@
-POST /api/2.3/tenders/2436da94a50f460b89c1e014f8b95738/qualifications/c476a711da764a05b93089fd742d52a8/complaints?acc_token=34c8400dab2c4f488c885a344edbd0c4 HTTP/1.0
+POST /api/2.3/tenders/516ce37c63cd45aab7e6f9890a2370a8/awards/c2e56b6e3ef5448094b64a78c21cbc65/complaints?acc_token=186f3c7076464e27a3493f8cbdb31bb2 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 1682
+Content-Length: 1701
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
+    "status": "claim", 
+    "title": "Недостатньо інформації", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
         "telephone": "+380 (432) 21-69-30", 
@@ -26,21 +29,19 @@ DATA:
         "streetAddress": "вул. Островського, 33", 
         "locality": "м. Вінниця"
       }
-    }, 
-    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "title": "Недостатньо інформації"
+    }
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/2436da94a50f460b89c1e014f8b95738/qualifications/c476a711da764a05b93089fd742d52a8/complaints/ae37a435c4044e46a56845748e2b5446
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/516ce37c63cd45aab7e6f9890a2370a8/awards/c2e56b6e3ef5448094b64a78c21cbc65/complaints/201732059c6e4a9b8a57ed4a07a2aabf
 {
   "access": {
-    "token": "ae472fdaa8d243ed9290eb4ebebbfa61"
+    "token": "602d244a5f704397a8307ef3d30df778"
   }, 
   "data": {
-    "status": "draft", 
+    "status": "claim", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -64,10 +65,11 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/2436da94a50f460
       }
     }, 
     "title": "Недостатньо інформації", 
-    "complaintID": "UA-2016-07-19-000001.1", 
-    "date": "2016-07-19T18:44:33.707830+03:00", 
-    "type": "complaint", 
-    "id": "ae37a435c4044e46a56845748e2b5446"
+    "dateSubmitted": "2016-07-19T18:18:02.228807+03:00", 
+    "complaintID": "UA-2016-07-19-000001.6", 
+    "date": "2016-07-19T18:18:02.227160+03:00", 
+    "type": "claim", 
+    "id": "201732059c6e4a9b8a57ed4a07a2aabf"
   }
 }
 
