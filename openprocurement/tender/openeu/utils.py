@@ -120,7 +120,7 @@ def check_status(request):
         return
 
     elif tender.status == 'active.pre-qualification.stand-still' and tender.qualificationPeriod and tender.qualificationPeriod.endDate <= now and not any([
-        i.status in tender.block_tender_complaint_status
+        i.status in tender.block_complaint_status
         for q in tender.qualifications
         for i in q.complaints
     ]):
