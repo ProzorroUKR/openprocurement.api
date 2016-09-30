@@ -24,8 +24,10 @@ from gevent.queue import Queue
 
 from openprocurement_client.client import TendersClient, TendersClientSync
 from yaml import load
-from pytz import timezone
-from openprocurement.tender.competitivedialogue.models import CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
+
+from openprocurement.tender.competitivedialogue.models_constants import (
+    CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
+)
 from openprocurement.tender.competitivedialogue.journal_msg_ids import (
     DATABRIDGE_RESTART, DATABRIDGE_GET_CREDENTIALS, DATABRIDGE_GOT_CREDENTIALS,
     DATABRIDGE_FOUND_NOLOT,

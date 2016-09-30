@@ -30,15 +30,9 @@ from openprocurement.api.models import (
 from schematics.transforms import whitelist, blacklist
 from openprocurement.tender.competitivedialogue.utils import (validate_features_custom_weight)
 
-# constants for procurementMethodtype
-CD_UA_TYPE = "competitiveDialogueUA"
-CD_EU_TYPE = "competitiveDialogueEU"
-STAGE_2_EU_TYPE = "competitiveDialogueEU.stage2"
-STAGE_2_UA_TYPE = "competitiveDialogueUA.stage2"
-
-STAGE2_STATUS = 'draft.stage2'
-
-FEATURES_MAX_SUM = 0.99
+from openprocurement.tender.competitivedialogue.models_constants import (
+    CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS, FEATURES_MAX_SUM
+)
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 edit_stage2_pending = whitelist('status')
