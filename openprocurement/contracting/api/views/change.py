@@ -67,15 +67,39 @@ class ContractsChangesResource(APIResource):
         """ Contract change edit """
         change = self.request.validated['change']
         data = self.request.validated['data']
+
+        if change.status == 'active':
+            self.request.errors.add('body', 'data', 'Can\'t update contract change in current ({}) status'.format(change.status))
+            self.request.errors.status = 403
+            return
+
         if 'status' in data and data['status'] != change.status:  # status change
 
-            if data['status'] != 'active':
-                self.request.errors.add('body', 'data', 'Can\'t update contract change in current ({}) status'.format(change.status))
+            if not data.get("dateSigned", ''):
+                self.request.errors.add('body', 'data', 'Can\'t update contract change status. \'dateSigned\' is required.')
                 self.request.errors.status = 403
                 return
+
             change['date'] = get_now()
 
-        if apply_patch(self.request, src=change.serialize()):
+        apply_patch(self.request, save=False, src=change.serialize())
+
+        if change['dateSigned']:
+            contract = self.request.validated['contract']
+            changes = contract.get("changes", [])
+            if len(changes) > 1:  # has previous changes
+                last_date_signed = contract.changes[:-1][-1].dateSigned
+                obj_str = "last active change"
+            else:
+                last_date_signed = contract.dateSigned
+                obj_str = "contract"
+
+            if change['dateSigned'] < last_date_signed:
+                self.request.errors.add('body', 'data', 'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
+                self.request.errors.status = 403
+                return
+
+        if save_contract(self.request):
             self.LOGGER.info('Updated contract change {}'.format(change.id),
                             extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_change_patch'}))
             return {'data': change.serialize('view')}
