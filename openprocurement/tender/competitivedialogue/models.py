@@ -38,21 +38,23 @@ edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 edit_stage2_pending = whitelist('status')
 edit_stage2_waiting = whitelist('status', 'stage2TenderID')
 
+view_role_stage1 = (view_role + blacklist('auctionPeriod'))
+pre_qualifications_role_stage1 = (pre_qualifications_role + blacklist('auctionPeriod'))
 roles = {
     'plain': plain_role,
     'create': create_role,
-    'view': view_role,
+    'view': view_role_stage1,
     'listing': listing_role,
-    'active.pre-qualification': pre_qualifications_role,
-    'active.pre-qualification.stand-still': pre_qualifications_role,
-    'active.stage2.pending': enquiries_role,
-    'active.stage2.waiting': pre_qualifications_role,
+    'active.pre-qualification': pre_qualifications_role_stage1,
+    'active.pre-qualification.stand-still': pre_qualifications_role_stage1,
+    'active.stage2.pending': (enquiries_role + blacklist('auctionPeriod')),
+    'active.stage2.waiting': pre_qualifications_role_stage1,
     'edit_active.stage2.pending': whitelist('status'),
-    'draft': enquiries_role,
-    'active.tendering': enquiries_role,
-    'complete': view_role,
-    'unsuccessful': view_role,
-    'cancelled': view_role,
+    'draft': (enquiries_role + blacklist('auctionPeriod')),
+    'active.tendering': (enquiries_role + blacklist('auctionPeriod')),
+    'complete': view_role_stage1,
+    'unsuccessful': view_role_stage1,
+    'cancelled': view_role_stage1,
     'chronograph': chronograph_role,
     'chronograph_view': chronograph_view_role,
     'Administrator': Administrator_role,
@@ -131,6 +133,22 @@ lot_roles = {
 }
 
 
+class Lot(BaseLotEU):
+
+    class Options:
+        roles = {
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
+            'embedded': embedded_lot_role,
+            'view': (default_lot_role + blacklist('auctionPeriod')),
+            'default': (default_lot_role + blacklist('auctionPeriod')),
+            'chronograph': whitelist('id'),
+            'chronograph_view': whitelist('id', 'numberOfBids', 'status'),
+        }
+
+LotStage1 = Lot
+
+
 @implementer(ITender)
 class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=CD_EU_TYPE)
@@ -144,6 +162,7 @@ class Tender(BaseTenderEU):
     TenderID = StringType(required=False)
     stage2TenderID = StringType(required=False)
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
+    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
 
     class Options:
         roles = roles.copy()

@@ -454,14 +454,13 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(set(response.json['data']), set([u'id', u'title', u'date', u'description',
-                                                          u'value', u'status', u'auctionPeriod', u'minimalStep']))
+                                                          u'value', u'status', u'minimalStep']))
 
         self.set_status('active.qualification')
 
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        lot.pop('auctionPeriod')
         self.assertEqual(response.json['data'], lot)
 
         response = self.app.get('/tenders/{}/lots/some_id'.format(self.tender_id), status=404)
@@ -494,14 +493,13 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'title', u'date', u'description',
-                                                             u'value', u'status', u'auctionPeriod', u'minimalStep']))
+                                                             u'value', u'status', u'minimalStep']))
 
         self.set_status('active.qualification')
 
         response = self.app.get('/tenders/{}/lots'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        lot.pop('auctionPeriod')
         self.assertEqual(response.json['data'][0], lot)
 
         response = self.app.get('/tenders/some_id/lots', status=404)
@@ -1105,12 +1103,10 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
                                        {"data": {"items": [{'relatedLot': lot_id}]}})
         self.assertEqual(response.status, '200 OK')
         # switch to active.tendering
-        response = self.set_status('active.tendering',
-                                   {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
-        self.assertIn("auctionPeriod", response.json['data']['lots'][0])
+        response = self.set_status('active.tendering')
+        self.assertNotIn("auctionPeriod", response.json['data']['lots'][0])
         # switch to unsuccessful
-        response = self.set_status('active.stage2.pending', {"lots": [{"auctionPeriod": {"startDate": None}}],
-                                                      'status': 'active.tendering'})
+        response = self.set_status('active.stage2.pending', {'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.json['data']["lots"][0]['status'], 'unsuccessful')
@@ -1321,8 +1317,7 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
                                        {"data": {"items": [test_tender_data['items'][0] for i in lots]}})
 
-        response = self.set_status('active.tendering',
-                                   {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}} for i in lots]})
+        response = self.set_status('active.tendering')
         # create bid
 
         bids = []
@@ -2168,14 +2163,13 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(set(response.json['data']), set([u'id', u'title', u'date', u'description',
-                                                          u'value', u'status', u'auctionPeriod', u'minimalStep']))
+                                                          u'value', u'status', u'minimalStep']))
 
         self.set_status('active.qualification')
 
         response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        lot.pop('auctionPeriod')
         self.assertEqual(response.json['data'], lot)
 
         response = self.app.get('/tenders/{}/lots/some_id'.format(self.tender_id), status=404)
@@ -2208,14 +2202,13 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'title', u'date', u'description',
-                                                             u'value', u'status', u'auctionPeriod', u'minimalStep']))
+                                                             u'value', u'status', u'minimalStep']))
 
         self.set_status('active.qualification')
 
         response = self.app.get('/tenders/{}/lots'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        lot.pop('auctionPeriod')
         self.assertEqual(response.json['data'][0], lot)
 
         response = self.app.get('/tenders/some_id/lots', status=404)
@@ -2820,12 +2813,10 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
                                        {"data": {"items": [{'relatedLot': lot_id}]}})
         self.assertEqual(response.status, '200 OK')
         # switch to active.tendering
-        response = self.set_status('active.tendering',
-                                   {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
-        self.assertIn("auctionPeriod", response.json['data']['lots'][0])
+        response = self.set_status('active.tendering')
+        self.assertNotIn("auctionPeriod", response.json['data']['lots'][0])
         # switch to unsuccessful
-        response = self.set_status('active.stage2.pending', {"lots": [{"auctionPeriod": {"startDate": None}}],
-                                                             'status': 'active.tendering'})
+        response = self.set_status('active.stage2.pending', {'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
         self.assertEqual(response.json['data']["lots"][0]['status'], 'unsuccessful')
@@ -3036,8 +3027,7 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
                                        {"data": {"items": [test_tender_data['items'][0] for i in lots]}})
 
-        response = self.set_status('active.tendering',
-                                   {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}} for i in lots]})
+        response = self.set_status('active.tendering')
         # create bid
 
         bids = []
