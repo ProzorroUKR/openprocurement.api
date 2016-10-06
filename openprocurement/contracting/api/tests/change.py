@@ -375,6 +375,90 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
                                        {'data': {'status': 'terminated', "amountPaid": {"amount": 15}}})
         self.assertEqual(response.status, '200 OK')
 
+    def test_change_date_signed_very_old_contracts_data(self):
+        # prepare old contract data
+        contract = self.db.get(self.contract['id'])
+        contract['dateSigned'] = None
+        self.db.save(contract)
+
+        response = self.app.get('/contracts/{}?acc_token={}'.format(self.contract['id'], self.contract_token))
+        self.assertEqual(response.status, '200 OK')
+        self.assertNotIn('dateSigned', response.json['data'])
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
+                                      {'data': {'rationale': u'причина зміни укр',
+                                                'rationale_en': u'change cause en',
+                                                'rationaleTypes': ['priceReduction'],
+                                                'contractNumber': u'№ 146'}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        change = response.json['data']
+        self.assertEqual(change['status'], 'pending')
+
+        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
+                                       {'data': {'status': 'active'}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [
+            {"location": "body", "name": "data", "description": "Can't update contract change status. 'dateSigned' is required."}
+        ])
+
+        one_day_in_past = (get_now() - timedelta(days=1)).isoformat()
+        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
+                                       {'data': {'status': 'active', 'dateSigned': one_day_in_past}})
+        self.assertEqual(response.json['data']['status'], 'active')
+        self.assertEqual(response.json['data']['dateSigned'], one_day_in_past)
+
+        response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
+                                      {'data': {'rationale': u'iнша причина зміни укр',
+                                                'rationale_en': u'another change cause en',
+                                                'rationaleTypes': ['priceReduction'],
+                                                'contractNumber': u'№ 147'}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        change2 = response.json['data']
+        self.assertEqual(change['status'], 'pending')
+
+        two_days_in_past = (get_now() - timedelta(days=2)).isoformat()
+        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change2['id'], self.contract_token),
+                                       {'data': {'dateSigned': two_days_in_past}}, status=403)
+        self.assertEqual("Change dateSigned ({}) can't be earlier than last active change dateSigned ({})".format(two_days_in_past, one_day_in_past), response.json['errors'][0]["description"])
+
+        valid_date = get_now().isoformat()
+        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change2['id'], self.contract_token),
+                                       {'data': {'status': 'active', 'dateSigned': valid_date}})
+        self.assertEqual(response.json['data']['status'], 'active')
+        self.assertEqual(response.json['data']['dateSigned'], valid_date)
+
+        # prepare old contract change data
+        contract = self.db.get(self.contract['id'])
+        last_change = contract['changes'][-1]
+        last_change['dateSigned'] = None
+        self.db.save(contract)
+
+        response = self.app.get('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], last_change['id'], self.contract_token))
+        self.assertEqual(response.status, '200 OK')
+        self.assertNotIn('dateSigned', response.json['data'])
+
+        response = self.app.post_json('/contracts/{}/changes?acc_token={}'.format(self.contract['id'], self.contract_token),
+                                      {'data': {'rationale': u'третя причина зміни укр',
+                                                'rationale_en': u'third change cause en',
+                                                'rationaleTypes': ['priceReduction'],
+                                                'contractNumber': u'№ 148'}})
+        self.assertEqual(response.status, '201 Created')
+        change3 = response.json['data']
+        self.assertEqual(change['status'], 'pending')
+
+        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change3['id'], self.contract_token),
+                                       {'data': {'dateSigned': two_days_in_past}}, status=403)
+        self.assertEqual("Change dateSigned ({}) can't be earlier than last active change dateSigned ({})".format(two_days_in_past, last_change['date']), response.json['errors'][0]["description"])
+
+        valid_date2 = get_now().isoformat()
+        response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change3['id'], self.contract_token),
+                                       {'data': {'status': 'active', 'dateSigned': valid_date2}})
+        self.assertEqual(response.json['data']['status'], 'active')
+        self.assertEqual(response.json['data']['dateSigned'], valid_date2)
+
 
 def suite():
     suite = unittest.TestSuite()
