@@ -275,6 +275,9 @@ class Document(Document):
                 raise ValidationError(u"confidentialityRationale should contain at least 30 characters")
 
 
+ConfidentialDocument = Document
+
+
 class Bid(BaseBid):
     class Options:
         roles = {
