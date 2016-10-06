@@ -9,11 +9,14 @@ from openprocurement.tender.competitivedialogue.models import CompetitiveDialogU
 from openprocurement.tender.competitivedialogue.tests.base import (test_tender_data_ua,
                                                                    test_tender_data_eu,
                                                                    BaseCompetitiveDialogEUWebTest,
-                                                                   BaseCompetitiveDialogUAWebTest)
+                                                                   BaseCompetitiveDialogUAWebTest,
+                                                                   BaseCompetitiveDialogWebTest)
 from copy import deepcopy
 from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
 
-class CompetitiveDialogTest(BaseWebTest):
+
+class CompetitiveDialogTest(BaseCompetitiveDialogWebTest):
+
 
     def test_simple_add_tender_ua(self):
         u = CompetitiveDialogUA(test_tender_data_ua)
@@ -502,19 +505,6 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
             {u'description': [u'period should begin after tenderPeriod'], u'location': u'body', u'name': u'awardPeriod'}
         ])
 
-        test_tender_data_eu['auctionPeriod'] = {'startDate': (now + timedelta(days=35)).isoformat(), 'endDate': (now + timedelta(days=35)).isoformat()}
-        test_tender_data_eu['awardPeriod'] = {'startDate': (now + timedelta(days=34)).isoformat(), 'endDate': (now + timedelta(days=34)).isoformat()}
-        response = self.app.post_json(request_path, {'data': test_tender_data_eu}, status=422)
-        del test_tender_data_eu['auctionPeriod']
-        del test_tender_data_eu['awardPeriod']
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'period should begin after auctionPeriod'], u'location': u'body', u'name': u'awardPeriod'}
-        ])
-
-
         data = test_tender_data_eu["items"][0]["additionalClassifications"][0]["scheme"]
         test_tender_data_eu["items"][0]["additionalClassifications"][0]["scheme"] = 'Не ДКПП'
         response = self.app.post_json(request_path, {'data': test_tender_data_eu}, status=422)
@@ -579,7 +569,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
             tender.pop('procurementMethodDetails')
         self.assertEqual(set(tender), set([
             u'procurementMethodType', u'id', u'dateModified', u'tenderID',
-            u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod',
+            u'status', u'enquiryPeriod', u'tenderPeriod',
             u'complaintPeriod', u'items', u'value', u'owner',
             u'procuringEntity', u'next_check', u'procurementMethod',
             u'awardCriteria', u'submissionMethod', u'title', u'title_en',
@@ -655,7 +645,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
         if 'procurementMethodDetails' in tender_set:
             tender_set.remove('procurementMethodDetails')
         self.assertEqual(tender_set - set(test_tender_data_eu), set([
-            u'id', u'dateModified', u'enquiryPeriod', u'auctionPeriod',
+            u'id', u'dateModified', u'enquiryPeriod',
             u'complaintPeriod', u'tenderID', u'status', u'procurementMethod',
             u'awardCriteria', u'submissionMethod', u'next_check', u'owner', u'date'
         ]))
@@ -1827,18 +1817,6 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
             {u'description': [u'period should begin after tenderPeriod'], u'location': u'body', u'name': u'awardPeriod'}
         ])
 
-        test_tender_data_ua['auctionPeriod'] = {'startDate': (now + timedelta(days=16)).isoformat(), 'endDate': (now + timedelta(days=16)).isoformat()}
-        test_tender_data_ua['awardPeriod'] = {'startDate': (now + timedelta(days=15)).isoformat(), 'endDate': (now + timedelta(days=15)).isoformat()}
-        response = self.app.post_json(request_path, {'data': test_tender_data_ua}, status=422)
-        del test_tender_data_ua['auctionPeriod']
-        del test_tender_data_ua['awardPeriod']
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'period should begin after auctionPeriod'], u'location': u'body', u'name': u'awardPeriod'}
-        ])
-
         data = test_tender_data_ua["items"][0]["additionalClassifications"][0]["scheme"]
         test_tender_data_ua["items"][0]["additionalClassifications"][0]["scheme"] = 'Не ДКПП'
         response = self.app.post_json(request_path, {'data': test_tender_data_ua}, status=422)
@@ -1903,7 +1881,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
             u'status', u'enquiryPeriod', u'tenderPeriod', u'complaintPeriod',
             u'items', u'value', u'procuringEntity',
             u'next_check', u'procurementMethod', u'awardCriteria',
-            u'submissionMethod', u'auctionPeriod', u'title', u'owner',
+            u'submissionMethod', u'title', u'owner',
             u'date', u'minimalStep'
         ]))
         self.assertNotEqual(data['id'], tender['id'])
@@ -1953,7 +1931,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
         if 'procurementMethodDetails' in tender_set:
             tender_set.remove('procurementMethodDetails')
         self.assertEqual(tender_set - set(test_tender_data_ua), set([
-            u'id', u'dateModified', u'enquiryPeriod', u'auctionPeriod',
+            u'id', u'dateModified', u'enquiryPeriod',
             u'complaintPeriod', u'tenderID', u'status', u'procurementMethod',
             u'awardCriteria', u'submissionMethod', u'next_check', u'owner',
             u'date'
