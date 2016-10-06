@@ -1,6 +1,6 @@
 language: python
 sudo: required
-￼before_script:
+before_script:
   - sudo add-apt-repository ppa:chris-lea/libsodium -y
   - sudo apt-get -qq update
 ￼  - sudo apt-get install libsodium13 -y
