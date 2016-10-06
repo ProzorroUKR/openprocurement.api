@@ -122,6 +122,9 @@ Schema
 :date:
     string, :ref:`date`, auto-generated
 
+:dateSigned:
+    string, :ref:`date`
+
 :contractNumber:
     string
 
