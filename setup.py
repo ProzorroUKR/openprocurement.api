@@ -18,6 +18,9 @@ docs_requires = requires + [
 entry_points = {
     'openprocurement.api.plugins': [
         'planning = openprocurement.planning.api:includeme'
+    ],
+    'openprocurement.api.migrations': [
+        'plans = openprocurement.planning.api.migration:migrate_data'
     ]
 }
 
