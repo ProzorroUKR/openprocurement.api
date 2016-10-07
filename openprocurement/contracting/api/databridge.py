@@ -211,11 +211,18 @@ class ContractingDataBridge(object):
             for contract in tender['contracts']:
                 if contract["status"] == "active":
 
+                    self.basket[contract['id']] = tender_to_sync['dateModified']
                     try:
                         if not self.cache_db.has(contract['id']):
                             self.contracting_client_ro.get_contract(contract['id'])
                         else:
                             logger.info('Contract {} exists in local db'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_CACHED}, params={"CONTRACT_ID": contract['id']}))
+                            dateModified = self.basket.get(contract['id'])
+                            if dateModified:
+                                # TODO: save tender in cache only if all active contracts are
+                                # handled successfully
+                                self.cache_db.put(tender_to_sync['id'], dateModified)
+                            self.basket.pop(contract['id'], None)
                             continue
                     except ResourceNotFound:
                         logger.info('Sync contract {} of tender {}'.format(contract['id'], tender['id']), extra=journal_context(
@@ -234,7 +241,6 @@ class ContractingDataBridge(object):
                                                                                                        {"TENDER_ID": tender_to_sync['id'], "CONTRACT_ID": contract['id']}))
                         continue
 
-                    self.basket[contract['id']] = tender_to_sync['dateModified']
                     contract['tender_id'] = tender['id']
                     contract['procuringEntity'] = tender['procuringEntity']
                     if tender.get('mode'):
@@ -332,6 +338,8 @@ class ContractingDataBridge(object):
                 self.cache_db.put(contract['id'], True)
                 dateModified = self.basket.get(contract['id'])
                 if dateModified:
+                    # TODO: save tender in cache only if all active contracts are
+                    # handled successfully
                     self.cache_db.put(contract['tender_id'], dateModified)
                 self.basket.pop(contract['id'], None)
 
@@ -361,6 +369,8 @@ class ContractingDataBridge(object):
                 self.cache_db.put(contract['id'], True)
                 dateModified = self.basket.get(contract['id'])
                 if dateModified:
+                    # TODO: save tender in cache only if all active contracts are
+                    # handled successfully
                     self.cache_db.put(contract['tender_id'], dateModified)
                 self.basket.pop(contract['id'], None)
             gevent.sleep(0)
