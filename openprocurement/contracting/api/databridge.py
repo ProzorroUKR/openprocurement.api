@@ -29,7 +29,7 @@ from openprocurement.contracting.api.journal_msg_ids import (
     DATABRIDGE_COPY_CONTRACT_ITEMS, DATABRIDGE_MISSING_CONTRACT_ITEMS,
     DATABRIDGE_GET_EXTRA_INFO, DATABRIDGE_WORKER_DIED, DATABRIDGE_START,
     DATABRIDGE_GOT_EXTRA_INFO, DATABRIDGE_CREATE_CONTRACT, DATABRIDGE_EXCEPTION,
-    DATABRIDGE_CONTRACT_CREATED, DATABRIDGE_RETRY_CREATE,
+    DATABRIDGE_CONTRACT_CREATED, DATABRIDGE_RETRY_CREATE, DATABRIDGE_INFO,
     DATABRIDGE_TENDER_PROCESS, DATABRIDGE_SKIP_NOT_MODIFIED,
     DATABRIDGE_SYNC_SLEEP, DATABRIDGE_SYNC_RESUME, DATABRIDGE_CACHED)
 
@@ -44,20 +44,29 @@ class Db(object):
     def __init__(self, config):
         self.config = config
 
+        self._backend = None
+        self._db_name = None
+        self._port = None
+        self._host = None
+
         if 'cache_host' in self.config:
             import redis
-            host = self.config.get('cache_host')
-            port = self.config.get('cache_port') or 6379
-            db_name = self.config.get('cache_db_name') or 0
-            self.db = redis.StrictRedis(host=host, port=port, db=db_name)
+            self._backend = "redis"
+            self._host = self.config.get('cache_host')
+            self._port = self.config.get('cache_port') or 6379
+            self._db_name = self.config.get('cache_db_name') or 0
+            self.db = redis.StrictRedis(host=self._host, port=self._port,
+                                        db=self._db_name)
             self.set_value = self.db.set
             self.has_value = self.db.exists
         else:
             from lazydb import Db
-            db_name = self.config.get('cache_db_name') or 'databridge_cache_db'
-            self.db = Db(db_name)
+            self._backend = "lazydb"
+            self._db_name = self.config.get('cache_db_name') or 'databridge_cache_db'
+            self.db = Db(self._db_name)
             self.set_value = self.db.put
             self.has_value = self.db.has
+
 
     def get(self, key):
         return self.db.get(key)
@@ -87,6 +96,19 @@ class ContractingDataBridge(object):
         self.config = config
 
         self.cache_db = Db(self.config.get('main'))
+
+        self._backend = "redis"
+        self._host = self.config.get('cache_host')
+        self._port = self.config.get('cache_port') or 6379
+        self._db_name = self.config.get('cache_db_name') or 0
+
+        logger.info("Caching backend: '{}', db name: '{}', host: '{}', port: '{}'".format(self.cache_db._backend,
+                                                                                          self.cache_db._db_name,
+                                                                                          self.cache_db._host,
+                                                                                          self.cache_db._port),
+                    extra=journal_context({"MESSAGE_ID": DATABRIDGE_INFO}, {}))
+
+
         self.on_error_delay = self.config_get('on_error_sleep_delay') or 5
         self.jobs_watcher_delay = self.config_get('jobs_watcher_delay') or 15
         queue_size = self.config_get('buffers_size') or 500
