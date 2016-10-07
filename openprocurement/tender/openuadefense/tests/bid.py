@@ -1122,7 +1122,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
             }}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update document because award of bid is not in pending or active state")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't add document because award of bid is not in pending or active state")
 
         response = self.app.get('/tenders/{}/bids/{}/documents/{}'.format(self.tender_id, self.bid_id, doc_id))
         self.assertEqual(response.status, '200 OK')
