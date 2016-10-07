@@ -193,6 +193,14 @@ class ContractingDataBridge(object):
             logger.debug('{} {}'.format(direction, params))
             response = self.tenders_sync_client.sync_tenders(params, extra_headers={'X-Client-Request-ID': generate_req_id()})
 
+    def _put_tender_in_cache_by_contract(self, contract, tender_id):
+        dateModified = self.basket.get(contract['id'])
+        if dateModified:
+            # TODO: save tender in cache only if all active contracts are
+            # handled successfully
+            self.cache_db.put(tender_id, dateModified)
+        self.basket.pop(contract['id'], None)
+
     def _get_tender_contracts(self):
         try:
             tender_to_sync = self.tenders_queue.get()
@@ -217,12 +225,7 @@ class ContractingDataBridge(object):
                             self.contracting_client_ro.get_contract(contract['id'])
                         else:
                             logger.info('Contract {} exists in local db'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_CACHED}, params={"CONTRACT_ID": contract['id']}))
-                            dateModified = self.basket.get(contract['id'])
-                            if dateModified:
-                                # TODO: save tender in cache only if all active contracts are
-                                # handled successfully
-                                self.cache_db.put(tender_to_sync['id'], dateModified)
-                            self.basket.pop(contract['id'], None)
+                            self._put_tender_in_cache_by_contract(contract, tender_to_sync['id'])
                             continue
                     except ResourceNotFound:
                         logger.info('Sync contract {} of tender {}'.format(contract['id'], tender['id']), extra=journal_context(
@@ -239,6 +242,7 @@ class ContractingDataBridge(object):
                         self.cache_db.put(contract['id'], True)
                         logger.info('Contract exists {}'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_CONTRACT_EXISTS},
                                                                                                        {"TENDER_ID": tender_to_sync['id'], "CONTRACT_ID": contract['id']}))
+                        self._put_tender_in_cache_by_contract(contract, tender_to_sync['id'])
                         continue
 
                     contract['tender_id'] = tender['id']
@@ -336,12 +340,7 @@ class ContractingDataBridge(object):
                 self.contracts_retry_put_queue.put(contract)
             else:
                 self.cache_db.put(contract['id'], True)
-                dateModified = self.basket.get(contract['id'])
-                if dateModified:
-                    # TODO: save tender in cache only if all active contracts are
-                    # handled successfully
-                    self.cache_db.put(contract['tender_id'], dateModified)
-                self.basket.pop(contract['id'], None)
+                self._put_tender_in_cache_by_contract(contract, contract['tender_id'])
 
             gevent.sleep(0)
 
@@ -367,12 +366,7 @@ class ContractingDataBridge(object):
                 logger.warn("Can't create contract {}".format(contract['id']),  extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, {"TENDER_ID": contract['tender_id'], "CONTRACT_ID": contract['id']}))
             else:
                 self.cache_db.put(contract['id'], True)
-                dateModified = self.basket.get(contract['id'])
-                if dateModified:
-                    # TODO: save tender in cache only if all active contracts are
-                    # handled successfully
-                    self.cache_db.put(contract['tender_id'], dateModified)
-                self.basket.pop(contract['id'], None)
+                self._put_tender_in_cache_by_contract(contract, contract['tender_id'])
             gevent.sleep(0)
 
     def get_tender_contracts_forward(self):
