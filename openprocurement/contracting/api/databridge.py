@@ -37,9 +37,36 @@ from openprocurement.contracting.api.journal_msg_ids import (
 logger = logging.getLogger("openprocurement.contracting.api.databridge")
 # logger = logging.getLogger(__name__)
 
-from lazydb import Db
 
-db = Db('databridge_cache_db')
+class Db(object):
+    """ Database proxy """
+
+    def __init__(self, config):
+        self.config = config
+
+        if 'cache_host' in self.config:
+            import redis
+            host = self.config.get('cache_host')
+            port = self.config.get('cache_port') or 6379
+            db_name = self.config.get('cache_db_name') or 0
+            self.db = redis.StrictRedis(host=host, port=port, db=db_name)
+            self.set_value = self.db.set
+            self.has_value = self.db.exists
+        else:
+            from lazydb import Db
+            db_name = self.config.get('cache_db_name') or 'databridge_cache_db'
+            self.db = Db(db_name)
+            self.set_value = self.db.put
+            self.has_value = self.db.has
+
+    def get(self, key):
+        return self.db.get(key)
+
+    def put(self, key, value):
+        self.set_value(key, value)
+
+    def has(self, key):
+        return self.has_value(key)
 
 
 def generate_req_id():
@@ -58,6 +85,8 @@ class ContractingDataBridge(object):
     def __init__(self, config):
         super(ContractingDataBridge, self).__init__()
         self.config = config
+
+        self.cache_db = Db(self.config.get('main'))
         self.on_error_delay = self.config_get('on_error_sleep_delay') or 5
         self.jobs_watcher_delay = self.config_get('jobs_watcher_delay') or 15
         queue_size = self.config_get('buffers_size') or 500
@@ -99,6 +128,7 @@ class ContractingDataBridge(object):
         self.handicap_contracts_queue = Queue(maxsize=queue_size)
         self.contracts_put_queue = Queue(maxsize=queue_size)
         self.contracts_retry_put_queue = Queue(maxsize=queue_size)
+        self.basket = {}
 
     def config_get(self, name):
         return self.config.get('main').get(name)
@@ -168,7 +198,6 @@ class ContractingDataBridge(object):
             tender_to_sync = self.tenders_queue.get()
             tender = self.tenders_sync_client.get_tender(tender_to_sync['id'],
                                                          extra_headers={'X-Client-Request-ID': generate_req_id()})['data']
-            db.put(tender_to_sync['id'], {'dateModified': tender_to_sync['dateModified']})
         except Exception, e:
             logger.warn('Fail to get tender info {}'.format(tender_to_sync['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"TENDER_ID": tender_to_sync['id']}))
             logger.exception(e)
@@ -183,7 +212,7 @@ class ContractingDataBridge(object):
                 if contract["status"] == "active":
 
                     try:
-                        if not db.has(contract['id']):
+                        if not self.cache_db.has(contract['id']):
                             self.contracting_client_ro.get_contract(contract['id'])
                         else:
                             logger.info('Contract {} exists in local db'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_CACHED}, params={"CONTRACT_ID": contract['id']}))
@@ -200,11 +229,12 @@ class ContractingDataBridge(object):
                         self.tenders_queue.put(tender_to_sync)
                         break
                     else:
-                        db.put(contract['id'], True)
+                        self.cache_db.put(contract['id'], True)
                         logger.info('Contract exists {}'.format(contract['id']), extra=journal_context({"MESSAGE_ID": DATABRIDGE_CONTRACT_EXISTS},
                                                                                                        {"TENDER_ID": tender_to_sync['id'], "CONTRACT_ID": contract['id']}))
                         continue
 
+                    self.basket[contract['id']] = tender_to_sync['dateModified']
                     contract['tender_id'] = tender['id']
                     contract['procuringEntity'] = tender['procuringEntity']
                     if tender.get('mode'):
@@ -291,7 +321,6 @@ class ContractingDataBridge(object):
                 self.contracting_client.create_contract(data)
                 logger.info("Successfully created contract {} of tender {}".format(contract['id'], contract['tender_id']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_CONTRACT_CREATED}, {"CONTRACT_ID": contract['id'], "TENDER_ID": contract['tender_id']}))
-                db.put(contract['id'], True)
             except Exception, e:
                 logger.info("Unsuccessful put for contract {0} of tender {1}".format(contract['id'], contract['tender_id']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, {"CONTRACT_ID": contract['id'], "TENDER_ID": contract['tender_id']}))
@@ -299,6 +328,13 @@ class ContractingDataBridge(object):
                 logger.info("Schedule retry for contract {0}".format(contract['id']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_RETRY_CREATE}, {"CONTRACT_ID": contract['id'], "TENDER_ID": contract['tender_id']}))
                 self.contracts_retry_put_queue.put(contract)
+            else:
+                self.cache_db.put(contract['id'], True)
+                dateModified = self.basket.get(contract['id'])
+                if dateModified:
+                    self.cache_db.put(contract['tender_id'], dateModified)
+                self.basket.pop(contract['id'], None)
+
             gevent.sleep(0)
 
     @retry(stop_max_attempt_number=15, wait_exponential_multiplier=1000 * 60)
@@ -317,8 +353,16 @@ class ContractingDataBridge(object):
             try:
                 contract = self.contracts_retry_put_queue.get()
                 self._put_with_retry(contract)
+                logger.info("Successfully created contract {} of tender {}".format(contract['id'], contract['tender_id']),
+                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_CONTRACT_CREATED}, {"CONTRACT_ID": contract['id'], "TENDER_ID": contract['tender_id']}))
             except:
                 logger.warn("Can't create contract {}".format(contract['id']),  extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, {"TENDER_ID": contract['tender_id'], "CONTRACT_ID": contract['id']}))
+            else:
+                self.cache_db.put(contract['id'], True)
+                dateModified = self.basket.get(contract['id'])
+                if dateModified:
+                    self.cache_db.put(contract['tender_id'], dateModified)
+                self.basket.pop(contract['id'], None)
             gevent.sleep(0)
 
     def get_tender_contracts_forward(self):
@@ -341,8 +385,8 @@ class ContractingDataBridge(object):
         params = {'opt_fields': 'status,lots', 'descending': 1, 'mode': '_all_'}
         try:
             for tender_data in self.get_tenders(params=params, direction="backward"):
-                stored = db.get(tender_data['id'])
-                if stored and stored['dateModified'] == tender_data['dateModified']:
+                stored = self.cache_db.get(tender_data['id'])
+                if stored and stored == tender_data['dateModified']:
                     logger.info('Tender {} not modified from last check. Skipping'.format(tender_data['id']), extra=journal_context(
                         {"MESSAGE_ID": DATABRIDGE_SKIP_NOT_MODIFIED}, {"TENDER_ID": tender_data['id']}))
                     continue
