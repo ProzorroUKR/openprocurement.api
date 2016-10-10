@@ -61,9 +61,6 @@ def patch_bid_first_stage(self):
             self.request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
             self.request.errors.status = 403
             return
-    value = self.request.validated['data'].get("value") and self.request.validated['data']["value"].get("amount")
-    if value and value != self.request.context.get("value", {}).get("amount"):
-        self.request.validated['data']['date'] = get_now().isoformat()
     self.request.validated['tender'].modified = False
     if apply_patch(self.request, src=self.request.context.serialize()):
         self.LOGGER.info('Updated tender bid {}'.format(self.request.context.id),
