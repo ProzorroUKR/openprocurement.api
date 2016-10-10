@@ -1443,6 +1443,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['status'], 'complete')
 
     def test_2lot_2bid_on_first_and_1_on_second_awarding(self):
+        self.app.authorization = ('Basic', ('broker', ''))
         # create tender
         response = self.app.post_json('/tenders', {"data": test_tender_data})
         tender_id = self.tender_id = response.json['data']['id']
@@ -1486,6 +1487,102 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
         response = self.app.get('/tenders/{}?acc_token={}'.format(tender_id, owner_token))
         self.assertIn('auctionPeriod', response.json['data']['lots'][0])
         self.assertNotIn('auctionPeriod', response.json['data']['lots'][1])
+
+        # finish auction
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(tender_id))
+        auction_bids_data = response.json['data']['bids']
+
+        lot_id = lots[0]
+        # posting auction urls
+        response = self.app.patch_json('/tenders/{}/auction/{}'.format(tender_id, lot_id), {
+            'data': {
+                'lots': [
+                    {
+                        'id': i['id'],
+                        'auctionUrl': 'https://tender.auction.url'
+                    }
+                    for i in response.json['data']['lots']
+                ],
+                'bids': [
+                    {
+                        'id': i['id'],
+                        'lotValues': [
+                            {
+                                'relatedLot': j['relatedLot'],
+                                'participationUrl': 'https://tender.auction.url/for_bid/{}'.format(i['id'])
+                            }
+                            for j in i['lotValues']
+                        ],
+                    }
+                    for i in auction_bids_data
+                ]
+            }
+        })
+
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(tender_id))
+        for bid in response.json['data']['bids']:
+            if bid['lotValues'][0]['relatedLot'] == lot_id:
+                self.assertIn('participationUrl', bid['lotValues'][0])
+            else:
+                self.assertNotIn('participationUrl', bid['lotValues'][0])
+
+        # posting auction results
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.post_json('/tenders/{}/auction/{}'.format(tender_id, lot_id), {'data': {'bids': auction_bids_data}})
+
+        # get awards
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
+
+        # get pending award
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == lot_id][0]
+
+        # set award as active
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
+
+        # get contract id
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        contract_id = response.json['data']['contracts'][-1]['id']
+
+        self.set_status('complete', {'status': 'active.awarded'})
+        # time travel
+        tender = self.db.get(tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+        # sign contract
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        # for SECOND lot
+        lot_id = lots[1]
+        # get pending award
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == lot_id][0]
+
+        # set award as active
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
+
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        contract_id = response.json['data']['contracts'][-1]['id']
+
+        self.set_status('complete', {'status': 'active.awarded'})
+        # time travel
+        tender = self.db.get(tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+        # sign contract
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        self.assertTrue(all([i['status'] == 'complete' for i in response.json['data']['lots']]))
+        self.assertEqual(response.json['data']['status'], 'complete')
 
     def test_2lot_2bid_2com_2win(self):
         self.app.authorization = ('Basic', ('broker', ''))
