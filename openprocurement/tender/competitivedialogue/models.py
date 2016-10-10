@@ -6,26 +6,45 @@ from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.models import ITender, Identifier, Model, Value, validate_values_uniq, get_tender, validate_features_uniq, Feature as BaseFeature, FeatureValue as BaseFeatureValue
+from openprocurement.api.models import (
+    ITender, Identifier, Model, validate_values_uniq,
+    get_tender, validate_features_uniq,
+    Feature as BaseFeature,
+    FeatureValue as BaseFeatureValue
+)
+
 from openprocurement.api.utils import calculate_business_date, get_now
-from openprocurement.tender.openua.models import (SifterListType, Item as BaseUAItem, Tender as BaseTenderUA,
-                                                  TENDER_PERIOD as TENDERING_DURATION_UA, Lot as BaseLotUA,
-                                                  PeriodEndRequired as BasePeriodEndRequired)
-from openprocurement.tender.openeu.models import (Tender as BaseTenderEU, Administrator_bid_role, view_bid_role,
-                                                  pre_qualifications_role, Bid as BidEU, ConfidentialDocument,
-                                                  edit_role_eu, auction_patch_role, auction_view_role,
-                                                  auction_post_role, QUESTIONS_STAND_STILL, ENQUIRY_STAND_STILL_TIME,
-                                                  PeriodStartEndRequired, EnquiryPeriod,
-                                                  validate_lots_uniq, embedded_lot_role, default_lot_role,
-                                                  Lot as BaseLotEU,
-                                                  TENDERING_DURATION as TENDERING_DURATION_EU,
-                                                  Item as BaseEUItem)
+from openprocurement.tender.openua.models import (
+    SifterListType,
+    Item as BaseUAItem,
+    Tender as BaseTenderUA,
+    TENDER_PERIOD as TENDERING_DURATION_UA,
+    Lot as BaseLotUA,
+    PeriodEndRequired as BasePeriodEndRequired
+)
+
+from openprocurement.tender.openeu.models import (
+    Administrator_bid_role, view_bid_role,
+    pre_qualifications_role, ConfidentialDocument,
+    edit_role_eu, auction_patch_role, auction_view_role,
+    auction_post_role, QUESTIONS_STAND_STILL, ENQUIRY_STAND_STILL_TIME,
+    PeriodStartEndRequired, EnquiryPeriod,
+    validate_lots_uniq, embedded_lot_role, default_lot_role,
+    Lot as BaseLotEU,
+    TENDERING_DURATION as TENDERING_DURATION_EU,
+    Item as BaseEUItem,
+    LotValue as BaseLotValueEU,
+    Tender as BaseTenderEU,
+    Bid as BidEU,
+)
+
 from openprocurement.api.models import (
     plain_role, create_role, edit_role, view_role, listing_role,
     enquiries_role, validate_cpv_group, validate_items_uniq,
     chronograph_role, chronograph_view_role, ProcuringEntity as BaseProcuringEntity,
     Administrator_role, schematics_default_role,
-    schematics_embedded_role, ListType, BooleanType
+    schematics_embedded_role, ListType, BooleanType,
+    Value as BaseValue
 )
 from schematics.transforms import whitelist, blacklist
 from openprocurement.tender.competitivedialogue.utils import (validate_features_custom_weight)
@@ -86,15 +105,30 @@ class Document(ConfidentialDocument):
                 raise ValidationError(u"confidentialityRationale should contain at least 30 characters")
 
 
+class LotValue(BaseLotValueEU):
+
+    class Options:
+        roles = {
+            'create': whitelist('relatedLot', 'subcontractingDetails'),
+            'edit': whitelist('relatedLot', 'subcontractingDetails')
+        }
+
+    value = ModelType(BaseValue, required=False)
+
+    def validate_value(self, *args, **kwargs):
+        pass  # remove validation
+
+view_bid_role_stage1 = (view_bid_role + blacklist('value'))
+
 class Bid(BidEU):
     class Options:
         roles = {
             'Administrator': Administrator_bid_role,
-            'embedded': view_bid_role,
-            'view': view_bid_role,
-            'create': whitelist('value', 'tenderers', 'lotValues',
+            'embedded': view_bid_role_stage1,
+            'view': view_bid_role_stage1,
+            'create': whitelist('tenderers', 'lotValues',
                                 'status', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
-            'edit': whitelist('value', 'tenderers', 'lotValues', 'status', 'subcontractingDetails'),
+            'edit': whitelist('tenderers', 'lotValues', 'status', 'subcontractingDetails'),
             'active.enquiries': whitelist(),
             'active.tendering': whitelist(),
             'active.pre-qualification': whitelist('id', 'status', 'documents', 'tenderers'),
@@ -102,22 +136,29 @@ class Bid(BidEU):
             'active.auction': whitelist('id', 'status', 'documents', 'tenderers'),
             'active.stage2.pending': whitelist('id', 'status', 'documents', 'tenderers'),
             'active.qualification': view_bid_role,
-            'complete': view_bid_role,
-            'unsuccessful': view_bid_role,
+            'complete': view_bid_role_stage1,
+            'unsuccessful': view_bid_role_stage1,
             'bid.unsuccessful': whitelist('id', 'status', 'tenderers', 'parameters',
                                           'selfQualified', 'selfEligible', 'subcontractingDetails'),
-            'cancelled': view_bid_role,
+            'cancelled': view_bid_role_stage1,
             'invalid': whitelist('id', 'status'),
             'deleted': whitelist('id', 'status'),
         }
 
     documents = ListType(ModelType(Document), default=list())
+    value = None
+    lotValues = ListType(ModelType(LotValue), default=list())
+
+    def validate_value(self, *args, **kwargs):
+        pass  # remove validation on stage 1
 
     def validate_parameters(self, data, parameters):
         pass  # remove validation on stage 1
 
+
 class FeatureValue(BaseFeatureValue):
     value = FloatType(required=True, min_value=0.0, max_value=FEATURES_MAX_SUM)
+
 
 class Feature(BaseFeature):
     enum = ListType(ModelType(FeatureValue), default=list(), min_size=1, validators=[validate_values_uniq])
