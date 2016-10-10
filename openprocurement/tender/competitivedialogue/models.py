@@ -110,7 +110,8 @@ class LotValue(BaseLotValueEU):
     class Options:
         roles = {
             'create': whitelist('relatedLot', 'subcontractingDetails'),
-            'edit': whitelist('relatedLot', 'subcontractingDetails')
+            'edit': whitelist('relatedLot', 'subcontractingDetails'),
+            'view': (schematics_default_role + blacklist('value')),
         }
 
     value = ModelType(BaseValue, required=False)
