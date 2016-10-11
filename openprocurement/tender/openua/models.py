@@ -467,7 +467,7 @@ class Tender(BaseTender):
     edit_accreditation = 4
     procuring_entity_kinds = ['general', 'special', 'defense']
     block_tender_complaint_status = ['claim', 'pending', 'accepted', 'satisfied', 'stopping']
-    block_complaint_status = ['claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping']
+    block_complaint_status = ['pending', 'accepted', 'satisfied', 'stopping']
 
     def __acl__(self):
         acl = [
