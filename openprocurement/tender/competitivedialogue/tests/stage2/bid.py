@@ -992,6 +992,46 @@ class TenderStage2EUBidResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'pending')
 
+    def test_ukrainian_author_id(self):
+        multilingual_author = deepcopy(author)
+        multilingual_author['identifier']['id'] = u"Українська мова"
+        data = test_tender_stage2_data_eu.copy()
+        data['shortlistedFirms'][0] = {
+            "identifier": {"scheme": multilingual_author["identifier"]['scheme'],
+                           "id": multilingual_author["identifier"]["id"],
+                           "uri": multilingual_author["identifier"]['uri']},
+            "name": "Test org name 1"
+        }
+        self.create_tender(initial_data=data)
+
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [multilingual_author], "value": {"amount": 500}}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        bid = response.json['data']
+        self.assertEqual(bid['tenderers'][0]['name'], test_bids[0]['tenderers'][0]['name'])
+        self.assertIn('id', bid)
+        self.assertIn(bid['id'], response.headers['Location'])
+
+        for status in ('active', 'unsuccessful', 'deleted', 'invalid'):
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                          {'data': {'selfEligible': True, 'selfQualified': True,
+                                                    'tenderers': [multilingual_author],
+                                                    'value': {"amount": 500},
+                                                    'status': status}}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+
+        self.set_status('complete')
+
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [multilingual_author], "value": {"amount": 500}}},
+                                      status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't add bid in current (complete) tender status")
+
 
 class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_status = 'active.tendering'
