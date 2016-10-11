@@ -221,7 +221,7 @@ def prepare_shortlistedFirms(shortlistedFirms):
         if firm.get('lots'):
             keys = set([u"{key}_{lot_id}".format(key=key, lot_id=lot['id']) for lot in firm.get('lots')])
         else:
-            keys = set(key)
+            keys = set([key])
         all_keys |= keys
     return all_keys
 
@@ -248,7 +248,7 @@ def prepare_bid_identifier(bid):
                                                  lot_id=lot['relatedLot'])
                         for lot in bid.get('lotValues')])
         else:
-            keys = set(key)
+            keys = set([key])
         all_keys |= keys
     return all_keys
 
