@@ -216,20 +216,22 @@ def prepare_shortlistedFirms(shortlistedFirms):
     """
     all_keys = set()
     for firm in shortlistedFirms:
-        key = "{firm_id}_{firm_scheme}".format(firm_id=firm['identifier']['id'], firm_scheme=firm['identifier']['scheme'])
+        key = u"{firm_id}_{firm_scheme}".format(firm_id=firm['identifier']['id'],
+                                                firm_scheme=firm['identifier']['scheme'])
         if firm.get('lots'):
-            keys = set(["{key}_{lot_id}".format(key=key, lot_id=lot['id']) for lot in firm.get('lots')])
+            keys = set([u"{key}_{lot_id}".format(key=key, lot_id=lot['id']) for lot in firm.get('lots')])
         else:
-            keys = set([key])
+            keys = set(key)
         all_keys |= keys
     return all_keys
 
 
 def prepare_author(obj):
-    base_key = "{id}_{scheme}".format(scheme=obj['author']['identifier']['scheme'],
-                                      id=obj['author']['identifier']['id'])
+    base_key = u"{id}_{scheme}".format(scheme=obj['author']['identifier']['scheme'],
+                                       id=obj['author']['identifier']['id'])
     if obj.get('relatedLot') or obj.get('relatedItem'):
-        base_key = "{base_key}_{lotId}".format(base_key=base_key, lotId=obj.get('relatedLot') or obj.get('relatedItem'))
+        base_key = u"{base_key}_{lotId}".format(base_key=base_key,
+                                                lotId=obj.get('relatedLot') or obj.get('relatedItem'))
     return base_key
 
 
@@ -239,11 +241,14 @@ def prepare_bid_identifier(bid):
     """
     all_keys = set()
     for tenderer in bid['tenderers']:
-        key = '{id}_{scheme}'.format(id=tenderer['identifier']['id'], scheme=tenderer['identifier']['scheme'])
+        key = u"{id}_{scheme}".format(id=tenderer['identifier']['id'],
+                                      scheme=tenderer['identifier']['scheme'])
         if bid.get('lotValues'):
-            keys = set(['{key}_{lot_id}'.format(key=key, lot_id=lot['relatedLot']) for lot in bid.get('lotValues')])
+            keys = set([u"{key}_{lot_id}".format(key=key,
+                                                 lot_id=lot['relatedLot'])
+                        for lot in bid.get('lotValues')])
         else:
-            keys = set([key])
+            keys = set(key)
         all_keys |= keys
     return all_keys
 
