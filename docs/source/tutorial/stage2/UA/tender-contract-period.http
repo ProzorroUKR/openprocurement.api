@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/cff7af8207e64d729beeb2df846873bf/contracts/38184d5018f54d63ad7e290b1b31a49d?acc_token=5ebcd4d769164a98ab864600b9eecc96 HTTP/1.0
+PATCH /api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058/contracts/ccee6d8b44684e79a081dc8522c89486?acc_token=1f1418327df54ebcb9e2eff321cc6b74 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 118
 Content-Type: application/json
@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "period": {
-      "startDate": "2016-08-17T11:57:14.426678+03:00", 
-      "endDate": "2017-08-17T11:57:14.426708+03:00"
+      "startDate": "2016-10-12T02:41:57.099279+03:00", 
+      "endDate": "2017-10-12T02:41:57.099325+03:00"
     }
   }
 }
@@ -41,10 +41,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-09-06T11:56:24.666422+03:00", 
-          "endDate": "2016-09-16T11:57:23.150411+03:00"
+          "startDate": "2016-11-01T02:40:39.055005+03:00", 
+          "endDate": "2016-11-11T02:42:05.542376+03:00"
         }, 
-        "id": "033e561e8a534798bdcb519c8e084060", 
+        "id": "c7750735bb9c4c699b4262432003d354", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -75,18 +75,18 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-08-17T11:57:14.426678+03:00", 
-      "endDate": "2017-08-17T11:57:14.426708+03:00"
+      "startDate": "2016-10-12T02:41:57.099279+03:00", 
+      "endDate": "2017-10-12T02:41:57.099325+03:00"
     }, 
-    "dateSigned": "2016-08-17T11:57:14.341336+03:00", 
+    "dateSigned": "2016-10-12T02:41:57.011466+03:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "awardID": "e248610cbb424621bb8889a2ab21ff87", 
-    "id": "38184d5018f54d63ad7e290b1b31a49d", 
-    "contractID": "UA-2016-08-17-000001-1"
+    "awardID": "4517a7ef8a6d496282bf2c885dea61ac", 
+    "id": "ccee6d8b44684e79a081dc8522c89486", 
+    "contractID": "UA-2016-10-12-000001-1"
   }
 }
 

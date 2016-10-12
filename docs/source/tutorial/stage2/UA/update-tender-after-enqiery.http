@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/cff7af8207e64d729beeb2df846873bf?acc_token=5ebcd4d769164a98ab864600b9eecc96 HTTP/1.0
+PATCH /api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058?acc_token=1f1418327df54ebcb9e2eff321cc6b74 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 88
 Content-Type: application/json
@@ -9,7 +9,7 @@ DATA:
     "items": [
       {
         "deliveryDate": {
-          "endDate": "2016-09-16T11:57:23.150411+03:00"
+          "endDate": "2016-11-11T02:42:05.542376+03:00"
         }
       }
     ]
