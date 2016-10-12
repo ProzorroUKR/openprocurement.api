@@ -1,6 +1,6 @@
-POST /api/2.3/tenders/0849947f89274771919db9e27c676655/bids HTTP/1.0
+POST /api/2.3/tenders/c69bc7d44dbe456e866cdb1e862446c1/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 1027
+Content-Length: 975
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -10,16 +10,10 @@ DATA:
     "selfQualified": true, 
     "lotValues": [
       {
-        "relatedLot": "01ecf1213b364e0b8265304ba94a401c", 
-        "value": {
-          "amount": 500
-        }
+        "relatedLot": "1f528c20ff7e43d4985064f5825ba98e"
       }, 
       {
-        "relatedLot": "8d3c1898e9594aa5b5a5130e979d2e98", 
-        "value": {
-          "amount": 500
-        }, 
+        "relatedLot": "412c8c769eea447f8758959ee76830bf", 
         "subcontractingDetails": "ДКП «Укр Прінт», Україна"
       }
     ], 
@@ -50,34 +44,24 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/0849947f89274771919db9e27c676655/bids/dbc44142163b4c57b9954ee944e387e7
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/c69bc7d44dbe456e866cdb1e862446c1/bids/bca2ade397ae487c9d60e2b1ca6a94e7
 {
   "access": {
-    "token": "91ee4d2714c54cd2b2fdf0c240310840"
+    "token": "e224597863fe4299ad3c6833ac1ca452"
   }, 
   "data": {
     "status": "pending", 
     "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "01ecf1213b364e0b8265304ba94a401c", 
-        "date": "2016-08-17T11:56:46.812328+03:00", 
-        "status": "pending", 
-        "value": {
-          "currency": "UAH", 
-          "amount": 500.0, 
-          "valueAddedTaxIncluded": true
-        }
+        "relatedLot": "1f528c20ff7e43d4985064f5825ba98e", 
+        "date": "2016-10-12T02:41:15.264792+03:00", 
+        "status": "pending"
       }, 
       {
-        "relatedLot": "8d3c1898e9594aa5b5a5130e979d2e98", 
-        "date": "2016-08-17T11:56:46.812736+03:00", 
+        "relatedLot": "412c8c769eea447f8758959ee76830bf", 
+        "date": "2016-10-12T02:41:15.264941+03:00", 
         "status": "pending", 
-        "value": {
-          "currency": "UAH", 
-          "amount": 500.0, 
-          "valueAddedTaxIncluded": true
-        }, 
         "subcontractingDetails": "ДКП «Укр Прінт», Україна"
       }
     ], 
@@ -104,8 +88,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/0849947f8927477
         }
       }
     ], 
-    "date": "2016-08-17T11:56:46.811919+03:00", 
-    "id": "dbc44142163b4c57b9954ee944e387e7"
+    "date": "2016-10-12T02:41:15.264492+03:00", 
+    "id": "bca2ade397ae487c9d60e2b1ca6a94e7"
   }
 }
 
