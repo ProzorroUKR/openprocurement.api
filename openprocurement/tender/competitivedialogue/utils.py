@@ -227,9 +227,15 @@ def prepare_shortlistedFirms(shortlistedFirms):
 
 
 def prepare_author(obj):
+    """ Make key
+        {author.identifier.id}_{author.identifier.scheme}
+        or
+        {author.identifier.id}_{author.identifier.scheme}_{lot.id}
+        if obj has relatedItem and questionOf != tender or obj has relatedLot than
+    """
     base_key = u"{id}_{scheme}".format(scheme=obj['author']['identifier']['scheme'],
                                        id=obj['author']['identifier']['id'])
-    if obj.get('relatedLot') or obj.get('relatedItem'):
+    if obj.get('relatedLot') or (obj.get('relatedItem') and obj.get('questionOf') == 'lot'):
         base_key = u"{base_key}_{lotId}".format(base_key=base_key,
                                                 lotId=obj.get('relatedLot') or obj.get('relatedItem'))
     return base_key
