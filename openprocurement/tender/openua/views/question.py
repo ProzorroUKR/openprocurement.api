@@ -64,6 +64,7 @@ class TenderUaQuestionResource(TenderQuestionResource):
             self.request.errors.add('body', 'data', 'Can update question only before enquiryPeriod.clarificationsUntil')
             self.request.errors.status = 403
             return
+        self.context.dateAnswered = now
         if apply_patch(self.request, src=self.request.context.serialize()):
             self.LOGGER.info('Updated tender question {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_question_patch'}))
