@@ -603,6 +603,27 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         tender = response.json['data']
         self.assertEqual(tender['status'], 'active.tendering')
 
+    def test_patch_draft_invalid_json(self):
+        data = test_tender_data.copy()
+        data.update({'status': 'draft'})
+        response = self.app.post_json('/tenders', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        self.assertEqual(tender['status'], 'draft')
+
+        response = self.app.patch('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                  "{}d", content_type='application/json', status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.json['errors'], [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Extra data: line 1 column 3 - line 1 column 4 (char 2 - 3)"
+            }
+        ])
+
     def test_create_tender(self):
         response = self.app.get('/tenders')
         self.assertEqual(response.status, '200 OK')
