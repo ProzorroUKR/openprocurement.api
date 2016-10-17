@@ -325,12 +325,14 @@ class CompetitiveDialogueDataBridge(object):
                 elif re.status_int == 422:  # WARNING and don't retry
                     logger.warn("Catch 422 status, stop create tender stage2",
                                 extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
-                                                      {"TENDER_ID": new_tender['dialogueID']}))
+                                                      {"TENDER_ID": new_tender['dialogueID'],
+                                                       "RESPONSE": re.message}))
                     continue
                 elif re.status_int == 404:  # WARNING and don't retry
                     logger.warn("Catch 404 status, stop create tender stage2",
                                 extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
-                                                      {"TENDER_ID": new_tender['dialogueID']}))
+                                                      {"TENDER_ID": new_tender['dialogueID'],
+                                                       "RESPONSE": re.message}))
                     continue
                 logger.info("Unsuccessful put for tender stage2 of competitive dialogue id={0}".format(new_tender['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
