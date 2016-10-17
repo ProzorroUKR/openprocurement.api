@@ -4,7 +4,7 @@ from openprocurement.api.utils import (
     opresource, json_view, apply_patch, save_tender, context_unpack
 )
 from openprocurement.tender.openua.views.auction import TenderUaAuctionResource as BaseResource
-from openprocurement.tender.openeu.utils import add_next_award
+from openprocurement.tender.openua.utils import add_next_award
 
 
 @opresource(name='Tender EU Auction',
