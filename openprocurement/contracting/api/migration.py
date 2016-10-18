@@ -31,25 +31,3 @@ def migrate_data(registry, destination=None):
         if migration_func:
             migration_func(registry)
         set_db_schema_version(registry.db, step + 1)
-
-
-def from0to1(registry):
-    class Request(object):
-        def __init__(self, registry):
-            self.registry = registry
-    results = registry.db.iterview('contracts/all', 2 ** 10, include_docs=True)
-    docs = []
-    request = Request(registry)
-    root = Root(request)
-    for i in results:
-        doc = i.doc
-        if doc.get('documents'):
-            contract = Contract(doc)
-            contract.__parent__ = root
-            doc = contract.to_primitive()
-            docs.append(doc)
-        if len(docs) >= 2 ** 7:
-            registry.db.update(docs)
-            docs = []
-    if docs:
-        registry.db.update(docs)
