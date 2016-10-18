@@ -5,7 +5,7 @@ def validate_patch_tender_ua_data(request):
     data = validate_json_data(request)
     if request.context.status == 'draft':
         default_status = type(request.tender).fields['status'].default
-        if data.get('status') != default_status:
+        if data and data.get('status') != default_status:
             request.errors.add('body', 'data', 'Can\'t update tender in current (draft) status')
             request.errors.status = 403
             return
