@@ -96,8 +96,7 @@ def prepare_lot(orig_tender, lot_id, items):
 class CompetitiveDialogueDataBridge(object):
     """ Competitive Dialogue Data Bridge """
     copy_name_fields = ('title_ru', 'mode', 'procurementMethodDetails', 'title_en', 'description', 'description_en',
-                        'description_ru', 'title', 'minimalStep', 'value', 'procuringEntity', 'features',
-                        'submissionMethodDetails')
+                        'description_ru', 'title', 'minimalStep', 'value', 'procuringEntity', 'submissionMethodDetails')
     rewrite_statuses = ['draft']
     allowed_statuses = ['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
                         'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
@@ -280,6 +279,17 @@ class CompetitiveDialogueDataBridge(object):
                 if items:  # If we have lots, then add only related items
                     new_tender['items'] = items
                 new_tender['lots'] = old_lots.values()
+                if 'features' in tender:
+                    new_tender['features'] = []
+                    for feature in tender.get('features'):
+                        if feature['featureOf'] == 'tenderer':  # If feature related to tender, than just copy
+                            new_tender['features'].append(feature)
+                        elif feature['featureOf'] == 'item':  # If feature related to item need check if it's actual
+                            if feature['relatedItem'] in (item['id'] for item in new_tender['items']):
+                                new_tender['features'].append(feature)
+                        elif feature['featureOf'] == 'lot':  # If feature related to lot need check if it's actual
+                            if feature['relatedItem'] in old_lots.keys():
+                                new_tender['features'].append(feature)
                 new_tender['shortlistedFirms'] = short_listed_firms.values()
                 self.handicap_competitive_dialogues_queue.put(new_tender)
 
