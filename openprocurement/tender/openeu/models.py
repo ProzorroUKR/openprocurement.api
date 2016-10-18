@@ -1,12 +1,12 @@
 from uuid import uuid4
-from datetime import timedelta
+from datetime import timedelta, datetime
 from iso8601 import parse_date
 from pyramid.security import Allow
 from zope.interface import implementer
 from schematics.types import StringType, MD5Type, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from schematics.transforms import blacklist, whitelist
+from schematics.transforms import blacklist, whitelist, export_loop
 from schematics.exceptions import ValidationError
 from openprocurement.api.models import (
     ITender, TZ, Model, Address, Period, IsoDateTimeType, ListType,
@@ -44,6 +44,36 @@ TENDERING_AUCTION = timedelta(days=35)
 QUESTIONS_STAND_STILL = timedelta(days=10)
 PREQUALIFICATION_COMPLAINT_STAND_STILL = timedelta(days=5)
 COMPLAINT_STAND_STILL = timedelta(days=10)
+BID_UNSUCCESSFUL_FROM = datetime(2016, 10, 18, tzinfo=TZ)
+
+
+class BidModelType(ModelType):
+
+    def export_loop(self, model_instance, field_converter,
+                    role=None, print_none=False):
+        """
+        Calls the main `export_loop` implementation because they are both
+        supposed to operate on models.
+        """
+        if isinstance(model_instance, self.model_class):
+            model_class = model_instance.__class__
+        else:
+            model_class = self.model_class
+
+        tender = model_instance.__parent__
+        if (tender.revisions[0].date if tender.revisions else get_now()) > BID_UNSUCCESSFUL_FROM and role not in [None, 'plain'] and getattr(model_instance, 'status') == 'unsuccessful':
+            role = 'bid.unsuccessful'
+
+        shaped = export_loop(model_class, model_instance,
+                             field_converter,
+                             role=role, print_none=print_none)
+
+        if shaped and len(shaped) == 0 and self.allow_none():
+            return shaped
+        elif shaped:
+            return shaped
+        elif print_none:
+            return shaped
 
 
 def bids_validation_wrapper(validation_func):
@@ -464,7 +494,7 @@ class Tender(BaseTender):
     cancellations = ListType(ModelType(Cancellation), default=list())
     awards = ListType(ModelType(Award), default=list())
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'invalid.pre-qualification', 'deleted'])  # A list of all the companies who entered submissions for the tender.
+    bids = SifterListType(BidModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'invalid.pre-qualification', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     qualifications = ListType(ModelType(Qualification), default=list())
     qualificationPeriod = ModelType(Period)
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
