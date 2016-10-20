@@ -27,8 +27,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         """
         # Try create bid by bad tender id
         response = self.app.post_json('/tenders/some_id/bids',
-                                      {'data': {'tenderers': test_bids[0]['tenderers'],
-                                                'value': {'amount': 500}}},
+                                      {'data': {'tenderers': test_bids[0]['tenderers']}},
                                       status=404)
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
@@ -135,48 +134,33 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
                 u'location': u'body', u'name': u'tenderers'}
         ])
 
+        # Field value doesn't exists on first stage
         # Try create bid without description
         response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
-                                                              'tenderers': test_bids[0]['tenderers']}},
-                                      status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
+                                                              'tenderers': test_bids[0]['tenderers']}})
+        self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}
-        ])
 
         # Try create bid with bad valueAddedTaxIncluded
         response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
                                                               'tenderers': test_bids[0]['tenderers'],
                                                               'value': {'amount': 500, 'valueAddedTaxIncluded': False}}
-                                                     },
-                                      status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
+                                                     })
+        self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender'], u'location': u'body', u'name': u'value'}
-        ])
 
         # Try create bid bad currency
         response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
                                                               'tenderers': test_bids[0]['tenderers'],
-                                                              "value": {"amount": 500, 'currency': "USD"}}},
-                                      status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
+                                                              "value": {"amount": 500, 'currency': "USD"}}})
+        self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'currency of bid should be identical to currency of value of tender'], u'location': u'body', u'name': u'value'},
-        ])
 
     def test_status_jumping(self):
         """ Owner try set active.stage2.waiting status after pre-qualification """
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                                'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}})
+                                                'tenderers': test_bids[0]['tenderers']}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
@@ -185,16 +169,16 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         bidder_data['identifier']['id'] = u"00037256"
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                                'tenderers': [bidder_data], "value": {"amount": 499}}})
+                                                'tenderers': [bidder_data]}})
 
         bidder_data['identifier']['id'] = u"00037257"
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                                'tenderers': [bidder_data], "value": {"amount": 499}}})
+                                                'tenderers': [bidder_data]}})
         bidder_data['identifier']['id'] = u"00037258"
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                                'tenderers': [bidder_data], "value": {"amount": 499}}})
+                                                'tenderers': [bidder_data]}})
 
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), status=403)
         self.assertEqual(response.status, '403 Forbidden')
@@ -228,7 +212,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         # Create bid,
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}
+                                       'tenderers': test_bids[0]['tenderers']}
                                        })
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -242,7 +226,6 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                           {'data': {'selfEligible': True, 'selfQualified': True,
                                                     'tenderers': test_bids[0]['tenderers'],
-                                                    'value': {"amount": 500},
                                                     'status': status}},
                                           status=403)
             self.assertEqual(response.status, '403 Forbidden')
@@ -254,7 +237,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         # Try create bid when tender status is complete
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}},
+                                       'tenderers': test_bids[0]['tenderers']}},
                                       status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
@@ -304,8 +287,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {"data": {"selfEligible": True,
                                                 "selfQualified": True,
-                                                "lotValues": [{"relatedLot": lot['id'],
-                                                               "value": {"amount": 500}}],
+                                                "lotValues": [{"relatedLot": lot['id']}],
                                                 "tenderers": test_bids[0]['tenderers']}
                                        })
         self.assertEqual(response.status, '201 Created')
@@ -313,8 +295,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {"data": {"selfEligible": True,
                                                 "selfQualified": True,
-                                                "lotValues": [{"relatedLot": lot['id'],
-                                                               "value": {"amount": 500}}],
+                                                "lotValues": [{"relatedLot": lot['id']}],
                                                 "tenderers": test_bids[0]['tenderers'],
                                                 'parameters': [{"code": "code_item", "value": 0.01},
                                                                {"code": "code_tenderer", "value": 0.01},
@@ -328,7 +309,6 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token))
         self.assertNotIn('parameters', response.json['data'])
 
-
     def test_patch_tender_bidder(self):
         """
           Test path dialog bidder
@@ -336,23 +316,12 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         # Create test bidder
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': test_bids[0]['tenderers'], "value": {"amount": 500}}
+                                       'tenderers': test_bids[0]['tenderers']}
                                        })
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bid = response.json['data']
         bid_token = response.json['access']['token']
-
-        # Try set bidder amount bigger then tender
-        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
-                                       {'data': {'value': {'amount': 600}}},
-                                       status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'value of bid should be less than value of tender'], u'location': u'body', u'name': u'value'}
-        ])
 
         # Update tenders[0].name, and check response fields
         response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
@@ -362,21 +331,19 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.assertEqual(response.json['data']['date'], bid['date'])
         self.assertNotEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
 
-        # Update bidder amount and tender
+        # Update bidder tenderers
         response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
-                                       {"data": {"value": {"amount": 500}, 'tenderers': test_bids[0]['tenderers']}})
+                                       {"data": {'tenderers': test_bids[0]['tenderers']}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['date'], bid['date'])
         self.assertEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
 
-        # Update bidder amount
+        # Try update bidder amount, return Null
         response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
                                        {"data": {"value": {"amount": 400}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["value"]["amount"], 400)
-        self.assertNotEqual(response.json['data']['date'], bid['date'])
 
         # Try update bidder amount by bad bidder id
         response = self.app.patch_json('/tenders/{}/bids/some_id?acc_token={}'.format(self.tender_id, bid_token),
@@ -412,7 +379,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["value"]["amount"], 400)
+        self.assertNotIn("value", response.json['data'])
 
         # Try update bidder when dialog status is complete
         response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
@@ -739,16 +706,6 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
                                      upload_files=[('file', 'name_{}.doc'.format(doc_resource[:-1]), 'content')],
                                      status=404)
 
-        # check that tender status change does not invalidate bids
-        # submit one more bid. check for invalid value first
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[0]}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'value of bid should be less than value of tender'], u'location': u'body',
-             u'name': u'value'}
-        ])
         # and submit valid bid
         data = deepcopy(test_bids[0])
         data['value']['amount'] = 299
@@ -836,7 +793,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
                 self.assertFalse('date' in bid)
             else:  # valid bid
                 self.assertEqual(bid['status'], 'active')
-                self.assertTrue('value' in bid)
+                self.assertFalse('value' in bid)  # On first stage doesn't have value
                 self.assertTrue('tenderers' in bid)
                 self.assertTrue('date' in bid)
 

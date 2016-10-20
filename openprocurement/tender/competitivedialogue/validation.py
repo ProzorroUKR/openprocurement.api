@@ -49,12 +49,13 @@ def get_item_by_id(tender, id):
 
 
 def validate_author(request, shortlistedFirms, obj):
+    """ Compare author key and key from shortlistedFirms """
     error_message = 'Author can\'t {} {}'.format('create' if request.method == 'POST' else 'patch',
                                                  obj.__class__.__name__.lower())
     firms_keys = prepare_shortlistedFirms(shortlistedFirms)
     author_key = prepare_author(obj)
-    if obj.get('questionOf') == 'item':
-        if shortlistedFirms[0].get('lots'):  # question can create on item
+    if obj.get('questionOf') == 'item':  # question can create on item
+        if shortlistedFirms[0].get('lots'):
             item_id = author_key.split('_')[-1]
             item = get_item_by_id(request.validated['tender'], item_id)
             author_key = author_key.replace(author_key.split('_')[-1], item['relatedLot'])
@@ -68,6 +69,7 @@ def validate_author(request, shortlistedFirms, obj):
         request.errors.status = 403
         return False
     return True
+
 
 def validate_complaint_data_stage2(request):
     if not request.check_accreditation(request.tender.edit_accreditation):

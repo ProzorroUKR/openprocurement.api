@@ -3,6 +3,7 @@ import json
 import os
 from datetime import timedelta
 from hashlib import sha512
+from copy import deepcopy
 
 import openprocurement.tender.competitivedialogue.tests.base as base_test
 from openprocurement.api.models import get_now
@@ -511,15 +512,15 @@ bid = {
                 "name": "ДКП «Школяр»"
             }
         ],
-        "value": {
-            "amount": 500
-        },
         "status": "draft",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         'selfEligible': True,
         'selfQualified': True,
     }
 }
+
+bid_stage2 = deepcopy(bid)
+bid_stage2["data"]["value"] = {"amount": 500}
 
 bid_with_bad_participant = {
     "data": {
@@ -1336,7 +1337,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
                                           status=403)
 
         with open('docs/source/tutorial/stage2/EU/register-bidder.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid)
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid_stage2)
             bid1_id = response.json['data']['id']
             bids_access[bid1_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
@@ -2153,7 +2154,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
                                           {'data': {'selfEligible': True, 'selfQualified': True,
                                                     'tenderers': bid['data']["tenderers"],
                                                     'lotValues': [{'subcontractingDetails': 'ДКП «Орфей», Україна',
-                                                                   'value': {'amount': 500}, 'relatedLot': lot_id1}]}})
+                                                                   'relatedLot': lot_id1}]}})
             self.assertEqual(response.status, '201 Created')
             bid1_token = response.json['access']['token']
             bid1_id = response.json['data']['id']
@@ -2162,9 +2163,9 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                           {'data': {'selfEligible': True, 'selfQualified': True,
                                                     'tenderers': bid2['data']['tenderers'],
-                                                    'lotValues': [{'value': {'amount': 500}, 'relatedLot': lot_id1},
+                                                    'lotValues': [{'relatedLot': lot_id1},
                                                                   {'subcontractingDetails': 'ДКП «Укр Прінт», Україна',
-                                                                   'value': {'amount': 500}, 'relatedLot': lot_id2}]}})
+                                                                   'relatedLot': lot_id2}]}})
             self.assertEqual(response.status, '201 Created')
             bid2_id = response.json['data']['id']
             bid2_token = response.json['access']['token']
@@ -2173,9 +2174,9 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                           {'data': {'selfEligible': True, 'selfQualified': True,
                                                     'tenderers': bid3['data']['tenderers'],
-                                                    'lotValues': [{'value': {'amount': 500}, 'relatedLot': lot_id1},
+                                                    'lotValues': [{'relatedLot': lot_id1},
                                                                   {'subcontractingDetails': 'ДКП «Укр Прінт», Україна',
-                                                                   'value': {'amount': 500}, 'relatedLot': lot_id2}]}})
+                                                                   'relatedLot': lot_id2}]}})
             self.assertEqual(response.status, '201 Created')
             bid3_id = response.json['data']['id']
             bid3_token = response.json['access']['token']
@@ -2192,18 +2193,18 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
         with open('docs/source/multiple_lots_tutorial/bid-lot1-update-view.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid1_id, bid1_token),
                                            {'data': {'lotValues': [{'subcontractingDetails': 'ДКП «Орфей»',
-                                                                    'value': {'amount': 500}, 'relatedLot': lot_id1}],
+                                                                    'relatedLot': lot_id1}],
                                                      'status': 'pending'}})
             self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/multiple_lots_tutorial/bid-lot2-update-view.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid2_id, bid2_token),
-                                           {'data': {'lotValues': [{'value': {'amount': 500}, 'relatedLot': lot_id1}],
+                                           {'data': {'lotValues': [{'relatedLot': lot_id1}],
                                                      'status': 'pending'}})
 
         with open('docs/source/multiple_lots_tutorial/bid-lot3-update-view.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid3_id, bid3_token),
-                                           {'data': {'lotValues': [{'value': {'amount': 500}, 'relatedLot': lot_id1}],
+                                           {'data': {'lotValues': [{'relatedLot': lot_id1}],
                                                      'status': 'pending'}})
 
             self.assertEqual(response.status, '200 OK')
@@ -2353,7 +2354,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'active.tendering')
 
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid)
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid_stage2)
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
@@ -2707,7 +2708,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest):
                                           status=403)
 
         with open('docs/source/tutorial/stage2/UA/register-bidder.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid)
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid_stage2)
             bid1_id = response.json['data']['id']
             bids_access[bid1_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')

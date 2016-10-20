@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/bids/93388bd80ee64d1a930cb5b8ea1be71f/financial_documents?acc_token=b9f9915a040f4c47be8fc9e68fe27862 HTTP/1.0
+GET /api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/bids/ae7d4a11476a4c40b1cf699ec06602a2/financial_documents?acc_token=49ef655569404ffea9e43a8698b4e1ba HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -10,23 +10,23 @@ Content-Type: application/json; charset=UTF-8
       "confidentiality": "public", 
       "language": "uk", 
       "title": "financial_doc.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/bids/93388bd80ee64d1a930cb5b8ea1be71f/financial_documents/1d34ab11856544c7913a966f59998b90?download=130e7fe7864e4f1b83d3ad50d13c822c", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/bids/ae7d4a11476a4c40b1cf699ec06602a2/financial_documents/269e07e14f414642a4b5ff6a2e3c8381?download=8aff75cd2c1e4936b410f04be7cf4b0b", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-08-17T11:57:03.752016+03:00", 
-      "id": "1d34ab11856544c7913a966f59998b90", 
-      "dateModified": "2016-08-17T11:57:03.752033+03:00"
+      "datePublished": "2016-10-12T02:41:41.412147+03:00", 
+      "id": "269e07e14f414642a4b5ff6a2e3c8381", 
+      "dateModified": "2016-10-12T02:41:41.412167+03:00"
     }, 
     {
       "confidentiality": "public", 
       "language": "uk", 
       "title": "financial_doc2.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/4bf695570c304b6cadccd5f0024a47bc/bids/93388bd80ee64d1a930cb5b8ea1be71f/financial_documents/aca52746636c4f358f21ce8b700c0444?download=b36cf18a7ff045d5ab6170b72c05e47b", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/bids/ae7d4a11476a4c40b1cf699ec06602a2/financial_documents/4a8887981ae448cdaee623264706b057?download=be398fd891e845a18a7c0b43a13f5863", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-08-17T11:57:03.814951+03:00", 
-      "id": "aca52746636c4f358f21ce8b700c0444", 
-      "dateModified": "2016-08-17T11:57:03.814967+03:00"
+      "datePublished": "2016-10-12T02:41:41.478774+03:00", 
+      "id": "4a8887981ae448cdaee623264706b057", 
+      "dateModified": "2016-10-12T02:41:41.478794+03:00"
     }
   ]
 }

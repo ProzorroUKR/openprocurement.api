@@ -725,13 +725,13 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
              u'name': u'features'}
         ])
         data['features'][0]["relatedItem"] = "1"
-        data['features'][0]["enum"][0]["value"] = 0.5
+        data['features'][0]["enum"][0]["value"] = 1.0
         response = self.app.post_json('/tenders', {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.3.']}]}], u'location': u'body',
+            {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.99.']}]}], u'location': u'body',
              u'name': u'features'}
         ])
         data['features'][0]["enum"][0]["value"] = 0.15
@@ -755,7 +755,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         ])
         copy_data = deepcopy(data)
         copy_data['features'][1]["code"] = u"OCDS-123454-YEARS"
-        copy_data['features'][1]["enum"][0]["value"] = 0.2
+        copy_data['features'][1]["enum"][0]["value"] = 0.5
         feature = deepcopy(copy_data['features'][1])
         feature["code"] = u"OCDS-123455-YEARS"
         copy_data['features'].append(feature)
@@ -1873,13 +1873,13 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
              u'name': u'features'}
         ])
         data['features'][0]["relatedItem"] = "1"
-        data['features'][0]["enum"][0]["value"] = 0.5
+        data['features'][0]["enum"][0]["value"] = 1.0
         response = self.app.post_json('/tenders', {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.3.']}]}], u'location': u'body',
+            {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.99.']}]}], u'location': u'body',
              u'name': u'features'}
         ])
         data['features'][0]["enum"][0]["value"] = 0.15
@@ -1903,7 +1903,7 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
         ])
         copy_data = deepcopy(data)
         copy_data['features'][1]["code"] = u"OCDS-123454-YEARS"
-        copy_data['features'][1]["enum"][0]["value"] = 0.2
+        copy_data['features'][1]["enum"][0]["value"] = 0.5
         feature = deepcopy(copy_data['features'][1])
         feature["code"] = u"OCDS-123455-YEARS"
         copy_data['features'].append(feature)

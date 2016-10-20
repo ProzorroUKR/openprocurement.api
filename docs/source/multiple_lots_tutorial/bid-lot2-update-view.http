@@ -1,6 +1,6 @@
-PATCH /api/2.3/tenders/0849947f89274771919db9e27c676655/bids/ac37b5c7b5b94bb99686b902e861b710?acc_token=ecd7d5c10e524ea0af43e90447392114 HTTP/1.0
+PATCH /api/2.3/tenders/c69bc7d44dbe456e866cdb1e862446c1/bids/a451905493ab4a8ebbb85358e08ef494?acc_token=bd7811b49911455383d117d31db5c460 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 124
+Content-Length: 98
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -9,10 +9,7 @@ DATA:
     "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "01ecf1213b364e0b8265304ba94a401c", 
-        "value": {
-          "amount": 500
-        }
+        "relatedLot": "1f528c20ff7e43d4985064f5825ba98e"
       }
     ]
   }
@@ -26,14 +23,9 @@ Content-Type: application/json; charset=UTF-8
     "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "01ecf1213b364e0b8265304ba94a401c", 
-        "date": "2016-08-17T11:56:46.750113+03:00", 
-        "status": "pending", 
-        "value": {
-          "currency": "UAH", 
-          "amount": 500.0, 
-          "valueAddedTaxIncluded": true
-        }
+        "relatedLot": "1f528c20ff7e43d4985064f5825ba98e", 
+        "date": "2016-10-12T02:41:15.204891+03:00", 
+        "status": "pending"
       }
     ], 
     "selfQualified": true, 
@@ -59,8 +51,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2016-08-17T11:56:46.749757+03:00", 
-    "id": "ac37b5c7b5b94bb99686b902e861b710"
+    "date": "2016-10-12T02:41:15.204589+03:00", 
+    "id": "a451905493ab4a8ebbb85358e08ef494"
   }
 }
 

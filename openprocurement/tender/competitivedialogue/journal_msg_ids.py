@@ -32,4 +32,4 @@ DATABRIDGE_SUCCESSFUL_PATCH_DIALOG_STATUS = "cd_bridge_successful_patch_dialog_s
 DATABRIDGE_ONLY_PATCH = 'cd_bridge_need_patch'
 DATABRIDGE_TENDER_STAGE2_NOT_EXIST = 'cd_bridge_tender_stage2_not_exist'
 DATABRIDGE_CREATE_NEW_STAGE2 = 'cd_bridge_create_new_tender_stage2'
-
+DATABRIDGE_WORKER_DIED = 'cd_bridge_worker_died'

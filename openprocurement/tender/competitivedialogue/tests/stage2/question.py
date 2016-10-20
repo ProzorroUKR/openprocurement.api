@@ -208,6 +208,42 @@ class TenderStage2EUQuestionResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
         self.assertEqual(response.json['errors'], [
             {u'description': u'Author can\'t create question', u'location': u'body', u'name': u'author'}])
 
+    def test_create_tender_question_with_questionOf(self):
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'author': author,
+                                                'questionOf': 'tender',
+                                                'relatedItem': self.tender_id}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        question = response.json['data']
+        self.assertEqual(question['author']['name'], author['name'])
+        self.assertIn('id', question)
+        self.assertIn(question['id'], response.headers['Location'])
+
+        self.time_shift('enquiryPeriod_ends')
+
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'author': author}},
+                                      status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can add question only in enquiryPeriod")
+
+        self.time_shift('active.pre-qualification')
+        self.check_chronograph()
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'author': author}},
+                                      status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can add question only in enquiryPeriod")
+
     def test_create_tender_question(self):
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                       {'data': {'title': 'question title',
@@ -769,6 +805,42 @@ class TenderStage2UAQuestionResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
             {u'description': u'Author can\'t create question', u'location': u'body', u'name': u'author'}])
+
+    def test_create_tender_question_with_questionOf(self):
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'author': author,
+                                                'questionOf': 'tender',
+                                                'relatedItem': self.tender_id}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        question = response.json['data']
+        self.assertEqual(question['author']['name'], author['name'])
+        self.assertIn('id', question)
+        self.assertIn(question['id'], response.headers['Location'])
+
+        self.time_shift('enquiryPeriod_ends')
+
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'author': author}},
+                                      status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can add question only in enquiryPeriod")
+
+        self.time_shift('active.pre-qualification')
+        self.check_chronograph()
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'author': author}},
+                                      status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can add question only in enquiryPeriod")
 
     def test_create_tender_question(self):
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),

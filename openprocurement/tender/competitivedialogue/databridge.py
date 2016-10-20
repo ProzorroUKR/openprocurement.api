@@ -14,6 +14,7 @@ import logging.config
 import os
 import argparse
 import copy
+from restkit.errors import ResourceError
 
 from retrying import retry
 from uuid import uuid4
@@ -23,8 +24,10 @@ from gevent.queue import Queue
 
 from openprocurement_client.client import TendersClient, TendersClientSync
 from yaml import load
-from pytz import timezone
-from openprocurement.tender.competitivedialogue.models import CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
+
+from openprocurement.tender.competitivedialogue.models_constants import (
+    CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
+)
 from openprocurement.tender.competitivedialogue.journal_msg_ids import (
     DATABRIDGE_RESTART, DATABRIDGE_GET_CREDENTIALS, DATABRIDGE_GOT_CREDENTIALS,
     DATABRIDGE_FOUND_NOLOT,
@@ -36,7 +39,7 @@ from openprocurement.tender.competitivedialogue.journal_msg_ids import (
     DATABRIDGE_CD_PATCHED_STAGE2_ID, DATABRIDGE_PATCH_NEW_TENDER_STATUS, DATABRIDGE_SUCCESSFUL_PATCH_NEW_TENDER_STATUS,
     DATABRIDGE_UNSUCCESSFUL_PATCH_NEW_TENDER_STATUS, DATABRIDGE_PATCH_DIALOG_STATUS,
     DATABRIDGE_UNSUCCESSFUL_PATCH_DIALOG_STATUS, DATABRIDGE_SUCCESSFUL_PATCH_DIALOG_STATUS, DATABRIDGE_ONLY_PATCH,
-    DATABRIDGE_TENDER_STAGE2_NOT_EXIST, DATABRIDGE_CREATE_NEW_STAGE2)
+    DATABRIDGE_TENDER_STAGE2_NOT_EXIST, DATABRIDGE_CREATE_NEW_STAGE2, DATABRIDGE_WORKER_DIED)
 
 
 dialog_work = set()  # local storage for current competitive dialogue in main queue
@@ -93,8 +96,7 @@ def prepare_lot(orig_tender, lot_id, items):
 class CompetitiveDialogueDataBridge(object):
     """ Competitive Dialogue Data Bridge """
     copy_name_fields = ('title_ru', 'mode', 'procurementMethodDetails', 'title_en', 'description', 'description_en',
-                        'description_ru', 'title', 'minimalStep', 'value', 'procuringEntity', 'features',
-                        'submissionMethodDetails')
+                        'description_ru', 'title', 'minimalStep', 'value', 'procuringEntity', 'submissionMethodDetails')
     rewrite_statuses = ['draft']
     allowed_statuses = ['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still',
                         'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
@@ -277,6 +279,17 @@ class CompetitiveDialogueDataBridge(object):
                 if items:  # If we have lots, then add only related items
                     new_tender['items'] = items
                 new_tender['lots'] = old_lots.values()
+                if 'features' in tender:
+                    new_tender['features'] = []
+                    for feature in tender.get('features'):
+                        if feature['featureOf'] == 'tenderer':  # If feature related to tender, than just copy
+                            new_tender['features'].append(feature)
+                        elif feature['featureOf'] == 'item':  # If feature related to item need check if it's actual
+                            if feature['relatedItem'] in (item['id'] for item in new_tender['items']):
+                                new_tender['features'].append(feature)
+                        elif feature['featureOf'] == 'lot':  # If feature related to lot need check if it's actual
+                            if feature['relatedItem'] in old_lots.keys():
+                                new_tender['features'].append(feature)
                 new_tender['shortlistedFirms'] = short_listed_firms.values()
                 self.handicap_competitive_dialogues_queue.put(new_tender)
 
@@ -316,8 +329,22 @@ class CompetitiveDialogueDataBridge(object):
             data = {"data": new_tender}
             try:
                 res = self.client.create_tender(data)
-            except Exception, e:
-                logger.exception(e)
+            except ResourceError as re:
+                if re.status_int == 412:  # Update Cookie, and retry
+                    self.client.headers['Cookie'] = re.response.headers['Set-Cookie']
+                elif re.status_int == 422:  # WARNING and don't retry
+                    logger.warn("Catch 422 status, stop create tender stage2",
+                                extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
+                                                      {"TENDER_ID": new_tender['dialogueID']}))
+                    logger.warn("Error response {}".format(re.message),
+                                extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
+                                                      {"TENDER_ID": new_tender['dialogueID']}))
+                    continue
+                elif re.status_int == 404:  # WARNING and don't retry
+                    logger.warn("Catch 404 status, stop create tender stage2",
+                                extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
+                                                      {"TENDER_ID": new_tender['dialogueID']}))
+                    continue
                 logger.info("Unsuccessful put for tender stage2 of competitive dialogue id={0}".format(new_tender['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
                                                   {"TENDER_ID": new_tender['dialogueID']}))
@@ -325,6 +352,8 @@ class CompetitiveDialogueDataBridge(object):
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_RETRY_CREATE},
                                                   {"TENDER_ID": new_tender['dialogueID']}))
                 self.dialogs_stage2_retry_put_queue.put(new_tender)
+            except Exception, e:
+                logger.exception(e)
             else:
                 logger.info("Successfully created tender stage2 id={} from competitive dialogue id={}".format(res['data']['id'], res['data']['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_TENDER_CREATED},
@@ -528,7 +557,7 @@ class CompetitiveDialogueDataBridge(object):
                 self.competitive_dialogues_queue.put(tender_data)
         except Exception, e:
             # TODO reset queues and restart sync
-            logger.warn('Forward worker died!')
+            logger.warn('Forward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
             logger.exception(e)
         else:
             logger.warn('Forward data sync finished!')  # Should never happen!!!
@@ -544,7 +573,7 @@ class CompetitiveDialogueDataBridge(object):
                 self.competitive_dialogues_queue.put(tender_data)
         except Exception, e:
             # TODO reset queues and restart sync
-            logger.warn('Backward worker died!')
+            logger.warn('Backward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
             logger.exception(e)
         else:
             logger.info('Backward data sync finished.')

@@ -7,7 +7,7 @@ from openprocurement.api.models import get_now
 from openprocurement.api.utils import save_tender, apply_patch, context_unpack, generate_id
 from openprocurement.tender.openeu.utils import all_bids_are_reviewed
 from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
-from openprocurement.tender.openua.utils import BLOCK_COMPLAINT_STATUS, check_complaint_status
+from openprocurement.tender.openua.utils import check_complaint_status
 from openprocurement.tender.openeu.utils import prepare_qualifications
 from openprocurement.api.utils import (
     save_tender,
@@ -182,7 +182,7 @@ def check_status(request):
     now = get_now()
 
     if tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
-            not any([i.status in BLOCK_COMPLAINT_STATUS for i in tender.complaints]) and \
+            not any([i.status in tender.block_complaint_status for i in tender.complaints]) and \
             not any([i.id for i in tender.questions if not i.answer]):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
@@ -195,13 +195,14 @@ def check_status(request):
         return
 
     elif tender.status == 'active.pre-qualification.stand-still' and tender.qualificationPeriod and tender.qualificationPeriod.endDate <= now and not any([
-        i.status in BLOCK_COMPLAINT_STATUS
+        i.status in tender.block_complaint_status
         for q in tender.qualifications
         for i in q.complaints
     ]):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.stage2.pending'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active_stage2_pending'}))
         tender.status = 'active.stage2.pending'
+        check_initial_bids_count(request)
         return
 
 
@@ -215,9 +216,10 @@ def prepare_shortlistedFirms(shortlistedFirms):
     """
     all_keys = set()
     for firm in shortlistedFirms:
-        key = "{firm_id}_{firm_scheme}".format(firm_id=firm['identifier']['id'], firm_scheme=firm['identifier']['scheme'])
+        key = u"{firm_id}_{firm_scheme}".format(firm_id=firm['identifier']['id'],
+                                                firm_scheme=firm['identifier']['scheme'])
         if firm.get('lots'):
-            keys = set(["{key}_{lot_id}".format(key=key, lot_id=lot['id']) for lot in firm.get('lots')])
+            keys = set([u"{key}_{lot_id}".format(key=key, lot_id=lot['id']) for lot in firm.get('lots')])
         else:
             keys = set([key])
         all_keys |= keys
@@ -225,10 +227,17 @@ def prepare_shortlistedFirms(shortlistedFirms):
 
 
 def prepare_author(obj):
-    base_key = "{id}_{scheme}".format(scheme=obj['author']['identifier']['scheme'],
-                                      id=obj['author']['identifier']['id'])
-    if obj.get('relatedLot') or obj.get('relatedItem'):
-        base_key = "{base_key}_{lotId}".format(base_key=base_key, lotId=obj.get('relatedLot') or obj.get('relatedItem'))
+    """ Make key
+        {author.identifier.id}_{author.identifier.scheme}
+        or
+        {author.identifier.id}_{author.identifier.scheme}_{lot.id}
+        if obj has relatedItem and questionOf != tender or obj has relatedLot than
+    """
+    base_key = u"{id}_{scheme}".format(scheme=obj['author']['identifier']['scheme'],
+                                       id=obj['author']['identifier']['id'])
+    if obj.get('relatedLot') or (obj.get('relatedItem') and obj.get('questionOf') == 'lot'):
+        base_key = u"{base_key}_{lotId}".format(base_key=base_key,
+                                                lotId=obj.get('relatedLot') or obj.get('relatedItem'))
     return base_key
 
 
@@ -238,9 +247,12 @@ def prepare_bid_identifier(bid):
     """
     all_keys = set()
     for tenderer in bid['tenderers']:
-        key = '{id}_{scheme}'.format(id=tenderer['identifier']['id'], scheme=tenderer['identifier']['scheme'])
+        key = u"{id}_{scheme}".format(id=tenderer['identifier']['id'],
+                                      scheme=tenderer['identifier']['scheme'])
         if bid.get('lotValues'):
-            keys = set(['{key}_{lot_id}'.format(key=key, lot_id=lot['relatedLot']) for lot in bid.get('lotValues')])
+            keys = set([u"{key}_{lot_id}".format(key=key,
+                                                 lot_id=lot['relatedLot'])
+                        for lot in bid.get('lotValues')])
         else:
             keys = set([key])
         all_keys |= keys
