@@ -354,7 +354,9 @@ class TenderStage2EUQuestionResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["answer"], "answer")
+        self.assertIn('dateAnswered', response.json['data'])
         question["answer"] = "answer"
+        question['dateAnswered'] = response.json['data']['dateAnswered']
 
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
@@ -403,7 +405,9 @@ class TenderStage2EUQuestionResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["answer"], "answer")
+        self.assertIn('dateAnswered', response.json['data'])
         question["answer"] = "answer"
+        question['dateAnswered'] = response.json['data']['dateAnswered']
 
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
@@ -952,7 +956,9 @@ class TenderStage2UAQuestionResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["answer"], "answer")
+        self.assertIn('dateAnswered', response.json['data'])
         question["answer"] = "answer"
+        question['dateAnswered'] = response.json['data']['dateAnswered']
 
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
@@ -1001,7 +1007,9 @@ class TenderStage2UAQuestionResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["answer"], "answer")
+        self.assertIn('dateAnswered', response.json['data'])
         question["answer"] = "answer"
+        question['dateAnswered'] = response.json['data']['dateAnswered']
 
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
