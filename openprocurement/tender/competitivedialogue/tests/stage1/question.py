@@ -756,7 +756,9 @@ class CompetitiveDialogUEQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['answer'], 'answer')
+        self.assertIn('dateAnswered', response.json['data'])
         question['answer'] = 'answer'
+        question['dateAnswered'] = response.json['data']['dateAnswered']
 
         self.time_shift('active.pre-qualification')  # Shift time tender to status active.pre-qualification
         self.check_chronograph()
@@ -814,7 +816,9 @@ class CompetitiveDialogUEQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['answer'], 'answer')
+        self.assertIn('dateAnswered', response.json['data'])
         question['answer'] = 'answer'
+        question['dateAnswered'] = response.json['data']['dateAnswered']
 
         self.time_shift('active.pre-qualification')  # Shift time to tender status active.pre-qualification
         self.check_chronograph()
