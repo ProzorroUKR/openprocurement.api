@@ -91,14 +91,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     initial_auth = None
-
-    @classmethod
-    def setUpClass(cls):
-        cls.app = webtest.TestApp("config:tests.ini", relative_to=os.path.dirname(__file__))
-        cls.app.RequestClass = PrefixedRequestClass
-        cls.couchdb_server = cls.app.app.registry.couchdb_server
-        cls.db = cls.app.app.registry.db
-        cls.db_name = cls.db.name
+    relative_to = os.path.dirname(__file__)
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
@@ -114,19 +107,11 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
         })
 
     def setUp(self):
+        super(BaseTenderWebTest, self).setUp()
         if self.initial_auth:
             self.app.authorization = self.initial_auth
         else:
             self.app.authorization = ('Basic', ('broker', ''))
-
-    def tearDown(self):
-        self.couchdb_server.delete(self.db_name)
-        self.couchdb_server.create(self.db_name)
-        db = self.couchdb_server[self.db_name]
-        # sync couchdb views
-        sync_design(db)
-        self.app.app.registry.db = db
-        self.db = self.app.app.registry.db
 
     def check_chronograph(self):
         authorization = self.app.authorization

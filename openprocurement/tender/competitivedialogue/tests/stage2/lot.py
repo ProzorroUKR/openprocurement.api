@@ -20,6 +20,7 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
     initial_lots = [deepcopy(test_lots[0]) for i in range(3)]
 
     def setUp(self):
+        super(BaseCompetitiveDialogEUStage2ContentWebTest, self).setUp()
         self.app.authorization = ('Basic', ('broker', ''))
 
     def test_create_tender_lot_invalid(self):
@@ -792,6 +793,7 @@ class TenderStage2EULotFeatureBidderResourceTest(BaseCompetitiveDialogEUStage2Co
         super(TenderStage2EULotFeatureBidderResourceTest, self).__init__(*args, **kwargs)
 
     def setUp(self):
+        super(TenderStage2EULotFeatureBidderResourceTest, self).setUp()
         self.app.authorization = ('Basic', ('broker', ''))
         self.lot_id = self.initial_lots[0]['id']
         self.create_tender(initial_lots=self.initial_lots, features=self.initial_features)
@@ -995,6 +997,7 @@ class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUWebTest):
     initial_data = test_tender_stage2_data_eu
 
     def setUp(self):
+        super(TenderStage2EULotProcessTest, self).setUp()
         self.app.authorization = ('Basic', ('broker', ''))
 
     def create_tenderers(self, count=1):
@@ -1296,7 +1299,7 @@ class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUWebTest):
                                       {'data': {'selfEligible': True, 'selfQualified': True,
                                                 'tenderers': tenderers_2,
                                                 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot['id']}
-                                                              for lot_id in self.initial_lots]}
+                                                              for lot in self.initial_lots]}
                                        })
         bids.append(response.json)
         response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, self.initial_lots[0]['id'],
@@ -2728,6 +2731,7 @@ class TenderStage2UALotFeatureBidderResourceTest(BaseCompetitiveDialogUAStage2Co
         super(TenderStage2UALotFeatureBidderResourceTest, self).__init__(*args, **kwargs)
 
     def setUp(self):
+        super(TenderStage2UALotFeatureBidderResourceTest, self).setUp()
         self.app.authorization = ('Basic', ('broker', ''))
         self.lot_id = self.initial_lots[0]['id']
         self.create_tender(initial_lots=self.initial_lots, features=self.initial_features)
@@ -2876,6 +2880,7 @@ class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_data = test_tender_stage2_data_ua
 
     def setUp(self):
+        super(BaseCompetitiveDialogUAStage2ContentWebTest, self).setUp()
         self.app.authorization = ('Basic', ('broker', ''))
 
     def create_tenderers(self, count=1):
