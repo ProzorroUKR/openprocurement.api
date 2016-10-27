@@ -34,12 +34,19 @@ def check_complaint_status(request, complaint):
         complaint.status = complaint.resolutionType
 
 
+def has_unanswered_questions(tender, filter_cancelled_lots=True):
+    if filter_cancelled_lots and tender.lots:
+        active_lots = [l.id for l in tender.lots if l.status == 'active']
+        return any([i.id for i in tender.questions if i.relatedItem in active_lots and not i.answer])
+    return any([i.id for i in tender.questions if not i.answer])
+
+
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
     if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
         not any([i.status in tender.block_tender_complaint_status for i in tender.complaints]) and \
-        not any([i.id for i in tender.questions if not i.answer]):
+        not has_unanswered_questions(tender):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
@@ -52,7 +59,7 @@ def check_status(request):
         return
     elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
         not any([i.status in tender.block_tender_complaint_status for i in tender.complaints]) and \
-        not any([i.id for i in tender.questions if not i.answer]):
+        not has_unanswered_questions(tender):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
