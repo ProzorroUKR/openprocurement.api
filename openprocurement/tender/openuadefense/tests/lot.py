@@ -3,7 +3,7 @@ import unittest
 from datetime import timedelta
 
 from openprocurement.api.models import get_now
-from openprocurement.api.tests.base import test_lots, test_organization
+from openprocurement.api.tests.base import test_lots, test_bids, test_organization
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, test_tender_data
 
 
@@ -453,6 +453,85 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't delete lot in current (active.auction) tender status")
+
+
+class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
+    initial_lots = test_lots * 2
+    initial_bids = test_bids
+
+    def test_question_blocking(self):
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'lot',
+                                                'relatedItem': self.initial_lots[0]['id'],
+                                                'author': test_organization}})
+        question = response.json['data']
+        self.assertEqual(question['questionOf'], 'lot')
+        self.assertEqual(question['relatedItem'], self.initial_lots[0]['id'])
+
+        self.set_status('active.auction', extra={"status": "active.tendering"})
+        orig_auth = self.app.authorization
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+
+        self.app.authorization = orig_auth
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.json['data']['status'], 'active.tendering')
+
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': {'reason': 'cancellation reason',
+                                                'status': 'active',
+                                                "cancellationOf": "lot",
+                                                "relatedLot": self.initial_lots[0]['id']}})
+
+        orig_auth = self.app.authorization
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+
+        self.app.authorization = orig_auth
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.json['data']['status'], 'active.auction')
+
+    def test_next_check_value(self):
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
+                                      {'data': {'title': 'question title',
+                                                'description': 'question description',
+                                                'questionOf': 'lot',
+                                                'relatedItem': self.initial_lots[0]['id'],
+                                                'author': test_organization}})
+        question = response.json['data']
+        self.assertEqual(question['questionOf'], 'lot')
+        self.assertEqual(question['relatedItem'], self.initial_lots[0]['id'])
+
+        self.set_status('active.auction', extra={"status": "active.tendering"})
+        orig_auth = self.app.authorization
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["status"], 'active.tendering')
+        self.assertNotIn('next_check', response.json['data'])
+
+        self.app.authorization = orig_auth
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': {'reason': 'cancellation reason',
+                                                'status': 'active',
+                                                "cancellationOf": "lot",
+                                                "relatedLot": self.initial_lots[0]['id']}})
+
+        response = self.app.get('/tenders/{}'.format(self.tender_id, ))
+        self.assertIn('next_check', response.json['data'])
+        self.assertEqual(response.json['data']['next_check'], response.json['data']['tenderPeriod']['endDate'])
+
+        orig_auth = self.app.authorization
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["status"], 'active.auction')
+        self.assertIn('next_check', response.json['data'])
+        self.assertGreater(response.json['data']['next_check'], response.json['data']['tenderPeriod']['endDate'])
 
 
 class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest):
