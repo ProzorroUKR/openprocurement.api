@@ -32,7 +32,7 @@ from openprocurement.api.models import (
 )
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.utils import (
-    calculate_business_date,
+    calculate_business_date, has_unanswered_questions
 )
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
@@ -525,7 +525,7 @@ class Tender(BaseTender):
         checks = []
         if self.status == 'active.tendering' and self.tenderPeriod.endDate and \
             not any([i.status in self.block_tender_complaint_status for i in self.complaints]) and \
-            not any([i.id for i in self.questions if not i.answer]):
+            not has_unanswered_questions(self):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
         elif not self.lots and self.status == 'active.auction' and self.auctionPeriod and self.auctionPeriod.startDate and not self.auctionPeriod.endDate:
             if now < self.auctionPeriod.startDate:
