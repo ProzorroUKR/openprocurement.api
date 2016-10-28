@@ -4,7 +4,10 @@ from pkg_resources import get_distribution
 
 from openprocurement.api.models import read_json, get_now, TZ
 from openprocurement.api.utils import ACCELERATOR_RE, datetime, time, context_unpack, check_tender_status
-from openprocurement.tender.openua.utils import check_complaint_status, add_next_award, has_unanswered_questions
+from openprocurement.tender.openua.utils import (
+    check_complaint_status, add_next_award, has_unanswered_questions,
+    has_unanswered_complaints
+)
 
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
@@ -60,8 +63,7 @@ def check_status(request):
     tender = request.validated['tender']
     now = get_now()
     if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
-        not any([i.status in tender.block_tender_complaint_status for i in tender.complaints]) and \
-        not has_unanswered_questions(tender):
+        not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
@@ -72,8 +74,7 @@ def check_status(request):
             tender.auctionPeriod.startDate = None
         return
     elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
-        not any([i.status in tender.block_tender_complaint_status for i in tender.complaints]) and \
-        not has_unanswered_questions(tender):
+        not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
