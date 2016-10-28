@@ -9,7 +9,9 @@ from openprocurement.api.utils import (
     context_unpack,
     remove_draft_bids
 )
-from openprocurement.tender.openua.utils import check_complaint_status, has_unanswered_questions
+from openprocurement.tender.openua.utils import (
+    check_complaint_status, has_unanswered_questions, has_unanswered_complaints
+)
 from openprocurement.tender.openeu.models import Qualification
 from openprocurement.tender.openeu.traversal import (
     qualifications_factory, bid_financial_documents_factory,
@@ -106,8 +108,7 @@ def check_status(request):
     now = get_now()
 
     if tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
-            not any([i.status in tender.block_tender_complaint_status for i in tender.complaints]) and \
-            not has_unanswered_questions(tender):
+            not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.pre-qualification'),
