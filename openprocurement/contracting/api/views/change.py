@@ -52,6 +52,24 @@ class ContractsChangesResource(APIResource):
             return
 
         change = self.request.validated['change']
+        if change['dateSigned']:
+            changes = contract.get("changes", [])
+            if len(changes) > 0:  # has previous changes
+                last_change = contract.changes[-1]
+                last_date_signed = last_change.dateSigned
+                if not last_date_signed:  # BBB old active changes
+                    last_date_signed = last_change.date
+                obj_str = "last active change"
+            else:
+                last_date_signed = contract.dateSigned
+                obj_str = "contract"
+
+            if last_date_signed:  # BBB very old contracts
+                if change['dateSigned'] < last_date_signed:
+                    self.request.errors.add('body', 'data', 'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
+                    self.request.errors.status = 403
+                    return
+
         contract.changes.append(change)
 
         if save_contract(self.request):
