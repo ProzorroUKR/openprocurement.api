@@ -117,7 +117,7 @@ class Change(Model):
     class Options:
         roles = {
             # 'edit': blacklist('id', 'date'),
-            'create': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleTypes', 'contractNumber'),
+            'create': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleTypes', 'contractNumber', 'dateSigned'),
             'edit': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleTypes', 'contractNumber', 'status', 'dateSigned'),
             'view': schematics_default_role,
             'embedded': schematics_embedded_role,
