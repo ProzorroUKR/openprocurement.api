@@ -37,7 +37,8 @@ def from0to1(registry):
     class Request(object):
         def __init__(self, registry):
             self.registry = registry
-    results = registry.db.iterview('contracts/all', 2 ** 10, include_docs=True)
+    len(registry.db.view('contracts/all', limit=1))
+    results = registry.db.iterview('contracts/all', 2 ** 10, include_docs=True, stale='update_after')
     docs = []
     request = Request(registry)
     root = Root(request)
