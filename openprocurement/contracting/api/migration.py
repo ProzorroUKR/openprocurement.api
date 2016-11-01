@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+from openprocurement.api.models import get_now
 from openprocurement.contracting.api.traversal import Root
 from openprocurement.contracting.api.models import Contract
 
@@ -54,6 +55,8 @@ def from0to1(registry):
             doc['suppliers'] = rel_award['suppliers']
             if "value" not in doc:
                 doc['value'] = rel_award['value']
+
+            doc['dateModified'] = get_now().isoformat()
 
             docs.append(doc)
 
