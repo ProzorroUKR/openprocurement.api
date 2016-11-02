@@ -24,6 +24,7 @@ class Root(object):
         self.request = request
         self.db = request.registry.db
 
+
 def factory(request):
     request.validated['plan_src'] = {}
     root = Root(request)

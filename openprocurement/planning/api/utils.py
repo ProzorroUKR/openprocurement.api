@@ -11,8 +11,10 @@ from cornice.resource import resource
 from cornice.util import json_error
 from couchdb.http import ResourceConflict
 from openprocurement.api.models import Revision, get_now
-from openprocurement.api.utils import (update_logging_context, context_unpack, get_revision_changes,
-    apply_data_patch, generate_id, DOCUMENT_BLACKLISTED_FIELDS,get_filename )
+from openprocurement.api.utils import (
+    update_logging_context, context_unpack, get_revision_changes,
+    apply_data_patch, generate_id, DOCUMENT_BLACKLISTED_FIELDS, get_filename,
+)
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.traversal import factory
 from schematics.exceptions import ModelValidationError
@@ -68,7 +70,7 @@ def save_plan(request):
         plan.dateModified = get_now()
         try:
             plan.store(request.registry.db)
-        except ModelValidationError, e: # pragma: no cover
+        except ModelValidationError, e:  # pragma: no cover
             for i in e.message:
                 request.errors.add('body', i, e.message[i])
             request.errors.status = 422
@@ -109,6 +111,7 @@ def error_handler(errors, request_params=True):
 
 opresource = partial(resource, error_handler=error_handler, factory=factory)
 
+
 class APIResource(object):
 
     def __init__(self, request, context):
@@ -117,7 +120,9 @@ class APIResource(object):
         self.db = request.registry.db
         self.server_id = request.registry.server_id
         self.server = request.registry.couchdb_server
+        self.update_after = request.registry.update_after
         self.LOGGER = getLogger(type(self).__module__)
+
 
 def set_logging_context(event):
     request = event.request
@@ -148,6 +153,7 @@ def plan_from_data(request, data, raise_error=True, create=True):
     if create:
         return Plan(data)
     return Plan
+
 
 def upload_file(request, blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS):
     first_document = request.validated['documents'][0] if 'documents' in request.validated and request.validated['documents'] else None
@@ -197,6 +203,7 @@ def upload_file(request, blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS):
     update_logging_context(request, {'file_size': in_file.tell()})
     return document
 
+
 def update_file_content_type(request):
     conn = getattr(request.registry, 's3_connection', None)
     if conn:
@@ -207,6 +214,7 @@ def update_file_content_type(request):
         key = bucket.get_key(filename)
         if key.content_type != document.format:
             key.set_remote_metadata({'Content-Type': document.format}, {}, True)
+
 
 def get_file(request):
     plan_id = request.validated['plan_id']
