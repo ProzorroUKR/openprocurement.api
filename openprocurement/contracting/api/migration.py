@@ -78,20 +78,14 @@ def from1to2(registry):
     root = Root(request)
     for i in results:
         doc = i.doc
-        if doc.get('documents'):
+        if not all([i.get('url', '').startswith(registry.docservice_url) for i in doc.get('documents', [])]):
             contract = Contract(doc)
             contract.__parent__ = root
             doc = contract.to_primitive()
+            doc['dateModified'] = get_now().isoformat()
             docs.append(doc)
         if len(docs) >= 2 ** 7:
             registry.db.update(docs)
             docs = []
     if docs:
         registry.db.update(docs)
-
-
-
-
-
-
-
