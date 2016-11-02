@@ -44,10 +44,11 @@ def from0to1(registry):
     root = Root(request)
     for i in results:
         doc = i.doc
-        if doc.get('documents'):
+        if not all([i.get('url', '').startswith(registry.docservice_url) for i in doc.get('documents', [])]):
             plan = Plan(doc)
             plan.__parent__ = root
             doc = plan.to_primitive()
+            doc['dateModified'] = get_now().isoformat()
             docs.append(doc)
         if len(docs) >= 2 ** 7:
             registry.db.update(docs)
