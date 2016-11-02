@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+from openprocurement.api.models import get_now
 from openprocurement.planning.api.traversal import Root
 from openprocurement.planning.api.models import Plan
 
