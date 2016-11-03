@@ -33,7 +33,7 @@ def factory(request):
     request.validated['plan_id'] = request.matchdict['plan_id']
     plan = request.plan
     plan.__parent__ = root
-    request.validated['plan'] = plan
+    request.validated['plan'] = request.validated['db_doc'] = plan
     if request.method != 'GET':
         request.validated['plan_src'] = plan.serialize('plain')
     if request.matchdict.get('document_id'):
