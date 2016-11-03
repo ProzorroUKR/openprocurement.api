@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
 from email.header import Header
-from openprocurement.api.tests.document import MockConnection
 from openprocurement.tender.competitivedialogue.tests.base import (BaseCompetitiveDialogUAContentWebTest,
                                                                    BaseCompetitiveDialogEUContentWebTest)
 
 
 class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
-    s3_connection = False
+    docservice = False
 
     initial_auth = ('Basic', ('broker', ''))
 
@@ -106,7 +105,18 @@ class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
         self.assertEqual(u'укр.doc', response.json["data"]["title"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            tender = self.db.get(self.tender_id)
+            self.assertIn(key, tender['documents'][-1]["url"])
+            self.assertIn('Signature=', tender['documents'][-1]["url"])
+            self.assertIn('KeyID=', tender['documents'][-1]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
         # Try get documents
         response = self.app.get('/tenders/{}/documents'.format(self.tender_id))
@@ -115,21 +125,25 @@ class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.assertEqual(doc_id, response.json["data"][0]["id"])
         self.assertEqual(u'укр.doc', response.json["data"][0]["title"])
 
-        if self.s3_connection:
-            response = self.app.get('/tenders/{}/documents/{}?download={}'.format(self.tender_id, doc_id, key))
-            self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.tender_id, doc_id, key))
-        else:
-            # Try get document with bad download param
-            response = self.app.get('/tenders/{}/documents/{}?download=some_id'.format(self.tender_id, doc_id),
-                                    status=404)
-            self.assertEqual(response.status, '404 Not Found')
-            self.assertEqual(response.content_type, 'application/json')
-            self.assertEqual(response.json['status'], 'error')
-            self.assertEqual(response.json['errors'], [
-                {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
-            ])
+        # Try get document with bad download param
+        response = self.app.get('/tenders/{}/documents/{}?download=some_id'.format(
+            self.tender_id, doc_id), status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
+        ])
 
+        if self.docservice:
+            response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
+                self.tender_id, doc_id, key))
+            self.assertEqual(response.status, '302 Moved Temporarily')
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
+        else:
             # Get document and check response fields
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(self.tender_id, doc_id, key))
             self.assertEqual(response.status, '200 OK')
@@ -198,14 +212,28 @@ class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            tender = self.db.get(self.tender_id)
+            self.assertIn(key, tender['documents'][-1]["url"])
+            self.assertIn('Signature=', tender['documents'][-1]["url"])
+            self.assertIn('KeyID=', tender['documents'][-1]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
         # Get document
-        if self.s3_connection:
+        if self.docservice:
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
                 self.tender_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.tender_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
                 self.tender_id, doc_id, key))
@@ -264,13 +292,27 @@ class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            tender = self.db.get(self.tender_id)
+            self.assertIn(key, tender['documents'][-1]["url"])
+            self.assertIn('Signature=', tender['documents'][-1]["url"])
+            self.assertIn('KeyID=', tender['documents'][-1]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
         # Get document and check response fields
-        if self.s3_connection:
+        if self.docservice:
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(self.tender_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.tender_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(self.tender_id, doc_id, key))
             self.assertEqual(response.status, '200 OK')
@@ -347,22 +389,12 @@ class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.assertEqual('document description', response.json["data"]["description"])
 
 
-class DialogEUDocumentWithS3ResourceTest(DialogEUDocumentResourceTest):
-    s3_connection = True
-
-    def setUp(self):
-        super(DialogEUDocumentWithS3ResourceTest, self).setUp()
-        # Create mock s3 connection
-        connection = MockConnection()
-        self.app.app.registry.s3_connection = connection
-        bucket_name = 'bucket'
-        if bucket_name not in [b.name for b in connection.get_all_buckets()]:
-            connection.create_bucket(bucket_name)
-        self.app.app.registry.bucket_name = bucket_name
+class DialogEUDocumentWithDSResourceTest(DialogEUDocumentResourceTest):
+    docservice = True
 
 
 class DialogUADocumentResourceTest(BaseCompetitiveDialogUAContentWebTest):
-    s3_connection = False
+    docservice = False
 
     initial_auth = ('Basic', ('broker', ''))
 
@@ -461,7 +493,18 @@ class DialogUADocumentResourceTest(BaseCompetitiveDialogUAContentWebTest):
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
         self.assertEqual(u'укр.doc', response.json["data"]["title"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            tender = self.db.get(self.tender_id)
+            self.assertIn(key, tender['documents'][-1]["url"])
+            self.assertIn('Signature=', tender['documents'][-1]["url"])
+            self.assertIn('KeyID=', tender['documents'][-1]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
         # Try get documents
         response = self.app.get('/tenders/{}/documents'.format(self.tender_id))
@@ -470,20 +513,25 @@ class DialogUADocumentResourceTest(BaseCompetitiveDialogUAContentWebTest):
         self.assertEqual(doc_id, response.json["data"][0]["id"])
         self.assertEqual(u'укр.doc', response.json["data"][0]["title"])
 
-        if self.s3_connection:
-            response = self.app.get('/tenders/{}/documents/{}?download={}'.format(self.tender_id, doc_id, key))
+        # Try get document with bad download param
+        response = self.app.get('/tenders/{}/documents/{}?download=some_id'.format(self.tender_id, doc_id),
+                                status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
+        ])
+
+        if self.docservice:
+            response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
+                self.tender_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.tender_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
-            # Try get document with bad download param
-            response = self.app.get('/tenders/{}/documents/{}?download=some_id'.format(self.tender_id, doc_id),
-                                    status=404)
-            self.assertEqual(response.status, '404 Not Found')
-            self.assertEqual(response.content_type, 'application/json')
-            self.assertEqual(response.json['status'], 'error')
-            self.assertEqual(response.json['errors'], [
-                {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
-            ])
 
             # Get document and check response fields
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(self.tender_id, doc_id, key))
@@ -553,14 +601,28 @@ class DialogUADocumentResourceTest(BaseCompetitiveDialogUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            tender = self.db.get(self.tender_id)
+            self.assertIn(key, tender['documents'][-1]["url"])
+            self.assertIn('Signature=', tender['documents'][-1]["url"])
+            self.assertIn('KeyID=', tender['documents'][-1]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
         # Get document
-        if self.s3_connection:
+        if self.docservice:
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
                 self.tender_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.tender_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
             response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
                 self.tender_id, doc_id, key))
@@ -619,15 +681,31 @@ class DialogUADocumentResourceTest(BaseCompetitiveDialogUAContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(doc_id, response.json["data"]["id"])
-        key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
+        if self.docservice:
+            self.assertIn('Signature=', response.json["data"]["url"])
+            self.assertIn('KeyID=', response.json["data"]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+            key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+            tender = self.db.get(self.tender_id)
+            self.assertIn(key, tender['documents'][-1]["url"])
+            self.assertIn('Signature=', tender['documents'][-1]["url"])
+            self.assertIn('KeyID=', tender['documents'][-1]["url"])
+            self.assertNotIn('Expires=', response.json["data"]["url"])
+        else:
+            key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
         # Get document and check response fields
-        if self.s3_connection:
-            response = self.app.get('/tenders/{}/documents/{}?download={}'.format(self.tender_id, doc_id, key))
+        if self.docservice:
+            response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
+                self.tender_id, doc_id, key))
             self.assertEqual(response.status, '302 Moved Temporarily')
-            self.assertEqual(response.location, 'http://s3/{}/{}/{}/{}'.format('bucket', self.tender_id, doc_id, key))
+            self.assertIn('http://localhost/get/', response.location)
+            self.assertIn('Signature=', response.location)
+            self.assertIn('KeyID=', response.location)
+            self.assertNotIn('Expires=', response.location)
         else:
-            response = self.app.get('/tenders/{}/documents/{}?download={}'.format(self.tender_id, doc_id, key))
+            response = self.app.get('/tenders/{}/documents/{}?download={}'.format(
+                self.tender_id, doc_id, key))
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.content_type, 'application/msword')
             self.assertEqual(response.content_length, 8)
@@ -702,24 +780,14 @@ class DialogUADocumentResourceTest(BaseCompetitiveDialogUAContentWebTest):
         self.assertEqual('document description', response.json["data"]["description"])
 
 
-class DialogUADocumentWithS3ResourceTest(DialogUADocumentResourceTest):
-    s3_connection = True
-
-    def setUp(self):
-        super(DialogUADocumentWithS3ResourceTest, self).setUp()
-        # Create mock s3 connection
-        connection = MockConnection()
-        self.app.app.registry.s3_connection = connection
-        bucket_name = 'bucket'
-        if bucket_name not in [b.name for b in connection.get_all_buckets()]:
-            connection.create_bucket(bucket_name)
-        self.app.app.registry.bucket_name = bucket_name
+class DialogUADocumentWithDSResourceTest(DialogUADocumentResourceTest):
+    docservice = True
 
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(DialogEUDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(DialogEUDocumentWithS3ResourceTest))
+    suite.addTest(unittest.makeSuite(DialogEUDocumentWithDSResourceTest))
     return suite
 
 
