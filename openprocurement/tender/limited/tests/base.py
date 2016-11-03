@@ -51,6 +51,15 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     def setUp(self):
         super(BaseBaseTenderWebTest, self).setUp()
         self.app.authorization = ('Basic', ('broker', ''))
+        self.couchdb_server = self.app.app.registry.couchdb_server
+        self.db = self.app.app.registry.db
+        if self.docservice:
+            self.setUpDS()
+
+    def tearDown(self):
+        if self.docservice:
+            self.tearDownDS()
+        del self.couchdb_server[self.db.name]
 
     def set_status(self, status, extra=None):
         data = {'status': status}
