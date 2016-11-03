@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-import os
 from uuid import uuid4
 from couchdb_schematics.document import SchematicsDocument
 from schematics.exceptions import ValidationError
 from openprocurement.api.models import Model, Period, Revision
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier
-from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType, MD5Type
+from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
 from openprocurement.api.models import validate_cpv_group, validate_items_uniq, validate_dkpp, get_now
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
@@ -70,11 +69,13 @@ class PlanOrganization(Model):
     name_ru = StringType()
     identifier = ModelType(Identifier, required=True)
 
+
 PROCEDURES = {
-  '': ('',),
-  'open': ('belowThreshold', 'aboveThresholdUA', 'aboveThresholdEU', 'aboveThresholdUA.defense'),
-  'limited': ('reporting', 'negotiation', 'negotiation.quick'),
+    '': ('',),
+    'open': ('belowThreshold', 'aboveThresholdUA', 'aboveThresholdEU', 'aboveThresholdUA.defense'),
+    'limited': ('reporting', 'negotiation', 'negotiation.quick'),
 }
+
 
 class PlanTender(Model):
     """Tender for planning model """

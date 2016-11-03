@@ -11,8 +11,10 @@ from cornice.resource import resource
 from cornice.util import json_error
 from couchdb.http import ResourceConflict
 from openprocurement.api.models import Revision, get_now
-from openprocurement.api.utils import (update_logging_context, context_unpack, get_revision_changes,
-    apply_data_patch, generate_id, DOCUMENT_BLACKLISTED_FIELDS,get_filename )
+from openprocurement.api.utils import (
+    update_logging_context, context_unpack, get_revision_changes,
+    apply_data_patch, generate_id, DOCUMENT_BLACKLISTED_FIELDS, get_filename,
+)
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.traversal import factory
 from schematics.exceptions import ModelValidationError
@@ -68,7 +70,7 @@ def save_plan(request):
         plan.dateModified = get_now()
         try:
             plan.store(request.registry.db)
-        except ModelValidationError, e: # pragma: no cover
+        except ModelValidationError, e:  # pragma: no cover
             for i in e.message:
                 request.errors.add('body', i, e.message[i])
             request.errors.status = 422
@@ -109,6 +111,7 @@ def error_handler(errors, request_params=True):
 
 opresource = partial(resource, error_handler=error_handler, factory=factory)
 
+
 class APIResource(object):
 
     def __init__(self, request, context):
@@ -117,7 +120,9 @@ class APIResource(object):
         self.db = request.registry.db
         self.server_id = request.registry.server_id
         self.server = request.registry.couchdb_server
+        self.update_after = request.registry.update_after
         self.LOGGER = getLogger(type(self).__module__)
+
 
 def set_logging_context(event):
     request = event.request

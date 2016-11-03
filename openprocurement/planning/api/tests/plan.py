@@ -119,9 +119,17 @@ class PlanResourceTest(BaseWebTest):
             self.assertEqual(response.content_type, 'application/json')
             plans.append(response.json['data'])
 
-        response = self.app.get('/plans')
-        self.assertEqual(response.status, '200 OK')
+        ids = ','.join([i['id'] for i in plans])
+
+        while True:
+            response = self.app.get('/plans')
+            self.assertEqual(response.status, '200 OK')
+            self.assertTrue(ids.startswith(','.join([i['id'] for i in response.json['data']])))
+            if len(response.json['data']) == 3:
+                break
+
         self.assertEqual(len(response.json['data']), 3)
+        self.assertEqual(','.join([i['id'] for i in response.json['data']]), ids)
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
         self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in plans]))
         self.assertEqual(set([i['dateModified'] for i in response.json['data']]),
@@ -195,8 +203,11 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 
-        response = self.app.get('/plans?mode=test')
-        self.assertEqual(response.status, '200 OK')
+        while True:
+            response = self.app.get('/plans?mode=test')
+            self.assertEqual(response.status, '200 OK')
+            if len(response.json['data']) == 1:
+                break
         self.assertEqual(len(response.json['data']), 1)
 
         response = self.app.get('/plans?mode=_all_')
@@ -216,9 +227,17 @@ class PlanResourceTest(BaseWebTest):
             self.assertEqual(response.content_type, 'application/json')
             plans.append(response.json['data'])
 
-        response = self.app.get('/plans?feed=changes')
-        self.assertEqual(response.status, '200 OK')
+        ids = ','.join([i['id'] for i in plans])
+
+        while True:
+            response = self.app.get('/plans?feed=changes')
+            self.assertEqual(response.status, '200 OK')
+            self.assertTrue(ids.startswith(','.join([i['id'] for i in response.json['data']])))
+            if len(response.json['data']) == 3:
+                break
+
         self.assertEqual(len(response.json['data']), 3)
+        self.assertEqual(','.join([i['id'] for i in response.json['data']]), ids)
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
         self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in plans]))
         self.assertEqual(set([i['dateModified'] for i in response.json['data']]),
@@ -288,7 +307,11 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 
-        response = self.app.get('/plans?feed=changes&mode=test')
+        while True:
+            response = self.app.get('/plans?mode=test')
+            self.assertEqual(response.status, '200 OK')
+            if len(response.json['data']) == 1:
+                break
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 1)
 

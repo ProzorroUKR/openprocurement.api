@@ -7,6 +7,7 @@ from openprocurement.api.utils import (
     json_view
 )
 
+
 @opresource(name='Plan Revisions',
             collection_path='/plans/{plan_id}/revisions',
             path='/plans/{plan_id}/revisions/{revision_id}',
