@@ -22,8 +22,6 @@ def check_tender_status(request):
 
 def check_tender_negotiation_status(request):
     tender = request.validated['tender']
-    if tender.contracts and tender.contracts[-1].status == 'active':
-        tender.status = 'complete'
     now = get_now()
     if tender.lots:
         for lot in tender.lots:

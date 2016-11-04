@@ -740,6 +740,35 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, self.award2_id, self.tender_token), {"data": {"status": "active"}})
 
+    def test_sign_second_contract(self):
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        self.contract1_id = response.json['data'][0]['id']
+        self.contract2_id = response.json['data'][1]['id']
+
+        # at next steps we test to create contract in 'complete' tender status
+        # time travel
+        tender = self.db.get(self.tender_id)
+        for i in tender.get('awards', []):
+            if i.get('complaintPeriod', {}):  # reporting procedure does not have complaintPeriod
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract2_id, self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract1_id, self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'complete')
+
     def test_create_two_contract(self):
         response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
         self.contract1_id = response.json['data'][0]['id']
