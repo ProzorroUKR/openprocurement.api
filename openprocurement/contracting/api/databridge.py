@@ -166,6 +166,7 @@ class ContractingDataBridge(object):
         return data
 
     def initialize_sync(self, params=None, direction=None):
+        self.initialization_event.clear()
         if direction == "backward":
             assert params['descending']
             response = self.tenders_sync_client.sync_tenders(params, extra_headers={'X-Client-Request-ID': generate_req_id()})
