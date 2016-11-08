@@ -1065,6 +1065,8 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
         self.assertEqual(response.json['errors'][0]["description"],
                          "Can't create new award on lot while any (pending) award exists")
 
+        lots = self.app.get('/tenders/{}/lots?acc_token{}'.format(self.tender_id, self.tender_token)).json['data']
+
         # try create another lot
         response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
                                       {'data': test_lots[0]},
@@ -1074,6 +1076,10 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
         self.assertEqual(response.json['errors'][0]["description"],
                          "Can't add lot when you have awards")
 
+        response = self.app.get('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token))
+
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), len(lots))
 
 
 class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest):
