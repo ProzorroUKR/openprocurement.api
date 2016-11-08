@@ -528,7 +528,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                 'suppliers': award.suppliers,
                 'date': get_now(),
                 'value': award.value,
-                'items': tender.items,
+                'items': [i for i in tender.items if i.relatedLot == award.lotID],
                 'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) + 1)}))
             # add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):

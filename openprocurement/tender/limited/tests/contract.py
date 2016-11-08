@@ -620,6 +620,15 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
         self.assertEqual(response.json['data']["dateSigned"], custom_signature_date)
         self.assertIn("dateSigned", response.json['data'])
 
+    def test_items(self):
+        response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token))
+        tender = response.json['data']
+
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        self.contract1_id = response.json['data'][0]['id']
+        self.assertEqual([item['id'] for item in response.json['data'][0]['items']],
+                         [item['id'] for item in tender['items']])
+
 
 class TenderNegotiationLotContractResourceTest(TenderNegotiationContractResourceTest):
     initial_data = test_tender_negotiation_data
@@ -653,6 +662,15 @@ class TenderNegotiationLotContractResourceTest(TenderNegotiationContractResource
         self.award_id = award['id']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
+
+    def test_items(self):
+        response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token))
+        tender = response.json['data']
+
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        self.contract1_id = response.json['data'][0]['id']
+        self.assertEqual([item['id'] for item in response.json['data'][0]['items']],
+                         [item['id'] for item in tender['items'] if item['relatedLot'] == self.lot1['id']])
 
     def test_award_id_change_is_not_allowed(self):
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
@@ -741,9 +759,16 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
             self.tender_id, self.award2_id, self.tender_token), {"data": {"status": "active"}})
 
     def test_create_two_contract(self):
+        response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token))
+        tender = response.json['data']
+
         response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
         self.contract1_id = response.json['data'][0]['id']
         self.contract2_id = response.json['data'][1]['id']
+        self.assertEqual([item['id'] for item in response.json['data'][0]['items']],
+                         [item['id'] for item in tender['items'] if item['relatedLot'] == self.lot1['id']])
+        self.assertEqual([item['id'] for item in response.json['data'][1]['items']],
+                         [item['id'] for item in tender['items'] if item['relatedLot'] == self.lot2['id']])
 
         response = self.app.post_json('/tenders/{}/contracts?acc_token={}'.format(self.tender_id, self.tender_token),
                                       {'data': {'title': 'contract title',
