@@ -1792,16 +1792,21 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'cancelled')
 
-        # Let's check another award
+        # Let's awards
 
-        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token))
+        response = self.app.get('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.first_award['id'], self.tender_token))
 
         self.assertEqual(response.status, '200 OK')
-        for award in response.json['data']:
-            if award['lotID'] == self.first_award['lotID']:
-                self.assertEqual(award['status'], 'cancelled')
-            else:
-                self.assertEqual(award['status'], 'active')
+        self.assertEqual(response.json['data']['lotID'], self.first_award['lotID'])
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+        response = self.app.get('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.second_award['id'], self.tender_token))
+
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['lotID'], self.second_award['lotID'])
+        self.assertEqual(response.json['data']['status'], 'active')
 
         # And check contracts
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(self.tender_id, self.tender_token))
