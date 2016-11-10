@@ -1650,9 +1650,8 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(self.tender_id, self.tender_token))
 
         self.assertEqual(response.status, '200 OK')
-
-        for contract in response.json['data']:
-            self.assertEqual(contract['status'], 'cancelled')
+        self.assertEqual(len(response.json['data']), 1)
+        self.assertEqual(response.json['data']['status'], 'cancelled')
 
 
 class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
