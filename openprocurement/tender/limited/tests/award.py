@@ -1580,7 +1580,7 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, self.award_id, self.tender_token),
             {'data': {'status': 'unsuccessful'}})
-
+        self.old_award_id = self.award_id
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
@@ -1640,18 +1640,26 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
 
         # Let's check another award
 
-        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token))
+        response = self.app.get('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, self.tender_token))
 
         self.assertEqual(response.status, '200 OK')
-        for award in response.json['data']:
-            self.assertEqual(award['status'], 'cancelled')
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+        self.assertEqual(response.json['data']['lotID'], self.lot['id'])
+
+        response = self.app.get('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.old_award_id, self.tender_token))
+
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+        self.assertEqual(response.json['data']['lotID'], self.lot['id'])
 
         # And check contracts
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(self.tender_id, self.tender_token))
 
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 1)
-        self.assertEqual(response.json['data']['status'], 'cancelled')
+        self.assertEqual(response.json['data'][0]['status'], 'cancelled')
 
 
 class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
