@@ -533,12 +533,17 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             # add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             now = get_now()
+            cancelled_awards = []
             for i in tender.awards:
-                if i.complaintPeriod.endDate > now:
+                if i.lotID != award.lotID:
+                    continue
+                if not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now:
                     i.complaintPeriod.endDate = now
                 i.status = 'cancelled'
+                cancelled_awards.append(i.id)
             for i in tender.contracts:
-                i.status = 'cancelled'
+                if i.awardID in cancelled_awards:
+                    i.status = 'cancelled'
         elif award_status == 'active' and award.status == 'cancelled':
             now = get_now()
             if award.complaintPeriod.endDate > now:
@@ -552,12 +557,17 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             # add_next_award(self.request)
         elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             now = get_now()
+            cancelled_awards = []
             for i in tender.awards:
-                if i.complaintPeriod.endDate > now:
+                if i.lotID != award.lotID:
+                    continue
+                if not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now:
                     i.complaintPeriod.endDate = now
                 i.status = 'cancelled'
+                cancelled_awards.append(i.id)
             for i in tender.contracts:
-                i.status = 'cancelled'
+                if i.awardID in cancelled_awards:
+                    i.status = 'cancelled'
         elif award_status != award.status:
             self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
             self.request.errors.status = 403

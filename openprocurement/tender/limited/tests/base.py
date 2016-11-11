@@ -27,11 +27,20 @@ test_tender_negotiation_data['causeDescription'] = "chupacabra"
 if SANDBOX_MODE:
     test_tender_negotiation_data['procurementMethodDetails'] = 'quick, accelerator=1440'
 
+test_tender_negotiation_data_2items = deepcopy(test_tender_negotiation_data)
+test_tender_negotiation_data_2items['items'] = [deepcopy(test_tender_negotiation_data_2items['items'][0]),
+                                                deepcopy(test_tender_negotiation_data_2items['items'][0])]
+
 test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 test_tender_negotiation_quick_data['procurementMethodType'] = "negotiation.quick"
 test_tender_negotiation_quick_data['causeDescription'] = "chupacabra"
 if SANDBOX_MODE:
     test_tender_negotiation_quick_data['procurementMethodDetails'] = 'quick, accelerator=1440'
+
+
+test_tender_negotiation_quick_data_2items = deepcopy(test_tender_negotiation_quick_data)
+test_tender_negotiation_quick_data_2items['items'] = [deepcopy(test_tender_negotiation_quick_data_2items['items'][0]),
+                                                      deepcopy(test_tender_negotiation_quick_data_2items['items'][0])]
 
 test_lots = [
     {
