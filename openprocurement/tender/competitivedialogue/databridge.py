@@ -108,7 +108,7 @@ class CompetitiveDialogueDataBridge(object):
 
         self.tenders_sync_client = TendersClientSync(
             '',
-            host_url=self.config_get('tenders_api_server'),
+            host_url=self.config_get('public_tenders_api_server') or self.config_get('tenders_api_server'),
             api_version=self.config_get('tenders_api_version'),
         )
 
