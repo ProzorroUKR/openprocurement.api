@@ -425,15 +425,21 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             self.request.errors.add('body', 'data', 'Can\'t create award in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
-        if tender.awards and tender.awards[-1].status in ['pending', 'active']:
-            self.request.errors.add('body', 'data', 'Can\'t create new award while any ({}) award exists'.format(tender.awards[-1].status))
-            self.request.errors.status = 403
-            return
         award = self.request.validated['award']
-        if award.status == "active" and not award.qualified:
-            self.request.errors.add('body', 'data', 'Can\'t create new award in active status and not qualified')
-            self.request.errors.status = 403
-            return
+        if tender.awards:
+            if tender.lots:  # If tender with lots
+                if award.lotID in [aw.lotID for aw in tender.awards if aw.status in ['pending', 'active']]:
+                    self.request.errors.add(
+                        'body',
+                        'data',
+                        'Can\'t create new award on lot while any ({}) award exists'.format(tender.awards[-1].status))
+                    self.request.errors.status = 403
+                    return
+            elif tender.awards[-1].status in ['pending', 'active']:
+                self.request.errors.add('body', 'data',
+                                        'Can\'t create new award while any ({}) award exists'.format(tender.awards[-1].status))
+                self.request.errors.status = 403
+                return
         award.complaintPeriod = {'startDate': get_now().isoformat()}
         tender.awards.append(award)
         if save_tender(self.request):
@@ -522,7 +528,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                 'suppliers': award.suppliers,
                 'date': get_now(),
                 'value': award.value,
-                'items': tender.items,
+                'items': [i for i in tender.items if i.relatedLot == award.lotID],
                 'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) + 1)}))
             # add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):

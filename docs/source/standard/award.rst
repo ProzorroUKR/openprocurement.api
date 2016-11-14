@@ -81,6 +81,11 @@ Schema
 
     Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On Public Procurement".
 
+:lotID:
+    string
+
+    Id of related :ref:`lot`. Only if `tender.procurementMethodType` is `negotiation` or `negotiation.quick`.
+
 Award workflow
 --------------
 

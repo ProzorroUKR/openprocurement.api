@@ -11,8 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
 #: ../../source/standard/tender.rst:8
@@ -202,11 +201,11 @@ msgstr "ідентифікатор **переговорної** процедур
 msgid "negotiation.quick procedure indentifier"
 msgstr "ідентифікатор **переговорної процедури за нагальною потребою**"
 
-#: ../../source/standard/tender.rst:172
+#: ../../source/standard/tender.rst:177
 msgid "Tender workflow"
 msgstr "Схема роботи Tender"
 
-#: ../../source/standard/tender.rst:184
+#: ../../source/standard/tender.rst:189
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
 
@@ -225,10 +224,6 @@ msgid ""
 msgstr ""
 "рядок, обов’язковий для **переговорної процедури** / необов’язковий для "
 "**переговорної процедури за нагальною потребою**"
-
-#: ../../source/standard/tender.rst:140
-msgid "Possible values for **negotiation** procedure:"
-msgstr "Можливі значення для \"звичайної\" **переговорної процедури**:"
 
 #: ../../source/standard/tender.rst:142
 msgid "`artContestIP`"
@@ -256,7 +251,8 @@ msgstr "`stateLegalServices`"
 
 #: ../../source/standard/tender.rst:160
 msgid "Possible values for **negotiation.quick** procedure:"
-msgstr "Можливі значення для **переговорної процедури за нагальною потребою**:"
+msgstr ""
+"Можливі значення для **переговорної процедури за нагальною потребою**:"
 
 #: ../../source/standard/tender.rst:162
 msgid "`quick`"
@@ -369,8 +365,26 @@ msgid ""
 ":code:`ProcuringEntity.kind` are limited to :code:`['general', 'special', "
 "'defense']`."
 msgstr ""
-"Якщо :code:`procurementMethodType` має значення :code:`negotiation` "
-"або :code:`negotiation.quick`, тоді можливі значення "
+"Якщо :code:`procurementMethodType` має значення :code:`negotiation` або "
+":code:`negotiation.quick`, тоді можливі значення "
 ":code:`ProcuringEntity.kind` обмежені :code:`['general', 'special', "
 "'defense']`."
 
+#: ../../source/standard/tender.rst:140
+msgid ""
+"Possible values for **negotiation** and **negotiation.quick** procedure:"
+msgstr ""
+"Можливи значення для **переговорною** та **переговорної процедури за нагальною потребою** процедури"
+
+#: ../../source/standard/tender.rst:171
+msgid "List of :ref:`lot` objects."
+msgstr "Список об’єктів :ref:`lot`."
+
+#: ../../source/standard/tender.rst:173
+msgid ""
+"Contains all tender lots. Only if `tender.procurementMethodType` is "
+"`negotiation` or `negotiation.quick`."
+msgstr "Містить всі лоти закупівлі. Якщо поле `tender.procurementMethodType` дорівнює `negotiation` або `negotiation.quick`"
+
+#~ msgid "Possible values for **negotiation** procedure:"
+#~ msgstr "Можливі значення для \"звичайної\" **переговорної процедури**:"

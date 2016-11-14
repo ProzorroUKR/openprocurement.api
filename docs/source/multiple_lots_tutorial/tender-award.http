@@ -1,0 +1,86 @@
+POST /api/2.3/tenders/4bec589c36ec421ebfbc2f785b273fff/awards?acc_token=021f23e2ed4548c1b5a3d4104b071dc9 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 1329
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+
+{
+  "data": {
+    "status": "pending", 
+    "lotID": "d4d982e10ce844aaa98054c8f113470d", 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "13313462", 
+          "uri": "http://sch10.edu.vn.ua/", 
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "countryName": "Україна", 
+          "postalCode": "21100", 
+          "region": "м. Вінниця", 
+          "streetAddress": "вул. Островського, 33", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 475000, 
+      "valueAddedTaxIncluded": "true"
+    }, 
+    "date": "2016-01-14T18:07:00.628073+02:00", 
+    "id": "d373338bc3324f14b8b3d4af68922773"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/4bec589c36ec421ebfbc2f785b273fff/awards/66aa55c32fc1417db36eab14982d2d82
+{
+  "data": {
+    "status": "pending", 
+    "lotID": "d4d982e10ce844aaa98054c8f113470d", 
+    "complaintPeriod": {
+      "startDate": "2016-09-12T14:29:33.661957+03:00"
+    }, 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+          "id": "13313462", 
+          "uri": "http://sch10.edu.vn.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 475000.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "date": "2016-09-12T14:29:33.661251+03:00", 
+    "id": "66aa55c32fc1417db36eab14982d2d82"
+  }
+}
+

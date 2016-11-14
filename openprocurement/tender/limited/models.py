@@ -10,6 +10,7 @@ from openprocurement.api.models import (
     plain_role, view_role, create_role, edit_role, enquiries_role, listing_role,
     Administrator_role, schematics_default_role, schematics_embedded_role,
     chronograph_role, chronograph_view_role, draft_role, SANDBOX_MODE,
+    embedded_lot_role, ListType, default_lot_role, validate_lots_uniq,
 )
 from openprocurement.api.models import (
     Value, IsoDateTimeType, Document, Organization, SchematicsDocument,
@@ -85,6 +86,7 @@ class Award(Model):
     complaintPeriod = ModelType(Period)
 
 ReportingAward = Award
+
 
 class Cancellation(BaseCancellation):
     class Options:
@@ -237,6 +239,16 @@ ReportingTender = Tender
 
 
 class Award(ReportingAward):
+
+    lotID = MD5Type()
+
+    def validate_lotID(self, data, lotID):
+        if isinstance(data['__parent__'], Model):
+            if not lotID and data['__parent__'].lots:
+                raise ValidationError(u'This field is required.')
+            if lotID and lotID not in [i.id for i in data['__parent__'].lots]:
+                raise ValidationError(u"lotID should be one of lots")
+
     class Options:
         roles = {
             'create': award_create_role,
@@ -244,8 +256,42 @@ class Award(ReportingAward):
         }
 
 
+class Lot(Model):
+    class Options:
+        roles = {
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value'),
+            'embedded': embedded_lot_role,
+            'view': default_lot_role,
+            'default': default_lot_role,
+            'auction_view': default_lot_role,
+            'auction_patch': whitelist('id', 'auctionUrl'),
+            'chronograph': whitelist('id', 'auctionPeriod'),
+            'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
+            'Administrator': whitelist('auctionPeriod'),
+        }
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    title = StringType(required=True, min_length=1)
+    title_en = StringType()
+    title_ru = StringType()
+    description = StringType()
+    description_en = StringType()
+    description_ru = StringType()
+    date = IsoDateTimeType()
+    value = ModelType(Value, required=True)
+    status = StringType(choices=['active', 'cancelled', 'unsuccessful', 'complete'], default='active')
+
+    @serializable(serialized_name="value", type=ModelType(Value))
+    def lot_value(self):
+        return Value(dict(amount=self.value.amount,
+                          currency=self.__parent__.value.currency,
+                          valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded))
+
+
 class Contract(BaseContract):
     items = ListType(ModelType(Item))
+
 
 @implementer(ITender)
 class Tender(ReportingTender):
@@ -262,6 +308,7 @@ class Tender(ReportingTender):
     create_accreditation = 3
     edit_accreditation = 4
     procuring_entity_kinds = ['general', 'special', 'defense']
+    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
 
 NegotiationTender = Tender
 

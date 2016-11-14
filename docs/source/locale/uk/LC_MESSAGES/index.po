@@ -35,14 +35,14 @@ msgstr ""
 msgid "Contents:"
 msgstr "Зміст:"
 
-#: ../../source/index.rst:29
+#: ../../source/index.rst:30
 msgid "Indices and tables"
 msgstr "Індекси та таблиці"
 
-#: ../../source/index.rst:31
+#: ../../source/index.rst:32
 msgid ":ref:`genindex`"
 msgstr ":ref:`genindex`"
 
-#: ../../source/index.rst:32
+#: ../../source/index.rst:33
 msgid ":ref:`search`"
 msgstr ":ref:`search`"
