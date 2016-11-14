@@ -466,7 +466,7 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_data
     initial_bids = None
 
-    def test_create_tender_award_complaint(self):
+    def test_create_tender_award_complaints(self):
         request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
         response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization], 'qualified': True,
                                                               'status': 'pending'}})
@@ -479,6 +479,7 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
                                       {'data': {'title': 'complaint title', 'description': 'complaint description',
                                                 'author': test_organization, 'status': 'pending'}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
+
 
 class TenderNegotiationAwardResourceTest(TenderAwardResourceTest):
     initial_data = test_tender_negotiation_data
@@ -1234,7 +1235,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
              u'name': u'author'}
         ])
 
-    def test_create_tender_award_complaint(self):
+    def test_create_tender_award_complaints(self):
 
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id,
                                                                                    self.tender_token),
@@ -1519,7 +1520,7 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
         award = response.json['data']
         self.award_id = award['id']
 
-    def test_create_tender_award_complaint(self):
+    def test_create_tender_award_complaints(self):
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id,
                                                                                    self.tender_token),
             {"data": {"status": "unsuccessful"}})
