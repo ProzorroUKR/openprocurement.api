@@ -1503,23 +1503,6 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
 
 class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardComplaintResourceTest):
 
-    def create_award(self):
-        # create lot
-        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                      {'data': test_lots[0]})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        lot = response.json['data']
-        self.lot_id = lot['id']
-        # create award
-        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
-        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization], 'qualified': True,
-                                                              'status': 'pending', 'lotID': lot['id']}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        award = response.json['data']
-        self.award_id = award['id']
-
     def test_create_tender_award_complaints(self):
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id,
                                                                                    self.tender_token),
@@ -1585,6 +1568,23 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"],
                          "Can't add complaint in current (unsuccessful) tender status")
+
+    def create_award(self):
+        # create lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.lot_id = lot['id']
+        # create award
+        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization], 'qualified': True,
+                                                              'status': 'pending', 'lotID': lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        award = response.json['data']
+        self.award_id = award['id']
 
 
 class TenderNegotiationQuickAwardComplaintResourceTest(TenderNegotiationAwardComplaintResourceTest):
