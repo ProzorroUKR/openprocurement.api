@@ -237,6 +237,7 @@ class Tender(SchematicsDocument, Model):
 
 ReportingTender = Tender
 
+Item = BaseItem
 
 class Award(ReportingAward):
 
@@ -296,6 +297,7 @@ class Contract(BaseContract):
 @implementer(ITender)
 class Tender(ReportingTender):
     """ Negotiation """
+    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     cause = StringType(choices=['artContestIP', 'noCompetition', 'twiceUnsuccessful',
