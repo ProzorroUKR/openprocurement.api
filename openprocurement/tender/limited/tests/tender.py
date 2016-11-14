@@ -255,6 +255,22 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 4)
 
+    def test_tender_award_create(self):
+        data = test_tender_data.copy()
+        award_id = "1234"*8
+        data['awards'] = [{'suppliers': [test_organization],
+                           'subcontractingDetails': 'Details',
+                           'status': 'pending',
+                           'qualified': True,
+                           'id': award_id}
+                           ]
+
+        data['contracts'] = [{'title': 'contract title', 'description': 'contract description', 'awardID' : award_id}]
+        response = self.app.post_json('/tenders', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertNotIn('contracts', response.json['data'])
+        self.assertNotIn('awards', response.json['data'])
+
     def test_listing_changes(self):
         response = self.app.get('/tenders?feed=changes')
         self.assertEqual(response.status, '200 OK')
