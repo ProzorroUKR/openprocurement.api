@@ -107,6 +107,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
         response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
                                                               'subcontractingDetails': 'Details',
+                                                              'items': test_tender_data['items'],
                                                               'status': 'pending',
                                                               'qualified': True}})
         self.assertEqual(response.status, '201 Created')
@@ -114,6 +115,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         award = response.json['data']
         self.assertEqual(award['suppliers'][0]['name'], test_organization['name'])
         self.assertIn('id', award)
+        self.assertNotIn('items', award)
         self.assertIn(award['id'], response.headers['Location'])
         self.assertEqual(response.json['data']["subcontractingDetails"], "Details")
         if self.initial_data['procurementMethodType'] == "reporting":
@@ -244,6 +246,12 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         award = response.json['data']
 
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, award['id'], self.tender_token),
+            {"data": {"items": test_tender_data['items']}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.body, u'null')
+
         response = self.app.patch_json('/tenders/{}/awards/some_id'.format(self.tender_id),
                                        {"data": {"status": "unsuccessful"}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
@@ -280,6 +288,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
             {"data": {"title": 'award title'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['title'], 'award title')
+        self.assertNotIn('items', response.json['data'])
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, award['id'], self.tender_token),
             {"data": {"title": 'award title2'}})
@@ -778,6 +787,12 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
         self.assertEqual(response.content_type, 'application/json')
         award = response.json['data']
 
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, award['id'], self.tender_token),
+            {"data": {"items": test_tender_data['items']}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.body, u'null')
+
         response = self.app.patch_json('/tenders/{}/awards/some_id'.format(self.tender_id),
                                        {"data": {"status": "unsuccessful"}}, status=404)
         self.assertEqual(response.status, '404 Not Found')
@@ -814,6 +829,7 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
             {"data": {"title": 'award title'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['title'], 'award title')
+        self.assertNotIn('items', response.json['data'])
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, award['id'], self.tender_token),
             {"data": {"title": 'award title2'}})
