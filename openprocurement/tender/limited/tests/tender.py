@@ -531,8 +531,10 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['errors'], [
             {u'description': [{u'deliveryDate': [u'This field is required.'], u'deliveryAddress': {u'postalCode': [u'This field is required.'], u'locality': [u'This field is required.']}}], u'location': u'body', u'name': u'items'}
         ])
-        
-        data = deepcopy(test_tender_data)
+
+    def test_field_relatedLot(self):
+        request_path = '/tenders'
+        data = deepcopy(self.initial_data)
         data['items'][0]['relatedLot'] = uuid4().hex
         response = self.app.post_json(request_path, {'data':data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -849,6 +851,18 @@ class TenderResourceTest(BaseTenderWebTest):
 
 class TenderNegotiationResourceTest(TenderResourceTest):
     initial_data = test_tender_negotiation_data
+
+    def test_field_relatedLot(self):
+        request_path = '/tenders'
+        data = deepcopy(self.initial_data)
+        data['items'][0]['relatedLot'] = uuid4().hex
+        response = self.app.post_json(request_path, {'data':data}, status=422)
+        print response
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'],  [
+            {u'description': [{u'relatedLot': [u'relatedLot should be one of lots']}], u'location': u'body', u'name': u'items'}])
 
 class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):
     initial_data = test_tender_negotiation_quick_data
