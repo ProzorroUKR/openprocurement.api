@@ -264,6 +264,21 @@ class TenderCancellationResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
+    def test_create_cancellation_on_lot(self):
+        """ Try create cancellation with cancellationOf = lot while tender hasn't lots """
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id,
+                                                                                      self.tender_token),
+                                      {'data': {'reason': 'cancellation reason',
+                                                'cancellationOf': 'lot',
+                                                'relatedLot': "1" * 32}},
+                                      status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'],
+                         [{"location": "body",
+                           "name": "relatedLot",
+                           "description": ["Cancellation of lot is not available, while tender hasn't lots"]}])
+
 
 class TenderNegotiationCancellationResourceTest(TenderCancellationResourceTest):
     initial_data = test_tender_negotiation_data

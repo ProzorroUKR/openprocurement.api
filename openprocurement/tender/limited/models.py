@@ -97,27 +97,16 @@ class Cancellation(BaseCancellation):
             'view': schematics_default_role,
         }
 
-    cancellationOf = StringType(required=True, choices=['tender'], default='tender')
     reasonType = StringType(choices=['cancelled', 'unsuccessful'], default='cancelled')
 
     def validate_relatedLot(self, data, relatedLot):
-        return
-
-ReportingCancellation = Cancellation
-
-
-class Cancellation(BaseCancellation):
-    class Options:
-        roles = {
-            'create': whitelist('reason', 'status', 'reasonType', 'cancellationOf', 'relatedLot'),
-            'edit': whitelist('status', 'reasonType'),
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
-        }
-
-    reasonType = StringType(choices=['cancelled', 'unsuccessful'], default='cancelled')
-
-NegotiationCancellation = Cancellation
+        if not relatedLot and data.get('cancellationOf') == 'lot':
+            raise ValidationError(u'This field is required.')
+        if relatedLot and isinstance(data['__parent__'], Model):
+            if not data['__parent__'].get('lots'):
+                raise ValidationError(u"Cancellation of lot is not available, while tender hasn't lots")
+            if relatedLot not in [i.id for i in data['__parent__'].lots]:
+                raise ValidationError(u"relatedLot should be one of lots")
 
 
 class ProcuringEntity(BaseProcuringEntity):
@@ -181,7 +170,7 @@ class Tender(SchematicsDocument, Model):
     revisions = ListType(ModelType(Revision), default=list())
     status = StringType(choices=['draft', 'active', 'complete', 'cancelled', 'unsuccessful'], default='active')
     mode = StringType(choices=['test'])
-    cancellations = ListType(ModelType(ReportingCancellation), default=list())
+    cancellations = ListType(ModelType(Cancellation), default=list())
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     dateModified = IsoDateTimeType()
     owner_token = StringType()
@@ -327,7 +316,6 @@ class Tender(ReportingTender):
     edit_accreditation = 4
     procuring_entity_kinds = ['general', 'special', 'defense']
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
-    cancellations = ListType(ModelType(NegotiationCancellation), default=list())
 
 NegotiationTender = Tender
 
