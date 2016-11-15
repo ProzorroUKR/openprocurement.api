@@ -516,19 +516,18 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         award = self.request.context
         award_status = award.status
         award_lotID = award.get('lotID')
+        close_lots = [aw.lotID for aw in tender.awards if aw.status in ['pending', 'active']] if award.lotID else []
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award.status == "active" and not award.qualified:
             self.request.errors.add('body', 'data', 'Can\'t update award to active status with not qualified')
             self.request.errors.status = 403
             return
-        if tender.lots:  # If tender with lots
-            data = self.request.validated['data']
-            if data.get('lotID') and \
-                    data.get('lotID') != award_lotID and \
-                    data.get('lotID') in [aw.lotID for aw in tender.awards if aw.status in ['pending', 'active']]:
-                self.request.errors.add('body', 'lotID', 'Can\'t set same lotID for two awards')
-                self.request.errors.status = 403
-                return
+        if award.lotID and \
+                award.lotID != award_lotID and \
+                award.lotID in close_lots:
+            self.request.errors.add('body', 'lotID', 'Another award is already using this lotID.')
+            self.request.errors.status = 403
+            return
         if award_status == 'pending' and award.status == 'active':
             normalized_end = calculate_normalized_date(get_now(), tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, self.stand_still_delta, tender)
