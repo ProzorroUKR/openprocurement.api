@@ -41,19 +41,6 @@ test_tender_negotiation_quick_data_2items = deepcopy(test_tender_negotiation_qui
 test_tender_negotiation_quick_data_2items['items'] = [deepcopy(test_tender_negotiation_quick_data_2items['items'][0]),
                                                       deepcopy(test_tender_negotiation_quick_data_2items['items'][0])]
 
-
-test_tender_negotiation_data_4items = deepcopy(test_tender_negotiation_data_2items)
-test_tender_negotiation_data_4items['items'] = [deepcopy(test_tender_negotiation_data_2items['items'][0]),
-                                                deepcopy(test_tender_negotiation_data_2items['items'][0]),
-                                                deepcopy(test_tender_negotiation_data_2items['items'][0]),
-                                                deepcopy(test_tender_negotiation_data_2items['items'][0])]
-
-test_tender_negotiation_quick_data_4items = deepcopy(test_tender_negotiation_quick_data_2items)
-test_tender_negotiation_quick_data_4items['items'] = [deepcopy(test_tender_negotiation_quick_data_2items['items'][0]),
-                                                      deepcopy(test_tender_negotiation_quick_data_2items['items'][0]),
-                                                      deepcopy(test_tender_negotiation_quick_data_2items['items'][0]),
-                                                      deepcopy(test_tender_negotiation_quick_data_2items['items'][0])]
-
 test_lots = [
     {
         'title': 'lot title',

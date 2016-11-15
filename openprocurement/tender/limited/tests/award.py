@@ -4,8 +4,7 @@ import unittest
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
     test_tender_negotiation_quick_data, test_organization, test_lots,
-    test_tender_negotiation_quick_data_2items, test_tender_negotiation_data_2items,
-    test_tender_negotiation_quick_data_4items, test_tender_negotiation_data_4items)
+    test_tender_negotiation_quick_data_2items, test_tender_negotiation_data_2items)
 
 
 class TenderAwardResourceTest(BaseTenderContentWebTest):
