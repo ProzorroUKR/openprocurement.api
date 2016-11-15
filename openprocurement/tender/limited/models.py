@@ -103,6 +103,22 @@ class Cancellation(BaseCancellation):
     def validate_relatedLot(self, data, relatedLot):
         return
 
+ReportingCancellation = Cancellation
+
+
+class Cancellation(BaseCancellation):
+    class Options:
+        roles = {
+            'create': whitelist('reason', 'status', 'reasonType', 'cancellationOf', 'relatedLot'),
+            'edit': whitelist('status', 'reasonType'),
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+        }
+
+    reasonType = StringType(choices=['cancelled', 'unsuccessful'], default='cancelled')
+
+NegotiationCancellation = Cancellation
+
 
 class ProcuringEntity(BaseProcuringEntity):
     class Options:
@@ -165,7 +181,7 @@ class Tender(SchematicsDocument, Model):
     revisions = ListType(ModelType(Revision), default=list())
     status = StringType(choices=['draft', 'active', 'complete', 'cancelled', 'unsuccessful'], default='active')
     mode = StringType(choices=['test'])
-    cancellations = ListType(ModelType(Cancellation), default=list())
+    cancellations = ListType(ModelType(ReportingCancellation), default=list())
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     dateModified = IsoDateTimeType()
     owner_token = StringType()
@@ -311,6 +327,7 @@ class Tender(ReportingTender):
     edit_accreditation = 4
     procuring_entity_kinds = ['general', 'special', 'defense']
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
+    cancellations = ListType(ModelType(NegotiationCancellation), default=list())
 
 NegotiationTender = Tender
 
