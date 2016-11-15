@@ -521,10 +521,8 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             self.request.errors.add('body', 'data', 'Can\'t update award to active status with not qualified')
             self.request.errors.status = 403
             return
-        busy_lots = [aw.lotID for aw in tender.awards if aw.status in ['pending', 'active']] if award.lotID else []
         if award.lotID and \
-                award.lotID != award_lotID and \
-                len(busy_lots) != len(set(busy_lots)):
+                [aw.lotID for aw in tender.awards if aw.status in['pending', 'active']].count(award.lotID) > 1:
             self.request.errors.add('body', 'lotID', 'Another award is already using this lotID.')
             self.request.errors.status = 403
             return
