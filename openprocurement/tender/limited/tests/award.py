@@ -1554,16 +1554,6 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
     def test_change_lotID_from_unsuccessful_award(self):
         """ Create two award, and then try change lotId when
             award in status unsuccessful """
-        # Try set lotID while another award has status pending
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token),
-            {'data': {'lotID': self.second_lot['id']}},
-            status=403)
-
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'], [{"location": "body",
-                                                    "name": "lotID",
-                                                    "description": "Another award is already using this lotID."}])
 
         # Make award unsuccessful
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
@@ -1622,7 +1612,7 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
             self.tender_id, self.second_award_id, self.tender_token),
             {'data': {'status': 'active'}})
 
-        # Try set lotID while another award has status pending
+        # Try set lotID while another award has status active
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, self.award_id, self.tender_token),
             {'data': {'lotID': self.second_lot['id']}},
@@ -1638,7 +1628,6 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
             self.tender_id, self.second_award_id, self.tender_token),
             {'data': {'status': 'cancelled'}})
 
-        print(self.second_award_id)
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'cancelled')
 
@@ -1649,75 +1638,6 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
 
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['lotID'], self.second_lot['id'])
-
-    def test_change_lotID_when_award_active(self):
-        """ Try change lotID while award has status active """
-        # active second award
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.second_award_id, self.tender_token),
-            {'data': {'status': 'active'}})
-
-        # cancelled second award
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.second_award_id, self.tender_token),
-            {'data': {'status': 'cancelled'}})
-
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'cancelled')
-
-        # active first award
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token),
-            {'data': {'status': 'active'}})
-
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'active')
-
-        # Move award on another lot
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token),
-            {'data': {'lotID': self.second_lot['id']}},
-            status=403)
-
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'], [{u'description': u"Can't update award in current (active) status",
-                                                   u'location': u'body',
-                                                   u'name': u'data'}])
-
-    def test_change_lotID_when_award_unsuccessful(self):
-        """ Try change lotID while award has status unsuccessful """
-        # active second award
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.second_award_id, self.tender_token),
-            {'data': {'status': 'active'}})
-
-        # cancel second award
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.second_award_id, self.tender_token),
-            {'data': {'status': 'cancelled'}})
-
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'cancelled')
-
-        # active first award
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token),
-            {'data': {'status': 'unsuccessful'}})
-
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'unsuccessful')
-
-        # Move award on another lot
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token),
-            {'data': {'lotID': self.second_lot['id']}},
-            status=403)
-
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'],
-                         [{"location": "body",
-                           "name": "data",
-                           "description": "Can't update award in current (unsuccessful) status"}])
 
     def test_change_lotID_when_award_cancelled(self):
         """ Try change lotID while award has status cancelled """

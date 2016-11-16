@@ -515,7 +515,6 @@ class TenderNegotiationAwardResource(TenderAwardResource):
 
         award = self.request.context
         award_status = award.status
-        award_lotID = award.get('lotID')
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award.status == "active" and not award.qualified:
             self.request.errors.add('body', 'data', 'Can\'t update award to active status with not qualified')
