@@ -1639,46 +1639,6 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['lotID'], self.second_lot['id'])
 
-    def test_change_lotID_when_award_cancelled(self):
-        """ Try change lotID while award has status cancelled """
-        # active second award
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.second_award_id, self.tender_token),
-            {'data': {'status': 'active'}})
-
-        # cancelled second award
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.second_award_id, self.tender_token),
-            {'data': {'status': 'cancelled'}})
-
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'cancelled')
-
-        # first active first award
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token),
-            {'data': {'status': 'active'}})
-
-        # active first award
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token),
-            {'data': {'status': 'cancelled'}})
-
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'cancelled')
-
-        # Move award on another lot
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token),
-            {'data': {'lotID': self.second_lot['id']}},
-            status=403)
-
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'],
-                         [{"location": "body",
-                           "name": "data",
-                           "description": "Can't update award in current (cancelled) status"}])
-
 
 class Tender2LotNegotiationQuickAwardComplaintResourceTest(Tender2LotNegotiationAwardComplaintResourceTest):
     initial_data = test_tender_negotiation_quick_data_2items
