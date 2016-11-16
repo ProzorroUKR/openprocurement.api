@@ -81,23 +81,6 @@ class TenderReportingCancellationResource(APIResource):
 class TenderNegotiationCancellationResource(TenderCancellationResource):
     """ Tender Negotiation Cancellation Resource """
 
-    def cancel_tender(self):
-        tender = self.request.validated['tender']
-        tender.status = 'cancelled'
-
-    def cancel_lot(self, cancellation=None):
-        if not cancellation:
-            cancellation = self.context
-        tender = self.request.validated['tender']
-        [setattr(i, 'status', 'cancelled') for i in tender.lots if i.id == cancellation.relatedLot]
-        statuses = set([lot.status for lot in tender.lots])
-        if statuses == set(['cancelled']):
-            self.cancel_tender()
-        elif not statuses.difference(set(['unsuccessful', 'cancelled'])):
-            tender.status = 'unsuccessful'
-        elif not statuses.difference(set(['complete', 'unsuccessful', 'cancelled'])):
-            tender.status = 'complete'
-
     def validate_cancellation(self, operation):
         if not super(TenderNegotiationCancellationResource, self).validate_cancellation(operation):
             return

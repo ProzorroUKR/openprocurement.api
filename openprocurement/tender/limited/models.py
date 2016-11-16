@@ -102,11 +102,12 @@ class Cancellation(BaseCancellation):
     def validate_relatedLot(self, data, relatedLot):
         if not relatedLot and data.get('cancellationOf') == 'lot':
             raise ValidationError(u'This field is required.')
-        if relatedLot and isinstance(data['__parent__'], Model):
-            if not data['__parent__'].get('lots'):
-                raise ValidationError(u"Cancellation of lot is not available, while tender hasn't lots")
-            if relatedLot not in [i.id for i in data['__parent__'].lots]:
-                raise ValidationError(u"relatedLot should be one of lots")
+        if relatedLot and isinstance(data['__parent__'], Model) and relatedLot not in [i.id for i in data['__parent__'].get('lots', [])]:
+            raise ValidationError(u"relatedLot should be one of lots")
+
+    def validate_cancellationOf(self, data, cancellationOf):
+        if isinstance(data['__parent__'], Model) and cancellationOf == 'lot' and not hasattr(data['__parent__'], 'lots'):
+            raise ValidationError(u"Lot cancellation can not be submitted, since \"multiple lots\" option is not available for this type of tender.")
 
 
 class ProcuringEntity(BaseProcuringEntity):

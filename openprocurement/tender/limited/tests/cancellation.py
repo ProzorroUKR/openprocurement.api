@@ -275,13 +275,36 @@ class TenderCancellationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'],
-                         [{"location": "body",
-                           "name": "relatedLot",
-                           "description": ["Cancellation of lot is not available, while tender hasn't lots"]}])
+                         [{
+                             u"location": u"body",
+                             u"name": u"relatedLot",
+                             u"description": [u"relatedLot should be one of lots"]
+                          },
+                          {
+                              u"location": u"body",
+                              u"name": u"cancellationOf",
+                              u"description": [
+                                  u"Lot cancellation can not be submitted, since \"multiple lots\" option is not available for this type of tender."
+                              ]
+                          }])
 
 
 class TenderNegotiationCancellationResourceTest(TenderCancellationResourceTest):
     initial_data = test_tender_negotiation_data
+
+    def test_create_cancellation_on_lot(self):
+        """ Try create cancellation with cancellationOf = lot while tender hasn't lots """
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id,
+                                                                                      self.tender_token),
+                                      {'data': {'reason': 'cancellation reason',
+                                                'cancellationOf': 'lot',
+                                                'relatedLot': "1" * 32}},
+                                      status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'],
+                         [{u'description': [u'relatedLot should be one of lots'], u'location': u'body',
+                          u'name': u'relatedLot'}])
 
 
 class TenderNegotiationQuickCancellationResourceTest(TenderNegotiationCancellationResourceTest):
@@ -733,6 +756,21 @@ class TenderNegotiationLotsCancellationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active")
         self.assertEqual(response.json['data']["reason"], "cancellation reason")
+
+    def test_cancelled_lot_without_relatedLot(self):
+        response = self.app.post_json(
+            '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
+                'reason': 'cancellation reason',
+                "cancellationOf": "lot"
+            }},
+            status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'], [{
+            "location": "body",
+            "name": "relatedLot",
+            "description": ["This field is required."]
+        }])
 
 
 class TenderNegotiationQuickLotsCancellationResourceTest(TenderNegotiationLotsCancellationResourceTest):
