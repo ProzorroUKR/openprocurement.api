@@ -496,10 +496,18 @@ class ContractingDataBridge(object):
         self._start_contract_sculptors()
         self._start_synchronization_workers()
         backward_worker, forward_worker = self.jobs
+        counter = 0
 
         try:
             while True:
                 gevent.sleep(self.jobs_watcher_delay)
+                if counter == 20:
+                    logger.info(
+                        'Current state: Tenders to process {}; Unhandled contracts {}; Contracts to create {}; Retrying to create {}'.format(
+                        self.tenders_queue.qsize(), self.handicap_contracts_queue.qsize(), self.contracts_put_queue.qsize(),
+                        self.contracts_retry_put_queue.qsize()))
+                    counter = 0
+                counter += 1
                 if forward_worker.dead or (backward_worker.dead and not backward_worker.successful()):
                     self._restart_synchronization_workers()
                     backward_worker, forward_worker = self.jobs
