@@ -747,7 +747,6 @@ class TenderNegotiationLotsCancellationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['status'], 'cancelled')
 
 
-
 class TenderNegotiationQuickLotsCancellationResourceTest(TenderNegotiationLotsCancellationResourceTest):
     initial_data = test_tender_negotiation_quick_data
 
