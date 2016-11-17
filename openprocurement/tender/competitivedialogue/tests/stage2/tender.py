@@ -87,6 +87,32 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
             self.app.authorization = auth
             return response
 
+    def test_invalid_procurementMethod(self):
+        """ Create create or edit field procurementMethod second stage """
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        data = deepcopy(test_tender_stage2_data_eu)
+        del data['procurementMethod']
+        response = self.app.post_json('/tenders', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        tender = response.json['data']
+        token = response.json['access']['token']
+        self.assertEqual(response.json['data']['procurementMethod'], 'selective')
+
+        # Try edit
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
+                                       {'data': {'procurementMethod': 'open', 'status': 'active.tendering'}})
+        self.assertEqual(response.json['data']['procurementMethod'], 'selective')
+
+        # Try create and send wrong procurementMethod
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        data['procurementMethod'] = 'open'
+        response = self.app.post_json('/tenders', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['procurementMethod'], 'selective')
+
     def test_listing(self):
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))
         response = self.app.get('/tenders')
@@ -1195,6 +1221,32 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
                                            {'data': {'status': status}})
             self.app.authorization = auth
             return response
+
+    def test_invalid_procurementMethod(self):
+        """ Create create or edit field procurementMethod second stage """
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        data = deepcopy(test_tender_stage2_data_ua)
+        del data['procurementMethod']
+        response = self.app.post_json('/tenders', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        tender = response.json['data']
+        token = response.json['access']['token']
+        self.assertEqual(response.json['data']['procurementMethod'], 'selective')
+
+        # Try edit
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
+                                       {'data': {'procurementMethod': 'open', 'status': 'active.tendering'}})
+        self.assertEqual(response.json['data']['procurementMethod'], 'selective')
+
+        # Try create and send wrong procurementMethod
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        data['procurementMethod'] = 'open'
+        response = self.app.post_json('/tenders', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['procurementMethod'], 'selective')
 
     def test_empty_listing(self):
         response = self.app.get('/tenders')

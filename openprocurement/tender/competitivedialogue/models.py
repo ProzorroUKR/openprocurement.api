@@ -284,7 +284,7 @@ close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'd
 
 stage_2_roles = {
     'plain': plain_role,
-    'create': (blacklist('owner_token', 'tenderPeriod', '_attachments', 'revisions', 'dateModified', 'doc_id', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role),
+    'create': (blacklist('owner_token', 'tenderPeriod', '_attachments', 'revisions', 'dateModified', 'doc_id', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'awardCriteria', 'submissionMethod', 'cancellations', 'procurementMethod') + schematics_embedded_role),
     'edit': whitelist('tenderPeriod'),
     'edit_draft': whitelist('status'),  # only bridge must change only status
     'edit_'+STAGE2_STATUS: whitelist('tenderPeriod', 'status'),
@@ -412,6 +412,7 @@ class Tender(BaseTenderEU):
                  'unsuccessful', STAGE2_STATUS],
         default='active.tendering')
     lots = ListType(ModelType(LotStage2EU), default=list(), validators=[validate_lots_uniq])
+    procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')
 
     # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     items = ListType(ModelType(ItemStage2EU), required=True, min_size=1, validators=[validate_cpv_group,
@@ -453,6 +454,7 @@ class Tender(BaseTenderUA):
     items = ListType(ModelType(ItemStage2UA), required=True, min_size=1, validators=[validate_cpv_group,
                                                                                      validate_items_uniq])
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
+    procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')
 
     create_accreditation = 'c'
 
