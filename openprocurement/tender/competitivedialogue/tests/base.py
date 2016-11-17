@@ -91,14 +91,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     initial_auth = None
-
-    @classmethod
-    def setUpClass(cls):
-        cls.app = webtest.TestApp("config:tests.ini", relative_to=os.path.dirname(__file__))
-        cls.app.RequestClass = PrefixedRequestClass
-        cls.couchdb_server = cls.app.app.registry.couchdb_server
-        cls.db = cls.app.app.registry.db
-        cls.db_name = cls.db.name
+    relative_to = os.path.dirname(__file__)
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
