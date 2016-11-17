@@ -138,7 +138,7 @@ def add_next_award(request):
                     'date': [i for i in bid.lotValues if lot.id == i.relatedLot][0].date
                 }
                 for bid in tender.bids
-                if lot.id in [i.relatedLot for i in bid.lotValues] and bid.status == "active"
+                if bid.status == "active" and lot.id in [i.relatedLot for i in bid.lotValues if getattr(i, 'status', "active") == "active"]
             ]
             if not bids:
                 lot.status = 'unsuccessful'
