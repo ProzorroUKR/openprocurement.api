@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import opresource
 from openprocurement.api.views.cancellation import TenderCancellationResource as BaseResource
-from openprocurement.tender.openeu.utils import add_next_award
+from openprocurement.tender.openua.utils import add_next_award
 
 
 @opresource(name='TenderEU Cancellations',
