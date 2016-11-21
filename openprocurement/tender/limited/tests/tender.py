@@ -758,13 +758,13 @@ class TenderResourceTest(BaseTenderWebTest):
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
             tender['id'], owner_token), {'data': {'items': [{
                 'description': u"custom item descriptionX",
-                'quantity': 5,
+                'quantity': 15,
                 'deliveryLocation': {'latitude': "12.123", 'longitude': "170.123"}
             }]}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['items'][0]['description'], u"custom item descriptionX")
-        self.assertEqual(response.json['data']['items'][0]['quantity'], 5)
+        self.assertEqual(response.json['data']['items'][0]['quantity'], 15)
         self.assertEqual(response.json['data']['items'][0]['deliveryLocation']['latitude'], "12.123")
         self.assertEqual(response.json['data']['items'][0]['deliveryLocation']['longitude'], "170.123")
 
