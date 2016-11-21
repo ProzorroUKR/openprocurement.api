@@ -746,6 +746,35 @@ class TenderNegotiationLotsCancellationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['status'], 'cancelled')
 
+    def test_cancel_tender(self):
+        response = self.app.post_json(
+            '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
+                'reason': 'cancellation reason',
+                'status': 'active',
+                "cancellationOf": "tender"
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        cancellation = response.json['data']
+        self.assertEqual(cancellation['reason'], 'cancellation reason')
+        self.assertEqual(cancellation['status'], 'active')
+        self.assertIn('id', cancellation)
+        self.assertIn(cancellation['id'], response.headers['Location'])
+
+        # Check tender
+        response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token))
+
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+        # Check lots
+        response = self.app.get('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data'][0]['status'], 'active')
+        self.assertEqual(response.json['data'][1]['status'], 'active')
+
 
 class TenderNegotiationQuickLotsCancellationResourceTest(TenderNegotiationLotsCancellationResourceTest):
     initial_data = test_tender_negotiation_quick_data
