@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 import time
+from copy import deepcopy
 from iso8601 import parse_date
 from datetime import timedelta
 
@@ -230,6 +231,16 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']["items"][0]['unit']['value']['amount'], 12)
         self.assertEqual(response.json['data']["items"][0]['unit']['value']['currency'], "USD")
         self.assertEqual(response.json['data']["items"][0]['unit']['value']['valueAddedTaxIncluded'], False)
+
+        # try to add/delete contract item
+        item = deepcopy(response.json['data']["items"][0])
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token),
+            {'data': {'items': [{}, item]}},
+            status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can't change items count")
 
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
             self.tender_id, self.contract_id, self.tender_token),
@@ -510,6 +521,35 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
         self.assertEqual(response.json['data']["items"][0]['unit']['value']['amount'], 12)
         self.assertEqual(response.json['data']["items"][0]['unit']['value']['currency'], "USD")
         self.assertEqual(response.json['data']["items"][0]['unit']['value']['valueAddedTaxIncluded'], False)
+
+        # try to add contract item
+        item = deepcopy(response.json['data']["items"][0])
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token),
+            {'data': {'items': [{}, item]}},
+            status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can't change items count")
+
+        # add second item to contract. the quickest way
+        tender = self.db.get(self.tender_id)
+        item = tender['contracts'][0]['items'][0]
+        tender['contracts'][0]['items'] = [item, item]
+        self.db.save(tender)
+
+        response = self.app.get('/tenders/{}/contracts/{}'.format(self.tender_id, self.contract_id))
+        self.assertEqual(len(response.json['data']["items"]), 2)
+
+        # try to delete contract item
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token),
+            {'data': {'items': [{}]}},
+            status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can't change items count")
+
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
             self.tender_id, self.contract_id, self.tender_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
