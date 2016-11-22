@@ -111,6 +111,13 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
                 self.request.errors.status = 403
                 return
 
+        if data.get('items') and len(data['items']) != len(self.request.context['items']):
+            # as it is alowed to set/change contract.item.unit.value we need to
+            # ensure that nobody is able to add or delete contract.item
+            self.request.errors.add('body', 'data', 'Can\'t change items count')
+            self.request.errors.status = 403
+            return
+
         contract_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         self.request.context.date = get_now()
@@ -178,6 +185,13 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
                 self.request.errors.add('body', 'data', 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount))
                 self.request.errors.status = 403
                 return
+
+        if data.get('items') and len(data['items']) != len(self.request.context['items']):
+            # as it is alowed to set/change contract.item.unit.value we need to
+            # ensure that nobody is able to add or delete contract.item
+            self.request.errors.add('body', 'data', 'Can\'t change items count')
+            self.request.errors.status = 403
+            return
 
         contract_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
