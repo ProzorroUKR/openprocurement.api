@@ -14,6 +14,28 @@ from openprocurement.tender.limited.tests.base import (
 )
 
 
+class AccreditationTenderTest(BaseTenderWebTest):
+    def test_create_tender_accreditation(self):
+        for broker in ['broker1', 'broker3']:
+            self.app.authorization = ('Basic', (broker, ''))
+            response = self.app.post_json('/tenders', {"data": test_tender_data})
+            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.content_type, 'application/json')
+
+        for broker in ['broker2', 'broker4']:
+            self.app.authorization = ('Basic', (broker, ''))
+            response = self.app.post_json('/tenders', {"data": test_tender_data}, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.json['errors'][0]["description"], "Broker Accreditation level does not permit tender creation")
+
+        self.app.authorization = ('Basic', ('broker1t', ''))
+        response = self.app.post_json('/tenders', {"data": test_tender_data}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Broker Accreditation level does not permit tender creation")
+
+
 class TenderTest(BaseTenderWebTest):
 
     def test_simple_add_tender(self):

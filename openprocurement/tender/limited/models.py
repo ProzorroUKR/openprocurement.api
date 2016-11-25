@@ -168,7 +168,7 @@ class Tender(SchematicsDocument, Model):
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()
 
-    create_accreditation = 1
+    create_accreditation = '13'
     edit_accreditation = 2
     procuring_entity_kinds = ['general', 'special', 'defense', 'other']
     block_complaint_status = OpenUATender.block_complaint_status
