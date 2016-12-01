@@ -520,6 +520,11 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             self.request.errors.add('body', 'data', 'Can\'t update award to active status with not qualified')
             self.request.errors.status = 403
             return
+        if award.lotID and \
+                [aw.lotID for aw in tender.awards if aw.status in['pending', 'active']].count(award.lotID) > 1:
+            self.request.errors.add('body', 'lotID', 'Another award is already using this lotID.')
+            self.request.errors.status = 403
+            return
         if award_status == 'pending' and award.status == 'active':
             normalized_end = calculate_normalized_date(get_now(), tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, self.stand_still_delta, tender)
