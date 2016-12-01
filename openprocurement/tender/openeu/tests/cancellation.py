@@ -537,10 +537,8 @@ class TenderCancellationBidsAvailabilityTest(BaseTenderContentWebTest):
             else:
                 self.assertEqual(bid["status"], 'unsuccessful')
                 self.assertEqual(set(bid.keys()), set([
-                    u'documents', u'value', u'eligibilityDocuments', u'id',
-                    u'selfEligible', u'qualificationDocuments', u'status',
-                    u'financialDocuments', u'tenderers', u'date',
-                    u'selfQualified', u'participationUrl'
+                    u'documents', u'eligibilityDocuments', u'id', u'status',
+                    u'selfEligible', u'tenderers', u'selfQualified',
                 ]))
 
         for bid_id, bid_token in self.initial_bids_tokens.items():
