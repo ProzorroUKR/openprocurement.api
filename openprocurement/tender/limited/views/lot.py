@@ -35,6 +35,7 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
             self.request.errors.add('body', 'data', 'Can\'t {} lot when you have awards'.format(
                 operation, tender.status))
             self.request.errors.status = 403
+            return
         return True
 
     @json_view(content_type="application/json", validators=(validate_lot_data,), permission='edit_tender')
