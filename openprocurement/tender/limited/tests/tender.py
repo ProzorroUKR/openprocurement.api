@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
+from uuid import uuid4
 
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.models import get_now
@@ -276,6 +277,22 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), 4)
 
+    def test_tender_award_create(self):
+        data = test_tender_data.copy()
+        award_id = "1234"*8
+        data['awards'] = [{'suppliers': [test_organization],
+                           'subcontractingDetails': 'Details',
+                           'status': 'pending',
+                           'qualified': True,
+                           'id': award_id}
+                           ]
+
+        data['contracts'] = [{'title': 'contract title', 'description': 'contract description', 'awardID' : award_id}]
+        response = self.app.post_json('/tenders', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertNotIn('contracts', response.json['data'])
+        self.assertNotIn('awards', response.json['data'])
+
     def test_listing_changes(self):
         response = self.app.get('/tenders?feed=changes')
         self.assertEqual(response.status, '200 OK')
@@ -536,6 +553,17 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['errors'], [
             {u'description': [{u'deliveryDate': [u'This field is required.'], u'deliveryAddress': {u'postalCode': [u'This field is required.'], u'locality': [u'This field is required.']}}], u'location': u'body', u'name': u'items'}
         ])
+
+    def test_field_relatedLot(self):
+        request_path = '/tenders'
+        data = deepcopy(self.initial_data)
+        data['items'][0]['relatedLot'] = uuid4().hex
+        response = self.app.post_json(request_path, {'data':data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'],  [
+            {u'description': [{u'relatedLot': [u'This option is not available']}], u'location': u'body', u'name': u'items'}])
 
     def test_create_tender_generated(self):
         data = self.initial_data.copy()
@@ -845,6 +873,17 @@ class TenderResourceTest(BaseTenderWebTest):
 
 class TenderNegotiationResourceTest(TenderResourceTest):
     initial_data = test_tender_negotiation_data
+
+    def test_field_relatedLot(self):
+        request_path = '/tenders'
+        data = deepcopy(self.initial_data)
+        data['items'][0]['relatedLot'] = uuid4().hex
+        response = self.app.post_json(request_path, {'data':data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'],  [
+            {u'description': [{u'relatedLot': [u'relatedLot should be one of lots']}], u'location': u'body', u'name': u'items'}])
 
 class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):
     initial_data = test_tender_negotiation_quick_data

@@ -23,9 +23,14 @@ from openprocurement.api.models import ITender
 from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import ProcuringEntity as BaseProcuringEntity
 from openprocurement.tender.openua.models import Complaint as BaseComplaint
-from openprocurement.tender.openua.models import Item
+from openprocurement.tender.openua.models import Item as BaseItem
 from openprocurement.tender.openua.models import Tender as OpenUATender
 
+
+class Item(BaseItem):
+    def validate_relatedLot(self, data, relatedLot):
+        if relatedLot and isinstance(data['__parent__'], Model):
+            raise ValidationError(u"This option is not available")
 
 class Complaint(BaseComplaint):
     class Options:
@@ -232,6 +237,7 @@ class Tender(SchematicsDocument, Model):
 
 ReportingTender = Tender
 
+Item = BaseItem
 
 class Award(ReportingAward):
 
@@ -291,6 +297,7 @@ class Contract(BaseContract):
 @implementer(ITender)
 class Tender(ReportingTender):
     """ Negotiation """
+    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     cause = StringType(choices=['artContestIP', 'noCompetition', 'twiceUnsuccessful',
