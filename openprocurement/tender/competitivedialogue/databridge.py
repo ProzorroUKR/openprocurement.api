@@ -425,6 +425,11 @@ class CompetitiveDialogueDataBridge(object):
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_CD_UNSUCCESSFUL_PATCH_STAGE2_ID,
                                                    "TENDER_ID": dialog['id']}))
                 self.competitive_dialogues_queue.put({"id": dialog['id']})
+            else:
+                data = {"id": dialog['stage2TenderID'],
+                        "status": STAGE2_STATUS,
+                        "dialogueID": dialog['id']}
+                self.dialogs_stage2_patch_queue.put(data)
             gevent.sleep(0)
 
     def patch_new_tender_status(self):
@@ -516,7 +521,7 @@ class CompetitiveDialogueDataBridge(object):
             except:
                 logger.warn("Can't patch tender stage2 id={0} with status {1}".format(patch_data['id'], patch_data['status']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_PATCH_NEW_TENDER_STATUS,
-                                                   "TENDER_ID": path_data['id']}))
+                                                   "TENDER_ID": patch_data['id']}))
                 self.competitive_dialogues_queue.put({"id": patch_data['dialogueID']})
             gevent.sleep(0)
 
@@ -548,6 +553,10 @@ class CompetitiveDialogueDataBridge(object):
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_CREATE_ERROR,
                                                    "TENDER_ID": new_tender['dialogueID']}))
                 self.competitive_dialogues_queue.put({"id": new_tender['dialogueID']})
+            else:
+                dialog = {"id": new_tender['dialogueID'],
+                          "stage2TenderID": new_tender['id']}
+                self.dialog_stage2_id_queue.put(dialog)
             gevent.sleep(0)
 
     def get_competitive_dialogue_forward(self):
