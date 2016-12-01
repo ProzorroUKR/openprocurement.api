@@ -42,8 +42,8 @@ class Contract(BaseContract):
             raise ValidationError(u"Contract signature date can't be in the future")
 
 
-award_edit_role = blacklist('id', 'date', 'documents', 'complaints', 'complaintPeriod')
-award_create_role = blacklist('id', 'status', 'date', 'documents', 'complaints', 'complaintPeriod')
+award_edit_role = blacklist('id', 'items', 'date', 'documents', 'complaints', 'complaintPeriod')
+award_create_role = blacklist('id', 'status', 'items', 'date', 'documents', 'complaints', 'complaintPeriod')
 award_create_reporting_role = award_create_role + blacklist('qualified')
 award_edit_reporting_role = award_edit_role + blacklist('qualified')
 
