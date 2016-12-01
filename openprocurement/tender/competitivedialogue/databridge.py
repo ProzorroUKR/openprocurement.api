@@ -87,9 +87,11 @@ def prepare_lot(orig_tender, lot_id, items):
     :param items: list with related item for lot
     :return: lot with new id
     """
+    lot = get_lot_by_id(orig_tender, lot_id)
+    if lot['status'] != 'active':
+        return False
     for item in get_item_by_related_lot(orig_tender['items'], lot_id):
         items.append(item)
-    lot = get_lot_by_id(orig_tender, lot_id)
     return lot
 
 
@@ -258,6 +260,8 @@ class CompetitiveDialogueDataBridge(object):
                         if qualification.get('lotID'):
                             if qualification['lotID'] not in old_lots:  # check if lot id in local dict with new lots
                                 lot = prepare_lot(tender, qualification['lotID'], items)  # update lot with new id
+                                if not lot:  # Go next iter if not lot
+                                    continue
                                 old_lots[qualification['lotID']] = lot  # set new lot in local dict
                             bid = get_bid_by_id(tender['bids'], qualification['bidID'])
                             for bid_tender in bid['tenderers']:
