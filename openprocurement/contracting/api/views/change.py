@@ -52,6 +52,24 @@ class ContractsChangesResource(APIResource):
             return
 
         change = self.request.validated['change']
+        if change['dateSigned']:
+            changes = contract.get("changes", [])
+            if len(changes) > 0:  # has previous changes
+                last_change = contract.changes[-1]
+                last_date_signed = last_change.dateSigned
+                if not last_date_signed:  # BBB old active changes
+                    last_date_signed = last_change.date
+                obj_str = "last active change"
+            else:
+                last_date_signed = contract.dateSigned
+                obj_str = "contract"
+
+            if last_date_signed:  # BBB very old contracts
+                if change['dateSigned'] < last_date_signed:
+                    self.request.errors.add('body', 'data', 'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
+                    self.request.errors.status = 403
+                    return
+
         contract.changes.append(change)
 
         if save_contract(self.request):
@@ -67,15 +85,43 @@ class ContractsChangesResource(APIResource):
         """ Contract change edit """
         change = self.request.validated['change']
         data = self.request.validated['data']
+
+        if change.status == 'active':
+            self.request.errors.add('body', 'data', 'Can\'t update contract change in current ({}) status'.format(change.status))
+            self.request.errors.status = 403
+            return
+
         if 'status' in data and data['status'] != change.status:  # status change
 
-            if data['status'] != 'active':
-                self.request.errors.add('body', 'data', 'Can\'t update contract change in current ({}) status'.format(change.status))
+            if not data.get("dateSigned", ''):
+                self.request.errors.add('body', 'data', 'Can\'t update contract change status. \'dateSigned\' is required.')
                 self.request.errors.status = 403
                 return
+
             change['date'] = get_now()
 
-        if apply_patch(self.request, src=change.serialize()):
+        apply_patch(self.request, save=False, src=change.serialize())
+
+        if change['dateSigned']:
+            contract = self.request.validated['contract']
+            changes = contract.get("changes", [])
+            if len(changes) > 1:  # has previous changes
+                last_change = contract.changes[:-1][-1]
+                last_date_signed = last_change.dateSigned
+                if not last_date_signed:  # BBB old active changes
+                    last_date_signed = last_change.date
+                obj_str = "last active change"
+            else:
+                last_date_signed = contract.dateSigned
+                obj_str = "contract"
+
+            if last_date_signed:  # BBB very old contracts
+                if change['dateSigned'] < last_date_signed:
+                    self.request.errors.add('body', 'data', 'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
+                    self.request.errors.status = 403
+                    return
+
+        if save_contract(self.request):
             self.LOGGER.info('Updated contract change {}'.format(change.id),
                             extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_change_patch'}))
             return {'data': change.serialize('view')}

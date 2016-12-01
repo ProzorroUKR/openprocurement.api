@@ -144,10 +144,20 @@ See examples of `items` customization below. You can:
 Applying the change
 ~~~~~~~~~~~~~~~~~~~
 
-`Change` has to be applied by switching to the ``active`` status. After this `change` can't be modified anymore.
+`Change` can be applied by switching to the ``active`` status. 
+
+In order to apply ``active`` status `dateSigned` field must be set.
+
+After this `change` can't be modified anymore.
    
 .. include:: tutorial/apply-contract-change.http
    :code:
+
+`dateSigned` field validation:
+
+* for the first contract `change` date should be after `contract.dateSigned`;
+
+* for all next `change` objects date should be after the previous `change.dateSigned`.
 
 You can view all changes:
 

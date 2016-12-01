@@ -117,8 +117,8 @@ class Change(Model):
     class Options:
         roles = {
             # 'edit': blacklist('id', 'date'),
-            'create': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleTypes', 'contractNumber'),
-            'edit': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleTypes', 'contractNumber', 'status'),
+            'create': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleTypes', 'contractNumber', 'dateSigned'),
+            'edit': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleTypes', 'contractNumber', 'status', 'dateSigned'),
             'view': schematics_default_role,
             'embedded': schematics_embedded_role,
         }
@@ -135,6 +135,11 @@ class Change(Model):
                                                   'taxRate', 'fiscalYearExtension'],
                                          required=True), min_size=1, required=True)
     contractNumber = StringType()
+    dateSigned = IsoDateTimeType()
+
+    def validate_dateSigned(self, data, value):
+        if value and value > get_now():
+            raise ValidationError(u"Contract signature date can't be in the future")
 
 
 @implementer(IContract)

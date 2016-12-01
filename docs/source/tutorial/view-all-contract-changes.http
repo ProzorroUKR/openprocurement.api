@@ -1,4 +1,4 @@
-GET /api/2.3/contracts/3626499d3dc843f3809ca17b79d3d875/changes HTTP/1.0
+GET /api/2.3/contracts/d85316fca03a448cabc556f6367726e2/changes HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -13,9 +13,10 @@ Content-Type: application/json; charset=UTF-8
         "priceReduction"
       ], 
       "rationale_en": "Contract change cause", 
+      "dateSigned": "2016-10-06T11:41:16.243354+03:00", 
       "rationale": "Друга і третя поставка має бути розфасована", 
-      "date": "2016-05-31T13:04:42.669724+03:00", 
-      "id": "90b9821517e24688a8146868020fd7e0"
+      "date": "2016-10-06T11:41:16.269024+03:00", 
+      "id": "3ba8592459904c73bf05d7bc48e7083c"
     }
   ]
 }

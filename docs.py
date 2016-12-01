@@ -59,6 +59,9 @@ class TenderResourceTest(BaseTenderWebTest):
         self.couchdb_server = self.app.app.registry.couchdb_server
         self.db = self.app.app.registry.db
 
+    def tearDown(self):
+        self.couchdb_server.delete(self.db.name)
+
     def test_docs(self):
 
         self.app.authorization = ('Basic', ('broker', ''))
@@ -152,6 +155,7 @@ class TenderResourceTest(BaseTenderWebTest):
         with open('docs/source/tutorial/contract-credentials.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/contracts/{}/credentials?acc_token={}'.format(test_contract_data['id'], owner_token))
             self.assertEqual(response.status, '200 OK')
+        self.app.get(request_path)
         contract_token = response.json['access']['token']
         contract_id = test_contract_data['id']
 
@@ -238,7 +242,7 @@ class TenderResourceTest(BaseTenderWebTest):
         # apply contract change
         with open('docs/source/tutorial/apply-contract-change.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(contract_id, change['id'], contract_token),
-                                           {'data': {'status': 'active'}})
+                                           {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.content_type, 'application/json')
 

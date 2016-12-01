@@ -1,4 +1,4 @@
-GET /api/2.3/contracts/3626499d3dc843f3809ca17b79d3d875 HTTP/1.0
+GET /api/2.3/contracts/d85316fca03a448cabc556f6367726e2 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -15,13 +15,13 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "contract_changes.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/3626499d3dc843f3809ca17b79d3d875/documents/5c543881feb84a498bf2d87c5e0a43c9?download=a1e17786ad1f457c900a3be787e58602", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/d85316fca03a448cabc556f6367726e2/documents/c0135e9855984cd39410ba654101c7ce?download=2b72424b562d41a78e0b8b0a6c9ed0fe", 
         "format": "application/msword", 
         "documentOf": "change", 
-        "datePublished": "2016-05-31T13:04:41.869480+03:00", 
-        "id": "5c543881feb84a498bf2d87c5e0a43c9", 
-        "relatedItem": "90b9821517e24688a8146868020fd7e0", 
-        "dateModified": "2016-05-31T13:04:41.869528+03:00"
+        "datePublished": "2016-10-06T11:41:15.627743+03:00", 
+        "id": "c0135e9855984cd39410ba654101c7ce", 
+        "relatedItem": "3ba8592459904c73bf05d7bc48e7083c", 
+        "dateModified": "2016-10-06T11:41:15.627787+03:00"
       }
     ], 
     "items": [
@@ -47,10 +47,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-06-02T13:04:36.269519+03:00", 
-          "endDate": "2016-06-05T13:04:36.269519+03:00"
+          "startDate": "2016-10-08T11:41:10.967073+03:00", 
+          "endDate": "2016-10-11T11:41:10.967073+03:00"
         }, 
-        "id": "23a28ae16efb42adb862ef7fbcf217c2", 
+        "id": "5c8f7e8e78ac4b499bde67864993b538", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -80,11 +80,11 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-05-31T13:04:42.023541+03:00", 
-      "endDate": "2016-06-30T13:04:42.023582+03:00"
+      "startDate": "2016-10-06T11:41:15.720242+03:00", 
+      "endDate": "2016-11-05T11:41:15.720282+03:00"
     }, 
-    "dateSigned": "2016-05-31T13:04:40.779728+03:00", 
-    "id": "3626499d3dc843f3809ca17b79d3d875", 
+    "dateSigned": "2016-10-06T11:41:14.838145+03:00", 
+    "id": "d85316fca03a448cabc556f6367726e2", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -105,9 +105,9 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "contractID": "UA-2016-05-31-000001-1", 
+    "contractID": "UA-2016-10-06-000001-1", 
     "owner": "broker", 
-    "awardID": "a30c88b025b54d7880fb2dbe10dfc351", 
+    "awardID": "0fe3968c3b6441b6b8825243591d446b", 
     "changes": [
       {
         "status": "active", 
@@ -116,13 +116,14 @@ Content-Type: application/json; charset=UTF-8
           "priceReduction"
         ], 
         "rationale_en": "Contract change cause", 
+        "dateSigned": "2016-10-06T11:41:16.243354+03:00", 
         "rationale": "Друга і третя поставка має бути розфасована", 
-        "date": "2016-05-31T13:04:42.669724+03:00", 
-        "id": "90b9821517e24688a8146868020fd7e0"
+        "date": "2016-10-06T11:41:16.269024+03:00", 
+        "id": "3ba8592459904c73bf05d7bc48e7083c"
       }
     ], 
-    "dateModified": "2016-05-31T13:04:42.673137+03:00", 
-    "tender_id": "57cdaeec15e1489f9b12b88a2a7a5769"
+    "dateModified": "2016-10-06T11:41:16.272947+03:00", 
+    "tender_id": "9df8920066d142c9929feedb60feb68c"
   }
 }
 

@@ -2,14 +2,14 @@
 import os
 import unittest
 import webtest
-from openprocurement.api.utils import VERSION
 from base64 import b64encode
 from copy import deepcopy
 from datetime import datetime
-from openprocurement.api.utils import VERSION, SESSION
 from requests.models import Response
 from urllib import urlencode
 from uuid import uuid4
+from openprocurement.api.utils import VERSION, SESSION
+from openprocurement.api.models import get_now
 
 now = datetime.now()
 
@@ -99,7 +99,7 @@ test_contract_data = {
         u"amount": 238.0,
         u"valueAddedTaxIncluded": True
         },
-    u"dateSigned": u"2016-03-18T18:48:05.762961+02:00",
+    u"dateSigned": get_now().isoformat(),
     u"awardID": u"8481d7eb01694c25b18658036c236c5d",
     u"id": uuid4().hex,
     u"contractID": u"UA-2016-03-18-000001-1",

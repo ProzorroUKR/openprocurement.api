@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from email.header import Header
+from openprocurement.api.models import get_now
 from openprocurement.contracting.api.tests.base import BaseContractContentWebTest
 
 
@@ -413,7 +414,7 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
         self.assertEqual(doc_id, response.json["data"]["id"])
 
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(self.contract['id'], change['id'], self.contract_token),
-                                        {'data': {'status': 'active'}})
+                                       {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}})
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
