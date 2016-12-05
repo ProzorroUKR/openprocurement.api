@@ -132,7 +132,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAccepted = get_now()
             self.context.acceptance = True
-        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'declined':
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status in ['accepted', 'stopping'] and data.get('status', self.context.status) == 'declined':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) == 'satisfied':
