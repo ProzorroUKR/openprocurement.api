@@ -125,6 +125,9 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'accepted' and data.get('status', self.context.status) in ['declined', 'satisfied']:
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status == 'stopping' and data.get('status', self.context.status) in 'declined':
+            apply_patch(self.request, save=False, src=self.context.serialize())
+            self.context.dateDecision = get_now()
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and self.context.status in ['accepted', 'stopping'] and data.get('status', self.context.status) == 'stopped':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
