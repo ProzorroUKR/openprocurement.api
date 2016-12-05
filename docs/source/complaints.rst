@@ -30,7 +30,7 @@ Tender Award Complaints
         {pending,accepted} -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid};
-        stopping -> {stopped,invalid};
+        stopping -> {stopped,invalid,declined};
         accepted -> {declined,satisfied,stopped};
         {pending;stopping} -> mistaken;
     }
