@@ -38,7 +38,7 @@ Tender Conditions Claims/Complaints
         edge[style=bold];
         accepted -> {declined,satisfied,stopped};
         pending -> {accepted,invalid};
-        stopping -> {stopped,invalid};
+        stopping -> {stopped,invalid,declined};
         edge[label="auction" style=dotted];
         answered -> {declined,resolved,invalid};
     }
@@ -64,7 +64,7 @@ Tender Qualification Complaints
         {pending,accepted} -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid};
-        stopping -> {stopped,invalid};
+        stopping -> {stopped,invalid,declined};
         accepted -> {declined,satisfied,stopped};
     }
 
@@ -89,7 +89,7 @@ Tender Award Complaints
         {pending,accepted} -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid};
-        stopping -> {stopped,invalid};
+        stopping -> {stopped,invalid,declined};
         accepted -> {declined,satisfied,stopped};
     }
 
