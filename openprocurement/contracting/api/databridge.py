@@ -290,7 +290,7 @@ class ContractingDataBridge(object):
                                     logger.debug('Copying items from related award {}'.format(award['id']))
                                     contract['items'] = award['items']
                                 else:
-                                    logger.debug('Copying items matching related lot {}'.format(award['relatedLot']))
+                                    logger.debug('Copying items matching related lot {}'.format(award['lotID']))
                                     contract['items'] = [item for item in tender['items'] if item['relatedLot'] == award['lotID']]
                             else:
                                 logger.warn('Not found related award for contact {} of tender {}'.format(contract['id'], tender['id']),
