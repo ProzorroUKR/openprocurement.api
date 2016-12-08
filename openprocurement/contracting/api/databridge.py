@@ -147,7 +147,7 @@ class ContractingDataBridge(object):
         if self.config_get('public_tenders_api_server'):
             if self.api_server == self.contracting_api_server and self.api_version == self.contracting_api_version:
                 self.contracting_client_ro = ContractingClient(
-                    self.config_get('api_token'),
+                    '',
                     host_url=self.ro_api_server, api_version=self.api_version
                 )
         self.tenders_sync_client = TendersClientSync('',
