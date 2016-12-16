@@ -170,6 +170,7 @@ class CompetitiveDialogueDataBridge(object):
         else:
             assert 'descending' not in params
             gevent.wait([self.initialization_event])
+            self.initialization_event.clear()
             params['offset'] = self.initial_sync_point['forward_offset']
             logger.info("Starting forward sync from offset {}".format(params['offset']))
             return self.tenders_sync_client.sync_tenders(params,
