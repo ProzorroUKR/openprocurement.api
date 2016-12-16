@@ -121,6 +121,7 @@ class CompetitiveDialogueDataBridge(object):
         )
 
         self.initial_sync_point = {}
+        self.initialization_event = gevent.event.Event()
         self.competitive_dialogues_queue = Queue(maxsize=500)  # Id tender which need to check
         self.handicap_competitive_dialogues_queue = Queue(maxsize=500)
         self.dialogs_stage2_put_queue = Queue(maxsize=500)  # queue with new tender data
@@ -157,28 +158,18 @@ class CompetitiveDialogueDataBridge(object):
         # initial sync point
         if direction == "backward":
             assert params['descending']
-            try:
-                response = self.tenders_sync_client.sync_tenders(
-                    params,
-                    extra_headers={'X-Client-Request-ID': generate_req_id()})
-            except ResourceError as re:
-                if re.status_int == 412:  # Update Cookie, and retry
-                    self.tenders_sync_client.headers['Cookie'] = re.response.headers['Set-Cookie']
-                    response = self.tenders_sync_client.sync_tenders(
-                        params,
-                        extra_headers={
-                            'X-Client-Request-ID': generate_req_id()})
-                else:
-                    raise ReferenceError(re)
+            response = self.tenders_sync_client.sync_tenders(params, extra_headers={'X-Client-Request-ID': generate_req_id()})
             # set values in reverse order due to 'descending' option
             self.initial_sync_point = {'forward_offset': response.prev_page.offset,
                                        'backward_offset': response.next_page.offset}
+            self.initialization_event.set()
             logger.info("Initial sync point {}".format(self.initial_sync_point))
             return response
         elif not self.initial_sync_point:
             raise ValueError
         else:
             assert 'descending' not in params
+            gevent.wait([self.initialization_event])
             params['offset'] = self.initial_sync_point['forward_offset']
             logger.info("Starting forward sync from offset {}".format(params['offset']))
             return self.tenders_sync_client.sync_tenders(params,
