@@ -157,8 +157,19 @@ class CompetitiveDialogueDataBridge(object):
         # initial sync point
         if direction == "backward":
             assert params['descending']
-            response = self.tenders_sync_client.sync_tenders(params,
-                                                             extra_headers={'X-Client-Request-ID': generate_req_id()})
+            try:
+                response = self.tenders_sync_client.sync_tenders(
+                    params,
+                    extra_headers={'X-Client-Request-ID': generate_req_id()})
+            except ResourceError as re:
+                if re.status_int == 412:  # Update Cookie, and retry
+                    self.tenders_sync_client.headers['Cookie'] = re.response.headers['Set-Cookie']
+                    response = self.tenders_sync_client.sync_tenders(
+                        params,
+                        extra_headers={
+                            'X-Client-Request-ID': generate_req_id()})
+                else:
+                    raise ReferenceError(re)
             # set values in reverse order due to 'descending' option
             self.initial_sync_point = {'forward_offset': response.prev_page.offset,
                                        'backward_offset': response.next_page.offset}
@@ -422,8 +433,8 @@ class CompetitiveDialogueDataBridge(object):
                 self._patch_dialog_add_stage2_id_with_retry(dialog)
             except:
                 logger.warn("Can't patch competitive dialogue id={0}".format(dialog['id']),
-                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_CD_UNSUCCESSFUL_PATCH_STAGE2_ID,
-                                                   "TENDER_ID": dialog['id']}))
+                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_CD_UNSUCCESSFUL_PATCH_STAGE2_ID},
+                                                  {"TENDER_ID": dialog['id']}))
                 self.competitive_dialogues_queue.put({"id": dialog['id']})
             else:
                 data = {"id": dialog['stage2TenderID'],
