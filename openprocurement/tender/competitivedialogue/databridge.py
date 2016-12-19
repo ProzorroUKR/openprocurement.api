@@ -71,7 +71,6 @@ def get_item_by_related_lot(items, lot_id):
             raise KeyError('Item should contain \'relatedLot\' field.')
 
 
-
 def get_lot_by_id(tender, lot_id):
     for lot in tender['lots']:
         if lot['id'] == lot_id:
@@ -139,7 +138,7 @@ class CompetitiveDialogueDataBridge(object):
 
         self.dialog_set_complete_queue = Queue(maxsize=500)
         self.dialog_retry_set_complete_queue = Queue(maxsize=500)
-        self.jobs_watcher_delay = self.config_get('jobs_watcher_delay') or 5
+        self.jobs_watcher_delay = self.config_get('jobs_watcher_delay') or 15
 
     def config_get(self, name):
         return self.config.get('main').get(name)
@@ -598,7 +597,8 @@ class CompetitiveDialogueDataBridge(object):
         else:
             logger.info('Backward data sync finished.')
 
-    def catch_exception(self, exc, name=None):
+    def catch_exception(self, exc, name):
+        """Restarting job"""
         if name == 'get_competitive_dialogue_data':
             tender = self.competitive_dialogues_queue.get()  # delete invalid tender from queue
             logger.info('Remove invalid tender {}'.format(tender.id))
@@ -627,29 +627,33 @@ class CompetitiveDialogueDataBridge(object):
             gevent.spawn(self.get_competitive_dialogue_backward),
             gevent.spawn(self.get_competitive_dialogue_forward),
         ]
-        for job in self.jobs:
-            job.link_exception(self.catch_exception)
         gevent.joinall(self.jobs)
+
+    def _restart_synchronization_workers(self):
+        logger.warn("Restarting synchronization", extra=journal_context({"MESSAGE_ID": DATABRIDGE_RESTART}, {}))
+        for j in self.jobs:
+            j.kill()
+        self._start_competitive_wokers()
 
     def run(self):
         self._start_competitive_sculptors()
         self._start_competitive_wokers()
+        backward_worker, forward_worker = self.jobs
 
-        while True:
-            try:
-                logger.info('Starting forward and backward sync workers11111111')
+        try:
+            while True:
                 gevent.sleep(self.jobs_watcher_delay)
-                logger.info('Starting forward and backward sync workers')
-                for name, job in self.immortal_jobs.items():
-                    if job.dead:
-                        logger.warn('Restarting {} worker'.format(name))
-                        self.immortal_jobs[name] = gevent.spawn(getattr(self, name))
-            except KeyboardInterrupt:
-                logger.info('Exiting...')
-                gevent.killall(self.jobs, timeout=5)
-            except Exception, e:
-                logger.exception(e)
-                logger.warn("Restarting synchronization", extra=journal_context({"MESSAGE_ID": DATABRIDGE_RESTART}))
+                if forward_worker.dead or (backward_worker.dead and not backward_worker.successful()):
+                    self._restart_synchronization_workers()
+                    backward_worker, forward_worker = self.jobs
+            logger.info('Starting forward and backward sync workers')
+        except KeyboardInterrupt:
+            logger.info('Exiting...')
+            gevent.killall(self.jobs, timeout=5)
+            gevent.killall(self.immortal_jobs, timeout=5)
+        except Exception, e:
+            logger.exception(e)
+            logger.warn("Restarting synchronization", extra=journal_context({"MESSAGE_ID": DATABRIDGE_RESTART}))
 
 
 def main():
