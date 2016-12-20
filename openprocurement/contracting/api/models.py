@@ -52,9 +52,8 @@ contract_view_role = (whitelist(
 contract_administrator_role = (Administrator_role + whitelist('suppliers',))
 
 item_edit_role = whitelist(
-    'description', 'description_en', 'description_ru', 'classification',
-    'additionalClassifications', 'unit', 'deliveryDate', 'deliveryAddress',
-    'deliveryLocation', 'quantity', 'id')
+    'description', 'description_en', 'description_ru', 'unit', 'deliveryDate',
+    'deliveryAddress', 'deliveryLocation', 'quantity', 'id')
 
 
 class IContract(Interface):
@@ -116,15 +115,7 @@ class Item(BaseItem):
         }
 
     def validate_additionalClassifications(self, data, items):
-        contract = get_contract(data['__parent__'])
-        tender_from_2017 = contract.contractID and DATE_RE.search(contract.contractID) and DATE_RE.search(contract.contractID).group() > CPV_ITEMS_CLASS_FROM.isoformat()[:10]
-        not_cpv = data['classification']['id'] == '99999999-9'
-        if not items and (not tender_from_2017 or tender_from_2017 and not_cpv):
-            raise ValidationError(u'This field is required.')
-        elif tender_from_2017 and not_cpv and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 for i in items]):
-            raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)))
-        elif not tender_from_2017 and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
-            raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)))
+        pass
 
     def validate_relatedLot(self, data, relatedLot):
         pass
