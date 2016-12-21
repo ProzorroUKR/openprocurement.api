@@ -101,20 +101,15 @@ def check_status_response(func):
             response = func(obj, *args, **kwargs)
         except ResourceError as re:
             if re.status_int == 412:
-                print 'status 412'
                 obj.headers['Cookie'] = re.response.headers['Set-Cookie']
                 response = func(obj, *args, **kwargs)
             else:
-                raise ReferenceError(re)
+                raise ResourceError(re)
         return response
     return func_wrapper
 
 
 class TendersClientSync(BaseTendersClientSync):
-
-    @check_status_response
-    def sync_tenders(self, *args, **kwargs):
-        return super(TendersClientSync, self).sync_tenders(*args, **kwargs)
 
     @check_status_response
     def get_tender(self, *args, **kwargs):
