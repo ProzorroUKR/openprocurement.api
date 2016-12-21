@@ -19,6 +19,8 @@ Contents:
    :maxdepth: 2
 
    overview
+   standard/index.rst
+
 
 Indices and tables
 ==================
