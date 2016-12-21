@@ -22,7 +22,7 @@ from uuid import uuid4
 import gevent
 from gevent.queue import Queue
 
-from openprocurement_client.client import TendersClient, TendersClientSync
+from openprocurement_client.client import TendersClientSync as BaseTendersClientSync
 from yaml import load
 
 from openprocurement.tender.competitivedialogue.models_constants import (
@@ -95,6 +95,44 @@ def prepare_lot(orig_tender, lot_id, items):
     return lot
 
 
+def check_status_response(func):
+    def func_wrapper(obj, *args, **kwargs):
+        try:
+            response = func(obj, *args, **kwargs)
+        except ResourceError as re:
+            if re.status_int == 412:
+                print 'status 412'
+                obj.headers['Cookie'] = re.response.headers['Set-Cookie']
+                response = func(obj, *args, **kwargs)
+            else:
+                raise ReferenceError(re)
+        return response
+    return func_wrapper
+
+
+class TendersClientSync(BaseTendersClientSync):
+
+    @check_status_response
+    def sync_tenders(self, *args, **kwargs):
+        return super(TendersClientSync, self).sync_tenders(*args, **kwargs)
+
+    @check_status_response
+    def get_tender(self, *args, **kwargs):
+        return super(TendersClientSync, self).get_tender(*args, **kwargs)
+
+    @check_status_response
+    def extract_credentials(self, *args, **kwargs):
+        return super(TendersClientSync, self).extract_credentials(*args, **kwargs)
+
+    @check_status_response
+    def create_tender(self, *args, **kwargs):
+        return super(TendersClientSync, self).create_tender(*args, **kwargs)
+
+    @check_status_response
+    def patch_tender(self, *args, **kwargs):
+        return super(TendersClientSync, self).patch_tender(*args, **kwargs)
+
+
 class CompetitiveDialogueDataBridge(object):
     """ Competitive Dialogue Data Bridge """
     copy_name_fields = ('title_ru', 'mode', 'procurementMethodDetails', 'title_en', 'description', 'description_en',
@@ -114,7 +152,7 @@ class CompetitiveDialogueDataBridge(object):
             api_version=self.config_get('tenders_api_version'),
         )
 
-        self.client = TendersClient(
+        self.client = TendersClientSync(
             self.config_get('api_token'),
             host_url=self.config_get('tenders_api_server'),
             api_version=self.config_get('tenders_api_version'),
