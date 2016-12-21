@@ -22,7 +22,7 @@ from uuid import uuid4
 import gevent
 from gevent.queue import Queue
 
-from openprocurement_client.client import TendersClient, TendersClientSync
+from openprocurement_client.client import TendersClientSync as BaseTendersClientSync
 from yaml import load
 
 from openprocurement.tender.competitivedialogue.models_constants import (
@@ -101,6 +101,7 @@ def check_status_response(func):
             response = func(obj, *args, **kwargs)
         except ResourceError as re:
             if re.status_int == 412:
+                print 'status 412'
                 obj.headers['Cookie'] = re.response.headers['Set-Cookie']
                 response = func(obj, *args, **kwargs)
             else:
@@ -109,27 +110,27 @@ def check_status_response(func):
     return func_wrapper
 
 
-class Mixin(TendersClientSync):
+class TendersClientSync(BaseTendersClientSync):
 
     @check_status_response
     def sync_tenders(self, *args, **kwargs):
-        return super(Mixin, self).sync_tenders(*args, **kwargs)
+        return super(TendersClientSync, self).sync_tenders(*args, **kwargs)
 
     @check_status_response
     def get_tender(self, *args, **kwargs):
-        return super(Mixin, self).get_tender(*args, **kwargs)
+        return super(TendersClientSync, self).get_tender(*args, **kwargs)
 
     @check_status_response
     def extract_credentials(self, *args, **kwargs):
-        return super(Mixin, self).extract_credentials(*args, **kwargs)
+        return super(TendersClientSync, self).extract_credentials(*args, **kwargs)
 
     @check_status_response
     def create_tender(self, *args, **kwargs):
-        return super(Mixin, self).create_tender(*args, **kwargs)
+        return super(TendersClientSync, self).create_tender(*args, **kwargs)
 
     @check_status_response
     def patch_tender(self, *args, **kwargs):
-        return super(Mixin, self).patch_tender(*args, **kwargs)
+        return super(TendersClientSync, self).patch_tender(*args, **kwargs)
 
 
 class CompetitiveDialogueDataBridge(object):
@@ -145,13 +146,13 @@ class CompetitiveDialogueDataBridge(object):
         super(CompetitiveDialogueDataBridge, self).__init__()
         self.config = config
 
-        self.tenders_sync_client = Mixin(
+        self.tenders_sync_client = TendersClientSync(
             '',
             host_url=self.config_get('public_tenders_api_server') or self.config_get('tenders_api_server'),
             api_version=self.config_get('tenders_api_version'),
         )
 
-        self.client = Mixin(
+        self.client = TendersClientSync(
             self.config_get('api_token'),
             host_url=self.config_get('tenders_api_server'),
             api_version=self.config_get('tenders_api_version'),
