@@ -95,6 +95,43 @@ def prepare_lot(orig_tender, lot_id, items):
     return lot
 
 
+def check_status_response(func):
+    def func_wrapper(obj, *args, **kwargs):
+        try:
+            response = func(obj, *args, **kwargs)
+        except ResourceError as re:
+            if re.status_int == 412:
+                obj.headers['Cookie'] = re.response.headers['Set-Cookie']
+                response = func(obj, *args, **kwargs)
+            else:
+                raise ReferenceError(re)
+        return response
+    return func_wrapper
+
+
+class Mixin(TendersClientSync):
+
+    @check_status_response
+    def sync_tenders(self, *args, **kwargs):
+        return super(Mixin, self).sync_tenders(*args, **kwargs)
+
+    @check_status_response
+    def get_tender(self, *args, **kwargs):
+        return super(Mixin, self).get_tender(*args, **kwargs)
+
+    @check_status_response
+    def extract_credentials(self, *args, **kwargs):
+        return super(Mixin, self).extract_credentials(*args, **kwargs)
+
+    @check_status_response
+    def create_tender(self, *args, **kwargs):
+        return super(Mixin, self).create_tender(*args, **kwargs)
+
+    @check_status_response
+    def patch_tender(self, *args, **kwargs):
+        return super(Mixin, self).patch_tender(*args, **kwargs)
+
+
 class CompetitiveDialogueDataBridge(object):
     """ Competitive Dialogue Data Bridge """
     copy_name_fields = ('title_ru', 'mode', 'procurementMethodDetails', 'title_en', 'description', 'description_en',
@@ -108,13 +145,13 @@ class CompetitiveDialogueDataBridge(object):
         super(CompetitiveDialogueDataBridge, self).__init__()
         self.config = config
 
-        self.tenders_sync_client = TendersClientSync(
+        self.tenders_sync_client = Mixin(
             '',
             host_url=self.config_get('public_tenders_api_server') or self.config_get('tenders_api_server'),
             api_version=self.config_get('tenders_api_version'),
         )
 
-        self.client = TendersClient(
+        self.client = Mixin(
             self.config_get('api_token'),
             host_url=self.config_get('tenders_api_server'),
             api_version=self.config_get('tenders_api_version'),
