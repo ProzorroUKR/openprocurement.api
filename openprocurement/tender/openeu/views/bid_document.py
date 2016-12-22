@@ -169,6 +169,11 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
             self.request.errors.add('body', 'data', 'Can\'t update document because award of bid is not in pending or active state')
             self.request.errors.status = 403
             return
+        if self.request.validated['tender_status'] != 'active.tendering' and 'confidentiality' in self.request.validated.get('data', {}):
+            if self.context.confidentiality != self.request.validated['data']['confidentiality']:
+                self.request.errors.add('body', 'data', 'Can\'t update document confidentiality in current ({}) tender status'.format(self.request.validated['tender_status']))
+                self.request.errors.status = 403
+                return
         bid = getattr(self.context, "__parent__")
         if bid and bid.status in ['invalid', 'unsuccessful', 'deleted']:
             self.request.errors.add('body', 'data', 'Can\'t update document in \'{}\' bid'.format(bid.status))
