@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from hashlib import md5
 from uuid import uuid4
-from re import compile
 from zope.interface import implementer, Interface
 from couchdb_schematics.document import SchematicsDocument
 from pyramid.security import Allow
@@ -22,11 +21,6 @@ from openprocurement.api.models import validate_cpv_group, validate_items_uniq
 from openprocurement.api.models import (plain_role, Administrator_role,
                                         schematics_default_role,
                                         schematics_embedded_role)
-from openprocurement.api.models import (CPV_ITEMS_CLASS_FROM,
-                                        ADDITIONAL_CLASSIFICATIONS_SCHEMES,
-                                        ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)
-
-DATE_RE = compile(r"\d{4}-\d{2}-\d{2}")
 
 contract_create_role = (whitelist(
     'id', 'awardID', 'contractID', 'contractNumber', 'title', 'title_en',
@@ -231,13 +225,6 @@ class Contract(SchematicsDocument, BaseContract):
             return Value(dict(amount=self.amountPaid.amount,
                               currency=self.value.currency,
                               valueAddedTaxIncluded=self.value.valueAddedTaxIncluded))
-
-    def validate_items(self, data, items):
-        tender_from_2017 = data.get('contractID') and DATE_RE.search(data.get('contractID')) and DATE_RE.search(data.get('contractID')).group() > CPV_ITEMS_CLASS_FROM.isoformat()[:10]
-        if tender_from_2017 and items and len(set([i.classification.id[:4] for i in items])) != 1:
-            raise ValidationError(u"CPV class of items should be identical")
-        else:
-            validate_cpv_group(items)
 
     def validate_awardID(self, data, awardID):
         # awardID is not validatable without tender data
