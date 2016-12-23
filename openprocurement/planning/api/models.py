@@ -57,8 +57,12 @@ class PlanItem(Model):
     description_ru = StringType()
 
     def validate_classification(self, data, classification):
-        base_cpv_code = data['__parent__'].classification.id[:3]
-        if (base_cpv_code != classification.id[:3]):
+        plan = data['__parent__']
+        plan_from_2017 = (plan.get('revisions')[0].date if plan.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM
+        base_cpv_code = data['__parent__'].classification.id[:4] if plan_from_2017 else data['__parent__'].classification.id[:3]
+        if plan_from_2017 and (base_cpv_code != classification.id[:4]):
+            raise ValidationError(u"CPV class of items should be identical to root cpv")
+        elif not plan_from_2017 and (base_cpv_code != classification.id[:3]):
             raise ValidationError(u"CPV group of items be identical to root cpv")
 
     def validate_additionalClassifications(self, data, items):

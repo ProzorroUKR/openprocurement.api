@@ -511,10 +511,16 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [{u'classification': [u'CPV group of items be identical to root cpv']}],
-             u'location': u'body', u'name': u'items'}
-        ])
+        if get_now() > CPV_ITEMS_CLASS_FROM:
+            self.assertEqual(response.json['errors'], [
+                {u'description': [{u'classification': [u'CPV class of items should be identical to root cpv']}],
+                u'location': u'body', u'name': u'items'}
+            ])
+        else:
+            self.assertEqual(response.json['errors'], [
+                {u'description': [{u'classification': [u'CPV group of items be identical to root cpv']}],
+                u'location': u'body', u'name': u'items'}
+            ])
 
     def test_create_plan_generated(self):
         data = test_plan_data.copy()
