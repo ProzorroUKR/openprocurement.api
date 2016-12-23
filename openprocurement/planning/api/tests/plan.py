@@ -4,7 +4,7 @@ import unittest
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.tests.base import test_plan_data, BaseWebTest
-from openprocurement.api.models import get_now
+from openprocurement.api.models import get_now, CPV_ITEMS_CLASS_FROM
 
 
 class PlanTest(BaseWebTest):
@@ -441,18 +441,54 @@ class PlanResourceTest(BaseWebTest):
              u'name': u'tender'}
         ])
 
-        data = test_plan_data["items"][0]["additionalClassifications"][0]["scheme"]
-        test_plan_data["items"][0]["additionalClassifications"][0]["scheme"] = u'Не ДКПП'
+        additionalClassifications = [i.pop("additionalClassifications") for i in test_plan_data["items"]]
+        if get_now() > CPV_ITEMS_CLASS_FROM:
+            cpv_code = test_plan_data['classification']['id']
+            cpv_codes = [i['classification']['id'] for i in test_plan_data["items"]]
+            test_plan_data['classification']['id'] = '99999999-9'
+            for index, cpv_code in enumerate(cpv_codes):
+                test_plan_data["items"][index]['classification']['id'] = '99999999-9'
         response = self.app.post_json(request_path, {'data': test_plan_data}, status=422)
-        test_plan_data["items"][0]["additionalClassifications"][0]["scheme"] = data
+        for index, additionalClassification in enumerate(additionalClassifications):
+            test_plan_data["items"][index]['additionalClassifications'] = additionalClassification
+        if get_now() > CPV_ITEMS_CLASS_FROM:
+            test_plan_data['classification']['id'] = cpv_code
+            for index, cpv_code in enumerate(cpv_codes):
+                test_plan_data["items"][index]['classification']['id'] = cpv_code
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'additionalClassifications': [
-                u"One of additional classifications should be one of [\u0414\u041a\u041f\u041f, NONE, \u0414\u041a003, \u0414\u041a015, \u0414\u041a018]."]}], u'location': u'body',
-                u'name': u'items'}
+            {u'description': [{u'additionalClassifications': [u'This field is required.']}, {u'additionalClassifications': [u'This field is required.']}, {u'additionalClassifications': [u'This field is required.']}], u'location': u'body', u'name': u'items'}
         ])
+
+        additionalClassifications = [i["additionalClassifications"][0]["scheme"] for i in test_plan_data["items"]]
+        for index, _ in enumerate(additionalClassifications):
+            test_plan_data["items"][index]["additionalClassifications"][0]["scheme"] = u'Не ДКПП'
+        if get_now() > CPV_ITEMS_CLASS_FROM:
+            cpv_code = test_plan_data['classification']['id']
+            cpv_codes = [i['classification']['id'] for i in test_plan_data["items"]]
+            test_plan_data['classification']['id'] = '99999999-9'
+            for index, cpv_code in enumerate(cpv_codes):
+                test_plan_data["items"][index]['classification']['id'] = '99999999-9'
+        response = self.app.post_json(request_path, {'data': test_plan_data}, status=422)
+        for index, data in enumerate(additionalClassifications):
+            test_plan_data["items"][index]["additionalClassifications"][0]["scheme"] = data
+        if get_now() > CPV_ITEMS_CLASS_FROM:
+            test_plan_data['classification']['id'] = cpv_code
+            for index, cpv_code in enumerate(cpv_codes):
+                test_plan_data["items"][index]['classification']['id'] = cpv_code
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        if get_now() > CPV_ITEMS_CLASS_FROM:
+            self.assertEqual(response.json['errors'], [
+                {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДК003, ДК015, ДК018]."]} for _ in additionalClassifications], u'location': u'body', u'name': u'items'}
+            ])
+        else:
+            self.assertEqual(response.json['errors'], [
+                {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."]} for _ in additionalClassifications], u'location': u'body', u'name': u'items'}
+            ])
 
         data = test_plan_data["procuringEntity"]["name"]
         del test_plan_data["procuringEntity"]["name"]
