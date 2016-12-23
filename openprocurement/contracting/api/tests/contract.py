@@ -609,26 +609,21 @@ class ContractResource4BrokersTest(BaseContractWebTest):
         #self.assertEqual(len(response.json['data']['items']), 2)
 
         # try to change classification
-        #response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                       #{"data": {"items": [{}, {
-                                           #'classification': {'id': '19433000-0'},
-                                       #}]}}, status=422)
-        #self.assertEqual(response.status, '422 Unprocessable Entity')
-        #self.assertEqual(response.json['errors'], [
-            #{"location": "body", "name": "items", "description": ["CPV group of items be identical"]}
-        #])
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"items": [{
+                                           'classification': {'id': '19433000-0'},
+                                       }]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json, None)
 
         # add additional classification
-        #item_classific = deepcopy(self.initial_data['items'][0]['classification'])
-        #response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                       #{"data": {"items": [{
-                                           #'additionalClassifications': [{}, item_classific],
-                                       #}]}})
-        #self.assertEqual(len(response.json['data']['items']), 2)
-        #item_1 = response.json['data']['items'][0]
-        #self.assertEqual(len(item_1['additionalClassifications']), 1)
-        #item_2 = response.json['data']['items'][1]
-        #self.assertEqual(len(item_2['additionalClassifications']), 2)
+        item_classific = deepcopy(self.initial_data['items'][0]['classification'])
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"items": [{
+                                           'additionalClassifications': [{}, item_classific],
+                                       }]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json, None)
 
         # update item fields
         startDate = get_now().isoformat()
