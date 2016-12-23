@@ -227,7 +227,10 @@ Second stage EU Competitive Dialogue procedure demands at least two bidders, so 
 .. include:: tutorial/stage2/EU/register-2nd-bidder.http
    :code:
 
-Register one more bid:
+Batch-mode bid registration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Register one more bid with documents using single request (batch-mode):
 
 .. include:: tutorial/stage2/EU/register-3rd-bidder.http
    :code:
