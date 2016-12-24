@@ -20,6 +20,9 @@ docs_requires = requires + [
 ]
 
 entry_points = {
+    'openprocurement.api.plugins': [
+        'esco = openprocurement.tender.esco:includeme'
+    ],
 }
 
 here = os.path.abspath(os.path.dirname(__file__))
