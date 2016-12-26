@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import os
 
 version = '0.0.1'
 
@@ -18,7 +17,7 @@ api_requires = requires + [
 
 entry_points = {
     'openprocurement.api.plugins': [
-        'historical = openprocurement.historical.core:includeme'
+        'historical.core = openprocurement.historical.core:includeme'
     ],
 }
 
@@ -48,5 +47,5 @@ setup(name='openprocurement.historical.core',
           'api': api_requires,
           'test': test_requires,
       },
-      entry_points=entry_points,
+      entry_points=entry_points
       )
