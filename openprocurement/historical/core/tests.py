@@ -3,61 +3,79 @@ import unittest
 from pyramid import testing
 from pyramid.testing import DummyRequest
 from jsonpointer import resolve_pointer
-from openprocurement.historical.core import (
+from openprocurement.historical.core.utils import (
     HEADER,
     extract_header,
     add_header,
     apply_while
 )
 
-test_data_with_revisions = {
-   "id": "0000eddc5df34fd6a20dca07f3081844",
-   "procurementMethod": "limited",
-   "status": "cancelled",
-   "title_en": "[TESTING] Centralized web-enabled synergy",
-   "description_en": "Eaque ipsa ut ipsam tempore saepe distinctio explicabo odit magnam est assumenda culpa ratione.",
-   "procurementMethodType": "negotiation",
+test_data_with_revisions =  {
+   "id": "0016bdd4076342ce97e97f3aabfa8d79",
+   "procurementMethod": "open",
+   "numberOfBids": 2,
+   "awardPeriod": {
+       "startDate": "2016-06-14T18:18:44.979541+03:00",
+       "endDate": "2016-06-14T18:20:05.547235+03:00"
+   },
+   "enquiryPeriod": {
+       "startDate": "2016-06-14T16:36:51.770223+03:00",
+       "endDate": "2016-06-14T16:56:51.770223+03:00"
+   },
+   "submissionMethod": "electronicAuction",
    "procuringEntity": {
        "contactPoint": {
-           "url": "http://www.shev.gov.ua/",
-           "email": "buh510@ukr.net",
-           "telephone": "2341170",
-           "name": "Ліповець Євген Іванович",
-           "faxNumber": "2343591"
+           "url": "http://kpt.kiev.ua/",
+           "email": "kpt-t@ukr.net",
+           "telephone": "0999826173",
+           "name": "ГУЛАЙ ОЛЕКСАНДР ВІКТОРОВИЧ",
+           "faxNumber": "0442546580"
        },
        "identifier": {
            "scheme": "UA-EDR",
-           "id": "37405111",
-           "legalName": "Шевченківська районна в місті Києві державна адміністрація"
+           "id": "31725604",
+           "legalName": "КОМУНАЛЬНЕ ПІДПРИЄМСТВО \"КИЇВПАСТРАНС\""
        },
-       "name": "Шевченківська районна в місті Києві державна адміністрація",
-       "kind": "general",
+       "name": "КОМУНАЛЬНЕ ПІДПРИЄМСТВО \"КИЇВПАСТРАНС\"",
+       "kind": "other",
        "address": {
-           "postalCode": "01030",
+           "postalCode": "04070",
            "countryName": "Україна",
-           "streetAddress": "Богдана Хмельницького вулиця, 21-29",
-           "region": "Київська область",
-           "locality": "Переяслав-Хмельницький"
+           "streetAddress": "Набережне шосе, 2",
+           "region": "місто Київ",
+           "locality": "Київ"
        }
    },
    "revisions": [
        {
-           "date": "2016-06-25T13:00:46.308399+03:00",
+           "date": "2016-06-14T16:36:53.273990+03:00",
            "changes": [
                {
                    "path": "/procurementMethod",
                    "op": "remove"
                },
                {
-                   "path": "/value",
+                   "path": "/numberOfBids",
                    "op": "remove"
                },
                {
-                   "path": "/procurementMethodType",
+                   "path": "/enquiryPeriod",
                    "op": "remove"
                },
                {
-                   "path": "/cause",
+                   "path": "/submissionMethod",
+                   "op": "remove"
+               },
+               {
+                   "path": "/next_check",
+                   "op": "remove"
+               },
+               {
+                   "path": "/procuringEntity",
+                   "op": "remove"
+               },
+               {
+                   "path": "/id",
                    "op": "remove"
                },
                {
@@ -69,7 +87,23 @@ test_data_with_revisions = {
                    "op": "remove"
                },
                {
-                   "path": "/items",
+                   "path": "/lots",
+                   "op": "remove"
+               },
+               {
+                   "path": "/tenderID",
+                   "op": "remove"
+               },
+               {
+                   "path": "/status",
+                   "op": "remove"
+               },
+               {
+                   "path": "/tenderPeriod",
+                   "op": "remove"
+               },
+               {
+                   "path": "/procurementMethodType",
                    "op": "remove"
                },
                {
@@ -81,11 +115,23 @@ test_data_with_revisions = {
                    "op": "remove"
                },
                {
-                   "path": "/status",
+                   "path": "/submissionMethodDetails",
                    "op": "remove"
                },
                {
-                   "path": "/tenderID",
+                   "path": "/items",
+                   "op": "remove"
+               },
+               {
+                   "path": "/value",
+                   "op": "remove"
+               },
+               {
+                   "path": "/minimalStep",
+                   "op": "remove"
+               },
+               {
+                   "path": "/mode",
                    "op": "remove"
                },
                {
@@ -93,187 +139,799 @@ test_data_with_revisions = {
                    "op": "remove"
                },
                {
-                   "path": "/id",
+                   "path": "/awardCriteria",
+                   "op": "remove"
+               }
+           ],
+           "public": True,
+           "author": "test.quintagroup.com"
+       },
+       {
+           "date": "2016-06-14T16:59:58.951698+03:00",
+           "changes": [
+               {
+                   "path": "/next_check",
+                   "value": "2016-06-14T16:56:51.770223+03:00",
+                   "op": "replace"
+               },
+               {
+                   "path": "/lots/0/auctionPeriod",
                    "op": "remove"
                },
                {
-                   "path": "/procuringEntity",
+                   "path": "/status",
+                   "value": "active.enquiries",
+                   "op": "replace"
+               }
+           ],
+           "rev": "1-88c3e72d87bab644543e69814895bb72",
+           "public": True,
+           "author": "chronograph"
+       },
+       {
+           "date": "2016-06-14T17:00:15.006209+03:00",
+           "changes": [
+               {
+                   "path": "/numberOfBids",
+                   "value": 0,
+                   "op": "replace"
+               },
+               {
+                   "path": "/bids",
                    "op": "remove"
                }
            ],
-           "public": True,
+           "rev": "2-0597042bd653a6e67e0db18755baa8c4",
+           "public": False,
            "author": "test.quintagroup.com"
        },
        {
-           "date": "2016-06-25T13:02:22.103350+03:00",
+           "date": "2016-06-14T17:00:21.592530+03:00",
            "changes": [
                {
-                   "path": "/cancellations",
+                   "path": "/lots/0/auctionPeriod/startDate",
                    "op": "remove"
                }
            ],
-           "rev": "1-ceaed033659c2b1237d393fda6233037",
+           "rev": "3-bb7103b74e7f939f1f5c94271711651b",
            "public": True,
-           "author": "test.quintagroup.com"
+           "author": "chronograph"
        },
        {
-           "date": "2016-06-25T13:02:29.360395+03:00",
+           "date": "2016-06-14T17:00:39.377752+03:00",
            "changes": [
                {
-                   "path": "/cancellations/0/documents",
+                   "path": "/numberOfBids",
+                   "value": 1,
+                   "op": "replace"
+               },
+               {
+                   "path": "/bids/1",
                    "op": "remove"
                }
            ],
-           "rev": "2-909f500147c5c6d6ed16357fcee10f8b",
-           "public": True,
+           "rev": "4-34fc17d8b83801d4047dbe5229c1c1af",
+           "public": False,
            "author": "test.quintagroup.com"
        },
        {
-           "date": "2016-06-25T13:02:31.418447+03:00",
+           "date": "2016-06-14T17:17:02.998689+03:00",
            "changes": [
                {
-                   "path": "/cancellations/0/documents/0/description",
-                   "op": "remove"
-               }
-           ],
-           "rev": "3-00ddf59089c6539de4f856f3b4865dbb",
-           "public": True,
-           "author": "test.quintagroup.com"
-       },
-       {
-           "date": "2016-06-25T13:02:33.944422+03:00",
-           "changes": [
-               {
-                   "path": "/cancellations/0/status",
-                   "value": "pending",
+                   "path": "/next_check",
+                   "value": "2016-06-14T17:16:51.770223+03:00",
                    "op": "replace"
                },
                {
                    "path": "/status",
-                   "value": "active",
+                   "value": "active.tendering",
                    "op": "replace"
                }
            ],
-           "rev": "4-744062ec04a89d217dbf126cfc26840b",
+           "rev": "5-a9c4045bdbdce042b39152ee6723cffb",
            "public": True,
-           "author": "test.quintagroup.com"
-       }
-   ],
-   "title": "[ТЕСТУВАННЯ] Чортеня насупереки зціліти люб'ячий.",
-   "cause": "stateLegalServices",
-   "description": "Шолупайка розжовувати победрина десяточок кукіль гаріль мужичий таляровий райдуга.",
-   "cancellations": [
+           "author": "chronograph"
+       },
        {
-           "status": "active",
-           "documents": [
+           "date": "2016-06-14T17:17:54.209433+03:00",
+           "changes": [
                {
-                   "description": "Борозний утинок зморхтися чуркати ураз II постогнувати хрокнути гармашний надкусити чортеня потріпки.",
-                   "title": "/tmp/d-5012267fomnisvzjrZZ.pdf",
-                   "url": "https://public.docs-sandbox.openprocurement.org/get/8e4dbf87ef384bf08bc66f1f5d2a3457?Prefix=0000eddc5df34fd6a20dca07f3081844%2F1da6291722e84c7bb6dc9767a1821d79&KeyID=1331dc52&Signature=yU7zw6veH2sqWeN6N60dt6iVus0ctx0A4gyDo0bVMwwU1LxzAQwWYctpxoe0Brm3VvD%2FCnvUdmcqJgR2M6hcDQ%253D%253D",
-                   "format": "application/pdf",
-                   "documentOf": "tender",
-                   "datePublished": "2016-06-25T13:02:29.303255+03:00",
-                   "id": "1da6291722e84c7bb6dc9767a1821d79",
-                   "dateModified": "2016-06-25T13:02:29.303281+03:00"
+                   "path": "/lots/0/auctionUrl",
+                   "op": "remove"
+               },
+               {
+                   "path": "/bids/1/lotValues/0/participationUrl",
+                   "op": "remove"
+               },
+               {
+                   "path": "/bids/0/lotValues/0/participationUrl",
+                   "op": "remove"
                }
            ],
-           "reason": "Матюнка обгравати суддя прокадити зажати чужоземець пообскрібати нечулий клямати стругнути зближати муркотати накрашувати атака.",
-           "reasonType": "cancelled",
-           "date": "2016-06-25T13:02:22.102092+03:00",
-           "cancellationOf": "tender",
-           "id": "09e0316ed37741519fca65426be78bec"
+           "rev": "6-182670ef1d733975c257291a5d930aa7",
+           "public": False,
+           "author": "auction"
+       },
+       {
+           "date": "2016-06-14T17:59:52.179228+03:00",
+           "changes": [
+               {
+                   "path": "/next_check",
+                   "value": "2016-06-14T17:57:44+03:00",
+                   "op": "replace"
+               }
+           ],
+           "rev": "7-7b923376dd27249316f1b85be080e251",
+           "public": True,
+           "author": "chronograph"
+       },
+       {
+           "date": "2016-06-14T18:18:44.588866+03:00",
+           "changes": [
+               {
+                   "path": "/documents",
+                   "op": "remove"
+               }
+           ],
+           "rev": "8-c7d3fa8cee9bd7e1bccc376cde3a0879",
+           "public": True,
+           "author": "auction"
+       },
+       {
+           "date": "2016-06-14T18:18:44.983389+03:00",
+           "changes": [
+               {
+                   "path": "/awardPeriod",
+                   "op": "remove"
+               },
+               {
+                   "path": "/lots/0/auctionPeriod/endDate",
+                   "op": "remove"
+               },
+               {
+                   "path": "/lots/0/auctionPeriod/shouldStartAfter",
+                   "value": "2016-06-14T17:16:51.770223+03:00",
+                   "op": "add"
+               },
+               {
+                   "path": "/status",
+                   "value": "active.auction",
+                   "op": "replace"
+               },
+               {
+                   "path": "/awards",
+                   "op": "remove"
+               },
+               {
+                   "path": "/next_check",
+                   "value": "2016-06-14T18:33:44+03:00",
+                   "op": "add"
+               }
+           ],
+           "rev": "9-2f747e5e2f5b5baf6031fb9a555f175a",
+           "public": True,
+           "author": "auction"
+       },
+       {
+           "date": "2016-06-14T18:19:55.795118+03:00",
+           "changes": [
+               {
+                   "path": "/awards/0/documents",
+                   "op": "remove"
+               }
+           ],
+           "rev": "10-d0a2411819aad0e759ce8c9f05fb40ed",
+           "public": True,
+           "author": "test.quintagroup.com"
+       },
+       {
+           "date": "2016-06-14T18:19:57.150868+03:00",
+           "changes": [
+               {
+                   "path": "/awardPeriod/endDate",
+                   "op": "remove"
+               },
+               {
+                   "path": "/next_check",
+                   "op": "remove"
+               },
+               {
+                   "path": "/status",
+                   "value": "active.qualification",
+                   "op": "replace"
+               },
+               {
+                   "path": "/contracts",
+                   "op": "remove"
+               },
+               {
+                   "path": "/awards/0/status",
+                   "value": "pending",
+                   "op": "replace"
+               },
+               {
+                   "path": "/awards/0/complaintPeriod/endDate",
+                   "op": "remove"
+               },
+               {
+                   "path": "/awards/0/date",
+                   "value": "2016-06-14T18:18:44.979935+03:00",
+                   "op": "replace"
+               }
+           ],
+           "rev": "11-3c08d0edc861831b6720180fd89d001b",
+           "public": True,
+           "author": "test.quintagroup.com"
+       },
+       {
+           "date": "2016-06-14T18:19:58.957457+03:00",
+           "changes": [
+               {
+                   "path": "/awardPeriod/endDate",
+                   "value": "2016-06-14T18:19:57.138815+03:00",
+                   "op": "add"
+               },
+               {
+                   "path": "/status",
+                   "value": "active.awarded",
+                   "op": "replace"
+               },
+               {
+                   "path": "/contracts/0/status",
+                   "value": "pending",
+                   "op": "replace"
+               },
+               {
+                   "path": "/awards/1",
+                   "op": "remove"
+               },
+               {
+                   "path": "/awards/0/status",
+                   "value": "active",
+                   "op": "replace"
+               },
+               {
+                   "path": "/awards/0/complaintPeriod/endDate",
+                   "value": "2016-06-16T18:19:57.138491+03:00",
+                   "op": "replace"
+               },
+               {
+                   "path": "/awards/0/date",
+                   "value": "2016-06-14T18:19:57.138469+03:00",
+                   "op": "replace"
+               },
+               {
+                   "path": "/next_check",
+                   "value": "2016-06-16T18:19:57.138491+03:00",
+                   "op": "add"
+               }
+           ],
+           "rev": "12-cb125acf7249031d78567569e3a70da6",
+           "public": True,
+           "author": "test.quintagroup.com"
+       },
+       {
+           "date": "2016-06-14T18:20:02.633918+03:00",
+           "changes": [
+               {
+                   "path": "/awards/1/documents",
+                   "op": "remove"
+               }
+           ],
+           "rev": "13-abcab99e096a21a26de8202c557cd176",
+           "public": True,
+           "author": "test.quintagroup.com"
+       },
+       {
+           "date": "2016-06-14T18:20:05.551882+03:00",
+           "changes": [
+               {
+                   "path": "/awardPeriod/endDate",
+                   "op": "remove"
+               },
+               {
+                   "path": "/next_check",
+                   "op": "remove"
+               },
+               {
+                   "path": "/status",
+                   "value": "active.qualification",
+                   "op": "replace"
+               },
+               {
+                   "path": "/contracts/1",
+                   "op": "remove"
+               },
+               {
+                   "path": "/awards/1/status",
+                   "value": "pending",
+                   "op": "replace"
+               },
+               {
+                   "path": "/awards/1/complaintPeriod/endDate",
+                   "op": "remove"
+               },
+               {
+                   "path": "/awards/1/date",
+                   "value": "2016-06-14T18:19:58.952834+03:00",
+                   "op": "replace"
+               }
+           ],
+           "rev": "14-386b52bf0b99fdb46eaa3d901bb2a2ea",
+           "public": True,
+           "author": "test.quintagroup.com"
+       },
+       {
+           "date": "2016-06-16T18:21:28.415797+03:00",
+           "changes": [
+               {
+                   "path": "/next_check",
+                   "value": "2016-06-16T18:20:05.546896+03:00",
+                   "op": "add"
+               }
+           ],
+           "rev": "15-232a33826db230f4d17cb832f68b9ace",
+           "public": True,
+           "author": "chronograph"
+       }
+   ],
+   "documents": [
+       {
+           "title": "audit_0016bdd4076342ce97e97f3aabfa8d79_0c4a9b7f28f44dbc9f92f920da0a78b3.yaml",
+           "url": "https://public.docs-sandbox.openprocurement.org/get/9170976b306c4327b116b069cd4720f9?Prefix=0016bdd4076342ce97e97f3aabfa8d79%2Fe64ec9aa110e479591891f3d2960533b&KeyID=1331dc52&Signature=ymkJV2wyGFepdCr%252BkV5qW0b5q7AnDVilkF6T%2FJfa7kfQm7Fh6hzfDKArmyOm7rxEl3iQzCkUWrb%2Fq%252BjcZD5DBw%253D%253D",
+           "format": "text/plain",
+           "documentOf": "tender",
+           "datePublished": "2016-06-14T18:18:44.458223+03:00",
+           "id": "e64ec9aa110e479591891f3d2960533b",
+           "dateModified": "2016-06-14T18:18:44.458246+03:00"
+       }
+   ],
+   "title": "[ТЕСТУВАННЯ] Рдитися накрашувати свистіння полаторжитися.",
+   "lots": [
+       {
+           "status": "active",
+           "description": "Діркуватий прокадити варівний фик обліплювання рутяний жерлистий нечесаний рдитися злагідно проднювати доловлювати відчалювати уеднати позламувати.",
+           "title": "l-de466ea1: Розштовхати убраний самоук.",
+           "minimalStep": {
+               "currency": "UAH",
+               "amount": 427443677.6,
+               "valueAddedTaxIncluded": True
+           },
+           "auctionPeriod": {
+               "startDate": "2016-06-14T17:57:44+03:00",
+               "endDate": "2016-06-14T18:18:44.961976+03:00"
+           },
+           "value": {
+               "currency": "UAH",
+               "amount": 41506558209.3,
+               "valueAddedTaxIncluded": True
+           },
+           "auctionUrl": "https://auction-sandbox.openprocurement.org/tenders/0016bdd4076342ce97e97f3aabfa8d79_0c4a9b7f28f44dbc9f92f920da0a78b3",
+           "id": "0c4a9b7f28f44dbc9f92f920da0a78b3"
+       }
+   ],
+   "tenderID": "UA-2016-06-14-000082",
+   "dateModified": "2016-06-16T18:21:28.415863+03:00",
+   "status": "active.awarded",
+   "tenderPeriod": {
+       "startDate": "2016-06-14T16:56:51.770223+03:00",
+       "endDate": "2016-06-14T17:16:51.770223+03:00"
+   },
+   "description": "Гаїр спонаджувати скандзюбити лихота муркотати головистий повіджимати гаріль потаска.",
+   "contracts": [
+       {
+           "status": "cancelled",
+           "items": [
+               {
+                   "relatedLot": "0c4a9b7f28f44dbc9f92f920da0a78b3",
+                   "description": "i-be9932eb: Вироби канцелярські, паперові",
+                   "classification": {
+                       "scheme": "CPV",
+                       "description": "Газетний папір, папір ручного виготовлення та інший некрейдований папір або картон для графічних цілей",
+                       "id": "22990000-6"
+                   },
+                   "description_en": "Paper stationery",
+                   "additionalClassifications": [
+                       {
+                           "scheme": "ДКПП",
+                           "id": "58.19.19-00.00",
+                           "description": "Продукція друкована, інша"
+                       }
+                   ],
+                   "deliveryLocation": {
+                       "latitude": 50.472586,
+                       "longitude": 30.6193
+                   },
+                   "deliveryAddress": {
+                       "locality": "Київ",
+                       "region": "місто Київ",
+                       "countryName_en": "Ukraine",
+                       "countryName": "Україна",
+                       "streetAddress": "вулиця Братиславська, 3",
+                       "countryName_ru": "Украина",
+                       "postalCode": "02660"
+                   },
+                   "deliveryDate": {
+                       "endDate": "2016-07-02T16:36:51.772278+03:00"
+                   },
+                   "id": "86d89167fb4a4ac0947f2b2d65eb6f6c",
+                   "unit": {
+                       "code": "H87",
+                       "name": "штуки"
+                   },
+                   "quantity": 117
+               }
+           ],
+           "suppliers": [
+               {
+                   "contactPoint": {
+                       "url": "http://kpbl.org.ua",
+                       "email": "kpbl@bigmir.net",
+                       "telephone": "044-563-99-42---------097-641-99-01",
+                       "name": "Хильченко Інна Григорівна",
+                       "faxNumber": "044-563-99-05"
+                   },
+                   "identifier": {
+                       "scheme": "UA-EDR",
+                       "id": "02544394",
+                       "legalName": "Київський професійний будівельний ліцей"
+                   },
+                   "name": "Київський професійний будівельний ліцей",
+                   "address": {
+                       "locality": "Київ",
+                       "region": "місто Київ",
+                       "countryName_en": "Ukraine",
+                       "countryName": "Україна",
+                       "streetAddress": "вулиця Чернігівська, 220, 8",
+                       "countryName_ru": "Украина",
+                       "postalCode": "02121"
+                   }
+               }
+           ],
+           "value": {
+               "currency": "UAH",
+               "amount": 304192459.02,
+               "valueAddedTaxIncluded": True
+           },
+           "awardID": "510b34fc2ead497aa3aee1e5d746ceac",
+           "id": "19036ad29f4b43e1b6a1c23278c6700c",
+           "contractID": "UA-2016-06-14-000082-21"
+       },
+       {
+           "status": "pending",
+           "items": [
+               {
+                   "relatedLot": "0c4a9b7f28f44dbc9f92f920da0a78b3",
+                   "description": "i-be9932eb: Вироби канцелярські, паперові",
+                   "classification": {
+                       "scheme": "CPV",
+                       "description": "Газетний папір, папір ручного виготовлення та інший некрейдований папір або картон для графічних цілей",
+                       "id": "22990000-6"
+                   },
+                   "description_en": "Paper stationery",
+                   "additionalClassifications": [
+                       {
+                           "scheme": "ДКПП",
+                           "id": "58.19.19-00.00",
+                           "description": "Продукція друкована, інша"
+                       }
+                   ],
+                   "deliveryLocation": {
+                       "latitude": 50.472586,
+                       "longitude": 30.6193
+                   },
+                   "deliveryAddress": {
+                       "locality": "Київ",
+                       "region": "місто Київ",
+                       "countryName_en": "Ukraine",
+                       "countryName": "Україна",
+                       "streetAddress": "вулиця Братиславська, 3",
+                       "countryName_ru": "Украина",
+                       "postalCode": "02660"
+                   },
+                   "deliveryDate": {
+                       "endDate": "2016-07-02T16:36:51.772278+03:00"
+                   },
+                   "id": "86d89167fb4a4ac0947f2b2d65eb6f6c",
+                   "unit": {
+                       "code": "H87",
+                       "name": "штуки"
+                   },
+                   "quantity": 117
+               }
+           ],
+           "suppliers": [
+               {
+                   "contactPoint": {
+                       "url": "http://kpbl.org.ua",
+                       "email": "kpbl@bigmir.net",
+                       "telephone": "044-563-99-42---------097-641-99-01",
+                       "name": "Хильченко Інна Григорівна",
+                       "faxNumber": "044-563-99-05"
+                   },
+                   "identifier": {
+                       "scheme": "UA-EDR",
+                       "id": "02544394",
+                       "legalName": "Київський професійний будівельний ліцей"
+                   },
+                   "name": "Київський професійний будівельний ліцей",
+                   "address": {
+                       "locality": "Київ",
+                       "region": "місто Київ",
+                       "countryName_en": "Ukraine",
+                       "countryName": "Україна",
+                       "streetAddress": "вулиця Чернігівська, 220, 8",
+                       "countryName_ru": "Украина",
+                       "postalCode": "02121"
+                   }
+               }
+           ],
+           "value": {
+               "currency": "UAH",
+               "amount": 304192459.02,
+               "valueAddedTaxIncluded": True
+           },
+           "awardID": "1286e9d9516b44378b04d42b5d325e56",
+           "id": "4c91d45bc47641379126a691a814b61f",
+           "contractID": "UA-2016-06-14-000082-22"
+       }
+   ],
+   "procurementMethodType": "belowThreshold",
+   "title_en": "[TESTING] Decentralized coherent productivity",
+   "description_en": "Quia culpa odio et quod dolor quis consequatur molestias dolores consequatur fugit ut.",
+   "awards": [
+       {
+           "status": "cancelled",
+           "lotID": "0c4a9b7f28f44dbc9f92f920da0a78b3",
+           "complaintPeriod": {
+               "startDate": "2016-06-14T18:18:44.979541+03:00",
+               "endDate": "2016-06-14T18:19:58.940161+03:00"
+           },
+           "suppliers": [
+               {
+                   "contactPoint": {
+                       "url": "http://kpbl.org.ua",
+                       "email": "kpbl@bigmir.net",
+                       "telephone": "044-563-99-42---------097-641-99-01",
+                       "name": "Хильченко Інна Григорівна",
+                       "faxNumber": "044-563-99-05"
+                   },
+                   "identifier": {
+                       "scheme": "UA-EDR",
+                       "id": "02544394",
+                       "legalName": "Київський професійний будівельний ліцей"
+                   },
+                   "name": "Київський професійний будівельний ліцей",
+                   "address": {
+                       "locality": "Київ",
+                       "region": "місто Київ",
+                       "countryName_en": "Ukraine",
+                       "countryName": "Україна",
+                       "streetAddress": "вулиця Чернігівська, 220, 8",
+                       "countryName_ru": "Украина",
+                       "postalCode": "02121"
+                   }
+               }
+           ],
+           "bid_id": "760ba9b4731948a5a3094f7d37154942",
+           "value": {
+               "currency": "UAH",
+               "amount": 304192459.02,
+               "valueAddedTaxIncluded": True
+           },
+           "documents": [
+               {
+                   "title": "/tmp/d-dbbba2cbdictaqIQO0f.pdf",
+                   "url": "https://public.docs-sandbox.openprocurement.org/get/78d0ec6f0a6f4b5a8bc449b98017a918?Prefix=0016bdd4076342ce97e97f3aabfa8d79%2Fe5e9c99aca0749d898dfe1fcb7e5ac0f&KeyID=1331dc52&Signature=MG7IliIR0sdIH1Okw6P5m5sQQY4470KpvXc5IeHWOqWkr5HBejT%252BsdzSFhjfjx2Hyi9VIUFNkSuoy13djTwPAw%253D%253D",
+                   "format": "application/pdf",
+                   "documentOf": "tender",
+                   "datePublished": "2016-06-14T18:19:55.703141+03:00",
+                   "id": "e5e9c99aca0749d898dfe1fcb7e5ac0f",
+                   "dateModified": "2016-06-14T18:19:55.703169+03:00"
+               }
+           ],
+           "date": "2016-06-14T18:19:58.940136+03:00",
+           "id": "510b34fc2ead497aa3aee1e5d746ceac"
+       },
+       {
+           "status": "active",
+           "lotID": "0c4a9b7f28f44dbc9f92f920da0a78b3",
+           "complaintPeriod": {
+               "startDate": "2016-06-14T18:19:58.940188+03:00",
+               "endDate": "2016-06-16T18:20:05.546896+03:00"
+           },
+           "suppliers": [
+               {
+                   "contactPoint": {
+                       "url": "http://kpbl.org.ua",
+                       "email": "kpbl@bigmir.net",
+                       "telephone": "044-563-99-42---------097-641-99-01",
+                       "name": "Хильченко Інна Григорівна",
+                       "faxNumber": "044-563-99-05"
+                   },
+                   "identifier": {
+                       "scheme": "UA-EDR",
+                       "id": "02544394",
+                       "legalName": "Київський професійний будівельний ліцей"
+                   },
+                   "name": "Київський професійний будівельний ліцей",
+                   "address": {
+                       "locality": "Київ",
+                       "region": "місто Київ",
+                       "countryName_en": "Ukraine",
+                       "countryName": "Україна",
+                       "streetAddress": "вулиця Чернігівська, 220, 8",
+                       "countryName_ru": "Украина",
+                       "postalCode": "02121"
+                   }
+               }
+           ],
+           "bid_id": "760ba9b4731948a5a3094f7d37154942",
+           "value": {
+               "currency": "UAH",
+               "amount": 304192459.02,
+               "valueAddedTaxIncluded": True
+           },
+           "documents": [
+               {
+                   "title": "/tmp/d-65588ccdnostrumkkByVI.docx",
+                   "url": "https://public.docs-sandbox.openprocurement.org/get/2359b6a113084082b12fdf10faf91b82?Prefix=0016bdd4076342ce97e97f3aabfa8d79%2F62a1e2671e6b4106aca1b9c0b05fcbfc&KeyID=1331dc52&Signature=2dckrAebcKOxWYu8gCWLEsVv6dJemJychGRMAzuMXIMtJZPozw0OnBYYvnziuaEyULubZ8IoFCMGapB7pDjaBg%253D%253D",
+                   "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                   "documentOf": "tender",
+                   "datePublished": "2016-06-14T18:20:01.570909+03:00",
+                   "id": "62a1e2671e6b4106aca1b9c0b05fcbfc",
+                   "dateModified": "2016-06-14T18:20:01.570942+03:00"
+               }
+           ],
+           "date": "2016-06-14T18:20:05.546874+03:00",
+           "id": "1286e9d9516b44378b04d42b5d325e56"
+       }
+   ],
+   "doc_type": "Tender",
+   "submissionMethodDetails": "quick",
+   "items": [
+       {
+           "relatedLot": "0c4a9b7f28f44dbc9f92f920da0a78b3",
+           "description": "i-be9932eb: Вироби канцелярські, паперові",
+           "classification": {
+               "scheme": "CPV",
+               "description": "Газетний папір, папір ручного виготовлення та інший некрейдований папір або картон для графічних цілей",
+               "id": "22990000-6"
+           },
+           "description_en": "Paper stationery",
+           "additionalClassifications": [
+               {
+                   "scheme": "ДКПП",
+                   "id": "58.19.19-00.00",
+                   "description": "Продукція друкована, інша"
+               }
+           ],
+           "deliveryLocation": {
+               "latitude": 50.472586,
+               "longitude": 30.6193
+           },
+           "deliveryAddress": {
+               "locality": "Київ",
+               "region": "місто Київ",
+               "countryName_en": "Ukraine",
+               "countryName": "Україна",
+               "streetAddress": "вулиця Братиславська, 3",
+               "countryName_ru": "Украина",
+               "postalCode": "02660"
+           },
+           "deliveryDate": {
+               "endDate": "2016-07-02T16:36:51.772278+03:00"
+           },
+           "id": "86d89167fb4a4ac0947f2b2d65eb6f6c",
+           "unit": {
+               "code": "H87",
+               "name": "штуки"
+           },
+           "quantity": 117
+       }
+   ],
+   "bids": [
+       {
+           "status": "active",
+           "lotValues": [
+               {
+                   "relatedLot": "0c4a9b7f28f44dbc9f92f920da0a78b3",
+                   "date": "2016-06-14T17:00:15.003565+03:00",
+                   "value": {
+                       "currency": "UAH",
+                       "amount": 3012377158.83,
+                       "valueAddedTaxIncluded": True
+                   },
+                   "participationUrl": "https://auction-sandbox.openprocurement.org/tenders/0016bdd4076342ce97e97f3aabfa8d79_0c4a9b7f28f44dbc9f92f920da0a78b3/login?bidder_id=f2a856be5f7f4523aed4fa86581d7af3&hash=42c1aabfd32ba4c02dc1451d48a60bbf20cf7954"
+               }
+           ],
+           "date": "2016-06-14T17:00:15.003607+03:00",
+           "tenderers": [
+               {
+                   "contactPoint": {
+                       "url": "http://www.shevruo.kiev.ua/",
+                       "email": "lkovalenko@meta.ua",
+                       "telephone": "489-02-47",
+                       "name": "Коваленко Леся Аркадіївна",
+                       "faxNumber": "489-02-47"
+                   },
+                   "identifier": {
+                       "scheme": "UA-EDR",
+                       "id": "37470086",
+                       "legalName": "Управління освіти Шевченківської районної в місті Києві державної адміністрації"
+                   },
+                   "name": "Управління освіти Шевченківської районної в місті Києві державної адміністрації",
+                   "address": {
+                       "locality": "Київ",
+                       "region": "місто Київ",
+                       "countryName_en": "Ukraine",
+                       "countryName": "Україна",
+                       "streetAddress": "вулиця Молдавська, 6А",
+                       "countryName_ru": "Украина",
+                       "postalCode": "04119"
+                   }
+               }
+           ],
+           "id": "f2a856be5f7f4523aed4fa86581d7af3"
+       },
+       {
+           "status": "active",
+           "lotValues": [
+               {
+                   "relatedLot": "0c4a9b7f28f44dbc9f92f920da0a78b3",
+                   "date": "2016-06-14T17:00:39.374726+03:00",
+                   "value": {
+                       "currency": "UAH",
+                       "amount": 304192459.02,
+                       "valueAddedTaxIncluded": True
+                   },
+                   "participationUrl": "https://auction-sandbox.openprocurement.org/tenders/0016bdd4076342ce97e97f3aabfa8d79_0c4a9b7f28f44dbc9f92f920da0a78b3/login?bidder_id=760ba9b4731948a5a3094f7d37154942&hash=d5c29b8e408cdc20a51e4b961c4d92c6eb462189"
+               }
+           ],
+           "date": "2016-06-14T17:00:39.374767+03:00",
+           "tenderers": [
+               {
+                   "contactPoint": {
+                       "url": "http://kpbl.org.ua",
+                       "email": "kpbl@bigmir.net",
+                       "telephone": "044-563-99-42---------097-641-99-01",
+                       "name": "Хильченко Інна Григорівна",
+                       "faxNumber": "044-563-99-05"
+                   },
+                   "identifier": {
+                       "scheme": "UA-EDR",
+                       "id": "02544394",
+                       "legalName": "Київський професійний будівельний ліцей"
+                   },
+                   "name": "Київський професійний будівельний ліцей",
+                   "address": {
+                       "locality": "Київ",
+                       "region": "місто Київ",
+                       "countryName_en": "Ukraine",
+                       "countryName": "Україна",
+                       "streetAddress": "вулиця Чернігівська, 220, 8",
+                       "countryName_ru": "Украина",
+                       "postalCode": "02121"
+                   }
+               }
+           ],
+           "id": "760ba9b4731948a5a3094f7d37154942"
        }
    ],
    "value": {
        "currency": "UAH",
-       "amount": 89822995386.57,
+       "amount": 41506558209.3,
        "valueAddedTaxIncluded": True
    },
-   "tenderID": "UA-2016-06-25-000047",
-   "title_ru": "[ТЕСТИРОВАНИЕ] Grass-roots empowering neural-net",
-   "items": [
-       {
-           "description": "i-c0a27c73: Клей СМ-11",
-           "classification": {
-               "scheme": "CPV",
-               "description": "Клеї",
-               "id": "24910000-6"
-           },
-           "description_en": "Glue SM-11",
-           "additionalClassifications": [
-               {
-                   "scheme": "ДКПП",
-                   "id": "20.52.10-80.00",
-                   "description": "Клеї готові та інші готові адгезиви, н.в.і.у."
-               }
-           ],
-           "deliveryLocation": {
-               "latitude": 50.537702,
-               "longitude": 30.174488
-           },
-           "deliveryAddress": {
-               "locality": "Ворзель",
-               "region": "Київська область",
-               "countryName_en": "Ukraine",
-               "countryName": "Україна",
-               "streetAddress": "вулиця Курортна, 22",
-               "countryName_ru": "Украина",
-               "postalCode": "08296"
-           },
-           "deliveryDate": {
-               "endDate": "2016-07-10T13:00:42.021318+03:00"
-           },
-           "description_ru": "Клей СМ-11",
-           "id": "6e1f8532aabd486fa25b79321cae502e",
-           "unit": {
-               "code": "KGM",
-               "name": "килограммы"
-           },
-           "quantity": 51
-       },
-       {
-           "description": "i-21178d07: Клей СМ-11",
-           "classification": {
-               "scheme": "CPV",
-               "description": "Клеї",
-               "id": "24910000-6"
-           },
-           "description_en": "Glue SM-11",
-           "additionalClassifications": [
-               {
-                   "scheme": "ДКПП",
-                   "id": "20.52.10-80.00",
-                   "description": "Клеї готові та інші готові адгезиви, н.в.і.у."
-               }
-           ],
-           "deliveryLocation": {
-               "latitude": 48.465356,
-               "longitude": 35.045667
-           },
-           "deliveryAddress": {
-               "locality": "Дніпропетровськ",
-               "region": "Дніпропетровська область",
-               "countryName_en": "Ukraine",
-               "countryName": "Україна",
-               "streetAddress": "проспект Карла Маркса, 52",
-               "countryName_ru": "Украина",
-               "postalCode": "50064"
-           },
-           "deliveryDate": {
-               "endDate": "2016-07-10T13:00:42.023585+03:00"
-           },
-           "description_ru": "Клей СМ-11",
-           "id": "a216757d48e7428cb98c537d6e4eb714",
-           "unit": {
-               "code": "KGM",
-               "name": "килограммы"
-           },
-           "quantity": 48
-       }
-   ],
-   "dateModified": "2016-06-25T13:02:33.944499+03:00",
-
-} 
+   "minimalStep": {
+       "currency": "UAH",
+       "amount": 427443677.6,
+       "valueAddedTaxIncluded": True
+   },
+   "mode": "test",
+   "title_ru": "[ТЕСТИРОВАНИЕ] Progressive cohesive database",
+   "awardCriteria": "lowestCost"
+}
 
 
 class HistoricalTest(unittest.TestCase):
