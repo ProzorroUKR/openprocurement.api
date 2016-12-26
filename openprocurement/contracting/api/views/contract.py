@@ -164,6 +164,10 @@ class ContractsResource(APIResource):
                validators=(validate_contract_data,))
     def post(self):
         contract = self.request.validated['contract']
+        for i in self.request.validated['json_data'].get('documents', []):
+            doc = type(contract).documents.model_class(i)
+            doc.__parent__ = contract
+            contract.documents.append(doc)
 
         # set_ownership(contract, self.request) TODO
         self.request.validated['contract'] = contract

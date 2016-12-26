@@ -520,6 +520,10 @@ class ContractWDocumentsWithDSResourceTest(BaseWebTest):
         self.assertEqual(response.content_type, 'application/json')
         contract = response.json['data']
         self.assertEqual(contract['status'], 'active')
+        for index, doc in enumerate(documents):
+            self.assertEqual(response.json["data"]['documents'][index]['id'], documents[index]['id'])
+            self.assertEqual(response.json["data"]['documents'][index]['datePublished'], documents[index]['datePublished'])
+            self.assertEqual(response.json["data"]['documents'][index]['dateModified'], documents[index]['dateModified'])
 
         self.assertIn('Signature=', response.json["data"]['documents'][-1]["url"])
         self.assertIn('KeyID=', response.json["data"]['documents'][-1]["url"])
