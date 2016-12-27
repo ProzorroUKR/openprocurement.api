@@ -23,6 +23,16 @@ class HistoricalTenderTestCase(BaseTenderHistoryWebTest):
         super(HistoricalTenderTestCase, self).setUp()
         self.tender_id, _ = self.db.save(test_data)
 
+    def test_get_tender_invalid_header(self):
+        for header in ['invalid', '1.5', '-1']:
+            response = self.app.get('/tenders/{}/historical'.format(self.tender_id),
+                                    headers={HEADER: header}, status=404)
+            self.assertEqual(response.status, '404 Not Found')
+            self.assertEqual(response.json['status'], 'error')
+            self.assertEqual(response.json['errors'], [
+                {u'description': u'Not Found', u'location': u'header', u'name': u'version'}
+            ])
+
     def test_get_tender(self):
         response = self.app.get('/tenders/{}/historical'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
