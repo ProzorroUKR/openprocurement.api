@@ -18,7 +18,14 @@ def extract_doc(request, _id, doc_type):
 
 def extract_header(request, header=HEADER):
     request_version = request.headers.get(header, False)
-    return int(request_version) if request_version and request_version.isdigit() else False
+    if not request_version:
+        return 0
+    if not request_version.isdigit():
+        request.errors.add('header', 'version', 'Not Found')
+        request.errors.status = 404
+        raise error_handler(request.errors)
+
+    return int(request_version)
 
 
 def add_header(request, value, header=''):

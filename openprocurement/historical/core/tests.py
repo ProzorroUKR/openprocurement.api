@@ -936,10 +936,9 @@ test_data_with_revisions =  {
 
 class HistoricalTest(unittest.TestCase):
 
-    def test_extract_header_invalid(self):
-        for header in ["1.1", "-1", "-1.5", "", "asd"]:
-            request = DummyRequest(headers={HEADER: header})
-            self.assertFalse(extract_header(request, HEADER))
+    def test_no_header(self):
+        request = DummyRequest()
+        self.assertEqual(0, extract_header(request, HEADER))
 
     def test_extract_header_valid(self):
         for header in ["1", "2", "0"]:
