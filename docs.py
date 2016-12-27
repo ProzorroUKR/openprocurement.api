@@ -1142,7 +1142,9 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/register-4rd-bidder.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid4)
+            for document in bid4_with_docs['data']['documents']:
+                document['url'] = self.generate_docservice_url()
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid4_with_docs)
             bid4_id = response.json['data']['id']
             bids_access[bid4_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
