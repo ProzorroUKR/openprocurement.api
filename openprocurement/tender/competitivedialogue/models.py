@@ -129,7 +129,7 @@ class Bid(BidEU):
             'view': view_bid_role_stage1,
             'create': whitelist('tenderers', 'lotValues',
                                 'status', 'selfQualified', 'selfEligible', 'subcontractingDetails',
-                                'documents'),
+                                'documents', 'eligibilityDocuments', 'financialDocuments', 'qualificationDocuments'),
             'edit': whitelist('tenderers', 'lotValues', 'status', 'subcontractingDetails'),
             'active.enquiries': whitelist(),
             'active.tendering': whitelist(),
