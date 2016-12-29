@@ -2545,6 +2545,14 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
             doc_id_by_type[doc_resource] = {'id': doc_id, 'key': key}
             self.assertEqual('buyerOnly', response.json["data"]["confidentiality"])
             self.assertEqual('Only our company sells badgers with pink hair.', response.json["data"]["confidentialityRationale"])
+            print {
+                    'title': 'name_{}_v2.doc'.format(doc_resource[:-1]),
+                    'url': self.generate_docservice_url(),
+                    'hash': 'md5:' + '0' * 32,
+                    'format': 'application/msword',
+                    'confidentiality': 'public',
+                    'confidentialityRationale': None,
+                }
             response = self.app.put_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token),
                 {'data': {
                     'title': 'name_{}_v2.doc'.format(doc_resource[:-1]),
@@ -2552,12 +2560,13 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/msword',
                     'confidentiality': 'public',
+                    'confidentialityRationale': None,
                 }})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.content_type, 'application/json')
 
             self.assertEqual('public', response.json["data"]["confidentiality"])
-            self.assertEqual('Only our company sells badgers with pink hair.', response.json["data"]["confidentialityRationale"])
+            self.assertNotIn("confidentialityRationale", response.json["data"])
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
