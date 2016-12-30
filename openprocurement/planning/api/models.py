@@ -7,6 +7,7 @@ from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
 from openprocurement.api.models import validate_cpv_group, validate_items_uniq, validate_dkpp, get_now
+from openprocurement.api.models import CPV_ITEMS_CLASS_FROM, ADDITIONAL_CLASSIFICATIONS_SCHEMES, ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, IntType, FloatType, BaseType
@@ -47,8 +48,7 @@ class PlanItem(Model):
     """Simple item model for planing"""
     id = StringType(required=True, min_length=1, default=lambda: uuid4().hex)
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(Classification), default=list(), required=True, min_size=1,
-                                         validators=[validate_dkpp])
+    additionalClassifications = ListType(ModelType(Classification), default=list())
     unit = ModelType(Unit)  # Description of the unit which the good comes in e.g. hours, kilograms
     quantity = IntType()  # The number of units required
     deliveryDate = ModelType(Period)
@@ -57,10 +57,24 @@ class PlanItem(Model):
     description_ru = StringType()
 
     def validate_classification(self, data, classification):
-        base_cpv_code = data['__parent__'].classification.id[:3]
-        if (base_cpv_code != classification.id[:3]):
+        plan = data['__parent__']
+        plan_from_2017 = (plan.get('revisions')[0].date if plan.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM
+        base_cpv_code = data['__parent__'].classification.id[:4] if plan_from_2017 else data['__parent__'].classification.id[:3]
+        if plan_from_2017 and (base_cpv_code != classification.id[:4]):
+            raise ValidationError(u"CPV class of items should be identical to root cpv")
+        elif not plan_from_2017 and (base_cpv_code != classification.id[:3]):
             raise ValidationError(u"CPV group of items be identical to root cpv")
 
+    def validate_additionalClassifications(self, data, items):
+        plan = data['__parent__']
+        plan_from_2017 = (plan.get('revisions')[0].date if plan.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM
+        not_cpv = data['classification']['id'] == '99999999-9'
+        if not items and (not plan_from_2017 or plan_from_2017 and not_cpv):
+            raise ValidationError(u'This field is required.')
+        elif plan_from_2017 and not_cpv and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 for i in items]):
+            raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)))
+        elif not plan_from_2017 and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
+            raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)))
 
 class PlanOrganization(Model):
     """An organization"""
@@ -157,7 +171,7 @@ class Plan(SchematicsDocument, Model):
 
     planID = StringType()
     mode = StringType(choices=['test'])  # flag for test data ?
-    items = ListType(ModelType(PlanItem), required=False, validators=[validate_cpv_group, validate_items_uniq])
+    items = ListType(ModelType(PlanItem), required=False, validators=[validate_items_uniq])
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     dateModified = IsoDateTimeType()
@@ -189,6 +203,12 @@ class Plan(SchematicsDocument, Model):
     def doc_id(self):
         """A property that is serialized by schematics exports."""
         return self._id
+
+    def validate_items(self, data, items):
+        if (data.get('revisions')[0].date if data.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM and items and len(set([i.classification.id[:4] for i in items])) != 1:
+            raise ValidationError(u"CPV class of items should be identical")
+        else:
+            validate_cpv_group(items)
 
     def import_data(self, raw_data, **kw):
         """
