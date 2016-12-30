@@ -18,3 +18,33 @@ test_tender_eu_data['procurementMethodType'] = "esco.EU"
 
 class BaseESCOWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
+
+
+class BaseESCOContentWebTest(BaseESCOWebTest):
+    initial_data = None
+    initial_status = None
+    initial_bids = None
+    initial_lots = None
+    initial_auth = ('Basic', ('broker', ''))
+    docservice = None
+
+    def setUp(self):
+        super(BaseESCOContentWebTest, self).setUp()
+        self.app.authorization = self.initial_auth
+        self.couchdb_server = self.app.app.registry.couchdb_server
+        self.db = self.app.app.registry.db
+        if self.docservice:
+            self.setUpDS()
+
+    def tearDown(self):
+        if self.docservice:
+            self.tearDownDS()
+        del self.couchdb_server[self.db.name]
+
+
+class BaseESCOUAContentWebTest(BaseESCOContentWebTest):
+    initial_data = test_tender_eu_data
+
+
+class BaseESCOEUContentWebTest(BaseESCOContentWebTest):
+    initial_data = test_tender_ua_data
