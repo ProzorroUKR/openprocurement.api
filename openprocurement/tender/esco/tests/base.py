@@ -7,6 +7,7 @@ from openprocurement.api.tests.base import (
 
 from openprocurement.tender.openua.tests.base import test_tender_data as base_ua_test_data
 from openprocurement.tender.openeu.tests.base import test_tender_data as base_eu_test_data
+from openprocurement.tender.limited.tests.base import test_tender_data as base_reporting_test_data
 
 
 test_tender_ua_data = deepcopy(base_ua_test_data)
@@ -14,6 +15,9 @@ test_tender_ua_data['procurementMethodType'] = "esco.UA"
 
 test_tender_eu_data = deepcopy(base_eu_test_data)
 test_tender_eu_data['procurementMethodType'] = "esco.EU"
+
+test_tender_reporting_data = deepcopy(base_reporting_test_data)
+test_tender_reporting_data['procurementMethodType'] = "esco.reporting"
 
 
 class BaseESCOWebTest(BaseWebTest):
@@ -48,3 +52,7 @@ class BaseESCOUAContentWebTest(BaseESCOContentWebTest):
 
 class BaseESCOEUContentWebTest(BaseESCOContentWebTest):
     initial_data = test_tender_ua_data
+
+
+class BaseESCOReportingContentWebTest(BaseESCOContentWebTest):
+    initial_data = test_tender_reporting_data
