@@ -572,7 +572,8 @@ class CompetitiveDialogueDataBridge(object):
                 logger.warn("Can't create tender stage2 from competitive dialogue id={0}".format(new_tender['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_CREATE_ERROR,
                                                    "TENDER_ID": new_tender['dialogueID']}))
-                self.competitive_dialogues_queue.put({"id": new_tender['dialogueID']})
+                # leave attempts to create second stage
+                # self.competitive_dialogues_queue.put({"id": new_tender['dialogueID']})
             else:
                 dialog = {"id": new_tender['dialogueID'],
                           "stage2TenderID": new_tender['id']}
