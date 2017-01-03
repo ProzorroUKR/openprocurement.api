@@ -11,6 +11,10 @@ from openprocurement.tender.openeu.models import (
     Tender as BaseTenderEU,
 )
 
+from openprocurement.tender.limited.models import (
+    ReportingTender as BaseReportingTender,
+)
+
 
 @implementer(ITender)
 class Tender(BaseTenderUA):
@@ -27,3 +31,12 @@ class Tender(BaseTenderEU):
 
 
 TenderESCOEU = Tender
+
+
+@implementer(ITender)
+class Tender(BaseReportingTender):
+    """ ESCO Reporting Tender model """
+    procurementMethodType = StringType(default="esco.reporting")
+
+
+TenderESCOReporting = Tender
