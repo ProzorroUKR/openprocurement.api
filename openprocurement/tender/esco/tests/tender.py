@@ -379,11 +379,11 @@ class TenderESCOTestCommon():
 
 
 class TestTenderUA(BaseESCOUAContentWebTest, TenderESCOTestCommon):
-    """ tro-lo-lo """
+    """ ESCO UA tender test """
 
 
 class TestTenderEU(BaseESCOUAContentWebTest, TenderESCOTestCommon):
-    """ tro-lo-lo """
+    """ ESCO EU tender test """
 
 
 class TestTenderReporting(BaseESCOReportingContentWebTest, TenderESCOTestCommon):

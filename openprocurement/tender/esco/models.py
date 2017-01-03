@@ -18,7 +18,7 @@ from openprocurement.tender.limited.models import (
 
 @implementer(ITender)
 class Tender(BaseTenderUA):
-    """ """
+    """ ESCO UA Tender model """
     procurementMethodType = StringType(default="esco.UA")
 
 TenderESCOUA = Tender
@@ -26,7 +26,7 @@ TenderESCOUA = Tender
 
 @implementer(ITender)
 class Tender(BaseTenderEU):
-    """ """
+    """ ESCO EU Tender model """
     procurementMethodType = StringType(default="esco.EU")
 
 
