@@ -470,6 +470,17 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
+    def test_create_contract_while_pending_award(self):
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
+            self.tender_id, self.tender_token),
+            {'data': {'suppliers': [test_organization], 'qualified': True, 'status': 'pending'}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['status'], 'pending')
+
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 0)
+
 
 class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_status = 'active'
