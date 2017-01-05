@@ -525,7 +525,7 @@ class CompetitiveDialogueDataBridge(object):
                 self.competitive_dialogues_queue.put({"id": patch_data['dialogueID']})
             gevent.sleep(0)
 
-    @retry(stop_max_attempt_number=5, wait_exponential_multiplier=1000)
+    @retry(stop_max_attempt_number=5, wait_exponential_multiplier=10000)
     def _put_with_retry(self, new_tender):
         data = {"data": new_tender}
         logger.info("Creating tender stage2 from competitive dialogue id={0}".format(new_tender['dialogueID']),
@@ -572,8 +572,7 @@ class CompetitiveDialogueDataBridge(object):
                 logger.warn("Can't create tender stage2 from competitive dialogue id={0}".format(new_tender['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_CREATE_ERROR,
                                                    "TENDER_ID": new_tender['dialogueID']}))
-                # leave attempts to create second stage
-                # self.competitive_dialogues_queue.put({"id": new_tender['dialogueID']})
+                self.competitive_dialogues_queue.put({"id": new_tender['dialogueID']})
             else:
                 dialog = {"id": new_tender['dialogueID'],
                           "stage2TenderID": new_tender['id']}
