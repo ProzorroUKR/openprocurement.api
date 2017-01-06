@@ -470,6 +470,38 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
                 u'url', u'name': u'tender_id'}
         ])
 
+    def test_activate_contract_with_cancelled_award(self):
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
+            self.tender_id, self.tender_token),
+            {'data': {'suppliers': [test_organization], 'qualified': True, 'status': 'pending'}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['status'], 'pending')
+        award = response.json['data']
+
+        # Activate award
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, award['id'], self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        # Get contract
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        contract = response.json['data'][0]
+
+        # Cancel award
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, award['id'], self.tender_token), {'data': {'status': 'cancelled'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+        # Try to sign in contract
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can\'t update contract in current (cancelled) status")
+
 
 class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_status = 'active'
@@ -1117,6 +1149,47 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
 
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(len(response.json['data']), len(lots))
+
+    def test_cancel_award(self):
+        # create lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+
+        # create award
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': {'suppliers': [test_organization], 'qualified': True,
+                                                'status': 'pending', 'lotID': lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        award = response.json['data']
+
+        # activate award
+        response = self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+            {'data': {'status': 'active'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # check created contract
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        self.assertEqual(len(response.json['data']), 1)
+        contract = response.json['data'][0]
+
+        # cancel award
+        response = self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+            {'data': {'status': 'cancelled'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+        # check contract
+        response = self.app.get('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']))
+        self.assertEqual(response.json['data']['status'], 'cancelled')
 
 
 class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest):

@@ -11,7 +11,7 @@ from openprocurement.tender.limited.models import (NegotiationTender,
 from openprocurement.tender.limited.tests.base import (
     test_tender_data, test_tender_negotiation_data,
     test_tender_negotiation_quick_data, BaseTenderWebTest,
-    test_organization,
+    test_organization, test_lots,
 )
 
 
@@ -884,6 +884,45 @@ class TenderNegotiationResourceTest(TenderResourceTest):
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'],  [
             {u'description': [{u'relatedLot': [u'relatedLot should be one of lots']}], u'location': u'body', u'name': u'items'}])
+
+    def test_changing_tender_after_award(self):
+        response = self.app.post_json('/tenders',
+                                      {"data": self.initial_data})
+        tender_id = self.tender_id = response.json['data']['id']
+        owner_token = response.json['access']['token']
+
+        # create lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        first_lot = response.json['data']
+
+        # create second lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # change tender
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                                       {'data': {'description': 'New description'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['description'], 'New description')
+
+        # first award
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token),
+                                      {'data': {'suppliers': [test_organization], 'status': 'pending',
+                                                'lotID': first_lot['id'], 'qualified': True}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # change tender
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                                       {'data': {'description': 'New description'}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update tender when awards already exists")
 
 class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):
     initial_data = test_tender_negotiation_quick_data
