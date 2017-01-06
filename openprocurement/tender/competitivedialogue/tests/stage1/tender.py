@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
-from openprocurement.api.models import get_now, SANDBOX_MODE
+from openprocurement.api.models import get_now, SANDBOX_MODE, CPV_ITEMS_CLASS_FROM
 from openprocurement.api.utils import ROUTE_PREFIX
 from openprocurement.api.tests.base import BaseWebTest, test_organization
 from openprocurement.tender.competitivedialogue.models import CompetitiveDialogUA, CompetitiveDialogEU
@@ -507,14 +507,24 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
 
         data = test_tender_data_eu["items"][0]["additionalClassifications"][0]["scheme"]
         test_tender_data_eu["items"][0]["additionalClassifications"][0]["scheme"] = 'Не ДКПП'
+        if get_now() > CPV_ITEMS_CLASS_FROM:
+            cpv_code = test_tender_data_eu["items"][0]['classification']['id']
+            test_tender_data_eu["items"][0]['classification']['id'] = '99999999-9'
         response = self.app.post_json(request_path, {'data': test_tender_data_eu}, status=422)
         test_tender_data_eu["items"][0]["additionalClassifications"][0]["scheme"] = data
+        if get_now() > CPV_ITEMS_CLASS_FROM:
+            test_tender_data_eu["items"][0]['classification']['id'] = cpv_code
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."]}], u'location': u'body', u'name': u'items'}
-        ])
+        if get_now() > CPV_ITEMS_CLASS_FROM:
+            self.assertEqual(response.json['errors'], [
+                {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДК003, ДК015, ДК018]."]}],
+                                  u'location': u'body', u'name': u'items'}])
+        else:
+            self.assertEqual(response.json['errors'], [
+                {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."]}],
+                                  u'location': u'body', u'name': u'items'}])
 
         data = test_tender_data_eu["procuringEntity"]["contactPoint"]["telephone"]
         del test_tender_data_eu["procuringEntity"]["contactPoint"]["telephone"]
@@ -1819,14 +1829,24 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
 
         data = test_tender_data_ua["items"][0]["additionalClassifications"][0]["scheme"]
         test_tender_data_ua["items"][0]["additionalClassifications"][0]["scheme"] = 'Не ДКПП'
+        if get_now() > CPV_ITEMS_CLASS_FROM:
+            cpv_code = test_tender_data_ua["items"][0]['classification']['id']
+            test_tender_data_ua["items"][0]['classification']['id'] = '99999999-9'
         response = self.app.post_json(request_path, {'data': test_tender_data_ua}, status=422)
         test_tender_data_ua["items"][0]["additionalClassifications"][0]["scheme"] = data
+        if get_now() > CPV_ITEMS_CLASS_FROM:
+            test_tender_data_ua["items"][0]['classification']['id'] = cpv_code
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."]}], u'location': u'body', u'name': u'items'}
-        ])
+        if get_now() > CPV_ITEMS_CLASS_FROM:
+            self.assertEqual(response.json['errors'], [{u'description': [{u'additionalClassifications': [
+                    u"One of additional classifications should be one of [ДК003, ДК015, ДК018]."]}],
+                                  u'location': u'body', u'name': u'items'}])
+        else:
+            self.assertEqual(response.json['errors'], [{u'description': [{u'additionalClassifications': [
+                    u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."]}],
+                                  u'location': u'body', u'name': u'items'}])
 
         data = test_tender_data_ua["procuringEntity"]["contactPoint"]["telephone"]
         del test_tender_data_ua["procuringEntity"]["contactPoint"]["telephone"]
