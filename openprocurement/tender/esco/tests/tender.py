@@ -2,8 +2,7 @@ from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.models import get_now, SANDBOX_MODE
 from openprocurement.tender.esco.tests.base import (
     test_tender_ua_data, test_tender_eu_data, test_tender_reporting_data,
-    BaseESCOWebTest, BaseESCOUAContentWebTest, BaseESCOEUContentWebTest,
-    BaseESCOReportingContentWebTest
+    BaseESCOWebTest
 )
 from openprocurement.tender.esco.models import (
     TenderESCOEU, TenderESCOUA, TenderESCOReporting
@@ -377,17 +376,43 @@ class TenderESCOTestCommon():
         self.assertEqual(set([i['dateModified'] for i in response.json['data']]), set([i['dateModified'] for i in tenders]))
         self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders]))
 
+    def test_get_tender(self):
+        response = self.app.get('/tenders')
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 0)
 
-class TestTenderUA(BaseESCOUAContentWebTest, TenderESCOTestCommon):
+        response = self.app.post_json('/tenders', {'data': self.initial_data})
+        self.assertEqual(response.status, '201 Created')
+        tender = response.json['data']
+
+        response = self.app.get('/tenders/{}'.format(tender['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data'], tender)
+
+        response = self.app.get('/tenders/{}?opt_jsonp=callback'.format(tender['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/javascript')
+        self.assertIn('callback({"data": {"', response.body)
+
+        response = self.app.get('/tenders/{}?opt_pretty=1'.format(tender['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertIn('{\n    "data": {\n        "', response.body)
+
+class TestTenderUA(TenderESCOTestCommon, BaseESCOWebTest):
     """ ESCO UA tender test """
+    initial_data = test_tender_ua_data
 
 
-class TestTenderEU(BaseESCOUAContentWebTest, TenderESCOTestCommon):
+class TestTenderEU(TenderESCOTestCommon, BaseESCOWebTest):
     """ ESCO EU tender test """
+    initial_data = test_tender_eu_data
 
 
-class TestTenderReporting(BaseESCOReportingContentWebTest, TenderESCOTestCommon):
+class TestTenderReporting(TenderESCOTestCommon, BaseESCOWebTest):
     """ ESCO reporting tender test """
+    initial_data = test_tender_reporting_data
 
     def test_listing(self):
         response = self.app.get('/tenders')
