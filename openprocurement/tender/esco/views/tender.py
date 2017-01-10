@@ -7,7 +7,7 @@ from openprocurement.api.utils import opresource
 
 @opresource(name='Tender ESCO UA',
             path='/tenders/{tender_id}',
-            procurementMethodType='ecso.UA',
+            procurementMethodType='esco.UA',
             description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderESCOUAResource(TenderUAResource):
     """ Resource handler for Tender ESCO UA """
@@ -15,7 +15,7 @@ class TenderESCOUAResource(TenderUAResource):
 
 @opresource(name='Tender ESCO EU',
             path='/tenders/{tender_id}',
-            procurementMethodType='ecso.EU',
+            procurementMethodType='esco.EU',
             description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderESCOEUResource(TenderEUResource):
     """ Resource handler for Tender ESCO EU """
@@ -23,7 +23,7 @@ class TenderESCOEUResource(TenderEUResource):
 
 @opresource(name='Tender ESCO Reporting',
             path='/tenders/{tender_id}',
-            procurementMethodType='ecso.reporting',
+            procurementMethodType='esco.reporting',
             description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderESCOReportingResource(TenderReportingResource):
     """ Resource handler for Tender ESCO Reporting """
