@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
-    test_tender_negotiation_quick_data, test_lots)
+    test_tender_negotiation_quick_data, test_lots, test_organization)
 
 
 class TenderCancellationResourceTest(BaseTenderContentWebTest):
@@ -774,6 +774,37 @@ class TenderNegotiationLotsCancellationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data'][0]['status'], 'active')
         self.assertEqual(response.json['data'][1]['status'], 'active')
+
+    def test_cancel_lot_with_unsuccessful_award(self):
+        lot_id = self.initial_lots[0]['id']
+
+        # Create award
+        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
+                                                              'subcontractingDetails': 'Details',
+                                                              'items': test_tender_data['items'],
+                                                              'status': 'pending',
+                                                              'qualified': True,
+                                                              'lotID': lot_id}})
+        self.assertEqual(response.status, '201 Created')
+        award = response.json['data']
+
+        # Patch award
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                      {'data': {'status': 'unsuccessful'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
+        # Try to cancel lot with unsuccessful award
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': {"reason": "cancellation reason",
+                                                "cancellationOf": "lot",
+                                                "relatedLot": lot_id}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'][0]["description"],"Can't add cancellation if there is unsuccessful award")
+
+
 
 
 class TenderNegotiationQuickLotsCancellationResourceTest(TenderNegotiationLotsCancellationResourceTest):
