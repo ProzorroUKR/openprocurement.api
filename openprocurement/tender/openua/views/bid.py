@@ -185,6 +185,10 @@ class TenderUABidResource(TenderBidResource):
             self.request.errors.status = 403
             return
         bid_status_to = self.request.validated['data'].get("status",  self.request.context.status)
+        if self.request.context.status == 'deleted':
+            self.request.errors.add('body', 'bid', 'Can\'t update bid in ({}) status'.format(self.request.context.status))
+            self.request.errors.status = 403
+            return
         if self.request.context.status != 'draft' and bid_status_to == 'draft':
             self.request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
             self.request.errors.status = 403
