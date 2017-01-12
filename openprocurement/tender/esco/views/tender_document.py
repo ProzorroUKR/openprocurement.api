@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import opresource
-from openprocurement.tender.openua.views.tender_document import TenderDocumentResource as TenderUADocumentResource
+from openprocurement.tender.openua.views.tender_document import TenderUaDocumentResource as TenderUADocumentResource
 from openprocurement.tender.openeu.views.tender_document import TenderEUDocumentResource
 from openprocurement.tender.limited.views.tender_document import TenderDocumentResource as TenderReportingDocumentResource
 
