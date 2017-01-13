@@ -87,12 +87,19 @@ class TenderNegotiationCancellationResource(TenderCancellationResource):
         tender = self.request.validated['tender']
         cancellation = self.request.validated['cancellation']
         if tender.lots:
-            # Check if there is at least one complete lot (exists sign in contract)
-            if [lot for lot in tender.lots if lot.status != 'active' and cancellation.relatedLot == lot.id]:
-                self.request.errors.add(
-                    'body', 'data', 'Can\'t {} cancellation, if lot status is not active'.format(operation))
-                self.request.errors.status = 403
-                return
+            if cancellation.relatedLot:
+                # Check if there is at least one complete lot (exists sign in contract)
+                if [lot for lot in tender.lots if lot.status != 'active' and cancellation.relatedLot == lot.id]:
+                    self.request.errors.add(
+                        'body', 'data', 'Can\'t {} cancellation, if lot status is not active'.format(operation))
+                    self.request.errors.status = 403
+                    return
+            else:
+                if [lot for lot in tender.lots if lot.status == 'complete']:
+                    self.request.errors.add(
+                        'body', 'data', 'Can\'t {} cancellation, if there is at least one complete lot'.format(operation))
+                    self.request.errors.status = 403
+                    return
         return True
 
 
