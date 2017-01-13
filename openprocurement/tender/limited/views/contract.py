@@ -152,6 +152,10 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
         if self.request.context.status != 'active' and 'status' in data and data['status'] == 'active':
             tender = self.request.validated['tender']
             award = [a for a in tender.awards if a.id == self.request.context.awardID][0]
+            if tender.get('lots') and tender.get('cancellations') and [cancellation for cancellation in tender.get('cancellations') if cancellation.get('relatedLot') == award.lotID]:
+                self.request.errors.add('body', 'data', 'Can\'t update contract while cancellation for appropriate lot exists')
+                self.request.errors.status = 403
+                return
             stand_still_end = award.complaintPeriod.endDate
             if stand_still_end > get_now():
                 self.request.errors.add('body', 'data', 'Can\'t sign contract before stand-still period end ({})'.format(stand_still_end.isoformat()))

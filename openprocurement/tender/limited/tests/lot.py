@@ -851,6 +851,30 @@ class TenderLotNegotiationResourceTest(BaseTenderContentWebTest):
                 u"name": u"data",
                 u"description": u"Can't delete lot when you have awards"}])
 
+    def test_patch_lot_with_cancellation(self):
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+
+        # Create cancellation on lot
+        response = self.app.post_json(
+            '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+            {"data": {"reason": "cancellation reason",
+                      "cancellationOf": "lot",
+                      "relatedLot": lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['status'], 'pending')
+
+        # Try to patch lot with cancellation on it
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'],
+                                                                                 self.tender_token),
+                                        {"data": {"title": "new title"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can\'t update lot when there are cancellation on it.")
+
 
 class TenderLotNegotiationQuickResourceTest(TenderLotNegotiationResourceTest):
 

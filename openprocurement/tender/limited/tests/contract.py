@@ -699,6 +699,36 @@ class TenderNegotiationLotContractResourceTest(TenderNegotiationContractResource
         self.assertEqual(contract['awardID'], award['id'])
         self.assertNotEqual(contract['awardID'], old_award_id)
 
+    def test_activate_contract_cancelled_lot(self):
+        response = self.app.get('/tenders/{}/lots'.format(self.tender_id))
+        lot = response.json['data'][0]
+
+        # Create cancellation on lot
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id,
+                                                                                      self.tender_token),
+                                      {'data': {'reason': 'cancellation reason',
+                                                'cancellationOf': 'lot',
+                                                'relatedLot': lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['status'], 'pending')
+
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        contract = response.json['data'][0]
+
+        # time travel
+        tender = self.db.get(self.tender_id)
+        for i in tender.get('awards', []):
+            if i.get('complaintPeriod', {}):  # reporting procedure does not have complaintPeriod
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+
+        # Try to sign (activate) contract
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'],
+                                                                                      self.tender_token),
+                                       {'data': {'status': 'active'}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"], "Can\'t update contract while cancellation for appropriate lot exists", )
+
 
 class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_data
