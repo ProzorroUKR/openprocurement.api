@@ -86,20 +86,11 @@ class TenderNegotiationCancellationResource(TenderCancellationResource):
             return
         tender = self.request.validated['tender']
         cancellation = self.request.validated['cancellation']
-        if not cancellation.relatedLot and tender.lots:
-            for lot_id in [i.id for i in tender.lots if i.status == 'active']:
-                if "unsuccessful" not in [award.status for award in tender.awards
-                                          if award.lotId == lot_id]:
-                    return True  # we found lot which we can cancel
-            self.request.errors.add('body', 'data',
-                                    'Can\'t {} cancellation if all awards is unsuccessful'.format(operation))
-            self.request.errors.status = 403
-            return
-        elif cancellation.relatedLot and tender.lots or not cancellation.relatedLot and not tender.lots:
-            statuses = set([i.status for i in tender.awards if i.lotID == cancellation.relatedLot])
-            if 'unsuccessful' in statuses:
-                self.request.errors.add('body', 'data',
-                                        'Can\'t {} cancellation if there is unsuccessful award'.format(operation))
+        if tender.lots:
+            # Check if there is at least one complete lot (exists sign in contract)
+            if [lot for lot in tender.lots if lot.status != 'active' and cancellation.relatedLot == lot.id]:
+                self.request.errors.add(
+                    'body', 'data', 'Can\'t {} cancellation, if lot status is not active'.format(operation))
                 self.request.errors.status = 403
                 return
         return True

@@ -1191,6 +1191,71 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
         response = self.app.get('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']))
         self.assertEqual(response.json['data']['status'], 'cancelled')
 
+    def test_create_award_on_cancel_lot(self):
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"items": [{'relatedLot': lot['id']}]}})
+        self.assertEqual(response.status, '200 OK')
+
+        # Create cancellation on lot
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id,
+                                                                                      self.tender_token),
+                                      {'data': {'reason': 'cancellation reason',
+                                                'cancellationOf': 'lot',
+                                                'relatedLot': lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['status'], 'pending')
+
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': {'suppliers': [test_organization],
+                                                'subcontractingDetails': 'Details',
+                                                'status': 'pending',
+                                                'lotID': lot['id']}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"], "Can\'t create award while exists cancellation on given lot")
+
+    def test_patch_award_on_cancel_lot(self):
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"items": [{'relatedLot': lot['id']}]}})
+        self.assertEqual(response.status, '200 OK')
+
+        # Create award
+        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
+        response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
+                                                              'subcontractingDetails': 'Details',
+                                                              'status': 'pending',
+                                                              'lotID': lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        award = response.json['data']
+
+        # Create cancellation on lot
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id,
+                                                                                      self.tender_token),
+                                      {'data': {'reason': 'cancellation reason',
+                                                'cancellationOf': 'lot',
+                                                'relatedLot': lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['status'], 'pending')
+
+        response = self.app.get('/tenders/{}/cancellations'.format(self.tender_id))
+
+        # Try to edit award
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'],
+                                                                                   self.tender_token),
+                                       {'data': {'status': 'active'}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can\'t update award while exists cancellation on given lot")
+
 
 class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest):
     initial_data = test_tender_negotiation_quick_data
