@@ -370,6 +370,78 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']["answer"], "answer")
         self.assertIn('dateAnswered', response.json['data'])
 
+    def create_question_for(self, questionOf, relatedItem):
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id), {'data': {
+            'title': 'question title',
+            'description': 'question description',
+            "questionOf": questionOf,
+            "relatedItem": relatedItem,
+            'author': test_organization
+        }})
+        self.assertEqual(response.status, '201 Created')
+        return response.json['data']['id']
+
+    def test_tender_has_unanswered_questions(self):
+        question_id = self.create_question_for("tender", self.tender_id)
+
+        self.set_status('active.auction', {'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json['data']['status'], 'active.tendering')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
+            'reason': 'cancellation reason',
+            'status': 'active',
+        }})
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+    def test_lot_has_unanswered_questions(self):
+        question_id = self.create_question_for("lot", self.initial_lots[0]['id'])
+
+        self.set_status('active.auction', {'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json['data']['status'], 'active.tendering')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
+            'reason': 'cancellation reason',
+            'status': 'active',
+            "cancellationOf": "lot",
+            "relatedLot": self.initial_lots[0]['id']
+        }})
+        self.assertEqual(response.status, '201 Created')
+
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
+    def test_item_has_unanswered_questions(self):
+        items = self.app.get('/tenders/{}'.format(self.tender_id)).json['data']['items']
+        question_id = self.create_question_for("item", items[0]['id'])
+
+        self.set_status('active.auction', {'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json['data']['status'], 'active.tendering')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
+            'reason': 'cancellation reason',
+            'status': 'active',
+            "cancellationOf": "lot",
+            "relatedLot": self.initial_lots[0]['id']
+        }})
+        self.assertEqual(response.status, '201 Created')
+
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
 
 def suite():
     suite = unittest.TestSuite()
