@@ -59,10 +59,11 @@ class PlanItem(Model):
     def validate_classification(self, data, classification):
         plan = data['__parent__']
         plan_from_2017 = (plan.get('revisions')[0].date if plan.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM
-        base_cpv_code = data['__parent__'].classification.id[:4] if plan_from_2017 else data['__parent__'].classification.id[:3]
-        if plan_from_2017 and (base_cpv_code != classification.id[:4]):
+        cpv_336_group = plan.classification.id[:3] == '336'
+        base_cpv_code = plan.classification.id[:4] if not cpv_336_group and plan_from_2017 else plan.classification.id[:3]
+        if not cpv_336_group and plan_from_2017 and (base_cpv_code != classification.id[:4]):
             raise ValidationError(u"CPV class of items should be identical to root cpv")
-        elif not plan_from_2017 and (base_cpv_code != classification.id[:3]):
+        elif (cpv_336_group or not plan_from_2017) and (base_cpv_code != classification.id[:3]):
             raise ValidationError(u"CPV group of items be identical to root cpv")
 
     def validate_additionalClassifications(self, data, items):
@@ -205,7 +206,8 @@ class Plan(SchematicsDocument, Model):
         return self._id
 
     def validate_items(self, data, items):
-        if (data.get('revisions')[0].date if data.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM and items and len(set([i.classification.id[:4] for i in items])) != 1:
+        cpv_336_group = items[0].classification.id[:3] == '336' if items else False
+        if not cpv_336_group and (data.get('revisions')[0].date if data.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM and items and len(set([i.classification.id[:4] for i in items])) != 1:
             raise ValidationError(u"CPV class of items should be identical")
         else:
             validate_cpv_group(items)
