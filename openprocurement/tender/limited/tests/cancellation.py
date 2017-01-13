@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
-    test_tender_negotiation_quick_data, test_lots)
+    test_tender_negotiation_quick_data, test_lots, test_organization)
 
 
 class TenderCancellationResourceTest(BaseTenderContentWebTest):
@@ -774,6 +774,49 @@ class TenderNegotiationLotsCancellationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data'][0]['status'], 'active')
         self.assertEqual(response.json['data'][1]['status'], 'active')
+
+    def test_create_cancellation_on_tender_with_one_complete_lot(self):
+        lot = self.initial_lots[0]
+
+        # Create award
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending',
+                                                          'qualified': True, 'value': {"amount": 469,
+                                                                                       "currency": "UAH",
+                                                                                       "valueAddedTaxIncluded": True},
+                                                          'lotID': lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['status'], 'pending')
+
+        # Activate award
+        award = response.json['data']
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, award['id'], self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        # time travel
+        tender = self.db.get(self.tender_id)
+        for i in tender.get('awards', []):
+            if i.get('complaintPeriod', {}):  # reporting procedure does not have complaintPeriod
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+
+        # Sign contract
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, response.json['data'][0]['id'], self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        # Try to create cancellation on tender
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': {'reason': 'cancellation reason',
+                                                'status': 'active',
+                                                "cancellationOf": "tender"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can\'t add cancellation, if there is at least one complete lot")
 
 
 class TenderNegotiationQuickLotsCancellationResourceTest(TenderNegotiationLotsCancellationResourceTest):
