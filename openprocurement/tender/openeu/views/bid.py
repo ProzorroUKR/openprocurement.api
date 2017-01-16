@@ -148,6 +148,10 @@ class TenderBidResource(BaseResource):
             self.request.errors.add('body', 'data', 'Bid can be updated only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
             self.request.errors.status = 403
             return
+        if self.request.context.status == 'deleted':
+            self.request.errors.add('body', 'bid', 'Can\'t update bid in ({}) status'.format(self.request.context.status))
+            self.request.errors.status = 403
+            return
         if self.request.authenticated_role != 'Administrator':
             bid_status_to = self.request.validated['data'].get("status", self.request.context.status)
             if bid_status_to != 'pending':
