@@ -1273,10 +1273,6 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
         tender = response.json['data']
         tender_id = self.tender_id = response.json['data']['id']
         owner_token = response.json['access']['token']
-        # switch to active.tendering XXX temporary action.
-        response = self.set_status('active.tendering', {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}})
-        self.assertIn("auctionPeriod", response.json['data'])
-
 
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
