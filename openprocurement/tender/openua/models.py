@@ -9,6 +9,7 @@ from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import Award as BaseAward
+from openprocurement.api.models import Parameter as BaseParameter
 from openprocurement.api.models import Bid as BaseBid
 from openprocurement.api.models import Complaint as BaseComplaint
 from openprocurement.api.models import ListType
@@ -29,6 +30,7 @@ from openprocurement.api.models import (
     embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
     ComplaintModelType, validate_cpv_group, validate_items_uniq, Model,
     rounding_shouldStartAfter, PeriodEndRequired as BasePeriodEndRequired,
+    validate_parameters_uniq,
 )
 from openprocurement.api.models import ITender
 from openprocurement.tender.openua.utils import (
@@ -61,6 +63,8 @@ def calculate_normalized_date(dt, tender, ceil=False):
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
+        while not isinstance(data['__parent__'], Tender):
+            data = data['__parent__']
         if data['status'] in ('deleted', 'invalid', 'draft'):
             # skip not valid bids
             return
@@ -236,6 +240,13 @@ class LotValue(BaseLotValue):
         if isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted')) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
             raise ValidationError(u"relatedLot should be one of lots")
 
+class Parameter(BaseParameter):
+
+    @bids_validation_wrapper
+    def validate_code(self, data, code):
+        BaseParameter._validator_functions['code'](self, data, code)
+
+
 class Bid(BaseBid):
 
     class Options:
@@ -265,6 +276,7 @@ class Bid(BaseBid):
     status = StringType(choices=['draft', 'active', 'invalid', 'deleted'], default='active')
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
+    parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
 
     def serialize(self, role=None):
         if role and self.status in ['invalid', 'deleted']:
