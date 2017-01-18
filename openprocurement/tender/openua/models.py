@@ -237,7 +237,7 @@ class LotValue(BaseLotValue):
                 raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot")
 
     def validate_relatedLot(self, data, relatedLot):
-        if isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted')) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
+        if isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
             raise ValidationError(u"relatedLot should be one of lots")
 
 class Parameter(BaseParameter):
