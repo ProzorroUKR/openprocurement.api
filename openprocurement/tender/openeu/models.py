@@ -21,6 +21,7 @@ from openprocurement.api.models import (
     schematics_embedded_role, get_now, embedded_lot_role, default_lot_role,
     calc_auction_end_time, get_tender, validate_lots_uniq,
     validate_cpv_group, validate_items_uniq, rounding_shouldStartAfter,
+    Parameter as BaseParameter, validate_parameters_uniq,
 )
 from urlparse import urlparse, parse_qs
 from string import hexdigits
@@ -80,6 +81,8 @@ class BidModelType(ModelType):
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
+        while not isinstance(data['__parent__'], Tender):
+            data = data['__parent__']
         if data['status'] in ('deleted', 'invalid', 'draft'):
             # skip not valid bids
             return
@@ -268,7 +271,7 @@ class LotValue(BaseLotValue):
                         default='pending')
 
     def validate_value(self, data, value):
-        if value and isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted')) and data['relatedLot']:
+        if value and isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:
             lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
             if not lots:
                 return
@@ -281,7 +284,7 @@ class LotValue(BaseLotValue):
                 raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot")
 
     def validate_relatedLot(self, data, relatedLot):
-        if isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted')) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
+        if isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
             raise ValidationError(u"relatedLot should be one of lots")
 
 
@@ -343,6 +346,13 @@ class Document(Document):
 ConfidentialDocument = Document
 
 
+class Parameter(BaseParameter):
+
+    @bids_validation_wrapper
+    def validate_code(self, data, code):
+        BaseParameter._validator_functions['code'](self, data, code)
+
+
 class Bid(BaseBid):
     class Options:
         roles = {
@@ -377,6 +387,7 @@ class Bid(BaseBid):
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
     subcontractingDetails = StringType()
+    parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
     status = StringType(choices=['draft','pending', 'active', 'invalid', 'invalid.pre-qualification', 'unsuccessful', 'deleted'],
                         default='pending')
 
