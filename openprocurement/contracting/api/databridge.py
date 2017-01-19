@@ -300,6 +300,11 @@ class ContractingDataBridge(object):
                                          extra=journal_context({"MESSAGE_ID": DATABRIDGE_COPY_CONTRACT_ITEMS}, params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
                             contract['items'] = tender['items']
 
+                    if isinstance(contract.get('items', None), list) and len(contract.get('items')) == 0:
+                        logger.info("Clearing 'items' key for contract with empty 'items' list", extra=journal_context({"MESSAGE_ID": DATABRIDGE_COPY_CONTRACT_ITEMS},
+                                                                                                                       {"CONTRACT_ID": contract['id'], "TENDER_ID": tender_to_sync['id']}))
+                        del contract['items']
+
                     if not contract.get('items'):
                         logger.warn('Contact {} of tender {} does not contain items info'.format(contract['id'], tender['id']),
                                     extra=journal_context({"MESSAGE_ID": DATABRIDGE_MISSING_CONTRACT_ITEMS},
