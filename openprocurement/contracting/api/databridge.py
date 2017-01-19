@@ -296,7 +296,7 @@ class ContractingDataBridge(object):
                                     contract['items'] = award['items']
                                 else:
                                     logger.debug('Copying items matching related lot {}'.format(award['lotID']))
-                                    contract['items'] = [item for item in tender['items'] if item['relatedLot'] == award['lotID']]
+                                    contract['items'] = [item for item in tender['items'] if item.get('relatedLot') == award['lotID']]
                             else:
                                 logger.warn('Not found related award for contact {} of tender {}'.format(contract['id'], tender['id']),
                                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_EXCEPTION}, params={"CONTRACT_ID": contract['id'], "TENDER_ID": tender['id']}))
