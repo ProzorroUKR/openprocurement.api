@@ -33,7 +33,7 @@ class ContractNoItemsChangeTest(BaseWebTest):
         self.assertEqual(change['status'], 'pending')
 
         response = self.app.patch_json('/contracts/{}/changes/{}?acc_token={}'.format(contract['id'], change['id'], token),
-                                       {'data': {'status': 'active'}})
+                                       {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'active')
 
