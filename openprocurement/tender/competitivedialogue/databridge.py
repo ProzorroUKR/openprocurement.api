@@ -610,10 +610,15 @@ class CompetitiveDialogueDataBridge(object):
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_TENDER_PROCESS},
                                                   {"TENDER_ID": tender_data['id']}))
                 self.competitive_dialogues_queue.put(tender_data)
+        except ResourceError as re:
+            logger.warn('Forward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
+            logger.error("Error response {}".format(re.message))
+            raise re
         except Exception, e:
             # TODO reset queues and restart sync
             logger.warn('Forward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
             logger.exception(e)
+            raise e
         else:
             logger.warn('Forward data sync finished!')  # Should never happen!!!
 
@@ -626,10 +631,15 @@ class CompetitiveDialogueDataBridge(object):
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_TENDER_PROCESS},
                                                   {"TENDER_ID": tender_data['id']}))
                 self.competitive_dialogues_queue.put(tender_data)
+        except ResourceError as re:
+            logger.warn('Backward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
+            logger.error("Error response {}".format(re.message))
+            raise re
         except Exception, e:
             # TODO reset queues and restart sync
             logger.warn('Backward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
             logger.exception(e)
+            raise e
         else:
             logger.info('Backward data sync finished.')
 
@@ -663,7 +673,6 @@ class CompetitiveDialogueDataBridge(object):
             gevent.spawn(self.get_competitive_dialogue_backward),
             gevent.spawn(self.get_competitive_dialogue_forward),
         ]
-        gevent.joinall(self.jobs)
 
     def _restart_synchronization_workers(self):
         logger.warn("Restarting synchronization", extra=journal_context({"MESSAGE_ID": DATABRIDGE_RESTART}, {}))
