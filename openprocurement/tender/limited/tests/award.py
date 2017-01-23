@@ -1210,13 +1210,16 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.json['data']['status'], 'pending')
 
+        response = self.app.get('/tenders/{}/cancellations'.format(self.tender_id))
+        response = self.app.get('/tenders/{}/lots'.format(self.tender_id))
+
         response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
                                       {'data': {'suppliers': [test_organization],
                                                 'subcontractingDetails': 'Details',
                                                 'status': 'pending',
                                                 'lotID': lot['id']}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'][0]["description"], "Can\'t create award while exists cancellation on given lot")
+        self.assertEqual(response.json['errors'][0]["description"], "Can\'t add award while cancellation for corresponding lot exists")
 
     def test_patch_award_on_cancel_lot(self):
         response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
@@ -1254,7 +1257,7 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
                                        {'data': {'status': 'active'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'][0]["description"],
-                         "Can\'t update award while exists cancellation on given lot")
+                         "Can't update award while cancellation for corresponding lot exists")
 
 
 class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest):

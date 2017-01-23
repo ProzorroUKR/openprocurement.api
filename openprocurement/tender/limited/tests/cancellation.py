@@ -818,6 +818,34 @@ class TenderNegotiationLotsCancellationResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can\'t add cancellation, if there is at least one complete lot")
 
+    def test_cancellation_on_not_active_lot(self):
+        lot = self.initial_lots[0]
+
+        # Create cancellation on lot with status cancelled
+        response = self.app.post_json(
+            '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'reason': 'cancellation reason',
+                      'status': 'active',
+                      "cancellationOf": "lot",
+                      "relatedLot": lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # check lot status
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+        # Try to create cancellation on lot with status cancelled
+        response = self.app.post_json(
+            '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'reason': 'cancellation reason',
+                      'status': 'pending',
+                      "cancellationOf": "lot",
+                      "relatedLot": lot['id']}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can add cancellation only in active lot status")
+
 
 class TenderNegotiationQuickLotsCancellationResourceTest(TenderNegotiationLotsCancellationResourceTest):
     initial_data = test_tender_negotiation_quick_data

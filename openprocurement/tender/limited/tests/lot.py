@@ -873,7 +873,7 @@ class TenderLotNegotiationResourceTest(BaseTenderContentWebTest):
                                         {"data": {"title": "new title"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'][0]["description"],
-                         "Can\'t update lot when there are cancellation on it.")
+                         "Can't update lot when it has 'pending' cancellation.")
 
 
 class TenderLotNegotiationQuickResourceTest(TenderLotNegotiationResourceTest):
