@@ -25,7 +25,6 @@ from openprocurement.tender.openua.models import calculate_normalized_date
             )
 class TenderAwardResource(APIResource):
 
-
     @json_view(permission='view_tender')
     def collection_get(self):
         """Tender Awards List
