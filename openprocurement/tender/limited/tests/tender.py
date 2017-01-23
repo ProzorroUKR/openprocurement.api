@@ -922,7 +922,7 @@ class TenderNegotiationResourceTest(TenderResourceTest):
                                        {'data': {'description': 'New description'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update tender when awards already exists")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update tender when there is at least one award.")
 
 class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):
     initial_data = test_tender_negotiation_quick_data

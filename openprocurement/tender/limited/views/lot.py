@@ -66,7 +66,7 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
         tender = self.request.validated['tender']
         lot = self.request.context
         if [cancellation for cancellation in tender.get('cancellations') if cancellation.get('relatedLot') == lot['id']]:
-            self.request.errors.add('body', 'data', 'Can\'t update lot when there are cancellation on it.')
+            self.request.errors.add('body', 'data', 'Can\'t update lot when it has \'pending\' cancellation.')
             self.request.errors.status = 403
             return
         if apply_patch(self.request, src=self.request.context.serialize()):

@@ -727,7 +727,7 @@ class TenderNegotiationLotContractResourceTest(TenderNegotiationContractResource
                                                                                       self.tender_token),
                                        {'data': {'status': 'active'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.json['errors'][0]["description"], "Can\'t update contract while cancellation for appropriate lot exists", )
+        self.assertEqual(response.json['errors'][0]["description"], "Can\'t update contract while cancellation for corresponding lot exists", )
 
 
 class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
