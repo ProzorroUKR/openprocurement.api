@@ -483,7 +483,7 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.json['status'], 'error')
         if get_now() > CPV_ITEMS_CLASS_FROM:
             self.assertEqual(response.json['errors'], [
-                {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДК003, ДК015, ДК018]."]} for _ in additionalClassifications], u'location': u'body', u'name': u'items'}
+                {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."]} for _ in additionalClassifications], u'location': u'body', u'name': u'items'}
             ])
         else:
             self.assertEqual(response.json['errors'], [
