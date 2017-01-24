@@ -131,7 +131,6 @@
                    "op": "remove"
                }
            ],
-           "public": true,
            "author": "test.quintagroup.com"
        },
        {
@@ -153,7 +152,6 @@
                }
            ],
            "rev": "1-88c3e72d87bab644543e69814895bb72",
-           "public": true,
            "author": "chronograph"
        },
        {
@@ -170,7 +168,6 @@
                }
            ],
            "rev": "2-0597042bd653a6e67e0db18755baa8c4",
-           "public": false,
            "author": "test.quintagroup.com"
        },
        {
@@ -182,7 +179,6 @@
                }
            ],
            "rev": "3-bb7103b74e7f939f1f5c94271711651b",
-           "public": true,
            "author": "chronograph"
        },
        {
@@ -199,7 +195,6 @@
                }
            ],
            "rev": "4-34fc17d8b83801d4047dbe5229c1c1af",
-           "public": false,
            "author": "test.quintagroup.com"
        },
        {
@@ -217,7 +212,6 @@
                }
            ],
            "rev": "5-a9c4045bdbdce042b39152ee6723cffb",
-           "public": true,
            "author": "chronograph"
        },
        {
@@ -237,7 +231,6 @@
                }
            ],
            "rev": "6-182670ef1d733975c257291a5d930aa7",
-           "public": false,
            "author": "auction"
        },
        {
@@ -250,7 +243,6 @@
                }
            ],
            "rev": "7-7b923376dd27249316f1b85be080e251",
-           "public": true,
            "author": "chronograph"
        },
        {
@@ -262,7 +254,6 @@
                }
            ],
            "rev": "8-c7d3fa8cee9bd7e1bccc376cde3a0879",
-           "public": true,
            "author": "auction"
        },
        {
@@ -297,7 +288,6 @@
                }
            ],
            "rev": "9-2f747e5e2f5b5baf6031fb9a555f175a",
-           "public": true,
            "author": "auction"
        },
        {
@@ -309,7 +299,6 @@
                }
            ],
            "rev": "10-d0a2411819aad0e759ce8c9f05fb40ed",
-           "public": true,
            "author": "test.quintagroup.com"
        },
        {
@@ -348,7 +337,6 @@
                }
            ],
            "rev": "11-3c08d0edc861831b6720180fd89d001b",
-           "public": true,
            "author": "test.quintagroup.com"
        },
        {
@@ -395,7 +383,6 @@
                }
            ],
            "rev": "12-cb125acf7249031d78567569e3a70da6",
-           "public": true,
            "author": "test.quintagroup.com"
        },
        {
@@ -407,7 +394,6 @@
                }
            ],
            "rev": "13-abcab99e096a21a26de8202c557cd176",
-           "public": true,
            "author": "test.quintagroup.com"
        },
        {
@@ -446,7 +432,6 @@
                }
            ],
            "rev": "14-386b52bf0b99fdb46eaa3d901bb2a2ea",
-           "public": true,
            "author": "test.quintagroup.com"
        },
        {
@@ -459,7 +444,6 @@
                }
            ],
            "rev": "15-232a33826db230f4d17cb832f68b9ace",
-           "public": true,
            "author": "chronograph"
        }
    ],

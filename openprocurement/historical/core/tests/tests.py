@@ -61,8 +61,6 @@ class HistoricalTest(unittest.TestCase):
         for i, rev in list(enumerate(revisions))[1:]:
             patched, _hash = apply_while(doc, i, revisions)
             self.assertEqual(_hash, parse_hash(rev['rev']))
-            if rev.get('public'):
-                self.assertEqual(patched['dateModified'], rev['date'])
             for ch in rev['changes']:
                 val = ch['value'] if ch['op'] != 'remove' else 'missing'
                 self.assertEqual(resolve_pointer(patched, ch['path'], 'missing'), val)
