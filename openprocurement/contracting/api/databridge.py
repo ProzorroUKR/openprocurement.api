@@ -206,7 +206,7 @@ class ContractingDataBridge(object):
                     logger.info('Skipping {} tender {}'.format(tender['procurementMethodType'], tender['id']),
                                 extra=journal_context({"MESSAGE_ID": DATABRIDGE_INFO}, params={"TENDER_ID": tender['id']}))
                     continue
-                if tender['status'] in ("active.qualification",
+                if tender['status'] in ("active.qualification", "active",
                                         "active.awarded", "complete"):
                     if hasattr(tender, "lots"):
                         if any([1 for lot in tender['lots'] if lot['status'] == "complete"]):
