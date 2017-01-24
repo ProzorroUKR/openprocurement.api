@@ -5,6 +5,8 @@ version = '0.0.1'
 
 requires = [
     'setuptools',
+    'openprocurement.api>=2.3',
+    'openprocurement.historical.core'
 ]
 
 test_requires = requires + [
