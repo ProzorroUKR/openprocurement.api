@@ -12,6 +12,7 @@ from openprocurement.api.validation import (
     validate_cancellation_data,
     validate_patch_cancellation_data,
 )
+from openprocurement.api.views.cancellation import TenderCancellationResource
 
 
 @opresource(name='Tender Limited Cancellations',
@@ -19,7 +20,7 @@ from openprocurement.api.validation import (
             path='/tenders/{tender_id}/cancellations/{cancellation_id}',
             procurementMethodType='reporting',
             description="Tender cancellations")
-class TenderCancellationResource(APIResource):
+class TenderReportingCancellationResource(APIResource):
 
     @json_view(content_type="application/json", validators=(validate_cancellation_data,), permission='edit_tender')
     def collection_post(self):
@@ -79,6 +80,20 @@ class TenderCancellationResource(APIResource):
             description="Tender cancellations")
 class TenderNegotiationCancellationResource(TenderCancellationResource):
     """ Tender Negotiation Cancellation Resource """
+
+    def validate_cancellation(self, operation):
+        if not super(TenderNegotiationCancellationResource, self).validate_cancellation(operation):
+            return
+        tender = self.request.validated['tender']
+        cancellation = self.request.validated['cancellation']
+        if tender.lots:
+            if not cancellation.relatedLot:
+                if [lot for lot in tender.lots if lot.status == 'complete']:
+                    self.request.errors.add(
+                        'body', 'data', 'Can\'t {} cancellation, if there is at least one complete lot'.format(operation))
+                    self.request.errors.status = 403
+                    return
+        return True
 
 
 @opresource(name='Tender Negotiation Quick Cancellations',
