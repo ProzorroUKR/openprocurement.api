@@ -2,7 +2,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
 # C extensions
 *.so
 
@@ -44,6 +43,9 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+.cache
+nosetests.xml
+coverage.xml
 
 # Translations
 *.mo
@@ -59,7 +61,6 @@ instance/
 
 # Scrapy stuff:
 .scrapy
-
 # Sphinx documentation
 docs/_build/
 
@@ -87,3 +88,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+# Buildout
+bin/
+
+cover/
+output.html
