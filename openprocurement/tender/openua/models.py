@@ -14,7 +14,7 @@ from openprocurement.api.models import Complaint as BaseComplaint
 from openprocurement.api.models import ListType
 from openprocurement.api.models import Lot as BaseLot
 from openprocurement.api.models import Period, IsoDateTimeType
-from openprocurement.api.models import Address as BaseAddress
+from openprocurement.api.models import Address
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import LotValue as BaseLotValue
 from openprocurement.api.models import Item as BaseItem
@@ -188,13 +188,6 @@ class EnquiryPeriod(Period):
     clarificationsUntil = IsoDateTimeType()
     invalidationDate = IsoDateTimeType()
 
-
-class Address(BaseAddress):
-
-    streetAddress = StringType(required=True)
-    locality = StringType(required=True)
-    region = StringType(required=True)
-    postalCode = StringType(required=True)
 
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
