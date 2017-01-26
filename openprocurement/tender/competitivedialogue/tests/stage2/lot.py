@@ -2920,8 +2920,8 @@ class TenderStage2UALotFeatureBidderResourceTest(BaseCompetitiveDialogUAStage2Co
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u'All features parameters is required.'], u'location': u'body', u'name': u'parameters'},
-            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'lotValues'}
+            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'lotValues'},
+            {u'description': [u'All features parameters is required.'], u'location': u'body', u'name': u'parameters'}
         ])
 
         response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
