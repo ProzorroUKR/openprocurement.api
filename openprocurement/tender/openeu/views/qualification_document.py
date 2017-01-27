@@ -37,7 +37,7 @@ class TenderQualificationDocumentResource(APIResource):
             ]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
-    @json_view(permission='edit_tender', validators=(validate_file_upload,))
+    @json_view(permission='upload_tender_documents', validators=(validate_file_upload,))
     def collection_post(self):
         """Tender Qualification Document Upload
         """
@@ -93,7 +93,7 @@ class TenderQualificationDocumentResource(APIResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_document_put'}))
             return {'data': document.serialize("view")}
 
-    @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='upload_tender_documents')
     def patch(self):
         """Tender Qualification Document Update"""
         if self.request.validated['tender_status'] != 'active.pre-qualification':
