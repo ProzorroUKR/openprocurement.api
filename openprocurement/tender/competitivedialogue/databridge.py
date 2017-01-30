@@ -399,8 +399,11 @@ class CompetitiveDialogueDataBridge(object):
                                                   {"TENDER_ID": new_tender['dialogueID']}))
                 self.dialogs_stage2_retry_put_queue.put(new_tender)
             except Exception, e:
+                logger.info("Exception, schedule retry for competitive dialogue id={0}".format(new_tender['dialogueID']),
+                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_RETRY_CREATE},
+                                                  {"TENDER_ID": new_tender['dialogueID']}))
+                self.dialogs_stage2_retry_put_queue.put(new_tender)
                 logger.exception(e)
-                raise e
             else:
                 logger.info("Successfully created tender stage2 id={} from competitive dialogue id={}".format(res['data']['id'], res['data']['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_TENDER_CREATED},
