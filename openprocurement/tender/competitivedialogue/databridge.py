@@ -646,6 +646,7 @@ class CompetitiveDialogueDataBridge(object):
 
     def catch_exception(self, exc, name):
         """Restarting job"""
+        logger.warning('Worker died! Restarting {}.'.format(name), extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
         if name == 'get_competitive_dialogue_data':
             tender = self.competitive_dialogues_queue.get()  # delete invalid tender from queue
             logger.info('Remove invalid tender {}'.format(tender.id))
