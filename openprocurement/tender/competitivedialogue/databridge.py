@@ -400,6 +400,7 @@ class CompetitiveDialogueDataBridge(object):
                 self.dialogs_stage2_retry_put_queue.put(new_tender)
             except Exception, e:
                 logger.exception(e)
+                raise e
             else:
                 logger.info("Successfully created tender stage2 id={} from competitive dialogue id={}".format(res['data']['id'], res['data']['dialogueID']),
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_TENDER_CREATED},
