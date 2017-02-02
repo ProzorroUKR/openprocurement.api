@@ -77,6 +77,10 @@ class TenderResource(BaseTenderResource):
             return
         else:
             data = self.request.validated['data']
+            if tender.awards:
+                self.request.errors.add('body', 'data', 'Can\'t update tender when there is at least one award.')
+                self.request.errors.status = 403
+                return
             apply_patch(self.request, data=data, src=self.request.validated['tender_src'])
         self.LOGGER.info('Updated tender {}'.format(tender.id),
                          extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))

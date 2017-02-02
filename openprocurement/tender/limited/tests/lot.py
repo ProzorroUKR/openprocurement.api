@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.limited.tests.base import (
-    BaseTenderContentWebTest, test_tender_negotiation_data, test_lots,
+    BaseTenderContentWebTest, test_tender_negotiation_data, test_lots, test_organization,
     test_tender_negotiation_quick_data)
 
 
@@ -550,6 +550,330 @@ class TenderLotNegotiationResourceTest(BaseTenderContentWebTest):
 
         response = self.app.get('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token))
         self.assertEqual(response.status, '200 OK')
+
+    def cancel_lot_after_sing_contract(self):
+        # Create lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+
+        #  Update item with relatedLot field
+        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                            {'data': {'items': [{'relatedLot': lot['id']}]}})
+        # Create award
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending',
+                                                          'qualified': True, 'value': {"amount": 469,
+                                                                                       "currency": "UAH",
+                                                                                       "valueAddedTaxIncluded": True},
+                                                          'lotID': lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        award = response.json['data']
+
+        # Activate award
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, award['id'], self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        contract = response.json['data'][0]
+
+        # time travel
+        tender = self.db.get(self.tender_id)
+        for i in tender.get('awards', []):
+            if i.get('complaintPeriod', {}):  # reporting procedure does not have complaintPeriod
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+
+        # Activate contract
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        # try to cancel lot
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+                                 {"data": {"reason": "cancellation reason", "cancellationOf": "lot",
+                                           "relatedLot": lot['id']}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [
+            {u"location": u"body",
+             u"name": u"data",
+             u"description": u"Can't add cancellation in current (complete) tender status"}])
+
+    def test_cancel_lot_with_complaint(self):
+        # Create lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                            {'data': {'items': [{'relatedLot': lot['id']}]}})
+
+        # Create award
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending',
+                                                          'qualified': True, 'value': {"amount": 469,
+                                                                                       "currency": "UAH",
+                                                                                       "valueAddedTaxIncluded": True},
+                                                          'lotID': lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        award = response.json['data']
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, award['id'], self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        # Create complaints
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, award['id']),
+                  {"data": {"status": "pending", "title": "Недостатньо інформації", "description": "Опис",
+                            "author": {"contactPoint": {"telephone": "+380 (432) 21-69-30", "name": "Сергій Олексюк",
+                                                        "email": "soleksuk@gmail.com"},
+                                       "identifier": {"scheme": "UA-EDR", "legalName": "Державне комунальне підприємство",
+                                           "id": "13313462", "uri": "http://sch10.edu.vn.ua/"},
+                                       "name": "ДКП «Школяр»",
+                                       "address": {"countryName": "Україна", "postalCode": "21100",
+                                                   "region": "м. Вінниця", "streetAddress": "вул. Островського, 33",
+                                                   "locality": "м. Вінниця"}}}})
+        self.assertEqual(response.status, '201 Created')
+
+        # Try to cancel lot
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {"data": {"reason": "cancellation reason", "cancellationOf": "lot",
+                                                "relatedLot": lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['status'], 'pending')
+        cancellation = response.json['data']
+        response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(
+            self.tender_id, cancellation['id'], self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        # Check lot status
+        response = self.app.get('/tenders/{}/lots'.format(self.tender_id))
+        self.assertEqual(response.json['data'][0]['status'], 'cancelled')
+
+    def test_last_lot_complete(self):
+        # Create 3 lots and update related items
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        first_lot = response.json['data']
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        second_lot = response.json['data']
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        third_lot = response.json['data']
+        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                            {'data': {'items': [{'relatedLot': first_lot['id']}]}})
+        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                            {'data': {'items': [{'relatedLot': second_lot['id']}]}})
+        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                            {'data': {'items': [{'relatedLot': third_lot['id']}]}})
+
+        # Cancel 1 lot
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {"data": {"reason": "cancellation reason", "cancellationOf": "lot",
+                                                "relatedLot": first_lot['id']}})
+        self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id,
+                            response.json['data']['id'], self.tender_token), {"data": {"status": "active"}})
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, first_lot['id']))
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+        # create awards for second and third
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending',
+                                                          'qualified': True, 'value': {"amount": 469,
+                                                                                       "currency": "UAH",
+                                                                                       "valueAddedTaxIncluded": True},
+                                                          'lotID': second_lot['id']}})
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, response.json['data']['id'], self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending',
+                                                          'qualified': True, 'value': {"amount": 469,
+                                                                                       "currency": "UAH",
+                                                                                       "valueAddedTaxIncluded": True},
+                                                          'lotID': third_lot['id']}})
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, response.json['data']['id'], self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        # time travel
+        tender = self.db.get(self.tender_id)
+        for i in tender.get('awards', []):
+            if i.get('complaintPeriod', {}):  # reporting procedure does not have complaintPeriod
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+
+        # Sign in contracts
+        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+        first_contract = response.json['data'][0]
+        second_contract = response.json['data'][1]
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, first_contract['id'], self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, second_contract['id'], self.tender_token), {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        # Check tender status
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.json['data']['status'], 'complete')
+
+    def test_all_cancelled_lots(self):
+        # Create 2 lots and update related items
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        first_lot = response.json['data']
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        second_lot = response.json['data']
+        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                            {'data': {'items': [{'relatedLot': first_lot['id']}]}})
+        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                            {'data': {'items': [{'relatedLot': second_lot['id']}]}})
+
+        # Cancel lots
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {"data": {"reason": "cancellation reason", "cancellationOf": "lot",
+                                                "relatedLot": first_lot['id']}})
+        self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id,
+                            response.json['data']['id'], self.tender_token), {"data": {"status": "active"}})
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, first_lot['id']))
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {"data": {"reason": "cancellation reason", "cancellationOf": "lot",
+                                                "relatedLot": second_lot['id']}})
+        self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id,
+                            response.json['data']['id'], self.tender_token), {"data": {"status": "active"}})
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, second_lot['id']))
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+        # Check tender status
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+    def test_cancel_lots_check_awards(self):
+        # create first lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        first_lot = response.json['data']
+
+        # create second lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        second_lot = response.json['data']
+
+        # first award
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': {'suppliers': [test_organization], 'status': 'pending',
+                                                'lotID': first_lot['id'], 'qualified': True}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        first_award = response.json['data']
+
+        # second award
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': {'suppliers': [test_organization], 'status': 'pending',
+                                                'lotID': second_lot['id'], 'qualified': True}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        second_award = response.json['data']
+
+        # cancellation for first lot
+        response = self.app.post_json(
+            '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+            {"data": {"reason": "cancellation reason",
+                      "cancellationOf": "lot",
+                      "relatedLot": first_lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['status'], 'pending')
+        cancellation = response.json['data']
+        response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id,
+                                                                                          cancellation['id'],
+                                                                                          self.tender_token),
+                                       {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        # check corresponding lot
+        response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, first_lot['id']))
+        self.assertEqual(response.json['data']['status'], 'cancelled')
+
+        # check corresponding award
+        response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, first_award['id']))
+        self.assertEqual(response.json['data']['status'], 'pending')
+
+    def test_delete_lot_after_first_award(self):
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': {'suppliers': [test_organization], 'status': 'pending', 'lotID': lot['id'], 'qualified': True}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        award = response.json['data']
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+                                       {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        # try to delete lot
+        response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(
+            self.tender_id, lot['id'], self.tender_token), status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [{
+                u"location": u"body",
+                u"name": u"data",
+                u"description": u"Can't delete lot when you have awards"}])
+
+    def test_patch_lot_with_cancellation(self):
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                      {'data': test_lots[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lot = response.json['data']
+
+        # Create cancellation on lot
+        response = self.app.post_json(
+            '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
+            {"data": {"reason": "cancellation reason",
+                      "cancellationOf": "lot",
+                      "relatedLot": lot['id']}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.json['data']['status'], 'pending')
+
+        # Try to patch lot with cancellation on it
+        response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'],
+                                                                                 self.tender_token),
+                                        {"data": {"title": "new title"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can't update lot when it has 'pending' cancellation.")
 
 
 class TenderLotNegotiationQuickResourceTest(TenderLotNegotiationResourceTest):
