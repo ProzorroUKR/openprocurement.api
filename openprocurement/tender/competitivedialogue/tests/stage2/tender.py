@@ -550,7 +550,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         if get_now() > CPV_ITEMS_CLASS_FROM:
             self.assertEqual(response.json['errors'], [
                 {u'description': [{u'additionalClassifications': [
-                    u"One of additional classifications should be one of [ДК003, ДК015, ДК018]."]}],
+                    u"One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."]}],
                     u'location': u'body', u'name': u'items'}])
         else:
             self.assertEqual(response.json['errors'], [
@@ -1757,7 +1757,7 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
         self.assertEqual(response.json['status'], 'error')
         if get_now() > CPV_ITEMS_CLASS_FROM:
             self.assertEqual(response.json['errors'], [{u'description': [{u'additionalClassifications': [
-                    u"One of additional classifications should be one of [ДК003, ДК015, ДК018]."]}],
+                    u"One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."]}],
                     u'location': u'body', u'name': u'items'}])
         else:
             self.assertEqual(response.json['errors'], [{u'description': [{u'additionalClassifications': [
