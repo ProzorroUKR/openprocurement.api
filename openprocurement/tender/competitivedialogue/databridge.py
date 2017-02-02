@@ -567,7 +567,7 @@ class CompetitiveDialogueDataBridge(object):
                 self.competitive_dialogues_queue.put({"id": patch_data['dialogueID']})
             gevent.sleep(0)
 
-    @retry(stop_max_attempt_number=5, wait_exponential_multiplier=1000)
+    @retry(stop_max_attempt_number=5, wait_exponential_multiplier=10000)
     def _put_with_retry(self, new_tender):
         data = {"data": new_tender}
         logger.info("Creating tender stage2 from competitive dialogue id={0}".format(new_tender['dialogueID']),
@@ -575,6 +575,26 @@ class CompetitiveDialogueDataBridge(object):
                                           {"TENDER_ID": new_tender['dialogueID']}))
         try:
             res = self.client.create_tender(data)
+        except ResourceError as re:
+            if re.status_int == 412:  # Update Cookie, and retry
+                self.client.headers['Cookie'] = re.response.headers['Set-Cookie']
+            elif re.status_int == 422:  # WARNING and don't retry
+                logger.warn("Catch 422 status, stop create tender stage2",
+                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
+                                                  {"TENDER_ID": new_tender['dialogueID']}))
+                logger.warn("Error response {}".format(re.message),
+                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
+                                                  {"TENDER_ID": new_tender['dialogueID']}))
+            elif re.status_int == 404:  # WARNING and don't retry
+                logger.warn("Catch 404 status, stop create tender stage2",
+                            extra=journal_context(
+                                {"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
+                                {"TENDER_ID": new_tender['dialogueID']}))
+            else:
+                logger.info("Unsuccessful put for tender stage2 of competitive dialogue id={0}".format(new_tender['dialogueID']),
+                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_UNSUCCESSFUL_CREATE},
+                                                  {"TENDER_ID": new_tender['dialogueID']}))
+            raise re
         except Exception, e:
             logger.exception(e)
             raise
