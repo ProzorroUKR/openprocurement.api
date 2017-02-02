@@ -1238,13 +1238,11 @@ class TenderStage2EUBidDocumentResourceTest(BaseCompetitiveDialogEUStage2Content
         test_bid_1['tenderers'] = [author]
         test_bid_2 = deepcopy(test_bids[1])
         test_bid_2['tenderers'] = [author]
-        print 0, self.app.authorization
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bid_1})
         bid = response.json['data']
         self.bid_id = bid['id']
         self.bid_token = response.json['access']['token']
         # create second bid
-        print 1, self.app.authorization
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bid_2})
         bid2 = response.json['data']
         self.bid2_id = bid2['id']
@@ -1429,7 +1427,6 @@ class TenderStage2EUBidDocumentResourceTest(BaseCompetitiveDialogEUStage2Content
             orig_auth = self.app.authorization
             self.app.authorization = ('Basic', ('broker', ''))
             for resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
-                print 2, self.app.authorization
                 response = self.app.get('/tenders/{}/bids/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id,
                                                                                      resource, self.bid_token))
                 self.assertEqual(response.status, '200 OK')
