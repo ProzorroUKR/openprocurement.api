@@ -1545,8 +1545,6 @@ class TenderUAProcessTest(BaseTenderUAWebTest):
                                       {"data": test_tender_data})
         tender_id = self.tender_id = response.json['data']['id']
         owner_token = response.json['access']['token']
-        # switch to active.tendering
-        self.set_status('active.tendering')
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
