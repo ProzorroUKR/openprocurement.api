@@ -672,6 +672,10 @@ class Tender(BaseTender):
                 last_award_status = lot_awards[-1].status if lot_awards else ''
                 if not pending_complaints and not pending_awards_complaints and standStillEnds and last_award_status == 'unsuccessful':
                     checks.append(max(standStillEnds))
+        if self.status.startswith('active'):
+            for award in self.awards:
+                if award.status == 'active' and not any([i.awardID == award.id for i in self.contracts]):
+                    checks.append(award.date)
         return min(checks).isoformat() if checks else None
 
     def validate_tenderPeriod(self, data, period):
