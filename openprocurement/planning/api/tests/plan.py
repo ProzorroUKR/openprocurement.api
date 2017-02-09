@@ -522,6 +522,35 @@ class PlanResourceTest(BaseWebTest):
                 u'location': u'body', u'name': u'items'}
             ])
 
+        classification_id = test_plan_data["classification"]["id"]
+        test_plan_data["classification"]["id"] = u'33600000-6'
+        response = self.app.post_json(request_path, {'data': test_plan_data}, status=422)
+        test_plan_data["classification"]["id"] = classification_id
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [{u'classification': [u'CPV group of items be identical to root cpv']}],
+            u'location': u'body', u'name': u'items'}
+        ])
+
+        classification_id = test_plan_data["classification"]["id"]
+        test_plan_data["classification"]["id"] = u'33600000-6'
+        item = test_plan_data["items"][0].copy()
+        data = test_plan_data["items"][0].copy()
+        classification = data['classification'].copy()
+        classification["id"] = u'33610000-9'
+        data['classification'] = classification
+        data2 = test_plan_data["items"][0].copy()
+        classification = data2['classification'].copy()
+        classification["id"] = u'33620000-2'
+        data2['classification'] = classification
+        test_plan_data["items"] = [data, data2]
+        response = self.app.post_json(request_path, {'data': test_plan_data})
+        test_plan_data["classification"]["id"] = classification_id
+        test_plan_data["items"] = [item]
+        self.assertEqual(response.status, '201 Created')
+
     def test_create_plan_generated(self):
         data = test_plan_data.copy()
         data.update({'id': 'hash', 'doc_id': 'hash2', 'planID': 'hash3'})
