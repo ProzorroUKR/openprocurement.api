@@ -10,6 +10,7 @@ from openprocurement.api.utils import (
     remove_draft_bids
 )
 from openprocurement.tender.openua.utils import (
+    add_next_award,
     check_complaint_status, has_unanswered_questions, has_unanswered_complaints
 )
 from openprocurement.tender.openeu.models import Qualification
@@ -106,6 +107,17 @@ def all_bids_are_reviewed(request):
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
+
+    for award in tender.awards:
+        if award.status == 'active' and not any([i.awardID == award.id for i in tender.contracts]):
+            tender.contracts.append(type(tender).contracts.model_class({
+                'awardID': award.id,
+                'suppliers': award.suppliers,
+                'value': award.value,
+                'date': now,
+                'items': [i for i in tender.items if i.relatedLot == award.lotID ],
+                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1) }))
+            add_next_award(request)
 
     if tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
             not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
