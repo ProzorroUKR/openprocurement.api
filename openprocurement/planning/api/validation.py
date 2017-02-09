@@ -15,7 +15,12 @@ def validate_plan_data(request):
         request.errors.add('plan', 'accreditation', 'Broker Accreditation level does not permit plan creation')
         request.errors.status = 403
         return
-    return validate_data(request, model, data=data)
+    data = validate_data(request, model, data=data)
+    if data and data.get('mode', None) is None and request.check_accreditation('t'):
+        request.errors.add('plan', 'mode', 'Broker Accreditation level does not permit plan creation')
+        request.errors.status = 403
+        return
+    return data
 
 
 def validate_patch_plan_data(request):
