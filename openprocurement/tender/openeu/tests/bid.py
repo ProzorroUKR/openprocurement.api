@@ -573,14 +573,15 @@ class TenderBidResourceTest(BaseTenderContentWebTest):
         # try to restore deleted bid
         response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {
             'status': 'pending',
-            }})
-        self.assertEqual(response.status, '200 OK')
+            }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update bid in (deleted) status")
 
         response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertNotEqual(response.json['data']['status'], 'deleted')
-        self.assertEqual(response.json['data']['status'], 'pending')
+        self.assertEqual(response.json['data']['status'], 'deleted')
 
     def test_deleted_bid_do_not_locks_tender_in_state(self):
         bids = []
