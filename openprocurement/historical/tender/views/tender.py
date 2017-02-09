@@ -16,6 +16,7 @@ from openprocurement.api.utils import (
 
 @tenders_history_resource(name='TenderHistory',
                           path='/tenders/{doc_id}/historical',
+                          has_request_method='extract_doc_versioned',
                           description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderHistoryResource(APIResource):
 

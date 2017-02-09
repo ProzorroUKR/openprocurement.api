@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import os
 
 version = '0.0.1'
 
@@ -18,9 +17,6 @@ docs_requires = requires + [
     'sphinxcontrib-httpdomain',
 ]
 
-api_requires = requires + [
-    'openprocurement.api',
-]
 
 entry_points = {
     'openprocurement.api.plugins': [
@@ -51,7 +47,6 @@ setup(name='openprocurement.historical.tender',
       install_requires=requires,
       tests_require=test_requires,
       extras_require={
-          'api': api_requires,
           'test': test_requires,
           'docs': docs_requires
       },
