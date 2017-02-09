@@ -25,7 +25,7 @@ from openprocurement.api.models import (plain_role, Administrator_role,
 contract_create_role = (whitelist(
     'id', 'awardID', 'contractID', 'contractNumber', 'title', 'title_en',
     'title_ru', 'description', 'description_en', 'description_ru', 'status',
-    'period', 'value', 'dateSigned', 'documents', 'items', 'suppliers',
+    'period', 'value', 'dateSigned', 'items', 'suppliers',
     'procuringEntity', 'owner', 'tender_token', 'tender_id', 'mode'
 ))
 

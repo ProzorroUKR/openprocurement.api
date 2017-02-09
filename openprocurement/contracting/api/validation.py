@@ -6,7 +6,7 @@ from openprocurement.contracting.api.models import Contract, Change
 
 def validate_contract_data(request):
     update_logging_context(request, {'contract_id': '__new__'})
-    data = validate_json_data(request)
+    data = request.validated['json_data'] = validate_json_data(request)
     if data is None:
         return
     model = request.contract_from_data(data, create=False)
