@@ -4,6 +4,7 @@ import json
 import os.path
 from copy import copy
 from pyramid.testing import DummyRequest
+from pyramid import testing
 from jsonpointer import resolve_pointer
 from openprocurement.historical.core.utils import (
     VERSION,
@@ -13,6 +14,7 @@ from openprocurement.historical.core.utils import (
     apply_while,
     parse_hash,
     extract_doc,
+    HasRequestMethod
 )
 
 here = os.path.dirname(__file__)
@@ -119,3 +121,11 @@ class HistoricalTest(unittest.TestCase):
         self.assertEqual(request.response.headers[VERSION], '2')
         self.assertEqual(doc['dateModified'],
                          test_data_with_revisions['revisions'][1]['date'])
+
+    def test_has_request_method_predicate(self):
+        config = testing.setUp()
+        pred = HasRequestMethod('test', config)
+        request = DummyRequest()
+        self.assertFalse(pred(None, request))
+        setattr(request, 'test', lambda x: True)
+        self.assertTrue(pred(None, request))
