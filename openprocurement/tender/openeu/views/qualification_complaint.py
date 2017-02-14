@@ -2,6 +2,7 @@
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.utils import qualifications_resource
 from openprocurement.tender.openeu.views.award_complaint import TenderEUAwardComplaintResource
+from openprocurement.tender.openua.views.award_complaint import get_bid_id
 from openprocurement.api.utils import (
     apply_patch,
     context_unpack,
@@ -48,6 +49,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         complaint = self.request.validated['complaint']
         complaint.relatedLot = self.context.lotID
         complaint.date = get_now()
+        complaint.bid_id = get_bid_id(self.request)
         if complaint.status == 'claim':
             complaint.dateSubmitted = get_now()
         elif complaint.status == 'pending':
@@ -55,6 +57,10 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             complaint.dateSubmitted = get_now()
         else:
             complaint.status = 'draft'
+        if self.context.status == 'unsuccessful' and complaint.status == 'claim' and self.context.bid_id != complaint.bid_id:
+            self.request.errors.add('body', 'data', 'Can add claim only on unsuccessful qualification of your bid')
+            self.request.errors.status = 403
+            return
         complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
         set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
@@ -99,6 +105,10 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         elif self.request.authenticated_role == 'complaint_owner' and is_qualificationPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'complaint_owner' and is_qualificationPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == 'claim':
+            if self.request.validated['qualification'].status == 'unsuccessful' and self.request.validated['qualification'].bid_id != self.context.bid_id:
+                self.request.errors.add('body', 'data', 'Can add claim only on unsuccessful qualification of your bid')
+                self.request.errors.status = 403
+                return
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateSubmitted = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and is_qualificationPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == 'pending':
