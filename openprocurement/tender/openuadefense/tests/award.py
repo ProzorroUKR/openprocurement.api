@@ -841,6 +841,50 @@ class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
             {u'description': {u'contactPoint': [u'This field is required.'], u'identifier': {u'scheme': [u'This field is required.'], u'id': [u'This field is required.'], u'uri': [u'Not a well formed URL.']}, u'address': [u'This field is required.']}, u'location': u'body', u'name': u'author'}
         ])
 
+    def test_create_tender_award_claim(self):
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
+        self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {'data': {'status': 'cancelled'}})
+
+        response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][-1]
+        self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, award_id), {'data': {'status': 'unsuccessful'}})
+        self.app.authorization = auth
+        bid_token = self.initial_bids_tokens[self.initial_bids[1]['id']]
+
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), {'data': {
+            'title': 'complaint title',
+            'description': 'complaint description',
+            'author': test_organization,
+            'status': 'claim'
+        }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Can add claim only on unsuccessful award of your bid', u'location': u'body', u'name': u'data'}
+        ])
+
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), {'data': {
+            'title': 'complaint title',
+            'description': 'complaint description',
+            'author': test_organization,
+            'status': 'draft'
+        }})
+        self.assertEqual(response.status, '201 Created')
+        complaint = response.json['data']
+        owner_token = response.json['access']['token']
+
+        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, award_id, complaint['id'], owner_token), {"data": {
+            "status": "claim",
+        }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Can add claim only on unsuccessful award of your bid', u'location': u'body', u'name': u'data'}
+        ])
+
     def test_create_tender_award_complaint_not_active(self):
         auth = self.app.authorization
         self.app.authorization = ('Basic', ('token', ''))
