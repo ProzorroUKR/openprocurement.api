@@ -1,0 +1,69 @@
+import os
+from setuptools import setup, find_packages
+
+here = os.path.abspath(os.path.dirname(__file__))
+
+with open(os.path.join(here, 'README.rst')) as f:
+    README = f.read()
+
+requires = [
+    'barbecue',
+    'chaussette',
+    'cornice',
+    'couchdb-schematics',
+    'gevent',
+    'iso8601',
+    'jsonpatch',
+    'libnacl',
+    'pbkdf2',
+    'pycrypto',
+    'pyramid_exclog',
+    'requests',
+    'rfc6266',
+    'setuptools',
+    'tzlocal',
+    'openprocurement.api',  # XXX TODO set version
+    'openprocurement.tender.core',
+]
+test_requires = requires + [
+    'webtest',
+    'python-coveralls',
+]
+docs_requires = requires + [
+    'sphinxcontrib-httpdomain',
+]
+
+entry_points = {
+    'openprocurement.api.plugins': [
+        'belowThreshold = openprocurement.tender.belowthreshold:includeme'
+    ],
+    # 'openprocurement.api.migrations': [
+        # 'belowthreshold_tenders = openprocurement.tender.belowthreshold.migration:migrate_data'
+    # ]
+}
+
+setup(name='openprocurement.tender.belowthreshold',
+      version='2.3.0',
+      description='openprocurement.tender.belowthreshold',
+      long_description=README,
+      classifiers=[
+          "Framework :: Pylons",
+          "License :: OSI Approved :: Apache Software License",
+          "Programming Language :: Python",
+          "Topic :: Internet :: WWW/HTTP",
+          "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"
+      ],
+      keywords="web services",
+      author='Quintagroup, Ltd.',
+      author_email='info@quintagroup.com',
+      license='Apache License 2.0',
+      url='https://github.com/openprocurement/openprocurement.tender.belowthreshold',
+      packages=find_packages(exclude=['ez_setup']),
+      namespace_packages=['openprocurement', 'openprocurement.tender'],
+      include_package_data=True,
+      zip_safe=False,
+      install_requires=requires,
+      tests_require=test_requires,
+      extras_require={'test': test_requires, 'docs': docs_requires},
+      test_suite="openprocurement.tender.belowthreshold.tests.main.suite",
+      entry_points=entry_points)

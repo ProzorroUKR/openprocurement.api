@@ -1,0 +1,69 @@
+PATCH /api/2.3/tenders/eeb9177097a14a8c80ca0d1c8b202a00/awards/86d3f73dd7094865a9fd4966584c62ae?acc_token=a8d118cc5aab4c9e8e6fafe89d2c4615 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 36
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+
+{
+  "data": {
+    "status": "unsuccessful"
+  }
+}
+
+
+200 OK
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/eeb9177097a14a8c80ca0d1c8b202a00/awards/ee904f5b047c46f29e0d221a940100ea
+
+{
+  "data": {
+    "status": "unsuccessful", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Unsuccessful_Reason.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/d9f9cff141e9459daed074c56155676c?KeyID=a1a42480&Signature=rouGILe%2F%2FpZ8%2FhqYoXiGkMRAkP9EjjC5Y14mea%2Fm%2FJb1AjFSxXytafd3qovtPIm08XDJAwHv0wsJfk9hwoO8DmQAAAA5AAAAZgAAADkAAABjAAAAZgAAAGYAAAAxAAAA", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2016-07-21T17:17:55.311634+03:00", 
+        "id": "acfbcdc5e39d4492b43af0cfa2db1a51", 
+        "dateModified": "2016-07-21T17:17:55.311664+03:00"
+      }
+    ], 
+    "complaintPeriod": {
+      "startDate": "2016-07-21T17:17:55.039093+03:00", 
+      "endDate": "2016-07-25T17:17:55.521707+03:00"
+    }, 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "bid_id": "3074dddf0f8f4f3f88f21224d7898243", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 450.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "date": "2016-07-21T17:17:55.533060+03:00", 
+    "id": "86d3f73dd7094865a9fd4966584c62ae"
+  }
+}
+

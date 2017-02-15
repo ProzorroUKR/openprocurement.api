@@ -1,0 +1,49 @@
+GET /api/2.3/tenders/eeb9177097a14a8c80ca0d1c8b202a00/awards HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+
+200 OK
+Content-Type: application/json; charset=UTF-8
+
+{
+  "data": [
+    {
+      "status": "pending", 
+      "complaintPeriod": {
+        "startDate": "2016-07-21T17:17:55.039093+03:00"
+      }, 
+      "suppliers": [
+        {
+          "contactPoint": {
+            "email": "soleksuk@gmail.com", 
+            "telephone": "+380 (432) 21-69-30", 
+            "name": "Сергій Олексюк"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "id": "00137256", 
+            "uri": "http://www.sc.gov.ua/"
+          }, 
+          "name": "ДКП «Школяр»", 
+          "address": {
+            "postalCode": "21100", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 33", 
+            "region": "м. Вінниця", 
+            "locality": "м. Вінниця"
+          }
+        }
+      ], 
+      "bid_id": "3074dddf0f8f4f3f88f21224d7898243", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 450.0, 
+        "valueAddedTaxIncluded": true
+      }, 
+      "date": "2016-07-21T17:17:55.039076+03:00", 
+      "id": "86d3f73dd7094865a9fd4966584c62ae"
+    }
+  ]
+}
+
