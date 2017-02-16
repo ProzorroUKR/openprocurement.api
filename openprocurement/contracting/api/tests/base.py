@@ -8,8 +8,8 @@ from datetime import datetime
 from requests.models import Response
 from urllib import urlencode
 from uuid import uuid4
-from openprocurement.api.utils import VERSION, SESSION
-from openprocurement.api.models import get_now
+from openprocurement.api.constants import VERSION, SESSION
+from openprocurement.api.utils import get_now
 
 now = datetime.now()
 

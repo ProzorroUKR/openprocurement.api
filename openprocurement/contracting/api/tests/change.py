@@ -2,7 +2,7 @@
 import unittest
 from datetime import timedelta
 from copy import deepcopy
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.base import (
     BaseWebTest, BaseContractContentWebTest, test_contract_data)
 

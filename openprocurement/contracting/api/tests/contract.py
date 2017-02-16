@@ -3,11 +3,11 @@ import unittest
 from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
-from openprocurement.api import ROUTE_PREFIX
+from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.contracting.api.models import Contract
 from openprocurement.contracting.api.tests.base import (
     test_contract_data, BaseWebTest, BaseContractWebTest, documents)
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 
 
 class ContractTest(BaseWebTest):
@@ -338,7 +338,7 @@ class ContractResourceTest(BaseWebTest):
         response = self.app.get('/contracts/{}'.format(tender_id), status=404)
         self.assertEqual(response.status, '404 Not Found')
 
-        from openprocurement.api.tests.base import test_tender_data
+        from openprocurement.tender.belowthreshold.tests.base import test_tender_data
         orig_auth = self.app.authorization
         self.app.authorization = ('Basic', ('broker1', ''))
         response = self.app.post_json('/tenders', {"data": test_tender_data})

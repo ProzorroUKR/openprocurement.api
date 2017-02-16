@@ -10,6 +10,7 @@ requires = [
 test_requires = requires + [
     'webtest',
     'python-coveralls',
+    'openprocurement.tender.belowthreshold',
 ]
 
 docs_requires = requires + [
@@ -26,7 +27,8 @@ databridge_requires = requires + [
 ]
 
 api_requires = requires + [
-    'openprocurement.api',
+    'openprocurement.api',  # XXX TODO: set required version
+    'openprocurement.tender.core',
 ]
 
 entry_points = {

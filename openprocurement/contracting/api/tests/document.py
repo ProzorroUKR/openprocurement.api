@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from email.header import Header
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.base import BaseContractContentWebTest
 
 

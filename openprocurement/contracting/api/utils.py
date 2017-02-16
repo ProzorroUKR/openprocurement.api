@@ -1,20 +1,14 @@
 # -*- coding: utf-8 -*-
 from functools import partial
-from rfc6266 import build_header
-from urlparse import urlparse, parse_qs
-from urllib import quote
 from pkg_resources import get_distribution
-from base64 import b64encode
 from logging import getLogger
 from cornice.resource import resource
 from schematics.exceptions import ModelValidationError
-from openprocurement.api.utils import (error_handler, get_revision_changes,
-                                       context_unpack, update_logging_context,
-                                       apply_data_patch, generate_id,
-                                       set_modetest_titles,
-                                       get_filename, DOCUMENT_BLACKLISTED_FIELDS
-                                       )
-from openprocurement.api.models import Revision, get_now
+from openprocurement.api.utils import (
+    error_handler, get_revision_changes, context_unpack, apply_data_patch,
+    generate_id, set_modetest_titles, get_now,
+)
+from openprocurement.api.models import Revision
 
 from openprocurement.contracting.api.traversal import factory
 from openprocurement.contracting.api.models import Contract

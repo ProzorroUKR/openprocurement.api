@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from functools import partial
-from logging import getLogger
 from openprocurement.api.utils import (
     context_unpack,
     decrypt,

@@ -2,14 +2,15 @@
 from hashlib import sha512
 from openprocurement.api.utils import (
     json_view,
-    opresource,
     APIResource,
 )
 
+from openprocurement.tender.core.utils import optendersresource
 
-@opresource(name='Tender credentials',
-            path='/tenders/{tender_id}/extract_credentials',
-            description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
+
+@optendersresource(name='Tender credentials',
+                   path='/tenders/{tender_id}/extract_credentials',
+                   description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderResource(APIResource):
 
     @json_view(permission='extract_credentials')
