@@ -568,15 +568,13 @@ class TenderResourceTest(BaseTenderWebTest):
         ])
 
         data = deepcopy(test_tender_data)
-        del data["items"][0]['deliveryAddress']['postalCode']
-        del data["items"][0]['deliveryAddress']['locality']
         del data["items"][0]['deliveryDate']
         response = self.app.post_json(request_path, {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'deliveryDate': [u'This field is required.'], u'deliveryAddress': {u'postalCode': [u'This field is required.'], u'locality': [u'This field is required.']}}], u'location': u'body', u'name': u'items'}
+            {u'description': [{u'deliveryDate': [u'This field is required.']}], u'location': u'body', u'name': u'items'}
         ])
 
     def test_field_relatedLot(self):
@@ -681,6 +679,19 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         self.assertIn('{\n    "', response.body)
+
+        data = deepcopy(self.initial_data)
+        del data["items"][0]['deliveryAddress']['postalCode']
+        del data["items"][0]['deliveryAddress']['locality']
+        del data["items"][0]['deliveryAddress']['streetAddress']
+        del data["items"][0]['deliveryAddress']['region']
+        response = self.app.post_json('/tenders', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertNotIn('postalCode', response.json['data']['items'][0]['deliveryAddress'])
+        self.assertNotIn('locality', response.json['data']['items'][0]['deliveryAddress'])
+        self.assertNotIn('streetAddress', response.json['data']['items'][0]['deliveryAddress'])
+        self.assertNotIn('region', response.json['data']['items'][0]['deliveryAddress'])
 
     def test_get_tender(self):
         response = self.app.get('/tenders')
