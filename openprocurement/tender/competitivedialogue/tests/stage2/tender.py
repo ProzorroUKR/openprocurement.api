@@ -585,17 +585,13 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         ])
 
         data = deepcopy(test_tender_stage2_data_eu)
-        del data["items"][0]['deliveryAddress']['postalCode']
-        del data["items"][0]['deliveryAddress']['locality']
         del data["items"][0]['deliveryDate']
         response = self.app.post_json(request_path, {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'deliveryDate': [u'This field is required.'],
-                               u'deliveryAddress': {u'postalCode': [u'This field is required.'],
-                                                    u'locality': [u'This field is required.']}}],
+            {u'description': [{u'deliveryDate': [u'This field is required.']}],
              u'location': u'body', u'name': u'items'}
         ])
 
@@ -1792,17 +1788,13 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
         ])
 
         data = deepcopy(test_tender_stage2_data_ua)
-        del data["items"][0]['deliveryAddress']['postalCode']
-        del data["items"][0]['deliveryAddress']['locality']
         del data["items"][0]['deliveryDate']['endDate']
         response = self.app.post_json(request_path, {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'deliveryDate': {u'endDate': [u'This field is required.']},
-                               u'deliveryAddress': {u'postalCode': [u'This field is required.'],
-                                                    u'locality': [u'This field is required.']}}],
+            {u'description': [{u'deliveryDate': {u'endDate': [u'This field is required.']}}],
              u'location': u'body', u'name': u'items'}
         ])
 
