@@ -10,10 +10,10 @@ from base64 import b64encode
 from cornice.resource import resource
 from cornice.util import json_error
 from couchdb.http import ResourceConflict
-from openprocurement.api.models import Revision, get_now
+from openprocurement.api.models import Revision
 from openprocurement.api.utils import (
-    update_logging_context, context_unpack, get_revision_changes,
-    apply_data_patch, generate_id, DOCUMENT_BLACKLISTED_FIELDS, get_filename,
+    update_logging_context, context_unpack, get_revision_changes, get_now,
+    apply_data_patch
 )
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.traversal import factory

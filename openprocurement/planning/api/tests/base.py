@@ -5,7 +5,7 @@ import os
 from base64 import b64encode
 from copy import deepcopy
 from datetime import datetime, timedelta
-from openprocurement.api.utils import VERSION, SESSION
+from openprocurement.api.constants import VERSION, SESSION
 from requests.models import Response
 from urllib import urlencode
 from uuid import uuid4

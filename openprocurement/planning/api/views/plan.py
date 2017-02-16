@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from functools import partial
 from logging import getLogger
-from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
     context_unpack,
     decrypt,
     encrypt,
+    get_now,
     generate_id,
     json_view,
     set_ownership,

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from openprocurement.api import ROUTE_PREFIX
+from openprocurement.api.constants import ROUTE_PREFIX, CPV_ITEMS_CLASS_FROM
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.tests.base import test_plan_data, BaseWebTest
-from openprocurement.api.models import get_now, CPV_ITEMS_CLASS_FROM
+from openprocurement.api.utils import get_now
 
 test_plan_data_mode_test = test_plan_data.copy()
 test_plan_data_mode_test["mode"] = "test"
