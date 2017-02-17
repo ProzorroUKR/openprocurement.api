@@ -20,6 +20,9 @@ from openprocurement.api.utils import (
 )
 
 from openprocurement.api.constants import TZ
+from openprocurement.api.validation import (
+    validate_items_uniq, validate_cpv_group
+)
 
 from openprocurement.tender.core.models import (
     view_role, create_role, edit_role,
@@ -28,8 +31,7 @@ from openprocurement.tender.core.models import (
 )
 
 from openprocurement.tender.core.models import (
-    validate_items_uniq, validate_features_uniq,
-    validate_lots_uniq, validate_cpv_group,
+    validate_features_uniq, validate_lots_uniq
 )
 
 from openprocurement.tender.core.models import (
