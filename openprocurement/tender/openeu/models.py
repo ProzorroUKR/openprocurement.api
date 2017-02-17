@@ -81,6 +81,7 @@ class BidModelType(ModelType):
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
+        orig_data = data
         while not isinstance(data['__parent__'], Tender):
             data = data['__parent__']
         if data['status'] in ('deleted', 'invalid', 'draft'):
@@ -91,7 +92,7 @@ def bids_validation_wrapper(validation_func):
         if request.method == "PATCH" and isinstance(tender, Tender) and request.authenticated_role == "tender_owner":
             # disable bids validation on tender PATCH requests as tender bids will be invalidated
             return
-        return validation_func(klass, data, value)
+        return validation_func(klass, orig_data, value)
     return validator
 
 
@@ -347,6 +348,10 @@ ConfidentialDocument = Document
 
 
 class Parameter(BaseParameter):
+
+    @bids_validation_wrapper
+    def validate_value(self, data, value):
+        BaseParameter._validator_functions['value'](self, data, value)
 
     @bids_validation_wrapper
     def validate_code(self, data, code):

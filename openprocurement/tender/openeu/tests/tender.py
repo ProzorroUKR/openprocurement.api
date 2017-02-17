@@ -1227,6 +1227,30 @@ class TenderResourceTest(BaseTenderWebTest):
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"features": [{"code": "OCDS-123-POSTPONEMENT"}]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual("OCDS-123-POSTPONEMENT", response.json['data']["features"][0]["code"])
+
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token),
+                                      {'data': {'parameters': [{"code": "OCDS-123-POSTPONEMENT"}],
+                                                'status': 'pending'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual("OCDS-123-POSTPONEMENT", response.json['data']["parameters"][0]["code"])
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"features": [{"enum": [{"value": 0.2}]}]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(0.2, response.json['data']["features"][0]["enum"][0]["value"])
+
+        response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token),
+                                      {'data': {'parameters': [{"value": 0.2}],
+                                                'status': 'pending'}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual("OCDS-123-POSTPONEMENT", response.json['data']["parameters"][0]["code"])
+
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"features": []}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
