@@ -15,7 +15,7 @@ from openprocurement.api.models import Complaint as BaseComplaint
 from openprocurement.api.models import ListType
 from openprocurement.api.models import Lot as BaseLot
 from openprocurement.api.models import Period, IsoDateTimeType
-from openprocurement.api.models import Address as BaseAddress
+from openprocurement.api.models import Address
 from openprocurement.api.models import Tender as BaseTender
 from openprocurement.api.models import LotValue as BaseLotValue
 from openprocurement.api.models import Item as BaseItem
@@ -194,13 +194,6 @@ class EnquiryPeriod(Period):
     invalidationDate = IsoDateTimeType()
 
 
-class Address(BaseAddress):
-
-    streetAddress = StringType(required=True)
-    locality = StringType(required=True)
-    region = StringType(required=True)
-    postalCode = StringType(required=True)
-
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
 
@@ -317,8 +310,8 @@ class Complaint(BaseComplaint):
             'action': whitelist('tendererAction'),
             'pending': whitelist('decision', 'status', 'rejectReason', 'rejectReasonDescription'),
             'review': whitelist('decision', 'status', 'reviewDate', 'reviewPlace'),
-            'embedded': (blacklist('owner_token', 'owner') + schematics_embedded_role),
-            'view': (blacklist('owner_token', 'owner') + schematics_default_role),
+            'embedded': (blacklist('owner_token', 'owner', 'bid_id') + schematics_embedded_role),
+            'view': (blacklist('owner_token', 'owner', 'bid_id') + schematics_default_role),
         }
     status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled', 'satisfied', 'stopping', 'stopped', 'mistaken'], default='draft')
     acceptance = BooleanType()
@@ -327,6 +320,7 @@ class Complaint(BaseComplaint):
     rejectReasonDescription = StringType()
     reviewDate = IsoDateTimeType()
     reviewPlace = StringType()
+    bid_id = StringType()
 
     def __acl__(self):
         return [
@@ -597,6 +591,10 @@ class Tender(BaseTender):
                 last_award_status = lot_awards[-1].status if lot_awards else ''
                 if not pending_complaints and not pending_awards_complaints and standStillEnds and last_award_status == 'unsuccessful':
                     checks.append(max(standStillEnds))
+        if self.status.startswith('active'):
+            for award in self.awards:
+                if award.status == 'active' and not any([i.awardID == award.id for i in self.contracts]):
+                    checks.append(award.date)
         return min(checks).isoformat() if checks else None
 
     def invalidate_bids_data(self):
