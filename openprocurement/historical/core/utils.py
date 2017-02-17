@@ -14,6 +14,8 @@ VERSION = 'X-Revision-N'
 HASH = 'X-Revision-Hash'
 PHASH = 'X-Previous-Hash'
 
+route_predicate_name = 'has_request_method'
+
 
 def extract_doc(request, doc_type):
     doc_id = request.matchdict['doc_id']
@@ -118,7 +120,7 @@ def call_view(request, context, route):
     request.request_iface = registry.queryUtility(IRouteRequest,
                                                   name=route.name)
     return _call_view(registry, request,
-                      context, providedBy(context), '')
+                      context, providedBy(context), '', secure=True)
 
 
 def return404(request, where, why):
@@ -131,3 +133,16 @@ def parse_hash(rev_hash):
     if rev_hash:
         return rev_hash.split('-')[1]
     return ''
+
+
+class HasRequestMethod(object):
+    def __init__(self, val, config):
+        self.val = val
+
+    def text(self):
+        return 'HasRequestMethod = %s' % (self.val,)
+
+    phash = text
+
+    def __call__(self, context, request):
+        return hasattr(request, self.val)
