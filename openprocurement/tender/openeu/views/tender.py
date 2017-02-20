@@ -98,7 +98,8 @@ class TenderEUResource(TenderResource):
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.tendering':
             tender.invalidate_bids_data()
         elif self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.pre-qualification' and tender.status == "active.pre-qualification.stand-still":
-            if any([i['status'] in self.request.validated['tender'].block_complaint_status for q in self.request.validated['tender']['qualifications'] for i in q['complaints']]):
+            active_lots = [lot.id for lot in tender.lots if lot.status == 'active'] if tender.lots else [None]
+            if any([i['status'] in self.request.validated['tender'].block_complaint_status for q in self.request.validated['tender']['qualifications'] for i in q['complaints'] if q['lotID'] in active_lots]):
                 self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' before resolve all complaints')
                 self.request.errors.status = 403
                 return
