@@ -6,6 +6,8 @@ version = '2.3.23'
 requires = [
     'setuptools',
     'openprocurement.api>=2.3',
+    'openprocurement.tender.core',
+    'openprocurement.tender.belowthreshold'
 ]
 test_requires = requires + [
     'webtest',
