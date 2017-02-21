@@ -8,31 +8,52 @@ from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.models import Award as BaseAward
-from openprocurement.api.models import Parameter as BaseParameter
-from openprocurement.api.models import Bid as BaseBid
-from openprocurement.api.models import Complaint as BaseComplaint
-from openprocurement.api.models import ListType
-from openprocurement.api.models import Lot as BaseLot
-from openprocurement.api.models import Period, IsoDateTimeType
-from openprocurement.api.models import Address
-from openprocurement.api.models import Tender as BaseTender
-from openprocurement.api.models import LotValue as BaseLotValue
-from openprocurement.api.models import Item as BaseItem
-from openprocurement.api.models import Contract as BaseContract
-from openprocurement.api.models import Cancellation as BaseCancellation
-from openprocurement.api.models import (
-    plain_role, create_role, edit_role, view_role, listing_role, SANDBOX_MODE,
-    auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
-    auction_role, chronograph_role, chronograph_view_role, view_bid_role,
-    Administrator_bid_role, Administrator_role, schematics_default_role,
-    TZ, get_now, schematics_embedded_role, validate_lots_uniq, draft_role,
-    embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
-    ComplaintModelType, validate_cpv_group, validate_items_uniq, Model,
-    rounding_shouldStartAfter, PeriodEndRequired as BasePeriodEndRequired,
-    validate_parameters_uniq,
+from openprocurement.tender.core.models import Award as BaseAward
+from openprocurement.tender.core.models import Parameter as BaseParameter
+from openprocurement.tender.core.models import Bid as BaseBid
+from openprocurement.tender.core.models import Complaint as BaseComplaint
+from openprocurement.tender.core.models import ListType
+from openprocurement.tender.core.models import Lot as BaseLot
+from openprocurement.tender.core.models import Period, IsoDateTimeType
+from openprocurement.tender.core.models import Address
+from openprocurement.tender.belowthreshold.models import Tender as BaseTender
+from openprocurement.tender.core.models import LotValue as BaseLotValue
+from openprocurement.tender.core.models import Item as BaseItem
+from openprocurement.tender.core.models import Contract as BaseContract
+from openprocurement.tender.core.models import Cancellation as BaseCancellation
+from openprocurement.tender.core.models import (
+    view_role, create_role, edit_role,
+    auction_view_role, auction_post_role, auction_patch_role, auction_role,
+    chronograph_role, chronograph_view_role, view_bid_role,
+    Administrator_bid_role, get_tender, validate_lots_uniq, default_lot_role,
+    embedded_lot_role, ComplaintModelType
 )
-from openprocurement.api.models import ITender
+from openprocurement.tender.belowthreshold.models import (
+    enquiries_role,
+    Administrator_role
+)
+from openprocurement.api.models import (
+    plain_role, listing_role,
+    schematics_default_role,
+    get_now, schematics_embedded_role, draft_role,
+    Model,
+    PeriodEndRequired as BasePeriodEndRequired,
+)
+from openprocurement.api.constants import (
+    SANDBOX_MODE,
+    TZ
+)
+from openprocurement.api.validation import (
+    validate_cpv_group, validate_items_uniq
+)
+from openprocurement.tender.core.models import (
+    validate_parameters_uniq, ITender, SifterListType,
+    TenderAuctionPeriod, LotAuctionPeriod, PeriodStartEndRequired,
+    EnquiryPeriod, Lot
+)
+from openprocurement.tender.core.utils import (
+    rounding_shouldStartAfter, calc_auction_end_time
+)
 from openprocurement.tender.openua.utils import (
     calculate_business_date, has_unanswered_questions, has_unanswered_complaints
 )
@@ -77,120 +98,14 @@ def bids_validation_wrapper(validation_func):
     return validator
 
 
-class SifterListType(ListType):
-
-    def __init__(self, field, min_size=None, max_size=None,
-                 filter_by=None, filter_in_values=[], **kwargs):
-        self.filter_by = filter_by
-        self.filter_in_values = filter_in_values
-        super(SifterListType, self).__init__(field, min_size=min_size,
-                                             max_size=max_size, **kwargs)
-
-    def export_loop(self, list_instance, field_converter,
-                    role=None, print_none=False):
-        """ Use the same functionality as original method but apply
-        additional filters.
-        """
-        data = []
-        for value in list_instance:
-            if hasattr(self.field, 'export_loop'):
-                item_role = role
-                # apply filters
-                if role not in ['plain', None] and self.filter_by and hasattr(value, self.filter_by):
-                    val = getattr(value, self.filter_by)
-                    if val in self.filter_in_values:
-                        item_role = val
-
-                shaped = self.field.export_loop(value, field_converter,
-                                                role=item_role,
-                                                print_none=print_none)
-                feels_empty = shaped and len(shaped) == 0
-            else:
-                shaped = field_converter(self.field, value)
-                feels_empty = shaped is None
-
-            # Print if we want empty or found a value
-            if feels_empty and self.field.allow_none():
-                data.append(shaped)
-            elif shaped is not None:
-                data.append(shaped)
-            elif print_none:
-                data.append(shaped)
-
-        # Return data if the list contains anything
-        if len(data) > 0:
-            return data
-        elif len(data) == 0 and self.allow_none():
-            return data
-        elif print_none:
-            return data
-
-
-class TenderAuctionPeriod(Period):
-    """The auction period."""
-
-    @serializable(serialize_when_none=False)
-    def shouldStartAfter(self):
-        if self.endDate:
-            return
-        tender = self.__parent__
-        if tender.lots or tender.status not in ['active.tendering', 'active.auction']:
-            return
-        if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
-            start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
-        else:
-            decision_dates = [
-                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
-                for complaint in tender.complaints
-                if complaint.dateDecision
-            ]
-            decision_dates.append(tender.tenderPeriod.endDate)
-            start_after = max(decision_dates)
-        return rounding_shouldStartAfter(start_after, tender).isoformat()
-
-
-class LotAuctionPeriod(Period):
-    """The auction period."""
-
-    @serializable(serialize_when_none=False)
-    def shouldStartAfter(self):
-        if self.endDate:
-            return
-        tender = get_tender(self)
-        lot = self.__parent__
-        if tender.status not in ['active.tendering', 'active.auction'] or lot.status != 'active':
-            return
-        if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
-            start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
-        else:
-            decision_dates = [
-                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
-                for complaint in tender.complaints
-                if complaint.dateDecision
-            ]
-            decision_dates.append(tender.tenderPeriod.endDate)
-            start_after = max(decision_dates)
-        return rounding_shouldStartAfter(start_after, tender).isoformat()
-
-
 class PeriodEndRequired(BasePeriodEndRequired):
-
+    #different validator compared with belowthreshold
     def validate_startDate(self, data, value):
         tender = get_tender(data['__parent__'])
         if (tender.revisions[0].date if tender.revisions else get_now()) < PERIOD_END_REQUIRED_FROM:
             return
         if value and data.get('endDate') and data.get('endDate') < value:
             raise ValidationError(u"period should begin before its end")
-
-
-class PeriodStartEndRequired(Period):
-    startDate = IsoDateTimeType(required=True, default=get_now)  # The state date for the period.
-    endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
-
-
-class EnquiryPeriod(Period):
-    clarificationsUntil = IsoDateTimeType()
-    invalidationDate = IsoDateTimeType()
 
 
 class Item(BaseItem):
@@ -378,33 +293,6 @@ class Award(BaseAward):
         if data['status'] == 'active' and not eligible:
             raise ValidationError(u'This field is required.')
 
-
-class Lot(BaseLot):
-
-    class Options:
-        roles = {
-            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
-            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
-            'embedded': embedded_lot_role,
-            'view': default_lot_role,
-            'default': default_lot_role,
-            'auction_view': default_lot_role,
-            'auction_patch': whitelist('id', 'auctionUrl'),
-            'chronograph': whitelist('id', 'auctionPeriod'),
-            'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
-        }
-
-    auctionPeriod = ModelType(LotAuctionPeriod, default={})
-
-    @serializable
-    def numberOfBids(self):
-        """A property that is serialized by schematics exports."""
-        bids = [
-            bid
-            for bid in self.__parent__.bids
-            if self.id in [i.relatedLot for i in bid.lotValues] and bid.status == "active"
-        ]
-        return len(bids)
 
 class Cancellation(BaseCancellation):
     class Options:

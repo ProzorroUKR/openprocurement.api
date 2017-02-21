@@ -4,7 +4,7 @@ from datetime import timedelta
 import re
 from logging import getLogger
 from openprocurement.api.models import get_now, TZ
-from openprocurement.api.utils import (
+from openprocurement.tender.belowthreshold.utils import (
     check_tender_status,
     context_unpack,
     calculate_business_date,
