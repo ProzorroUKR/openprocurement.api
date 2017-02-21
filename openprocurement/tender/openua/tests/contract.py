@@ -3,7 +3,7 @@ import unittest
 from datetime import timedelta
 
 from openprocurement.api.models import get_now
-from openprocurement.api.tests.base import test_bids, test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_bids, test_organization
 from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest, test_tender_data
 
 

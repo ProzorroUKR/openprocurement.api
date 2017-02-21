@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.api.tests.base import test_lots, test_bids, test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_lots, test_bids, test_organization
 from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest
 
 
@@ -26,7 +26,7 @@ class TenderSwitch0BidResourceTest(BaseTenderUAContentWebTest):
         self.assertIn('auctionPeriod', response.json['data'])
         self.assertNotIn('startDate', response.json['data']['auctionPeriod'])
 
- 
+
 class TenderSwitch1BidResourceTest(BaseTenderUAContentWebTest):
     initial_bids = test_bids[:1]
 
