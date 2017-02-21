@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.views.award_document import TenderAwardDocumentResource
-from openprocurement.api.utils import opresource
+from openprocurement.tender.belowthreshold.views.award_document import TenderAwardDocumentResource
+from openprocurement.tender.core.utils import optendersresource
 
 
-@opresource(name='Tender UA Award Documents',
+@optendersresource(name='Tender UA Award Documents',
             collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
             path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
             procurementMethodType='aboveThresholdUA',

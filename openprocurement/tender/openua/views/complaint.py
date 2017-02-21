@@ -1,24 +1,28 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import get_now
-from openprocurement.api.views.complaint import TenderComplaintResource
+from openprocurement.tender.belowthreshold.views.complaint import TenderComplaintResource
 from openprocurement.api.utils import (
-    apply_patch,
-    check_tender_status,
     context_unpack,
     json_view,
-    opresource,
-    save_tender,
     set_ownership,
 )
-from openprocurement.api.validation import (
+from openprocurement.tender.belowthreshold.utils import (
+    check_tender_status
+)
+from openprocurement.tender.core.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
+)
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource
 )
 from openprocurement.tender.openua.models import CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME
 from openprocurement.tender.openua.utils import calculate_business_date
 
 
-@opresource(name='Tender UA Complaints',
+@optendersresource(name='Tender UA Complaints',
             collection_path='/tenders/{tender_id}/complaints',
             path='/tenders/{tender_id}/complaints/{complaint_id}',
             procurementMethodType='aboveThresholdUA',

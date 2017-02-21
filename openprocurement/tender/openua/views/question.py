@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
-    apply_patch,
-    save_tender,
-    opresource,
     json_view,
     context_unpack,
 )
-from openprocurement.api.validation import (
+from openprocurement.tender.core.validation import (
     validate_question_data,
     validate_patch_question_data,
 )
-from openprocurement.api.views.question import TenderQuestionResource
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource
+)
+from openprocurement.tender.belowthreshold.views.question import TenderQuestionResource
 from openprocurement.tender.openua.models import ENQUIRY_STAND_STILL_TIME
 from openprocurement.tender.openua.utils import calculate_business_date
 
 
-@opresource(name='Tender UA Questions',
+@optendersresource(name='Tender UA Questions',
             collection_path='/tenders/{tender_id}/questions',
             path='/tenders/{tender_id}/questions/{question_id}',
             procurementMethodType='aboveThresholdUA',

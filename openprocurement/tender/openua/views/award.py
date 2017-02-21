@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import get_now
-from openprocurement.api.validation import validate_patch_award_data
-from openprocurement.api.views.award import TenderAwardResource
+from openprocurement.tender.core.validation import validate_patch_award_data
+from openprocurement.tender.belowthreshold.views.award import TenderAwardResource
 from openprocurement.api.utils import (
-    apply_patch,
-    save_tender,
     json_view,
     context_unpack,
-    opresource,
+)
+from openprocurement.tender.core.utils import (
+    apply_patch,
+    optendersresource,
+    save_tender
 )
 from openprocurement.tender.openua.models import STAND_STILL_TIME, calculate_normalized_date
 from openprocurement.tender.openua.utils import add_next_award, calculate_business_date
 
 
-@opresource(name='Tender UA Awards',
+@optendersresource(name='Tender UA Awards',
             collection_path='/tenders/{tender_id}/awards',
             path='/tenders/{tender_id}/awards/{award_id}',
             description="Tender awards",

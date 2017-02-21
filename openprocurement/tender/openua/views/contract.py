@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import get_now
-from openprocurement.api.views.contract import TenderAwardContractResource
+from openprocurement.tender.belowthreshold.views.contract import TenderAwardContractResource
 from openprocurement.api.utils import (
-    apply_patch,
-    check_tender_status,
     context_unpack,
     json_view,
-    opresource,
-    save_tender,
 )
-from openprocurement.api.validation import validate_patch_contract_data
+from openprocurement.tender.belowthreshold.utils import check_tender_status
+from openprocurement.tender.core.validation import validate_patch_contract_data
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource
+)
 
-
-@opresource(name='Tender UA Contracts',
+@optendersresource(name='Tender UA Contracts',
             collection_path='/tenders/{tender_id}/contracts',
             path='/tenders/{tender_id}/contracts/{contract_id}',
             procurementMethodType='aboveThresholdUA',

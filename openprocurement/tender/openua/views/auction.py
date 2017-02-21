@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    save_tender,
-    apply_patch,
-    opresource,
     json_view,
     context_unpack,
 )
-from openprocurement.api.validation import (
+from openprocurement.tender.core.validation import (
     validate_tender_auction_data,
 )
-from openprocurement.api.views.auction import TenderAuctionResource
+from openprocurement.tender.core.utils import (
+    apply_patch,
+    save_tender,
+    optendersresource
+)
+from openprocurement.tender.belowthreshold.views.auction import TenderAuctionResource
 from openprocurement.tender.openua.utils import add_next_award
 
 
-@opresource(name='Tender UA Auction',
+@optendersresource(name='Tender UA Auction',
             collection_path='/tenders/{tender_id}/auction',
             path='/tenders/{tender_id}/auction/{auction_lot_id}',
             procurementMethodType='aboveThresholdUA',

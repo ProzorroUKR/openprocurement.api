@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.views.award_complaint_document import TenderAwardComplaintDocumentResource
+from openprocurement.tender.belowthreshold.views.award_complaint_document import TenderAwardComplaintDocumentResource
 from openprocurement.api.utils import (
-    apply_patch,
     context_unpack,
     json_view,
-    opresource,
-    save_tender,
     update_file_content_type,
     upload_file,
+)
+from openprocurement.tender.core.utils import (
+    save_tender,
+    optendersresource,
+    apply_patch
 )
 from openprocurement.api.validation import (
     validate_file_update,
@@ -17,7 +19,7 @@ from openprocurement.api.validation import (
 from openprocurement.tender.openua.views.complaint_document import STATUS4ROLE
 
 
-@opresource(name='Tender UA Award Complaint Documents',
+@optendersresource(name='Tender UA Award Complaint Documents',
             collection_path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents',
             path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}',
             procurementMethodType='aboveThresholdUA',

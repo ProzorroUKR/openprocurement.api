@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource
-from openprocurement.api.views.cancellation import TenderCancellationResource
+from openprocurement.tender.core.utils import optendersresource
+from openprocurement.tender.belowthreshold.views.cancellation import TenderCancellationResource
 from openprocurement.tender.openua.utils import add_next_award
 
 
-@opresource(name='Tender UA Cancellations',
+@optendersresource(name='Tender UA Cancellations',
             collection_path='/tenders/{tender_id}/cancellations',
             path='/tenders/{tender_id}/cancellations/{cancellation_id}',
             procurementMethodType='aboveThresholdUA',
