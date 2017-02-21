@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.views.award_complaint import TenderAwardComplaintResource
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
