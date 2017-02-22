@@ -1325,6 +1325,76 @@ class Tender2LotQualificationComplaintResourceTest(TenderLotQualificationComplai
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can update complaint only in active lot status")
 
+class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintResourceTest):
+
+    def setUp(self):
+        super(TenderQualificationComplaintResourceTest, self).setUp()
+
+        # update periods to have possibility to change tender status by chronograph
+        self.set_status("active.pre-qualification", extra={'status': 'active.tendering'})
+
+        # simulate chronograph tick
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+        self.app.authorization = auth
+
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        self.assertEqual(response.content_type, 'application/json')
+        qualifications = response.json['data']
+        self.qualification_id = qualifications[0]['id']
+
+        for qualification in qualifications:
+            if qualification['bidID'] == self.initial_bids[0]['id']:
+                response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], self.tender_token),
+                                               {"data": {"status": "active", "qualified": True, "eligible": True}})
+                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.json['data']['status'], 'active')
+            else:
+                response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], self.tender_token),
+                                               {"data": {"status": "unsuccessful"}})
+                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.json['data']['status'], 'unsuccessful')
+                self.unsuccessful_qualification_id = qualification['id']
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+        self.assertEqual(response.status, '200 OK')
+
+    def test_create_tender_qualification_claim(self):
+        response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, self.unsuccessful_qualification_id, self.initial_bids_tokens[self.initial_bids[0]['id']]), {'data': {
+            'title': 'complaint title',
+            'description': 'complaint description',
+            'author': self.initial_bids[0]["tenderers"][0],
+            'status': 'claim'
+        }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Can add claim only on unsuccessful qualification of your bid', u'location': u'body', u'name': u'data'}
+        ])
+
+        response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, self.unsuccessful_qualification_id, self.initial_bids_tokens[self.initial_bids[0]['id']]), {'data': {
+            'title': 'complaint title',
+            'description': 'complaint description',
+            'author': self.initial_bids[0]["tenderers"][0],
+            'status': 'draft'
+        }})
+        self.assertEqual(response.status, '201 Created')
+        complaint = response.json['data']
+        owner_token = response.json['access']['token']
+
+        response = self.app.patch_json('/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.unsuccessful_qualification_id, complaint['id'], owner_token), {"data": {
+            "status": "claim",
+        }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u'Can add claim only on unsuccessful qualification of your bid', u'location': u'body', u'name': u'data'}
+        ])
 
 
 class TenderQualificationComplaintDocumentResourceTest(BaseTenderContentWebTest):

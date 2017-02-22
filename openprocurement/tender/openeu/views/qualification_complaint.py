@@ -57,7 +57,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             complaint.dateSubmitted = get_now()
         else:
             complaint.status = 'draft'
-        if self.context.status == 'unsuccessful' and complaint.status == 'claim' and self.context.bid_id != complaint.bid_id:
+        if self.context.status == 'unsuccessful' and complaint.status == 'claim' and self.context.bidID != complaint.bid_id:
             self.request.errors.add('body', 'data', 'Can add claim only on unsuccessful qualification of your bid')
             self.request.errors.status = 403
             return
@@ -105,7 +105,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         elif self.request.authenticated_role == 'complaint_owner' and is_qualificationPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'complaint_owner' and is_qualificationPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == 'claim':
-            if self.request.validated['qualification'].status == 'unsuccessful' and self.request.validated['qualification'].bid_id != self.context.bid_id:
+            if self.request.validated['qualification'].status == 'unsuccessful' and self.request.validated['qualification'].bidID != self.context.bid_id:
                 self.request.errors.add('body', 'data', 'Can add claim only on unsuccessful qualification of your bid')
                 self.request.errors.status = 403
                 return
