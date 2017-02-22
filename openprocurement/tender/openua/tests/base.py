@@ -2,17 +2,14 @@
 import os
 import webtest
 from datetime import datetime, timedelta
-from openprocurement.api.models import get_now
 from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_data as test_tender_data_api,
     now,
     test_features_tender_data,
     BaseTenderWebTest,
     test_bids as base_test_bids
-)
-from openprocurement.api.tests.base import (
-    PrefixedRequestClass
 )
 test_tender_data = test_tender_ua_data = test_tender_data_api.copy()
 test_tender_data['procurementMethodType'] = "aboveThresholdUA"
@@ -83,7 +80,6 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
-    initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
 
     def go_to_enquiryPeriod_end(self):
@@ -102,13 +98,13 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
             }
         })
 
-    #def setUp(self):
-    #    super(BaseTenderWebTest, self).setUp()
-    #    self.app.authorization = ('Basic', ('broker', ''))
-    #    self.couchdb_server = self.app.app.registry.couchdb_server
-    #    self.db = self.app.app.registry.db
-    #    if self.docservice:
-    #        self.setUpDS()
+    def setUp(self):
+        super(BaseTenderWebTest, self).setUp()
+        self.app.authorization = ('Basic', ('broker', ''))
+        self.couchdb_server = self.app.app.registry.couchdb_server
+        self.db = self.app.app.registry.db
+        if self.docservice:
+            self.setUpDS()
 
     def tearDown(self):
         if self.docservice:
