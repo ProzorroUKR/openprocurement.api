@@ -8,51 +8,43 @@ from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.tender.core.models import Award as BaseAward
-from openprocurement.tender.core.models import Parameter as BaseParameter
-from openprocurement.tender.core.models import Bid as BaseBid
-from openprocurement.tender.core.models import Complaint as BaseComplaint
-from openprocurement.tender.core.models import ListType
-from openprocurement.tender.core.models import Lot as BaseLot
-from openprocurement.tender.core.models import Period, IsoDateTimeType
-from openprocurement.tender.core.models import Address
-from openprocurement.tender.belowthreshold.models import Tender as BaseTender
-from openprocurement.tender.core.models import LotValue as BaseLotValue
-from openprocurement.tender.core.models import Item as BaseItem
-from openprocurement.tender.core.models import Contract as BaseContract
-from openprocurement.tender.core.models import Cancellation as BaseCancellation
-from openprocurement.tender.core.models import (
-    view_role, create_role, edit_role,
-    auction_view_role, auction_post_role, auction_patch_role, auction_role,
-    chronograph_role, chronograph_view_role, view_bid_role,
-    Administrator_bid_role, get_tender, validate_lots_uniq, default_lot_role,
-    embedded_lot_role, ComplaintModelType
-)
-from openprocurement.tender.belowthreshold.models import (
-    enquiries_role,
-    Administrator_role
-)
+from openprocurement.api.utils import get_now
 from openprocurement.api.models import (
-    plain_role, listing_role,
-    schematics_default_role,
-    get_now, schematics_embedded_role, draft_role,
-    Model,
+    plain_role, listing_role, schematics_default_role,
+    schematics_embedded_role, draft_role, Model,
     PeriodEndRequired as BasePeriodEndRequired,
 )
 from openprocurement.api.constants import (
-    SANDBOX_MODE,
-    TZ
+    SANDBOX_MODE, TZ
 )
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
 )
 from openprocurement.tender.core.models import (
+    view_role, create_role, edit_role,
+    auction_view_role, auction_post_role, auction_patch_role,
+    auction_role, chronograph_role, chronograph_view_role,
+    view_bid_role, Administrator_bid_role, get_tender,
+    validate_lots_uniq, default_lot_role, embedded_lot_role,
+    ComplaintModelType, Award as BaseAward, Parameter as BaseParameter,
+    Bid as BaseBid, Complaint as BaseComplaint, ListType,
+    Lot as BaseLot, Period, IsoDateTimeType,
+    Address, LotValue as BaseLotValue, Item as BaseItem,
+    Contract as BaseContract, Cancellation as BaseCancellation,
     validate_parameters_uniq, ITender, SifterListType,
     TenderAuctionPeriod, LotAuctionPeriod, PeriodStartEndRequired,
     EnquiryPeriod, Lot
 )
 from openprocurement.tender.core.utils import (
     rounding_shouldStartAfter, calc_auction_end_time
+)
+from openprocurement.tender.core.validation import (
+    validate_LotValue_value
+)
+from openprocurement.tender.belowthreshold.models import (
+    Tender as BaseTender,
+    enquiries_role,
+    Administrator_role
 )
 from openprocurement.tender.openua.utils import (
     calculate_business_date, has_unanswered_questions, has_unanswered_complaints
@@ -99,14 +91,13 @@ def bids_validation_wrapper(validation_func):
 
 
 class PeriodEndRequired(BasePeriodEndRequired):
-    #different validator compared with belowthreshold
+    #TODO different validator compared with belowthreshold
     def validate_startDate(self, data, value):
         tender = get_tender(data['__parent__'])
         if (tender.revisions[0].date if tender.revisions else get_now()) < PERIOD_END_REQUIRED_FROM:
             return
         if value and data.get('endDate') and data.get('endDate') < value:
             raise ValidationError(u"period should begin before its end")
-
 
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
@@ -133,16 +124,7 @@ class LotValue(BaseLotValue):
 
     def validate_value(self, data, value):
         if value and isinstance(data['__parent__'], Bid) and ( data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:
-            lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
-            if not lots:
-                return
-            lot = lots[0]
-            if lot.value.amount < value.amount:
-                raise ValidationError(u"value of bid should be less than value of lot")
-            if lot.get('value').currency != value.currency:
-                raise ValidationError(u"currency of bid should be identical to currency of value of lot")
-            if lot.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-                raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot")
+            validate_LotValue_value(get_tender(data['__parent__']), data['relatedLot'], value)
 
     def validate_relatedLot(self, data, relatedLot):
         if isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
@@ -153,7 +135,6 @@ class Parameter(BaseParameter):
     @bids_validation_wrapper
     def validate_code(self, data, code):
         BaseParameter._validator_functions['code'](self, data, code)
-
 
 class Bid(BaseBid):
 
@@ -273,7 +254,6 @@ class Complaint(BaseComplaint):
         if not cancellationReason and data.get('status') in ['cancelled', 'stopping']:
             raise ValidationError(u'This field is required.')
 
-
 class Award(BaseAward):
     class Options:
         roles = {
@@ -292,7 +272,6 @@ class Award(BaseAward):
     def validate_eligible(self, data, eligible):
         if data['status'] == 'active' and not eligible:
             raise ValidationError(u'This field is required.')
-
 
 class Cancellation(BaseCancellation):
     class Options:
