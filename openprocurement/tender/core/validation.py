@@ -2,6 +2,7 @@
 from openprocurement.api.validation import validate_data, validate_json_data
 from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context  # XXX tender context
+from openprocurement.tender.core.models import *
 
 def validate_tender_data(request):
     update_logging_context(request, {'tender_id': '__new__'})
@@ -212,4 +213,16 @@ def validate_lot_data(request):
 def validate_patch_lot_data(request):
     model = type(request.tender).lots.model_class
     return validate_data(request, model, True)
+
+def validate_LotValue_value(tender, relatedLot, value):
+    lots = [i for i in tender.lots if i.id == relatedLot]
+    if not lots:
+        return
+    lot = lots[0]
+    if lot.value.amount < value.amount:
+        raise ValidationError(u"value of bid should be less than value of lot")
+    if lot.get('value').currency != value.currency:
+        raise ValidationError(u"currency of bid should be identical to currency of value of lot")
+    if lot.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+        raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot")
 

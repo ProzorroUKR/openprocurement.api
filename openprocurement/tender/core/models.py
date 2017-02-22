@@ -38,6 +38,9 @@ from openprocurement.tender.core.constants import (
 from openprocurement.tender.core.utils import (
     calc_auction_end_time, rounding_shouldStartAfter
 )
+from openprocurement.tender.core.validation import (
+    validate_LotValue_value
+)
 
 create_role = (blacklist('owner_token', 'owner', 'contracts', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role)
 edit_role = (blacklist('status', 'procurementMethodType', 'lots', 'owner_token', 'owner', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'mode', 'cancellations') + schematics_embedded_role)
@@ -375,16 +378,7 @@ class LotValue(Model):
 
     def validate_value(self, data, value):
         if value and isinstance(data['__parent__'], Model) and data['relatedLot']:
-            lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
-            if not lots:
-                return
-            lot = lots[0]
-            if lot.value.amount < value.amount:
-                raise ValidationError(u"value of bid should be less than value of lot")
-            if lot.get('value').currency != value.currency:
-                raise ValidationError(u"currency of bid should be identical to currency of value of lot")
-            if lot.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-                raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot")
+            validate_LotValue_value(get_tender(data['__parent__']), data['relatedLot'], value)
 
     def validate_relatedLot(self, data, relatedLot):
         if isinstance(data['__parent__'], Model) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
