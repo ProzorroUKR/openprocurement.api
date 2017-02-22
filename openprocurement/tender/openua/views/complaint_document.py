@@ -24,10 +24,10 @@ STATUS4ROLE = {
 
 
 @optendersresource(name='Tender UA Complaint Documents',
-            collection_path='/tenders/{tender_id}/complaints/{complaint_id}/documents',
-            path='/tenders/{tender_id}/complaints/{complaint_id}/documents/{document_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender complaint documents")
+                   collection_path='/tenders/{tender_id}/complaints/{complaint_id}/documents',
+                   path='/tenders/{tender_id}/complaints/{complaint_id}/documents/{document_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender complaint documents")
 class TenderUaComplaintDocumentResource(TenderComplaintDocumentResource):
 
     def validate_complaint_document(self, operation):

@@ -18,10 +18,10 @@ from openprocurement.tender.core.utils import (
 
 
 @optendersresource(name='Tender UA Bids',
-            collection_path='/tenders/{tender_id}/bids',
-            path='/tenders/{tender_id}/bids/{bid_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender bids")
+                   collection_path='/tenders/{tender_id}/bids',
+                   path='/tenders/{tender_id}/bids/{bid_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender bids")
 class TenderUABidResource(TenderBidResource):
 
     allowed_bid_status_on_create = ['draft', 'active']

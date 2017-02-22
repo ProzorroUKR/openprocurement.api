@@ -4,10 +4,10 @@ from openprocurement.tender.belowthreshold.views.contract_document import Tender
 
 
 @optendersresource(name='Tender UA Contract Documents',
-            collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
-            path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender contract documents")
+                   collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
+                   path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender contract documents")
 class TenderUaAwardContractDocumentResource(TenderAwardContractDocumentResource):
 
     def validate_contract_document(self, operation):

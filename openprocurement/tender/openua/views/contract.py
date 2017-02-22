@@ -14,10 +14,10 @@ from openprocurement.tender.core.utils import (
 )
 
 @optendersresource(name='Tender UA Contracts',
-            collection_path='/tenders/{tender_id}/contracts',
-            path='/tenders/{tender_id}/contracts/{contract_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender contracts")
+                   collection_path='/tenders/{tender_id}/contracts',
+                   path='/tenders/{tender_id}/contracts/{contract_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender contracts")
 class TenderUaAwardContractResource(TenderAwardContractResource):
 
     @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data,))

@@ -20,10 +20,10 @@ from openprocurement.tender.openua.views.complaint_document import STATUS4ROLE
 
 
 @optendersresource(name='Tender UA Award Complaint Documents',
-            collection_path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents',
-            path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender award complaint documents")
+                   collection_path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents',
+                   path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender award complaint documents")
 class TenderUaAwardComplaintDocumentResource(TenderAwardComplaintDocumentResource):
 
     def validate_complaint_document(self, operation):

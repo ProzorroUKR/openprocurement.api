@@ -16,10 +16,10 @@ from openprocurement.tender.openua.utils import add_next_award, calculate_busine
 
 
 @optendersresource(name='Tender UA Awards',
-            collection_path='/tenders/{tender_id}/awards',
-            path='/tenders/{tender_id}/awards/{award_id}',
-            description="Tender awards",
-            procurementMethodType='aboveThresholdUA')
+                   collection_path='/tenders/{tender_id}/awards',
+                   path='/tenders/{tender_id}/awards/{award_id}',
+                   description="Tender awards",
+                   procurementMethodType='aboveThresholdUA')
 class TenderUaAwardResource(TenderAwardResource):
 
     @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_award_data,))

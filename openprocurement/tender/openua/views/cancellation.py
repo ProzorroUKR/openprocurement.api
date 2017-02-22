@@ -5,10 +5,10 @@ from openprocurement.tender.openua.utils import add_next_award
 
 
 @optendersresource(name='Tender UA Cancellations',
-            collection_path='/tenders/{tender_id}/cancellations',
-            path='/tenders/{tender_id}/cancellations/{cancellation_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender cancellations")
+                   collection_path='/tenders/{tender_id}/cancellations',
+                   path='/tenders/{tender_id}/cancellations/{cancellation_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender cancellations")
 class TenderUaCancellationResource(TenderCancellationResource):
 
     def cancel_lot(self, cancellation=None):

@@ -31,10 +31,10 @@ def get_bid_id(request):
 
 
 @optendersresource(name='Tender UA Award Complaints',
-            collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
-            path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender award complaints")
+                   collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
+                   path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender award complaints")
 class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
 
     def complaints_len(self, tender):

@@ -19,10 +19,10 @@ from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
 
 
 @optendersresource(name='Tender UA Lots',
-            collection_path='/tenders/{tender_id}/lots',
-            path='/tenders/{tender_id}/lots/{lot_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender Ua lots")
+                   collection_path='/tenders/{tender_id}/lots',
+                   path='/tenders/{tender_id}/lots/{lot_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender Ua lots")
 class TenderUaLotResource(TenderLotResource):
 
     def validate_update_tender(self, operation):

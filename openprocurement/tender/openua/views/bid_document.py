@@ -20,10 +20,10 @@ from openprocurement.tender.core.utils import (
 
 
 @optendersresource(name='Tender UA Bid Documents',
-            collection_path='/tenders/{tender_id}/bids/{bid_id}/documents',
-            path='/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender UA bidder documents")
+                   collection_path='/tenders/{tender_id}/bids/{bid_id}/documents',
+                   path='/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender UA bidder documents")
 class TenderUaBidDocumentResource(TenderBidDocumentResource):
 
     @json_view(validators=(validate_file_upload,), permission='edit_bid')

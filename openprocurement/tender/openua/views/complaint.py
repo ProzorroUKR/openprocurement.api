@@ -23,10 +23,10 @@ from openprocurement.tender.openua.utils import calculate_business_date
 
 
 @optendersresource(name='Tender UA Complaints',
-            collection_path='/tenders/{tender_id}/complaints',
-            path='/tenders/{tender_id}/complaints/{complaint_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender complaints")
+                   collection_path='/tenders/{tender_id}/complaints',
+                   path='/tenders/{tender_id}/complaints/{complaint_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender complaints")
 class TenderUaComplaintResource(TenderComplaintResource):
 
     def complaints_len(self, tender):

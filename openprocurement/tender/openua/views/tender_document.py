@@ -16,10 +16,10 @@ from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
 
 
 @optendersresource(name='Tender UA Documents',
-            collection_path='/tenders/{tender_id}/documents',
-            path='/tenders/{tender_id}/documents/{document_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender UA related binary files (PDFs, etc.)")
+                   collection_path='/tenders/{tender_id}/documents',
+                   path='/tenders/{tender_id}/documents/{document_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender UA related binary files (PDFs, etc.)")
 class TenderUaDocumentResource(TenderDocumentResource):
 
     def validate_update_tender(self, operation):

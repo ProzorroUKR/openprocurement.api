@@ -19,10 +19,10 @@ from openprocurement.tender.openua.utils import calculate_business_date
 
 
 @optendersresource(name='Tender UA Questions',
-            collection_path='/tenders/{tender_id}/questions',
-            path='/tenders/{tender_id}/questions/{question_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender questions")
+                   collection_path='/tenders/{tender_id}/questions',
+                   path='/tenders/{tender_id}/questions/{question_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender questions")
 class TenderUaQuestionResource(TenderQuestionResource):
 
     def validate_question(self, operation):
