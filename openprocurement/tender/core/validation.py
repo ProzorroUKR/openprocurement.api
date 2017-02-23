@@ -2,7 +2,6 @@
 from openprocurement.api.validation import validate_data, validate_json_data
 from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context  # XXX tender context
-from openprocurement.tender.core.models import *
 
 def validate_tender_data(request):
     update_logging_context(request, {'tender_id': '__new__'})
