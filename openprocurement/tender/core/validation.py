@@ -2,6 +2,7 @@
 from openprocurement.api.validation import validate_data, validate_json_data
 from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context  # XXX tender context
+from schematics.exceptions import ValidationError
 
 def validate_tender_data(request):
     update_logging_context(request, {'tender_id': '__new__'})
@@ -212,6 +213,7 @@ def validate_lot_data(request):
 def validate_patch_lot_data(request):
     model = type(request.tender).lots.model_class
     return validate_data(request, model, True)
+
 
 def validate_LotValue_value(tender, relatedLot, value):
     lots = [i for i in tender.lots if i.id == relatedLot]
