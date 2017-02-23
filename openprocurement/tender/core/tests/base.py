@@ -41,7 +41,7 @@ class BaseTenderWebTest(BaseWebTest):
 
     def setUp(self):
         super(BaseTenderWebTest, self).setUp()
-        self.create_tender()
+        # self.create_tender()
         if self.docservice:
             self.setUpDS()
 
