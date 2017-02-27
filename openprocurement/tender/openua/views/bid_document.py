@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
     upload_file,
     update_file_content_type,
     json_view,
     context_unpack,
+    get_now
 )
 from openprocurement.api.validation import (
     validate_file_update,

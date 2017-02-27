@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.views.contract import TenderAwardContractResource
 from openprocurement.api.utils import (
     context_unpack,
     json_view,
+    get_now
 )
-from openprocurement.tender.belowthreshold.utils import check_tender_status
+from openprocurement.tender.openua.utils import check_tender_status
 from openprocurement.tender.core.validation import validate_patch_contract_data
 from openprocurement.tender.core.utils import (
     save_tender,

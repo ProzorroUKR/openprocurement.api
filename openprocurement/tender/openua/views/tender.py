@@ -3,19 +3,19 @@ from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.tender.openua.utils import (
     check_status,
-    calculate_business_date,
 )
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
+    get_now
 )
 from openprocurement.tender.core.utils import (
     save_tender,
     apply_patch,
-    optendersresource
+    optendersresource,
+    calculate_business_date
 )
-from openprocurement.api.models import get_now
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
 @optendersresource(name='Tender UA',

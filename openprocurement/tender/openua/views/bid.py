@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.belowthreshold.views.bid import TenderBidResource
-from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
     set_ownership,
     json_view,
     context_unpack,
+    get_now
 )
 from openprocurement.tender.core.validation import (
     validate_bid_data,

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.views.complaint import TenderComplaintResource
 from openprocurement.api.utils import (
     context_unpack,
     json_view,
     set_ownership,
+    get_now
 )
-from openprocurement.tender.belowthreshold.utils import (
-    check_tender_status
+from openprocurement.tender.openua.utils import (
+    check_tender_status,
 )
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
@@ -16,10 +16,12 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.core.utils import (
     save_tender,
     apply_patch,
-    optendersresource
+    optendersresource,
+    calculate_business_date
 )
-from openprocurement.tender.openua.models import CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME
-from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.openua.constants import (
+    CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
+)
 
 
 @optendersresource(name='Tender UA Complaints',
