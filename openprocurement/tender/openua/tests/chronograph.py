@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots, test_bids, test_organization
-from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest
+from openprocurement.tender.belowthreshold.tests.base import test_lots, test_organization
+from openprocurement.tender.openua.tests.base import test_bids, BaseTenderUAContentWebTest
 
 
 class TenderSwitch0BidResourceTest(BaseTenderUAContentWebTest):

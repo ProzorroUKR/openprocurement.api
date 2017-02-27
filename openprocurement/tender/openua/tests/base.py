@@ -2,6 +2,7 @@
 import os
 import webtest
 from datetime import datetime, timedelta
+from copy import deepcopy
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -53,10 +54,9 @@ test_tender_data["items"] = [{
 if SANDBOX_MODE:
     test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
 
-test_bids = []
-for i in base_test_bids:
+test_bids = deepcopy(base_test_bids)
+for i in test_bids:
     i.update({'selfEligible': True, 'selfQualified': True})
-    test_bids.append(i)
 
 
 # test_tender_data["tenderPeriod"] = test_tender_data["enquiryPeriod"].copy()

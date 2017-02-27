@@ -5,9 +5,10 @@ from copy import deepcopy
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_data,
-    test_features_tender_ua_data)
+    test_features_tender_ua_data,
+    test_bids)
 
-from openprocurement.tender.belowthreshold.tests.base import test_bids, test_organization, now
+from openprocurement.tender.belowthreshold.tests.base import test_organization, now
 from datetime import datetime, timedelta
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest):
