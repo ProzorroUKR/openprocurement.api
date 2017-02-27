@@ -84,7 +84,7 @@ class TenderAuctionPeriod(Period):
     def shouldStartAfter(self):
         if self.endDate:
             return
-        tender = get_tender(self)
+        tender = self.__parent__
         if tender.lots or tender.status not in ['active.tendering', 'active.auction']:
             return
         if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
