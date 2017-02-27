@@ -11,8 +11,8 @@ from schematics.types.serializable import serializable
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import (
     plain_role, listing_role,
-	schematics_default_role, schematics_embedded_role, draft_role,
-	Model, PeriodEndRequired as BasePeriodEndRequired,
+    schematics_default_role, schematics_embedded_role, draft_role,
+    Model, PeriodEndRequired as BasePeriodEndRequired,
 )
 from openprocurement.api.constants import (
     TZ
@@ -24,8 +24,8 @@ from openprocurement.tender.core.models import (
     view_role, create_role, edit_role,
     auction_view_role, auction_post_role, auction_patch_role,
     auction_role, chronograph_role, embedded_lot_role,
-	chronograph_view_role, view_bid_role, Administrator_bid_role,
-	get_tender, validate_lots_uniq, Lot,
+    chronograph_view_role, view_bid_role, Administrator_bid_role,
+    get_tender, validate_lots_uniq, Lot,
     ComplaintModelType, Award as BaseAward, Parameter as BaseParameter,
     Bid as BaseBid, Complaint as BaseComplaint, ListType,
     Period, IsoDateTimeType, default_lot_role,

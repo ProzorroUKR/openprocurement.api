@@ -222,4 +222,3 @@ def add_next_award(request):
             tender.awardPeriod.endDate = now
             tender.status = 'active.awarded'
 
-
