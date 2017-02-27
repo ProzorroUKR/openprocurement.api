@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta, time, datetime
+from datetime import time, timedelta, datetime
 from iso8601 import parse_date
 from zope.interface import implementer
 from pyramid.security import Allow
@@ -10,12 +10,12 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import (
-    plain_role, listing_role, schematics_default_role,
-    schematics_embedded_role, draft_role, Model,
-    PeriodEndRequired as BasePeriodEndRequired,
+    plain_role, listing_role,
+	schematics_default_role, schematics_embedded_role, draft_role,
+	Model, PeriodEndRequired as BasePeriodEndRequired,
 )
 from openprocurement.api.constants import (
-    SANDBOX_MODE, TZ
+    TZ
 )
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
@@ -23,23 +23,24 @@ from openprocurement.api.validation import (
 from openprocurement.tender.core.models import (
     view_role, create_role, edit_role,
     auction_view_role, auction_post_role, auction_patch_role,
-    auction_role, chronograph_role, chronograph_view_role,
-    view_bid_role, Administrator_bid_role, get_tender,
-    validate_lots_uniq, default_lot_role, embedded_lot_role,
+    auction_role, chronograph_role, embedded_lot_role,
+	chronograph_view_role, view_bid_role, Administrator_bid_role,
+	get_tender, validate_lots_uniq, Lot,
     ComplaintModelType, Award as BaseAward, Parameter as BaseParameter,
     Bid as BaseBid, Complaint as BaseComplaint, ListType,
-    Lot as BaseLot, Period, IsoDateTimeType,
+    Period, IsoDateTimeType, default_lot_role,
     Address, LotValue as BaseLotValue, Item as BaseItem,
     Contract as BaseContract, Cancellation as BaseCancellation,
     validate_parameters_uniq, ITender, SifterListType,
-    TenderAuctionPeriod, LotAuctionPeriod, PeriodStartEndRequired,
-    EnquiryPeriod, Lot
+    PeriodStartEndRequired,
+    EnquiryPeriod
+    # TenderAuctionPeriod
 )
 from openprocurement.tender.core.utils import (
-    rounding_shouldStartAfter, calc_auction_end_time
+    rounding_shouldStartAfter, calc_auction_end_time, calculate_business_date
 )
 from openprocurement.tender.core.validation import (
-    validate_LotValue_value
+    validate_LotValue_value,
 )
 from openprocurement.tender.belowthreshold.models import (
     Tender as BaseTender,
@@ -47,31 +48,18 @@ from openprocurement.tender.belowthreshold.models import (
     Administrator_role
 )
 from openprocurement.tender.openua.utils import (
-    calculate_business_date, has_unanswered_questions, has_unanswered_complaints
+    calculate_normalized_date, has_unanswered_questions,
+    has_unanswered_complaints
 )
-
+from openprocurement.tender.openua.constants import (
+    ENQUIRY_STAND_STILL_TIME,
+    COMPLAINT_SUBMIT_TIME,
+    TENDER_PERIOD,
+    ENQUIRY_PERIOD_TIME,
+    AUCTION_PERIOD_TIME,
+    PERIOD_END_REQUIRED_FROM,
+)
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
-
-
-STAND_STILL_TIME = timedelta(days=10)
-ENQUIRY_STAND_STILL_TIME = timedelta(days=3)
-CLAIM_SUBMIT_TIME = timedelta(days=10)
-COMPLAINT_SUBMIT_TIME = timedelta(days=4)
-TENDER_PERIOD = timedelta(days=15)
-ENQUIRY_PERIOD_TIME = timedelta(days=10)
-TENDERING_EXTRA_PERIOD = timedelta(days=7)
-AUCTION_PERIOD_TIME = timedelta(days=2)
-PERIOD_END_REQUIRED_FROM = datetime(2016, 7, 16, tzinfo=TZ)
-NORMALIZED_COMPLAINT_PERIOD_FROM = datetime(2016, 7, 20, tzinfo=TZ)
-
-
-def calculate_normalized_date(dt, tender, ceil=False):
-    if (tender.revisions[0].date if tender.revisions else get_now()) > NORMALIZED_COMPLAINT_PERIOD_FROM and \
-            not (SANDBOX_MODE and tender.procurementMethodDetails):
-        if ceil:
-            return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
-        return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0)
-    return dt
 
 
 def bids_validation_wrapper(validation_func):
@@ -89,6 +77,27 @@ def bids_validation_wrapper(validation_func):
         return validation_func(klass, data, value)
     return validator
 
+class TenderAuctionPeriod(Period):
+    """The auction period."""
+
+    @serializable(serialize_when_none=False)
+    def shouldStartAfter(self):
+        if self.endDate:
+            return
+        tender = get_tender(self)
+        if tender.status not in ['active.tendering', 'active.auction']:
+            return
+        if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
+            start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
+        else:
+            decision_dates = [
+                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
+                for complaint in tender.complaints
+                if complaint.dateDecision
+            ]
+            decision_dates.append(tender.tenderPeriod.endDate)
+            start_after = max(decision_dates)
+        return rounding_shouldStartAfter(start_after, tender).isoformat()
 
 class PeriodEndRequired(BasePeriodEndRequired):
     #TODO different validator compared with belowthreshold
