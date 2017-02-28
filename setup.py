@@ -7,6 +7,7 @@ requires = [
     'setuptools',
     'openprocurement.api>=2.3',  # XXX TODO set correct version
     'openprocurement.tender.core',
+    'openprocurement.tender.belowthreshold',
     'openprocurement.tender.openua',
 ]
 
