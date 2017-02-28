@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_tender_data, test_lots, test_organization
+from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTest, test_tender_data, test_lots, test_organization
 
 
-class TenderComplaintResourceTest(BaseTenderWebTest):
+class TenderComplaintResourceTest(TenderContentWebTest):
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_create_tender_complaint_invalid(self):
@@ -409,7 +409,7 @@ class TenderComplaintResourceTest(BaseTenderWebTest):
         ])
 
 
-class TenderLotAwardComplaintResourceTest(BaseTenderWebTest):
+class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
     initial_lots = test_lots
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
@@ -481,7 +481,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't add complaint in current (unsuccessful) tender status")
 
 
-class TenderComplaintDocumentResourceTest(BaseTenderWebTest):
+class TenderComplaintDocumentResourceTest(TenderContentWebTest):
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def setUp(self):

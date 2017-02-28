@@ -4,10 +4,10 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import BaseWebTest, BaseTenderWebTest, test_tender_data, test_lots, test_organization
+from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, TenderContentWebTest, test_tender_data, test_lots, test_organization
 
 
-class TenderLotResourceTest(BaseTenderWebTest):
+class TenderLotResourceTest(TenderContentWebTest):
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_create_tender_lot_invalid(self):
@@ -591,7 +591,7 @@ class TenderLotResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
 
 
-class TenderLotFeatureResourceTest(BaseTenderWebTest):
+class TenderLotFeatureResourceTest(TenderContentWebTest):
     initial_lots = 2 * test_lots
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
@@ -651,7 +651,7 @@ class TenderLotFeatureResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '200 OK')
 
 
-class TenderLotBidResourceTest(BaseTenderWebTest):
+class TenderLotBidResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_lots = test_lots
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
@@ -770,7 +770,7 @@ class TenderLotBidResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't update bid in current (complete) tender status")
 
 
-class TenderLotFeatureBidResourceTest(BaseTenderWebTest):
+class TenderLotFeatureBidResourceTest(TenderContentWebTest):
     initial_lots = test_lots
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
@@ -961,7 +961,6 @@ class TenderLotFeatureBidResourceTest(BaseTenderWebTest):
 
 
 class TenderLotProcessTest(BaseTenderWebTest):
-    setUp = BaseWebTest.setUp
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_1lot_0bid(self):

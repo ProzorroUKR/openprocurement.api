@@ -2,11 +2,11 @@
 import unittest
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    BaseTenderWebTest, test_features_tender_data, test_organization
+    TenderContentWebTest, test_features_tender_data, test_organization
 )
 
 
-class TenderBidResourceTest(BaseTenderWebTest):
+class TenderBidResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
 
     def test_create_tender_bid_invalid(self):
@@ -358,7 +358,7 @@ class TenderBidResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['data']["tenderers"][0]["identifier"]["id"], "00000000")
 
 
-class TenderBidFeaturesResourceTest(BaseTenderWebTest):
+class TenderBidFeaturesResourceTest(TenderContentWebTest):
     initial_data = test_features_tender_data
     initial_status = 'active.tendering'
 
@@ -463,7 +463,7 @@ class TenderBidFeaturesResourceTest(BaseTenderWebTest):
         ])
 
 
-class TenderBidDocumentResourceTest(BaseTenderWebTest):
+class TenderBidDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
 
     def setUp(self):
@@ -1037,7 +1037,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.awarded) tender status")
 
 
-class TenderBidBatchDocumentWithDSResourceTest(BaseTenderWebTest):
+class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = 'active.tendering'
 
