@@ -54,6 +54,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     relative_to = os.path.dirname(__file__)
+    initial_auth = ('Basic', ('broker', ''))
 
     # def setUp(self):
         # super(BaseBaseTenderWebTest, self).setUp()
