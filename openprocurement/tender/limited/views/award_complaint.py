@@ -1,41 +1,28 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
-from openprocurement.api.validation import validate_data
-from openprocurement.api.views.award_complaint import TenderAwardComplaintResource
 from openprocurement.api.utils import (
-    apply_patch,
+    get_now,
     context_unpack,
     json_view,
-    opresource,
-    save_tender,
     set_ownership,
     update_logging_context,
 )
+from openprocurement.api.validation import validate_data
+from openprocurement.tender.core.utils import (
+    apply_patch, save_tender, optendersresource
+)
 
-def validate_complaint_data(request):
-    if not request.check_accreditation(request.tender.edit_accreditation):
-        request.errors.add('procurementMethodType', 'accreditation', 'Broker Accreditation level does not permit complaint creation')
-        request.errors.status = 403
-        return
-    if request.tender.get('mode', None) is None and request.check_accreditation('t'):
-        request.errors.add('procurementMethodType', 'mode', 'Broker Accreditation level does not permit complaint creation')
-        request.errors.status = 403
-        return
-    update_logging_context(request, {'complaint_id': '__new__'})
-    model = type(request.context).complaints.model_class
-    return validate_data(request, model)
+from openprocurement.tender.limited.validation import (
+    validate_complaint_data, validate_patch_complaint_data
+)
+
+from openprocurement.tender.belowthreshold.views.award_complaint import TenderAwardComplaintResource
 
 
-def validate_patch_complaint_data(request):
-    model = type(request.context.__parent__).complaints.model_class
-    return validate_data(request, model, True)
-
-
-@opresource(name='Tender negotiation Award Complaints',
-            collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
-            path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
-            procurementMethodType='negotiation',
-            description="Tender negotiation award complaints")
+@optendersresource(name='Tender negotiation Award Complaints',
+                   collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
+                   path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
+                   procurementMethodType='negotiation',
+                   description="Tender negotiation award complaints")
 class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
 
     @json_view(content_type="application/json", permission='create_award_complaint', validators=(validate_complaint_data,))
@@ -144,10 +131,10 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
             return {'data': self.context.serialize("view")}
 
 
-@opresource(name='Tender negotiation.quick Award Complaints',
-            collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
-            path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
-            procurementMethodType='negotiation.quick',
-            description="Tender negotiation.quick award complaints")
+@optendersresource(name='Tender negotiation.quick Award Complaints',
+                   collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
+                   path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
+                   procurementMethodType='negotiation.quick',
+                   description="Tender negotiation.quick award complaints")
 class TenderNegotiationQuickAwardComplaintResource(TenderNegotiationAwardComplaintResource):
-    pass
+    """ Tender Negotiation Quick Award Complaint Resource """

@@ -1,27 +1,48 @@
+# -*- coding: utf-8 -*-
 from uuid import uuid4
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, BaseType, MD5Type, BooleanType
-from schematics.types.compound import ModelType, ListType, DictType
+from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
+
+from couchdb_schematics.document import SchematicsDocument
+
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.models import (
-    plain_role, view_role, create_role, edit_role, enquiries_role, listing_role,
-    Administrator_role, schematics_default_role, schematics_embedded_role,
-    chronograph_role, chronograph_view_role, draft_role, SANDBOX_MODE,
-    embedded_lot_role, ListType, default_lot_role, validate_lots_uniq,
+    draft_role, plain_role, listing_role,
+    schematics_default_role, schematics_embedded_role,
 )
+
 from openprocurement.api.models import (
-    Value, IsoDateTimeType, Document, Organization, SchematicsDocument,
-    Model, Revision, Period, view_bid_role,
+    ListType, Value, IsoDateTimeType, Organization, Model, Revision, Period
 )
-from openprocurement.api.models import validate_cpv_group, validate_items_uniq
-from openprocurement.api.models import get_now
-from openprocurement.api.models import Cancellation as BaseCancellation
-from openprocurement.api.models import ITender
-from openprocurement.api.models import Contract as BaseContract
-from openprocurement.api.models import ProcuringEntity as BaseProcuringEntity
+
+from openprocurement.tender.core.models import (
+    view_role, create_role, edit_role, enquiries_role, view_bid_role,
+    Administrator_role, chronograph_role, chronograph_view_role,
+    embedded_lot_role, default_lot_role, validate_lots_uniq
+)
+
+from openprocurement.tender.core.models import (
+    Document
+)
+
+from openprocurement.tender.core.models import ITender
+
+from openprocurement.api.validation import (
+    validate_cpv_group, validate_items_uniq
+)
+
+
+# ------- depends on openua refactoring TODO -------
+from openprocurement.tender.belowthreshold.models import Cancellation as BaseCancellation
+from openprocurement.tender.belowthreshold.models import Contract as BaseContract
+from openprocurement.tender.belowthreshold.models import ProcuringEntity as BaseProcuringEntity
+
 from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import Item as BaseItem
 from openprocurement.tender.openua.models import Tender as OpenUATender
@@ -31,6 +52,7 @@ class Item(BaseItem):
     def validate_relatedLot(self, data, relatedLot):
         if relatedLot and isinstance(data['__parent__'], Model):
             raise ValidationError(u"This option is not available")
+
 
 class Complaint(BaseComplaint):
     class Options:

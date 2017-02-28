@@ -1,28 +1,23 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    get_file,
-    save_tender,
-    upload_file,
-    apply_patch,
-    update_file_content_type,
-    opresource,
-    json_view,
-    context_unpack,
+    get_file, upload_file, update_file_content_type, json_view, context_unpack,
     APIResource
 )
+
+from openprocurement.tender.core.utils import (
+    save_tender, apply_patch, optendersresource
+)
+
 from openprocurement.api.validation import (
-    validate_file_update,
-    validate_file_upload,
-    validate_patch_document_data,
+    validate_file_update, validate_file_upload, validate_patch_document_data
 )
 
 
-
-@opresource(name='Tender Limited Documents',
-            collection_path='/tenders/{tender_id}/documents',
-            path='/tenders/{tender_id}/documents/{document_id}',
-            procurementMethodType='reporting',
-            description="Tender related binary files (PDFs, etc.)")
+@optendersresource(name='Tender Limited Documents',
+                   collection_path='/tenders/{tender_id}/documents',
+                   path='/tenders/{tender_id}/documents/{document_id}',
+                   procurementMethodType='reporting',
+                   description="Tender related binary files (PDFs, etc.)")
 class TenderDocumentResource(APIResource):
 
     @json_view(permission='view_tender')
@@ -96,19 +91,20 @@ class TenderDocumentResource(APIResource):
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_document_patch'}))
             return {'data': self.request.context.serialize("view")}
 
-@opresource(name='Tender Negotiation Documents',
-            collection_path='/tenders/{tender_id}/documents',
-            path='/tenders/{tender_id}/documents/{document_id}',
-            procurementMethodType='negotiation',
-            description="Tender related binary files (PDFs, etc.)")
+
+@optendersresource(name='Tender Negotiation Documents',
+                   collection_path='/tenders/{tender_id}/documents',
+                   path='/tenders/{tender_id}/documents/{document_id}',
+                   procurementMethodType='negotiation',
+                   description="Tender related binary files (PDFs, etc.)")
 class TenderNegotiationDocumentResource(TenderDocumentResource):
     """ Tender Negotiation Document Resource """
 
 
-@opresource(name='Tender Negotiation Quick Documents',
-            collection_path='/tenders/{tender_id}/documents',
-            path='/tenders/{tender_id}/documents/{document_id}',
-            procurementMethodType='negotiation.quick',
-            description="Tender related binary files (PDFs, etc.)")
+@optendersresource(name='Tender Negotiation Quick Documents',
+                   collection_path='/tenders/{tender_id}/documents',
+                   path='/tenders/{tender_id}/documents/{document_id}',
+                   procurementMethodType='negotiation.quick',
+                   description="Tender related binary files (PDFs, etc.)")
 class TenderNegotiationQuickDocumentResource(TenderNegotiationDocumentResource):
     """ Tender Negotiation Quick Document Resource """

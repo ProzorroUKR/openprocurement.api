@@ -1,27 +1,21 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    get_file,
-    save_tender,
-    upload_file,
-    apply_patch,
-    update_file_content_type,
-    opresource,
-    json_view,
-    context_unpack,
-    APIResource
+    get_file, upload_file, update_file_content_type, json_view,
+    context_unpack, APIResource
+)
+from openprocurement.tender.core.utils import (
+    apply_patch, save_tender, optendersresource
 )
 from openprocurement.api.validation import (
-    validate_file_update,
-    validate_file_upload,
-    validate_patch_document_data,
+    validate_file_update, validate_file_upload, validate_patch_document_data
 )
 
 
-@opresource(name='Tender Limited Award Documents',
-            collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
-            path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
-            procurementMethodType='reporting',
-            description="Tender award documents")
+@optendersresource(name='Tender Limited Award Documents',
+                   collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
+                   path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
+                   procurementMethodType='reporting',
+                   description="Tender award documents")
 class TenderAwardDocumentResource(APIResource):
 
     @json_view(permission='view_tender')
@@ -101,19 +95,19 @@ class TenderAwardDocumentResource(APIResource):
             return {'data': self.request.context.serialize("view")}
 
 
-@opresource(name='Tender Negotiation Award Documents',
-            collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
-            path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
-            procurementMethodType='negotiation',
-            description="Tender award documents")
+@optendersresource(name='Tender Negotiation Award Documents',
+                   collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
+                   path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
+                   procurementMethodType='negotiation',
+                   description="Tender award documents")
 class TenderNegotiationAwardDocumentResource(TenderAwardDocumentResource):
     """ Tender Negotiation Award Documents Resource """
 
 
-@opresource(name='Tender Negotiation Quick Award Documents',
-            collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
-            path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
-            procurementMethodType='negotiation.quick',
-            description="Tender award documents")
+@optendersresource(name='Tender Negotiation Quick Award Documents',
+                   collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
+                   path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
+                   procurementMethodType='negotiation.quick',
+                   description="Tender award documents")
 class TenderNegotiationQuickAwardDocumentResource(TenderNegotiationAwardDocumentResource):
     """ Tender Negotiation Quick Award Documents Resource """

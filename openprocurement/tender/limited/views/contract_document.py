@@ -1,27 +1,24 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    get_file,
-    save_tender,
-    upload_file,
-    apply_patch,
-    update_file_content_type,
-    opresource,
-    json_view,
-    context_unpack,
+    upload_file, update_file_content_type, json_view, context_unpack
 )
+from openprocurement.tender.core.utils import (
+    apply_patch, save_tender, optendersresource
+)
+
 from openprocurement.api.validation import (
-    validate_file_update,
-    validate_file_upload,
-    validate_patch_document_data,
+    validate_file_update, validate_file_upload, validate_patch_document_data
 )
-from openprocurement.api.views.contract_document import TenderAwardContractDocumentResource as BaseTenderAwardContractDocumentResource
+from openprocurement.tender.belowthreshold.views.contract_document import (
+    TenderAwardContractDocumentResource as BaseTenderAwardContractDocumentResource
+)
 
 
-@opresource(name='Tender Limited Contract Documents',
-            collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
-            path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
-            procurementMethodType='reporting',
-            description="Tender contract documents")
+@optendersresource(name='Tender Limited Contract Documents',
+                   collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
+                   path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
+                   procurementMethodType='reporting',
+                   description="Tender contract documents")
 class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResource):
 
     @json_view(permission='view_tender')
@@ -97,19 +94,19 @@ class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResourc
             return {'data': self.request.context.serialize("view")}
 
 
-@opresource(name='Tender Negotiation Contract Documents',
-            collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
-            path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
-            procurementMethodType='negotiation',
-            description="Tender contract documents")
+@optendersresource(name='Tender Negotiation Contract Documents',
+                   collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
+                   path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
+                   procurementMethodType='negotiation',
+                   description="Tender contract documents")
 class TenderNegotiationAwardContractDocumentResource(TenderAwardContractDocumentResource):
     """ Tender Negotiation Award Contract Document Resource """
 
 
-@opresource(name='Tender Negotiation Quick Contract Documents',
-            collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
-            path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
-            procurementMethodType='negotiation.quick',
-            description="Tender contract documents")
+@optendersresource(name='Tender Negotiation Quick Contract Documents',
+                   collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
+                   path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
+                   procurementMethodType='negotiation.quick',
+                   description="Tender contract documents")
 class TenderNegotiationQuickAwardContractDocumentResource(TenderNegotiationAwardContractDocumentResource):
     """ Tender Negotiation Quick Award Contract Document Resource """

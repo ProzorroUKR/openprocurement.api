@@ -1,27 +1,24 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.openua.views.lot import TenderUaLotResource as TenderLotResource
-
 from openprocurement.api.utils import (
-    save_tender,
-    apply_patch,
-    opresource,
-    json_view,
-    context_unpack,
-    get_now,
+    json_view, context_unpack, get_now
 )
-from openprocurement.api.validation import (
-    validate_lot_data,
-    validate_patch_lot_data,
+from openprocurement.tender.core.utils import (
+    save_tender, apply_patch, optendersresource
+)
+from openprocurement.tender.core.validation import (
+    validate_lot_data, validate_patch_lot_data
+)
+from openprocurement.tender.openua.views.lot import (
+    TenderUaLotResource as TenderLotResource
 )
 
 
-@opresource(name='Tender limited negotiation quick Lots',
-            collection_path='/tenders/{tender_id}/lots',
-            path='/tenders/{tender_id}/lots/{lot_id}',
-            procurementMethodType='negotiation.quick',
-            description="Tender limited negotiation quick lots")
+@optendersresource(name='Tender limited negotiation quick Lots',
+                   collection_path='/tenders/{tender_id}/lots',
+                   path='/tenders/{tender_id}/lots/{lot_id}',
+                   procurementMethodType='negotiation.quick',
+                   description="Tender limited negotiation quick lots")
 class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
-
     route_name = 'Tender limited negotiation quick Lots'
 
     def validate_update_tender(self, operation):
@@ -90,11 +87,10 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
             return {'data': res}
 
 
-@opresource(name='Tender limited negotiation Lots',
-            collection_path='/tenders/{tender_id}/lots',
-            path='/tenders/{tender_id}/lots/{lot_id}',
-            procurementMethodType='negotiation',
-            description="Tender limited negotiation lots")
+@optendersresource(name='Tender limited negotiation Lots',
+                   collection_path='/tenders/{tender_id}/lots',
+                   path='/tenders/{tender_id}/lots/{lot_id}',
+                   procurementMethodType='negotiation',
+                   description="Tender limited negotiation lots")
 class TenderLimitedNegotiationLotResource(TenderLimitedNegotiationQuickLotResource):
-
     route_name = 'Tender limited negotiation Lots'

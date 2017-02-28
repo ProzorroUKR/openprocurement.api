@@ -1,28 +1,31 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
-    apply_patch,
-    save_tender,
-    opresource,
+    get_now,
     json_view,
     context_unpack,
     APIResource
 )
-from openprocurement.api.validation import (
-    validate_patch_award_data,
-    validate_award_data,
+
+from openprocurement.tender.core.utils import (
+    apply_patch, save_tender, optendersresource
 )
-from openprocurement.tender.openua.utils import calculate_business_date
+
+from openprocurement.tender.belowthreshold.validation import (
+    validate_patch_award_data, validate_award_data,
+)
+
+from openprocurement.tender.core.utils import calculate_business_date  # TODO check imports when openua refactoring is finished
+
 from openprocurement.tender.openua.models import calculate_normalized_date
 
 
-@opresource(name='Tender Limited Awards',
-            collection_path='/tenders/{tender_id}/awards',
-            path='/tenders/{tender_id}/awards/{award_id}',
-            description="Tender awards",
-            procurementMethodType='reporting',
-            )
+@optendersresource(name='Tender Limited Awards',
+                   collection_path='/tenders/{tender_id}/awards',
+                   path='/tenders/{tender_id}/awards/{award_id}',
+                   description="Tender awards",
+                   procurementMethodType='reporting',
+                   )
 class TenderAwardResource(APIResource):
 
     @json_view(permission='view_tender')
@@ -330,11 +333,11 @@ class TenderAwardResource(APIResource):
             return {'data': award.serialize("view")}
 
 
-@opresource(name='Tender Negotiation Awards',
-            collection_path='/tenders/{tender_id}/awards',
-            path='/tenders/{tender_id}/awards/{award_id}',
-            description="Tender awards",
-            procurementMethodType='negotiation')
+@optendersresource(name='Tender Negotiation Awards',
+                   collection_path='/tenders/{tender_id}/awards',
+                   path='/tenders/{tender_id}/awards/{award_id}',
+                   description="Tender awards",
+                   procurementMethodType='negotiation')
 class TenderNegotiationAwardResource(TenderAwardResource):
     """ Tender Negotiation Award Resource """
     stand_still_delta = timedelta(days=10)
@@ -603,11 +606,11 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             return {'data': award.serialize("view")}
 
 
-@opresource(name='Tender Negotiation Quick Awards',
-            collection_path='/tenders/{tender_id}/awards',
-            path='/tenders/{tender_id}/awards/{award_id}',
-            description="Tender awards",
-            procurementMethodType='negotiation.quick')
+@optendersresource(name='Tender Negotiation Quick Awards',
+                   collection_path='/tenders/{tender_id}/awards',
+                   path='/tenders/{tender_id}/awards/{award_id}',
+                   description="Tender awards",
+                   procurementMethodType='negotiation.quick')
 class TenderNegotiationQuickAwardResource(TenderNegotiationAwardResource):
     """ Tender Negotiation Quick Award Resource """
     stand_still_delta = timedelta(days=5)

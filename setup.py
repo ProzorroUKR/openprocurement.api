@@ -5,7 +5,8 @@ version = '2.3.23'
 
 requires = [
     'setuptools',
-    'openprocurement.api>=2.3',
+    'openprocurement.api>=2.3',  # XXX TODO set correct version
+    'openprocurement.tender.core',
     'openprocurement.tender.openua',
 ]
 

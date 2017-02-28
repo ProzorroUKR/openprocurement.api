@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
-import webtest
 from copy import deepcopy
-from datetime import datetime, timedelta
-from openprocurement.api.models import SANDBOX_MODE
-from openprocurement.api.utils import apply_data_patch
-from openprocurement.api.tests.base import test_tender_data as base_data
-from openprocurement.api.tests.base import BaseTenderWebTest as BaseBaseTenderWebTest
-from openprocurement.api.tests.base import test_organization
+from datetime import datetime
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.tender.core.utils import apply_data_patch
+from openprocurement.tender.belowthreshold.tests.base import test_tender_data as base_data
+from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.core.tests.base import BaseTenderWebTest as BaseBaseTenderWebTest
 
 now = datetime.now()
 test_tender_data = base_data.copy()
@@ -56,13 +55,13 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_lots = None
     relative_to = os.path.dirname(__file__)
 
-    def setUp(self):
-        super(BaseBaseTenderWebTest, self).setUp()
-        self.app.authorization = ('Basic', ('broker', ''))
-        self.couchdb_server = self.app.app.registry.couchdb_server
-        self.db = self.app.app.registry.db
-        if self.docservice:
-            self.setUpDS()
+    # def setUp(self):
+        # super(BaseBaseTenderWebTest, self).setUp()
+        # self.app.authorization = ('Basic', ('broker', ''))
+        # self.couchdb_server = self.app.app.registry.couchdb_server
+        # self.db = self.app.app.registry.db
+        # # if self.docservice:
+            # self.setUpDS()
 
     def tearDown(self):
         if self.docservice:

@@ -3,8 +3,8 @@ import unittest
 from copy import deepcopy
 from uuid import uuid4
 
-from openprocurement.api import ROUTE_PREFIX
-from openprocurement.api.models import get_now, CPV_ITEMS_CLASS_FROM
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import ROUTE_PREFIX, CPV_ITEMS_CLASS_FROM
 from openprocurement.tender.limited.models import (NegotiationTender,
                                                    NegotiationQuickTender,
                                                    ReportingTender)

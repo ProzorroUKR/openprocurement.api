@@ -1,25 +1,25 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
-    apply_patch,
-    save_tender,
-    opresource,
-    json_view,
-    context_unpack,
-    APIResource
+    json_view, context_unpack, APIResource, get_now
 )
-from openprocurement.api.validation import (
-    validate_cancellation_data,
-    validate_patch_cancellation_data,
+
+from openprocurement.tender.core.utils import (
+    apply_patch, save_tender, optendersresource
 )
-from openprocurement.api.views.cancellation import TenderCancellationResource
+
+from openprocurement.tender.core.validation import (
+    validate_cancellation_data, validate_patch_cancellation_data,
+)
+from openprocurement.tender.belowthreshold.views.cancellation import (
+    TenderCancellationResource
+)
 
 
-@opresource(name='Tender Limited Cancellations',
-            collection_path='/tenders/{tender_id}/cancellations',
-            path='/tenders/{tender_id}/cancellations/{cancellation_id}',
-            procurementMethodType='reporting',
-            description="Tender cancellations")
+@optendersresource(name='Tender Limited Cancellations',
+                   collection_path='/tenders/{tender_id}/cancellations',
+                   path='/tenders/{tender_id}/cancellations/{cancellation_id}',
+                   procurementMethodType='reporting',
+                   description="Tender cancellations")
 class TenderReportingCancellationResource(APIResource):
 
     @json_view(content_type="application/json", validators=(validate_cancellation_data,), permission='edit_tender')
@@ -73,11 +73,11 @@ class TenderReportingCancellationResource(APIResource):
             return {'data': self.request.context.serialize("view")}
 
 
-@opresource(name='Tender Negotiation Cancellations',
-            collection_path='/tenders/{tender_id}/cancellations',
-            path='/tenders/{tender_id}/cancellations/{cancellation_id}',
-            procurementMethodType='negotiation',
-            description="Tender cancellations")
+@optendersresource(name='Tender Negotiation Cancellations',
+                   collection_path='/tenders/{tender_id}/cancellations',
+                   path='/tenders/{tender_id}/cancellations/{cancellation_id}',
+                   procurementMethodType='negotiation',
+                   description="Tender cancellations")
 class TenderNegotiationCancellationResource(TenderCancellationResource):
     """ Tender Negotiation Cancellation Resource """
 
@@ -96,10 +96,10 @@ class TenderNegotiationCancellationResource(TenderCancellationResource):
         return True
 
 
-@opresource(name='Tender Negotiation Quick Cancellations',
-            collection_path='/tenders/{tender_id}/cancellations',
-            path='/tenders/{tender_id}/cancellations/{cancellation_id}',
-            procurementMethodType='negotiation.quick',
-            description="Tender cancellations")
+@optendersresource(name='Tender Negotiation Quick Cancellations',
+                   collection_path='/tenders/{tender_id}/cancellations',
+                   path='/tenders/{tender_id}/cancellations/{cancellation_id}',
+                   procurementMethodType='negotiation.quick',
+                   description="Tender cancellations")
 class TenderNegotiationQuickCancellationResource(TenderNegotiationCancellationResource):
     """ Tender Negotiation Quick Cancellation Resource """

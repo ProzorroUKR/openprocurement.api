@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now, timedelta
 from openprocurement.api.utils import (
-    apply_patch,
-    save_tender,
-    opresource,
-    json_view,
-    context_unpack,
+    json_view, context_unpack, get_now
 )
-from openprocurement.api.validation import (
-    validate_contract_data,
-    validate_patch_contract_data,
+from openprocurement.tender.core.utils import (
+    apply_patch, save_tender, optendersresource
 )
-from openprocurement.api.views.contract import TenderAwardContractResource as BaseTenderAwardContractResource
+from openprocurement.tender.core.validation import (
+    validate_contract_data, validate_patch_contract_data,
+)
+from openprocurement.tender.belowthreshold.views.contract import (
+    TenderAwardContractResource as BaseTenderAwardContractResource
+)
 
 
 def check_tender_status(request):
@@ -59,11 +58,11 @@ def check_tender_negotiation_status(request):
             tender.status = 'complete'
 
 
-@opresource(name='Tender Limited Contracts',
-            collection_path='/tenders/{tender_id}/contracts',
-            procurementMethodType='reporting',
-            path='/tenders/{tender_id}/contracts/{contract_id}',
-            description="Tender contracts")
+@optendersresource(name='Tender Limited Contracts',
+                   collection_path='/tenders/{tender_id}/contracts',
+                   procurementMethodType='reporting',
+                   path='/tenders/{tender_id}/contracts/{contract_id}',
+                   description="Tender contracts")
 class TenderAwardContractResource(BaseTenderAwardContractResource):
 
     @json_view(content_type="application/json", permission='create_contract', validators=(validate_contract_data,))
@@ -128,11 +127,11 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
             return {'data': self.request.context.serialize()}
 
 
-@opresource(name='Tender Negotiation Contracts',
-            collection_path='/tenders/{tender_id}/contracts',
-            procurementMethodType='negotiation',
-            path='/tenders/{tender_id}/contracts/{contract_id}',
-            description="Tender contracts")
+@optendersresource(name='Tender Negotiation Contracts',
+                   collection_path='/tenders/{tender_id}/contracts',
+                   procurementMethodType='negotiation',
+                   path='/tenders/{tender_id}/contracts/{contract_id}',
+                   description="Tender contracts")
 class TenderNegotiationAwardContractResource(TenderAwardContractResource):
     """ Tender Negotiation Award Contract Resource """
     @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data,))
@@ -199,10 +198,11 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
             return {'data': self.request.context.serialize()}
 
-@opresource(name='Tender Negotiation Quick Contracts',
-            collection_path='/tenders/{tender_id}/contracts',
-            procurementMethodType='negotiation.quick',
-            path='/tenders/{tender_id}/contracts/{contract_id}',
-            description="Tender contracts")
+
+@optendersresource(name='Tender Negotiation Quick Contracts',
+                   collection_path='/tenders/{tender_id}/contracts',
+                   procurementMethodType='negotiation.quick',
+                   path='/tenders/{tender_id}/contracts/{contract_id}',
+                   description="Tender contracts")
 class TenderNegotiationQuickAwardContractResource(TenderNegotiationAwardContractResource):
     """ Tender Negotiation Quick Award Contract Resource """

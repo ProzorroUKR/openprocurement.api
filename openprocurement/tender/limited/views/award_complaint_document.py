@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource
+from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.views.award_complaint_document import TenderUaAwardComplaintDocumentResource
 from openprocurement.tender.openua.views.complaint_document import STATUS4ROLE
 
 
-@opresource(name='Tender negotiation Award Complaint Documents',
-            collection_path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents',
-            path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}',
-            procurementMethodType='negotiation',
-            description="Tender negotiation award complaint documents")
+@optendersresource(name='Tender negotiation Award Complaint Documents',
+                   collection_path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents',
+                   path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}',
+                   procurementMethodType='negotiation',
+                   description="Tender negotiation award complaint documents")
 class TenderNegotiationAwardComplaintDocumentResource(TenderUaAwardComplaintDocumentResource):
 
     def validate_complaint_document(self, operation):
@@ -27,10 +27,10 @@ class TenderNegotiationAwardComplaintDocumentResource(TenderUaAwardComplaintDocu
         return True
 
 
-@opresource(name='Tender negotiation.quick Award Complaint Documents',
-            collection_path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents',
-            path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}',
-            procurementMethodType='negotiation.quick',
-            description="Tender negotiation.quick award complaint documents")
+@optendersresource(name='Tender negotiation.quick Award Complaint Documents',
+                   collection_path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents',
+                   path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}',
+                   procurementMethodType='negotiation.quick',
+                   description="Tender negotiation.quick award complaint documents")
 class TenderNegotiationQuickAwardComplaintDocumentResource(TenderNegotiationAwardComplaintDocumentResource):
-    pass
+    """ Tender Negotiation Quick Award Complaint Document Resource """
