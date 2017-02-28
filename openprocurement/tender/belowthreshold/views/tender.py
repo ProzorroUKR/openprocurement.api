@@ -14,7 +14,7 @@ from openprocurement.tender.core.validation import (
 )
 
 
-@optendersresource(name='Tender',
+@optendersresource(name='belowThreshold:Tender',
                    path='/tenders/{tender_id}',
                    procurementMethodType='belowThreshold',
                    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
