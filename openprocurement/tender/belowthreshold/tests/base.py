@@ -11,8 +11,7 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import SESSION, apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest as BaseWT
 from openprocurement.tender.core.tests.base import (
-    BaseTenderWebTest as BaseTWT,
-    BaseTenderContentWebTest
+    BaseTenderWebTest as BaseTWT
 )
 
 now = datetime.now()
