@@ -10,8 +10,10 @@ from urllib import urlencode
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import SESSION, apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest as BaseWT
-from openprocurement.tender.core.tests.base import BaseTenderWebTest as BaseTWT
-
+from openprocurement.tender.core.tests.base import (
+    BaseTenderWebTest as BaseTWT,
+    BaseTenderContentWebTest
+)
 
 now = datetime.now()
 test_organization = {
@@ -201,7 +203,6 @@ test_features = [
 
 class BaseWebTest(BaseWT):
     relative_to = os.path.dirname(__file__)
-BaseWebTest = BaseWT
 
 
 class BaseTenderWebTest(BaseTWT):
@@ -461,3 +462,14 @@ class BaseTenderWebTest(BaseTWT):
             # self.tearDownDS()
         # del self.db[self.tender_id]
         # super(BaseTenderWebTest, self).tearDown()
+
+
+class TenderContentWebTest(BaseTenderWebTest):
+    initial_data = test_tender_data
+    initial_status = None
+    initial_bids = None
+    initial_lots = None
+
+    def setUp(self):
+        super(TenderContentWebTest, self).setUp()
+        self.create_tender()
