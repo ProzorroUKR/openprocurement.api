@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_tender_data, test_bids, test_lots, test_organization
+from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTest, test_tender_data, test_bids, test_lots, test_organization
 
 
-class TenderAwardResourceTest(BaseTenderWebTest):
+class TenderAwardResourceTest(TenderContentWebTest):
     #initial_data = tender_data
     initial_status = 'active.qualification'
     initial_bids = test_bids
@@ -363,7 +363,7 @@ class TenderAwardResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['data']['complaintPeriod']["endDate"], complaintPeriod)
 
 
-class TenderLotAwardResourceTest(BaseTenderWebTest):
+class TenderLotAwardResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_lots = test_lots
     initial_bids = test_bids
@@ -550,7 +550,7 @@ class TenderLotAwardResourceTest(BaseTenderWebTest):
         self.assertEqual(len(response.json['data']), 4)
 
 
-class Tender2LotAwardResourceTest(BaseTenderWebTest):
+class Tender2LotAwardResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_lots = 2 * test_lots
     initial_bids = test_bids
@@ -642,7 +642,7 @@ class Tender2LotAwardResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can update award only in active lot status")
 
 
-class TenderAwardComplaintResourceTest(BaseTenderWebTest):
+class TenderAwardComplaintResourceTest(TenderContentWebTest):
     #initial_data = tender_data
     initial_status = 'active.qualification'
     initial_bids = test_bids
@@ -1042,7 +1042,7 @@ class TenderAwardComplaintResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can add complaint only in complaintPeriod")
 
 
-class TenderLotAwardComplaintResourceTest(BaseTenderWebTest):
+class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
     #initial_data = tender_data
     initial_status = 'active.qualification'
     initial_lots = test_lots
@@ -1360,7 +1360,7 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can update complaint only in active lot status")
 
 
-class TenderAwardComplaintDocumentResourceTest(BaseTenderWebTest):
+class TenderAwardComplaintDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
@@ -1691,7 +1691,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
 
 
-class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderWebTest):
+class Tender2LotAwardComplaintDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_lots = 2 * test_lots
@@ -1912,7 +1912,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can update document only in active lot status")
 
 
-class TenderAwardDocumentResourceTest(BaseTenderWebTest):
+class TenderAwardDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
@@ -2233,7 +2233,7 @@ class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
 
-class Tender2LotAwardDocumentResourceTest(BaseTenderWebTest):
+class Tender2LotAwardDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_lots = 2 * test_lots

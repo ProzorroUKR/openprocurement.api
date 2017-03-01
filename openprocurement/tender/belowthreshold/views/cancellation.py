@@ -20,7 +20,7 @@ from openprocurement.tender.belowthreshold.validation import (
 )
 
 
-@optendersresource(name='Tender Cancellations',
+@optendersresource(name='belowThreshold:Tender Cancellations',
                    collection_path='/tenders/{tender_id}/cancellations',
                    path='/tenders/{tender_id}/cancellations/{cancellation_id}',
                    procurementMethodType='belowThreshold',
@@ -83,7 +83,7 @@ class TenderCancellationResource(APIResource):
             self.LOGGER.info('Created tender cancellation {}'.format(cancellation.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_cancellation_create'}, {'cancellation_id': cancellation.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Cancellations', tender_id=self.request.validated['tender_id'], cancellation_id=cancellation.id)
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Cancellations'.format(self.request.validated['tender'].procurementMethodType), tender_id=self.request.validated['tender_id'], cancellation_id=cancellation.id)
             return {'data': cancellation.serialize("view")}
 
     @json_view(permission='view_tender')

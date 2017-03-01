@@ -20,7 +20,7 @@ from openprocurement.tender.belowthreshold.views.complaint_document import (
 )
 
 
-@optendersresource(name='Tender Award Complaint Documents',
+@optendersresource(name='belowThreshold:Tender Award Complaint Documents',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents',
                    path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}',
                    procurementMethodType='belowThreshold',

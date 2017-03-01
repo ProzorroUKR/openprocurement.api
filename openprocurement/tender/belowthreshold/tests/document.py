@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
 from email.header import Header
-from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest
+from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTest
 
 
-class TenderDocumentResourceTest(BaseTenderWebTest):
+class TenderDocumentResourceTest(TenderContentWebTest):
 
     def test_not_found(self):
         response = self.app.get('/tenders/some_id/documents', status=404)

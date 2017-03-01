@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_lots, test_bids
+from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTest, test_lots, test_bids
 
 
-class TenderCancellationResourceTest(BaseTenderWebTest):
+class TenderCancellationResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
@@ -236,7 +236,7 @@ class TenderCancellationResourceTest(BaseTenderWebTest):
         ])
 
 
-class TenderLotCancellationResourceTest(BaseTenderWebTest):
+class TenderLotCancellationResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_lots = test_lots
     initial_bids = test_bids
@@ -322,7 +322,7 @@ class TenderLotCancellationResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['data']["reason"], "cancellation reason")
 
 
-class TenderLotsCancellationResourceTest(BaseTenderWebTest):
+class TenderLotsCancellationResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_lots = 2 * test_lots
     initial_bids = test_bids
@@ -412,7 +412,7 @@ class TenderLotsCancellationResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['data']["reason"], "cancellation reason")
 
 
-class TenderCancellationDocumentResourceTest(BaseTenderWebTest):
+class TenderCancellationDocumentResourceTest(TenderContentWebTest):
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def setUp(self):

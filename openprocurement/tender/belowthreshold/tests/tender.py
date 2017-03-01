@@ -1450,7 +1450,6 @@ class TenderResourceTest(BaseWebTest):
 class TenderProcessTest(BaseTenderWebTest):
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
-    setUp = BaseWebTest.setUp
 
     def test_invalid_tender_conditions(self):
         self.app.authorization = ('Basic', ('broker', ''))

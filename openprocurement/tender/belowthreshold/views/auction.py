@@ -18,7 +18,7 @@ from openprocurement.tender.belowthreshold.utils import (
     add_next_award
 )
 
-@optendersresource(name='Tender Auction',
+@optendersresource(name='belowThreshold:Tender Auction',
                    collection_path='/tenders/{tender_id}/auction',
                    path='/tenders/{tender_id}/auction/{auction_lot_id}',
                    procurementMethodType='belowThreshold',
