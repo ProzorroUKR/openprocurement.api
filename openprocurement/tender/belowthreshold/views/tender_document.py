@@ -18,7 +18,7 @@ from openprocurement.tender.core.utils import (
 )
 
 
-@optendersresource(name='Tender Documents',
+@optendersresource(name='belowThreshold:Tender Documents',
                    collection_path='/tenders/{tender_id}/documents',
                    path='/tenders/{tender_id}/documents/{document_id}',
                    procurementMethodType='belowThreshold',

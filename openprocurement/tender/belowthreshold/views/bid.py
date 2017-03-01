@@ -15,7 +15,7 @@ from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
 )
 
-@optendersresource(name='Tender Bids',
+@optendersresource(name='belowThreshold:Tender Bids',
                    collection_path='/tenders/{tender_id}/bids',
                    path='/tenders/{tender_id}/bids/{bid_id}',
                    procurementMethodType='belowThreshold',
@@ -121,7 +121,7 @@ class TenderBidResource(APIResource):
             self.LOGGER.info('Created tender bid {}'.format(bid.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_create'}, {'bid_id': bid.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Bids', tender_id=tender.id, bid_id=bid['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Bids'.format(tender.procurementMethodType), tender_id=tender.id, bid_id=bid['id'])
             return {
                 'data': bid.serialize('view'),
                 'access': {

@@ -17,7 +17,7 @@ from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
 )
 
-@optendersresource(name='Tender Cancellation Documents',
+@optendersresource(name='belowThreshold:Tender Cancellation Documents',
                    collection_path='/tenders/{tender_id}/cancellations/{cancellation_id}/documents',
                    path='/tenders/{tender_id}/cancellations/{cancellation_id}/documents/{document_id}',
                    procurementMethodType='belowThreshold',

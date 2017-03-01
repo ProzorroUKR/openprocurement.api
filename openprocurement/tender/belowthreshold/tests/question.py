@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_tender_data, test_lots, test_organization
+from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTest, test_tender_data, test_lots, test_organization
 
 
-class TenderQuestionResourceTest(BaseTenderWebTest):
+class TenderQuestionResourceTest(TenderContentWebTest):
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_create_tender_question_invalid(self):
@@ -272,7 +272,7 @@ class TenderQuestionResourceTest(BaseTenderWebTest):
         ])
 
 
-class TenderLotQuestionResourceTest(BaseTenderWebTest):
+class TenderLotQuestionResourceTest(TenderContentWebTest):
     initial_lots = 2 * test_lots
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 

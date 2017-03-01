@@ -3,10 +3,10 @@ import unittest
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_tender_data, test_bids, test_lots, test_organization
+from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTest, test_tender_data, test_bids, test_lots, test_organization
 
 
-class TenderContractResourceTest(BaseTenderWebTest):
+class TenderContractResourceTest(TenderContentWebTest):
     #initial_data = tender_data
     initial_status = 'active.qualification'
     initial_bids = test_bids
@@ -338,7 +338,7 @@ class TenderContractResourceTest(BaseTenderWebTest):
         ])
 
 
-class Tender2LotContractResourceTest(BaseTenderWebTest):
+class Tender2LotContractResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_lots = 2 * test_lots
@@ -384,7 +384,7 @@ class Tender2LotContractResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can update contract only in active lot status")
 
 
-class TenderContractDocumentResourceTest(BaseTenderWebTest):
+class TenderContractDocumentResourceTest(TenderContentWebTest):
     #initial_data = tender_data
     initial_status = 'active.qualification'
     initial_bids = test_bids
@@ -679,7 +679,7 @@ class TenderContractDocumentResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (unsuccessful) tender status")
 
 
-class Tender2LotContractDocumentResourceTest(BaseTenderWebTest):
+class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_lots = 2 * test_lots
