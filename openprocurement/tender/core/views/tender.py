@@ -351,7 +351,7 @@ class TendersResource(APIResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_create'}, {'tender_id': tender_id, 'tenderID': tender.tenderID}))
             self.request.response.status = 201
             self.request.response.headers[
-                'Location'] = self.request.route_url('Tender', tender_id=tender_id)
+                'Location'] = self.request.route_url('{}:Tender'.format(tender.procurementMethodType), tender_id=tender_id)
             return {
                 'data': tender.serialize(tender.status),
                 'access': {
