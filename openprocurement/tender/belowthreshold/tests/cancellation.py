@@ -406,7 +406,7 @@ class TenderLotsCancellationResourceTest(TenderContentWebTest):
         self.assertEqual(response.json['data']["reason"], "cancellation reason")
 
 
-class TenderCancellationDocumentResourceTest(BaseTenderWebTest):
+class TenderCancellationDocumentResourceTest(TenderContentWebTest):
 
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
