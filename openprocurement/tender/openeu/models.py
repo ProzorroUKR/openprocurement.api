@@ -612,12 +612,15 @@ class Tender(BaseTender):
         if self.status == 'active.tendering' and self.tenderPeriod.endDate and \
                 not has_unanswered_complaints(self) and not has_unanswered_questions(self):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
-        elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate and not any([
-            i.status in self.block_complaint_status
-            for q in self.qualifications
-            for i in q.complaints
-        ]):
-            checks.append(self.qualificationPeriod.endDate.astimezone(TZ))
+        elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate:
+            active_lots = [lot.id for lot in self.lots if lot.status == 'active'] if self.lots else [None]
+            if not any([
+                i.status in self.block_complaint_status
+                for q in self.qualifications
+                for i in q.complaints
+                if q.lotID in active_lots
+            ]):
+                checks.append(self.qualificationPeriod.endDate.astimezone(TZ))
         elif not self.lots and self.status == 'active.auction' and self.auctionPeriod and self.auctionPeriod.startDate and not self.auctionPeriod.endDate:
             if now < self.auctionPeriod.startDate:
                 checks.append(self.auctionPeriod.startDate.astimezone(TZ))
