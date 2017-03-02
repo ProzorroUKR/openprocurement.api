@@ -399,6 +399,10 @@ class CompetitiveDialogueDataBridge(object):
                                                   {"TENDER_ID": new_tender['dialogueID']}))
                 self.dialogs_stage2_retry_put_queue.put(new_tender)
             except Exception, e:
+                logger.info("Exception, schedule retry for competitive dialogue id={0}".format(new_tender['dialogueID']),
+                            extra=journal_context({"MESSAGE_ID": DATABRIDGE_RETRY_CREATE},
+                                                  {"TENDER_ID": new_tender['dialogueID']}))
+                self.dialogs_stage2_retry_put_queue.put(new_tender)
                 logger.exception(e)
             else:
                 logger.info("Successfully created tender stage2 id={} from competitive dialogue id={}".format(res['data']['id'], res['data']['dialogueID']),
@@ -665,6 +669,7 @@ class CompetitiveDialogueDataBridge(object):
 
     def catch_exception(self, exc, name):
         """Restarting job"""
+        logger.warning('Worker died! Restarting {}.'.format(name), extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
         if name == 'get_competitive_dialogue_data':
             tender = self.competitive_dialogues_queue.get()  # delete invalid tender from queue
             logger.info('Remove invalid tender {}'.format(tender.id))
