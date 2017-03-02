@@ -21,7 +21,7 @@ from openprocurement.tender.belowthreshold.validation import (
 )
 
 
-@optendersresource(name='Tender Awards',
+@optendersresource(name='belowThreshold:Tender Awards',
                    collection_path='/tenders/{tender_id}/awards',
                    path='/tenders/{tender_id}/awards/{award_id}',
                    description="Tender awards",
@@ -180,7 +180,7 @@ class TenderAwardResource(APIResource):
             self.LOGGER.info('Created tender award {}'.format(award.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_create'}, {'award_id': award.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Awards', tender_id=tender.id, award_id=award['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Awards'.format(tender.procurementMethodType), tender_id=tender.id, award_id=award['id'])
             return {'data': award.serialize("view")}
 
     @json_view(permission='view_tender')

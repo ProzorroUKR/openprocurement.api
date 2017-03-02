@@ -19,7 +19,7 @@ from openprocurement.tender.core.utils import (
 )
 
 
-@optendersresource(name='Tender Bid Documents',
+@optendersresource(name='belowThreshold:Tender Bid Documents',
                    collection_path='/tenders/{tender_id}/bids/{bid_id}/documents',
                    path='/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}',
                    procurementMethodType='belowThreshold',

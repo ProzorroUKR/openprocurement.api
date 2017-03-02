@@ -14,7 +14,7 @@ from openprocurement.tender.core.utils import (
 )
 
 
-@optendersresource(name='Tender Lots',
+@optendersresource(name='belowThreshold:Tender Lots',
                    collection_path='/tenders/{tender_id}/lots',
                    path='/tenders/{tender_id}/lots/{lot_id}',
                    procurementMethodType='belowThreshold',
@@ -37,7 +37,7 @@ class TenderLotResource(APIResource):
             self.LOGGER.info('Created tender lot {}'.format(lot.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_create'}, {'lot_id': lot.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Lots', tender_id=tender.id, lot_id=lot.id)
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Lots'.format(tender.procurementMethodType), tender_id=tender.id, lot_id=lot.id)
             return {'data': lot.serialize("view")}
 
     @json_view(permission='view_tender')

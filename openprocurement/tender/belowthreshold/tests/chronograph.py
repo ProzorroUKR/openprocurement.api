@@ -2,10 +2,10 @@
 import unittest
 from datetime import datetime, timedelta
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_lots, test_bids, test_organization
+from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTest, test_lots, test_bids, test_organization
 
 
-class TenderSwitchTenderingResourceTest(BaseTenderWebTest):
+class TenderSwitchTenderingResourceTest(TenderContentWebTest):
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_switch_to_tendering_by_tenderPeriod_startDate(self):
@@ -20,7 +20,7 @@ class TenderSwitchTenderingResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['data']["status"], "active.tendering")
 
 
-class TenderSwitchQualificationResourceTest(BaseTenderWebTest):
+class TenderSwitchQualificationResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids[:1]
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
@@ -35,7 +35,7 @@ class TenderSwitchQualificationResourceTest(BaseTenderWebTest):
         self.assertEqual(len(response.json['data']["awards"]), 1)
 
 
-class TenderSwitchAuctionResourceTest(BaseTenderWebTest):
+class TenderSwitchAuctionResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
@@ -49,7 +49,7 @@ class TenderSwitchAuctionResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['data']["status"], "active.auction")
 
 
-class TenderSwitchUnsuccessfulResourceTest(BaseTenderWebTest):
+class TenderSwitchUnsuccessfulResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
@@ -79,7 +79,7 @@ class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTe
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
 
-class TenderAuctionPeriodResourceTest(BaseTenderWebTest):
+class TenderAuctionPeriodResourceTest(TenderContentWebTest):
     initial_bids = test_bids
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
@@ -236,7 +236,7 @@ class TenderLotAuctionPeriodResourceTest(TenderAuctionPeriodResourceTest):
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
 
-class TenderComplaintSwitchResourceTest(BaseTenderWebTest):
+class TenderComplaintSwitchResourceTest(TenderContentWebTest):
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_switch_to_pending(self):
@@ -296,7 +296,7 @@ class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
 
-class TenderAwardComplaintSwitchResourceTest(BaseTenderWebTest):
+class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_auth = ('Basic', ('token', '')) # XXX TODO: broker

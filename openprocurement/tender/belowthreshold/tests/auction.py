@@ -3,12 +3,12 @@ import unittest
 from copy import deepcopy
 from datetime import timedelta
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_tender_data, test_features_tender_data, test_bids, test_lots, test_organization
+from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTest, test_tender_data, test_features_tender_data, test_bids, test_lots, test_organization
 
 auction_test_tender_data = test_tender_data.copy()
 auction_test_tender_data['submissionMethodDetails'] = 'test submissionMethodDetails'
 
-class TenderAuctionResourceTest(BaseTenderWebTest):
+class TenderAuctionResourceTest(TenderContentWebTest):
     initial_data = auction_test_tender_data
     initial_status = 'active.tendering'
     initial_bids = deepcopy(test_bids)
@@ -279,7 +279,7 @@ class TenderAuctionResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
 
 
-class TenderSameValueAuctionResourceTest(BaseTenderWebTest):
+class TenderSameValueAuctionResourceTest(TenderContentWebTest):
     initial_status = 'active.auction'
     initial_bids = [
         {
@@ -991,7 +991,7 @@ class TenderMultipleLotAuctionResourceTest(TenderAuctionResourceTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
 
 
-class TenderFeaturesAuctionResourceTest(BaseTenderWebTest):
+class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
     initial_data = test_features_tender_data
     initial_status = 'active.auction'
     initial_bids = [

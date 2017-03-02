@@ -24,7 +24,7 @@ STATUS4ROLE = {
 }
 
 
-@optendersresource(name='Tender Complaint Documents',
+@optendersresource(name='belowThreshold:Tender Complaint Documents',
                    collection_path='/tenders/{tender_id}/complaints/{complaint_id}/documents',
                    path='/tenders/{tender_id}/complaints/{complaint_id}/documents/{document_id}',
                    procurementMethodType='belowThreshold',
