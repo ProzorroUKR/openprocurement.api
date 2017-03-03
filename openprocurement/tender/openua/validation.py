@@ -30,3 +30,5 @@ def validate_patch_tender_ua_data(request):
                 return None
 
     return validate_data(request, type(request.tender), True, data)
+
+
