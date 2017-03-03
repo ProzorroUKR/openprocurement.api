@@ -17,7 +17,7 @@ docs_requires = requires + [
 
 entry_points = {
     'openprocurement.api.plugins': [
-        'tender_core = openprocurement.tender.core:includeme'
+        'tender_core = openprocurement.tender.core.includeme:includeme'
     ],
     # 'openprocurement.tender.core.migrations': [
         # 'contracts = openprocurement.tender.core.migration:migrate_data'
