@@ -18,7 +18,7 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
-@optendersresource(name='Tender UA',
+@optendersresource(name='aboveThresholdUA:Tender',
                    path='/tenders/{tender_id}',
                    procurementMethodType='aboveThresholdUA',
                    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")

@@ -19,7 +19,7 @@ from openprocurement.api.validation import (
 from openprocurement.tender.openua.views.complaint_document import STATUS4ROLE
 
 
-@optendersresource(name='Tender UA Award Complaint Documents',
+@optendersresource(name='aboveThresholdUA:Tender Award Complaint Documents',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents',
                    path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}',
                    procurementMethodType='aboveThresholdUA',

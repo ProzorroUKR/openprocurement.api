@@ -23,7 +23,7 @@ STATUS4ROLE = {
 }
 
 
-@optendersresource(name='Tender UA Complaint Documents',
+@optendersresource(name='aboveThresholdUA:Tender Complaint Documents',
                    collection_path='/tenders/{tender_id}/complaints/{complaint_id}/documents',
                    path='/tenders/{tender_id}/complaints/{complaint_id}/documents/{document_id}',
                    procurementMethodType='aboveThresholdUA',

@@ -17,7 +17,7 @@ from openprocurement.tender.openua.utils import (
     add_next_award, calculate_normalized_date
 )
 
-@optendersresource(name='Tender UA Awards',
+@optendersresource(name='aboveThresholdUA:Tender Awards',
                    collection_path='/tenders/{tender_id}/awards',
                    path='/tenders/{tender_id}/awards/{award_id}',
                    description="Tender awards",

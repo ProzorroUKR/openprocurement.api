@@ -4,7 +4,7 @@ from openprocurement.tender.belowthreshold.views.cancellation import TenderCance
 from openprocurement.tender.openua.utils import add_next_award
 
 
-@optendersresource(name='Tender UA Cancellations',
+@optendersresource(name='aboveThresholdUA:Tender Cancellations',
                    collection_path='/tenders/{tender_id}/cancellations',
                    path='/tenders/{tender_id}/cancellations/{cancellation_id}',
                    procurementMethodType='aboveThresholdUA',

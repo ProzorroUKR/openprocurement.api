@@ -24,7 +24,7 @@ from openprocurement.tender.openua.constants import (
 )
 
 
-@optendersresource(name='Tender UA Complaints',
+@optendersresource(name='aboveThresholdUA:Tender Complaints',
                    collection_path='/tenders/{tender_id}/complaints',
                    path='/tenders/{tender_id}/complaints/{complaint_id}',
                    procurementMethodType='aboveThresholdUA',
@@ -67,7 +67,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             self.LOGGER.info('Created tender complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Complaints', tender_id=tender.id, complaint_id=complaint.id)
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Complaints'.format(tender.procurementMethodType), tender_id=tender.id, complaint_id=complaint.id)
             return {
                 'data': complaint.serialize(tender.status),
                 'access': {

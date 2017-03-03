@@ -30,7 +30,7 @@ def get_bid_id(request):
         return bids[common.pop()]
 
 
-@optendersresource(name='Tender UA Award Complaints',
+@optendersresource(name='aboveThresholdUA:Tender Award Complaints',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
                    path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
                    procurementMethodType='aboveThresholdUA',
@@ -85,7 +85,7 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             self.LOGGER.info('Created tender award complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Award Complaints', tender_id=tender.id, award_id=self.request.validated['award_id'], complaint_id=complaint['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Award Complaints'.format(tender.procurementMethodType), tender_id=tender.id, award_id=self.request.validated['award_id'], complaint_id=complaint['id'])
             return {
                 'data': complaint.serialize("view"),
                 'access': {
