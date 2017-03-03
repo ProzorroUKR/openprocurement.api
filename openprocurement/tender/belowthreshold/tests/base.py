@@ -370,12 +370,6 @@ class BaseTenderWebTest(BaseTWT):
         self.assertEqual(response.content_type, 'application/json')
         return response
 
-    def setUp(self):
-        super(BaseTenderWebTest, self).setUp()
-        self.create_tender()
-        if self.docservice:
-            self.setUpDS()
-
     def setUpDS(self):
         self.app.app.registry.docservice_url = 'http://localhost'
         test = self
