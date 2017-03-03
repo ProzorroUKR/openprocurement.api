@@ -34,8 +34,8 @@ docs_requires = requires + [
 ]
 
 entry_points = {
-    'openprocurement.api.plugins': [
-        'belowThreshold = openprocurement.tender.belowthreshold:includeme'
+    'openprocurement.tender.core.plugins': [
+        'belowThreshold = openprocurement.tender.belowthreshold.includeme:includeme'
     ],
     # 'openprocurement.api.migrations': [
         # 'belowthreshold_tenders = openprocurement.tender.belowthreshold.migration:migrate_data'
