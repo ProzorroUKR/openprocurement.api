@@ -4,9 +4,8 @@ import unittest
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import COORDINATES_REG_EXP
+from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
     ITEMS_LOCATION_VALIDATION_FROM
