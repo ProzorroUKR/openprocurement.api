@@ -2,8 +2,7 @@
 import unittest
 from datetime import timedelta
 from openprocurement.api.models import get_now
-from openprocurement.api.constants import SANDBOX_MODE, CPV_ITEMS_CLASS_FROM
-from openprocurement.api import ROUTE_PREFIX
+from openprocurement.api.constants import SANDBOX_MODE, CPV_ITEMS_CLASS_FROM, ROUTE_PREFIX
 from openprocurement.tender.belowthreshold.tests.base import BaseWebTest, test_organization, test_lots
 from openprocurement.tender.openua.models import Tender
 from openprocurement.tender.openua.tests.base import test_tender_data, BaseTenderUAWebTest
