@@ -1,18 +1,29 @@
 # -*- coding: utf-8 -*-
 from pkg_resources import get_distribution
 from datetime import timedelta
-import re
 from logging import getLogger
-from openprocurement.api.models import get_now, TZ
-from openprocurement.api.utils import (
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import TZ, SANDBOX_MODE
+from openprocurement.tender.belowthreshold.utils import (
     check_tender_status,
     context_unpack,
-    calculate_business_date,
     remove_draft_bids,
+)
+from openprocurement.tender.openua.constants import (
+    NORMALIZED_COMPLAINT_PERIOD_FROM
 )
 from barbecue import chef
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
+
+
+def calculate_normalized_date(dt, tender, ceil=False):
+    if (tender.revisions[0].date if tender.revisions else get_now()) > NORMALIZED_COMPLAINT_PERIOD_FROM and \
+            not (SANDBOX_MODE and tender.procurementMethodDetails):
+        if ceil:
+            return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
+        return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0)
+    return dt
 
 
 def check_bids(request):

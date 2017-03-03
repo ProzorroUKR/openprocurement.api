@@ -1,26 +1,28 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.views.lot import TenderLotResource
+from openprocurement.tender.belowthreshold.views.lot import TenderLotResource
 from openprocurement.api.utils import (
-    apply_patch,
-    save_tender,
-    opresource,
     json_view,
     context_unpack
 )
-from openprocurement.api.validation import (
+from openprocurement.tender.core.validation import (
     validate_lot_data,
     validate_patch_lot_data,
 )
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource,
+    calculate_business_date
+)
 from openprocurement.api.models import get_now
-from openprocurement.tender.openua.utils import calculate_business_date
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
-@opresource(name='Tender UA Lots',
-            collection_path='/tenders/{tender_id}/lots',
-            path='/tenders/{tender_id}/lots/{lot_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender Ua lots")
+@optendersresource(name='Tender UA Lots',
+                   collection_path='/tenders/{tender_id}/lots',
+                   path='/tenders/{tender_id}/lots/{lot_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender Ua lots")
 class TenderUaLotResource(TenderLotResource):
 
     def validate_update_tender(self, operation):

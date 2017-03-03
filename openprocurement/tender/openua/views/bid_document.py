@@ -1,27 +1,29 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
-    save_tender,
     upload_file,
-    apply_patch,
     update_file_content_type,
-    opresource,
     json_view,
     context_unpack,
+    get_now
 )
 from openprocurement.api.validation import (
     validate_file_update,
     validate_file_upload,
     validate_patch_document_data,
 )
-from openprocurement.api.views.bid_document import TenderBidDocumentResource
+from openprocurement.tender.belowthreshold.views.bid_document import TenderBidDocumentResource
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource
+)
 
 
-@opresource(name='Tender UA Bid Documents',
-            collection_path='/tenders/{tender_id}/bids/{bid_id}/documents',
-            path='/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender UA bidder documents")
+@optendersresource(name='Tender UA Bid Documents',
+                   collection_path='/tenders/{tender_id}/bids/{bid_id}/documents',
+                   path='/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender UA bidder documents")
 class TenderUaBidDocumentResource(TenderBidDocumentResource):
 
     @json_view(validators=(validate_file_upload,), permission='edit_bid')

@@ -1,25 +1,27 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.views.bid import TenderBidResource
-from openprocurement.api.models import get_now
+from openprocurement.tender.belowthreshold.views.bid import TenderBidResource
 from openprocurement.api.utils import (
-    save_tender,
     set_ownership,
-    apply_patch,
-    opresource,
     json_view,
     context_unpack,
+    get_now
 )
-from openprocurement.api.validation import (
+from openprocurement.tender.core.validation import (
     validate_bid_data,
     validate_patch_bid_data,
 )
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource
+)
 
 
-@opresource(name='Tender UA Bids',
-            collection_path='/tenders/{tender_id}/bids',
-            path='/tenders/{tender_id}/bids/{bid_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender bids")
+@optendersresource(name='Tender UA Bids',
+                   collection_path='/tenders/{tender_id}/bids',
+                   path='/tenders/{tender_id}/bids/{bid_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender bids")
 class TenderUABidResource(TenderBidResource):
 
     allowed_bid_status_on_create = ['draft', 'active']

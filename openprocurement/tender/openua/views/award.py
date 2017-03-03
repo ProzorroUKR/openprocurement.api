@@ -1,23 +1,27 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
-from openprocurement.api.validation import validate_patch_award_data
-from openprocurement.api.views.award import TenderAwardResource
+from openprocurement.tender.core.validation import validate_patch_award_data
+from openprocurement.tender.belowthreshold.views.award import TenderAwardResource
 from openprocurement.api.utils import (
-    apply_patch,
-    save_tender,
     json_view,
     context_unpack,
-    opresource,
+    get_now
 )
-from openprocurement.tender.openua.models import STAND_STILL_TIME, calculate_normalized_date
-from openprocurement.tender.openua.utils import add_next_award, calculate_business_date
+from openprocurement.tender.core.utils import (
+    apply_patch,
+    optendersresource,
+    save_tender,
+    calculate_business_date
+)
+from openprocurement.tender.openua.constants import STAND_STILL_TIME
+from openprocurement.tender.openua.utils import (
+    add_next_award, calculate_normalized_date
+)
 
-
-@opresource(name='Tender UA Awards',
-            collection_path='/tenders/{tender_id}/awards',
-            path='/tenders/{tender_id}/awards/{award_id}',
-            description="Tender awards",
-            procurementMethodType='aboveThresholdUA')
+@optendersresource(name='Tender UA Awards',
+                   collection_path='/tenders/{tender_id}/awards',
+                   path='/tenders/{tender_id}/awards/{award_id}',
+                   description="Tender awards",
+                   procurementMethodType='aboveThresholdUA')
 class TenderUaAwardResource(TenderAwardResource):
 
     @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_award_data,))

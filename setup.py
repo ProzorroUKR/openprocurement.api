@@ -6,6 +6,8 @@ version = '2.3.24'
 requires = [
     'setuptools',
     'openprocurement.api>=2.3',
+    'openprocurement.tender.core',
+    'openprocurement.tender.belowthreshold'
 ]
 test_requires = requires + [
     'webtest',
@@ -16,8 +18,8 @@ docs_requires = requires + [
 ]
 
 entry_points = {
-    'openprocurement.api.plugins': [
-        'aboveThresholdUA = openprocurement.tender.openua:includeme'
+    'openprocurement.tender.core.plugins': [
+        'aboveThresholdUA = openprocurement.tender.openua.includeme:includeme'
     ]
 }
 

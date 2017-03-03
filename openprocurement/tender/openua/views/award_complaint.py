@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
-from openprocurement.api.views.award_complaint import TenderAwardComplaintResource
+from openprocurement.tender.belowthreshold.views.award_complaint import TenderAwardComplaintResource
+
 from openprocurement.api.utils import (
-    apply_patch,
-    check_tender_status,
+    get_now,
     context_unpack,
     json_view,
-    opresource,
-    save_tender,
     set_ownership,
 )
-from openprocurement.api.validation import (
-    validate_complaint_data,
-    validate_patch_complaint_data,
+from openprocurement.tender.core.validation import (
+    validate_complaint_data, validate_patch_complaint_data,
 )
 
+from openprocurement.tender.belowthreshold.utils import (
+    check_tender_status,
+)
+
+from openprocurement.tender.core.utils import (
+    save_tender, apply_patch,
+    optendersresource
+)
 
 def get_bid_id(request):
     if request.authenticated_role != 'bid_owner':
@@ -26,11 +30,11 @@ def get_bid_id(request):
         return bids[common.pop()]
 
 
-@opresource(name='Tender UA Award Complaints',
-            collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
-            path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender award complaints")
+@optendersresource(name='Tender UA Award Complaints',
+                   collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
+                   path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender award complaints")
 class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
 
     def complaints_len(self, tender):

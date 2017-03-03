@@ -2,14 +2,16 @@
 import os
 import webtest
 from datetime import datetime, timedelta
-from openprocurement.api.models import get_now, SANDBOX_MODE
-from openprocurement.api.tests.base import (test_tender_data as test_tender_data_api,
-                                            now,
-                                            test_features_tender_data,
-                                            BaseTenderWebTest,
-                                            PrefixedRequestClass)
-
-from openprocurement.api.tests.base import test_bids as base_test_bids
+from copy import deepcopy
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_data as test_tender_data_api,
+    now,
+    test_features_tender_data,
+    BaseTenderWebTest,
+    test_bids as base_test_bids
+)
 test_tender_data = test_tender_ua_data = test_tender_data_api.copy()
 test_tender_data['procurementMethodType'] = "aboveThresholdUA"
 # test_tender_data["enquiryPeriod"] = {}
@@ -52,10 +54,9 @@ test_tender_data["items"] = [{
 if SANDBOX_MODE:
     test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
 
-test_bids = []
-for i in base_test_bids:
+test_bids = deepcopy(base_test_bids)
+for i in test_bids:
     i.update({'selfEligible': True, 'selfQualified': True})
-    test_bids.append(i)
 
 
 # test_tender_data["tenderPeriod"] = test_tender_data["enquiryPeriod"].copy()
@@ -107,7 +108,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
 
     def tearDown(self):
         if self.docservice:
-            self.tearDownDS()
+           self.tearDownDS()
         del self.couchdb_server[self.db.name]
 
     def set_status(self, status, extra=None):

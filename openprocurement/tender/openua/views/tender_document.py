@@ -1,17 +1,23 @@
-# -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
-from openprocurement.api.utils import opresource, upload_file, context_unpack, save_tender, json_view, apply_patch, update_file_content_type
+from openprocurement.api.utils import (
+    upload_file, context_unpack, json_view,
+    update_file_content_type, get_now
+)
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource,
+    calculate_business_date
+)
 from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
-from openprocurement.api.views.tender_document import TenderDocumentResource
-from openprocurement.tender.openua.utils import calculate_business_date
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.belowthreshold.views.tender_document import TenderDocumentResource
+from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
-@opresource(name='Tender UA Documents',
-            collection_path='/tenders/{tender_id}/documents',
-            path='/tenders/{tender_id}/documents/{document_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender UA related binary files (PDFs, etc.)")
+@optendersresource(name='Tender UA Documents',
+                   collection_path='/tenders/{tender_id}/documents',
+                   path='/tenders/{tender_id}/documents/{document_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender UA related binary files (PDFs, etc.)")
 class TenderUaDocumentResource(TenderDocumentResource):
 
     def validate_update_tender(self, operation):

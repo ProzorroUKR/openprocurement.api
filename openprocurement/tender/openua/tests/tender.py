@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
-from openprocurement.api.models import get_now, SANDBOX_MODE, CPV_ITEMS_CLASS_FROM
-from openprocurement.api import ROUTE_PREFIX
-from openprocurement.api.tests.base import BaseWebTest, test_organization, test_lots
+from openprocurement.api.models import get_now
+from openprocurement.api.constants import SANDBOX_MODE, CPV_ITEMS_CLASS_FROM, ROUTE_PREFIX
+from openprocurement.tender.belowthreshold.tests.base import BaseWebTest, test_organization, test_lots
 from openprocurement.tender.openua.models import Tender
 from openprocurement.tender.openua.tests.base import test_tender_data, BaseTenderUAWebTest
 from copy import deepcopy
@@ -33,7 +33,6 @@ class TenderUATest(BaseWebTest):
 
 
 class TenderUAResourceTest(BaseTenderUAWebTest):
-
     def test_empty_listing(self):
         response = self.app.get('/tenders')
         self.assertEqual(response.status, '200 OK')

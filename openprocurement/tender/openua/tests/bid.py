@@ -5,9 +5,10 @@ from copy import deepcopy
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_data,
-    test_features_tender_ua_data)
+    test_features_tender_ua_data,
+    test_bids)
 
-from openprocurement.api.tests.base import test_bids, test_organization, now
+from openprocurement.tender.belowthreshold.tests.base import test_organization, now
 from datetime import datetime, timedelta
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest):
@@ -486,7 +487,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
         response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.json['data'], [])
-    
+
     def test_bids_invalidation_on_tender_change(self):
         bids_access = {}
 
