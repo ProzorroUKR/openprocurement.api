@@ -13,7 +13,7 @@ from openprocurement.tender.belowthreshold.views.tender_document import TenderDo
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
-@optendersresource(name='Tender UA Documents',
+@optendersresource(name='aboveThresholdUA:Tender Documents',
                    collection_path='/tenders/{tender_id}/documents',
                    path='/tenders/{tender_id}/documents/{document_id}',
                    procurementMethodType='aboveThresholdUA',

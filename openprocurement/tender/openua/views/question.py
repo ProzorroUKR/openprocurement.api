@@ -8,7 +8,7 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.belowthreshold.views.question import TenderQuestionResource
 
 
-@optendersresource(name='Tender UA Questions',
+@optendersresource(name='aboveThresholdUA:Tender Questions',
                    collection_path='/tenders/{tender_id}/questions',
                    path='/tenders/{tender_id}/questions/{question_id}',
                    procurementMethodType='aboveThresholdUA',

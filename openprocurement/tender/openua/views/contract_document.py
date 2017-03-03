@@ -3,7 +3,7 @@ from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.belowthreshold.views.contract_document import TenderAwardContractDocumentResource
 
 
-@optendersresource(name='Tender UA Contract Documents',
+@optendersresource(name='aboveThresholdUA:Tender Contract Documents',
                    collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
                    path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
                    procurementMethodType='aboveThresholdUA',

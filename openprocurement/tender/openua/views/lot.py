@@ -18,7 +18,7 @@ from openprocurement.api.models import get_now
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
-@optendersresource(name='Tender UA Lots',
+@optendersresource(name='aboveThresholdUA:Tender Lots',
                    collection_path='/tenders/{tender_id}/lots',
                    path='/tenders/{tender_id}/lots/{lot_id}',
                    procurementMethodType='aboveThresholdUA',
@@ -53,7 +53,7 @@ class TenderUaLotResource(TenderLotResource):
             self.LOGGER.info('Created tender lot {}'.format(lot.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_create'}, {'lot_id': lot.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender UA Lots', tender_id=tender.id, lot_id=lot.id)
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Lots'.format(tender.procurementMethodType), tender_id=tender.id, lot_id=lot.id)
             return {'data': lot.serialize("view")}
 
     @json_view(content_type="application/json", validators=(validate_patch_lot_data,), permission='edit_tender')

@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.views.auction import TenderAuctionRes
 from openprocurement.tender.openua.utils import add_next_award
 
 
-@optendersresource(name='Tender UA Auction',
+@optendersresource(name='aboveThresholdUA:Tender Auction',
                    collection_path='/tenders/{tender_id}/auction',
                    path='/tenders/{tender_id}/auction/{auction_lot_id}',
                    procurementMethodType='aboveThresholdUA',
