@@ -5,7 +5,6 @@ from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTes
 
 
 class TenderQuestionResourceTest(TenderContentWebTest):
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_create_tender_question_invalid(self):
         response = self.app.post_json('/tenders/some_id/questions', {
@@ -169,7 +168,7 @@ class TenderQuestionResourceTest(TenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
 
-        response = self.app.patch_json('/tenders/{}/questions/{}'.format(self.tender_id, question['id']), {"data": {"answer": "answer"}})
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["answer"], "answer")
@@ -201,7 +200,7 @@ class TenderQuestionResourceTest(TenderContentWebTest):
 
         self.set_status('active.tendering')
 
-        response = self.app.patch_json('/tenders/{}/questions/{}'.format(self.tender_id, question['id']), {"data": {"answer": "answer"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update question in current (active.tendering) tender status")
@@ -274,10 +273,9 @@ class TenderQuestionResourceTest(TenderContentWebTest):
 
 class TenderLotQuestionResourceTest(TenderContentWebTest):
     initial_lots = 2 * test_lots
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_create_tender_question(self):
-        response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
             'reason': 'cancellation reason',
             'status': 'active',
             "cancellationOf": "lot",
@@ -285,7 +283,7 @@ class TenderLotQuestionResourceTest(TenderContentWebTest):
         }})
         self.assertEqual(response.status, '201 Created')
 
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id, self.tender_token), {'data': {
             'title': 'question title',
             'description': 'question description',
             "questionOf": "lot",
@@ -296,7 +294,7 @@ class TenderLotQuestionResourceTest(TenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can add question only in active lot status")
 
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id, self.tender_token), {'data': {
             'title': 'question title',
             'description': 'question description',
             "questionOf": "lot",
@@ -311,7 +309,7 @@ class TenderLotQuestionResourceTest(TenderContentWebTest):
         self.assertIn(question['id'], response.headers['Location'])
 
     def test_patch_tender_question(self):
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id, self.tender_token), {'data': {
             'title': 'question title',
             'description': 'question description',
             "questionOf": "lot",
@@ -322,7 +320,7 @@ class TenderLotQuestionResourceTest(TenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
 
-        response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
             'reason': 'cancellation reason',
             'status': 'active',
             "cancellationOf": "lot",
@@ -330,12 +328,12 @@ class TenderLotQuestionResourceTest(TenderContentWebTest):
         }})
         self.assertEqual(response.status, '201 Created')
 
-        response = self.app.patch_json('/tenders/{}/questions/{}'.format(self.tender_id, question['id']), {"data": {"answer": "answer"}}, status=403)
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can update question only in active lot status")
 
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id), {'data': {
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id, self.tender_token), {'data': {
             'title': 'question title',
             'description': 'question description',
             "questionOf": "lot",
@@ -346,13 +344,13 @@ class TenderLotQuestionResourceTest(TenderContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         question = response.json['data']
 
-        response = self.app.patch_json('/tenders/{}/questions/{}'.format(self.tender_id, question['id']), {"data": {"answer": "answer"}})
+        response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["answer"], "answer")
         self.assertIn('dateAnswered', response.json['data'])
 
-        response = self.app.get('/tenders/{}/questions/{}'.format(self.tender_id, question['id']))
+        response = self.app.get('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["answer"], "answer")
