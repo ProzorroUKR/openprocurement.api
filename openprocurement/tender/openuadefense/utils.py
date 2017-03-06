@@ -2,13 +2,16 @@ from datetime import timedelta
 from logging import getLogger
 from pkg_resources import get_distribution
 
-from openprocurement.api.models import read_json, get_now, TZ
-from openprocurement.api.utils import ACCELERATOR_RE, datetime, time, context_unpack, check_tender_status
+from openprocurement.api.constants import read_json, TZ
+from openprocurement.tender.core.utils import (
+    ACCELERATOR_RE, datetime, time,
+    context_unpack, get_now
+)
 from openprocurement.tender.openua.utils import (
     check_complaint_status, add_next_award, has_unanswered_questions,
     has_unanswered_complaints
 )
-
+from openprocurement.tender.belowthreshold.utils import check_tender_status
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
 WORKING_DAYS = read_json('working_days.json')
