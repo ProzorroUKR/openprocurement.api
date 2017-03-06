@@ -7,11 +7,12 @@ from openprocurement.api.utils import (
 from openprocurement.tender.core.utils import (
     save_tender,
     apply_patch,
-    optendersresource
+    optendersresource,
+    calculate_business_date
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
-from openprocurement.tender.openuadefense.utils import calculate_business_date, check_status
+from openprocurement.tender.openuadefense.utils import check_status
 from openprocurement.tender.openuadefense.constants import TENDERING_EXTRA_PERIOD
 
 

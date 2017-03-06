@@ -4,7 +4,7 @@ from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.views.lot import (
     TenderUaLotResource as TenderLotResource
 )
-from openprocurement.tender.openuadefense.utils import calculate_business_date
+from openprocurement.tender.core.utils import calculate_business_date
 from openprocurement.tender.openuadefense.constants import (
     TENDERING_EXTRA_PERIOD
 )
