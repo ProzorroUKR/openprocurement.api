@@ -4,7 +4,6 @@ import unittest
 from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTest, test_tender_data, test_lots, test_organization
 
 
-
 class TenderComplaintResourceTest(TenderContentWebTest):
 
     def test_create_tender_complaint_invalid(self):
