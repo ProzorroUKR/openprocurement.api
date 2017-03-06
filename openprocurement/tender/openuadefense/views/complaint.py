@@ -1,28 +1,36 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
-from openprocurement.tender.openua.views.complaint import TenderUaComplaintResource as TenderComplaintResource
 from openprocurement.api.utils import (
-    apply_patch,
-    check_tender_status,
     context_unpack,
     json_view,
-    opresource,
-    save_tender,
     set_ownership,
+    get_now
 )
-from openprocurement.api.validation import (
+from openprocurement.tender.core.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
 )
-from openprocurement.tender.openuadefense.models import CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource
+)
+from openprocurement.tender.belowthreshold.utils import (
+    check_tender_status
+)
+from openprocurement.tender.openuadefense.constants import (
+    CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
+)
 from openprocurement.tender.openuadefense.utils import calculate_business_date
+from openprocurement.tender.openua.views.complaint import (
+    TenderUaComplaintResource as TenderComplaintResource
+)
 
 
-@opresource(name='Tender UA.defense Complaints',
-            collection_path='/tenders/{tender_id}/complaints',
-            path='/tenders/{tender_id}/complaints/{complaint_id}',
-            procurementMethodType='aboveThresholdUA.defense',
-            description="Tender complaints")
+@optendersresource(name='aboveThresholdUA.defense:Tender Complaints',
+                   collection_path='/tenders/{tender_id}/complaints',
+                   path='/tenders/{tender_id}/complaints/{complaint_id}',
+                   procurementMethodType='aboveThresholdUA.defense',
+                   description="Tender complaints")
 class TenderUaComplaintResource(TenderComplaintResource):
 
     @json_view(content_type="application/json", validators=(validate_complaint_data,), permission='create_complaint')
@@ -57,7 +65,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             self.LOGGER.info('Created tender complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Complaints', tender_id=tender.id, complaint_id=complaint.id)
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Complaints'.format(tender.procurementMethodType), tender_id=tender.id, complaint_id=complaint.id)
             return {
                 'data': complaint.serialize(tender.status),
                 'access': {

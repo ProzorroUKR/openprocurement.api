@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.views.tender import TenderResource
-from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
-from openprocurement.tender.openuadefense.utils import calculate_business_date, check_status
 from openprocurement.api.utils import (
-    save_tender,
-    apply_patch,
-    opresource,
     json_view,
     context_unpack,
+    get_now
 )
-from openprocurement.api.models import get_now
-from openprocurement.tender.openuadefense.models import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource
+)
+from openprocurement.tender.belowthreshold.views.tender import TenderResource
+from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
+from openprocurement.tender.openuadefense.utils import calculate_business_date, check_status
+from openprocurement.tender.openuadefense.constants import TENDERING_EXTRA_PERIOD
 
 
-@opresource(name='Tender UA.defense',
-            path='/tenders/{tender_id}',
-            procurementMethodType='aboveThresholdUA.defense',
-            description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
+@optendersresource(name='aboveThresholdUA.defense:Tender',
+                   path='/tenders/{tender_id}',
+                   procurementMethodType='aboveThresholdUA.defense',
+                   description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderUAResource(TenderResource):
     """ Resource handler for TenderUA """
 
