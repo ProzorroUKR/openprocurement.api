@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-
-from openprocurement.api.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_data,
-    test_features_tender_ua_data)
+    test_features_tender_ua_data
+)
 
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest):

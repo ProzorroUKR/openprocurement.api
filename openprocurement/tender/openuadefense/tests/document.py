@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
 from email.header import Header
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest
+)
 
 
 class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
