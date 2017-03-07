@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
-import webtest
 from datetime import datetime, timedelta
-from uuid import uuid4
-from copy import deepcopy
-from openprocurement.api.tests.base import BaseTenderWebTest as BaseBaseTenderWebTest
-from openprocurement.api.utils import apply_data_patch
-from openprocurement.api.models import get_now, SANDBOX_MODE
-from openprocurement.tender.openeu.models import TENDERING_DAYS, TENDERING_DURATION, QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL
-
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.tender.belowthreshold.tests.base import (
+    BaseTenderWebTest as BaseBaseTenderWebTest
+)
+from openprocurement.api.utils import apply_data_patch,get_now
+from openprocurement.tender.openeu.constants import (
+    TENDERING_DAYS,
+    TENDERING_DURATION,
+    QUESTIONS_STAND_STILL,
+    COMPLAINT_STAND_STILL
+)
 
 test_bids = [
     {
@@ -560,6 +563,7 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
+    relative_to = os.path.dirname(__file__)
 
     def setUp(self):
         super(BaseTenderContentWebTest, self).setUp()

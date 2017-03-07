@@ -3,12 +3,19 @@ import unittest
 from datetime import timedelta
 from copy import deepcopy
 
-from openprocurement.api import ROUTE_PREFIX
-from openprocurement.api.models import get_now, SANDBOX_MODE, CPV_ITEMS_CLASS_FROM
-from openprocurement.api.tests.base import test_organization, test_lots
+from openprocurement.api.constants import (
+    ROUTE_PREFIX,
+    SANDBOX_MODE,
+    CPV_ITEMS_CLASS_FROM
+)
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.openeu.models import Tender
-from openprocurement.tender.openeu.tests.base import (test_tender_data,
-                                                      BaseTenderWebTest)
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_data,
+    BaseTenderWebTest,
+    test_lots
+)
 
 
 class TenderTest(BaseTenderWebTest):
