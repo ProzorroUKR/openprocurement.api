@@ -8,32 +8,70 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.transforms import blacklist, whitelist, export_loop
 from schematics.exceptions import ValidationError
+from urlparse import urlparse, parse_qs
+from string import hexdigits
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import TZ
 from openprocurement.api.models import (
-    ITender, TZ, Model, Address, Period, IsoDateTimeType, ListType,
-    Tender as BaseTender, Identifier as BaseIdentifier, Bid as BaseBid,
-    Contract as BaseContract, Cancellation as BaseCancellation, Lot as BaseLot,
-    Document as BaseDocument, ContactPoint as BaseContactPoint,
-    LotValue as BaseLotValue, ComplaintModelType as BaseComplaintModelType,
-    plain_role, create_role, edit_role, view_role, listing_role, draft_role,
+    listing_role, Address, Period,
+    IsoDateTimeType, ListType, Identifier as BaseIdentifier,
+
+)
+from openprocurement.api.validation import (
+    validate_cpv_group, validate_items_uniq
+)
+from openprocurement.tender.core.models import (
+    ITender, Model,
+    Bid as BaseBid,
+    Contract as BaseContract,
+    Cancellation as BaseCancellation,
+    Lot as BaseLot,
+    Document as BaseDocument,
+    ContactPoint as BaseContactPoint,
+    LotValue as BaseLotValue,
+    Parameter as BaseParameter,
+    ComplaintModelType as BaseComplaintModelType,
+    plain_role, create_role, edit_role, view_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
-    schematics_embedded_role, get_now, embedded_lot_role, default_lot_role,
+    schematics_embedded_role, embedded_lot_role, default_lot_role,
     calc_auction_end_time, get_tender, validate_lots_uniq,
-    validate_cpv_group, validate_items_uniq, rounding_shouldStartAfter,
-    Parameter as BaseParameter, validate_parameters_uniq,
+    rounding_shouldStartAfter,
+    validate_parameters_uniq,
 )
-from urlparse import urlparse, parse_qs
-from string import hexdigits
+from openprocurement.tender.core.utils import (
+    calculate_business_date
+)
+from openprocurement.tender.belowthreshold.models import (
+    Tender as BaseTender
+)
 from openprocurement.tender.openua.utils import (
-    calculate_business_date, has_unanswered_questions, has_unanswered_complaints
+    has_unanswered_questions,
+    has_unanswered_complaints,
+    calculate_normalized_date
 )
 from openprocurement.tender.openua.models import (
-    Complaint as BaseComplaint, Award as BaseAward, Item as BaseItem,
-    PeriodStartEndRequired, SifterListType, COMPLAINT_SUBMIT_TIME,
-    EnquiryPeriod, ENQUIRY_STAND_STILL_TIME, AUCTION_PERIOD_TIME,
-    calculate_normalized_date, Tender as OpenUATender,
+    Complaint as BaseComplaint,
+    Award as BaseAward,
+    Item as BaseItem,
+    PeriodStartEndRequired,
+    SifterListType,
+    EnquiryPeriod,
+    Tender as OpenUATender,
 )
+from openprocurement.tender.openua.constants import (
+    COMPLAINT_SUBMIT_TIME,
+    ENQUIRY_STAND_STILL_TIME,
+    AUCTION_PERIOD_TIME,
+)
+from openprocurement.tender.openeu.constants import (
+    TENDERING_DURATION,
+    QUESTIONS_STAND_STILL,
+    TENDERING_AUCTION,
+    BID_UNSUCCESSFUL_FROM
+)
+
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
 edit_role_eu = edit_role + eu_role
@@ -41,13 +79,22 @@ create_role_eu = create_role + eu_role
 pre_qualifications_role = (blacklist('owner_token', '_attachments', 'revisions') + schematics_embedded_role)
 eu_auction_role = auction_role
 
-TENDERING_DAYS = 30
-TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
-TENDERING_AUCTION = timedelta(days=35)
-QUESTIONS_STAND_STILL = timedelta(days=10)
-PREQUALIFICATION_COMPLAINT_STAND_STILL = timedelta(days=5)
-COMPLAINT_STAND_STILL = timedelta(days=10)
-BID_UNSUCCESSFUL_FROM = datetime(2016, 10, 18, tzinfo=TZ)
+
+def bids_validation_wrapper(validation_func):
+    def validator(klass, data, value):
+        orig_data = data
+        while not isinstance(data['__parent__'], Tender):
+            data = data['__parent__']
+        if data['status'] in ('deleted', 'invalid', 'draft'):
+            # skip not valid bids
+            return
+        tender = data['__parent__']
+        request = tender.__parent__.request
+        if request.method == "PATCH" and isinstance(tender, Tender) and request.authenticated_role == "tender_owner":
+            # disable bids validation on tender PATCH requests as tender bids will be invalidated
+            return
+        return validation_func(klass, orig_data, value)
+    return validator
 
 
 class BidModelType(ModelType):
@@ -77,23 +124,6 @@ class BidModelType(ModelType):
             return shaped
         elif print_none:
             return shaped
-
-
-def bids_validation_wrapper(validation_func):
-    def validator(klass, data, value):
-        orig_data = data
-        while not isinstance(data['__parent__'], Tender):
-            data = data['__parent__']
-        if data['status'] in ('deleted', 'invalid', 'draft'):
-            # skip not valid bids
-            return
-        tender = data['__parent__']
-        request = tender.__parent__.request
-        if request.method == "PATCH" and isinstance(tender, Tender) and request.authenticated_role == "tender_owner":
-            # disable bids validation on tender PATCH requests as tender bids will be invalidated
-            return
-        return validation_func(klass, orig_data, value)
-    return validator
 
 
 class ComplaintModelType(BaseComplaintModelType):
