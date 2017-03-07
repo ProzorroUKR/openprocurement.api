@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
-
-from openprocurement.api.tests.base import test_lots
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
+from openprocurement.tender.belowthreshold.tests.base import test_lots
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest
+)
 
 
 class TenderCancellationResourceTest(BaseTenderUAContentWebTest):

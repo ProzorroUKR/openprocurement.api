@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
-
-from openprocurement.api.models import get_now
-from openprocurement.api.tests.base import test_organization
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.openua.tests.base import test_bids
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, test_tender_data
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest
+)
 
 
 class TenderContractResourceTest(BaseTenderUAContentWebTest):
@@ -157,7 +158,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']), {"data": {"value": {"amount": 238}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['value']['amount'], 238)
-        
+
         response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']), {"data": {"dateSigned": i['complaintPeriod']['endDate']}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.json['errors'], [{u'description': [u'Contract signature date should be after award complaint period end date ({})'.format(i['complaintPeriod']['endDate'])], u'location': u'body', u'name': u'dateSigned'}])

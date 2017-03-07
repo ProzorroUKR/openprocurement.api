@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
-
-from datetime import datetime, timedelta
-from openprocurement.api.models import get_now
-from openprocurement.api.tests.base import test_lots, test_organization
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, test_tender_data
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_lots, test_organization
+)
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest
+)
 
 
 class TenderQuestionResourceTest(BaseTenderUAContentWebTest):

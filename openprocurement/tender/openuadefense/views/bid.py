@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.openua.views.bid import TenderUABidResource as TenderBidResource
-from openprocurement.api.utils import opresource
+from openprocurement.tender.core.utils import optendersresource
+from openprocurement.tender.openua.views.bid import (
+    TenderUABidResource as TenderBidResource
+)
 
 
-@opresource(name='Tender UA.defense Bids',
-            collection_path='/tenders/{tender_id}/bids',
-            path='/tenders/{tender_id}/bids/{bid_id}',
-            procurementMethodType='aboveThresholdUA.defense',
-            description="Tender UA.defense bids")
+@optendersresource(name='aboveThresholdUA.defense:Tender Bids',
+                   collection_path='/tenders/{tender_id}/bids',
+                   path='/tenders/{tender_id}/bids/{bid_id}',
+                   procurementMethodType='aboveThresholdUA.defense',
+                   description="Tender UA.defense bids")
 class TenderUABidResource(TenderBidResource):
     """ """

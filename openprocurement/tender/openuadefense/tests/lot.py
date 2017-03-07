@@ -2,9 +2,14 @@
 import unittest
 from datetime import timedelta
 
-from openprocurement.api.models import get_now
-from openprocurement.api.tests.base import test_lots, test_bids, test_organization
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, test_tender_data
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_lots, test_organization
+)
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest, test_tender_data
+)
+from openprocurement.tender.openua.tests.base import test_bids
 
 
 class TenderLotResourceTest(BaseTenderUAContentWebTest):

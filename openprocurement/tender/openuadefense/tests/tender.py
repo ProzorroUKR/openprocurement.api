@@ -1,11 +1,18 @@
 # -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
-from openprocurement.api.models import get_now, CPV_ITEMS_CLASS_FROM
-from openprocurement.api import ROUTE_PREFIX
-from openprocurement.api.tests.base import BaseWebTest, test_organization, test_lots
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import (
+    CPV_ITEMS_CLASS_FROM,
+    ROUTE_PREFIX
+)
+from openprocurement.tender.belowthreshold.tests.base import (
+    BaseWebTest, test_organization, test_lots
+)
 from openprocurement.tender.openuadefense.models import Tender
-from openprocurement.tender.openuadefense.tests.base import test_tender_data, BaseTenderUAWebTest
+from openprocurement.tender.openuadefense.tests.base import (
+    test_tender_data, BaseTenderUAWebTest
+)
 from copy import deepcopy
 
 

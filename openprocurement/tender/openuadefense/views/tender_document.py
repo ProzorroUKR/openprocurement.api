@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
-from openprocurement.api.utils import opresource
-from openprocurement.tender.openuadefense.utils import calculate_business_date
+from openprocurement.api.utils import get_now
+from openprocurement.tender.core.utils import (
+    optendersresource, calculate_business_date
+)
 from openprocurement.tender.openua.views.tender_document import TenderUaDocumentResource as TenderDocumentResource
-from openprocurement.tender.openuadefense.models import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.openuadefense.constants import TENDERING_EXTRA_PERIOD
 
 
-@opresource(name='Tender UA.defense Documents',
-            collection_path='/tenders/{tender_id}/documents',
-            path='/tenders/{tender_id}/documents/{document_id}',
-            procurementMethodType='aboveThresholdUA.defense',
-            description="Tender UA.defense related binary files (PDFs, etc.)")
+@optendersresource(name='aboveThresholdUA.defense:Tender Documents',
+                   collection_path='/tenders/{tender_id}/documents',
+                   path='/tenders/{tender_id}/documents/{document_id}',
+                   procurementMethodType='aboveThresholdUA.defense',
+                   description="Tender UA.defense related binary files (PDFs, etc.)")
 class TenderUaDocumentResource(TenderDocumentResource):
 
     def validate_update_tender(self, operation):
