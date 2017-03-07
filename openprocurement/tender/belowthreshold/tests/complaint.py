@@ -510,7 +510,7 @@ class TenderComplaintDocumentResourceTest(TenderContentWebTest):
                 u'url', u'name': u'complaint_id'}
         ])
 
-        response = self.app.post('/tenders/{}/complaints/{}/documents?acc_token={}'.format(self.tender_id, self.complaint_id, self.tender_token), status=404, upload_files=[
+        response = self.app.post('/tenders/{}/complaints/{}/documents?acc_token={}'.format(self.tender_id, self.complaint_id, self.complaint_owner_token), status=404, upload_files=[
                                  ('invalid_value', 'name.doc', 'content')])
         self.assertEqual(response.status, '404 Not Found')
         self.assertEqual(response.content_type, 'application/json')
@@ -648,7 +648,7 @@ class TenderComplaintDocumentResourceTest(TenderContentWebTest):
         self.set_status('complete')
 
         response = self.app.post('/tenders/{}/complaints/{}/documents?acc_token={}'.format(
-            self.tender_id, self.complaint_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
+            self.tender_id, self.complaint_id, self.complaint_owner_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
@@ -661,7 +661,7 @@ class TenderComplaintDocumentResourceTest(TenderContentWebTest):
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
 
-        response = self.app.put('/tenders/{}/complaints/{}/documents/{}?acc_token={}'.format(self.tender_id, self.complaint_id, doc_id, self.tender_token),
+        response = self.app.put('/tenders/{}/complaints/{}/documents/{}?acc_token={}'.format(self.tender_id, self.complaint_id, doc_id, self.complaint_owner_token),
                                 status=404,
                                 upload_files=[('invalid_name', 'name.doc', 'content')])
         self.assertEqual(response.status, '404 Not Found')
