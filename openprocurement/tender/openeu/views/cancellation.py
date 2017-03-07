@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource
-from openprocurement.api.views.cancellation import TenderCancellationResource as BaseResource
+from openprocurement.tender.core.utils import (
+    optendersresource
+)
+from openprocurement.tender.belowthreshold.views.cancellation import (
+    TenderCancellationResource as BaseResource
+)
 from openprocurement.tender.openua.utils import add_next_award
 
 
-@opresource(name='TenderEU Cancellations',
-            collection_path='/tenders/{tender_id}/cancellations',
-            path='/tenders/{tender_id}/cancellations/{cancellation_id}',
-            procurementMethodType='aboveThresholdEU',
-            description="Tender cancellations")
+@optendersresource(name='aboveThresholdEU:Tender Cancellations',
+                   collection_path='/tenders/{tender_id}/cancellations',
+                   path='/tenders/{tender_id}/cancellations/{cancellation_id}',
+                   procurementMethodType='aboveThresholdEU',
+                   description="Tender cancellations")
 class TenderCancellationResource(BaseResource):
     """ TenderEU Cancellations """
 

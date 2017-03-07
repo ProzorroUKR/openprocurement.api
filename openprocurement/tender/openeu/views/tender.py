@@ -1,24 +1,33 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
-from openprocurement.api.views.tender import TenderResource
-from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
-from openprocurement.tender.openeu.utils import check_status, all_bids_are_reviewed
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD, calculate_normalized_date
-from openprocurement.tender.openua.utils import calculate_business_date
-from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.api.utils import (
-    save_tender,
-    apply_patch,
-    opresource,
     json_view,
     context_unpack,
+    get_now
+)
+from openprocurement.tender.core.utils import (
+    optendersresource,
+    apply_patch,
+    save_tender,
+    calculate_business_date
+)
+from openprocurement.tender.belowthreshold.views.tender import TenderResource
+from openprocurement.tender.openeu.utils import (
+    check_status,
+    all_bids_are_reviewed
+)
+from openprocurement.tender.openua.models import calculate_normalized_date
+from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
+from openprocurement.tender.openeu.constants import (
+    PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
+)
+from openprocurement.tender.openua.constants import (
+    TENDERING_EXTRA_PERIOD
 )
 
-
-@opresource(name='Tender EU',
-            path='/tenders/{tender_id}',
-            procurementMethodType='aboveThresholdEU',
-            description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
+@optendersresource(name='aboveThresholdEU:Tender',
+                   path='/tenders/{tender_id}',
+                   procurementMethodType='aboveThresholdEU',
+                   description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderEUResource(TenderResource):
     """ Resource handler for TenderEU """
 
