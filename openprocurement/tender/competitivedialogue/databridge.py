@@ -635,6 +635,9 @@ class CompetitiveDialogueDataBridge(object):
                                                   {"TENDER_ID": tender_data['id']}))
                 self.competitive_dialogues_queue.put(tender_data)
         except ResourceError as re:
+            if re.status_int == 412:
+                self.tenders_sync_client.headers['Cookie'] = re.response.headers['Set-Cookie']
+                logger.warn('Forward catch 412, update coockie and restart worker',extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
             logger.warn('Forward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
             logger.error("Error response {}".format(re.message))
             raise re
@@ -655,6 +658,13 @@ class CompetitiveDialogueDataBridge(object):
                             extra=journal_context({"MESSAGE_ID": DATABRIDGE_TENDER_PROCESS},
                                                   {"TENDER_ID": tender_data['id']}))
                 self.competitive_dialogues_queue.put(tender_data)
+        except ResourceError as re:
+            if re.status_int == 412:
+                self.tenders_sync_client.headers['Cookie'] = re.response.headers['Set-Cookie']
+                logger.warn('Backward catch 412, update coockie and restart worker', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
+            logger.warn('Backward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
+            logger.error("Error response {}".format(re.message))
+            raise re
         except Exception, e:
             # TODO reset queues and restart sync
             logger.warn('Backward worker died!', extra=journal_context({"MESSAGE_ID": DATABRIDGE_WORKER_DIED}, {}))
