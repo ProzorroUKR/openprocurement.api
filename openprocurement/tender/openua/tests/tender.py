@@ -380,6 +380,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         ])
 
         response = self.app.post_json(request_path, {'data': {
+                                      'procurementMethodType': 'aboveThresholdUA',
                                       'invalid_field': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
@@ -389,7 +390,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
                 u'body', u'name': u'invalid_field'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'value': 'invalid_value'}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'aboveThresholdUA',
+                                                              'value': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -398,7 +400,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
                 u'Please use a mapping for this field or Value instance instead of unicode.'], u'location': u'body', u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'procurementMethod': 'invalid_value'}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'aboveThresholdUA',
+                                                              'procurementMethod': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -406,11 +409,11 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderPeriod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
-        self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'enquiryPeriod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
 
-        response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'aboveThresholdUA',
+                                                              'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -418,7 +421,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
             {u'description': {u'endDate': [u"Could not parse invalid_value. Should be ISO8601."]}, u'location': u'body', u'name': u'enquiryPeriod'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'aboveThresholdUA',
+                                                              'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
