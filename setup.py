@@ -18,6 +18,7 @@ docs_requires = requires + [
 ]
 
 databridge_requires = requires + [
+    'openprocurement.bridge.contracting'
     'PyYAML',
     'gevent',
     'redis',
@@ -33,7 +34,7 @@ api_requires = requires + [
 
 entry_points = {
     'console_scripts': [
-        'contracting_data_bridge = openprocurement.contracting.api.databridge:main'
+        'contracting_data_bridge = openprocurement.bridge.contracting.databridge:main'
     ],
     'openprocurement.api.plugins': [
         'contracting = openprocurement.contracting.api:includeme'
