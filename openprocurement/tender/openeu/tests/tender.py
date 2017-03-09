@@ -393,7 +393,7 @@ class TenderResourceTest(BaseTenderWebTest):
             {u'description': u'Not implemented', u'location': u'data', u'name': u'procurementMethodType'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'aboveThresholdEU',
                                       'invalid_field': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
@@ -403,7 +403,8 @@ class TenderResourceTest(BaseTenderWebTest):
                 u'body', u'name': u'invalid_field'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'value': 'invalid_value'}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':'aboveThresholdEU',
+                                                              'value': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -412,19 +413,21 @@ class TenderResourceTest(BaseTenderWebTest):
                 u'Please use a mapping for this field or Value instance instead of unicode.'], u'location': u'body', u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'procurementMethod': 'invalid_value'}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'aboveThresholdEU',
+                                                              'procurementMethod': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
-        self.assertIn({u'description': [u"Value must be one of ['open', 'selective', 'limited']."], u'location': u'body', u'name': u'procurementMethod'}, response.json['errors'])
+        self.assertIn({u'description': [u"Value must be one of ['open', 'selective', 'limited']."], u'location': u'body',
+                       u'name': u'procurementMethod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderPeriod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
-        self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'enquiryPeriod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
 
-        response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'aboveThresholdEU',
+                                                              'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -432,7 +435,8 @@ class TenderResourceTest(BaseTenderWebTest):
             {u'description': {u'endDate': [u"Could not parse invalid_value. Should be ISO8601."]}, u'location': u'body', u'name': u'enquiryPeriod'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'aboveThresholdEU',
+                                                              'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -1227,7 +1231,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                                'parameters': [{"code": "OCDS-123454-POSTPONEMENT" ,"value": 0.1}],
+                                                'parameters': [{"code": "OCDS-123454-POSTPONEMENT","value": 0.1}],
                                                 'tenderers': [test_organization], "value": {"amount": 500}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -1240,7 +1244,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual("OCDS-123-POSTPONEMENT", response.json['data']["features"][0]["code"])
 
         response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token),
-                                      {'data': {'parameters': [{"code": "OCDS-123-POSTPONEMENT"}],
+                                                {'data': {'parameters': [{"code": "OCDS-123-POSTPONEMENT"}],
                                                 'status': 'pending'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
@@ -1252,7 +1256,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(0.2, response.json['data']["features"][0]["enum"][0]["value"])
 
         response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token),
-                                      {'data': {'parameters': [{"value": 0.2}],
+                                                {'data': {'parameters': [{"value": 0.2}],
                                                 'status': 'pending'}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
@@ -1299,8 +1303,6 @@ class TenderResourceTest(BaseTenderWebTest):
                                                 'tenderers': [test_organization]}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
-        bid_id = response.json['data']['id']
-        bid_token = response.json['access']['token']
 
         response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(tender_id, lots[0], owner_token))
         self.assertEqual(response.status, '200 OK')
@@ -1313,9 +1315,11 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
         self.assertNotEqual(response.json['data']['date'], tender['date'])
 
+
 class TenderProcessTest(BaseTenderWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
+
     def test_invalid_tender_conditions(self):
         self.app.authorization = ('Basic', ('broker', ''))
         # empty tenders listing
@@ -1363,7 +1367,6 @@ class TenderProcessTest(BaseTenderWebTest):
         response = self.app.post_json('/tenders',
                                       {"data": test_tender_data})
         tender_id = self.tender_id = response.json['data']['id']
-        owner_token = response.json['access']['token']
         # create bid
         bidder_data = deepcopy(test_organization)
         self.app.authorization = ('Basic', ('broker', ''))
