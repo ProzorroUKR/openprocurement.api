@@ -23,21 +23,10 @@ docs_requires = requires + [
 ]
 
 entry_points = {
-    'console_scripts': [
-        'competitive_dialogue_data_bridge = openprocurement.tender.competitivedialogue.databridge:main'
-    ],
     'openprocurement.api.plugins': [
         'competitivedialogue = openprocurement.tender.competitivedialogue:includeme'
     ]
 }
-
-databridge_requires = requires + [
-    'PyYAML',
-    'gevent',
-    'LazyDB',
-    'ExtendedJournalHandler',
-    'openprocurement_client>=1.0b2'
-]
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -65,6 +54,6 @@ setup(name='openprocurement.tender.competitivedialogue',
       zip_safe=False,
       install_requires=requires,
       extras_require={'test': test_requires, 'docs': docs_requires,
-                      'databridge': databridge_requires, 'api': api_requires},
+                      'api': api_requires},
       test_suite="openprocurement.tender.competitivedialogue.tests.main.suite",
       entry_points=entry_points)
