@@ -1,21 +1,27 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    apply_patch,
-    save_tender,
     json_view,
     context_unpack,
     APIResource,
 )
-from openprocurement.tender.openeu.validation import validate_patch_qualification_data
-from openprocurement.tender.openeu.utils import qualifications_resource, prepare_qualifications
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch
+)
+from openprocurement.tender.openeu.validation import (
+    validate_patch_qualification_data
+)
+from openprocurement.tender.openeu.utils import (
+    qualifications_resource,
+    prepare_qualifications
+)
 
 
-@qualifications_resource(
-    name='TenderEU Qualification',
-    collection_path='/tenders/{tender_id}/qualifications',
-    path='/tenders/{tender_id}/qualifications/{qualification_id}',
-    procurementMethodType='aboveThresholdEU',
-    description="TenderEU Qualification")
+@qualifications_resource(name='aboveThresholdEU:Tender Qualification',
+                         collection_path='/tenders/{tender_id}/qualifications',
+                         path='/tenders/{tender_id}/qualifications/{qualification_id}',
+                         procurementMethodType='aboveThresholdEU',
+                         description="TenderEU Qualification")
 class TenderQualificationResource(APIResource):
 
     @json_view(permission='view_tender')
@@ -73,7 +79,7 @@ class TenderQualificationResource(APIResource):
             bid = set_bid_status(tender, self.request.context.bidID, 'pending', self.request.context.lotID)
             # generate new qualification for related bid
             ids = prepare_qualifications(self.request, bids=[bid], lotId=self.request.context.lotID)
-            self.request.response.headers['Location'] = self.request.route_url('TenderEU Qualification',
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Qualification'.format(tender.procurementMethodType),
                                                                                tender_id=tender.id,
                                                                                qualification_id=ids[0])
         if save_tender(self.request):

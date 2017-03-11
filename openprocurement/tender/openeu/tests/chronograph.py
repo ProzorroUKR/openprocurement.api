@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-
-from openprocurement.api.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_bids
 from copy import deepcopy
 

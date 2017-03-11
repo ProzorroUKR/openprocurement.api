@@ -1,32 +1,36 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
     get_file,
-    save_tender,
     upload_file,
-    apply_patch,
     update_file_content_type,
-    opresource,
     json_view,
     context_unpack,
+    get_now
 )
 from openprocurement.api.validation import (
     validate_file_update,
     validate_file_upload,
     validate_patch_document_data,
 )
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource
+)
 from openprocurement.tender.openeu.utils import (
-    bid_financial_documents_resource, bid_eligibility_documents_resource,
+    bid_financial_documents_resource,
+    bid_eligibility_documents_resource,
     bid_qualification_documents_resource,
 )
-from openprocurement.tender.openua.views.bid_document import TenderUaBidDocumentResource
+from openprocurement.tender.openua.views.bid_document import (
+    TenderUaBidDocumentResource
+)
 
-
-@opresource(name='Tender EU Bid Documents',
-            collection_path='/tenders/{tender_id}/bids/{bid_id}/documents',
-            path='/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}',
-            procurementMethodType='aboveThresholdEU',
-            description="Tender EU bidder documents")
+@optendersresource(name='aboveThresholdEU:Tender Bid Documents',
+                   collection_path='/tenders/{tender_id}/bids/{bid_id}/documents',
+                   path='/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}',
+                   procurementMethodType='aboveThresholdEU',
+                   description="Tender EU bidder documents")
 class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
 
     container = "documents"

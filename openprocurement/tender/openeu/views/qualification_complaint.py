@@ -1,27 +1,30 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
-from openprocurement.tender.openeu.utils import qualifications_resource
-from openprocurement.tender.openeu.views.award_complaint import TenderEUAwardComplaintResource
-from openprocurement.tender.openua.views.award_complaint import get_bid_id
 from openprocurement.api.utils import (
-    apply_patch,
     context_unpack,
     json_view,
-    save_tender,
     set_ownership,
+    get_now
 )
-from openprocurement.api.validation import (
+from openprocurement.tender.core.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
 )
+from openprocurement.tender.core.utils import (
+    apply_patch,
+    save_tender
+)
+from openprocurement.tender.openeu.views.award_complaint import (
+    TenderEUAwardComplaintResource
+)
+from openprocurement.tender.openua.views.award_complaint import get_bid_id
+from openprocurement.tender.openeu.utils import qualifications_resource
 
 
-@qualifications_resource(
-    name='Tender EU Qualification Complaints',
-    collection_path='/tenders/{tender_id}/qualifications/{qualification_id}/complaints',
-    path='/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}',
-    procurementMethodType='aboveThresholdEU',
-    description="Tender EU qualification complaints")
+@qualifications_resource(name='aboveThresholdEU:Tender Qualification Complaints',
+                         collection_path='/tenders/{tender_id}/qualifications/{qualification_id}/complaints',
+                         path='/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}',
+                         procurementMethodType='aboveThresholdEU',
+                         description="Tender EU qualification complaints")
 class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
 
     def complaints_len(self, tender):
@@ -68,7 +71,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             self.LOGGER.info('Created tender qualification complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender EU Qualification Complaints', tender_id=tender.id, qualification_id=self.request.validated['qualification_id'], complaint_id=complaint['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Qualification Complaints'.format(tender.procurementMethodType), tender_id=tender.id, qualification_id=self.request.validated['qualification_id'], complaint_id=complaint['id'])
             return {
                 'data': complaint.serialize("view"),
                 'access': {

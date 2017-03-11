@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
     get_file,
-    save_tender,
     upload_file,
-    apply_patch,
     update_file_content_type,
     json_view,
     context_unpack,
     APIResource,
+)
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch
 )
 from openprocurement.api.validation import (
     validate_file_update,
@@ -17,12 +19,11 @@ from openprocurement.api.validation import (
 from openprocurement.tender.openeu.utils import qualifications_resource
 
 
-@qualifications_resource(
-    name='TenderEU Qualification Documents',
-    collection_path='/tenders/{tender_id}/qualifications/{qualification_id}/documents',
-    path='/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}',
-    procurementMethodType='aboveThresholdEU',
-    description="Tender qualification documents")
+@qualifications_resource(name='aboveThresholdEU:Tender Qualification Documents',
+                         collection_path='/tenders/{tender_id}/qualifications/{qualification_id}/documents',
+                         path='/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}',
+                         procurementMethodType='aboveThresholdEU',
+                         description="Tender qualification documents")
 class TenderQualificationDocumentResource(APIResource):
 
     @json_view(permission='view_tender')

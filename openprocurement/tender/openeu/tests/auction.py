@@ -3,10 +3,16 @@ import unittest
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.tender.openeu.tests.base import (
-    BaseTenderContentWebTest, test_tender_data, test_features_tender_data, test_bids)
-from openprocurement.api.tests.base import test_lots, test_organization
+    BaseTenderContentWebTest,
+    test_features_tender_data,
+    test_bids
+)
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_organization,
+    test_lots
+)
 
 
 class TenderAuctionResourceTest(BaseTenderContentWebTest):
@@ -25,7 +31,6 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest):
 
     def setUp(self):
         super(TenderAuctionResourceTest, self).setUp()
-        auth = self.app.authorization
         # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.app.authorization = ('Basic', ('chronograph', ''))
