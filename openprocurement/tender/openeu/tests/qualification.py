@@ -1369,6 +1369,13 @@ class Tender2LotQualificationComplaintResourceTest(TenderLotQualificationComplai
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], 'active.pre-qualification.stand-still')
         self.assertIn('next_check', response.json['data'])
+        response = self.set_status('active.auction', {'status': 'active.pre-qualification.stand-still'})
+
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["status"], "active.auction")
 
 
 class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintResourceTest):
@@ -1442,6 +1449,50 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
             {u'description': u'Can add claim only on unsuccessful qualification of your bid', u'location': u'body', u'name': u'data'}
         ])
 
+    def test_change_status_to_standstill_with_complaint_cancel_lot(self):
+
+        auth = self.app.authorization
+
+        self.app.authorization = ('Basic', ('token', ''))
+        response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]), {'data': {
+            'title': 'complaint title',
+            'description': 'complaint description',
+            'author': self.initial_bids[0]["tenderers"][0],
+            'status': 'pending'
+        }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        complaint = response.json['data']
+
+        self.app.authorization = ('Basic', ('reviewer', ''))
+        response = self.app.patch_json('/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, self.qualification_id, complaint['id']), {"data": {
+            "status": "accepted"
+        }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']["status"], "accepted")
+
+        response = self.app.patch_json('/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, self.qualification_id, complaint['id']), {"data": {
+            "status": "satisfied"
+        }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']["status"], "satisfied")
+
+        self.app.authorization = auth
+
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
+            'reason': 'cancellation reason',
+            'status': 'active',
+            "cancellationOf": "lot",
+            "relatedLot": self.initial_lots[0]['id']
+        }})
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["status"], 'active.pre-qualification.stand-still')
+        self.assertIn('next_check', response.json['data'])
 
 class TenderQualificationComplaintDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
