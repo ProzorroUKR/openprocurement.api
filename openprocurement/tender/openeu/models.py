@@ -69,7 +69,8 @@ from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION,
     QUESTIONS_STAND_STILL,
     TENDERING_AUCTION,
-    BID_UNSUCCESSFUL_FROM
+    BID_UNSUCCESSFUL_FROM,
+    TENDERING_DAYS
 )
 
 
