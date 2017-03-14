@@ -1,26 +1,37 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.openua.views.tender import TenderUAResource
-from openprocurement.tender.openeu.views.tender import TenderEUResource
-from openprocurement.tender.competitivedialogue.models import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
-from openprocurement.tender.competitivedialogue.validation import validate_patch_tender_stage2_data
-from openprocurement.api.models import get_now
-from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
-from openprocurement.tender.openeu.utils import check_status as check_status_eu, all_bids_are_reviewed
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
-from openprocurement.tender.openua.utils import calculate_business_date, check_status as check_status_ua
 from openprocurement.api.utils import (
-    save_tender,
-    apply_patch,
-    opresource,
     json_view,
     context_unpack,
+    get_now
+)
+from openprocurement.tender.core.utils import (
+    optendersresource,
+    save_tender,
+    apply_patch,
+    calculate_business_date
+)
+from openprocurement.tender.openua.views.tender import TenderUAResource
+from openprocurement.tender.openeu.views.tender import TenderEUResource
+from openprocurement.tender.openeu.constants import (
+    PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
+)
+from openprocurement.tender.openeu.utils import (
+    check_status as check_status_eu, all_bids_are_reviewed
+)
+from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.openua.utils import check_status as check_status_ua
+from openprocurement.tender.competitivedialogue.validation import (
+    validate_patch_tender_stage2_data
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
 )
 
 
-@opresource(name='Tender Stage 2 for UA procedure',
-            path='/tenders/{tender_id}',
-            procurementMethodType=STAGE_2_UA_TYPE,
-            description="")
+@optendersresource(name='{}:Tender'.format(STAGE_2_UA_TYPE),
+                   path='/tenders/{tender_id}',
+                   procurementMethodType=STAGE_2_UA_TYPE,
+                   description="")
 class TenderStage2UAResource(TenderUAResource):
     """ Resource handler for tender stage 2 UA"""
 
@@ -107,10 +118,10 @@ class TenderStage2UAResource(TenderUAResource):
         return {'data': tender.serialize(tender.status)}
 
 
-@opresource(name='Tender Stage 2 for EU procedure',
-            path='/tenders/{tender_id}',
-            procurementMethodType=STAGE_2_EU_TYPE,
-            description="")
+@optendersresource(name='{}:Tender'.format(STAGE_2_EU_TYPE),
+                   path='/tenders/{tender_id}',
+                   procurementMethodType=STAGE_2_EU_TYPE,
+                   description="")
 class TenderStage2UEResource(TenderEUResource):
     """ Resource handler for tender stage 2 EU"""
 
@@ -208,4 +219,3 @@ class TenderStage2UEResource(TenderEUResource):
         self.LOGGER.info('Updated tender {}'.format(tender.id),
                          extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
         return {'data': tender.serialize(tender.status)}
-

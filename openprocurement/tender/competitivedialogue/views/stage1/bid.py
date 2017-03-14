@@ -1,8 +1,17 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource, context_unpack, apply_patch, get_now, json_view
-from openprocurement.tender.openeu.views.bid import TenderBidResource as BaseResourceEU
-from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.api.validation import validate_patch_bid_data
+from openprocurement.tender.core.utils import (
+    optendersresource, apply_patch
+)
+from openprocurement.api.utils import (
+    context_unpack, get_now, json_view
+)
+from openprocurement.tender.openeu.views.bid import (
+    TenderBidResource as BaseResourceEU
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_EU_TYPE, CD_UA_TYPE
+)
+from openprocurement.tender.core.validation import validate_patch_bid_data
 
 
 def patch_bid_first_stage(self):
@@ -72,11 +81,11 @@ def patch_bid_first_stage(self):
         return {'data': self.request.context.serialize("view")}
 
 
-@opresource(name='Competitive Dialogue EU Bids',
-            collection_path='/tenders/{tender_id}/bids',
-            path='/tenders/{tender_id}/bids/{bid_id}',
-            procurementMethodType=CD_EU_TYPE,
-            description="Competitive Dialogue EU bids")
+@optendersresource(name='{}:Tender Bids'.format(CD_EU_TYPE),
+                   collection_path='/tenders/{tender_id}/bids',
+                   path='/tenders/{tender_id}/bids/{bid_id}',
+                   procurementMethodType=CD_EU_TYPE,
+                   description="Competitive Dialogue EU bids")
 class CompetitiveDialogueEUBidResource(BaseResourceEU):
     """ Tender EU bids """
 
@@ -85,11 +94,11 @@ class CompetitiveDialogueEUBidResource(BaseResourceEU):
                       validators=(validate_patch_bid_data,))(patch_bid_first_stage)
 
 
-@opresource(name='Competitive Dialogue UA Bids',
-            collection_path='/tenders/{tender_id}/bids',
-            path='/tenders/{tender_id}/bids/{bid_id}',
-            procurementMethodType=CD_UA_TYPE,
-            description="Competitive Dialogue UA bids")
+@optendersresource(name='{}:Tender Bids'.format(CD_UA_TYPE),
+                   collection_path='/tenders/{tender_id}/bids',
+                   path='/tenders/{tender_id}/bids/{bid_id}',
+                   procurementMethodType=CD_UA_TYPE,
+                   description="Competitive Dialogue UA bids")
 class CompetitiveDialogueUABidResource(BaseResourceEU):
     """ Tender UA bids """
 
