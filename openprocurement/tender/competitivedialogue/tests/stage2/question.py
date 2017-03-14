@@ -2,10 +2,11 @@
 import unittest
 from copy import deepcopy
 from uuid import uuid4
-
-from openprocurement.tender.competitivedialogue.tests.base import (test_lots, test_bids, test_shortlistedFirms,
-                                                                   BaseCompetitiveDialogEUStage2ContentWebTest,
-                                                                   BaseCompetitiveDialogUAStage2ContentWebTest)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    test_lots, test_bids, test_shortlistedFirms,
+    BaseCompetitiveDialogEUStage2ContentWebTest,
+    BaseCompetitiveDialogUAStage2ContentWebTest
+)
 
 author = test_bids[0]["tenderers"][0]
 author['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']

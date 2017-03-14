@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-from datetime import timedelta
-
-from openprocurement.api.models import get_now
-from openprocurement.api.tests.base import test_organization
-from openprocurement.tender.competitivedialogue.tests.base import (BaseCompetitiveDialogUAContentWebTest,
-                                                                   BaseCompetitiveDialogEUContentWebTest,
-                                                                   test_tender_data_eu as test_tender_data,
-                                                                   test_tender_data_ua,
-                                                                   test_lots)
+from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogUAContentWebTest,
+    BaseCompetitiveDialogEUContentWebTest,
+    test_tender_data_eu as test_tender_data,
+    test_tender_data_ua,
+    test_lots)
 from openprocurement.tender.openeu.tests.base import test_bids
-from openprocurement.tender.competitivedialogue.models import FEATURES_MAX_SUM
+from openprocurement.tender.competitivedialogue.constants import (
+    FEATURES_MAX_SUM
+)
 
 test_bids.append(test_bids[0].copy())  # Minimal number of bits is 3
 

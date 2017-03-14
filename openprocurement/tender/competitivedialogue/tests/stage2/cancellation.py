@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.api.tests.base import test_lots
-from openprocurement.tender.competitivedialogue.tests.base import (BaseCompetitiveDialogEUStage2ContentWebTest,
-                                                                   BaseCompetitiveDialogUAStage2ContentWebTest)
+from openprocurement.tender.belowthreshold.tests.base import test_lots
+from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogEUStage2ContentWebTest,
+    BaseCompetitiveDialogUAStage2ContentWebTest
+)
 
 ###########
 #  EU

@@ -5,8 +5,10 @@ from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_bids,
 )
-from openprocurement.tender.competitivedialogue.tests.base import (BaseCompetitiveDialogEUContentWebTest,
-                                                                   BaseCompetitiveDialogUAContentWebTest, test_lots)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogEUContentWebTest,
+    BaseCompetitiveDialogUAContentWebTest, test_lots
+)
 
 author = test_bids[0]["tenderers"][0]
 

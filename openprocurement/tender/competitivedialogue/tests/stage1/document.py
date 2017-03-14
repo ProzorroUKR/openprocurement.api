@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
 from email.header import Header
-from openprocurement.tender.competitivedialogue.tests.base import (BaseCompetitiveDialogUAContentWebTest,
-                                                                   BaseCompetitiveDialogEUContentWebTest)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogUAContentWebTest,
+    BaseCompetitiveDialogEUContentWebTest
+)
 
 
 class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
