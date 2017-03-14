@@ -21,7 +21,7 @@ from openprocurement.tender.openeu.constants import (
     PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
 )
 from openprocurement.tender.competitivedialogue.constants import (
-    MINIMAL_NUMBER_OF_BITS
+    MINIMAL_NUMBER_OF_BIDS
 )
 
 LOGGER = getLogger(__name__)
@@ -133,16 +133,16 @@ def patch_eu(self):
 
 def validate_unique_bids(bids):
     """ Return Bool
-        True if number of unique identifier id biggest then MINIMAL_NUMBER_OF_BITS
+        True if number of unique identifier id biggest then MINIMAL_NUMBER_OF_BIDS
         else False
     """
-    return len(set(bid['tenderers'][0]['identifier']['id'] for bid in bids)) >= MINIMAL_NUMBER_OF_BITS
+    return len(set(bid['tenderers'][0]['identifier']['id'] for bid in bids)) >= MINIMAL_NUMBER_OF_BIDS
 
 
 def check_initial_bids_count(request):
     tender = request.validated['tender']
     if tender.lots:
-        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < MINIMAL_NUMBER_OF_BITS and i.auctionPeriod and i.auctionPeriod.startDate]
+        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < MINIMAL_NUMBER_OF_BIDS and i.auctionPeriod and i.auctionPeriod.startDate]
         for i in tender.lots:
             # gather all bids by lot id
             bids = [bid
@@ -150,7 +150,7 @@ def check_initial_bids_count(request):
                     if i.id in [i_lot.relatedLot for i_lot in bid.lotValues
                                 if i_lot.status in ["active", "pending"]] and bid.status in ["active", "pending"]]
 
-            if i.numberOfBids < MINIMAL_NUMBER_OF_BITS or not validate_unique_bids(bids) and i.status == 'active':
+            if i.numberOfBids < MINIMAL_NUMBER_OF_BIDS or not validate_unique_bids(bids) and i.status == 'active':
                 setattr(i, 'status', 'unsuccessful')
                 for bid_index, bid in enumerate(tender.bids):
                     for lot_index, lot_value in enumerate(bid.lotValues):
@@ -161,7 +161,7 @@ def check_initial_bids_count(request):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
-    elif tender.numberOfBids < MINIMAL_NUMBER_OF_BITS or not validate_unique_bids(tender.bids):
+    elif tender.numberOfBids < MINIMAL_NUMBER_OF_BIDS or not validate_unique_bids(tender.bids):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
         tender.status = 'unsuccessful'
