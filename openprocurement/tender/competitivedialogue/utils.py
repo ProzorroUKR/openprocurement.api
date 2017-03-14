@@ -1,28 +1,30 @@
 # -*- coding: utf-8 -*-
+from barbecue import vnmax
 from logging import getLogger
 from schematics.exceptions import ValidationError
-from openprocurement.tender.openua.utils import calculate_business_date
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
-from openprocurement.api.models import get_now
-from openprocurement.api.utils import save_tender, apply_patch, context_unpack, generate_id
-from openprocurement.tender.openeu.utils import all_bids_are_reviewed
-from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
-from openprocurement.tender.openua.utils import (
-    check_complaint_status, has_unanswered_questions, has_unanswered_complaints
-)
-from openprocurement.tender.openeu.utils import prepare_qualifications
 from openprocurement.api.utils import (
-    save_tender,
-    set_ownership as api_set_ownership,
-    apply_patch,
-    context_unpack,
-    generate_id,
+    context_unpack, generate_id, get_now,
+    set_ownership as api_set_ownership
 )
-
-from barbecue import vnmax
+from openprocurement.tender.core.utils import (
+    save_tender, apply_patch, calculate_business_date
+)
+from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.openua.utils import (
+    check_complaint_status, has_unanswered_questions,
+    has_unanswered_complaints
+)
+from openprocurement.tender.openeu.utils import (
+    all_bids_are_reviewed, prepare_qualifications
+)
+from openprocurement.tender.openeu.constants import (
+    PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    MINIMAL_NUMBER_OF_BITS
+)
 
 LOGGER = getLogger(__name__)
-MINIMAL_NUMBER_OF_BITS = 3
 
 
 def patch_eu(self):
@@ -295,7 +297,7 @@ def stage2_bid_post(self):
                          extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_create'},
                                               {'bid_id': bid.id}))
         self.request.response.status = 201
-        self.request.response.headers['Location'] = self.request.route_url('Tender Bids', tender_id=tender.id,
+        self.request.response.headers['Location'] = self.request.route_url('{}:Tender Bids'.format(tender.procurementMethodType), tender_id=tender.id,
                                                                            bid_id=bid['id'])
         return {
             'data': bid.serialize('view'),

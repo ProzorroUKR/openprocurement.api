@@ -26,7 +26,7 @@ from gevent.queue import Queue
 from openprocurement_client.client import TendersClientSync as BaseTendersClientSync
 from yaml import load
 
-from openprocurement.tender.competitivedialogue.models_constants import (
+from openprocurement.tender.competitivedialogue.constants import (
     CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
 )
 from openprocurement.tender.competitivedialogue.journal_msg_ids import (
