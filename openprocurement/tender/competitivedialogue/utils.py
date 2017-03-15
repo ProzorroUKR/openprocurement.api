@@ -1,28 +1,30 @@
 # -*- coding: utf-8 -*-
+from barbecue import vnmax
 from logging import getLogger
 from schematics.exceptions import ValidationError
-from openprocurement.tender.openua.utils import calculate_business_date
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
-from openprocurement.api.models import get_now
-from openprocurement.api.utils import save_tender, apply_patch, context_unpack, generate_id
-from openprocurement.tender.openeu.utils import all_bids_are_reviewed
-from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
-from openprocurement.tender.openua.utils import (
-    check_complaint_status, has_unanswered_questions, has_unanswered_complaints
-)
-from openprocurement.tender.openeu.utils import prepare_qualifications
 from openprocurement.api.utils import (
-    save_tender,
-    set_ownership as api_set_ownership,
-    apply_patch,
-    context_unpack,
-    generate_id,
+    context_unpack, generate_id, get_now,
+    set_ownership as api_set_ownership
 )
-
-from barbecue import vnmax
+from openprocurement.tender.core.utils import (
+    save_tender, apply_patch, calculate_business_date
+)
+from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.openua.utils import (
+    check_complaint_status, has_unanswered_questions,
+    has_unanswered_complaints
+)
+from openprocurement.tender.openeu.utils import (
+    all_bids_are_reviewed, prepare_qualifications
+)
+from openprocurement.tender.openeu.constants import (
+    PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    MINIMAL_NUMBER_OF_BIDS
+)
 
 LOGGER = getLogger(__name__)
-MINIMAL_NUMBER_OF_BITS = 3
 
 
 def patch_eu(self):
@@ -131,16 +133,16 @@ def patch_eu(self):
 
 def validate_unique_bids(bids):
     """ Return Bool
-        True if number of unique identifier id biggest then MINIMAL_NUMBER_OF_BITS
+        True if number of unique identifier id biggest then MINIMAL_NUMBER_OF_BIDS
         else False
     """
-    return len(set(bid['tenderers'][0]['identifier']['id'] for bid in bids)) >= MINIMAL_NUMBER_OF_BITS
+    return len(set(bid['tenderers'][0]['identifier']['id'] for bid in bids)) >= MINIMAL_NUMBER_OF_BIDS
 
 
 def check_initial_bids_count(request):
     tender = request.validated['tender']
     if tender.lots:
-        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < MINIMAL_NUMBER_OF_BITS and i.auctionPeriod and i.auctionPeriod.startDate]
+        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < MINIMAL_NUMBER_OF_BIDS and i.auctionPeriod and i.auctionPeriod.startDate]
         for i in tender.lots:
             # gather all bids by lot id
             bids = [bid
@@ -148,7 +150,7 @@ def check_initial_bids_count(request):
                     if i.id in [i_lot.relatedLot for i_lot in bid.lotValues
                                 if i_lot.status in ["active", "pending"]] and bid.status in ["active", "pending"]]
 
-            if i.numberOfBids < MINIMAL_NUMBER_OF_BITS or not validate_unique_bids(bids) and i.status == 'active':
+            if i.numberOfBids < MINIMAL_NUMBER_OF_BIDS or not validate_unique_bids(bids) and i.status == 'active':
                 setattr(i, 'status', 'unsuccessful')
                 for bid_index, bid in enumerate(tender.bids):
                     for lot_index, lot_value in enumerate(bid.lotValues):
@@ -159,7 +161,7 @@ def check_initial_bids_count(request):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
-    elif tender.numberOfBids < MINIMAL_NUMBER_OF_BITS or not validate_unique_bids(tender.bids):
+    elif tender.numberOfBids < MINIMAL_NUMBER_OF_BIDS or not validate_unique_bids(tender.bids):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
         tender.status = 'unsuccessful'
@@ -295,7 +297,7 @@ def stage2_bid_post(self):
                          extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_create'},
                                               {'bid_id': bid.id}))
         self.request.response.status = 201
-        self.request.response.headers['Location'] = self.request.route_url('Tender Bids', tender_id=tender.id,
+        self.request.response.headers['Location'] = self.request.route_url('{}:Tender Bids'.format(tender.procurementMethodType), tender_id=tender.id,
                                                                            bid_id=bid['id'])
         return {
             'data': bid.serialize('view'),

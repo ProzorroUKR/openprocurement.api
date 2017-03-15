@@ -1,24 +1,30 @@
 # -*- coding: utf-8 -*-
 import os
-import webtest
 from hashlib import sha512
 from datetime import datetime, timedelta
 from uuid import uuid4
 from copy import deepcopy
-from openprocurement.api.tests.base import BaseTenderWebTest, PrefixedRequestClass
-from openprocurement.api.utils import apply_data_patch
-from openprocurement.api.models import get_now, SANDBOX_MODE
-from openprocurement.tender.openeu.models import (TENDERING_DURATION, QUESTIONS_STAND_STILL,
-                                                  COMPLAINT_STAND_STILL)
-
-from openprocurement.tender.openeu.tests.base import (test_tender_data as base_test_tender_data_eu,
-                                                      test_features_tender_data,
-                                                      test_bids,
-                                                      test_bids as test_bids_eu)
-from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.api.design import sync_design
-from openprocurement.api.tests.base import PrefixedRequestClass, test_organization
-from openprocurement.tender.openua.tests.base import (test_tender_data as base_test_tender_data_ua, BaseTenderWebTest)
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.utils import apply_data_patch, get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    BaseTenderWebTest, test_organization
+)
+from openprocurement.tender.openeu.constants import (
+    TENDERING_DURATION, QUESTIONS_STAND_STILL,
+    COMPLAINT_STAND_STILL
+)
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_data as base_test_tender_data_eu,
+    test_features_tender_data,
+    test_bids,
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_EU_TYPE, CD_UA_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+)
+from openprocurement.tender.openua.tests.base import (
+    test_tender_data as base_test_tender_data_ua
+)
 
 now = datetime.now()
 test_tender_data_eu = deepcopy(base_test_tender_data_eu)

@@ -3,9 +3,7 @@ import unittest
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.models import get_now
-from openprocurement.tender.openeu.tests.base import (
-    BaseTenderContentWebTest, test_tender_data, test_features_tender_data)
+from openprocurement.api.utils import get_now
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,

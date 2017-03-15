@@ -1,7 +1,13 @@
-from openprocurement.api.validation import validate_data, validate_json_data
-from openprocurement.api.utils import apply_data_patch, update_logging_context
+from openprocurement.api.validation import (
+    validate_data, validate_json_data
+)
+from openprocurement.api.utils import (
+    apply_data_patch, update_logging_context
+)
 from openprocurement.tender.competitivedialogue.models import STAGE2_STATUS
-from openprocurement.tender.competitivedialogue.utils import prepare_shortlistedFirms, prepare_author
+from openprocurement.tender.competitivedialogue.utils import (
+    prepare_shortlistedFirms, prepare_author
+)
 
 
 def validate_patch_tender_stage2_data(request):
@@ -120,4 +126,3 @@ def validate_post_question_data_stage2(request):
         else:
             return None  # we catch errors
     return data
-

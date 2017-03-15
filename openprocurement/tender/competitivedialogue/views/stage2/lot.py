@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.competitivedialogue.models import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
-from openprocurement.api.utils import (
-    opresource,
-    json_view,
+from openprocurement.api.utils import json_view
+
+from openprocurement.tender.core.utils import (
+    optendersresource
 )
-from openprocurement.api.models import get_now
 from openprocurement.tender.openua.views.lot import TenderUaLotResource
 from openprocurement.tender.openeu.views.lot import TenderEULotResource
-from openprocurement.tender.openua.utils import calculate_business_date
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+)
 
 
-@opresource(name='Tender stage2 UA Lots',
-            collection_path='/tenders/{tender_id}/lots',
-            path='/tenders/{tender_id}/lots/{lot_id}',
-            procurementMethodType=STAGE_2_UA_TYPE,
-            description="Tender stage2 UA lots")
+@optendersresource(name='{}:Lots'.format(STAGE_2_UA_TYPE),
+                   collection_path='/tenders/{tender_id}/lots',
+                   path='/tenders/{tender_id}/lots/{lot_id}',
+                   procurementMethodType=STAGE_2_UA_TYPE,
+                   description="Tender stage2 UA lots")
 class TenderStage2UALotResource(TenderUaLotResource):
 
     @json_view(content_type="application/json", permission='edit_tender')
@@ -42,11 +42,11 @@ class TenderStage2UALotResource(TenderUaLotResource):
         return
 
 
-@opresource(name='Tender stage2 EU Lots',
-            collection_path='/tenders/{tender_id}/lots',
-            path='/tenders/{tender_id}/lots/{lot_id}',
-            procurementMethodType=STAGE_2_EU_TYPE,
-            description="Tender stage2 EU lots")
+@optendersresource(name='{}:Tender Lots'.format(STAGE_2_EU_TYPE),
+                   collection_path='/tenders/{tender_id}/lots',
+                   path='/tenders/{tender_id}/lots/{lot_id}',
+                   procurementMethodType=STAGE_2_EU_TYPE,
+                   description="Tender stage2 EU lots")
 class TenderStage2EULotResource(TenderEULotResource):
 
     @json_view(content_type="application/json", permission='edit_tender')

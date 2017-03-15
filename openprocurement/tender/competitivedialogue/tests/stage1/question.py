@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from datetime import datetime, timedelta
-from openprocurement.api.models import get_now
-from openprocurement.api.tests.base import test_organization
-from openprocurement.tender.competitivedialogue.tests.base import (test_tender_data_ua, test_bids,
-                                                                   BaseCompetitiveDialogUAContentWebTest,
-                                                                   BaseCompetitiveDialogEUContentWebTest, test_lots)
+from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.competitivedialogue.tests.base import (
+    test_bids,
+    BaseCompetitiveDialogUAContentWebTest,
+    BaseCompetitiveDialogEUContentWebTest, test_lots
+)
 
 
 class CompetitiveDialogUAQuestionResourceTest(BaseCompetitiveDialogUAContentWebTest):

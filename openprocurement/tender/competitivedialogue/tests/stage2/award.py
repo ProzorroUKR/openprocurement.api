@@ -8,7 +8,6 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_bids,
     test_lots,
     author
-
 )
 
 test_tender_bids = deepcopy(test_bids[:2])
@@ -62,13 +61,13 @@ class TenderStage2EUAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWebTes
             self.assertEqual(response.content_type, 'application/json')
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], 'active.qualification')
-        
+
         # get award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
         self.award_id = response.json['data'][0]['id']
         self.bid_token = self.initial_bids_tokens[self.bids[0]['id']]
         self.app.authorization = ('Basic', ('broker', ''))
-    
+
     def test_create_tender_award_invalid(self):
         """ Test create tender award with invalid data """
         self.app.authorization = ('Basic', ('token', ''))
@@ -601,7 +600,7 @@ class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
         self.assertEqual(response.json['data']['status'], 'active.auction')
-        
+
         self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         auction_bids_data = response.json['data']['bids']
@@ -612,7 +611,7 @@ class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
             self.assertEqual(response.content_type, 'application/json')
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], 'active.qualification')
-        
+
         # Get award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
         self.award_id = response.json['data'][0]['id']
@@ -864,7 +863,7 @@ class TenderStage2EU2LotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWe
     initial_lots = deepcopy(2 * test_lots)
     initial_bids = test_tender_bids
     initial_auth = ('Basic', ('broker', ''))
-    
+
     def setUp(self):
         super(TenderStage2EU2LotAwardResourceTest, self).setUp()
         # switch to active.pre-qualification

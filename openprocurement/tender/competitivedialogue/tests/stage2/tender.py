@@ -1,23 +1,29 @@
 # -*- coding: utf-8 -*-
 import unittest
-import resource
-from nose.plugins.attrib import attr
-from datetime import timedelta
-from openprocurement.api.models import get_now, SANDBOX_MODE, CPV_ITEMS_CLASS_FROM
-from openprocurement.api.utils import ROUTE_PREFIX, get_now
-from openprocurement.api.tests.base import BaseWebTest, test_organization
-from openprocurement.tender.competitivedialogue.models import (TenderStage2EU, TenderStage2UA, STAGE_2_UA_TYPE,
-                                                               STAGE_2_EU_TYPE, STAGE2_STATUS)
-from openprocurement.tender.competitivedialogue.tests.base import (test_tender_data_ua,
-                                                                   test_tender_data_eu,
-                                                                   BaseCompetitiveDialogEUStage2WebTest,
-                                                                   BaseCompetitiveDialogUAStage2WebTest,
-                                                                   test_tender_stage2_data_ua,
-                                                                   test_tender_stage2_data_eu,
-                                                                   test_access_token_stage1,
-                                                                   test_shortlistedFirms,
-                                                                   test_bids)
 from copy import deepcopy
+from datetime import timedelta
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import (
+    SANDBOX_MODE, CPV_ITEMS_CLASS_FROM, ROUTE_PREFIX
+)
+from openprocurement.api.tests.base import BaseWebTest
+from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.competitivedialogue.models import (
+    TenderStage2EU, TenderStage2UA
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_UA_TYPE, STAGE_2_EU_TYPE, STAGE2_STATUS,
+    CD_UA_TYPE, CD_EU_TYPE
+)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogEUStage2WebTest,
+    BaseCompetitiveDialogUAStage2WebTest,
+    test_tender_stage2_data_ua,
+    test_tender_stage2_data_eu,
+    test_access_token_stage1,
+    test_shortlistedFirms,
+    test_bids
+)
 
 author = deepcopy(test_bids[0]["tenderers"][0])
 author['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
@@ -439,13 +445,18 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
 
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))
 
-        self.app.post_json(request_path, {'data': {'invalid_field': 'invalid_value'}}, status=403)
-        self.app.post_json(request_path, {'data': {'value': 'invalid_value'}}, status=403)
-        self.app.post_json(request_path, {'data': {'procurementMethod': 'invalid_value'}}, status=403)
-        self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': 'invalid_value'}}},
-                           status=403)
-        self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}},
-                           status=403)
+        self.app.post_json(request_path, {'data': {'procurementMethodType': CD_EU_TYPE,
+                                                   'invalid_field': 'invalid_value'}}, status=403)
+        self.app.post_json(request_path, {'data': {'procurementMethodType': CD_EU_TYPE,
+                                                   'value': 'invalid_value'}}, status=403)
+        self.app.post_json(request_path, {'data': {'procurementMethodType': CD_EU_TYPE,
+                                                   'procurementMethod': 'invalid_value'}}, status=403)
+        self.app.post_json(request_path, {'data': {'procurementMethodType': CD_EU_TYPE,
+                                                   'enquiryPeriod': {'endDate': 'invalid_value'}}},
+                                                   status=403)
+        self.app.post_json(request_path, {'data': {'procurementMethodType': CD_EU_TYPE,
+                                                   'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}},
+                                                   status=403)
 
         data = test_tender_stage2_data_eu['tenderPeriod']
         test_tender_stage2_data_eu['tenderPeriod'] = {'startDate': '2014-10-31T00:00:00',
@@ -1634,19 +1645,24 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
         self.assertEqual(response.json['errors'], [
             {u'description': u'Not implemented', u'location': u'data', u'name': u'procurementMethodType'}
         ])
-        response = self.app.post_json(request_path, {'data': {'invalid_field': 'invalid_value'}}, status=403)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': CD_UA_TYPE,
+                                                              'invalid_field': 'invalid_value'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
 
-        response = self.app.post_json(request_path, {'data': {'value': 'invalid_value'}}, status=403)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': CD_UA_TYPE,
+                                                              'value': 'invalid_value'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
 
-        response = self.app.post_json(request_path, {'data': {'procurementMethod': 'invalid_value'}}, status=403)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': CD_UA_TYPE,
+                                                              'procurementMethod': 'invalid_value'}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
 
-        response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=403)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': CD_UA_TYPE,
+                                                              'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
 
-        response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}}, status=403)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType': CD_UA_TYPE,
+                                                              'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
 
         data = test_tender_stage2_data_ua['tenderPeriod']

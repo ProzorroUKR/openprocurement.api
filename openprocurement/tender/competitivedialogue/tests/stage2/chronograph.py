@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,

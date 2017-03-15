@@ -3,7 +3,6 @@ import unittest
 from copy import deepcopy
 from openprocurement.api.tests.base import now
 from datetime import timedelta
-
 from openprocurement.tender.competitivedialogue.tests.base import(
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,

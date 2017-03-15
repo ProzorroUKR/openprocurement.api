@@ -1,18 +1,25 @@
 # -*- coding: utf-8 -*-
 import unittest
-from datetime import timedelta
-from openprocurement.api.models import get_now, SANDBOX_MODE, CPV_ITEMS_CLASS_FROM
-from openprocurement.api.utils import ROUTE_PREFIX
-from openprocurement.api.tests.base import BaseWebTest, test_organization
-from openprocurement.tender.competitivedialogue.models import CompetitiveDialogUA, CompetitiveDialogEU
-
-from openprocurement.tender.competitivedialogue.tests.base import (test_tender_data_ua,
-                                                                   test_tender_data_eu,
-                                                                   BaseCompetitiveDialogEUWebTest,
-                                                                   BaseCompetitiveDialogUAWebTest,
-                                                                   BaseCompetitiveDialogWebTest)
 from copy import deepcopy
-from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
+from datetime import timedelta
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import (
+    SANDBOX_MODE, CPV_ITEMS_CLASS_FROM, ROUTE_PREFIX
+)
+from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.competitivedialogue.models import (
+    CompetitiveDialogUA, CompetitiveDialogEU
+)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    test_tender_data_ua,
+    test_tender_data_eu,
+    BaseCompetitiveDialogEUWebTest,
+    BaseCompetitiveDialogUAWebTest,
+    BaseCompetitiveDialogWebTest
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
+)
 
 
 class CompetitiveDialogTest(BaseCompetitiveDialogWebTest):
@@ -427,7 +434,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
             {u'description': u'Not implemented', u'location': u'data', u'name': u'procurementMethodType'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':CD_EU_TYPE,
                                       'invalid_field': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
@@ -437,7 +444,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
                 u'body', u'name': u'invalid_field'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'value': 'invalid_value'}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':CD_EU_TYPE,'value': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -446,18 +453,18 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
                 u'Please use a mapping for this field or Value instance instead of unicode.'], u'location': u'body', u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'procurementMethod': 'invalid_value'}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':CD_EU_TYPE,
+                                                              'procurementMethod': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertIn({u'description': [u"Value must be one of ['open', 'selective', 'limited']."], u'location': u'body', u'name': u'procurementMethod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderPeriod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
-        self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'enquiryPeriod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
 
-        response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':CD_EU_TYPE, 'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -465,7 +472,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest):
             {u'description': {u'endDate': [u"Could not parse invalid_value. Should be ISO8601."]}, u'location': u'body', u'name': u'enquiryPeriod'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':CD_EU_TYPE,'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -1747,7 +1754,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
             {u'description': u'Not implemented', u'location': u'data', u'name': u'procurementMethodType'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':CD_UA_TYPE,
                                       'invalid_field': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
@@ -1757,7 +1764,8 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
                 u'body', u'name': u'invalid_field'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'value': 'invalid_value'}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':CD_UA_TYPE,
+                                                              'value': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -1766,18 +1774,19 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
                 u'Please use a mapping for this field or Value instance instead of unicode.'], u'location': u'body', u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'procurementMethod': 'invalid_value'}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':CD_UA_TYPE,
+                                                              'procurementMethod': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertIn({u'description': [u"Value must be one of ['open', 'selective', 'limited']."], u'location': u'body', u'name': u'procurementMethod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderPeriod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
-        self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'enquiryPeriod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
 
-        response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':CD_UA_TYPE,
+                                                              'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -1785,7 +1794,8 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest):
             {u'description': {u'endDate': [u"Could not parse invalid_value. Should be ISO8601."]}, u'location': u'body', u'name': u'enquiryPeriod'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':CD_UA_TYPE,
+                                                              'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')

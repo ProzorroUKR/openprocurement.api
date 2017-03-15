@@ -2,15 +2,13 @@
 import unittest
 from copy import deepcopy
 from datetime import timedelta
-
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_bids,
     author,
     test_tender_stage2_data_eu
-
 )
 
 

@@ -8,9 +8,10 @@ requires = [
 ]
 
 api_requires = requires + [
-    'openprocurement.api>=2.3',
+    'openprocurement.api>=2.3',#XXX TODO set correct API version for refactoring
     'openprocurement.tender.openua',
-    'openprocurement.tender.openeu'
+    'openprocurement.tender.openeu',
+    'openprocurement.tender.core'
 ]
 
 test_requires = api_requires + requires + [
@@ -23,8 +24,8 @@ docs_requires = requires + [
 ]
 
 entry_points = {
-    'openprocurement.api.plugins': [
-        'competitivedialogue = openprocurement.tender.competitivedialogue:includeme'
+    'openprocurement.tender.core.plugins': [
+        'competitivedialogue = openprocurement.tender.competitivedialogue.includeme:includeme'
     ]
 }
 

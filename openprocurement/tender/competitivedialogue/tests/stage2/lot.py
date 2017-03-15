@@ -3,15 +3,18 @@ import unittest
 from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
-from copy import deepcopy
-from openprocurement.api.models import get_now
-from openprocurement.api.tests.base import test_organization
-from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, BaseTenderWebTest, test_tender_data, test_lots, test_bids
-from openprocurement.tender.competitivedialogue.tests.base import (BaseCompetitiveDialogEUStage2ContentWebTest,
-                                                                   BaseCompetitiveDialogUAStage2ContentWebTest,
-                                                                   BaseCompetitiveDialogEUWebTest,
-                                                                   test_tender_stage2_data_ua,
-                                                                   test_tender_stage2_data_eu)
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_data, test_lots, test_bids
+)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogEUStage2ContentWebTest,
+    BaseCompetitiveDialogUAStage2ContentWebTest,
+    BaseCompetitiveDialogEUWebTest,
+    test_tender_stage2_data_ua,
+    test_tender_stage2_data_eu
+)
 
 
 class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):

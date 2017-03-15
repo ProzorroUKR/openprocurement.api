@@ -3,8 +3,10 @@ import unittest
 from six import BytesIO
 from urllib import quote
 from email.header import Header
-from openprocurement.tender.competitivedialogue.tests.base import (BaseCompetitiveDialogEUStage2ContentWebTest,
-                                                                   BaseCompetitiveDialogUAStage2ContentWebTest)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogEUStage2ContentWebTest,
+    BaseCompetitiveDialogUAStage2ContentWebTest
+)
 
 ##########
 #  EU

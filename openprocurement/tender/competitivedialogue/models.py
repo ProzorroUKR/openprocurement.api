@@ -1,64 +1,72 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from schematics.types import StringType, FloatType
 from schematics.exceptions import ValidationError
+from schematics.transforms import whitelist, blacklist
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
 from openprocurement.api.models import (
-    ITender, Identifier, Model, validate_values_uniq,
-    get_tender, validate_features_uniq,
-    Feature as BaseFeature,
-    FeatureValue as BaseFeatureValue
+    Identifier, plain_role,
+    listing_role, schematics_default_role,
+    schematics_embedded_role, ListType,
+    BooleanType, Value as BaseValue
 )
-
-from openprocurement.api.utils import calculate_business_date, get_now
+from openprocurement.api.utils import (
+     get_now
+)
+from openprocurement.api.validation import (
+    validate_cpv_group, validate_items_uniq
+)
+from openprocurement.tender.core.models import (
+    ITender, Model, validate_features_uniq,
+    validate_values_uniq, Feature as BaseFeature,
+    FeatureValue as BaseFeatureValue, create_role,
+    edit_role, view_role, enquiries_role,
+    chronograph_role, chronograph_view_role,
+    Administrator_role, ProcuringEntity as BaseProcuringEntity,
+    get_tender
+)
+from openprocurement.tender.core.utils import (
+    calculate_business_date
+)
 from openprocurement.tender.openua.models import (
-    SifterListType,
-    Item as BaseUAItem,
+    SifterListType, Item as BaseUAItem,
     Tender as BaseTenderUA,
-    TENDER_PERIOD as TENDERING_DURATION_UA,
     Lot as BaseLotUA,
-    PeriodEndRequired as BasePeriodEndRequired
 )
-
+from openprocurement.tender.openua.constants import (
+    TENDER_PERIOD as TENDERING_DURATION_UA,
+)
 from openprocurement.tender.openeu.models import (
     Administrator_bid_role, view_bid_role,
     pre_qualifications_role, ConfidentialDocument,
-    edit_role_eu, auction_patch_role, auction_view_role,
-    auction_post_role, QUESTIONS_STAND_STILL, ENQUIRY_STAND_STILL_TIME,
-    PeriodStartEndRequired, EnquiryPeriod,
-    validate_lots_uniq, embedded_lot_role, default_lot_role,
-    Lot as BaseLotEU,
+    auction_patch_role, auction_view_role,
+    auction_post_role, PeriodStartEndRequired,
+    validate_lots_uniq, embedded_lot_role,
+    default_lot_role, Lot as BaseLotEU,
+    Item as BaseEUItem, LotValue as BaseLotValueEU,
+    Tender as BaseTenderEU, Bid as BidEU
+)
+from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION as TENDERING_DURATION_EU,
-    Item as BaseEUItem,
-    LotValue as BaseLotValueEU,
-    Tender as BaseTenderEU,
-    Bid as BidEU,
+)
+from openprocurement.tender.competitivedialogue.utils import (
+    validate_features_custom_weight
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_UA_TYPE, CD_EU_TYPE,
+    STAGE_2_EU_TYPE, STAGE_2_UA_TYPE,
+    STAGE2_STATUS, FEATURES_MAX_SUM
 )
 
-from openprocurement.api.models import (
-    plain_role, create_role, edit_role, view_role, listing_role,
-    enquiries_role, validate_cpv_group, validate_items_uniq,
-    chronograph_role, chronograph_view_role, ProcuringEntity as BaseProcuringEntity,
-    Administrator_role, schematics_default_role,
-    schematics_embedded_role, ListType, BooleanType,
-    Value as BaseValue
-)
-from schematics.transforms import whitelist, blacklist
-from openprocurement.tender.competitivedialogue.utils import (validate_features_custom_weight)
-
-from openprocurement.tender.competitivedialogue.models_constants import (
-    CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS, FEATURES_MAX_SUM
-)
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 edit_stage2_pending = whitelist('status')
 edit_stage2_waiting = whitelist('status', 'stage2TenderID')
-
 view_role_stage1 = (view_role + blacklist('auctionPeriod'))
-pre_qualifications_role_stage1 = (pre_qualifications_role + blacklist('auctionPeriod'))
+pre_qualifications_role_stage1 = (pre_qualifications_role
+                                  + blacklist('auctionPeriod'))
+
 roles = {
     'plain': plain_role,
     'create': create_role,
