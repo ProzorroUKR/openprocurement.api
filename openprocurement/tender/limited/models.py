@@ -31,7 +31,7 @@ from openprocurement.tender.core.models import (
     Document
 )
 
-from openprocurement.tender.core.models import ITender
+from openprocurement.tender.core.models import Tender as BaseTender
 
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
@@ -139,8 +139,7 @@ class ProcuringEntity(BaseProcuringEntity):
         }
 
 
-@implementer(ITender)
-class Tender(SchematicsDocument, Model):
+class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors
        to submit bids for evaluation and selecting a winner or winners.
     """
@@ -171,35 +170,16 @@ class Tender(SchematicsDocument, Model):
             'contracting': whitelist('doc_id', 'owner'),
         }
 
-    title = StringType(required=True)
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    date = IsoDateTimeType()
-    tenderID = StringType()  # TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='limited')  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
-    procurementMethodRationale = StringType()  # Justification of procurement method, especially in the case of Limited tendering.
-    procurementMethodRationale_en = StringType()
-    procurementMethodRationale_ru = StringType()
     procurementMethodType = StringType(default="reporting")
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
-    revisions = ListType(ModelType(Revision), default=list())
     status = StringType(choices=['draft', 'active', 'complete', 'cancelled', 'unsuccessful'], default='active')
     mode = StringType(choices=['test'])
     cancellations = ListType(ModelType(Cancellation), default=list())
-    _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
-    dateModified = IsoDateTimeType()
-    owner_token = StringType()
-    owner = StringType()
-    if SANDBOX_MODE:
-        procurementMethodDetails = StringType()
 
     create_accreditation = '13'
     edit_accreditation = 2
@@ -207,10 +187,6 @@ class Tender(SchematicsDocument, Model):
     block_complaint_status = OpenUATender.block_complaint_status
 
     __parent__ = None
-    __name__ = ''
-
-    def __local_roles__(self):
-        return dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])
 
     def get_role(self):
         root = self.__parent__
@@ -236,32 +212,32 @@ class Tender(SchematicsDocument, Model):
     def initialize(self):
         self.date = get_now()
 
-    def validate_procurementMethodDetails(self, *args, **kw):
-        if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
-            raise ValidationError(u"procurementMethodDetails should be used with mode test")
+    # def validate_procurementMethodDetails(self, *args, **kw):
+        # if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
+            # raise ValidationError(u"procurementMethodDetails should be used with mode test")
 
-    def __repr__(self):
-        return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)
+    # def __repr__(self):
+        # return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)
 
-    @serializable(serialized_name='id')
-    def doc_id(self):
-        """A property that is serialized by schematics exports."""
-        return self._id
+    # @serializable(serialized_name='id')
+    # def doc_id(self):
+        # """A property that is serialized by schematics exports."""
+        # return self._id
 
-    def import_data(self, raw_data, **kw):
-        """
-        Converts and imports the raw data into the instance of the model
-        according to the fields in the model.
-        :param raw_data:
-            The data to be imported.
-        """
-        data = self.convert(raw_data, **kw)
-        del_keys = [k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)]
-        for k in del_keys:
-            del data[k]
+    # def import_data(self, raw_data, **kw):
+        # """
+        # Converts and imports the raw data into the instance of the model
+        # according to the fields in the model.
+        # :param raw_data:
+            # The data to be imported.
+        # """
+        # data = self.convert(raw_data, **kw)
+        # del_keys = [k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)]
+        # for k in del_keys:
+            # del data[k]
 
-        self._data.update(data)
-        return self
+        # self._data.update(data)
+        # return self
 
 ReportingTender = Tender
 
@@ -322,7 +298,7 @@ class Contract(BaseContract):
     items = ListType(ModelType(Item))
 
 
-@implementer(ITender)
+# @implementer(ITender)
 class Tender(ReportingTender):
     """ Negotiation """
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])
@@ -343,7 +319,7 @@ class Tender(ReportingTender):
 NegotiationTender = Tender
 
 
-@implementer(ITender)
+# @implementer(ITender)
 class Tender(NegotiationTender):
     """ Negotiation """
     cause = StringType(choices=['quick', 'artContestIP', 'noCompetition', 'twiceUnsuccessful',
