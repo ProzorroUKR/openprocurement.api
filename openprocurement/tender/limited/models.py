@@ -1,26 +1,23 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
-from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
-from schematics.types import StringType, BaseType, MD5Type, BooleanType
-from schematics.types.compound import ModelType, DictType
+from schematics.types import StringType, MD5Type, BooleanType
+from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
-
-from couchdb_schematics.document import SchematicsDocument
-
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.models import (
     draft_role, plain_role, listing_role,
     schematics_default_role, schematics_embedded_role,
 )
-
 from openprocurement.api.models import (
-    ListType, Value, IsoDateTimeType, Organization, Model, Revision, Period
+    ListType, Value, IsoDateTimeType,
+    Organization, Model, Period
 )
-
+from openprocurement.api.validation import (
+    validate_cpv_group, validate_items_uniq
+)
 from openprocurement.tender.core.models import (
     view_role, create_role, edit_role, enquiries_role, view_bid_role,
     Administrator_role, chronograph_role, chronograph_view_role,
@@ -31,18 +28,19 @@ from openprocurement.tender.core.models import (
     Document
 )
 
-from openprocurement.tender.core.models import Tender as BaseTender
-
-from openprocurement.api.validation import (
-    validate_cpv_group, validate_items_uniq
-)
+from openprocurement.tender.core.models import BaseTender
 
 
 # ------- depends on openua refactoring TODO -------
-from openprocurement.tender.belowthreshold.models import Cancellation as BaseCancellation
-from openprocurement.tender.belowthreshold.models import Contract as BaseContract
-from openprocurement.tender.belowthreshold.models import ProcuringEntity as BaseProcuringEntity
-
+from openprocurement.tender.belowthreshold.models import (
+    Cancellation as BaseCancellation
+)
+from openprocurement.tender.belowthreshold.models import (
+    Contract as BaseContract
+)
+from openprocurement.tender.belowthreshold.models import (
+    ProcuringEntity as BaseProcuringEntity
+)
 from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import Item as BaseItem
 from openprocurement.tender.openua.models import Tender as OpenUATender
@@ -106,6 +104,7 @@ class Award(Model):
     documents = ListType(ModelType(Document), default=list())
     complaints = ListType(ModelType(Complaint), default=list())
     complaintPeriod = ModelType(Period)
+
 
 ReportingAward = Award
 
@@ -212,36 +211,10 @@ class Tender(BaseTender):
     def initialize(self):
         self.date = get_now()
 
-    # def validate_procurementMethodDetails(self, *args, **kw):
-        # if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
-            # raise ValidationError(u"procurementMethodDetails should be used with mode test")
-
-    # def __repr__(self):
-        # return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)
-
-    # @serializable(serialized_name='id')
-    # def doc_id(self):
-        # """A property that is serialized by schematics exports."""
-        # return self._id
-
-    # def import_data(self, raw_data, **kw):
-        # """
-        # Converts and imports the raw data into the instance of the model
-        # according to the fields in the model.
-        # :param raw_data:
-            # The data to be imported.
-        # """
-        # data = self.convert(raw_data, **kw)
-        # del_keys = [k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)]
-        # for k in del_keys:
-            # del data[k]
-
-        # self._data.update(data)
-        # return self
 
 ReportingTender = Tender
-
 Item = BaseItem
+
 
 class Award(ReportingAward):
 
