@@ -829,19 +829,35 @@ class BaseTender(SchematicsDocument, Model):
     title = StringType(required=True)
     title_en = StringType()
     title_ru = StringType()
+    revisions = ListType(ModelType(Revision), default=list())
+    documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
     date = IsoDateTimeType()
     tenderID = StringType()  # TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
+    owner = StringType()
+    mode = StringType(choices=['test'])
+    procurementMethodRationale = StringType()  # Justification of procurement method, especially in the case of Limited tendering.
+    procurementMethodRationale_en = StringType()
+    procurementMethodRationale_ru = StringType()
+    if SANDBOX_MODE:
+        procurementMethodDetails = StringType()
+
+    _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
+    dateModified = IsoDateTimeType()
+    owner_token = StringType()
+
+
+    @serializable(serialized_name='id')
+    def doc_id(self):
+        """A property that is serialized by schematics exports."""
+        return self._id
 
 
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='open')  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
-    procurementMethodRationale = StringType()  # Justification of procurement method, especially in the case of Limited tendering.
-    procurementMethodRationale_en = StringType()
-    procurementMethodRationale_ru = StringType()
     # awardCriteria = StringType(choices=['lowestCost', 'bestProposal', 'bestValueToGovernment', 'singleBidOnly'], default='lowestCost')  # Specify the selection criteria, by lowest cost,
     awardCriteriaDetails = StringType()  # Any detailed or further information on the selection criteria.
     awardCriteriaDetails_en = StringType()
@@ -853,22 +869,38 @@ class Tender(BaseTender):
     eligibilityCriteria = StringType()  # A description of any eligibility criteria for potential suppliers.
     eligibilityCriteria_en = StringType()
     eligibilityCriteria_ru = StringType()
-    documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
-    revisions = ListType(ModelType(Revision), default=list())
     status = StringType(choices=['draft', 'active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.enquiries')
-    mode = StringType(choices=['test'])
-    if SANDBOX_MODE:
-        procurementMethodDetails = StringType()
-
-    _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
-    dateModified = IsoDateTimeType()
-    owner_token = StringType()
-    owner = StringType()
-
     create_accreditation = 1
     edit_accreditation = 2
-
     __name__ = ''
+
+    def __repr__(self):
+        return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)
+
+    @serializable(serialized_name='id')
+    def doc_id(self):
+        """A property that is serialized by schematics exports."""
+        return self._id
+
+    def import_data(self, raw_data, **kw):
+        """
+        Converts and imports the raw data into the instance of the model
+        according to the fields in the model.
+        :param raw_data:
+            The data to be imported.
+        """
+        data = self.convert(raw_data, **kw)
+        del_keys = [k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)]
+        for k in del_keys:
+            del data[k]
+
+        self._data.update(data)
+        return self
+        
+    def validate_procurementMethodDetails(self, *args, **kw):
+        if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
+            raise ValidationError(u"procurementMethodDetails should be used with mode test")
+
 
     def get_role(self):
         root = self.__parent__
@@ -901,33 +933,7 @@ class Tender(BaseTender):
         ])
         return acl
 
-    def __repr__(self):
-        return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)
-
-    @serializable(serialized_name='id')
-    def doc_id(self):
-        """A property that is serialized by schematics exports."""
-        return self._id
-
-    def import_data(self, raw_data, **kw):
-        """
-        Converts and imports the raw data into the instance of the model
-        according to the fields in the model.
-        :param raw_data:
-            The data to be imported.
-        """
-        data = self.convert(raw_data, **kw)
-        del_keys = [k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)]
-        for k in del_keys:
-            del data[k]
-
-        self._data.update(data)
-        return self
 
     def initialize(self):
         now = get_now()
         self.date = now
-
-    def validate_procurementMethodDetails(self, *args, **kw):
-        if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
-            raise ValidationError(u"procurementMethodDetails should be used with mode test")
