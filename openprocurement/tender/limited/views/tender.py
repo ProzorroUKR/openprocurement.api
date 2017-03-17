@@ -12,7 +12,7 @@ from openprocurement.tender.belowthreshold.views.tender import (
 )
 
 
-@optendersresource(name='TenderLimited',
+@optendersresource(name='reporting:Tender',
                    path='/tenders/{tender_id}',
                    procurementMethodType='reporting',
                    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
@@ -90,7 +90,7 @@ class TenderResource(BaseTenderResource):
         return {'data': tender.serialize(tender.status)}
 
 
-@optendersresource(name='TenderLimitedNegotiation',
+@optendersresource(name='negotiation:Tender',
                    path='/tenders/{tender_id}',
                    procurementMethodType='negotiation',
                    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
@@ -98,7 +98,7 @@ class TenderNegotioationResource(TenderResource):
     """ Resource handler for Negotiation Tender """
 
 
-@optendersresource(name='TenderLimitedNegotiationQuick',
+@optendersresource(name='negotiation.quick:Tender',
                    path='/tenders/{tender_id}',
                    procurementMethodType='negotiation.quick',
                    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")

@@ -13,7 +13,7 @@ from openprocurement.tender.openua.views.lot import (
 )
 
 
-@optendersresource(name='Tender limited negotiation quick Lots',
+@optendersresource(name='negotiation.quick:Tender Lots',
                    collection_path='/tenders/{tender_id}/lots',
                    path='/tenders/{tender_id}/lots/{lot_id}',
                    procurementMethodType='negotiation.quick',
@@ -50,7 +50,7 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_create'},
                                                   {'lot_id': lot.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url(self.route_name,
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Lots'.format(tender.procurementMethodType),
                                                                                tender_id=tender.id, lot_id=lot.id)
             return {'data': lot.serialize("view")}
 
@@ -87,7 +87,7 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
             return {'data': res}
 
 
-@optendersresource(name='Tender limited negotiation Lots',
+@optendersresource(name='negotiation:Tender Lots',
                    collection_path='/tenders/{tender_id}/lots',
                    path='/tenders/{tender_id}/lots/{lot_id}',
                    procurementMethodType='negotiation',

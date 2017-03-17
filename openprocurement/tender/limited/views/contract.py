@@ -58,7 +58,7 @@ def check_tender_negotiation_status(request):
             tender.status = 'complete'
 
 
-@optendersresource(name='Tender Limited Contracts',
+@optendersresource(name='reporting:Tender Contracts',
                    collection_path='/tenders/{tender_id}/contracts',
                    procurementMethodType='reporting',
                    path='/tenders/{tender_id}/contracts/{contract_id}',
@@ -80,7 +80,8 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
             self.LOGGER.info('Created tender contract {}'.format(contract.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_create'}, {'contract_id': contract.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Contracts', tender_id=tender.id, contract_id=contract['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Contracts'.format(tender.procurementMethodType),
+                                                                               tender_id=tender.id, contract_id=contract['id'])
             return {'data': contract.serialize()}
 
     @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data,))
@@ -127,7 +128,7 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
             return {'data': self.request.context.serialize()}
 
 
-@optendersresource(name='Tender Negotiation Contracts',
+@optendersresource(name='negotiation:Tender Contracts',
                    collection_path='/tenders/{tender_id}/contracts',
                    procurementMethodType='negotiation',
                    path='/tenders/{tender_id}/contracts/{contract_id}',
@@ -199,7 +200,7 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
             return {'data': self.request.context.serialize()}
 
 
-@optendersresource(name='Tender Negotiation Quick Contracts',
+@optendersresource(name='negotiation.quick:Tender Contracts',
                    collection_path='/tenders/{tender_id}/contracts',
                    procurementMethodType='negotiation.quick',
                    path='/tenders/{tender_id}/contracts/{contract_id}',

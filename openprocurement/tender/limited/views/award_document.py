@@ -11,7 +11,7 @@ from openprocurement.api.validation import (
 )
 
 
-@optendersresource(name='Tender Limited Award Documents',
+@optendersresource(name='reporting:Tender Award Documents',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
                    path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
                    procurementMethodType='reporting',
@@ -95,7 +95,7 @@ class TenderAwardDocumentResource(APIResource):
             return {'data': self.request.context.serialize("view")}
 
 
-@optendersresource(name='Tender Negotiation Award Documents',
+@optendersresource(name='negotiation:Tender Award Documents',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
                    path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
                    procurementMethodType='negotiation',
@@ -104,7 +104,7 @@ class TenderNegotiationAwardDocumentResource(TenderAwardDocumentResource):
     """ Tender Negotiation Award Documents Resource """
 
 
-@optendersresource(name='Tender Negotiation Quick Award Documents',
+@optendersresource(name='negotiation.quick:Tender Award Documents',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
                    path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
                    procurementMethodType='negotiation.quick',

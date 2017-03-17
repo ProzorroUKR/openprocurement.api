@@ -14,7 +14,7 @@ from openprocurement.tender.belowthreshold.views.contract_document import (
 )
 
 
-@optendersresource(name='Tender Limited Contract Documents',
+@optendersresource(name='reporting:Tender Contract Documents',
                    collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
                    path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
                    procurementMethodType='reporting',
@@ -94,7 +94,7 @@ class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResourc
             return {'data': self.request.context.serialize("view")}
 
 
-@optendersresource(name='Tender Negotiation Contract Documents',
+@optendersresource(name='negotiation:Tender Contract Documents',
                    collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
                    path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
                    procurementMethodType='negotiation',
@@ -103,7 +103,7 @@ class TenderNegotiationAwardContractDocumentResource(TenderAwardContractDocument
     """ Tender Negotiation Award Contract Document Resource """
 
 
-@optendersresource(name='Tender Negotiation Quick Contract Documents',
+@optendersresource(name='negotiation.quick:Tender Contract Documents',
                    collection_path='/tenders/{tender_id}/contracts/{contract_id}/documents',
                    path='/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}',
                    procurementMethodType='negotiation.quick',
