@@ -23,13 +23,8 @@ from openprocurement.tender.core.models import (
 )
 
 from openprocurement.tender.core.models import (
-    Document
+    Document, BaseTender
 )
-
-from openprocurement.tender.core.models import BaseTender
-
-
-# ------- depends on openua refactoring TODO -------
 from openprocurement.tender.belowthreshold.models import (
     Cancellation as BaseCancellation
 )
