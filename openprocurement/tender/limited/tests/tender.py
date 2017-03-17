@@ -8,10 +8,10 @@ from openprocurement.api.constants import ROUTE_PREFIX, CPV_ITEMS_CLASS_FROM
 from openprocurement.tender.limited.models import (NegotiationTender,
                                                    NegotiationQuickTender,
                                                    ReportingTender)
+from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.limited.tests.base import (
     test_tender_data, test_tender_negotiation_data,
-    test_tender_negotiation_quick_data, BaseTenderWebTest,
-    test_organization, test_lots,
+    test_tender_negotiation_quick_data, BaseTenderWebTest, test_lots,
 )
 
 
@@ -467,7 +467,7 @@ class TenderResourceTest(BaseTenderWebTest):
                 u'location': u'body', u'name': u'data'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':'reporting',
                                       'invalid_field': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
@@ -477,7 +477,8 @@ class TenderResourceTest(BaseTenderWebTest):
                 u'body', u'name': u'invalid_field'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'value': 'invalid_value'}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':'reporting',
+                                                              'value': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -486,25 +487,15 @@ class TenderResourceTest(BaseTenderWebTest):
                 u'Please use a mapping for this field or Value instance instead of unicode.'], u'location': u'body', u'name': u'value'}
         ])
 
-        response = self.app.post_json(request_path, {'data': {'procurementMethod': 'invalid_value'}}, status=422)
+        response = self.app.post_json(request_path, {'data': {'procurementMethodType':'reporting',
+                                                              'procurementMethod': 'invalid_value'}}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertIn({u'description': [u"Value must be one of ['open', 'selective', 'limited']."], u'location': u'body', u'name': u'procurementMethod'}, response.json['errors'])
-        self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderPeriod'}, response.json['errors'])
-        self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
-        self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'enquiryPeriod'}, response.json['errors'])
         self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}, response.json['errors'])
-        self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
 
-        response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': {u'endDate': [u"Could not parse invalid_value. Should be ISO8601."]}, u'location': u'body', u'name': u'enquiryPeriod'}
-        ])
 
         data = test_tender_data["items"][0].pop("additionalClassifications")
         if get_now() > CPV_ITEMS_CLASS_FROM:
@@ -905,7 +896,6 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['mode'], u'test')
-
 
 class TenderNegotiationResourceTest(TenderResourceTest):
     initial_data = test_tender_negotiation_data

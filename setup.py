@@ -22,9 +22,9 @@ docs_requires = requires + [
 
 entry_points = {
     'openprocurement.tender.core.plugins': [
-        'reporting = openprocurement.tender.limited:includeme',
-        'negotiation = openprocurement.tender.limited:includeme_negotiation',
-        'negotiation.quick = openprocurement.tender.limited:includeme_negotiation_quick'
+        'reporting = openprocurement.tender.limited.includeme:includeme',
+        'negotiation = openprocurement.tender.limited.includeme:includeme_negotiation',
+        'negotiation.quick = openprocurement.tender.limited.includeme:includeme_negotiation_quick'
     ]
 }
 

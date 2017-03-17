@@ -4,9 +4,7 @@ from openprocurement.api.utils import (
     context_unpack,
     json_view,
     set_ownership,
-    update_logging_context,
 )
-from openprocurement.api.validation import validate_data
 from openprocurement.tender.core.utils import (
     apply_patch, save_tender, optendersresource
 )
@@ -15,10 +13,12 @@ from openprocurement.tender.limited.validation import (
     validate_complaint_data, validate_patch_complaint_data
 )
 
-from openprocurement.tender.belowthreshold.views.award_complaint import TenderAwardComplaintResource
+from openprocurement.tender.belowthreshold.views.award_complaint import (
+    TenderAwardComplaintResource
+)
 
 
-@optendersresource(name='Tender negotiation Award Complaints',
+@optendersresource(name='negotiation:Tender Award Complaints',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
                    path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
                    procurementMethodType='negotiation',
@@ -54,7 +54,10 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
             self.LOGGER.info('Created tender award complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender negotiation Award Complaints', tender_id=tender.id, award_id=self.request.validated['award_id'], complaint_id=complaint['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Award Complaints'.format(tender.procurementMethodType),
+                                                                               tender_id=tender.id,
+                                                                               award_id=self.request.validated['award_id'],
+                                                                               complaint_id=complaint['id'])
             return {
                 'data': complaint.serialize("view"),
                 'access': {
@@ -131,7 +134,7 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
             return {'data': self.context.serialize("view")}
 
 
-@optendersresource(name='Tender negotiation.quick Award Complaints',
+@optendersresource(name='negotiation.quick:Tender Award Complaints',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
                    path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
                    procurementMethodType='negotiation.quick',

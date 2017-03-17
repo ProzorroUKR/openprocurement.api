@@ -20,7 +20,7 @@ from openprocurement.tender.core.utils import calculate_business_date  # TODO ch
 from openprocurement.tender.openua.models import calculate_normalized_date
 
 
-@optendersresource(name='Tender Limited Awards',
+@optendersresource(name='reporting:Tender Awards',
                    collection_path='/tenders/{tender_id}/awards',
                    path='/tenders/{tender_id}/awards/{award_id}',
                    description="Tender awards",
@@ -179,7 +179,8 @@ class TenderAwardResource(APIResource):
             self.LOGGER.info('Created tender award {}'.format(award.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_create'}, {'award_id': award.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Awards', tender_id=tender.id, award_id=award['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Awards'.format(tender.procurementMethodType),
+                                                                               tender_id=tender.id, award_id=award['id'])
             return {'data': award.serialize("view")}
 
     @json_view(permission='view_tender')
@@ -333,7 +334,7 @@ class TenderAwardResource(APIResource):
             return {'data': award.serialize("view")}
 
 
-@optendersresource(name='Tender Negotiation Awards',
+@optendersresource(name='negotiation:Tender Awards',
                    collection_path='/tenders/{tender_id}/awards',
                    path='/tenders/{tender_id}/awards/{award_id}',
                    description="Tender awards",
@@ -462,7 +463,8 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             self.LOGGER.info('Created tender award {}'.format(award.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_create'}, {'award_id': award.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Awards', tender_id=tender.id, award_id=award['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Awards'.format(tender.procurementMethodType),
+                                                                               tender_id=tender.id, award_id=award['id'])
             return {'data': award.serialize("view")}
 
     @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_award_data,))
@@ -606,7 +608,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             return {'data': award.serialize("view")}
 
 
-@optendersresource(name='Tender Negotiation Quick Awards',
+@optendersresource(name='negotiation.quick:Tender Awards',
                    collection_path='/tenders/{tender_id}/awards',
                    path='/tenders/{tender_id}/awards/{award_id}',
                    description="Tender awards",

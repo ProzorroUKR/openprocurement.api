@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.openua.views.award_complaint_document import TenderUaAwardComplaintDocumentResource
+from openprocurement.tender.openua.views.award_complaint_document import (
+    TenderUaAwardComplaintDocumentResource
+)
 from openprocurement.tender.openua.views.complaint_document import STATUS4ROLE
 
 
-@optendersresource(name='Tender negotiation Award Complaint Documents',
+@optendersresource(name='negotiation:Tender Award Complaint Documents',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents',
                    path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}',
                    procurementMethodType='negotiation',
@@ -27,7 +29,7 @@ class TenderNegotiationAwardComplaintDocumentResource(TenderUaAwardComplaintDocu
         return True
 
 
-@optendersresource(name='Tender negotiation.quick Award Complaint Documents',
+@optendersresource(name='negotiation.quick:Tender Award Complaint Documents',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents',
                    path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}',
                    procurementMethodType='negotiation.quick',

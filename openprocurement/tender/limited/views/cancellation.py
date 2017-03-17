@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.views.cancellation import (
 )
 
 
-@optendersresource(name='Tender Limited Cancellations',
+@optendersresource(name='reporting:Tender Cancellations',
                    collection_path='/tenders/{tender_id}/cancellations',
                    path='/tenders/{tender_id}/cancellations/{cancellation_id}',
                    procurementMethodType='reporting',
@@ -40,7 +40,8 @@ class TenderReportingCancellationResource(APIResource):
             self.LOGGER.info('Created tender cancellation {}'.format(cancellation.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_cancellation_create'}, {'cancellation_id': cancellation.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Cancellations', tender_id=tender.id, cancellation_id=cancellation.id)
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Cancellations'.format(tender.procurementMethodType),
+                                                                               tender_id=tender.id, cancellation_id=cancellation.id)
             return {'data': cancellation.serialize("view")}
 
     @json_view(permission='view_tender')
@@ -73,7 +74,7 @@ class TenderReportingCancellationResource(APIResource):
             return {'data': self.request.context.serialize("view")}
 
 
-@optendersresource(name='Tender Negotiation Cancellations',
+@optendersresource(name='negotiation:Tender Cancellations',
                    collection_path='/tenders/{tender_id}/cancellations',
                    path='/tenders/{tender_id}/cancellations/{cancellation_id}',
                    procurementMethodType='negotiation',
@@ -96,7 +97,7 @@ class TenderNegotiationCancellationResource(TenderCancellationResource):
         return True
 
 
-@optendersresource(name='Tender Negotiation Quick Cancellations',
+@optendersresource(name='negotiation.quick:Tender Cancellations',
                    collection_path='/tenders/{tender_id}/cancellations',
                    path='/tenders/{tender_id}/cancellations/{cancellation_id}',
                    procurementMethodType='negotiation.quick',

@@ -1,48 +1,39 @@
 # -*- coding: utf-8 -*-
-from uuid import uuid4
-from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
-from schematics.types import StringType, BaseType, MD5Type, BooleanType
-from schematics.types.compound import ModelType, DictType
-from schematics.types.serializable import serializable
+from schematics.types import StringType, MD5Type, BooleanType
+from schematics.types.compound import ModelType
 from schematics.exceptions import ValidationError
-
-from couchdb_schematics.document import SchematicsDocument
-
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.models import (
     draft_role, plain_role, listing_role,
     schematics_default_role, schematics_embedded_role,
 )
-
 from openprocurement.api.models import (
-    ListType, Value, IsoDateTimeType, Organization, Model, Revision, Period
+    ListType, Value, Model, Period
 )
-
-from openprocurement.tender.core.models import (
-    view_role, create_role, edit_role, enquiries_role, view_bid_role,
-    Administrator_role, chronograph_role, chronograph_view_role,
-    embedded_lot_role, default_lot_role, validate_lots_uniq
-)
-
-from openprocurement.tender.core.models import (
-    Document
-)
-
-from openprocurement.tender.core.models import Tender as BaseTender
-
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
 )
+from openprocurement.tender.core.models import (
+    view_role, create_role, edit_role, enquiries_role, view_bid_role,
+    Administrator_role, chronograph_role, chronograph_view_role,
+    embedded_lot_role, default_lot_role, validate_lots_uniq,
+    BaseLot, BaseAward
+)
 
-
-# ------- depends on openua refactoring TODO -------
-from openprocurement.tender.belowthreshold.models import Cancellation as BaseCancellation
-from openprocurement.tender.belowthreshold.models import Contract as BaseContract
-from openprocurement.tender.belowthreshold.models import ProcuringEntity as BaseProcuringEntity
-
+from openprocurement.tender.core.models import (
+    Document, BaseTender
+)
+from openprocurement.tender.belowthreshold.models import (
+    Cancellation as BaseCancellation
+)
+from openprocurement.tender.belowthreshold.models import (
+    Contract as BaseContract
+)
+from openprocurement.tender.belowthreshold.models import (
+    ProcuringEntity as BaseProcuringEntity
+)
 from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import Item as BaseItem
 from openprocurement.tender.openua.models import Tender as OpenUATender
@@ -75,7 +66,7 @@ award_create_reporting_role = award_create_role + blacklist('qualified')
 award_edit_reporting_role = award_edit_role + blacklist('qualified')
 
 
-class Award(Model):
+class Award(BaseAward):
     """ An award for the given procurement. There may be more than one award
         per contracting process e.g. because the contract is split amongst
         different providers, or because it is a standing offer.
@@ -89,23 +80,12 @@ class Award(Model):
             'Administrator': whitelist('complaintPeriod'),
         }
 
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    title = StringType()  # Award title
-    title_en = StringType()
-    title_ru = StringType()
-    subcontractingDetails = StringType()
     qualified = BooleanType()
-    description = StringType()  # Award description
-    description_en = StringType()
-    description_ru = StringType()
-    status = StringType(required=True, choices=['pending', 'unsuccessful', 'active', 'cancelled'], default='pending')
-    date = IsoDateTimeType(default=get_now)
-    value = ModelType(Value)
-    suppliers = ListType(ModelType(Organization), required=True, min_size=1, max_size=1)
     items = ListType(ModelType(Item))
     documents = ListType(ModelType(Document), default=list())
     complaints = ListType(ModelType(Complaint), default=list())
     complaintPeriod = ModelType(Period)
+
 
 ReportingAward = Award
 
@@ -212,36 +192,10 @@ class Tender(BaseTender):
     def initialize(self):
         self.date = get_now()
 
-    # def validate_procurementMethodDetails(self, *args, **kw):
-        # if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
-            # raise ValidationError(u"procurementMethodDetails should be used with mode test")
-
-    # def __repr__(self):
-        # return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)
-
-    # @serializable(serialized_name='id')
-    # def doc_id(self):
-        # """A property that is serialized by schematics exports."""
-        # return self._id
-
-    # def import_data(self, raw_data, **kw):
-        # """
-        # Converts and imports the raw data into the instance of the model
-        # according to the fields in the model.
-        # :param raw_data:
-            # The data to be imported.
-        # """
-        # data = self.convert(raw_data, **kw)
-        # del_keys = [k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)]
-        # for k in del_keys:
-            # del data[k]
-
-        # self._data.update(data)
-        # return self
 
 ReportingTender = Tender
-
 Item = BaseItem
+
 
 class Award(ReportingAward):
 
@@ -261,7 +215,7 @@ class Award(ReportingAward):
         }
 
 
-class Lot(Model):
+class Lot(BaseLot):
     class Options:
         roles = {
             'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value'),
@@ -276,22 +230,6 @@ class Lot(Model):
             'Administrator': whitelist('auctionPeriod'),
         }
 
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    title = StringType(required=True, min_length=1)
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    date = IsoDateTimeType()
-    value = ModelType(Value, required=True)
-    status = StringType(choices=['active', 'cancelled', 'unsuccessful', 'complete'], default='active')
-
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def lot_value(self):
-        return Value(dict(amount=self.value.amount,
-                          currency=self.__parent__.value.currency,
-                          valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded))
 
 
 class Contract(BaseContract):

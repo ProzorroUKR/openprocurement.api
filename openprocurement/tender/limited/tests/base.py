@@ -4,9 +4,12 @@ from copy import deepcopy
 from datetime import datetime
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.tender.core.utils import apply_data_patch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_data as base_data
-from openprocurement.tender.belowthreshold.tests.base import test_organization
-from openprocurement.tender.core.tests.base import BaseTenderWebTest as BaseBaseTenderWebTest
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_data as base_data
+)
+from openprocurement.tender.belowthreshold.tests.base import (
+    BaseTenderWebTest as BaseBaseTenderWebTest
+)
 
 now = datetime.now()
 test_tender_data = base_data.copy()
