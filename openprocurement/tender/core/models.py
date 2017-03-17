@@ -829,14 +829,15 @@ class BaseTender(SchematicsDocument, Model):
     title = StringType(required=True)
     title_en = StringType()
     title_ru = StringType()
-    revisions = ListType(ModelType(Revision), default=list())
     documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
     date = IsoDateTimeType()
+    dateModified = IsoDateTimeType()
     tenderID = StringType()  # TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
     owner = StringType()
+    owner_token = StringType()
     mode = StringType(choices=['test'])
     procurementMethodRationale = StringType()  # Justification of procurement method, especially in the case of Limited tendering.
     procurementMethodRationale_en = StringType()
@@ -845,34 +846,7 @@ class BaseTender(SchematicsDocument, Model):
         procurementMethodDetails = StringType()
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
-    dateModified = IsoDateTimeType()
-    owner_token = StringType()
-
-
-    @serializable(serialized_name='id')
-    def doc_id(self):
-        """A property that is serialized by schematics exports."""
-        return self._id
-
-
-class Tender(BaseTender):
-    """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
-    procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='open')  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
-    # awardCriteria = StringType(choices=['lowestCost', 'bestProposal', 'bestValueToGovernment', 'singleBidOnly'], default='lowestCost')  # Specify the selection criteria, by lowest cost,
-    awardCriteriaDetails = StringType()  # Any detailed or further information on the selection criteria.
-    awardCriteriaDetails_en = StringType()
-    awardCriteriaDetails_ru = StringType()
-    # submissionMethod = StringType(choices=['electronicAuction', 'electronicSubmission', 'written', 'inPerson'], default='electronicAuction')  # Specify the method by which bids must be submitted, in person, written, or electronic auction
-    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
-    submissionMethodDetails_en = StringType()
-    submissionMethodDetails_ru = StringType()
-    eligibilityCriteria = StringType()  # A description of any eligibility criteria for potential suppliers.
-    eligibilityCriteria_en = StringType()
-    eligibilityCriteria_ru = StringType()
-    status = StringType(choices=['draft', 'active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.enquiries')
-    create_accreditation = 1
-    edit_accreditation = 2
-    __name__ = ''
+    revisions = ListType(ModelType(Revision), default=list())
 
     def __repr__(self):
         return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)
@@ -896,12 +870,32 @@ class Tender(BaseTender):
 
         self._data.update(data)
         return self
-        
+
     def validate_procurementMethodDetails(self, *args, **kw):
         if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
             raise ValidationError(u"procurementMethodDetails should be used with mode test")
 
 
+class Tender(BaseTender):
+    """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
+    procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='open')  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
+    # awardCriteria = StringType(choices=['lowestCost', 'bestProposal', 'bestValueToGovernment', 'singleBidOnly'], default='lowestCost')  # Specify the selection criteria, by lowest cost,
+    awardCriteriaDetails = StringType()  # Any detailed or further information on the selection criteria.
+    awardCriteriaDetails_en = StringType()
+    awardCriteriaDetails_ru = StringType()
+    # submissionMethod = StringType(choices=['electronicAuction', 'electronicSubmission', 'written', 'inPerson'], default='electronicAuction')  # Specify the method by which bids must be submitted, in person, written, or electronic auction
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
+    eligibilityCriteria = StringType()  # A description of any eligibility criteria for potential suppliers.
+    eligibilityCriteria_en = StringType()
+    eligibilityCriteria_ru = StringType()
+    status = StringType(choices=['draft', 'active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.enquiries')
+
+    create_accreditation = 1
+    edit_accreditation = 2
+
+    __name__ = ''
     def get_role(self):
         root = self.__parent__
         request = root.request
@@ -932,7 +926,6 @@ class Tender(BaseTender):
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
         ])
         return acl
-
 
     def initialize(self):
         now = get_now()
