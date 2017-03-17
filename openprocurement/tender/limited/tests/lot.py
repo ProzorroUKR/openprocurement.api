@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.limited.tests.base import (
-    BaseTenderContentWebTest, test_tender_negotiation_data, test_lots, test_organization,
+    BaseTenderContentWebTest, test_tender_negotiation_data, test_lots,
     test_tender_negotiation_quick_data)
 
 
