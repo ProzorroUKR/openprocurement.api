@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-from uuid import uuid4
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, MD5Type, BooleanType
 from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import (
@@ -12,8 +10,7 @@ from openprocurement.api.models import (
     schematics_default_role, schematics_embedded_role,
 )
 from openprocurement.api.models import (
-    ListType, Value, IsoDateTimeType,
-    Organization, Model, Period
+    ListType, Value, Model, Period
 )
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
@@ -21,7 +18,8 @@ from openprocurement.api.validation import (
 from openprocurement.tender.core.models import (
     view_role, create_role, edit_role, enquiries_role, view_bid_role,
     Administrator_role, chronograph_role, chronograph_view_role,
-    embedded_lot_role, default_lot_role, validate_lots_uniq
+    embedded_lot_role, default_lot_role, validate_lots_uniq,
+    BaseLot, BaseAward
 )
 
 from openprocurement.tender.core.models import (
@@ -73,7 +71,7 @@ award_create_reporting_role = award_create_role + blacklist('qualified')
 award_edit_reporting_role = award_edit_role + blacklist('qualified')
 
 
-class Award(Model):
+class Award(BaseAward):
     """ An award for the given procurement. There may be more than one award
         per contracting process e.g. because the contract is split amongst
         different providers, or because it is a standing offer.
@@ -87,19 +85,7 @@ class Award(Model):
             'Administrator': whitelist('complaintPeriod'),
         }
 
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    title = StringType()  # Award title
-    title_en = StringType()
-    title_ru = StringType()
-    subcontractingDetails = StringType()
     qualified = BooleanType()
-    description = StringType()  # Award description
-    description_en = StringType()
-    description_ru = StringType()
-    status = StringType(required=True, choices=['pending', 'unsuccessful', 'active', 'cancelled'], default='pending')
-    date = IsoDateTimeType(default=get_now)
-    value = ModelType(Value)
-    suppliers = ListType(ModelType(Organization), required=True, min_size=1, max_size=1)
     items = ListType(ModelType(Item))
     documents = ListType(ModelType(Document), default=list())
     complaints = ListType(ModelType(Complaint), default=list())
@@ -234,7 +220,7 @@ class Award(ReportingAward):
         }
 
 
-class Lot(Model):
+class Lot(BaseLot):
     class Options:
         roles = {
             'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value'),
@@ -249,22 +235,6 @@ class Lot(Model):
             'Administrator': whitelist('auctionPeriod'),
         }
 
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    title = StringType(required=True, min_length=1)
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    date = IsoDateTimeType()
-    value = ModelType(Value, required=True)
-    status = StringType(choices=['active', 'cancelled', 'unsuccessful', 'complete'], default='active')
-
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def lot_value(self):
-        return Value(dict(amount=self.value.amount,
-                          currency=self.__parent__.value.currency,
-                          valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded))
 
 
 class Contract(BaseContract):
