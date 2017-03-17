@@ -2,32 +2,32 @@
 from uuid import uuid4
 from datetime import timedelta, time, datetime
 from couchdb_schematics.document import SchematicsDocument
-from schematics.transforms import whitelist, blacklist, export_loop, convert
+from schematics.transforms import whitelist, blacklist, export_loop
 # from iso8601 import parse_date
 from zope.interface import implementer, Interface
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
-from schematics.transforms import whitelist, blacklist
-from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
-from schematics.types import (StringType, FloatType, IntType, URLType,
-                              BooleanType, BaseType, EmailType, MD5Type)
+from schematics.types import (StringType, FloatType, URLType,
+                              BooleanType, BaseType, MD5Type)
 from openprocurement.api.models import (
-    Address, Revision, Organization, Model, ContactPoint, Identifier, Period,
+    Revision, Organization, Model, Period,
     IsoDateTimeType, ListType, Document as BaseDocument, CPVClassification,
     Location as BaseLocation, Contract as BaseContract, Value,
-    PeriodEndRequired as BasePeriodEndRequired
+    PeriodEndRequired as BasePeriodEndRequired,
+    Address
 )
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import (
-    plain_role, schematics_default_role, schematics_embedded_role,
+    schematics_default_role, schematics_embedded_role,
 )
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import (
-    TZ, SANDBOX_MODE, COORDINATES_REG_EXP,
-    ADDITIONAL_CLASSIFICATIONS_SCHEMES, ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017,
+    SANDBOX_MODE, COORDINATES_REG_EXP,
+    ADDITIONAL_CLASSIFICATIONS_SCHEMES,
+    ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017
 )
 
 from openprocurement.tender.core.constants import (
@@ -688,7 +688,26 @@ class Cancellation(Model):
             raise ValidationError(u"relatedLot should be one of lots")
 
 
-class Award(Model):
+class BaseAward(Model):
+    """ Base award """
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    title = StringType()  # Award title
+    title_en = StringType()
+    title_ru = StringType()
+    subcontractingDetails = StringType()
+    qualified = BooleanType()
+    description = StringType()  # Award description
+    description_en = StringType()
+    description_ru = StringType()
+    status = StringType(required=True, choices=['pending', 'unsuccessful', 'active', 'cancelled'], default='pending')
+    date = IsoDateTimeType(default=get_now)
+    value = ModelType(Value)
+    suppliers = ListType(ModelType(Organization), required=True, min_size=1, max_size=1)
+    documents = ListType(ModelType(Document), default=list())
+    items = ListType(ModelType(Item))
+
+
+class Award(BaseAward):
     """ An award for the given procurement. There may be more than one award
         per contracting process e.g. because the contract is split amongst
         different providers, or because it is a standing offer.
@@ -702,22 +721,6 @@ class Award(Model):
             'view': schematics_default_role,
             'Administrator': whitelist('complaintPeriod'),
         }
-
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    bid_id = MD5Type(required=True)
-    lotID = MD5Type()
-    title = StringType()  # Award title
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()  # Award description
-    description_en = StringType()
-    description_ru = StringType()
-    status = StringType(required=True, choices=['pending', 'unsuccessful', 'active', 'cancelled'], default='pending')
-    date = IsoDateTimeType(default=get_now)
-    value = ModelType(Value)
-    suppliers = ListType(ModelType(Organization), required=True, min_size=1, max_size=1)
-    items = ListType(ModelType(Item))
-    documents = ListType(ModelType(Document), default=list())
     complaints = ListType(ModelType(Complaint), default=list())
     complaintPeriod = ModelType(Period)
 
@@ -760,7 +763,26 @@ class Feature(Model):
             raise ValidationError(u"relatedItem should be one of lots")
 
 
-class Lot(Model):
+class BaseLot(Model):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    title = StringType(required=True, min_length=1)
+    title_en = StringType()
+    title_ru = StringType()
+    description = StringType()
+    description_en = StringType()
+    description_ru = StringType()
+    date = IsoDateTimeType()
+    value = ModelType(Value, required=True)
+    status = StringType(choices=['active', 'cancelled', 'unsuccessful', 'complete'], default='active')
+
+    @serializable(serialized_name="value", type=ModelType(Value))
+    def lot_value(self):
+        return Value(dict(amount=self.value.amount,
+                          currency=self.__parent__.value.currency,
+                          valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded))
+
+
+class Lot(BaseLot):
     class Options:
         roles = {
             'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
@@ -775,19 +797,9 @@ class Lot(Model):
             'Administrator': whitelist('auctionPeriod'),
         }
 
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    title = StringType(required=True, min_length=1)
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    date = IsoDateTimeType()
-    value = ModelType(Value, required=True)
     minimalStep = ModelType(Value, required=True)
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
-    status = StringType(choices=['active', 'cancelled', 'unsuccessful', 'complete'], default='active')
     guarantee = ModelType(Guarantee)
 
     @serializable
@@ -799,12 +811,6 @@ class Lot(Model):
             if self.id in [i.relatedLot for i in bid.lotValues] and getattr(bid, "status", "active") == "active"
         ]
         return len(bids)
-
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def lot_value(self):
-        return Value(dict(amount=self.value.amount,
-                          currency=self.__parent__.value.currency,
-                          valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded))
 
     @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
     def lot_guarantee(self):
