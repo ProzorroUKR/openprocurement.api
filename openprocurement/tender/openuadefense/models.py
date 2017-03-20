@@ -6,9 +6,12 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
 from openprocurement.api.utils import get_now
+from openprocurement.api.models import (
+    ContactPoint as BaseContactPoint
+)
 from openprocurement.tender.core.models import (
     ITender, Period,
-    ProcuringEntity as BaseProcuringEntity, ContactPoint as BaseContactPoint,
+    ProcuringEntity as BaseProcuringEntity,
     ListType
 )
 from openprocurement.tender.openua.models import (
