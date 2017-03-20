@@ -15,7 +15,7 @@ from openprocurement.api.constants import TZ
 from openprocurement.api.models import (
     listing_role, Address, Period,
     IsoDateTimeType, ListType, Identifier as BaseIdentifier,
-
+    ContactPoint as BaseContactPoint, plain_role
 )
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
@@ -27,11 +27,10 @@ from openprocurement.tender.core.models import (
     Cancellation as BaseCancellation,
     Lot as BaseLot,
     Document as BaseDocument,
-    ContactPoint as BaseContactPoint,
     LotValue as BaseLotValue,
     Parameter as BaseParameter,
     ComplaintModelType as BaseComplaintModelType,
-    plain_role, create_role, edit_role, view_role,
+    create_role, edit_role, view_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
