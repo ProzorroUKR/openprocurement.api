@@ -884,7 +884,6 @@ class BaseTender(SchematicsDocument, Model):
             raise ValidationError(u"procurementMethodDetails should be used with mode test")
 
 
-
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='open')  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
