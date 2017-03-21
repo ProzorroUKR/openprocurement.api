@@ -16,7 +16,6 @@ def includeme(config):
     config.add_request_method(tender_from_data)
     config.add_directive('add_tender_procurementMethodType',
                          register_tender_procurementMethodType)
-    print "init core"
     config.scan("openprocurement.tender.core.views")
 
     # search for plugins
