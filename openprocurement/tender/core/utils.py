@@ -216,6 +216,8 @@ def extract_tender(request):
 
 
 class isTender(object):
+    """ Route predicate. """
+
     def __init__(self, val, config):
         self.val = val
 
@@ -227,6 +229,15 @@ class isTender(object):
     def __call__(self, context, request):
         if request.tender is not None:
             return getattr(request.tender, 'procurementMethodType', None) == self.val
+        return False
+
+
+class SubscribersPicker(isTender):
+    """ Subscriber predicate. """
+
+    def __call__(self, event):
+        if event.tender is not None:
+            return getattr(event.tender, 'procurementMethodType', None) == self.val
         return False
 
 

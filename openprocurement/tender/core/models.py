@@ -934,7 +934,3 @@ class Tender(BaseTender):
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
         ])
         return acl
-
-    def initialize(self):
-        now = get_now()
-        self.date = now
