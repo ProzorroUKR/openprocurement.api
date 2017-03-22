@@ -447,15 +447,6 @@ class BaseTenderWebTest(BaseTWT):
         if self.initial_status != status:
             self.set_status(self.initial_status)
 
-    # def tearDownDS(self):
-        # SESSION.request = self._srequest
-
-    # def tearDown(self):
-        # if self.docservice:
-            # self.tearDownDS()
-        # del self.db[self.tender_id]
-        # super(BaseTenderWebTest, self).tearDown()
-
 
 class TenderContentWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
