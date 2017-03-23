@@ -27,7 +27,6 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
 
 
 class TenderComplaintResourceTest(TenderContentWebTest):
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     test_create_tender_complaint_invalid = snitch(create_tender_complaint_invalid)
     test_create_tender_complaint = snitch(create_tender_complaint)
@@ -39,13 +38,11 @@ class TenderComplaintResourceTest(TenderContentWebTest):
 
 class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     test_lot_award_create_tender_complaint = snitch(lot_award_create_tender_complaint)
 
 
 class TenderComplaintDocumentResourceTest(TenderContentWebTest):
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     def setUp(self):
         super(TenderComplaintDocumentResourceTest, self).setUp()

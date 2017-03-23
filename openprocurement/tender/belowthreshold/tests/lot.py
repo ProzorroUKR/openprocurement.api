@@ -45,7 +45,6 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
 
 
 class TenderLotResourceTest(TenderContentWebTest):
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     test_create_tender_lot = snitch(create_tender_lot)
@@ -60,7 +59,6 @@ class TenderLotResourceTest(TenderContentWebTest):
 
 class TenderLotFeatureResourceTest(TenderContentWebTest):
     initial_lots = 2 * test_lots
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     test_tender_value = snitch(tender_value)
     test_tender_features_invalid = snitch(tender_features_invalid)
@@ -69,7 +67,6 @@ class TenderLotFeatureResourceTest(TenderContentWebTest):
 class TenderLotBidResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_lots = test_lots
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_patch_tender_bid = snitch(patch_tender_bid)
@@ -77,7 +74,6 @@ class TenderLotBidResourceTest(TenderContentWebTest):
 
 class TenderLotFeatureBidResourceTest(TenderContentWebTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     def setUp(self):
         super(TenderLotFeatureBidResourceTest, self).setUp()
@@ -149,7 +145,7 @@ class TenderLotFeatureBidResourceTest(TenderContentWebTest):
 
 
 class TenderLotProcessTest(BaseTenderWebTest):
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
+
     test_proc_1lot_0bid = snitch(proc_1lot_0bid)
     test_proc_1lot_1bid = snitch(proc_1lot_1bid)
     test_proc_1lot_2bid = snitch(proc_1lot_2bid)
