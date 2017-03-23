@@ -19,6 +19,7 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
 
 
 class TenderQuestionResourceTest(TenderContentWebTest):
+
     test_create_tender_question_invalid = snitch(create_tender_question_invalid)
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
@@ -28,6 +29,7 @@ class TenderQuestionResourceTest(TenderContentWebTest):
 
 class TenderLotQuestionResourceTest(TenderContentWebTest):
     initial_lots = 2 * test_lots
+
     test_lot_create_tender_question = snitch(lot_create_tender_question)
     test_lot_patch_tender_question = snitch(lot_patch_tender_question)
 
