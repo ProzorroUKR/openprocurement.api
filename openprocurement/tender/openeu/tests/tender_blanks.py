@@ -11,7 +11,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.openeu.models import Tender
 
-#TenderTest
+# TenderTest
 
 
 def simple_add_tender(self):
@@ -35,7 +35,7 @@ def simple_add_tender(self):
 
     u.delete_instance(self.db)
 
-#TenderResourceTest
+# TenderResourceTest
 
 
 def empty_listing(self):
