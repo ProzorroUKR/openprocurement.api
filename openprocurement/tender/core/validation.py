@@ -224,3 +224,27 @@ def validate_LotValue_value(tender, relatedLot, value):
     if lot.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
         raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot")
 
+# tender
+def validate_tender_status_update_in_terminated_status(request):
+    tender = request.context
+    if request.authenticated_role != 'Administrator' and tender.status in ['complete', 'unsuccessful', 'cancelled']:
+        request.errors.add('body', 'data', 'Can\'t update tender in current ({}) status'.format(tender.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_tender_status_update_not_in_pre_qualificaton(request):
+    tender = request.context
+    data = request.validated['data']
+    if request.authenticated_role == 'tender_owner' and 'status' in data and data['status'] not in ['active.pre-qualification.stand-still', tender.status]:
+        request.errors.add('body', 'data', 'Can\'t update tender status')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# tender documents
+def validate_document_operation_in_not_allowed_period(request):
+    if request.authenticated_role != 'auction' and request.validated['tender_status'] != 'active.tendering' or \
+        request.authenticated_role == 'auction' and request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
+        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
+        request.errors.status = 403
+        raise error_handler(request.errors)
