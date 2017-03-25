@@ -19,6 +19,7 @@ def includeme(config):
                          register_tender_procurementMethodType)
     print "init core"
     config.scan("openprocurement.tender.core.views")
+    config.scan("openprocurement.tender.core.subscribers")
 
     # search for plugins
     settings = config.get_settings()
