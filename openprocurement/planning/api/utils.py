@@ -13,7 +13,7 @@ from couchdb.http import ResourceConflict
 from openprocurement.api.models import Revision
 from openprocurement.api.utils import (
     update_logging_context, context_unpack, get_revision_changes, get_now,
-    apply_data_patch
+    apply_data_patch, error_handler
 )
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.traversal import factory
@@ -91,22 +91,6 @@ def apply_patch(request, data=None, save=True, src=None):
         request.context.import_data(patch)
         if save:
             return save_plan(request)
-
-
-def error_handler(errors, request_params=True):
-    params = {
-        'ERROR_STATUS': errors.status
-    }
-    if request_params:
-        params['ROLE'] = str(errors.request.authenticated_role)
-        if errors.request.params:
-            params['PARAMS'] = str(dict(errors.request.params))
-    if errors.request.matchdict:
-        for x, j in errors.request.matchdict.items():
-            params[x.upper()] = j
-    LOGGER.info('Error on processing request "{}"'.format(dumps(errors, indent=4)),
-                extra=context_unpack(errors.request, {'MESSAGE_ID': 'error_handler'}, params))
-    return json_error(errors)
 
 
 opresource = partial(resource, error_handler=error_handler, factory=factory)
