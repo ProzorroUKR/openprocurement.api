@@ -129,17 +129,6 @@ class Tender(BaseTender):
             roles['{}_{}'.format(i.owner, i.owner_token)] = 'bid_owner'
         return roles
 
-    def initialize(self):
-        if not self.enquiryPeriod.startDate:
-            self.enquiryPeriod.startDate = get_now()
-        if not self.tenderPeriod.startDate:
-            self.tenderPeriod.startDate = self.enquiryPeriod.endDate
-        now = get_now()
-        self.date = now
-        if self.lots:
-            for lot in self.lots:
-                lot.date = now
-
     @serializable(serialize_when_none=False)
     def next_check(self):
         now = get_now()
