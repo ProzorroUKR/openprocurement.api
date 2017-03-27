@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import update_logging_context
+from openprocurement.api.utils import update_logging_context, error_handler
 from openprocurement.api.validation import validate_data
 from openprocurement.tender.belowthreshold.utils import  check_document
 
@@ -78,3 +78,11 @@ def validate_bid_documents(request):
             document = check_document(request, document, doc_type, route_kwargs)
             documents[doc_type].append(document)
     return documents
+
+# tender documents
+def validate_document_operation_in_not_allowed_tender_status(request):
+    if request.authenticated_role != 'auction' and request.validated['tender_status'] != 'active.enquiries' or \
+       request.authenticated_role == 'auction' and request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
+        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
+        request.errors.status = 403
+        raise error_handler(request.errors)
