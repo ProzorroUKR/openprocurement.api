@@ -4,13 +4,14 @@ from datetime import timedelta, time, datetime
 from couchdb_schematics.document import SchematicsDocument
 from schematics.transforms import whitelist, blacklist, export_loop
 # from iso8601 import parse_date
-from zope.interface import implementer, Interface
+from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from schematics.types import (StringType, FloatType, URLType,
                               BooleanType, BaseType, MD5Type)
+from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.models import (
     Revision, Organization, Model, Period,
     IsoDateTimeType, ListType, Document as BaseDocument, CPVClassification,
@@ -90,7 +91,7 @@ class Guarantee(Model):
     currency = StringType(required=True, default=u'UAH', max_length=3, min_length=3)  # The currency in 3-letter ISO 4217 format.
 
 
-class ITender(Interface):
+class ITender(IOPContent):
     """ Base tender marker interface """
 
 
