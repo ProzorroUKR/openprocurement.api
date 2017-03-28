@@ -73,7 +73,7 @@ test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["
 # test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
 
 
-from openprocurement.api.utils import VERSION, apply_data_patch
+from openprocurement.api.utils import apply_data_patch
 
 class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
