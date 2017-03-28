@@ -248,3 +248,33 @@ def validate_document_operation_in_not_allowed_period(request):
         request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
         request.errors.status = 403
         raise error_handler(request.errors)
+
+# bids
+def validate_bid_operation_not_in_tendering(request):
+    if request.validated['tender_status'] != 'active.tendering':
+        operation = 'add' if request.method == 'POST' else 'delete'
+        if request.authenticated_role != 'Administrator' and request.method in ('PUT', 'PATCH'):
+            operation = 'update'
+        request.errors.add('body', 'data', 'Can\'t {} bid in current ({}) tender status'.format(operation, request.validated['tender_status']))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_bid_operation_period(request):
+    tender = request.validated['tender']
+    if tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate:
+        operation = 'added' if request.method == 'POST' else 'deleted'
+        if request.authenticated_role != 'Administrator' and request.method in ('PUT', 'PATCH'):
+            operation = 'updated'
+        request.errors.add('body', 'data', 'Bid can be {} only during the tendering period: from ({}) to ({}).'.format(operation, tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# bid document
+def validate_bid_document_operation_period(request):
+    tender = request.validated['tender']
+    if request.validated['tender_status'] == 'active.tendering' and (tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate):
+        request.errors.add('body', 'data', 'Document can be {} only during the tendering period: from ({}) to ({}).'.format('added' if request.method == 'POST' else 'updated',
+            tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
+        request.errors.status = 403
+        raise error_handler(request.errors)
