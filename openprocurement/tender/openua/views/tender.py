@@ -89,9 +89,7 @@ class TenderUAResource(TenderResource):
                     self.request.errors.status = 403
                     return
 
-                event = TenderInitializeEvent(self.request.validated['tender'])
-                self.request.registry.notify(event)
-
+                self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
 
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
