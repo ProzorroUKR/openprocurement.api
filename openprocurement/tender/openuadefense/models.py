@@ -81,18 +81,6 @@ class Tender(BaseTender):
     procurementMethodType = StringType(default="aboveThresholdUA.defense")
     procuring_entity_kinds = ['defense']
 
-    def initialize(self):
-        endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self, True)
-        self.enquiryPeriod = EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
-                                                endDate=endDate,
-                                                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                                                clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
-        now = get_now()
-        self.date = now
-        if self.lots:
-            for lot in self.lots:
-                lot.date = now
-
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
         endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self, True)
