@@ -11,6 +11,7 @@ from openprocurement.tender.belowthreshold.utils import (
 
 from openprocurement.tender.core.validation import (
     validate_patch_tender_data,
+    validate_tender_status_update_in_terminated_status
 )
 
 
@@ -113,7 +114,7 @@ class TenderResource(APIResource):
             tender_data = self.context.serialize(self.context.status)
         return {'data': tender_data}
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_data, ), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_tender_data, validate_tender_status_update_in_terminated_status, ), permission='edit_tender')
     def patch(self):
         """Tender Edit (partial)
 
@@ -160,13 +161,8 @@ class TenderResource(APIResource):
                     ]
                 }
             }
-
         """
         tender = self.context
-        if self.request.authenticated_role != 'Administrator' and tender.status in ['complete', 'unsuccessful', 'cancelled']:
-            self.request.errors.add('body', 'data', 'Can\'t update tender in current ({}) status'.format(tender.status))
-            self.request.errors.status = 403
-            return
         if self.request.authenticated_role == 'chronograph':
             apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
             check_status(self.request)
