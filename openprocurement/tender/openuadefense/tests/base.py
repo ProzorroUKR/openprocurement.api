@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
 from datetime import timedelta
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import (
+    get_now,
+    apply_data_patch
+)
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.tender.openua.tests.base import (
     now,
@@ -77,9 +80,6 @@ test_features_tender_ua_data["tenderPeriod"] = {
 test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_data["items"][0]["deliveryDate"]
 test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["items"][0]["deliveryAddress"]
 # test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
-
-
-from openprocurement.api.utils import VERSION, apply_data_patch
 
 class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
