@@ -26,6 +26,7 @@ from openprocurement.tender.competitivedialogue.validation import (
 from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
 )
+from openprocurement.tender.core.events import TenderInitializeEvent
 
 
 @optendersresource(name='{}:Tender'.format(STAGE_2_UA_TYPE),
@@ -103,7 +104,8 @@ class TenderStage2UAResource(TenderUAResource):
                     self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
                     self.request.errors.status = 403
                     return
-                self.request.validated['tender'].initialize()
+                # import pdb; pdb.set_trace()
+                self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
 
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
@@ -195,7 +197,8 @@ class TenderStage2UEResource(TenderEUResource):
                     self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
                     self.request.errors.status = 403
                     return
-                self.request.validated['tender'].initialize()
+                # import pdb; pdb.set_trace()
+                self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
 
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])

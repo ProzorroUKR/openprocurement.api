@@ -23,6 +23,7 @@ from openprocurement.tender.openeu.constants import (
 from openprocurement.tender.competitivedialogue.constants import (
     MINIMAL_NUMBER_OF_BIDS
 )
+from openprocurement.tender.core.events import TenderInitializeEvent
 
 LOGGER = getLogger(__name__)
 
@@ -98,7 +99,8 @@ def patch_eu(self):
                     TENDERING_EXTRA_PERIOD))
                 self.request.errors.status = 403
                 return
-            self.request.validated['tender'].initialize()
+            # import pdb; pdb.set_trace()
+            self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
             self.request.validated['data']["enquiryPeriod"] = self.request.validated[
                 'tender'].enquiryPeriod.serialize()
 

@@ -22,3 +22,4 @@ def includeme(config):
     print "Init CD"
     config.scan("openprocurement.tender.competitivedialogue.views.stage1")
     config.scan("openprocurement.tender.competitivedialogue.views.stage2")
+    config.scan("openprocurement.tender.competitivedialogue.subscribers")
