@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import webtest
 from datetime import datetime, timedelta
 from copy import deepcopy
 from openprocurement.api.constants import SANDBOX_MODE
