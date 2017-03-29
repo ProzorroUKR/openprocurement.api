@@ -1307,7 +1307,7 @@ def invalid_bid_tender_lot(self):
     owner_token = response.json['access']['token']
 
     lots = []
-    for lot in self.test_lots * 2:
+    for lot in self.test_lots_data * 2:
         response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': lot})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')

@@ -54,7 +54,7 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
 class TenderLotResourceTest(BaseTenderContentWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
-    test_lots = test_lots
+    test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
@@ -91,7 +91,7 @@ class TenderLotFeatureResourceTest(BaseTenderContentWebTest):
 class TenderLotBidderResourceTest(BaseTenderContentWebTest):
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
-    test_bids = test_bids
+    test_bids_data = test_bids  # TODO: change attribute identifier
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
@@ -101,7 +101,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
-    test_bids = test_bids
+    test_bids_data = test_bids  # TODO: change attribute identifier
 
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
@@ -173,9 +173,9 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
 
 class TenderLotProcessTest(BaseTenderContentWebTest):
     setUp = BaseTenderContentWebTest.setUp
-    test_lots = test_lots
+    test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
-    test_bids = test_bids
+    test_bids_data = test_bids  # TODO: change attribute identifier
 
     test_1lot_0bid = snitch(one_lot_0bid)
     test_1lot_1bid = snitch(one_lot_1bid)

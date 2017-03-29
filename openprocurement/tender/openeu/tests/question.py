@@ -25,7 +25,7 @@ from openprocurement.tender.openeu.tests.questions_blanks import (
 class TenderQuestionResourceTest(BaseTenderContentWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
-    test_bids = test_bids
+    test_bids_data = test_bids
 
     test_create_tender_question_invalid = snitch(create_tender_question_invalid)
     test_create_tender_question = snitch(create_tender_question)
@@ -38,7 +38,7 @@ class TenderLotQuestionResourceTest(BaseTenderContentWebTest):
 
     initial_lots = 2 * test_lots
     initial_auth = ('Basic', ('broker', ''))
-    test_bids = test_bids
+    test_bids_data = test_bids
 
     test_create_tender_question = snitch(lot_create_tender_question)
     test_patch_tender_question = snitch(lot_patch_tender_question)

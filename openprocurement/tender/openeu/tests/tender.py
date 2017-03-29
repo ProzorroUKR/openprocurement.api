@@ -52,7 +52,7 @@ class TenderResourceTest(BaseTenderWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
-    test_lots = test_lots
+    test_lots_data = test_lots  # TODO: change attribute identifier
 
     test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)

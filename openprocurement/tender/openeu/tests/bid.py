@@ -44,7 +44,7 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
 class TenderBidResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'
     initial_auth = ('Basic', ('broker', ''))
-    test_bids = test_bids
+    test_bids_data = test_bids  # TODO: change attribute identifier
 
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
     test_create_tender_bidder = snitch(create_tender_bidder)
@@ -63,7 +63,7 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
     initial_data = test_features_tender_data
     initial_status = 'active.tendering'
     initial_auth = ('Basic', ('broker', ''))
-    test_bids = test_bids
+    test_bids_data = test_bids  # TODO: change attribute identificator
 
     test_features_bidder = snitch(features_bidder)
     test_features_bidder_invalid = snitch(features_bidder_invalid)
@@ -72,7 +72,7 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
 class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
     initial_status = 'active.tendering'
-    test_bids = test_bids
+    test_bids_data = test_bids  # TODO: change attribute identificator
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
