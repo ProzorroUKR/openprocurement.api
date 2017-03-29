@@ -2,12 +2,12 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
+
 from openprocurement.tender.openeu.tests.base import test_lots
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_bids,
 )
-
 from openprocurement.tender.openeu.tests.complaint_blanks import (
     # TenderComplaintDocumentResourceTest
     not_found,

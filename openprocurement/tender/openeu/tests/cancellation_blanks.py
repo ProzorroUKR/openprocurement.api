@@ -1147,5 +1147,3 @@ def patch_tender_cancellation_document(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
-
-

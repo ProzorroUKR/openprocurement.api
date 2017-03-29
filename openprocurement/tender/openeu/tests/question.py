@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import unittest
 
+from openprocurement.api.tests.base import snitch
+
+
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_bids,
     test_lots,
 )
-from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.openeu.tests.questions_blanks import (
     # TenderLotQuestionResourceTest
     lot_create_tender_question,

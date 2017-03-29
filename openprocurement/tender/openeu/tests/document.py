@@ -2,8 +2,8 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest
 
+from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest
 from openprocurement.tender.openeu.tests.document_blanks import (
     # TenderDocumentWithDSResourceTest
     create_tender_document_json_invalid,

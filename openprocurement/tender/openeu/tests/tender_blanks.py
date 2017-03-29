@@ -8,7 +8,9 @@ from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM
 )
 from openprocurement.api.utils import get_now
+
 from openprocurement.tender.belowthreshold.tests.base import test_organization
+
 from openprocurement.tender.openeu.models import Tender
 
 # TenderTest

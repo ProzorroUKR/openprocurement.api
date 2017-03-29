@@ -2,8 +2,8 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_bids
 
+from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_bids
 from openprocurement.tender.openeu.tests.chronograph_blanks import (
     # TenderComplaintSwitchResourceTest
     switch_to_complaint,

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 # TenderSwitchPreQualificationResourceTest

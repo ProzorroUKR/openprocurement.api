@@ -2,6 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
+
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 from openprocurement.tender.openeu.tests.base import (
@@ -9,7 +10,6 @@ from openprocurement.tender.openeu.tests.base import (
     test_bids,
     test_lots
 )
-
 from openprocurement.tender.openeu.tests.award_blanks import (
     # Tender2LotAwardDocumentResourceTest
     create_tender_2lot_award_document,

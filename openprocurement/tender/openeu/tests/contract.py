@@ -3,13 +3,14 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
+
 from openprocurement.tender.belowthreshold.tests.base import test_organization
+
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_data,
     test_bids
 )
-
 from openprocurement.tender.openeu.tests.contract_blanks import (
     # TenderContractDocumentResourceTest
     not_found,
@@ -25,6 +26,7 @@ from openprocurement.tender.openeu.tests.contract_blanks import (
     get_tender_contract,
     get_tender_contracts,
 )
+
 
 class TenderContractResourceTest(BaseTenderContentWebTest):
     #initial_data = tender_data

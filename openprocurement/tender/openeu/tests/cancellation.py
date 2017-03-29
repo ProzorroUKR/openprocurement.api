@@ -2,12 +2,12 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
+
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_bids,
     test_lots
 )
-
 from openprocurement.tender.openeu.tests.cancellation_blanks import (
     # TenderCancellationDocumentResourceTest
     not_found,
@@ -263,4 +263,3 @@ def suite():
 
 if __name__ == '__main__':
     unittest.main(defaultTest='suite')
-
