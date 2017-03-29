@@ -304,9 +304,9 @@ def validate_bid_document_operation_with_award(request):
 # lots
 def validate_lot_operation_not_in_allowed_status(request):
     tender = request.validated['tender']
-    operation = 'add' if request.method == 'POST' else 'update' if request.method == 'PATCH' else 'delete'
+    operations = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
     if tender.status not in ['active.tendering']:
-        request.errors.add('body', 'data', 'Can\'t {} lot in current ({}) tender status'.format(operation, tender.status))
+        request.errors.add('body', 'data', 'Can\'t {} lot in current ({}) tender status'.format(operations.get(request.method), tender.status))
         request.errors.status = 403
         raise error_handler(request.errors)
 
