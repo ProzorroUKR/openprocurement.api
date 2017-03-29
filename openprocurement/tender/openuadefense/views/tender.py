@@ -14,6 +14,7 @@ from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.tender.openuadefense.utils import check_status
 from openprocurement.tender.openuadefense.constants import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.core.events import TenderInitializeEvent
 
 
 @optendersresource(name='aboveThresholdUA.defense:Tender',
@@ -86,7 +87,7 @@ class TenderUAResource(TenderResource):
                     self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} working days'.format(TENDERING_EXTRA_PERIOD))
                     self.request.errors.status = 403
                     return
-                self.request.validated['tender'].initialize()
+                self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
 
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
