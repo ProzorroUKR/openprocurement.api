@@ -5,12 +5,18 @@ from openprocurement.api.utils import (
     update_file_content_type,
     json_view,
     context_unpack,
-    get_now
+    get_now,
+    error_handler
 )
 from openprocurement.api.validation import (
     validate_file_update,
     validate_file_upload,
     validate_patch_document_data,
+)
+from openprocurement.tender.core.validation import (
+    validate_bid_document_operation_period,
+    validate_bid_document_operation_with_award,
+    validate_bid_document_operation_in_not_allowed_status
 )
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -25,6 +31,12 @@ from openprocurement.tender.openeu.utils import (
 from openprocurement.tender.openua.views.bid_document import (
     TenderUaBidDocumentResource
 )
+from openprocurement.tender.openeu.validation import (
+    validate_update_bid_document_confidentiality,
+    validate_add_bid_document_not_in_allowed_status,
+    validate_update_bid_document_not_in_allowed_status
+)
+
 
 @optendersresource(name='aboveThresholdEU:Tender Bid Documents',
                    collection_path='/tenders/{tender_id}/bids/{bid_id}/documents',
@@ -45,14 +57,15 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
     @json_view(permission='view_tender')
     def collection_get(self):
         """Tender Bid Documents List"""
+        # TODO can't move validators because of self.view_forbidden_states
         if self.request.validated['tender_status'] in self.view_forbidden_states and self.request.authenticated_role != 'bid_owner':
             self.request.errors.add('body', 'data', 'Can\'t view bid documents in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if self.context.status in self.view_forbidden_bid_states and self.request.authenticated_role != 'bid_owner':
             self.request.errors.add('body', 'data', 'Can\'t view bid documents in current ({}) bid status'.format(self.context.status))
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if self.request.params.get('all', ''):
             collection_data = [i.serialize("restricted_view") if self._doc_access_restricted(i) else i.serialize("view")
                                for i in getattr(self.context, self.container)]
@@ -61,28 +74,11 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
                                            for i in getattr(self.context, self.container)]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
-    @json_view(validators=(validate_file_upload,), permission='edit_bid')
+    @json_view(validators=(validate_file_upload, validate_bid_document_operation_in_not_allowed_status, validate_bid_document_operation_period, validate_bid_document_operation_with_award,
+               validate_add_bid_document_not_in_allowed_status), permission='edit_bid')
     def collection_post(self):
         """Tender Bid Document Upload
         """
-        if self.request.validated['tender_status'] not in ['active.tendering', 'active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        tender = self.request.validated['tender']
-        if self.request.validated['tender_status'] == 'active.tendering' and (tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate):
-            self.request.errors.add('body', 'data', 'Document can be added only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
-            self.request.errors.status = 403
-            return
-        if self.request.validated['tender_status'] in ['active.qualification', 'active.awarded'] and \
-                not [i for i in self.request.validated['tender'].awards if i.status in ['pending', 'active'] and i.bid_id == self.request.validated['bid_id']]:
-            self.request.errors.add('body', 'data', 'Can\'t add document because award of bid is not in pending or active state')
-            self.request.errors.status = 403
-            return
-        if self.context.status in ['invalid', 'unsuccessful', 'deleted']:
-            self.request.errors.add('body', 'data', 'Can\'t add document to \'{}\' bid'.format(self.context.status))
-            self.request.errors.status = 403
-            return
         document = upload_file(self.request)
         getattr(self.context, self.container).append(document)
         if self.request.validated['tender_status'] == 'active.tendering':
@@ -98,22 +94,23 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
     @json_view(permission='view_tender')
     def get(self):
         """Tender Bid Document Read"""
+        # TODO can't move validators because of self.view_forbidden_states
         is_bid_owner = self.request.authenticated_role == 'bid_owner'
         if self.request.validated['tender_status'] in self.view_forbidden_states and not is_bid_owner:
             self.request.errors.add('body', 'data', 'Can\'t view bid document in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if self.request.validated['bid'].status in self.view_forbidden_bid_states and self.request.authenticated_role != 'bid_owner':
             self.request.errors.add('body', 'data', 'Can\'t view bid documents in current ({}) bid status'.format(self.request.validated['bid'].status))
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
 
         document = self.request.validated['document']
         if self.request.params.get('download'):
             if self._doc_access_restricted(document):
                 self.request.errors.add('body', 'data', 'Document download forbidden.')
                 self.request.errors.status = 403
-                return
+                raise error_handler(self.request.errors)
             else:
                 return get_file(self.request)
         document_data = document.serialize('restricted_view' if self._doc_access_restricted(document) else 'view')
@@ -121,33 +118,10 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
                                              for i in self.request.validated['documents'] if i.url != document.url]
         return {'data': document_data}
 
-    @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='edit_bid')
+    @json_view(content_type="application/json", validators=(validate_patch_document_data, validate_bid_document_operation_in_not_allowed_status, validate_bid_document_operation_period,
+               validate_bid_document_operation_with_award, validate_update_bid_document_confidentiality, validate_update_bid_document_not_in_allowed_status), permission='edit_bid')
     def patch(self):
         """Tender Bid Document Update"""
-        if self.request.validated['tender_status'] not in ['active.tendering', 'active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        tender = self.request.validated['tender']
-        if self.request.validated['tender_status'] == 'active.tendering' and (tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate):
-            self.request.errors.add('body', 'data', 'Document can be updated only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
-            self.request.errors.status = 403
-            return
-        if self.request.validated['tender_status'] in ['active.qualification', 'active.awarded'] and \
-                not [i for i in self.request.validated['tender'].awards if i.status in ['pending', 'active'] and i.bid_id == self.request.validated['bid_id']]:
-            self.request.errors.add('body', 'data', 'Can\'t update document because award of bid is not in pending or active state')
-            self.request.errors.status = 403
-            return
-        if self.request.validated['tender_status'] != 'active.tendering' and 'confidentiality' in self.request.validated['data']:
-            if self.context.confidentiality != self.request.validated['data']['confidentiality']:
-                self.request.errors.add('body', 'data', 'Can\'t update document confidentiality in current ({}) tender status'.format(self.request.validated['tender_status']))
-                self.request.errors.status = 403
-                return
-        bid = getattr(self.context, "__parent__")
-        if bid and bid.status in ['invalid', 'unsuccessful', 'deleted']:
-            self.request.errors.add('body', 'data', 'Can\'t update document data for \'{}\' bid'.format(bid.status))
-            self.request.errors.status = 403
-            return
         if self.request.validated['tender_status'] == 'active.tendering':
             self.request.validated['tender'].modified = False
         if apply_patch(self.request, src=self.request.context.serialize()):
@@ -156,33 +130,10 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_document_patch'}))
             return {'data': self.request.context.serialize("view")}
 
-    @json_view(validators=(validate_file_update,), permission='edit_bid')
+    @json_view(validators=(validate_file_update, validate_bid_document_operation_in_not_allowed_status, validate_bid_document_operation_period, validate_bid_document_operation_with_award,
+               validate_update_bid_document_confidentiality, validate_update_bid_document_not_in_allowed_status), permission='edit_bid')
     def put(self):
         """Tender Bid Document Update"""
-        if self.request.validated['tender_status'] not in ['active.tendering', 'active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        tender = self.request.validated['tender']
-        if self.request.validated['tender_status'] == 'active.tendering' and (tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate):
-            self.request.errors.add('body', 'data', 'Document can be updated only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
-            self.request.errors.status = 403
-            return
-        if self.request.validated['tender_status'] in ['active.qualification', 'active.awarded'] and \
-                not [i for i in self.request.validated['tender'].awards if i.status in ['pending', 'active'] and i.bid_id == self.request.validated['bid_id']]:
-            self.request.errors.add('body', 'data', 'Can\'t update document because award of bid is not in pending or active state')
-            self.request.errors.status = 403
-            return
-        if self.request.validated['tender_status'] != 'active.tendering' and 'confidentiality' in self.request.validated.get('data', {}):
-            if self.context.confidentiality != self.request.validated['data']['confidentiality']:
-                self.request.errors.add('body', 'data', 'Can\'t update document confidentiality in current ({}) tender status'.format(self.request.validated['tender_status']))
-                self.request.errors.status = 403
-                return
-        bid = getattr(self.context, "__parent__")
-        if bid and bid.status in ['invalid', 'unsuccessful', 'deleted']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in \'{}\' bid'.format(bid.status))
-            self.request.errors.status = 403
-            return
         document = upload_file(self.request)
         getattr(self.request.validated['bid'], self.container).append(document)
         if self.request.validated['tender_status'] == 'active.tendering':
