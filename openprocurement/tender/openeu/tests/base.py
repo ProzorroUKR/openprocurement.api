@@ -5,7 +5,7 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest as BaseBaseTenderWebTest
 )
-from openprocurement.api.utils import apply_data_patch,get_now
+from openprocurement.api.utils import apply_data_patch, get_now
 from openprocurement.tender.openeu.constants import (
     TENDERING_DAYS,
     TENDERING_DURATION,
