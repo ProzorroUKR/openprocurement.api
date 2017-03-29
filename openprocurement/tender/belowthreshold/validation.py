@@ -123,3 +123,104 @@ def validate_bid_document_operation_with_not_pending_award(request):
         request.errors.add('body', 'data', 'Can\'t {} document because award of bid is not in pending state'.format('add' if request.method == 'POST' else 'update'))
         request.errors.status = 403
         raise error_handler(request.errors)
+
+# question
+def validate_add_question(request):
+    tender = request.validated['tender']
+    if tender.status != 'active.enquiries' or tender.enquiryPeriod.startDate and get_now() < tender.enquiryPeriod.startDate or get_now() > tender.enquiryPeriod.endDate:
+        request.errors.add('body', 'data', 'Can add question only in enquiryPeriod')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_update_question(request):
+    tender = request.validated['tender']
+    if tender.status != 'active.enquiries':
+        request.errors.add('body', 'data', 'Can\'t update question in current ({}) tender status'.format(tender.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# lot
+def validate_lot_operation(request):
+    tender = request.validated['tender']
+    operation = 'add' if request.method == 'POST' else 'update' if request.method == 'PATCH' else 'delete'
+    if tender.status not in ['active.enquiries']:
+        request.errors.add('body', 'data', 'Can\'t {} lot in current ({}) tender status'.format(operation, tender.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# complaint
+def validate_add_complaint_not_in_allowed_tender_status(request):
+    tender = request.context
+    if tender.status not in ['active.enquiries', 'active.tendering']:
+        request.errors.add('body', 'data', 'Can\'t add complaint in current ({}) tender status'.format(tender.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_update_complaint_not_in_allowed_tender_status(request):
+    tender = request.validated['tender']
+    if tender.status not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
+        request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) tender status'.format(tender.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_update_complaint_not_in_allowed_status(request):
+    if request.context.status not in ['draft', 'claim', 'answered', 'pending']:
+        request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) status'.format(request.context.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# complaint document
+def validate_complaint_document_operation_not_in_allowed_status(request):
+    if request.validated['tender_status'] not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
+        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_complaint_document_update_not_by_author(request):
+    if request.authenticated_role != request.context.author:
+        request.errors.add('url', 'role', 'Can update document only author')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# award
+def validate_create_award_not_in_allowed_period(request):
+    tender = request.validated['tender']
+    if tender.status != 'active.qualification':
+        request.errors.add('body', 'data', 'Can\'t create award in current ({}) tender status'.format(tender.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_create_award_only_for_active_lot(request):
+    tender = request.validated['tender']
+    award = request.validated['award']
+    if any([i.status != 'active' for i in tender.lots if i.id == award.lotID]):
+        request.errors.add('body', 'data', 'Can create award only in active lot status')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# award complaint
+def validate_award_complaint_update_not_in_allowed_status(request):
+    if request.context.status not in ['draft', 'claim', 'answered', 'pending']:
+        request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) status'.format(request.context.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# contract
+def validate_contract_operation_not_in_allowed_status(request):
+    tender = request.validated['tender']
+    if tender.status not in ['active.qualification', 'active.awarded']:
+        request.errors.add('body', 'data', 'Can\'t {} contract in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', tender.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# contract document
+def validate_cancellation_document_operation_not_in_allowed_status(request):
+    if request.validated['tender_status'] in ['complete', 'cancelled', 'unsuccessful']:
+        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
+        request.errors.status = 403
+        raise error_handler(request.errors)
