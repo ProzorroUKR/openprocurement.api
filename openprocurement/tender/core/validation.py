@@ -270,6 +270,13 @@ def validate_bid_operation_period(request):
         request.errors.status = 403
         raise error_handler(request.errors)
 
+
+def validate_update_deleted_bid(request):
+    if request.context.status == 'deleted':
+        request.errors.add('body', 'bid', 'Can\'t update bid in ({}) status'.format(request.context.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
 # bid document
 def validate_bid_document_operation_period(request):
     tender = request.validated['tender']
@@ -278,3 +285,106 @@ def validate_bid_document_operation_period(request):
             tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
         request.errors.status = 403
         raise error_handler(request.errors)
+
+# for openua, openeu
+def validate_bid_document_operation_in_not_allowed_status(request):
+    if request.validated['tender_status'] not in ['active.tendering', 'active.qualification', 'active.awarded']:
+        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_bid_document_operation_with_award(request):
+    if request.validated['tender_status'] in ['active.qualification', 'active.awarded'] and \
+            not [i for i in request.validated['tender'].awards if i.status in ['pending', 'active'] and i.bid_id == request.validated['bid_id']]:
+        request.errors.add('body', 'data', 'Can\'t {} document because award of bid is not in pending or active state'.format('add' if request.method == 'POST' else 'update'))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# awards
+def validate_update_award_in_not_allowed_status(request):
+    tender = request.validated['tender']
+    if tender.status not in ['active.qualification', 'active.awarded']:
+        request.errors.add('body', 'data', 'Can\'t update award in current ({}) tender status'.format(tender.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_update_award_only_for_active_lots(request):
+    tender = request.validated['tender']
+    award = request.context
+    if any([i.status != 'active' for i in tender.lots if i.id == award.lotID]):
+        request.errors.add('body', 'data', 'Can update award only in active lot status')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# award complaint
+def validate_award_complaint_operation_not_in_allowed_status(request):
+    tender = request.validated['tender']
+    if tender.status not in ['active.qualification', 'active.awarded']:
+        request.errors.add('body', 'data', 'Can\'t {} complaint in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', tender.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_award_complaint_add_only_for_active_lots(request):
+    tender = request.validated['tender']
+    if any([i.status != 'active' for i in tender.lots if i.id == request.context.lotID]):
+        request.errors.add('body', 'data', 'Can add complaint only in active lot status')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_award_complaint_update_only_for_active_lots(request):
+    tender = request.validated['tender']
+    if any([i.status != 'active' for i in tender.lots if i.id == request.validated['award'].lotID]):
+        request.errors.add('body', 'data', 'Can update complaint only in active lot status')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_add_complaint_not_in_complaint_period(request):
+    if request.context.complaintPeriod and \
+       (request.context.complaintPeriod.startDate and request.context.complaintPeriod.startDate > get_now() or
+            request.context.complaintPeriod.endDate and request.context.complaintPeriod.endDate < get_now()):
+        request.errors.add('body', 'data', 'Can add complaint only in complaintPeriod')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# award complaint document
+def validate_award_complaint_document_operation_not_in_allowed_status(request):
+    if request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
+        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_award_complaint_document_operation_only_for_active_lots(request):
+    if any([i.status != 'active' for i in request.validated['tender'].lots if i.id == request.validated['award'].lotID]):
+        request.errors.add('body', 'data', 'Can {} document only in active lot status'.format('add' if request.method == 'POST' else 'update'))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# contract
+def validate_update_contract_only_for_active_lots(request):
+    tender = request.validated['tender']
+    if any([i.status != 'active' for i in tender.lots if i.id in [a.lotID for a in tender.awards if a.id == request.context.awardID]]):
+        request.errors.add('body', 'data', 'Can update contract only in active lot status')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_update_contract_value(request):
+    tender = request.validated['tender']
+    data = request.validated['data']
+    if data['value']:
+        for ro_attr in ('valueAddedTaxIncluded', 'currency'):
+            if data['value'][ro_attr] != getattr(request.context.value, ro_attr):
+                request.errors.add('body', 'data', 'Can\'t update {} for contract value'.format(ro_attr))
+                request.errors.status = 403
+                raise error_handler(request.errors)
+        award = [a for a in tender.awards if a.id == request.context.awardID][0]
+        if data['value']['amount'] > award.value.amount:
+            request.errors.add('body', 'data', 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount))
+            request.errors.status = 403
+            raise error_handler(request.errors)
