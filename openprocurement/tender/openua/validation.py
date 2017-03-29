@@ -32,3 +32,41 @@ def validate_patch_tender_ua_data(request):
                 raise error_handler(request.errors)
 
     return validate_data(request, type(request.tender), True, data)
+
+# bids
+def validate_update_bid_to_draft(request):
+    bid_status_to = request.validated['data'].get("status", request.context.status)
+    if request.context.status != 'draft' and bid_status_to == 'draft':
+        request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_update_bid_to_active_status(request):
+    bid_status_to = request.validated['data'].get("status", request.context.status)
+    if bid_status_to != request.context.status and bid_status_to != 'active':
+        request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# complaint documents
+def validate_complaint_author(request):
+    if request.authenticated_role != request.context.author:
+        request.errors.add('url', 'role', 'Can update document only author')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_complaint_document_operation_not_in_allowed_status(request):
+    if request.validated['tender_status'] not in ['active.tendering']:
+        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# contract
+def validate_contract_update_with_accepted_complaint(request):
+    tender = request.validated['tender']
+    if any([any([c.status == 'accepted' for c in i.complaints]) for i in tender.awards if i.lotID in [a.lotID for a in tender.awards if a.id == request.context.awardID]]):
+        request.errors.add('body', 'data', 'Can\'t update contract with accepted complaint')
+        request.errors.status = 403
+        raise error_handler(request.errors)
