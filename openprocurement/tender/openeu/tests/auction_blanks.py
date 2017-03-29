@@ -906,8 +906,8 @@ def patch_tender_2lot_auction(self):
     self.assertEqual(tender["bids"][1]['lotValues'][0]['participationUrl'], patch_data["bids"][0]['lotValues'][0]['participationUrl'])
     self.assertEqual(tender["lots"][0]['auctionUrl'], patch_data["lots"][0]['auctionUrl'])
 
-    self.app.authorization = ('Basic', ('token', ''))
-    response = self.app.post_json('/tenders/{}/cancellations'.format(self.tender_id), {'data': {
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
         'reason': 'cancellation reason',
         'status': 'active',
         "cancellationOf": "lot",
@@ -916,6 +916,9 @@ def patch_tender_2lot_auction(self):
     self.assertEqual(response.status, '201 Created')
 
     self.app.authorization = ('Basic', ('auction', ''))
+    for bid in patch_data['bids']:
+        # delete lotValues for cancelled lot in patch data
+        bid['lotValues'] = [bid['lotValues'][1]]
     response = self.app.patch_json('/tenders/{}/auction/{}'.format(self.tender_id, self.initial_lots[0]['id']), {'data': patch_data}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
