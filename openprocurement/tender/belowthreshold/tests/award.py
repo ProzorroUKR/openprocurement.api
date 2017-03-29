@@ -1587,7 +1587,7 @@ class TenderAwardComplaintDocumentResourceTest(TenderContentWebTest):
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
 
-        response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/{}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id),
+        response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token),
                                 status=404,
                                 upload_files=[('invalid_name', 'name.doc', 'content')])
         self.assertEqual(response.status, '404 Not Found')
@@ -1785,7 +1785,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(TenderContentWebTest):
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
 
-        response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/{}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id),
+        response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token),
                                 status=404,
                                 upload_files=[('invalid_name', 'name.doc', 'content')])
         self.assertEqual(response.status, '404 Not Found')

@@ -5,6 +5,7 @@ from openprocurement.api.utils import (
     json_view,
     set_ownership,
     APIResource,
+    error_handler
 )
 
 from openprocurement.tender.core.utils import (
@@ -20,6 +21,12 @@ from openprocurement.tender.belowthreshold.utils import (
     check_tender_status,
 )
 
+from openprocurement.tender.belowthreshold.validation import (
+    validate_update_complaint_not_in_allowed_status,
+    validate_add_complaint_not_in_allowed_tender_status,
+    validate_update_complaint_not_in_allowed_tender_status
+)
+
 
 @optendersresource(name='belowThreshold:Tender Complaints',
                    collection_path='/tenders/{tender_id}/complaints',
@@ -28,15 +35,11 @@ from openprocurement.tender.belowthreshold.utils import (
                    description="Tender complaints")
 class TenderComplaintResource(APIResource):
 
-    @json_view(content_type="application/json", validators=(validate_complaint_data,), permission='create_complaint')
+    @json_view(content_type="application/json", validators=(validate_complaint_data, validate_add_complaint_not_in_allowed_tender_status), permission='create_complaint')
     def collection_post(self):
         """Post a complaint
         """
         tender = self.context
-        if tender.status not in ['active.enquiries', 'active.tendering']:
-            self.request.errors.add('body', 'data', 'Can\'t add complaint in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
         complaint = self.request.validated['complaint']
         complaint.date = get_now()
         if complaint.status == 'claim':
@@ -70,19 +73,11 @@ class TenderComplaintResource(APIResource):
         """
         return {'data': self.context.serialize("view")}
 
-    @json_view(content_type="application/json", validators=(validate_patch_complaint_data,), permission='edit_complaint')
+    @json_view(content_type="application/json", validators=(validate_patch_complaint_data, validate_update_complaint_not_in_allowed_tender_status, validate_update_complaint_not_in_allowed_status), permission='edit_complaint')
     def patch(self):
         """Post a complaint resolution
         """
         tender = self.request.validated['tender']
-        if tender.status not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if self.context.status not in ['draft', 'claim', 'answered', 'pending']:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) status'.format(self.context.status))
-            self.request.errors.status = 403
-            return
         data = self.request.validated['data']
         # complaint_owner
         if self.request.authenticated_role == 'complaint_owner' and self.context.status in ['draft', 'claim', 'answered', 'pending'] and data.get('status', self.context.status) == 'cancelled':
@@ -108,7 +103,7 @@ class TenderComplaintResource(APIResource):
             if len(data.get('resolution', self.context.resolution)) < 20:
                 self.request.errors.add('body', 'data', 'Can\'t update complaint: resolution too short')
                 self.request.errors.status = 403
-                return
+                raise error_handler(self.request.errors)
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAnswered = get_now()
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'pending':
@@ -122,7 +117,7 @@ class TenderComplaintResource(APIResource):
         else:
             self.request.errors.add('body', 'data', 'Can\'t update complaint')
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if self.context.status not in ['draft', 'claim', 'answered', 'pending'] and tender.status in ['active.qualification', 'active.awarded']:
