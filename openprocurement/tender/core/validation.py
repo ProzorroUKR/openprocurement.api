@@ -4,6 +4,7 @@ from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context, error_handler # XXX tender context
 from schematics.exceptions import ValidationError
 
+OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
 
 def validate_tender_data(request):
     update_logging_context(request, {'tender_id': '__new__'})
@@ -304,9 +305,8 @@ def validate_bid_document_operation_with_award(request):
 # lots
 def validate_lot_operation_not_in_allowed_status(request):
     tender = request.validated['tender']
-    operations = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
     if tender.status not in ['active.tendering']:
-        request.errors.add('body', 'data', 'Can\'t {} lot in current ({}) tender status'.format(operations.get(request.method), tender.status))
+        request.errors.add('body', 'data', 'Can\'t {} lot in current ({}) tender status'.format(OPERATIONS.get(request.method), tender.status))
         request.errors.status = 403
         raise error_handler(request.errors)
 
