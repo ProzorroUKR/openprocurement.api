@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.views.question import TenderQuestionR
                    description="Tender questions")
 class TenderUaQuestionResource(TenderQuestionResource):
 
-    def validate_question(self, operation):
+    def validate_question(self, operation): # TODO - move validators (inherit from below with additional validator)
         tender = self.request.validated['tender']
         now = get_now()
         if operation == 'add' and (now < tender.enquiryPeriod.startDate or now > tender.enquiryPeriod.endDate):
