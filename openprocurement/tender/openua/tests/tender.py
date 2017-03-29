@@ -11,18 +11,14 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     simple_add_tender,
     # TenderUAResourceTest
     empty_listing,
-    listing_draft,
     listing_changes,
     listing_draft,
-    create_tender,
-    create_tender,
-    create_tender,
+    listing,
     patch_draft_invalid_json,
     create_tender,
     get_tender,
     tender_features_invalid,
     tender_features,
-    patch_tender_ua,
     patch_tender_ua,
     dateModified_tender,
     tender_not_found,
@@ -49,6 +45,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
     initial_data = test_tender_data
 
     test_empty_listing = snitch(empty_listing)
+    test_listing = snitch(listing)
     test_listing_draft = snitch(listing_draft)
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
