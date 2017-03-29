@@ -2,11 +2,14 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.limited.tests.base import (
-    test_tender_data, test_tender_negotiation_data,
-    test_tender_negotiation_quick_data, BaseTenderWebTest, test_lots,
-)
 
+from openprocurement.tender.limited.tests.base import (
+    BaseTenderWebTest,
+    test_lots,
+    test_tender_data,
+    test_tender_negotiation_data,
+    test_tender_negotiation_quick_data,
+)
 from openprocurement.tender.limited.tests.tender_blanks import (
     # TenderNegotiationQuickProcessTest
     tender_cause_quick,

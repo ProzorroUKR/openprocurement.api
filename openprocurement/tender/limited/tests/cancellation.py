@@ -2,10 +2,14 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.limited.tests.base import (
-    BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
-    test_tender_negotiation_quick_data, test_lots)
 
+from openprocurement.tender.limited.tests.base import (
+    BaseTenderContentWebTest,
+    test_lots,
+    test_tender_data,
+    test_tender_negotiation_data,
+    test_tender_negotiation_quick_data,
+)
 from openprocurement.tender.limited.tests.cancellation_blanks import (
     # TenderNegotiationLotsCancellationResourceTest
     create_tender_lots_cancellation,
@@ -15,7 +19,7 @@ from openprocurement.tender.limited.tests.cancellation_blanks import (
     cancel_tender,
     create_cancellation_on_tender_with_one_complete_lot,
     cancellation_on_not_active_lot,
-    #TenderCancellationDocumentResourceTest
+    # TenderCancellationDocumentResourceTest
     not_found,
     create_tender_cancellation_document,
     put_tender_cancellation_document,
@@ -71,7 +75,6 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
     test_create_tender_cancellation_document = snitch(create_tender_cancellation_document)
     test_put_tender_cancellation_document = snitch(put_tender_cancellation_document)
     test_patch_tender_cancellation_document = snitch(patch_tender_cancellation_document)
-
 
 
 class TenderNegotiationCancellationDocumentResourceTest(TenderCancellationDocumentResourceTest):

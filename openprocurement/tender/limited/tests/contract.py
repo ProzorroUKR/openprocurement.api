@@ -5,11 +5,12 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
-
 from openprocurement.tender.limited.tests.base import (
-    BaseTenderContentWebTest, test_tender_data,
+    BaseTenderContentWebTest,
+    test_lots,
+    test_tender_data,
     test_tender_negotiation_data,
-    test_tender_negotiation_quick_data, test_lots
+    test_tender_negotiation_quick_data
 )
 from openprocurement.tender.limited.tests.contract_blanks import (
     # TenderContractDocumentResourceTest

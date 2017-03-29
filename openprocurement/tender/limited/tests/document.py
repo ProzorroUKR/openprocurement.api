@@ -2,10 +2,12 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.limited.tests.base import (
-    BaseTenderContentWebTest, test_tender_data, test_tender_negotiation_data,
-    test_tender_negotiation_quick_data)
 
+from openprocurement.tender.limited.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_data,
+    test_tender_negotiation_data,
+    test_tender_negotiation_quick_data)
 from openprocurement.tender.limited.tests.document_blanks import (
     # TenderDocumentWithDSResourceTest
     create_tender_document_json_invalid,

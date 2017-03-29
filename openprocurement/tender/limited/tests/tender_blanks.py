@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from uuid import uuid4
+
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import ROUTE_PREFIX, CPV_ITEMS_CLASS_FROM
-from openprocurement.tender.limited.models import (NegotiationTender,
-                                                   NegotiationQuickTender,
-                                                   ReportingTender)
+
 from openprocurement.tender.belowthreshold.tests.base import test_organization
+
+
+from openprocurement.tender.limited.models import (
+    NegotiationTender,
+    NegotiationQuickTender,
+    ReportingTender
+)
 
 # AccreditationTenderTest
 
