@@ -13,6 +13,8 @@ from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
 )
 
+from openprocurement.tender.belowthreshold.validation import validate_lot_operation
+
 
 @optendersresource(name='belowThreshold:Tender Lots',
                    collection_path='/tenders/{tender_id}/lots',
@@ -21,15 +23,11 @@ from openprocurement.tender.core.utils import (
                    description="Tender lots")
 class TenderLotResource(APIResource):
 
-    @json_view(content_type="application/json", validators=(validate_lot_data,), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_lot_data, validate_lot_operation), permission='edit_tender')
     def collection_post(self):
         """Add a lot
         """
         tender = self.request.validated['tender']
-        if tender.status not in ['active.enquiries']:
-            self.request.errors.add('body', 'data', 'Can\'t add lot in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
         lot = self.request.validated['lot']
         lot.date = get_now()
         tender.lots.append(lot)
@@ -52,29 +50,20 @@ class TenderLotResource(APIResource):
         """
         return {'data': self.request.context.serialize("view")}
 
-    @json_view(content_type="application/json", validators=(validate_patch_lot_data,), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_lot_data, validate_lot_operation), permission='edit_tender')
     def patch(self):
         """Update of lot
         """
-        tender = self.request.validated['tender']
-        if tender.status not in ['active.enquiries']:
-            self.request.errors.add('body', 'data', 'Can\'t update lot in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
         if apply_patch(self.request, src=self.request.context.serialize()):
             self.LOGGER.info('Updated tender lot {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_patch'}))
             return {'data': self.request.context.serialize("view")}
 
-    @json_view(permission='edit_tender')
+    @json_view(permission='edit_tender', validators=(validate_lot_operation,))
     def delete(self):
         """Lot deleting
         """
         tender = self.request.validated['tender']
-        if tender.status not in ['active.enquiries']:
-            self.request.errors.add('body', 'data', 'Can\'t delete lot in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
         lot = self.request.context
         res = lot.serialize("view")
         tender.lots.remove(lot)
