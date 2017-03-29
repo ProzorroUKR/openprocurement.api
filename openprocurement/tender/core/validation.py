@@ -4,6 +4,7 @@ from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context, error_handler # XXX tender context
 from schematics.exceptions import ValidationError
 
+OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
 
 def validate_tender_data(request):
     update_logging_context(request, {'tender_id': '__new__'})
@@ -301,6 +302,29 @@ def validate_bid_document_operation_with_award(request):
         request.errors.status = 403
         raise error_handler(request.errors)
 
+# lots
+def validate_lot_operation_not_in_allowed_status(request):
+    tender = request.validated['tender']
+    if tender.status not in ['active.tendering']:
+        request.errors.add('body', 'data', 'Can\'t {} lot in current ({}) tender status'.format(OPERATIONS.get(request.method), tender.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# complaints
+def validate_complaint_operation_not_in_active_tendering(request):
+    tender = request.validated['tender']
+    if tender.status != 'active.tendering':
+        request.errors.add('body', 'data', 'Can\'t {} complaint in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', tender.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_complaint_update_not_in_allowed_status(request):
+    if request.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping']:
+        request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) status'.format(request.context.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
 # awards
 def validate_update_award_in_not_allowed_status(request):
     tender = request.validated['tender']
@@ -315,6 +339,15 @@ def validate_update_award_only_for_active_lots(request):
     award = request.context
     if any([i.status != 'active' for i in tender.lots if i.id == award.lotID]):
         request.errors.add('body', 'data', 'Can update award only in active lot status')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_update_award_with_accepted_complaint(request):
+    tender = request.validated['tender']
+    award = request.context
+    if any([any([c.status == 'accepted' for c in i.complaints]) for i in tender.awards if i.lotID == award.lotID]):
+        request.errors.add('body', 'data', 'Can\'t update award with accepted complaint')
         request.errors.status = 403
         raise error_handler(request.errors)
 
@@ -351,6 +384,13 @@ def validate_add_complaint_not_in_complaint_period(request):
         request.errors.status = 403
         raise error_handler(request.errors)
 
+
+def validate_update_complaint_not_in_allowed_complaint_status(request):
+    if request.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping']:
+        request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) status'.format(request.context.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
 # award complaint document
 def validate_award_complaint_document_operation_not_in_allowed_status(request):
     if request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
@@ -366,6 +406,13 @@ def validate_award_complaint_document_operation_only_for_active_lots(request):
         raise error_handler(request.errors)
 
 # contract
+def validate_contract_operation_not_in_allowed_status(request):
+    if request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
+        request.errors.add('body', 'data', 'Can\'t {} contract in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
 def validate_update_contract_only_for_active_lots(request):
     tender = request.validated['tender']
     if any([i.status != 'active' for i in tender.lots if i.id in [a.lotID for a in tender.awards if a.id == request.context.awardID]]):
