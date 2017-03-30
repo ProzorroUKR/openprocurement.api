@@ -3,16 +3,17 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.openeu.tests.base import (
-    BaseTenderContentWebTest,
-    test_features_tender_data,
-    test_bids
-)
+
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     test_lots
 )
 
+from openprocurement.tender.openeu.tests.base import (
+    BaseTenderContentWebTest,
+    test_features_tender_data,
+    test_bids
+)
 from openprocurement.tender.openeu.tests.auction_blanks import (
     # TenderFeaturesAuctionResourceTest
     get_tender_features_auction,

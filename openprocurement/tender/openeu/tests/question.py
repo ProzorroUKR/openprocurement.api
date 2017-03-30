@@ -3,7 +3,6 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_bids,
