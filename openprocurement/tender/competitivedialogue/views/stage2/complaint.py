@@ -3,6 +3,10 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.core.utils import (
     optendersresource
 )
+from openprocurement.tender.core.validation import (
+    validate_complaint_operation_not_in_active_tendering,
+    validate_update_complaint_not_in_allowed_complaint_status
+)
 from openprocurement.tender.openeu.views.complaint import (
     TenderEUComplaintResource
 )
@@ -25,11 +29,12 @@ from openprocurement.tender.competitivedialogue.validation import (
                    description="Competitive Dialogue stage2 EU complaints")
 class CompetitiveDialogueStage2EUComplaintResource(TenderEUComplaintResource):
 
-    @json_view(content_type="application/json", validators=(validate_complaint_data_stage2,), permission='create_complaint')
+    @json_view(content_type="application/json", validators=(validate_complaint_data_stage2, validate_complaint_operation_not_in_active_tendering), permission='create_complaint')
     def collection_post(self):
         return super(CompetitiveDialogueStage2EUComplaintResource, self).collection_post()
 
-    @json_view(content_type="application/json", validators=(validate_patch_complaint_data_stage2,), permission='edit_complaint')
+    @json_view(content_type="application/json", validators=(validate_patch_complaint_data_stage2,
+               validate_complaint_operation_not_in_active_tendering, validate_update_complaint_not_in_allowed_complaint_status), permission='edit_complaint')
     def patch(self):
         return super(CompetitiveDialogueStage2EUComplaintResource, self).patch()
 
@@ -41,10 +46,11 @@ class CompetitiveDialogueStage2EUComplaintResource(TenderEUComplaintResource):
                    description="Competitive Dialogue stage2 UA complaints")
 class CompetitiveDialogueStage2UAComplaintResource(TenderUaComplaintResource):
 
-    @json_view(content_type="application/json", validators=(validate_complaint_data_stage2,), permission='create_complaint')
+    @json_view(content_type="application/json", validators=(validate_complaint_data_stage2, validate_complaint_operation_not_in_active_tendering), permission='create_complaint')
     def collection_post(self):
         return super(CompetitiveDialogueStage2UAComplaintResource, self).collection_post()
 
-    @json_view(content_type="application/json", validators=(validate_patch_complaint_data_stage2,), permission='edit_complaint')
+    @json_view(content_type="application/json", validators=(validate_patch_complaint_data_stage2, validate_complaint_operation_not_in_active_tendering,
+               validate_update_complaint_not_in_allowed_complaint_status), permission='edit_complaint')
     def patch(self):
         return super(CompetitiveDialogueStage2UAComplaintResource, self).patch()
