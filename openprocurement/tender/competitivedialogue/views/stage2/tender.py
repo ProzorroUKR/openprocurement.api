@@ -2,13 +2,18 @@
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    get_now
+    get_now,
+    error_handler
 )
 from openprocurement.tender.core.utils import (
     optendersresource,
     save_tender,
     apply_patch,
     calculate_business_date
+)
+from openprocurement.tender.core.validation import (
+    validate_tender_status_update_in_terminated_status,
+    validate_tender_status_update_not_in_pre_qualificaton
 )
 from openprocurement.tender.openua.views.tender import TenderUAResource
 from openprocurement.tender.openeu.views.tender import TenderEUResource
@@ -36,7 +41,7 @@ from openprocurement.tender.core.events import TenderInitializeEvent
 class TenderStage2UAResource(TenderUAResource):
     """ Resource handler for tender stage 2 UA"""
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_stage2_data,),
+    @json_view(content_type="application/json", validators=(validate_patch_tender_stage2_data, validate_tender_status_update_in_terminated_status),
                permission='edit_tender')
     def patch(self):
         """Tender Edit (partial)
@@ -87,14 +92,9 @@ class TenderStage2UAResource(TenderUAResource):
 
         """
         tender = self.context
-        if self.request.authenticated_role != 'Administrator' and tender.status in ['complete',
-                                                                                    'unsuccessful',
-                                                                                    'cancelled']:
-            self.request.errors.add('body', 'data', 'Can\'t update tender in current ({}) status'.format(tender.status))
-            self.request.errors.status = 403
-            return
         data = self.request.validated['data']
 
+        # TODO use tender configurator instead of TENDERING_EXTRA_PERIOD and STAGE2_STATUS
         if self.request.authenticated_role == 'tender_owner' and \
                 self.request.validated['tender_status'] in ['active.tendering', STAGE2_STATUS]:
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
@@ -103,8 +103,7 @@ class TenderStage2UAResource(TenderUAResource):
                         self.request.validated['tender'].tenderPeriod.endDate:
                     self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
                     self.request.errors.status = 403
-                    return
-                # import pdb; pdb.set_trace()
+                    raise error_handler(self.request.errors)
                 self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
 
@@ -127,8 +126,8 @@ class TenderStage2UAResource(TenderUAResource):
 class TenderStage2UEResource(TenderEUResource):
     """ Resource handler for tender stage 2 EU"""
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_stage2_data,),
-               permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_tender_stage2_data, validate_tender_status_update_in_terminated_status,
+               validate_tender_status_update_not_in_pre_qualificaton), permission='edit_tender')
     def patch(self):
         """Tender Edit (partial)
 
@@ -178,16 +177,8 @@ class TenderStage2UEResource(TenderEUResource):
 
         """
         tender = self.context
-        if self.request.authenticated_role != 'Administrator' and tender.status in ['complete', 'unsuccessful',
-                                                                                    'cancelled']:
-            self.request.errors.add('body', 'data', 'Can\'t update tender in current ({}) status'.format(tender.status))
-            self.request.errors.status = 403
-            return
         data = self.request.validated['data']
-        if self.request.authenticated_role == 'tender_owner' and 'status' in data and data['status'] not in ['active.pre-qualification.stand-still', tender.status]:
-            self.request.errors.add('body', 'data', 'Can\'t update tender status')
-            self.request.errors.status = 403
-            return
+        # TODO use tender configurator instead of TENDERING_EXTRA_PERIOD and STAGE2_STATUS
         if self.request.authenticated_role == 'tender_owner' and \
                 self.request.validated['tender_status'] in ['active.tendering', STAGE2_STATUS]:
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
@@ -196,8 +187,7 @@ class TenderStage2UEResource(TenderEUResource):
                         self.request.validated['tender'].tenderPeriod.endDate:
                     self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
                     self.request.errors.status = 403
-                    return
-                # import pdb; pdb.set_trace()
+                    raise error_handler(self.request.errors)
                 self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
 
@@ -216,7 +206,7 @@ class TenderStage2UEResource(TenderEUResource):
             else:
                 self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
                 self.request.errors.status = 403
-                return
+                raise error_handler(self.request.errors)
 
         save_tender(self.request)
         self.LOGGER.info('Updated tender {}'.format(tender.id),
