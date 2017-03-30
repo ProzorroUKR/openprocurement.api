@@ -14,15 +14,13 @@ from openprocurement.tender.core.validation import (
     validate_patch_bid_data,
     validate_update_deleted_bid,
     validate_bid_operation_period,
-    validate_bid_operation_not_in_tendering
+    validate_bid_operation_not_in_tendering,
+    validate_bid_status_update_not_to_pending
 )
 from openprocurement.tender.openua.views.bid import (
     TenderUABidResource as BaseResource
 )
-from openprocurement.tender.openeu.validation import (
-    validate_view_bids_in_active_tendering,
-    validate_bid_status_update_not_to_pending
-)
+from openprocurement.tender.openeu.validation import validate_view_bids_in_active_tendering
 
 @optendersresource(name='aboveThresholdEU:Tender Bids',
                    collection_path='/tenders/{tender_id}/bids',
