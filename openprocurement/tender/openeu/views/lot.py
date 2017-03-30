@@ -10,6 +10,7 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.core.validation import (
     validate_lot_data,
+    validate_lot_operation_not_in_allowed_status
 )
 
 from openprocurement.tender.openua.views.lot import (
@@ -24,11 +25,11 @@ from openprocurement.tender.openua.views.lot import (
                    description="Tender EU lots")
 class TenderEULotResource(TenderLotResource):
 
-    @json_view(content_type="application/json", validators=(validate_lot_data,), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_lot_data, validate_lot_operation_not_in_allowed_status), permission='edit_tender')
     def collection_post(self):
         """Add a lot
         """
-        if not self.validate_update_tender('add'):
+        if not self.validate_update_tender():
             return
         lot = self.request.validated['lot']
         lot.date = get_now()

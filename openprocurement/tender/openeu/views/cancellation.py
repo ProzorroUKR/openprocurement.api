@@ -65,6 +65,10 @@ class TenderCancellationResource(BaseResource):
             add_next_award(self.request)
 
     def validate_cancellation(self, operation):
+        """ TODO move validators
+        This class is inherited in below package, but validate_cancellation function has different validators.
+        For now, we have no way to use different validators on methods according to procedure type.
+        """
         if not super(TenderCancellationResource, self).validate_cancellation(operation):
             return
         tender = self.request.validated['tender']
