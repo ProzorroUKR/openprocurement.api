@@ -34,7 +34,7 @@ class TenderLotNegotiationResourceTest(BaseTenderContentWebTest):
     initial_status = 'active'
     initial_data = test_tender_negotiation_data
     initial_bids = None  # test_bids
-    test_lots = test_lots
+    test_lots_data = test_lots  # TODO: change attribute identifier
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     test_create_tender_lot = snitch(create_tender_lot)

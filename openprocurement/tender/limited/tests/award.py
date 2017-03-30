@@ -96,7 +96,7 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
 class TenderNegotiationAwardResourceTest(TenderAwardResourceTest):
     initial_data = test_tender_negotiation_data
 
-    test_lots = test_lots
+    test_lots_data = test_lots  # TODO: change attribute identifier
 
     test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
     test_patch_active_not_qualified = snitch(patch_active_not_qualified)
@@ -106,7 +106,7 @@ class TenderNegotiationAwardResourceTest(TenderAwardResourceTest):
 class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
     initial_data = test_tender_negotiation_data = test_tender_negotiation_data
     test_tender_data = test_tender_data
-    test_lots = test_lots
+    test_lots_data = test_lots  # TODO: change attribute identifier
 
     test_create_award_with_lot = snitch(create_award_with_lot)
     test_create_tender_award_with_lot = snitch(create_tender_award_with_lot)

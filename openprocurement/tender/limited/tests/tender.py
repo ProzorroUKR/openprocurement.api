@@ -23,6 +23,7 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     # TenderNegotiationResourceTest
     field_relatedLot_negotiation,
     changing_tender_after_award,
+    initial_lot_date,
     # TenderResourceTest
     empty_listing,
     listing,
@@ -75,7 +76,7 @@ class TenderNegotiationQuickTest(TenderNegotiationTest):
 
 
 class TenderResourceTest(BaseTenderWebTest):
-    initial_data = test_tender_data
+    test_tender_data = test_tender_data  # TODO: change attribute identifier
 
     test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)
@@ -96,40 +97,12 @@ class TenderResourceTest(BaseTenderWebTest):
 
 class TenderNegotiationResourceTest(TenderResourceTest):
     initial_data = test_tender_negotiation_data
-    test_lots = test_lots
+    test_lots_data = test_lots  # TODO: change attribute identifier
 
     test_field_relatedLot = snitch(field_relatedLot_negotiation)
     test_changing_tender_after_award = snitch(changing_tender_after_award)
+    test_initial_lot_date = snitch(initial_lot_date)
 
-
-    def test_initial_lot_date(self):
-        # create tender were initial data has lots
-        lots = deepcopy(test_lots)*2
-        data = deepcopy(self.initial_data)
-        data['lots'] = lots
-        response = self.app.post_json('/tenders',
-                                      {"data": data})
-        tender_id = self.tender_id = response.json['data']['id']
-        owner_token = response.json['access']['token']
-
-        # check if initial lots have date
-        response = self.app.get('/tenders/{}'.format(tender_id))
-        lots =  response.json['data']['lots']
-        self.assertIn('date', lots[0])
-        self.assertIn('date', lots[1])
-
-        # create lot
-        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
-                                      {'data': test_lots[0]})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-
-        # check all lots has a initial date
-        response = self.app.get('/tenders/{}'.format(tender_id))
-        lots =  response.json['data']['lots']
-        self.assertIn('date', lots[0])
-        self.assertIn('date', lots[1])
-        self.assertIn('date', lots[2])
 
 class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):
     initial_data = test_tender_negotiation_quick_data

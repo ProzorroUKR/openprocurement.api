@@ -586,7 +586,7 @@ def patch_active_not_qualified(self):
 
 def create_two_awards_on_one_lot(self):
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     lot = response.json['data']
@@ -619,7 +619,7 @@ def create_two_awards_on_one_lot(self):
 
 def create_award_with_lot(self):
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
 
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -669,7 +669,7 @@ def create_award_with_lot(self):
 def create_tender_award_with_lot(self):
     # create lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
 
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -736,7 +736,7 @@ def create_tender_award_with_lot(self):
 def canceling_created_lot_award_and_create_new_one(self):
     # create lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
 
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -829,7 +829,7 @@ def canceling_created_lot_award_and_create_new_one(self):
 def patch_tender_lot_award(self):
     # create lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
 
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -1002,7 +1002,7 @@ def patch_tender_lot_award(self):
 def patch_tender_lot_award_unsuccessful(self):
     # create lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
 
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -1048,7 +1048,7 @@ def patch_tender_lot_award_unsuccessful(self):
 def get_tender_lot_award(self):
     # create lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
 
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -1092,13 +1092,13 @@ def two_lot_two_awards(self):
 
     # create lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
 
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     lot1 = response.json['data']
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
 
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -1144,7 +1144,7 @@ def two_lot_two_awards(self):
 
     # try create another lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]},
+                                  {'data': self.test_lots_data[0]},
                                   status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
@@ -1160,7 +1160,7 @@ def two_lot_two_awards(self):
 def cancel_award(self):
     # create lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
 
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -1201,7 +1201,7 @@ def cancel_award(self):
 
 def create_award_on_cancel_lot(self):
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     lot = response.json['data']
@@ -1232,7 +1232,7 @@ def create_award_on_cancel_lot(self):
 
 def patch_award_on_cancel_lot(self):
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     lot = response.json['data']

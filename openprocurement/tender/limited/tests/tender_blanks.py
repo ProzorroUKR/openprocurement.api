@@ -43,73 +43,73 @@ def create_tender_accreditation(self):
 
 
 def simple_add_tender(self):
-        u = ReportingTender(self.initial_data)
-        u.tenderID = "UA-X"
+    u = ReportingTender(self.initial_data)
+    u.tenderID = "UA-X"
 
-        assert u.id is None
-        assert u.rev is None
+    assert u.id is None
+    assert u.rev is None
 
-        u.store(self.db)
+    u.store(self.db)
 
-        assert u.id is not None
-        assert u.rev is not None
+    assert u.id is not None
+    assert u.rev is not None
 
-        fromdb = self.db.get(u.id)
+    fromdb = self.db.get(u.id)
 
-        assert u.tenderID == fromdb['tenderID']
-        assert u.doc_type == "Tender"
-        assert u.procurementMethodType == "reporting"
-        assert u.procurementMethodType == fromdb['procurementMethodType']
+    assert u.tenderID == fromdb['tenderID']
+    assert u.doc_type == "Tender"
+    assert u.procurementMethodType == "reporting"
+    assert u.procurementMethodType == fromdb['procurementMethodType']
 
-        u.delete_instance(self.db)
+    u.delete_instance(self.db)
 
 # TenderNegotiationTest
 
 
 def simple_add_tender_negotiation(self):
-        u = NegotiationTender(self.initial_data)
-        u.tenderID = "UA-X"
+    u = NegotiationTender(self.initial_data)
+    u.tenderID = "UA-X"
 
-        assert u.id is None
-        assert u.rev is None
+    assert u.id is None
+    assert u.rev is None
 
-        u.store(self.db)
+    u.store(self.db)
 
-        assert u.id is not None
-        assert u.rev is not None
+    assert u.id is not None
+    assert u.rev is not None
 
-        fromdb = self.db.get(u.id)
+    fromdb = self.db.get(u.id)
 
-        assert u.tenderID == fromdb['tenderID']
-        assert u.doc_type == "Tender"
-        assert u.procurementMethodType == "negotiation"
-        assert u.procurementMethodType == fromdb['procurementMethodType']
+    assert u.tenderID == fromdb['tenderID']
+    assert u.doc_type == "Tender"
+    assert u.procurementMethodType == "negotiation"
+    assert u.procurementMethodType == fromdb['procurementMethodType']
 
-        u.delete_instance(self.db)
+    u.delete_instance(self.db)
 
 # TenderNegotiationQuickTest
 
 
 def simple_add_tender_negotiation_quick(self):
-        u = NegotiationQuickTender(self.initial_data)
-        u.tenderID = "UA-X"
+    u = NegotiationQuickTender(self.initial_data)
+    u.tenderID = "UA-X"
 
-        assert u.id is None
-        assert u.rev is None
+    assert u.id is None
+    assert u.rev is None
 
-        u.store(self.db)
+    u.store(self.db)
 
-        assert u.id is not None
-        assert u.rev is not None
+    assert u.id is not None
+    assert u.rev is not None
 
-        fromdb = self.db.get(u.id)
+    fromdb = self.db.get(u.id)
 
-        assert u.tenderID == fromdb['tenderID']
-        assert u.doc_type == "Tender"
-        assert u.procurementMethodType == "negotiation.quick"
-        assert u.procurementMethodType == fromdb['procurementMethodType']
+    assert u.tenderID == fromdb['tenderID']
+    assert u.doc_type == "Tender"
+    assert u.procurementMethodType == "negotiation.quick"
+    assert u.procurementMethodType == fromdb['procurementMethodType']
 
-        u.delete_instance(self.db)
+    u.delete_instance(self.db)
 
 # TenderResourceTest
 
@@ -190,7 +190,6 @@ def listing(self):
         self.assertEqual(response.content_type, 'application/json')
         tenders.append(response.json['data'])
 
-
     ids = ','.join([i['id'] for i in tenders])
 
     while True:
@@ -202,8 +201,10 @@ def listing(self):
     self.assertEqual(len(response.json['data']), 3)
     self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
     self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
-    self.assertEqual(set([i['dateModified'] for i in response.json['data']]), set([i['dateModified'] for i in tenders]))
-    self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders]))
+    self.assertEqual(set([i['dateModified'] for i in response.json['data']]),
+                     set([i['dateModified'] for i in tenders]))
+    self.assertEqual([i['dateModified'] for i in response.json['data']],
+                     sorted([i['dateModified'] for i in tenders]))
 
     while True:
         response = self.app.get('/tenders?offset={}'.format(offset))
@@ -245,7 +246,8 @@ def listing(self):
     self.assertEqual(len(response.json['data']), 3)
     self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
     self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
-    self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders], reverse=True))
+    self.assertEqual([i['dateModified'] for i in response.json['data']],
+                     sorted([i['dateModified'] for i in tenders], reverse=True))
 
     response = self.app.get('/tenders?descending=1&limit=2')
     self.assertEqual(response.status, '200 OK')
@@ -262,9 +264,9 @@ def listing(self):
     self.assertNotIn('descending=1', response.json['prev_page']['uri'])
     self.assertEqual(len(response.json['data']), 0)
 
-    self.initial_data2 = self.initial_data.copy()
-    self.initial_data2['mode'] = 'test'
-    response = self.app.post_json('/tenders', {'data': self.initial_data2})
+    test_tender_data2 = self.initial_data.copy()
+    test_tender_data2['mode'] = 'test'
+    response = self.app.post_json('/tenders', {'data': test_tender_data2})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
 
@@ -281,16 +283,16 @@ def listing(self):
 
 
 def tender_award_create(self):
-    data = self.initial_data.copy()
-    award_id = "1234"*8
+    data = self.test_tender_data.copy()
+    award_id = "1234" * 8
     data['awards'] = [{'suppliers': [test_organization],
                        'subcontractingDetails': 'Details',
                        'status': 'pending',
                        'qualified': True,
                        'id': award_id}
-                       ]
+                      ]
 
-    data['contracts'] = [{'title': 'contract title', 'description': 'contract description', 'awardID' : award_id}]
+    data['contracts'] = [{'title': 'contract title', 'description': 'contract description', 'awardID': award_id}]
     response = self.app.post_json('/tenders', {'data': data})
     self.assertEqual(response.status, '201 Created')
     self.assertNotIn('contracts', response.json['data'])
@@ -321,8 +323,10 @@ def listing_changes(self):
     self.assertEqual(len(response.json['data']), 3)
     self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
     self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
-    self.assertEqual(set([i['dateModified'] for i in response.json['data']]), set([i['dateModified'] for i in tenders]))
-    self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders]))
+    self.assertEqual(set([i['dateModified'] for i in response.json['data']]),
+                     set([i['dateModified'] for i in tenders]))
+    self.assertEqual([i['dateModified'] for i in response.json['data']],
+                     sorted([i['dateModified'] for i in tenders]))
 
     response = self.app.get('/tenders?feed=changes&limit=2')
     self.assertEqual(response.status, '200 OK')
@@ -357,7 +361,8 @@ def listing_changes(self):
     self.assertEqual(len(response.json['data']), 3)
     self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
     self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
-    self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders], reverse=True))
+    self.assertEqual([i['dateModified'] for i in response.json['data']],
+                     sorted([i['dateModified'] for i in tenders], reverse=True))
 
     response = self.app.get('/tenders?feed=changes&descending=1&limit=2')
     self.assertEqual(response.status, '200 OK')
@@ -374,9 +379,9 @@ def listing_changes(self):
     self.assertNotIn('descending=1', response.json['prev_page']['uri'])
     self.assertEqual(len(response.json['data']), 0)
 
-    self.initial_data2 = self.initial_data.copy()
-    self.initial_data2['mode'] = 'test'
-    response = self.app.post_json('/tenders', {'data': self.initial_data2})
+    test_tender_data2 = self.initial_data.copy()
+    test_tender_data2['mode'] = 'test'
+    response = self.app.post_json('/tenders', {'data': test_tender_data2})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
 
@@ -398,11 +403,11 @@ def listing_draft(self):
     self.assertEqual(len(response.json['data']), 0)
 
     tenders = []
-    data = self.initial_data.copy()
+    data = self.test_tender_data.copy()
     data.update({'status': 'draft'})
 
     for i in range(3):
-        response = self.app.post_json('/tenders', {'data': self.initial_data})
+        response = self.app.post_json('/tenders', {'data': self.test_tender_data})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         tenders.append(response.json['data'])
@@ -421,8 +426,10 @@ def listing_draft(self):
     self.assertEqual(len(response.json['data']), 3)
     self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
     self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
-    self.assertEqual(set([i['dateModified'] for i in response.json['data']]), set([i['dateModified'] for i in tenders]))
-    self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders]))
+    self.assertEqual(set([i['dateModified'] for i in response.json['data']]),
+                     set([i['dateModified'] for i in tenders]))
+    self.assertEqual([i['dateModified'] for i in response.json['data']],
+                     sorted([i['dateModified'] for i in tenders]))
 
 
 def create_tender_invalid(self):
@@ -433,7 +440,8 @@ def create_tender_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description':
-            u"Content-Type header should be one of ['application/json']", u'location': u'header', u'name': u'Content-Type'}
+             u"Content-Type header should be one of ['application/json']", u'location': u'header',
+         u'name': u'Content-Type'}
     ])
 
     response = self.app.post(
@@ -443,7 +451,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description': u'No JSON object could be decoded',
-            u'location': u'body', u'name': u'data'}
+         u'location': u'body', u'name': u'data'}
     ])
 
     response = self.app.post_json(request_path, 'data', status=422)
@@ -452,7 +460,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description': u'Data not available',
-            u'location': u'body', u'name': u'data'}
+         u'location': u'body', u'name': u'data'}
     ])
 
     response = self.app.post_json(request_path, {'not_data': {}}, status=422)
@@ -461,7 +469,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description': u'Data not available',
-            u'location': u'body', u'name': u'data'}
+         u'location': u'body', u'name': u'data'}
     ])
 
     response = self.app.post_json(request_path, {'data': []}, status=422)
@@ -470,7 +478,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description': u'Data not available',
-            u'location': u'body', u'name': u'data'}
+         u'location': u'body', u'name': u'data'}
     ])
 
     response = self.app.post_json(request_path, {'data': {'procurementMethodType':'reporting',
@@ -483,60 +491,69 @@ def create_tender_invalid(self):
             u'body', u'name': u'invalid_field'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'procurementMethodType':'reporting',
+    response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'reporting',
                                                           'value': 'invalid_value'}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description': [
-            u'Please use a mapping for this field or Value instance instead of unicode.'], u'location': u'body', u'name': u'value'}
+            u'Please use a mapping for this field or Value instance instead of unicode.'], u'location': u'body',
+            u'name': u'value'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'procurementMethodType':'reporting',
+    response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'reporting',
                                                           'procurementMethod': 'invalid_value'}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertIn({u'description': [u"Value must be one of ['open', 'selective', 'limited']."], u'location': u'body', u'name': u'procurementMethod'}, response.json['errors'])
-    self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
-    self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}, response.json['errors'])
+    self.assertIn(
+        {u'description': [u"Value must be one of ['open', 'selective', 'limited']."], u'location': u'body',
+         u'name': u'procurementMethod'}, response.json['errors'])
+    self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'},
+                  response.json['errors'])
+    self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'},
+                  response.json['errors'])
 
-
-    data = self.initial_data["items"][0].pop("additionalClassifications")
+    data = self.test_tender_data["items"][0].pop("additionalClassifications")
     if get_now() > CPV_ITEMS_CLASS_FROM:
-        cpv_code = self.initial_data["items"][0]['classification']['id']
-        self.initial_data["items"][0]['classification']['id'] = '99999999-9'
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data["items"][0]["additionalClassifications"] = data
+        cpv_code = self.test_tender_data["items"][0]['classification']['id']
+        self.test_tender_data["items"][0]['classification']['id'] = '99999999-9'
+    response = self.app.post_json(request_path, {'data': self.test_tender_data}, status=422)
+    self.test_tender_data["items"][0]["additionalClassifications"] = data
     if get_now() > CPV_ITEMS_CLASS_FROM:
-        self.initial_data["items"][0]['classification']['id'] = cpv_code
+        self.test_tender_data["items"][0]['classification']['id'] = cpv_code
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [{u'additionalClassifications': [u'This field is required.']}], u'location': u'body', u'name': u'items'}
+        {u'description': [{u'additionalClassifications': [u'This field is required.']}], u'location': u'body',
+         u'name': u'items'}
     ])
 
-    data = self.initial_data["items"][0]["additionalClassifications"][0]["scheme"]
-    self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = 'Не ДКПП'
+    data = self.test_tender_data["items"][0]["additionalClassifications"][0]["scheme"]
+    self.test_tender_data["items"][0]["additionalClassifications"][0]["scheme"] = 'Не ДКПП'
     if get_now() > CPV_ITEMS_CLASS_FROM:
-        cpv_code = self.initial_data["items"][0]['classification']['id']
-        self.initial_data["items"][0]['classification']['id'] = '99999999-9'
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = data
+        cpv_code = self.test_tender_data["items"][0]['classification']['id']
+        self.test_tender_data["items"][0]['classification']['id'] = '99999999-9'
+    response = self.app.post_json(request_path, {'data': self.test_tender_data}, status=422)
+    self.test_tender_data["items"][0]["additionalClassifications"][0]["scheme"] = data
     if get_now() > CPV_ITEMS_CLASS_FROM:
-        self.initial_data["items"][0]['classification']['id'] = cpv_code
+        self.test_tender_data["items"][0]['classification']['id'] = cpv_code
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     if get_now() > CPV_ITEMS_CLASS_FROM:
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."]}], u'location': u'body', u'name': u'items'}
+            {u'description': [{u'additionalClassifications': [
+                u"One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."]}],
+             u'location': u'body', u'name': u'items'}
         ])
     else:
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."]}], u'location': u'body', u'name': u'items'}
+            {u'description': [{u'additionalClassifications': [
+                u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."]}],
+             u'location': u'body', u'name': u'items'}
         ])
 
     data = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
@@ -547,7 +564,8 @@ def create_tender_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': {u'contactPoint': {u'email': [u'telephone or email should be present']}}, u'location': u'body', u'name': u'procuringEntity'}
+        {u'description': {u'contactPoint': {u'email': [u'telephone or email should be present']}},
+         u'location': u'body', u'name': u'procuringEntity'}
     ])
 
     data = self.initial_data["items"][0].copy()
@@ -564,7 +582,7 @@ def create_tender_invalid(self):
         {u'description': [u'CPV group of items be identical'], u'location': u'body', u'name': u'items'}
     ])
 
-    data = deepcopy(self.initial_data)
+    data = deepcopy(self.test_tender_data)
     del data["items"][0]['deliveryDate']
     response = self.app.post_json(request_path, {'data': data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -579,12 +597,13 @@ def field_relatedLot(self):
     request_path = '/tenders'
     data = deepcopy(self.initial_data)
     data['items'][0]['relatedLot'] = uuid4().hex
-    response = self.app.post_json(request_path, {'data':data}, status=422)
+    response = self.app.post_json(request_path, {'data': data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'],  [
-        {u'description': [{u'relatedLot': [u'This option is not available']}], u'location': u'body', u'name': u'items'}])
+    self.assertEqual(response.json['errors'], [
+        {u'description': [{u'relatedLot': [u'This option is not available']}], u'location': u'body',
+         u'name': u'items'}])
 
 
 def create_tender_generated(self):
@@ -619,7 +638,8 @@ def create_tender_draft(self):
     owner_token = response.json['access']['token']
     self.assertEqual(tender['status'], 'draft')
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'value': {'amount': 100}}}, status=403)
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                   {'data': {'value': {'amount': 100}}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -627,7 +647,8 @@ def create_tender_draft(self):
         {u'description': u"Can't update tender in current (draft) status", u'location': u'body', u'name': u'data'}
     ])
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'status': 'active'}})
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                   {'data': {'status': 'active'}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
@@ -656,7 +677,7 @@ def create_tender(self):
         tender_set.remove(u'cause')
     if "negotiation" in self.initial_data['procurementMethodType']:
         tender_set.remove(u'causeDescription')
-    self.assertEqual(tender_set - set(self.initial_data), set(
+    self.assertEqual(tender_set - set(self.test_tender_data), set(
         [u'id', u'date', u'dateModified', u'owner', u'tenderID', u'status', u'procurementMethod']))
     self.assertIn(tender['id'], response.headers['Location'])
 
@@ -750,7 +771,8 @@ def patch_tender(self):
     self.assertEqual(new_tender, new_tender2)
     self.assertEqual(new_dateModified, new_dateModified2)
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'procuringEntity': {'kind': 'defense'}}})
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                   {'data': {'procuringEntity': {'kind': 'defense'}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotEqual(response.json['data']['procuringEntity']['kind'], 'defense')
@@ -779,21 +801,24 @@ def patch_tender(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(len(response.json['data']['items']), 1)
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'items': [{"classification": {
-        "scheme": "CPV",
-        "id": "55523100-3",
-        "description": "Послуги з харчування у школах"
-    }}]}})
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                   {'data': {'items': [{"classification": {
+                                       "scheme": "CPV",
+                                       "id": "55523100-3",
+                                       "description": "Послуги з харчування у школах"
+                                   }}]}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'items': [{"additionalClassifications": [
-        tender['items'][0]["additionalClassifications"][0] for i in range(3)
-    ]}]}})
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                   {'data': {'items': [{"additionalClassifications": [
+                                       tender['items'][0]["additionalClassifications"][0] for i in range(3)
+                                       ]}]}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'items': [{"additionalClassifications": tender['items'][0]["additionalClassifications"]}]}})
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {
+        'data': {'items': [{"additionalClassifications": tender['items'][0]["additionalClassifications"]}]}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
 
@@ -806,7 +831,7 @@ def patch_tender(self):
                                    {"data": {"qualified": True, "status": "active"}})
 
     response = self.app.get('/tenders/{}/contracts'.format(
-            tender['id']))
+        tender['id']))
     contract_id = response.json['data'][0]['id']
 
     response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
@@ -827,7 +852,8 @@ def patch_tender(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'complete')
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'status': 'active'}}, status=403)
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                   {'data': {'status': 'active'}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (complete) status")
@@ -895,7 +921,8 @@ def tender_Administrator_change(self):
     authorization = self.app.authorization
     self.app.authorization = ('Basic', ('administrator', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender['id']),
-                                   {'data': {'mode': u'test', 'procuringEntity': {"identifier": {"id": "00000000"}}}})
+                                   {'data': {'mode': u'test',
+                                             'procuringEntity': {"identifier": {"id": "00000000"}}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['mode'], u'test')
@@ -935,14 +962,14 @@ def changing_tender_after_award(self):
 
     # create lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     first_lot = response.json['data']
 
     # create second lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
-                                  {'data': self.test_lots[0]})
+                                  {'data': self.test_lots_data[0]})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
 
@@ -965,6 +992,36 @@ def changing_tender_after_award(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't update tender when there is at least one award.")
+
+
+def initial_lot_date(self):
+        # create tender were initial data has lots
+        lots = deepcopy(self.test_lots_data)*2
+        data = deepcopy(self.initial_data)
+        data['lots'] = lots
+        response = self.app.post_json('/tenders',
+                                      {"data": data})
+        tender_id = self.tender_id = response.json['data']['id']
+        owner_token = response.json['access']['token']
+
+        # check if initial lots have date
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        lots =  response.json['data']['lots']
+        self.assertIn('date', lots[0])
+        self.assertIn('date', lots[1])
+
+        # create lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+                                      {'data': self.test_lots_data[0]})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # check all lots has a initial date
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        lots =  response.json['data']['lots']
+        self.assertIn('date', lots[0])
+        self.assertIn('date', lots[1])
+        self.assertIn('date', lots[2])
 
 # TenderProcessTest
 
