@@ -13,8 +13,8 @@ from openprocurement.tender.openua.utils import (
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
-    validate_complaint_update_not_in_allowed_status,
-    validate_complaint_operation_not_in_active_tendering
+    validate_complaint_operation_not_in_active_tendering,
+    validate_update_complaint_not_in_allowed_complaint_status
 )
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -75,7 +75,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
                 }
             }
 
-    @json_view(content_type="application/json", validators=(validate_patch_complaint_data, validate_complaint_operation_not_in_active_tendering, validate_complaint_update_not_in_allowed_status), permission='edit_complaint')
+    @json_view(content_type="application/json", validators=(validate_patch_complaint_data, validate_complaint_operation_not_in_active_tendering, validate_update_complaint_not_in_allowed_complaint_status), permission='edit_complaint')
     def patch(self):
         """Post a complaint resolution
         """
