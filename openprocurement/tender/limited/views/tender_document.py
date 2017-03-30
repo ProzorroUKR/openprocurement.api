@@ -12,6 +12,7 @@ from openprocurement.api.validation import (
     validate_file_update, validate_file_upload, validate_patch_document_data
 )
 
+from openprocurement.tender.limited.validation import validate_operation_with_document_not_in_active_status
 
 @optendersresource(name='reporting:Tender Documents',
                    collection_path='/tenders/{tender_id}/documents',
@@ -33,13 +34,9 @@ class TenderDocumentResource(APIResource):
             ]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
-    @json_view(permission='upload_tender_documents', validators=(validate_file_upload,))
+    @json_view(permission='upload_tender_documents', validators=(validate_file_upload, validate_operation_with_document_not_in_active_status))
     def collection_post(self):
         """Tender Document Upload"""
-        if self.request.validated['tender_status'] != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
         document = upload_file(self.request)
         self.request.validated['tender'].documents.append(document)
         if save_tender(self.request):
@@ -64,13 +61,9 @@ class TenderDocumentResource(APIResource):
         ]
         return {'data': document_data}
 
-    @json_view(permission='upload_tender_documents', validators=(validate_file_update,))
+    @json_view(permission='upload_tender_documents', validators=(validate_file_update, validate_operation_with_document_not_in_active_status))
     def put(self):
         """Tender Document Update"""
-        if self.request.validated['tender_status'] != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
         document = upload_file(self.request)
         self.request.validated['tender'].documents.append(document)
         if save_tender(self.request):
@@ -78,13 +71,9 @@ class TenderDocumentResource(APIResource):
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_document_put'}))
             return {'data': document.serialize("view")}
 
-    @json_view(content_type="application/json", permission='upload_tender_documents', validators=(validate_patch_document_data,))
+    @json_view(content_type="application/json", permission='upload_tender_documents', validators=(validate_patch_document_data, validate_operation_with_document_not_in_active_status))
     def patch(self):
         """Tender Document Update"""
-        if self.request.validated['tender_status'] != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
             self.LOGGER.info('Updated tender document {}'.format(self.request.context.id),

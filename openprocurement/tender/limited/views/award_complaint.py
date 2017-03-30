@@ -4,13 +4,22 @@ from openprocurement.api.utils import (
     context_unpack,
     json_view,
     set_ownership,
+    error_handler
 )
+
 from openprocurement.tender.core.utils import (
     apply_patch, save_tender, optendersresource
 )
 
+from openprocurement.tender.core.validation import (
+    validate_add_complaint_not_in_complaint_period,
+    validate_update_complaint_not_in_allowed_complaint_status
+)
+
 from openprocurement.tender.limited.validation import (
-    validate_complaint_data, validate_patch_complaint_data
+    validate_complaint_data,
+    validate_patch_complaint_data,
+    validate_award_complaint_operation_not_in_active
 )
 
 from openprocurement.tender.belowthreshold.views.award_complaint import (
@@ -25,21 +34,12 @@ from openprocurement.tender.belowthreshold.views.award_complaint import (
                    description="Tender negotiation award complaints")
 class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
 
-    @json_view(content_type="application/json", permission='create_award_complaint', validators=(validate_complaint_data,))
+    @json_view(content_type="application/json", permission='create_award_complaint', validators=(validate_complaint_data, validate_award_complaint_operation_not_in_active,
+               validate_add_complaint_not_in_complaint_period))
     def collection_post(self):
         """Post a complaint for award
         """
         tender = self.request.validated['tender']
-        if tender.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t add complaint in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if self.context.complaintPeriod and \
-           (self.context.complaintPeriod.startDate and self.context.complaintPeriod.startDate > get_now() or
-                self.context.complaintPeriod.endDate and self.context.complaintPeriod.endDate < get_now()):
-            self.request.errors.add('body', 'data', 'Can add complaint only in complaintPeriod')
-            self.request.errors.status = 403
-            return
         complaint = self.request.validated['complaint']
         complaint.date = get_now()
         complaint.type = 'complaint'
@@ -65,19 +65,11 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
                 }
             }
 
-    @json_view(content_type="application/json", permission='edit_complaint', validators=(validate_patch_complaint_data,))
+    @json_view(content_type="application/json", permission='edit_complaint', validators=(validate_patch_complaint_data, validate_award_complaint_operation_not_in_active,
+               validate_update_complaint_not_in_allowed_complaint_status))
     def patch(self):
         """Post a complaint resolution for award
         """
-        tender = self.request.validated['tender']
-        if tender.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping']:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) status'.format(self.context.status))
-            self.request.errors.status = 403
-            return
         data = self.request.validated['data']
         complaintPeriod = self.request.validated['award'].complaintPeriod
         is_complaintPeriod = complaintPeriod.startDate < get_now() and complaintPeriod.endDate > get_now() if complaintPeriod.endDate else complaintPeriod.startDate < get_now()
@@ -125,7 +117,7 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
         else:
             self.request.errors.add('body', 'data', 'Can\'t update complaint')
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if save_tender(self.request):
