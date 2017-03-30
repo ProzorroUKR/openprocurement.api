@@ -42,14 +42,15 @@ class TenderUaComplaintResource(TenderComplaintResource):
         """
         tender = self.context
         complaint = self.request.validated['complaint']
-        # TODO use tender configurator instead of CLAIM_SUBMIT_TIME and COMPLAINT_SUBMIT_TIME
         if complaint.status == 'claim':
+             # TODO use tender configurator instead of CLAIM_SUBMIT_TIME and move validator out
             if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -CLAIM_SUBMIT_TIME, tender, True):
                 self.request.errors.add('body', 'data', 'Can submit claim not later than {0.days} days before tenderPeriod end'.format(CLAIM_SUBMIT_TIME))
                 self.request.errors.status = 403
                 raise error_handler(self.request.errors)
             complaint.dateSubmitted = get_now()
         elif complaint.status == 'pending':
+            # TODO use tender configurator instead of COMPLAINT_SUBMIT_TIME and move validator out
             if get_now() > tender.complaintPeriod.endDate:
                 self.request.errors.add('body', 'data', 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(COMPLAINT_SUBMIT_TIME))
                 self.request.errors.status = 403
