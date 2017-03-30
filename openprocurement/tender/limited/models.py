@@ -189,10 +189,6 @@ class Tender(BaseTender):
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
         ]
 
-    def initialize(self):
-        self.date = get_now()
-
-
 ReportingTender = Tender
 Item = BaseItem
 
