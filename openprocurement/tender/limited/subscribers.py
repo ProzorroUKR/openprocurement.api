@@ -12,18 +12,12 @@ def tender_init_handler_base(event):
 
 
 @subscriber(TenderInitializeEvent, procurementMethodType="reporting")
-def tender_init_handler_1(event):
-    """ initialization handler for tenders """
+def tender_init_handler_reporting(event):
+    """ initialization handler for tenders 'reporting'"""
     event.tender.date = get_now()
 
+# initialization handler for tenders 'negotiation'
+tender_init_handler_negotiation = subscriber(TenderInitializeEvent, procurementMethodType="negotiation")(tender_init_handler_base)
 
-@subscriber(TenderInitializeEvent, procurementMethodType="negotiation")
-def tender_init_handler_2(event):
-    """ initialization handler for tenders """
-    tender_init_handler_base(event)
-
-
-@subscriber(TenderInitializeEvent, procurementMethodType="negotiation.quick")
-def tender_init_handler_3(event):
-    """ initialization handler for tenders """
-    tender_init_handler_base(event)
+# initialization handler for tenders 'negotiation.quick'
+tender_init_handler_negotiation_quick = subscriber(TenderInitializeEvent, procurementMethodType="negotiation.quick")(tender_init_handler_base)
