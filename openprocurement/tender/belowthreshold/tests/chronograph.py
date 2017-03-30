@@ -6,7 +6,6 @@ from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTes
 
 
 class TenderSwitchTenderingResourceTest(TenderContentWebTest):
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_switch_to_tendering_by_tenderPeriod_startDate(self):
         self.set_status('active.tendering', {'status': 'active.enquiries', "tenderPeriod": {}})
@@ -23,7 +22,6 @@ class TenderSwitchTenderingResourceTest(TenderContentWebTest):
 class TenderSwitchQualificationResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids[:1]
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_switch_to_qualification(self):
         response = self.set_status('active.auction', {'status': self.initial_status})
@@ -38,7 +36,6 @@ class TenderSwitchQualificationResourceTest(TenderContentWebTest):
 class TenderSwitchAuctionResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_switch_to_auction(self):
         response = self.set_status('active.auction', {'status': self.initial_status})
@@ -51,7 +48,6 @@ class TenderSwitchAuctionResourceTest(TenderContentWebTest):
 
 class TenderSwitchUnsuccessfulResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_switch_to_unsuccessful(self):
         response = self.set_status('active.auction', {'status': self.initial_status})
@@ -66,22 +62,18 @@ class TenderSwitchUnsuccessfulResourceTest(TenderContentWebTest):
 
 class TenderLotSwitchQualificationResourceTest(TenderSwitchQualificationResourceTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
 
 class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
 
 class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
 
 class TenderAuctionPeriodResourceTest(TenderContentWebTest):
     initial_bids = test_bids
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_set_auction_period(self):
         self.set_status('active.tendering', {'status': 'active.enquiries'})
@@ -233,11 +225,9 @@ class TenderAuctionPeriodResourceTest(TenderContentWebTest):
 
 class TenderLotAuctionPeriodResourceTest(TenderAuctionPeriodResourceTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
 
 class TenderComplaintSwitchResourceTest(TenderContentWebTest):
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def test_switch_to_pending(self):
         response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
@@ -260,7 +250,7 @@ class TenderComplaintSwitchResourceTest(TenderContentWebTest):
 
     def test_switch_to_complaint(self):
         for status in ['invalid', 'resolved', 'declined']:
-            self.app.authorization = ('Basic', ('token', ''))
+            self.app.authorization = ('Basic', ('broker', ''))
             response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
                 'title': 'complaint title',
                 'description': 'complaint description',
@@ -270,7 +260,6 @@ class TenderComplaintSwitchResourceTest(TenderContentWebTest):
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.json['data']['status'], 'claim')
             complaint = response.json['data']
-
             response = self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint['id'], self.tender_token), {"data": {
                 "status": "answered",
                 "resolution": status * 4,
@@ -293,24 +282,26 @@ class TenderComplaintSwitchResourceTest(TenderContentWebTest):
 
 class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
 
 class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def setUp(self):
         super(TenderAwardComplaintSwitchResourceTest, self).setUp()
         # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
+        self.app.authorization = auth
 
     def test_switch_to_pending(self):
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id), {'data': {
+        token = self.initial_bids_tokens.values()[0]
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, token), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
             'author': test_organization,
@@ -319,7 +310,7 @@ class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.json['data']['status'], 'claim')
 
-        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "active"}})
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active")
@@ -334,14 +325,15 @@ class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
         self.assertEqual(response.json['data']['awards'][0]["complaints"][0]['status'], 'pending')
 
     def test_switch_to_complaint(self):
-        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "active"}})
+        token = self.initial_bids_tokens.values()[0]
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "active")
 
         for status in ['invalid', 'resolved', 'declined']:
-            self.app.authorization = ('Basic', ('token', ''))
-            response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id), {'data': {
+            self.app.authorization = ('Basic', ('broker', ''))
+            response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, token), {'data': {
                 'title': 'complaint title',
                 'description': 'complaint description',
                 'author': test_organization,
@@ -373,11 +365,12 @@ class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
 
 class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResourceTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('token', '')) # XXX TODO: broker
 
     def setUp(self):
         super(TenderAwardComplaintSwitchResourceTest, self).setUp()
         # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
             'suppliers': [test_organization],
             'status': 'pending',
@@ -386,6 +379,7 @@ class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResour
         }})
         award = response.json['data']
         self.award_id = award['id']
+        self.app.authorization = auth
 
 
 def suite():
