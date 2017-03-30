@@ -28,7 +28,7 @@ class TenderUaAwardComplaintDocumentResource(TenderAwardComplaintDocumentResourc
 
     def validate_complaint_document(self, operation):
         """ TODO move validators
-        This class is inherited in limited package, but validate_complaint_document function has different validators.
+        This class is inherited in limited and openeu (qualification complaint) package, but validate_complaint_document function has different validators.
         For now, we have no way to use different validators on methods according to procedure type.
         """
         if operation == 'update' and self.request.authenticated_role != self.context.author:
