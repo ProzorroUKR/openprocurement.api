@@ -3,11 +3,14 @@ from openprocurement.api.utils import (
     context_unpack,
     json_view,
     set_ownership,
-    get_now
+    get_now,
+    error_handler
 )
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
+    validate_award_complaint_add_only_for_active_lots,
+    validate_update_complaint_not_in_allowed_complaint_status
 )
 from openprocurement.tender.core.utils import (
     apply_patch,
@@ -18,6 +21,12 @@ from openprocurement.tender.openeu.views.award_complaint import (
 )
 from openprocurement.tender.openua.views.award_complaint import get_bid_id
 from openprocurement.tender.openeu.utils import qualifications_resource
+from openprocurement.tender.openeu.validation import (
+    validate_add_complaint_not_in_pre_qualification,
+    validate_update_complaint_not_in_pre_qualification,
+    validate_add_complaint_not_in_qualification_period,
+    validate_update_qualification_complaint_only_for_active_lots
+)
 
 
 @qualifications_resource(name='aboveThresholdEU:Tender Qualification Complaints',
@@ -30,25 +39,12 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
     def complaints_len(self, tender):
         return sum([len(i.complaints) for i in tender.awards], sum([len(i.complaints) for i in tender.qualifications], len(tender.complaints)))
 
-    @json_view(content_type="application/json", permission='create_qualification_complaint', validators=(validate_complaint_data,))
+    @json_view(content_type="application/json", permission='create_qualification_complaint', validators=(validate_complaint_data, validate_add_complaint_not_in_pre_qualification,
+               validate_award_complaint_add_only_for_active_lots, validate_add_complaint_not_in_qualification_period))
     def collection_post(self):
         """Post a complaint
         """
         tender = self.request.validated['tender']
-        if tender.status not in ['active.pre-qualification.stand-still']:
-            self.request.errors.add('body', 'data', 'Can\'t add complaint in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if any([i.status != 'active' for i in tender.lots if i.id == self.context.lotID]):
-            self.request.errors.add('body', 'data', 'Can add complaint only in active lot status')
-            self.request.errors.status = 403
-            return
-        if tender.qualificationPeriod and \
-           (tender.qualificationPeriod.startDate and tender.qualificationPeriod.startDate > get_now() or
-                tender.qualificationPeriod.endDate and tender.qualificationPeriod.endDate < get_now()):
-            self.request.errors.add('body', 'data', 'Can add complaint only in qualificationPeriod')
-            self.request.errors.status = 403
-            return
         complaint = self.request.validated['complaint']
         complaint.relatedLot = self.context.lotID
         complaint.date = get_now()
@@ -63,7 +59,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         if self.context.status == 'unsuccessful' and complaint.status == 'claim' and self.context.bidID != complaint.bid_id:
             self.request.errors.add('body', 'data', 'Can add claim only on unsuccessful qualification of your bid')
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
         set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
@@ -79,23 +75,12 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
                 }
             }
 
-    @json_view(content_type="application/json", permission='edit_complaint', validators=(validate_patch_complaint_data,))
+    @json_view(content_type="application/json", permission='edit_complaint', validators=(validate_patch_complaint_data, validate_update_complaint_not_in_pre_qualification,
+               validate_update_qualification_complaint_only_for_active_lots, validate_update_complaint_not_in_allowed_complaint_status))
     def patch(self):
         """Patch the complaint
         """
         tender = self.request.validated['tender']
-        if tender.status not in ['active.pre-qualification', 'active.pre-qualification.stand-still']:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if any([i.status != 'active' for i in tender.lots if i.id == self.request.validated['qualification'].lotID]):
-            self.request.errors.add('body', 'data', 'Can update complaint only in active lot status')
-            self.request.errors.status = 403
-            return
-        if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping']:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) status'.format(self.context.status))
-            self.request.errors.status = 403
-            return
         data = self.request.validated['data']
         is_qualificationPeriod = tender.qualificationPeriod.startDate < get_now() and (not tender.qualificationPeriod.endDate or tender.qualificationPeriod.endDate > get_now())
         # complaint_owner
@@ -111,7 +96,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             if self.request.validated['qualification'].status == 'unsuccessful' and self.request.validated['qualification'].bidID != self.context.bid_id:
                 self.request.errors.add('body', 'data', 'Can add claim only on unsuccessful qualification of your bid')
                 self.request.errors.status = 403
-                return
+                raise error_handler(self.request.errors)
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateSubmitted = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and is_qualificationPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == 'pending':
@@ -129,7 +114,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             if len(data.get('resolution', self.context.resolution)) < 20:
                 self.request.errors.add('body', 'data', 'Can\'t update complaint: resolution too short')
                 self.request.errors.status = 403
-                return
+                raise error_handler(self.request.errors)
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAnswered = get_now()
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('tendererAction', self.context.tendererAction) and data.get('status', self.context.status) == 'resolved':
@@ -161,7 +146,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         else:
             self.request.errors.add('body', 'data', 'Can\'t update complaint')
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if save_tender(self.request):

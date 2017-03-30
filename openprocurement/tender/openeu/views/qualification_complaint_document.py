@@ -11,6 +11,10 @@ from openprocurement.tender.openua.views.complaint_document import STATUS4ROLE
                          description="Tender qualification complaint documents")
 class TenderEUQualificationComplaintDocumentResource(TenderEUAwardComplaintDocumentResource):
     def validate_complaint_document(self, operation):
+        """ TODO move validators
+        This class is inherited from openua package, but validate_complaint_document function has different validators.
+        For now, we have no way to use different validators on methods according to procedure type.
+        """
         if operation == 'update' and self.request.authenticated_role != self.context.author:
             self.request.errors.add('url', 'role', 'Can update document only author')
             self.request.errors.status = 403

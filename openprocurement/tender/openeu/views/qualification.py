@@ -3,13 +3,16 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
+    error_handler
 )
 from openprocurement.tender.core.utils import (
     save_tender,
     apply_patch
 )
 from openprocurement.tender.openeu.validation import (
-    validate_patch_qualification_data
+    validate_patch_qualification_data,
+    validate_cancelled_qualification_update,
+    validate_qualification_update_not_in_pre_qualification
 )
 from openprocurement.tender.openeu.utils import (
     qualifications_resource,
@@ -36,7 +39,8 @@ class TenderQualificationResource(APIResource):
         """
         return {'data': self.request.validated['qualification'].serialize("view")}
 
-    @json_view(content_type="application/json", validators=(validate_patch_qualification_data,), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_qualification_data, validate_qualification_update_not_in_pre_qualification,
+               validate_cancelled_qualification_update), permission='edit_tender')
     def patch(self):
         """Post a qualification resolution
         """
@@ -53,21 +57,12 @@ class TenderQualificationResource(APIResource):
                     bid.status = status
                     return bid
         tender = self.request.validated['tender']
-        if tender.status not in ['active.pre-qualification']:
-            self.request.errors.add('body', 'data', 'Can\'t update qualification in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if self.request.context.status == 'cancelled':
-            self.request.errors.add('body', 'data', 'Can\'t update qualification in current cancelled qualification status')
-            self.request.errors.status = 403
-            return
-
         prev_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if prev_status != 'pending' and self.request.context.status != 'cancelled':
             self.request.errors.add('body', 'data', 'Can\'t update qualification status'.format(tender.status))
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if self.request.context.status == 'active':
             # approve related bid
             set_bid_status(tender, self.request.context.bidID, 'active', self.request.context.lotID)
