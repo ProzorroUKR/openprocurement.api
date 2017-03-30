@@ -189,10 +189,6 @@ class Tender(BaseTender):
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
         ]
 
-    def initialize(self):
-        self.date = get_now()
-
-
 ReportingTender = Tender
 Item = BaseItem
 
@@ -254,12 +250,6 @@ class Tender(ReportingTender):
     procuring_entity_kinds = ['general', 'special', 'defense']
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
 
-    def initialize(self):
-        self.date = get_now()
-        if self.lots:
-            for lot in self.lots:
-                lot.date = get_now()
-                
 NegotiationTender = Tender
 
 
