@@ -81,6 +81,7 @@ class BidModelType(ModelType):
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
+        orig_data = data
         while not isinstance(data['__parent__'], Tender):
             data = data['__parent__']
         if data['status'] in ('deleted', 'invalid', 'draft'):
@@ -91,7 +92,7 @@ def bids_validation_wrapper(validation_func):
         if request.method == "PATCH" and isinstance(tender, Tender) and request.authenticated_role == "tender_owner":
             # disable bids validation on tender PATCH requests as tender bids will be invalidated
             return
-        return validation_func(klass, data, value)
+        return validation_func(klass, orig_data, value)
     return validator
 
 
@@ -347,6 +348,10 @@ ConfidentialDocument = Document
 
 
 class Parameter(BaseParameter):
+
+    @bids_validation_wrapper
+    def validate_value(self, data, value):
+        BaseParameter._validator_functions['value'](self, data, value)
 
     @bids_validation_wrapper
     def validate_code(self, data, code):
@@ -612,12 +617,15 @@ class Tender(BaseTender):
         if self.status == 'active.tendering' and self.tenderPeriod.endDate and \
                 not has_unanswered_complaints(self) and not has_unanswered_questions(self):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
-        elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate and not any([
-            i.status in self.block_complaint_status
-            for q in self.qualifications
-            for i in q.complaints
-        ]):
-            checks.append(self.qualificationPeriod.endDate.astimezone(TZ))
+        elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate:
+            active_lots = [lot.id for lot in self.lots if lot.status == 'active'] if self.lots else [None]
+            if not any([
+                i.status in self.block_complaint_status
+                for q in self.qualifications
+                for i in q.complaints
+                if q.lotID in active_lots
+            ]):
+                checks.append(self.qualificationPeriod.endDate.astimezone(TZ))
         elif not self.lots and self.status == 'active.auction' and self.auctionPeriod and self.auctionPeriod.startDate and not self.auctionPeriod.endDate:
             if now < self.auctionPeriod.startDate:
                 checks.append(self.auctionPeriod.startDate.astimezone(TZ))
@@ -672,6 +680,10 @@ class Tender(BaseTender):
                 last_award_status = lot_awards[-1].status if lot_awards else ''
                 if not pending_complaints and not pending_awards_complaints and standStillEnds and last_award_status == 'unsuccessful':
                     checks.append(max(standStillEnds))
+        if self.status.startswith('active'):
+            for award in self.awards:
+                if award.status == 'active' and not any([i.awardID == award.id for i in self.contracts]):
+                    checks.append(award.date)
         return min(checks).isoformat() if checks else None
 
     def validate_tenderPeriod(self, data, period):
