@@ -2383,14 +2383,14 @@ class TenderAwardDocumentResourceTest(BaseTenderUAContentWebTest):
     def test_patch_not_author(self):
         authorization = self.app.authorization
         self.app.authorization = ('Basic', ('bot', 'bot'))
-        response = self.app.post('/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
-                                 upload_files = [('file', 'name.doc', 'content')])
+        response = self.app.post('/tenders/{}/awards/{}/documents'.format(self.tender_id, self.award_id),
+                                 upload_files=[('file', 'name.doc', 'content')])
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         doc_id = response.json["data"]['id']
         self.assertIn(doc_id, response.headers['Location'])
         self.app.authorization = authorization
-        response = self.app.patch_json('/tenders/{}/awards/{}/documents/{}'.format(self.tender_id, self.award_id, doc_id),
+        response = self.app.patch_json('/tenders/{}/awards/{}/documents/{}?acc_token={}'.format(self.tender_id, self.award_id, doc_id, self.tender_token),
                                        {"data": {"description": "document description"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
