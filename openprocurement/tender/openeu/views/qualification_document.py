@@ -25,6 +25,17 @@ from openprocurement.tender.openeu.utils import qualifications_resource
     description="Tender qualification documents")
 class TenderQualificationDocumentResource(APIResource):
 
+    def validate_award_document(self, operation):
+        if self.request.validated['tender_status'] != 'active.pre-qualification':
+            self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
+            self.request.errors.status = 403
+            return
+        if operation == 'update' and self.request.authenticated_role != (self.context.author or 'tender_owner'):
+            self.request.errors.add('url', 'role', 'Can {} document only author'.format(operation))
+            self.request.errors.status = 403
+            return
+        return True
+
     @json_view(permission='view_tender')
     def collection_get(self):
         """Tender Qualification Documents List"""
@@ -37,13 +48,11 @@ class TenderQualificationDocumentResource(APIResource):
             ]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
-    @json_view(permission='edit_tender', validators=(validate_file_upload,))
+    @json_view(permission='upload_tender_documents', validators=(validate_file_upload,))
     def collection_post(self):
         """Tender Qualification Document Upload
         """
-        if self.request.validated['tender_status'] != 'active.pre-qualification':
-            self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
+        if not self.validate_award_document('add'):
             return
         qualification = self.request.validated['qualification']
         if qualification.status != 'pending':
@@ -51,6 +60,7 @@ class TenderQualificationDocumentResource(APIResource):
             self.request.errors.status = 403
             return
         document = upload_file(self.request)
+        document.author = self.request.authenticated_role
         self.context.documents.append(document)
         if save_tender(self.request):
             self.LOGGER.info('Created tender qualification document {}'.format(document.id),
@@ -74,12 +84,10 @@ class TenderQualificationDocumentResource(APIResource):
         ]
         return {'data': document_data}
 
-    @json_view(validators=(validate_file_update,), permission='edit_tender')
+    @json_view(validators=(validate_file_update,), permission='upload_tender_documents')
     def put(self):
         """Tender Qualification Document Update"""
-        if self.request.validated['tender_status'] != 'active.pre-qualification':
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
+        if not self.validate_award_document('update'):
             return
         qualification = self.request.validated['qualification']
         if qualification.status != 'pending':
@@ -93,12 +101,10 @@ class TenderQualificationDocumentResource(APIResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_document_put'}))
             return {'data': document.serialize("view")}
 
-    @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='upload_tender_documents')
     def patch(self):
         """Tender Qualification Document Update"""
-        if self.request.validated['tender_status'] != 'active.pre-qualification':
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
+        if not self.validate_award_document('update'):
             return
         qualification = self.request.validated['qualification']
         if qualification.status != 'pending':
