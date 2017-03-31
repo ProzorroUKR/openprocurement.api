@@ -12,9 +12,9 @@ from openprocurement.tender.core.utils import (
     calculate_business_date
 )
 from openprocurement.tender.core.validation import (
+    validate_tender_period_extension,
     validate_tender_status_update_in_terminated_status,
-    validate_tender_status_update_not_in_pre_qualificaton,
-    validate_tender_period_extension_by_owner_in_tendering
+    validate_tender_status_update_not_in_pre_qualificaton
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openeu.utils import (
@@ -36,7 +36,7 @@ class TenderEUResource(TenderResource):
     """ Resource handler for TenderEU """
 
     @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data, validate_tender_status_update_in_terminated_status,
-               validate_tender_status_update_not_in_pre_qualificaton, validate_tender_period_extension_by_owner_in_tendering), permission='edit_tender')
+               validate_tender_status_update_not_in_pre_qualificaton), permission='edit_tender')
     def patch(self):
         """Tender Edit (partial)
 
@@ -86,9 +86,13 @@ class TenderEUResource(TenderResource):
 
         """
         tender = self.context
-
-        self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
-        self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
+        data = self.request.validated['data']
+        if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
+            if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
+                self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
+                validate_tender_period_extension(self.request)
+            self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
+            self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if self.request.authenticated_role == 'chronograph':
             check_status(self.request)
