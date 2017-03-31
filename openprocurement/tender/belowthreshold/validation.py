@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import update_logging_context, error_handler
 from openprocurement.api.validation import validate_data
+from openprocurement.tender.core.validation import OPERATIONS
 from openprocurement.tender.belowthreshold.utils import  check_document
 
 
@@ -83,7 +84,7 @@ def validate_bid_documents(request):
 def validate_document_operation_in_not_allowed_tender_status(request):
     if request.authenticated_role != 'auction' and request.validated['tender_status'] != 'active.enquiries' or \
        request.authenticated_role == 'auction' and request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
-        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
+        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(request.method), request.validated['tender_status']))
         request.errors.status = 403
         raise error_handler(request.errors)
 
@@ -113,14 +114,14 @@ def validate_view_bid_document(request):
 
 def validate_bid_document_operation_in_not_allowed_tender_status(request):
     if request.validated['tender_status'] not in ['active.tendering', 'active.qualification']:
-        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
+        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(request.method), request.validated['tender_status']))
         request.errors.status = 403
         raise error_handler(request.errors)
 
 
 def validate_bid_document_operation_with_not_pending_award(request):
     if request.validated['tender_status'] == 'active.qualification' and not [i for i in request.validated['tender'].awards if i.status == 'pending' and i.bid_id == request.validated['bid_id']]:
-        request.errors.add('body', 'data', 'Can\'t {} document because award of bid is not in pending state'.format('add' if request.method == 'POST' else 'update'))
+        request.errors.add('body', 'data', 'Can\'t {} document because award of bid is not in pending state'.format(OPERATIONS.get(request.method)))
         request.errors.status = 403
         raise error_handler(request.errors)
 
@@ -143,9 +144,8 @@ def validate_update_question(request):
 # lot
 def validate_lot_operation(request):
     tender = request.validated['tender']
-    operation = 'add' if request.method == 'POST' else 'update' if request.method == 'PATCH' else 'delete'
     if tender.status not in ['active.enquiries']:
-        request.errors.add('body', 'data', 'Can\'t {} lot in current ({}) tender status'.format(operation, tender.status))
+        request.errors.add('body', 'data', 'Can\'t {} lot in current ({}) tender status'.format(OPERATIONS.get(request.method), tender.status))
         request.errors.status = 403
         raise error_handler(request.errors)
 
@@ -175,7 +175,7 @@ def validate_update_complaint_not_in_allowed_status(request):
 # complaint document
 def validate_complaint_document_operation_not_in_allowed_status(request):
     if request.validated['tender_status'] not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
-        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
+        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(request.method), request.validated['tender_status']))
         request.errors.status = 403
         raise error_handler(request.errors)
 
@@ -183,6 +183,13 @@ def validate_complaint_document_operation_not_in_allowed_status(request):
 def validate_complaint_document_update_not_by_author(request):
     if request.authenticated_role != request.context.author:
         request.errors.add('url', 'role', 'Can update document only author')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+# auction
+def validate_auction_info_view(request):
+    if request.validated['tender_status'] != 'active.auction':
+        request.errors.add('body', 'data', 'Can\'t get auction info in current ({}) tender status'.format(request.validated['tender_status']))
         request.errors.status = 403
         raise error_handler(request.errors)
 
@@ -210,17 +217,9 @@ def validate_award_complaint_update_not_in_allowed_status(request):
         request.errors.status = 403
         raise error_handler(request.errors)
 
-# contract
-def validate_contract_operation_not_in_allowed_status(request):
-    tender = request.validated['tender']
-    if tender.status not in ['active.qualification', 'active.awarded']:
-        request.errors.add('body', 'data', 'Can\'t {} contract in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', tender.status))
-        request.errors.status = 403
-        raise error_handler(request.errors)
-
 # contract document
 def validate_cancellation_document_operation_not_in_allowed_status(request):
     if request.validated['tender_status'] in ['complete', 'cancelled', 'unsuccessful']:
-        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format('add' if request.method == 'POST' else 'update', request.validated['tender_status']))
+        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(request.method), request.validated['tender_status']))
         request.errors.status = 403
         raise error_handler(request.errors)
