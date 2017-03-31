@@ -2,7 +2,7 @@
 from openprocurement.tender.core.adapters import TenderConfigurator
 from openprocurement.tender.openeu.models import Tender
 from openprocurement.tender.openua.constants import (
-    TENDERING_EXTRA_PERIOD
+    TENDERING_EXTRA_PERIOD, STATUS4ROLE
 )
 from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION, PREQUALIFICATION_COMPLAINT_STAND_STILL
@@ -26,3 +26,6 @@ class TenderAboveThresholdEUConfigurator(TenderConfigurator):
 
     block_tender_complaint_status = model.block_tender_complaint_status
     block_complaint_status = model.block_complaint_status
+
+    # Dictionary with allowed complaint statuses for operations for each role
+    allowed_statuses_for_complaint_operations_for_roles = STATUS4ROLE
