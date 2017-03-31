@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.openeu.views.award_complaint_document import TenderEUAwardComplaintDocumentResource
 from openprocurement.tender.openeu.utils import qualifications_resource
-from openprocurement.tender.openua.views.complaint_document import STATUS4ROLE
+from openprocurement.tender.openua.constants import STATUS4ROLE
 
 
 @qualifications_resource(name='aboveThresholdEU:Tender Qualification Complaint Documents',
