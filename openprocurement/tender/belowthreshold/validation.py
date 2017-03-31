@@ -186,6 +186,14 @@ def validate_complaint_document_update_not_by_author(request):
         request.errors.status = 403
         raise error_handler(request.errors)
 
+
+def validate_role_and_status_for_add_complaint_document(request):
+    roles = request.content_configurator.allowed_statuses_for_complaint_operations_for_roles
+    if request.context.status not in roles.get(request.authenticated_role, []):
+        request.errors.add('body', 'data', 'Can\'t add document in current ({}) complaint status'.format(request.context.status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
 # auction
 def validate_auction_info_view(request):
     if request.validated['tender_status'] != 'active.auction':
