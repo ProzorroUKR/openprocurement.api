@@ -16,7 +16,7 @@ from openprocurement.api.validation import (
     validate_file_upload,
     validate_patch_document_data,
 )
-from openprocurement.tender.openua.views.complaint_document import STATUS4ROLE
+from openprocurement.tender.openua.constants import STATUS4ROLE
 
 
 @optendersresource(name='aboveThresholdUA:Tender Award Complaint Documents',
