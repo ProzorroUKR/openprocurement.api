@@ -1208,6 +1208,36 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['mode'], u'test')
 
+    def test_patch_not_author(self):
+        authorization = self.app.authorization
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+
+        response = self.app.post_json('/tenders', {'data': test_tender_stage2_data_eu})
+        self.assertEqual(response.status, '201 Created')
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+
+        self.set_tender_status(tender, response.json['access']['token'], 'draft.stage2')
+        response = self.set_tender_status(tender, response.json['access']['token'], 'active.tendering')
+
+        tender = response.json['data']
+
+        self.app.authorization = ('Basic', ('bot', 'bot'))
+
+        response = self.app.post('/tenders/{}/documents'.format(tender['id']),
+                                 upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.patch_json('/tenders/{}/documents/{}?acc_token={}'.format(tender['id'], doc_id, owner_token),
+                                       {"data": {"description": "document description"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can update document only author")
+
 
 class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
 
@@ -2382,6 +2412,36 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['mode'], u'test')
+
+    def test_patch_not_author(self):
+        authorization = self.app.authorization
+        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+
+        response = self.app.post_json('/tenders', {'data': test_tender_stage2_data_ua})
+        self.assertEqual(response.status, '201 Created')
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+
+        self.set_tender_status(tender, response.json['access']['token'], 'draft.stage2')
+        response = self.set_tender_status(tender, response.json['access']['token'], 'active.tendering')
+
+        tender = response.json['data']
+
+        self.app.authorization = ('Basic', ('bot', 'bot'))
+
+        response = self.app.post('/tenders/{}/documents'.format(tender['id']),
+                                 upload_files=[('file', 'name.doc', 'content')])
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+
+        self.app.authorization = authorization
+        response = self.app.patch_json('/tenders/{}/documents/{}?acc_token={}'.format(tender['id'], doc_id, owner_token),
+                                       {"data": {"description": "document description"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can update document only author")
 
 
 class TenderStage2UAProcessTest(BaseCompetitiveDialogUAStage2WebTest):
