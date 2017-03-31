@@ -84,7 +84,7 @@ class TenderQualificationDocumentResource(APIResource):
         ]
         return {'data': document_data}
 
-    @json_view(validators=(validate_file_update,), permission='edit_tender')
+    @json_view(validators=(validate_file_update,), permission='upload_tender_documents')
     def put(self):
         """Tender Qualification Document Update"""
         if not self.validate_award_document('update'):
