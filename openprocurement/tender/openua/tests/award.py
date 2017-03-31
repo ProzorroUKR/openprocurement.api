@@ -2386,7 +2386,7 @@ class TenderAwardDocumentResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         doc_id = response.json["data"]['id']
-        elf.assertIn(doc_id, response.headers['Location'])
+        self.assertIn(doc_id, response.headers['Location'])
         self.app.authorization = authorization
         response = self.app.patch_json('/tenders/{}/awards/{}/documents/{}'.format(self.tender_id, self.award_id, doc_id),
                                        {"data": {"description": "document description"}}, status=403)

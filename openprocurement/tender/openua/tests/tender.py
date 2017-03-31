@@ -1213,9 +1213,15 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertEqual(response.json['data']['mode'], u'test')
 
     def test_patch_not_author(self):
+        response = self.app.post_json('/tenders', {'data': test_tender_data})
+        self.assertEqual(response.status, '201 Created')
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+
         authorization = self.app.authorization
         self.app.authorization = ('Basic', ('bot', 'bot'))
-        response = self.app.post('/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+
+        response = self.app.post('/tenders/{}/documents'.format(tender['id']),
                                  upload_files=[('file', 'name.doc', 'content')])
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -1223,7 +1229,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
         self.assertIn(doc_id, response.headers['Location'])
 
         self.app.authorization = authorization
-        response = self.app.patch_json('/tenders/{}/awards/{}/documents/{}'.format(self.tender_id, self.award_id, doc_id),
+        response = self.app.patch_json('/tenders/{}/documents/{}?acc_token={}'.format(tender['id'], doc_id, owner_token),
                                        {"data": {"description": "document description"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
