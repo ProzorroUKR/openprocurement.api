@@ -91,6 +91,14 @@ roles = {
 }
 
 
+class ICDEUTender(ITender):
+    """ Marker interface for Competitive Dialogue EU tenders """
+
+
+class ICDUATender(ITender):
+    """ Marker interface for Competitive Dialogue UA tenders """
+
+
 class Document(ConfidentialDocument):
     """ Document model with new feature as Description of the decision to purchase """
 
@@ -199,7 +207,7 @@ class Lot(BaseLotEU):
 LotStage1 = Lot
 
 
-@implementer(ITender)
+@implementer(ICDEUTender)
 class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=CD_EU_TYPE)
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
@@ -271,7 +279,7 @@ class Firms(Model):
     lots = ListType(ModelType(LotId), default=list())
 
 
-@implementer(ITender)
+@implementer(ICDUATender)
 class Tender(CompetitiveDialogEU):
     procurementMethodType = StringType(default=CD_UA_TYPE)
     title_en = StringType()
