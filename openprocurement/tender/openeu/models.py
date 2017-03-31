@@ -80,6 +80,10 @@ pre_qualifications_role = (blacklist('owner_token', '_attachments', 'revisions')
 eu_auction_role = auction_role
 
 
+class IAboveThresholdEUTender(ITender):
+     """ Marker interface for aboveThresholdEU tenders """
+
+
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
         orig_data = data
@@ -531,7 +535,7 @@ class Qualification(Model):
                 raise ValidationError(u"lotID should be one of lots")
 
 
-@implementer(ITender)
+@implementer(IAboveThresholdEUTender)
 class Tender(BaseTender):
     """ OpenEU tender model """
     class Options:
