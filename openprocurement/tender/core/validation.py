@@ -244,14 +244,6 @@ def validate_tender_status_update_not_in_pre_qualificaton(request):
         raise error_handler(request.errors)
 
 
-def validate_tender_period_extension_by_owner_in_tendering(request):
-    data = request.validated['data']
-    if request.authenticated_role == 'tender_owner' and request.validated['tender_status'] == 'active.tendering':
-        if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
-            request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
-            validate_tender_period_extension(request)
-
-
 def validate_tender_period_extension(request):
     extra_period = request.content_configurator.tendering_period_extra
     tender = request.validated['tender']
