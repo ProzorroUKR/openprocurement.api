@@ -2359,6 +2359,7 @@ class TenderAwardDocumentResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
 
     def test_create_award_document_bot(self):
+        old = self.app.authorization
         self.app.authorization = ('Basic', ('bot', 'bot'))
         response = self.app.post('/tenders/{}/awards/{}/documents'.format(
             self.tender_id, self.award_id), upload_files=[('file', 'edr_request.yaml', 'content')])
@@ -2377,6 +2378,7 @@ class TenderAwardDocumentResourceTest(BaseTenderUAContentWebTest):
             self.assertIn('Signature=', tender['awards'][-1]['documents'][-1]["url"])
             self.assertIn('KeyID=', tender['awards'][-1]['documents'][-1]["url"])
             self.assertNotIn('Expires=', tender['awards'][-1]['documents'][-1]["url"])
+        self.app.authorization = old
 
     def test_patch_not_author(self):
         authorization = self.app.authorization
