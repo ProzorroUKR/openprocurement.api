@@ -12,12 +12,12 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.core.validation import (
     validate_update_contract_value,
-    validate_update_contract_only_for_active_lots
+    validate_update_contract_only_for_active_lots,
+    validate_contract_operation_not_in_allowed_status
 )
 from openprocurement.tender.belowthreshold.validation import (
     validate_contract_data,
-    validate_patch_contract_data,
-    validate_contract_operation_not_in_allowed_status
+    validate_patch_contract_data
 )
 from openprocurement.tender.belowthreshold.utils import (
     check_tender_status,
