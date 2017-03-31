@@ -36,7 +36,7 @@ class TenderEUResource(TenderResource):
     """ Resource handler for TenderEU """
 
     @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data, validate_tender_status_update_in_terminated_status,
-               validate_tender_status_update_not_in_pre_qualificaton), permission='edit_tender')
+               validate_tender_status_update_not_in_pre_qualificaton, ), permission='edit_tender')
     def patch(self):
         """Tender Edit (partial)
 
@@ -91,8 +91,9 @@ class TenderEUResource(TenderResource):
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
                 self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
                 validate_tender_period_extension(self.request)
-            self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
-            self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
+                self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
+                self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
+
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if self.request.authenticated_role == 'chronograph':
             check_status(self.request)
