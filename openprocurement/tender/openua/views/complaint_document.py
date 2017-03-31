@@ -21,12 +21,6 @@ from openprocurement.tender.openua.validation import (
     validate_complaint_document_operation_not_in_allowed_status
 )
 
-STATUS4ROLE = {
-    'complaint_owner': ['draft', 'answered', 'claim', 'pending', 'accepted', 'satisfied'],
-    'aboveThresholdReviewers': ['pending', 'accepted', 'stopping'],
-    'tender_owner': ['claim', 'pending', 'accepted', 'satisfied'],
-}
-
 
 @optendersresource(name='aboveThresholdUA:Tender Complaint Documents',
                    collection_path='/tenders/{tender_id}/complaints/{complaint_id}/documents',
