@@ -9,7 +9,6 @@ from openprocurement.tender.openeu.constants import (
 )
 
 
-
 class TenderAboveThresholdEUConfigurator(TenderConfigurator):
     """ AboveThresholdEU Tender configuration adapter """
 
