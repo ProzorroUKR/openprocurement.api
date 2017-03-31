@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.adapters import TenderConfigurator
+from openprocurement.tender.openua.models import Tender
+from openprocurement.tender.openua.constants import (
+    TENDER_PERIOD,
+)
 
 
 class TenderAboveThresholdUAConfigurator(TenderConfigurator):
     """ AboveThresholdUA Tender configuration adapter """
 
     name = "AboveThresholdUA Tender configurator"
+    model = Tender
+
+    # duration of tendering period. timedelta object.
+    tendering_period_duration = TENDER_PERIOD
+
+    block_tender_complaint_status = model.block_tender_complaint_status
+    block_complaint_status = model.block_complaint_status
