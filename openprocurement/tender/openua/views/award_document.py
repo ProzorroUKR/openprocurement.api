@@ -23,4 +23,8 @@ class TenderUaAwardDocumentResource(TenderAwardDocumentResource):
             self.request.errors.add('body', 'data', 'Can\'t {} document with accepted complaint')
             self.request.errors.status = 403
             return
+        if operation == 'update' and self.request.authenticated_role != (self.context.author or 'tender_owner'):
+            self.request.errors.add('url', 'role', 'Can update document only author')
+            self.request.errors.status = 403
+            return
         return True
