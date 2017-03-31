@@ -337,6 +337,14 @@ def validate_complaint_operation_not_in_active_tendering(request):
         request.errors.status = 403
         raise error_handler(request.errors)
 
+# complaints document
+def validate_status_and_role_for_complaint_document_operation(request):
+    roles = request.content_configurator.allowed_statuses_for_complaint_operations_for_roles
+    if request.validated['complaint'].status not in roles.get(request.authenticated_role, []):
+        request.errors.add('body', 'data', 'Can\'t {} document in current ({}) complaint status'.format(OPERATIONS.get(request.method), request.validated['complaint'].status))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
 # awards
 def validate_update_award_in_not_allowed_status(request):
     tender = request.validated['tender']
