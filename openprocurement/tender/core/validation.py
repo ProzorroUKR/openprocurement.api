@@ -2,6 +2,7 @@
 from openprocurement.api.validation import validate_data, validate_json_data
 from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context, error_handler # XXX tender context
+from openprocurement.tender.core.utils import calculate_business_date
 from schematics.exceptions import ValidationError
 
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
@@ -239,6 +240,23 @@ def validate_tender_status_update_not_in_pre_qualificaton(request):
     data = request.validated['data']
     if request.authenticated_role == 'tender_owner' and 'status' in data and data['status'] not in ['active.pre-qualification.stand-still', tender.status]:
         request.errors.add('body', 'data', 'Can\'t update tender status')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_tender_period_extension_by_owner_in_tendering(request):
+    data = request.validated['data']
+    if request.authenticated_role == 'tender_owner' and request.validated['tender_status'] == 'active.tendering':
+        if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
+            request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
+            validate_tender_period_extension(request)
+
+
+def validate_tender_period_extension(request):
+    extra_period = request.content_configurator.tendering_period_extra
+    tender = request.validated['tender']
+    if calculate_business_date(get_now(), extra_period, tender) > tender.tenderPeriod.endDate:
+        request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(extra_period))
         request.errors.status = 403
         raise error_handler(request.errors)
 
