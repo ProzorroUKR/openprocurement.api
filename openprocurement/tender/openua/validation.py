@@ -1,5 +1,6 @@
 from openprocurement.api.validation import validate_data, validate_json_data
-from openprocurement.api.utils import apply_data_patch, error_handler
+from openprocurement.api.utils import apply_data_patch, error_handler, get_now
+from openprocurement.tender.core.utils import calculate_business_date
 
 
 def validate_patch_tender_ua_data(request):
@@ -48,6 +49,25 @@ def validate_update_bid_to_active_status(request):
         request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
         request.errors.status = 403
         raise error_handler(request.errors)
+
+# complaint
+def validate_submit_claim(request):
+    tender = request.context
+    claim_submit_time = request.content_configurator.tender_claim_submit_time
+    if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -claim_submit_time, tender):
+        request.errors.add('body', 'data', 'Can submit claim not later than {0.days} days before tenderPeriod end'.format(claim_submit_time))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_submit_complaint(request):
+    complaint_submit_time = request.content_configurator.tender_complaint_submit_time
+    tender = request.context
+    if get_now() > tender.complaintPeriod.endDate:
+        request.errors.add('body', 'data', 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(complaint_submit_time))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
 
 # complaint documents
 def validate_complaint_author(request):
