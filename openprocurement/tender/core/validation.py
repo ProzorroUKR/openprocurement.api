@@ -338,7 +338,7 @@ def validate_complaint_operation_not_in_active_tendering(request):
         raise error_handler(request.errors)
 
 
-def validate_submit_complaint(request):
+def validate_submit_complaint_time(request):
     complaint_submit_time = request.content_configurator.tender_complaint_submit_time
     tender = request.context
     if get_now() > tender.complaintPeriod.endDate:
