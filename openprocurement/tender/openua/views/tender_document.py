@@ -22,7 +22,10 @@ from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 class TenderUaDocumentResource(TenderDocumentResource):
 
     def validate_update_tender(self):
-        # TODO use tender configurator instead of TENDERING_EXTRA_PERIOD
+        """ TODO move validators
+        This class is inherited in cd stage 2 package, but validate_update_tender function has different validators.
+        For now, we have no way to use different validators on methods according to procedure type.
+        """
         if self.request.validated['tender_status'] == 'active.tendering' and calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated['tender']) > self.request.validated['tender'].tenderPeriod.endDate:
             self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
             self.request.errors.status = 403
