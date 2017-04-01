@@ -11,7 +11,7 @@ def validate_tender_period_extension_with_working_days(request):
         request.errors.status = 403
         raise error_handler(request.errors)
 
-def validate_submit_claim(request):
+def validate_submit_claim_time(request):
     tender = request.context
     claim_submit_time = request.content_configurator.tender_claim_submit_time
     if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -claim_submit_time, tender, True):
