@@ -3,7 +3,7 @@ from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.views.award_complaint_document import (
     TenderUaAwardComplaintDocumentResource
 )
-from openprocurement.tender.openua.views.complaint_document import STATUS4ROLE
+from openprocurement.tender.openua.constants import STATUS4ROLE
 
 
 @optendersresource(name='negotiation:Tender Award Complaint Documents',
