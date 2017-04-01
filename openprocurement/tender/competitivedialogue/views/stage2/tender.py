@@ -12,6 +12,7 @@ from openprocurement.tender.core.utils import (
     calculate_business_date
 )
 from openprocurement.tender.core.validation import (
+    validate_tender_period_extension,
     validate_tender_status_update_in_terminated_status,
     validate_tender_status_update_not_in_pre_qualificaton
 )
@@ -23,7 +24,6 @@ from openprocurement.tender.openeu.constants import (
 from openprocurement.tender.openeu.utils import (
     check_status as check_status_eu, all_bids_are_reviewed
 )
-from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 from openprocurement.tender.openua.utils import check_status as check_status_ua
 from openprocurement.tender.competitivedialogue.validation import (
     validate_patch_tender_stage2_data
@@ -94,16 +94,11 @@ class TenderStage2UAResource(TenderUAResource):
         tender = self.context
         data = self.request.validated['data']
 
-        # TODO use tender configurator instead of TENDERING_EXTRA_PERIOD and STAGE2_STATUS
         if self.request.authenticated_role == 'tender_owner' and \
                 self.request.validated['tender_status'] in ['active.tendering', STAGE2_STATUS]:
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
                 self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
-                if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, context=tender) > \
-                        self.request.validated['tender'].tenderPeriod.endDate:
-                    self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
-                    self.request.errors.status = 403
-                    raise error_handler(self.request.errors)
+                validate_tender_period_extension(self.request)
                 self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
 
@@ -178,16 +173,11 @@ class TenderStage2UEResource(TenderEUResource):
         """
         tender = self.context
         data = self.request.validated['data']
-        # TODO use tender configurator instead of TENDERING_EXTRA_PERIOD and STAGE2_STATUS
         if self.request.authenticated_role == 'tender_owner' and \
                 self.request.validated['tender_status'] in ['active.tendering', STAGE2_STATUS]:
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
                 self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
-                if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated['tender']) > \
-                        self.request.validated['tender'].tenderPeriod.endDate:
-                    self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
-                    self.request.errors.status = 403
-                    raise error_handler(self.request.errors)
+                validate_tender_period_extension(self.request)
                 self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
 

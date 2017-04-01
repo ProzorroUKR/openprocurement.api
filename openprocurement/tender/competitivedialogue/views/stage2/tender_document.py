@@ -27,7 +27,10 @@ from openprocurement.tender.competitivedialogue.constants import (
 class CompetitiveDialogueStage2EUDocumentResource(TenderEUDocumentResource):
 
    def validate_update_tender(self):
-        # TODO use tender configurator instead of TENDERING_EXTRA_PERIOD and STAGE2_STATUS
+        """ TODO move validators
+        This class is inherited in openua package, but validate_update_tender function has different validators.
+        For now, we have no way to use different validators on methods according to procedure type.
+        """
         if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] not in ['active.tendering', STAGE2_STATUS] or \
            self.request.authenticated_role == 'auction' and self.request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
             self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(self.request.method), self.request.validated['tender_status']))
