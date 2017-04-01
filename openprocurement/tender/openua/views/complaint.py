@@ -12,6 +12,7 @@ from openprocurement.tender.openua.utils import (
 )
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
+    validate_submit_complaint,
     validate_patch_complaint_data,
     validate_complaint_operation_not_in_active_tendering,
     validate_update_complaint_not_in_allowed_complaint_status
@@ -22,10 +23,7 @@ from openprocurement.tender.core.utils import (
     optendersresource,
     calculate_business_date
 )
-from openprocurement.tender.openua.validation import (
-    validate_submit_claim,
-    validate_submit_complaint
-)
+from openprocurement.tender.openua.validation import validate_submit_claim
 from openprocurement.tender.openua.constants import (
     CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
 )
