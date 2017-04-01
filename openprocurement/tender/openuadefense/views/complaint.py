@@ -8,7 +8,7 @@ from openprocurement.api.utils import (
 )
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
-    validate_submit_complaint,
+    validate_submit_complaint_time,
     validate_patch_complaint_data,
     validate_complaint_operation_not_in_active_tendering,
     validate_update_complaint_not_in_allowed_complaint_status
@@ -28,7 +28,7 @@ from openprocurement.tender.openuadefense.constants import (
 from openprocurement.tender.openua.views.complaint import (
     TenderUaComplaintResource as TenderComplaintResource
 )
-from openprocurement.tender.openuadefense.validation import validate_submit_claim
+from openprocurement.tender.openuadefense.validation import validate_submit_claim_time
 
 
 @optendersresource(name='aboveThresholdUA.defense:Tender Complaints',
@@ -45,9 +45,9 @@ class TenderUaComplaintResource(TenderComplaintResource):
         tender = self.context
         complaint = self.request.validated['complaint']
         if complaint.status == 'claim':
-            validate_submit_claim(self.request)
+            validate_submit_claim_time(self.request)
         elif complaint.status == 'pending':
-            validate_submit_complaint(self.request)
+            validate_submit_complaint_time(self.request)
             complaint.dateSubmitted = get_now()
             complaint.type = 'complaint'
         else:
