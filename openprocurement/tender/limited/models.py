@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, MD5Type, BooleanType
@@ -23,7 +24,7 @@ from openprocurement.tender.core.models import (
 )
 
 from openprocurement.tender.core.models import (
-    Document, BaseTender
+    Document, BaseTender, ITender
 )
 from openprocurement.tender.belowthreshold.models import (
     Cancellation as BaseCancellation
@@ -37,6 +38,18 @@ from openprocurement.tender.belowthreshold.models import (
 from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import Item as BaseItem
 from openprocurement.tender.openua.models import Tender as OpenUATender
+
+
+class IReportingTender(ITender):
+    """ Reporting Tender marker interface """
+
+
+class INegotiationTender(ITender):
+    """ Negotiation Tender marker interface """
+
+
+class INegotiationQuickTender(INegotiationTender):
+    """ Negotiation Quick Tender marker interface """
 
 
 class Item(BaseItem):
@@ -119,6 +132,7 @@ class ProcuringEntity(BaseProcuringEntity):
         }
 
 
+@implementer(ITender)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors
        to submit bids for evaluation and selecting a winner or winners.
@@ -232,7 +246,7 @@ class Contract(BaseContract):
     items = ListType(ModelType(Item))
 
 
-# @implementer(ITender)
+@implementer(INegotiationTender)
 class Tender(ReportingTender):
     """ Negotiation """
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])
@@ -253,7 +267,7 @@ class Tender(ReportingTender):
 NegotiationTender = Tender
 
 
-# @implementer(ITender)
+@implementer(INegotiationQuickTender)
 class Tender(NegotiationTender):
     """ Negotiation """
     cause = StringType(choices=['quick', 'artContestIP', 'noCompetition', 'twiceUnsuccessful',
