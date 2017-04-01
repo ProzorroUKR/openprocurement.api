@@ -51,7 +51,7 @@ def validate_update_bid_to_active_status(request):
         raise error_handler(request.errors)
 
 # complaint
-def validate_submit_claim(request):
+def validate_submit_claim_time(request):
     tender = request.context
     claim_submit_time = request.content_configurator.tender_claim_submit_time
     if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -claim_submit_time, tender):
