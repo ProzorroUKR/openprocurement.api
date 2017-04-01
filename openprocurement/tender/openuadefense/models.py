@@ -10,12 +10,13 @@ from openprocurement.api.models import (
     ContactPoint as BaseContactPoint
 )
 from openprocurement.tender.core.models import (
-    ITender, Period,
+    Period,
     ProcuringEntity as BaseProcuringEntity,
     ListType
 )
 from openprocurement.tender.openua.models import (
     Tender as BaseTender, EnquiryPeriod, Lot as BaseLot, get_tender,
+    IAboveThresholdUATender,
     calc_auction_end_time, validate_lots_uniq, calculate_normalized_date,
 )
 
@@ -28,6 +29,10 @@ from openprocurement.tender.openuadefense.constants import (
     COMPLAINT_OLD_SUBMIT_TIME,
     COMPLAINT_OLD_SUBMIT_TIME_BEFORE
 )
+
+
+class IAboveThresholdUADefTender(IAboveThresholdUATender):
+     """ Marker interface for aboveThresholdUA defense tenders """
 
 
 class LotAuctionPeriod(Period):
@@ -72,7 +77,7 @@ class ProcuringEntity(BaseProcuringEntity):
                                        required=False)
 
 
-@implementer(ITender)
+@implementer(IAboveThresholdUADefTender)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
 
