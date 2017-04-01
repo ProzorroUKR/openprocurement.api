@@ -59,16 +59,6 @@ def validate_submit_claim(request):
         request.errors.status = 403
         raise error_handler(request.errors)
 
-
-def validate_submit_complaint(request):
-    complaint_submit_time = request.content_configurator.tender_complaint_submit_time
-    tender = request.context
-    if get_now() > tender.complaintPeriod.endDate:
-        request.errors.add('body', 'data', 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(complaint_submit_time))
-        request.errors.status = 403
-        raise error_handler(request.errors)
-
-
 # complaint documents
 def validate_complaint_author(request):
     if request.authenticated_role != request.context.author:
