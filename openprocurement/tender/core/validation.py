@@ -337,6 +337,15 @@ def validate_complaint_operation_not_in_active_tendering(request):
         request.errors.status = 403
         raise error_handler(request.errors)
 
+
+def validate_submit_complaint(request):
+    complaint_submit_time = request.content_configurator.tender_complaint_submit_time
+    tender = request.context
+    if get_now() > tender.complaintPeriod.endDate:
+        request.errors.add('body', 'data', 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(complaint_submit_time))
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
 # complaints document
 def validate_status_and_role_for_complaint_document_operation(request):
     roles = request.content_configurator.allowed_statuses_for_complaint_operations_for_roles
