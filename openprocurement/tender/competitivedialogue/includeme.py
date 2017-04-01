@@ -5,10 +5,11 @@ from pyramid.interfaces import IRequest
 from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.tender.competitivedialogue.models import Tender
 from openprocurement.tender.competitivedialogue.models import (
-    ICDEUTender, ICDUATender
+    ICDEUTender, ICDUATender, ICDEUStage2Tender, ICDUAStage2Tender
 )
 from openprocurement.tender.competitivedialogue.adapters import (
-    TenderCDEUConfigurator, TenderCDUAConfigurator
+    TenderCDEUConfigurator, TenderCDUAConfigurator,
+    TenderCDEUStage2Configurator, TenderCDUAStage2Configurator
 )
 
 PKG = get_distribution(__package__)
@@ -37,4 +38,10 @@ def includeme(config):
                                     IContentConfigurator)
     config.registry.registerAdapter(TenderCDUAConfigurator,
                                     (ICDUATender, IRequest),
+                                    IContentConfigurator)
+    config.registry.registerAdapter(TenderCDEUStage2Configurator,
+                                    (ICDEUStage2Tender, IRequest),
+                                    IContentConfigurator)
+    config.registry.registerAdapter(TenderCDUAStage2Configurator,
+                                    (ICDUAStage2Tender, IRequest),
                                     IContentConfigurator)

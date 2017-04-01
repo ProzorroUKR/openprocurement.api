@@ -81,6 +81,7 @@ roles = {
     'active.tendering': (enquiries_role + blacklist('auctionPeriod')),
     'complete': view_role_stage1,
     'unsuccessful': view_role_stage1,
+
     'cancelled': view_role_stage1,
     'chronograph': chronograph_role,
     'chronograph_view': chronograph_view_role,
@@ -97,6 +98,14 @@ class ICDEUTender(ITender):
 
 class ICDUATender(ITender):
     """ Marker interface for Competitive Dialogue UA tenders """
+
+
+class ICDEUStage2Tender(ITender):
+    """ Marker interface for Competitive Dialogue EU Stage 2 tenders """
+
+
+class ICDUAStage2Tender(ITender):
+    """ Marker interface for Competitive Dialogue UA Stage 2 tenders """
 
 
 class Document(ConfidentialDocument):
@@ -414,7 +423,7 @@ class Item(BaseUAItem):
 ItemStage2UA = Item
 
 
-@implementer(ITender)
+@implementer(ICDEUStage2Tender)
 class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=STAGE_2_EU_TYPE)
     dialogue_token = StringType(required=True)
@@ -449,7 +458,7 @@ class Tender(BaseTenderEU):
 TenderStage2EU = Tender
 
 
-@implementer(ITender)
+@implementer(ICDUAStage2Tender)
 class Tender(BaseTenderUA):
     procurementMethodType = StringType(default=STAGE_2_UA_TYPE)
     dialogue_token = StringType(required=True)
