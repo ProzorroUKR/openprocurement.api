@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
+
 from openprocurement.tender.belowthreshold.tests.base import test_organization
+
+from openprocurement.tender.openua.tests.base import test_bids
+
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
     test_features_tender_ua_data
@@ -32,6 +37,7 @@ from openprocurement.tender.openuadefense.tests.bid_blanks import (
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.tendering'
+    test_bids_data = test_bids  # TODO: change attribute identifier
 
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
 

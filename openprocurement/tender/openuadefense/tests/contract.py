@@ -1,17 +1,23 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
+
 from openprocurement.tender.belowthreshold.tests.base import test_organization
+
 from openprocurement.tender.openua.tests.base import test_bids
+
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest
 )
 from openprocurement.tender.openuadefense.tests.contract_blanks import (
+    # TenderContractResourceTest
     create_tender_contract_invalid,
     create_tender_contract,
     patch_tender_contract,
     get_tender_contract,
     get_tender_contracts,
+    # TenderContractDocumentResourceTest
     not_found,
     create_tender_contract_document,
     put_tender_contract_document,

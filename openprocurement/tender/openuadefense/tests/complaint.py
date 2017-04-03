@@ -1,18 +1,24 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
+
 from openprocurement.tender.belowthreshold.tests.base import test_lots, test_organization
+
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest
 )
 from openprocurement.tender.openuadefense.tests.complaint_blanks import (
+    # TenderComplaintResourceTest
     create_tender_complaint_invalid,
     create_tender_complaint,
     patch_tender_complaint,
     review_tender_complaint,
     get_tender_complaint,
     get_tender_complaints,
+    # TenderLotAwardComplaintResourceTest
     create_multilot_tender_complaint,
+    # TenderComplaintDocumentResourceTest
     not_found,
     create_tender_complaint_document,
     put_tender_complaint_document,

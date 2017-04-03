@@ -1,9 +1,16 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.tests.base import BaseWebTest
+
+from openprocurement.tender.belowthreshold.tests.base import test_lots
+
+from openprocurement.tender.openuadefense.tests.base import test_tender_data
+
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAWebTest
 from openprocurement.tender.openuadefense.tests.tender_blanks import (
+    # TenderUATest
     simple_add_tender,
     empty_listing,
     listing,
@@ -23,6 +30,7 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
     tender_Administrator_change,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
+    # TenderUAProcessTest
     invalid_tender_conditions,
     one_valid_bid_tender_ua,
     one_invalid_bid_tender,
@@ -33,10 +41,15 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
 
 class TenderUATest(BaseWebTest):
 
+    test_tender = test_tender_data
+
     test_simple_add_tender = snitch(simple_add_tender)
 
 
 class TenderUAResourceTest(BaseTenderUAWebTest):
+    test_lots_data = test_lots  # TODO: change attribute identifier
+
+    test_tender = test_tender_data
 
     test_empty_listing = snitch(empty_listing)
 
@@ -76,6 +89,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest):
+    test_tender = test_tender_data
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
 

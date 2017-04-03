@@ -1,26 +1,42 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.openuadefense.tests.base import (
-    BaseTenderUAContentWebTest, test_tender_data, test_features_tender_ua_data)
-from openprocurement.tender.belowthreshold.tests.base import test_features_tender_data, test_lots, test_organization
+
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_features_tender_data,
+    test_lots,
+    test_organization
+)
+
 from openprocurement.tender.openua.tests.base import test_bids
+
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_tender_data,
+    test_features_tender_ua_data
+)
 from openprocurement.tender.openuadefense.tests.auction_blanks import (
+    # TenderAuctionResourceTest
     get_tender_auction_not_found,
     get_tender_auction,
     post_tender_auction,
     patch_tender_auction,
     post_tender_auction_document,
+    # TenderSameValueAuctionResourceTest
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
+    # TenderLotAuctionResourceTest
     get_tender_with_lot_auction,
     post_tender_with_lot_auction,
     patch_tender_with_lot_auction,
     post_tender_with_lot_auction_document,
+    # TenderMultipleLotAuctionResourceTest
     get_tender_with_lots_auction,
     post_tender_with_lots_auction,
     patch_tender_with_lots_auction,
     post_tender_with_lots_auction_document,
+    # TenderFeaturesAuctionResourceTest
     get_tender_with_features_auction,
 )
 

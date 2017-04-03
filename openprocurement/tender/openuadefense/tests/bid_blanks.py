@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+
 from openprocurement.tender.belowthreshold.tests.base import test_organization
-from openprocurement.tender.openua.tests.base import test_bids
 
 
 # TenderBidResourceTest
@@ -426,7 +426,7 @@ def bids_invalidation_on_tender_change(self):
     bids_access = {}
 
     # submit bids
-    for data in test_bids:
+    for data in self.test_bids_data:
         response = self.app.post_json('/tenders/{}/bids'.format(
             self.tender_id), {'data': data})
         self.assertEqual(response.status, '201 Created')
@@ -455,7 +455,7 @@ def bids_invalidation_on_tender_change(self):
 
     # check that tender status change does not invalidate bids
     # submit one more bid. check for invalid value first
-    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[0]}, status=422)
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': self.test_bids_data[0]}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -463,7 +463,7 @@ def bids_invalidation_on_tender_change(self):
         {u'description': [u'value of bid should be less than value of tender'], u'location': u'body', u'name': u'value'}
     ])
     # and submit valid bid
-    data = deepcopy(test_bids[0])
+    data = deepcopy(self.test_bids_data[0])
     data['value']['amount'] = 299
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
     self.assertEqual(response.status, '201 Created')
@@ -527,7 +527,7 @@ def bids_activation_on_tender_documents(self):
         bids_access = {}
 
         # submit bids
-        for data in test_bids:
+        for data in self.test_bids_data:
             response = self.app.post_json('/tenders/{}/bids'.format(
                 self.tender_id), {'data': data})
             self.assertEqual(response.status, '201 Created')

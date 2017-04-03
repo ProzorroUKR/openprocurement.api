@@ -1,22 +1,32 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
+
 from openprocurement.tender.belowthreshold.tests.base import test_lots
+
 from openprocurement.tender.openua.tests.base import test_bids
+
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest
 )
 from openprocurement.tender.openuadefense.tests.chronograph_blanks import (
+    # TenderSwitch0BidResourceTest
     switch_to_unsuccessful,
     set_auction_period,
+    # TenderSwitch1BidResourceTest
     not_switch_to_unsuccessful,
+    # TenderSwitchAuctionResourceTest
     switch_to_auction,
     switch_to_complaint,
     auction_switch_to_unsuccessful,
     auction_set_auction_period,
+    # TenderLotSwitch0BidResourceTest
     without_bids_switch_to_unsuccessful,
     without_bids_set_auction_period,
+    # TenderLotSwitch1BidResourceTest
     switch_to_qualification,
+    # TenderLotSwitchAuctionResourceTest
     with_lot_switch_to_auction,
     with_lot_switch_to_unsuccessful,
     with_lot_set_auction_period,

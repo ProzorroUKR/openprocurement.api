@@ -1,20 +1,27 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
+
 from openprocurement.tender.belowthreshold.tests.base import test_lots
+
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest
 )
 from openprocurement.tender.openuadefense.tests.cancellation_blanks import (
+    # TenderCancellationResourceTest
     create_tender_cancellation_invalid,
     create_tender_cancellation,
     patch_tender_cancellation,
     get_tender_cancellation,
     get_tender_cancellations,
+    # TenderLotCancellationResourceTest
     create_tender_with_lot_cancellation,
     patch_tender_with_lot_cancellation,
+    # TenderLotsCancellationResourceTest
     create_tender_with_lots_cancellation,
     patch_tender_with_lots_cancellation,
+    # TenderCancellationDocumentResourceTest
     not_found,
     create_tender_cancellation_document,
     put_tender_cancellation_document,

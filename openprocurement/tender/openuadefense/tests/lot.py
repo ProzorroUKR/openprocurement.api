@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 import unittest
-from openprocurement.tender.belowthreshold.tests.base import test_lots
+
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
+
+from openprocurement.tender.belowthreshold.tests.base import test_lots
+
 from openprocurement.tender.openua.tests.base import test_bids
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_tender_data
+)
 from openprocurement.tender.openuadefense.tests.lot_blanks import (
+    # TenderLotResourceTest
     create_tender_lot_invalid,
     create_tender_lot,
     patch_tender_lot,
@@ -13,16 +20,20 @@ from openprocurement.tender.openuadefense.tests.lot_blanks import (
     get_tender_lot,
     get_tender_lots,
     delete_tender_lot,
+    # TenderLotEdgeCasesTest
     question_blocking,
     claim_blocking,
     next_check_value_with_unanswered_question,
     next_check_value_with_unanswered_claim,
+    # TenderLotFeatureResourceTest
     tender_value,
     tender_features_invalid,
     create_tender_bidder_invalid,
     patch_tender_bidder,
+    # TenderLotFeatureBidderResourceTest
     create_tender_bidder_with_features_invalid,
     create_tender_bidder_with_features,
+    # TenderLotProcessTest
     one_lot_0bid,
     one_lot_1bid,
     one_lot_1bid_patch,
@@ -40,6 +51,7 @@ from openprocurement.tender.openuadefense.tests.lot_blanks import (
 
 
 class TenderLotResourceTest(BaseTenderUAContentWebTest):
+    test_lots_data = test_lots  # TODO: change attribute identifier
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
 
@@ -72,6 +84,7 @@ class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
 
 
 class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest):
+    test_tender = test_tender_data
     initial_lots = 2 * test_lots
 
     test_tender_value = snitch(tender_value)
@@ -162,6 +175,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 
 class TenderLotProcessTest(BaseTenderUAContentWebTest):
     setUp = BaseTenderUAContentWebTest.setUp
+    test_tender = test_tender_data
+    test_lots_data = test_lots  # TODO: change attribute identifier
 
     test_1lot_0bid = snitch(one_lot_0bid)
 
@@ -190,14 +205,14 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
     test_2lot_2bid_2com_2win = snitch(two_lot_2bid_2com_2win)
 
 
-# def suite():
-#     suite = unittest.TestSuite()
-#     suite.addTest(unittest.makeSuite(TenderLotResourceTest))
-#     suite.addTest(unittest.makeSuite(TenderLotBidderResourceTest))
-#     suite.addTest(unittest.makeSuite(TenderLotFeatureBidderResourceTest))
-#     suite.addTest(unittest.makeSuite(TenderLotProcessTest))
-#     return suite
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TenderLotResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotBidderResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotFeatureBidderResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotProcessTest))
+    return suite
 
 
-# if __name__ == '__main__':
-#     unittest.main(defaultTest='suite')
+if __name__ == '__main__':
+    unittest.main(defaultTest='suite')

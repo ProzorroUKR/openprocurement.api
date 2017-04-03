@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
+
 from openprocurement.tender.belowthreshold.tests.base import test_lots
+
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
 from openprocurement.tender.openuadefense.tests.question_blanks import (
+    # TenderQuestionResourceTest
     create_tender_question_invalid,
     create_tender_question,
     patch_tender_question,
     get_tender_question,
     get_tender_questions,
+    # TenderLotQuestionResourceTest
     create_multilot_tender_question,
     patch_multilot_tender_question,
 )

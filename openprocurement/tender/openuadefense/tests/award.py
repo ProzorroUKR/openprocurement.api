@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-patch_tender_with_lots_award_document
 import unittest
+
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.openua.tests.base import test_bids
+
 from openprocurement.tender.belowthreshold.tests.base import test_lots, test_organization
+
+from openprocurement.tender.openua.tests.base import test_bids
+
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
 from openprocurement.tender.openuadefense.tests.award_blanks import (
+    # TenderAwardResourceTest
     create_tender_award_invalid,
     create_tender_award,
     patch_tender_award,
@@ -12,11 +17,14 @@ from openprocurement.tender.openuadefense.tests.award_blanks import (
     patch_tender_award_unsuccessful,
     get_tender_award,
     patch_tender_award_Administrator_change,
+    # TenderLotAwardResourceTest
     create_tender_with_lot_award,
     patch_tender_with_lot_award,
     patch_tender_with_lot_award_unsuccessful,
+    # Tender2LotAwardResourceTest
     create_tender_with_lots_award,
     patch_tender_with_lots_award,
+    # TenderAwardComplaintResourceTest
     create_tender_award_complaint_invalid,
     create_tender_award_claim,
     create_tender_award_complaint_not_active,
@@ -26,23 +34,29 @@ from openprocurement.tender.openuadefense.tests.award_blanks import (
     review_tender_award_claim,
     get_tender_award_complaint,
     get_tender_award_complaints,
+    # TenderLotAwardComplaintResourceTest
     create_tender_with_lot_award_complaint,
     patch_tender_with_lot_award_complaint,
     get_tender_with_lot_award_complaint,
     get_tender_with_lot_award_complaints,
+    # Tender2LotAwardComplaintResourceTest
     create_tender_with_lots_award_complaint,
     patch_tender_with_lots_award_complaint,
+    # TenderAwardComplaintDocumentResourceTest
     complaint_docs_not_found,
     create_tender_award_complaint_document,
     put_tender_award_complaint_document,
     patch_tender_award_complaint_document,
+    # Tender2LotAwardComplaintDocumentResourceTest
     create_tender_with_lots_award_complaint_document,
     put_tender_with_lots_award_complaint_document,
     patch_tender_with_lots_award_complaint_document,
+    # TenderAwardDocumentResourceTest
     not_found,
     create_tender_award_document,
     put_tender_award_document,
     patch_tender_award_document,
+    # Tender2LotAwardDocumentResourceTest
     create_tender_with_lots_award_document,
     put_tender_with_lots_award_document,
     patch_tender_with_lots_award_document,
