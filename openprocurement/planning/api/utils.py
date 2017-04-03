@@ -120,7 +120,7 @@ def set_logging_context(event):
 def extract_plan_adapter(request, plan_id):
     db = request.registry.db
     doc = db.get(plan_id)
-    if doc is None:
+    if doc is None or doc.get('doc_type') != 'Plan':
         request.errors.add('url', 'plan_id', 'Not Found')
         request.errors.status = 404
         raise error_handler(request.errors)
