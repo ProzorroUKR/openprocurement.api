@@ -73,7 +73,8 @@ from openprocurement.tender.limited.tests.award_blanks import (
 
 class TenderAwardResourceTest(BaseTenderContentWebTest):
     initial_status = 'active'
-    initial_data = test_tender_data = test_tender_data
+    initial_data = test_tender_data
+    test_tender_data_local = test_tender_data
     initial_bids = None
 
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
@@ -104,8 +105,9 @@ class TenderNegotiationAwardResourceTest(TenderAwardResourceTest):
 
 
 class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
-    initial_data = test_tender_negotiation_data = test_tender_negotiation_data
-    test_tender_data = test_tender_data
+    initial_data = test_tender_negotiation_data
+    test_tender_negotiation_data_local = test_tender_negotiation_data
+    test_tender_data_local = test_tender_data
     test_lots_data = test_lots  # TODO: change attribute identifier
 
     test_create_award_with_lot = snitch(create_award_with_lot)

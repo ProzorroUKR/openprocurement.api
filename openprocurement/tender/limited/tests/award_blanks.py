@@ -102,7 +102,7 @@ def create_tender_award(self):
     request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
     response = self.app.post_json(request_path, {'data': {'suppliers': [test_organization],
                                                           'subcontractingDetails': 'Details',
-                                                          'items': self.test_tender_data['items'],
+                                                          'items': self.test_tender_data_local['items'],
                                                           'status': 'pending',
                                                           'qualified': True}})
     self.assertEqual(response.status, '201 Created')
@@ -245,7 +245,7 @@ def patch_tender_award(self):
 
     response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
         self.tender_id, award['id'], self.tender_token),
-        {"data": {"items": self.test_tender_data['items']}})
+        {"data": {"items": self.test_tender_data_local['items']}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.body, u'null')
 
@@ -845,7 +845,7 @@ def patch_tender_lot_award(self):
 
     response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
         self.tender_id, award['id'], self.tender_token),
-        {"data": {"items": self.test_tender_data['items']}})
+        {"data": {"items": self.test_tender_data_local['items']}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.body, u'null')
 
@@ -1088,7 +1088,7 @@ def get_tender_lot_award(self):
 
 def two_lot_two_awards(self):
     self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                        {'data': {'items': self.test_tender_negotiation_data['items'] * 2}})
+                        {'data': {'items': self.test_tender_negotiation_data_local['items'] * 2}})
 
     # create lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
