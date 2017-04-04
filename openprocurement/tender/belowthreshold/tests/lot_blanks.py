@@ -736,7 +736,6 @@ def create_tender_bid_invalid(self):
         {u'description': [u"bids don't allow duplicated proposals"], u'location': u'body', u'name': u'lotValues'}
     ])
 
-
 def patch_tender_bid(self):
     lot_id = self.initial_lots[0]['id']
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': {'tenderers': [test_organization], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
@@ -763,18 +762,6 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['lotValues'][0]["value"]["amount"], 400)
     self.assertNotEqual(response.json['data']['lotValues'][0]['date'], lot['date'])
-
-    self.set_status('complete')
-
-    response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']['lotValues'][0]["value"]["amount"], 400)
-
-    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], token), {"data": {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}}, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update bid in current (complete) tender status")
 
 
 # Tender Lot Feature Bid Resource Test

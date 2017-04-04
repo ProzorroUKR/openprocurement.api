@@ -18,6 +18,8 @@ from openprocurement.tender.belowthreshold.utils import (
     add_next_award
 )
 
+from openprocurement.tender.belowthreshold.validation import validate_auction_info_view
+
 @optendersresource(name='belowThreshold:Tender Auction',
                    collection_path='/tenders/{tender_id}/auction',
                    path='/tenders/{tender_id}/auction/{auction_lot_id}',
@@ -25,7 +27,7 @@ from openprocurement.tender.belowthreshold.utils import (
                    description="Tender auction data")
 class TenderAuctionResource(APIResource):
 
-    @json_view(permission='auction')
+    @json_view(permission='auction', validators=(validate_auction_info_view))
     def collection_get(self):
         """Get auction info.
 
@@ -77,10 +79,6 @@ class TenderAuctionResource(APIResource):
             }
 
         """
-        if self.request.validated['tender_status'] != 'active.auction':
-            self.request.errors.add('body', 'data', 'Can\'t get auction info in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
         return {'data': self.request.validated['tender'].serialize("auction_view")}
 
     @json_view(content_type="application/json", permission='auction', validators=(validate_tender_auction_data))

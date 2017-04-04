@@ -63,7 +63,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
 class TenderAwardResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_create_tender_award = snitch(create_tender_award)
@@ -77,7 +76,6 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_lots = test_lots
     initial_bids = test_bids
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     test_create_tender_lot_award = snitch(create_tender_lot_award)
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
@@ -88,7 +86,6 @@ class Tender2LotAwardResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_lots = 2 * test_lots
     initial_bids = test_bids
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     test_create_tender_lots_award = snitch(create_tender_lots_award)
     test_patch_tender_lots_award = snitch(patch_tender_lots_award)
@@ -97,15 +94,17 @@ class Tender2LotAwardResourceTest(TenderContentWebTest):
 class TenderAwardComplaintResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     def setUp(self):
         super(TenderAwardComplaintResourceTest, self).setUp()
         # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
+        self.app.authorization = auth
 
     test_create_tender_award_complaint_invalid = snitch(create_tender_award_complaint_invalid)
     test_create_tender_award_complaint = snitch(create_tender_award_complaint)
@@ -119,16 +118,18 @@ class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_lots = test_lots
     initial_bids = test_bids
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     def setUp(self):
         super(TenderLotAwardComplaintResourceTest, self).setUp()
         # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         bid = self.initial_bids[0]
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': bid['id'], 'lotID': bid['lotValues'][0]['relatedLot']}})
         award = response.json['data']
         self.award_id = award['id']
+        self.app.authorization = auth
 
     test_create_tender_lot_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_lot_award_complaint = snitch(patch_tender_lot_award_complaint)
@@ -136,9 +137,9 @@ class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
     test_get_tender_lot_award_complaints = snitch(get_tender_lot_award_complaints)
 
 
+
 class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
     initial_lots = 2 * test_lots
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     test_create_tender_lots_award_complaint = snitch(create_tender_lots_award_complaint)
     test_patch_tender_lots_award_complaint = snitch(patch_tender_lots_award_complaint)
@@ -147,18 +148,22 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
 class TenderAwardComplaintDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     def setUp(self):
         super(TenderAwardComplaintDocumentResourceTest, self).setUp()
         # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
+        self.app.authorization = auth
+
         # Create complaint for award
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+        self.bid_token = self.initial_bids_tokens.values()[0]
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
+            self.tender_id, self.award_id, self.bid_token), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
@@ -173,19 +178,22 @@ class Tender2LotAwardComplaintDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_lots = 2 * test_lots
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     def setUp(self):
         super(Tender2LotAwardComplaintDocumentResourceTest, self).setUp()
         # Create award
         bid = self.initial_bids[0]
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': bid['id'], 'lotID': bid['lotValues'][0]['relatedLot']}})
         award = response.json['data']
         self.award_id = award['id']
+        self.app.authorization = auth
         # Create complaint for award
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+        bid_token = self.initial_bids_tokens.values()[0]
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
+            self.tender_id, self.award_id, bid_token), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
@@ -198,15 +206,17 @@ class Tender2LotAwardComplaintDocumentResourceTest(TenderContentWebTest):
 class TenderAwardDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     def setUp(self):
         super(TenderAwardDocumentResourceTest, self).setUp()
         # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
+        self.app.authorization = auth
 
     test_not_found_award_document = snitch(not_found_award_document)
     test_create_tender_award_document = snitch(create_tender_award_document)
@@ -216,23 +226,24 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest):
 
 class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
     docservice = True
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
 
 class Tender2LotAwardDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_lots = 2 * test_lots
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
     def setUp(self):
         super(Tender2LotAwardDocumentResourceTest, self).setUp()
         # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         bid = self.initial_bids[0]
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': bid['id'], 'lotID': bid['lotValues'][0]['relatedLot']}})
         award = response.json['data']
         self.award_id = award['id']
+        self.app.authorization = auth
 
     test_create_tender_lots_award_document = snitch(create_tender_lots_award_document)
     test_put_tender_lots_award_document = snitch(put_tender_lots_award_document)
@@ -241,7 +252,6 @@ class Tender2LotAwardDocumentResourceTest(TenderContentWebTest):
 
 class Tender2LotAwardDocumentWithDSResourceTest(Tender2LotAwardDocumentResourceTest):
     docservice = True
-    initial_auth = ('Basic', ('token', ''))  # XXX TODO: broker
 
 
 def suite():
