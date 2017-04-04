@@ -62,6 +62,10 @@ from openprocurement.tender.openua.constants import (
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 
 
+class IAboveThresholdUATender(ITender):
+     """ Marker interface for aboveThresholdUA tenders """
+
+
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
         orig_data = data
@@ -298,7 +302,8 @@ class Cancellation(BaseCancellation):
 
     reasonType = StringType(choices=['cancelled', 'unsuccessful'], default='cancelled')
 
-@implementer(ITender)
+
+@implementer(IAboveThresholdUATender)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
 

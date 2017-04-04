@@ -16,6 +16,10 @@ from openprocurement.tender.belowthreshold.views.question import TenderQuestionR
 class TenderUaQuestionResource(TenderQuestionResource):
 
     def validate_question(self, operation):
+        """ TODO move validators
+        This class is inherited from below package, but validate_question function has different validators.
+        For now, we have no way to use different validators on methods according to procedure type.
+        """
         tender = self.request.validated['tender']
         now = get_now()
         if operation == 'add' and (now < tender.enquiryPeriod.startDate or now > tender.enquiryPeriod.endDate):

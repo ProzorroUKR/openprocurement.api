@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.core.validation import validate_patch_award_data
+from openprocurement.tender.core.validation import (
+    validate_patch_award_data,
+    validate_update_award_only_for_active_lots,
+    validate_update_award_in_not_allowed_status,
+    validate_update_award_with_accepted_complaint
+)
 from openprocurement.tender.belowthreshold.views.award import TenderAwardResource
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    get_now
+    get_now,
+    error_handler
 )
 from openprocurement.tender.core.utils import (
     apply_patch,
@@ -24,7 +30,8 @@ from openprocurement.tender.openua.utils import (
                    procurementMethodType='aboveThresholdUA')
 class TenderUaAwardResource(TenderAwardResource):
 
-    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_award_data,))
+    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_award_data, validate_update_award_in_not_allowed_status,
+               validate_update_award_only_for_active_lots, validate_update_award_with_accepted_complaint))
     def patch(self):
         """Update of award
 
@@ -83,19 +90,7 @@ class TenderUaAwardResource(TenderAwardResource):
 
         """
         tender = self.request.validated['tender']
-        if tender.status not in ['active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
         award = self.request.context
-        if any([i.status != 'active' for i in tender.lots if i.id == award.lotID]):
-            self.request.errors.add('body', 'data', 'Can update award only in active lot status')
-            self.request.errors.status = 403
-            return
-        if any([any([c.status == 'accepted' for c in i.complaints]) for i in tender.awards if i.lotID == award.lotID]):
-            self.request.errors.add('body', 'data', 'Can\'t update award with accepted complaint')
-            self.request.errors.status = 403
-            return
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
@@ -154,7 +149,7 @@ class TenderUaAwardResource(TenderAwardResource):
         elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
             self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}))
