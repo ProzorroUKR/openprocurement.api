@@ -5,7 +5,7 @@ from schematics.types import StringType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from barbecue import vnmax
-# from zope.interface import implementer  # TODO
+from zope.interface import implementer  # TODO
 
 from openprocurement.api.models import (
     plain_role, listing_role, draft_role, schematics_default_role, schematics_embedded_role
@@ -24,6 +24,7 @@ from openprocurement.api.validation import (
     validate_items_uniq, validate_cpv_group
 )
 
+from openprocurement.tender.core.models import ITender
 from openprocurement.tender.core.models import (
     view_role, create_role, edit_role,
     auction_view_role, auction_post_role, auction_patch_role, auction_role,
@@ -53,11 +54,11 @@ enquiries_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 
 Administrator_role = whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots')
 
 
-# class IBelowThresoldTender(ITender):  # TODO
-#     """ Marker interface for belowThreshold tenders """
+class IBelowThresholdTender(ITender):
+     """ Marker interface for belowThreshold tenders """
 
 
-# @implementer(IBelowThresoldTender)  # TODO
+@implementer(IBelowThresholdTender)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors
     to submit bids for evaluation and selecting a winner or winners.
@@ -128,17 +129,6 @@ class Tender(BaseTender):
         for i in self.bids:
             roles['{}_{}'.format(i.owner, i.owner_token)] = 'bid_owner'
         return roles
-
-    def initialize(self):
-        if not self.enquiryPeriod.startDate:
-            self.enquiryPeriod.startDate = get_now()
-        if not self.tenderPeriod.startDate:
-            self.tenderPeriod.startDate = self.enquiryPeriod.endDate
-        now = get_now()
-        self.date = now
-        if self.lots:
-            for lot in self.lots:
-                lot.date = now
 
     @serializable(serialize_when_none=False)
     def next_check(self):

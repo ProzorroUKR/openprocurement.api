@@ -53,6 +53,10 @@ class TenderCancellationResource(APIResource):
             add_next_award(self.request)
 
     def validate_cancellation(self, operation):
+        """ TODO move validators
+        This class is inherited in openua, openeu, limited packages, but validate_cancellation function has different validators.
+        For now, we have no way to use different validators on methods according to procedure type.
+        """
         tender = self.request.validated['tender']
         if tender.status in ['complete', 'cancelled', 'unsuccessful']:
             self.request.errors.add('body', 'data', 'Can\'t {} cancellation in current ({}) tender status'.format(operation, tender.status))
