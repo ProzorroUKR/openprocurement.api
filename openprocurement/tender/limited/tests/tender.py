@@ -76,7 +76,7 @@ class TenderNegotiationQuickTest(TenderNegotiationTest):
 
 
 class TenderResourceTest(BaseTenderWebTest):
-    test_tender_data = test_tender_data  # TODO: change attribute identifier
+    initial_data = test_tender_data
 
     test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)

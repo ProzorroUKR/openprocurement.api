@@ -283,7 +283,7 @@ def listing(self):
 
 
 def tender_award_create(self):
-    data = self.test_tender_data.copy()
+    data = self.initial_data.copy()
     award_id = "1234" * 8
     data['awards'] = [{'suppliers': [test_organization],
                        'subcontractingDetails': 'Details',
@@ -403,11 +403,11 @@ def listing_draft(self):
     self.assertEqual(len(response.json['data']), 0)
 
     tenders = []
-    data = self.test_tender_data.copy()
+    data = self.initial_data.copy()
     data.update({'status': 'draft'})
 
     for i in range(3):
-        response = self.app.post_json('/tenders', {'data': self.test_tender_data})
+        response = self.app.post_json('/tenders', {'data': self.initial_data})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         tenders.append(response.json['data'])
@@ -426,10 +426,8 @@ def listing_draft(self):
     self.assertEqual(len(response.json['data']), 3)
     self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
     self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
-    self.assertEqual(set([i['dateModified'] for i in response.json['data']]),
-                     set([i['dateModified'] for i in tenders]))
-    self.assertEqual([i['dateModified'] for i in response.json['data']],
-                     sorted([i['dateModified'] for i in tenders]))
+    self.assertEqual(set([i['dateModified'] for i in response.json['data']]), set([i['dateModified'] for i in tenders]))
+    self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders]))
 
 
 def create_tender_invalid(self):
@@ -515,14 +513,14 @@ def create_tender_invalid(self):
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'},
                   response.json['errors'])
 
-    data = self.test_tender_data["items"][0].pop("additionalClassifications")
+    data = self.initial_data["items"][0].pop("additionalClassifications")
     if get_now() > CPV_ITEMS_CLASS_FROM:
-        cpv_code = self.test_tender_data["items"][0]['classification']['id']
-        self.test_tender_data["items"][0]['classification']['id'] = '99999999-9'
-    response = self.app.post_json(request_path, {'data': self.test_tender_data}, status=422)
-    self.test_tender_data["items"][0]["additionalClassifications"] = data
+        cpv_code = self.initial_data["items"][0]['classification']['id']
+        self.initial_data["items"][0]['classification']['id'] = '99999999-9'
+    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+    self.initial_data["items"][0]["additionalClassifications"] = data
     if get_now() > CPV_ITEMS_CLASS_FROM:
-        self.test_tender_data["items"][0]['classification']['id'] = cpv_code
+        self.initial_data["items"][0]['classification']['id'] = cpv_code
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -531,15 +529,15 @@ def create_tender_invalid(self):
          u'name': u'items'}
     ])
 
-    data = self.test_tender_data["items"][0]["additionalClassifications"][0]["scheme"]
-    self.test_tender_data["items"][0]["additionalClassifications"][0]["scheme"] = 'Не ДКПП'
+    data = self.initial_data["items"][0]["additionalClassifications"][0]["scheme"]
+    self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = 'Не ДКПП'
     if get_now() > CPV_ITEMS_CLASS_FROM:
-        cpv_code = self.test_tender_data["items"][0]['classification']['id']
-        self.test_tender_data["items"][0]['classification']['id'] = '99999999-9'
-    response = self.app.post_json(request_path, {'data': self.test_tender_data}, status=422)
-    self.test_tender_data["items"][0]["additionalClassifications"][0]["scheme"] = data
+        cpv_code = self.initial_data["items"][0]['classification']['id']
+        self.initial_data["items"][0]['classification']['id'] = '99999999-9'
+    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+    self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = data
     if get_now() > CPV_ITEMS_CLASS_FROM:
-        self.test_tender_data["items"][0]['classification']['id'] = cpv_code
+        self.initial_data["items"][0]['classification']['id'] = cpv_code
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -582,7 +580,7 @@ def create_tender_invalid(self):
         {u'description': [u'CPV group of items be identical'], u'location': u'body', u'name': u'items'}
     ])
 
-    data = deepcopy(self.test_tender_data)
+    data = deepcopy(self.initial_data)
     del data["items"][0]['deliveryDate']
     response = self.app.post_json(request_path, {'data': data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -677,7 +675,7 @@ def create_tender(self):
         tender_set.remove(u'cause')
     if "negotiation" in self.initial_data['procurementMethodType']:
         tender_set.remove(u'causeDescription')
-    self.assertEqual(tender_set - set(self.test_tender_data), set(
+    self.assertEqual(tender_set - set(self.initial_data), set(
         [u'id', u'date', u'dateModified', u'owner', u'tenderID', u'status', u'procurementMethod']))
     self.assertIn(tender['id'], response.headers['Location'])
 
