@@ -5,9 +5,15 @@ from openprocurement.api.utils import (
     json_view,
     set_ownership,
     APIResource,
+    error_handler
 )
 from openprocurement.tender.core.validation import (
-    validate_complaint_data, validate_patch_complaint_data,
+    validate_complaint_data,
+    validate_patch_complaint_data,
+    validate_add_complaint_not_in_complaint_period,
+    validate_award_complaint_add_only_for_active_lots,
+    validate_award_complaint_update_only_for_active_lots,
+    validate_award_complaint_operation_not_in_allowed_status
 )
 
 from openprocurement.tender.belowthreshold.utils import (
@@ -18,6 +24,9 @@ from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
 )
 
+from openprocurement.tender.belowthreshold.validation import validate_award_complaint_update_not_in_allowed_status
+
+
 @optendersresource(name='belowThreshold:Tender Award Complaints',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
                    path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
@@ -25,25 +34,12 @@ from openprocurement.tender.core.utils import (
                    description="Tender award complaints")
 class TenderAwardComplaintResource(APIResource):
 
-    @json_view(content_type="application/json", permission='create_award_complaint', validators=(validate_complaint_data,))
+    @json_view(content_type="application/json", permission='create_award_complaint', validators=(validate_complaint_data, validate_award_complaint_operation_not_in_allowed_status,
+               validate_award_complaint_add_only_for_active_lots, validate_add_complaint_not_in_complaint_period))
     def collection_post(self):
         """Post a complaint for award
         """
         tender = self.request.validated['tender']
-        if tender.status not in ['active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t add complaint in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if any([i.status != 'active' for i in tender.lots if i.id == self.context.lotID]):
-            self.request.errors.add('body', 'data', 'Can add complaint only in active lot status')
-            self.request.errors.status = 403
-            return
-        if self.context.complaintPeriod and \
-           (self.context.complaintPeriod.startDate and self.context.complaintPeriod.startDate > get_now() or
-                self.context.complaintPeriod.endDate and self.context.complaintPeriod.endDate < get_now()):
-            self.request.errors.add('body', 'data', 'Can add complaint only in complaintPeriod')
-            self.request.errors.status = 403
-            return
         complaint = self.request.validated['complaint']
         complaint.date = get_now()
         complaint.relatedLot = self.context.lotID
@@ -78,23 +74,12 @@ class TenderAwardComplaintResource(APIResource):
         """
         return {'data': self.context.serialize("view")}
 
-    @json_view(content_type="application/json", permission='edit_complaint', validators=(validate_patch_complaint_data,))
+    @json_view(content_type="application/json", permission='edit_complaint', validators=(validate_patch_complaint_data, validate_award_complaint_operation_not_in_allowed_status,
+               validate_award_complaint_update_only_for_active_lots, validate_award_complaint_update_not_in_allowed_status))
     def patch(self):
         """Post a complaint resolution for award
         """
         tender = self.request.validated['tender']
-        if tender.status not in ['active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if any([i.status != 'active' for i in tender.lots if i.id == self.request.validated['award'].lotID]):
-            self.request.errors.add('body', 'data', 'Can update complaint only in active lot status')
-            self.request.errors.status = 403
-            return
-        if self.context.status not in ['draft', 'claim', 'answered', 'pending']:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) status'.format(self.context.status))
-            self.request.errors.status = 403
-            return
         data = self.request.validated['data']
         complaintPeriod = self.request.validated['award'].complaintPeriod
         is_complaintPeriod = complaintPeriod.startDate < get_now() and complaintPeriod.endDate > get_now() if complaintPeriod.endDate else complaintPeriod.startDate < get_now()
@@ -132,7 +117,7 @@ class TenderAwardComplaintResource(APIResource):
         else:
             self.request.errors.add('body', 'data', 'Can\'t update complaint')
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if self.context.status not in ['draft', 'claim', 'answered', 'pending'] and tender.status in ['active.qualification', 'active.awarded']:

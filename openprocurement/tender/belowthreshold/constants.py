@@ -13,3 +13,8 @@ STAND_STILL_TIME = timedelta(days=2)
 # CANT_DELETE_PERIOD_START_DATE_FROM = datetime(2016, 8, 30, tzinfo=TZ)
 # BID_LOTVALUES_VALIDATION_FROM = datetime(2016, 10, 24, tzinfo=TZ)
 # CPV_ITEMS_CLASS_FROM = datetime(2017, 1, 1, tzinfo=TZ)
+STATUS4ROLE = {
+    'complaint_owner': ['draft', 'answered'],
+    'reviewers': ['pending'],
+    'tender_owner': ['claim'],
+    }

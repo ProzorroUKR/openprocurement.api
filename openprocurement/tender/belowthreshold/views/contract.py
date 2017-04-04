@@ -5,13 +5,19 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
+    error_handler
 )
 from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
 )
+from openprocurement.tender.core.validation import (
+    validate_update_contract_value,
+    validate_update_contract_only_for_active_lots,
+    validate_contract_operation_not_in_allowed_status
+)
 from openprocurement.tender.belowthreshold.validation import (
     validate_contract_data,
-    validate_patch_contract_data,
+    validate_patch_contract_data
 )
 from openprocurement.tender.belowthreshold.utils import (
     check_tender_status,
@@ -24,15 +30,11 @@ from openprocurement.tender.belowthreshold.utils import (
                    description="Tender contracts")
 class TenderAwardContractResource(APIResource):
 
-    @json_view(content_type="application/json", permission='create_contract', validators=(validate_contract_data,))
+    @json_view(content_type="application/json", permission='create_contract', validators=(validate_contract_data, validate_contract_operation_not_in_allowed_status))
     def collection_post(self):
         """Post a contract for award
         """
         tender = self.request.validated['tender']
-        if tender.status not in ['active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t add contract in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
         contract = self.request.validated['contract']
         tender.contracts.append(contract)
         if save_tender(self.request):
@@ -54,33 +56,13 @@ class TenderAwardContractResource(APIResource):
         """
         return {'data': self.request.validated['contract'].serialize()}
 
-    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data,))
+    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data, validate_contract_operation_not_in_allowed_status,
+               validate_update_contract_only_for_active_lots, validate_update_contract_value))
     def patch(self):
         """Update of contract
         """
-        if self.request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t update contract in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
         tender = self.request.validated['tender']
-        if any([i.status != 'active' for i in tender.lots if i.id in [a.lotID for a in tender.awards if a.id == self.request.context.awardID]]):
-            self.request.errors.add('body', 'data', 'Can update contract only in active lot status')
-            self.request.errors.status = 403
-            return
         data = self.request.validated['data']
-
-        if data['value']:
-            for ro_attr in ('valueAddedTaxIncluded', 'currency'):
-                if data['value'][ro_attr] != getattr(self.context.value, ro_attr):
-                    self.request.errors.add('body', 'data', 'Can\'t update {} for contract value'.format(ro_attr))
-                    self.request.errors.status = 403
-                    return
-
-            award = [a for a in tender.awards if a.id == self.request.context.awardID][0]
-            if data['value']['amount'] > award.value.amount:
-                self.request.errors.add('body', 'data', 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount))
-                self.request.errors.status = 403
-                return
 
         if self.request.context.status != 'active' and 'status' in data and data['status'] == 'active':
             award = [a for a in tender.awards if a.id == self.request.context.awardID][0]
@@ -88,7 +70,7 @@ class TenderAwardContractResource(APIResource):
             if stand_still_end > get_now():
                 self.request.errors.add('body', 'data', 'Can\'t sign contract before stand-still period end ({})'.format(stand_still_end.isoformat()))
                 self.request.errors.status = 403
-                return
+                raise error_handler(self.request.errors)
             pending_complaints = [
                 i
                 for i in tender.complaints
@@ -103,13 +85,13 @@ class TenderAwardContractResource(APIResource):
             if pending_complaints or pending_awards_complaints:
                 self.request.errors.add('body', 'data', 'Can\'t sign contract before reviewing all complaints')
                 self.request.errors.status = 403
-                return
+                raise error_handler(self.request.errors)
         contract_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if contract_status != self.request.context.status and (contract_status != 'pending' or self.request.context.status != 'active'):
             self.request.errors.add('body', 'data', 'Can\'t update contract status')
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
         check_tender_status(self.request)
