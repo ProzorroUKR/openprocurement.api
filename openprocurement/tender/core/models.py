@@ -15,7 +15,7 @@ from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.models import (
     Revision, Organization, Model, Period,
     IsoDateTimeType, ListType, Document as BaseDocument, CPVClassification,
-    Location as BaseLocation, Contract as BaseContract, Value,
+    Location, Contract as BaseContract, Value,
     PeriodEndRequired as BasePeriodEndRequired,
     Address
 )
@@ -32,7 +32,7 @@ from openprocurement.api.constants import (
 )
 
 from openprocurement.tender.core.constants import (
-    CANT_DELETE_PERIOD_START_DATE_FROM, ITEMS_LOCATION_VALIDATION_FROM,
+    CANT_DELETE_PERIOD_START_DATE_FROM,
     BID_LOTVALUES_VALIDATION_FROM, CPV_ITEMS_CLASS_FROM
 )
 
@@ -279,40 +279,6 @@ class LotAuctionPeriod(Period):
             decision_dates.append(tender.tenderPeriod.endDate)
             start_after = max(decision_dates)
         return rounding_shouldStartAfter(start_after, tender).isoformat()
-
-
-class Location(BaseLocation):
-    def validate_latitude(self, data, latitude):
-        if latitude:
-            parent_object = data.get('__parent__', {}).get('__parent__', {})
-            if (parent_object.get('revisions') and
-                parent_object['revisions'][0].date >
-                    ITEMS_LOCATION_VALIDATION_FROM):
-                valid_latitude = COORDINATES_REG_EXP.match(str(latitude))
-                if (valid_latitude is not None and
-                        valid_latitude.group() == str(latitude)):
-                    if not -90 <= float(latitude) <= 90:
-                        raise ValidationError(
-                            u"Invalid value. Latitude must be between -90 and 90 degree.")
-                else:
-                    raise ValidationError(
-                        u"Invalid value. Required latitude format 12.0123456789")
-
-    def validate_longitude(self, data, longitude):
-        if longitude:
-            parent_object = data.get('__parent__', {}).get('__parent__', {})
-            if (parent_object.get('revisions') and
-                parent_object['revisions'][0].date >
-                    ITEMS_LOCATION_VALIDATION_FROM):
-                valid_longitude = COORDINATES_REG_EXP.match(str(longitude))
-                if (valid_longitude is not None and
-                        valid_longitude.group() == str(longitude)):
-                    if not -180 <= float(longitude) <= 180:
-                        raise ValidationError(
-                            u"Invalid value. Longitude must be between -180 and 180 degree.")
-                else:
-                    raise ValidationError(
-                        u"Invalid value. Required longitude format 12.0123456789")
 
 
 class Item(BaseItem):
