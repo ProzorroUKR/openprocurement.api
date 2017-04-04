@@ -17,6 +17,8 @@ from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
 )
 
+from openprocurement.tender.belowthreshold.validation import validate_cancellation_document_operation_not_in_allowed_status
+
 @optendersresource(name='belowThreshold:Tender Cancellation Documents',
                    collection_path='/tenders/{tender_id}/cancellations/{cancellation_id}/documents',
                    path='/tenders/{tender_id}/cancellations/{cancellation_id}/documents/{document_id}',
@@ -36,14 +38,10 @@ class TenderCancellationDocumentResource(APIResource):
             ]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
-    @json_view(validators=(validate_file_upload,), permission='edit_tender')
+    @json_view(validators=(validate_file_upload, validate_cancellation_document_operation_not_in_allowed_status), permission='edit_tender')
     def collection_post(self):
         """Tender Cancellation Document Upload
         """
-        if self.request.validated['tender_status'] in ['complete', 'cancelled', 'unsuccessful']:
-            self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
         document = upload_file(self.request)
         self.context.documents.append(document)
         if save_tender(self.request):
@@ -68,13 +66,9 @@ class TenderCancellationDocumentResource(APIResource):
         ]
         return {'data': document_data}
 
-    @json_view(validators=(validate_file_update,), permission='edit_tender')
+    @json_view(validators=(validate_file_update, validate_cancellation_document_operation_not_in_allowed_status), permission='edit_tender')
     def put(self):
         """Tender Cancellation Document Update"""
-        if self.request.validated['tender_status'] in ['complete', 'cancelled', 'unsuccessful']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
         document = upload_file(self.request)
         self.request.validated['cancellation'].documents.append(document)
         if save_tender(self.request):
@@ -82,13 +76,9 @@ class TenderCancellationDocumentResource(APIResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_cancellation_document_put'}))
             return {'data': document.serialize("view")}
 
-    @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_document_data, validate_cancellation_document_operation_not_in_allowed_status), permission='edit_tender')
     def patch(self):
         """Tender Cancellation Document Update"""
-        if self.request.validated['tender_status'] in ['complete', 'cancelled', 'unsuccessful']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
             self.LOGGER.info('Updated tender cancellation document {}'.format(self.request.context.id),

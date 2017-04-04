@@ -6,14 +6,23 @@ from openprocurement.api.utils import (
     context_unpack,
     APIResource,
 )
+
+from openprocurement.tender.core.validation import (
+    validate_bid_operation_period,
+    validate_bid_operation_not_in_tendering
+)
+
 from openprocurement.tender.belowthreshold.validation import (
     validate_bid_data,
+    validate_view_bids,
     validate_patch_bid_data,
+    validate_update_bid_status
 )
 
 from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
 )
+
 
 @optendersresource(name='belowThreshold:Tender Bids',
                    collection_path='/tenders/{tender_id}/bids',
@@ -22,7 +31,7 @@ from openprocurement.tender.core.utils import (
                    description="Tender bids")
 class TenderBidResource(APIResource):
 
-    @json_view(content_type="application/json", permission='create_bid', validators=(validate_bid_data,))
+    @json_view(content_type="application/json", permission='create_bid', validators=(validate_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period,))
     def collection_post(self):
         """Registration of new bid proposal
 
@@ -105,14 +114,6 @@ class TenderBidResource(APIResource):
         # See https://github.com/open-contracting/standard/issues/78#issuecomment-59830415
         # for more info upon schema
         tender = self.request.validated['tender']
-        if self.request.validated['tender_status'] != 'active.tendering':
-            self.request.errors.add('body', 'data', 'Can\'t add bid in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        if tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate:
-            self.request.errors.add('body', 'data', 'Bid can be added only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
-            self.request.errors.status = 403
-            return
         bid = self.request.validated['bid']
         set_ownership(bid, self.request)
         tender.bids.append(bid)
@@ -129,7 +130,7 @@ class TenderBidResource(APIResource):
                 }
             }
 
-    @json_view(permission='view_tender')
+    @json_view(permission='view_tender', validators=(validate_view_bids,))
     def collection_get(self):
         """Bids Listing
 
@@ -165,10 +166,6 @@ class TenderBidResource(APIResource):
 
         """
         tender = self.request.validated['tender']
-        if self.request.validated['tender_status'] in ['active.tendering', 'active.auction']:
-            self.request.errors.add('body', 'data', 'Can\'t view bids in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
         return {'data': [i.serialize(self.request.validated['tender_status']) for i in tender.bids]}
 
     @json_view(permission='view_tender')
@@ -203,13 +200,15 @@ class TenderBidResource(APIResource):
         """
         if self.request.authenticated_role == 'bid_owner':
             return {'data': self.request.context.serialize('view')}
+        # Can't move validator because of check above
         if self.request.validated['tender_status'] in ['active.tendering', 'active.auction']:
             self.request.errors.add('body', 'data', 'Can\'t view bid in current ({}) tender status'.format(self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
         return {'data': self.request.context.serialize(self.request.validated['tender_status'])}
 
-    @json_view(content_type="application/json", permission='edit_bid', validators=(validate_patch_bid_data,))
+    @json_view(content_type="application/json", permission='edit_bid', validators=(validate_patch_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period,
+               validate_update_bid_status,))
     def patch(self):
         """Update of proposal
 
@@ -247,21 +246,6 @@ class TenderBidResource(APIResource):
             }
 
         """
-        if self.request.authenticated_role != 'Administrator' and self.request.validated['tender_status'] != 'active.tendering':
-            self.request.errors.add('body', 'data', 'Can\'t update bid in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        tender = self.request.validated['tender']
-        if self.request.authenticated_role != 'Administrator' and (tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate):
-            self.request.errors.add('body', 'data', 'Bid can be updated only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
-            self.request.errors.status = 403
-            return
-        if self.request.authenticated_role != 'Administrator':
-            bid_status_to = self.request.validated['data'].get("status")
-            if bid_status_to != self.request.context.status and bid_status_to != "active":
-                self.request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
-                self.request.errors.status = 403
-                return
         value = self.request.validated['data'].get("value") and self.request.validated['data']["value"].get("amount")
         if value and value != self.request.context.get("value", {}).get("amount"):
             self.request.validated['data']['date'] = get_now().isoformat()
@@ -276,7 +260,7 @@ class TenderBidResource(APIResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_patch'}))
             return {'data': self.request.context.serialize("view")}
 
-    @json_view(permission='edit_bid')
+    @json_view(permission='edit_bid', validators=(validate_bid_operation_not_in_tendering, validate_bid_operation_period,))
     def delete(self):
         """Cancelling the proposal
 
@@ -307,15 +291,6 @@ class TenderBidResource(APIResource):
 
         """
         bid = self.request.context
-        if self.request.validated['tender_status'] != 'active.tendering':
-            self.request.errors.add('body', 'data', 'Can\'t delete bid in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        tender = self.request.validated['tender']
-        if tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate:
-            self.request.errors.add('body', 'data', 'Bid can be deleted only during the tendering period: from ({}) to ({}).'.format(tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(), tender.tenderPeriod.endDate.isoformat()))
-            self.request.errors.status = 403
-            return
         res = bid.serialize("view")
         self.request.validated['tender'].bids.remove(bid)
         self.request.validated['tender'].modified = False

@@ -6,6 +6,7 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
+    error_handler
 )
 from openprocurement.api.validation import (
     validate_file_update,
@@ -13,15 +14,17 @@ from openprocurement.api.validation import (
     validate_patch_document_data,
 )
 
+from openprocurement.tender.core.validation import validate_status_and_role_for_complaint_document_operation
+
 from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
 )
 
-STATUS4ROLE = {
-    'complaint_owner': ['draft', 'answered'],
-    'reviewers': ['pending'],
-    'tender_owner': ['claim'],
-}
+from openprocurement.tender.belowthreshold.validation import (
+    validate_complaint_document_update_not_by_author,
+    validate_role_and_status_for_add_complaint_document,
+    validate_complaint_document_operation_not_in_allowed_status
+)
 
 
 @optendersresource(name='belowThreshold:Tender Complaint Documents',
@@ -43,18 +46,10 @@ class TenderComplaintDocumentResource(APIResource):
             ]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
-    @json_view(validators=(validate_file_upload,), permission='edit_complaint')
+    @json_view(validators=(validate_file_upload, validate_complaint_document_operation_not_in_allowed_status, validate_role_and_status_for_add_complaint_document), permission='edit_complaint')
     def collection_post(self):
         """Tender Complaint Document Upload
         """
-        if self.request.validated['tender_status'] not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        if self.context.status not in STATUS4ROLE.get(self.request.authenticated_role, []):
-            self.request.errors.add('body', 'data', 'Can\'t add document in current ({}) complaint status'.format(self.context.status))
-            self.request.errors.status = 403
-            return
         document = upload_file(self.request)
         document.author = self.request.authenticated_role
         self.context.documents.append(document)
@@ -80,21 +75,10 @@ class TenderComplaintDocumentResource(APIResource):
         ]
         return {'data': document_data}
 
-    @json_view(validators=(validate_file_update,), permission='edit_complaint')
+    @json_view(validators=(validate_file_update, validate_complaint_document_update_not_by_author, validate_complaint_document_operation_not_in_allowed_status,
+               validate_status_and_role_for_complaint_document_operation), permission='edit_complaint')
     def put(self):
         """Tender Complaint Document Update"""
-        if self.request.authenticated_role != self.context.author:
-            self.request.errors.add('url', 'role', 'Can update document only author')
-            self.request.errors.status = 403
-            return
-        if self.request.validated['tender_status'] not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        if self.request.validated['complaint'].status not in STATUS4ROLE.get(self.request.authenticated_role, []):
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) complaint status'.format(self.request.validated['complaint'].status))
-            self.request.errors.status = 403
-            return
         document = upload_file(self.request)
         document.author = self.request.authenticated_role
         self.request.validated['complaint'].documents.append(document)
@@ -103,21 +87,10 @@ class TenderComplaintDocumentResource(APIResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_complaint_document_put'}))
             return {'data': document.serialize("view")}
 
-    @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='edit_complaint')
+    @json_view(content_type="application/json", validators=(validate_patch_document_data, validate_complaint_document_update_not_by_author, validate_complaint_document_operation_not_in_allowed_status,
+               validate_status_and_role_for_complaint_document_operation), permission='edit_complaint')
     def patch(self):
         """Tender Complaint Document Update"""
-        if self.request.authenticated_role != self.context.author:
-            self.request.errors.add('url', 'role', 'Can update document only author')
-            self.request.errors.status = 403
-            return
-        if self.request.validated['tender_status'] not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        if self.request.validated['complaint'].status not in STATUS4ROLE.get(self.request.authenticated_role, []):
-            self.request.errors.add('body', 'data', 'Can\'t update document in current ({}) complaint status'.format(self.request.validated['complaint'].status))
-            self.request.errors.status = 403
-            return
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
             self.LOGGER.info('Updated tender complaint document {}'.format(self.request.context.id),
