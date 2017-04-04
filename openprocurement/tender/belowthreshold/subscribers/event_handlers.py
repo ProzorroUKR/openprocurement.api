@@ -17,4 +17,3 @@ def tender_init_handler(event):
     if tender.lots:
         for lot in tender.lots:
             lot.date = now
-    print event.tender.procurementMethodType
