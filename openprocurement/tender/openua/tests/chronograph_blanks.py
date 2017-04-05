@@ -44,15 +44,6 @@ def switch_to_unsuccessful_1bid(self):
 # TenderSwitchAuctionResourceTest
 
 
-def switch_to_auction(self):
-    self.set_status('active.auction', {'status': self.initial_status})
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], "active.auction")
-
-
 def switch_to_complaint(self):
     for status in ['invalid', 'resolved', 'declined']:
         response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
