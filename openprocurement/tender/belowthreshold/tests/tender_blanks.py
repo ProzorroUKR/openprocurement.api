@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 import unittest
-from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
+from uuid import uuid4
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
-    ITEMS_LOCATION_VALIDATION_FROM
 )
 from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -164,6 +163,7 @@ def listing(self):
         self.assertEqual(response.status, '200 OK')
         if len(response.json['data']) == 1:
             break
+    self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 1)
 
     response = self.app.get('/tenders?mode=_all_')
@@ -1165,20 +1165,25 @@ def tender_Administrator_change(self):
     self.assertEqual(response.status, '201 Created')
     tender = response.json['data']
 
-    response = self.app.post_json('/tenders/{}/questions'.format(tender['id']), {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}})
+    author = deepcopy(test_organization)
+    response = self.app.post_json('/tenders/{}/questions'.format(tender['id']),
+                                  {'data': {'title': 'question title', 'description': 'question description',
+                                            'author': author}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     question = response.json['data']
 
     authorization = self.app.authorization
     self.app.authorization = ('Basic', ('administrator', ''))
-    response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'mode': u'test', 'procuringEntity': {"identifier": {"id": "00000000"}}}})
+    response = self.app.patch_json('/tenders/{}'.format(tender['id']),
+                                   {'data': {'mode': u'test', 'procuringEntity': {"identifier": {"id": "00000000"}}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['mode'], u'test')
     self.assertEqual(response.json['data']["procuringEntity"]["identifier"]["id"], "00000000")
 
-    response = self.app.patch_json('/tenders/{}/questions/{}'.format(tender['id'], question['id']), {"data": {"answer": "answer"}}, status=403)
+    response = self.app.patch_json('/tenders/{}/questions/{}'.format(tender['id'], question['id']),
+                                   {"data": {"answer": "answer"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'], [
@@ -1189,9 +1194,10 @@ def tender_Administrator_change(self):
     response = self.app.post_json('/tenders', {'data': self.initial_data})
     self.assertEqual(response.status, '201 Created')
     tender = response.json['data']
-    token = response.json['access']['token']
+    owner_token = response.json['access']['token']
 
-    response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender['id'], token), {'data': {'reason': 'cancellation reason', 'status': 'active'}})
+    response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender['id'], owner_token),
+                                  {'data': {'reason': 'cancellation reason', 'status': 'active'}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
 
@@ -1202,6 +1208,7 @@ def tender_Administrator_change(self):
     self.assertEqual(response.json['data']['mode'], u'test')
 
 # TenderProcessTest
+
 
 def invalid_tender_conditions(self):
     self.app.authorization = ('Basic', ('broker', ''))
@@ -1216,8 +1223,9 @@ def invalid_tender_conditions(self):
     # switch to active.tendering
     self.set_status('active.tendering')
     # create compaint
+    complaint_author = deepcopy(test_organization)
     response = self.app.post_json('/tenders/{}/complaints'.format(tender_id),
-                                  {'data': {'title': 'invalid conditions', 'description': 'description', 'author': test_organization, 'status': 'claim'}})
+                                  {'data': {'title': 'invalid conditions', 'description': 'description', 'author': complaint_author, 'status': 'claim'}})
     complaint_id = response.json['data']['id']
     complaint_owner_token = response.json['access']['token']
     # answering claim
@@ -1237,7 +1245,7 @@ def invalid_tender_conditions(self):
         'status': 'active'
     }})
     # check status
-    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertEqual(response.json['data']['status'], 'cancelled')
 
 

@@ -56,7 +56,6 @@ class TenderResourceTest(BaseWebTest):
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
 
-
     test_listing = snitch(listing)
     test_get_tender = snitch(get_tender)
     test_tender_features_invalid = snitch(tender_features_invalid)
@@ -64,7 +63,7 @@ class TenderResourceTest(BaseWebTest):
     test_dateModified_tender = snitch(dateModified_tender)
     test_guarantee = snitch(guarantee)
     test_tender_Administrator_change = snitch(tender_Administrator_change)
-    test_listing = snitch(listing_draft)
+    test_listing_draft = snitch(listing_draft)
     test_listing_changes = snitch(listing_changes)
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
