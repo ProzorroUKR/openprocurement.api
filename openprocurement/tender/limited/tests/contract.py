@@ -14,7 +14,6 @@ from openprocurement.tender.limited.tests.base import (
 )
 from openprocurement.tender.limited.tests.contract_blanks import (
     # TenderContractDocumentResourceTest
-    not_found,
     create_tender_contract_document,
     put_tender_contract_document,
     patch_tender_contract_document,
@@ -32,7 +31,6 @@ from openprocurement.tender.limited.tests.contract_blanks import (
     tender_negotiation_contract_signature_date,
     items,
     # TenderContractResourceTest
-    create_tender_contract_invalid,
     create_tender_contract_with_token,
     create_tender_contract,
     patch_tender_contract,
@@ -40,6 +38,12 @@ from openprocurement.tender.limited.tests.contract_blanks import (
     get_tender_contract,
     get_tender_contracts,
     award_id_change_is_not_allowed,
+)
+from openprocurement.tender.belowthreshold.tests.contract_blanks import (
+    # TenderContractResourceTest
+    create_tender_contract_invalid,
+    # TenderContractDocumentResourceTest
+    not_found,
 )
 
 
