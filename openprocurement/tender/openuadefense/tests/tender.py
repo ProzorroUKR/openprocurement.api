@@ -5,43 +5,53 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.api.tests.base import BaseWebTest
 
 from openprocurement.tender.belowthreshold.tests.base import test_lots
-
-from openprocurement.tender.openuadefense.tests.base import test_tender_data
-
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAWebTest
-from openprocurement.tender.openuadefense.tests.tender_blanks import (
-    # TenderUATest
-    simple_add_tender,
-    empty_listing,
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    # TenderUAResourceTest
     listing,
     listing_changes,
     listing_draft,
-    create_tender_invalid,
-    create_tender_generated,
-    create_tender_draft,
-    create_tender,
     get_tender,
     tender_features_invalid,
-    tender_features,
-    patch_tender,
-    patch_tender_ua,
     dateModified_tender,
     tender_not_found,
     tender_Administrator_change,
+)
+
+from openprocurement.tender.openua.tests.tender_blanks import (
+    # TenderUAResourceTest
+    empty_listing,
+    create_tender_draft,
+    create_tender,
+    tender_features,
+    create_tender_generated,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
     # TenderUAProcessTest
     invalid_tender_conditions,
-    one_valid_bid_tender_ua,
-    one_invalid_bid_tender,
     first_bid_tender,
     lost_contract_for_active_award
+)
+
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAWebTest,
+    test_tender_data,
+)
+from openprocurement.tender.openuadefense.tests.tender_blanks import (
+    # TenderUATest
+    simple_add_tender,
+    # TenderUAResourceTest
+    create_tender_invalid,
+    patch_tender,
+    patch_tender_ua,
+    # TenderUAProcessTest
+    one_valid_bid_tender_ua,
+    one_invalid_bid_tender,
 )
 
 
 class TenderUATest(BaseWebTest):
 
-    test_tender = test_tender_data
+    initial_data = test_tender_data
 
     test_simple_add_tender = snitch(simple_add_tender)
 
@@ -49,7 +59,7 @@ class TenderUATest(BaseWebTest):
 class TenderUAResourceTest(BaseTenderUAWebTest):
     test_lots_data = test_lots  # TODO: change attribute identifier
 
-    test_tender = test_tender_data
+    initial_data = test_tender_data
 
     test_empty_listing = snitch(empty_listing)
 
@@ -89,7 +99,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest):
-    test_tender = test_tender_data
+    initial_data = test_tender_data
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
 
