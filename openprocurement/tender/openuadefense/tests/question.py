@@ -4,17 +4,24 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_lots
-
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
-from openprocurement.tender.openuadefense.tests.question_blanks import (
+from openprocurement.tender.belowthreshold.tests.question_blanks import (
     # TenderQuestionResourceTest
     create_tender_question_invalid,
-    create_tender_question,
-    patch_tender_question,
     get_tender_question,
     get_tender_questions,
     # TenderLotQuestionResourceTest
-    create_multilot_tender_question,
+    lot_create_tender_question,
+)
+
+from openprocurement.tender.openua.tests.question_blanks import (
+    # TenderQuestionResourceTest
+    create_tender_question,
+    patch_tender_question,
+)
+
+from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
+from openprocurement.tender.openuadefense.tests.question_blanks import (
+    # TenderLotQuestionResourceTest
     patch_multilot_tender_question,
 )
 
@@ -36,7 +43,7 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
 
     initial_lots = 2 * test_lots
 
-    test_create_tender_question = snitch(create_multilot_tender_question)
+    test_create_tender_question = snitch(lot_create_tender_question)
 
     test_patch_tender_question = snitch(patch_multilot_tender_question)
 
