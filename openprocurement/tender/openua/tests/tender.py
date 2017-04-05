@@ -4,6 +4,18 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import BaseWebTest
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    # TenderUAResourceTest
+    listing_changes,
+    listing_draft,
+    listing,
+    get_tender,
+    tender_features_invalid,
+    dateModified_tender,
+    tender_not_found,
+    guarantee,
+    tender_Administrator_change,
+)
 
 from openprocurement.tender.openua.tests.base import test_tender_data, BaseTenderUAWebTest
 from openprocurement.tender.openua.tests.tender_blanks import (
@@ -11,22 +23,13 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     simple_add_tender,
     # TenderUAResourceTest
     empty_listing,
-    listing_changes,
-    listing_draft,
-    listing,
     patch_draft_invalid_json,
-    create_tender,
     create_tender_invalid,
     create_tender_draft,
-    get_tender,
-    tender_features_invalid,
+    create_tender,
     tender_features,
     patch_tender,
     patch_tender_ua,
-    dateModified_tender,
-    tender_not_found,
-    guarantee,
-    tender_Administrator_change,
     # TenderUAProcessTest
     invalid_tender_conditions,
     invalid_bid_tender_features,
@@ -51,12 +54,10 @@ class TenderUAResourceTest(BaseTenderUAWebTest):
     test_listing = snitch(listing)
     test_listing_draft = snitch(listing_draft)
     test_listing_changes = snitch(listing_changes)
-    test_listing_draft = snitch(listing_draft)
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender = snitch(create_tender)
     test_create_tender_draft = snitch(create_tender_draft)
     test_patch_draft_invalid_json = snitch(patch_draft_invalid_json)
-    test_create_tender = snitch(create_tender)
     test_get_tender = snitch(get_tender)
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_tender_features = snitch(tender_features)
