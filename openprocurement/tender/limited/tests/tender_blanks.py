@@ -114,68 +114,6 @@ def simple_add_tender_negotiation_quick(self):
 # TenderResourceTest
 
 
-def empty_listing(self):
-    response = self.app.get('/tenders')
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data'], [])
-    self.assertNotIn('{\n    "', response.body)
-    self.assertNotIn('callback({', response.body)
-    self.assertEqual(response.json['next_page']['offset'], '')
-    self.assertNotIn('prev_page', response.json)
-
-    response = self.app.get('/tenders?opt_jsonp=callback')
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/javascript')
-    self.assertNotIn('{\n    "', response.body)
-    self.assertIn('callback({', response.body)
-
-    response = self.app.get('/tenders?opt_pretty=1')
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertIn('{\n    "', response.body)
-    self.assertNotIn('callback({', response.body)
-
-    response = self.app.get('/tenders?opt_jsonp=callback&opt_pretty=1')
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/javascript')
-    self.assertIn('{\n    "', response.body)
-    self.assertIn('callback({', response.body)
-
-    response = self.app.get('/tenders?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10')
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data'], [])
-    self.assertIn('descending=1', response.json['next_page']['uri'])
-    self.assertIn('limit=10', response.json['next_page']['uri'])
-    self.assertNotIn('descending=1', response.json['prev_page']['uri'])
-    self.assertIn('limit=10', response.json['prev_page']['uri'])
-
-    response = self.app.get('/tenders?feed=changes')
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data'], [])
-    self.assertEqual(response.json['next_page']['offset'], '')
-    self.assertNotIn('prev_page', response.json)
-
-    response = self.app.get('/tenders?feed=changes&offset=0', status=404)
-    self.assertEqual(response.status, '404 Not Found')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': u'Offset expired/invalid', u'location': u'params', u'name': u'offset'}
-    ])
-
-    response = self.app.get('/tenders?feed=changes&descending=1&limit=10')
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data'], [])
-    self.assertIn('descending=1', response.json['next_page']['uri'])
-    self.assertIn('limit=10', response.json['next_page']['uri'])
-    self.assertNotIn('descending=1', response.json['prev_page']['uri'])
-    self.assertIn('limit=10', response.json['prev_page']['uri'])
-
-
 def listing(self):
     response = self.app.get('/tenders')
     self.assertEqual(response.status, '200 OK')
@@ -395,39 +333,6 @@ def listing_changes(self):
     response = self.app.get('/tenders?feed=changes&mode=_all_')
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 4)
-
-
-def listing_draft(self):
-    response = self.app.get('/tenders')
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']), 0)
-
-    tenders = []
-    data = self.initial_data.copy()
-    data.update({'status': 'draft'})
-
-    for i in range(3):
-        response = self.app.post_json('/tenders', {'data': self.initial_data})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        tenders.append(response.json['data'])
-        response = self.app.post_json('/tenders', {'data': data})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-
-    ids = ','.join([i['id'] for i in tenders])
-
-    while True:
-        response = self.app.get('/tenders')
-        self.assertTrue(ids.startswith(','.join([i['id'] for i in response.json['data']])))
-        if len(response.json['data']) == 3:
-            break
-
-    self.assertEqual(len(response.json['data']), 3)
-    self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
-    self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
-    self.assertEqual(set([i['dateModified'] for i in response.json['data']]), set([i['dateModified'] for i in tenders]))
-    self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders]))
 
 
 def create_tender_invalid(self):
@@ -714,31 +619,6 @@ def create_tender(self):
     self.assertNotIn('region', response.json['data']['items'][0]['deliveryAddress'])
 
 
-def get_tender(self):
-    response = self.app.get('/tenders')
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']), 0)
-
-    response = self.app.post_json('/tenders', {'data': self.initial_data})
-    self.assertEqual(response.status, '201 Created')
-    tender = response.json['data']
-
-    response = self.app.get('/tenders/{}'.format(tender['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data'], tender)
-
-    response = self.app.get('/tenders/{}?opt_jsonp=callback'.format(tender['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/javascript')
-    self.assertIn('callback({"data": {"', response.body)
-
-    response = self.app.get('/tenders/{}?opt_pretty=1'.format(tender['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertIn('{\n    "data": {\n        "', response.body)
-
-
 def patch_tender(self):
     response = self.app.get('/tenders')
     self.assertEqual(response.status, '200 OK')
@@ -855,60 +735,6 @@ def patch_tender(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (complete) status")
-
-
-def dateModified_tender(self):
-    response = self.app.get('/tenders')
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']), 0)
-
-    response = self.app.post_json('/tenders', {'data': self.initial_data})
-    self.assertEqual(response.status, '201 Created')
-    tender = response.json['data']
-    dateModified = tender['dateModified']
-    owner_token = response.json['access']['token']
-
-    response = self.app.get('/tenders/{}'.format(tender['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']['dateModified'], dateModified)
-
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-        tender['id'], owner_token), {'data': {'procurementMethodRationale': 'Open'}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertNotEqual(response.json['data']['dateModified'], dateModified)
-    tender = response.json['data']
-    dateModified = tender['dateModified']
-
-    response = self.app.get('/tenders/{}'.format(tender['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data'], tender)
-    self.assertEqual(response.json['data']['dateModified'], dateModified)
-
-
-def tender_not_found(self):
-    response = self.app.get('/tenders')
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']), 0)
-
-    response = self.app.get('/tenders/some_id', status=404)
-    self.assertEqual(response.status, '404 Not Found')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': u'Not Found', u'location': u'url', u'name': u'tender_id'}
-    ])
-
-    response = self.app.patch_json(
-        '/tenders/some_id', {'data': {}}, status=404)
-    self.assertEqual(response.status, '404 Not Found')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': u'Not Found', u'location': u'url', u'name': u'tender_id'}
-    ])
 
 
 def tender_Administrator_change(self):

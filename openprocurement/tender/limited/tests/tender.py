@@ -3,6 +3,14 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    # TenderResourceTest
+    listing_draft,
+    get_tender,
+    dateModified_tender,
+    tender_not_found,
+)
+
 from openprocurement.tender.limited.tests.base import (
     BaseTenderWebTest,
     test_lots,
@@ -25,20 +33,15 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     changing_tender_after_award,
     initial_lot_date,
     # TenderResourceTest
-    empty_listing,
     listing,
     tender_award_create,
     listing_changes,
-    listing_draft,
     create_tender_invalid,
     field_relatedLot,
     create_tender_generated,
     create_tender_draft,
     create_tender,
-    get_tender,
     patch_tender,
-    dateModified_tender,
-    tender_not_found,
     tender_Administrator_change,
     # TenderNegotiationQuickTest
     simple_add_tender_negotiation_quick,
@@ -48,6 +51,11 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     simple_add_tender,
     # AccreditationTenderTest
     create_tender_accreditation,
+)
+
+from openprocurement.tender.openua.tests.tender_blanks import (
+    # TenderResourceTest
+    empty_listing,
 )
 
 
