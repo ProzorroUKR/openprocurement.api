@@ -3,6 +3,21 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    #TenderProcessTest
+    invalid_tender_conditions,
+    #TenderResourceTest
+    listing,
+    listing_changes,
+    listing_draft,
+    get_tender,
+    tender_features_invalid,
+    dateModified_tender,
+    tender_not_found,
+    guarantee,
+    tender_Administrator_change
+)
+
 from openprocurement.tender.openeu.tests.base import (
     test_tender_data,
     BaseTenderWebTest,
@@ -10,34 +25,28 @@ from openprocurement.tender.openeu.tests.base import (
 )
 from openprocurement.tender.openeu.tests.tender_blanks import (
     #TenderProcessTest
-    invalid_tender_conditions,
     one_bid_tender,
     unsuccessful_after_prequalification_tender,
     one_qualificated_bid_tender,
     multiple_bidders_tender,
     lost_contract_for_active_award,
     #TenderResourceTest
-    empty_listing,
-    listing,
-    listing_changes,
-    listing_draft,
     create_tender_invalid,
     create_tender_generated,
-    create_tender_draft,
-    create_tender,
-    get_tender,
-    tender_features_invalid,
-    tender_features,
     patch_tender,
     patch_tender_eu,
-    dateModified_tender,
-    tender_not_found,
-    guarantee,
-    tender_Administrator_change,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
     #TenderTest
     simple_add_tender,
+)
+
+from openprocurement.tender.openua.tests.tender_blanks import (
+    # TenderResourceTest
+    empty_listing,
+    create_tender_draft,
+    create_tender,
+    tender_features,
 )
 
 class TenderTest(BaseTenderWebTest):
