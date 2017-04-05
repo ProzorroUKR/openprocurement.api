@@ -826,6 +826,10 @@ class BaseTender(SchematicsDocument, Model):
     def __repr__(self):
         return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)
 
+    def __local_roles__(self):
+        roles = dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])
+        return roles
+
     @serializable(serialized_name='id')
     def doc_id(self):
         """A property that is serialized by schematics exports."""
@@ -885,10 +889,6 @@ class Tender(BaseTender):
         else:
             role = 'edit_{}'.format(request.context.status)
         return role
-
-    def __local_roles__(self):
-        roles = dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])
-        return roles
 
     def __acl__(self):
         acl = [
