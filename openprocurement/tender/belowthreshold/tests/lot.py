@@ -45,6 +45,7 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
 
 
 class TenderLotResourceTest(TenderContentWebTest):
+    test_lots_data = test_lots
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     test_create_tender_lot = snitch(create_tender_lot)
@@ -145,6 +146,7 @@ class TenderLotFeatureBidResourceTest(TenderContentWebTest):
 
 
 class TenderLotProcessTest(BaseTenderWebTest):
+    test_lots_data = test_lots
 
     test_proc_1lot_0bid = snitch(proc_1lot_0bid)
     test_proc_1lot_1bid = snitch(proc_1lot_1bid)
