@@ -453,7 +453,7 @@ def validate_update_contract_only_for_active_lots(request):
 def validate_update_contract_value(request):
     tender = request.validated['tender']
     data = request.validated['data']
-    if data['value']:
+    if data.get('value'):
         for ro_attr in ('valueAddedTaxIncluded', 'currency'):
             if data['value'][ro_attr] != getattr(request.context.value, ro_attr):
                 request.errors.add('body', 'data', 'Can\'t update {} for contract value'.format(ro_attr))
