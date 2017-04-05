@@ -11,6 +11,10 @@ from openprocurement.tender.belowthreshold.views.contract_document import Tender
 class TenderUaAwardContractDocumentResource(TenderAwardContractDocumentResource):
 
     def validate_contract_document(self, operation):
+        """ TODO move validators
+        This class is inherited from below package, but validate_contract_document function has different validators.
+        For now, we have no way to use different validators on methods according to procedure type.
+        """
         if self.request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
             self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
             self.request.errors.status = 403
