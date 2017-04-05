@@ -4,15 +4,9 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_lots
-
-from openprocurement.tender.openua.tests.base import (
-    BaseTenderUAContentWebTest, test_bids
-)
-from openprocurement.tender.openua.tests.cancellation_blanks import (
+from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     # TenderCancellationResourceTest
     create_tender_cancellation_invalid,
-    create_tender_cancellation,
-    patch_tender_cancellation,
     get_tender_cancellation,
     get_tender_cancellations,
     # TenderLotCancellationResourceTest
@@ -21,15 +15,25 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     # TenderLotsCancellationResourceTest
     create_tender_lots_cancellation,
     patch_tender_lots_cancellation,
-    # TenderAwardsCancellationResourceTest
-    cancellation_active_award,
-    cancellation_unsuccessful_award,
     # TenderCancellationDocumentResourceTest
     not_found,
     create_tender_cancellation_document,
     put_tender_cancellation_document,
     patch_tender_cancellation_document,
 )
+
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAContentWebTest, test_bids
+)
+from openprocurement.tender.openua.tests.cancellation_blanks import (
+    # TenderAwardsCancellationResourceTest
+    cancellation_active_award,
+    cancellation_unsuccessful_award,
+    # TenderCancellationResourceTest
+    create_tender_cancellation,
+    patch_tender_cancellation,
+)
+
 
 class TenderCancellationResourceTest(BaseTenderUAContentWebTest):
 
