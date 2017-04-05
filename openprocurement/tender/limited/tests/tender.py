@@ -820,6 +820,31 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (complete) status")
 
+    def test_tender_items(self):
+        response = self.app.get('/tenders')
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(len(response.json['data']), 0)
+        data = deepcopy(self.initial_data)
+
+        response = self.app.post_json('/tenders', {'data': self.initial_data})
+        self.assertEqual(response.status, '201 Created')
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        dateModified = tender.pop('dateModified')
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            tender['id'], owner_token), {'data': {'items': [{
+                'description': u"custom item descriptionX",
+                'quantity': 15,
+                'deliveryLocation': {'latitude': "12.123", 'longitude': "170.123"}
+            }]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['items'][0]['description'], u"custom item descriptionX")
+        self.assertEqual(response.json['data']['items'][0]['quantity'], 15)
+        self.assertEqual(response.json['data']['items'][0]['deliveryLocation']['latitude'], "12.123")
+        self.assertEqual(response.json['data']['items'][0]['deliveryLocation']['longitude'], "170.123")
+
     def test_dateModified_tender(self):
         response = self.app.get('/tenders')
         self.assertEqual(response.status, '200 OK')
