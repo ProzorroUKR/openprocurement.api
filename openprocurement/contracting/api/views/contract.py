@@ -5,14 +5,19 @@ from openprocurement.api.utils import (
     decrypt,
     encrypt,
     json_view,
-    APIResource
+    APIResource,
+    error_handler
 )
 
 from openprocurement.contracting.api.utils import (
     contractingresource, apply_patch, contract_serialize, set_ownership,
     save_contract)
 from openprocurement.contracting.api.validation import (
-    validate_contract_data, validate_patch_contract_data)
+    validate_contract_data,
+    validate_patch_contract_data,
+    validate_credentials_generate,
+    validate_contract_update_not_in_allowed_status,
+    validate_terminate_contract_without_amountPaid)
 from openprocurement.contracting.api.design import (
     FIELDS,
     contracts_by_dateModified_view,
@@ -92,7 +97,7 @@ class ContractsResource(APIResource):
                     self.request.errors.add('params', 'offset',
                                             'Offset expired/invalid')
                     self.request.errors.status = 404
-                    return
+                    raise error_handler(self.request.errors)
             if not offset:
                 view_offset = 'now' if descending else 0
         else:
@@ -194,22 +199,14 @@ class ContractResource(ContractsResource):
         return {'data': self.request.validated['contract'].serialize("view")}
 
     @json_view(content_type="application/json", permission='edit_contract',
-               validators=(validate_patch_contract_data,))
+               validators=(validate_patch_contract_data, validate_contract_update_not_in_allowed_status))
     def patch(self):
         """Contract Edit (partial)
         """
         contract = self.request.validated['contract']
-        if self.request.authenticated_role != 'Administrator' and contract.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t update contract in current ({}) status'.format(contract.status))
-            self.request.errors.status = 403
-            return
-
         apply_patch(self.request, save=False, src=self.request.validated['contract_src'])
 
-        if contract.status == 'terminated' and not contract.amountPaid:
-            self.request.errors.add('body', 'data', 'Can\'t terminate contract while \'amountPaid\' is not set')
-            self.request.errors.status = 403
-            return
+        validate_terminate_contract_without_amountPaid(self.request)
 
         if save_contract(self.request):
             self.LOGGER.info('Updated contract {}'.format(contract.id),
@@ -226,13 +223,9 @@ class ContractCredentialsResource(APIResource):
         super(ContractCredentialsResource, self).__init__(request, context)
         self.server = request.registry.couchdb_server
 
-    @json_view(permission='generate_credentials')
+    @json_view(permission='generate_credentials', validators=(validate_credentials_generate,))
     def patch(self):
         contract = self.request.validated['contract']
-        if contract.status != "active":
-            self.request.errors.add('body', 'data', 'Can\'t generate credentials in current ({}) contract status'.format(contract.status))
-            self.request.errors.status = 403
-            return
 
         set_ownership(contract, self.request)
         if save_contract(self.request):
