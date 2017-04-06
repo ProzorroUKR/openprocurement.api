@@ -5,14 +5,21 @@ from openprocurement.api.utils import (
     encrypt,
     json_view,
     APIResource,
-    get_now
+    get_now,
+    error_handler
 )
 
 from openprocurement.contracting.api.utils import (
     contractingresource, apply_patch, contract_serialize, set_ownership,
     save_contract)
 from openprocurement.contracting.api.validation import (
-    validate_change_data, validate_patch_change_data)
+    validate_change_data,
+    validate_patch_change_data,
+    validate_create_contract_change,
+    validate_update_contract_change_status,
+    validate_contract_change_add_not_in_allowed_contract_status,
+    validate_contract_change_update_not_in_allowed_change_status
+)
 
 
 @contractingresource(name='Contract changes',
@@ -38,18 +45,10 @@ class ContractsChangesResource(APIResource):
         return {'data': self.request.validated['change'].serialize("view")}
 
     @json_view(content_type="application/json", permission='edit_contract',
-               validators=(validate_change_data,))
+               validators=(validate_change_data, validate_contract_change_add_not_in_allowed_contract_status, validate_create_contract_change))
     def collection_post(self):
         """ Contract Change create """
         contract = self.request.validated['contract']
-        if contract.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t add contract change in current ({}) contract status'.format(contract.status))
-            self.request.errors.status = 403
-            return
-        if contract.changes and contract.changes[-1].status == 'pending':
-            self.request.errors.add('body', 'data', 'Can\'t create new contract change while any (pending) change exists')
-            self.request.errors.status = 403
-            return
 
         change = self.request.validated['change']
         if change['dateSigned']:
@@ -64,11 +63,12 @@ class ContractsChangesResource(APIResource):
                 last_date_signed = contract.dateSigned
                 obj_str = "contract"
 
+            # Can't move validator because of code above
             if last_date_signed:  # BBB very old contracts
                 if change['dateSigned'] < last_date_signed:
                     self.request.errors.add('body', 'data', 'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
                     self.request.errors.status = 403
-                    return
+                    raise error_handler(self.request.errors)
 
         contract.changes.append(change)
 
@@ -80,24 +80,14 @@ class ContractsChangesResource(APIResource):
             return {'data': change.serialize("view")}
 
     @json_view(content_type="application/json", permission='edit_contract',
-               validators=(validate_patch_change_data,))
+               validators=(validate_patch_change_data, validate_contract_change_update_not_in_allowed_change_status))
     def patch(self):
         """ Contract change edit """
         change = self.request.validated['change']
         data = self.request.validated['data']
 
-        if change.status == 'active':
-            self.request.errors.add('body', 'data', 'Can\'t update contract change in current ({}) status'.format(change.status))
-            self.request.errors.status = 403
-            return
-
         if 'status' in data and data['status'] != change.status:  # status change
-
-            if not data.get("dateSigned", ''):
-                self.request.errors.add('body', 'data', 'Can\'t update contract change status. \'dateSigned\' is required.')
-                self.request.errors.status = 403
-                return
-
+            validate_update_contract_change_status(self.request)
             change['date'] = get_now()
 
         apply_patch(self.request, save=False, src=change.serialize())
@@ -115,11 +105,12 @@ class ContractsChangesResource(APIResource):
                 last_date_signed = contract.dateSigned
                 obj_str = "contract"
 
+            # Can't move validator because of code above
             if last_date_signed:  # BBB very old contracts
                 if change['dateSigned'] < last_date_signed:
                     self.request.errors.add('body', 'data', 'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
                     self.request.errors.status = 403
-                    return
+                    raise error_handler(self.request.errors)
 
         if save_contract(self.request):
             self.LOGGER.info('Updated contract change {}'.format(change.id),
