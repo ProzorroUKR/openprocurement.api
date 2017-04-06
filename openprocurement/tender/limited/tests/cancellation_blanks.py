@@ -280,42 +280,6 @@ def create_tender_lots_cancellation(self):
     self.assertEqual(response.json['data']["status"], 'cancelled')
 
 
-def patch_tender_lots_cancellation(self):
-    lot_id = self.initial_lots[0]['id']
-    response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
-        'reason': 'cancellation reason',
-        "cancellationOf": "lot",
-        "relatedLot": lot_id
-    }})
-    self.assertEqual(response.status, '201 Created')
-    self.assertEqual(response.content_type, 'application/json')
-    cancellation = response.json['data']
-
-    response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(
-        self.tender_id, cancellation['id'], self.tender_token), {"data": {"status": "active"}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], "active")
-
-    response = self.app.get('/tenders/{}'.format(self.tender_id))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']['lots'][0]["status"], 'cancelled')
-    self.assertNotEqual(response.json['data']["status"], 'cancelled')
-
-    response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(
-        self.tender_id, cancellation['id'], self.tender_token), {"data": {"status": "pending"}}, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can update cancellation only in active lot status")
-
-    response = self.app.get('/tenders/{}/cancellations/{}'.format(self.tender_id, cancellation['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], "active")
-    self.assertEqual(response.json['data']["reason"], "cancellation reason")
-
-
 def cancelled_lot_without_relatedLot(self):
     response = self.app.post_json(
         '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
