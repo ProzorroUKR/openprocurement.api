@@ -5,7 +5,8 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
-    error_handler
+    error_handler,
+    raise_operation_error
 )
 
 from openprocurement.tender.core.utils import (
@@ -315,13 +316,9 @@ class TenderAwardResource(APIResource):
             pass
             # add_next_award(self.request)
         elif award_status != award.status:
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
         elif award_status != 'pending':
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
 
         if save_tender(self.request):
             self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
@@ -494,9 +491,8 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award.status == "active" and not award.qualified:
-            self.request.errors.add('body', 'data', 'Can\'t update award to active status with not qualified')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update award to active status with not qualified')
+
         if award.lotID and \
                 [aw.lotID for aw in tender.awards if aw.status in['pending', 'active']].count(award.lotID) > 1:
             self.request.errors.add('body', 'lotID', 'Another award is already using this lotID.')
@@ -551,13 +547,9 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                 if i.awardID in cancelled_awards:
                     i.status = 'cancelled'
         elif award_status != award.status:
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
         elif self.request.authenticated_role != 'Administrator' and award_status != 'pending':
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
 
         if save_tender(self.request):
             self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),

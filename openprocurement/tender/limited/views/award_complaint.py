@@ -4,7 +4,7 @@ from openprocurement.api.utils import (
     context_unpack,
     json_view,
     set_ownership,
-    error_handler
+    raise_operation_error
 )
 
 from openprocurement.tender.core.utils import (
@@ -115,9 +115,7 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
             self.context.dateDecision = get_now()
             self.context.dateCanceled = self.context.dateCanceled or get_now()
         else:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update complaint')
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if save_tender(self.request):
