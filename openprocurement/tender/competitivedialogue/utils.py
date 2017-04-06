@@ -3,7 +3,7 @@ from barbecue import vnmax
 from logging import getLogger
 from schematics.exceptions import ValidationError
 from openprocurement.api.utils import (
-    context_unpack, generate_id, get_now, error_handler,
+    context_unpack, generate_id, get_now, raise_operation_error,
     set_ownership as api_set_ownership
 )
 from openprocurement.tender.core.utils import (
@@ -102,15 +102,11 @@ def patch_eu(self):
                                                                          self.request.validated['tender'])
             tender.check_auction_time()
         else:
-            self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
     elif self.request.authenticated_role == 'tender_owner' and \
             self.request.validated['tender_status'] == 'active.pre-qualification' and \
             tender.status != "active.pre-qualification.stand-still":
-        self.request.errors.add('body', 'data', 'Can\'t update tender status')
-        self.request.errors.status = 403
-        raise error_handler(self.request.errors)
+        raise_operation_error(self.request, 'Can\'t update tender status')
 
     save_tender(self.request)
     self.LOGGER.info('Updated tender {}'.format(tender.id),
@@ -254,10 +250,7 @@ def stage2_bid_post(self):
     bid = self.request.validated['bid']
     # TODO can't move validator because of self.allowed_bid_status_on_create
     if bid.status not in self.allowed_bid_status_on_create:
-        self.request.errors.add('body', 'data',
-                                'Bid can be added only with status: {}.'.format(self.allowed_bid_status_on_create))
-        self.request.errors.status = 403
-        return
+        raise_operation_error(self.request, 'Bid can be added only with status: {}.'.format(self.allowed_bid_status_on_create))
     tender.modified = False
     api_set_ownership(bid, self.request)
     tender.bids.append(bid)
