@@ -10,7 +10,7 @@ def validate_patch_qualification_data(request):
 # bids
 def validate_view_bids_in_active_tendering(request):
     if request.validated['tender_status'] == 'active.tendering':
-        request.errors.add('body', 'data', 'Can\'t view bids in current ({}) tender status'.format(request.validated['tender_status']))
+        request.errors.add('body', 'data', 'Can\'t view {} in current ({}) tender status'.format('bid' if request.matchdict.get('bid_id') else 'bids', request.validated['tender_status']))
         request.errors.status = 403
         raise error_handler(request.errors)
 
