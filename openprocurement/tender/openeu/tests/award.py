@@ -10,43 +10,52 @@ from openprocurement.tender.openeu.tests.base import (
     test_bids,
     test_lots
 )
-from openprocurement.tender.openeu.tests.award_blanks import (
-    # Tender2LotAwardDocumentResourceTest
-    create_tender_2lot_award_document,
-    put_tender_2lot_award_document,
-    patch_tender_2lot_award_document,
+from openprocurement.tender.belowthreshold.tests.award_blanks import (
+    # TenderAwardComplaintResourceTest
+    create_tender_award_complaint_invalid,
+    get_tender_award_complaint,
+    get_tender_award_complaints,
+    # TenderLotAwardComplaintResourceTest
+    get_tender_lot_award_complaint,
+    get_tender_lot_award_complaints,
+    # TenderAwardComplaintDocumentResourceTest
+    not_found,
+    create_tender_award_complaint_document,
+    put_tender_award_complaint_document,
     # TenderAwardDocumentResourceTest
     not_found_award_document,
     create_tender_award_document,
     put_tender_award_document,
     patch_tender_award_document,
-    # Tender2LotAwardComplaintDocumentResourceTest
-    create_tender_award_complaint_document,
-    put_tender_award_complaint_document,
-    patch_tender_award_complaint_document,
-    # TenderAwardComplaintDocumentResourceTest
-    not_found,
-    create_tender_2lot_award_complaint_document,
-    put_tender_2lot_award_complaint_document,
-    patch_tender_2lot_award_complaint_document,
-    # Tender2LotAwardComplaintResourceTest
-    create_tender_2lot_award_complaint,
-    patch_tender_2lot_award_complaint,
-    # TenderLotAwardComplaintResourceTest
-    create_tender_lot_award_complaint,
-    patch_tender_lot_award_complaint,
-    get_tender_lot_award_complaint,
-    get_tender_lot_award_complaints,
+    # Tender2LotAwardDocumentResourceTest
+    create_tender_lots_award_document,
+    put_tender_lots_award_document,
+    patch_tender_lots_award_document,
+)
+
+from openprocurement.tender.openua.tests.award_blanks import (
     # TenderAwardComplaintResourceTest
     create_tender_award_claim,
     create_tender_award_complaint_not_active,
-    create_tender_award_complaint_invalid,
     create_tender_award_complaint,
     patch_tender_award_complaint,
     review_tender_award_complaint,
     review_tender_award_claim,
-    get_tender_award_complaint,
-    get_tender_award_complaints,
+    # Tender2LotAwardComplaintResourceTest
+    create_tender_lots_award_complaint,
+    patch_tender_lots_award_complaint,
+    # TenderLotAwardComplaintResourceTest
+    create_tender_lot_award_complaint,
+    patch_tender_lot_award_complaint,
+)
+
+from openprocurement.tender.openeu.tests.award_blanks import (
+    # Tender2LotAwardComplaintDocumentResourceTest
+    patch_tender_award_complaint_document,
+    # TenderAwardComplaintDocumentResourceTest
+    create_tender_2lot_award_complaint_document,
+    put_tender_2lot_award_complaint_document,
+    patch_tender_2lot_award_complaint_document,
     # Tender2LotAwardResourceTest
     create_tender_2lot_award,
     patch_tender_2lot_award,
@@ -57,10 +66,10 @@ from openprocurement.tender.openeu.tests.award_blanks import (
     # TenderAwardResourceTest
     create_tender_award_invalid,
     create_tender_award,
+    get_tender_award,
     patch_tender_award,
     patch_tender_award_active,
     patch_tender_award_unsuccessful,
-    get_tender_award,
     patch_tender_award_Administrator_change,
 )
 
@@ -366,8 +375,8 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
 class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
     initial_lots = 2 * test_lots
 
-    test_create_tender_award_complaint = snitch(create_tender_2lot_award_complaint)
-    test_patch_tender_award_complaint = snitch(patch_tender_2lot_award_complaint)
+    test_create_tender_award_complaint = snitch(create_tender_lots_award_complaint)
+    test_patch_tender_award_complaint = snitch(patch_tender_lots_award_complaint)
 
 
 class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
@@ -453,9 +462,9 @@ class Tender2LotAwardDocumentResourceTest(BaseTenderContentWebTest):
         award = response.json['data']
         self.award_id = award['id']
 
-    test_create_tender_award_document = snitch(create_tender_2lot_award_document)
-    test_put_tender_award_document = snitch(put_tender_2lot_award_document)
-    test_patch_tender_award_document = snitch(patch_tender_2lot_award_document)
+    test_create_tender_award_document = snitch(create_tender_lots_award_document)
+    test_put_tender_award_document = snitch(put_tender_lots_award_document)
+    test_patch_tender_award_document = snitch(patch_tender_lots_award_document)
 
 
 def suite():
