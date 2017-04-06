@@ -4,6 +4,17 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.award_blanks import (
+    # TenderAwardDocumentResourceTest
+    create_tender_award_document,
+    put_tender_award_document,
+    patch_tender_award_document,
+    # TenderNegotiationAwardComplaintDocumentResourceTest
+    not_found,
+    create_tender_award_complaint_document,
+    put_tender_award_complaint_document,
+)
+
 
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest, test_tender_data,
@@ -14,14 +25,8 @@ from openprocurement.tender.limited.tests.base import (
 )
 from openprocurement.tender.limited.tests.award_blanks import (
     # TenderAwardDocumentResourceTest
-    create_tender_award_document,
     create_tender_award_document_invalid,
-    put_tender_award_document,
-    patch_tender_award_document,
     # TenderNegotiationAwardComplaintDocumentResourceTest
-    not_found,
-    create_tender_award_complaint_document,
-    put_tender_award_complaint_document,
     patch_tender_award_complaint_document,
     # Tender2LotNegotiationAwardComplaintResourceTest
     two_awards_on_one_lot,
@@ -128,6 +133,7 @@ class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest
 
 class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_data
+
 
     def create_award(self):
         # Create award
