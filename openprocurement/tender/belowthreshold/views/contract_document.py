@@ -6,6 +6,7 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
+    raise_operation_error
 )
 from openprocurement.api.validation import (
     validate_file_update,
@@ -31,17 +32,11 @@ class TenderAwardContractDocumentResource(APIResource):
         For now, we have no way to use different validators on methods according to procedure type.
         """
         if self.request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
         if any([i.status != 'active' for i in self.request.validated['tender'].lots if i.id in [a.lotID for a in self.request.validated['tender'].awards if a.id == self.request.validated['contract'].awardID]]):
-            self.request.errors.add('body', 'data', 'Can {} document only in active lot status'.format(operation))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can {} document only in active lot status'.format(operation))
         if self.request.validated['contract'].status not in ['pending', 'active']:
-            self.request.errors.add('body', 'data', 'Can\'t {} document in current contract status'.format(operation))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t {} document in current contract status'.format(operation))
         return True
 
     @json_view(permission='view_tender')
