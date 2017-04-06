@@ -6,6 +6,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderResourceTest
     listing_draft,
+    create_tender_draft,
     get_tender,
     dateModified_tender,
     tender_not_found,
@@ -39,7 +40,6 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     create_tender_invalid,
     field_relatedLot,
     create_tender_generated,
-    create_tender_draft,
     create_tender,
     patch_tender,
     tender_Administrator_change,
@@ -85,6 +85,7 @@ class TenderNegotiationQuickTest(TenderNegotiationTest):
 
 class TenderResourceTest(BaseTenderWebTest):
     initial_data = test_tender_data
+    test_tender_status = 'active'
 
     test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)
