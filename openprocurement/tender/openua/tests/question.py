@@ -12,6 +12,7 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     lot_patch_tender_question,
     # TenderQuestionResourceTest
     create_tender_question_invalid,
+    patch_tender_question,
     get_tender_question,
     get_tender_questions,
 )
@@ -22,7 +23,6 @@ from openprocurement.tender.openua.tests.base import (
 from openprocurement.tender.openua.tests.question_blanks import (
     # TenderQuestionResourceTest
     create_tender_question,
-    patch_tender_question,
     # TenderLotQuestionResourceTest
     tender_has_unanswered_questions,
     lot_has_unanswered_questions,
@@ -31,6 +31,8 @@ from openprocurement.tender.openua.tests.question_blanks import (
 
 
 class TenderQuestionResourceTest(BaseTenderUAContentWebTest):
+    test_tender_status = 'active.auction'
+
     test_create_tender_question_invalid = snitch(create_tender_question_invalid)
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
