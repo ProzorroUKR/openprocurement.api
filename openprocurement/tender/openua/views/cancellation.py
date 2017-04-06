@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.belowthreshold.views.cancellation import TenderCancellationResource
 from openprocurement.tender.openua.utils import add_next_award
@@ -47,7 +48,5 @@ class TenderUaCancellationResource(TenderCancellationResource):
             statuses = set([i.status for i in tender.awards if i.lotID == cancellation.relatedLot])
             block_cancellation = not statuses.difference(set(['unsuccessful', 'cancelled'])) if statuses else False
         if block_cancellation:
-            self.request.errors.add('body', 'data', 'Can\'t {} cancellation if all awards is unsuccessful'.format(operation))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t {} cancellation if all awards is unsuccessful'.format(operation))
         return True
