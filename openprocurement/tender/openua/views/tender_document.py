@@ -1,6 +1,6 @@
 from openprocurement.api.utils import (
     upload_file, context_unpack, json_view,
-    update_file_content_type, get_now, error_handler
+    update_file_content_type, get_now, error_handler, raise_operation_error
 )
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -27,9 +27,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
         For now, we have no way to use different validators on methods according to procedure type.
         """
         if self.request.validated['tender_status'] == 'active.tendering' and calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated['tender']) > self.request.validated['tender'].tenderPeriod.endDate:
-            self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
         return True
 
     @json_view(permission='upload_tender_documents', validators=(validate_file_upload, validate_document_operation_in_not_allowed_period))
