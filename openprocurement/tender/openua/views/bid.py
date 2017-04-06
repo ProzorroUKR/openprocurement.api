@@ -5,7 +5,7 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     get_now,
-    error_handler
+    raise_operation_error
 )
 from openprocurement.tender.core.validation import (
     validate_bid_data,
@@ -120,9 +120,7 @@ class TenderUABidResource(TenderBidResource):
         tender = self.request.validated['tender']
         bid = self.request.validated['bid']
         if bid.status not in self.allowed_bid_status_on_create:
-            self.request.errors.add('body', 'data', 'Bid can be added only with status: {}.'.format(self.allowed_bid_status_on_create))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Bid can be added only with status: {}.'.format(self.allowed_bid_status_on_create))
         tender.modified = False
         set_ownership(bid, self.request)
         tender.bids.append(bid)
