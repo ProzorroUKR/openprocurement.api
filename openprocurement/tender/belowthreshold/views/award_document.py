@@ -6,6 +6,7 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
+    raise_operation_error
 )
 from openprocurement.api.validation import (
     validate_file_update,
@@ -30,13 +31,9 @@ class TenderAwardDocumentResource(APIResource):
         For now, we have no way to use different validators on methods according to procedure type.
         """
         if self.request.validated['tender_status'] != 'active.qualification':
-            self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
         if any([i.status != 'active' for i in self.request.validated['tender'].lots if i.id == self.request.validated['award'].lotID]):
-            self.request.errors.add('body', 'data', 'Can {} document only in active lot status'.format(operation))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can {} document only in active lot status'.format(operation))
         return True
 
     @json_view(permission='view_tender')
