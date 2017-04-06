@@ -10,6 +10,9 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     listing,
     listing_changes,
     listing_draft,
+    create_tender_draft,
+    create_tender,
+    tender_features,
     get_tender,
     tender_features_invalid,
     dateModified_tender,
@@ -34,7 +37,6 @@ from openprocurement.tender.openeu.tests.tender_blanks import (
     create_tender_invalid,
     create_tender_generated,
     patch_tender,
-    patch_tender_eu,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
     #TenderTest
@@ -44,9 +46,8 @@ from openprocurement.tender.openeu.tests.tender_blanks import (
 from openprocurement.tender.openua.tests.tender_blanks import (
     # TenderResourceTest
     empty_listing,
-    create_tender_draft,
-    create_tender,
-    tender_features,
+    tender_fields,
+    patch_tender_ua as patch_tender_eu,
 )
 
 class TenderTest(BaseTenderWebTest):
@@ -62,6 +63,7 @@ class TenderResourceTest(BaseTenderWebTest):
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
     test_lots_data = test_lots  # TODO: change attribute identifier
+    test_tender_status = 'active.tendering'
 
     test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)
@@ -71,6 +73,7 @@ class TenderResourceTest(BaseTenderWebTest):
     test_create_tender_generated = snitch(create_tender_generated)
     test_create_tender_draft = snitch(create_tender_draft)
     test_create_tender = snitch(create_tender)
+    test_tender_fields = snitch(tender_fields)
     test_get_tender = snitch(get_tender)
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_tender_features = snitch(tender_features)
