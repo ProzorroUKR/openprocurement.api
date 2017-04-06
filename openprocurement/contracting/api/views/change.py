@@ -6,7 +6,7 @@ from openprocurement.api.utils import (
     json_view,
     APIResource,
     get_now,
-    error_handler
+    raise_operation_error
 )
 
 from openprocurement.contracting.api.utils import (
@@ -66,9 +66,7 @@ class ContractsChangesResource(APIResource):
             if last_date_signed:  # BBB very old contracts
                 if change['dateSigned'] < last_date_signed:
                     # Can't move validator because of code above
-                    self.request.errors.add('body', 'data', 'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
-                    self.request.errors.status = 403
-                    raise error_handler(self.request.errors)
+                    raise_operation_error(self.request,  'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
 
         contract.changes.append(change)
 
@@ -108,9 +106,7 @@ class ContractsChangesResource(APIResource):
             if last_date_signed:  # BBB very old contracts
                 if change['dateSigned'] < last_date_signed:
                     # Can't move validator because of code above
-                    self.request.errors.add('body', 'data', 'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
-                    self.request.errors.status = 403
-                    raise error_handler(self.request.errors)
+                    raise_operation_error(self.request,  'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
 
         if save_contract(self.request):
             self.LOGGER.info('Updated contract change {}'.format(change.id),
