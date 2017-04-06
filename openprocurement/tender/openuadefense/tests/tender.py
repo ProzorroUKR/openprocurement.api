@@ -6,10 +6,15 @@ from openprocurement.api.tests.base import BaseWebTest
 
 from openprocurement.tender.belowthreshold.tests.base import test_lots
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    # TenderUAProcessTest
+    invalid_tender_conditions,
     # TenderUAResourceTest
     listing,
     listing_changes,
     listing_draft,
+    create_tender_draft,
+    create_tender,
+    tender_features,
     get_tender,
     tender_features_invalid,
     dateModified_tender,
@@ -20,14 +25,10 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 from openprocurement.tender.openua.tests.tender_blanks import (
     # TenderUAResourceTest
     empty_listing,
-    create_tender_draft,
-    create_tender,
-    tender_features,
     create_tender_generated,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
     # TenderUAProcessTest
-    invalid_tender_conditions,
     first_bid_tender,
     lost_contract_for_active_award
 )
@@ -58,6 +59,7 @@ class TenderUATest(BaseWebTest):
 
 class TenderUAResourceTest(BaseTenderUAWebTest):
     test_lots_data = test_lots  # TODO: change attribute identifier
+    test_tender_status = 'active.tendering'
 
     initial_data = test_tender_data
 
