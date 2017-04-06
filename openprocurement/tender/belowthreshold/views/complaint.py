@@ -5,7 +5,7 @@ from openprocurement.api.utils import (
     json_view,
     set_ownership,
     APIResource,
-    error_handler
+    raise_operation_error
 )
 
 from openprocurement.tender.core.utils import (
@@ -101,9 +101,7 @@ class TenderComplaintResource(APIResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('resolution', self.context.resolution) and data.get('resolutionType', self.context.resolutionType) and data.get('status', self.context.status) == 'answered':
             if len(data.get('resolution', self.context.resolution)) < 20:
-                self.request.errors.add('body', 'data', 'Can\'t update complaint: resolution too short')
-                self.request.errors.status = 403
-                raise error_handler(self.request.errors)
+                raise_operation_error(self.request, 'Can\'t update complaint: resolution too short')
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAnswered = get_now()
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'pending':
@@ -115,9 +113,7 @@ class TenderComplaintResource(APIResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
         else:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update complaint')
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if self.context.status not in ['draft', 'claim', 'answered', 'pending'] and tender.status in ['active.qualification', 'active.awarded']:

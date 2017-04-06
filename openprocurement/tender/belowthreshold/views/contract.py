@@ -5,7 +5,7 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
-    error_handler
+    raise_operation_error
 )
 from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
@@ -68,9 +68,7 @@ class TenderAwardContractResource(APIResource):
             award = [a for a in tender.awards if a.id == self.request.context.awardID][0]
             stand_still_end = award.complaintPeriod.endDate
             if stand_still_end > get_now():
-                self.request.errors.add('body', 'data', 'Can\'t sign contract before stand-still period end ({})'.format(stand_still_end.isoformat()))
-                self.request.errors.status = 403
-                raise error_handler(self.request.errors)
+                raise_operation_error(self.request, 'Can\'t sign contract before stand-still period end ({})'.format(stand_still_end.isoformat()))
             pending_complaints = [
                 i
                 for i in tender.complaints
@@ -83,15 +81,11 @@ class TenderAwardContractResource(APIResource):
                 if i.status in ['claim', 'answered', 'pending'] and a.lotID == award.lotID
             ]
             if pending_complaints or pending_awards_complaints:
-                self.request.errors.add('body', 'data', 'Can\'t sign contract before reviewing all complaints')
-                self.request.errors.status = 403
-                raise error_handler(self.request.errors)
+                raise_operation_error(self.request, 'Can\'t sign contract before reviewing all complaints')
         contract_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if contract_status != self.request.context.status and (contract_status != 'pending' or self.request.context.status != 'active'):
-            self.request.errors.add('body', 'data', 'Can\'t update contract status')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update contract status')
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
         check_tender_status(self.request)

@@ -4,7 +4,7 @@ from openprocurement.api.utils import (
     json_view,
     APIResource,
     context_unpack,
-    error_handler
+    raise_operation_error
 )
 
 from openprocurement.tender.core.utils import (
@@ -347,9 +347,7 @@ class TenderAwardResource(APIResource):
                     i.status = 'cancelled'
             add_next_award(self.request)
         elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
         if save_tender(self.request):
             self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}))

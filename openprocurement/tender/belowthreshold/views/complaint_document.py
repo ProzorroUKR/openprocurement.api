@@ -6,7 +6,6 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
-    error_handler
 )
 from openprocurement.api.validation import (
     validate_file_update,
