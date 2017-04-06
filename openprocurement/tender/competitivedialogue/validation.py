@@ -2,7 +2,7 @@ from openprocurement.api.validation import (
     validate_data, validate_json_data
 )
 from openprocurement.api.utils import (
-    apply_data_patch, update_logging_context, error_handler
+    apply_data_patch, update_logging_context, error_handler, raise_operation_error
 )
 from openprocurement.tender.competitivedialogue.models import STAGE2_STATUS
 from openprocurement.tender.competitivedialogue.utils import (
@@ -15,9 +15,7 @@ def validate_patch_tender_stage2_data(request):
     if request.context.status == 'draft':
         default_statuses = ['active.tendering', STAGE2_STATUS]
         if data.get('status') not in default_statuses:
-            request.errors.add('body', 'data', 'Can\'t update tender in current ({0}) status'.format(data['status']))
-            request.errors.status = 403
-            raise error_handler(request.errors)
+            raise_operation_error(request, 'Can\'t update tender in current ({0}) status'.format(data['status']))
         request.validated['data'] = {'status': data.get('status')}
         request.context.status = data.get('status')
         return
@@ -36,7 +34,6 @@ def validate_patch_tender_stage2_data(request):
             if apply_data_patch(request.context.enquiryPeriod.serialize(), data['enquiryPeriod']):
                 request.errors.add('body', 'item', 'Can\'t change enquiryPeriod')
                 request.errors.status = 403
-                # return None
                 raise error_handler(request.errors)
     if request.context.status == STAGE2_STATUS and data.get('status') == 'active.tendering':
         data = validate_data(request, type(request.tender), True, data)
@@ -132,9 +129,7 @@ def validate_post_question_data_stage2(request):
 # tender
 def validate_credentials_generation(request):
     if request.validated['tender'].status != "draft.stage2":
-        request.errors.add('body', 'data', 'Can\'t generate credentials in current ({}) contract status'.format(request.validated['tender'].status))
-        request.errors.status = 403
-        raise error_handler(request.errors)
+        raise_operation_error(request, 'Can\'t generate credentials in current ({}) contract status'.format(request.validated['tender'].status))
 
 
 def validate_tender_update(request):
@@ -142,9 +137,7 @@ def validate_tender_update(request):
     data = request.validated['data']
     if request.authenticated_role == 'tender_owner' and 'status' in data and \
             data['status'] not in ['active.pre-qualification.stand-still', 'active.stage2.waiting', tender.status]:
-        request.errors.add('body', 'data', 'Can\'t update tender status')
-        request.errors.status = 403
-        raise error_handler(request.errors)
+        raise_operation_error(request, 'Can\'t update tender status')
 
 # bid
 def validate_bid_status_update_not_to_pending_or_draft(request):
@@ -162,13 +155,9 @@ def validate_firm_to_create_bid(request):
     firm_keys = prepare_shortlistedFirms(tender.shortlistedFirms)
     bid_keys = prepare_bid_identifier(bid)
     if not (bid_keys <= firm_keys):
-        request.errors.add('body', 'data', 'Firm can\'t create bid')
-        request.errors.status = 403
-        raise error_handler(request.errors)
+        raise_operation_error(request, 'Firm can\'t create bid')
 
 # lot
 def validate_lot_operation_for_stage2(request):
     operations = {"POST": "create", "PATCH": "update", "DELETE": "delete"}
-    request.errors.add('body', 'data', 'Can\'t {} lot for tender stage2'.format(operations.get(request.method)))
-    request.errors.status = 403
-    raise error_handler(request.errors)
+    raise_operation_error(request, 'Can\'t {} lot for tender stage2'.format(operations.get(request.method)))
