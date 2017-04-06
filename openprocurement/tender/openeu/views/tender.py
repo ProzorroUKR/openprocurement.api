@@ -3,7 +3,7 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     get_now,
-    error_handler
+    raise_operation_error
 )
 from openprocurement.tender.core.utils import (
     optendersresource,
@@ -102,17 +102,13 @@ class TenderEUResource(TenderResource):
         elif self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.pre-qualification' and tender.status == "active.pre-qualification.stand-still":
             active_lots = [lot.id for lot in tender.lots if lot.status == 'active'] if tender.lots else [None]
             if any([i['status'] in self.request.validated['tender'].block_complaint_status for q in self.request.validated['tender']['qualifications'] for i in q['complaints'] if q['lotID'] in active_lots]):
-                self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' before resolve all complaints')
-                self.request.errors.status = 403
-                raise error_handler(self.request.errors)
+                raise_operation_error(self.request, 'Can\'t switch to \'active.pre-qualification.stand-still\' before resolve all complaints')
             if all_bids_are_reviewed(self.request):
                 normalized_date = calculate_normalized_date(get_now(), tender, True)
                 tender.qualificationPeriod.endDate = calculate_business_date(normalized_date, COMPLAINT_STAND_STILL, self.request.validated['tender'])
                 tender.check_auction_time()
             else:
-                self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
-                self.request.errors.status = 403
-                raise error_handler(self.request.errors)
+                raise_operation_error(self.request, 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
 
         save_tender(self.request)
         self.LOGGER.info('Updated tender {}'.format(tender.id),
