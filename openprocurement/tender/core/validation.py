@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.validation import validate_data, validate_json_data
+from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
 from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error # XXX tender context
 from openprocurement.tender.core.utils import calculate_business_date
 from schematics.exceptions import ValidationError
 
-OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
 
 def validate_tender_data(request):
     update_logging_context(request, {'tender_id': '__new__'})
