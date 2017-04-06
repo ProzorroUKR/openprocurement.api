@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
     get_now,
-    error_handler
+    raise_operation_error
 )
+from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.utils import (
     optendersresource, calculate_business_date
 )
-from openprocurement.tender.core.validation import OPERATIONS
 from openprocurement.tender.openeu.views.tender_document import (
     TenderEUDocumentResource
 )
@@ -33,13 +33,9 @@ class CompetitiveDialogueStage2EUDocumentResource(TenderEUDocumentResource):
         """
         if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] not in ['active.tendering', STAGE2_STATUS] or \
            self.request.authenticated_role == 'auction' and self.request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
-            self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(self.request.method), self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            raise error_handler(request.errors)
+            raise_operation_error(self.request, 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(self.request.method), self.request.validated['tender_status']))
         if self.request.validated['tender_status'] == 'active.tendering' and calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated['tender']) > self.request.validated['tender'].tenderPeriod.endDate:
-            self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
-            self.request.errors.status = 403
-            raise error_handler(request.errors)
+            raise_operation_error(self.request, 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
         return True
 
 

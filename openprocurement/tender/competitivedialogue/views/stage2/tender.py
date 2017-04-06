@@ -3,7 +3,7 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     get_now,
-    error_handler
+    raise_operation_error
 )
 from openprocurement.tender.core.utils import (
     optendersresource,
@@ -194,9 +194,7 @@ class TenderStage2UEResource(TenderEUResource):
                                                                              self.request.validated['tender'])
                 tender.check_auction_time()
             else:
-                self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
-                self.request.errors.status = 403
-                raise error_handler(self.request.errors)
+                raise_operation_error(self.request, 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
 
         save_tender(self.request)
         self.LOGGER.info('Updated tender {}'.format(tender.id),
