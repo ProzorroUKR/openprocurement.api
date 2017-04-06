@@ -22,6 +22,7 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     # Tender Lot Feature Resource Test
     tender_value,
     tender_features_invalid,
+    tender_lot_document,
     # Tender Lot Bid Resource Test
     create_tender_bid_invalid,
     patch_tender_bid,
@@ -62,6 +63,7 @@ class TenderLotFeatureResourceTest(TenderContentWebTest):
 
     test_tender_value = snitch(tender_value)
     test_tender_features_invalid = snitch(tender_features_invalid)
+    test_tender_lot_document = snitch(tender_lot_document)
 
 
 class TenderLotBidResourceTest(TenderContentWebTest):
