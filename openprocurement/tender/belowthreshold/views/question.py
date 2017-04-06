@@ -4,6 +4,7 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
+    raise_operation_error
 )
 from openprocurement.tender.core.validation import (
     validate_question_data, validate_patch_question_data,
@@ -28,13 +29,9 @@ class TenderQuestionResource(APIResource):
         """
         tender = self.request.validated['tender']
         if operation == 'add' and (tender.status != 'active.enquiries' or tender.enquiryPeriod.startDate and get_now() < tender.enquiryPeriod.startDate or get_now() > tender.enquiryPeriod.endDate):
-            self.request.errors.add('body', 'data', 'Can add question only in enquiryPeriod')
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can add question only in enquiryPeriod')
         if operation == 'update' and tender.status != 'active.enquiries':
-            self.request.errors.add('body', 'data', 'Can\'t update question in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t update question in current ({}) tender status'.format(tender.status))
         question = self.request.validated['question']
         items_dict = {i.id: i.relatedLot for i in tender.items}
         if any([
@@ -42,9 +39,7 @@ class TenderQuestionResource(APIResource):
             for i in tender.lots
             if question.questionOf == 'lot' and i.id == question.relatedItem or question.questionOf == 'item' and i.id == items_dict[question.relatedItem]
         ]):
-            self.request.errors.add('body', 'data', 'Can {} question only in active lot status'.format(operation))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can {} question only in active lot status'.format(operation))
         return True
 
     @json_view(content_type="application/json", validators=(validate_question_data,), permission='create_question')
