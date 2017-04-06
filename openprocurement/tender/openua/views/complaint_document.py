@@ -3,8 +3,7 @@ from openprocurement.api.utils import (
     upload_file,
     update_file_content_type,
     json_view,
-    context_unpack,
-    error_handler
+    context_unpack
 )
 from openprocurement.api.validation import (
     validate_file_update,
