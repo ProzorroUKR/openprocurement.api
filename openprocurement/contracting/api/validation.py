@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import update_logging_context, error_handler
-from openprocurement.api.validation import validate_json_data, validate_data
+from openprocurement.api.validation import validate_json_data, validate_data, OPERATIONS
 from openprocurement.contracting.api.models import Contract, Change
 
-OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update"}
 
 def validate_contract_data(request):
     update_logging_context(request, {'contract_id': '__new__'})

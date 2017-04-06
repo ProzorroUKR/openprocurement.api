@@ -63,9 +63,9 @@ class ContractsChangesResource(APIResource):
                 last_date_signed = contract.dateSigned
                 obj_str = "contract"
 
-            # Can't move validator because of code above
             if last_date_signed:  # BBB very old contracts
                 if change['dateSigned'] < last_date_signed:
+                    # Can't move validator because of code above
                     self.request.errors.add('body', 'data', 'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
                     self.request.errors.status = 403
                     raise error_handler(self.request.errors)
@@ -105,9 +105,9 @@ class ContractsChangesResource(APIResource):
                 last_date_signed = contract.dateSigned
                 obj_str = "contract"
 
-            # Can't move validator because of code above
             if last_date_signed:  # BBB very old contracts
                 if change['dateSigned'] < last_date_signed:
+                    # Can't move validator because of code above
                     self.request.errors.add('body', 'data', 'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
                     self.request.errors.status = 403
                     raise error_handler(self.request.errors)
