@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.utils import (
     optendersresource
 )
@@ -81,7 +82,5 @@ class TenderCancellationResource(BaseResource):
             statuses = set([i.status for i in tender.awards or tender.qualifications if i.lotID == cancellation.relatedLot])
             block_cancellation = not statuses.difference(set(['unsuccessful', 'cancelled'])) if statuses else False
         if block_cancellation:
-            self.request.errors.add('body', 'data', 'Can\'t {} cancellation if all {} is unsuccessful'.format(operation, 'awards' if tender.awards else 'qualifications'))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t {} cancellation if all {} is unsuccessful'.format(operation, 'awards' if tender.awards else 'qualifications'))
         return True
