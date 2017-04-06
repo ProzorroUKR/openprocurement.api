@@ -9,6 +9,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     # TenderSwitchAuctionResourceTest
     switch_to_auction,
+    # TenderSwitch0BidResourceTest
+    switch_to_unsuccessful as switch_to_unsuccessful_0bid,
 )
 
 from openprocurement.tender.openua.tests.base import (
@@ -17,7 +19,6 @@ from openprocurement.tender.openua.tests.base import (
 )
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     # TenderSwitch0BidResourceTest
-    switch_to_unsuccessful_0bid,
     set_auction_period_0bid,
     # TenderSwitch1BidResourceTest
     switch_to_unsuccessful_1bid,
