@@ -3,7 +3,6 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     get_now,
-    error_handler
 )
 from openprocurement.tender.core.utils import (
     save_tender,
