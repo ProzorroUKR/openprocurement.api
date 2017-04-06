@@ -91,7 +91,7 @@ def validate_document_operation_in_not_allowed_tender_status(request):
 #bids
 def validate_view_bids(request):
     if request.validated['tender_status'] in ['active.tendering', 'active.auction']:
-        request.errors.add('body', 'data', 'Can\'t view {} in current ({}) tender status'.format('bid' if 'bid_id' in request.matchdict else 'bids', request.validated['tender_status']))
+        request.errors.add('body', 'data', 'Can\'t view {} in current ({}) tender status'.format('bid' if request.matchdict.get('bid_id') else 'bids', request.validated['tender_status']))
         request.errors.status = 403
         raise error_handler(request.errors)
 
@@ -107,7 +107,7 @@ def validate_update_bid_status(request):
 # bid documents
 def validate_view_bid_document(request):
     if request.validated['tender_status'] in ['active.tendering', 'active.auction'] and request.authenticated_role != 'bid_owner':
-        request.errors.add('body', 'data', 'Can\'t view bid {} in current ({}) tender status'.format('document' if 'document_id' in request.matchdict else 'documents',request.validated['tender_status']))
+        request.errors.add('body', 'data', 'Can\'t view bid {} in current ({}) tender status'.format('document' if request.matchdict.get('document_id') else 'documents',request.validated['tender_status']))
         request.errors.status = 403
         raise error_handler(request.errors)
 
