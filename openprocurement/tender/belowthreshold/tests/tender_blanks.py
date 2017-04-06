@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import unittest
+from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
-from uuid import uuid4
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX
@@ -163,7 +163,6 @@ def listing(self):
         self.assertEqual(response.status, '200 OK')
         if len(response.json['data']) == 1:
             break
-    self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 1)
 
     response = self.app.get('/tenders?mode=_all_')
@@ -612,17 +611,17 @@ def create_tender_draft(self):
         {u'description': u"Can't update tender in current (draft) status", u'location': u'body', u'name': u'data'}
     ])
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), {'data': {'status': 'active.enquiries'}})
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), {'data': {'status': self.test_tender_status}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
-    self.assertEqual(tender['status'], 'active.enquiries')
+    self.assertEqual(tender['status'], self.test_tender_status)
 
     response = self.app.get('/tenders/{}'.format(tender['id']))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
-    self.assertEqual(tender['status'], 'active.enquiries')
+    self.assertEqual(tender['status'], self.test_tender_status)
 
 
 def create_tender(self):
@@ -634,9 +633,6 @@ def create_tender(self):
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
-    self.assertEqual(set(tender) - set(self.initial_data), set(
-        [u'id', u'dateModified', u'tenderID', u'date', u'status', u'procurementMethod', u'awardCriteria', u'submissionMethod', u'next_check', u'owner']))
-    self.assertIn(tender['id'], response.headers['Location'])
 
     response = self.app.get('/tenders/{}'.format(tender['id']))
     self.assertEqual(response.status, '200 OK')
@@ -668,6 +664,30 @@ def create_tender(self):
     self.assertIn('guarantee', data)
     self.assertEqual(data['guarantee']['amount'], 100500)
     self.assertEqual(data['guarantee']['currency'], "USD")
+
+    data = deepcopy(self.initial_data)
+    del data["items"][0]['deliveryAddress']['postalCode']
+    del data["items"][0]['deliveryAddress']['locality']
+    del data["items"][0]['deliveryAddress']['streetAddress']
+    del data["items"][0]['deliveryAddress']['region']
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotIn('postalCode', response.json['data']['items'][0]['deliveryAddress'])
+    self.assertNotIn('locality', response.json['data']['items'][0]['deliveryAddress'])
+    self.assertNotIn('streetAddress', response.json['data']['items'][0]['deliveryAddress'])
+    self.assertNotIn('region', response.json['data']['items'][0]['deliveryAddress'])
+
+
+def tender_fields(self):
+    response = self.app.post_json('/tenders', {"data": self.initial_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    tender = response.json['data']
+    self.assertEqual(set(tender) - set(self.initial_data), set(
+        [u'id', u'dateModified', u'tenderID', u'date', u'status', u'procurementMethod', u'awardCriteria',
+         u'submissionMethod', u'next_check', u'owner']))
+    self.assertIn(tender['id'], response.headers['Location'])
 
 
 def get_tender(self):

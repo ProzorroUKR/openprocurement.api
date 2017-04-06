@@ -17,6 +17,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
     tender_Administrator_change,
     listing_draft,
+    tender_fields,
     listing_changes,
     create_tender_invalid,
     create_tender_generated,
@@ -55,6 +56,7 @@ class TenderResourceTest(BaseWebTest):
     initial_data = test_tender_data
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
+    test_tender_status = 'active.enquiries'
 
     test_listing = snitch(listing)
     test_get_tender = snitch(get_tender)
@@ -69,6 +71,7 @@ class TenderResourceTest(BaseWebTest):
     test_create_tender_generated = snitch(create_tender_generated)
     test_create_tender_draft = snitch(create_tender_draft)
     test_create_tender = snitch(create_tender)
+    test_tender_fields = snitch(tender_fields)
     test_tender_features = snitch(tender_features)
     test_patch_tender_jsonpatch = snitch(patch_tender_jsonpatch)
     test_patch_tender = snitch(patch_tender)
