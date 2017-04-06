@@ -91,7 +91,7 @@ def validate_document_operation_in_not_allowed_tender_status(request):
 #bids
 def validate_view_bids(request):
     if request.validated['tender_status'] in ['active.tendering', 'active.auction']:
-        request.errors.add('body', 'data', 'Can\'t view bids in current ({}) tender status'.format(request.validated['tender_status']))
+        request.errors.add('body', 'data', 'Can\'t view {} in current ({}) tender status'.format('bid' if 'bid_id' in request.matchdict else 'bids', request.validated['tender_status']))
         request.errors.status = 403
         raise error_handler(request.errors)
 
