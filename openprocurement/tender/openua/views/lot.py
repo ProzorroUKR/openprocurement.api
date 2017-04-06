@@ -2,7 +2,7 @@
 from openprocurement.tender.belowthreshold.views.lot import TenderLotResource
 from openprocurement.api.utils import (
     json_view,
-    context_unpack
+    context_unpack,
 )
 from openprocurement.tender.core.validation import (
     validate_lot_data,

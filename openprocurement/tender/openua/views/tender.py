@@ -11,7 +11,7 @@ from openprocurement.tender.openua.utils import (
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    get_now
+    get_now,
 )
 from openprocurement.tender.core.utils import (
     save_tender,
