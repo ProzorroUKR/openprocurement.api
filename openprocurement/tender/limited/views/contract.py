@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    json_view, context_unpack, get_now, error_handler
+    json_view, context_unpack, get_now, raise_operation_error
 )
 from openprocurement.tender.core.utils import (
     apply_patch, save_tender, optendersresource
@@ -95,9 +95,7 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         self.request.context.date = get_now()
         if contract_status != self.request.context.status and contract_status != 'pending' and self.request.context.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t update contract status')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update contract status')
 
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
@@ -124,9 +122,7 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         self.request.context.date = get_now()
         if contract_status != self.request.context.status and contract_status != 'pending' and self.request.context.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t update contract status')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update contract status')
 
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
