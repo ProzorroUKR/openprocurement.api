@@ -1,6 +1,6 @@
 from openprocurement.api.utils import (
     upload_file, context_unpack, json_view,
-    update_file_content_type, get_now
+    update_file_content_type, get_now, error_handler
 )
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -9,6 +9,7 @@ from openprocurement.tender.core.utils import (
     calculate_business_date
 )
 from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
+from openprocurement.tender.core.validation import validate_document_operation_in_not_allowed_period
 from openprocurement.tender.belowthreshold.views.tender_document import TenderDocumentResource
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
@@ -20,23 +21,22 @@ from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
                    description="Tender UA related binary files (PDFs, etc.)")
 class TenderUaDocumentResource(TenderDocumentResource):
 
-    def validate_update_tender(self, operation):
-        if self.request.authenticated_role != 'auction' and self.request.validated['tender_status'] != 'active.tendering' or \
-           self.request.authenticated_role == 'auction' and self.request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
-            self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
+    def validate_update_tender(self):
+        """ TODO move validators
+        This class is inherited in cd stage 2 package, but validate_update_tender function has different validators.
+        For now, we have no way to use different validators on methods according to procedure type.
+        """
         if self.request.validated['tender_status'] == 'active.tendering' and calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated['tender']) > self.request.validated['tender'].tenderPeriod.endDate:
             self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         return True
 
-    @json_view(permission='upload_tender_documents', validators=(validate_file_upload,))
+    @json_view(permission='upload_tender_documents', validators=(validate_file_upload, validate_document_operation_in_not_allowed_period))
     def collection_post(self):
         """Tender Document Upload"""
-        if not self.validate_update_tender('add'):
-            return
+        if not self.validate_update_tender():
+            raise error_handler(self.request.errors)
         document = upload_file(self.request)
         self.context.documents.append(document)
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
@@ -49,11 +49,11 @@ class TenderUaDocumentResource(TenderDocumentResource):
             self.request.response.headers['Location'] = self.request.current_route_url(_route_name=document_route, document_id=document.id, _query={})
             return {'data': document.serialize("view")}
 
-    @json_view(permission='upload_tender_documents', validators=(validate_file_update,))
+    @json_view(permission='upload_tender_documents', validators=(validate_file_update, validate_document_operation_in_not_allowed_period))
     def put(self):
         """Tender Document Update"""
-        if not self.validate_update_tender('update'):
-            return
+        if not self.validate_update_tender():
+            raise error_handler(self.request.errors)
         document = upload_file(self.request)
         self.request.validated['tender'].documents.append(document)
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
@@ -63,11 +63,12 @@ class TenderUaDocumentResource(TenderDocumentResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_document_put'}))
             return {'data': document.serialize("view")}
 
-    @json_view(content_type="application/json", permission='upload_tender_documents', validators=(validate_patch_document_data,))
+    @json_view(content_type="application/json", permission='upload_tender_documents', validators=(validate_patch_document_data,
+               validate_document_operation_in_not_allowed_period))
     def patch(self):
         """Tender Document Update"""
-        if not self.validate_update_tender('update'):
-            return
+        if not self.validate_update_tender():
+            raise error_handler(self.request.errors)
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             self.request.validated['tender'].invalidate_bids_data()
         if apply_patch(self.request, src=self.request.context.serialize()):

@@ -5,13 +5,13 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest
 
-from openprocurement.tender.openua.tests.document_blanks import (
-    # TenderDocumentResourceTest
+from openprocurement.tender.belowthreshold.tests.document_blanks import (
+    # TenderDocument ResourceTest
     not_found,
     create_tender_document,
     put_tender_document,
     patch_tender_document,
-    # TenderDocumentWithDSResourceTest
+    # TenderDocumentResourceTest
     create_tender_document_json_invalid,
     create_tender_document_json,
     put_tender_document_json,
@@ -20,6 +20,7 @@ from openprocurement.tender.openua.tests.document_blanks import (
 
 class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
     docservice = False
+    test_forbidden_document_actions_status = "active.auction"
 
     test_not_found = snitch(not_found)
     test_create_tender_document = snitch(create_tender_document)

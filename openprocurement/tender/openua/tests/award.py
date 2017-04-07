@@ -9,6 +9,34 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_lots,
     test_organization
 )
+from openprocurement.tender.belowthreshold.tests.award_blanks import (
+    # TenderAwardResourceTest
+    create_tender_award_invalid,
+    get_tender_award,
+    patch_tender_award_Administrator_change,
+    # TenderAwardComplaintResourceTest
+    create_tender_award_complaint_invalid,
+    get_tender_award_complaint,
+    get_tender_award_complaints,
+    # TenderLotAwardComplaintResourceTest
+    get_tender_lot_award_complaint,
+    get_tender_lot_award_complaints,
+    # TenderAwardComplaintDocumentResourceTest
+    not_found,
+    create_tender_award_complaint_document,
+    put_tender_award_complaint_document,
+    # Tender2LotAwardComplaintDocumentResourceTest
+    create_tender_lots_award_complaint_document,
+    # TenderAwardDocumentResourceTest
+    not_found_award_document,
+    create_tender_award_document,
+    put_tender_award_document,
+    patch_tender_award_document,
+    # Tender2LotAwardDocumentResourceTest
+    create_tender_lots_award_document,
+    put_tender_lots_award_document,
+    patch_tender_lots_award_document,
+)
 
 from openprocurement.tender.openua.tests.base import (
     test_bids,
@@ -16,13 +44,10 @@ from openprocurement.tender.openua.tests.base import (
 )
 from openprocurement.tender.openua.tests.award_blanks import (
     # TenderAwardResourceTest
-    create_tender_award_invalid,
     create_tender_award,
     patch_tender_award,
     patch_tender_award_active,
     patch_tender_award_unsuccessful,
-    get_tender_award,
-    patch_tender_award_Administrator_change,
     # TenderLotAwardResourceTest
     create_tender_lot_award,
     patch_tender_lot_award,
@@ -31,41 +56,23 @@ from openprocurement.tender.openua.tests.award_blanks import (
     create_tender_lots_award,
     patch_tender_lots_award,
     # TenderAwardComplaintResourceTest
-    create_tender_award_complaint_invalid,
     create_tender_award_claim,
     create_tender_award_complaint_not_active,
     create_tender_award_complaint,
     patch_tender_award_complaint,
     review_tender_award_complaint,
     review_tender_award_claim,
-    get_tender_award_complaint,
-    get_tender_award_complaints,
     # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
     patch_tender_lot_award_complaint,
-    get_tender_lot_award_complaint,
-    get_tender_lot_award_complaints,
     # Tender2LotAwardComplaintResourceTest
     create_tender_lots_award_complaint,
     patch_tender_lots_award_complaint,
     # TenderAwardComplaintDocumentResourceTest
-    not_found,
-    create_tender_award_complaint_document,
-    put_tender_award_complaint_document,
     patch_tender_award_complaint_document,
     # Tender2LotAwardComplaintDocumentResourceTest
-    create_tender_lots_award_complaint_document,
     put_tender_lots_award_complaint_document,
     patch_tender_lots_award_complaint_document,
-    # TenderAwardDocumentResourceTest
-    not_found_document,
-    create_tender_award_document,
-    put_tender_award_document,
-    patch_tender_award_document,
-    # Tender2LotAwardDocumentResourceTest
-    create_tender_lots_award_document,
-    put_tender_lots_award_document,
-    patch_tender_lots_award_document,
 )
 
 class TenderAwardResourceTest(BaseTenderUAContentWebTest):
@@ -104,7 +111,6 @@ class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
 class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
-
 
     def setUp(self):
         super(TenderAwardComplaintResourceTest, self).setUp()
@@ -237,7 +243,7 @@ class TenderAwardDocumentResourceTest(BaseTenderUAContentWebTest):
         self.award_id = award['id']
         self.app.authorization = auth
 
-    test_not_found_document = snitch(not_found_document)
+    test_not_found_award_document = snitch(not_found_award_document)
     test_create_tender_award_document = snitch(create_tender_award_document)
     test_put_tender_award_document = snitch(put_tender_award_document)
     test_patch_tender_award_document = snitch(patch_tender_award_document)
