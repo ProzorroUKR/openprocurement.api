@@ -2,7 +2,6 @@
 # TenderQuestionResourceTest
 
 
-# TODO
 def patch_tender_question(self):
     response = self.app.post_json('/tenders/{}/questions'.format(
         self.tender_id), {'data': {'title': 'question title', 'description': 'question description',
