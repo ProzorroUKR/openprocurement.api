@@ -19,6 +19,7 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
 
 
 class TenderQuestionResourceTest(TenderContentWebTest):
+    test_tender_status = 'active.tendering'
 
     test_create_tender_question_invalid = snitch(create_tender_question_invalid)
     test_create_tender_question = snitch(create_tender_question)
