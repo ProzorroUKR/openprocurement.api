@@ -12,19 +12,25 @@ from openprocurement.tender.openeu.tests.base import (
     test_bids
 )
 from openprocurement.tender.openeu.tests.contract_blanks import (
+    # TenderContractResourceTest
+    contract_termination,
+    patch_tender_contract,
+)
+from openprocurement.tender.belowthreshold.tests.contract_blanks import (
+    # TenderContractResourceTest
+    create_tender_contract_invalid,
+    get_tender_contract,
+    get_tender_contracts,
     # TenderContractDocumentResourceTest
     not_found,
     create_tender_contract_document,
     put_tender_contract_document,
     patch_tender_contract_document,
+)
+from openprocurement.tender.openua.tests.contract_blanks import (
     # TenderContractResourceTest
-    contract_termination,
-    create_tender_contract_invalid,
     create_tender_contract,
     patch_tender_contract_datesigned,
-    patch_tender_contract,
-    get_tender_contract,
-    get_tender_contracts,
 )
 
 
@@ -59,8 +65,9 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
     #initial_data = tender_data
     initial_status = 'active.qualification'
     initial_bids = test_bids
-
+    test_status_create_put_patch_doc = 'unsuccessful'
     initial_auth = ('Basic', ('broker', ''))
+
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award
