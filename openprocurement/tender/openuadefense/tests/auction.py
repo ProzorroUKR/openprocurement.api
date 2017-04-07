@@ -16,7 +16,7 @@ from openprocurement.tender.openuadefense.tests.base import (
     test_tender_data,
     test_features_tender_ua_data
 )
-from openprocurement.tender.openuadefense.tests.auction_blanks import (
+from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     # TenderAuctionResourceTest
     get_tender_auction_not_found,
     get_tender_auction,
@@ -27,23 +27,24 @@ from openprocurement.tender.openuadefense.tests.auction_blanks import (
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
     # TenderLotAuctionResourceTest
-    get_tender_with_lot_auction,
-    post_tender_with_lot_auction,
-    patch_tender_with_lot_auction,
-    post_tender_with_lot_auction_document,
+    get_tender_lot_auction,
+    post_tender_lot_auction,
+    patch_tender_lot_auction,
+    post_tender_lot_auction_document,
     # TenderMultipleLotAuctionResourceTest
-    get_tender_with_lots_auction,
-    post_tender_with_lots_auction,
-    patch_tender_with_lots_auction,
-    post_tender_with_lots_auction_document,
+    get_tender_lots_auction,
+    post_tender_lots_auction,
+    patch_tender_lots_auction,
+    post_tender_lots_auction_document,
     # TenderFeaturesAuctionResourceTest
-    get_tender_with_features_auction,
+    get_tender_auction_feature,
 )
 
 
 class TenderAuctionResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
+    test_status_get_post_patch_auction = 'active.tendering'
 
     test_get_tender_auction_not_found = snitch(get_tender_auction_not_found)
 
@@ -83,25 +84,25 @@ class TenderLotAuctionResourceTest(TenderAuctionResourceTest):
     initial_lots = test_lots
     initial_data = test_tender_data
 
-    test_get_tender_auction = snitch(get_tender_with_lot_auction)
+    test_get_tender_auction = snitch(get_tender_lot_auction)
 
-    test_post_tender_auction = snitch(post_tender_with_lot_auction)
+    test_post_tender_auction = snitch(post_tender_lot_auction)
 
-    test_patch_tender_auction = snitch(patch_tender_with_lot_auction)
+    test_patch_tender_auction = snitch(patch_tender_lot_auction)
 
-    test_post_tender_auction_document = snitch(post_tender_with_lot_auction_document)
+    test_post_tender_auction_document = snitch(post_tender_lot_auction_document)
 
 
 class TenderMultipleLotAuctionResourceTest(TenderAuctionResourceTest):
     initial_lots = 2 * test_lots
 
-    test_get_tender_auction = snitch(get_tender_with_lots_auction)
+    test_get_tender_auction = snitch(get_tender_lots_auction)
 
-    test_post_tender_auction = snitch(post_tender_with_lots_auction)
+    test_post_tender_auction = snitch(post_tender_lots_auction)
 
-    test_patch_tender_auction = snitch(patch_tender_with_lots_auction)
+    test_patch_tender_auction = snitch(patch_tender_lots_auction)
 
-    test_post_tender_auction_document = snitch(post_tender_with_lots_auction_document)
+    test_post_tender_auction_document = snitch(post_tender_lots_auction_document)
 
 
 class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
@@ -148,7 +149,7 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
         }
     ]
 
-    test_get_tender_auction = snitch(get_tender_with_features_auction)
+    test_get_tender_auction = snitch(get_tender_auction_feature)
 
 
 def suite():
