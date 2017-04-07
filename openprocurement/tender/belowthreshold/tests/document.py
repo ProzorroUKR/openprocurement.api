@@ -22,7 +22,7 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
 
 
 class TenderDocumentResourceTest(TenderContentWebTest):
-    test_forbidden_status = 'active.tendering'
+    test_forbidden_document_actions_status = 'active.tendering'
 
     test_not_found = snitch(not_found)
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)

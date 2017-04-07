@@ -692,6 +692,22 @@ def tender_lot_document(self):
         {u'description': [u'relatedItem should be one of lots'], u'location': u'body', u'name': u'relatedItem'}
     ])
 
+    # get tender for lot id
+    response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), status=200)
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    tender = response.json['data']
+
+    # add document with lot_id
+    lot_id = tender['lots'][0]['id']
+    response = self.app.patch_json('/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, self.tender_token), {"data": {
+        "documentOf": "lot",
+        "relatedItem": lot_id
+    }}, status=200)
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['relatedItem'], lot_id)
+
 
 # Tender Lot Bid Resource Test
 
