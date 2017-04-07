@@ -20,7 +20,7 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
 
 class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
     docservice = False
-    test_forbidden_status = "active.auction"
+    test_forbidden_document_actions_status = "active.auction"
 
     test_not_found = snitch(not_found)
     test_create_tender_document = snitch(create_tender_document)

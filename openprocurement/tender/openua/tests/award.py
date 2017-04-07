@@ -111,7 +111,6 @@ class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
 class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
-    test_complaint_status = 'claim'
 
     def setUp(self):
         super(TenderAwardComplaintResourceTest, self).setUp()
