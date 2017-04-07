@@ -6,20 +6,24 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_lots, test_organization
 )
+from openprocurement.tender.belowthreshold.tests.question_blanks import (
+    # TenderLotQuestionResourceTest
+    lot_create_tender_question,
+    lot_patch_tender_question,
+    # TenderQuestionResourceTest
+    create_tender_question_invalid,
+    patch_tender_question,
+    get_tender_question,
+    get_tender_questions,
+)
 
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest
 )
 from openprocurement.tender.openua.tests.question_blanks import (
     # TenderQuestionResourceTest
-    create_tender_question_invalid,
     create_tender_question,
-    patch_tender_question,
-    get_tender_question,
-    get_tender_questions,
     # TenderLotQuestionResourceTest
-    create_tender_lot_question,
-    patch_tender_lot_question,
     tender_has_unanswered_questions,
     lot_has_unanswered_questions,
     item_has_unanswered_questions,
@@ -27,6 +31,8 @@ from openprocurement.tender.openua.tests.question_blanks import (
 
 
 class TenderQuestionResourceTest(BaseTenderUAContentWebTest):
+    test_tender_status = 'active.auction'
+
     test_create_tender_question_invalid = snitch(create_tender_question_invalid)
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
@@ -48,8 +54,8 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.status, '201 Created')
         return response.json['data']['id']
 
-    test_create_tender_lot_question = snitch(create_tender_lot_question)
-    test_patch_tender_lot_question = snitch(patch_tender_lot_question)
+    test_create_tender_lot_question = snitch(lot_create_tender_question)
+    test_patch_tender_lot_question = snitch(lot_patch_tender_question)
     test_tender_has_unanswered_questions = snitch(tender_has_unanswered_questions)
     test_lot_has_unanswered_questions = snitch(lot_has_unanswered_questions)
     test_item_has_unanswered_questions = snitch(item_has_unanswered_questions)

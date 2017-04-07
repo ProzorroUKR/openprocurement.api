@@ -6,15 +6,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
 # TenderSwitch0BidResourceTest
 
 
-def switch_to_unsuccessful_0bid(self):
-    self.set_status('active.auction', {'status': self.initial_status})
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], "unsuccessful")
-
-
 def set_auction_period_0bid(self):
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
@@ -42,15 +33,6 @@ def switch_to_unsuccessful_1bid(self):
 
 
 # TenderSwitchAuctionResourceTest
-
-
-def switch_to_auction(self):
-    self.set_status('active.auction', {'status': self.initial_status})
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], "active.auction")
 
 
 def switch_to_complaint(self):
