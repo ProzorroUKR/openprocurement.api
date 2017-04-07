@@ -1185,25 +1185,20 @@ def tender_Administrator_change(self):
     self.assertEqual(response.status, '201 Created')
     tender = response.json['data']
 
-    author = deepcopy(test_organization)
-    response = self.app.post_json('/tenders/{}/questions'.format(tender['id']),
-                                  {'data': {'title': 'question title', 'description': 'question description',
-                                            'author': author}})
+    response = self.app.post_json('/tenders/{}/questions'.format(tender['id']), {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     question = response.json['data']
 
     authorization = self.app.authorization
     self.app.authorization = ('Basic', ('administrator', ''))
-    response = self.app.patch_json('/tenders/{}'.format(tender['id']),
-                                   {'data': {'mode': u'test', 'procuringEntity': {"identifier": {"id": "00000000"}}}})
+    response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'mode': u'test', 'procuringEntity': {"identifier": {"id": "00000000"}}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['mode'], u'test')
     self.assertEqual(response.json['data']["procuringEntity"]["identifier"]["id"], "00000000")
 
-    response = self.app.patch_json('/tenders/{}/questions/{}'.format(tender['id'], question['id']),
-                                   {"data": {"answer": "answer"}}, status=403)
+    response = self.app.patch_json('/tenders/{}/questions/{}'.format(tender['id'], question['id']), {"data": {"answer": "answer"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'], [
@@ -1214,9 +1209,9 @@ def tender_Administrator_change(self):
     response = self.app.post_json('/tenders', {'data': self.initial_data})
     self.assertEqual(response.status, '201 Created')
     tender = response.json['data']
-    owner_token = response.json['access']['token']
+    token = response.json['access']['token']
 
-    response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender['id'], owner_token),
+    response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender['id'], token),
                                   {'data': {'reason': 'cancellation reason', 'status': 'active'}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -1243,9 +1238,8 @@ def invalid_tender_conditions(self):
     # switch to active.tendering
     self.set_status('active.tendering')
     # create compaint
-    complaint_author = deepcopy(test_organization)
     response = self.app.post_json('/tenders/{}/complaints'.format(tender_id),
-                                  {'data': {'title': 'invalid conditions', 'description': 'description', 'author': complaint_author, 'status': 'claim'}})
+                                  {'data': {'title': 'invalid conditions', 'description': 'description', 'author': test_organization, 'status': 'claim'}})
     complaint_id = response.json['data']['id']
     complaint_owner_token = response.json['access']['token']
     # answering claim
@@ -1359,7 +1353,7 @@ def one_invalid_bid_tender(self):
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.get('/tenders/{}'.format(tender_id))
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
 
