@@ -5,10 +5,11 @@ import os
 from datetime import timedelta, datetime
 from uuid import uuid4
 
-import openprocurement.api.tests.base as base_test
-from openprocurement.api.tests.base import test_tender_data, test_bids, PrefixedRequestClass
+import openprocurement.tender.belowthreshold.tests.base as base_test
+from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_bids
+from openprocurement.api.tests.base import PrefixedRequestClass
 from openprocurement.api.models import get_now
-from openprocurement.api.tests.tender import BaseTenderWebTest
+from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest
 from webtest import TestApp
 
 now = datetime.now()
