@@ -6,6 +6,10 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
 )
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+    # TenderBidDocumentResourceTest
+    not_found,
+)
 
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
@@ -31,7 +35,6 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     features_bidder,
     features_bidder_invalid,
     # TenderBidDocumentResourceTest
-    not_found,
     create_tender_bidder_document,
     put_tender_bidder_document,
     patch_tender_bidder_document,
