@@ -3,28 +3,31 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.limited.tests.base import (
-    BaseTenderContentWebTest,
-    test_tender_data,
-    test_tender_negotiation_data,
-    test_tender_negotiation_quick_data)
-from openprocurement.tender.limited.tests.document_blanks import (
-    # TenderDocumentWithDSResourceTest
-    create_tender_document_json_invalid,
-    create_tender_document_json,
-    put_tender_document_json,
-    # TenderDocumentResourceTest
+
+from openprocurement.tender.belowthreshold.tests.document_blanks import (
+    # TenderDocument ResourceTest
     not_found,
     create_tender_document,
     put_tender_document,
     patch_tender_document,
+    # TenderDocumentResourceTest
+    create_tender_document_json_invalid,
+    create_tender_document_json,
+    put_tender_document_json,
+)
 
+from openprocurement.tender.limited.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_data,
+    test_tender_negotiation_data,
+    test_tender_negotiation_quick_data
 )
 
 
 class TenderDocumentResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_data
     docservice = False
+    test_forbidden_document_actions_status = "complete"
 
     test_not_found = snitch(not_found)
     test_create_tender_document = snitch(create_tender_document)
