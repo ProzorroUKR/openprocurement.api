@@ -4,14 +4,14 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+    # TenderBidDocumentResourceTest
+    not_found,
+)
 
 from openprocurement.tender.openua.tests.base import test_bids
-
-from openprocurement.tender.openuadefense.tests.base import (
-    BaseTenderUAContentWebTest,
-    test_features_tender_ua_data
-)
-from openprocurement.tender.openuadefense.tests.bid_blanks import (
+from openprocurement.tender.openua.tests.bid_blanks import (
+    # TenderBidResourceTest
     create_tender_biddder_invalid,
     create_tender_bidder,
     patch_tender_bidder,
@@ -23,15 +23,22 @@ from openprocurement.tender.openuadefense.tests.bid_blanks import (
     bid_Administrator_change,
     bids_invalidation_on_tender_change,
     bids_activation_on_tender_documents,
+    # TenderBidFeaturesResourceTest
     features_bidder,
     features_bidder_invalid,
-    not_found,
+    # TenderBidDocumentResourceTest
     create_tender_bidder_document,
     put_tender_bidder_document,
     patch_tender_bidder_document,
     create_tender_bidder_document_nopending,
+    # TenderBidDocumentWithDSResourceTest
     create_tender_bidder_document_json,
     put_tender_bidder_document_json,
+)
+
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_features_tender_ua_data
 )
 
 

@@ -8,7 +8,7 @@ from openprocurement.tender.belowthreshold.tests.base import test_lots
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest
 )
-from openprocurement.tender.openuadefense.tests.cancellation_blanks import (
+from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     # TenderCancellationResourceTest
     create_tender_cancellation_invalid,
     create_tender_cancellation,
@@ -16,11 +16,11 @@ from openprocurement.tender.openuadefense.tests.cancellation_blanks import (
     get_tender_cancellation,
     get_tender_cancellations,
     # TenderLotCancellationResourceTest
-    create_tender_with_lot_cancellation,
-    patch_tender_with_lot_cancellation,
+    create_tender_lot_cancellation,
+    patch_tender_lot_cancellation,
     # TenderLotsCancellationResourceTest
-    create_tender_with_lots_cancellation,
-    patch_tender_with_lots_cancellation,
+    create_tender_lots_cancellation,
+    patch_tender_lots_cancellation,
     # TenderCancellationDocumentResourceTest
     not_found,
     create_tender_cancellation_document,
@@ -45,17 +45,17 @@ class TenderCancellationResourceTest(BaseTenderUAContentWebTest):
 class TenderLotCancellationResourceTest(BaseTenderUAContentWebTest):
     initial_lots = test_lots
 
-    test_create_tender_cancellation = snitch(create_tender_with_lot_cancellation)
+    test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
 
-    test_patch_tender_cancellation = snitch(patch_tender_with_lot_cancellation)
+    test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
 
 
 class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
     initial_lots = 2 * test_lots
 
-    test_create_tender_cancellation = snitch(create_tender_with_lots_cancellation)
+    test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
 
-    test_patch_tender_cancellation = snitch(patch_tender_with_lots_cancellation)
+    test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
 
 
 class TenderCancellationDocumentResourceTest(BaseTenderUAContentWebTest):
