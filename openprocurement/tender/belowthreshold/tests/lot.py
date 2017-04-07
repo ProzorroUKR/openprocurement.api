@@ -47,7 +47,7 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
 
 class TenderLotResourceTest(TenderContentWebTest):
     test_lots_data = test_lots
-
+    test_status_create_patch_delete_lot = 'active.tendering'
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     test_create_tender_lot = snitch(create_tender_lot)
     test_patch_tender_lot = snitch(patch_tender_lot)
