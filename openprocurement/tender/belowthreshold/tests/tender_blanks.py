@@ -1259,7 +1259,7 @@ def invalid_tender_conditions(self):
         'status': 'active'
     }})
     # check status
-    response = self.app.get('/tenders/{}'.format(tender_id))
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.json['data']['status'], 'cancelled')
 
 
@@ -1353,7 +1353,7 @@ def one_invalid_bid_tender(self):
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
 
