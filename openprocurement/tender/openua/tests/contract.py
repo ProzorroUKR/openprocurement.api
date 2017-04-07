@@ -11,10 +11,13 @@ from openprocurement.tender.openua.tests.base import (
 
 from openprocurement.tender.openua.tests.contract_blanks import (
     # TenderContractResourceTest
-    create_tender_contract_invalid,
+    patch_tender_contract,
     create_tender_contract,
     patch_tender_contract_datesigned,
-    patch_tender_contract,
+)
+from openprocurement.tender.belowthreshold.tests.contract_blanks import (
+    # TenderContractResourceTest
+    create_tender_contract_invalid,
     get_tender_contract,
     get_tender_contracts,
     # TenderContractDocumentResourceTest
@@ -23,6 +26,7 @@ from openprocurement.tender.openua.tests.contract_blanks import (
     put_tender_contract_document,
     patch_tender_contract_document,
 )
+
 
 class TenderContractResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.qualification'
@@ -39,6 +43,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
                       'value': self.initial_bids[0]['value']}})
         award = response.json['data']
         self.award_id = award['id']
+        self.award_value = award['value']
         self.app.authorization = authorization
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
@@ -55,6 +60,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
 class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
+    test_status_create_put_patch_doc = 'unsuccessful'
 
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
