@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-patch_tender_with_lots_award_document
+# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -16,11 +16,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     # TenderLotAwardComplaintResourceTest
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
-    # TenderAwardDocumentResourceTest
-    not_found_award_document,
-    create_tender_award_document,
-    put_tender_award_document,
-    patch_tender_award_document,
     # TenderAwardComplaintDocumentResourceTest
     not_found as complaint_docs_not_found,
     create_tender_award_complaint_document,
@@ -70,10 +65,6 @@ from openprocurement.tender.openua.tests.award_blanks import (
     put_tender_lots_award_complaint_document,
     patch_tender_lots_award_complaint_document,
 )
-
-# from openprocurement.tender.openeu.tests.award_blanks import (
-#
-# )
 
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
 from openprocurement.tender.openuadefense.tests.award_blanks import (
@@ -158,7 +149,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
     test_create_tender_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_lot_award_complaint)
     test_get_tender_award_complaint = snitch(get_tender_lot_award_complaint)
-    test_get_tender_award_complaints = snitch(get_tender_lot_award_complaint)
+    test_get_tender_award_complaints = snitch(get_tender_lot_award_complaints)
 
 
 class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
