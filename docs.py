@@ -609,7 +609,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
 
         with open('docs/source/tutorial/tender-negotiation-quick-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-                    self.tender_id, self.award_id, owner_token), {'data': {'status': 'active'}})
+                    self.tender_id, self.award_id, owner_token), {'data': {'status': 'active', 'qualified': True}})
             self.assertEqual(response.status, '200 OK')
 
         # get contract
@@ -644,7 +644,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         self.assertEqual(response.status, '201 Created')
         award_id = response.json['data']['id']
 
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active"}})
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True}})
 
         with open('docs/source/tutorial/award-complaint-submission.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, award_id), complaint)
@@ -754,7 +754,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
             response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {
                 "status": "cancelled"}})
             self.assertEqual(response.status, '200 OK')
-        
+
         with open('docs/source/tutorial/award-complaint-newaward.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token), supplier)
             self.assertEqual(response.status, '201 Created')
@@ -786,7 +786,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         award_id = new_award_id
 
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {
-            "status": "active"}})
+            "status": "active", "qualified": True}})
         self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/award-complaint-submit.http', 'w') as self.app.file_obj:
