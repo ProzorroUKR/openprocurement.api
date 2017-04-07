@@ -13,10 +13,6 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_quick_data
 )
 from openprocurement.tender.limited.tests.contract_blanks import (
-    # TenderContractDocumentResourceTest
-    create_tender_contract_document,
-    put_tender_contract_document,
-    patch_tender_contract_document,
     # TenderNegotiationQuickAccelerationTest
     create_tender_contract_negotiation_quick,
     # TenderNegotiationLot2ContractResourceTest
@@ -35,15 +31,21 @@ from openprocurement.tender.limited.tests.contract_blanks import (
     create_tender_contract,
     patch_tender_contract,
     tender_contract_signature_date,
-    get_tender_contract,
-    get_tender_contracts,
+    # get_tender_contract,
+    # get_tender_contracts,
     award_id_change_is_not_allowed,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     # TenderContractResourceTest
     create_tender_contract_invalid,
+    get_tender_contract,
+    get_tender_contracts,
     # TenderContractDocumentResourceTest
     not_found,
+    # TenderContractDocumentResourceTest
+    create_tender_contract_document,
+    put_tender_contract_document,
+    patch_tender_contract_document,
 )
 
 
@@ -267,6 +269,7 @@ class TenderNegotiationAccelerationTest(TenderNegotiationQuickAccelerationTest):
 class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = 'active'
     initial_bids = None
+    test_status_create_put_patch_doc = 'complete'
 
     def create_award(self):
         # Create award
