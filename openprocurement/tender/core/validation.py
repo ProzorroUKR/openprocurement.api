@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
 from openprocurement.api.utils import get_now  # move
-from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error # XXX tender context
+from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document # XXX tender context
 from openprocurement.tender.core.utils import calculate_business_date
 from schematics.exceptions import ValidationError
 
@@ -117,7 +117,31 @@ def validate_bid_data(request):
         raise error_handler(request.errors)
     update_logging_context(request, {'bid_id': '__new__'})
     model = type(request.tender).bids.model_class
-    return validate_data(request, model)
+    bid = validate_data(request, model)
+    validated_bid = request.validated.get('bid')
+    if validated_bid:
+        if any([key == 'documents' or 'Documents' in key for key in validated_bid.keys()]):
+            bid_documents = validate_bid_documents(request)
+            if not bid_documents:
+                return
+            for documents_type, documents in bid_documents.items():
+                validated_bid[documents_type] = documents
+    return bid
+
+
+def validate_bid_documents(request):
+    bid_documents = [key for key in request.validated['bid'].keys() if key == 'documents' or 'Documents' in key]
+    documents = {}
+    for doc_type in bid_documents:
+        documents[doc_type] = []
+        for document in request.validated['bid'][doc_type]:
+            model = getattr(type(request.validated['bid']), doc_type).model_class
+            document = model(document)
+            document.validate()
+            route_kwargs = {'bid_id': request.validated['bid'].id}
+            document = check_document(request, document, doc_type, route_kwargs)
+            documents[doc_type].append(document)
+    return documents
 
 
 def validate_patch_bid_data(request):
