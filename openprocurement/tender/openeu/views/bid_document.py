@@ -135,7 +135,7 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
 
 
 @bid_financial_documents_resource(
-    name='Tender EU Bid Financial Documents',
+    name='aboveThresholdEU:Tender Bid Financial Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/financial_documents',
     path='/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}',
     procurementMethodType='aboveThresholdEU',
@@ -148,7 +148,7 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
                              'active.pre-qualification.stand-still', 'active.auction']
     view_forbidden_bid_states = ['invalid', 'deleted', 'invalid.pre-qualification', 'unsuccessful']
 
-@bid_eligibility_documents_resource(name='Tender EU Bid Eligibility Documents',
+@bid_eligibility_documents_resource(name='aboveThresholdEU:Tender Bid Eligibility Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/eligibility_documents',
 
     path='/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}',
@@ -161,7 +161,7 @@ class TenderEUBidEligibilityDocumentResource(TenderEUBidFinancialDocumentResourc
     view_forbidden_bid_states = ['invalid', 'deleted']
 
 
-@bid_qualification_documents_resource(name='Tender EU Bid Qualification Documents',
+@bid_qualification_documents_resource(name='aboveThresholdEU:Tender Bid Qualification Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/qualification_documents',
     path='/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}',
     procurementMethodType='aboveThresholdEU',
