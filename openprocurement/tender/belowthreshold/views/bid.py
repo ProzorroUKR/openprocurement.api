@@ -8,12 +8,12 @@ from openprocurement.api.utils import (
 )
 
 from openprocurement.tender.core.validation import (
+    validate_bid_data,
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering
 )
 
 from openprocurement.tender.belowthreshold.validation import (
-    validate_bid_data,
     validate_view_bids,
     validate_patch_bid_data,
     validate_update_bid_status
