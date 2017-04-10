@@ -11,6 +11,8 @@ from openprocurement.tender.openua.tests.base import (
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     # TenderLotResourceTest
+    create_tender_lot,
+    delete_tender_lot,
     create_tender_lot_invalid,
     tender_lot_guarantee,
     # TenderLotFeatureResourceTest
@@ -24,13 +26,11 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
 )
 from openprocurement.tender.openua.tests.lot_blanks import (
     # TenderLotResourceTest
-    create_tender_lot,
     patch_tender_lot,
     patch_tender_currency,
     patch_tender_vat,
     get_tender_lot,
     get_tender_lots,
-    delete_tender_lot,
     # TenderLotEdgeCasesTest
     question_blocking,
     claim_blocking,
@@ -59,7 +59,7 @@ from openprocurement.tender.openua.tests.lot_blanks import (
 class TenderLotResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_tender_data
     test_lots_data = test_lots
-    test_status_that_denies_get_post_patch_lots = 'active.tendering'
+    test_status_that_denies_delete_create_lots = 'active.auction'
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     test_create_tender_lot = snitch(create_tender_lot)
