@@ -12,6 +12,8 @@ from openprocurement.tender.openuadefense.tests.base import (
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     # TenderLotResourceTest
+    create_tender_lot,
+    delete_tender_lot,
     create_tender_lot_invalid,
     # TenderLotFeatureResourceTest
     tender_value,
@@ -24,12 +26,10 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
 )
 from openprocurement.tender.openua.tests.lot_blanks import (
     # TenderLotResourceTest
-    create_tender_lot,
     patch_tender_lot,
     patch_tender_vat,
     get_tender_lot,
     get_tender_lots,
-    delete_tender_lot,
     patch_tender_currency,
     # TenderLotFeatureResourceTest
     create_tender_bidder_invalid,
@@ -61,7 +61,7 @@ from openprocurement.tender.openuadefense.tests.lot_blanks import (
 
 class TenderLotResourceTest(BaseTenderUAContentWebTest):
     test_lots_data = test_lots  # TODO: change attribute identifier
-    test_status_that_denies_get_post_patch_lots = 'active.tendering'
+    test_status_that_denies_delete_create_lots = 'active.auction'
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
 
