@@ -59,7 +59,7 @@ from openprocurement.tender.openua.tests.lot_blanks import (
 class TenderLotResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_tender_data
     test_lots_data = test_lots
-    test_status_create_patch_delete_lot = 'active.tendering'
+    test_status_that_denies_get_post_patch_lots = 'active.tendering'
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     test_create_tender_lot = snitch(create_tender_lot)
@@ -177,6 +177,9 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
     initial_data = test_tender_data
     test_lots_data = test_lots
     setUp = BaseTenderUAContentWebTest.setUp
+
+    days_till_auction_starts = 16
+
     test_proc_1lot_0bid = snitch(proc_1lot_0bid)
     test_proc_1lot_1bid = snitch(proc_1lot_1bid)
     test_proc_1lot_1bid_patch = snitch(proc_1lot_1bid_patch)
