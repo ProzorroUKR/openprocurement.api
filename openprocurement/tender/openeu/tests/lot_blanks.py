@@ -611,7 +611,7 @@ def two_lot_2bid_1lot_del(self):
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [self.initial_data['items'][0] for i in lots]}})
 
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.auction_period_days)).isoformat()}}
         for i in lots
     ]})
     # create bid

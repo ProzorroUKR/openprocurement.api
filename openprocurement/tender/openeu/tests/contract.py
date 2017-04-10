@@ -65,7 +65,7 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
     #initial_data = tender_data
     initial_status = 'active.qualification'
     initial_bids = test_bids
-    test_status_create_put_patch_doc = 'unsuccessful'
+    test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):

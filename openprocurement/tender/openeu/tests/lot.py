@@ -55,10 +55,6 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
     claim_blocking,
     next_check_value_with_unanswered_question,
     next_check_value_with_unanswered_claim,
-    # TenderLotResourceTest
-    # patch_tender_lot,
-    # create_tender_lot,
-    # delete_tender_lot,
 )
 
 
@@ -67,7 +63,7 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
     test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
-    test_status_create_patch_delete_lot = 'active.tendering'
+    test_status_that_denies_get_post_patch_lots = 'active.tendering'
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     test_create_tender_lot = snitch(create_tender_lot)
@@ -189,6 +185,8 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
     test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
     test_bids_data = test_bids  # TODO: change attribute identifier
+    # Days of auction period
+    auction_period_days = 16
 
     test_1lot_0bid = snitch(proc_1lot_0bid)
     test_1lot_1bid = snitch(one_lot_1bid)

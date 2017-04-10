@@ -46,7 +46,7 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest):
     #initial_data = tender_data
     initial_auth = ('Basic', ('broker', ''))
     initial_bids = test_bids
-    test_status_get_post_patch_auction = 'active.pre-qualification.stand-still'
+    test_status_that_denies_get_post_patch_auction = 'active.pre-qualification.stand-still'
 
     def shift_to_auction_period(self):
         auth = self.app.authorization
