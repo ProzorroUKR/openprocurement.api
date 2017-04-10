@@ -61,7 +61,7 @@ from openprocurement.tender.openuadefense.tests.lot_blanks import (
 
 class TenderLotResourceTest(BaseTenderUAContentWebTest):
     test_lots_data = test_lots  # TODO: change attribute identifier
-    test_status_create_patch_delete_lot = 'active.tendering'
+    test_status_that_denies_get_post_patch_lots = 'active.tendering'
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
 
@@ -188,6 +188,9 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 class TenderLotProcessTest(BaseTenderUAContentWebTest):
     setUp = BaseTenderUAContentWebTest.setUp
     initial_data = test_tender_data
+
+    days_till_auction_starts = 16
+
     test_lots_data = test_lots  # TODO: change attribute identifier
 
     test_1lot_0bid = snitch(proc_1lot_0bid)

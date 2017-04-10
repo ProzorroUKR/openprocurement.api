@@ -44,7 +44,9 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
 class TenderAuctionResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
-    test_status_get_post_patch_auction = 'active.tendering'
+
+    test_status_that_denies_get_post_patch_auction = 'active.tendering'
+    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
 
     test_get_tender_auction_not_found = snitch(get_tender_auction_not_found)
 

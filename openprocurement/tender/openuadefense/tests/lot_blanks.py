@@ -178,7 +178,7 @@ def one_lot_1bid(self):
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [{'relatedLot': lot_id}]}})
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
-    response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}]})
+    response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(self.days_till_auction_starts)).isoformat()}}]})
     self.assertIn("auctionPeriod", response.json['data']['lots'][0])
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
@@ -211,7 +211,7 @@ def two_lot_1bid_0com_1can(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     # create bid
@@ -285,7 +285,7 @@ def two_lot_1bid_2com_1win(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     # create bid
@@ -353,7 +353,7 @@ def two_lot_1bid_0com_0win(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     # create bid
@@ -418,7 +418,7 @@ def two_lot_1bid_1com_1win(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     # create bid
@@ -505,7 +505,7 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     # create bids for first lot
