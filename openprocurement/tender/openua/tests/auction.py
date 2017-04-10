@@ -8,14 +8,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_lots,
     test_organization
 )
-
-from openprocurement.tender.openua.tests.base import (
-    BaseTenderUAContentWebTest,
-    test_tender_data,
-    test_features_tender_ua_data,
-    test_bids
-)
-from openprocurement.tender.openua.tests.auction_blanks import (
+from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     # TenderAuctionResourceTest
     get_tender_auction_not_found,
     get_tender_auction,
@@ -25,7 +18,7 @@ from openprocurement.tender.openua.tests.auction_blanks import (
     # TenderSameValueAuctionResourceTest
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
-    # TenderLotAuctionResourceTest\
+    # TenderLotAuctionResourceTest
     get_tender_lot_auction,
     post_tender_lot_auction,
     patch_tender_lot_auction,
@@ -36,13 +29,21 @@ from openprocurement.tender.openua.tests.auction_blanks import (
     patch_tender_lots_auction,
     post_tender_lots_auction_document,
     # TenderFeaturesAuctionResourceTest
-    get_tender_auction_features,
+    get_tender_auction_feature,
+)
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_tender_data,
+    test_features_tender_ua_data,
+    test_bids
 )
 
 
 class TenderAuctionResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
+    test_status_that_denies_get_post_patch_auction = 'active.tendering'
+    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
 
     test_get_tender_auction_not_found = snitch(get_tender_auction_not_found)
     test_get_tender_auction = snitch(get_tender_auction)
@@ -133,7 +134,7 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
         }
     ]
 
-    test_get_tender_auction_features = snitch(get_tender_auction_features)
+    test_get_tender_auction_features = snitch(get_tender_auction_feature)
 
 
 def suite():
