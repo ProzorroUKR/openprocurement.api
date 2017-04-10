@@ -202,12 +202,12 @@ def create_tender_lot(self):
         {u'description': [u'Lot id should be uniq for all lots'], u'location': u'body', u'name': u'lots'}
     ])
 
-    self.set_status('{}'.format(self.test_status_create_patch_delete_lot))
+    self.set_status('{}'.format(self.test_status_that_denies_get_post_patch_lots))
 
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token), {'data': self.test_lots_data[0]}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't add lot in current ({}) tender status".format(self.test_status_create_patch_delete_lot))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't add lot in current ({}) tender status".format(self.test_status_that_denies_get_post_patch_lots))
 
 
 def patch_tender_lot(self):
@@ -254,12 +254,12 @@ def patch_tender_lot(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["title"], "new title")
 
-    self.set_status('{}'.format(self.test_status_create_patch_delete_lot))
+    self.set_status('{}'.format(self.test_status_that_denies_get_post_patch_lots))
 
     response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"title": "other title"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update lot in current ({}) tender status".format(self.test_status_create_patch_delete_lot))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update lot in current ({}) tender status".format(self.test_status_that_denies_get_post_patch_lots))
 
 
 def patch_tender_currency(self):
@@ -500,12 +500,12 @@ def delete_tender_lot(self):
         {u'description': [{u'relatedLot': [u'relatedLot should be one of lots']}], u'location': u'body', u'name': u'items'}
     ])
 
-    self.set_status('{}'.format(self.test_status_create_patch_delete_lot))
+    self.set_status('{}'.format(self.test_status_that_denies_get_post_patch_lots))
 
     response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't delete lot in current ({}) tender status".format(self.test_status_create_patch_delete_lot))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't delete lot in current ({}) tender status".format(self.test_status_that_denies_get_post_patch_lots))
 
 
 def tender_lot_guarantee(self):
@@ -956,7 +956,7 @@ def proc_1lot_0bid(self):
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [{'relatedLot': lot_id}]}})
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
-    response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
+    response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}]})
     self.assertIn("auctionPeriod", response.json['data']['lots'][0])
     # switch to unsuccessful
     response = self.set_status('active.auction', {"lots": [{"auctionPeriod": {"startDate": None}}], 'status': 'active.tendering'})
@@ -980,7 +980,7 @@ def proc_1lot_1bid(self):
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [{'relatedLot': lot_id}]}})
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
-    response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
+    response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}]})
     self.assertIn("auctionPeriod", response.json['data']['lots'][0])
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
@@ -1032,7 +1032,7 @@ def proc_1lot_2bid(self):
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [{'relatedLot': lot_id}]}})
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
-    response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]})
+    response = self.set_status('active.tendering', {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}]})
     self.assertIn("auctionPeriod", response.json['data']['lots'][0])
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
@@ -1128,7 +1128,7 @@ def proc_2lot_0bid(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     self.assertTrue(all(["auctionPeriod" in i for i in response.json['data']['lots']]))
@@ -1164,7 +1164,7 @@ def proc_2lot_2can(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     self.assertTrue(all(["auctionPeriod" in i for i in response.json['data']['lots']]))
@@ -1200,7 +1200,7 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     # create bid
@@ -1274,7 +1274,7 @@ def proc_2lot_1bid_0com_1can(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     # create bid
@@ -1347,7 +1347,7 @@ def proc_2lot_1bid_2com_1win(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     # create bid
@@ -1412,7 +1412,7 @@ def proc_2lot_1bid_0com_0win(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     # create bid
@@ -1476,7 +1476,7 @@ def proc_2lot_1bid_1com_1win(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     # create bid
@@ -1562,7 +1562,7 @@ def proc_2lot_2bid_2com_2win(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     # create bid
@@ -1709,7 +1709,7 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     self.assertEqual(response.status, '200 OK')
     # switch to active.tendering
     response = self.set_status('active.tendering', {"lots": [
-        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
         for i in lots
     ]})
     # create bid

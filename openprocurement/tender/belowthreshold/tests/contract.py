@@ -86,7 +86,7 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
 class TenderContractDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
-    test_status_create_put_patch_doc = 'unsuccessful'
+    test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
 
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
@@ -151,7 +151,6 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     lot2_put_tender_contract_document = snitch(lot2_put_tender_contract_document)
     lot2_patch_tender_contract_document = snitch(lot2_patch_tender_contract_document)
 
-    
 
 def suite():
     suite = unittest.TestSuite()
