@@ -8,27 +8,31 @@ from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_bids,
 )
-from openprocurement.tender.openeu.tests.complaint_blanks import (
+from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     # TenderComplaintDocumentResourceTest
     not_found,
     create_tender_complaint_document,
-    put_tender_complaint_document,
-    patch_tender_complaint_document,
-    # TenderLotAwardComplaintResourceTest
-    lot_create_tender_complaint,
-    # TenderComplaintResourceTest
     create_tender_complaint_invalid,
-    create_tender_complaint,
-    patch_tender_complaint,
-    review_tender_complaint,
     get_tender_complaint,
     get_tender_complaints,
+)
+from openprocurement.tender.openeu.tests.complaint_blanks import (
+    # TenderComplaintDocumentResourceTest
+    put_tender_complaint_document,
+)
+from openprocurement.tender.openua.tests.complaint_blanks import (
+    # TenderComplaintResourceTest
+    review_tender_complaint,
+    create_tender_complaint,
+    patch_tender_complaint,
+    # TenderComplaintDocumentResourceTest
+    patch_tender_complaint_document,
+    # TenderLotAwardComplaintResourceTest
+    create_tender_lot_award_complaint,
 )
 
 
 class TenderComplaintResourceTest(BaseTenderContentWebTest):
-
-    author = test_bids[0]["tenderers"][0]
     initial_auth = ('Basic', ('broker', ''))
 
     test_create_tender_complaint_invalid = snitch(create_tender_complaint_invalid)
@@ -44,7 +48,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
     author = test_bids[0]["tenderers"][0]
     initial_auth = ('Basic', ('broker', ''))
 
-    test_create_tender_complaint = snitch(lot_create_tender_complaint)
+    test_create_tender_complaint = snitch(create_tender_lot_award_complaint)
 
 
 class TenderComplaintDocumentResourceTest(BaseTenderContentWebTest):
