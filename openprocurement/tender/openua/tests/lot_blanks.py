@@ -7,67 +7,6 @@ from openprocurement.tender.belowthreshold.tests.base import test_organization
 # TenderLotResourceTest
 
 
-def patch_tender_lot(self):
-    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(
-        self.tender_id, self.tender_token), {'data': self.test_lots_data[0]})
-    self.assertEqual(response.status, '201 Created')
-    self.assertEqual(response.content_type, 'application/json')
-    lot = response.json['data']
-
-    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(
-        self.tender_id, lot['id'], self.tender_token), {"data": {"title": "new title"}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["title"], "new title")
-
-    response = self.app.patch_json(
-        '/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
-        {"data": {"guarantee": {"amount": 12}}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertIn('guarantee', response.json['data'])
-    self.assertEqual(response.json['data']['guarantee']['amount'], 12)
-    self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
-
-    response = self.app.patch_json(
-        '/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
-        {"data": {"guarantee": {"currency": "USD"}}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
-
-    response = self.app.patch_json('/tenders/{}/lots/some_id'.format(self.tender_id),
-                                   {"data": {"title": "other title"}}, status=404)
-    self.assertEqual(response.status, '404 Not Found')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': u'Not Found', u'location':
-            u'url', u'name': u'lot_id'}
-    ])
-
-    response = self.app.patch_json('/tenders/some_id/lots/some_id', {"data": {"title": "other title"}}, status=404)
-    self.assertEqual(response.status, '404 Not Found')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': u'Not Found', u'location':
-            u'url', u'name': u'tender_id'}
-    ])
-
-    response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["title"], "new title")
-
-    self.set_status('active.auction')
-
-    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(
-        self.tender_id, lot['id'], self.tender_token), {"data": {"title": "other title"}}, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"],
-                     "Can't update lot in current (active.auction) tender status")
-
-
 def patch_tender_currency(self):
     # create lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(
