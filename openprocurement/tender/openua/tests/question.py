@@ -6,15 +6,14 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_lots, test_organization
 )
+
+from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
     # TenderLotQuestionResourceTest
     lot_create_tender_question,
     lot_patch_tender_question,
     # TenderQuestionResourceTest
-    create_tender_question_invalid,
     patch_tender_question,
-    get_tender_question,
-    get_tender_questions,
 )
 
 from openprocurement.tender.openua.tests.base import (
@@ -30,14 +29,11 @@ from openprocurement.tender.openua.tests.question_blanks import (
 )
 
 
-class TenderQuestionResourceTest(BaseTenderUAContentWebTest):
-    test_tender_status = 'active.auction'
+class TenderQuestionResourceTest(BaseTenderUAContentWebTest, TenderQuestionResourceTestMixin):
+    test_forbidden_question_actions_status = 'active.auction'
 
-    test_create_tender_question_invalid = snitch(create_tender_question_invalid)
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
-    test_get_tender_question = snitch(get_tender_question)
-    test_get_tender_questions = snitch(get_tender_questions)
 
 
 class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):

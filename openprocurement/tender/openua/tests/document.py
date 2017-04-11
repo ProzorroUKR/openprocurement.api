@@ -1,39 +1,21 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest
 
-from openprocurement.tender.belowthreshold.tests.document_blanks import (
-    # TenderDocument ResourceTest
-    not_found,
-    create_tender_document,
-    put_tender_document,
-    patch_tender_document,
-    # TenderDocumentResourceTest
-    create_tender_document_json_invalid,
-    create_tender_document_json,
-    put_tender_document_json,
+from openprocurement.tender.belowthreshold.tests.document import (
+    TenderDocumentResourceTestMixin,
+    TenderDocumentWithDSResourceTestMixin
 )
 
 
-class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
+class TenderDocumentResourceTest(BaseTenderUAContentWebTest, TenderDocumentResourceTestMixin):
     docservice = False
     test_forbidden_document_actions_status = "active.auction"
 
-    test_not_found = snitch(not_found)
-    test_create_tender_document = snitch(create_tender_document)
-    test_put_tender_document = snitch(put_tender_document)
-    test_patch_tender_document = snitch(patch_tender_document)
 
-
-class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest):
+class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumentWithDSResourceTestMixin):
     docservice = True
-
-    test_create_tender_document_json_invalid = snitch(create_tender_document_json_invalid)
-    test_create_tender_document_json = snitch(create_tender_document_json)
-    test_put_tender_document_json = snitch(put_tender_document_json)
 
 
 def suite():
