@@ -70,7 +70,7 @@ class TenderResourceTest(BaseWebTest, TenderResourceTestMixin):
     initial_data = test_tender_data
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
-    test_tender_status = 'active.enquiries'
+    test_switch_from_draft_status = 'active.enquiries'
 
     test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)

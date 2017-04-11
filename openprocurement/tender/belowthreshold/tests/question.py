@@ -25,7 +25,7 @@ class TenderQuestionResourceTestMixin(object):
 
 
 class TenderQuestionResourceTest(TenderContentWebTest, TenderQuestionResourceTestMixin):
-    test_tender_status = 'active.tendering'
+    test_forbidden_question_actions_status = 'active.tendering'
 
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
