@@ -12,18 +12,16 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
 )
 
 from openprocurement.tender.openua.tests.base import test_bids
+from openprocurement.tender.openua.tests.chronograph import (
+    TenderSwitchAuctionResourceTestMixin,
+    TenderLotSwitchAuctionResourceTestMixin
+)
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     # TenderLotSwitch0BidResourceTest
     switch_to_unsuccessful_lot_0bid as without_bids_switch_to_unsuccessful,
     set_auction_period_lot_0bid as without_bids_set_auction_period,
     # TenderSwitch0BidResourceTest
     set_auction_period_0bid,
-    switch_to_unsuccessful as auction_switch_to_unsuccessful,
-    set_auction_period as auction_set_auction_period,
-    switch_to_complaint,
-    switch_to_auction_lot as with_lot_switch_to_auction,
-    switch_to_unsuccessful_lot as with_lot_switch_to_unsuccessful,
-    set_auction_period_lot as with_lot_set_auction_period,
 )
 
 from openprocurement.tender.openuadefense.tests.base import (
@@ -51,16 +49,10 @@ class TenderSwitch1BidResourceTest(BaseTenderUAContentWebTest):
     test_not_switch_to_unsuccessful = snitch(not_switch_to_unsuccessful)
 
 
-class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
+class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest, TenderSwitchAuctionResourceTestMixin):
     initial_bids = test_bids
 
     test_switch_to_auction = snitch(switch_to_auction)
-
-    test_switch_to_complaint = snitch(switch_to_complaint)
-
-    test_switch_to_unsuccessful = snitch(auction_switch_to_unsuccessful)
-
-    test_set_auction_period = snitch(auction_set_auction_period)
 
 
 class TenderLotSwitch0BidResourceTest(BaseTenderUAContentWebTest):
@@ -78,15 +70,9 @@ class TenderLotSwitch1BidResourceTest(BaseTenderUAContentWebTest):
     test_switch_to_qualification = snitch(switch_to_qualification)
 
 
-class TenderLotSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
+class TenderLotSwitchAuctionResourceTest(BaseTenderUAContentWebTest, TenderLotSwitchAuctionResourceTestMixin):
     initial_lots = test_lots
     initial_bids = test_bids
-
-    test_switch_to_auction = snitch(with_lot_switch_to_auction)
-
-    test_switch_to_unsuccessful = snitch(with_lot_switch_to_unsuccessful)
-
-    test_set_auction_period = snitch(with_lot_set_auction_period)
 
 
 class Tender2LotSwitch0BidResourceTest(TenderLotSwitch0BidResourceTest):
