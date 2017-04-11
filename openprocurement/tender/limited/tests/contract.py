@@ -31,8 +31,6 @@ from openprocurement.tender.limited.tests.contract_blanks import (
     create_tender_contract,
     patch_tender_contract,
     tender_contract_signature_date,
-    # get_tender_contract,
-    # get_tender_contracts,
     award_id_change_is_not_allowed,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
