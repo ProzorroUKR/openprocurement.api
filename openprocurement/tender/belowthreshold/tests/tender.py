@@ -40,6 +40,20 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 )
 
 
+class TenderResourceTestMixin(object):
+    test_listing_changes = snitch(listing_changes)
+    test_listing_draft = snitch(listing_draft)
+    test_listing = snitch(listing)
+    test_create_tender_draft = snitch(create_tender_draft)
+    test_create_tender = snitch(create_tender)
+    test_tender_features = snitch(tender_features)
+    test_get_tender = snitch(get_tender)
+    test_tender_features_invalid = snitch(tender_features_invalid)
+    test_dateModified_tender = snitch(dateModified_tender)
+    test_tender_not_found = snitch(tender_not_found)
+    test_tender_Administrator_change = snitch(tender_Administrator_change)
+
+
 class TenderTest(BaseWebTest):
     initial_data = test_tender_data
     relative_to = os.path.dirname(__file__)
@@ -52,27 +66,16 @@ class TestCoordinatesRegExp(unittest.TestCase):
     test_coordinates_reg_exp = snitch(coordinates_reg_exp)
 
 
-class TenderResourceTest(BaseWebTest):
+class TenderResourceTest(BaseWebTest, TenderResourceTestMixin):
     initial_data = test_tender_data
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
-    test_tender_status = 'active.enquiries'
+    primary_tender_status_name = 'active.enquiries'
 
-    test_listing = snitch(listing)
-    test_get_tender = snitch(get_tender)
-    test_tender_features_invalid = snitch(tender_features_invalid)
-    test_tender_not_found = snitch(tender_not_found)
-    test_dateModified_tender = snitch(dateModified_tender)
     test_guarantee = snitch(guarantee)
-    test_tender_Administrator_change = snitch(tender_Administrator_change)
-    test_listing_draft = snitch(listing_draft)
-    test_listing_changes = snitch(listing_changes)
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
-    test_create_tender_draft = snitch(create_tender_draft)
-    test_create_tender = snitch(create_tender)
     test_tender_fields = snitch(tender_fields)
-    test_tender_features = snitch(tender_features)
     test_patch_tender_jsonpatch = snitch(patch_tender_jsonpatch)
     test_patch_tender = snitch(patch_tender)
     test_required_field_deletion = snitch(required_field_deletion)
