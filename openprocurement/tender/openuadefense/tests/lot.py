@@ -189,7 +189,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
     setUp = BaseTenderUAContentWebTest.setUp
     initial_data = test_tender_data
 
-    days_till_auction_starts = 16
+    days_till_auction_starts = 6
 
     test_lots_data = test_lots  # TODO: change attribute identifier
 
