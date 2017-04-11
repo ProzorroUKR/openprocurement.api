@@ -10,48 +10,58 @@ from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_data
 )
-from openprocurement.tender.openuadefense.tests.lot_blanks import (
+from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     # TenderLotResourceTest
-    create_tender_lot_invalid,
-    create_tender_lot,
     patch_tender_lot,
-    patch_tender_currency,
+    create_tender_lot,
+    delete_tender_lot,
+    create_tender_lot_invalid,
+    # TenderLotFeatureResourceTest
+    tender_value,
+    tender_features_invalid,
+    tender_lot_document,
+    # TenderLotProcessTest
+    proc_1lot_0bid,
+    proc_2lot_0bid,
+    proc_2lot_2can,
+)
+from openprocurement.tender.openua.tests.lot_blanks import (
+    # TenderLotResourceTest
     patch_tender_vat,
     get_tender_lot,
     get_tender_lots,
-    delete_tender_lot,
+    patch_tender_currency,
+    # TenderLotFeatureResourceTest
+    create_tender_bidder_invalid,
+    patch_tender_bidder,
+    # TenderLotFeatureBidderResourceTest
+    create_tender_bidder_feature_invalid,
+    create_tender_bidder_feature,
+    # TenderLotProcessTest
+    proc_1lot_1bid_patch,
+    proc_1lot_2bid,
+    proc_1lot_3bid_1un,
+    proc_2lot_2bid_2com_2win,
+)
+from openprocurement.tender.openuadefense.tests.lot_blanks import (
     # TenderLotEdgeCasesTest
     question_blocking,
     claim_blocking,
     next_check_value_with_unanswered_question,
     next_check_value_with_unanswered_claim,
-    # TenderLotFeatureResourceTest
-    tender_value,
-    tender_features_invalid,
-    create_tender_bidder_invalid,
-    patch_tender_bidder,
-    # TenderLotFeatureBidderResourceTest
-    create_tender_bidder_with_features_invalid,
-    create_tender_bidder_with_features,
     # TenderLotProcessTest
-    one_lot_0bid,
     one_lot_1bid,
-    one_lot_1bid_patch,
-    one_lot_2bid,
-    one_lot_3bid_1un,
-    two_lot_0bid,
-    two_lot_2can,
     two_lot_1bid_0com_1can,
-    two_lot_1bid_2com_1win,
     two_lot_1bid_0com_0win,
     two_lot_1bid_1com_1win,
+    two_lot_1bid_2com_1win,
     two_lot_2bid_on_first_and_1_on_second_awarding,
-    two_lot_2bid_2com_2win,
 )
 
 
 class TenderLotResourceTest(BaseTenderUAContentWebTest):
     test_lots_data = test_lots  # TODO: change attribute identifier
+    test_status_that_denies_delete_create_patch_lots = 'active.auction'
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
 
@@ -84,12 +94,14 @@ class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
 
 
 class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest):
-    test_tender = test_tender_data
+    initial_data = test_tender_data
     initial_lots = 2 * test_lots
 
     test_tender_value = snitch(tender_value)
 
     test_tender_features_invalid = snitch(tender_features_invalid)
+
+    test_tender_lot_document = snitch(tender_lot_document)
 
 
 class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
@@ -168,29 +180,32 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['items'][0]['relatedLot'], self.lot_id)
 
-    test_create_tender_bidder_invalid = snitch(create_tender_bidder_with_features_invalid)
+    test_create_tender_bidder_invalid = snitch(create_tender_bidder_feature_invalid)
 
-    test_create_tender_bidder = snitch(create_tender_bidder_with_features)
+    test_create_tender_bidder = snitch(create_tender_bidder_feature)
 
 
 class TenderLotProcessTest(BaseTenderUAContentWebTest):
     setUp = BaseTenderUAContentWebTest.setUp
-    test_tender = test_tender_data
+    initial_data = test_tender_data
+
+    days_till_auction_starts = 6
+
     test_lots_data = test_lots  # TODO: change attribute identifier
 
-    test_1lot_0bid = snitch(one_lot_0bid)
+    test_1lot_0bid = snitch(proc_1lot_0bid)
 
     test_1lot_1bid = snitch(one_lot_1bid)
 
-    test_1lot_1bid_patch = snitch(one_lot_1bid_patch)
+    test_1lot_1bid_patch = snitch(proc_1lot_1bid_patch)
 
-    test_1lot_2bid = snitch(one_lot_2bid)
+    test_1lot_2bid = snitch(proc_1lot_2bid)
 
-    test_1lot_3bid_1un = snitch(one_lot_3bid_1un)
+    test_1lot_3bid_1un = snitch(proc_1lot_3bid_1un)
 
-    test_2lot_0bid = snitch(two_lot_0bid)
+    test_2lot_0bid = snitch(proc_2lot_0bid)
 
-    test_2lot_2can = snitch(two_lot_2can)
+    test_2lot_2can = snitch(proc_2lot_2can)
 
     test_2lot_1bid_0com_1can = snitch(two_lot_1bid_0com_1can)
 
@@ -202,7 +217,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest):
 
     test_2lot_2bid_on_first_and_1_on_second_awarding = snitch(two_lot_2bid_on_first_and_1_on_second_awarding)
 
-    test_2lot_2bid_2com_2win = snitch(two_lot_2bid_2com_2win)
+    test_2lot_2bid_2com_2win = snitch(proc_2lot_2bid_2com_2win)
 
 
 def suite():

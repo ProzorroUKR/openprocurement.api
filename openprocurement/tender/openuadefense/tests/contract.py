@@ -10,11 +10,9 @@ from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest
 )
-from openprocurement.tender.openuadefense.tests.contract_blanks import (
+from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     # TenderContractResourceTest
     create_tender_contract_invalid,
-    create_tender_contract,
-    patch_tender_contract,
     get_tender_contract,
     get_tender_contracts,
     # TenderContractDocumentResourceTest
@@ -22,6 +20,11 @@ from openprocurement.tender.openuadefense.tests.contract_blanks import (
     create_tender_contract_document,
     put_tender_contract_document,
     patch_tender_contract_document,
+)
+from openprocurement.tender.openua.tests.contract_blanks import (
+    # TenderContractResourceTest
+    create_tender_contract,
+    patch_tender_contract,
 )
 
 
@@ -53,6 +56,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
 class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
+    test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
 
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
