@@ -3,7 +3,8 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import BaseWebTest
+
+from openprocurement.tender.core.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderUAResourceTest
