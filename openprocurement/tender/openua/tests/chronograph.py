@@ -38,6 +38,18 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
 )
 
 
+class TenderSwitchAuctionResourceTestMixin(object):
+    test_switch_to_complaint = snitch(switch_to_complaint)
+    test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
+    test_set_auction_period = snitch(set_auction_period)
+
+
+class TenderLotSwitchAuctionResourceTestMixin(object):
+    test_switch_to_auction_lot = snitch(switch_to_auction_lot)
+    test_switch_to_unsuccessful_lot = snitch(switch_to_unsuccessful_lot)
+    test_set_auction_period_lot = snitch(set_auction_period_lot)
+
+
 class TenderSwitch0BidResourceTest(BaseTenderUAContentWebTest):
 
     test_switch_to_unsuccessful_0bid = snitch(switch_to_unsuccessful_0bid)
@@ -50,13 +62,10 @@ class TenderSwitch1BidResourceTest(BaseTenderUAContentWebTest):
     test_switch_to_unsuccessful_1bid = snitch(switch_to_unsuccessful_1bid)
 
 
-class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
+class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest, TenderSwitchAuctionResourceTestMixin):
     initial_bids = test_bids
 
     test_switch_to_auction = snitch(switch_to_auction)
-    test_switch_to_complaint = snitch(switch_to_complaint)
-    test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
-    test_set_auction_period = snitch(set_auction_period)
 
 
 class TenderLotSwitch0BidResourceTest(BaseTenderUAContentWebTest):
@@ -73,13 +82,9 @@ class TenderLotSwitch1BidResourceTest(BaseTenderUAContentWebTest):
     test_switch_to_unsuccessful_lot_1bid = snitch(switch_to_unsuccessful_lot_1bid)
 
 
-class TenderLotSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
+class TenderLotSwitchAuctionResourceTest(BaseTenderUAContentWebTest, TenderLotSwitchAuctionResourceTestMixin):
     initial_lots = test_lots
     initial_bids = test_bids
-
-    test_switch_to_auction_lot = snitch(switch_to_auction_lot)
-    test_switch_to_unsuccessful_lot = snitch(switch_to_unsuccessful_lot)
-    test_set_auction_period_lot = snitch(set_auction_period_lot)
 
 
 class Tender2LotSwitch0BidResourceTest(TenderLotSwitch0BidResourceTest):
