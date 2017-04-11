@@ -45,10 +45,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (
 )
 
 
-class TenderBidResourceTest(BaseTenderUAContentWebTest):
-    initial_data = test_tender_data
-    initial_status = 'active.tendering'
-
+class TenderBidResourceTestMixin(object):
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
     test_create_tender_bidder = snitch(create_tender_bidder)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
@@ -58,10 +55,23 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest):
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
-    test_draft1_bid = snitch(draft1_bid)
-    test_draft2_bids = snitch(draft2_bids)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
+
+
+class TenderBidDocumentResourceTestMixin(object):
+    test_create_tender_bidder_document = snitch(create_tender_bidder_document)
+    test_put_tender_bidder_document = snitch(put_tender_bidder_document)
+    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
+    test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
+
+
+class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
+    initial_data = test_tender_data
+    initial_status = 'active.tendering'
+
+    test_draft1_bid = snitch(draft1_bid)
+    test_draft2_bids = snitch(draft2_bids)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
@@ -72,7 +82,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest):
+class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest, TenderBidDocumentResourceTestMixin):
     initial_status = 'active.tendering'
 
     def setUp(self):
@@ -86,10 +96,6 @@ class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest):
         self.bid_token = response.json['access']['token']
 
     test_not_found = snitch(not_found)
-    test_create_tender_bidder_document = snitch(create_tender_bidder_document)
-    test_put_tender_bidder_document = snitch(put_tender_bidder_document)
-    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
-    test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
 
 
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
