@@ -49,7 +49,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
     test_lots_data = test_lots  # TODO: change attribute identifier
-    test_tender_status = 'active.tendering'
+    primary_tender_status_name = 'active.tendering'
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
