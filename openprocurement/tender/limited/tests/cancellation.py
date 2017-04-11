@@ -3,17 +3,18 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
+from openprocurement.tender.belowthreshold.tests.cancellation import TenderCancellationDocumentResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     # TenderNegotiationLotsCancellationResourceTest
     patch_tender_lots_cancellation,
-    # TenderCancellationDocumentResourceTest
-    not_found,
-    create_tender_cancellation_document,
-    put_tender_cancellation_document,
-    patch_tender_cancellation_document,
     # TenderCancellationResourceTest
     get_tender_cancellation,
     get_tender_cancellations,
+)
+
+from openprocurement.tender.openua.tests.cancellation_blanks import (
+    # TenderCancellationResourceTest
+    patch_tender_cancellation,
 )
 
 from openprocurement.tender.limited.tests.base import (
@@ -40,11 +41,6 @@ from openprocurement.tender.limited.tests.cancellation_blanks import (
     create_cancellation_on_lot,
 )
 
-from openprocurement.tender.openua.tests.cancellation_blanks import (
-    # TenderCancellationResourceTest
-    patch_tender_cancellation,
-)
-
 
 class TenderCancellationResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_data
@@ -68,7 +64,7 @@ class TenderNegotiationQuickCancellationResourceTest(TenderNegotiationCancellati
     initial_data = test_tender_negotiation_quick_data
 
 
-class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
+class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCancellationDocumentResourceTestMixin):
     initial_data = test_tender_data
 
     def setUp(self):
@@ -78,11 +74,6 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
             self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
         cancellation = response.json['data']
         self.cancellation_id = cancellation['id']
-
-    test_not_found = snitch(not_found)
-    test_create_tender_cancellation_document = snitch(create_tender_cancellation_document)
-    test_put_tender_cancellation_document = snitch(put_tender_cancellation_document)
-    test_patch_tender_cancellation_document = snitch(patch_tender_cancellation_document)
 
 
 class TenderNegotiationCancellationDocumentResourceTest(TenderCancellationDocumentResourceTest):

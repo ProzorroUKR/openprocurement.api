@@ -4,17 +4,10 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
-from openprocurement.tender.belowthreshold.tests.award_blanks import (
-    # TenderAwardDocumentResourceTest
-    create_tender_award_document,
-    put_tender_award_document,
-    patch_tender_award_document,
-    # TenderNegotiationAwardComplaintDocumentResourceTest
-    not_found,
-    create_tender_award_complaint_document,
-    put_tender_award_complaint_document,
+from openprocurement.tender.belowthreshold.tests.award import (
+    TenderAwardDocumentResourceTestMixin,
+    TenderAwardComplaintDocumentResourceTestMixin
 )
-
 
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest, test_tender_data,
@@ -332,7 +325,7 @@ class TenderLotNegotiationQuickAwardComplaintResourceTest(TenderLotNegotiationAw
     initial_data = test_tender_negotiation_quick_data
 
 
-class TenderNegotiationAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
+class TenderNegotiationAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderAwardComplaintDocumentResourceTestMixin):
     initial_data = test_tender_negotiation_data
 
     def setUp(self):
@@ -356,9 +349,6 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(BaseTenderContentWebTe
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
 
-    test_not_found = snitch(not_found)
-    test_create_tender_award_complaint_document = snitch(create_tender_award_complaint_document)
-    test_put_tender_award_complaint_document = snitch(put_tender_award_complaint_document)
     test_patch_tender_award_complaint_document = snitch(patch_tender_award_complaint_document)
 
 
@@ -366,7 +356,7 @@ class TenderNegotiationQuickAwardComplaintDocumentResourceTest(TenderNegotiation
     initial_data = test_tender_negotiation_quick_data
 
 
-class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
+class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocumentResourceTestMixin):
     initial_status = 'active'
     initial_data = test_tender_data
     initial_bids = None
@@ -381,120 +371,7 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
         award = response.json['data']
         self.award_id = award['id']
 
-    def test_not_found(self):
-        response = self.app.post('/tenders/some_id/awards/some_id/documents',
-                                 status=404,
-                                 upload_files=[('file', 'name.doc', 'content')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'tender_id'}
-        ])
-
-        response = self.app.post('/tenders/{}/awards/some_id/documents'.format(self.tender_id),
-                                 status=404,
-                                 upload_files=[('file', 'name.doc', 'content')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'award_id'}
-        ])
-
-        response = self.app.post('/tenders/{}/awards/{}/documents?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token),
-            status=404,
-            upload_files=[('invalid_value', 'name.doc', 'content')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'body', u'name': u'file'}
-        ])
-
-        response = self.app.get('/tenders/some_id/awards/some_id/documents', status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'tender_id'}
-        ])
-
-        response = self.app.get('/tenders/{}/awards/some_id/documents'.format(self.tender_id), status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'award_id'}
-        ])
-
-        response = self.app.get('/tenders/some_id/awards/some_id/documents/some_id', status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'tender_id'}
-        ])
-
-        response = self.app.get('/tenders/{}/awards/some_id/documents/some_id'.format(self.tender_id), status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'award_id'}
-        ])
-
-        response = self.app.get('/tenders/{}/awards/{}/documents/some_id'.format(self.tender_id, self.award_id),
-                                status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'document_id'}
-        ])
-
-        response = self.app.put('/tenders/some_id/awards/some_id/documents/some_id', status=404,
-                                upload_files=[('file', 'name.doc', 'content2')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'tender_id'}
-        ])
-
-        response = self.app.put('/tenders/{}/awards/some_id/documents/some_id'.format(self.tender_id), status=404,
-                                upload_files=[('file', 'name.doc', 'content2')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'award_id'}
-        ])
-
-        response = self.app.put('/tenders/{}/awards/{}/documents/some_id'.format(
-            self.tender_id, self.award_id), status=404, upload_files=[('file', 'name.doc', 'content2')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location': u'url', u'name': u'document_id'}
-        ])
-
-    test_create_tender_award_document = snitch(create_tender_award_document)
     test_create_tender_award_document_invalid = snitch(create_tender_award_document_invalid)
-    test_put_tender_award_document = snitch(put_tender_award_document)
-    test_patch_tender_award_document = snitch(patch_tender_award_document)
 
 
 class TenderAwardNegotiationDocumentResourceTest(TenderAwardDocumentResourceTest):
