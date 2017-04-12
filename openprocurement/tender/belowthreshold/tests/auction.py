@@ -41,19 +41,34 @@ auction_test_tender_data = test_tender_data.copy()
 auction_test_tender_data['submissionMethodDetails'] = 'test submissionMethodDetails'
 
 
-class TenderAuctionResourceTest(TenderContentWebTest):
+class TenderAuctionResourceTestMixin(object):
+    test_get_tender_auction_not_found = snitch(get_tender_auction_not_found)
+    test_get_tender_auction = snitch(get_tender_auction)
+    test_post_tender_auction = snitch(post_tender_auction)
+    test_patch_tender_auction = snitch(patch_tender_auction)
+    test_post_tender_auction_document = snitch(post_tender_auction_document)
+
+
+class TenderLotAuctionResourceTestMixin(object):
+    test_get_tender_auction = snitch(get_tender_lot_auction)
+    test_post_tender_auction = snitch(post_tender_lot_auction)
+    test_patch_tender_auction = snitch(patch_tender_lot_auction)
+    test_post_tender_auction_document = snitch(post_tender_lot_auction_document)
+
+
+class TenderMultipleLotAuctionResourceTestMixin(object):
+    test_get_tender_auction = snitch(get_tender_lots_auction)
+    test_post_tender_auction = snitch(post_tender_lots_auction)
+    test_post_tender_auction_document = snitch(post_tender_lots_auction_document)
+
+
+class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestMixin):
     initial_data = auction_test_tender_data
     initial_status = 'active.tendering'
     initial_bids = deepcopy(test_bids)
     initial_auth = ('Basic', ('broker', ''))
     test_status_that_denies_get_post_patch_auction = 'active.tendering'
     test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
-
-    test_get_tender_auction_not_found = snitch(get_tender_auction_not_found)
-    test_get_tender_auction = snitch(get_tender_auction)
-    test_post_tender_auction = snitch(post_tender_auction)
-    test_patch_tender_auction = snitch(patch_tender_auction)
-    test_post_tender_auction_document = snitch(post_tender_auction_document)
 
 
 class TenderSameValueAuctionResourceTest(TenderContentWebTest):
@@ -76,7 +91,7 @@ class TenderSameValueAuctionResourceTest(TenderContentWebTest):
     test_post_tender_auction_reversed = snitch(post_tender_auction_reversed)
 
 
-class TenderLotAuctionResourceTest(TenderContentWebTest):
+class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourceTestMixin):
     initial_lots = test_lots
     initial_data = auction_test_tender_data
     initial_status = 'active.tendering'
@@ -88,13 +103,8 @@ class TenderLotAuctionResourceTest(TenderContentWebTest):
     def setUp(self):
         super(TenderLotAuctionResourceTest, self).setUp()
 
-    test_get_tender_lot_auction = snitch(get_tender_lot_auction)
-    test_post_tender_lot_auction = snitch(post_tender_lot_auction)
-    test_patch_tender_lot_auction = snitch(patch_tender_lot_auction)
-    test_post_tender_lot_auction_document = snitch(post_tender_lot_auction_document)
 
-
-class TenderMultipleLotAuctionResourceTest(TenderContentWebTest):
+class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleLotAuctionResourceTestMixin):
     initial_lots = 2 * test_lots
     initial_data = auction_test_tender_data
     initial_status = 'active.tendering'
@@ -103,10 +113,7 @@ class TenderMultipleLotAuctionResourceTest(TenderContentWebTest):
     test_status_that_denies_get_post_patch_auction = 'active.tendering'
     test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
 
-    test_get_tender_lots_auction = snitch(get_tender_lots_auction)
-    test_post_tender_lots_auction = snitch(post_tender_lots_auction)
-    test_patch_tender_lots_auction = snitch(patch_tender_lots_auction)
-    test_post_tender_lots_auction_document = snitch(post_tender_lots_auction_document)
+    test_patch_tender_auction = snitch(patch_tender_lots_auction)
 
 
 class TenderFeaturesAuctionResourceTest(TenderContentWebTest):

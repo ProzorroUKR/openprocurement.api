@@ -31,7 +31,20 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 )
 
 
-class TenderContractResourceTest(TenderContentWebTest):
+class TenderContractResourceTestMixin(object):
+    test_create_tender_contract_invalid = snitch(create_tender_contract_invalid)
+    test_get_tender_contract = snitch(get_tender_contract)
+    test_get_tender_contracts = snitch(get_tender_contracts)
+
+
+class TenderContractDocumentResourceTestMixin(object):
+    test_not_found = snitch(not_found)
+    test_create_tender_contract_document = snitch(create_tender_contract_document)
+    test_put_tender_contract_document = snitch(put_tender_contract_document)
+    test_patch_tender_contract_document = snitch(patch_tender_contract_document)
+
+
+class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
 
@@ -50,12 +63,9 @@ class TenderContractResourceTest(TenderContentWebTest):
         self.award_items = award['items']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
 
-    test_create_tender_contract_invalid = snitch(create_tender_contract_invalid)
     test_create_tender_contract = snitch(create_tender_contract)
     test_create_tender_contract_in_complete_status = snitch(create_tender_contract_in_complete_status)
     test_patch_tender_contract = snitch(patch_tender_contract)
-    test_get_tender_contract = snitch(get_tender_contract)
-    test_get_tender_contracts = snitch(get_tender_contracts)
 
 
 class Tender2LotContractResourceTest(TenderContentWebTest):
@@ -83,7 +93,7 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
     test_lot2_patch_tender_contract = snitch(lot2_patch_tender_contract)
 
 
-class TenderContractDocumentResourceTest(TenderContentWebTest):
+class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
@@ -110,11 +120,6 @@ class TenderContractDocumentResourceTest(TenderContentWebTest):
         contract = response.json['data']
         self.contract_id = contract['id']
         self.app.authorization = auth
-
-    test_not_found = snitch(not_found)
-    test_create_tender_contract_document = snitch(create_tender_contract_document)
-    test_put_tender_contract_document = snitch(put_tender_contract_document)
-    test_patch_tender_contract_document = snitch(patch_tender_contract_document)
 
 
 class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
