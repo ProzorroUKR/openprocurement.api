@@ -45,28 +45,42 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
 )
 
 
-class TenderLotResourceTest(TenderContentWebTest):
+class TenderLotResourceTestMixin(object):
+    test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
+    test_create_tender_lot = snitch(create_tender_lot)
+    test_patch_tender_lot = snitch(patch_tender_lot)
+    test_delete_tender_lot = snitch(delete_tender_lot)
+
+
+class TenderEULotResourceTestMixin(object):
+    test_patch_tender_currency = snitch(patch_tender_currency)
+    test_patch_tender_vat = snitch(patch_tender_vat)
+    test_tender_lot_guarantee = snitch(tender_lot_guarantee)
+
+
+class TenderLotFeatureResourceTestMixin(object):
+    test_tender_value = snitch(tender_value)
+    test_tender_features_invalid = snitch(tender_features_invalid)
+    test_tender_lot_document = snitch(tender_lot_document)
+
+
+class TenderLotProcessTestMixin(object):
+    test_proc_1lot_0bid = snitch(proc_1lot_0bid)
+    test_proc_2lot_0bid = snitch(proc_2lot_0bid)
+    test_proc_2lot_2can = snitch(proc_2lot_2can)
+
+
+class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, TenderEULotResourceTestMixin):
     test_lots_data = test_lots
 
     test_status_that_denies_delete_create_patch_lots = 'active.tendering'
 
-    test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
-    test_create_tender_lot = snitch(create_tender_lot)
-    test_patch_tender_lot = snitch(patch_tender_lot)
-    test_patch_tender_currency = snitch(patch_tender_currency)
-    test_patch_tender_vat = snitch(patch_tender_vat)
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
-    test_delete_tender_lot = snitch(delete_tender_lot)
-    test_tender_lot_guarantee = snitch(tender_lot_guarantee)
 
 
-class TenderLotFeatureResourceTest(TenderContentWebTest):
+class TenderLotFeatureResourceTest(TenderContentWebTest, TenderLotFeatureResourceTestMixin):
     initial_lots = 2 * test_lots
-
-    test_tender_value = snitch(tender_value)
-    test_tender_features_invalid = snitch(tender_features_invalid)
-    test_tender_lot_document = snitch(tender_lot_document)
 
 
 class TenderLotBidResourceTest(TenderContentWebTest):
@@ -149,16 +163,13 @@ class TenderLotFeatureBidResourceTest(TenderContentWebTest):
     test_create_tender_bid_feature = snitch(create_tender_bid_feature)
 
 
-class TenderLotProcessTest(BaseTenderWebTest):
+class TenderLotProcessTest(BaseTenderWebTest, TenderLotProcessTestMixin):
     test_lots_data = test_lots
 
     days_till_auction_starts = 10
 
-    test_proc_1lot_0bid = snitch(proc_1lot_0bid)
     test_proc_1lot_1bid = snitch(proc_1lot_1bid)
     test_proc_1lot_2bid = snitch(proc_1lot_2bid)
-    test_proc_2lot_0bid = snitch(proc_2lot_0bid)
-    test_proc_2lot_2can = snitch(proc_2lot_2can)
     test_proc_2lot_2bid_0com_1can_before_auction = snitch(proc_2lot_2bid_0com_1can_before_auction)
     test_proc_2lot_1bid_0com_1can = snitch(proc_2lot_1bid_0com_1can)
     test_proc_2lot_1bid_2com_1win = snitch(proc_2lot_1bid_2com_1win)

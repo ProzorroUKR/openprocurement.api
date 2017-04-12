@@ -26,14 +26,17 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
 )
 
 
-class TenderComplaintResourceTest(TenderContentWebTest):
-
+class TenderComplaintResourceTestMixin(object):
     test_create_tender_complaint_invalid = snitch(create_tender_complaint_invalid)
+    test_get_tender_complaint = snitch(get_tender_complaint)
+    test_get_tender_complaints = snitch(get_tender_complaints)
+
+
+class TenderComplaintResourceTest(TenderContentWebTest, TenderComplaintResourceTestMixin):
+
     test_create_tender_complaint = snitch(create_tender_complaint)
     test_patch_tender_complaint = snitch(patch_tender_complaint)
     test_review_tender_complaint = snitch(review_tender_complaint)
-    test_get_tender_complaint = snitch(get_tender_complaint)
-    test_get_tender_complaints = snitch(get_tender_complaints)
 
 
 class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
