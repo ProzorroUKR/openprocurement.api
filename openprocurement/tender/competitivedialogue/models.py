@@ -81,6 +81,7 @@ roles = {
     'active.tendering': (enquiries_role + blacklist('auctionPeriod')),
     'complete': view_role_stage1,
     'unsuccessful': view_role_stage1,
+
     'cancelled': view_role_stage1,
     'chronograph': chronograph_role,
     'chronograph_view': chronograph_view_role,
@@ -89,6 +90,22 @@ roles = {
     'contracting': whitelist('doc_id', 'owner'),
     'competitive_dialogue': edit_stage2_waiting
 }
+
+
+class ICDEUTender(ITender):
+    """ Marker interface for Competitive Dialogue EU tenders """
+
+
+class ICDUATender(ITender):
+    """ Marker interface for Competitive Dialogue UA tenders """
+
+
+class ICDEUStage2Tender(ITender):
+    """ Marker interface for Competitive Dialogue EU Stage 2 tenders """
+
+
+class ICDUAStage2Tender(ITender):
+    """ Marker interface for Competitive Dialogue UA Stage 2 tenders """
 
 
 class Document(ConfidentialDocument):
@@ -199,7 +216,7 @@ class Lot(BaseLotEU):
 LotStage1 = Lot
 
 
-@implementer(ITender)
+@implementer(ICDEUTender)
 class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=CD_EU_TYPE)
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
@@ -271,7 +288,7 @@ class Firms(Model):
     lots = ListType(ModelType(LotId), default=list())
 
 
-@implementer(ITender)
+@implementer(ICDUATender)
 class Tender(CompetitiveDialogEU):
     procurementMethodType = StringType(default=CD_UA_TYPE)
     title_en = StringType()
@@ -406,7 +423,7 @@ class Item(BaseUAItem):
 ItemStage2UA = Item
 
 
-@implementer(ITender)
+@implementer(ICDEUStage2Tender)
 class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=STAGE_2_EU_TYPE)
     dialogue_token = StringType(required=True)
@@ -438,14 +455,10 @@ class Tender(BaseTenderEU):
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
 
-    def initialize(self):
-        self.tenderPeriod.endDate = calculate_business_date(self.tenderPeriod.startDate, TENDERING_DURATION_EU, self)
-        super(TenderStage2EU, self).initialize()
-
 TenderStage2EU = Tender
 
 
-@implementer(ITender)
+@implementer(ICDUAStage2Tender)
 class Tender(BaseTenderUA):
     procurementMethodType = StringType(default=STAGE_2_UA_TYPE)
     dialogue_token = StringType(required=True)
@@ -474,10 +487,5 @@ class Tender(BaseTenderUA):
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
-
-    def initialize(self):
-        self.tenderPeriod.endDate = calculate_business_date(self.tenderPeriod.startDate, TENDERING_DURATION_UA, self)
-        super(TenderStage2UA, self).initialize()
-
 
 TenderStage2UA = Tender

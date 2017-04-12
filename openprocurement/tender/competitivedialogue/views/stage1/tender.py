@@ -3,6 +3,7 @@ from openprocurement.tender.core.utils import (
     optendersresource,
     save_tender
 )
+from openprocurement.tender.core.validation import validate_tender_status_update_in_terminated_status
 from openprocurement.api.utils import json_view, context_unpack, APIResource
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openeu.views.tender import TenderEUResource
@@ -15,6 +16,10 @@ from openprocurement.tender.competitivedialogue.utils import (
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE, CD_UA_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 )
+from openprocurement.tender.competitivedialogue.validation import (
+    validate_tender_update,
+    validate_credentials_generation
+)
 
 
 @optendersresource(name='{}:Tender'.format(CD_EU_TYPE),
@@ -24,7 +29,7 @@ from openprocurement.tender.competitivedialogue.constants import (
 class CompetitiveDialogueEUResource(TenderEUResource):
     """ Resource handler for Competitive Dialogue EU"""
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data,), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data, validate_tender_status_update_in_terminated_status, validate_tender_update), permission='edit_tender')
     def patch(self):
         return patch_eu(self)
 
@@ -36,7 +41,7 @@ class CompetitiveDialogueEUResource(TenderEUResource):
 class CompetitiveDialogueUAResource(TenderResource):
     """ Resource handler for Competitive Dialogue UA"""
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data,), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data, validate_tender_status_update_in_terminated_status, validate_tender_update), permission='edit_tender')
     def patch(self):
         return patch_eu(self)
 
@@ -47,15 +52,9 @@ class CompetitiveDialogueUAResource(TenderResource):
                    description="Tender stage2 UE credentials")
 class TenderStage2EUCredentialsResource(APIResource):
 
-    @json_view(permission='generate_credentials')
+    @json_view(permission='generate_credentials', validators=(validate_credentials_generation))
     def patch(self):
         tender = self.request.validated['tender']
-        if tender.status != "draft.stage2":
-            self.request.errors.add('body', 'data',
-                                    'Can\'t generate credentials in current ({}) contract status'.format(
-                                        tender.status))
-            self.request.errors.status = 403
-            return
 
         set_ownership(tender)
         if save_tender(self.request):

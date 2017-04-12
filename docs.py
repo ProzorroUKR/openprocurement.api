@@ -7,7 +7,7 @@ from copy import deepcopy
 
 import openprocurement.tender.competitivedialogue.tests.base as base_test
 from openprocurement.api.models import get_now
-from openprocurement.tender.competitivedialogue.tests.base import PrefixedRequestClass
+from openprocurement.api.tests.base import PrefixedRequestClass
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUWebTest,
     BaseCompetitiveDialogUAStage2WebTest
