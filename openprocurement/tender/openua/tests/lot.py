@@ -6,24 +6,18 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_lots
 )
-from openprocurement.tender.openua.tests.base import (
-    test_bids, BaseTenderUAContentWebTest, test_tender_data
+from openprocurement.tender.belowthreshold.tests.lot import (
+    TenderLotResourceTestMixin,
+    TenderLotFeatureResourceTestMixin,
+    TenderLotProcessTestMixin
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     # TenderLotResourceTest
-    create_tender_lot,
-    patch_tender_lot,
-    delete_tender_lot,
-    create_tender_lot_invalid,
     tender_lot_guarantee,
-    # TenderLotFeatureResourceTest
-    tender_value,
-    tender_features_invalid,
-    tender_lot_document,
-    # TenderLotProcessTest
-    proc_1lot_0bid,
-    proc_2lot_0bid,
-    proc_2lot_2can
+)
+
+from openprocurement.tender.openua.tests.base import (
+    test_bids, BaseTenderUAContentWebTest, test_tender_data
 )
 from openprocurement.tender.openua.tests.lot_blanks import (
     # TenderLotResourceTest
@@ -56,19 +50,25 @@ from openprocurement.tender.openua.tests.lot_blanks import (
 )
 
 
-class TenderLotResourceTest(BaseTenderUAContentWebTest):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
-    test_status_that_denies_delete_create_patch_lots = 'active.auction'
-
-    test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
-    test_create_tender_lot = snitch(create_tender_lot)
-    test_patch_tender_lot = snitch(patch_tender_lot)
+class TenderUALotResourceTestMixin(object):
     test_patch_tender_currency = snitch(patch_tender_currency)
     test_patch_tender_vat = snitch(patch_tender_vat)
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
-    test_delete_tender_lot = snitch(delete_tender_lot)
+
+
+class TenderUALotProcessTestMixin(object):
+    test_proc_1lot_1bid_patch = snitch(proc_1lot_1bid_patch)
+    test_proc_1lot_2bid = snitch(proc_1lot_2bid)
+    test_proc_1lot_3bid_1un = snitch(proc_1lot_3bid_1un)
+    test_proc_2lot_2bid_2com_2win = snitch(proc_2lot_2bid_2com_2win)
+
+
+class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
+    initial_data = test_tender_data
+    test_lots_data = test_lots
+    test_status_that_denies_delete_create_patch_lots = 'active.auction'
+
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
 
 
@@ -83,13 +83,9 @@ class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
     test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
 
 
-class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest):
+class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureResourceTestMixin):
     initial_data = test_tender_data
     initial_lots = 2 * test_lots
-
-    test_tender_value = snitch(tender_value)
-    test_tender_features_invalid = snitch(tender_features_invalid)
-    test_tender_lot_document = snitch(tender_lot_document)
 
 
 class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
@@ -172,26 +168,19 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
     test_create_tender_bidder_feature = snitch(create_tender_bidder_feature)
 
 
-class TenderLotProcessTest(BaseTenderUAContentWebTest):
+class TenderLotProcessTest(BaseTenderUAContentWebTest, TenderLotProcessTestMixin, TenderUALotProcessTestMixin):
     initial_data = test_tender_data
     test_lots_data = test_lots
     setUp = BaseTenderUAContentWebTest.setUp
 
     days_till_auction_starts = 16
 
-    test_proc_1lot_0bid = snitch(proc_1lot_0bid)
     test_proc_1lot_1bid = snitch(proc_1lot_1bid)
-    test_proc_1lot_1bid_patch = snitch(proc_1lot_1bid_patch)
-    test_proc_1lot_2bid = snitch(proc_1lot_2bid)
-    test_proc_1lot_3bid_1un = snitch(proc_1lot_3bid_1un)
-    test_proc_2lot_0bid = snitch(proc_2lot_0bid)
-    test_proc_2lot_2can = snitch(proc_2lot_2can)
     test_proc_2lot_1bid_0com_1can = snitch(proc_2lot_1bid_0com_1can)
     test_proc_2lot_2bid_1lot_del = snitch(proc_2lot_2bid_1lot_del)
     test_proc_2lot_1bid_2com_1win = snitch(proc_2lot_1bid_2com_1win)
     test_proc_2lot_1bid_0com_0win = snitch(proc_2lot_1bid_0com_0win)
     test_proc_2lot_1bid_1com_1win = snitch(proc_2lot_1bid_1com_1win)
-    test_proc_2lot_2bid_2com_2win = snitch(proc_2lot_2bid_2com_2win)
 
 
 def suite():
