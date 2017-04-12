@@ -7,24 +7,15 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_lots,
     test_organization
 )
-
-from openprocurement.tender.openuadefense.tests.base import (
-    BaseTenderUAContentWebTest
-)
+from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    # TenderComplaintResourceTest
-    create_tender_complaint_invalid,
-    get_tender_complaint,
-    get_tender_complaints,
     # TenderComplaintDocumentResourceTest
     not_found,
     create_tender_complaint_document
 )
+
+from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
 from openprocurement.tender.openua.tests.complaint_blanks import (
-    # TenderComplaintResourceTest
-    create_tender_complaint,
-    review_tender_complaint,
-    patch_tender_complaint,
     # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
     # TenderComplaintDocumentResourceTest
@@ -32,21 +23,15 @@ from openprocurement.tender.openua.tests.complaint_blanks import (
     patch_tender_complaint_document,
 )
 
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest
+)
 
-class TenderComplaintResourceTest(BaseTenderUAContentWebTest):
+
+class TenderComplaintResourceTest(BaseTenderUAContentWebTest,
+                                  TenderComplaintResourceTestMixin,
+                                  TenderUAComplaintResourceTestMixin):
     author = test_organization
-
-    test_create_tender_complaint_invalid = snitch(create_tender_complaint_invalid)
-
-    test_create_tender_complaint = snitch(create_tender_complaint)
-
-    test_patch_tender_complaint = snitch(patch_tender_complaint)
-
-    test_review_tender_complaint = snitch(review_tender_complaint)
-
-    test_get_tender_complaint = snitch(get_tender_complaint)
-
-    test_get_tender_complaints = snitch(get_tender_complaints)
 
 
 class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
