@@ -4,31 +4,24 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.contract import (
+    TenderContractResourceTestMixin,
+    TenderContractDocumentResourceTestMixin
+)
 
 from openprocurement.tender.openua.tests.base import test_bids
-
-from openprocurement.tender.openuadefense.tests.base import (
-    BaseTenderUAContentWebTest
-)
-from openprocurement.tender.belowthreshold.tests.contract_blanks import (
-    # TenderContractResourceTest
-    create_tender_contract_invalid,
-    get_tender_contract,
-    get_tender_contracts,
-    # TenderContractDocumentResourceTest
-    not_found,
-    create_tender_contract_document,
-    put_tender_contract_document,
-    patch_tender_contract_document,
-)
 from openprocurement.tender.openua.tests.contract_blanks import (
     # TenderContractResourceTest
     create_tender_contract,
     patch_tender_contract,
 )
 
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest
+)
 
-class TenderContractResourceTest(BaseTenderUAContentWebTest):
+
+class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
 
@@ -42,18 +35,11 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         self.award_id = award['id']
         response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "active", "qualified": True, "eligible": True}})
 
-    test_create_tender_contract_invalid = snitch(create_tender_contract_invalid)
-
     test_create_tender_contract = snitch(create_tender_contract)
-
     test_patch_tender_contract = snitch(patch_tender_contract)
 
-    test_get_tender_contract = snitch(get_tender_contract)
 
-    test_get_tender_contracts = snitch(get_tender_contracts)
-
-
-class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
+class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
@@ -70,14 +56,6 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest):
         response = self.app.post_json('/tenders/{}/contracts'.format(self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
         contract = response.json['data']
         self.contract_id = contract['id']
-
-    test_not_found = snitch(not_found)
-
-    test_create_tender_contract_document = snitch(create_tender_contract_document)
-
-    test_put_tender_contract_document = snitch(put_tender_contract_document)
-
-    test_patch_tender_contract_document = snitch(patch_tender_contract_document)
 
 
 def suite():
