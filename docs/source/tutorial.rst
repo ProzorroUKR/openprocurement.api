@@ -173,6 +173,9 @@ Enquiries can be made only during ``Tender.enqueryPeriod``
 Registering bid
 ---------------
 
+Bid registration
+~~~~~~~~~~~~~~~~
+
 Tender status ``active.tendering`` allows registration of bids.
 
 Bidder can register a bid with `draft` status:
@@ -285,7 +288,10 @@ Open EU procedure demands at least two bidders, so there should be at least two 
 .. include:: tutorial/register-2nd-bidder.http
    :code:
 
-Register one more bid:
+Batch-mode bid registration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Register one more bid with documents using single request (batch-mode):
 
 .. include:: tutorial/register-3rd-bidder.http
    :code:

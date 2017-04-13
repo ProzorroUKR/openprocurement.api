@@ -213,6 +213,40 @@ bid3 = {
         "value": {
             "amount": 5
         },
+        "documents": [
+            {
+                'title': u'Proposal_part1.pdf',
+                'url': u"http://broken1.ds",
+                'hash': 'md5:' + '0' * 32,
+                'format': 'application/pdf',
+            },
+            {
+                'title': u'Proposal_part2.pdf',
+                'url': u"http://broken2.ds",
+                'hash': 'md5:' + '0' * 32,
+                'format': 'application/pdf',
+                'confidentiality': 'buyerOnly',
+                'confidentialityRationale': 'Only our company sells badgers with pink hair.',
+            }
+        ],
+        "eligibilityDocuments": [{
+            'title': u'eligibility_doc.pdf',
+            'url': u"http://broken3.ds",
+            'hash': 'md5:' + '0' * 32,
+            'format': 'application/pdf',
+        }],
+        "financialDocuments": [{
+            'title': u'financial_doc.pdf',
+            'url': u"http://broken4.ds",
+            'hash': 'md5:' + '0' * 32,
+            'format': 'application/pdf',
+        }],
+        "qualificationDocuments": [{
+            'title': u'qualification_document.pdf',
+            'url': u"http://broken5.ds",
+            'hash': 'md5:' + '0' * 32,
+            'format': 'application/pdf',
+        }],
         'selfEligible': True,
         'selfQualified': True,
     }
@@ -339,6 +373,7 @@ class DumpsTestAppwebtest(TestApp):
 
 class TenderResourceTest(BaseTenderWebTest):
     initial_data = test_tender_data
+    docservice = True
 
     def setUp(self):
         self.app = DumpsTestAppwebtest(
@@ -347,6 +382,12 @@ class TenderResourceTest(BaseTenderWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         self.couchdb_server = self.app.app.registry.couchdb_server
         self.db = self.app.app.registry.db
+        if self.docservice:
+            self.setUpDS()
+            self.app.app.registry.docservice_url = 'http://public.docs-sandbox.openprocurement.org'
+
+    def generate_docservice_url(self):
+        return super(TenderResourceTest, self).generate_docservice_url().replace('/localhost/', '/public.docs-sandbox.openprocurement.org/')
 
     def test_docs(self):
         request_path = '/tenders?opt_pretty=1'
@@ -618,6 +659,14 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/register-3rd-bidder.http', 'w') as self.app.file_obj:
+            for document in bid3['data']['documents']:
+                document['url'] = self.generate_docservice_url()
+            for document in bid3['data']['eligibilityDocuments']:
+                document['url'] = self.generate_docservice_url()
+            for document in bid3['data']['financialDocuments']:
+                document['url'] = self.generate_docservice_url()
+            for document in bid3['data']['qualificationDocuments']:
+                document['url'] = self.generate_docservice_url()
             response = self.app.post_json('/tenders/{}/bids'.format(
                     self.tender_id), bid3)
             bid3_id = response.json['data']['id']
