@@ -163,7 +163,12 @@ Bidder should confirm bid proposal:
 .. include:: tutorial/stage2/UA/bidder-activate-after-changing-tender.http
    :code:
 
-Second stage Competitive Dialogue UA procedure demands at least two bidders, so there should be at least two bid proposals registered to move to auction stage:
+Second stage Competitive Dialogue UA procedure demands at least two bidders, so there should be at least two bid proposals registered to move to auction stage.
+
+Batch-mode bid registration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Register one more bid with documents using single request (batch-mode):
 
 .. include:: tutorial/stage2/UA/register-2nd-bidder.http
    :code:

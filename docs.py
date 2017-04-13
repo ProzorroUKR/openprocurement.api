@@ -652,6 +652,63 @@ bid4 = {
     }
 }
 
+bid2_with_docs = deepcopy(bid2)
+
+bid2_with_docs["data"]["documents"] = [
+     {
+         'title': u'Proposal_part1.pdf',
+         'url': u"http://broken1.ds",
+         'hash': 'md5:' + '0' * 32,
+         'format': 'application/pdf',
+     }
+ ]
+
+bid4_with_docs = deepcopy(bid4)
+
+bid4_with_docs["data"]["documents"] = [
+     {
+         'title': u'Proposal_part1.pdf',
+         'url': u"http://broken1.ds",
+         'hash': 'md5:' + '0' * 32,
+         'format': 'application/pdf',
+     },
+     {
+         'title': u'Proposal_part2.pdf',
+         'url': u"http://broken2.ds",
+         'hash': 'md5:' + '0' * 32,
+         'format': 'application/pdf',
+         'confidentiality': 'buyerOnly',
+         'confidentialityRationale': 'Only our company sells badgers with pink hair.',
+     }
+ ]
+
+bid4_with_docs["data"]["eligibilityDocuments"] = [
+    {
+        'title': u'eligibility_doc.pdf',
+        'url': u"http://broken3.ds",
+        'hash': 'md5:' + '0' * 32,
+        'format': 'application/pdf'
+    }
+]
+
+bid4_with_docs["data"]["financialDocuments"] = [
+    {
+         'title': u'financial_doc.pdf',
+         'url': u"http://broken4.ds",
+         'hash': 'md5:' + '0' * 32,
+         'format': 'application/pdf'
+    }
+]
+
+bid4_with_docs["data"]["qualificationDocuments"] = [
+    {
+         'title': u'qualification_document.pdf',
+         'url': u"http://broken5.ds",
+         'hash': 'md5:' + '0' * 32,
+         'format': 'application/pdf'
+    }
+]
+
 question = {
     "data": {
         "author": {
@@ -800,6 +857,7 @@ class DumpsTestAppwebtest(TestApp):
 
 class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
     initial_data = test_tender_data_stage1
+    docservice = True
 
     def setUp(self):
         self.app = DumpsTestAppwebtest("config:tests.ini", relative_to=os.path.dirname(base_test.__file__))
@@ -807,6 +865,14 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         self.couchdb_server = self.app.app.registry.couchdb_server
         self.db = self.app.app.registry.db
+        if self.docservice:
+            self.setUpDS()
+            self.app.app.registry.docservice_url = 'http://public.docs-sandbox.openprocurement.org'
+
+    def generate_docservice_url(self):
+        return super(TenderResourceTest, self).generate_docservice_url().replace(
+            '/localhost/', '/public.docs-sandbox.openprocurement.org/'
+        )
 
     def test_stage1(self):
         request_path = '/tenders?opt_pretty=1'
@@ -1076,7 +1142,9 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/register-4rd-bidder.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid4)
+            for document in bid4_with_docs['data']['documents']:
+                document['url'] = self.generate_docservice_url()
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid4_with_docs)
             bid4_id = response.json['data']['id']
             bids_access[bid4_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
@@ -1432,7 +1500,15 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
             self.assertEqual(response.status, '201 Created')
 
         with open('docs/source/tutorial/stage2/EU/register-3rd-bidder.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid4)
+            for document in bid4_with_docs['data']['documents']:
+                document['url'] = self.generate_docservice_url()
+            for document in bid4_with_docs['data']['eligibilityDocuments']:
+                document['url'] = self.generate_docservice_url()
+            for document in bid4_with_docs['data']['financialDocuments']:
+                document['url'] = self.generate_docservice_url()
+            for document in bid4_with_docs['data']['qualificationDocuments']:
+                document['url'] = self.generate_docservice_url()
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid4_with_docs)
             bid3_id = response.json['data']['id']
             bids_access[bid3_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
@@ -2563,7 +2639,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
 
 
 class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest):
-
+    docservice = True
     initial_data = test_tender_data_stage1
 
     def setUp(self):
@@ -2572,6 +2648,15 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         self.couchdb_server = self.app.app.registry.couchdb_server
         self.db = self.app.app.registry.db
+
+        if self.docservice:
+            self.setUpDS()
+            self.app.app.registry.docservice_url = 'http://public.docs-sandbox.openprocurement.org'
+
+    def generate_docservice_url(self):
+        return super(TenderResourceTestStage2UA,self).generate_docservice_url().replace(
+            '/localhost/', '/public.docs-sandbox.openprocurement.org/'
+        )
 
     def test_stage2_UA(self):
         request_path = '/tenders?opt_pretty=1'
@@ -2752,7 +2837,9 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest):
             self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/stage2/UA/register-2nd-bidder.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid2)
+            for document in bid2_with_docs['data']['documents']:
+                document['url'] = self.generate_docservice_url()
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid2_with_docs)
             bid2_id = response.json['data']['id']
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')

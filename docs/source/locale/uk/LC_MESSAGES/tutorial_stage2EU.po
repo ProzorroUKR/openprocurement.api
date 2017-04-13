@@ -314,61 +314,57 @@ msgstr ""
 "необхідно хоча б два учасника, тобто хоча б дві пропозиції повинні бути "
 "зареєстровані до початку аукціону:"
 
-#: ../../source/tutorial_stage2EU.rst:230
-msgid "Register one more bid:"
-msgstr "Зареєструємо ще одну пропозицію:"
-
-#: ../../source/tutorial_stage2EU.rst:239
+#: ../../source/tutorial_stage2EU.rst:242
 msgid "Bid Qualification"
 msgstr "Кваліфікація пропозицій"
 
-#: ../../source/tutorial_stage2EU.rst:241
+#: ../../source/tutorial_stage2EU.rst:244
 msgid ""
 "On second stage in Competitive Dialogue procedure requires bid "
 "qualification."
 msgstr ""
 "Для другого етапу конкурентної процедури необхідна кваліфікація пропозицій."
 
-#: ../../source/tutorial_stage2EU.rst:243
+#: ../../source/tutorial_stage2EU.rst:246
 msgid "Let's list qualifications:"
 msgstr "Переглянемо список кваліфікацій:"
 
-#: ../../source/tutorial_stage2EU.rst:249
+#: ../../source/tutorial_stage2EU.rst:252
 msgid "Approve first two bids through qualification objects:"
 msgstr "Підтвердіть перші дві пропозиції через кваліфікаційні об’єкти:"
 
-#: ../../source/tutorial_stage2EU.rst:257
+#: ../../source/tutorial_stage2EU.rst:260
 msgid "We can also reject bid:"
 msgstr "Можна відхилити пропозицію:"
 
-#: ../../source/tutorial_stage2EU.rst:262
+#: ../../source/tutorial_stage2EU.rst:265
 msgid "And check that qualified bids are switched to `active`:"
 msgstr ""
 "Та перевірити, що вже кваліфіковані пропозиції переключені в стан `active`:"
 
-#: ../../source/tutorial_stage2EU.rst:267
+#: ../../source/tutorial_stage2EU.rst:270
 msgid "Rejected bid is not shown in `bids/` listing."
 msgstr "Відхилена пропозиція не присутня в списку `bids/`."
 
-#: ../../source/tutorial_stage2EU.rst:269
+#: ../../source/tutorial_stage2EU.rst:272
 msgid "We can access rejected bid by id:"
 msgstr ""
 "Можна отримати доступ до відхиленої пропозиції за її ідентифікатором `id`:"
 
-#: ../../source/tutorial_stage2EU.rst:274
+#: ../../source/tutorial_stage2EU.rst:277
 msgid "Procuring entity approves qualifications by switching to next status:"
 msgstr "Замовник підтверджує кваліфікацію переходом до наступного статусу:"
 
-#: ../../source/tutorial_stage2EU.rst:279
+#: ../../source/tutorial_stage2EU.rst:282
 msgid "You may notice 10 day stand-still time set in `qualificationPeriod`."
 msgstr ""
 "Зверніть увагу на період блокування в 10 днів під час `qualificationPeriod`."
 
-#: ../../source/tutorial_stage2EU.rst:282
+#: ../../source/tutorial_stage2EU.rst:285
 msgid "Auction"
 msgstr "Аукціон"
 
-#: ../../source/tutorial_stage2EU.rst:284
+#: ../../source/tutorial_stage2EU.rst:287
 msgid ""
 "After auction is scheduled anybody can visit it to watch. The auction can be"
 " reached at `Tender.auctionUrl`:"
@@ -376,12 +372,12 @@ msgstr ""
 "Після того, як аукціон заплановано, будь-хто може його відвідати для "
 "перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:"
 
-#: ../../source/tutorial_stage2EU.rst:289
+#: ../../source/tutorial_stage2EU.rst:292
 msgid "Bidders can find out their participation URLs via their bids:"
 msgstr ""
 "Учасники можуть дізнатись свої URL-адреси для участі через свої пропозиції:"
 
-#: ../../source/tutorial_stage2EU.rst:294
+#: ../../source/tutorial_stage2EU.rst:297
 msgid ""
 "See the `Bid.participationUrl` in the response. Similar, but different, URL "
 "can be retrieved for other participants:"
@@ -389,20 +385,20 @@ msgstr ""
 "Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу "
 "можна отримати для інших учасників."
 
-#: ../../source/tutorial_stage2EU.rst:300
+#: ../../source/tutorial_stage2EU.rst:303
 msgid "Confirming qualification"
 msgstr "Підтвердження кваліфікації"
 
-#: ../../source/tutorial_stage2EU.rst:302
+#: ../../source/tutorial_stage2EU.rst:305
 msgid ""
 "Qualification commission registers its decision via the following call:"
 msgstr "Кваліфікаційна комісія реєструє своє рішення:"
 
-#: ../../source/tutorial_stage2EU.rst:308
+#: ../../source/tutorial_stage2EU.rst:311
 msgid "Setting  contract value"
 msgstr "Встановлення вартості угоди"
 
-#: ../../source/tutorial_stage2EU.rst:310
+#: ../../source/tutorial_stage2EU.rst:313
 msgid ""
 "By default contract value is set based on the award, but there is a "
 "possibility to set custom contract value."
@@ -410,7 +406,7 @@ msgstr ""
 "За замовчуванням вартість угоди встановлюється на основі рішення про "
 "визначення переможця, але є можливість змінити це значення."
 
-#: ../../source/tutorial_stage2EU.rst:312
+#: ../../source/tutorial_stage2EU.rst:315
 msgid ""
 "If you want to **lower contract value**, you can insert new one into the "
 "`amount` field."
@@ -418,15 +414,15 @@ msgstr ""
 "Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове "
 "значення для поля `amount`."
 
-#: ../../source/tutorial_stage2EU.rst:317
+#: ../../source/tutorial_stage2EU.rst:320
 msgid "`200 OK` response was returned. The value was modified successfully."
 msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
 
-#: ../../source/tutorial_stage2EU.rst:320
+#: ../../source/tutorial_stage2EU.rst:323
 msgid "Setting contract signature date"
 msgstr "Встановлення дати підписання угоди"
 
-#: ../../source/tutorial_stage2EU.rst:322
+#: ../../source/tutorial_stage2EU.rst:325
 msgid ""
 "There is a possibility to set custom contract signature date. You can insert"
 " appropriate date into the `dateSigned` field."
@@ -434,7 +430,7 @@ msgstr ""
 "Є можливість встановити дату підписання угоди. Для цього вставте відповідну "
 "дату в поле `dateSigned`."
 
-#: ../../source/tutorial_stage2EU.rst:324
+#: ../../source/tutorial_stage2EU.rst:327
 msgid ""
 "If this date is not set, it will be auto-generated on the date of contract "
 "registration."
@@ -442,11 +438,11 @@ msgstr ""
 "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично "
 "під час реєстрації угоди."
 
-#: ../../source/tutorial_stage2EU.rst:330
+#: ../../source/tutorial_stage2EU.rst:333
 msgid "Setting contract validity period"
 msgstr "Встановлення терміну дії угоди"
 
-#: ../../source/tutorial_stage2EU.rst:332
+#: ../../source/tutorial_stage2EU.rst:335
 msgid ""
 "Setting contract validity period is optional, but if it is needed, you can "
 "set appropriate `startDate` and `endDate`."
@@ -455,15 +451,15 @@ msgstr ""
 "можете встановити відповідну дату початку `startDate` та кінця `endDate` "
 "терміну дії."
 
-#: ../../source/tutorial_stage2EU.rst:338
+#: ../../source/tutorial_stage2EU.rst:341
 msgid "Uploading contract documentation"
 msgstr "Завантаження документації по угоді"
 
-#: ../../source/tutorial_stage2EU.rst:340
+#: ../../source/tutorial_stage2EU.rst:343
 msgid "Let's upload contract document:"
 msgstr "Завантажимо документ угоди:"
 
-#: ../../source/tutorial_stage2EU.rst:345
+#: ../../source/tutorial_stage2EU.rst:348
 msgid ""
 "`201 Created` response code and `Location` header confirm that this document"
 " was added."
@@ -471,15 +467,15 @@ msgstr ""
 "Код відповіді `201 Created` та заголовок `Location` підтверджують, що ще "
 "один документ було додано."
 
-#: ../../source/tutorial_stage2EU.rst:347
+#: ../../source/tutorial_stage2EU.rst:350
 msgid "Let's see the list of contract documents:"
 msgstr "Подивимось на список документів пов’язаних з угодою:"
 
-#: ../../source/tutorial_stage2EU.rst:352
+#: ../../source/tutorial_stage2EU.rst:355
 msgid "We can upload another contract document:"
 msgstr "Можна завантажити ще один документ угоди:"
 
-#: ../../source/tutorial_stage2EU.rst:357
+#: ../../source/tutorial_stage2EU.rst:360
 msgid ""
 "`201 Created` response code and `Location` header confirm that the second "
 "document was uploaded."
@@ -487,7 +483,7 @@ msgstr ""
 "Код відповіді `201 Created` та заголовок `Location` підтверджують, що ще "
 "один документ було додано."
 
-#: ../../source/tutorial_stage2EU.rst:359
+#: ../../source/tutorial_stage2EU.rst:362
 msgid ""
 "By default, document language is Ukrainian. You can can change it and set "
 "another language for the document by assigning appropriate language code to "
@@ -502,11 +498,11 @@ msgstr ""
 "`description_en`). Див. структуру даних :ref:`Document` для більш детальної "
 "інформації."
 
-#: ../../source/tutorial_stage2EU.rst:367
+#: ../../source/tutorial_stage2EU.rst:370
 msgid "Let's see the list of all added contract documents:"
 msgstr "Подивимось список усіх доданих документів угоди:"
 
-#: ../../source/tutorial_stage2EU.rst:372
+#: ../../source/tutorial_stage2EU.rst:375
 msgid "Let's view separate contract document:"
 msgstr "Переглянемо окремий документ угоди:"
 
@@ -554,3 +550,14 @@ msgstr ""
 "Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. "
 "Додатково оновлена властивість `dateModified`, щоб відображати останню дату "
 "модифікації."
+
+#: ../../source/tutorial_stage2EU.rst:231
+msgid "Batch-mode bid registration"
+msgstr "Пакетний режим реєстрації"
+
+#: ../../source/tutorial_stage2EU.rst:233
+msgid ""
+"Register one more bid with documents using single request (batch-mode):"
+msgstr ""
+"У пакетному режимі (batch-mode) є можливість зареєструвати пропозицію одним "
+"запитом. Зареєструйте ще одну пропозицію:"

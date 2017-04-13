@@ -172,21 +172,11 @@ msgstr "Підтвердження пропозиції"
 msgid "Bidder should confirm bid proposal:"
 msgstr "Учасник повинен підтвердити свою пропозицію:"
 
-#: ../../source/tutorial_stage2UA.rst:166
-msgid ""
-"Second stage Competitive Dialogue UA procedure demands at least two bidders,"
-" so there should be at least two bid proposals registered to move to auction"
-" stage:"
-msgstr ""
-"Для того, щоб другий етап процедуру конкурентного діалогу відбувся, "
-"необхідно хоча б два учасника, тобто хоча б дві пропозиції повинні бути "
-"зареєстровані до початку аукціону:"
-
-#: ../../source/tutorial_stage2UA.rst:175
+#: ../../source/tutorial_stage2UA.rst:180
 msgid "Auction"
 msgstr "Аукціон"
 
-#: ../../source/tutorial_stage2UA.rst:177
+#: ../../source/tutorial_stage2UA.rst:182
 msgid ""
 "After auction is scheduled anybody can visit it to watch. The auction can be"
 " reached at `Tender.auctionUrl`:"
@@ -194,12 +184,12 @@ msgstr ""
 "Після того, як аукціон заплановано, будь-хто може його відвідати для "
 "перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:"
 
-#: ../../source/tutorial_stage2UA.rst:182
+#: ../../source/tutorial_stage2UA.rst:187
 msgid "Bidders can find out their participation URLs via their bids:"
 msgstr ""
 "Учасники можуть дізнатись свої URL-адреси для участі через свої пропозиції:"
 
-#: ../../source/tutorial_stage2UA.rst:187
+#: ../../source/tutorial_stage2UA.rst:192
 msgid ""
 "See the `Bid.participationUrl` in the response. Similar, but different, URL "
 "can be retrieved for other participants:"
@@ -207,20 +197,20 @@ msgstr ""
 "Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу "
 "можна отримати для інших учасників."
 
-#: ../../source/tutorial_stage2UA.rst:193
+#: ../../source/tutorial_stage2UA.rst:198
 msgid "Confirming qualification"
 msgstr "Підтвердження кваліфікації"
 
-#: ../../source/tutorial_stage2UA.rst:195
+#: ../../source/tutorial_stage2UA.rst:200
 msgid ""
 "Qualification commission registers its decision via the following call:"
 msgstr "Кваліфікаційна комісія реєструє своє рішення:"
 
-#: ../../source/tutorial_stage2UA.rst:201
+#: ../../source/tutorial_stage2UA.rst:206
 msgid "Setting contract value"
 msgstr "Скасування закупівлі"
 
-#: ../../source/tutorial_stage2UA.rst:203
+#: ../../source/tutorial_stage2UA.rst:208
 msgid ""
 "By default contract value is set based on the award, but there is a "
 "possibility to set custom contract value."
@@ -228,7 +218,7 @@ msgstr ""
 "Замовник може скасувати закупівлю у будь-який момент. Для цього виконайте "
 "наступні кроки:"
 
-#: ../../source/tutorial_stage2UA.rst:205
+#: ../../source/tutorial_stage2UA.rst:210
 msgid ""
 "If you want to **lower contract value**, you can insert new one into the "
 "`amount` field."
@@ -236,15 +226,15 @@ msgstr ""
 "Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове "
 "значення для поля `amount`."
 
-#: ../../source/tutorial_stage2UA.rst:210
+#: ../../source/tutorial_stage2UA.rst:215
 msgid "`200 OK` response was returned. The value was modified successfully."
 msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
 
-#: ../../source/tutorial_stage2UA.rst:213
+#: ../../source/tutorial_stage2UA.rst:218
 msgid "Setting contract signature date"
 msgstr "Встановлення дати підписання угоди"
 
-#: ../../source/tutorial_stage2UA.rst:215
+#: ../../source/tutorial_stage2UA.rst:220
 msgid ""
 "There is a possibility to set custom contract signature date. You can insert"
 " appropriate date into the `dateSigned` field."
@@ -252,7 +242,7 @@ msgstr ""
 "Є можливість встановити дату підписання угоди. Для цього вставте відповідну "
 "дату в поле `dateSigned`."
 
-#: ../../source/tutorial_stage2UA.rst:217
+#: ../../source/tutorial_stage2UA.rst:222
 msgid ""
 "If this date is not set, it will be auto-generated on the date of contract "
 "registration."
@@ -260,11 +250,11 @@ msgstr ""
 "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично "
 "під час реєстрації угоди."
 
-#: ../../source/tutorial_stage2UA.rst:223
+#: ../../source/tutorial_stage2UA.rst:228
 msgid "Setting contract validity period"
 msgstr "Встановлення терміну дії угоди"
 
-#: ../../source/tutorial_stage2UA.rst:225
+#: ../../source/tutorial_stage2UA.rst:230
 msgid ""
 "Setting contract validity period is optional, but if it is needed, you can "
 "set appropriate `startDate` and `endDate`."
@@ -273,22 +263,22 @@ msgstr ""
 "можете встановити відповідну дату початку `startDate` та кінця `endDate` "
 "терміну дії."
 
-#: ../../source/tutorial_stage2UA.rst:231
+#: ../../source/tutorial_stage2UA.rst:236
 msgid "Uploading contract documentation"
 msgstr "Завантаження документації по угоді"
 
-#: ../../source/tutorial_stage2UA.rst:233
+#: ../../source/tutorial_stage2UA.rst:238
 msgid ""
 "You can upload contract documents for the second stage Competitive Dialogue "
 "procedure."
 msgstr ""
 "Ви можете завантажити документи угоди для другого етапу конкрентного ділогу"
 
-#: ../../source/tutorial_stage2UA.rst:235
+#: ../../source/tutorial_stage2UA.rst:240
 msgid "Let's upload contract document:"
 msgstr "Завантажимо документ угоди:"
 
-#: ../../source/tutorial_stage2UA.rst:240
+#: ../../source/tutorial_stage2UA.rst:245
 msgid ""
 "`201 Created` response code and `Location` header confirm that this document"
 " was added."
@@ -296,7 +286,7 @@ msgstr ""
 "Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
 "документ було додано."
 
-#: ../../source/tutorial_stage2UA.rst:242
+#: ../../source/tutorial_stage2UA.rst:247
 msgid "Let's view the uploaded contract document:"
 msgstr "Подивимось на список документів пов’язаних з угодою:"
 
@@ -305,7 +295,8 @@ msgid ""
 "If on first stage you set ``procurementMethodType`` to "
 "``CompetitiveDialogueUA`` then on second stage you have tender witch similar"
 " to Open UA procedure"
-msgstr "На першому етапі параметр ``procurementMethodType`` був "
+msgstr ""
+"На першому етапі параметр ``procurementMethodType`` був "
 "``CompetitiveDialogueUA`` тому на другому етапі створюється процедура, яка "
 "схожа на Open UA процедуру."
 
@@ -316,8 +307,8 @@ msgid ""
 "supplementing it with all other essential properties:"
 msgstr ""
 "На другому етапі є можливість редагувати тільки ``tenderPeriod.endDate`` та "
-"``deliveryDate`` в ``items`` . Інші зміни небудуть збережені. Спробуємо внести "
-"зміни:"
+"``deliveryDate`` в ``items`` . Інші зміни небудуть збережені. Спробуємо "
+"внести зміни:"
 
 #: ../../source/tutorial_stage2UA.rst:121
 msgid ""
@@ -325,5 +316,26 @@ msgid ""
 "participant witch didn't was on first stage try create bid."
 msgstr ""
 "Як і з запитаннями тільки допущені учасники на першому етапі можуть "
-"реєструвати пропозиції. Якщо учасник якого не було допущено на першому етапі "
-"пробує створити пропозицію то йому поверне помилку."
+"реєструвати пропозиції. Якщо учасник якого не було допущено на першому етапі"
+" пробує створити пропозицію то йому поверне помилку."
+
+#: ../../source/tutorial_stage2UA.rst:166
+msgid ""
+"Second stage Competitive Dialogue UA procedure demands at least two bidders,"
+" so there should be at least two bid proposals registered to move to auction"
+" stage."
+msgstr ""
+"Для того, щоб другий етап процедуру конкурентного діалогу відбувся, "
+"необхідно хоча б два учасника, тобто хоча б дві пропозиції повинні бути "
+"зареєстровані до початку аукціону."
+
+#: ../../source/tutorial_stage2UA.rst:169
+msgid "Batch-mode bid registration"
+msgstr "Пакетний режим реєстрації"
+
+#: ../../source/tutorial_stage2UA.rst:171
+msgid ""
+"Register one more bid with documents using single request (batch-mode):"
+msgstr ""
+"У пакетному режимі (batch-mode) є можливість зареєструвати пропозицію одним "
+"запитом. Зареєструйте ще одну пропозицію:"

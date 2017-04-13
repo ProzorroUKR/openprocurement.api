@@ -372,88 +372,88 @@ msgstr "Учасник повинен підтвердити свою пропо
 msgid "Register two more bid:"
 msgstr "Зареєструемо ще дві пропозиції:"
 
-#: ../../source/tutorial.rst:282
+#: ../../source/tutorial.rst:287
 msgid "Bid Qualification"
 msgstr "Кваліфікація пропозицій"
 
-#: ../../source/tutorial.rst:284
+#: ../../source/tutorial.rst:289
 msgid "Competitive Dialogue procedure requires bid qualification."
 msgstr ""
 "Для першого етапу конкурентного діалогу необхідна кваліфікація пропозицій."
 
-#: ../../source/tutorial.rst:286
+#: ../../source/tutorial.rst:291
 msgid "Let's list qualifications:"
 msgstr "Переглянемо список кваліфікацій:"
 
-#: ../../source/tutorial.rst:292
+#: ../../source/tutorial.rst:297
 msgid "Approve first three bids through qualification objects:"
 msgstr "Підтвердіть перші три пропозиції через кваліфікаційні об’єкти:"
 
-#: ../../source/tutorial.rst:303
+#: ../../source/tutorial.rst:308
 msgid "We can also reject bid:"
 msgstr "Можна відхилити пропозицію:"
 
-#: ../../source/tutorial.rst:308
+#: ../../source/tutorial.rst:313
 msgid "And check that qualified bids are switched to `active`:"
 msgstr ""
 "Та перевірити, що вже кваліфіковані пропозиції переключені в стан `active`:"
 
-#: ../../source/tutorial.rst:313
+#: ../../source/tutorial.rst:318
 msgid "Rejected bid is not shown in `bids/` listing."
 msgstr "Відхилена пропозиція не присутня в списку `bids/`."
 
-#: ../../source/tutorial.rst:315
+#: ../../source/tutorial.rst:320
 msgid "We can access rejected bid by id:"
 msgstr ""
 "Можна отримати доступ до відхиленої пропозиції за її ідентифікатором `id`:"
 
-#: ../../source/tutorial.rst:320
+#: ../../source/tutorial.rst:325
 msgid "Procuring entity approves qualifications by switching to next status:"
 msgstr "Замовник підтверджує кваліфікацію переходом до наступного статусу:"
 
-#: ../../source/tutorial.rst:325
+#: ../../source/tutorial.rst:330
 msgid "You may notice 10 day stand-still time set in `qualificationPeriod`."
 msgstr ""
 "Зверніть увагу на період блокування в 10 днів під час `qualificationPeriod`."
 
-#: ../../source/tutorial.rst:329
+#: ../../source/tutorial.rst:334
 msgid "Ready to stage2"
 msgstr "Готовність до другог етапу"
 
-#: ../../source/tutorial.rst:331
+#: ../../source/tutorial.rst:336
 msgid ""
 "When qualification period end tender will has status active.stage2.pending"
 msgstr ""
 "Коли ``qualificationPeriod`` період завершиться тендер змінить статус на "
 "``active.stage2.pending``"
 
-#: ../../source/tutorial.rst:333
+#: ../../source/tutorial.rst:338
 msgid "Lets look on your tender"
 msgstr "Подивимося на наш тендер"
 
-#: ../../source/tutorial.rst:346
+#: ../../source/tutorial.rst:351
 msgid "Get token for second stage"
 msgstr "Отримаємо токен для другого етапу"
 
-#: ../../source/tutorial.rst:348
+#: ../../source/tutorial.rst:353
 msgid "When tender status is ``complete``, we can get id new stage."
 msgstr ""
 "Коли статус тендеру(першого етапу) буду ``complete``, ми можемо отримати id "
 "другого етапу."
 
-#: ../../source/tutorial.rst:350
+#: ../../source/tutorial.rst:355
 msgid "First lets look on tender and find field ``stage2TenderID``"
 msgstr "Подивимось на тендер і знайдемо поле ``stage2TenderID``"
 
-#: ../../source/tutorial.rst:356
+#: ../../source/tutorial.rst:361
 msgid "Form making changes in second stage we need token"
 msgstr "Щоб робити зміни в другому етапі потрібно отримати токен."
 
-#: ../../source/tutorial.rst:362
+#: ../../source/tutorial.rst:367
 msgid "Make changes second stage"
 msgstr "Зробимо зміни на другому етапі"
 
-#: ../../source/tutorial.rst:364
+#: ../../source/tutorial.rst:369
 msgid ""
 "Good, now we get token, and can make changes, so lets change status from "
 "``draft.stage2`` to ``active.tendering``"
@@ -461,19 +461,19 @@ msgstr ""
 "Добре, ми отримали токен, і можемо робити зміни в другому етапі. Спробуемо "
 "змінити статус ``draft.stage2`` на ``active.tendering``."
 
-#: ../../source/tutorial.rst:371
+#: ../../source/tutorial.rst:376
 msgid "Stage2 EU"
 msgstr "Другий етап EU"
 
-#: ../../source/tutorial.rst:379
+#: ../../source/tutorial.rst:384
 msgid "Stage2 UA"
 msgstr "Другий етап UA"
 
-#: ../../source/tutorial.rst:388
+#: ../../source/tutorial.rst:393
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"
 
-#: ../../source/tutorial.rst:390
+#: ../../source/tutorial.rst:395
 msgid ""
 "Tender creator can cancel tender anytime. The following steps should be "
 "applied:"
@@ -481,19 +481,19 @@ msgstr ""
 "Замовник може скасувати закупівлю у будь-який момент. Для цього виконайте "
 "наступні кроки:"
 
-#: ../../source/tutorial.rst:392
+#: ../../source/tutorial.rst:397
 msgid "Prepare cancellation request."
 msgstr "Приготуйте запит на скасування."
 
-#: ../../source/tutorial.rst:393
+#: ../../source/tutorial.rst:398
 msgid "Fill it with the protocol describing the cancellation reasons."
 msgstr "Наповніть його протоколом про причини скасування."
 
-#: ../../source/tutorial.rst:394
+#: ../../source/tutorial.rst:399
 msgid "Cancel the tender with the prepared reasons."
 msgstr "Скасуйте закупівлю через подані причини."
 
-#: ../../source/tutorial.rst:396
+#: ../../source/tutorial.rst:401
 msgid ""
 "Only the request that has been activated (3rd step above) has power to "
 "cancel tender.  I.e.  you have to not only prepare cancellation request but "
@@ -503,27 +503,27 @@ msgstr ""
 "тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку,"
 " але і активувати її."
 
-#: ../../source/tutorial.rst:400
+#: ../../source/tutorial.rst:405
 msgid "See :ref:`cancellation` data structure for details."
 msgstr ""
 "Дивіться структуру запиту :ref:`cancellation` для більш детальної "
 "інформації."
 
-#: ../../source/tutorial.rst:403
+#: ../../source/tutorial.rst:408
 msgid "Preparing the cancellation request"
 msgstr "Формування запиту на скасування"
 
-#: ../../source/tutorial.rst:405
+#: ../../source/tutorial.rst:410
 msgid "You should pass `reason`, `status` defaults to `pending`."
 msgstr "Ви повинні передати змінні `reason`, `status` у стані `pending`."
 
-#: ../../source/tutorial.rst:407
+#: ../../source/tutorial.rst:412
 msgid "`id` is autogenerated and passed in the `Location` header of response."
 msgstr ""
 "`id` генерується автоматично і повертається у додатковому заголовку "
 "відповіді `Location`:"
 
-#: ../../source/tutorial.rst:412
+#: ../../source/tutorial.rst:417
 msgid ""
 "There are two possible types of cancellation reason: tender was `cancelled` "
 "or `unsuccessful`. By default ``reasonType`` value is `cancelled`."
@@ -532,27 +532,27 @@ msgstr ""
 "торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За "
 "замовчуванням, значення ``reasonType`` рівне `cancelled`."
 
-#: ../../source/tutorial.rst:414
+#: ../../source/tutorial.rst:419
 msgid "You can change ``reasonType`` value to `unsuccessful`."
 msgstr "Ви можете виправити тип на `unsuccessful` (торги не відбулися)."
 
-#: ../../source/tutorial.rst:420
+#: ../../source/tutorial.rst:425
 msgid "Filling cancellation with protocol and supplementary documentation"
 msgstr "Наповнення протоколом та іншою супровідною документацією"
 
-#: ../../source/tutorial.rst:422
+#: ../../source/tutorial.rst:427
 msgid "Upload the file contents"
 msgstr "Завантажте вміст файлу"
 
-#: ../../source/tutorial.rst:427
+#: ../../source/tutorial.rst:432
 msgid "Change the document description and other properties"
 msgstr "Змініть опис документа та інші властивості"
 
-#: ../../source/tutorial.rst:433
+#: ../../source/tutorial.rst:438
 msgid "Upload new version of the document"
 msgstr "Завантажте нову версію документа"
 
-#: ../../source/tutorial.rst:440
+#: ../../source/tutorial.rst:445
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
 
@@ -572,10 +572,21 @@ msgstr ""
 "Для процедури конкурентного діалогу першого етапу потрібно хоча б 3 "
 "пропозиції:"
 
-#: ../../source/tutorial.rst:339
+#: ../../source/tutorial.rst:344
 msgid ""
 "Hoт purchasing can set that he is ready for second stage, by setting status "
 "to ``active.stage2.waiting``."
 msgstr ""
 "Замовник може підтвердити свою готовність переходити на другий етап, "
 "змінивши стаус тендера на ``active.stage2.waiting``"
+
+#: ../../source/tutorial.rst:276
+msgid "Batch-mode bid registration"
+msgstr "Пакетний режим реєстрації"
+
+#: ../../source/tutorial.rst:278
+msgid ""
+"Register one more bid with documents using single request (batch-mode):"
+msgstr ""
+"У пакетному режимі (batch-mode) є можливість зареєструвати пропозицію одним "
+"запитом. Зареєструйте ще одну пропозицію:"
