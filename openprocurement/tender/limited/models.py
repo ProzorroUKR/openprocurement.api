@@ -13,7 +13,7 @@ from openprocurement.api.models import (
     embedded_lot_role, ListType, default_lot_role, validate_lots_uniq,
 )
 from openprocurement.api.models import (
-    Value, IsoDateTimeType, Document, Organization, SchematicsDocument,
+    IsoDateTimeType, Document, Organization, SchematicsDocument,
     Model, Revision, Period, view_bid_role,
 )
 from openprocurement.api.models import validate_cpv_group, validate_items_uniq
@@ -21,16 +21,66 @@ from openprocurement.api.models import get_now
 from openprocurement.api.models import Cancellation as BaseCancellation
 from openprocurement.api.models import ITender
 from openprocurement.api.models import Contract as BaseContract
+from openprocurement.api.models import Value as BaseValue
+from openprocurement.api.models import Unit as BaseUnit
 from openprocurement.api.models import ProcuringEntity as BaseProcuringEntity
 from openprocurement.tender.openua.models import Complaint as BaseComplaint
-from openprocurement.tender.openua.models import Item as BaseItem
+from openprocurement.tender.openua.models import Item
 from openprocurement.tender.openua.models import Tender as OpenUATender
 
 
+class Value(BaseValue):
+    currency = StringType(max_length=3, min_length=3)
+    valueAddedTaxIncluded = BooleanType()
+
+    @serializable(serialized_name="currency", serialize_when_none=False)
+    def unit_currency(self):
+        if self.currency is not None:
+            return self.currency
+
+        context = self.__parent__ if isinstance(self.__parent__, Model) else {}
+        while isinstance(context.__parent__, Model):
+            context = context.__parent__
+            if isinstance(context, BaseContract):
+                break
+
+        value = context.get("value", {})
+        return value.get("currency", None)
+
+    @serializable(serialized_name="valueAddedTaxIncluded", serialize_when_none=False)
+    def unit_valueAddedTaxIncluded(self):
+        if self.valueAddedTaxIncluded is not None:
+            return self.valueAddedTaxIncluded
+
+        context = self.__parent__ if isinstance(self.__parent__, Model) else {}
+        while isinstance(context.__parent__, Model):
+            context = context.__parent__
+            if isinstance(context, BaseContract):
+                break
+
+        value = context.get("value", {})
+        return value.get("valueAddedTaxIncluded", None)
+
+
+class Unit(BaseUnit):
+    value = ModelType(Value)
+
+
+class BaseItem(Item):
+    unit = ModelType(Unit)
+
+    class Options:
+        roles = {
+                 'edit_contract': whitelist('unit')
+                }
+
+
 class Item(BaseItem):
+
     def validate_relatedLot(self, data, relatedLot):
         if relatedLot and isinstance(data['__parent__'], Model):
             raise ValidationError(u"This option is not available")
+
 
 class Complaint(BaseComplaint):
     class Options:
@@ -42,9 +92,29 @@ class Complaint(BaseComplaint):
 class Contract(BaseContract):
     items = ListType(ModelType(Item))
 
+    class Options:
+        roles = {
+            'edit': whitelist(),
+            'edit_contract': blacklist('id', 'documents', 'date', 'awardID', 'suppliers', 'contractID'),
+        }
+
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
             raise ValidationError(u"Contract signature date can't be in the future")
+
+    def get_role(self):
+        root = self.__parent__
+        while root.__parent__ is not None:
+            root = root.__parent__
+        request = root.request
+        role = 'edit'
+        if request.authenticated_role == 'tender_owner':
+            role = 'edit_contract'
+        return role
+
+
+Unit = BaseUnit
+Value = BaseValue
 
 
 award_edit_role = blacklist('id', 'items', 'date', 'documents', 'complaints', 'complaintPeriod')
@@ -299,6 +369,21 @@ class Lot(Model):
 class Contract(BaseContract):
     items = ListType(ModelType(Item))
 
+    class Options:
+        roles = {
+            'edit': whitelist(),
+            'edit_contract': blacklist('id', 'documents', 'date', 'awardID', 'suppliers', 'contractID'),
+        }
+
+    def get_role(self):
+        root = self.__parent__
+        while root.__parent__ is not None:
+            root = root.__parent__
+        request = root.request
+        role = 'edit'
+        if request.authenticated_role == 'tender_owner':
+            role = 'edit_contract'
+        return role
 
 @implementer(ITender)
 class Tender(ReportingTender):
@@ -323,7 +408,7 @@ class Tender(ReportingTender):
         if self.lots:
             for lot in self.lots:
                 lot.date = get_now()
-                
+
 NegotiationTender = Tender
 
 

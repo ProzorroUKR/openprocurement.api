@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 import time
+from copy import deepcopy
 from iso8601 import parse_date
 from datetime import timedelta
 
@@ -106,52 +107,6 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
             {u'description': [u'awardID should be one of awards'], u'location': u'body', u'name': u'awardID'}
         ])
 
-    def test_create_tender_contract_with_token(self):
-        # This can not be, but just in case check
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/contracts'.format(self.tender_id),
-                                      {'data': {'title': 'contract title',
-                                                'description': 'contract description',
-                                                'awardID': self.award_id}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        contract = response.json['data']
-        self.assertIn('id', contract)
-        self.assertIn(contract['id'], response.headers['Location'])
-
-        response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']),
-                                       {"data": {"status": "terminated"}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["status"], "terminated")
-
-        response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']),
-                                       {"data": {"status": "pending"}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update contract status")
-
-        tender = self.db.get(self.tender_id)
-        for i in tender.get('awards', []):
-            if i.get('complaintPeriod', {}):  # works for negotiation tender
-                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.db.save(tender)
-
-        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
-            self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}})
-        self.assertEqual(response.status, '200 OK')
-
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'complete')
-
-        response = self.app.post_json('/tenders/{}/contracts'.format(self.tender_id),
-                                      {'data': {'title': 'contract title',
-                                                'description': 'contract description',
-                                                'awardID': self.award_id}},
-                                      status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-
     def test_create_tender_contract(self):
         response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
         self.contract_id = response.json['data'][0]['id']
@@ -242,6 +197,50 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
             {"data": {"value": {"amount": 238}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['value']['amount'], 238)
+
+        # check contract.items modification (contract.item.unit.value.amount
+        # modification should be allowed)
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token),
+            {"data": {"items": [{'unit': {'value': {'amount': 12}}}]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['amount'], 12)
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['currency'], response.json['data']['value']['currency'])
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['valueAddedTaxIncluded'], response.json['data']['value']['valueAddedTaxIncluded'])
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token),
+            {"data": {"items": [{'unit': {'value': {'currency': "USD", 'valueAddedTaxIncluded': False}}}]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['currency'], "USD")
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['valueAddedTaxIncluded'], False)
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token),
+            {'data': {'items': [{
+                'description': u"custom item descriptionX",
+                'quantity': 5,
+                'deliveryLocation': {'latitude': "12.123", 'longitude': "170.123"}
+            }]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertNotEqual(response.json['data']['items'][0]['description'], u"custom item descriptionX")
+        self.assertNotEqual(response.json['data']['items'][0]['quantity'], 99999)
+        self.assertNotIn('deliveryLocation', response.json['data']['items'][0])
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['amount'], 12)
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['currency'], "USD")
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['valueAddedTaxIncluded'], False)
+
+        # try to add/delete contract item
+        item = deepcopy(response.json['data']["items"][0])
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token),
+            {'data': {'items': [{}, item]}},
+            status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can't change items count")
 
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
             self.tender_id, self.contract_id, self.tender_token),
@@ -488,6 +487,68 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
             self.tender_id, self.contract_id, self.tender_token), {"data": {"value": {"amount": 238}}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['value']['amount'], 238)
+
+        # check contract.items modification (contract.item.unit.value.amount
+        # modification should be allowed)
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token),
+            {"data": {"items": [{'unit': {'value': {'amount': 12}}}]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['amount'], 12)
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['currency'], response.json['data']['value']['currency'])
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['valueAddedTaxIncluded'], response.json['data']['value']['valueAddedTaxIncluded'])
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token),
+            {"data": {"items": [{'unit': {'value': {'currency': "USD", 'valueAddedTaxIncluded': False}}}]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['currency'], "USD")
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['valueAddedTaxIncluded'], False)
+
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token),
+            {'data': {'items': [{
+                'description': u"custom item descriptionX",
+                'quantity': 5,
+                'deliveryLocation': {'latitude': "12.123", 'longitude': "170.123"}
+            }]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertNotEqual(response.json['data']['items'][0]['description'], u"custom item descriptionX")
+        self.assertNotEqual(response.json['data']['items'][0]['quantity'], 99999)
+        self.assertNotIn('deliveryLocation', response.json['data']['items'][0])
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['amount'], 12)
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['currency'], "USD")
+        self.assertEqual(response.json['data']["items"][0]['unit']['value']['valueAddedTaxIncluded'], False)
+
+        # try to add contract item
+        item = deepcopy(response.json['data']["items"][0])
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token),
+            {'data': {'items': [{}, item]}},
+            status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can't change items count")
+
+        # add second item to contract. the quickest way
+        tender = self.db.get(self.tender_id)
+        item = tender['contracts'][0]['items'][0]
+        tender['contracts'][0]['items'] = [item, item]
+        self.db.save(tender)
+
+        response = self.app.get('/tenders/{}/contracts/{}'.format(self.tender_id, self.contract_id))
+        self.assertEqual(len(response.json['data']["items"]), 2)
+
+        # try to delete contract item
+        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+            self.tender_id, self.contract_id, self.tender_token),
+            {'data': {'items': [{}]}},
+            status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Can't change items count")
 
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
             self.tender_id, self.contract_id, self.tender_token), {"data": {"status": "active"}})
