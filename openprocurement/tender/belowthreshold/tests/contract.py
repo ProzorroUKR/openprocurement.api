@@ -96,7 +96,6 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
 class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
-    test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
 
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()

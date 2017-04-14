@@ -73,8 +73,6 @@ class TenderLotProcessTestMixin(object):
 class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, TenderEULotResourceTestMixin):
     test_lots_data = test_lots
 
-    test_status_that_denies_delete_create_patch_lots = 'active.tendering'
-
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
 
