@@ -17,7 +17,6 @@ from openprocurement.tender.limited.tests.base import (
 class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentResourceTestMixin):
     initial_data = test_tender_data
     docservice = False
-    test_forbidden_document_actions_status = "complete"
 
 
 class TenderNegotiationDocumentResourceTest(TenderDocumentResourceTest):

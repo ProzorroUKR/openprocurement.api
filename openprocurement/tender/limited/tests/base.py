@@ -59,7 +59,8 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_lots = None
     relative_to = os.path.dirname(__file__)
     initial_auth = ('Basic', ('broker', ''))
-
+    primary_tender_status_name = 'active'
+    test_forbidden_document_actions_status = "complete"
 
     def set_status(self, status, extra=None):
         data = {'status': status}

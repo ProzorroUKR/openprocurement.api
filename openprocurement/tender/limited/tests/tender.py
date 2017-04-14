@@ -85,7 +85,6 @@ class TenderNegotiationQuickTest(TenderNegotiationTest):
 
 class TenderResourceTest(BaseTenderWebTest):
     initial_data = test_tender_data
-    primary_tender_status_name = 'active'
 
     test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)
