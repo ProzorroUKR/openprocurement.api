@@ -34,8 +34,6 @@ from openprocurement.tender.openua.tests.base import (
 class TenderAuctionResourceTest(BaseTenderUAContentWebTest, TenderAuctionResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = test_bids
-    test_status_that_denies_get_post_patch_auction = 'active.tendering'
-    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
 
 
 class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):

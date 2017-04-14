@@ -67,7 +67,7 @@ class TenderUALotProcessTestMixin(object):
 class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
     initial_data = test_tender_data
     test_lots_data = test_lots
-    test_status_that_denies_delete_create_patch_lots = 'active.auction'
+    
 
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
 
