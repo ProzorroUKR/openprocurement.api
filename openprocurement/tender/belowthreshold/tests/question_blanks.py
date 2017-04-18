@@ -293,7 +293,7 @@ def lot_create_tender_question(self):
         'description': 'question description',
         "questionOf": "lot",
         "relatedItem": self.initial_lots[0]['id'],
-        'author': test_organization
+        'author': self.author_data
     }}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
@@ -304,12 +304,12 @@ def lot_create_tender_question(self):
         'description': 'question description',
         "questionOf": "lot",
         "relatedItem": self.initial_lots[1]['id'],
-        'author': test_organization
+        'author': self.author_data
     }})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     question = response.json['data']
-    self.assertEqual(question['author']['name'], test_organization['name'])
+    self.assertEqual(question['author']['name'], self.author_data['name'])
     self.assertIn('id', question)
     self.assertIn(question['id'], response.headers['Location'])
 
@@ -320,7 +320,7 @@ def lot_patch_tender_question(self):
         'description': 'question description',
         "questionOf": "lot",
         "relatedItem": self.initial_lots[0]['id'],
-        'author': test_organization
+        'author': self.author_data
     }})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -344,7 +344,7 @@ def lot_patch_tender_question(self):
         'description': 'question description',
         "questionOf": "lot",
         "relatedItem": self.initial_lots[1]['id'],
-        'author': test_organization
+        'author': self.author_data
     }})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
