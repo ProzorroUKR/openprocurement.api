@@ -3,7 +3,9 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_organization, test_bids
+)
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidDocumentResourceTest
     not_found,
@@ -32,6 +34,7 @@ from openprocurement.tender.openuadefense.tests.base import (
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
     initial_status = 'active.tendering'
     test_bids_data = test_bids  # TODO: change attribute identifier
+    author_data = test_organization
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
@@ -44,6 +47,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
 
 class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest, TenderBidDocumentResourceTestMixin):
     initial_status = 'active.tendering'
+    author_data = test_organization
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
