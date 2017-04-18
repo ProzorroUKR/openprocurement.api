@@ -3,7 +3,9 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_lots, test_organization
+)
 from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
     # TenderQuestionResourceTest
@@ -34,6 +36,7 @@ class TenderQuestionResourceTest(BaseTenderUAContentWebTest, TenderQuestionResou
 class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
 
     initial_lots = 2 * test_lots
+    author_data = test_organization
 
     test_create_tender_question = snitch(lot_create_tender_question)
     test_patch_tender_question = snitch(patch_multilot_tender_question)
