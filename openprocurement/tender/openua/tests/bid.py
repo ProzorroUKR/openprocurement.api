@@ -69,6 +69,7 @@ class TenderBidDocumentResourceTestMixin(object):
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
     initial_data = test_tender_data
     initial_status = 'active.tendering'
+    author_data = test_organization
 
     test_draft1_bid = snitch(draft1_bid)
     test_draft2_bids = snitch(draft2_bids)
@@ -84,6 +85,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
 
 class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest, TenderBidDocumentResourceTestMixin):
     initial_status = 'active.tendering'
+    author_data = test_organization
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
