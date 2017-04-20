@@ -123,6 +123,17 @@ def validate_contract_with_cancellations_and_contract_signing(request):
         ]):
             raise_operation_error(request, 'Can\'t sign contract before reviewing all complaints')
 
+
+def validate_contract_items_count_modification(request):
+    # as it is alowed to set/change contract.item.unit.value we need to
+    # ensure that nobody is able to add or delete contract.item
+    data = request.validated['data']
+    if data.get('items') and len(data['items']) != len(request.context['items']):
+        request.errors.add('body', 'data', 'Can\'t change items count')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
 # contract document
 def validate_contract_document_operation_not_in_allowed_contract_status(request):
     contract = request.validated['contract']

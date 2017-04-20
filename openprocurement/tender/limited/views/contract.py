@@ -16,6 +16,7 @@ from openprocurement.tender.belowthreshold.views.contract import (
 from openprocurement.tender.limited.validation import (
     validate_contract_update_in_cancelled,
     validate_contract_operation_not_in_active,
+    validate_contract_items_count_modification,
     validate_contract_with_cancellations_and_contract_signing
 )
 
@@ -87,7 +88,7 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
             return {'data': contract.serialize()}
 
     @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data, validate_contract_operation_not_in_active, validate_contract_update_in_cancelled,
-               validate_update_contract_value))
+               validate_update_contract_value, validate_contract_items_count_modification))
     def patch(self):
         """Update of contract
         """
@@ -114,7 +115,7 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
 class TenderNegotiationAwardContractResource(TenderAwardContractResource):
     """ Tender Negotiation Award Contract Resource """
     @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data, validate_contract_operation_not_in_active, validate_contract_update_in_cancelled,
-               validate_contract_with_cancellations_and_contract_signing, validate_update_contract_value))
+               validate_contract_with_cancellations_and_contract_signing, validate_update_contract_value, validate_contract_items_count_modification))
     def patch(self):
         """Update of contract
         """
