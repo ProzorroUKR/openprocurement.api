@@ -10,16 +10,14 @@ from openprocurement.api.utils import (
 )
 
 from openprocurement.tender.core.utils import (
-    apply_patch, save_tender, optendersresource
+    apply_patch, save_tender, optendersresource, calculate_business_date
 )
 
-from openprocurement.tender.belowthreshold.validation import (
+from openprocurement.tender.core.validation import (
     validate_patch_award_data, validate_award_data,
 )
 
-from openprocurement.tender.core.utils import calculate_business_date  # TODO check imports when openua refactoring is finished
-
-from openprocurement.tender.openua.models import calculate_normalized_date
+from openprocurement.tender.openua.utils import calculate_normalized_date
 
 from openprocurement.tender.limited.validation import (
     validate_create_new_award,
