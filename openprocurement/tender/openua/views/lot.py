@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.belowthreshold.views.lot import TenderLotResource
 from openprocurement.api.utils import (
+    get_now,
     json_view,
     context_unpack,
 )
@@ -16,7 +17,6 @@ from openprocurement.tender.core.utils import (
     optendersresource,
     calculate_business_date
 )
-from openprocurement.api.models import get_now
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
