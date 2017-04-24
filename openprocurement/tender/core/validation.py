@@ -423,3 +423,26 @@ def validate_update_contract_value(request):
         award = [a for a in tender.awards if a.id == request.context.awardID][0]
         if data['value']['amount'] > award.value.amount:
             raise_operation_error(request, 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount))
+
+
+def validate_contract_signing(request):
+    tender = request.validated['tender']
+    data = request.validated['data']
+    if request.context.status != 'active' and 'status' in data and data['status'] == 'active':
+        award = [a for a in tender.awards if a.id == request.context.awardID][0]
+        stand_still_end = award.complaintPeriod.endDate
+        if stand_still_end > get_now():
+            raise_operation_error(request, 'Can\'t sign contract before stand-still period end ({})'.format(stand_still_end.isoformat()))
+        pending_complaints = [
+            i
+            for i in tender.complaints
+            if i.status in tender.block_complaint_status and i.relatedLot in [None, award.lotID]
+        ]
+        pending_awards_complaints = [
+            i
+            for a in tender.awards
+            for i in a.complaints
+            if i.status in tender.block_complaint_status and a.lotID == award.lotID
+        ]
+        if pending_complaints or pending_awards_complaints:
+            raise_operation_error(request, 'Can\'t sign contract before reviewing all complaints')
