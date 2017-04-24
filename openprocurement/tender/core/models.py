@@ -80,12 +80,6 @@ class PeriodStartEndRequired(Period):
     endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
 
 
-class XValue(Model):
-    amount = FloatType(required=True, min_value=0)  # Amount as a number.
-    currency = StringType(required=True, default=u'UAH', max_length=3, min_length=3)  # The currency in 3-letter ISO 4217 format.
-    valueAddedTaxIncluded = BooleanType(required=True, default=True)
-
-
 class Guarantee(Model):
     amount = FloatType(required=True, min_value=0)  # Amount as a number.
     currency = StringType(required=True, default=u'UAH', max_length=3, min_length=3)  # The currency in 3-letter ISO 4217 format.
