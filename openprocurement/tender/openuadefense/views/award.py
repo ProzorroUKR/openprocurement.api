@@ -8,6 +8,7 @@ from openprocurement.tender.core.utils import (
     apply_patch,
     optendersresource,
     save_tender,
+    calculate_business_date
 )
 
 from openprocurement.tender.core.validation import (
@@ -25,7 +26,6 @@ from openprocurement.tender.openua.constants import STAND_STILL_TIME
 from openprocurement.tender.openua.utils import (
     calculate_normalized_date, add_next_award
 )
-from openprocurement.tender.core.utils import calculate_business_date
 
 
 @optendersresource(name='aboveThresholdUA.defense:Tender Awards',
