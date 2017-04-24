@@ -5,14 +5,14 @@ from schematics.types import StringType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from barbecue import vnmax
-from zope.interface import implementer  # TODO
+from zope.interface import implementer
 
 from openprocurement.api.models import (
     plain_role, listing_role, draft_role, schematics_default_role, schematics_embedded_role
 )
 
 from openprocurement.api.models import (
-    ListType, Period
+    ListType, Period, Value
 )
 
 from openprocurement.api.utils import (
@@ -36,7 +36,7 @@ from openprocurement.tender.core.models import (
 )
 
 from openprocurement.tender.core.models import (
-    Value, Guarantee, ComplaintModelType, TenderAuctionPeriod,
+    Guarantee, ComplaintModelType, TenderAuctionPeriod,
     PeriodEndRequired, Tender as BaseTender, Bid, ProcuringEntity,
     Item, Award, Contract, Question, Cancellation, Feature,
     Lot, Complaint,
