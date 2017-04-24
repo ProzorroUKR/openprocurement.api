@@ -27,16 +27,8 @@ from openprocurement.tender.core.models import (
 )
 
 from openprocurement.tender.core.models import (
-    Document, BaseTender, ITender
-)
-from openprocurement.tender.belowthreshold.models import (
-    Cancellation as BaseCancellation
-)
-from openprocurement.tender.belowthreshold.models import (
-    Contract as BaseContract
-)
-from openprocurement.tender.belowthreshold.models import (
-    ProcuringEntity as BaseProcuringEntity
+    Document, BaseTender, ITender, Cancellation as BaseCancellation,
+    Contract as BaseContract, ProcuringEntity as BaseProcuringEntity
 )
 from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import Item
