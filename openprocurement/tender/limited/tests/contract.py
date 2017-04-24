@@ -5,6 +5,11 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.contract import (
+    TenderContractResourceTestMixin,
+    TenderContractDocumentResourceTestMixin
+)
+
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_lots,
@@ -33,21 +38,9 @@ from openprocurement.tender.limited.tests.contract_blanks import (
     tender_contract_signature_date,
     award_id_change_is_not_allowed,
 )
-from openprocurement.tender.belowthreshold.tests.contract_blanks import (
-    # TenderContractResourceTest
-    create_tender_contract_invalid,
-    get_tender_contract,
-    get_tender_contracts,
-    # TenderContractDocumentResourceTest
-    not_found,
-    # TenderContractDocumentResourceTest
-    create_tender_contract_document,
-    put_tender_contract_document,
-    patch_tender_contract_document,
-)
 
 
-class TenderContractResourceTest(BaseTenderContentWebTest):
+class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourceTestMixin):
     initial_status = 'active'
     initial_data = test_tender_data
     initial_bids = None  # test_bids
@@ -68,13 +61,10 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         super(TenderContractResourceTest, self).setUp()
         self.create_award()
 
-    test_create_tender_contract_invalid = snitch(create_tender_contract_invalid)
     test_create_tender_contract_with_token = snitch(create_tender_contract_with_token)
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_tender_contract_signature_date = snitch(tender_contract_signature_date)
-    test_get_tender_contract = snitch(get_tender_contract)
-    test_get_tender_contracts = snitch(get_tender_contracts)
     test_award_id_change_is_not_allowed = snitch(award_id_change_is_not_allowed)
 
 
@@ -264,7 +254,7 @@ class TenderNegotiationAccelerationTest(TenderNegotiationQuickAccelerationTest):
     time_sleep_in_sec = 6
 
 
-class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
+class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = 'active'
     initial_bids = None
     test_status_that_denies_put_create_patch_contract_docs = 'complete'
@@ -283,11 +273,6 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest):
         self.create_award()
         response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
         self.contract_id = response.json['data'][0]['id']
-
-    test_not_found = snitch(not_found)
-    test_create_tender_contract_document = snitch(create_tender_contract_document)
-    test_put_tender_contract_document = snitch(put_tender_contract_document)
-    test_patch_tender_contract_document = snitch(patch_tender_contract_document)
 
 
 class TenderContractNegotiationDocumentResourceTest(TenderContractDocumentResourceTest):
