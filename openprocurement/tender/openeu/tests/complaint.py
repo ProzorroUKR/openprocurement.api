@@ -3,44 +3,36 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.openeu.tests.base import test_lots
-from openprocurement.tender.openeu.tests.base import (
-    BaseTenderContentWebTest,
-    test_bids,
-)
+from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     # TenderComplaintDocumentResourceTest
     not_found,
     create_tender_complaint_document,
-    create_tender_complaint_invalid,
-    get_tender_complaint,
-    get_tender_complaints,
 )
-from openprocurement.tender.openeu.tests.complaint_blanks import (
-    # TenderComplaintDocumentResourceTest
-    put_tender_complaint_document,
-)
+
+from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
 from openprocurement.tender.openua.tests.complaint_blanks import (
-    # TenderComplaintResourceTest
-    review_tender_complaint,
-    create_tender_complaint,
-    patch_tender_complaint,
     # TenderComplaintDocumentResourceTest
     patch_tender_complaint_document,
     # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
 )
 
+from openprocurement.tender.openeu.tests.complaint_blanks import (
+    # TenderComplaintDocumentResourceTest
+    put_tender_complaint_document,
+)
+from openprocurement.tender.openeu.tests.base import (
+    BaseTenderContentWebTest,
+    test_bids,
+    test_lots,
+)
 
-class TenderComplaintResourceTest(BaseTenderContentWebTest):
+
+class TenderComplaintResourceTest(BaseTenderContentWebTest,
+                                  TenderComplaintResourceTestMixin,
+                                  TenderUAComplaintResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
-
-    test_create_tender_complaint_invalid = snitch(create_tender_complaint_invalid)
-    test_create_tender_complaint = snitch(create_tender_complaint)
-    test_patch_tender_complaint = snitch(patch_tender_complaint)
-    test_review_tender_complaint = snitch(review_tender_complaint)
-    test_get_tender_complaint = snitch(get_tender_complaint)
-    test_get_tender_complaints = snitch(get_tender_complaints)
 
 
 class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):

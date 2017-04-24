@@ -3,34 +3,24 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
+from openprocurement.tender.belowthreshold.tests.lot import (
+    TenderLotResourceTestMixin,
+    TenderEULotResourceTestMixin,
+    TenderLotFeatureResourceTestMixin,
+    TenderLotProcessTestMixin
+)
+
+from openprocurement.tender.openua.tests.lot_blanks import (
+    # TenderLotResourceTest
+    get_tender_lot,
+    get_tender_lots,
+)
+
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_data,
     test_lots,
     test_bids
-)
-from openprocurement.tender.belowthreshold.tests.lot_blanks import (
-    # TenderLotResourceTest
-    patch_tender_lot,
-    delete_tender_lot,
-    create_tender_lot,
-    create_tender_lot_invalid,
-    patch_tender_currency,
-    patch_tender_vat,
-    tender_lot_guarantee,
-    # TenderLotFeatureResourceTest
-    tender_value,
-    tender_features_invalid,
-    tender_lot_document,
-    # TenderLotProcessTest
-    proc_1lot_0bid,
-    proc_2lot_0bid,
-    proc_2lot_2can
-)
-from openprocurement.tender.openua.tests.lot_blanks import (
-    # TenderLotResourceTest
-    get_tender_lot,
-    get_tender_lots,
 )
 from openprocurement.tender.openeu.tests.lot_blanks import (
     # TenderLotProcessTest
@@ -58,22 +48,15 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
 )
 
 
-class TenderLotResourceTest(BaseTenderContentWebTest):
+class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderEULotResourceTestMixin):
 
     initial_auth = ('Basic', ('broker', ''))
     test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
     test_status_that_denies_delete_create_patch_lots = 'active.auction'
 
-    test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
-    test_create_tender_lot = snitch(create_tender_lot)
-    test_patch_tender_lot = snitch(patch_tender_lot)
-    test_patch_tender_currency = snitch(patch_tender_currency)
-    test_patch_tender_vat = snitch(patch_tender_vat)
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
-    test_delete_tender_lot = snitch(delete_tender_lot)
-    test_tender_lot_guarantee = snitch(tender_lot_guarantee)
 
 
 class TenderLotEdgeCasesTest(BaseTenderContentWebTest):
@@ -87,14 +70,10 @@ class TenderLotEdgeCasesTest(BaseTenderContentWebTest):
     test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
 
 
-class TenderLotFeatureResourceTest(BaseTenderContentWebTest):
+class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureResourceTestMixin):
     initial_lots = 2 * test_lots
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
-
-    test_tender_value = snitch(tender_value)
-    test_tender_features_invalid = snitch(tender_features_invalid)
-    test_tender_lot_document = snitch(tender_lot_document)
 
 
 class TenderLotBidderResourceTest(BaseTenderContentWebTest):
@@ -180,7 +159,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     test_create_tender_bidder = snitch(create_tender_feature_bidder)
 
 
-class TenderLotProcessTest(BaseTenderContentWebTest):
+class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
     setUp = BaseTenderContentWebTest.setUp
     test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
@@ -188,15 +167,12 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
 
     days_till_auction_starts = 16
 
-    test_1lot_0bid = snitch(proc_1lot_0bid)
     test_1lot_1bid = snitch(one_lot_1bid)
     test_1lot_2bid_1unqualified = snitch(one_lot_2bid_1unqualified)
     test_1lot_2bid = snitch(one_lot_2bid)
     test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del)
     test_1lot_3bid_1del = snitch(one_lot_3bid_1del)
     test_1lot_3bid_1un = snitch(one_lot_3bid_1un)
-    test_2lot_0bid = snitch(proc_2lot_0bid)
-    test_2lot_2can = snitch(proc_2lot_2can)
     test_2lot_1can = snitch(two_lot_1can)
     test_2lot_2bid_0com_1can = snitch(two_lot_2bid_0com_1can)
     test_2lot_2bid_2com_2win = snitch(two_lot_2bid_2com_2win)
