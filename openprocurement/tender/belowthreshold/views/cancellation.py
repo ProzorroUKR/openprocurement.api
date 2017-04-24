@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.utils import (
     add_next_award
 )
 
-from openprocurement.tender.belowthreshold.validation import (
+from openprocurement.tender.core.validation import (
     validate_cancellation_data,
     validate_patch_cancellation_data,
 )

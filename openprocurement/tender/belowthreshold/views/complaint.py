@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
+    get_now,
     context_unpack,
     json_view,
     set_ownership,

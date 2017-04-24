@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
+    get_now,
     get_file,
     upload_file,
     update_file_content_type,

@@ -26,7 +26,7 @@ from openprocurement.tender.core.utils import (
                    description="Tender contract documents")
 class TenderAwardContractDocumentResource(APIResource):
 
-    def validate_contract_document(self, operation): # TODO move validators - same as question and award document
+    def validate_contract_document(self, operation):
         """ TODO move validators
         This class is inherited in openua package, but validate_contract_document function has different validators.
         For now, we have no way to use different validators on methods according to procedure type.

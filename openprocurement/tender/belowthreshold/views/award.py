@@ -12,6 +12,8 @@ from openprocurement.tender.core.utils import (
 )
 
 from openprocurement.tender.core.validation import (
+    validate_award_data,
+    validate_patch_award_data,
     validate_update_award_only_for_active_lots,
     validate_update_award_in_not_allowed_status
 )
@@ -23,8 +25,6 @@ from openprocurement.tender.belowthreshold.utils import (
 )
 
 from openprocurement.tender.belowthreshold.validation import (
-    validate_award_data,
-    validate_patch_award_data,
     validate_create_award_only_for_active_lot,
     validate_create_award_not_in_allowed_period
 )
