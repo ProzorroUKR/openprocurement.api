@@ -14,7 +14,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TZ
 from openprocurement.api.models import (
     listing_role, Address, Period, Model,
-    IsoDateTimeType, ListType, Identifier as BaseIdentifier,
+    IsoDateTimeType, ListType, SifterListType, Identifier as BaseIdentifier,
     ContactPoint as BaseContactPoint, plain_role
 )
 from openprocurement.api.validation import (
@@ -30,7 +30,7 @@ from openprocurement.tender.core.models import (
     LotValue as BaseLotValue,
     Parameter as BaseParameter,
     ComplaintModelType as BaseComplaintModelType,
-    EnquiryPeriod, SifterListType,
+    EnquiryPeriod,
     PeriodStartEndRequired,
     create_role, edit_role, view_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
