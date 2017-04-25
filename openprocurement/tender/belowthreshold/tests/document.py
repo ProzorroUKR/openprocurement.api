@@ -35,7 +35,6 @@ class TenderDocumentWithDSResourceTestMixin(object):
 
 
 class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):
-    test_forbidden_document_actions_status = 'active.tendering'
 
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
 

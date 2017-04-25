@@ -66,11 +66,10 @@ class TestCoordinatesRegExp(unittest.TestCase):
     test_coordinates_reg_exp = snitch(coordinates_reg_exp)
 
 
-class TenderResourceTest(BaseWebTest, TenderResourceTestMixin):
+class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_data
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
-    primary_tender_status_name = 'active.enquiries'
 
     test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)

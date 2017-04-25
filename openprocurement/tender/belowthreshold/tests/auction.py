@@ -67,8 +67,6 @@ class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestM
     initial_status = 'active.tendering'
     initial_bids = deepcopy(test_bids)
     initial_auth = ('Basic', ('broker', ''))
-    test_status_that_denies_get_post_patch_auction = 'active.tendering'
-    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
 
 
 class TenderSameValueAuctionResourceTest(TenderContentWebTest):
@@ -97,8 +95,6 @@ class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourc
     initial_status = 'active.tendering'
     initial_bids = deepcopy(test_bids)
     initial_auth = ('Basic', ('broker', ''))
-    test_status_that_denies_get_post_patch_auction = 'active.tendering'
-    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
 
     def setUp(self):
         super(TenderLotAuctionResourceTest, self).setUp()
@@ -110,8 +106,6 @@ class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleL
     initial_status = 'active.tendering'
     initial_bids = deepcopy(test_bids)
     initial_auth = ('Basic', ('broker', ''))
-    test_status_that_denies_get_post_patch_auction = 'active.tendering'
-    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
 
     test_patch_tender_auction = snitch(patch_tender_lots_auction)
 
