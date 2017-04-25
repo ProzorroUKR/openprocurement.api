@@ -6,33 +6,33 @@ from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.types.compound import ModelType
 from openprocurement.api.models import (
-    Identifier, plain_role,
+    Model, Identifier, plain_role,
     listing_role, schematics_default_role,
     schematics_embedded_role, ListType,
     BooleanType, Value as BaseValue
 )
 from openprocurement.api.utils import (
-     get_now
+    get_now
 )
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
 )
 from openprocurement.tender.core.models import (
-    ITender, Model, validate_features_uniq,
+    ITender, validate_features_uniq,
     validate_values_uniq, Feature as BaseFeature,
     FeatureValue as BaseFeatureValue, create_role,
     edit_role, view_role, enquiries_role,
     chronograph_role, chronograph_view_role,
     Administrator_role, ProcuringEntity as BaseProcuringEntity,
-    get_tender
+    get_tender, SifterListType, PeriodStartEndRequired,
+    validate_lots_uniq, Lot as BaseLotUA
 )
 from openprocurement.tender.core.utils import (
     calculate_business_date
 )
 from openprocurement.tender.openua.models import (
-    SifterListType, Item as BaseUAItem,
+    Item as BaseUAItem,
     Tender as BaseTenderUA,
-    Lot as BaseLotUA,
 )
 from openprocurement.tender.openua.constants import (
     TENDER_PERIOD as TENDERING_DURATION_UA,
@@ -41,8 +41,7 @@ from openprocurement.tender.openeu.models import (
     Administrator_bid_role, view_bid_role,
     pre_qualifications_role, ConfidentialDocument,
     auction_patch_role, auction_view_role,
-    auction_post_role, PeriodStartEndRequired,
-    validate_lots_uniq, embedded_lot_role,
+    auction_post_role, embedded_lot_role,
     default_lot_role, Lot as BaseLotEU,
     Item as BaseEUItem, LotValue as BaseLotValueEU,
     Tender as BaseTenderEU, Bid as BidEU
