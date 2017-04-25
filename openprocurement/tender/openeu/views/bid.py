@@ -101,7 +101,6 @@ class TenderBidResource(BaseResource):
         """
         if self.request.authenticated_role == 'bid_owner':
             return {'data': self.request.context.serialize('view')}
-        # TODO can't move this validator becacuse of check above
         validate_view_bids_in_active_tendering(self.request)
         return {'data': self.request.context.serialize(self.request.validated['tender_status'])}
 
