@@ -127,6 +127,6 @@ class BaseTenderWebTest(BaseWebTest):
     def tearDown(self):
         if self.docservice:
             self.tearDownDS()
-        if hasattr(self, 'tender_id'): # XXX We have tests that create tests out of setUp method.
+        if hasattr(self, 'tender_id'): # XXX We have tests that create tender out of setUp method.
             del self.db[self.tender_id]
         super(BaseTenderWebTest, self).tearDown()
