@@ -198,7 +198,7 @@ def create_tender_bidder(self):
 def patch_tender_bidder(self):
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True, 'status': 'draft',
-                                   'tenderers': [test_organization], "value": {"amount": 500}}})
+                                   'tenderers': [self.author_data], "value": {"amount": 500}}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
@@ -265,7 +265,7 @@ def patch_tender_bidder(self):
 def get_tender_bidder(self):
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                   'tenderers': [test_organization], "value": {"amount": 500}}})
+                                   'tenderers': [self.author_data], "value": {"amount": 500}}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
@@ -321,7 +321,7 @@ def get_tender_bidder(self):
 def delete_tender_bidder(self):
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                   'tenderers': [test_organization], "value": {"amount": 500}}})
+                                   'tenderers': [self.author_data], "value": {"amount": 500}}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
@@ -410,7 +410,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     for bid_amount in (400, 405):
         response = self.app.post_json('/tenders/{}/bids'.format(
             self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': [test_organization], "value": {"amount": bid_amount}}})
+                                       'tenderers': [self.author_data], "value": {"amount": bid_amount}}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         bids.append(response.json['data'])
@@ -443,7 +443,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
 def get_tender_tenderers(self):
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                   'tenderers': [test_organization], "value": {"amount": 500}}})
+                                   'tenderers': [self.author_data], "value": {"amount": 500}}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
@@ -474,7 +474,7 @@ def get_tender_tenderers(self):
 def bid_Administrator_change(self):
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                   'tenderers': [test_organization], "value": {"amount": 500}}})
+                                   'tenderers': [self.author_data], "value": {"amount": 500}}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
@@ -492,7 +492,7 @@ def bid_Administrator_change(self):
 def draft1_bid(self):
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True, 'status': 'draft',
-                                   'tenderers': [test_organization], "value": {"amount": 500}}})
+                                   'tenderers': [self.author_data], "value": {"amount": 500}}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
 
@@ -508,10 +508,10 @@ def draft1_bid(self):
 def draft2_bids(self):
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True, 'status': 'draft',
-                                   'tenderers': [test_organization], "value": {"amount": 500}}})
+                                   'tenderers': [self.author_data], "value": {"amount": 500}}})
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True, 'status': 'draft',
-                                   'tenderers': [test_organization], "value": {"amount": 500}}})
+                                   'tenderers': [self.author_data], "value": {"amount": 500}}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
 
@@ -980,7 +980,7 @@ def patch_tender_bidder_document(self):
 def create_tender_bidder_document_nopending(self):
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                   'tenderers': [test_organization], "value": {"amount": 500}}})
+                                   'tenderers': [self.author_data], "value": {"amount": 500}}})
     bid = response.json['data']
     bid_id = bid['id']
     bid_token = response.json['access']['token']

@@ -38,6 +38,7 @@ class TenderQuestionResourceTest(BaseTenderUAContentWebTest, TenderQuestionResou
 
 class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
     initial_lots = 2 * test_lots
+    author_data = test_organization
 
     def create_question_for(self, questionOf, relatedItem):
         response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id), {'data': {

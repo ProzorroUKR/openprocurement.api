@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization
-)
-
 # TenderSwitch0BidResourceTest
 
 
@@ -40,7 +36,7 @@ def switch_to_complaint(self):
         response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
-            'author': test_organization,
+            'author': self.author_data,
             'status': 'claim'
         }})
         self.assertEqual(response.status, '201 Created')
