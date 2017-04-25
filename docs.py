@@ -682,33 +682,6 @@ bid4_with_docs["data"]["documents"] = [
      }
  ]
 
-bid4_with_docs["data"]["eligibilityDocuments"] = [
-    {
-        'title': u'eligibility_doc.pdf',
-        'url': u"http://broken3.ds",
-        'hash': 'md5:' + '0' * 32,
-        'format': 'application/pdf'
-    }
-]
-
-bid4_with_docs["data"]["financialDocuments"] = [
-    {
-         'title': u'financial_doc.pdf',
-         'url': u"http://broken4.ds",
-         'hash': 'md5:' + '0' * 32,
-         'format': 'application/pdf'
-    }
-]
-
-bid4_with_docs["data"]["qualificationDocuments"] = [
-    {
-         'title': u'qualification_document.pdf',
-         'url': u"http://broken5.ds",
-         'hash': 'md5:' + '0' * 32,
-         'format': 'application/pdf'
-    }
-]
-
 question = {
     "data": {
         "author": {
@@ -1499,6 +1472,32 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
 
+        bid4_with_docs["data"]["eligibilityDocuments"] = [
+          {
+            'title': u'eligibility_doc.pdf',
+            'url': u"http://broken3.ds",
+            'hash': 'md5:' + '0' * 32,
+            'format': 'application/pdf'
+          }
+        ]
+
+        bid4_with_docs["data"]["financialDocuments"] = [
+          {
+            'title': u'financial_doc.pdf',
+            'url': u"http://broken4.ds",
+            'hash': 'md5:' + '0' * 32,
+            'format': 'application/pdf'
+          }
+        ]
+
+        bid4_with_docs["data"]["qualificationDocuments"] = [
+          {
+            'title': u'qualification_document.pdf',
+            'url': u"http://broken5.ds",
+            'hash': 'md5:' + '0' * 32,
+            'format': 'application/pdf'
+          }
+        ]
         with open('docs/source/tutorial/stage2/EU/register-3rd-bidder.http', 'w') as self.app.file_obj:
             for document in bid4_with_docs['data']['documents']:
                 document['url'] = self.generate_docservice_url()
