@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import raise_operation_error, error_handler
 from openprocurement.tender.openeu.views.award_complaint_document import TenderEUAwardComplaintDocumentResource
 from openprocurement.tender.openeu.utils import qualifications_resource
 from openprocurement.tender.openua.constants import STATUS4ROLE
@@ -19,7 +19,7 @@ class TenderEUQualificationComplaintDocumentResource(TenderEUAwardComplaintDocum
         if operation == 'update' and self.request.authenticated_role != self.context.author:
             self.request.errors.add('url', 'role', 'Can update document only author')
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if self.request.validated['tender_status'] not in ['active.pre-qualification', 'active.pre-qualification.stand-still']:
             raise_operation_error(self.request, 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
         if any([i.status != 'active' for i in self.request.validated['tender'].lots if i.id == self.request.validated['qualification'].lotID]):
