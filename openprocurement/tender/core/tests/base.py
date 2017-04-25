@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 import os
-from copy import deepcopy
-from datetime import datetime, timedelta
 from uuid import uuid4
-from requests.models import Response
-from base64 import b64encode
+from copy import deepcopy
 from urllib import urlencode
+from base64 import b64encode
+from datetime import datetime
+from requests.models import Response
 
-from openprocurement.api.utils import SESSION, apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest
+from openprocurement.api.utils import SESSION, apply_data_patch
 
 
 now = datetime.now()
@@ -127,5 +127,6 @@ class BaseTenderWebTest(BaseWebTest):
     def tearDown(self):
         if self.docservice:
             self.tearDownDS()
-        del self.db[self.tender_id]
+        if hasattr(self, 'tender_id'): # XXX We have tests that create tender out of setUp method.
+            del self.db[self.tender_id]
         super(BaseTenderWebTest, self).tearDown()
