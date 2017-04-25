@@ -41,22 +41,39 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
 )
 
 
-class TenderBidResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.tendering'
-    initial_auth = ('Basic', ('broker', ''))
-    test_bids_data = test_bids  # TODO: change attribute identifier
-
-    test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
+class TenderBidResourceTestMixin(object):
     test_create_tender_bidder = snitch(create_tender_bidder)
+    test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
+    test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
+
+
+class Tender2BidResourceTestMixin(object):
+    test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
     test_get_tender_bidder = snitch(get_tender_bidder)
-    test_delete_tender_bidder = snitch(delete_tender_bidder)
-    test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
+
+
+class TenderBidDocumentResourceTestMixin(object):
+    test_not_found = snitch(not_found)
+    test_get_tender_bidder_document = snitch(get_tender_bidder_document)
+    test_create_tender_bidder_document = snitch(create_tender_bidder_document)
+    test_put_tender_bidder_document = snitch(put_tender_bidder_document)
+    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
+    test_patch_tender_bidder_document_private = snitch(patch_tender_bidder_document_private)
+    test_download_tender_bidder_document = snitch(download_tender_bidder_document)
+
+
+class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin, Tender2BidResourceTestMixin):
+    initial_status = 'active.tendering'
+    initial_auth = ('Basic', ('broker', ''))
+    test_bids_data = test_bids  # TODO: change attribute identifier
+    author_data = test_bids_data[0]['tenderers'][0]
+
+    test_delete_tender_bidder = snitch(delete_tender_bidder)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
-    test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
@@ -69,7 +86,7 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
+class TenderBidDocumentResourceTest(BaseTenderContentWebTest, TenderBidDocumentResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_status = 'active.tendering'
     test_bids_data = test_bids  # TODO: change attribute identificator
@@ -88,14 +105,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.bid2_id = bid2['id']
         self.bid2_token = response.json['access']['token']
 
-    test_not_found = snitch(not_found)
-    test_get_tender_bidder_document = snitch(get_tender_bidder_document)
-    test_create_tender_bidder_document = snitch(create_tender_bidder_document)
-    test_put_tender_bidder_document = snitch(put_tender_bidder_document)
-    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
-    test_patch_tender_bidder_document_private = snitch(patch_tender_bidder_document_private)
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
-    test_download_tender_bidder_document = snitch(download_tender_bidder_document)
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
 
 
