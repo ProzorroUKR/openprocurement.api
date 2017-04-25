@@ -40,6 +40,7 @@ from openprocurement.tender.core.models import (
     get_tender, validate_lots_uniq,
     rounding_shouldStartAfter,
     validate_parameters_uniq,
+    bids_validation_wrapper
 )
 from openprocurement.tender.core.utils import (
     calculate_business_date,
@@ -82,23 +83,6 @@ eu_auction_role = auction_role
 
 class IAboveThresholdEUTender(ITender):
      """ Marker interface for aboveThresholdEU tenders """
-
-
-def bids_validation_wrapper(validation_func):
-    def validator(klass, data, value):
-        orig_data = data
-        while not isinstance(data['__parent__'], Tender):
-            data = data['__parent__']
-        if data['status'] in ('deleted', 'invalid', 'draft'):
-            # skip not valid bids
-            return
-        tender = data['__parent__']
-        request = tender.__parent__.request
-        if request.method == "PATCH" and isinstance(tender, Tender) and request.authenticated_role == "tender_owner":
-            # disable bids validation on tender PATCH requests as tender bids will be invalidated
-            return
-        return validation_func(klass, orig_data, value)
-    return validator
 
 
 class BidModelType(ModelType):
