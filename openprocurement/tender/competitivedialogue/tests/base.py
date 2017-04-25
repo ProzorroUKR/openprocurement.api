@@ -671,7 +671,7 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
             if 'id' not in lot:
                 lot['id'] = uuid4().hex
             lots.append(lot)
-        data['lots'] = self.lots = lots
+        data['lots'] = self.lots = self.initial_lots = lots
         for i, item in enumerate(data['items']):
             item['relatedLot'] = lots[i % len(lots)]['id']
         for firm in data['shortlistedFirms']:
@@ -720,10 +720,10 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
             self.assertEqual(response.status, '201 Created')
             bids.append(response.json['data'])
             self.initial_bids_tokens[response.json['data']['id']] = response.json['access']['token']
-        self.bids = bids
+        self.bids = self.initial_bids = bids
+
     if self.initial_status and self.initial_status != status:
         self.set_status(self.initial_status)
-
 
 class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest):
     initial_data = test_tender_stage2_data_eu
