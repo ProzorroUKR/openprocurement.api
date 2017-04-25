@@ -8,7 +8,7 @@ from schematics.types.compound import ModelType
 from openprocurement.api.models import (
     Model, Identifier, plain_role,
     listing_role, schematics_default_role,
-    schematics_embedded_role, ListType,
+    schematics_embedded_role, ListType, SifterListType,
     BooleanType, Value as BaseValue
 )
 from openprocurement.api.utils import (
@@ -24,7 +24,7 @@ from openprocurement.tender.core.models import (
     edit_role, view_role, enquiries_role,
     chronograph_role, chronograph_view_role,
     Administrator_role, ProcuringEntity as BaseProcuringEntity,
-    get_tender, SifterListType, PeriodStartEndRequired,
+    get_tender, PeriodStartEndRequired,
     validate_lots_uniq, Lot as BaseLotUA
 )
 from openprocurement.tender.core.utils import (
