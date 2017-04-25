@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
-
 # TenderSwitchPreQualificationResourceTest
 
 
@@ -38,7 +36,7 @@ def switch_to_auction(self):
 
 
 def switch_to_complaint(self):
-        user_data = deepcopy(test_organization)
+        user_data = deepcopy(self.author_data)
         for status in ['invalid', 'resolved', 'declined']:
             response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
                 'title': 'complaint title',
