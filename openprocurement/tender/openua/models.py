@@ -13,7 +13,7 @@ from openprocurement.api.models import (
     plain_role, listing_role,
     schematics_default_role, schematics_embedded_role, draft_role,
     Model, PeriodEndRequired as BasePeriodEndRequired,
-    ListType, Period, IsoDateTimeType, Address
+    ListType, SifterListType, Period, IsoDateTimeType, Address
 )
 from openprocurement.api.constants import (
     TZ
@@ -31,7 +31,7 @@ from openprocurement.tender.core.models import (
     Bid as BaseBid, Complaint as BaseComplaint,
     default_lot_role, LotValue as BaseLotValue, Item as BaseItem,
     Contract as BaseContract, Cancellation as BaseCancellation,
-    validate_parameters_uniq, ITender, SifterListType,
+    validate_parameters_uniq, ITender,
     PeriodStartEndRequired,
     EnquiryPeriod
     # TenderAuctionPeriod
