@@ -116,6 +116,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_put_tender_bidder_document_private_json = snitch(put_tender_bidder_document_private_json)
     test_get_tender_bidder_document_ds = snitch(get_tender_bidder_document_ds)
 
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
