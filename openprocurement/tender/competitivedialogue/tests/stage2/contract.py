@@ -74,7 +74,6 @@ class TenderStage2EUContractDocumentResourceTest(BaseCompetitiveDialogEUStage2Co
     initial_status = 'active.qualification'
     initial_bids = test_tender_bids
     initial_auth = ('Basic', ('broker', ''))
-    test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
 
     def setUp(self):
         super(TenderStage2EUContractDocumentResourceTest, self).setUp()
@@ -128,7 +127,6 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
 class TenderStage2UAContractDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_tender_bids
-    test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
 
     def setUp(self):
         super(TenderStage2UAContractDocumentResourceTest, self).setUp()

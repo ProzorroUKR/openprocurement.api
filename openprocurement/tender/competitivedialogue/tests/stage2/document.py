@@ -43,7 +43,6 @@ from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks imp
 # |___________________________________________________________________sm|
 
 
-
 class TenderStage2EUDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderDocumentResourceTestMixin):
 
     docservice = False

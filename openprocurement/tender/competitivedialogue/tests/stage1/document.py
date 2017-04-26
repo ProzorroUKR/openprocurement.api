@@ -47,8 +47,6 @@ class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest, Tender
 
     initial_auth = ('Basic', ('broker', ''))
 
-    test_forbidden_document_actions_status = 'active.tendering'
-
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
 

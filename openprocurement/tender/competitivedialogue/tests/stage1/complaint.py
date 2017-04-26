@@ -71,6 +71,7 @@ class CompetitiveDialogUAComplaintResourceTest(BaseCompetitiveDialogUAContentWeb
     initial_auth = ('Basic', ('broker', ''))
     test_author = author  # TODO: change attribute identifier
 
+
 class CompetitiveDialogUALotAwardComplaintResourceTest(BaseCompetitiveDialogUAContentWebTest):
 
     initial_lots = test_lots

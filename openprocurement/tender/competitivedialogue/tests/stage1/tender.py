@@ -58,7 +58,6 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
 
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data_eu  # TODO: change attribute identifier
-    primary_tender_status_name = 'active.tendering'
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid_eu)
@@ -74,7 +73,6 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
 
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
     initial_data = test_tender_data_ua  # TODO: change attribute identifier
-    primary_tender_status_name = 'active.tendering'
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid_ua)

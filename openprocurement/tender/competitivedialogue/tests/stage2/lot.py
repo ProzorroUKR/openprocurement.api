@@ -95,7 +95,6 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
 class TenderStage2EULotEdgeCasesTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderLotEdgeCasesTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_lots = [deepcopy(test_lots[0]) for i in range(2)]
-    question_claim_block_status = "active.pre-qualification"
 
     def setUp(self):
         s2_bids = [deepcopy(bid) for bid in test_bids]
@@ -297,7 +296,6 @@ class TenderStage2UALotResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest)
 class TenderStage2UALotEdgeCasesTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderLotEdgeCasesTestMixin):
     initial_data = test_tender_stage2_data_ua
     initial_lots = [deepcopy(test_lots[0]) for i in range(2)]
-    question_claim_block_status = "active.auction"
 
     def setUp(self):
         s2_bids = [deepcopy(bid) for bid in test_bids]
