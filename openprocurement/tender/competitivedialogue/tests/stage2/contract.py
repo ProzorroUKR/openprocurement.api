@@ -10,34 +10,25 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_bids,
     author,
     test_tender_stage2_data_eu
-
 )
-from openprocurement.tender.competitivedialogue.tests.stage2.contract_blanks import (
+from openprocurement.tender.belowthreshold.tests.contract import (
+    TenderContractResourceTestMixin,
+    TenderContractDocumentResourceTestMixin
+)
+from openprocurement.tender.belowthreshold.tests.contract_blanks import (
+    # TenderStage2EU(UA)ContractResourceTest
+    create_tender_contract,
+)
+from openprocurement.tender.openua.tests.contract_blanks import (
+    # TenderStage2EU(UA)ContractResourceTest
+    patch_tender_contract_datesigned,
+    # TenderStage2UAContractResourceTest,
+    patch_tender_contract,
+)
+from openprocurement.tender.openeu.tests.contract_blanks import (
     # TenderStage2EUContractResourceTest
-    contract_termination_eu,
-    create_tender_contract_invalid_eu,
-    create_tender_contract_eu,
-    patch_tender_contract_datesigned_eu,
-    patch_tender_contract_eu,
-    get_tender_contract_eu,
-    get_tender_contracts_eu,
-    # TenderStage2EUContractDocumentResourceTest
-    not_found_eu,
-    create_tender_contract_document_eu,
-    put_tender_contract_document_eu,
-    patch_tender_contract_document_eu,
-    # TenderStage2UAContractResourceTest
-    create_tender_contract_invalid_ua,
-    create_tender_contract_ua,
-    patch_tender_contract_datesigned_ua,
-    patch_tender_contract_ua,
-    get_tender_contract_ua,
-    get_tender_contracts_ua,
-    # TenderStage2UAContractDocumentResourceTest
-    not_found_ua,
-    create_tender_contract_document_ua,
-    put_tender_contract_document_ua,
-    patch_tender_contract_document_ua,    
+    contract_termination,
+    patch_tender_contract as patch_tender_contract_eu,
 )
 
 test_tender_bids = deepcopy(test_bids[:2])
@@ -45,7 +36,7 @@ for test_bid in test_tender_bids:
     test_bid['tenderers'] = [author]
 
 
-class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
+class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderContractResourceTestMixin):
 
     initial_status = 'active.qualification'
     initial_bids = test_tender_bids
@@ -66,30 +57,24 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
         award = response.json['data']
         self.award_id = award['id']
         self.app.authotization = ('Basic', ('broker', ''))
+        self.award_value = award['value']
+        self.award_suppliers = award['suppliers']
+        self.award_items = award['items']
         response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token))
-        print(response.json['data']['tenderPeriod'], response.json['data']['awardPeriod'])
         response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id),
                                        {'data': {'status': 'active', 'qualified': True, 'eligible': True}})
 
-    test_contract_termination = snitch(contract_termination_eu)
-
-    test_create_tender_contract_invalid = snitch(create_tender_contract_invalid_eu)
-
-    test_create_tender_contract = snitch(create_tender_contract_eu)
-
-    test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned_eu)
-
+    test_contract_termination = snitch(contract_termination)
+    test_create_tender_contract = snitch(create_tender_contract)
+    test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
     test_patch_tender_contract = snitch(patch_tender_contract_eu)
 
-    test_get_tender_contract = snitch(get_tender_contract_eu)
 
-    test_get_tender_contracts = snitch(get_tender_contracts_eu)
-
-
-class TenderStage2EUContractDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
+class TenderStage2EUContractDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_tender_bids
     initial_auth = ('Basic', ('broker', ''))
+    test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
 
     def setUp(self):
         super(TenderStage2EUContractDocumentResourceTest, self).setUp()
@@ -113,14 +98,6 @@ class TenderStage2EUContractDocumentResourceTest(BaseCompetitiveDialogEUStage2Co
         self.contract_id = contract['id']
         self.app.authorization = ('Basic', ('broker', ''))
 
-    test_not_found = snitch(not_found_eu)
-
-    test_create_tender_contract_document = snitch(create_tender_contract_document_eu)
-
-    test_put_tender_contract_document = snitch(put_tender_contract_document_eu)
-
-    test_patch_tender_contract_document = snitch(patch_tender_contract_document_eu)
-
 
 class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = 'active.qualification'
@@ -136,27 +113,22 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
                                                 'bid_id': self.bids[0]['id'], 'value': self.bids[0]['value']}})
         award = response.json['data']
         self.award_id = award['id']
-        self.app.authorization = authorization
+        self.app.authotization = ('Basic', ('broker', ''))
+        self.award_value = award['value']
+        self.award_suppliers = award['suppliers']
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, self.award_id, self.tender_token),
             {'data': {'status': 'active', 'qualified': True, 'eligible': True}})
 
-    test_create_tender_contract_invalid = snitch(create_tender_contract_invalid_ua)
-
-    test_create_tender_contract = snitch(create_tender_contract_ua)
-
-    test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned_ua)
-
-    test_patch_tender_contract = snitch(patch_tender_contract_ua)
-
-    test_get_tender_contract = snitch(get_tender_contract_ua)
-
-    test_get_tender_contracts = snitch(get_tender_contracts_ua)
+    test_create_tender_contract = snitch(create_tender_contract)
+    test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
+    test_patch_tender_contract = snitch(patch_tender_contract)
 
 
-class TenderStage2UAContractDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+class TenderStage2UAContractDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_tender_bids
+    test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
 
     def setUp(self):
         super(TenderStage2UAContractDocumentResourceTest, self).setUp()
@@ -179,14 +151,6 @@ class TenderStage2UAContractDocumentResourceTest(BaseCompetitiveDialogUAStage2Co
         contract = response.json['data']
         self.contract_id = contract['id']
         self.app.authorization = auth
-
-    test_not_found = snitch(not_found_ua)
-
-    test_create_tender_contract_document = snitch(create_tender_contract_document_ua)
-
-    test_put_tender_contract_document = snitch(put_tender_contract_document_ua)
-
-    test_patch_tender_contract_document = snitch(patch_tender_contract_document_ua)
 
 
 def suite():
