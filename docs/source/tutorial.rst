@@ -272,6 +272,11 @@ Register two more bid:
 .. include:: tutorial/register-3rd-bidder.http
    :code:
 
+Batch-mode bid registration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Register one more bid with documents using single request (batch-mode):
+
 .. include:: tutorial/register-4rd-bidder.http
    :code:
 
