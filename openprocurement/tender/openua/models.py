@@ -37,7 +37,8 @@ from openprocurement.tender.core.models import (
     # TenderAuctionPeriod
 )
 from openprocurement.tender.core.utils import (
-    rounding_shouldStartAfter, calc_auction_end_time, calculate_business_date
+    rounding_shouldStartAfter, calc_auction_end_time, calculate_business_date,
+    has_unanswered_questions, has_unanswered_complaints
 )
 from openprocurement.tender.core.validation import (
     validate_LotValue_value,
@@ -48,8 +49,7 @@ from openprocurement.tender.belowthreshold.models import (
     Administrator_role
 )
 from openprocurement.tender.openua.utils import (
-    calculate_normalized_date, has_unanswered_questions,
-    has_unanswered_complaints
+    calculate_normalized_date
 )
 from openprocurement.tender.openua.constants import (
     ENQUIRY_STAND_STILL_TIME,
