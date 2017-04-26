@@ -33,6 +33,7 @@ class TenderComplaintResourceTestMixin(object):
 
 
 class TenderComplaintResourceTest(TenderContentWebTest, TenderComplaintResourceTestMixin):
+    test_author = test_organization
 
     test_create_tender_complaint = snitch(create_tender_complaint)
     test_patch_tender_complaint = snitch(patch_tender_complaint)
@@ -41,7 +42,7 @@ class TenderComplaintResourceTest(TenderContentWebTest, TenderComplaintResourceT
 
 class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
     initial_lots = test_lots
-
+    test_author = test_organization
     test_lot_award_create_tender_complaint = snitch(lot_award_create_tender_complaint)
 
 

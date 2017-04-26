@@ -624,7 +624,7 @@ def tender_features_invalid(self):
             "title": u"Потужність всмоктування",
             "enum": [
                 {
-                    "value": 0.5,
+                    "value": self.invalid_feature_value,
                     "title": u"До 1000 Вт"
                 },
                 {
@@ -639,17 +639,17 @@ def tender_features_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.3.']}]}], u'location': u'body', u'name': u'features'}
+        {u'description': [{u'enum': [{u'value': [u'Float value should be less than {}.'.format(self.max_feature_value)]}]}], u'location': u'body', u'name': u'features'}
     ])
     data['features'][0]["enum"][0]["value"] = 0.1
     data['features'].append(data['features'][0].copy())
-    data['features'][1]["enum"][0]["value"] = 0.2
+    data['features'][1]["enum"][0]["value"] = self.sum_of_max_value_of_all_features
     response = self.app.patch_json(request_path, {'data': data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'Sum of max value of all features for lot should be less then or equal to 30%'], u'location': u'body', u'name': u'features'}
+        {u'description': [u'Sum of max value of all features for lot should be less then or equal to {0:.0%}'.format(self.sum_of_max_value_of_all_features)], u'location': u'body', u'name': u'features'}
     ])
     data['features'][1]["enum"][0]["value"] = 0.1
     data['features'].append(data['features'][0].copy())
