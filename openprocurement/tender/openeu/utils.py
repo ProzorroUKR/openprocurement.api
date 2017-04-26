@@ -8,14 +8,16 @@ from openprocurement.api.utils import (
     context_unpack,
 )
 from openprocurement.tender.core.utils import (
-    remove_draft_bids
+    remove_draft_bids,
+    has_unanswered_questions,
+    has_unanswered_complaints
 )
 from openprocurement.tender.belowthreshold.utils import (
     check_tender_status
 )
 from openprocurement.tender.openua.utils import (
     add_next_award,
-    check_complaint_status, has_unanswered_questions, has_unanswered_complaints
+    check_complaint_status
 )
 from openprocurement.tender.openeu.models import Qualification
 from openprocurement.tender.openeu.traversal import (

@@ -45,13 +45,13 @@ from openprocurement.tender.core.models import (
 from openprocurement.tender.core.utils import (
     calculate_business_date,
     calc_auction_end_time,
+    has_unanswered_questions,
+    has_unanswered_complaints,
 )
 from openprocurement.tender.belowthreshold.models import (
     Tender as BaseTender
 )
 from openprocurement.tender.openua.utils import (
-    has_unanswered_questions,
-    has_unanswered_complaints,
     calculate_normalized_date
 )
 from openprocurement.tender.openua.models import (
