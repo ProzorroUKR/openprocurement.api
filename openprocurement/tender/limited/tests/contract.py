@@ -257,7 +257,6 @@ class TenderNegotiationAccelerationTest(TenderNegotiationQuickAccelerationTest):
 class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = 'active'
     initial_bids = None
-    test_status_that_denies_put_create_patch_contract_docs = 'complete'
 
     def create_award(self):
         # Create award
