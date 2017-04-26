@@ -33,11 +33,12 @@ class TenderComplaintResourceTest(BaseTenderContentWebTest,
                                   TenderComplaintResourceTestMixin,
                                   TenderUAComplaintResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
+    test_author = test_bids[0]["tenderers"][0]
 
 
 class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_lots = test_lots
-    author = test_bids[0]["tenderers"][0]
+    test_author = test_bids[0]["tenderers"][0]
     initial_auth = ('Basic', ('broker', ''))
 
     test_create_tender_complaint = snitch(create_tender_lot_award_complaint)
@@ -45,7 +46,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
 
 class TenderComplaintDocumentResourceTest(BaseTenderContentWebTest):
 
-    author = test_bids[0]["tenderers"][0]
+    test_author = test_bids[0]["tenderers"][0]
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):
@@ -54,7 +55,7 @@ class TenderComplaintDocumentResourceTest(BaseTenderContentWebTest):
         response = self.app.post_json('/tenders/{}/complaints'.format(
             self.tender_id), {'data': {'title': 'complaint title',
                                        'description': 'complaint description',
-                                       'author': self.author
+                                       'author': test_bids[0]["tenderers"][0]
                                        }})
         complaint = response.json['data']
         self.complaint_id = complaint['id']

@@ -10,6 +10,8 @@ from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotProcessTestMixin
 )
 
+from openprocurement.tender.belowthreshold.tests.base import test_organization
+
 from openprocurement.tender.openua.tests.lot_blanks import (
     # TenderLotResourceTest
     get_tender_lot,
@@ -48,6 +50,13 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
 )
 
 
+class TenderLotEdgeCasesTestMixin(object):
+
+    test_question_blocking = snitch(question_blocking)
+    test_claim_blocking = snitch(claim_blocking)
+    test_next_check_value_with_unanswered_question = snitch(next_check_value_with_unanswered_question)
+    test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
+
 class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderEULotResourceTestMixin):
 
     initial_auth = ('Basic', ('broker', ''))
@@ -59,21 +68,23 @@ class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin
     test_get_tender_lots = snitch(get_tender_lots)
 
 
-class TenderLotEdgeCasesTest(BaseTenderContentWebTest):
+class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_lots = test_lots * 2
     initial_bids = test_bids
+    test_author = test_organization
+    question_claim_block_status = "active.pre-qualification"
 
-    test_question_blocking = snitch(question_blocking)
-    test_claim_blocking = snitch(claim_blocking)
-    test_next_check_value_with_unanswered_question = snitch(next_check_value_with_unanswered_question)
-    test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
+
 
 
 class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureResourceTestMixin):
     initial_lots = 2 * test_lots
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
+    invalid_feature_value = 0.4
+    max_feature_value = 0.3
+    sum_of_max_value_of_all_features = 0.3
 
 
 class TenderLotBidderResourceTest(BaseTenderContentWebTest):
