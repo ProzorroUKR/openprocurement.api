@@ -6,12 +6,12 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TZ, SANDBOX_MODE
 from openprocurement.tender.core.utils import (
     has_unanswered_questions,
-    has_unanswered_complaints
+    has_unanswered_complaints,
+    remove_draft_bids
 )
 from openprocurement.tender.belowthreshold.utils import (
     check_tender_status,
     context_unpack,
-    remove_draft_bids,
 )
 from openprocurement.tender.openua.constants import (
     NORMALIZED_COMPLAINT_PERIOD_FROM
