@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error
+from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document
 from openprocurement.api.validation import validate_data, OPERATIONS
-from openprocurement.tender.belowthreshold.utils import  check_document
 
 
 # tender documents
