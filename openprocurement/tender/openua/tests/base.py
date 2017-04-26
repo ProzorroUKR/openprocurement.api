@@ -80,6 +80,13 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     relative_to = os.path.dirname(__file__)
+    primary_tender_status_name = 'active.tendering'
+    test_forbidden_document_actions_status = "active.auction"
+    test_forbidden_question_actions_status = 'active.auction'
+    test_status_that_denies_get_post_patch_auction = 'active.tendering'
+    test_status_that_denies_delete_create_patch_lots = 'active.auction'
+    test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
+    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()

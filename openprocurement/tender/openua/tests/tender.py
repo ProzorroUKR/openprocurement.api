@@ -56,7 +56,6 @@ class TenderUATest(BaseWebTest):
 
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     initial_data = test_tender_data
-    primary_tender_status_name = 'active.tendering'
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)

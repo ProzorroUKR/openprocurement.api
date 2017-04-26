@@ -11,7 +11,7 @@ from openprocurement.tender.belowthreshold.tests.document import (
 
 class TenderDocumentResourceTest(BaseTenderUAContentWebTest, TenderDocumentResourceTestMixin):
     docservice = False
-    test_forbidden_document_actions_status = "active.auction"
+    
 
 
 class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumentWithDSResourceTestMixin):
