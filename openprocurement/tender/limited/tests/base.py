@@ -51,6 +51,7 @@ test_lots = [
     }
 ]
 
+
 class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_data = test_tender_data
     initial_status = None
@@ -58,19 +59,8 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_lots = None
     relative_to = os.path.dirname(__file__)
     initial_auth = ('Basic', ('broker', ''))
-
-    # def setUp(self):
-        # super(BaseBaseTenderWebTest, self).setUp()
-        # self.app.authorization = ('Basic', ('broker', ''))
-        # self.couchdb_server = self.app.app.registry.couchdb_server
-        # self.db = self.app.app.registry.db
-        # # if self.docservice:
-            # self.setUpDS()
-
-    def tearDown(self):
-        if self.docservice:
-            self.tearDownDS()
-        del self.couchdb_server[self.db.name]
+    primary_tender_status_name = 'active'
+    test_forbidden_document_actions_status = "complete"
 
     def set_status(self, status, extra=None):
         data = {'status': status}
