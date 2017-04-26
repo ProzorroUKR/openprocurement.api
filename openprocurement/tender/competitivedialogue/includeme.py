@@ -22,8 +22,10 @@ def includeme(config):
     :param config: Pyramid server configuration
     :return:
     """
-    from openprocurement.tender.competitivedialogue.models import (CompetitiveDialogUA, CompetitiveDialogEU,
-                                                                   TenderStage2EU, TenderStage2UA)
+    from openprocurement.tender.competitivedialogue.models import (
+        CompetitiveDialogUA, CompetitiveDialogEU,
+        TenderStage2EU, TenderStage2UA
+    )
     LOGGER.info('init competitivedialogue plugin')
     # add two types of Competitive Dialogue
     config.add_tender_procurementMethodType(CompetitiveDialogUA)
