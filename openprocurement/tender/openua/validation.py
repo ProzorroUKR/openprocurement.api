@@ -56,13 +56,6 @@ def validate_submit_claim_time(request):
         raise_operation_error(request, 'Can submit claim not later than {0.days} days before tenderPeriod end'.format(claim_submit_time))
 
 # complaint documents
-def validate_complaint_author(request):
-    if request.authenticated_role != request.context.author:
-        request.errors.add('url', 'role', 'Can update document only author')
-        request.errors.status = 403
-        raise error_handler(request.errors)
-
-
 def validate_complaint_document_operation_not_in_allowed_status(request):
     if request.validated['tender_status'] not in ['active.tendering']:
         raise_operation_error(request, 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(request.method), request.validated['tender_status']))
