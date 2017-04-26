@@ -11,7 +11,6 @@ from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest
 
 class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentResourceTestMixin):
     docservice = False
-    test_forbidden_document_actions_status = "active.auction"
     initial_auth = ('Basic', ('broker', ''))
 
 
