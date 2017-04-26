@@ -61,6 +61,9 @@ class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
 class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureResourceTestMixin):
     initial_data = test_tender_data
     initial_lots = 2 * test_lots
+    invalid_feature_value = 0.5
+    max_feature_value = 0.3
+    sum_of_max_value_of_all_features = 0.3
 
 
 class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
