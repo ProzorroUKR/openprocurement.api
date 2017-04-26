@@ -46,7 +46,6 @@ from openprocurement.tender.openuadefense.tests.lot_blanks import (
 
 class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
     test_lots_data = test_lots  # TODO: change attribute identifier
-    test_status_that_denies_delete_create_patch_lots = 'active.auction'
 
 
 class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
