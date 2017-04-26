@@ -13,14 +13,16 @@ from openprocurement.api.validation import (
     validate_patch_document_data,
 )
 
-from openprocurement.tender.core.validation import validate_status_and_role_for_complaint_document_operation
+from openprocurement.tender.core.validation import (
+    validate_complaint_document_update_not_by_author,
+    validate_status_and_role_for_complaint_document_operation
+)
 
 from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
 )
 
 from openprocurement.tender.belowthreshold.validation import (
-    validate_complaint_document_update_not_by_author,
     validate_role_and_status_for_add_complaint_document,
     validate_complaint_document_operation_not_in_allowed_status
 )
