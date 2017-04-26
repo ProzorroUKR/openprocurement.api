@@ -38,17 +38,17 @@ class TenderUAComplaintResourceTestMixin(object):
 class TenderComplaintResourceTest(BaseTenderUAContentWebTest,
                                   TenderComplaintResourceTestMixin,
                                   TenderUAComplaintResourceTestMixin):
-    author = test_organization
+    test_author = test_organization
 
 
 class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
     initial_lots = test_lots
-    author = test_organization
+    test_author = test_organization
+
     test_create_tender_lot_award_complaint = snitch(create_tender_lot_award_complaint)
 
 
 class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
-    author = test_organization
 
     def setUp(self):
         super(TenderComplaintDocumentResourceTest, self).setUp()

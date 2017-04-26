@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization
-)
 
 
 # TenderComplaintResourceTest
@@ -10,13 +7,13 @@ from openprocurement.tender.belowthreshold.tests.base import (
 def create_tender_complaint(self):
     response = self.app.post_json('/tenders/{}/complaints'.format(
         self.tender_id), {
-        'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization,
+        'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.test_author,
                  'status': 'claim'}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     complaint = response.json['data']
     owner_token = response.json['access']['token']
-    self.assertEqual(complaint['author']['name'], test_organization['name'])
+    self.assertEqual(complaint['author']['name'], self.test_author['name'])
     self.assertIn('id', complaint)
     self.assertIn(complaint['id'], response.headers['Location'])
 
@@ -62,7 +59,7 @@ def create_tender_complaint(self):
 
     response = self.app.post_json('/tenders/{}/complaints'.format(
         self.tender_id),
-        {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}},
+        {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.test_author}},
         status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
@@ -73,7 +70,7 @@ def create_tender_complaint(self):
 def patch_tender_complaint(self):
     response = self.app.post_json('/tenders/{}/complaints'.format(
         self.tender_id),
-        {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+        {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.test_author}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     complaint = response.json['data']
@@ -196,7 +193,7 @@ def patch_tender_complaint(self):
 
     response = self.app.post_json('/tenders/{}/complaints'.format(
         self.tender_id),
-        {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+        {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.test_author}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     complaint = response.json['data']
@@ -220,7 +217,7 @@ def review_tender_complaint(self):
         response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
-            'author': test_organization,
+            'author': self.test_author,
             'status': 'pending'
         }})
         self.assertEqual(response.status, '201 Created')
@@ -267,7 +264,7 @@ def create_tender_lot_award_complaint(self):
     response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
         'title': 'complaint title',
         'description': 'complaint description',
-        'author': test_organization,
+        'author': self.test_author,
         'relatedLot': self.initial_lots[0]['id'],
         'status': 'claim'
     }})
@@ -275,7 +272,7 @@ def create_tender_lot_award_complaint(self):
     self.assertEqual(response.content_type, 'application/json')
     complaint = response.json['data']
     owner_token = response.json['access']['token']
-    self.assertEqual(complaint['author']['name'], test_organization['name'])
+    self.assertEqual(complaint['author']['name'], self.test_author['name'])
     self.assertIn('id', complaint)
     self.assertIn(complaint['id'], response.headers['Location'])
 
@@ -315,7 +312,7 @@ def create_tender_lot_award_complaint(self):
     self.set_status('unsuccessful')
 
     response = self.app.post_json('/tenders/{}/complaints'.format(
-        self.tender_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}}, status=403)
+        self.tender_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.test_author}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't add complaint in current (unsuccessful) tender status")
