@@ -132,6 +132,16 @@ def parse_hash(rev_hash):
     return ''
 
 
+def validate_header(request):
+    version = request.headers.get(VERSION, '')
+    if not version or not version.isdigit():
+        request.errors.status = 404
+        request.errors.add('header', 'version', 'Not Found')
+        return
+    request.validated['historical_header_version'] = int(version)
+    request.validated['historical_header_hash'] = request.headers.get(HASH, '')
+
+
 class HasRequestMethod(object):
     def __init__(self, val, config):
         self.val = val
