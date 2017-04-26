@@ -3,73 +3,45 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.competitivedialogue.tests.stage2.complaint_blanks import (
-    # TenderStage2UEComplaintResourceTest
-    create_tender_complaint_invalid_eu,
-    create_tender_complaint_eu,
-    patch_tender_complaint_eu,
-    review_tender_complaint_eu,
-    get_tender_complaint_eu,
-    get_tender_complaints_eu,
-    # TenderStage2EULotAwardComplaintResourceTest
-    create_tender_with_lot_complaint_eu,
-    # TenderStage2EUComplaintDocumentResourceTest
-    not_found_eu,
-    create_tender_complaint_document_eu,
-    put_tender_complaint_document_eu,
-    patch_tender_complaint_document_eu,
-    # TenderStage2UAComplaintResourceTest
-    create_tender_complaint_invalid_ua,
-    create_tender_complaint_ua,
-    patch_tender_complaint_ua,
-    review_tender_complaint_ua,
-    get_tender_complaint_ua,
-    get_tender_complaints_ua,
-    # TenderStage2UALotAwardComplaintResourceTest
-    create_tender_with_lot_complaint_ua,
-    # TenderStage2UAComplaintDocumentResourceTest
-    not_found_ua,
-    create_tender_complaint_document_ua,
-    put_tender_complaint_document_ua,
-    patch_tender_complaint_document_ua, 
+from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
+from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
+    # TenderStage2EU(UA)ComplaintDocumentResourceTest
+    not_found,
+    create_tender_complaint_document,
+)
+from openprocurement.tender.openua.tests.complaint_blanks import (
+    # TenderStage2EU(UA)LotAwardComplaintResourceTest
+    create_tender_lot_award_complaint,
+    # TenderStage2EU(UA)ComplaintDocumentResourceTest
+    put_tender_complaint_document,
+    patch_tender_complaint_document,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
     test_lots,
     test_bids,
     test_shortlistedFirms,
     BaseCompetitiveDialogEUStage2ContentWebTest,
-    BaseCompetitiveDialogUAStage2ContentWebTest)
+    BaseCompetitiveDialogUAStage2ContentWebTest
+)
 
 author = deepcopy(test_bids[0]["tenderers"][0])
 author['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
 author['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
 
 
-class TenderStage2UEComplaintResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
+class TenderStage2EUComplaintResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin):
 
     initial_auth = ('Basic', ('broker', ''))
-    author_data = author
-
-    test_create_tender_complaint_invalid = snitch(create_tender_complaint_invalid_eu)
-
-    test_create_tender_complaint = snitch(create_tender_complaint_eu)
-
-    test_patch_tender_complaint = snitch(patch_tender_complaint_eu)
-
-    test_review_tender_complaint = snitch(review_tender_complaint_eu)
-
-    test_get_tender_complaint = snitch(get_tender_complaint_eu)
-
-    test_get_tender_complaints = snitch(get_tender_complaints_eu)
+    test_author = author
 
 
 class TenderStage2EULotAwardComplaintResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
-    author_data = author  # TODO: change attribute identifier
+    test_author = author  # TODO: change attribute identifier
 
-    test_create_tender_complaint = snitch(create_tender_with_lot_complaint_eu)
+    test_create_tender_complaint = snitch(create_tender_lot_award_complaint)
 
 
 class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -87,39 +59,22 @@ class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2C
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
 
-    test_not_found = snitch(not_found_eu)
-
-    test_create_tender_complaint_document = snitch(create_tender_complaint_document_eu)
-
-    test_put_tender_complaint_document  = snitch(put_tender_complaint_document_eu)
-
-    test_patch_tender_complaint_document = snitch(patch_tender_complaint_document_eu)
+    test_not_found = snitch(not_found)
+    test_create_tender_complaint_document = snitch(create_tender_complaint_document)
+    test_put_tender_complaint_document = snitch(put_tender_complaint_document)
+    test_patch_tender_complaint_document = snitch(patch_tender_complaint_document)
 
 
-class TenderStage2UAComplaintResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-    author_data = author  # TODO: change attribute identifier
-
-    test_create_tender_complaint_invalid = snitch(create_tender_complaint_invalid_ua)
-
-    test_create_tender_complaint = snitch(create_tender_complaint_ua)
-
-    test_patch_tender_complaint = snitch(patch_tender_complaint_ua)
-
-    test_review_tender_complaint = snitch(review_tender_complaint_ua)
-
-    test_get_tender_complaint = snitch(get_tender_complaint_ua)
-
-    test_get_tender_complaints = snitch(get_tender_complaints_ua)
+class TenderStage2UAComplaintResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin):
+    test_author = author  # TODO: change attribute identifier
 
 
-class TenderStage2UALotAwardComplaintResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+class TenderStage2UALotAwardComplaintResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderStage2EULotAwardComplaintResourceTest):
     initial_lots = test_lots
-    author_data = author  # TODO: change attribute identifier
-
-    test_create_tender_complaint = snitch(create_tender_with_lot_complaint_ua)
+    test_author = author  # TODO: change attribute identifier
 
 
-class TenderStage2UAComplaintDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+class TenderStage2UAComplaintDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderStage2EUComplaintDocumentResourceTest):
 
     def setUp(self):
         super(TenderStage2UAComplaintDocumentResourceTest, self).setUp()
@@ -132,18 +87,10 @@ class TenderStage2UAComplaintDocumentResourceTest(BaseCompetitiveDialogUAStage2C
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
 
-    test_not_found = snitch(not_found_ua)
-
-    test_create_tender_complaint_document = snitch(create_tender_complaint_document_ua)
-
-    test_put_tender_complaint_document  = snitch(put_tender_complaint_document_ua)
-
-    test_patch_tender_complaint_document = snitch(patch_tender_complaint_document_ua)
-
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2UEComplaintResourceTest))
+    suite.addTest(unittest.makeSuite(TenderStage2EUComplaintResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EULotAwardComplaintResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EUComplaintDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UAComplaintResourceTest))
