@@ -12,49 +12,21 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_stage2_data_eu,
     test_tender_stage2_data_ua
 )
+from openprocurement.tender.belowthreshold.tests.auction import (
+    TenderAuctionResourceTestMixin,
+    TenderLotAuctionResourceTestMixin,
+    TenderMultipleLotAuctionResourceTestMixin,
+)
+from openprocurement.tender.belowthreshold.tests.auction_blanks import (
+    # TenderStage2EU(UA)SameValueAuctionResourceTest
+    post_tender_auction_not_changed,
+    post_tender_auction_reversed,
+    # TenderStage2EU(UA)FeaturesAuctionResourceTest
+    get_tender_auction_feature,
+)
 from openprocurement.tender.competitivedialogue.tests.stage2.auction_blanks import (
-    # TenderStage2EUAuctionResourceTest
-    get_tender_auction_not_found_eu,
-    get_tender_auction_eu,
-    post_tender_auction_eu,
-    patch_tender_auction_eu,
-    post_tender_auction_document_eu,
-    # TenderStage2EUSameValueAuctionResourceTest
-    post_tender_auction_not_changed_eu,
-    post_tender_auction_reversed_eu,
-    # TenderStage2EULotAuctionResourceTest
-    get_tender_with_lot_auction_eu,
-    post_tender_with_lot_auction_eu,
-    patch_tender_with_lot_auction_eu,
-    post_tender_with_lot_auction_document_eu,
-    # TenderStage2EUMultipleLotAuctionResourceTest
-    get_tender_with_lots_auction_eu,
-    post_tender_with_lots_auction_eu,
-    patch_tender_with_lots_auction_eu,
-    post_tender_with_lots_auction_document_eu,
-    # TenderStage2EUFeaturesAuctionResourceTest
-    get_tender_with_features_auction_eu,
-    # TenderStage2UAAuctionResourceTest
-    get_tender_auction_not_found_ua,
-    get_tender_auction_ua,
-    post_tender_auction_ua,
-    patch_tender_auction_ua,
-    post_tender_auction_document_ua,
-    # TenderStage2UASameValueAuctionResourceTest
-    post_tender_auction_not_changed_ua,
-    post_tender_auction_reversed_ua,
-    # TenderStage2UALotAuctionResourceTest
-    get_tender_with_lot_auction_ua,
-    post_tender_with_lot_auction_ua,
-    patch_tender_with_lot_auction_ua,
-    post_tender_with_lot_auction_document_ua,
-    # TenderStage2UAMultipleLotAuctionResourceTest
-    get_tender_with_lots_auction_ua,
-    post_tender_with_lots_auction_ua,
-    patch_tender_with_lots_auction_ua,
-    post_tender_with_lots_auction_document_ua,
-    # TenderStage2UAFeaturesAuctionResourceTest
-    get_tender_with_features_auction_ua,
+    # # TenderStage2EU(UA)MultipleLotAuctionResourceTest
+    patch_tender_with_lots_auction,
 )
 
 author = deepcopy(test_bids[0]["tenderers"][0])
@@ -66,20 +38,12 @@ for test_bid in test_tender_bids:
     test_bid['tenderers'] = [author]
 
 
-class TenderStage2EUAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
+class TenderStage2EUAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderAuctionResourceTestMixin):
 
     test_status_that_denies_get_post_patch_auction = "active.pre-qualification.stand-still"
+    test_status_that_denies_get_post_patch_auction_document = 'active.pre-qualification.stand-still'
     initial_auth = ('Basic', ('broker', ''))
-    initial_bids = test_tender_bids
-
-    def shift_to_auction_period(self):
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        self.time_shift('active.auction')
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "active.auction")
-        self.app.authorization = auth
+    initial_bids = deepcopy(test_tender_bids)
 
     def setUp(self):
         super(TenderStage2EUAuctionResourceTest, self).setUp()
@@ -101,16 +65,6 @@ class TenderStage2EUAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebT
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
                                        {'data': {'status': 'active.pre-qualification.stand-still'}})
         self.assertEqual(response.status, "200 OK")
-
-    test_get_tender_auction_not_found = snitch(get_tender_auction_not_found_eu)
-
-    test_get_tender_auction = snitch(get_tender_auction_eu)
-
-    test_post_tender_auction = snitch(post_tender_auction_eu)
-
-    test_patch_tender_auction = snitch(patch_tender_auction_eu)
-
-    test_post_tender_auction_document = snitch(post_tender_auction_document_eu)
 
 
 class TenderStage2EUSameValueAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -167,34 +121,19 @@ class TenderStage2EUSameValueAuctionResourceTest(BaseCompetitiveDialogEUStage2Co
         self.assertEqual(response.json['data']['status'], "active.auction")
         self.app.authorization = auth
 
-    test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed_eu)
+    test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed)
+    test_post_tender_auction_reversed = snitch(post_tender_auction_reversed)
 
-    test_post_tender_auction_reversed = snitch(post_tender_auction_reversed_eu)
 
-
-class TenderStage2EULotAuctionResourceTest(TenderStage2EUAuctionResourceTest):
+class TenderStage2EULotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderStage2EUAuctionResourceTest):
     initial_lots = deepcopy(test_lots)
-    # initial_data = test_tender_data
-
-    test_get_tender_auction = snitch(get_tender_with_lot_auction_eu)
-
-    test_post_tender_auction = snitch(post_tender_with_lot_auction_eu)
-
-    test_patch_tender_auction = snitch(patch_tender_with_lot_auction_eu)
-
-    test_post_tender_auction_document = snitch(post_tender_with_lot_auction_document_eu)
 
 
-class TenderStage2EUMultipleLotAuctionResourceTest(TenderStage2EUAuctionResourceTest):
+class TenderStage2EUMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderStage2EUAuctionResourceTest):
     initial_lots = deepcopy(2 * test_lots)
+    test_status_denies_patch = 'active.pre-qualification.stand-still'
 
-    test_get_tender_auction = snitch(get_tender_with_lots_auction_eu)
-
-    test_post_tender_auction = snitch(post_tender_with_lots_auction_eu)
-
-    test_patch_tender_auction = snitch(patch_tender_with_lots_auction_eu)
-
-    test_post_tender_auction_document = snitch(post_tender_with_lots_auction_document_eu)
+    test_patch_tender_auction = snitch(patch_tender_with_lots_auction)
 
 
 class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -324,22 +263,14 @@ class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2Con
         ]
         self.create_tender(initial_data=data, initial_bids=self.initial_bids)
 
-    test_get_tender_auction = snitch(get_tender_with_features_auction_eu)
+    test_get_tender_auction = snitch(get_tender_auction_feature)
 
 
-class TenderStage2UAAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+class TenderStage2UAAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderAuctionResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = deepcopy(test_tender_bids)
-
-    test_get_tender_auction_not_found = snitch(get_tender_auction_not_found_ua)
-
-    test_get_tender_auction = snitch(get_tender_auction_ua)
-
-    test_post_tender_auction = snitch(post_tender_auction_ua)
-
-    test_patch_tender_auction = snitch(patch_tender_auction_ua)
-
-    test_post_tender_auction_document = snitch(post_tender_auction_document_ua)
+    test_status_that_denies_get_post_patch_auction = "active.tendering"
+    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
 
 
 class TenderStage2UASameValueAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -359,34 +290,20 @@ class TenderStage2UASameValueAuctionResourceTest(BaseCompetitiveDialogUAStage2Co
         for i in range(3)
     ]
 
-    test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed_ua)
+    test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed)
+    test_post_tender_auction_reversed = snitch(post_tender_auction_reversed)
 
-    test_post_tender_auction_reversed = snitch(post_tender_auction_reversed_ua)
 
-
-class TenderStage2UALotAuctionResourceTest(TenderStage2UAAuctionResourceTest):
+class TenderStage2UALotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderStage2UAAuctionResourceTest):
     initial_lots = test_lots
     initial_data = test_tender_stage2_data_ua
 
-    test_get_tender_auction = snitch(get_tender_with_lot_auction_ua)
 
-    test_post_tender_auction = snitch(post_tender_with_lot_auction_ua)
-
-    test_patch_tender_auction = snitch(patch_tender_with_lot_auction_ua)
-
-    test_post_tender_auction_document = snitch(post_tender_with_lot_auction_document_ua)
-
-
-class TenderStage2UAMultipleLotAuctionResourceTest(TenderStage2UAAuctionResourceTest):
+class TenderStage2UAMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderStage2UAAuctionResourceTest):
     initial_lots = deepcopy(2 * test_lots)
+    test_status_denies_patch = 'active.tendering'
 
-    test_get_tender_auction = snitch(get_tender_with_lots_auction_ua)
-
-    test_post_tender_auction = snitch(post_tender_with_lots_auction_ua)
-
-    test_patch_tender_auction = snitch(patch_tender_with_lots_auction_ua)
-
-    test_post_tender_auction_document = snitch(post_tender_with_lots_auction_document_ua)
+    test_patch_tender_auction = snitch(patch_tender_with_lots_auction)
 
 
 class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -515,7 +432,7 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
         ]
         self.create_tender(initial_data=data, initial_bids=self.initial_bids)
 
-    test_get_tender_auction = snitch(get_tender_with_features_auction_ua)
+    test_get_tender_auction = snitch(get_tender_auction_feature)
 
 
 def suite():
@@ -523,6 +440,9 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2EUAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EUSameValueAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EUFeaturesAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderStage2UAAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderStage2UASameValueAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderStage2UAFeaturesAuctionResourceTest))
     return suite
 
 
