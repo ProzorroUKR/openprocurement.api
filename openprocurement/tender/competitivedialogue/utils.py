@@ -7,14 +7,14 @@ from openprocurement.api.utils import (
     set_ownership as api_set_ownership
 )
 from openprocurement.tender.core.utils import (
-    save_tender, apply_patch, calculate_business_date
+    save_tender, apply_patch, calculate_business_date,
+    has_unanswered_questions, has_unanswered_complaints
 )
 from openprocurement.tender.core.validation import (
     validate_tender_period_extension
 )
 from openprocurement.tender.openua.utils import (
-    check_complaint_status, has_unanswered_questions,
-    has_unanswered_complaints
+    check_complaint_status
 )
 from openprocurement.tender.openeu.utils import (
     all_bids_are_reviewed, prepare_qualifications
