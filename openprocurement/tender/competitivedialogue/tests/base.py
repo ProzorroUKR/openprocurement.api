@@ -671,7 +671,7 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
             if 'id' not in lot:
                 lot['id'] = uuid4().hex
             lots.append(lot)
-        data['lots'] = self.lots  =  lots
+        data['lots'] = self.lots = lots
         self.initial_lots = lots
         for i, item in enumerate(data['items']):
             item['relatedLot'] = lots[i % len(lots)]['id']
