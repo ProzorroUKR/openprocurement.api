@@ -56,7 +56,19 @@ from openprocurement.tender.openeu.tests.base import (
 )
 
 
-class TenderAwardResourceTest(BaseTenderContentWebTest):
+class TenderAwardResourceTestMixin(object):
+
+    test_create_tender_award_invalid = snitch(create_tender_award_invalid)
+    test_create_tender_award = snitch(create_tender_award)
+    test_patch_tender_award = snitch(patch_tender_award)
+    test_patch_tender_award_active = snitch(patch_tender_award_active)
+    test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
+    test_get_tender_award = snitch(get_tender_award)
+    test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
+
+
+class TenderAwardResourceTest(BaseTenderContentWebTest,
+                              TenderAwardResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = test_bids
     initial_lots = test_lots
@@ -107,16 +119,16 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
         self.app.authorization = ('Basic', ('broker', ''))
 
-    test_create_tender_award_invalid = snitch(create_tender_award_invalid)
-    test_create_tender_award = snitch(create_tender_award)
-    test_patch_tender_award = snitch(patch_tender_award)
-    test_patch_tender_award_active = snitch(patch_tender_award_active)
-    test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
-    test_get_tender_award = snitch(get_tender_award)
-    test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
+
+class TenderLotAwardResourceTestMixin(object):
+    
+    test_create_tender_award = snitch(create_tender_lot_award)
+    test_patch_tender_award= snitch(patch_tender_lot_award)
+    test_patch_tender_award_unsuccessful= snitch(patch_tender_lot_award_unsuccessful)    
 
 
-class TenderLotAwardResourceTest(BaseTenderContentWebTest):
+class TenderLotAwardResourceTest(BaseTenderContentWebTest,
+                                 TenderLotAwardResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = test_bids
     initial_lots = test_lots
@@ -167,12 +179,15 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest):
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
         self.app.authorization = ('Basic', ('broker', ''))
 
-    test_create_tender_award = snitch(create_tender_lot_award)
-    test_patch_tender_award= snitch(patch_tender_lot_award)
-    test_patch_tender_award_unsuccessful= snitch(patch_tender_lot_award_unsuccessful)
+
+class Tender2LotAwardResourceTestMixin(object):
+
+    test_create_tender_award = snitch(create_tender_2lot_award)
+    test_patch_tender_award = snitch(patch_tender_2lot_award)
 
 
-class Tender2LotAwardResourceTest(BaseTenderContentWebTest):
+class Tender2LotAwardResourceTest(BaseTenderContentWebTest,
+                                  Tender2LotAwardResourceTestMixin):
     initial_status = 'active.tendering'
     initial_lots = 2 * test_lots
     initial_bids = test_bids
@@ -221,9 +236,6 @@ class Tender2LotAwardResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
         self.award_id = response.json['data'][0]['id']
         self.app.authorization = ('Basic', ('broker', ''))
-
-    test_create_tender_award = snitch(create_tender_2lot_award)
-    test_patch_tender_award = snitch(patch_tender_2lot_award)
 
 
 class TenderAwardComplaintResourceTest(BaseTenderContentWebTest,
@@ -282,7 +294,16 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest,
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
 
 
-class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
+class TenderLotAwardComplaintResourceTestMixin(object):
+
+    test_create_tender_award_complaint = snitch(create_tender_lot_award_complaint)
+    test_patch_tender_award_complaint = snitch(patch_tender_lot_award_complaint)
+    test_get_tender_award_complaint = snitch(get_tender_lot_award_complaint)
+    test_get_tender_award_complaints = snitch(get_tender_lot_award_complaints)
+
+
+class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest,
+                                          TenderLotAwardComplaintResourceTestMixin):
     #initial_data = tender_data
     initial_status = 'active.tendering'
     initial_lots = test_lots
@@ -340,20 +361,20 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {'data': {'status': 'active', "qualified": True, "eligible": True}})
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
 
-    test_create_tender_award_complaint = snitch(create_tender_lot_award_complaint)
-    test_patch_tender_award_complaint = snitch(patch_tender_lot_award_complaint)
-    test_get_tender_award_complaint = snitch(get_tender_lot_award_complaint)
-    test_get_tender_award_complaints = snitch(get_tender_lot_award_complaints)
 
-
-class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
-    initial_lots = 2 * test_lots
+class Tender2LotAwardComplaintResourceTestMixin(object):
 
     test_create_tender_award_complaint = snitch(create_tender_lots_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_lots_award_complaint)
 
 
-class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderAwardComplaintDocumentResourceTestMixin):
+class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest,
+                                           Tender2LotAwardComplaintResourceTestMixin):
+    initial_lots = 2 * test_lots
+
+
+class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest,
+                                               TenderAwardComplaintDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
 
@@ -401,7 +422,8 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
     test_patch_tender_award_complaint_document = snitch(patch_tender_2lot_award_complaint_document)
 
 
-class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocumentResourceTestMixin):
+class TenderAwardDocumentResourceTest(BaseTenderContentWebTest,
+                                      TenderAwardDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
 
@@ -414,7 +436,8 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
         self.award_id = award['id']
 
 
-class Tender2LotAwardDocumentResourceTest(BaseTenderContentWebTest, Tender2LotAwardDocumentResourceTestMixin):
+class Tender2LotAwardDocumentResourceTest(BaseTenderContentWebTest,
+                                          Tender2LotAwardDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_lots = 2 * test_lots
