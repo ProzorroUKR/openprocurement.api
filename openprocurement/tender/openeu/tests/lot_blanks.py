@@ -2,8 +2,6 @@
 from datetime import timedelta
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
-
 
 # TenderLotEdgeCasesTest
 
@@ -16,12 +14,12 @@ def question_blocking(self):
                                             'description': 'question description',
                                             'questionOf': 'lot',
                                             'relatedItem': self.initial_lots[0]['id'],
-                                            'author': test_organization}})
+                                            'author': self.test_author}})
     question = response.json['data']
     self.assertEqual(question['questionOf'], 'lot')
     self.assertEqual(question['relatedItem'], self.initial_lots[0]['id'])
 
-    self.set_status('active.pre-qualification', extra={"status": "active.tendering"})
+    self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
 
@@ -41,7 +39,7 @@ def question_blocking(self):
 
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
-    self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+    self.assertEqual(response.json['data']['status'], self.question_claim_block_status)
 
 
 def claim_blocking(self):
@@ -49,7 +47,7 @@ def claim_blocking(self):
     response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id),
                                   {'data': {'title': 'complaint title',
                                             'description': 'complaint description',
-                                            'author': test_organization,
+                                            'author': self.test_author,
                                             'relatedLot': self.initial_lots[0]['id'],
                                             'status': 'claim'}})
     self.assertEqual(response.status, '201 Created')
@@ -57,7 +55,7 @@ def claim_blocking(self):
     owner_token = response.json['access']['token']
     self.assertEqual(complaint['relatedLot'], self.initial_lots[0]['id'])
 
-    self.set_status('active.auction', extra={"status": "active.tendering"})
+    self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
 
@@ -77,7 +75,7 @@ def claim_blocking(self):
 
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
-    self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+    self.assertEqual(response.json['data']['status'], self.question_claim_block_status)
 
 
 def next_check_value_with_unanswered_question(self):
@@ -87,12 +85,12 @@ def next_check_value_with_unanswered_question(self):
                                             'description': 'question description',
                                             'questionOf': 'lot',
                                             'relatedItem': self.initial_lots[0]['id'],
-                                            'author': test_organization}})
+                                            'author': self.test_author}})
     question = response.json['data']
     self.assertEqual(question['questionOf'], 'lot')
     self.assertEqual(question['relatedItem'], self.initial_lots[0]['id'])
 
-    self.set_status('active.pre-qualification', extra={"status": "active.tendering"})
+    self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
@@ -115,7 +113,7 @@ def next_check_value_with_unanswered_question(self):
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], 'active.pre-qualification')
+    self.assertEqual(response.json['data']["status"], self.question_claim_block_status)
 
 
 def next_check_value_with_unanswered_claim(self):
@@ -123,7 +121,7 @@ def next_check_value_with_unanswered_claim(self):
     response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id),
                                   {'data': {'title': 'complaint title',
                                             'description': 'complaint description',
-                                            'author': test_organization,
+                                            'author': self.test_author,
                                             'relatedLot': self.initial_lots[0]['id'],
                                             'status': 'claim'}})
     self.assertEqual(response.status, '201 Created')
@@ -131,7 +129,7 @@ def next_check_value_with_unanswered_claim(self):
     owner_token = response.json['access']['token']
     self.assertEqual(complaint['relatedLot'], self.initial_lots[0]['id'])
 
-    self.set_status('active.auction', extra={"status": "active.tendering"})
+    self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
@@ -154,7 +152,7 @@ def next_check_value_with_unanswered_claim(self):
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], 'active.pre-qualification')
+    self.assertEqual(response.json['data']["status"], self.question_claim_block_status)
 
 
 # TenderLotBidderResourceTest
