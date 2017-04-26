@@ -28,7 +28,6 @@ from openprocurement.tender.core.models import (
     Lot as BaseLot,
     Document as BaseDocument,
     LotValue as BaseLotValue,
-    Parameter as BaseParameter,
     ComplaintModelType as BaseComplaintModelType,
     EnquiryPeriod,
     PeriodStartEndRequired,
@@ -59,6 +58,7 @@ from openprocurement.tender.openua.models import (
     Award as BaseAward,
     Item as BaseItem,
     Tender as OpenUATender,
+    Parameter
 )
 from openprocurement.tender.openua.constants import (
     COMPLAINT_SUBMIT_TIME,
@@ -363,17 +363,6 @@ class Document(Document):
 
 
 ConfidentialDocument = Document
-
-
-class Parameter(BaseParameter):
-
-    @bids_validation_wrapper
-    def validate_value(self, data, value):
-        BaseParameter._validator_functions['value'](self, data, value)
-
-    @bids_validation_wrapper
-    def validate_code(self, data, code):
-        BaseParameter._validator_functions['code'](self, data, code)
 
 
 class Bid(BaseBid):
