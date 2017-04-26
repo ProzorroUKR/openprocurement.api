@@ -9,12 +9,9 @@ from pyramid.interfaces import IRouteRequest, IRoutesMapper
 from zope.interface import providedBy
 
 from pyramid.view import _call_view
-
-VERSION = 'X-Revision-N'
-HASH = 'X-Revision-Hash'
-PHASH = 'X-Previous-Hash'
-
-route_predicate_name = 'has_request_method'
+from openprocurement.historical.core.constants import (
+    HASH, VERSION, PREVIOUS_HASH as PHASH
+)
 
 
 def extract_doc(request, doc_type):
