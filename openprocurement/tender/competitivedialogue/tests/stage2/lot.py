@@ -12,84 +12,63 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_stage2_data_ua,
     test_tender_stage2_data_eu
 )
-from openprocurement.tender.competitivedialogue.tests.stage2.lot_blanks import (
-    # TenderStage2EULotResourceTest
-    create_tender_lot_invalid_eu,
-    patch_tender_lot_eu,
-    patch_tender_currency_eu,
-    patch_tender_vat_eu,
-    get_tender_lot_eu,
-    get_tender_lots_eu,
-    delete_tender_lot_eu,
-    tender_lot_guarantee_eu,
-    tender_lot_guarantee_v2_eu,
-    # TenderStage2LotEdgeCasesMixin
-    question_blocking,
-    claim_blocking,
-    next_check_value_with_unanswered_question,
-    next_check_value_with_unanswered_claim,
-    # TenderStage2EULotFeatureResourceTest
-    tender_value_eu,
-    tender_features_invalid_eu,
-    # TenderStage2EULotBidderResourceTest
-    create_tender_bidder_invalid_eu,
-    patch_tender_bidder_eu,
-    # TenderStage2EULotFeatureBidderResourceTest
-    create_tender_with_features_bidder_invalid_eu,
-    create_tender_with_features_bidder_eu,
-    # TenderStage2EULotProcessTest
-    one_lot_0bid_eu,
-    one_lot_1bid_eu,
-    one_lot_2bid_1unqualified,
-    one_lot_2bid_eu,
-    two_lot_2bid_1lot_del_eu,
-    one_lot_3bid_1del,
-    one_lot_3bid_1un_eu,
-    two_lot_0bid_eu,
-    two_lot_2can_eu,
-    two_lot_1can,
-    two_lot_2bid_0com_1can,
-    two_lot_2bid_2com_2win_eu,
-    # TenderStage2UALotResourceTest
-    create_tender_lot_invalid_ua,
-    create_tender_lot,
-    patch_tender_lot_ua,
-    patch_tender_currency_ua,
-    patch_tender_vat_ua,
-    get_tender_lot_ua,
-    get_tender_lots_ua,
-    delete_tender_lot_ua,
-    tender_lot_guarantee_ua,
-    tender_lot_guarantee_v2_ua,
-    # TenderStage2UALotFeatureResourceTest
-    tender_value_ua,
-    tender_features_invalid_ua,
-    # TenderStage2UALotBidderResourceTest
-    create_tender_bidder_invalid_ua,
-    patch_tender_bidder_ua,
-    # TenderStage2UALotFeatureBidderResourceTest
-    create_tender_with_features_bidder_invalid_ua,
-    create_tender_with_features_bidder_ua,
-    # TenderStage2UALotProcessTest
-    one_lot_0bid_ua,
-    one_lot_1bid_ua,
-    one_lot_1bid_patch_ua,
-    one_lot_2bid_ua,
-    one_lot_3bid_1un_ua,
-    two_lot_0bid_ua,
-    two_lot_2can_ua,
-    two_lot_1bid_0com_1can_ua,
-    two_lot_2bid_1lot_del_ua,
-    two_lot_1bid_2com_1win_ua,
-    two_lot_1bid_0com_0win_ua,
-    two_lot_1bid_1com_1win_ua,
-    two_lot_2bid_2com_2win_ua,
-)
-
 from openprocurement.tender.openeu.tests.base import (
     test_tender_data,
     test_lots,
     test_bids
+)
+from openprocurement.tender.belowthreshold.tests.lot_blanks import (
+    # TenderStage2EU(UA)LotFeatureResourceTest
+    tender_value,
+    tender_features_invalid,
+)
+from openprocurement.tender.openeu.tests.lot import (
+    TenderLotEdgeCasesTestMixin
+)
+from openprocurement.tender.competitivedialogue.tests.stage2.lot_blanks import (
+    # TenderStage2EU(UA)LotResourceTest
+    create_tender_lot_invalid,
+    patch_tender_lot,
+    create_tender_lot,
+    patch_tender_currency,
+    patch_tender_vat,
+    get_tender_lot,
+    get_tender_lots,
+    delete_tender_lot,
+    tender_lot_guarantee,
+    tender_lot_guarantee_v2,
+    # TenderStage2EULotBidderResourceTest
+    patch_tender_bidder,
+    create_tender_bidder_invalid,
+    # TenderStage2EULotFeatureBidderResourceTest
+    create_tender_with_features_bidder_invalid,
+    create_tender_with_features_bidder,
+    # TenderStage2EULotProcessTest
+    one_lot_0bid,
+    one_lot_1bid,
+    one_lot_2bid_1un,
+    one_lot_2bid,
+    two_lot_2bid_1lot_del,
+    one_lot_3bid_1del,
+    one_lot_3bid_1un,
+    two_lot_0bid,
+    two_lot_2can,
+    two_lot_1can,
+    two_lot_2bid_0com_1can,
+    two_lot_2bid_2com_2win,
+    # TenderStage2UALotBidderResourceTest
+    patch_tender_bidder_ua,
+    # TenderStage2UALotProcessTest
+    one_lot_1bid_patch_ua,
+    two_lot_1bid_0com_1can_ua,
+    two_lot_1bid_2com_1win_ua,
+    two_lot_1bid_0com_0win_ua,
+    two_lot_1bid_1com_1win_ua,
+    two_lot_2bid_2com_2win_ua,
+    one_lot_3bid_1un_ua,
+    one_lot_2bid_ua,
+    one_lot_0bid_ua,
+    two_lot_0bid_ua,
 )
 
 
@@ -102,61 +81,42 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
         super(BaseCompetitiveDialogEUStage2ContentWebTest, self).setUp()
         self.app.authorization = ('Basic', ('broker', ''))
 
-    test_create_tender_lot_invalid = snitch(create_tender_lot_invalid_eu)
-
-    test_patch_tender_lot = snitch(patch_tender_lot_eu)
-
-    test_patch_tender_currency = snitch(patch_tender_currency_eu)
-
-    test_patch_tender_vat = snitch(patch_tender_vat_eu)
-
-    test_get_tender_lot = snitch(get_tender_lot_eu)
-
-    test_get_tender_lots = snitch(get_tender_lots_eu)
-
-    test_delete_tender_lot = snitch(delete_tender_lot_eu)
-
-    test_tender_lot_guarantee = snitch(tender_lot_guarantee_eu)
-
-    test_tender_lot_guarantee_v2 = snitch(tender_lot_guarantee_v2_eu)
+    test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
+    test_patch_tender_lot = snitch(patch_tender_lot)
+    test_patch_tender_currency = snitch(patch_tender_currency)
+    test_patch_tender_vat = snitch(patch_tender_vat)
+    test_get_tender_lot = snitch(get_tender_lot)
+    test_get_tender_lots = snitch(get_tender_lots)
+    test_delete_tender_lot = snitch(delete_tender_lot)
+    test_tender_lot_guarantee = snitch(tender_lot_guarantee)
+    test_tender_lot_guarantee_v2 = snitch(tender_lot_guarantee_v2)
 
 
-class TenderStage2LotEdgeCasesMixin(object):
-    expected_status = None
-
-    test_question_blocking = snitch(question_blocking)
-
-    test_claim_blocking = snitch(claim_blocking)
-
-    test_next_check_value_with_unanswered_question = snitch(next_check_value_with_unanswered_question)
-
-    test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
-
-
-class TenderStage2EULotEdgeCasesTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderStage2LotEdgeCasesMixin):
+class TenderStage2EULotEdgeCasesTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderLotEdgeCasesTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_lots = [deepcopy(test_lots[0]) for i in range(2)]
-    expected_status = "active.pre-qualification"
+    question_claim_block_status = "active.pre-qualification"
 
     def setUp(self):
         s2_bids = [deepcopy(bid) for bid in test_bids]
         for bid in s2_bids:
-            # bid['tenderers'][0]['identifier']['id'] = '00000{}'.format(n)
             bid['tenderers'][0]['identifier']['id'] = self.initial_data['shortlistedFirms'][0]['identifier']['id']
             bid['tenderers'][0]['identifier']['scheme'] = self.initial_data['shortlistedFirms'][0]['identifier']['scheme']
         self.initial_bids = s2_bids
+        self.test_author = s2_bids[0]['tenderers'][0]
         super(TenderStage2EULotEdgeCasesTest, self).setUp()
 
 
 class TenderStage2EULotFeatureResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
 
-    initial_lots = [deepcopy(test_lots[0]) for i in range(3)]
+    initial_lots = [deepcopy(test_lots[0]) for i in range(2)]
     initial_auth = ('Basic', ('broker', ''))
-    test_tender_data = test_tender_data  # TODO: change attribute identifier
+    invalid_feature_value = 1
+    max_feature_value = 0.99
+    sum_of_max_value_of_all_features = 0.99
 
-    test_tender_value = snitch(tender_value_eu)
-
-    test_tender_features_invalid = snitch(tender_features_invalid_eu)
+    test_tender_value = snitch(tender_value)
+    test_tender_features_invalid = snitch(tender_features_invalid)
 
 
 class TenderStage2EULotBidderResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -165,9 +125,8 @@ class TenderStage2EULotBidderResourceTest(BaseCompetitiveDialogEUStage2ContentWe
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids  # TODO: change attribute identifier
 
-    test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid_eu) 
-
-    test_patch_tender_bidder = snitch(patch_tender_bidder_eu)
+    test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid) 
+    test_patch_tender_bidder = snitch(patch_tender_bidder)
 
 
 class TenderStage2EULotFeatureBidderResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -241,9 +200,8 @@ class TenderStage2EULotFeatureBidderResourceTest(BaseCompetitiveDialogEUStage2Co
         self.lot_id = self.initial_lots[0]['id']
         self.create_tender(initial_lots=self.initial_lots, features=self.initial_features)
 
-    test_create_tender_bidder_invalid = snitch(create_tender_with_features_bidder_invalid_eu)
-
-    test_create_tender_bidder = snitch(create_tender_with_features_bidder_eu)
+    test_create_tender_bidder_invalid = snitch(create_tender_with_features_bidder_invalid)
+    test_create_tender_bidder = snitch(create_tender_with_features_bidder)
 
 
 class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUWebTest):
@@ -305,29 +263,18 @@ class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUWebTest):
                             {'data': {'status': 'active.tendering'}})
         self.app.authorization = auth
 
-    test_1lot_0bid = snitch(one_lot_0bid_eu)
-
-    test_1lot_1bid = snitch(one_lot_1bid_eu)
-
-    test_1lot_2bid_1unqualified = snitch(one_lot_2bid_1unqualified)
-
-    test_1lot_2bid = snitch(one_lot_2bid_eu)
-
-    test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del_eu)
-
+    test_1lot_0bid = snitch(one_lot_0bid)
+    test_1lot_1bid = snitch(one_lot_1bid)
+    test_1lot_2bid_1unqualified = snitch(one_lot_2bid_1un)
+    test_1lot_2bid = snitch(one_lot_2bid)
+    test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del)
     test_1lot_3bid_1del = snitch(one_lot_3bid_1del)
-
-    test_1lot_3bid_1un = snitch(one_lot_3bid_1un_eu)
-
-    test_2lot_0bid = snitch(two_lot_0bid_eu)
-
-    test_2lot_2can = snitch(two_lot_2can_eu)
-
+    test_1lot_3bid_1un = snitch(one_lot_3bid_1un)
+    test_2lot_0bid = snitch(two_lot_0bid)
+    test_2lot_2can = snitch(two_lot_2can)
     test_2lot_1can = snitch(two_lot_1can)
-
     test_2lot_2bid_0com_1can = snitch(two_lot_2bid_0com_1can)
-
-    test_2lot_2bid_2com_2win = snitch(two_lot_2bid_2com_2win_eu)
+    test_2lot_2bid_2com_2win = snitch(two_lot_2bid_2com_2win)
 
 
 class TenderStage2UALotResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -335,62 +282,56 @@ class TenderStage2UALotResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest)
     initial_lots = [deepcopy(test_lots[0]) for i in range(3)]
     test_lots_data = test_lots  # TODO: change attribute identifier
 
-    test_create_tender_lot_invalid = snitch(create_tender_lot_invalid_ua)
-
-    test_patch_tender_lot = snitch(patch_tender_lot_ua)
-
-    test_patch_tender_currency = snitch(patch_tender_currency_ua)
-
-    test_patch_tender_vat = snitch(patch_tender_vat_ua)
-
-    test_get_tender_lot = snitch(get_tender_lot_ua)
-
-    test_get_tender_lots = snitch(get_tender_lots_ua)
-
-    test_delete_tender_lot = snitch(delete_tender_lot_ua)
-
-    test_tender_lot_guarantee = snitch(tender_lot_guarantee_ua)
-
-    test_tender_lot_guarantee_v2 = snitch(tender_lot_guarantee_v2_ua)
-
+    test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     test_create_tender_lot = snitch(create_tender_lot)
+    test_patch_tender_lot = snitch(patch_tender_lot)
+    test_patch_tender_currency = snitch(patch_tender_currency)
+    test_patch_tender_vat = snitch(patch_tender_vat)
+    test_get_tender_lot = snitch(get_tender_lot)
+    test_get_tender_lots = snitch(get_tender_lots)
+    test_delete_tender_lot = snitch(delete_tender_lot)
+    test_tender_lot_guarantee = snitch(tender_lot_guarantee)
+    test_tender_lot_guarantee_v2 = snitch(tender_lot_guarantee_v2)
 
 
-class TenderStage2UALotEdgeCasesTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderStage2LotEdgeCasesMixin):
+class TenderStage2UALotEdgeCasesTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderLotEdgeCasesTestMixin):
     initial_data = test_tender_stage2_data_ua
     initial_lots = [deepcopy(test_lots[0]) for i in range(2)]
-    expected_status = "active.auction"
+    question_claim_block_status = "active.auction"
 
     def setUp(self):
         s2_bids = [deepcopy(bid) for bid in test_bids]
         for bid in s2_bids:
-            # bid['tenderers'][0]['identifier']['id'] = '00000{}'.format(n)
             bid['tenderers'][0]['identifier']['id'] = self.initial_data['shortlistedFirms'][0]['identifier']['id']
             bid['tenderers'][0]['identifier']['scheme'] = self.initial_data['shortlistedFirms'][0]['identifier']['scheme']
         self.initial_bids = s2_bids
+        self.test_author = s2_bids[0]['tenderers'][0]
         super(TenderStage2UALotEdgeCasesTest, self).setUp()
 
 
 class TenderStage2UALotFeatureResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_lots = [deepcopy(test_lots[0]) for i in range(2)]
-    test_tender_data = test_tender_data  # TODO: change attribute identifier
+    invalid_feature_value = 1
+    max_feature_value = 0.99
+    sum_of_max_value_of_all_features = 0.99
 
-    test_tender_value = snitch(tender_value_ua)
-
-    test_tender_features_invalid = snitch(tender_features_invalid_ua)
+    test_tender_value = snitch(tender_value)
+    test_tender_features_invalid = snitch(tender_features_invalid)
 
 
 class TenderStage2UALotBidderResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     # initial_status = 'active.tendering'
     initial_lots = deepcopy(test_lots)
+    test_bids_data = test_bids
 
-    test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid_ua) 
-
+    test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid) 
     test_patch_tender_bidder = snitch(patch_tender_bidder_ua)
 
 
 class TenderStage2UALotFeatureBidderResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_lots = deepcopy(test_lots)
+    test_bids_data = test_bids  # TODO: change attribute identifier
+    test_tender_data = test_tender_data  # TODO: change attribute identifier
     initial_features = [
         {
             "code": "code_item",
@@ -457,9 +398,8 @@ class TenderStage2UALotFeatureBidderResourceTest(BaseCompetitiveDialogUAStage2Co
         self.lot_id = self.initial_lots[0]['id']
         self.create_tender(initial_lots=self.initial_lots, features=self.initial_features)
 
-    test_create_tender_bidder_invalid = snitch(create_tender_with_features_bidder_invalid_ua)
-
-    test_create_tender_bidder = snitch(create_tender_with_features_bidder_ua)
+    test_create_tender_bidder_invalid = snitch(create_tender_with_features_bidder_invalid)
+    test_create_tender_bidder = snitch(create_tender_with_features_bidder)
 
 
 class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -522,29 +462,17 @@ class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
         self.app.authorization = auth
 
     test_1lot_0bid = snitch(one_lot_0bid_ua)
-
-    test_1lot_1bid = snitch(one_lot_1bid_ua)
-
+    test_1lot_1bid = snitch(one_lot_1bid)
     test_1lot_1bid_patch = snitch(one_lot_1bid_patch_ua)
-
     test_1lot_2bid = snitch(one_lot_2bid_ua)
-
     test_1lot_3bid_1un = snitch(one_lot_3bid_1un_ua)
-
     test_2lot_0bid = snitch(two_lot_0bid_ua)
-
-    test_2lot_2can = snitch(two_lot_2can_ua)
-
+    test_2lot_2can = snitch(two_lot_2can)
     test_2lot_1bid_0com_1can = snitch(two_lot_1bid_0com_1can_ua)
-
-    test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del_ua)
-
+    test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del)
     test_2lot_1bid_2com_1win = snitch(two_lot_1bid_2com_1win_ua)
-
     test_2lot_1bid_0com_0win = snitch(two_lot_1bid_0com_0win_ua)
-
     test_2lot_1bid_1com_1win = snitch(two_lot_1bid_1com_1win_ua)
-
     test_2lot_2bid_2com_2win = snitch(two_lot_2bid_2com_2win_ua)
 
 
