@@ -82,6 +82,9 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     relative_to = os.path.dirname(__file__)
+    test_forbidden_document_actions_status = "active.auction"
+    test_forbidden_question_actions_status = 'active.auction'
+    test_status_that_denies_delete_create_patch_lots = 'active.auction'
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()

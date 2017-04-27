@@ -31,12 +31,12 @@ from openprocurement.tender.openuadefense.tests.base import (
 class TenderComplaintResourceTest(BaseTenderUAContentWebTest,
                                   TenderComplaintResourceTestMixin,
                                   TenderUAComplaintResourceTestMixin):
-    author = test_organization
+    test_author = test_organization
 
 
 class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
     initial_lots = test_lots
-    author = test_organization
+    test_author = test_organization
 
     test_create_tender_complaint = snitch(create_tender_lot_award_complaint)
 
@@ -51,7 +51,7 @@ class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
-    author = test_organization
+    test_author = test_organization
 
     test_not_found = snitch(not_found)
 
