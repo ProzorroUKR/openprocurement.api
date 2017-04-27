@@ -627,6 +627,7 @@ class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
 
 class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_data_eu
+    test_question_claim_block_status = "active.pre-qualification"
 
 
 class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
