@@ -221,6 +221,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     test_forbidden_document_actions_status = "active.auction"
     test_forbidden_question_actions_status = 'active.pre-qualification'
     test_status_that_denies_delete_create_patch_lots = 'active.auction'
+    test_question_claim_block_status = "active.pre-qualification"
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
