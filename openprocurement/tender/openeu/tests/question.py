@@ -32,7 +32,6 @@ class TenderQuestionResourceTest(BaseTenderContentWebTest, TenderQuestionResourc
 
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids
-    test_forbidden_question_actions_status = 'active.pre-qualification'
 
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)

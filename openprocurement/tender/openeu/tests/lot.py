@@ -62,7 +62,6 @@ class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin
     initial_auth = ('Basic', ('broker', ''))
     test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
-    test_status_that_denies_delete_create_patch_lots = 'active.auction'
 
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
@@ -73,9 +72,6 @@ class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMix
     initial_lots = test_lots * 2
     initial_bids = test_bids
     test_author = test_organization
-    question_claim_block_status = "active.pre-qualification"
-
-
 
 
 class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureResourceTestMixin):
