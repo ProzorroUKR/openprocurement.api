@@ -12,6 +12,7 @@ class Root(object):
     __name__ = None
     __parent__ = None
     __acl__ = [
+        (Allow, Everyone, 'view_listing'),
         (Allow, Everyone, 'view_contract'),
         (Allow, 'g:contracting', 'create_contract'),
         (Allow, 'g:Administrator', 'edit_contract'),
