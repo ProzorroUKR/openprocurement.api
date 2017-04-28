@@ -98,6 +98,9 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     initial_lots = None
     initial_auth = None
     relative_to = os.path.dirname(__file__)
+    primary_tender_status_name = 'active.tendering'
+    test_forbidden_question_actions_status = 'active.auction'
+    test_status_that_denies_delete_create_patch_lots = 'unsuccessful'
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
@@ -624,10 +627,12 @@ class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
 
 class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_data_eu
+    test_question_claim_block_status = "active.pre-qualification"
 
 
 class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_data_ua
+    test_question_claim_block_status = "active.auction"
 
 
 class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):

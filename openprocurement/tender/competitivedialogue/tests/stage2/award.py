@@ -586,6 +586,7 @@ class TenderStage2UAAwardComplaintDocumentResourceTest(BaseCompetitiveDialogUASt
 
     test_patch_tender_award_complaint_document = snitch(patch_tender_award_complaint_document)
 
+
 class TenderStage2UA2LotAwardComplaintDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_tender_bids

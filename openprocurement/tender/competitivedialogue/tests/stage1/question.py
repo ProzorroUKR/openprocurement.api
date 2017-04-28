@@ -37,7 +37,6 @@ from openprocurement.tender.competitivedialogue.tests.stage1.question_blanks imp
 
 
 class CompetitiveDialogUAQuestionResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderQuestionResourceTestMixin):
-    test_forbidden_question_actions_status = 'active.auction'
 
     test_create_tender_question = snitch(create_tender_question_ua)
     test_patch_tender_question = snitch(patch_tender_question)

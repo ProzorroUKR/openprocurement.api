@@ -131,7 +131,6 @@ class TenderStage2UALotSwitchAuctionResourceTest(BaseCompetitiveDialogUAStage2Co
     initial_bids = test_tender_bids
 
 
-
 class TenderStage2UA2LotSwitch0BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_lots = deepcopy(2 * test_lots)
 

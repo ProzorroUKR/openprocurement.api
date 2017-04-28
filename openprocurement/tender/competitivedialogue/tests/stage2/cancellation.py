@@ -86,6 +86,8 @@ class TenderStage2UACancellationDocumentResourceTest(BaseCompetitiveDialogUAStag
                                       {'data': {'reason': 'cancellation reason'}})
         cancellation = response.json['data']
         self.cancellation_id = cancellation['id']
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderStage2EUCancellationResourceTest))

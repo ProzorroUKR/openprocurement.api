@@ -61,7 +61,6 @@ test_bids.append(test_bids[0].copy())  # Minimal number of bits is 3
 
 
 class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest, TenderLotResourceTestMixin, TenderEULotResourceTestMixin):
-    test_status_that_denies_delete_create_patch_lots = 'unsuccessful'
     initial_auth = ('Basic', ('broker', ''))
     test_tender_data = test_tender_data_eu  # TODO: change attribute identifier
     test_lots_data = test_lots  # TODO: change attribute identifier
@@ -73,7 +72,6 @@ class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest
 class CompetitiveDialogueEULotEdgeCasesTest(BaseCompetitiveDialogEUContentWebTest, TenderLotEdgeCasesTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_lots = test_lots * 2
-    question_claim_block_status = 'active.pre-qualification'
     test_author = test_organization
 
     def setUp(self):
@@ -210,7 +208,6 @@ class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest
 
 class CompetitiveDialogueUALotEdgeCasesTest(CompetitiveDialogueEULotEdgeCasesTest):
     initial_data = test_tender_data_ua
-    question_claim_block_status = 'active.pre-qualification'
 
 
 class CompetitiveDialogueUALotFeatureResourceTest(BaseCompetitiveDialogUAContentWebTest):
