@@ -1,4 +1,4 @@
-from openprocurement.api.traversal import Root
+from openprocurement.historical.core.utils import Root
 
 
 def historical_tender_factory(request):
