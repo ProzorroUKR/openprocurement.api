@@ -57,16 +57,14 @@ class PlansResource(APIResourceListing):
 
     def __init__(self, request, context):
         super(PlansResource, self).__init__(request, context)
-        self.server_id = request.registry.server_id
-        self.server = request.registry.couchdb_server
-        self.update_after = request.registry.update_after
+        # params for listing
         self.VIEW_MAP = VIEW_MAP
         self.CHANGES_VIEW_MAP = CHANGES_VIEW_MAP
         self.FEED = FEED
         self.FIELDS = FIELDS
-        self.func_serialize = plan_serialize
-        self.object_for_listing = 'Plans'
-        self.log_message = 'plan_list_custom'
+        self.serialize_func = plan_serialize
+        self.object_name_for_listing = 'Plans'
+        self.log_message_id = 'plan_list_custom'
 
     @json_view(content_type="application/json", permission='create_plan', validators=(validate_plan_data,))
     def post(self):
