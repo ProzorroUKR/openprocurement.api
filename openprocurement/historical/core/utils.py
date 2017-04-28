@@ -1,17 +1,21 @@
 from jsonpointer import JsonPointerException
 from jsonpatch import JsonPatchException
-from pyramid.interfaces import IRouteRequest, IRoutesMapper
+
 from zope.interface import providedBy
+
 from pyramid.view import _call_view
 from pyramid.security import Allow
+from pyramid.interfaces import IRouteRequest, IRoutesMapper
+
 from openprocurement.historical.core.constants import (
-    VERSION, HASH, PREVIOUS_HASH
+    VERSION, HASH, PREVIOUS_HASH, ACCREDITATION_LEVEL
 )
 from openprocurement.api.utils import (
     error_handler,
     _apply_patch,
     APIResource,
     json_view,
+    context_unpack
 )
 
 
@@ -19,7 +23,7 @@ class Root(object):
     __name__ = None
     __parent__ = None
     __acl__ = [
-        (Allow, 'g:historical', 'view_historical')
+        (Allow, 'g:brokers', 'view_historical')
     ]
 
     def __init__(self, request):
@@ -30,23 +34,37 @@ class Root(object):
 def extract_doc(request, doc_type):
     doc_id = request.matchdict['doc_id']
     if doc_id is None:
-        return404(request, 'url', '{}_id'.format(doc_type.lower()))
-
+        return404(request, 'url', '{}_id'.format(doc_type.lower()))  # pragma: no cover
+    validate_header(request)
     doc = request.registry.db.get(doc_id)
     if doc is None or doc.get('doc_type') != doc_type:
         return404(request, 'url', '{}_id'.format(doc_type.lower()))
 
-    doc, revision_hash, prev_hash = apply_while(request, doc)
-    add_responce_headers(request, rhash=revision_hash, phash=prev_hash)
+    revisions = doc.pop('revisions', [])
+    if not revisions or not request.validated.get(VERSION):
+        add_responce_headers(request, version=str(len(revisions)),
+                             rhash=doc.get('_rev', ''),
+                             phash=str(
+                                 revisions[-1].get('rev')
+                                 if len(revisions) > 0 else ''
+                             ))
+        return doc
+
+    if int(request.validated.get(VERSION)) > len(revisions):
+        return404(request, 'header', 'version')
+
+    doc, revision_hash, prev_hash = apply_while(request, doc, revisions)
+    add_responce_headers(request,
+                         version=request.validated[VERSION],
+                         rhash=revision_hash, phash=prev_hash)
     return doc
 
 
 def add_responce_headers(request, version='', rhash='', phash=''):
-    add = request.response.headerlist.append
-    add((VERSION, str(version) or request.validated['historical_header_version']))
-    add((HASH, rhash))
-    if phash:
-        add((PREVIOUS_HASH, phash))
+    request.response.headers[VERSION] = str(version) or\
+                                        request.validated.get(VERSION, '')
+    request.response.headers[HASH] = rhash
+    request.response.headers[PREVIOUS_HASH] = phash
 
 
 def raise_not_implemented(request):
@@ -55,28 +73,22 @@ def raise_not_implemented(request):
     raise error_handler(request.errors)
 
 
-def apply_while(request, doc):
-    revisions = doc.pop('revisions', [])
-    if not revisions:
-        add_responce_headers(request, '0', '')
-        return doc, parse_hash(doc.get('rev')), ''
-
+def apply_while(request, doc, revisions):
     for version, patch in reversed(list(enumerate(revisions))):
         try:
             doc = _apply_patch(doc, patch['changes'])
         except (JsonPointerException, JsonPatchException):
             raise_not_implemented(request)
-        if version == request.validated['historical_header_version']:
-
-            if request.validated['historical_header_hash'] and\
-               request.validated['historical_header_hash'] != parse_hash(patch.get('rev')):
-                return404('header', 'hash')
+        if str(version) == request.validated[VERSION]:
+            if request.validated[HASH] and\
+               request.validated[HASH] != parse_hash(patch.get('rev')):
+                return404(request, 'header', 'hash')
 
             doc['dateModified'] = find_dateModified(revisions[:version+1])
             return (doc,
                     parse_hash(patch['rev']),
                     parse_hash(revisions[version - 1].get('rev', '')))
-    return {}, '', ''
+    return404('header', 'version')
 
 
 def find_dateModified(revisions):
@@ -98,7 +110,7 @@ def get_route(request):
             preds = r.predicates
             info = {'match': match, 'route': r}
             if preds and not all((p(info, request) for p in preds)):
-                continue
+                continue  # pragma: no cover
             return info['route']
     return None
 
@@ -119,18 +131,29 @@ def return404(request, where, why):
 
 def parse_hash(rev_hash):
     if rev_hash:
-        return rev_hash.split('-')[1]
+        try:
+            return rev_hash.split('-')[1]
+        except:
+            return ''
     return ''
 
 
 def validate_header(request):
     version = request.headers.get(VERSION, '')
-    if not version or not version.isdigit():
-        request.errors.status = 404
-        request.errors.add('header', 'version', 'Not Found')
+    if version and (not version.isdigit() or int(version) < 1):
+        return404(request, 'header', 'version')
+    request.validated[VERSION] = version
+    request.validated[HASH] = request.headers.get(HASH, '')
+
+
+def validate_accreditation(request):
+    if not request.check_accreditation(ACCREDITATION_LEVEL):
+        request.errors.add('historical',
+                           'accreditation',
+                           'Broker Accreditation level does not '
+                           'permit viewing tender historica info')
+        request.errors.status = 403
         return
-    request.validated['historical_header_version'] = int(version)
-    request.validated['historical_header_hash'] = request.headers.get(HASH, '')
 
 
 class HasRequestMethod(object):
@@ -153,9 +176,19 @@ class APIHistoricalResource(APIResource):
         super(APIHistoricalResource, self).__init__(request, context)
         self.resource = request.context.doc_type.lower()
 
-    @json_view(permission="view_historical", validators=(validate_header,))
+    @json_view(permission="view_historical",
+               validators=(validate_accreditation, ))
     def get(self):
         route = get_route(self.request)
         if route is None:
             return404(self.request, 'url', '{}_id'.format(self.resource))
+        msg = 'Request for {doc} {id} revision {ver} revision {rev}'.format(
+            doc=self.resource, id=self.context.id,
+            ver=self.request.validated[VERSION],
+            rev=self.context.rev
+        )
+
+        # TODO
+        self.LOGGER.info(msg, extra=context_unpack(self.request, {
+            'MESSAGE_ID': '{}_historical'.format(self.resource)}))
         return call_view(self.request, self.context, route)
