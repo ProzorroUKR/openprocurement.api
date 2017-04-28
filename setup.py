@@ -15,7 +15,7 @@ test_requires = requires + [
 
 entry_points = {
     'openprocurement.api.plugins': [
-        'historical.core = openprocurement.historical.core:includeme'
+        'historical.core = openprocurement.historical.core.includeme:includeme'
     ],
 }
 
