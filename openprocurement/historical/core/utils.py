@@ -130,11 +130,10 @@ def return404(request, where, why):
 
 
 def parse_hash(rev_hash):
-    if rev_hash:
-        try:
-            return rev_hash.split('-')[1]
-        except:
-            return ''
+    if rev_hash and hasattr(rev_hash, 'split'):
+        shash = rev_hash.split('-')
+        if len(shash) > 1:
+            return shash[1]
     return ''
 
 
