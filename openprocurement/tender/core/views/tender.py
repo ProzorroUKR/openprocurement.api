@@ -45,15 +45,14 @@ class TendersResource(APIResourceListing):
 
     def __init__(self, request, context):
         super(TendersResource, self).__init__(request, context)
-        self.server = request.registry.couchdb_server
-        self.update_after = request.registry.update_after
+        # params for listing
         self.VIEW_MAP = VIEW_MAP
         self.CHANGES_VIEW_MAP = CHANGES_VIEW_MAP
         self.FEED = FEED
         self.FIELDS = FIELDS
-        self.func_serialize = tender_serialize
-        self.object_for_listing = 'Tenders'
-        self.log_message = 'tender_list_custom'
+        self.serialize_func = tender_serialize
+        self.object_name_for_listing = 'Tenders'
+        self.log_message_id = 'tender_list_custom'
 
     @json_view(content_type="application/json", permission='create_tender', validators=(validate_tender_data,))
     def post(self):
