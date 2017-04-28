@@ -203,13 +203,13 @@ class BaseTenderWebTest(BaseTWT):
     docservice = False
     relative_to = os.path.dirname(__file__)
     # Statuses for test, that will be imported from others procedures
-    primary_tender_status_name = 'active.enquiries'
-    test_forbidden_document_actions_status = 'active.tendering'
-    test_forbidden_question_actions_status = 'active.tendering'
-    test_status_that_denies_get_post_patch_auction = 'active.tendering'
-    test_status_that_denies_delete_create_patch_lots = 'active.tendering'
-    test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
-    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
+    primary_tender_status_name = 'active.enquiries'  # status, to which tender should be switched from 'draft'
+    test_forbidden_document_actions_status = 'active.tendering'  # status, in which operations with tender documents (adding, updating) are forbidden
+    test_forbidden_question_actions_status = 'active.tendering'  # status, in which updating tender questions is forbidden
+    test_status_that_denies_get_post_patch_auction = 'active.tendering'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    test_status_that_denies_delete_create_patch_lots = 'active.tendering'  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+    test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'  # status, in which adding document to tender auction is forbidden
 
     def set_status(self, status, extra=None):
         data = {'status': status}
