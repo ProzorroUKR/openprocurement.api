@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
 from openprocurement.api.utils import get_now  # move
-from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document # XXX tender context
+from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document_batch # XXX tender context
 from openprocurement.tender.core.utils import calculate_business_date
 from schematics.exceptions import ValidationError
 
@@ -139,7 +139,7 @@ def validate_bid_documents(request):
             document = model(document)
             document.validate()
             route_kwargs = {'bid_id': request.validated['bid'].id}
-            document = check_document(request, document, doc_type, route_kwargs)
+            document = check_document_batch(request, document, doc_type, route_kwargs)
             documents[doc_type].append(document)
     return documents
 
