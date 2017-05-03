@@ -611,17 +611,17 @@ def create_tender_draft(self):
         {u'description': u"Can't update tender in current (draft) status", u'location': u'body', u'name': u'data'}
     ])
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), {'data': {'status': self.primary_tender_status_name}})
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), {'data': {'status': self.primary_tender_status}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
-    self.assertEqual(tender['status'], self.primary_tender_status_name)
+    self.assertEqual(tender['status'], self.primary_tender_status)
 
     response = self.app.get('/tenders/{}'.format(tender['id']))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
-    self.assertEqual(tender['status'], self.primary_tender_status_name)
+    self.assertEqual(tender['status'], self.primary_tender_status)
 
 
 def create_tender(self):

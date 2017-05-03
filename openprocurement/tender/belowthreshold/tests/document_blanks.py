@@ -299,13 +299,13 @@ def put_tender_document(self):
         self.assertEqual(response.content_length, 8)
         self.assertEqual(response.body, 'content3')
 
-    self.set_status(self.test_forbidden_document_actions_status)
+    self.set_status(self.forbidden_document_modification_actions_status)
 
     response = self.app.put('/tenders/{}/documents/{}?acc_token={}'.format(
         self.tender_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content3')], status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current ({}) tender status".format(self.test_forbidden_document_actions_status))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current ({}) tender status".format(self.forbidden_document_modification_actions_status))
 
 
 def patch_tender_document(self):
@@ -355,12 +355,12 @@ def patch_tender_document(self):
     self.assertEqual('document description', response.json["data"]["description"])
     #self.assertTrue(dateModified < response.json["data"]["dateModified"])
 
-    self.set_status(self.test_forbidden_document_actions_status)
+    self.set_status(self.forbidden_document_modification_actions_status)
 
     response = self.app.patch_json('/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, self.tender_token), {"data": {"description": "document description"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current ({}) tender status".format(self.test_forbidden_document_actions_status))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current ({}) tender status".format(self.forbidden_document_modification_actions_status))
 
 
 # TenderDocumentWithDSResourceTest
@@ -566,7 +566,7 @@ def create_tender_document_json(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual(u'укр.doc', response.json["data"]["title"])
 
-    self.set_status(self.test_forbidden_document_actions_status)
+    self.set_status(self.forbidden_document_modification_actions_status)
 
     response = self.app.post_json('/tenders/{}/documents?acc_token={}'.format(self.tender_id, self.tender_token),
         {'data': {
@@ -577,7 +577,7 @@ def create_tender_document_json(self):
         }}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current ({}) tender status".format(self.test_forbidden_document_actions_status))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current ({}) tender status".format(self.forbidden_document_modification_actions_status))
 
 
 def put_tender_document_json(self):
@@ -688,7 +688,7 @@ def put_tender_document_json(self):
     self.assertIn('KeyID=', response.location)
     self.assertNotIn('Expires=', response.location)
 
-    self.set_status(self.test_forbidden_document_actions_status)
+    self.set_status(self.forbidden_document_modification_actions_status)
 
     response = self.app.put_json('/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, self.tender_token),
         {'data': {
@@ -699,4 +699,4 @@ def put_tender_document_json(self):
         }}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current ({}) tender status".format(self.test_forbidden_document_actions_status))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current ({}) tender status".format(self.forbidden_document_modification_actions_status))
