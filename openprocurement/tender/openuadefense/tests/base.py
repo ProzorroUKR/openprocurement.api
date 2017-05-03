@@ -82,9 +82,10 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     relative_to = os.path.dirname(__file__)
-    test_forbidden_document_actions_status = "active.auction"
-    test_forbidden_question_actions_status = 'active.auction'
-    test_status_that_denies_delete_create_patch_lots = 'active.auction'
+    primary_tender_status = 'active.tendering'  # status, to which tender should be switched from 'draft'
+    forbidden_document_modification_actions_status = "active.auction"  # status, in which operations with tender documents (adding, updating) are forbidden
+    forbidden_question_modification_actions_status = "active.auction"  # status, in which adding/updating tender questions is forbidden
+    forbidden_lot_actions_status = "active.auction"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
