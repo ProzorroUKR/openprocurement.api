@@ -539,13 +539,13 @@ def create_tender_contract_document(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current contract status")
 
-    self.set_status('{}'.format(self.status_that_denies_put_create_patch_contract_docs))
+    self.set_status('{}'.format(self.forbidden_contract_document_modification_actions_status))
 
     response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
         self.tender_id, self.contract_id, self.tender_token), upload_files=[('file', 'name.doc', 'content')], status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current ({}) tender status".format(self.status_that_denies_put_create_patch_contract_docs))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current ({}) tender status".format(self.forbidden_contract_document_modification_actions_status))
 
 
 def put_tender_contract_document(self):
@@ -612,13 +612,13 @@ def put_tender_contract_document(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current contract status")
 
-    self.set_status('{}'.format(self.status_that_denies_put_create_patch_contract_docs))
+    self.set_status('{}'.format(self.forbidden_contract_document_modification_actions_status))
 
     response = self.app.put('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(
         self.tender_id, self.contract_id, doc_id, self.tender_token), upload_files=[('file', 'name.doc', 'content3')], status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current ({}) tender status".format(self.status_that_denies_put_create_patch_contract_docs))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current ({}) tender status".format(self.forbidden_contract_document_modification_actions_status))
 
 
 def patch_tender_contract_document(self):
@@ -650,12 +650,12 @@ def patch_tender_contract_document(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current contract status")
 
-    self.set_status('{}'.format(self.status_that_denies_put_create_patch_contract_docs))
+    self.set_status('{}'.format(self.forbidden_contract_document_modification_actions_status))
 
     response = self.app.patch_json('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(self.tender_id, self.contract_id, doc_id, self.tender_token), {"data": {"description": "document description"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current ({}) tender status".format(self.status_that_denies_put_create_patch_contract_docs))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current ({}) tender status".format(self.forbidden_contract_document_modification_actions_status))
 
 
 # Tender2LotContractDocumentResourceTest

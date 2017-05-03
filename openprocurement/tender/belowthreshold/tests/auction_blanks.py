@@ -40,7 +40,7 @@ def get_tender_auction(self):
     response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current ({}) tender status".format(self.status_that_denies_get_post_patch_auction))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current ({}) tender status".format(self.forbidden_auction_actions_status))
 
     self.set_status('active.auction')
 
@@ -80,7 +80,7 @@ def post_tender_auction(self):
     response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': {}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't report auction results in current ({}) tender status".format(self.status_that_denies_get_post_patch_auction))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't report auction results in current ({}) tender status".format(self.forbidden_auction_actions_status))
 
     self.set_status('active.auction')
 
@@ -160,7 +160,7 @@ def patch_tender_auction(self):
     response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': {}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update auction urls in current ({}) tender status".format(self.status_that_denies_get_post_patch_auction))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update auction urls in current ({}) tender status".format(self.forbidden_auction_actions_status))
 
     self.set_status('active.auction')
 
@@ -226,7 +226,7 @@ def post_tender_auction_document(self):
     response = self.app.post('/tenders/{}/documents'.format(self.tender_id), upload_files=[('file', 'name.doc', 'content')], status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current ({}) tender status".format(self.status_that_denies_get_post_patch_auction_document))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current ({}) tender status".format(self.forbidden_auction_document_create_actions_status))
 
     self.set_status('active.auction')
 
@@ -322,7 +322,7 @@ def get_tender_lot_auction(self):
     response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current ({}) tender status".format(self.status_that_denies_get_post_patch_auction))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current ({}) tender status".format(self.forbidden_auction_actions_status))
 
     self.set_status('active.auction')
 
@@ -352,7 +352,7 @@ def post_tender_lot_auction(self):
     response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': {}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't report auction results in current ({}) tender status".format(self.status_that_denies_get_post_patch_auction))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't report auction results in current ({}) tender status".format(self.forbidden_auction_actions_status))
 
     self.set_status('active.auction')
 
@@ -442,7 +442,7 @@ def patch_tender_lot_auction(self):
     response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': {}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update auction urls in current ({}) tender status".format(self.status_that_denies_get_post_patch_auction))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update auction urls in current ({}) tender status".format(self.forbidden_auction_actions_status))
 
     self.set_status('active.auction')
     self.app.authorization = ('Basic', ('chronograph', ''))
@@ -551,7 +551,7 @@ def post_tender_lot_auction_document(self):
     response = self.app.post('/tenders/{}/documents'.format(self.tender_id), upload_files=[('file', 'name.doc', 'content')], status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current ({}) tender status".format(self.status_that_denies_get_post_patch_auction_document))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current ({}) tender status".format(self.forbidden_auction_document_create_actions_status))
 
     self.set_status('active.auction')
 
@@ -622,7 +622,7 @@ def get_tender_lots_auction(self):
     response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current ({}) tender status".format(self.status_that_denies_get_post_patch_auction))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current ({}) tender status".format(self.forbidden_auction_actions_status))
 
     self.set_status('active.auction')
 
@@ -655,7 +655,7 @@ def post_tender_lots_auction(self):
     response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': {}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't report auction results in current ({}) tender status".format(self.status_that_denies_get_post_patch_auction))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't report auction results in current ({}) tender status".format(self.forbidden_auction_actions_status))
 
     self.set_status('active.auction')
 
@@ -763,7 +763,7 @@ def patch_tender_lots_auction(self):
     response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': {}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update auction urls in current ({}) tender status".format(self.status_that_denies_get_post_patch_auction))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update auction urls in current ({}) tender status".format(self.forbidden_auction_actions_status))
 
     self.set_status('active.auction')
     self.app.authorization = ('Basic', ('chronograph', ''))
@@ -913,7 +913,7 @@ def post_tender_lots_auction_document(self):
     response = self.app.post('/tenders/{}/documents'.format(self.tender_id), upload_files=[('file', 'name.doc', 'content')], status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current ({}) tender status".format(self.status_that_denies_get_post_patch_auction_document))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current ({}) tender status".format(self.forbidden_auction_document_create_actions_status))
 
     self.set_status('active.auction')
 

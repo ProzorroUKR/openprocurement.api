@@ -202,12 +202,12 @@ def create_tender_lot(self):
         {u'description': [u'Lot id should be uniq for all lots'], u'location': u'body', u'name': u'lots'}
     ])
 
-    self.set_status('{}'.format(self.status_that_denies_delete_create_patch_lots))
+    self.set_status('{}'.format(self.forbidden_lot_actions_status))
 
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token), {'data': self.test_lots_data[0]}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't add lot in current ({}) tender status".format(self.status_that_denies_delete_create_patch_lots))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't add lot in current ({}) tender status".format(self.forbidden_lot_actions_status))
 
 
 def patch_tender_lot(self):
@@ -254,12 +254,12 @@ def patch_tender_lot(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["title"], "new title")
 
-    self.set_status('{}'.format(self.status_that_denies_delete_create_patch_lots))
+    self.set_status('{}'.format(self.forbidden_lot_actions_status))
 
     response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"title": "other title"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update lot in current ({}) tender status".format(self.status_that_denies_delete_create_patch_lots))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update lot in current ({}) tender status".format(self.forbidden_lot_actions_status))
 
 
 def patch_tender_currency(self):
@@ -500,12 +500,12 @@ def delete_tender_lot(self):
         {u'description': [{u'relatedLot': [u'relatedLot should be one of lots']}], u'location': u'body', u'name': u'items'}
     ])
 
-    self.set_status('{}'.format(self.status_that_denies_delete_create_patch_lots))
+    self.set_status('{}'.format(self.forbidden_lot_actions_status))
 
     response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't delete lot in current ({}) tender status".format(self.status_that_denies_delete_create_patch_lots))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't delete lot in current ({}) tender status".format(self.forbidden_lot_actions_status))
 
 
 def tender_lot_guarantee(self):

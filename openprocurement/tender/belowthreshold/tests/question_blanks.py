@@ -201,12 +201,12 @@ def patch_tender_question(self):
     self.assertEqual(response.json['data']["answer"], "answer")
     self.assertIn('dateAnswered', response.json['data'])
 
-    self.set_status(self.forbidden_question_actions_status)
+    self.set_status(self.forbidden_question_modification_actions_status)
 
     response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(self.tender_id, question['id'], self.tender_token), {"data": {"answer": "answer"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update question in current ({}) tender status".format(self.forbidden_question_actions_status))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update question in current ({}) tender status".format(self.forbidden_question_modification_actions_status))
 
 
 def get_tender_question(self):
