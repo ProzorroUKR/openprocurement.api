@@ -98,9 +98,9 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     initial_lots = None
     initial_auth = None
     relative_to = os.path.dirname(__file__)
-    primary_tender_status_name = 'active.tendering'
-    test_forbidden_question_actions_status = 'active.auction'
-    test_status_that_denies_delete_create_patch_lots = 'unsuccessful'
+    primary_tender_status = 'active.tendering'  # status, to which tender should be switched from 'draft'
+    forbidden_question_modification_actions_status = 'active.auction'  # status, in which adding/updating tender questions is forbidden
+    forbidden_lot_actions_status = 'unsuccessful'  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
@@ -627,12 +627,12 @@ class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
 
 class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_data_eu
-    test_question_claim_block_status = "active.pre-qualification"
+    question_claim_block_status = "active.pre-qualification"  # TODO: add comment for status
 
 
 class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_data_ua
-    test_question_claim_block_status = "active.auction"
+    question_claim_block_status = "active.auction"  # TODO: add comment for status
 
 
 class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):
