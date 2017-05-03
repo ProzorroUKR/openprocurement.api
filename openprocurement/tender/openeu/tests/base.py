@@ -217,11 +217,14 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_lots = None
     initial_auth = None
     relative_to = os.path.dirname(__file__)
-    primary_tender_status_name = 'active.tendering'
-    test_forbidden_document_actions_status = "active.auction"
-    test_forbidden_question_actions_status = 'active.pre-qualification'
-    test_status_that_denies_delete_create_patch_lots = 'active.auction'
-    test_question_claim_block_status = "active.pre-qualification"
+    primary_tender_status = 'active.tendering'  # status, to which tender should be switched from 'draft'
+    forbidden_document_modification_actions_status = "active.auction"  # status, in which operations with tender documents (adding, updating) are forbidden
+    forbidden_question_modification_actions_status = 'active.pre-qualification'  # status, in which adding/updating tender questions is forbidden
+    forbidden_lot_actions_status = 'active.auction'  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+    question_claim_block_status = "active.pre-qualification"  # TODO: add comment for status
+    # auction role actions
+    forbidden_auction_actions_status = 'active.pre-qualification.stand-still'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_document_create_actions_status = 'active.pre-qualification.stand-still'  # status, in which adding document to tender auction is forbidden
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
