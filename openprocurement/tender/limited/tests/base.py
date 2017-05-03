@@ -59,9 +59,9 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_lots = None
     relative_to = os.path.dirname(__file__)
     initial_auth = ('Basic', ('broker', ''))
-    primary_tender_status_name = 'active'  # TODO: is this necessary?
-    test_forbidden_document_actions_status = "complete"
-    test_status_that_denies_put_create_patch_contract_docs = 'complete'
+    primary_tender_status = "active"  # status, to which tender should be switched from 'draft'
+    forbidden_document_modification_actions_status = "complete"  # status, in which operations with tender documents (adding, updating) are forbidden
+    forbidden_contract_document_modification_actions_status = "complete"  # status, in which operations with tender's contract documents (adding, updating) are forbidden
 
     def set_status(self, status, extra=None):
         data = {'status': status}
