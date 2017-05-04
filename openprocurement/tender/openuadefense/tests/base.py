@@ -9,7 +9,7 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.tender.openua.tests.base import (
     now,
     test_features_tender_data,
-    BaseTenderWebTest
+    BaseTenderUAWebTest as BaseTenderWebTest
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_procuringEntity as test_procuringEntity_api,
@@ -76,15 +76,14 @@ test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_data["ite
 test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["items"][0]["deliveryAddress"]
 # test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
 
+
 class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     initial_lots = None
     relative_to = os.path.dirname(__file__)
-    test_forbidden_document_actions_status = "active.auction"
-    test_forbidden_question_actions_status = 'active.auction'
-    test_status_that_denies_delete_create_patch_lots = 'active.auction'
+    forbidden_lot_actions_status = "active.auction"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()

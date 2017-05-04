@@ -44,7 +44,6 @@ class TenderUATest(BaseWebTest):
 
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
     test_lots_data = test_lots  # TODO: change attribute identifier
-    primary_tender_status_name = 'active.tendering'
 
     initial_data = test_tender_data
 
