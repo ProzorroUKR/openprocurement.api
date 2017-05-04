@@ -39,9 +39,6 @@ for test_bid in test_tender_bids:
 
 
 class TenderStage2EUAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderAuctionResourceTestMixin):
-
-    test_status_that_denies_get_post_patch_auction = "active.pre-qualification.stand-still"
-    test_status_that_denies_get_post_patch_auction_document = 'active.pre-qualification.stand-still'
     initial_auth = ('Basic', ('broker', ''))
     initial_bids = deepcopy(test_tender_bids)
 
@@ -131,7 +128,6 @@ class TenderStage2EULotAuctionResourceTest(TenderLotAuctionResourceTestMixin, Te
 
 class TenderStage2EUMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderStage2EUAuctionResourceTest):
     initial_lots = deepcopy(2 * test_lots)
-    test_status_denies_patch = 'active.pre-qualification.stand-still'
 
     test_patch_tender_auction = snitch(patch_tender_with_lots_auction)
 
@@ -269,8 +265,6 @@ class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2Con
 class TenderStage2UAAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderAuctionResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = deepcopy(test_tender_bids)
-    test_status_that_denies_get_post_patch_auction = "active.tendering"
-    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
 
 
 class TenderStage2UASameValueAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -301,7 +295,6 @@ class TenderStage2UALotAuctionResourceTest(TenderLotAuctionResourceTestMixin, Te
 
 class TenderStage2UAMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderStage2UAAuctionResourceTest):
     initial_lots = deepcopy(2 * test_lots)
-    test_status_denies_patch = 'active.tendering'
 
     test_patch_tender_auction = snitch(patch_tender_with_lots_auction)
 
