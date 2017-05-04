@@ -9,7 +9,7 @@ def patch_tender_with_lots_auction(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"],
-                     "Can't update auction urls in current ({}) tender status".format(self.test_status_denies_patch))
+                     "Can't update auction urls in current ({}) tender status".format(self.forbidden_auction_actions_status))
 
     self.set_status('active.auction')
     self.app.authorization = ('Basic', ('chronograph', ''))

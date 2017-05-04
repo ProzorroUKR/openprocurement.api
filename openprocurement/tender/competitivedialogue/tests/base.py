@@ -7,8 +7,9 @@ from copy import deepcopy
 from openprocurement.api.design import sync_design
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import apply_data_patch, get_now
+from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
-    BaseTenderWebTest, test_organization
+    test_organization
 )
 from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION, QUESTIONS_STAND_STILL,
@@ -98,8 +99,6 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     initial_lots = None
     initial_auth = None
     relative_to = os.path.dirname(__file__)
-    primary_tender_status = 'active.tendering'  # status, to which tender should be switched from 'draft'
-    forbidden_question_modification_actions_status = 'active.auction'  # status, in which adding/updating tender questions is forbidden
     forbidden_lot_actions_status = 'unsuccessful'  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
 
     def go_to_enquiryPeriod_end(self):
@@ -627,12 +626,17 @@ class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
 
 class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_data_eu
-    question_claim_block_status = "active.pre-qualification"  # TODO: add comment for status
+    question_claim_block_status = "active.pre-qualification"  # status, tender cannot be switched to while it has questions/complaints related to its lot
+    # auction role actions
+    forbidden_auction_actions_status = "active.pre-qualification.stand-still"  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_document_create_actions_status = "active.pre-qualification.stand-still"  # status, in which adding document to tender auction is forbidden
 
 
 class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_data_ua
-    question_claim_block_status = "active.auction"  # TODO: add comment for status
+    # auction role actions
+    forbidden_auction_actions_status = 'active.tendering'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_document_create_actions_status = 'active.tendering'  # status, in which adding document to tender auction is forbidden
 
 
 class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):
