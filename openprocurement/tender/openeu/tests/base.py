@@ -2,8 +2,8 @@
 import os
 from datetime import datetime, timedelta
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.tender.belowthreshold.tests.base import (
-    BaseTenderWebTest as BaseBaseTenderWebTest
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAWebTest as BaseBaseTenderWebTest
 )
 from openprocurement.api.utils import apply_data_patch, get_now
 from openprocurement.tender.openeu.constants import (
@@ -217,11 +217,8 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_lots = None
     initial_auth = None
     relative_to = os.path.dirname(__file__)
-    primary_tender_status = 'active.tendering'  # status, to which tender should be switched from 'draft'
-    forbidden_document_modification_actions_status = "active.auction"  # status, in which operations with tender documents (adding, updating) are forbidden
     forbidden_question_modification_actions_status = 'active.pre-qualification'  # status, in which adding/updating tender questions is forbidden
-    forbidden_lot_actions_status = 'active.auction'  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
-    question_claim_block_status = "active.pre-qualification"  # TODO: add comment for status
+    question_claim_block_status = "active.pre-qualification"  # status, tender cannot be switched to while it has questions/complaints related to its lot
     # auction role actions
     forbidden_auction_actions_status = 'active.pre-qualification.stand-still'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = 'active.pre-qualification.stand-still'  # status, in which adding document to tender auction is forbidden

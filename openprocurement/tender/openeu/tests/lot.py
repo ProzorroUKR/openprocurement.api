@@ -57,6 +57,7 @@ class TenderLotEdgeCasesTestMixin(object):
     test_next_check_value_with_unanswered_question = snitch(next_check_value_with_unanswered_question)
     test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
 
+
 class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderEULotResourceTestMixin):
 
     initial_auth = ('Basic', ('broker', ''))
