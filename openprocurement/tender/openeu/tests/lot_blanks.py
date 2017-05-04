@@ -19,7 +19,7 @@ def question_blocking(self):
     self.assertEqual(question['questionOf'], 'lot')
     self.assertEqual(question['relatedItem'], self.initial_lots[0]['id'])
 
-    self.set_status(self.test_question_claim_block_status, extra={"status": "active.tendering"})
+    self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
 
@@ -39,7 +39,7 @@ def question_blocking(self):
 
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
-    self.assertEqual(response.json['data']['status'], self.test_question_claim_block_status)
+    self.assertEqual(response.json['data']['status'], self.question_claim_block_status)
 
 
 def claim_blocking(self):
@@ -55,7 +55,7 @@ def claim_blocking(self):
     owner_token = response.json['access']['token']
     self.assertEqual(complaint['relatedLot'], self.initial_lots[0]['id'])
 
-    self.set_status(self.test_question_claim_block_status, extra={"status": "active.tendering"})
+    self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
 
@@ -75,7 +75,7 @@ def claim_blocking(self):
 
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
-    self.assertEqual(response.json['data']['status'], self.test_question_claim_block_status)
+    self.assertEqual(response.json['data']['status'], self.question_claim_block_status)
 
 
 def next_check_value_with_unanswered_question(self):
@@ -90,7 +90,7 @@ def next_check_value_with_unanswered_question(self):
     self.assertEqual(question['questionOf'], 'lot')
     self.assertEqual(question['relatedItem'], self.initial_lots[0]['id'])
 
-    self.set_status(self.test_question_claim_block_status, extra={"status": "active.tendering"})
+    self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
@@ -113,7 +113,7 @@ def next_check_value_with_unanswered_question(self):
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], self.test_question_claim_block_status)
+    self.assertEqual(response.json['data']["status"], self.question_claim_block_status)
 
 
 def next_check_value_with_unanswered_claim(self):
@@ -129,7 +129,7 @@ def next_check_value_with_unanswered_claim(self):
     owner_token = response.json['access']['token']
     self.assertEqual(complaint['relatedLot'], self.initial_lots[0]['id'])
 
-    self.set_status(self.test_question_claim_block_status, extra={"status": "active.tendering"})
+    self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
@@ -152,7 +152,7 @@ def next_check_value_with_unanswered_claim(self):
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], self.test_question_claim_block_status)
+    self.assertEqual(response.json['data']["status"], self.question_claim_block_status)
 
 
 # TenderLotBidderResourceTest
