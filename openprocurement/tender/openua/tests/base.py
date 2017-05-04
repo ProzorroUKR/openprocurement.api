@@ -82,7 +82,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_lots = None
     relative_to = os.path.dirname(__file__)
     primary_tender_status = 'active.tendering'  # status, to which tender should be switched from 'draft'
-    question_claim_block_status = 'active.auction'  # TODO: add comment for status
+    question_claim_block_status = 'active.auction'  # status, tender cannot be switched to while it has questions/complaints related to its lot
     forbidden_document_modification_actions_status = "active.auction"  # status, in which operations with tender documents (adding, updating) are forbidden
     forbidden_question_modification_actions_status = 'active.auction'  # status, in which adding/updating tender questions is forbidden
     forbidden_lot_actions_status = 'active.auction'  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
