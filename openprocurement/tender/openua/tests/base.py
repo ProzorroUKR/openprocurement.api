@@ -74,19 +74,21 @@ test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["
 
 from openprocurement.api.utils import apply_data_patch
 
+
 class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     initial_lots = None
     relative_to = os.path.dirname(__file__)
-    primary_tender_status_name = 'active.tendering'
-    test_forbidden_document_actions_status = "active.auction"
-    test_forbidden_question_actions_status = 'active.auction'
-    test_status_that_denies_get_post_patch_auction = 'active.tendering'
-    test_status_that_denies_delete_create_patch_lots = 'active.auction'
-    test_status_that_denies_put_create_patch_contract_docs = 'unsuccessful'
-    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
+    primary_tender_status = 'active.tendering'  # status, to which tender should be switched from 'draft'
+    question_claim_block_status = 'active.auction'  # status, tender cannot be switched to while it has questions/complaints related to its lot
+    forbidden_document_modification_actions_status = "active.auction"  # status, in which operations with tender documents (adding, updating) are forbidden
+    forbidden_question_modification_actions_status = 'active.auction'  # status, in which adding/updating tender questions is forbidden
+    forbidden_lot_actions_status = 'active.auction'  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+    forbidden_contract_document_modification_actions_status = 'unsuccessful'  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+    forbidden_auction_actions_status = 'active.tendering'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_document_create_actions_status = 'active.tendering'  # status, in which adding document to tender auction is forbidden
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
