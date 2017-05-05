@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    json_view, context_unpack, APIResource, get_now, error_handler
+    json_view, context_unpack, APIResource, get_now, raise_operation_error
 )
 
 from openprocurement.tender.core.utils import (
@@ -89,10 +89,7 @@ class TenderNegotiationCancellationResource(TenderCancellationResource):
         if tender.lots:
             if not cancellation.relatedLot:
                 if [lot for lot in tender.lots if lot.status == 'complete']:
-                    self.request.errors.add(
-                        'body', 'data', 'Can\'t {} cancellation, if there is at least one complete lot'.format(operation))
-                    self.request.errors.status = 403
-                    raise error_handler(self.request.errors)
+                    raise_operation_error(self.request, 'Can\'t {} cancellation, if there is at least one complete lot'.format(operation))
         return True
 
 

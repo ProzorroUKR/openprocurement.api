@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    json_view, context_unpack, get_now, error_handler
+    json_view, context_unpack, get_now, raise_operation_error
 )
 from openprocurement.tender.core.utils import (
     apply_patch, save_tender, optendersresource
@@ -16,6 +16,7 @@ from openprocurement.tender.belowthreshold.views.contract import (
 from openprocurement.tender.limited.validation import (
     validate_contract_update_in_cancelled,
     validate_contract_operation_not_in_active,
+    validate_contract_items_count_modification,
     validate_contract_with_cancellations_and_contract_signing
 )
 
@@ -87,7 +88,7 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
             return {'data': contract.serialize()}
 
     @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data, validate_contract_operation_not_in_active, validate_contract_update_in_cancelled,
-               validate_update_contract_value))
+               validate_update_contract_value, validate_contract_items_count_modification))
     def patch(self):
         """Update of contract
         """
@@ -95,9 +96,7 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         self.request.context.date = get_now()
         if contract_status != self.request.context.status and contract_status != 'pending' and self.request.context.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t update contract status')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update contract status')
 
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
@@ -116,7 +115,7 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
 class TenderNegotiationAwardContractResource(TenderAwardContractResource):
     """ Tender Negotiation Award Contract Resource """
     @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data, validate_contract_operation_not_in_active, validate_contract_update_in_cancelled,
-               validate_contract_with_cancellations_and_contract_signing, validate_update_contract_value))
+               validate_contract_with_cancellations_and_contract_signing, validate_update_contract_value, validate_contract_items_count_modification))
     def patch(self):
         """Update of contract
         """
@@ -124,9 +123,7 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         self.request.context.date = get_now()
         if contract_status != self.request.context.status and contract_status != 'pending' and self.request.context.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t update contract status')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update contract status')
 
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
