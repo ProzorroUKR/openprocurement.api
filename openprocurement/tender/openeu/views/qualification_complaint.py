@@ -4,7 +4,7 @@ from openprocurement.api.utils import (
     json_view,
     set_ownership,
     get_now,
-    error_handler
+    raise_operation_error
 )
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
@@ -57,9 +57,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         else:
             complaint.status = 'draft'
         if self.context.status == 'unsuccessful' and complaint.status == 'claim' and self.context.bidID != complaint.bid_id:
-            self.request.errors.add('body', 'data', 'Can add claim only on unsuccessful qualification of your bid')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can add claim only on unsuccessful qualification of your bid')
         complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
         set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
@@ -94,9 +92,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'complaint_owner' and is_qualificationPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == 'claim':
             if self.request.validated['qualification'].status == 'unsuccessful' and self.request.validated['qualification'].bidID != self.context.bid_id:
-                self.request.errors.add('body', 'data', 'Can add claim only on unsuccessful qualification of your bid')
-                self.request.errors.status = 403
-                raise error_handler(self.request.errors)
+                raise_operation_error(self.request, 'Can add claim only on unsuccessful qualification of your bid')
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateSubmitted = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and is_qualificationPeriod and self.context.status == 'draft' and data.get('status', self.context.status) == 'pending':
@@ -112,9 +108,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('resolution', self.context.resolution) and data.get('resolutionType', self.context.resolutionType) and data.get('status', self.context.status) == 'answered':
             if len(data.get('resolution', self.context.resolution)) < 20:
-                self.request.errors.add('body', 'data', 'Can\'t update complaint: resolution too short')
-                self.request.errors.status = 403
-                raise error_handler(self.request.errors)
+                raise_operation_error(self.request, 'Can\'t update complaint: resolution too short')
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAnswered = get_now()
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('tendererAction', self.context.tendererAction) and data.get('status', self.context.status) == 'resolved':
@@ -144,9 +138,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             self.context.dateDecision = get_now()
             self.context.dateCanceled = self.context.dateCanceled or get_now()
         else:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update complaint')
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if save_tender(self.request):

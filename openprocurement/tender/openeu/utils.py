@@ -8,14 +8,16 @@ from openprocurement.api.utils import (
     context_unpack,
 )
 from openprocurement.tender.core.utils import (
-    remove_draft_bids
+    remove_draft_bids,
+    has_unanswered_questions,
+    has_unanswered_complaints
 )
 from openprocurement.tender.belowthreshold.utils import (
     check_tender_status
 )
 from openprocurement.tender.openua.utils import (
     add_next_award,
-    check_complaint_status, has_unanswered_questions, has_unanswered_complaints
+    check_complaint_status
 )
 from openprocurement.tender.openeu.models import Qualification
 from openprocurement.tender.openeu.traversal import (
@@ -110,7 +112,7 @@ def all_bids_are_reviewed(request):
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
-
+    active_lots = [lot.id for lot in tender.lots if lot.status == 'active'] if tender.lots else [None]
     for award in tender.awards:
         if award.status == 'active' and not any([i.awardID == award.id for i in tender.contracts]):
             tender.contracts.append(type(tender).contracts.model_class({
@@ -139,6 +141,7 @@ def check_status(request):
         i.status in tender.block_complaint_status
         for q in tender.qualifications
         for i in q.complaints
+        if q.lotID in active_lots
     ]):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))

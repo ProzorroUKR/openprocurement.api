@@ -239,7 +239,6 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
 
     test_create_tender_qualification_claim = snitch(create_tender_qualification_claim)
 
-
 class TenderQualificationComplaintDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_bids

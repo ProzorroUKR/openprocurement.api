@@ -3,7 +3,6 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     get_now,
-    error_handler
 )
 from openprocurement.tender.core.utils import (
     optendersresource,
@@ -103,10 +102,7 @@ class TenderBidResource(BaseResource):
         if self.request.authenticated_role == 'bid_owner':
             return {'data': self.request.context.serialize('view')}
         # TODO can't move this validator becacuse of check above
-        if self.request.validated['tender_status'] == 'active.tendering':
-            self.request.errors.add('body', 'data', 'Can\'t view bid in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+        validate_view_bids_in_active_tendering(self.request)
         return {'data': self.request.context.serialize(self.request.validated['tender_status'])}
 
     @json_view(content_type="application/json", permission='edit_bid', validators=(validate_patch_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period,

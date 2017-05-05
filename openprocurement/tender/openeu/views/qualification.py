@@ -3,7 +3,7 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
-    error_handler
+    raise_operation_error
 )
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -60,9 +60,7 @@ class TenderQualificationResource(APIResource):
         prev_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if prev_status != 'pending' and self.request.context.status != 'cancelled':
-            self.request.errors.add('body', 'data', 'Can\'t update qualification status'.format(tender.status))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update qualification status'.format(tender.status))
         if self.request.context.status == 'active':
             # approve related bid
             set_bid_status(tender, self.request.context.bidID, 'active', self.request.context.lotID)

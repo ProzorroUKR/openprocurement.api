@@ -6,7 +6,7 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     get_now,
-    error_handler
+    raise_operation_error
 )
 from openprocurement.api.validation import (
     validate_file_update,
@@ -59,13 +59,9 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
         """Tender Bid Documents List"""
         # TODO can't move validators because of self.view_forbidden_states
         if self.request.validated['tender_status'] in self.view_forbidden_states and self.request.authenticated_role != 'bid_owner':
-            self.request.errors.add('body', 'data', 'Can\'t view bid documents in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t view bid documents in current ({}) tender status'.format(self.request.validated['tender_status']))
         if self.context.status in self.view_forbidden_bid_states and self.request.authenticated_role != 'bid_owner':
-            self.request.errors.add('body', 'data', 'Can\'t view bid documents in current ({}) bid status'.format(self.context.status))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t view bid documents in current ({}) bid status'.format(self.context.status))
         if self.request.params.get('all', ''):
             collection_data = [i.serialize("restricted_view") if self._doc_access_restricted(i) else i.serialize("view")
                                for i in getattr(self.context, self.container)]
@@ -97,20 +93,14 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
         # TODO can't move validators because of self.view_forbidden_states
         is_bid_owner = self.request.authenticated_role == 'bid_owner'
         if self.request.validated['tender_status'] in self.view_forbidden_states and not is_bid_owner:
-            self.request.errors.add('body', 'data', 'Can\'t view bid document in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t view bid document in current ({}) tender status'.format(self.request.validated['tender_status']))
         if self.request.validated['bid'].status in self.view_forbidden_bid_states and self.request.authenticated_role != 'bid_owner':
-            self.request.errors.add('body', 'data', 'Can\'t view bid documents in current ({}) bid status'.format(self.request.validated['bid'].status))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t view bid documents in current ({}) bid status'.format(self.request.validated['bid'].status))
 
         document = self.request.validated['document']
         if self.request.params.get('download'):
             if self._doc_access_restricted(document):
-                self.request.errors.add('body', 'data', 'Document download forbidden.')
-                self.request.errors.status = 403
-                raise error_handler(self.request.errors)
+                raise_operation_error(self.request, 'Document download forbidden.')
             else:
                 return get_file(self.request)
         document_data = document.serialize('restricted_view' if self._doc_access_restricted(document) else 'view')
@@ -145,7 +135,7 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
 
 
 @bid_financial_documents_resource(
-    name='Tender EU Bid Financial Documents',
+    name='aboveThresholdEU:Tender Bid Financial Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/financial_documents',
     path='/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}',
     procurementMethodType='aboveThresholdEU',
@@ -158,7 +148,7 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
                              'active.pre-qualification.stand-still', 'active.auction']
     view_forbidden_bid_states = ['invalid', 'deleted', 'invalid.pre-qualification', 'unsuccessful']
 
-@bid_eligibility_documents_resource(name='Tender EU Bid Eligibility Documents',
+@bid_eligibility_documents_resource(name='aboveThresholdEU:Tender Bid Eligibility Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/eligibility_documents',
 
     path='/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}',
@@ -171,7 +161,7 @@ class TenderEUBidEligibilityDocumentResource(TenderEUBidFinancialDocumentResourc
     view_forbidden_bid_states = ['invalid', 'deleted']
 
 
-@bid_qualification_documents_resource(name='Tender EU Bid Qualification Documents',
+@bid_qualification_documents_resource(name='aboveThresholdEU:Tender Bid Qualification Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/qualification_documents',
     path='/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}',
     procurementMethodType='aboveThresholdEU',
