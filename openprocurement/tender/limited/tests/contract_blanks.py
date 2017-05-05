@@ -27,10 +27,10 @@ def create_tender_contract_with_token(self):
     self.assertIn(contract['id'], response.headers['Location'])
 
     response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']),
-                                   {"data": {"status": "terminated"}})
+                                   {"data": {"status": "active"}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], "terminated")
+    self.assertEqual(response.json['data']["status"], "active")
 
     response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']),
                                    {"data": {"status": "pending"}}, status=403)
