@@ -13,6 +13,7 @@ from openprocurement.api.models import (
     plain_role, listing_role,
     schematics_default_role, schematics_embedded_role, draft_role,
     Model, PeriodEndRequired as BasePeriodEndRequired,
+    ListType, SifterListType, Period, IsoDateTimeType, Address
 )
 from openprocurement.api.constants import (
     TZ
@@ -25,19 +26,19 @@ from openprocurement.tender.core.models import (
     auction_view_role, auction_post_role, auction_patch_role,
     auction_role, chronograph_role, embedded_lot_role,
     chronograph_view_role, view_bid_role, Administrator_bid_role,
-    get_tender, validate_lots_uniq, Lot,
+    get_tender, validate_lots_uniq, bids_validation_wrapper, Lot,
     ComplaintModelType, Award as BaseAward, Parameter as BaseParameter,
-    Bid as BaseBid, Complaint as BaseComplaint, ListType,
-    Period, IsoDateTimeType, default_lot_role,
-    Address, LotValue as BaseLotValue, Item as BaseItem,
+    Bid as BaseBid, Complaint as BaseComplaint,
+    default_lot_role, LotValue as BaseLotValue, Item as BaseItem,
     Contract as BaseContract, Cancellation as BaseCancellation,
-    validate_parameters_uniq, ITender, SifterListType,
+    validate_parameters_uniq, ITender,
     PeriodStartEndRequired,
     EnquiryPeriod
     # TenderAuctionPeriod
 )
 from openprocurement.tender.core.utils import (
-    rounding_shouldStartAfter, calc_auction_end_time, calculate_business_date
+    rounding_shouldStartAfter, calc_auction_end_time, calculate_business_date,
+    has_unanswered_questions, has_unanswered_complaints
 )
 from openprocurement.tender.core.validation import (
     validate_LotValue_value,
@@ -48,8 +49,7 @@ from openprocurement.tender.belowthreshold.models import (
     Administrator_role
 )
 from openprocurement.tender.openua.utils import (
-    calculate_normalized_date, has_unanswered_questions,
-    has_unanswered_complaints
+    calculate_normalized_date
 )
 from openprocurement.tender.openua.constants import (
     ENQUIRY_STAND_STILL_TIME,
@@ -65,22 +65,6 @@ edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 class IAboveThresholdUATender(ITender):
      """ Marker interface for aboveThresholdUA tenders """
 
-
-def bids_validation_wrapper(validation_func):
-    def validator(klass, data, value):
-        orig_data = data
-        while not isinstance(data['__parent__'], Tender):
-            data = data['__parent__']
-        if data['status'] in ('deleted', 'invalid', 'draft'):
-            # skip not valid bids
-            return
-        tender = data['__parent__']
-        request = tender.__parent__.request
-        if request.method == "PATCH" and isinstance(tender, Tender) and request.authenticated_role == "tender_owner":
-            # disable bids validation on tender PATCH requests as tender bids will be invalidated
-            return
-        return validation_func(klass, orig_data, value)
-    return validator
 
 class TenderAuctionPeriod(Period):
     """The auction period."""
@@ -161,7 +145,7 @@ class Bid(BaseBid):
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
             'view': view_bid_role,
-            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
+            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'selfQualified', 'selfEligible', 'subcontractingDetails', 'documents'),
             'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'subcontractingDetails'),
             'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
             'auction_post': whitelist('value', 'lotValues', 'id', 'date'),

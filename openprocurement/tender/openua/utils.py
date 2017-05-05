@@ -4,10 +4,14 @@ from datetime import timedelta
 from logging import getLogger
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TZ, SANDBOX_MODE
+from openprocurement.tender.core.utils import (
+    has_unanswered_questions,
+    has_unanswered_complaints,
+    remove_draft_bids
+)
 from openprocurement.tender.belowthreshold.utils import (
     check_tender_status,
     context_unpack,
-    remove_draft_bids,
 )
 from openprocurement.tender.openua.constants import (
     NORMALIZED_COMPLAINT_PERIOD_FROM
@@ -43,26 +47,6 @@ def check_bids(request):
 def check_complaint_status(request, complaint):
     if complaint.status == 'answered':
         complaint.status = complaint.resolutionType
-
-
-def has_unanswered_questions(tender, filter_cancelled_lots=True):
-    if filter_cancelled_lots and tender.lots:
-        active_lots = [l.id for l in tender.lots if l.status == 'active']
-        active_items = [i.id for i in tender.items if not i.relatedLot or i.relatedLot in active_lots]
-        return any([
-            not i.answer
-            for i in tender.questions
-            if i.questionOf == 'tender' or i.questionOf == 'lot' and i.relatedItem in active_lots or i.questionOf == 'item' and i.relatedItem in active_items
-        ])
-    return any([not i.answer for i in tender.questions])
-
-
-def has_unanswered_complaints(tender, filter_cancelled_lots=True):
-    if filter_cancelled_lots and tender.lots:
-        active_lots = [l.id for l in tender.lots if l.status == 'active']
-        return any([i.status in tender.block_tender_complaint_status for i in tender.complaints if not i.relatedLot \
-                    or (i.relatedLot and i.relatedLot in active_lots)])
-    return any([i.status in tender.block_tender_complaint_status for i in tender.complaints])
 
 
 def check_status(request):

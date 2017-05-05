@@ -4,20 +4,21 @@ from openprocurement.api.utils import (
     update_file_content_type,
     json_view,
     context_unpack,
-    error_handler
 )
 from openprocurement.api.validation import (
     validate_file_update,
     validate_file_upload,
     validate_patch_document_data,
 )
-from openprocurement.tender.core.validation import validate_status_and_role_for_complaint_document_operation
+from openprocurement.tender.core.validation import (
+    validate_complaint_document_update_not_by_author,
+    validate_status_and_role_for_complaint_document_operation
+)
 from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch
 )
 from openprocurement.tender.belowthreshold.views.complaint_document import TenderComplaintDocumentResource
 from openprocurement.tender.openua.validation import (
-    validate_complaint_author,
     validate_complaint_document_operation_not_in_allowed_status
 )
 
@@ -44,7 +45,7 @@ class TenderUaComplaintDocumentResource(TenderComplaintDocumentResource):
             self.request.response.headers['Location'] = self.request.current_route_url(_route_name=document_route, document_id=document.id, _query={})
             return {'data': document.serialize("view")}
 
-    @json_view(validators=(validate_file_update, validate_complaint_author, validate_complaint_document_operation_not_in_allowed_status, validate_status_and_role_for_complaint_document_operation,), permission='edit_complaint')
+    @json_view(validators=(validate_file_update, validate_complaint_document_update_not_by_author, validate_complaint_document_operation_not_in_allowed_status, validate_status_and_role_for_complaint_document_operation,), permission='edit_complaint')
     def put(self):
         """Tender Complaint Document Update"""
         document = upload_file(self.request)
@@ -55,7 +56,7 @@ class TenderUaComplaintDocumentResource(TenderComplaintDocumentResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_complaint_document_put'}))
             return {'data': document.serialize("view")}
 
-    @json_view(content_type="application/json", validators=(validate_patch_document_data, validate_complaint_author, validate_complaint_document_operation_not_in_allowed_status,
+    @json_view(content_type="application/json", validators=(validate_patch_document_data, validate_complaint_document_update_not_by_author, validate_complaint_document_operation_not_in_allowed_status,
                validate_status_and_role_for_complaint_document_operation,), permission='edit_complaint')
     def patch(self):
         """Tender Complaint Document Update"""

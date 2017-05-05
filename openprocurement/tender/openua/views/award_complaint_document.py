@@ -5,6 +5,8 @@ from openprocurement.api.utils import (
     json_view,
     update_file_content_type,
     upload_file,
+    raise_operation_error,
+    error_handler
 )
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -34,19 +36,13 @@ class TenderUaAwardComplaintDocumentResource(TenderAwardComplaintDocumentResourc
         if operation == 'update' and self.request.authenticated_role != self.context.author:
             self.request.errors.add('url', 'role', 'Can update document only author')
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if self.request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
-            self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
         if any([i.status != 'active' for i in self.request.validated['tender'].lots if i.id == self.request.validated['award'].lotID]):
-            self.request.errors.add('body', 'data', 'Can {} document only in active lot status'.format(operation))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can {} document only in active lot status'.format(operation))
         if self.request.validated['complaint'].status not in STATUS4ROLE.get(self.request.authenticated_role, []):
-            self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) complaint status'.format(operation, self.request.validated['complaint'].status))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t {} document in current ({}) complaint status'.format(operation, self.request.validated['complaint'].status))
         return True
 
     @json_view(permission='edit_complaint', validators=(validate_file_upload,))
