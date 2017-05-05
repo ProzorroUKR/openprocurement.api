@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
+    get_now,
     set_ownership,
     json_view,
     context_unpack,
@@ -8,14 +8,14 @@ from openprocurement.api.utils import (
 )
 
 from openprocurement.tender.core.validation import (
+    validate_bid_data,
+    validate_patch_bid_data,
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering
 )
 
 from openprocurement.tender.belowthreshold.validation import (
-    validate_bid_data,
     validate_view_bids,
-    validate_patch_bid_data,
     validate_update_bid_status
 )
 
@@ -200,11 +200,7 @@ class TenderBidResource(APIResource):
         """
         if self.request.authenticated_role == 'bid_owner':
             return {'data': self.request.context.serialize('view')}
-        # Can't move validator because of check above
-        if self.request.validated['tender_status'] in ['active.tendering', 'active.auction']:
-            self.request.errors.add('body', 'data', 'Can\'t view bid in current ({}) tender status'.format(self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
+        validate_view_bids(self.request)
         return {'data': self.request.context.serialize(self.request.validated['tender_status'])}
 
     @json_view(content_type="application/json", permission='edit_bid', validators=(validate_patch_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period,

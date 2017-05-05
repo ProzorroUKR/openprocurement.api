@@ -3,7 +3,8 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
-    get_now
+    get_now,
+    raise_operation_error
 )
 
 from openprocurement.tender.core.utils import (
@@ -14,7 +15,7 @@ from openprocurement.tender.belowthreshold.utils import (
     add_next_award
 )
 
-from openprocurement.tender.belowthreshold.validation import (
+from openprocurement.tender.core.validation import (
     validate_cancellation_data,
     validate_patch_cancellation_data,
 )
@@ -59,15 +60,11 @@ class TenderCancellationResource(APIResource):
         """
         tender = self.request.validated['tender']
         if tender.status in ['complete', 'cancelled', 'unsuccessful']:
-            self.request.errors.add('body', 'data', 'Can\'t {} cancellation in current ({}) tender status'.format(operation, tender.status))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t {} cancellation in current ({}) tender status'.format(operation, tender.status))
         cancellation = self.request.validated['cancellation']
         cancellation.date = get_now()
         if any([i.status != 'active' for i in tender.lots if i.id == cancellation.relatedLot]):
-            self.request.errors.add('body', 'data', 'Can {} cancellation only in active lot status'.format(operation))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can {} cancellation only in active lot status'.format(operation))
         return True
 
     @json_view(content_type="application/json", validators=(validate_cancellation_data,), permission='edit_tender')

@@ -6,7 +6,6 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
-    error_handler
 )
 
 from openprocurement.api.validation import (
@@ -14,6 +13,7 @@ from openprocurement.api.validation import (
 )
 
 from openprocurement.tender.core.validation import (
+    validate_complaint_document_update_not_by_author,
     validate_status_and_role_for_complaint_document_operation,
     validate_award_complaint_document_operation_only_for_active_lots,
     validate_award_complaint_document_operation_not_in_allowed_status
@@ -24,7 +24,6 @@ from openprocurement.tender.core.utils import (
 )
 
 from openprocurement.tender.belowthreshold.validation import (
-    validate_complaint_document_update_not_by_author,
     validate_role_and_status_for_add_complaint_document
 )
 

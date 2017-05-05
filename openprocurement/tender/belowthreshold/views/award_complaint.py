@@ -5,7 +5,7 @@ from openprocurement.api.utils import (
     json_view,
     set_ownership,
     APIResource,
-    error_handler
+    raise_operation_error
 )
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
@@ -115,9 +115,7 @@ class TenderAwardComplaintResource(APIResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
         else:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update complaint')
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if self.context.status not in ['draft', 'claim', 'answered', 'pending'] and tender.status in ['active.qualification', 'active.awarded']:
