@@ -985,6 +985,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual('test description', response.json["data"]["description"])
         self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertIn(self.bid_id + '/documents/' + doc_id, response.json["data"]["url"])
         key = response.json["data"]["url"].split('?')[-1]
 
         response = self.app.get('/tenders/{}/bids/{}/documents/{}?{}&acc_token={}'.format(
