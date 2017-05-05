@@ -341,6 +341,13 @@ def validate_status_and_role_for_complaint_document_operation(request):
     if request.validated['complaint'].status not in roles.get(request.authenticated_role, []):
         raise_operation_error(request, 'Can\'t {} document in current ({}) complaint status'.format(OPERATIONS.get(request.method), request.validated['complaint'].status))
 
+
+def validate_complaint_document_update_not_by_author(request):
+    if request.authenticated_role != request.context.author:
+        request.errors.add('url', 'role', 'Can update document only author')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
 # awards
 def validate_update_award_in_not_allowed_status(request):
     tender = request.validated['tender']
