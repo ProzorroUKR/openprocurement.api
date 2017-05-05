@@ -3,11 +3,10 @@ from pkg_resources import get_distribution
 
 from openprocurement.api.constants import read_json, TZ
 from openprocurement.tender.core.utils import (
-    context_unpack, get_now
+    context_unpack, get_now, has_unanswered_questions, has_unanswered_complaints
 )
 from openprocurement.tender.openua.utils import (
-    check_complaint_status, add_next_award, has_unanswered_questions,
-    has_unanswered_complaints
+    check_complaint_status, add_next_award
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
 PKG = get_distribution(__package__)

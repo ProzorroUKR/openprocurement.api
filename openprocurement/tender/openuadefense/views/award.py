@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
     get_now,
-    error_handler
+    raise_operation_error
 )
 
 from openprocurement.tender.core.utils import (
     apply_patch,
     optendersresource,
     save_tender,
+    calculate_business_date
 )
 
 from openprocurement.tender.core.validation import (
@@ -25,7 +26,6 @@ from openprocurement.tender.openua.constants import STAND_STILL_TIME
 from openprocurement.tender.openua.utils import (
     calculate_normalized_date, add_next_award
 )
-from openprocurement.tender.core.utils import calculate_business_date
 
 
 @optendersresource(name='aboveThresholdUA.defense:Tender Awards',
@@ -151,9 +151,7 @@ class TenderUaAwardResource(TenderAwardResource):
                     i.status = 'cancelled'
             add_next_award(self.request)
         elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
         if save_tender(self.request):
             self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}))

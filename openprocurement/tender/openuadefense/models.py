@@ -7,20 +7,23 @@ from schematics.types.serializable import serializable
 from zope.interface import implementer
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import (
+    Period,
+    ListType,
     ContactPoint as BaseContactPoint
 )
 from openprocurement.tender.core.models import (
-    Period,
-    ProcuringEntity as BaseProcuringEntity,
-    ListType
+    ProcuringEntity as BaseProcuringEntity, EnquiryPeriod,
+    Lot as BaseLot, validate_lots_uniq, get_tender
 )
 from openprocurement.tender.openua.models import (
-    Tender as BaseTender, EnquiryPeriod, Lot as BaseLot, get_tender,
+    Tender as BaseTender,
     IAboveThresholdUATender,
-    calc_auction_end_time, validate_lots_uniq, calculate_normalized_date,
 )
-
-from openprocurement.tender.core.utils import calculate_business_date
+from openprocurement.tender.openua.utils import calculate_normalized_date
+from openprocurement.tender.core.utils import (
+    calculate_business_date,
+    calc_auction_end_time,
+)
 from openprocurement.tender.openuadefense.constants import (
     TENDER_PERIOD,
     ENQUIRY_STAND_STILL_TIME,
