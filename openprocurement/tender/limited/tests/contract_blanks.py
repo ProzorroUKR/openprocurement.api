@@ -12,54 +12,6 @@ from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 # TenderContractResourceTest
 
-
-def create_tender_contract_with_token(self):
-    # This can not be, but just in case check
-    self.app.authorization = ('Basic', ('token', ''))
-    response = self.app.post_json('/tenders/{}/contracts'.format(self.tender_id),
-                                  {'data': {'title': 'contract title',
-                                            'description': 'contract description',
-                                            'awardID': self.award_id}})
-    self.assertEqual(response.status, '201 Created')
-    self.assertEqual(response.content_type, 'application/json')
-    contract = response.json['data']
-    self.assertIn('id', contract)
-    self.assertIn(contract['id'], response.headers['Location'])
-
-    response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']),
-                                   {"data": {"status": "active"}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], "active")
-
-    response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']),
-                                   {"data": {"status": "pending"}}, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update contract status")
-
-    tender = self.db.get(self.tender_id)
-    for i in tender.get('awards', []):
-        if i.get('complaintPeriod', {}):  # works for negotiation tender
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-    self.db.save(tender)
-
-    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
-        self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}})
-    self.assertEqual(response.status, '200 OK')
-
-    response = self.app.get('/tenders/{}'.format(self.tender_id))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['status'], 'complete')
-
-    response = self.app.post_json('/tenders/{}/contracts'.format(self.tender_id),
-                                  {'data': {'title': 'contract title',
-                                            'description': 'contract description',
-                                            'awardID': self.award_id}},
-                                  status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-
-
 def create_tender_contract(self):
     response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
     self.contract_id = response.json['data'][0]['id']

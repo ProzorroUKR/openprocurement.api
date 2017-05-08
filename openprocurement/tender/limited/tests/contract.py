@@ -32,7 +32,6 @@ from openprocurement.tender.limited.tests.contract_blanks import (
     tender_negotiation_contract_signature_date,
     items,
     # TenderContractResourceTest
-    create_tender_contract_with_token,
     create_tender_contract,
     patch_tender_contract,
     tender_contract_signature_date,
@@ -61,7 +60,6 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
         super(TenderContractResourceTest, self).setUp()
         self.create_award()
 
-    test_create_tender_contract_with_token = snitch(create_tender_contract_with_token)
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_tender_contract_signature_date = snitch(tender_contract_signature_date)
