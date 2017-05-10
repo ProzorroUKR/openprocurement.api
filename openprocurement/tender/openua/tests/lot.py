@@ -17,7 +17,8 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
 )
 
 from openprocurement.tender.openua.tests.base import (
-    test_bids, BaseTenderUAContentWebTest, test_tender_data
+    test_bids, BaseTenderUAContentWebTest, test_tender_data,
+    test_features_tender_ua_data
 )
 from openprocurement.tender.openua.tests.lot_blanks import (
     # TenderLotResourceTest
@@ -47,6 +48,7 @@ from openprocurement.tender.openua.tests.lot_blanks import (
     proc_2lot_1bid_0com_0win,
     proc_2lot_1bid_1com_1win,
     proc_2lot_2bid_2com_2win,
+    lots_features_delete,
 )
 
 
@@ -172,6 +174,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 class TenderLotProcessTest(BaseTenderUAContentWebTest, TenderLotProcessTestMixin, TenderUALotProcessTestMixin):
     initial_data = test_tender_data
     test_lots_data = test_lots
+    test_features_tender_data = test_features_tender_ua_data
     setUp = BaseTenderUAContentWebTest.setUp
 
     days_till_auction_starts = 16
@@ -182,6 +185,7 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest, TenderLotProcessTestMixin
     test_proc_2lot_1bid_2com_1win = snitch(proc_2lot_1bid_2com_1win)
     test_proc_2lot_1bid_0com_0win = snitch(proc_2lot_1bid_0com_0win)
     test_proc_2lot_1bid_1com_1win = snitch(proc_2lot_1bid_1com_1win)
+    test_lots_features_delete = snitch(lots_features_delete)
 
 
 def suite():

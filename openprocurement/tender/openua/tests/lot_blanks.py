@@ -1320,3 +1320,98 @@ def proc_2lot_2bid_2com_2win(self):
     response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertTrue(all([i['status'] == 'complete' for i in response.json['data']['lots']]))
     self.assertEqual(response.json['data']['status'], 'complete')
+
+
+def lots_features_delete(self):
+    # create tender
+    response = self.app.post_json('/tenders', {'data': self.test_features_tender_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    tender = response.json['data']
+    tender_id = self.tender_id = response.json['data']['id']
+    owner_token = response.json['access']['token']
+    self.assertEqual(tender['features'], self.test_features_tender_data['features'])
+    # add lot
+    lots = []
+    for lot in self.test_lots_data * 2:
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': lot})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        lots.append(response.json['data']['id'])
+
+    # add features
+    response = self.app.patch_json('/tenders/{}?acc_token={}&opt_pretty=1'.format(tender['id'], owner_token), {'data': {
+        "features": [
+            {
+                "code": "code_item",
+                "featureOf": "item",
+                "relatedItem": '1',
+                "title": u"item feature",
+                "enum": [
+                    {
+                        "value": 0.01,
+                        "title": u"good"
+                    },
+                    {
+                        "value": 0.02,
+                        "title": u"best"
+                    }
+                ]
+            },
+            {
+                "code": "code_lot",
+                "featureOf": "lot",
+                "relatedItem": lots[1],
+                "title": u"lot feature",
+                "enum": [
+                    {
+                        "value": 0.01,
+                        "title": u"good"
+                    },
+                    {
+                        "value": 0.02,
+                        "title": u"best"
+                    }
+                ]
+            },
+            {
+                "code": "code_tenderer",
+                "featureOf": "tenderer",
+                "title": u"tenderer feature",
+                "enum": [
+                    {
+                        "value": 0.01,
+                        "title": u"good"
+                    },
+                    {
+                        "value": 0.02,
+                        "title": u"best"
+                    }
+                ]
+            }
+        ]}})
+    # create bid
+    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                    {'data': {'selfEligible': True, 'selfQualified': True,
+                                            'lotValues': [{"value": {"amount": 500}, 'relatedLot': lots[1]}],
+                                            'parameters': [
+                                                            {"code": "code_lot","value": 0.01},
+                                                            {"code": "code_tenderer","value": 0.01}],
+                                            'tenderers': [test_organization]}})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    bid_id = response.json['data']['id']
+    bid_token = response.json['access']['token']
+    # delete features
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'features': []}})
+    response = self.app.get('/tenders/{}?opt_pretty=1'.format(tender_id))
+    self.assertNotIn('features', response.json['data'])
+    # patch bid without parameters
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token),
+                                    {'data': {'selfEligible': True, 'selfQualified': True,
+                                            'status': "active",
+                                            'lotValues': [{"value": {"amount": 500}, 'relatedLot': lots[1]}],
+                                            'parameters': [],
+                                            'tenderers': [test_organization]}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertNotIn('parameters', response.json['data'])
