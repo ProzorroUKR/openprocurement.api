@@ -85,6 +85,10 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = 'active.tendering'
+    bid_data_wo_docs = {'tenderers': [test_organization],
+                        'value': {'amount': 500},
+                        'documents': []
+        }
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization
 )
@@ -1041,125 +1042,113 @@ def put_tender_bid_document_json(self):
 
 
 def create_tender_bid_with_document_invalid(self):
+    # test requires bid data stored on `bid_data_wo_docs` attribute of test class
+    docs = [{
+             'title': 'name.doc',
+             'url': 'http://invalid.docservice.url/get/uuid',
+             'hash': 'md5:' + '0' * 32,
+             'format': 'application/msword'
+            }]
+    bid_data = deepcopy(self.bid_data_wo_docs)
+    bid_data['documents'] = docs
     response = self.app.post_json('/tenders/{}/bids'.format( self.tender_id),
-        {'data': {
-             'tenderers': [test_organization],
-             "value": {"amount": 500},
-             'documents': [{
-                    'title': 'name.doc',
-                    'url': 'http://invalid.docservice.url/get/uuid',
-                    'hash': 'md5:' + '0' * 32,
-                    'format': 'application/msword'
-                }]
-        }}, status=403)
+        {'data': bid_data}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can add document only from document service.")
 
+    docs = [{
+             'title': 'name.doc',
+             'url': '/'.join(self.generate_docservice_url().split('/')[:4]),
+             'hash': 'md5:' + '0' * 32,
+             'format': 'application/msword'
+            }]
+    bid_data['documents'] = docs
     response = self.app.post_json('/tenders/{}/bids'.format( self.tender_id),
-        {'data': {
-             'tenderers': [test_organization],
-             "value": {"amount": 500},
-             'documents': [{
-                    'title': 'name.doc',
-                    'url': '/'.join(self.generate_docservice_url().split('/')[:4]),
-                    'hash': 'md5:' + '0' * 32,
-                    'format': 'application/msword'
-                }]
-        }}, status=403)
+        {'data': bid_data}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can add document only from document service.")
 
+    docs = [{
+             'title': 'name.doc',
+             'url': self.generate_docservice_url().split('?')[0],
+             'hash': 'md5:' + '0' * 32,
+             'format': 'application/msword'
+            }]
+    bid_data['documents'] = docs
     response = self.app.post_json('/tenders/{}/bids'.format( self.tender_id),
-        {'data': {
-             'tenderers': [test_organization],
-             "value": {"amount": 500},
-             'documents': [{
-                    'title': 'name.doc',
-                    'url': self.generate_docservice_url().split('?')[0],
-                    'hash': 'md5:' + '0' * 32,
-                    'format': 'application/msword'
-                }]
-        }}, status=403)
+        {'data': bid_data}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can add document only from document service.")
 
+    docs = [{
+             'title': 'name.doc',
+             'url': self.generate_docservice_url(),
+             'format': 'application/msword'
+            }]
+    bid_data['documents'] = docs
     response = self.app.post_json('/tenders/{}/bids'.format( self.tender_id),
-        {'data': {
-             'tenderers': [test_organization],
-             "value": {"amount": 500},
-             'documents': [{
-                    'title': 'name.doc',
-                    'url': self.generate_docservice_url(),
-                    'format': 'application/msword'
-                }]
-        }}, status=422)
+        {'data': bid_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["location"], "documents")
     self.assertEqual(response.json['errors'][0]["name"], "hash")
     self.assertEqual(response.json['errors'][0]["description"], "This field is required.")
 
+    docs = [{
+             'title': 'name.doc',
+             'url': self.generate_docservice_url().replace(self.app.app.registry.keyring.keys()[-1], '0' * 8),
+             'hash': 'md5:' + '0' * 32,
+             'format': 'application/msword'
+            }]
+    bid_data['documents'] = docs
     response = self.app.post_json('/tenders/{}/bids'.format( self.tender_id),
-        {'data': {
-             'tenderers': [test_organization],
-             "value": {"amount": 500},
-             'documents': [{
-                    'title': 'name.doc',
-                    'url': self.generate_docservice_url().replace(self.app.app.registry.keyring.keys()[-1], '0' * 8),
-                    'hash': 'md5:' + '0' * 32,
-                    'format': 'application/msword'
-                }]
-        }}, status=422)
+        {'data': bid_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Document url expired.")
 
+    docs = [{
+             'title': 'name.doc',
+             'url': self.generate_docservice_url().replace("Signature=", "Signature=ABC"),
+             'hash': 'md5:' + '0' * 32,
+             'format': 'application/msword'
+            }]
+    bid_data['documents'] = docs
     response = self.app.post_json('/tenders/{}/bids'.format( self.tender_id),
-        {'data': {
-             'tenderers': [test_organization],
-             "value": {"amount": 500},
-             'documents': [{
-                    'title': 'name.doc',
-                    'url': self.generate_docservice_url().replace("Signature=", "Signature=ABC"),
-                    'hash': 'md5:' + '0' * 32,
-                    'format': 'application/msword'
-                }]
-        }}, status=422)
+        {'data': bid_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Document url signature invalid.")
 
+    docs = [{
+             'title': 'name.doc',
+             'url': self.generate_docservice_url().replace("Signature=", "Signature=bw%3D%3D"),
+             'hash': 'md5:' + '0' * 32,
+             'format': 'application/msword'
+            }]
+    bid_data['documents'] = docs
     response = self.app.post_json('/tenders/{}/bids'.format( self.tender_id),
-        {'data': {
-             'tenderers': [test_organization],
-             "value": {"amount": 500},
-             'documents': [{
-                    'title': 'name.doc',
-                    'url': self.generate_docservice_url().replace("Signature=", "Signature=bw%3D%3D"),
-                    'hash': 'md5:' + '0' * 32,
-                    'format': 'application/msword'
-                }]
-        }}, status=422)
+        {'data': bid_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Document url invalid.")
 
 
 def create_tender_bid_with_document(self):
+    # test requires bid data stored on `bid_data_wo_docs` attribute of test class
+    docs = [{
+             'title': 'name.doc',
+             'url': self.generate_docservice_url(),
+             'hash': 'md5:' + '0' * 32,
+             'format': 'application/msword'
+            }]
+    bid_data = deepcopy(self.bid_data_wo_docs)
+    bid_data['documents'] = docs
     response = self.app.post_json('/tenders/{}/bids'.format( self.tender_id),
-        {'data': {
-             'tenderers': [test_organization],
-             "value": {"amount": 500},
-             'documents': [{
-                    'title': 'name.doc',
-                    'url': self.generate_docservice_url(),
-                    'hash': 'md5:' + '0' * 32,
-                    'format': 'application/msword'
-                }]
-        }})
+        {'data': bid_data})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
@@ -1227,31 +1216,29 @@ def create_tender_bid_with_document(self):
 
 
 def create_tender_bid_with_documents(self):
-    dateModified = self.db.get(self.tender_id).get('dateModified')
-
+    # test requires bid data stored on `bid_data_wo_docs` attribute of test class
+    docs = [{
+             'title': 'first.doc',
+             'url': self.generate_docservice_url(),
+             'hash': 'md5:' + '0' * 32,
+             'format': 'application/msword'
+            },
+            {
+             'title': 'second.doc',
+             'url': self.generate_docservice_url(),
+             'hash': 'md5:' + '0' * 32,
+             'format': 'application/msword'
+            },
+            {
+             'title': 'third.doc',
+             'url': self.generate_docservice_url(),
+             'hash': 'md5:' + '0' * 32,
+             'format': 'application/msword'
+            }]
+    bid_data = deepcopy(self.bid_data_wo_docs)
+    bid_data['documents'] = docs
     response = self.app.post_json('/tenders/{}/bids'.format( self.tender_id),
-        {'data': {
-             'tenderers': [test_organization],
-             "value": {"amount": 500},
-             'documents': [{
-                    'title': 'first.doc',
-                    'url': self.generate_docservice_url(),
-                    'hash': 'md5:' + '0' * 32,
-                    'format': 'application/msword'
-                },
-                {
-                    'title': 'second.doc',
-                    'url': self.generate_docservice_url(),
-                    'hash': 'md5:' + '0' * 32,
-                    'format': 'application/msword'
-                },
-                {
-                    'title': 'third.doc',
-                    'url': self.generate_docservice_url(),
-                    'hash': 'md5:' + '0' * 32,
-                    'format': 'application/msword'
-                }]
-        }})
+        {'data': bid_data})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
