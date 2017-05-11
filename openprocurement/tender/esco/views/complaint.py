@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource
+from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.views.complaint import TenderUaComplaintResource
 from openprocurement.tender.openeu.views.complaint import TenderEUComplaintResource
 
 
-@opresource(name='Tender ESCO UA Complaints',
+@optendersresource(name='Tender ESCO UA Complaints',
             collection_path='/tenders/{tender_id}/complaints',
             path='/tenders/{tender_id}/complaints/{complaint_id}',
             procurementMethodType='esco.UA',
@@ -13,7 +13,7 @@ class TenderESCOUAComplaintResource(TenderUaComplaintResource):
     """ Tender ESCO UA Complaint Resource """
 
 
-@opresource(name='Tender ESCO EU Complaints',
+@optendersresource(name='Tender ESCO EU Complaints',
             collection_path='/tenders/{tender_id}/complaints',
             path='/tenders/{tender_id}/complaints/{complaint_id}',
             procurementMethodType='esco.EU',

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.openua.views.contract import TenderUaAwardContractResource as TenderUaContractResource
 from openprocurement.tender.openeu.views.contract import TenderAwardContractResource as TenderEUContractResource
-from openprocurement.api.utils import opresource
+from openprocurement.tender.core.utils import optendersresource
 
 
-@opresource(name='Tender ESCO UA Contracts',
+@optendersresource(name='Tender ESCO UA Contracts',
             collection_path='/tenders/{tender_id}/contracts',
             path='/tenders/{tender_id}/contracts/{contract_id}',
             procurementMethodType='esco.UA',
@@ -13,7 +13,7 @@ class TenderESCOUAContractResource(TenderUaContractResource):
     """ Tender ESCO UA Contract Resource """
 
 
-@opresource(name='Tender ESCO EU Contracts',
+@optendersresource(name='Tender ESCO EU Contracts',
             collection_path='/tenders/{tender_id}/contracts',
             path='/tenders/{tender_id}/contracts/{contract_id}',
             procurementMethodType='esco.EU',

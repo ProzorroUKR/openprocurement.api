@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource
+from openprocurement.tender.core.utils import optendersresource
 
 from openprocurement.tender.openua.views.bid import TenderUABidResource
 from openprocurement.tender.openeu.views.bid import TenderBidResource as TenderEUBidResource
 
 
-@opresource(name='Tender ESCO UA Bids',
+@optendersresource(name='Tender ESCO UA Bids',
             collection_path='/tenders/{tender_id}/bids',
             path='/tenders/{tender_id}/bids/{bid_id}',
             procurementMethodType='esco.UA',
@@ -14,7 +14,7 @@ class TenderESCOUABidResource(TenderUABidResource):
     """ Tender ESCO UA Bid Resource """
 
 
-@opresource(name='Tender ESCO EU Bids',
+@optendersresource(name='Tender ESCO EU Bids',
             collection_path='/tenders/{tender_id}/bids',
             path='/tenders/{tender_id}/bids/{bid_id}',
             procurementMethodType='esco.EU',

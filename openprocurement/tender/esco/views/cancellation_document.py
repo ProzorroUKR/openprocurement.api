@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource
+from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.views.cancellation_document import TenderCancellationDocumentResource as TenderUACancellationDocumentResource
 from openprocurement.tender.openeu.views.cancellation_document import TenderCancellationDocumentResource as TenderEUCancellationDocumentResource
 
 
-@opresource(name='Tender ESCO UA Cancellation Documents',
+@optendersresource(name='Tender ESCO UA Cancellation Documents',
             collection_path='/tenders/{tender_id}/cancellations/{cancellation_id}/documents',
             path='/tenders/{tender_id}/cancellations/{cancellation_id}/documents/{document_id}',
             procurementMethodType='esco.UA',
@@ -13,7 +13,7 @@ class TenderESCOUACancellationDocumentResource(TenderUACancellationDocumentResou
     """ Tender ESCO UA Cancellation Document Resource """
 
 
-@opresource(name='Tender ESCO EU Cancellation Documents',
+@optendersresource(name='Tender ESCO EU Cancellation Documents',
             collection_path='/tenders/{tender_id}/cancellations/{cancellation_id}/documents',
             path='/tenders/{tender_id}/cancellations/{cancellation_id}/documents/{document_id}',
             procurementMethodType='esco.EU',

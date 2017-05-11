@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource
+from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.views.complaint_document import TenderUaComplaintDocumentResource
 from openprocurement.tender.openeu.views.complaint_document import TenderEUComplaintDocumentResource
 
