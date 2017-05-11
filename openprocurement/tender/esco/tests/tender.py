@@ -4,41 +4,13 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 from openprocurement.api import ROUTE_PREFIX
 from openprocurement.api.models import get_now, SANDBOX_MODE
-from openprocurement.tender.openua.models import TENDER_PERIOD
 from openprocurement.tender.openeu.models import TENDERING_DAYS
 from openprocurement.tender.esco.tests.base import (
-    test_tender_ua_data, test_tender_eu_data,
+    test_tender_eu_data,
     test_organization,
-    BaseESCOWebTest, BaseESCOUAContentWebTest, BaseESCOEUContentWebTest,
+    BaseESCOWebTest, BaseESCOEUContentWebTest,
 )
-from openprocurement.tender.esco.models import (
-    TenderESCOEU, TenderESCOUA
-)
-
-
-class TenderESCOUATest(BaseESCOWebTest):
-
-    initial_auth = ('Basic', ('broker', ''))
-    def test_simple_add_tender(self):
-        u = TenderESCOUA(test_tender_ua_data)
-        u.tenderID = "UA-X"
-
-        assert u.id is None
-        assert u.rev is None
-
-        u.store(self.db)
-
-        assert u.id is not None
-        assert u.rev is not None
-
-        fromdb = self.db.get(u.id)
-
-        assert u.tenderID == fromdb['tenderID']
-        assert u.doc_type == "Tender"
-        assert u.procurementMethodType == "esco.UA"
-        assert fromdb['procurementMethodType'] == "esco.UA"
-
-        u.delete_instance(self.db)
+from openprocurement.tender.esco.models import TenderESCOEU
 
 
 class TenderESCOEUTest(BaseESCOWebTest):
@@ -690,60 +662,6 @@ class TenderESCOTestCommon():
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['mode'], u'test')
-
-
-class TestTenderUA(TenderESCOTestCommon, BaseESCOUAContentWebTest):
-    """ ESCO UA tender test """
-    initialize_initial_data = False
-    initial_data = test_tender_ua_data
-    tender_period_duration = TENDER_PERIOD.days
-
-    def test_patch_tender_ua(self):
-        response = self.app.post_json('/tenders', {'data': self.initial_data})
-        self.assertEqual(response.status, '201 Created')
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-        dateModified = tender.pop('dateModified')
-        self.tender_id = tender['id']
-        self.go_to_enquiryPeriod_end()
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"value": {
-            "amount": 501,
-            "currency": u"UAH"
-        }}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "tenderPeriod should be extended by 7 days")
-        tenderPeriod_endDate = get_now() + timedelta(days=7, seconds=10)
-        enquiryPeriod_endDate = tenderPeriod_endDate - (timedelta(minutes=10) if SANDBOX_MODE else timedelta(days=10))
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data':
-            {
-                "value": {
-                    "amount": 501,
-                    "currency": u"UAH"
-                },
-                "tenderPeriod": {
-                    "endDate": tenderPeriod_endDate.isoformat()
-                }
-            }
-        })
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']['tenderPeriod']['endDate'], tenderPeriod_endDate.isoformat())
-        self.assertEqual(response.json['data']['enquiryPeriod']['endDate'], enquiryPeriod_endDate.isoformat())
-
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"guarantee": {"valueAddedTaxIncluded": True}}}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.json['errors'][0], {u'description': {u'valueAddedTaxIncluded': u'Rogue field'}, u'location': u'body', u'name': u'guarantee'})
-
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"guarantee": {"amount": 12}}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertIn('guarantee', response.json['data'])
-        self.assertEqual(response.json['data']['guarantee']['amount'], 12)
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
-
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"guarantee": {"currency": "USD"}}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
 
 
 class TestTenderEU(TenderESCOTestCommon, BaseESCOEUContentWebTest):

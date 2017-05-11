@@ -21,7 +21,6 @@ docs_requires = requires + [
 
 entry_points = {
     'openprocurement.api.plugins': [
-        'esco.UA = openprocurement.tender.esco:includeUA',
         'esco.EU = openprocurement.tender.esco:includeEU',
     ],
 }

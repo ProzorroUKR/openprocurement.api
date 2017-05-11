@@ -9,11 +9,7 @@ from schematics.transforms import whitelist
 from openprocurement.api.models import ITender, get_tender
 from openprocurement.api.models import Value, Model
 
-from openprocurement.tender.openua.models import (
-    Tender as BaseTenderUA, Bid as BaseUABid,
-    PeriodStartEndRequired, SifterListType,
-    bids_validation_wrapper,
-)
+from openprocurement.tender.openua.models import SifterListType
 
 from openprocurement.tender.openeu.models import (
     Tender as BaseTenderEU, Bid as BaseEUBid,
@@ -21,6 +17,7 @@ from openprocurement.tender.openeu.models import (
 
 
 from openprocurement.tender.esco.utils import calculate_npv
+
 
 
 class ESCOBid(Model):
@@ -38,38 +35,6 @@ class ESCOBid(Model):
         return Value(dict(amount=npv,
                           currency=tender.value.currency,
                           valueAddedTaxIncluded=tender.value.valueAddedTaxIncluded))
-
-
-
-class Bid(BaseUABid, ESCOBid):
-    """ ESCO UA bid model """
-
-    class Options:
-        roles = {
-            'create': whitelist('value', 'bid_value', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'tenderers', 'parameters', 'lotValues', 'status', 'selfQualified', 'selfEligible', 'subcontractingDetails', 'documents'),
-            'edit': whitelist('value', 'bid_value', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'tenderers', 'parameters', 'lotValues', 'status', 'subcontractingDetails'),
-            'auction_view': whitelist('value', 'bid_value', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
-            'auction_post': whitelist('value', 'bid_value', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'lotValues', 'id', 'date'),
-        }
-
-    @bids_validation_wrapper
-    def validate_value(self, data, value):
-        if isinstance(data['__parent__'], Model):
-            tender = get_tender(data['__parent__'])
-            if not tender.lots and value:
-                if tender.value.amount > value.amount:
-                    raise ValidationError(u"value of bid should be greater than value of tender")
-
-
-@implementer(ITender)
-class Tender(BaseTenderUA):
-    """ ESCO UA Tender model """
-    procurementMethodType = StringType(default="esco.UA")
-    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
-    NBUdiscountRate = 0.22
-
-
-TenderESCOUA = Tender
 
 
 class Bid(BaseEUBid, ESCOBid):
