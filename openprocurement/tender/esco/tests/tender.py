@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
-from copy import deepcopy
-from datetime import datetime, timedelta
-from openprocurement.api import ROUTE_PREFIX
-from openprocurement.api.models import get_now, SANDBOX_MODE
 from openprocurement.tender.openeu.models import TENDERING_DAYS
 from openprocurement.tender.esco.tests.base import (
     test_tender_eu_data,
-    test_organization,
     BaseESCOWebTest, BaseESCOEUContentWebTest,
     snitch
 )
-from openprocurement.tender.esco.models import TenderESCOEU
 
 from openprocurement.tender.esco.tests.tender_blanks import (
     simple_add_tender,
@@ -49,3 +43,14 @@ class TestTenderEU(TenderESCOTestCommon, BaseESCOEUContentWebTest):
     initialize_initial_data = False
     initial_data = test_tender_eu_data
     tender_period_duration = TENDERING_DAYS
+
+
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TenderESCOEUTest))
+    suite.addTest(unittest.makeSuite(TestTenderEU))
+    return suite
+
+
+if __name__ == '__main__':
+    unittest.main(defaultTest='suite')

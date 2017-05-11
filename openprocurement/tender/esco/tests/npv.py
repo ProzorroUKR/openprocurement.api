@@ -1,6 +1,6 @@
 import unittest
-from openprocurement.tender.esco.utils import calculate_npv
 from openprocurement.tender.esco.tests.base import snitch
+
 from openprocurement.tender.esco.tests.npv_blanks import (
     case1, case2, case3, case4
 )
