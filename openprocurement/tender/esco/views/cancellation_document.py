@@ -2,7 +2,6 @@
 from openprocurement.api.utils import opresource
 from openprocurement.tender.openua.views.cancellation_document import TenderCancellationDocumentResource as TenderUACancellationDocumentResource
 from openprocurement.tender.openeu.views.cancellation_document import TenderCancellationDocumentResource as TenderEUCancellationDocumentResource
-from openprocurement.tender.limited.views.cancellation_document import TenderCancellationDocumentResource as TenderReportingCancellationDocumentResource
 
 
 @opresource(name='Tender ESCO UA Cancellation Documents',
@@ -21,12 +20,3 @@ class TenderESCOUACancellationDocumentResource(TenderUACancellationDocumentResou
             description="Tender ESCO EU cancellation documents")
 class TenderESCOEUCancellationDocumentResource(TenderEUCancellationDocumentResource):
     """ Tender ESCO EU Cancellation Document Resource """
-
-
-@opresource(name='Tender ESCO Reporting Cancellation Documents',
-            collection_path='/tenders/{tender_id}/cancellations/{cancellation_id}/documents',
-            path='/tenders/{tender_id}/cancellations/{cancellation_id}/documents/{document_id}',
-            procurementMethodType='esco.reporting',
-            description="Tender ESCO Reporting cancellation documents")
-class TenderESCOReportingCancellationDocumentResource(TenderReportingCancellationDocumentResource):
-    """ Tender ESCO Reporting Cancellation Document Resource """

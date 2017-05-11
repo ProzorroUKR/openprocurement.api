@@ -19,9 +19,6 @@ from openprocurement.tender.openeu.models import (
     Tender as BaseTenderEU, Bid as BaseEUBid,
 )
 
-from openprocurement.tender.limited.models import (
-    ReportingTender as BaseReportingTender,
-)
 
 from openprocurement.tender.esco.utils import calculate_npv
 
@@ -96,12 +93,3 @@ class Tender(BaseTenderEU):
 
 
 TenderESCOEU = Tender
-
-
-@implementer(ITender)
-class Tender(BaseReportingTender):
-    """ ESCO Reporting Tender model """
-    procurementMethodType = StringType(default="esco.reporting")
-
-
-TenderESCOReporting = Tender

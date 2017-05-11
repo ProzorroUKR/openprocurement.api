@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.esco.models import (
-    TenderESCOUA, TenderESCOEU, TenderESCOReporting
+    TenderESCOUA, TenderESCOEU
 )
 
 
@@ -11,9 +11,4 @@ def includeUA(config):
 
 def includeEU(config):
     config.add_tender_procurementMethodType(TenderESCOEU)
-    config.scan("openprocurement.tender.esco.views")
-
-
-def includeReporting(config):
-    config.add_tender_procurementMethodType(TenderESCOReporting)
     config.scan("openprocurement.tender.esco.views")

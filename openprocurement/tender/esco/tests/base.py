@@ -17,7 +17,6 @@ from openprocurement.tender.openeu.models import (
     COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL_EU
 )
 from openprocurement.tender.openeu.tests.base import test_tender_data as base_eu_test_data
-from openprocurement.tender.limited.tests.base import test_tender_data as base_reporting_test_data
 
 
 test_tender_ua_data = deepcopy(base_ua_test_data)
@@ -26,8 +25,6 @@ test_tender_ua_data['procurementMethodType'] = "esco.UA"
 test_tender_eu_data = deepcopy(base_eu_test_data)
 test_tender_eu_data['procurementMethodType'] = "esco.EU"
 
-test_tender_reporting_data = deepcopy(base_reporting_test_data)
-test_tender_reporting_data['procurementMethodType'] = "esco.reporting"
 
 test_bids = deepcopy(base_test_bids)
 test_organization = deepcopy(base_test_organization)
@@ -467,9 +464,3 @@ class BaseESCOEUContentWebTest(BaseESCOContentWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         return response
-
-
-class BaseESCOReportingContentWebTest(BaseESCOContentWebTest):
-    """ ESCO Reporting Content Test """
-
-    initial_data = test_tender_reporting_data
