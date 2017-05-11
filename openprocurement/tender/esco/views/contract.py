@@ -3,10 +3,10 @@ from openprocurement.tender.openeu.views.contract import TenderAwardContractReso
 from openprocurement.tender.core.utils import optendersresource
 
 
-@optendersresource(name='Tender ESCO EU Contracts',
-            collection_path='/tenders/{tender_id}/contracts',
-            path='/tenders/{tender_id}/contracts/{contract_id}',
-            procurementMethodType='esco.EU',
-            description="Tender ESCO EU contracts")
+@optendersresource(name='esco.EU:Tender Contracts',
+                   collection_path='/tenders/{tender_id}/contracts',
+                   path='/tenders/{tender_id}/contracts/{contract_id}',
+                   procurementMethodType='esco.EU',
+                   description="Tender ESCO EU contracts")
 class TenderESCOEUContractResource(TenderEUContractResource):
     """ Tender ESCO EU Contract Resource """
