@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+    create_tender_bid_with_documents,
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_document,
+)
 
 
 # TenderBidResourceTest
@@ -3030,3 +3035,133 @@ def get_tender_bidder_document_ds(self):
     for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
         documents_are_accessible_for_tender_owner(doc_resource)
     all_public_documents_are_accessible_for_others()
+
+
+def create_tender_bid_with_all_documents(self):
+    docs = [{
+                'title': 'first.doc',
+                'url': self.generate_docservice_url(),
+                'hash': 'md5:' + '0' * 32,
+                'format': 'application/msword'
+            },
+            {
+                'title': 'second.doc',
+                'url': self.generate_docservice_url(),
+                'hash': 'md5:' + '0' * 32,
+                'format': 'application/msword'
+            },
+            {
+                'title': 'third.doc',
+                'url': self.generate_docservice_url(),
+                'hash': 'md5:' + '0' * 32,
+                'format': 'application/msword'
+            }]
+    bid_data = deepcopy(self.bid_data_wo_docs)
+    bid_data['documents'] = docs
+    bid_data['qualificationDocuments'] = deepcopy(docs)
+    bid_data['eligibilityDocuments'] = deepcopy(docs)
+    bid_data['financialDocuments'] = deepcopy(docs)
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+        {'data': bid_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    bidder = response.json['data']
+    self.assertEqual(bidder['tenderers'][0]['name'], self.bid_data_wo_docs['tenderers'][0]['name'])
+    self.assertIn('id', bidder)
+    self.bid_id = bidder['id']
+    self.bid_token = response.json['access']['token']
+    self.assertIn(bidder['id'], response.headers['Location'])
+
+    documents = bidder['documents']
+    ids = [doc['id'] for doc in documents]
+    self.assertEqual(['first.doc', 'second.doc', 'third.doc'], [document["title"] for document in documents])
+
+    eligibility_documents = bidder['eligibilityDocuments']
+    eligibility_ids = [doc['id'] for doc in eligibility_documents]
+    self.assertEqual(['first.doc', 'second.doc', 'third.doc'], [document["title"] for document in eligibility_documents])
+
+    qualification_documents = bidder['qualificationDocuments']
+    qualification_ids = [doc['id'] for doc in qualification_documents]
+    self.assertEqual(['first.doc', 'second.doc', 'third.doc'], [document["title"] for document in qualification_documents])
+
+    financial_documents = bidder['financialDocuments']
+    financial_ids = [doc['id'] for doc in financial_documents]
+    self.assertEqual(['first.doc', 'second.doc', 'third.doc'], [document["title"] for document in financial_documents])
+
+    response = self.app.get('/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, self.bid_id, self.bid_token))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(len(response.json["data"]), 3)
+    self.assertEqual(ids, [doc['id'] for doc in response.json["data"]])
+
+    response = self.app.get('/tenders/{}/bids/{}/eligibility_documents?acc_token={}'.format(self.tender_id, self.bid_id, self.bid_token))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(len(response.json["data"]), 3)
+    self.assertEqual(eligibility_ids, [doc['id'] for doc in response.json["data"]])
+
+    response = self.app.get('/tenders/{}/bids/{}/qualification_documents?acc_token={}'.format(self.tender_id, self.bid_id, self.bid_token))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(len(response.json["data"]), 3)
+    self.assertEqual(qualification_ids, [doc['id'] for doc in response.json["data"]])
+
+    response = self.app.get('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(self.tender_id, self.bid_id, self.bid_token))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(len(response.json["data"]), 3)
+    self.assertEqual(financial_ids, [doc['id'] for doc in response.json["data"]])
+
+
+def create_tender_bid_with_eligibility_document_invalid(self):
+    self.docs_container = 'eligibilityDocuments'
+    self.docs_container_url = 'eligibility_documents'
+    create_tender_bid_with_document_invalid(self)
+
+
+def create_tender_bid_with_financial_document_invalid(self):
+    self.docs_container = 'financialDocuments'
+    self.docs_container_url = 'financial_documents'
+    create_tender_bid_with_document_invalid(self)
+
+
+def create_tender_bid_with_qualification_document_invalid(self):
+    self.docs_container = 'qualificationDocuments'
+    self.docs_container_url = 'qualification_documents'
+    create_tender_bid_with_document_invalid(self)
+
+
+def create_tender_bid_with_eligibility_document(self):
+    self.docs_container = 'eligibilityDocuments'
+    self.docs_container_url = 'eligibility_documents'
+    create_tender_bid_with_document(self)
+
+
+def create_tender_bid_with_qualification_document(self):
+    self.docs_container = 'qualificationDocuments'
+    self.docs_container_url = 'qualification_documents'
+    create_tender_bid_with_document(self)
+
+
+def create_tender_bid_with_financial_document(self):
+    self.docs_container = 'financialDocuments'
+    self.docs_container_url = 'financial_documents'
+    create_tender_bid_with_document(self)
+
+
+def create_tender_bid_with_financial_documents(self):
+    self.docs_container = 'financialDocuments'
+    self.docs_container_url = 'financial_documents'
+    create_tender_bid_with_documents(self)
+
+
+def create_tender_bid_with_eligibility_documents(self):
+    self.docs_container = 'eligibilityDocuments'
+    self.docs_container_url = 'eligibility_documents'
+    create_tender_bid_with_documents(self)
+
+
+def create_tender_bid_with_qualification_documents(self):
+    self.docs_container = 'qualificationDocuments'
+    self.docs_container_url = 'qualification_documents'
+    create_tender_bid_with_documents(self)
