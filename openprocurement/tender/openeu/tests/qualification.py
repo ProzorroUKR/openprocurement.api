@@ -194,6 +194,7 @@ class Tender2LotQualificationComplaintResourceTest(TenderLotQualificationComplai
     initial_lots = 2 * test_lots
 
     initial_auth = ('Basic', ('broker', ''))
+    after_qualification_switch_to = "active.auction"
 
     test_create_tender_qualification_complaint = snitch(create_tender_2lot_qualification_complaint)
     test_patch_tender_qualification_complaint = snitch(patch_tender_2lot_qualification_complaint)
@@ -201,6 +202,8 @@ class Tender2LotQualificationComplaintResourceTest(TenderLotQualificationComplai
 
 
 class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintResourceTest):
+
+    after_qualification_switch_to = "unsuccessful"
 
     def setUp(self):
         super(TenderQualificationComplaintResourceTest, self).setUp()
