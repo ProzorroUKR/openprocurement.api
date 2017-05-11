@@ -1,16 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.openua.views.bid_document import TenderUaBidDocumentResource
 from openprocurement.tender.openeu.views.bid_document import TenderEUBidDocumentResource
-
-
-@optendersresource(name='Tender ESCO UA Bid Documents',
-            collection_path='/tenders/{tender_id}/bids/{bid_id}/documents',
-            path='/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}',
-            procurementMethodType='esco.UA',
-            description="Tender ESCO UA bidder documents")
-class TenderESCOUABidDocumentResource(TenderUaBidDocumentResource):
-    """ Tender ESCO UA Bid Document Resource """
 
 
 @optendersresource(name='Tender ESCO EU Bid Documents',
