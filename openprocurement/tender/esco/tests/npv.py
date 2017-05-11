@@ -1,7 +1,9 @@
 import unittest
 from openprocurement.tender.esco.utils import calculate_npv
-
-nbu_rate = 0.22
+from openprocurement.tender.esco.tests.base import snitch
+from openprocurement.tender.esco.tests.npv_blanks import (
+    case1, case2, case3, case4
+)
 
 
 class NPVCalculationTest(unittest.TestCase):
@@ -9,37 +11,10 @@ class NPVCalculationTest(unittest.TestCase):
         based on data from https://docs.google.com/spreadsheets/d/1kOz6bxob4Nmb0Es_W0TmbNznoYDcnwAKcSgxfPEXYGQ/edit#gid=1469973930
     """
 
-    def test_case1(self):
-        annualCostsReduction = 751.5
-        yearlyPayments = 0.9
-        contractDuration = 10
-        npv_val = calculate_npv(nbu_rate, annualCostsReduction,
-                                yearlyPayments, contractDuration)
-        self.assertEqual(npv_val, 698.444)
-
-    def test_case2(self):
-        annualCostsReduction = 300.6
-        yearlyPayments = 0.9
-        contractDuration = 6
-        npv_val = calculate_npv(nbu_rate, annualCostsReduction,
-                                yearlyPayments, contractDuration)
-        self.assertEqual(npv_val, 483.978)
-
-    def test_case3(self):
-        annualCostsReduction = 225.45
-        yearlyPayments = 0.9
-        contractDuration = 4
-        npv_val = calculate_npv(nbu_rate, annualCostsReduction,
-                                yearlyPayments, contractDuration)
-        self.assertEqual(npv_val, 499.595)
-
-    def test_case4(self):
-        annualCostsReduction = 75.15
-        yearlyPayments = 0.9
-        contractDuration = 2
-        npv_val = calculate_npv(nbu_rate, annualCostsReduction,
-                                yearlyPayments, contractDuration)
-        self.assertEqual(npv_val, 234.309)
+    test_case1 = snitch(case1)
+    test_case2 = snitch(case2)
+    test_case3 = snitch(case3)
+    test_case4 = snitch(case4)
 
 
 def suite():
