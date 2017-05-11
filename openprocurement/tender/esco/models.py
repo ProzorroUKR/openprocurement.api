@@ -7,9 +7,7 @@ from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
 
 from openprocurement.tender.core.models import ITender, get_tender
-from openprocurement.api.models import Value, Model
-
-from openprocurement.tender.openua.models import SifterListType
+from openprocurement.api.models import Value, Model, SifterListType
 
 from openprocurement.tender.openeu.models import (
     Tender as BaseTenderEU, Bid as BaseEUBid,
