@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
+from uuid import uuid4
 from copy import deepcopy
-from datetime import datetime, timedelta
-from openprocurement.api.models import get_now, SANDBOX_MODE
+from datetime import timedelta
 from openprocurement.api.tests.base import (
-    BaseTenderWebTest, BaseWebTest, now
+    BaseWebTest, now
 )
-
 from openprocurement.api.utils import apply_data_patch
-from openprocurement.api.tests.base import test_organization as base_test_organization
-from openprocurement.tender.openeu.models import (
+from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION as TENDERING_DURATION_EU,
     QUESTIONS_STAND_STILL as QUESTIONS_STAND_STILL_EU,
     COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL_EU
@@ -18,8 +16,6 @@ from openprocurement.tender.openeu.tests.base import test_tender_data as base_eu
 
 test_tender_eu_data = deepcopy(base_eu_test_data)
 test_tender_eu_data['procurementMethodType'] = "esco.EU"
-
-test_organization = deepcopy(base_test_organization)
 
 
 
