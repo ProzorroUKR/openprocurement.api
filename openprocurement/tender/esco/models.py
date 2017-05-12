@@ -17,6 +17,9 @@ from openprocurement.tender.openeu.models import (
 from openprocurement.tender.esco.utils import calculate_npv
 
 
+class IESCOTender(ITender):
+    """ Marker interface for ESCO tenders """
+
 
 class ESCOBid(Model):
 
@@ -47,7 +50,7 @@ class Bid(BaseEUBid, ESCOBid):
         }
 
 
-@implementer(ITender)
+@implementer(IESCOTender)
 class Tender(BaseTenderEU):
     """ ESCO EU Tender model """
     procurementMethodType = StringType(default="esco.EU")
