@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-from openprocurement.tender.openeu.models import TENDERING_DAYS
+from openprocurement.tender.openeu.constants import TENDERING_DAYS
 from openprocurement.tender.esco.tests.base import (
     test_tender_eu_data,
     BaseESCOWebTest, BaseESCOEUContentWebTest,
