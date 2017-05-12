@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
-from types import FunctionType
 from datetime import datetime, timedelta
 from openprocurement.api.models import get_now, SANDBOX_MODE
 from openprocurement.api.tests.base import (
@@ -21,6 +20,8 @@ test_tender_eu_data = deepcopy(base_eu_test_data)
 test_tender_eu_data['procurementMethodType'] = "esco.EU"
 
 test_organization = deepcopy(base_test_organization)
+
+
 
 
 class BaseESCOWebTest(BaseWebTest):
