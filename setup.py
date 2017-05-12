@@ -6,6 +6,7 @@ version = '1.0'
 requires = [
     'setuptools',
     'openprocurement.api>=2.3',
+    'openprocurement.tender.core',
     'openprocurement.tender.openua',
     'openprocurement.tender.openeu',
     'openprocurement.tender.belowthreshold',
@@ -21,7 +22,7 @@ docs_requires = requires + [
 ]
 
 entry_points = {
-    'openprocurement.api.plugins': [
+    'openprocurement.tender.core.plugins': [
         'esco.EU = openprocurement.tender.esco:includeEU',
     ],
 }
