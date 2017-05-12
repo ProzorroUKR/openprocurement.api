@@ -1,5 +1,5 @@
 import unittest
-from openprocurement.tender.esco.tests.base import snitch
+from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.esco.tests.npv_blanks import (
     npv_case1, npv_case2, npv_case3, npv_case4

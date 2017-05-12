@@ -4,8 +4,8 @@ from openprocurement.tender.openeu.models import TENDERING_DAYS
 from openprocurement.tender.esco.tests.base import (
     test_tender_eu_data,
     BaseESCOWebTest, BaseESCOEUContentWebTest,
-    snitch
 )
+from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.esco.tests.tender_blanks import (
     simple_add_tender,
