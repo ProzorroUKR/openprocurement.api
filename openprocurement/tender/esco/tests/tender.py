@@ -7,13 +7,12 @@ from openprocurement.tender.esco.tests.base import (
 )
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.esco.tests.tender_blanks import (
-    simple_add_tender,
-    empty_listing, listing, listing_changes,
-    listing_draft, create_tender, get_tender,
-    patch_tender, dateModified_tender,
-    tender_not_found, guarantee,
-    tender_Administrator_change
+from openprocurement.tender.esco.tests.tender_blanks import simple_add_tender
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    listing, listing_changes, listing_draft,
+    create_tender, get_tender, patch_tender,
+    dateModified_tender, tender_not_found,
+    guarantee, tender_Administrator_change,
 )
 
 
@@ -23,9 +22,12 @@ class TenderESCOEUTest(BaseESCOWebTest):
     test_simple_add_tender = snitch(simple_add_tender)
 
 
-class TenderESCOTestCommon():
+class TestTenderEU(BaseESCOEUContentWebTest):
+    """ ESCO EU tender test """
+    initialize_initial_data = False
+    initial_data = test_tender_eu_data
+    tender_period_duration = TENDERING_DAYS
 
-    test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
@@ -36,13 +38,6 @@ class TenderESCOTestCommon():
     test_tender_not_found = snitch(tender_not_found)
     test_guarantee = snitch(guarantee)
     test_tender_Administrator_change = snitch(tender_Administrator_change)
-
-
-class TestTenderEU(TenderESCOTestCommon, BaseESCOEUContentWebTest):
-    """ ESCO EU tender test """
-    initialize_initial_data = False
-    initial_data = test_tender_eu_data
-    tender_period_duration = TENDERING_DAYS
 
 
 def suite():
