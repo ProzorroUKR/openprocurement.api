@@ -6,18 +6,20 @@ from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
 
-from openprocurement.tender.core.models import ITender, get_tender
+from openprocurement.tender.core.models import get_tender
+
 from openprocurement.api.models import Value, Model, SifterListType
 
 from openprocurement.tender.openeu.models import (
     Tender as BaseTenderEU, Bid as BaseEUBid,
+    IAboveThresholdEUTender
 )
 
 
 from openprocurement.tender.esco.utils import calculate_npv
 
 
-class IESCOTender(ITender):
+class IESCOTender(IAboveThresholdEUTender):
     """ Marker interface for ESCO tenders """
 
 
