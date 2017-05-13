@@ -10,10 +10,11 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.esco.tests.tender_blanks import simple_add_tender
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     listing, listing_changes, listing_draft,
-    create_tender, get_tender, patch_tender,
+    create_tender, get_tender,
     dateModified_tender, tender_not_found,
     guarantee, tender_Administrator_change,
 )
+from openprocurement.tender.openeu.tests.tender_blanks import patch_tender
 
 
 class TenderESCOEUTest(BaseESCOWebTest):
