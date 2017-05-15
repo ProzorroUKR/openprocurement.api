@@ -17,6 +17,8 @@ from openprocurement.tender.openeu.tests.base import test_tender_data as base_eu
 test_tender_eu_data = deepcopy(base_eu_test_data)
 test_tender_eu_data['procurementMethodType'] = "esco.EU"
 
+test_tender_eu_data['minValue'] = test_tender_eu_data['value']
+del test_tender_eu_data['value']
 
 
 
