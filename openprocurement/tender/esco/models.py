@@ -212,7 +212,6 @@ class Tender(BaseTender):
         normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
         return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self)))
 
-
     @serializable(serialize_when_none=False)
     def next_check(self):
         now = get_now()
