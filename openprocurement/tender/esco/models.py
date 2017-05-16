@@ -165,9 +165,9 @@ class Tender(BaseTender):
     documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
     qualifications = ListType(ModelType(Qualification), default=list())
     qualificationPeriod = ModelType(Period)
-    NBUdiscountRate = 0.22  # XXX temporary solution TODO discuss field type, name and location
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+    NBUdiscountRate = FloatType(required=True, min_value=0, max_value=0.99)
 
     create_accreditation = 3
     edit_accreditation = 4

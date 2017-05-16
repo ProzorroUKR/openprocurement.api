@@ -10,7 +10,8 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.esco.tests.tender_blanks import (
     simple_add_tender,
     tender_value,
-    tender_min_value
+    tender_min_value,
+    tender_with_nbu_discount_rate,
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     listing, listing_changes, listing_draft,
@@ -40,6 +41,7 @@ class TestTenderEU(BaseESCOEUContentWebTest):
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_create_tender = snitch(create_tender)
+    test_tender_with_nbu_discount_rate = snitch(tender_with_nbu_discount_rate)
     test_get_tender = snitch(get_tender)
     test_patch_tender = snitch(patch_tender)
     test_dateModified_tender = snitch(dateModified_tender)
