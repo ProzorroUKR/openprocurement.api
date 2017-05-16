@@ -178,6 +178,11 @@ class HistoricalResourceTestCase(unittest.TestCase):
                             status=403)
         self.assertEqual(resp.status, '403 Forbidden')
 
+        # admin access
+        self.app.authorization = ('Basic', ('administrator', ''))
+        resp = self.app.get('/mock/{}/historical'.format(mock_doc.id))
+        self.assertEqual(resp.status, '200 OK')
+
     def test_get_header_invalid(self):
 
         for header in ['0', '-1', 'asdsf', '10000000']:

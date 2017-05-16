@@ -23,7 +23,8 @@ class Root(object):
     __name__ = None
     __parent__ = None
     __acl__ = [
-        (Allow, 'g:brokers', 'view_historical')
+        (Allow, 'g:brokers', 'view_historical'),
+        (Allow, 'g:Administrator', 'view_historical')
     ]
 
     def __init__(self, request):
@@ -146,7 +147,7 @@ def validate_header(request):
 
 
 def validate_accreditation(request):
-    if not request.check_accreditation(ACCREDITATION_LEVEL):
+    if request.authenticated_role != 'Administrator' and not request.check_accreditation(ACCREDITATION_LEVEL):
         request.errors.add('historical',
                            'accreditation',
                            'Broker Accreditation level does not '
