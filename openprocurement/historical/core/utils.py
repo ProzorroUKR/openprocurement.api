@@ -187,7 +187,6 @@ class APIHistoricalResource(APIResource):
             rev=self.context.rev
         )
 
-        # TODO
         self.LOGGER.info(msg, extra=context_unpack(self.request, {
             'MESSAGE_ID': '{}_historical'.format(self.resource)}))
         return call_view(self.request, self.context, route)
