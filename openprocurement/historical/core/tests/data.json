@@ -1,5 +1,6 @@
 {
-   "id": "0016bdd4076342ce97e97f3aabfa8d79",
+  "id": "0016bdd4076342ce97e97f3aabfa8d79",
+   "_rev": "16-0016bdd4076342ce97e97f3aabfa8d79",
    "procurementMethod": "open",
    "numberOfBids": 2,
    "awardPeriod": {
@@ -759,7 +760,7 @@
            "id": "1286e9d9516b44378b04d42b5d325e56"
        }
    ],
-   "doc_type": "Tender",
+   "doc_type": "mock",
    "submissionMethodDetails": "quick",
    "items": [
        {
