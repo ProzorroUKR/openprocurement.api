@@ -13,14 +13,19 @@ from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
 )
 from openprocurement.api.models import (
-    Value, Model, SifterListType, ListType,
-    Period, plain_role, listing_role,
+    Value, Model, SifterListType,
+    ListType, Period
+)
+from openprocurement.api.models import (
+    plain_role, listing_role,
     schematics_default_role
 )
 from openprocurement.tender.core.models import (
     Tender as BaseTender, EnquiryPeriod, PeriodStartEndRequired,
-    Question, Feature, Guarantee, get_tender,
-    view_role, auction_view_role, auction_post_role,
+    Question, Feature, Guarantee
+)
+from openprocurement.tender.core.models import (
+    get_tender, view_role, auction_view_role, auction_post_role,
     auction_patch_role, enquiries_role, chronograph_role,
     chronograph_view_role, Administrator_role,
     validate_features_uniq, validate_lots_uniq
@@ -44,11 +49,13 @@ from openprocurement.tender.openua.constants import (
     ENQUIRY_STAND_STILL_TIME
 )
 from openprocurement.tender.openeu.models import (
-    Tender as BaseTenderEU, Bid as BaseEUBid,
+    IAboveThresholdEUTender, Bid as BaseEUBid,
     ComplaintModelType, Item, TenderAuctionPeriod,
     ProcuringEntity, Award, Contract, Complaint,
     Cancellation, Lot, OpenEUDocument as Document,
-    Qualification, IAboveThresholdEUTender,
+    Qualification
+)
+from openprocurement.tender.openeu.models import (
     eu_role, edit_role_eu, create_role_eu,
     pre_qualifications_role, eu_auction_role
 )
