@@ -14,11 +14,11 @@ from openprocurement.tender.openeu.constants import (
 )
 from openprocurement.tender.openeu.tests.base import test_tender_data as base_eu_test_data
 
-test_tender_eu_data = deepcopy(base_eu_test_data)
-test_tender_eu_data['procurementMethodType'] = "esco.EU"
+test_tender_data = deepcopy(base_eu_test_data)
+test_tender_data['procurementMethodType'] = "esco.EU"
 
-test_tender_eu_data['minValue'] = test_tender_eu_data['value']
-del test_tender_eu_data['value']
+test_tender_data['minValue'] = test_tender_data['value']
+del test_tender_data['value']
 
 
 
@@ -104,7 +104,7 @@ class BaseESCOContentWebTest(BaseESCOWebTest):
 class BaseESCOEUContentWebTest(BaseESCOContentWebTest):
     """ ESCO EU Content Test """
 
-    initial_data = test_tender_eu_data
+    initial_data = test_tender_data
 
     def set_status(self, status, extra=None):
         data = {'status': status}

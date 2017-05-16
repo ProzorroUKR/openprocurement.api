@@ -2,15 +2,15 @@
 import unittest
 from openprocurement.tender.openeu.constants import TENDERING_DAYS
 from openprocurement.tender.esco.tests.base import (
-    test_tender_eu_data,
+    test_tender_data,
     BaseESCOWebTest, BaseESCOEUContentWebTest,
 )
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.esco.tests.tender_blanks import (
     simple_add_tender,
-    tender_with_value,
-    tender_with_min_value
+    tender_value,
+    tender_min_value
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     listing, listing_changes, listing_draft,
@@ -25,14 +25,14 @@ class TenderESCOEUTest(BaseESCOWebTest):
     initial_auth = ('Basic', ('broker', ''))
 
     test_simple_add_tender = snitch(simple_add_tender)
-    test_tender_with_value = snitch(tender_with_value)
-    test_tender_with_min_value = snitch(tender_with_min_value)
+    test_tender_value = snitch(tender_value)
+    test_tender_min_value = snitch(tender_min_value)
 
 
 class TestTenderEU(BaseESCOEUContentWebTest):
     """ ESCO EU tender test """
     initialize_initial_data = False
-    initial_data = test_tender_eu_data
+    initial_data = test_tender_data
     tender_period_duration = TENDERING_DAYS
 
     test_listing = snitch(listing)
