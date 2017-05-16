@@ -23,6 +23,7 @@ from openprocurement.tender.openeu.tests.tender_blanks import patch_tender
 
 class TenderESCOEUTest(BaseESCOWebTest):
     initial_auth = ('Basic', ('broker', ''))
+    initial_data = test_tender_data
 
     test_simple_add_tender = snitch(simple_add_tender)
     test_tender_value = snitch(tender_value)

@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from openprocurement.tender.esco.models import TenderESCOEU
-from openprocurement.tender.esco.tests.base import test_tender_data
 
 
 # TenderESCOEUTest
 
 
 def simple_add_tender(self):
-    u = TenderESCOEU(test_tender_data)
+    u = TenderESCOEU(self.initial_data)
     u.tenderID = "UA-X"
 
+    import pdb; pdb.set_trace()
     assert u.id is None
     assert u.rev is None
 
@@ -30,7 +30,7 @@ def simple_add_tender(self):
 
 
 def tender_value(self):
-    invalid_data = deepcopy(test_tender_data)
+    invalid_data = deepcopy(self.initial_data)
     invalid_data['value'] = invalid_data['minValue']
     response = self.app.post_json('/tenders', {'data': invalid_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -40,7 +40,7 @@ def tender_value(self):
         {u'description': u'Rogue field', u'location': u'body', u'name': u'value'}
     ])
 
-    response = self.app.post_json('/tenders', {'data': test_tender_data})
+    response = self.app.post_json('/tenders', {'data': self.initial_data})
     self.assertEqual(response.status, '201 Created')
     tender = response.json['data']
     owner_token = response.json['access']['token']
@@ -55,7 +55,7 @@ def tender_value(self):
 
 
 def tender_min_value(self):
-    response = self.app.post_json('/tenders', {'data': test_tender_data})
+    response = self.app.post_json('/tenders', {'data': self.initial_data})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
