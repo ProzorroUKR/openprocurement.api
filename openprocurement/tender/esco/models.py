@@ -57,7 +57,7 @@ class Tender(BaseTenderEU):
     """ ESCO EU Tender model """
     procurementMethodType = StringType(default="esco.EU")
     bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
-    NBUdiscountRate = 0.22  # XXX temporary solution TODO discuss field type, name and location
+    NBUdiscountRate = FloatType(required=True, min_value=0, max_value=0.99)
 
 
 TenderESCOEU = Tender
