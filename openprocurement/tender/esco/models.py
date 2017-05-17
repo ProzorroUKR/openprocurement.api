@@ -348,6 +348,12 @@ class Tender(BaseTender):
         """A property that is serialized by schematics exports."""
         return len([bid for bid in self.bids if bid.status in ("active", "pending",)])
 
+    @serializable(serialized_name="minValue", type=ModelType(Value))
+    def tender_minValue(self):
+        return Value(dict(amount=sum([i.minValue.amount for i in self.lots]),
+                          currency=self.minValue.currency,
+                          valueAddedTaxIncluded=self.minValue.valueAddedTaxIncluded)) if self.lots else self.minValue
+
     @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
     def tender_guarantee(self):
         if self.lots:
