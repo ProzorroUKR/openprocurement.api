@@ -326,3 +326,21 @@ def tender_min_value(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['minValue']['amount'], sum([i['minValue']['amount'] for i in self.initial_lots]))
     self.assertEqual(response.json['data']['minimalStep']['amount'], min([i['minimalStep']['amount'] for i in self.initial_lots]))
+
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token), {'data': self.test_lots_data[0]})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    lot = response.json['data']
+
+    response = self.app.get(request_path)
+    self.assertEqual(len(response.json['data']['lots']), 3)
+    self.assertEqual(response.json['data']['minValue']['amount'], sum([i['minValue']['amount'] for i in response.json['data']['lots']]))
+
+    response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data'], lot)
+
+    response = self.app.get(request_path)
+    self.assertEqual(len(response.json['data']['lots']), 2)
+    self.assertEqual(response.json['data']['minValue']['amount'], sum([i['minValue']['amount'] for i in response.json['data']['lots']]))
