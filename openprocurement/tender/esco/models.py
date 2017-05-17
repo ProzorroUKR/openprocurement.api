@@ -72,23 +72,6 @@ class IESCOTender(IAboveThresholdEUTender):
     """ Marker interface for ESCO tenders """
 
 
-class ESCOBid(Model):
-
-    yearlyPayments = FloatType(min_value=0, max_value=1, required=True)  # The percentage of annual payments in favor of Bidder
-    annualCostsReduction = ModelType(Value, required=True)  # Buyer's annual costs reduction
-    contractDuration = IntType(min_value=0, max_value=10, required=True)
-
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def bid_value(self):
-        tender = get_tender(self.__parent__)
-        nbu_rat = tender.NBUdiscountRate
-        npv = calculate_npv(nbu_rat, self.annualCostsReduction.amount,
-                            self.yearlyPayments, self.contractDuration)
-        return Value(dict(amount=npv,
-                          currency=tender.value.currency,
-                          valueAddedTaxIncluded=tender.value.valueAddedTaxIncluded))
-
-
 class Lot(BaseLot):
     class Options:
         roles = {
@@ -143,16 +126,31 @@ class Lot(BaseLot):
                 raise ValidationError(u"value should be less than minValue of lot")
 
 
-class Bid(BaseEUBid, ESCOBid):
-    """ ESCO EU bid model """
-
+class ESCOValue(Model):
     class Options:
         roles = {
-            'create': whitelist('value', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'tenderers', 'parameters', 'lotValues', 'status', 'selfQualified', 'selfEligible', 'subcontractingDetails', 'documents', 'financialDocuments', 'eligibilityDocuments', 'qualificationDocuments'),
-            'edit': whitelist('value', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'tenderers', 'parameters', 'lotValues', 'status', 'subcontractingDetails'),
-            'auction_view': whitelist('value', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
-            'auction_post': whitelist('value', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'lotValues', 'id', 'date'),
+            'create': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration'),
+            'edit': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration'),
+            'auction_view': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration'),
+            'auction_post': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration'),
         }
+    yearlyPayments = FloatType(min_value=0.8, max_value=0.9, required=True)  # The percentage of annual payments in favor of Bidder
+    annualCostsReduction = FloatType(min_value=0, required=True)  # Buyer's annual costs reduction
+    contractDuration = IntType(min_value=1, max_value=15, required=True)
+
+    @serializable
+    def amount(self):
+        """ Calculated energy service contract perfomance indicator """
+        return calculate_npv(get_tender(self.__parent__).NBUdiscountRate,
+                             self.annualCostsReduction,
+                             self.yearlyPayments,
+                             self.contractDuration)
+
+
+class Bid(BaseEUBid):
+    """ ESCO EU bid model """
+
+    value = ModelType(ESCOValue)
 
 
 @implementer(IESCOTender)
