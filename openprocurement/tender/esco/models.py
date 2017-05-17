@@ -7,6 +7,7 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
+from barbecue import vnmax
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TZ
 from openprocurement.api.validation import (
