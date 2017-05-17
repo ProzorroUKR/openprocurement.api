@@ -48,7 +48,6 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         response = self.app.post_json('/tenders', {'data': test_tender_data})
         self.assertEqual(response.status, '201 Created')
         tender = response.json['data']
-
         response = self.app.get('/tenders/{}/historical'.format(tender['id']))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
@@ -67,6 +66,23 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertIn('{\n    "data": {\n        "', response.body)
         self.assertIn(VERSION, response.headers)
         self.assertEqual(response.headers[VERSION], '1')
+
+        # test administrator view
+        self.app.authorization = ('Basic', ('administrator', ''))
+        response = self.app.get('/tenders/{}/historical'.format(tender['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data'], tender)
+
+        # test forbidden
+        self.app.authorization = ('Basic', ('', ''))
+        response = self.app.get('/tenders/{}'.format(tender['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data'], tender)
+
+        response = self.app.get('/tenders/{}/historical'.format(tender['id']), status=403)
+        self.assertEqual(response.status, '403 Forbidden')
 
     def test_get_tender_invalid_header(self):
         for header in ['invalid', '1.5', '-1', '10000', '0']:
