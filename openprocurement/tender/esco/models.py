@@ -7,6 +7,7 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
+from barbecue import vnmax
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TZ
 from openprocurement.api.validation import (
@@ -22,12 +23,13 @@ from openprocurement.api.models import (
 )
 from openprocurement.tender.core.models import (
     Tender as BaseTender, EnquiryPeriod, PeriodStartEndRequired,
-    Question, Feature, Guarantee
+    Question, Feature, Guarantee, BaseLot
 )
 from openprocurement.tender.core.models import (
     get_tender, view_role, auction_view_role, auction_post_role,
     auction_patch_role, enquiries_role, chronograph_role,
     chronograph_view_role, Administrator_role,
+    embedded_lot_role, default_lot_role,
     validate_features_uniq, validate_lots_uniq
 )
 from openprocurement.tender.core.utils import (
@@ -52,8 +54,8 @@ from openprocurement.tender.openeu.models import (
     IAboveThresholdEUTender, Bid as BaseEUBid,
     ComplaintModelType, Item, TenderAuctionPeriod,
     ProcuringEntity, Award, Contract, Complaint,
-    Cancellation, Lot, OpenEUDocument as Document,
-    Qualification
+    Cancellation, OpenEUDocument as Document,
+    Qualification, LotAuctionPeriod
 )
 from openprocurement.tender.openeu.models import (
     eu_role, edit_role_eu, create_role_eu,
@@ -85,6 +87,60 @@ class ESCOBid(Model):
         return Value(dict(amount=npv,
                           currency=tender.value.currency,
                           valueAddedTaxIncluded=tender.value.valueAddedTaxIncluded))
+
+
+class Lot(BaseLot):
+    class Options:
+        roles = {
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'minValue', 'guarantee', 'minimalStep'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'minValue', 'guarantee', 'minimalStep'),
+            'embedded': embedded_lot_role,
+            'view': default_lot_role,
+            'default': default_lot_role,
+            'auction_view': default_lot_role,
+            'auction_patch': whitelist('id', 'auctionUrl'),
+            'chronograph': whitelist('id', 'auctionPeriod'),
+            'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
+        }
+
+    minValue = ModelType(Value, required=True)
+    minimalStep = ModelType(Value, required=True)
+    auctionPeriod = ModelType(LotAuctionPeriod, default={})
+    auctionUrl = URLType()
+    guarantee = ModelType(Guarantee)
+
+    @serializable
+    def numberOfBids(self):
+        """A property that is serialized by schematics exports."""
+        bids = [
+            bid
+            for bid in self.__parent__.bids
+            if self.id in [i.relatedLot for i in bid.lotValues if i.status in ["active", "pending"]] and bid.status in ["active", "pending"]
+        ]
+        return len(bids)
+
+    @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
+    def lot_guarantee(self):
+        if self.guarantee:
+            currency = self.__parent__.guarantee.currency if self.__parent__.guarantee else self.guarantee.currency
+            return Guarantee(dict(amount=self.guarantee.amount, currency=currency))
+
+    @serializable(serialized_name="minimalStep", type=ModelType(Value))
+    def lot_minimalStep(self):
+        return Value(dict(amount=self.minimalStep.amount,
+                          currency=self.__parent__.minimalStep.currency,
+                          valueAddedTaxIncluded=self.__parent__.minimalStep.valueAddedTaxIncluded))
+
+    @serializable(serialized_name="minValue", type=ModelType(Value))
+    def lot_minValue(self):
+        return Value(dict(amount=self.minValue.amount,
+                          currency=self.__parent__.minValue.currency,
+                          valueAddedTaxIncluded=self.__parent__.minValue.valueAddedTaxIncluded))
+
+    def validate_minimalStep(self, data, value):
+        if value and value.amount and data.get('minValue'):
+            if data.get('minValue').amount < value.amount:
+                raise ValidationError(u"value should be less than minValue of lot")
 
 
 class Bid(BaseEUBid, ESCOBid):
@@ -293,6 +349,12 @@ class Tender(BaseTender):
         """A property that is serialized by schematics exports."""
         return len([bid for bid in self.bids if bid.status in ("active", "pending",)])
 
+    @serializable(serialized_name="minValue", type=ModelType(Value))
+    def tender_minValue(self):
+        return Value(dict(amount=sum([i.minValue.amount for i in self.lots]),
+                          currency=self.minValue.currency,
+                          valueAddedTaxIncluded=self.minValue.valueAddedTaxIncluded)) if self.lots else self.minValue
+
     @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
     def tender_guarantee(self):
         if self.lots:
@@ -339,13 +401,13 @@ class Tender(BaseTender):
             raise ValidationError(u"url should be posted for each lot")
 
     def validate_minimalStep(self, data, value):
-        if value and value.amount and data.get('value'):
-            if data.get('value').amount < value.amount:
-                raise ValidationError(u"value should be less than value of tender")
-            if data.get('value').currency != value.currency:
-                raise ValidationError(u"currency should be identical to currency of value of tender")
-            if data.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-                raise ValidationError(u"valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender")
+        if value and value.amount and data.get('minValue'):
+            if data.get('minValue').amount < value.amount:
+                raise ValidationError(u"value should be less than minValue of tender")
+            if data.get('minValue').currency != value.currency:
+                raise ValidationError(u"currency should be identical to currency of minValue of tender")
+            if data.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+                raise ValidationError(u"valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of minValue of tender")
 
     def validate_tenderPeriod(self, data, period):
         # if data['_rev'] is None when tender was created just now
