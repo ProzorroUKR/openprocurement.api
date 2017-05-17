@@ -24,10 +24,10 @@ Schema
 
    Detailed description of tender lot.
 
-:value:
-   :ref:`value`, required
+:minValue:
+   :ref:`minValue`, required
 
-   Total available tender lot budget. Bids greater then ``value`` will be rejected.
+   Total available tender lot budget.
 
 :guarantee:
     :ref:`Guarantee`

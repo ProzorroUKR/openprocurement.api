@@ -29,7 +29,7 @@ Schema
 :tenderID:
    string, auto-generated, read-only
 
-   The tender identifier to refer tender to in "paper" documentation. 
+   The tender identifier to refer tender to in "paper" documentation.
 
    |ocdsDescription|
    TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
@@ -47,13 +47,13 @@ Schema
    |ocdsDescription|
    The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
 
-:value:
-   :ref:`value`, required
+:minValue:
+   :ref:`minValue`, required
 
-   Total available tender budget. Bids greater then ``value`` will be rejected.
+   Calculated minimal energy service contract performance indicator.
 
    |ocdsDescription|
-   The total estimated value of the procurement.
+   The total estimated minValue of the procurement.
 
 :guarantee:
     :ref:`Guarantee`
@@ -63,7 +63,7 @@ Schema
 :items:
    list of :ref:`item` objects, required
 
-   List that contains single item being procured. 
+   List that contains single item being procured.
 
    |ocdsDescription|
    The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
@@ -75,7 +75,7 @@ Schema
 
 :documents:
    List of :ref:`document` objects
- 
+
    |ocdsDescription|
    All documents and attachments related to the tender.
 
