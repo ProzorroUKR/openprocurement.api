@@ -12,7 +12,10 @@ from openprocurement.tender.openeu.constants import (
     QUESTIONS_STAND_STILL as QUESTIONS_STAND_STILL_EU,
     COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL_EU
 )
-from openprocurement.tender.openeu.tests.base import test_tender_data as base_eu_test_data
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_data as base_eu_test_data,
+    test_lots as base_eu_lots
+)
 
 
 test_tender_data = deepcopy(base_eu_test_data)
@@ -22,6 +25,9 @@ test_tender_data['NBUdiscountRate'] = 0.22
 test_tender_data['minValue'] = test_tender_data['value']
 del test_tender_data['value']
 
+test_lots = deepcopy(base_eu_lots)
+test_lots[0]['minValue'] = test_lots[0]['value']
+del test_lots[0]['value']
 
 
 class BaseESCOWebTest(BaseWebTest):
@@ -51,6 +57,7 @@ class BaseESCOWebTest(BaseWebTest):
 class BaseESCOContentWebTest(BaseESCOWebTest):
     """ ESCO Content Test """
     initialize_initial_data = True
+    forbidden_lot_actions_status = 'active.auction'  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
 
     def setUp(self):
         super(BaseESCOContentWebTest, self).setUp()
