@@ -12,7 +12,8 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     patch_tender_lot,
     delete_tender_lot,
     tender_lot_guarantee,
-    tender_lot_document
+    tender_lot_document,
+    tender_features_invalid
 )
 
 from openprocurement.tender.openeu.tests.lot_blanks import (
@@ -34,8 +35,6 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     get_tender_lot,
     get_tender_lots,
     tender_min_value,
-    tender_features_invalid
-
 )
 
 class TenderLotResourceTest(BaseESCOEUContentWebTest):
