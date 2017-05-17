@@ -690,14 +690,7 @@ class BaseLot(Model):
     description_en = StringType()
     description_ru = StringType()
     date = IsoDateTimeType()
-    value = ModelType(Value, required=True)
     status = StringType(choices=['active', 'cancelled', 'unsuccessful', 'complete'], default='active')
-
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def lot_value(self):
-        return Value(dict(amount=self.value.amount,
-                          currency=self.__parent__.value.currency,
-                          valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded))
 
 
 class Lot(BaseLot):
@@ -715,6 +708,7 @@ class Lot(BaseLot):
             'Administrator': whitelist('auctionPeriod'),
         }
 
+    value = ModelType(Value, required=True)
     minimalStep = ModelType(Value, required=True)
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
@@ -741,6 +735,12 @@ class Lot(BaseLot):
         return Value(dict(amount=self.minimalStep.amount,
                           currency=self.__parent__.minimalStep.currency,
                           valueAddedTaxIncluded=self.__parent__.minimalStep.valueAddedTaxIncluded))
+
+    @serializable(serialized_name="value", type=ModelType(Value))
+    def lot_value(self):
+        return Value(dict(amount=self.value.amount,
+                          currency=self.__parent__.value.currency,
+                          valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded))
 
     def validate_minimalStep(self, data, value):
         if value and value.amount and data.get('value'):
