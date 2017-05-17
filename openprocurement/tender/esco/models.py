@@ -400,13 +400,13 @@ class Tender(BaseTender):
             raise ValidationError(u"url should be posted for each lot")
 
     def validate_minimalStep(self, data, value):
-        if value and value.amount and data.get('value'):
-            if data.get('value').amount < value.amount:
-                raise ValidationError(u"value should be less than value of tender")
-            if data.get('value').currency != value.currency:
-                raise ValidationError(u"currency should be identical to currency of value of tender")
-            if data.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-                raise ValidationError(u"valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender")
+        if value and value.amount and data.get('minValue'):
+            if data.get('minValue').amount < value.amount:
+                raise ValidationError(u"value should be less than minValue of tender")
+            if data.get('minValue').currency != value.currency:
+                raise ValidationError(u"currency should be identical to currency of minValue of tender")
+            if data.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+                raise ValidationError(u"valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of minValue of tender")
 
     def validate_tenderPeriod(self, data, period):
         # if data['_rev'] is None when tender was created just now
