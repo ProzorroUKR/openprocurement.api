@@ -1,4 +1,10 @@
-from openprocurement.historical.core.utils import Root
+from openprocurement.historical.core.utils import Root as BaseRoot
+from pyramid.security import Allow, Everyone
+
+class Root(BaseRoot):
+    __acl__ = BaseRoot.__acl__ + [
+        (Allow, Everyone, 'view_tender'),
+    ]
 
 
 def historical_tender_factory(request):
