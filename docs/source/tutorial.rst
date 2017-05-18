@@ -142,7 +142,7 @@ And we can see that it is overriding the original version:
 Enquiries
 ---------
 
-When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:
+When tender has ``active.tendering`` status and ``Tender.enquiryPeriod.endDate``  hasn't come yet, interested parties can ask questions:
 
 .. include:: tutorial/ask-question.http
    :code:
@@ -163,7 +163,7 @@ or individual answer:
    :code:
 
 
-Enquiries can be made only during ``Tender.enqueryPeriod``
+Enquiries can be made only during ``Tender.enquiryPeriod``
 
 .. include:: tutorial/ask-question-after-enquiry-period.http
    :code:
