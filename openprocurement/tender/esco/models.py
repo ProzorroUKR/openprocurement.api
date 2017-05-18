@@ -152,6 +152,18 @@ class Bid(BaseEUBid):
 
     value = ModelType(ESCOValue)
 
+    def validate_value(self, data, value):
+        if isinstance(data['__parent__'], Model):
+            tender = data['__parent__']
+            if tender.lots:
+                if value:
+                    raise ValidationError(u'value should be posted for each lot of bid')
+            else:
+                if not value:
+                    raise ValidationError(u'This field is required.')
+                if tender.minValue.amount > value.amount:
+                    raise ValidationError(u'value of bid should be greater than minValue of tender')
+
 
 @implementer(IESCOTender)
 class Tender(BaseTender):
