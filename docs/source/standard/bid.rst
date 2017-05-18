@@ -36,9 +36,9 @@ Schema
 
     Validation rules:
 
-    * `amount` should be less than `Tender.value.amout`
-    * `currency` should either be absent or match `Tender.value.currency`
-    * `valueAddedTaxIncluded` should either be absent or match `Tender.value.valueAddedTaxIncluded`
+    * `amount` should be less than `Tender.minValue.amout`
+    * `currency` should either be absent or match `Tender.minValue.currency`
+    * `valueAddedTaxIncluded` should either be absent or match `Tender.minValue.valueAddedTaxIncluded`
 
 :subcontractingDetails:
     string
@@ -79,8 +79,8 @@ There are several `envelopes` - document containers that manage time when their 
 
 :qualificationDocuments:
     List of :ref:`ConfidentialDocument` objects. This envelope is revealed at post-qualification.
-    
-    
+
+
 .. _Parameter:
 
 Parameter
@@ -112,9 +112,9 @@ Schema
 
     Validation rules:
 
-    * `amount` should be less than `Lot.value.amout`
-    * `currency` should either be absent or match `Lot.value.currency`
-    * `valueAddedTaxIncluded` should either be absent or match `Lot.value.valueAddedTaxIncluded`
+    * `amount` should be less than `Lot.minValue.amout`
+    * `currency` should either be absent or match `Lot.minValue.currency`
+    * `valueAddedTaxIncluded` should either be absent or match `Lot.minValue.valueAddedTaxIncluded`
 
 :relatedLot:
     string

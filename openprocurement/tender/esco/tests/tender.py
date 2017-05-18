@@ -37,7 +37,7 @@ class TenderESCOEUTest(BaseESCOWebTest):
     test_tender_min_value = snitch(tender_min_value)
 
 
-class TestTenderEU(BaseESCOEUContentWebTest):
+class TestTenderEUResourse(BaseESCOEUContentWebTest):
     """ ESCO EU tender test """
     initialize_initial_data = False
     initial_data = test_tender_data

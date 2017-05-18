@@ -71,7 +71,7 @@ def tender_min_value(self):
     self.assertEqual(response.json['data']['minValue']['currency'], 'UAH')
 
 
-# TestTenderEU
+# TestTenderEUResourse
 
 
 def tender_with_nbu_discount_rate(self):
