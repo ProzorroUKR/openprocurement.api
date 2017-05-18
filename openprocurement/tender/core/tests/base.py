@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import os
 from copy import deepcopy
 from datetime import datetime, timedelta
@@ -6,6 +7,7 @@ from uuid import uuid4
 from requests.models import Response
 from base64 import b64encode
 from urllib import urlencode
+from webtest import TestApp
 
 from openprocurement.api.utils import SESSION, apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest
@@ -129,3 +131,39 @@ class BaseTenderWebTest(BaseWebTest):
             self.tearDownDS()
         del self.db[self.tender_id]
         super(BaseTenderWebTest, self).tearDown()
+
+
+class DumpsTestAppwebtest(TestApp):
+    hostname = "api-sandbox.openprocurement.org"
+
+    def do_request(self, req, status=None, expect_errors=None):
+        req.headers.environ["HTTP_HOST"] = self.hostname
+        if hasattr(self, 'file_obj') and not self.file_obj.closed:
+            self.file_obj.write(req.as_bytes(True))
+            self.file_obj.write("\n")
+            if req.body:
+                try:
+                    self.file_obj.write(
+                            'DATA:\n' + json.dumps(json.loads(req.body), indent=2, ensure_ascii=False).encode('utf8'))
+                    self.file_obj.write("\n")
+                except:
+                    pass
+            self.file_obj.write("\n")
+        resp = super(DumpsTestAppwebtest, self).do_request(req, status=status, expect_errors=expect_errors)
+        if hasattr(self, 'file_obj') and not self.file_obj.closed:
+            headers = [(n.title(), v)
+                       for n, v in resp.headerlist
+                       if n.lower() != 'content-length']
+            headers.sort()
+            self.file_obj.write(str('Response: %s\n%s\n') % (
+                resp.status,
+                str('\n').join([str('%s: %s') % (n, v) for n, v in headers]),
+            ))
+
+            if resp.testbody:
+                try:
+                    self.file_obj.write(json.dumps(json.loads(resp.testbody), indent=2, ensure_ascii=False).encode('utf8'))
+                except:
+                    pass
+            self.file_obj.write("\n\n")
+        return resp
