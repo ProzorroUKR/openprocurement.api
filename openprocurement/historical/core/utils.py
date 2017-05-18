@@ -44,8 +44,8 @@ def extract_doc(request, doc_type):
     revisions = doc.pop('revisions', [])
     if not revisions or not request.validated.get(VERSION):
         add_responce_headers(request, version=str(len(revisions)),
-                             rhash=doc.get('_rev', ''),
-                             phash=str(
+                             rhash=parse_hash(doc.get('_rev', '')),
+                             phash=parse_hash(
                                  revisions[-1].get('rev')
                                  if len(revisions) > 0 else ''
                              ))
@@ -63,9 +63,9 @@ def extract_doc(request, doc_type):
 
 def add_responce_headers(request, version='', rhash='', phash=''):
     request.response.headers[VERSION] = str(version) or\
-                                        request.validated.get(VERSION, '')
-    request.response.headers[HASH] = rhash
-    request.response.headers[PREVIOUS_HASH] = phash
+                                        str(request.validated.get(VERSION, ''))
+    request.response.headers[HASH] = str(rhash)
+    request.response.headers[PREVIOUS_HASH] = str(phash)
 
 
 def raise_not_implemented(request):
