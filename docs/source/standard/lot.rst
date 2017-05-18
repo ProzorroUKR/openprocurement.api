@@ -39,9 +39,9 @@ Schema
 
    The minimal step of auction (reduction). Validation rules:
 
-   * `amount` should be less then `Lot.value.amount`
-   * `currency` should either be absent or match `Lot.value.currency`
-   * `valueAddedTaxIncluded` should either be absent or match `Lot.value.valueAddedTaxIncluded`
+   * `amount` should be less then `Lot.minValue.amount`
+   * `currency` should either be absent or match `Lot.minValue.currency`
+   * `valueAddedTaxIncluded` should either be absent or match `Lot.minValue.valueAddedTaxIncluded`
 
 :auctionPeriod:
    :ref:`period`, read-only

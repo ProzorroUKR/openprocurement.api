@@ -102,9 +102,9 @@ Schema
 
    The minimal step of auction (reduction). Validation rules:
 
-   * `amount` should be less then `Tender.value.amount`
-   * `currency` should either be absent or match `Tender.value.currency`
-   * `valueAddedTaxIncluded` should either be absent or match `Tender.value.valueAddedTaxIncluded`
+   * `amount` should be less then `Tender.minValue.amount`
+   * `currency` should either be absent or match `Tender.minValue.currency`
+   * `valueAddedTaxIncluded` should either be absent or match `Tender.minValue.valueAddedTaxIncluded`
 
 :awards:
     List of :ref:`award` objects
