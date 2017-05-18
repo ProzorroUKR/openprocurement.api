@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-import json
 import os
 from datetime import timedelta
 
 import openprocurement.tender.esco.tests.base as base_test
+
 from openprocurement.api.models import get_now
 from openprocurement.api.tests.base import PrefixedRequestClass
-from openprocurement.tender.esco.tests.tender import BaseESCOWebTest
-from webtest import TestApp
+
+from openprocurement.tender.core.tests.base import DumpsTestAppwebtest
+
+from openprocurement.tender.esco.tests.base import BaseESCOWebTest
 
 test_tender_data = {
   "tenderPeriod": {
@@ -19,7 +21,7 @@ test_tender_data = {
     "currency": "UAH",
     "amount": 35
   },
-  "procurementMethodType": "aboveThresholdEU",
+  "procurementMethodType": "esco.EU",
   "minValue": {
     "currency": "UAH",
     "amount": 500
@@ -339,40 +341,6 @@ test_lots = [
 ]
 
 
-class DumpsTestAppwebtest(TestApp):
-    def do_request(self, req, status=None, expect_errors=None):
-        req.headers.environ["HTTP_HOST"] = "api-sandbox.openprocurement.org"
-        if hasattr(self, 'file_obj') and not self.file_obj.closed:
-            self.file_obj.write(req.as_bytes(True))
-            self.file_obj.write("\n")
-            if req.body:
-                try:
-                    self.file_obj.write(
-                            'DATA:\n' + json.dumps(json.loads(req.body), indent=2, ensure_ascii=False).encode('utf8'))
-                    self.file_obj.write("\n")
-                except:
-                    pass
-            self.file_obj.write("\n")
-        resp = super(DumpsTestAppwebtest, self).do_request(req, status=status, expect_errors=expect_errors)
-        if hasattr(self, 'file_obj') and not self.file_obj.closed:
-            headers = [(n.title(), v)
-                       for n, v in resp.headerlist
-                       if n.lower() != 'content-length']
-            headers.sort()
-            self.file_obj.write(str('Response: %s\n%s\n') % (
-                resp.status,
-                str('\n').join([str('%s: %s') % (n, v) for n, v in headers]),
-            ))
-
-            if resp.testbody:
-                try:
-                    self.file_obj.write(json.dumps(json.loads(resp.testbody), indent=2, ensure_ascii=False).encode('utf8'))
-                except:
-                    pass
-            self.file_obj.write("\n\n")
-        return resp
-
-
 class TenderResourceTest(BaseESCOWebTest):
     initial_data = test_tender_data
     docservice = True
@@ -532,7 +500,7 @@ class TenderResourceTest(BaseESCOWebTest):
         with open('docs/source/tutorial/update-tender-after-enqiery.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}?acc_token={}'.format(tender['id'], owner_token))
             response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                           {'data': {"value": {'amount': 501.0}}}, status=403)
+                                           {'data': {"minValue": {'amount': 501.0}}}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
 
         with open('docs/source/tutorial/ask-question-after-enquiry-period.http', 'w') as self.app.file_obj:
@@ -544,7 +512,7 @@ class TenderResourceTest(BaseESCOWebTest):
             tenderPeriod_endDate = get_now() + timedelta(days=8)
             response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data':
                 {
-                    "value": {
+                    "minValue": {
                         "amount": 501,
                         "currency": u"UAH"
                     },
