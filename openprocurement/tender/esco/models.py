@@ -33,6 +33,7 @@ from openprocurement.tender.core.models import (
     validate_features_uniq, validate_lots_uniq
 )
 from openprocurement.tender.core.utils import (
+    calc_auction_end_time,
     calculate_business_date,
     has_unanswered_questions,
     has_unanswered_complaints
