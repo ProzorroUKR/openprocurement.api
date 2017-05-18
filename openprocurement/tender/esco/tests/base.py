@@ -14,7 +14,8 @@ from openprocurement.tender.openeu.constants import (
 )
 from openprocurement.tender.openeu.tests.base import (
     test_tender_data as base_eu_test_data,
-    test_lots as base_eu_lots
+    test_lots as base_eu_lots,
+    test_bids as base_eu_bids
 )
 
 
@@ -28,6 +29,11 @@ del test_tender_data['value']
 test_lots = deepcopy(base_eu_lots)
 test_lots[0]['minValue'] = test_lots[0]['value']
 del test_lots[0]['value']
+
+test_bids = deepcopy(base_eu_bids)
+test_bids[0]['value'] = {'yearlyPayments': 0.9,
+                         'annualCostsReduction': 751.5,
+                         'contractDuration': 10}
 
 
 class BaseESCOWebTest(BaseWebTest):
