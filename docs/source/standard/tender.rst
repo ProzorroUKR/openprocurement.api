@@ -55,6 +55,10 @@ Schema
    |ocdsDescription|
    The total estimated minValue of the procurement.
 
+:NBUdiscountRate:
+    float, required
+
+    NBU Discount Rate.
 :guarantee:
     :ref:`Guarantee`
 
