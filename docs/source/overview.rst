@@ -1,7 +1,7 @@
 Overview
 ========
 
-The Open Procurement `Open EU` procedure is plugin to `Open Procurement API
+The Open Procurement `ESCO` procedure is plugin to `Open Procurement API
 <http://api-docs.openprocurement.org/>`_ software.  
 
 REST-ful interface to plugin is in line with core software design principles. 
@@ -16,7 +16,7 @@ This plugin conventions follow the `Open Procurement API conventions
 Main responsibilities
 ---------------------
 
-ESCO procedure is dedicated to Open Tender procedure for threshold procurements with publication in English. The code for that type of procedure is `aboveThresholdEU`.
+ESCO procedure is applied for all energy service procurements regardless their price. The main assessment criterion for this type of procurement procedure is Net Present Value (NPV). The `procurementMethodType` is `esco.EU`.
 
 Project status
 --------------
@@ -45,6 +45,7 @@ Documentation of related packages
 * `Defense open tender <http://defense.api-docs.openprocurement.org/en/latest/>`_
 
 * `Contracting API interface to OpenProcurement database <http://contracting.api-docs.openprocurement.org/en/latest/>`_
+
 
 API stability
 -------------
