@@ -53,6 +53,7 @@ from openprocurement.tender.openua.constants import (
 )
 from openprocurement.tender.openeu.models import (
     IAboveThresholdEUTender, Bid as BaseEUBid,
+    LotValue as BaseLotValue,
     ComplaintModelType, Item, TenderAuctionPeriod,
     ProcuringEntity, Award, Contract, Complaint,
     Cancellation, OpenEUDocument as Document,
@@ -148,10 +149,25 @@ class ESCOValue(Model):
                              self.contractDuration)
 
 
+class LotValue(BaseLotValue):
+
+    value = ModelType(ESCOValue, required=True)
+
+    def validate_value(self, data, value):
+        if value and isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:
+            lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
+            if not lots:
+                return
+            lot = lots[0]
+            if lot.minValue.amount > value.amount:
+                raise ValidationError(u"value of bid should be greater than minValue of lot")
+
+
 class Bid(BaseEUBid):
     """ ESCO EU bid model """
 
     value = ModelType(ESCOValue)
+    lotValues = ListType(ModelType(LotValue), default=list())
 
     def validate_value(self, data, value):
         if isinstance(data['__parent__'], Model):
