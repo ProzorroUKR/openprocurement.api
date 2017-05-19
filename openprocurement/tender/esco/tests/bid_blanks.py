@@ -5,7 +5,7 @@ from copy import deepcopy
 # TenderBidResourceTest
 
 
-def create_tender_bidder_invalid(self):
+def create_tender_bid_invalid(self):
     response = self.app.post_json('/tenders/some_id/bids', {
         'data': {'tenderers': [self.author_data], "value": {"amount": 500}}}, status=404)
     self.assertEqual(response.status, '404 Not Found')
@@ -211,7 +211,7 @@ def create_tender_bidder_invalid(self):
     ])
 
 
-def create_tender_bidder(self):
+def create_tender_bid(self):
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': self.test_bids_data[0]})
     self.assertEqual(response.status, '201 Created')
@@ -246,7 +246,7 @@ def create_tender_bidder(self):
     self.assertEqual(response.json['errors'][0]["description"], "Can't add bid in current (complete) tender status")
 
 
-def patch_tender_bidder(self):
+def patch_tender_bid(self):
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': self.test_bids_data[0]})
     self.assertEqual(response.status, '201 Created')
@@ -426,7 +426,7 @@ def bids_activation_on_tender_documents(self):
 # TenderBidFeaturesResourceTest
 
 
-def features_bidder_invalid(self):
+def features_bid_invalid(self):
     data = deepcopy(self.test_bids_data[0])
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -470,7 +470,7 @@ def features_bidder_invalid(self):
     ])
 
 
-def features_bidder(self):
+def features_bid(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data.update({
         "parameters": [

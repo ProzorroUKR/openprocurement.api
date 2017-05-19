@@ -71,7 +71,7 @@ def tender_min_value(self):
     self.assertEqual(response.json['data']['minValue']['currency'], 'UAH')
 
 
-# TestTenderEUResourse
+# TestTenderEU
 
 
 def tender_with_nbu_discount_rate(self):
@@ -221,8 +221,8 @@ def invalid_bid_tender_features(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotIn("features", response.json['data'])
 
-    # switch to active.qualification
-    self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
+    # switch to active.pre-qualification
+    self.set_status('active.pre-qualification', {'id': tender_id, 'status': 'active.tendering'})
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
@@ -232,7 +232,7 @@ def invalid_bid_tender_features(self):
 # TestTenderEUProcess
 
 
-def one_bid_tender(self):
+def one_invalid_bid_tender(self):
     # empty tenders listing
     response = self.app.get('/tenders')
     self.assertEqual(response.json['data'], [])

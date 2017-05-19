@@ -13,7 +13,7 @@ from openprocurement.tender.esco.tests.tender_blanks import (
     tender_min_value,
     tender_with_nbu_discount_rate,
     invalid_bid_tender_features,
-    one_bid_tender
+    one_invalid_bid_tender
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     listing, listing_changes, listing_draft,
@@ -37,7 +37,7 @@ class TenderESCOEUTest(BaseESCOWebTest):
     test_tender_min_value = snitch(tender_min_value)
 
 
-class TestTenderEUResourse(BaseESCOEUContentWebTest):
+class TestTenderEU(BaseESCOEUContentWebTest):
     """ ESCO EU tender test """
     initialize_initial_data = False
     initial_data = test_tender_data
@@ -64,10 +64,10 @@ class TestTenderEUProcess(BaseESCOEUContentWebTest):
 
     initialize_initial_data = False
     initial_data = test_tender_data
-    test_bids_data = test_bids  # TODO: change attribute identifier
+    test_bids_data = test_bids
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
-    test_one_bid_tender = snitch(one_bid_tender)
+    test_one_bid_tender = snitch(one_invalid_bid_tender)
 
 
 def suite():
