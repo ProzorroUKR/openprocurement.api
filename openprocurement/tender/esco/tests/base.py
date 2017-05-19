@@ -30,9 +30,10 @@ test_lots[0]['minValue'] = test_lots[0]['value']
 del test_lots[0]['value']
 
 test_bids = deepcopy(base_eu_bids)
-test_bids[0]['value'] = {'yearlyPayments': 0.9,
-                         'annualCostsReduction': 751.5,
-                         'contractDuration': 10}
+for bid in test_bids:
+    bid['value'] = {'yearlyPayments': 0.9,
+                       'annualCostsReduction': 751.5,
+                       'contractDuration': 10}
 
 
 class BaseESCOWebTest(BaseTenderWebTest):
