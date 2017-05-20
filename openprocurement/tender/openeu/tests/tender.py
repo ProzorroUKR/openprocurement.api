@@ -16,7 +16,8 @@ from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
 from openprocurement.tender.openeu.tests.base import (
     test_tender_data,
     BaseTenderWebTest,
-    test_lots
+    test_lots,
+    test_bids,
 )
 from openprocurement.tender.openeu.tests.tender_blanks import (
     #TenderProcessTest
@@ -49,6 +50,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
     test_lots_data = test_lots  # TODO: change attribute identifier
+    test_bids_data = test_bids
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
