@@ -50,7 +50,7 @@ Schema
 :minValue:
    :ref:`minValue`, required
 
-   Calculated minimal energy service contract performance indicator.
+   Calculated minimal energy service contract performance indicator. Bids smaller then ``minValue`` will be rejected.
 
    |ocdsDescription|
    The total estimated minValue of the procurement.

@@ -27,7 +27,7 @@ Schema
 :minValue:
    :ref:`minValue`, required
 
-   Total available tender lot budget.
+   Total available tender lot budget. Bids smaller then ``minValue`` will be rejected.
 
 :guarantee:
     :ref:`Guarantee`
