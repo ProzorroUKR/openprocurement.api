@@ -16,8 +16,9 @@ from openprocurement.tender.openeu.utils import (
 class TenderESCOEUBidDocumentResource(TenderEUBidDocumentResource):
     """ Tender ESCO EU Bid Document Resource """
 
+
 @bid_financial_documents_resource(
-    name='escoEU:Tender Bid Financial Documents',
+    name='esco.EU:Tender Bid Financial Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/financial_documents',
     path='/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}',
     procurementMethodType='esco.EU',
@@ -29,8 +30,9 @@ class TenderESCOEUBidFinancialDocumentResource(TenderESCOEUBidDocumentResource):
                              'active.pre-qualification.stand-still', 'active.auction']
     view_forbidden_bid_states = ['invalid', 'deleted', 'invalid.pre-qualification', 'unsuccessful']
 
+
 @bid_eligibility_documents_resource(
-    name='escoEU:Tender Bid Eligibility Documents',
+    name='esco.EU:Tender Bid Eligibility Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/eligibility_documents',
     path='/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}',
     procurementMethodType='esco.EU',
@@ -43,7 +45,7 @@ class TenderESCOEUBidEligibilityDocumentResource(TenderESCOEUBidFinancialDocumen
 
 
 @bid_qualification_documents_resource(
-    name='escoEU:Tender Bid Qualification Documents',
+    name='esco.EU:Tender Bid Qualification Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/qualification_documents',
     path='/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}',
     procurementMethodType='esco.EU',
