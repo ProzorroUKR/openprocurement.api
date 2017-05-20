@@ -50,7 +50,7 @@ from openprocurement.tender.esco.tests.bid_blanks import (
 
 class TenderBidResourceTest(BaseESCOEUContentWebTest):
     initial_status = 'active.tendering'
-    test_bids_data = test_bids # TODO: change attribute identificator
+    test_bids_data = test_bids
     author_data = test_bids_data[0]['tenderers'][0]
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
@@ -65,7 +65,7 @@ class TenderBidResourceTest(BaseESCOEUContentWebTest):
 class TenderBidFeaturesResourceTest(BaseESCOEUContentWebTest):
     initial_status = 'active.tendering'
     initial_data = test_features_tender_data
-    test_bids_data = test_bids # TODO: change attribute identificator
+    test_bids_data = test_bids
 
     test_features_bid = snitch(features_bid)
     test_features_bid_invalid = snitch(features_bid_invalid)
