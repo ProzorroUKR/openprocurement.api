@@ -540,7 +540,7 @@ def invalid_bid_tender_lot(self):
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
                                             'status': 'draft',
-                                            'lotValues': [{"value": {"amount": 500}, 'relatedLot': i} for i in lots],
+                                            'lotValues': [{"value": self.test_bids_data[0]['value'], 'relatedLot': i} for i in lots],
                                             'tenderers': [test_organization]}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
