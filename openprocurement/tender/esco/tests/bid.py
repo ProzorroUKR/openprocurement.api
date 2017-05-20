@@ -15,13 +15,13 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
 )
+from openprocurement.tender.openeu.tests.bid import TenderBidDocumentResourceTestMixin
 from openprocurement.tender.openeu.tests.bid_blanks import (
     # TenderBidDocumentWithDSResourceTest
     patch_tender_bidder_document_private_json,
     put_tender_bidder_document_private_json,
     get_tender_bidder_document_ds,
     # TenderBidDocumentResourceTest
-    not_found,
     patch_tender_bidder_document_private,
     # TenderBidBatchDocumentWithDSResourceTest
     create_tender_bid_with_all_documents,
@@ -44,12 +44,6 @@ from openprocurement.tender.esco.tests.bid_blanks import (
     bids_activation_on_tender_documents,
     features_bid_invalid,
     features_bid,
-    create_tender_bidder_document,
-    get_tender_bidder_document,
-    put_tender_bidder_document,
-    patch_tender_bidder_document,
-    download_tender_bidder_document,
-    create_tender_bidder_document_nopending,
     patch_and_put_document_into_invalid_bid
 )
 
@@ -75,16 +69,6 @@ class TenderBidFeaturesResourceTest(BaseESCOEUContentWebTest):
 
     test_features_bid = snitch(features_bid)
     test_features_bid_invalid = snitch(features_bid_invalid)
-
-
-class TenderBidDocumentResourceTestMixin(object):
-    test_not_found = snitch(not_found)
-    test_get_tender_bidder_document = snitch(get_tender_bidder_document)
-    test_create_tender_bidder_document = snitch(create_tender_bidder_document)
-    test_put_tender_bidder_document = snitch(put_tender_bidder_document)
-    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
-    test_patch_tender_bidder_document_private = snitch(patch_tender_bidder_document_private)
-    test_download_tender_bidder_document = snitch(download_tender_bidder_document)
 
 
 class TenderBidDocumentResourceTest(BaseESCOEUContentWebTest, TenderBidDocumentResourceTestMixin):
