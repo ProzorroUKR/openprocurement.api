@@ -36,7 +36,7 @@ Schema
 
     Validation rules:
 
-    * `amount` should be less than `Tender.minValue.amout`
+    * `amount` should be greater than `Tender.minValue.amout`
     * `currency` should either be absent or match `Tender.minValue.currency`
     * `valueAddedTaxIncluded` should either be absent or match `Tender.minValue.valueAddedTaxIncluded`
 
@@ -112,7 +112,7 @@ Schema
 
     Validation rules:
 
-    * `amount` should be less than `Lot.minValue.amout`
+    * `amount` should be greater than `Lot.minValue.amout`
     * `currency` should either be absent or match `Lot.minValue.currency`
     * `valueAddedTaxIncluded` should either be absent or match `Lot.minValue.valueAddedTaxIncluded`
 
