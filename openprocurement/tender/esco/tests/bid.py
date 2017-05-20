@@ -22,6 +22,7 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     put_tender_bidder_document_private_json,
     get_tender_bidder_document_ds,
     # TenderBidDocumentResourceTest
+    create_tender_bidder_document_nopending,
     patch_tender_bidder_document_private,
     # TenderBidBatchDocumentWithDSResourceTest
     create_tender_bid_with_all_documents,
