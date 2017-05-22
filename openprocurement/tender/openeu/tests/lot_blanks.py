@@ -406,7 +406,7 @@ def one_lot_1bid(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
+                                            'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}]}})
     # switch to active.pre-qualification
     self.time_shift('active.pre-qualification')
     self.check_chronograph()
@@ -433,11 +433,11 @@ def one_lot_2bid_1unqualified(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
+                                            'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}]}})
 
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': self.test_bids_data[1]["tenderers"], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
+                                            'tenderers': self.test_bids_data[1]["tenderers"], 'lotValues': [{"value": self.test_bids_data[1]['value'], 'relatedLot': lot_id}]}})
     # switch to active.pre-qualification
     self.time_shift('active.pre-qualification')
     self.check_chronograph()
@@ -618,7 +618,7 @@ def two_lot_2bid_1lot_del(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                                   'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [
-        {"value": {"amount": 500}, 'relatedLot': lot_id}
+        {"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}
         for lot_id in lots
     ]}})
     bids.append(response.json)
@@ -626,7 +626,7 @@ def two_lot_2bid_1lot_del(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                                   'tenderers': self.test_bids_data[1]["tenderers"], 'lotValues': [
-        {"value": {"amount": 500}, 'relatedLot': lot_id}
+        {"value": self.test_bids_data[1]['value'], 'relatedLot': lot_id}
         for lot_id in lots
     ]}})
     bids.append(response.json)
@@ -966,13 +966,13 @@ def two_lot_2bid_0com_1can(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                                   'tenderers': self.test_bids_data[0]['tenderers'], 'lotValues': [
-        {"value": {"amount": 500}, 'relatedLot': lot_id}
+        {"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}
         for lot_id in lots
     ]}})
 
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                                   'tenderers': self.test_bids_data[1]['tenderers'], 'lotValues': [
-        {"value": {"amount": 499}, 'relatedLot': lot_id}
+        {"value": self.test_bids_data[1]['value'], 'relatedLot': lot_id}
         for lot_id in lots
     ]}})
 
