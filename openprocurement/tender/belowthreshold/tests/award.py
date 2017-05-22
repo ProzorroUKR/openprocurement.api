@@ -53,6 +53,8 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_document,
     put_tender_award_document,
     patch_tender_award_document,
+    create_award_document_bot,
+    patch_not_author,
     # Tender2LotAwardDocumentResourceTest
     create_tender_lots_award_document,
     put_tender_lots_award_document,
@@ -77,6 +79,8 @@ class TenderAwardDocumentResourceTestMixin(object):
     test_create_tender_award_document = snitch(create_tender_award_document)
     test_put_tender_award_document = snitch(put_tender_award_document)
     test_patch_tender_award_document = snitch(patch_tender_award_document)
+    test_create_award_document_bot = snitch(create_award_document_bot)
+    test_patch_not_author = snitch(patch_not_author)
 
 
 class TenderAwardComplaintDocumentResourceTestMixin(object):
