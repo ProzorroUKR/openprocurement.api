@@ -1,0 +1,28 @@
+PATCH /api/2.3/tenders/8e66e6ec79884e3bae079ce132af8c71/qualifications/4c89d8b74f294b90809b913facdc09f0/complaints/16c9457ebd624937ab93fcce6951cf8a?acc_token=c0f55ed7857444efbd9afd7cada95990 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 29
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "claim"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "claim", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "bid_id": "e7360dbfaf3d439b88ef6c67dc491e03", 
+    "dateSubmitted": "2017-05-22T17:28:31.693551+03:00", 
+    "complaintID": "UA-2017-05-22-000001.8", 
+    "date": "2017-05-22T17:28:31.706945+03:00", 
+    "type": "claim", 
+    "id": "16c9457ebd624937ab93fcce6951cf8a"
+  }
+}
+
