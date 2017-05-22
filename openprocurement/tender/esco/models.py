@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implementer
 from datetime import timedelta
+from iso8601 import parse_date
 from pyramid.security import Allow
 from schematics.types import StringType, FloatType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
@@ -49,7 +50,8 @@ from openprocurement.tender.openua.utils import (
 )
 from openprocurement.tender.openua.constants import (
     COMPLAINT_SUBMIT_TIME,
-    ENQUIRY_STAND_STILL_TIME
+    ENQUIRY_STAND_STILL_TIME,
+    AUCTION_PERIOD_TIME,
 )
 from openprocurement.tender.openeu.models import (
     IAboveThresholdEUTender, Bid as BaseEUBid,

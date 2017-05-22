@@ -18,13 +18,18 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
 
 from openprocurement.tender.openeu.tests.lot_blanks import (
     # TenderLotProcessTest
+    one_lot_1bid,
+    one_lot_2bid_1unqualified,
     two_lot_1can,
+    two_lot_2bid_0com_1can,
+    two_lot_2bid_1lot_del
 )
 
 from openprocurement.tender.esco.tests.base import (
     BaseESCOEUContentWebTest,
     test_tender_data,
     test_lots,
+    test_bids,
 )
 
 from openprocurement.tender.esco.tests.lot_blanks import (
@@ -36,6 +41,7 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     get_tender_lots,
     tender_min_value,
 )
+
 
 class TenderLotResourceTest(BaseESCOEUContentWebTest):
 
@@ -74,11 +80,16 @@ class TenderLotFeatureResourceTest(BaseESCOEUContentWebTest):
 class TenderLotProcessTest(BaseESCOEUContentWebTest, TenderLotProcessTestMixin):
     setUp = BaseESCOEUContentWebTest.setUp
     test_lots_data = test_lots  # TODO: change attribute identifier
+    test_bids_data = test_bids
     initial_data = test_tender_data
 
     days_till_auction_starts = 16
 
+    test_1lot_1bid = snitch(one_lot_1bid)
+    test_1lot_2bid_1unqualified = snitch(one_lot_2bid_1unqualified)
+    test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del)
     test_2lot_1can = snitch(two_lot_1can)
+    test_2lot_2bid_0com_1can = snitch(two_lot_2bid_0com_1can)
 
 
 def suite():
