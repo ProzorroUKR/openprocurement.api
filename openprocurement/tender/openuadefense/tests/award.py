@@ -4,6 +4,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_lots, test_organization
+from openprocurement.tender.belowthreshold.tests.award import TenderAwardDocumentResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     # TenderAwardResourceTest
     create_tender_award_invalid,
@@ -22,11 +23,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     put_tender_award_complaint_document,
     # Tender2LotAwardComplaintDocumentResourceTest
     create_tender_lots_award_complaint_document,
-    # TenderAwardDocumentResourceTest
-    not_found_award_document as not_found,
-    create_tender_award_document,
-    put_tender_award_document,
-    patch_tender_award_document,
     # Tender2LotAwardDocumentResourceTest
     create_tender_lots_award_document,
     put_tender_lots_award_document,
@@ -210,7 +206,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_award_complaint_document = snitch(patch_tender_lots_award_complaint_document)
 
 
-class TenderAwardDocumentResourceTest(BaseTenderUAContentWebTest):
+class TenderAwardDocumentResourceTest(BaseTenderUAContentWebTest, TenderAwardDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
 
@@ -221,11 +217,6 @@ class TenderAwardDocumentResourceTest(BaseTenderUAContentWebTest):
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
-
-    test_not_found = snitch(not_found)
-    test_create_tender_award_document = snitch(create_tender_award_document)
-    test_put_tender_award_document = snitch(put_tender_award_document)
-    test_patch_tender_award_document = snitch(patch_tender_award_document)
 
 
 class Tender2LotAwardDocumentResourceTest(BaseTenderUAContentWebTest):
