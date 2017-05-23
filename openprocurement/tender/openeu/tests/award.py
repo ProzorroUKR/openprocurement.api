@@ -73,45 +73,12 @@ class TenderAwardResourceTest(BaseTenderContentWebTest,
     initial_bids = test_bids
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
+    expected_award_amount = test_bids[0]['value']['amount']
 
     def setUp(self):
         super(TenderAwardResourceTest, self).setUp()
-        # switch to active.pre-qualification
-        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
-        # qualify bids
-        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
-        self.app.authorization = ('Basic', ('broker', ''))
-        for qualification in response.json['data']:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-            self.tender_id, qualification['id'], self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
-            self.assertEqual(response.status, "200 OK")
-
-        # switch to active.pre-qualification.stand-still
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-            self.tender_id, self.tender_token), {"data": {"status": 'active.pre-qualification.stand-still'}})
-        self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
-
-        # switch to active.auction
-        self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json['data']['status'], "active.auction")
-
-        self.app.authorization = ('Basic', ('auction', ''))
-        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
-        auction_bids_data = response.json['data']['bids']
-        for lot_id in self.initial_lots:
-            response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, lot_id['id']),{'data': {'bids': auction_bids_data}})
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, 'application/json')
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.assertEqual(response.json['data']['status'], "active.qualification")
+        self.prepare_award()
 
         # Get award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
@@ -133,45 +100,12 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest,
     initial_bids = test_bids
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
+    expected_award_amount = test_bids[0]['value']['amount']
 
     def setUp(self):
         super(TenderLotAwardResourceTest, self).setUp()
-        # switch to active.pre-qualification
-        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
-        # qualify bids
-        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
-        self.app.authorization = ('Basic', ('broker', ''))
-        for qualification in response.json['data']:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-            self.tender_id, qualification['id'], self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
-            self.assertEqual(response.status, "200 OK")
-
-        # switch to active.pre-qualification.stand-still
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-            self.tender_id, self.tender_token), {"data": {"status": 'active.pre-qualification.stand-still'}})
-        self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
-
-        # switch to active.auction
-        self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json['data']['status'], "active.auction")
-
-        self.app.authorization = ('Basic', ('auction', ''))
-        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
-        auction_bids_data = response.json['data']['bids']
-        for lot_id in self.initial_lots:
-            response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, lot_id['id']),{'data': {'bids': auction_bids_data}})
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, 'application/json')
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.assertEqual(response.json['data']['status'], "active.qualification")
+        self.prepare_award()
 
         # Get award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
@@ -195,42 +129,8 @@ class Tender2LotAwardResourceTest(BaseTenderContentWebTest,
 
     def setUp(self):
         super(Tender2LotAwardResourceTest, self).setUp()
-        # switch to active.pre-qualification
-        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
-        # qualify bids
-        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
-        self.app.authorization = ('Basic', ('broker', ''))
-        for qualification in response.json['data']:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-            self.tender_id, qualification['id'], self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
-            self.assertEqual(response.status, "200 OK")
-
-        # switch to active.pre-qualification.stand-still
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-            self.tender_id, self.tender_token), {"data": {"status": 'active.pre-qualification.stand-still'}})
-        self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
-
-        # switch to active.auction
-        self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json['data']['status'], "active.auction")
-
-        self.app.authorization = ('Basic', ('auction', ''))
-        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
-        auction_bids_data = response.json['data']['bids']
-        for lot_id in self.initial_lots:
-            response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, lot_id['id']),{'data': {'bids': auction_bids_data}})
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, 'application/json')
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.assertEqual(response.json['data']['status'], "active.qualification")
+        self.prepare_award()
 
         # Get award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
@@ -249,42 +149,8 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest,
 
     def setUp(self):
         super(TenderAwardComplaintResourceTest, self).setUp()
-        # switch to active.pre-qualification
-        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
-        # qualify bids
-        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
-        self.app.authorization = ('Basic', ('broker', ''))
-        for qualification in response.json['data']:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-            self.tender_id, qualification['id'], self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
-            self.assertEqual(response.status, "200 OK")
-
-        # switch to active.pre-qualification.stand-still
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-            self.tender_id, self.tender_token), {"data": {"status": 'active.pre-qualification.stand-still'}})
-        self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
-
-        # switch to active.auction
-        self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json['data']['status'], "active.auction")
-
-        self.app.authorization = ('Basic', ('auction', ''))
-        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
-        auction_bids_data = response.json['data']['bids']
-        for lot_id in self.initial_lots:
-            response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, lot_id['id']),{'data': {'bids': auction_bids_data}})
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, 'application/json')
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.assertEqual(response.json['data']['status'], "active.qualification")
+        self.prepare_award()
 
         # Get award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
@@ -313,42 +179,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest,
     def setUp(self):
         super(TenderLotAwardComplaintResourceTest, self).setUp()
 
-        # switch to active.pre-qualification
-        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
-
-        # qualify bids
-        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
-        self.app.authorization = ('Basic', ('broker', ''))
-        for qualification in response.json['data']:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-            self.tender_id, qualification['id'], self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
-            self.assertEqual(response.status, "200 OK")
-
-        # switch to active.pre-qualification.stand-still
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-            self.tender_id, self.tender_token), {"data": {"status": 'active.pre-qualification.stand-still'}})
-        self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
-
-        # switch to active.auction
-        self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json['data']['status'], "active.auction")
-
-        self.app.authorization = ('Basic', ('auction', ''))
-        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
-        auction_bids_data = response.json['data']['bids']
-        for lot_id in self.initial_lots:
-            response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, lot_id['id']),{'data': {'bids': auction_bids_data}})
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, 'application/json')
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.assertEqual(response.json['data']['status'], "active.qualification")
+        self.prepare_award()
 
         # Create award
         self.app.authorization = ('Basic', ('token', ''))
