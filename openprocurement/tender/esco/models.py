@@ -57,9 +57,10 @@ from openprocurement.tender.openeu.models import (
     IAboveThresholdEUTender, Bid as BaseEUBid,
     LotValue as BaseLotValue,
     ComplaintModelType, Item, TenderAuctionPeriod,
-    ProcuringEntity, Award, Contract, Complaint,
+    ProcuringEntity, Award as BaseEUAward, Complaint,
     Cancellation, OpenEUDocument as Document,
-    Qualification, LotAuctionPeriod
+    Qualification, LotAuctionPeriod,
+    Contract as BaseEUContract
 )
 from openprocurement.tender.openeu.models import (
     eu_role, edit_role_eu, create_role_eu,
@@ -163,6 +164,18 @@ class LotValue(BaseLotValue):
             lot = lots[0]
             if lot.minValue.amount > value.amount:
                 raise ValidationError(u"value of bid should be greater than minValue of lot")
+
+
+class Contract(BaseEUContract):
+    """ESCO EU contract model"""
+
+    value = ModelType(ESCOValue)
+
+
+class Award(BaseEUAward):
+    """ESCO EU award model"""
+
+    value = ModelType(ESCOValue)
 
 
 class Bid(BaseEUBid):
