@@ -10,17 +10,18 @@ from openprocurement.tender.openeu.tests.base import (
     test_bids as base_eu_bids,
 )
 
+NBU_DISCOUNT_RATE = 0.22
 
 test_tender_data = deepcopy(base_eu_test_data)
 test_tender_data['procurementMethodType'] = "esco.EU"
-test_tender_data['NBUdiscountRate'] = 0.22
+test_tender_data['NBUdiscountRate'] = NBU_DISCOUNT_RATE
 
 test_tender_data['minValue'] = test_tender_data['value']
 del test_tender_data['value']
 
 test_features_tender_data = deepcopy(base_eu_test_features_data)
 test_features_tender_data['procurementMethodType'] = "esco.EU"
-test_features_tender_data['NBUdiscountRate'] = 0.22
+test_features_tender_data['NBUdiscountRate'] = NBU_DISCOUNT_RATE
 
 test_features_tender_data['minValue'] = test_features_tender_data['value']
 del test_features_tender_data['value']
