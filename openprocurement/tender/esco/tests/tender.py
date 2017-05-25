@@ -7,24 +7,36 @@ from openprocurement.tender.esco.tests.base import (
 )
 from openprocurement.api.tests.base import snitch
 
+from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    #TenderProcessTest
+    invalid_tender_conditions,
+    #TenderResourceTest
+    guarantee,
+)
+
+from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
+
+from openprocurement.tender.openeu.tests.tender_blanks import (
+    #TenderProcessTest
+    one_bid_tender,
+    one_qualificated_bid_tender,
+    #TenderResourceTest
+    patch_tender,
+    invalid_bid_tender_lot,
+)
+
 from openprocurement.tender.esco.tests.tender_blanks import (
+    #TenderESCOEUTest
     simple_add_tender,
     tender_value,
     tender_min_value,
+    #TestTenderEU
+    create_tender_invalid,
     tender_with_nbu_discount_rate,
     invalid_bid_tender_features,
-    one_invalid_bid_tender
-)
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    listing, listing_changes, listing_draft,
-    create_tender, get_tender,
-    dateModified_tender, tender_not_found,
-    guarantee, tender_Administrator_change,
-    invalid_tender_conditions
-)
-from openprocurement.tender.openeu.tests.tender_blanks import (
-    patch_tender,
-    invalid_bid_tender_lot
+    create_tender_generated,
+    patch_tender_ua,
 )
 
 
@@ -37,7 +49,7 @@ class TenderESCOEUTest(BaseESCOWebTest):
     test_tender_min_value = snitch(tender_min_value)
 
 
-class TestTenderEU(BaseESCOEUContentWebTest):
+class TestTenderEU(BaseESCOEUContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     """ ESCO EU tender test """
     initialize_initial_data = False
     initial_data = test_tender_data
@@ -45,17 +57,12 @@ class TestTenderEU(BaseESCOEUContentWebTest):
     test_bids_data = test_bids
     tender_period_duration = TENDERING_DAYS
 
-    test_listing = snitch(listing)
-    test_listing_changes = snitch(listing_changes)
-    test_listing_draft = snitch(listing_draft)
-    test_create_tender = snitch(create_tender)
+    test_patch_tender_ua = snitch(patch_tender_ua)
     test_tender_with_nbu_discount_rate = snitch(tender_with_nbu_discount_rate)
-    test_get_tender = snitch(get_tender)
+    test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_generated = snitch(create_tender_generated)
     test_patch_tender = snitch(patch_tender)
-    test_dateModified_tender = snitch(dateModified_tender)
-    test_tender_not_found = snitch(tender_not_found)
     test_guarantee = snitch(guarantee)
-    test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_invalid_bid_tender_features = snitch(invalid_bid_tender_features)
     test_invalid_bid_tender_lot = snitch(invalid_bid_tender_lot)
 
@@ -67,7 +74,8 @@ class TestTenderEUProcess(BaseESCOEUContentWebTest):
     test_bids_data = test_bids
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
-    test_one_bid_tender = snitch(one_invalid_bid_tender)
+    test_one_bid_tender = snitch(one_bid_tender)
+    test_one_qualificated_bid_tender = snitch(one_qualificated_bid_tender)
 
 
 def suite():
