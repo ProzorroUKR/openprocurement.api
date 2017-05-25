@@ -576,7 +576,7 @@ def patch_tender(self):
     self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (complete) status")
 
 
-def patch_tender_ua(self):
+def patch_tender_period(self):
     response = self.app.post_json('/tenders', {'data': self.initial_data})
     self.assertEqual(response.status, '201 Created')
     tender = response.json['data']
@@ -584,8 +584,8 @@ def patch_tender_ua(self):
     dateModified = tender.pop('dateModified')
     self.tender_id = tender['id']
     self.go_to_enquiryPeriod_end()
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"value": {
-        "amount": 501,
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"minimalStep": {
+        "amount": 25,
         "currency": u"UAH"
     }}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
@@ -595,8 +595,8 @@ def patch_tender_ua(self):
     enquiryPeriod_endDate = tenderPeriod_endDate - (timedelta(minutes=10) if SANDBOX_MODE else timedelta(days=10))
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data':
         {
-            "value": {
-                "amount": 501,
+            "minimalStep": {
+                "amount": 25,
                 "currency": u"UAH"
             },
             "tenderPeriod": {
@@ -608,25 +608,6 @@ def patch_tender_ua(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['tenderPeriod']['endDate'], tenderPeriod_endDate.isoformat())
     self.assertEqual(response.json['data']['enquiryPeriod']['endDate'], enquiryPeriod_endDate.isoformat())
-
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                   {"data": {"guarantee": {"valueAddedTaxIncluded": True}}}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.json['errors'][0],
-                     {u'description': {u'valueAddedTaxIncluded': u'Rogue field'}, u'location': u'body',
-                      u'name': u'guarantee'})
-
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                   {"data": {"guarantee": {"amount": 12}}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertIn('guarantee', response.json['data'])
-    self.assertEqual(response.json['data']['guarantee']['amount'], 12)
-    self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
-
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                   {"data": {"guarantee": {"currency": "USD"}}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
 
 # TenderUAProcessTest
 

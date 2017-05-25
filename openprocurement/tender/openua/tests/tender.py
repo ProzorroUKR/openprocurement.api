@@ -24,7 +24,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     create_tender_generated,
     tender_fields,
     patch_tender,
-    patch_tender_ua,
+    patch_tender_period,
     # TenderUAProcessTest
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
@@ -39,7 +39,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
 class TenderUAResourceTestMixin(object):
     test_empty_listing = snitch(empty_listing)
     test_tender_fields = snitch(tender_fields)
-    test_patch_tender_ua = snitch(patch_tender_ua)
+    test_patch_tender_period = snitch(patch_tender_period)
 
 
 class TenderUaProcessTestMixin(object):
