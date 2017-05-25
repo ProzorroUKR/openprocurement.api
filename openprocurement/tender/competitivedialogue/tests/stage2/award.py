@@ -90,6 +90,7 @@ class TenderStage2EUAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWebTes
     initial_bids = test_tender_bids
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
+    expected_award_amount = initial_bids[0]['value']['amount']
 
     def setUp(self):
         """ Create tender with lots add 2 bids, play auction and get award """
@@ -145,6 +146,7 @@ class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
     initial_bids = test_tender_bids
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
+    expected_award_amount = test_bids[0]['value']['amount']
 
     def setUp(self):
         super(TenderStage2EULotAwardResourceTest, self).setUp()
