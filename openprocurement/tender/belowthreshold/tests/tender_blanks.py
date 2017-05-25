@@ -1159,6 +1159,11 @@ def guarantee(self):
     self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
+                                   {"data": {"guarantee": {"currency": "USD"}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
                                    {'data': {'guarantee': {"amount": 100500, "currency": "USD"}}})
     self.assertEqual(response.status, '200 OK')
     self.assertIn('guarantee', response.json['data'])
@@ -1178,6 +1183,13 @@ def guarantee(self):
     self.assertIn('guarantee', response.json['data'])
     self.assertEqual(response.json['data']['guarantee']['amount'], 100)
     self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
+                                   {"data": {"guarantee": {"valueAddedTaxIncluded": True}}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.json['errors'][0],
+                     {u'description': {u'valueAddedTaxIncluded': u'Rogue field'}, u'location': u'body',
+                      u'name': u'guarantee'})
 
 
 def tender_Administrator_change(self):
