@@ -574,7 +574,7 @@ def one_bid_tender(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [bidder_data], "value": {"amount": 500}}})
+                                            'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
     # switch to active.pre-qualification
     self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
     self.app.authorization = ('Basic', ('chronograph', ''))
@@ -658,10 +658,10 @@ def one_qualificated_bid_tender(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [bidder_data], "value": {"amount": 500}}})
+                                            'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [bidder_data], "value": {"amount": 499}}})
+                                            'tenderers': [bidder_data], "value": self.test_bids_data[1]['value']}})
     # switch to active.pre-qualification
     self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
     self.app.authorization = ('Basic', ('chronograph', ''))

@@ -64,9 +64,10 @@ class TenderProcessTest(BaseTenderWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
+    test_bids_data = test_bids
 
-    test_invalid_tender_conditions = snitch(invalid_bid_tender_features)
-    test_one_bid_tender = snitch(invalid_tender_conditions)
+    test_invalid_tender_conditions = snitch(invalid_tender_conditions)
+    test_one_bid_tender = snitch(one_bid_tender)
     test_unsuccessful_after_prequalification_tender = snitch(unsuccessful_after_prequalification_tender)
     test_one_qualificated_bid_tender = snitch(one_qualificated_bid_tender)
     test_multiple_bidders_tender = snitch(multiple_bidders_tender)
