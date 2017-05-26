@@ -134,14 +134,16 @@ class Lot(BaseLot):
 class ESCOValue(Model):
     class Options:
         roles = {
-            'create': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration'),
-            'edit': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration'),
-            'auction_view': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration'),
-            'auction_post': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration'),
+            'create': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'edit': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'auction_view': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'auction_post': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
         }
     yearlyPayments = FloatType(min_value=0.8, max_value=0.9, required=True)  # The percentage of annual payments in favor of Bidder
     annualCostsReduction = FloatType(min_value=0, required=True)  # Buyer's annual costs reduction
     contractDuration = IntType(min_value=1, max_value=15, required=True)
+    currency = StringType(required=True, default=u'UAH', max_length=3, min_length=3)  # The currency in 3-letter ISO 4217 format.
+    valueAddedTaxIncluded = BooleanType(required=True, default=True)
 
     @serializable
     def amount(self):
@@ -164,6 +166,10 @@ class LotValue(BaseLotValue):
             lot = lots[0]
             if lot.minValue.amount > value.amount:
                 raise ValidationError(u"value of bid should be greater than minValue of lot")
+            if lot.get('minValue').currency != value.currency:
+                raise ValidationError(u"currency of bid should be identical to currency of minValue of lot")
+            if lot.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+                raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of lot")
 
 
 class Contract(BaseEUContract):
@@ -195,6 +201,10 @@ class Bid(BaseEUBid):
                     raise ValidationError(u'This field is required.')
                 if tender.minValue.amount > value.amount:
                     raise ValidationError(u'value of bid should be greater than minValue of tender')
+                if tender.get('minValue').currency != value.currency:
+                    raise ValidationError(u"currency of bid should be identical to currency of minValue of tender")
+                if tender.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+                    raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender")
 
 
 @implementer(IESCOTender)
