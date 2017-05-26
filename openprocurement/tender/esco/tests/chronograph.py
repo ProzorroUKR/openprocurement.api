@@ -32,11 +32,11 @@ class TenderSwitchPreQualificationResourceTest(BaseESCOEUContentWebTest):
     test_switch_to_auction = snitch(pre_qual_switch_to_auction)
 
 
-# class TenderSwitchAuctionResourceTest(BaseESCOEUContentWebTest):
-#     initial_status = 'active.pre-qualification.stand-still'
-#     initial_bids = test_bids
+class TenderSwitchAuctionResourceTest(BaseESCOEUContentWebTest):
+    initial_status = 'active.pre-qualification.stand-still'
+    initial_bids = test_bids
 
-#     test_switch_to_auction = snitch(switch_to_auction)
+    test_switch_to_auction = snitch(switch_to_auction)
 
 
 class TenderSwitchUnsuccessfulResourceTest(BaseESCOEUContentWebTest):
