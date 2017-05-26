@@ -486,14 +486,14 @@ def one_lot_2bid(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": {"amount": 450}, 'relatedLot': lot_id}]}})
+                                            'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}]}})
     bid_id = response.json['data']['id']
     bid_token = response.json['access']['token']
     # create second bid
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': self.test_bids_data[1]["tenderers"], 'lotValues': [{"value": {"amount": 475}, 'relatedLot': lot_id}]}})
+                                            'tenderers': self.test_bids_data[1]["tenderers"], 'lotValues': [{"value": self.test_bids_data[1]['value'], 'relatedLot': lot_id}]}})
     # switch to active.auction
     self.time_shift('active.pre-qualification')
     self.check_chronograph()
@@ -655,7 +655,7 @@ def one_lot_3bid_1del(self):
     for i in range(3):
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                                'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": {"amount": 450}, 'relatedLot': lot_id}]}})
+                                                'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}]}})
         bids.append({response.json['data']['id']: response.json['access']['token']})
 
 
@@ -781,7 +781,7 @@ def one_lot_3bid_1un(self):
     for i in range(3):
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                                'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": {"amount": 450}, 'relatedLot': lot_id}]}})
+                                                'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}]}})
         bids.append({response.json['data']['id']: response.json['access']['token']})
 
     # switch to active.auction
@@ -1026,14 +1026,14 @@ def two_lot_2bid_2com_2win(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                                   'tenderers': self.test_bids_data[0]['tenderers'], 'lotValues': [
-        {"value": {"amount": 500}, 'relatedLot': lot_id}
+        {"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}
         for lot_id in lots
     ]}})
     # create second bid
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                                   'tenderers': self.test_bids_data[1]['tenderers'], 'lotValues': [
-        {"value": {"amount": 500}, 'relatedLot': lot_id}
+        {"value": self.test_bids_data[1]['value'], 'relatedLot': lot_id}
         for lot_id in lots
     ]}})
     # switch to active.pre-qualification
@@ -1171,21 +1171,21 @@ def two_lot_3bid_1win_bug(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                                   'tenderers': self.test_bids_data[0]['tenderers'], 'lotValues': [
-        {"value": {"amount": 401}, 'relatedLot': lot_id}
+        {"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}
         for lot_id in lots
     ]}})
     # create second bid
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                                   'tenderers': self.test_bids_data[1]['tenderers'], 'lotValues': [
-        {"value": {"amount": 402}, 'relatedLot': lot_id}
+        {"value": self.test_bids_data[1]['value'], 'relatedLot': lot_id}
         for lot_id in lots
     ]}})
     # create third bid
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                                   'tenderers': self.test_bids_data[1]['tenderers'], 'lotValues': [
-        {"value": {"amount": 403}, 'relatedLot': lot_id}
+        {"value": self.test_bids_data[1]['value'], 'relatedLot': lot_id}
         for lot_id in lots
     ]}})
     bid_id = response.json['data']['id']
