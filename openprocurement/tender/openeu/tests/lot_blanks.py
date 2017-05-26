@@ -1033,7 +1033,7 @@ def two_lot_2bid_2com_2win(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                                   'tenderers': self.test_bids_data[1]['tenderers'], 'lotValues': [
-        {"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}
+        {"value": self.test_bids_data[1]['value'], 'relatedLot': lot_id}
         for lot_id in lots
     ]}})
     # switch to active.pre-qualification
@@ -1185,7 +1185,7 @@ def two_lot_3bid_1win_bug(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
                                                                                   'tenderers': self.test_bids_data[1]['tenderers'], 'lotValues': [
-        {"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}
+        {"value": self.test_bids_data[1]['value'], 'relatedLot': lot_id}
         for lot_id in lots
     ]}})
     bid_id = response.json['data']['id']
