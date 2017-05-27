@@ -22,6 +22,8 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     create_contract_invalid,
     create_contract_generated,
     create_contract,
+    # ContractWDocumentsWithDSResourceTest
+    create_contract_w_documents,
     # ContractResource4BrokersTest
     contract_status_change,
     contract_items_change,
@@ -29,6 +31,7 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     # ContractResource4AdministratorTest
     contract_administrator_change,
     # ContractCredentialsTest
+    get_credentials,
     generate_credentials,
 )
 
@@ -55,30 +58,11 @@ class ContractResourceTest(BaseWebTest):
 
 class ContractWDocumentsWithDSResourceTest(BaseWebTest):
     docservice = True
+    initial_data = deepcopy(test_contract_data)
+    documents = deepcopy(documents)
+    initial_data['documents'] = documents
 
-    def test_create_contract_w_documents(self):
-        data = deepcopy(test_contract_data)
-        data['documents'] = documents
-        response = self.app.post_json('/contracts', {"data": data})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        contract = response.json['data']
-        self.assertEqual(contract['status'], 'active')
-        for index, doc in enumerate(documents):
-            self.assertEqual(response.json["data"]['documents'][index]['id'], documents[index]['id'])
-            self.assertEqual(response.json["data"]['documents'][index]['datePublished'], documents[index]['datePublished'])
-            self.assertEqual(response.json["data"]['documents'][index]['dateModified'], documents[index]['dateModified'])
-
-        self.assertIn('Signature=', response.json["data"]['documents'][-1]["url"])
-        self.assertIn('KeyID=', response.json["data"]['documents'][-1]["url"])
-        self.assertNotIn('Expires=', response.json["data"]['documents'][-1]["url"])
-
-        contract = self.db.get(contract['id'])
-        self.assertIn('Prefix=ce536c5f46d543ec81ffa86ce4c77c8b%2F9c8b66120d4c415cb334bbad33f94ba9', contract['documents'][-1]["url"])
-        self.assertIn('/da839a4c3d7a41d2852d17f90aa14f47?', contract['documents'][-1]["url"])
-        self.assertIn('Signature=', contract['documents'][-1]["url"])
-        self.assertIn('KeyID=', contract['documents'][-1]["url"])
-        self.assertNotIn('Expires=', contract['documents'][-1]["url"])
+    test_create_contract_w_documents = snitch(create_contract_w_documents)
 
 
 class ContractResource4BrokersTest(BaseContractWebTest):
@@ -103,11 +87,7 @@ class ContractCredentialsTest(BaseContractWebTest):
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_contract_data
 
-    def test_get_credentials(self):
-        response = self.app.get('/contracts/{0}/credentials?acc_token={1}'.format(self.contract_id,
-                                                                                  self.initial_data['tender_token']), status=405)
-        self.assertEqual(response.status, '405 Method Not Allowed')
-
+    test_get_credentials = snitch(get_credentials)
     test_generate_credentials = snitch(generate_credentials)
 
 def suite():
