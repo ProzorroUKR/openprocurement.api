@@ -20,7 +20,10 @@ from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
 from openprocurement.tender.openeu.tests.tender_blanks import (
     #TenderProcessTest
     one_bid_tender,
+    unsuccessful_after_prequalification_tender,
     one_qualificated_bid_tender,
+    multiple_bidders_tender,
+    lost_contract_for_active_award,
     #TenderResourceTest
     patch_tender,
     invalid_bid_tender_lot,
@@ -73,8 +76,10 @@ class TestTenderEUProcess(BaseESCOEUContentWebTest):
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_bid_tender = snitch(one_bid_tender)
+    test_unsuccessful_after_prequalification_tender = snitch(unsuccessful_after_prequalification_tender)
     test_one_qualificated_bid_tender = snitch(one_qualificated_bid_tender)
-
+    test_multiple_bidders_tender = snitch(multiple_bidders_tender)
+    test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
 
 def suite():
     suite = unittest.TestSuite()
