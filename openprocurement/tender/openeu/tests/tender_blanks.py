@@ -600,13 +600,13 @@ def unsuccessful_after_prequalification_tender(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [bidder_data], "value": {"amount": 500}}})
+                                            'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [bidder_data], "value": {"amount": 500}}})
+                                            'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [bidder_data], "value": {"amount": 500}}})
+                                            'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
     # switch to active.pre-qualification
     self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
     self.app.authorization = ('Basic', ('chronograph', ''))
@@ -726,15 +726,15 @@ def multiple_bidders_tender(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [bidder_data], "value": {"amount": 500}}})
+                                            'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [bidder_data], "value": {"amount": 499}}})
+                                            'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
     bid_id = response.json['data']['id']
     bid_token = response.json['access']['token']
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [bidder_data], "value": {"amount": 498}}})
+                                            'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
     # switch to active.pre-qualification
     self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
     self.app.authorization = ('Basic', ('chronograph', ''))
@@ -874,12 +874,12 @@ def lost_contract_for_active_award(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [test_organization], "value": {"amount": 450}}})
+                                            'tenderers': [test_organization], "value": self.test_bids_data[0]['value']}})
     # create bid #2
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [test_organization], "value": {"amount": 450}}})
+                                            'tenderers': [test_organization], "value": self.test_bids_data[0]['value']}})
     # switch to active.pre-qualification
     self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
     self.app.authorization = ('Basic', ('chronograph', ''))
