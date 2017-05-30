@@ -8,3 +8,6 @@ class TenderESCOConfigurator(TenderAboveThresholdEUConfigurator):
 
     name = "escoEU Tender configurator"
     model = Tender
+
+    # Param to configure award criteria - awards are generated from higher to lower by value.amount
+    reverse_awarding_criteria = True
