@@ -490,3 +490,41 @@ def features_bid(self):
         bid.pop(u'date')
         bid.pop(u'id')
         self.assertEqual(set(bid), set(i))
+
+
+def patch_and_put_document_into_invalid_bid(self):
+    doc_id_by_type = {}
+    for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
+        response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(
+            self.tender_id, self.bid_id, doc_resource, self.bid_token), upload_files=[('file', 'name_{}.doc'.format(doc_resource[:-1]), 'content')])
+
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+        self.assertEqual('name_{}.doc'.format(doc_resource[:-1]), response.json["data"]["title"])
+        key = response.json["data"]["url"].split('?')[-1]
+        doc_id_by_type[doc_resource] = {'id': doc_id, 'key': key}
+
+    # update tender. we can set value that is less than a value in bids as
+    # they will be invalidated by this request
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data":
+            {"minValue": {'amount': 10000.0}}
+    })
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']["minValue"]["amount"], 10000)
+
+    for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
+        doc_id = doc_id_by_type[doc_resource]['id']
+        response = self.app.patch_json('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(
+            self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token), { "data": {
+                'confidentiality': 'buyerOnly',
+                'confidentialityRationale': 'Only our company sells badgers with pink hair.',
+            }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document data for 'invalid' bid")
+        response = self.app.put('/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(
+            self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token), 'updated', content_type='application/msword', status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in 'invalid' bid")

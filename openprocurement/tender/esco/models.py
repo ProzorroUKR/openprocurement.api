@@ -31,7 +31,8 @@ from openprocurement.tender.core.models import (
     auction_patch_role, enquiries_role, chronograph_role,
     chronograph_view_role, Administrator_role,
     embedded_lot_role, default_lot_role,
-    validate_features_uniq, validate_lots_uniq
+    validate_features_uniq, validate_lots_uniq,
+    bids_validation_wrapper
 )
 from openprocurement.tender.core.utils import (
     calc_auction_end_time,
@@ -193,6 +194,7 @@ class Bid(BaseEUBid):
     value = ModelType(ESCOValue)
     lotValues = ListType(ModelType(LotValue), default=list())
 
+    @bids_validation_wrapper
     def validate_value(self, data, value):
         if isinstance(data['__parent__'], Model):
             tender = data['__parent__']
