@@ -3,10 +3,10 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
+from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotProcessTestMixin
 )
-
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     create_tender_lot,
     patch_tender_lot,
@@ -16,13 +16,19 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     tender_features_invalid
 )
 
+from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
 from openprocurement.tender.openeu.tests.lot_blanks import (
     # TenderLotProcessTest
     one_lot_1bid,
     one_lot_2bid_1unqualified,
+    one_lot_2bid,
+    two_lot_2bid_1lot_del,
+    one_lot_3bid_1del,
+    one_lot_3bid_1un,
     two_lot_1can,
     two_lot_2bid_0com_1can,
-    two_lot_2bid_1lot_del
+    two_lot_2bid_2com_2win,
+    two_lot_3bid_1win_bug,
 )
 
 from openprocurement.tender.esco.tests.base import (
@@ -40,6 +46,12 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     get_tender_lot,
     get_tender_lots,
     tender_min_value,
+    # TenderLotFeatureBidderResourceTest
+    create_tender_feature_bidder_invalid,
+    create_tender_feature_bidder,
+    # TenderLotBidderResourceTest
+    create_tender_bidder_invalid,
+    patch_tender_bidder,
 )
 
 
@@ -63,6 +75,13 @@ class TenderLotResourceTest(BaseESCOEUContentWebTest):
     test_get_tender_lots = snitch(get_tender_lots)
 
 
+class TenderLotEdgeCasesTest(BaseESCOEUContentWebTest, TenderLotEdgeCasesTestMixin):
+    initial_auth = ('Basic', ('broker', ''))
+    initial_lots = test_lots * 2
+    initial_bids = test_bids
+    test_author = test_organization
+
+
 class TenderLotFeatureResourceTest(BaseESCOEUContentWebTest):
     initial_lots = 2 * test_lots
     initial_auth = ('Basic', ('broker', ''))
@@ -77,6 +96,89 @@ class TenderLotFeatureResourceTest(BaseESCOEUContentWebTest):
     test_tender_lot_document = snitch(tender_lot_document)
 
 
+class TenderLotBidderResourceTest(BaseESCOEUContentWebTest):
+    initial_lots = test_lots
+    initial_auth = ('Basic', ('broker', ''))
+    test_bids_data = test_bids  # TODO: change attribute identifier
+
+    test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
+    test_patch_tender_bidder = snitch(patch_tender_bidder)
+
+
+class TenderLotFeatureBidderResourceTest(BaseESCOEUContentWebTest):
+    initial_lots = test_lots
+    initial_auth = ('Basic', ('broker', ''))
+    initial_data = test_tender_data
+    test_bids_data = test_bids  # TODO: change attribute identifier
+
+    def setUp(self):
+        super(TenderLotFeatureBidderResourceTest, self).setUp()
+        self.lot_id = self.initial_lots[0]['id']
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {
+            "items": [
+                {
+                    'relatedLot': self.lot_id,
+                    'id': '1'
+                }
+            ],
+            "features": [
+                {
+                    "code": "code_item",
+                    "featureOf": "item",
+                    "relatedItem": "1",
+                    "title": u"item feature",
+                    "enum": [
+                        {
+                            "value": 0.01,
+                            "title": u"good"
+                        },
+                        {
+                            "value": 0.02,
+                            "title": u"best"
+                        }
+                    ]
+                },
+                {
+                    "code": "code_lot",
+                    "featureOf": "lot",
+                    "relatedItem": self.lot_id,
+                    "title": u"lot feature",
+                    "enum": [
+                        {
+                            "value": 0.01,
+                            "title": u"good"
+                        },
+                        {
+                            "value": 0.02,
+                            "title": u"best"
+                        }
+                    ]
+                },
+                {
+                    "code": "code_tenderer",
+                    "featureOf": "tenderer",
+                    "title": u"tenderer feature",
+                    "enum": [
+                        {
+                            "value": 0.01,
+                            "title": u"good"
+                        },
+                        {
+                            "value": 0.02,
+                            "title": u"best"
+                        }
+                    ]
+                }
+            ]
+        }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['items'][0]['relatedLot'], self.lot_id)
+
+    test_create_tender_bidder_invalid = snitch(create_tender_feature_bidder_invalid)
+    test_create_tender_bidder = snitch(create_tender_feature_bidder)
+
+
 class TenderLotProcessTest(BaseESCOEUContentWebTest, TenderLotProcessTestMixin):
     setUp = BaseESCOEUContentWebTest.setUp
     test_lots_data = test_lots  # TODO: change attribute identifier
@@ -87,9 +189,14 @@ class TenderLotProcessTest(BaseESCOEUContentWebTest, TenderLotProcessTestMixin):
 
     test_1lot_1bid = snitch(one_lot_1bid)
     test_1lot_2bid_1unqualified = snitch(one_lot_2bid_1unqualified)
+    test_1lot_2bid = snitch(one_lot_2bid)
     test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del)
+    test_1lot_3bid_1del = snitch(one_lot_3bid_1del)
+    test_1lot_3bid_1un = snitch(one_lot_3bid_1un)
     test_2lot_1can = snitch(two_lot_1can)
     test_2lot_2bid_0com_1can = snitch(two_lot_2bid_0com_1can)
+    test_2lot_2bid_2com_2win = snitch(two_lot_2bid_2com_2win)
+    test_2lot_3bid_1win_bug = snitch(two_lot_3bid_1win_bug)
 
 
 def suite():

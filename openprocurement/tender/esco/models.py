@@ -131,20 +131,21 @@ class Lot(BaseLot):
                 raise ValidationError(u"value should be less than minValue of lot")
 
 
-class ESCOValue(Model):
+class ESCOValue(Value):
     class Options:
         roles = {
-            'create': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration'),
-            'edit': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration'),
-            'auction_view': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration'),
-            'auction_post': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration'),
+            'create': whitelist('amount', 'amount_npv', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'edit': whitelist('amount', 'amount_npv', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'auction_view': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'auction_post': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
         }
+    amount = FloatType(required=False, min_value=0)  # Amount as a number.
     yearlyPayments = FloatType(min_value=0.8, max_value=0.9, required=True)  # The percentage of annual payments in favor of Bidder
     annualCostsReduction = FloatType(min_value=0, required=True)  # Buyer's annual costs reduction
     contractDuration = IntType(min_value=1, max_value=15, required=True)
 
-    @serializable
-    def amount(self):
+    @serializable(serialized_name="amount")
+    def amount_npv(self):
         """ Calculated energy service contract perfomance indicator """
         return calculate_npv(get_tender(self.__parent__).NBUdiscountRate,
                              self.annualCostsReduction,
@@ -162,8 +163,16 @@ class LotValue(BaseLotValue):
             if not lots:
                 return
             lot = lots[0]
-            if lot.minValue.amount > value.amount:
+            tender = lot['__parent__']
+            amount = value.amount if value.amount else calculate_npv(tender.NBUdiscountRate,
+                                                                     value.annualCostsReduction,
+                                                                     value.yearlyPayments, value.contractDuration)  #XXX: Calculating value.amount if it is missing
+            if lot.minValue.amount > amount:
                 raise ValidationError(u"value of bid should be greater than minValue of lot")
+            if lot.get('minValue').currency != value.currency:
+                raise ValidationError(u"currency of bid should be identical to currency of minValue of lot")
+            if lot.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+                raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of lot")
 
 
 class Contract(BaseEUContract):
@@ -193,8 +202,13 @@ class Bid(BaseEUBid):
             else:
                 if not value:
                     raise ValidationError(u'This field is required.')
-                if tender.minValue.amount > value.amount:
+                amount = calculate_npv(tender.NBUdiscountRate, value.annualCostsReduction, value.yearlyPayments, value.contractDuration)  #XXX: Calculating value.amount manually
+                if tender.minValue.amount > amount:
                     raise ValidationError(u'value of bid should be greater than minValue of tender')
+                if tender.get('minValue').currency != value.currency:
+                    raise ValidationError(u"currency of bid should be identical to currency of minValue of tender")
+                if tender.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+                    raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender")
 
 
 @implementer(IESCOTender)
