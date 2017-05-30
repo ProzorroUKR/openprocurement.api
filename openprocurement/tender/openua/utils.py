@@ -116,7 +116,7 @@ def check_status(request):
                 return
 
 
-def add_next_award(request):
+def add_next_award(request, reverse=False):
     tender = request.validated['tender']
     now = get_now()
     if not tender.awardPeriod:
@@ -155,7 +155,7 @@ def add_next_award(request):
                 statuses.add('unsuccessful')
                 continue
             unsuccessful_awards = [i.bid_id for i in lot_awards if i.status == 'unsuccessful']
-            bids = chef(bids, features, unsuccessful_awards)
+            bids = chef(bids, features, unsuccessful_awards, reverse)
             if bids:
                 bid = bids[0]
                 award = tender.__class__.awards.model_class({
@@ -184,7 +184,7 @@ def add_next_award(request):
         if not tender.awards or tender.awards[-1].status not in ['pending', 'active']:
             unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
             active_bids = [bid for bid in tender.bids if bid.status == "active"]
-            bids = chef(active_bids, tender.features or [], unsuccessful_awards)
+            bids = chef(active_bids, tender.features or [], unsuccessful_awards, reverse)
             if bids:
                 bid = bids[0].serialize()
                 award = tender.__class__.awards.model_class({
