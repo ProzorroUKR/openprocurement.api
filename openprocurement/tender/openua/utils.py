@@ -117,6 +117,14 @@ def check_status(request):
 
 
 def add_next_award(request, reverse=False):
+    """Adding next award.
+    :param request:
+        The pyramid request object.
+    :param reverse:
+        Is used for sorting bids to generate award.
+        By default (reverse = False) awards are generated from lower to higher by value.amount
+        When reverse is set to True awards are generated from higher to lower by value.amount
+    """
     tender = request.validated['tender']
     now = get_now()
     if not tender.awardPeriod:
