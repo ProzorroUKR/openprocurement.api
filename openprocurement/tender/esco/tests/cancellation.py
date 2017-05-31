@@ -22,6 +22,21 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     patch_tender_cancellation,
 )
 
+from openprocurement.tender.openeu.tests.cancellation_blanks import (
+    # TenderAwardsCancellationResourceTest
+    cancellation_active_qualification,
+    cancellation_unsuccessful_qualification,
+    cancellation_active_award,
+    cancellation_unsuccessful_award,
+    # TenderCancellationBidsAvailabilityTest
+    bids_on_tender_cancellation_in_tendering,
+    bids_on_tender_cancellation_in_pre_qualification,
+    bids_on_tender_cancellation_in_pre_qualification_stand_still,
+    bids_on_tender_cancellation_in_auction,
+    bids_on_tender_cancellation_in_qualification,
+    bids_on_tender_cancellation_in_awarded,
+)
+
 from openprocurement.tender.esco.tests.base import (
     BaseESCOEUContentWebTest,
     test_bids,
@@ -52,6 +67,17 @@ class TenderLotsCancellationResourceTest(BaseESCOEUContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
+
+
+class TenderAwardsCancellationResourceTest(BaseESCOEUContentWebTest):
+    initial_lots = 2 * test_lots
+    initial_status = 'active.tendering'
+    initial_bids = test_bids
+
+    test_cancellation_active_qualification = snitch(cancellation_active_qualification)
+    test_cancellation_unsuccessful_qualification = snitch(cancellation_unsuccessful_qualification)
+    test_cancellation_active_award = snitch(cancellation_active_award)
+    test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
 
 
 class TenderCancellationDocumentResourceTest(BaseESCOEUContentWebTest, TenderCancellationDocumentResourceTestMixin):
