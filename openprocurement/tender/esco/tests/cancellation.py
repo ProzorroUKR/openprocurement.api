@@ -28,13 +28,6 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
     cancellation_unsuccessful_qualification,
     cancellation_active_award,
     cancellation_unsuccessful_award,
-    # TenderCancellationBidsAvailabilityTest
-    bids_on_tender_cancellation_in_tendering,
-    bids_on_tender_cancellation_in_pre_qualification,
-    bids_on_tender_cancellation_in_pre_qualification_stand_still,
-    bids_on_tender_cancellation_in_auction,
-    bids_on_tender_cancellation_in_qualification,
-    bids_on_tender_cancellation_in_awarded,
 )
 
 from openprocurement.tender.esco.tests.base import (
