@@ -15,6 +15,7 @@ from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Organization as BaseOrganization
 from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import Item as BaseItem
+from openprocurement.api.models import CPVClassification as BaseCPVClassification
 from openprocurement.api.models import (Model, ListType, Revision, Value,
                                         IsoDateTimeType)
 from openprocurement.api.models import validate_cpv_group, validate_items_uniq
@@ -99,6 +100,12 @@ class ProcuringEntity(Organization):
     kind = StringType(choices=['general', 'special', 'defense', 'other'])
 
 
+class CPVClassification(BaseCPVClassification):
+
+    def validate_scheme(self, data, scheme):
+        pass
+
+
 class Item(BaseItem):
 
     class Options:
@@ -107,6 +114,8 @@ class Item(BaseItem):
             'view': schematics_default_role,
             'embedded': schematics_embedded_role,
         }
+
+    classification = ModelType(CPVClassification, required=True)
 
     def validate_additionalClassifications(self, data, items):
         pass

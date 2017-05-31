@@ -46,7 +46,7 @@
     {
      "description": "футляри до державних нагород",
      "classification": {
-      "scheme": "CPV",
+      "scheme": "ДК021",
       "description": "Cartons",
       "id": "44617100-9"
      },
@@ -124,7 +124,7 @@
     {
      "description": "футляри до державних нагород",
      "classification": {
-      "scheme": "CPV",
+      "scheme": "ДК021",
       "description": "Cartons",
       "id": "44617100-9"
      },
@@ -194,7 +194,7 @@
   {
    "description": "футляри до державних нагород",
    "classification": {
-    "scheme": "CPV",
+    "scheme": "ДК021",
     "description": "Cartons",
     "id": "44617100-9"
    },
