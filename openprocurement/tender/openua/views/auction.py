@@ -96,7 +96,7 @@ class TenderUaAuctionResource(TenderAuctionResource):
         """
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.status == 'active']):
-            add_next_award(self.request)
+            add_next_award(self.request, reverse=self.request.content_configurator.reverse_awarding_criteria)
         if save_tender(self.request):
             self.LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_auction_post'}))
             return {'data': self.request.validated['tender'].serialize(self.request.validated['tender'].status)}
@@ -115,7 +115,7 @@ class TenderUaAuctionResource(TenderAuctionResource):
         """
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.status == 'active']):
-            add_next_award(self.request)
+            add_next_award(self.request, reverse=self.request.content_configurator.reverse_awarding_criteria)
         if save_tender(self.request):
             self.LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_auction_post'}))
             return {'data': self.request.validated['tender'].serialize(self.request.validated['tender'].status)}

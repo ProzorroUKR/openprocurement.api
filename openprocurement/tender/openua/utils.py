@@ -61,7 +61,7 @@ def check_status(request):
                 'date': now,
                 'items': [i for i in tender.items if i.relatedLot == award.lotID ],
                 'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1) }))
-            add_next_award(request)
+            add_next_award(request, reverse=request.content_configurator.reverse_awarding_criteria)
     if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
         not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
         for complaint in tender.complaints:

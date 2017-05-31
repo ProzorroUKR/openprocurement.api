@@ -29,7 +29,7 @@ class TenderUaCancellationResource(TenderCancellationResource):
             for i in self.request.validated['tender'].lots
             if i.status == 'active'
         ]):
-            add_next_award(self.request)
+            add_next_award(self.request, reverse=self.request.content_configurator.reverse_awarding_criteria)
 
     def validate_cancellation(self, operation):
         """ TODO move validators
