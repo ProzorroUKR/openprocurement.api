@@ -36,7 +36,7 @@ test_plan_data =  {
                     "name": u"кг"
                 },
                 "classification": {
-                    "scheme": u"CPV",
+                    "scheme": u"ДК021",
                     "description": u"Mustard seeds",
                     "id": u"03111600-8"
                 },
@@ -59,7 +59,7 @@ test_plan_data =  {
                     "name": u"кг"
                 },
                 "classification": {
-                    "scheme": u"CPV",
+                    "scheme": u"ДК021",
                     "description": u"Sunflower seeds",
                     "id": u"03111300-5"
                 },
@@ -82,7 +82,7 @@ test_plan_data =  {
                     "name": u"кг"
                 },
                 "classification": {
-                    "scheme": u"CPV",
+                    "scheme": u"ДК021",
                     "description": u"Cotton seeds",
                     "id": u"03111400-6"
                 },
@@ -91,7 +91,7 @@ test_plan_data =  {
             }
         ],
         "classification": {
-            "scheme": u"CPV",
+            "scheme": u"ДК021",
             "description": u"Seeds",
             "id": u"03111000-2"
         },
