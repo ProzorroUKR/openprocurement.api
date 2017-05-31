@@ -27,7 +27,7 @@ test_tender_data["items"] = [{
         "description": u"футляри до державних нагород",
         "description_en": u"Cases for state awards",
         "classification": {
-            "scheme": u"CPV",
+            "scheme": u"ДК021",
             "id": u"44617100-9",
             "description": u"Cartons"
         },
