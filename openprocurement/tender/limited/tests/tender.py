@@ -777,7 +777,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(len(response.json['data']['items']), 1)
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'items': [{"classification": {
-            "scheme": "CPV",
+            "scheme": "ДК021",
             "id": "55523100-3",
             "description": "Послуги з харчування у школах"
         }}]}})
