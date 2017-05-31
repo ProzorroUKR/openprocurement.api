@@ -165,9 +165,7 @@ class LotValue(BaseLotValue):
                 return
             lot = lots[0]
             tender = lot['__parent__']
-            amount = value.amount if value.amount else calculate_npv(tender.NBUdiscountRate,
-                                                                     value.annualCostsReduction,
-                                                                     value.yearlyPayments, value.contractDuration)  #XXX: Calculating value.amount if it is missing
+            amount = calculate_npv(tender.NBUdiscountRate, value.annualCostsReduction, value.yearlyPayments, value.contractDuration)  #XXX: Calculating value.amount manually
             if lot.minValue.amount > amount:
                 raise ValidationError(u"value of bid should be greater than minValue of lot")
             if lot.get('minValue').currency != value.currency:
