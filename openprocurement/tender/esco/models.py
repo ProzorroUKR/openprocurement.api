@@ -262,7 +262,7 @@ class Tender(BaseTender):
     hasEnquiries = BooleanType()  # A Yes/No field as to whether enquiries were part of tender process.
     awardPeriod = ModelType(Period)  # The date or period on which an award is anticipated to be made.
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
-    bids = SifterListType(BidModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
+    bids = SifterListType(BidModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'invalid.pre-qualification', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
