@@ -43,26 +43,7 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
 )
 
 
-class TenderCancellationResourceTest(BaseTenderContentWebTest, TenderCancellationResourceTestMixin):
-
-    initial_auth = ('Basic', ('broker', ''))
-
-    test_create_tender_cancellation = snitch(create_tender_cancellation)
-    test_patch_tender_cancellation = snitch(patch_tender_cancellation)
-
-
-class TenderCancellationBidsAvailabilityTest(BaseTenderContentWebTest):
-    initial_auth = ('Basic', ('broker', ''))
-    initial_bids = test_bids * 2
-    bid_visible_fields = [u'status', u'documents', u'tenderers', u'id', u'eligibilityDocuments']
-    doc_id_by_type = {}
-    valid_bids = []
-
-    def setUp(self):
-        super(TenderCancellationBidsAvailabilityTest, self).setUp()
-        self.valid_bids = self.initial_bids_tokens.keys()
-        self._prepare_bids_docs()
-
+class TenderCancellationBidsAvailabilityUtils(object):
     def _mark_one_bid_deleted(self):
         bid_id, bid_token = self.initial_bids_tokens.items()[0]
         response = self.app.delete('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token))
@@ -198,6 +179,27 @@ class TenderCancellationBidsAvailabilityTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/bids/{}/{}/{}'.format(self.tender_id, bid_id, doc_resource, self.doc_id_by_type[bid_id + doc_resource]['id']))
         doc = response.json['data']
         self.assertEqual(doc['title'], "name_{}.doc".format(doc_resource[:-1]))
+
+
+class TenderCancellationResourceTest(BaseTenderContentWebTest, TenderCancellationResourceTestMixin):
+
+    initial_auth = ('Basic', ('broker', ''))
+
+    test_create_tender_cancellation = snitch(create_tender_cancellation)
+    test_patch_tender_cancellation = snitch(patch_tender_cancellation)
+
+
+class TenderCancellationBidsAvailabilityTest(BaseTenderContentWebTest, TenderCancellationBidsAvailabilityUtils):
+    initial_auth = ('Basic', ('broker', ''))
+    initial_bids = test_bids * 2
+    bid_visible_fields = [u'status', u'documents', u'tenderers', u'id', u'eligibilityDocuments']
+    doc_id_by_type = {}
+    valid_bids = []
+
+    def setUp(self):
+        super(TenderCancellationBidsAvailabilityTest, self).setUp()
+        self.valid_bids = self.initial_bids_tokens.keys()
+        self._prepare_bids_docs()
 
     test_bids_on_tender_cancellation_in_tendering = snitch(bids_on_tender_cancellation_in_tendering)
     test_bids_on_tender_cancellation_in_pre_qualification = snitch(bids_on_tender_cancellation_in_pre_qualification)
