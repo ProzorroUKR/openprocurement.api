@@ -428,6 +428,9 @@ def validate_update_contract_value(request):
             if data['value'][ro_attr] != getattr(request.context.value, ro_attr):
                 raise_operation_error(request, 'Can\'t update {} for contract value'.format(ro_attr))
         award = [a for a in tender.awards if a.id == request.context.awardID][0]
+        if request.content_configurator.reverse_awarding_criteria:
+            if data['value']['amount'] != award.value.amount:
+                raise_operation_error(request, 'Value amount should be equal to awarded amount ({})'.format(award.value.amount))
         if data['value']['amount'] > award.value.amount:
             raise_operation_error(request, 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount))
 
