@@ -431,8 +431,9 @@ def validate_update_contract_value(request):
         if request.content_configurator.reverse_awarding_criteria:
             if data['value']['amount'] != award.value.amount:
                 raise_operation_error(request, 'Value amount should be equal to awarded amount ({})'.format(award.value.amount))
-        if data['value']['amount'] > award.value.amount:
-            raise_operation_error(request, 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount))
+        else:
+            if data['value']['amount'] > award.value.amount:
+                raise_operation_error(request, 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount))
 
 
 def validate_contract_signing(request):
