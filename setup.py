@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.3.32'
+version = '2.3.33'
 
 requires = [
     'setuptools',
