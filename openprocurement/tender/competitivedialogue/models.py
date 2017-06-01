@@ -44,7 +44,7 @@ from openprocurement.api.models import (
     chronograph_role, chronograph_view_role, ProcuringEntity as BaseProcuringEntity,
     Administrator_role, schematics_default_role,
     schematics_embedded_role, ListType, BooleanType,
-    Value as BaseValue
+    Value as BaseValue, CPVClassification as BaseCPVClassification,
 )
 from schematics.transforms import whitelist, blacklist
 from openprocurement.tender.competitivedialogue.utils import (validate_features_custom_weight)
@@ -381,10 +381,18 @@ class Lot(BaseLotEU):
 LotStage2EU = Lot
 
 
+class CPVClassification(BaseCPVClassification):
+
+    def validate_scheme(self, data, scheme):
+        pass
+
+
 class Item(BaseEUItem):
 
     class Options:
         roles = {'edit_active.tendering': whitelist('deliveryDate')}
+
+    classification = ModelType(CPVClassification, required=True)
 
 
 ItemStage2EU = Item
@@ -395,8 +403,20 @@ class Item(BaseUAItem):
     class Options:
         roles = {'edit_active.tendering': whitelist('deliveryDate')}
 
+    classification = ModelType(CPVClassification, required=True)
+
 
 ItemStage2UA = Item
+
+
+class Award(BaseTenderEU.awards.model_class):
+
+    items = ListType(ModelType(ItemStage2EU))
+
+
+class Contract(BaseTenderEU.contracts.model_class):
+
+    items = ListType(ModelType(ItemStage2EU))
 
 
 @implementer(ITender)
@@ -418,6 +438,8 @@ class Tender(BaseTenderEU):
     # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     items = ListType(ModelType(ItemStage2EU), required=True, min_size=1, validators=[validate_cpv_group,
                                                                                      validate_items_uniq])
+    awards = ListType(ModelType(Award), default=list())
+    contracts = ListType(ModelType(Contract), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
 
     create_accreditation = 'c'
@@ -438,6 +460,16 @@ class Tender(BaseTenderEU):
 TenderStage2EU = Tender
 
 
+class Award(BaseTenderUA.awards.model_class):
+
+    items = ListType(ModelType(ItemStage2UA))
+
+
+class Contract(BaseTenderUA.contracts.model_class):
+
+    items = ListType(ModelType(ItemStage2UA))
+
+
 @implementer(ITender)
 class Tender(BaseTenderUA):
     procurementMethodType = StringType(default=STAGE_2_UA_TYPE)
@@ -454,6 +486,8 @@ class Tender(BaseTenderUA):
     lots = ListType(ModelType(LotStage2UA), default=list(), validators=[validate_lots_uniq])
     items = ListType(ModelType(ItemStage2UA), required=True, min_size=1, validators=[validate_cpv_group,
                                                                                      validate_items_uniq])
+    awards = ListType(ModelType(Award), default=list())
+    contracts = ListType(ModelType(Contract), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')
 
