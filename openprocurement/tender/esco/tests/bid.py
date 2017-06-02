@@ -35,6 +35,8 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     create_tender_bid_with_financial_documents,
     create_tender_bid_with_eligibility_documents,
     create_tender_bid_with_qualification_documents,
+    get_tender_bidder,
+    get_tender_tenderers,
 )
 from openprocurement.tender.esco.tests.bid_blanks import (
     create_tender_bid_invalid,
@@ -45,7 +47,11 @@ from openprocurement.tender.esco.tests.bid_blanks import (
     bids_activation_on_tender_documents,
     features_bid_invalid,
     features_bid,
-    patch_and_put_document_into_invalid_bid
+    patch_and_put_document_into_invalid_bid,
+    # TenderBidResourceTest
+    delete_tender_bidder,
+    bids_invalidation_on_tender_change,
+    deleted_bid_do_not_locks_tender_in_state,
 )
 
 
@@ -57,11 +63,17 @@ class TenderBidResourceTest(BaseESCOEUContentWebTest):
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_create_tender_bid = snitch(create_tender_bid)
     test_patch_tender_bid = snitch(patch_tender_bid)
+    test_get_tender_bidder = snitch(get_tender_bidder)
+    test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
+    test_get_tender_tenderers = snitch(get_tender_tenderers)
+
 
     test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
 
+    test_delete_tender_bidder = snitch(delete_tender_bidder)
+    test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
 
 class TenderBidFeaturesResourceTest(BaseESCOEUContentWebTest):
     initial_status = 'active.tendering'
@@ -101,7 +113,6 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
     test_put_tender_bidder_document_private_json = snitch(put_tender_bidder_document_private_json)
     test_get_tender_bidder_document_ds = snitch(get_tender_bidder_document_ds)
-
 
 
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
