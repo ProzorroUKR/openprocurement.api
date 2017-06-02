@@ -32,7 +32,7 @@ Schema
     * `deleted`
 
 :value:
-    :ref:`Value`, required
+    :ref:`ESCOValue`, required
 
     Validation rules:
 
@@ -108,7 +108,7 @@ Schema
 ------
 
 :value:
-    :ref:`Value`, required
+    :ref:`ESCOValue`, required
 
     Validation rules:
 
