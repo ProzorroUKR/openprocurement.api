@@ -63,7 +63,7 @@ Schema
     The date of the contract award.
     
 :value:
-    List of :ref:`Value` objects, auto-generated, read-only
+    List of :ref:`ESCOValue` objects, auto-generated, read-only
     
     |ocdsDescription|
     The total value of this award.
