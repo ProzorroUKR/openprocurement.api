@@ -261,14 +261,14 @@ def patch_tender_bidder(self):
 def get_tender_bidder(self):
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                   'tenderers': [self.author_data], "value": {"amount": 500}}})
+                                   'tenderers': [self.author_data], "value": self.test_bids_data[0]['value']}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
     bid_token = response.json['access']['token']
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                   'tenderers': [self.author_data], "value": {"amount": 499}}})
+                                   'tenderers': [self.author_data], "value": self.test_bids_data[0]['value']}})
 
     response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']), status=403)
     self.assertEqual(response.status, '403 Forbidden')
@@ -686,7 +686,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
 def get_tender_tenderers(self):
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                   'tenderers': [self.author_data], "value": {"amount": 500}}})
+                                   'tenderers': [self.author_data], "value": self.test_bids_data[0]['value']}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
@@ -699,7 +699,7 @@ def get_tender_tenderers(self):
 
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                   'tenderers': [self.author_data], "value": {"amount": 101}}})
+                                   'tenderers': [self.author_data], "value": self.test_bids_data[0]['value']}})
 
     # switch to active.pre-qualification
     self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
