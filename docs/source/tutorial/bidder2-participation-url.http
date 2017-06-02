@@ -1,0 +1,47 @@
+GET /api/2.3/tenders/1c7e0940d57a447480c563f65398362d/bids/ea44725731434fbebec02a23b32d8d28?acc_token=709e35899a804789b787558ce606264b HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "selfEligible": true, 
+    "value": {
+      "yearlyPayments": 0.9, 
+      "valueAddedTaxIncluded": true, 
+      "currency": "UAH", 
+      "amount": 508.407, 
+      "contractDuration": 5, 
+      "annualCostsReduction": 270.0
+    }, 
+    "selfQualified": true, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Книга»", 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 34", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "date": "2017-06-02T13:00:53.415611+03:00", 
+    "id": "ea44725731434fbebec02a23b32d8d28", 
+    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/1c7e0940d57a447480c563f65398362d?key_for_bid=ea44725731434fbebec02a23b32d8d28"
+  }
+}
+

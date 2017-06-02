@@ -1,0 +1,257 @@
+GET /api/2.3/tenders/280597ddd8b840fbbd91ce17c8b50ee7?acc_token=47520851fc6f407ea40d7614d6662552 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "open", 
+    "status": "active.pre-qualification", 
+    "complaintPeriod": {
+      "startDate": "2017-05-03T13:01:05.922052+03:00", 
+      "endDate": "2017-05-29T00:00:00+03:00"
+    }, 
+    "enquiryPeriod": {
+      "startDate": "2017-05-03T13:01:05.922052+03:00", 
+      "clarificationsUntil": "2017-05-26T13:01:05.922052+03:00", 
+      "endDate": "2017-05-23T13:01:05.922052+03:00", 
+      "invalidationDate": "2017-06-02T13:01:05.511187+03:00"
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "procuringEntity": {
+      "kind": "general", 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }, 
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name_en": "Kutsa Svitlana V.", 
+        "name": "Куца Світлана Валентинівна", 
+        "availableLanguage": "uk", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name_en": "School #10 of Vinnytsia"
+    }, 
+    "owner": "broker", 
+    "title_en": "Services in school canteens", 
+    "id": "280597ddd8b840fbbd91ce17c8b50ee7", 
+    "title": "Послуги шкільних їдалень", 
+    "lots": [
+      {
+        "status": "active", 
+        "description": "Опис Лот №1", 
+        "title": "Лот №1", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "minValue": {
+          "currency": "UAH", 
+          "amount": 500.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "date": "2017-06-02T13:01:04.626637+03:00", 
+        "id": "3e270fdf1d3343feb0e2b26f7e2267fd"
+      }, 
+      {
+        "status": "unsuccessful", 
+        "description": "Опис Лот №2", 
+        "title": "Лот №2", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "minValue": {
+          "currency": "UAH", 
+          "amount": 400.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "date": "2017-06-02T13:01:06.203314+03:00", 
+        "id": "ff756271183a4f6fb165a9cf9e3f45a4"
+      }
+    ], 
+    "qualificationPeriod": {
+      "startDate": "2017-06-02T13:01:06.190904+03:00"
+    }, 
+    "tenderID": "UA-2017-06-02-000001", 
+    "NBUdiscountRate": 0.22, 
+    "dateModified": "2017-06-02T13:01:06.203314+03:00", 
+    "numberOfBids": 2, 
+    "tenderPeriod": {
+      "startDate": "2017-05-03T13:01:05.922052+03:00", 
+      "endDate": "2017-06-02T13:01:05.922052+03:00"
+    }, 
+    "qualifications": [
+      {
+        "status": "pending", 
+        "lotID": "3e270fdf1d3343feb0e2b26f7e2267fd", 
+        "eligible": false, 
+        "qualified": false, 
+        "bidID": "fecabf8bbfaf42d994b71814efcc5ce6", 
+        "date": "2017-06-02T13:01:06.192542+03:00", 
+        "id": "813e131bd82c4abc9c93a8fcaacf648b"
+      }, 
+      {
+        "status": "pending", 
+        "lotID": "3e270fdf1d3343feb0e2b26f7e2267fd", 
+        "eligible": false, 
+        "qualified": false, 
+        "bidID": "c9b2a39e6121440cb5fc10828e12a8ed", 
+        "date": "2017-06-02T13:01:06.193063+03:00", 
+        "id": "35acac56ef7c4880a51ed353f554d19e"
+      }
+    ], 
+    "procurementMethodType": "esco.EU", 
+    "date": "2017-06-02T13:01:06.203314+03:00", 
+    "minValue": {
+      "currency": "UAH", 
+      "amount": 900.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "items": [
+      {
+        "relatedLot": "3e270fdf1d3343feb0e2b26f7e2267fd", 
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2017-06-22T13:00:24.660718+03:00", 
+          "endDate": "2017-07-22T13:00:24.660775+03:00"
+        }, 
+        "id": "0c955835167c40d0b752835565761a39", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }, 
+      {
+        "relatedLot": "ff756271183a4f6fb165a9cf9e3f45a4", 
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2017-06-22T13:00:24.660804+03:00", 
+          "endDate": "2017-07-22T13:00:24.660837+03:00"
+        }, 
+        "id": "864d106da2f2482e93a136e79a103acb", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1
+      }
+    ], 
+    "bids": [
+      {
+        "status": "pending", 
+        "id": "fecabf8bbfaf42d994b71814efcc5ce6", 
+        "tenderers": [
+          {
+            "contactPoint": {
+              "email": "soleksuk@gmail.com", 
+              "telephone": "+380 (432) 21-69-30", 
+              "name": "Сергій Олексюк"
+            }, 
+            "identifier": {
+              "scheme": "UA-EDR", 
+              "id": "00137256", 
+              "uri": "http://www.sc.gov.ua/"
+            }, 
+            "name": "ДКП «Школяр»", 
+            "address": {
+              "postalCode": "21100", 
+              "countryName": "Україна", 
+              "streetAddress": "вул. Островського, 33", 
+              "region": "м. Вінниця", 
+              "locality": "м. Вінниця"
+            }
+          }
+        ]
+      }, 
+      {
+        "status": "pending", 
+        "id": "c9b2a39e6121440cb5fc10828e12a8ed", 
+        "tenderers": [
+          {
+            "contactPoint": {
+              "email": "aagt@gmail.com", 
+              "telephone": "+380 (322) 91-69-30", 
+              "name": "Андрій Олексюк"
+            }, 
+            "identifier": {
+              "scheme": "UA-EDR", 
+              "id": "00137226", 
+              "uri": "http://www.sc.gov.ua/"
+            }, 
+            "name": "ДКП «Книга»", 
+            "address": {
+              "postalCode": "79013", 
+              "countryName": "Україна", 
+              "streetAddress": "вул. Островського, 34", 
+              "region": "м. Львів", 
+              "locality": "м. Львів"
+            }
+          }
+        ]
+      }
+    ], 
+    "awardCriteria": "lowestCost"
+  }
+}
+
