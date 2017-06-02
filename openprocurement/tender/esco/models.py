@@ -9,7 +9,7 @@ from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
 from barbecue import vnmax
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, get_root
 from openprocurement.api.constants import TZ
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
@@ -148,7 +148,7 @@ class ESCOValue(Value):
     @serializable(serialized_name="amount")
     def amount_npv(self):
         """ Calculated energy service contract perfomance indicator """
-        return calculate_npv(get_tender(self.__parent__).NBUdiscountRate,
+        return calculate_npv(get_root(self).NBUdiscountRate,
                              self.annualCostsReduction,
                              self.yearlyPayments,
                              self.contractDuration)
