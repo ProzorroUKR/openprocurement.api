@@ -1,0 +1,129 @@
+GET /api/2.3/tenders/1c7e0940d57a447480c563f65398362d/bids/bc22f14f04c344b5bb797826a1cd8392?acc_token=55aa493721db4a85935863378229890a HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "Proposal.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/9215b2bb8eff4df2996823ab90d1de22?KeyID=0a8600c9&Signature=hQ4Ttz%2F9Yf6QcYZsh55YhV7I5OpHBxr5f%252BxF9%2F0jztvD0hXsm7Pagnx7rjgm%2F9zpW6STm1ulvx2tIie5jKGrAQ%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2017-06-02T13:00:51.319140+03:00", 
+        "id": "e528672f2b614907a9a3cd4f56c54a90", 
+        "dateModified": "2017-06-02T13:00:51.319185+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "buyerOnly", 
+        "language": "uk", 
+        "format": "application/pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/1c7e0940d57a447480c563f65398362d/bids/bc22f14f04c344b5bb797826a1cd8392/documents/13c8ee5ad6694f909410c30266bd319d?download=b31bf6ee67ed4f22986396065075e7ab", 
+        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+        "title": "Proposal_top_secrets.pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2017-06-02T13:00:51.512150+03:00", 
+        "id": "13c8ee5ad6694f909410c30266bd319d", 
+        "dateModified": "2017-06-02T13:00:51.512196+03:00"
+      }
+    ], 
+    "eligibilityDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "eligibility_doc.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/61b4b336deee4c87a1ac3406a4650cf5?KeyID=0a8600c9&Signature=aHAGHMB2KYfuVYk5sA%2FT34uSi20hcYNBg4d7hamRK%2FEwyxfEFSA9ZysqM8kjsqSOVm5XS31%252BXSmYGTgz5Fj7AQ%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2017-06-02T13:00:52.216580+03:00", 
+        "id": "43a9fa0bc209477ab45175060123e50d", 
+        "dateModified": "2017-06-02T13:00:52.216627+03:00"
+      }
+    ], 
+    "selfEligible": true, 
+    "id": "bc22f14f04c344b5bb797826a1cd8392", 
+    "value": {
+      "yearlyPayments": 0.9, 
+      "valueAddedTaxIncluded": true, 
+      "currency": "UAH", 
+      "amount": 509.678, 
+      "contractDuration": 4, 
+      "annualCostsReduction": 230.0
+    }, 
+    "selfQualified": true, 
+    "financialDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "financial_doc.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/1c7e0940d57a447480c563f65398362d/bids/bc22f14f04c344b5bb797826a1cd8392/financial_documents/b225eb26d4bb4799bbe5e45b3880a5fd?download=2527c1966a254992befa761766af03db", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2017-06-02T13:00:51.833769+03:00", 
+        "id": "b225eb26d4bb4799bbe5e45b3880a5fd", 
+        "dateModified": "2017-06-02T13:00:51.833833+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "financial_doc2.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/1c7e0940d57a447480c563f65398362d/bids/bc22f14f04c344b5bb797826a1cd8392/financial_documents/992ef5ba44f4435f8fb07f0187c0a06a?download=bbab3866328b46beb8728d44d3a153e1", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2017-06-02T13:00:52.009865+03:00", 
+        "id": "992ef5ba44f4435f8fb07f0187c0a06a", 
+        "dateModified": "2017-06-02T13:00:52.009921+03:00"
+      }
+    ], 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "date": "2017-06-02T13:00:50.957049+03:00", 
+    "subcontractingDetails": "ДКП «Орфей», Україна", 
+    "qualificationDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "qualification_document.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/1c7e0940d57a447480c563f65398362d/bids/bc22f14f04c344b5bb797826a1cd8392/qualification_documents/4c6bf7637ab34b4c8ba0685b0aed127b?download=3933f0c047cb4ad385bcb5ee725c1eee", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2017-06-02T13:00:52.401252+03:00", 
+        "id": "4c6bf7637ab34b4c8ba0685b0aed127b", 
+        "dateModified": "2017-06-02T13:00:52.401325+03:00"
+      }
+    ], 
+    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/1c7e0940d57a447480c563f65398362d?key_for_bid=bc22f14f04c344b5bb797826a1cd8392"
+  }
+}
+
