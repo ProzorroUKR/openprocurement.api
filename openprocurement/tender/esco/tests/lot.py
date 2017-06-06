@@ -202,6 +202,10 @@ class TenderLotProcessTest(BaseESCOEUContentWebTest, TenderLotProcessTestMixin):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderLotResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotEdgeCasesTest))
+    suite.addTest(unittest.makeSuite(TenderLotFeatureResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotBidResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotFeatureBidResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotProcessTest))
     return suite
 
