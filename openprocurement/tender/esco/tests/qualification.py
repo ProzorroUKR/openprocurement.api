@@ -314,6 +314,14 @@ class Tender2LotQualificationComplaintDocumentResourceTest(TenderQualificationCo
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderQualificationResourceTest))
+    suite.addTest(unittest.makeSuite(Tender2LotQualificationResourceTest))
+    suite.addTest(unittest.makeSuite(TenderQualificationDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(TenderQualificationComplaintResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotQualificationComplaintResourceTest))
+    suite.addTest(unittest.makeSuite(Tender2LotQualificationComplaintResourceTest))
+    suite.addTest(unittest.makeSuite(Tender2LotQualificationClaimResourceTest))
+    suite.addTest(unittest.makeSuite(TenderQualificationComplaintDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(Tender2LotQualificationComplaintDocumentResourceTest))
     return suite
 
 
