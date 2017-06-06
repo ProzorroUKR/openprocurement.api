@@ -260,7 +260,7 @@ def review_tender_complaint(self):
 # TenderLotAwardComplaintResourceTest
 
 
-def create_tender_lot_award_complaint(self):
+def create_tender_lot_complaint(self):
     response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
         'title': 'complaint title',
         'description': 'complaint description',
