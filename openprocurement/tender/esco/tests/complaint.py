@@ -71,6 +71,7 @@ class TenderComplaintDocumentResourceTest(BaseESCOEUContentWebTest):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderComplaintDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotAwardComplaintResourceTest))
     suite.addTest(unittest.makeSuite(TenderComplaintResourceTest))
     return suite
 
