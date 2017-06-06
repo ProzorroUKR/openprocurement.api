@@ -116,8 +116,12 @@ class TenderCancellationDocumentResourceTest(BaseESCOEUContentWebTest, TenderCan
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderCancellationResourceTest))
+    suite.addTest(unittest.makeSuite(TenderCancellationBidsAvailabilityTest))
+    suite.addTest(unittest.makeSuite(TenderLotCancellationResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotsCancellationResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAwardsCancellationResourceTest))
+    suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
     return suite
 
 
