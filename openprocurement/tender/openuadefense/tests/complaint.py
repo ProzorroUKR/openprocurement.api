@@ -17,7 +17,7 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
 from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
 from openprocurement.tender.openua.tests.complaint_blanks import (
     # TenderLotAwardComplaintResourceTest
-    create_tender_lot_award_complaint,
+    create_tender_lot_complaint,
     # TenderComplaintDocumentResourceTest
     put_tender_complaint_document,
     patch_tender_complaint_document,
@@ -38,7 +38,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
     initial_lots = test_lots
     test_author = test_organization
 
-    test_create_tender_complaint = snitch(create_tender_lot_award_complaint)
+    test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
 
 class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
