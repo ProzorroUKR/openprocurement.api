@@ -131,7 +131,6 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
     test_post_tender_auction = snitch(post_tender_lots_auction)
 
 
-
 class TenderFeaturesAuctionResourceTest(BaseESCOEUContentWebTest):
     initial_data = test_features_tender_data
     initial_status = 'active.auction'
@@ -180,7 +179,9 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
-    # suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderMultipleLotAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
     return suite
 
 
