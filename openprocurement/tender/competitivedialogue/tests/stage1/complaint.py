@@ -22,7 +22,7 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
 )
 from openprocurement.tender.openua.tests.complaint_blanks import (
     # TenderStage2EU(UA)LotAwardComplaintResourceTest
-    create_tender_lot_award_complaint,
+    create_tender_lot_complaint,
     # TenderStage2EU(UA)ComplaintDocumentResourceTest
     put_tender_complaint_document,
     patch_tender_complaint_document,
@@ -42,7 +42,7 @@ class CompetitiveDialogEULotAwardComplaintResourceTest(BaseCompetitiveDialogEUCo
     initial_auth = ('Basic', ('broker', ''))
     test_author = author  # TODO: change attribute identifier
 
-    test_create_tender_complaint = snitch(create_tender_lot_award_complaint)
+    test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
 
 class CompetitiveDialogEUComplaintDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
@@ -78,7 +78,7 @@ class CompetitiveDialogUALotAwardComplaintResourceTest(BaseCompetitiveDialogUACo
     initial_auth = ('Basic', ('broker', ''))
     test_author = author  # TODO: change attribute identifier
 
-    test_create_tender_complaint = snitch(create_tender_lot_award_complaint)
+    test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
 
 class CompetitiveDialogUAComplaintDocumentResourceTest(BaseCompetitiveDialogUAContentWebTest):
