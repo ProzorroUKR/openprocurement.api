@@ -5,7 +5,7 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotResourceTestMixin,
-    TenderEULotResourceTestMixin,
+    TenderLotValueTestMixin,
     TenderLotFeatureResourceTestMixin,
     TenderLotProcessTestMixin
 )
@@ -58,7 +58,7 @@ class TenderLotEdgeCasesTestMixin(object):
     test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
 
 
-class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderEULotResourceTestMixin):
+class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
 
     initial_auth = ('Basic', ('broker', ''))
     test_lots_data = test_lots  # TODO: change attribute identifier
