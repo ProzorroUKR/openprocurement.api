@@ -155,6 +155,10 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(TenderBidResourceTest)
     suite.addTest(TenderBidFeaturesResourceTest)
+    suite.addTest(TenderBidDocumentResourceTest)
+    suite.addTest(TenderBidDocumentWithDSResourceTest)
+    suite.addTest(TenderBidDocumentWithoutDSResourceTest)
+    suite.addTest(TenderBidBatchDocumentsWithDSResourceTest)
     return suite
 
 
