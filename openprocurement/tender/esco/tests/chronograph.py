@@ -60,8 +60,11 @@ class TenderComplaintSwitchResourceTest(BaseESCOEUContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TenderSwitchPreQualificationResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAuctionPeriodResourceTest))
+    suite.addTest(unittest.makeSuite(TenderComplaintSwitchResourceTest))
     return suite
 
 
