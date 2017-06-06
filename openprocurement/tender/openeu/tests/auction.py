@@ -37,15 +37,6 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
     initial_auth = ('Basic', ('broker', ''))
     initial_bids = test_bids
 
-    def shift_to_auction_period(self):
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        self.time_shift('active.auction')
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "active.auction")
-        self.app.authorization = auth
-
     def setUp(self):
         super(TenderAuctionResourceTest, self).setUp()
         # switch to active.pre-qualification
