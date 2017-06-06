@@ -85,6 +85,7 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderESCOEUTest))
     suite.addTest(unittest.makeSuite(TestTenderEU))
+    suite.addTest(unittest.makeSuite(TestTenderEUProcess))
     return suite
 
 
