@@ -52,7 +52,7 @@ class TenderLotResourceTestMixin(object):
     test_delete_tender_lot = snitch(delete_tender_lot)
 
 
-class TenderEULotResourceTestMixin(object):
+class TenderLotValueTestMixin(object):
     test_patch_tender_currency = snitch(patch_tender_currency)
     test_patch_tender_vat = snitch(patch_tender_vat)
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
@@ -70,7 +70,7 @@ class TenderLotProcessTestMixin(object):
     test_proc_2lot_2can = snitch(proc_2lot_2can)
 
 
-class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, TenderEULotResourceTestMixin):
+class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
     test_lots_data = test_lots
 
     test_get_tender_lot = snitch(get_tender_lot)
