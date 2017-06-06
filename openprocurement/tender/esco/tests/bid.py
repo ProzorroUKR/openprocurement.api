@@ -75,6 +75,7 @@ class TenderBidResourceTest(BaseESCOEUContentWebTest):
     test_delete_tender_bidder = snitch(delete_tender_bidder)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
 
+
 class TenderBidFeaturesResourceTest(BaseESCOEUContentWebTest):
     initial_status = 'active.tendering'
     initial_data = test_features_tender_data
@@ -115,8 +116,8 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_get_tender_bidder_document_ds = snitch(get_tender_bidder_document_ds)
 
 
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
-    docservice = True
+class TenderBidDocumentWithoutDSResourceTest(TenderBidDocumentResourceTest):
+    docservice = False
 
 
 class TenderBidBatchDocumentsWithDSResourceTest(BaseESCOEUContentWebTest):
