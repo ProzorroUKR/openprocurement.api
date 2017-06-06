@@ -55,7 +55,7 @@ class TestTenderEU(BaseESCOEUContentWebTest, TenderResourceTestMixin, TenderUARe
     """ ESCO EU tender test """
     initialize_initial_data = False
     initial_data = test_tender_data
-    test_lots_data = test_lots  # TODO: change attribute identifier
+    test_lots_data = test_lots
     test_bids_data = test_bids
     tender_period_duration = TENDERING_DAYS
 
@@ -80,6 +80,7 @@ class TestTenderEUProcess(BaseESCOEUContentWebTest):
     test_one_qualificated_bid_tender = snitch(one_qualificated_bid_tender)
     test_multiple_bidders_tender = snitch(multiple_bidders_tender)
     test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
+
 
 def suite():
     suite = unittest.TestSuite()
