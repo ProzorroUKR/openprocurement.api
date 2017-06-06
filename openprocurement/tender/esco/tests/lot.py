@@ -47,11 +47,11 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     get_tender_lots,
     tender_min_value,
     # TenderLotFeatureBidderResourceTest
-    create_tender_feature_bidder_invalid,
-    create_tender_feature_bidder,
-    # TenderLotBidderResourceTest
-    create_tender_bidder_invalid,
-    patch_tender_bidder,
+    create_tender_feature_bid_invalid,
+    create_tender_feature_bid,
+    # TenderLotBidResourceTest
+    create_tender_bid_invalid,
+    patch_tender_bid,
 )
 
 
@@ -96,23 +96,23 @@ class TenderLotFeatureResourceTest(BaseESCOEUContentWebTest):
     test_tender_lot_document = snitch(tender_lot_document)
 
 
-class TenderLotBidderResourceTest(BaseESCOEUContentWebTest):
+class TenderLotBidResourceTest(BaseESCOEUContentWebTest):
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids  # TODO: change attribute identifier
 
-    test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
-    test_patch_tender_bidder = snitch(patch_tender_bidder)
+    test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
+    test_patch_tender_bid = snitch(patch_tender_bid)
 
 
-class TenderLotFeatureBidderResourceTest(BaseESCOEUContentWebTest):
+class TenderLotFeatureBidResourceTest(BaseESCOEUContentWebTest):
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
     test_bids_data = test_bids  # TODO: change attribute identifier
 
     def setUp(self):
-        super(TenderLotFeatureBidderResourceTest, self).setUp()
+        super(TenderLotFeatureBidResourceTest, self).setUp()
         self.lot_id = self.initial_lots[0]['id']
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {
             "items": [
@@ -175,8 +175,8 @@ class TenderLotFeatureBidderResourceTest(BaseESCOEUContentWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['items'][0]['relatedLot'], self.lot_id)
 
-    test_create_tender_bidder_invalid = snitch(create_tender_feature_bidder_invalid)
-    test_create_tender_bidder = snitch(create_tender_feature_bidder)
+    test_create_tender_bid_invalid = snitch(create_tender_feature_bid_invalid)
+    test_create_tender_bid = snitch(create_tender_feature_bid)
 
 
 class TenderLotProcessTest(BaseESCOEUContentWebTest, TenderLotProcessTestMixin):

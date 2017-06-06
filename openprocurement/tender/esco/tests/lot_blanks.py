@@ -348,9 +348,9 @@ def tender_min_value(self):
     self.assertEqual(response.json['data']['minValue']['amount'], sum([i['minValue']['amount'] for i in response.json['data']['lots']]))
 
 
-# TenderLotBidderResourceTest
+# TenderLotBidResourceTest
 
-def create_tender_bidder_invalid(self):
+def create_tender_bid_invalid(self):
     request_path = '/tenders/{}/bids'.format(self.tender_id)
     response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True, 'tenderers': self.test_bids_data[0]['tenderers']}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -420,31 +420,31 @@ def create_tender_bidder_invalid(self):
     ])
 
 
-def patch_tender_bidder(self):
+def patch_tender_bid(self):
     lot_id = self.initial_lots[0]['id']
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True, 'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}]}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
-    bidder = response.json['data']
+    bid = response.json['data']
     bid_token = response.json['access']['token']
-    lot = bidder['lotValues'][0]
+    lot = bid['lotValues'][0]
 
-    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bidder['id'], bid_token), {"data": {'tenderers': [{"name": u"Державне управління управлінням справами"}]}})
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {'tenderers': [{"name": u"Державне управління управлінням справами"}]}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['lotValues'][0]['date'], lot['date'])
-    self.assertNotEqual(response.json['data']['tenderers'][0]['name'], bidder['tenderers'][0]['name'])
+    self.assertNotEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
 
-    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bidder['id'], bid_token), {"data": {'lotValues': [{"value": {
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {'lotValues': [{"value": {
         'yearlyPayments': 0.9,
         'annualCostsReduction': 760.5,
         'contractDuration': 10}, 'relatedLot': lot_id}], 'tenderers': self.test_bids_data[0]["tenderers"]}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertAlmostEqual(parse_date(response.json['data']['lotValues'][0]['date']), parse_date(lot['date']), delta=timedelta(seconds=1))
-    self.assertEqual(response.json['data']['tenderers'][0]['name'], bidder['tenderers'][0]['name'])
+    self.assertEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
 
-    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bidder['id'], bid_token), {"data": {'lotValues': [{"value": {
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {'lotValues': [{"value": {
         'yearlyPayments': 0.9,
         'annualCostsReduction': 751.5,
         'contractDuration': 10}, 'relatedLot': lot_id}]}})
@@ -456,20 +456,20 @@ def patch_tender_bidder(self):
     self.time_shift('active.pre-qualification')
     self.check_chronograph()
 
-    response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bidder['id'], bid_token))
+    response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotIn('lotValues', response.json['data'])
 
-    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bidder['id'], bid_token), {"data": {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}], 'status': 'active'}}, status=403)
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}], 'status': 'active'}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't update bid in current (unsuccessful) tender status")
 
-# TenderLotFeatureBidderResourceTest
+# TenderLotFeatureBidResourceTest
 
 
-def create_tender_feature_bidder_invalid(self):
+def create_tender_feature_bid_invalid(self):
     request_path = '/tenders/{}/bids'.format(self.tender_id)
     response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True, 'tenderers': self.test_bids_data[0]['tenderers']}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -574,7 +574,7 @@ def create_tender_feature_bidder_invalid(self):
     ])
 
 
-def create_tender_feature_bidder(self):
+def create_tender_feature_bid(self):
     request_path = '/tenders/{}/bids'.format(self.tender_id)
     response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
                                                           'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": self.test_bids_data[0]['value'], 'relatedLot': self.lot_id}], 'parameters': [
@@ -584,10 +584,10 @@ def create_tender_feature_bidder(self):
     ]}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
-    bidder = response.json['data']
-    self.assertEqual(bidder['tenderers'][0]['name'], self.initial_data["procuringEntity"]['name'])
-    self.assertIn('id', bidder)
-    self.assertIn(bidder['id'], response.headers['Location'])
+    bid = response.json['data']
+    self.assertEqual(bid['tenderers'][0]['name'], self.initial_data["procuringEntity"]['name'])
+    self.assertIn('id', bid)
+    self.assertIn(bid['id'], response.headers['Location'])
 
     self.time_shift('active.pre-qualification')
     self.check_chronograph()
