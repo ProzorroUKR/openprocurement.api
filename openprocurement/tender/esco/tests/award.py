@@ -254,15 +254,16 @@ class Tender2LotAwardDocumentResourceTest(BaseESCOEUContentWebTest,
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
+    suite.addTest(unittest.makeSuite(Tender2LotAwardResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotAwardComplaintResourceTest))
+    suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAwardComplaintDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(Tender2LotAwardDocumentResourceTest))
     return suite
 
 
