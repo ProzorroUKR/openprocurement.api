@@ -15,7 +15,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
 )
 from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotResourceTestMixin,
-    TenderEULotResourceTestMixin
+    TenderLotValueTestMixin
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     # CompetitiveDialogueEULotFeatureResourceTest
@@ -60,7 +60,7 @@ from openprocurement.tender.openeu.tests.base import test_bids
 test_bids.append(test_bids[0].copy())  # Minimal number of bits is 3
 
 
-class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest, TenderLotResourceTestMixin, TenderEULotResourceTestMixin):
+class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     test_tender_data = test_tender_data_eu  # TODO: change attribute identifier
     test_lots_data = test_lots  # TODO: change attribute identifier
@@ -196,7 +196,7 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
     test_2lot_2bid_2com_2win = snitch(two_lot_2bid_2com_2win)
 
 
-class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderLotResourceTestMixin, TenderEULotResourceTestMixin):
+class CompetitiveDialogueUALotResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     test_tender_data = test_tender_data_ua  # TODO: change attribute identifier
     test_lots_data = test_lots  # TODO: change attribute identifier
