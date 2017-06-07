@@ -5,7 +5,10 @@ from copy import deepcopy
 
 
 def active_tendering_to_pre_qual(self):
-    response = self.set_status('active.pre-qualification', {'status': self.initial_status})
+    response = self.set_status('active.pre-qualification', {'status': "active.tendering"})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["status"], "active.tendering")
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
@@ -43,6 +46,9 @@ def switch_to_auction(self):
                                       {"data": {'status': 'active'}})
 
     response = self.set_status('active.auction', {'status': 'active.pre-qualification.stand-still'})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["status"], "active.pre-qualification.stand-still")
 
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
@@ -76,8 +82,10 @@ def switch_to_complaint(self):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], "answered")
         self.assertEqual(response.json['data']["resolutionType"], status)
-
     response = self.set_status('active.pre-qualification', {'status': self.initial_status})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["status"], "active.tendering")
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
