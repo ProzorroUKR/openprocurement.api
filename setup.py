@@ -19,6 +19,9 @@ entry_points = {
     'openprocurement.api.plugins': [
         'tender_core = openprocurement.tender.core.includeme:includeme'
     ],
+    'nose.plugins.0.10': [
+        'todo = openprocurement.tender.core.tests.nose_todo_plugin:TodoWarningPlugin'
+    ],
     # 'openprocurement.tender.core.migrations': [
         # 'contracts = openprocurement.tender.core.migration:migrate_data'
     # ]
