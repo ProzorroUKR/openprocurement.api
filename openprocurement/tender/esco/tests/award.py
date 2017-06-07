@@ -3,7 +3,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.tender.esco.adapters import TenderESCOConfigurator
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderLotAwardCheckResourceTestMixin,
@@ -40,7 +40,6 @@ from openprocurement.tender.esco.tests.base import (
     NBU_DISCOUNT_RATE
 )
 
-from openprocurement.tender.esco.tests.award_blanks import check_tender_award
 
 award_amount = calculate_npv(NBU_DISCOUNT_RATE,
                              test_bids[0]['value']['annualCostsReduction'],
@@ -74,53 +73,11 @@ class TenderLotAwardCheckResourceTest(BaseESCOEUContentWebTest,
     initial_status = 'active.tendering'
     initial_bids = deepcopy(test_bids)
     initial_bids.append(deepcopy(test_bids[0]))
-    reverse = True
-
-    initial_bids[1]['tenderers'] = [{
-        "name": u"Не зовсім Державне управління справами",
-        "identifier": {
-            "scheme": u"UA-EDR",
-            "id": u"11137256",
-            "uri": u"http://www.dus.gov.ua/"
-        },
-        "address": {
-            "countryName": u"Україна",
-            "postalCode": u"01220",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова, 11, корпус 1"
-        },
-        "contactPoint": {
-            "name": u"Не зовсім Державне управління справами",
-            "telephone": u"0440000000"
-        }
-    }]
-    initial_bids[1]['value'] = {'yearlyPayments': 0.9,
-                       'annualCostsReduction': 700.5,
-                       'contractDuration': 10}
-
-    initial_bids[2]['tenderers'] = [{
-        "name": u"Точно не Державне управління справами",
-        "identifier": {
-            "scheme": u"UA-EDR",
-            "id": u"22237256",
-            "uri": u"http://www.dus.gov.ua/"
-        },
-        "address": {
-            "countryName": u"Україна",
-            "postalCode": u"01220",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова, 11, корпус 1"
-        },
-        "contactPoint": {
-            "name": u"Точно не Державне управління справами",
-            "telephone": u"0440000000"
-        }
-    }]
-    initial_bids[2]['value'] = {'yearlyPayments': 0.9,
-                       'annualCostsReduction': 650.5,
-                       'contractDuration': 10}
+    initial_bids[1]['tenderers'][0]['name'] = u'Не зовсім Державне управління справами'
+    initial_bids[1]['tenderers'][0]['identifier']['id'] = u'88837256'
+    initial_bids[2]['tenderers'][0]['name'] = u'Точно не Державне управління справами'
+    initial_bids[2]['tenderers'][0]['identifier']['id'] = u'44437256'
+    reverse = TenderESCOConfigurator.reverse_awarding_criteria
 
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
