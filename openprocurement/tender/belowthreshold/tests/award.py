@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
@@ -17,6 +18,8 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_award_unsuccessful,
     get_tender_award,
     patch_tender_award_Administrator_change,
+    # TenderLotAwardCheckResourceTest
+    check_tender_award,
     # TenderLotAwardResourceTest
     create_tender_lot_award,
     patch_tender_lot_award,
@@ -85,6 +88,10 @@ class TenderAwardComplaintDocumentResourceTestMixin(object):
     test_put_tender_award_complaint_document = snitch(put_tender_award_complaint_document)
 
 
+class TenderLotAwardCheckResourceTestMixin(object):
+    test_check_tender_award = snitch(check_tender_award)
+
+
 class Tender2LotAwardDocumentResourceTestMixin(object):
     test_create_tender_lots_award_document = snitch(create_tender_lots_award_document)
     test_put_tender_lots_award_document = snitch(put_tender_lots_award_document)
@@ -98,6 +105,26 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
+
+
+class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckResourceTestMixin):
+    initial_status = 'active.qualification'
+    initial_lots = test_lots
+    initial_bids = deepcopy(test_bids)
+    initial_bids.append(deepcopy(test_bids[0]))
+    reverse = False
+
+    def setUp(self):
+        super(TenderLotAwardCheckResourceTest, self).setUp()
+        # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
+        bid = self.initial_bids[0]
+        response = self.app.post_json('/tenders/{}/awards'.format(
+            self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': bid['id'], 'lotID': bid['lotValues'][0]['relatedLot']}})
+        award = response.json['data']
+        self.award_id = award['id']
+        self.app.authorization = auth
 
 
 class TenderLotAwardResourceTest(TenderContentWebTest):
