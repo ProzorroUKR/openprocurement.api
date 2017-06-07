@@ -2484,13 +2484,14 @@ def check_tender_award(self):
     # get pending award
     award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
     # check award
-    response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id))
+    response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, award_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json['data']['suppliers'][0]['name'], sorted_bids[0]['tenderers'][0]['name'])
+    self.assertEqual(response.json['data']['suppliers'][0]['identifier']['id'], sorted_bids[0]['tenderers'][0]['identifier']['id'])
     self.assertEqual(response.json['data']['bid_id'], sorted_bids[0]['id'])
 
     # cancel award
-    self.app.authorization = ('Basic', ('token', ''))
+    self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
                                    {"data": {"status": "unsuccessful"}})
     self.assertEqual(response.status, '200 OK')
@@ -2503,4 +2504,5 @@ def check_tender_award(self):
     response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, award_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json['data']['suppliers'][0]['name'], sorted_bids[1]['tenderers'][0]['name'])
+    self.assertEqual(response.json['data']['suppliers'][0]['identifier']['id'], sorted_bids[1]['tenderers'][0]['identifier']['id'])
     self.assertEqual(response.json['data']['bid_id'], sorted_bids[1]['id'])
