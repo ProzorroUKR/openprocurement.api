@@ -2468,3 +2468,39 @@ def patch_tender_lots_award_document(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can update document only in active lot status")
+
+
+def check_tender_award(self):
+    # get bids
+    response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    bids = response.json['data']
+    # sort bids by value amount, from lower to higher if reverse is False (all tenders, except esco)
+    # or from higher to lower if reverse is True (esco tenders)
+    sorted_bids = sorted(bids, key=lambda bid: bid['lotValues'][0]['value']['amount'], reverse=self.reverse)
+
+    # get awards
+    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+    # get pending award
+    award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+    # check award
+    response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json['data']['suppliers'][0]['name'], sorted_bids[0]['tenderers'][0]['name'])
+    self.assertEqual(response.json['data']['bid_id'], sorted_bids[0]['id'])
+
+    # cancel award
+    self.app.authorization = ('Basic', ('token', ''))
+    response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
+                                   {"data": {"status": "unsuccessful"}})
+    self.assertEqual(response.status, '200 OK')
+
+    # get awards
+    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+    # get pending award
+    award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+    # check new award
+    response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, award_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json['data']['suppliers'][0]['name'], sorted_bids[1]['tenderers'][0]['name'])
+    self.assertEqual(response.json['data']['bid_id'], sorted_bids[1]['id'])
