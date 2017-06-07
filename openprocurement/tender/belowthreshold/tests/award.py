@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.tender.belowthreshold.adapters import TenderBelowThersholdConfigurator
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_bids,
@@ -17,6 +18,8 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_award_unsuccessful,
     get_tender_award,
     patch_tender_award_Administrator_change,
+    # TenderLotAwardCheckResourceTest
+    check_tender_award,
     # TenderLotAwardResourceTest
     create_tender_lot_award,
     patch_tender_lot_award,
@@ -85,6 +88,10 @@ class TenderAwardComplaintDocumentResourceTestMixin(object):
     test_put_tender_award_complaint_document = snitch(put_tender_award_complaint_document)
 
 
+class TenderLotAwardCheckResourceTestMixin(object):
+    test_check_tender_award = snitch(check_tender_award)
+
+
 class Tender2LotAwardDocumentResourceTestMixin(object):
     test_create_tender_lots_award_document = snitch(create_tender_lots_award_document)
     test_put_tender_lots_award_document = snitch(put_tender_lots_award_document)
@@ -98,6 +105,31 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
+
+
+class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckResourceTestMixin):
+    initial_status = 'active.auction'
+    initial_lots = test_lots
+    initial_bids = deepcopy(test_bids)
+    initial_bids.append(deepcopy(test_bids[0]))
+    initial_bids[1]['tenderers'][0]['name'] = u'Не зовсім Державне управління справами'
+    initial_bids[1]['tenderers'][0]['identifier']['id'] = u'88837256'
+    initial_bids[2]['tenderers'][0]['name'] = u'Точно не Державне управління справами'
+    initial_bids[2]['tenderers'][0]['identifier']['id'] = u'44437256'
+    reverse = TenderBelowThersholdConfigurator.reverse_awarding_criteria
+
+    def setUp(self):
+        super(TenderLotAwardCheckResourceTest, self).setUp()
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+        auction_bids_data = response.json['data']['bids']
+        for lot_id in self.initial_lots:
+            response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, lot_id['id']),
+                                          {'data': {'bids': auction_bids_data}})
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, 'application/json')
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.json['data']['status'], "active.qualification")
 
 
 class TenderLotAwardResourceTest(TenderContentWebTest):
