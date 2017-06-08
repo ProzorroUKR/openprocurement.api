@@ -24,6 +24,10 @@ class TenderUaDocumentResource(TenderDocumentResource):
             self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
             self.request.errors.status = 403
             return
+        if operation == 'update' and self.request.authenticated_role != (self.context.author or 'tender_owner'):
+            self.request.errors.add('url', 'role', 'Can update document only author')
+            self.request.errors.status = 403
+            return
         return True
 
     @json_view(permission='upload_tender_documents', validators=(validate_file_upload,))
@@ -32,6 +36,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
         if not self.validate_update_tender('add'):
             return
         document = upload_file(self.request)
+        document.author = self.request.authenticated_role
         self.context.documents.append(document)
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             self.context.invalidate_bids_data()
