@@ -886,13 +886,16 @@ class ContractCredentialsTest(BaseContractWebTest):
         self.assertEqual(response.json['errors'], [
             {u'description': u"Can't generate credentials in current (terminated) contract status", u'location': u'body', u'name': u'data'}])
 
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(ContractTest))
     suite.addTest(unittest.makeSuite(ContractResourceTest))
-    suite.addTest(unittest.makeSuite(ContractCredentialsTest))
+    suite.addTest(unittest.makeSuite(ContractWDocumentsWithDSResourceTest))
     suite.addTest(unittest.makeSuite(ContractResource4BrokersTest))
+    suite.addTest(unittest.makeSuite(ContractWOItemsResource4BrokersTest))
     suite.addTest(unittest.makeSuite(ContractResource4AdministratorTest))
+    suite.addTest(unittest.makeSuite(ContractCredentialsTest))
     return suite
 
 
