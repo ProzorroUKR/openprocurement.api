@@ -695,7 +695,7 @@ def patch_plan(self):
     self.assertEqual(len(response.json['data']['items']), 1)
 
     response = self.app.patch_json('/plans/{}'.format(plan['id']), {'data': {'items': [{"classification": {
-        "scheme": "CPV",
+        "scheme": "ДК021",
         "id": "03117140-7",
         "description": "Послуги з харчування у школах"
     }}]}})
