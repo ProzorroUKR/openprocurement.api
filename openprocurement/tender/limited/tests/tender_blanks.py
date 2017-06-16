@@ -681,7 +681,7 @@ def patch_tender(self):
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                    {'data': {'items': [{"classification": {
-                                       "scheme": "CPV",
+                                       "scheme": "ДК021",
                                        "id": "55523100-3",
                                        "description": "Послуги з харчування у школах"
                                    }}]}})
