@@ -122,7 +122,7 @@ class Tender(BaseTender):
     procurementMethodType = StringType(default="belowThreshold")
 
     procuring_entity_kinds = ['general', 'special', 'defense', 'other']
-    block_complaint_status = ['claim', 'answered', 'pending']
+    block_complaint_status = ['answered', 'pending']
 
     def __local_roles__(self):
         roles = dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])
@@ -197,18 +197,18 @@ class Tender(BaseTender):
         if self.status.startswith('active'):
             from openprocurement.tender.core.utils import calculate_business_date
             for complaint in self.complaints:
-                if complaint.status == 'claim' and complaint.dateSubmitted:
-                    checks.append(calculate_business_date(complaint.dateSubmitted, COMPLAINT_STAND_STILL_TIME, self))
-                elif complaint.status == 'answered' and complaint.dateAnswered:
+                if complaint.status == 'answered' and complaint.dateAnswered:
                     checks.append(calculate_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, self))
+                elif complaint.status == 'pending':
+                    checks.append(self.dateModified)
             for award in self.awards:
                 if award.status == 'active' and not any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
                 for complaint in award.complaints:
-                    if complaint.status == 'claim' and complaint.dateSubmitted:
-                        checks.append(calculate_business_date(complaint.dateSubmitted, COMPLAINT_STAND_STILL_TIME, self))
-                    elif complaint.status == 'answered' and complaint.dateAnswered:
+                    if complaint.status == 'answered' and complaint.dateAnswered:
                         checks.append(calculate_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, self))
+                    elif complaint.status == 'pending':
+                        checks.append(self.dateModified)
         return min(checks).isoformat() if checks else None
 
     @serializable
