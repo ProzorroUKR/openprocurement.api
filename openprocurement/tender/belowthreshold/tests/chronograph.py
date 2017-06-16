@@ -22,10 +22,14 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     set_auction_period,
     reset_auction_period,
     # TenderComplaintSwitchResourceTest
-    switch_to_pending,
+    switch_to_ignored_on_complete,
+    switch_from_pending_to_ignored,
+    switch_from_pending,
     switch_to_complaint,
     # TenderAwardComplaintSwitchResourceTest
-    award_switch_to_pending,
+    award_switch_to_ignored_on_complete,
+    award_switch_from_pending_to_ignored,
+    award_switch_from_pending,
     award_switch_to_complaint,
 )
 
@@ -80,7 +84,9 @@ class TenderLotAuctionPeriodResourceTest(TenderAuctionPeriodResourceTest):
 
 class TenderComplaintSwitchResourceTest(TenderContentWebTest):
 
-    test_switch_to_pending = snitch(switch_to_pending)
+    test_switch_to_ignored_on_complete = snitch(switch_to_ignored_on_complete)
+    test_switch_from_pending_to_ignored = snitch(switch_from_pending_to_ignored)
+    test_switch_from_pending = snitch(switch_from_pending)
     test_switch_to_complaint = snitch(switch_to_complaint)
 
 
@@ -103,7 +109,9 @@ class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
         self.award_id = award['id']
         self.app.authorization = auth
 
-    test_award_switch_to_pending = snitch(award_switch_to_pending)
+    test_award_switch_to_ignored_on_complete = snitch(award_switch_to_ignored_on_complete)
+    test_award_switch_from_pending_to_ignored = snitch(award_switch_from_pending_to_ignored)
+    test_award_switch_from_pending = snitch(award_switch_from_pending)
     test_award_switch_to_complaint = snitch(award_switch_to_complaint)
 
 
