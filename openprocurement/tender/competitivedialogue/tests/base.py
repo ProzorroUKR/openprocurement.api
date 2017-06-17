@@ -76,6 +76,8 @@ test_tender_stage2_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31
 test_tender_stage2_data_eu["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
 test_tender_stage2_data_ua["dialogueID"] = uuid4().hex
 test_tender_stage2_data_eu["dialogueID"] = uuid4().hex
+test_tender_stage2_data_ua["items"][0]["classification"]["scheme"] = "CPV"
+test_tender_stage2_data_eu["items"][0]["classification"]["scheme"] = "CPV"
 
 test_lots = [
     {
