@@ -1,6 +1,6 @@
 POST /api/2.3/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 4152
+Content-Length: 4164
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
@@ -22,7 +22,7 @@ Host: api-sandbox.openprocurement.org
           }
         ], 
         "title_en": "Air Intake", 
-        "relatedItem": "71776761b40e46a78b5fbea25bddf8fb", 
+        "relatedItem": "17282930f2fd4fc8aa77d80b761a38c5", 
         "featureOf": "item"
       }, 
       {
@@ -53,7 +53,7 @@ Host: api-sandbox.openprocurement.org
       "amount": 35
     }, 
     "enquiryPeriod": {
-      "endDate": "2016-07-28T17:17:48.208303"
+      "endDate": "2017-06-26T17:38:12.594923"
     }, 
     "title_en": "Cases with state awards", 
     "value": {
@@ -87,7 +87,7 @@ Host: api-sandbox.openprocurement.org
       {
         "description": "футляри до державних нагород", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "id": "44617100-9", 
           "description": "Cartons"
         }, 
@@ -100,7 +100,7 @@ Host: api-sandbox.openprocurement.org
           }
         ], 
         "description_ru": "футляры к государственным наградам", 
-        "id": "71776761b40e46a78b5fbea25bddf8fb", 
+        "id": "17282930f2fd4fc8aa77d80b761a38c5", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -109,7 +109,7 @@ Host: api-sandbox.openprocurement.org
       }
     ], 
     "tenderPeriod": {
-      "endDate": "2016-08-04T17:17:48.208303"
+      "endDate": "2017-07-03T17:38:12.594923"
     }
   }
 }
@@ -117,11 +117,11 @@ Host: api-sandbox.openprocurement.org
 
 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/a043dee2f2954497a54354c10796fe4d
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/eabbd106d14b441facec202e0b4fddb2
 
 {
   "access": {
-    "token": "d0308530d2cb4798b73372638f3b8f5c"
+    "token": "b169bbae39984dcb854f951379c2ef80"
   }, 
   "data": {
     "procurementMethod": "open", 
@@ -141,7 +141,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/a043dee2f295449
           }
         ], 
         "title_en": "Air Intake", 
-        "relatedItem": "71776761b40e46a78b5fbea25bddf8fb", 
+        "relatedItem": "17282930f2fd4fc8aa77d80b761a38c5", 
         "featureOf": "item"
       }, 
       {
@@ -167,62 +167,11 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/a043dee2f295449
       }
     ], 
     "enquiryPeriod": {
-      "startDate": "2016-07-21T17:18:05.025548+03:00", 
-      "endDate": "2016-07-28T17:17:48.208303+03:00"
+      "startDate": "2017-06-19T17:38:26.635200+03:00", 
+      "endDate": "2017-06-26T17:38:12.594923+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-07-28T17:17:48.208303+03:00", 
-    "awardCriteria": "lowestCost", 
-    "owner": "broker", 
-    "id": "a043dee2f2954497a54354c10796fe4d", 
-    "title": "[ТЕСТУВАННЯ] футляри до державних нагород", 
-    "tenderID": "UA-2016-07-21-000002", 
-    "dateModified": "2016-07-21T17:18:05.032320+03:00", 
-    "status": "active.enquiries", 
-    "tenderPeriod": {
-      "startDate": "2016-07-28T17:17:48.208303+03:00", 
-      "endDate": "2016-08-04T17:17:48.208303+03:00"
-    }, 
-    "procurementMethodType": "belowThreshold", 
-    "title_en": "[TESTING] Cases with state awards", 
-    "date": "2016-07-21T17:18:05.025613+03:00", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 35.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "items": [
-      {
-        "description": "футляри до державних нагород", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Cartons", 
-          "id": "44617100-9"
-        }, 
-        "description_en": "Cases with state awards", 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ], 
-        "description_ru": "футляры к государственным наградам", 
-        "id": "71776761b40e46a78b5fbea25bddf8fb", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 5
-      }
-    ], 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "mode": "test", 
-    "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам", 
+    "next_check": "2017-06-26T17:38:12.594923+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -242,7 +191,58 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/a043dee2f295449
         "region": "м. Київ", 
         "locality": "м. Київ"
       }
-    }
+    }, 
+    "owner": "broker", 
+    "id": "eabbd106d14b441facec202e0b4fddb2", 
+    "title": "[ТЕСТУВАННЯ] футляри до державних нагород", 
+    "tenderID": "UA-2017-06-19-000002", 
+    "dateModified": "2017-06-19T17:38:26.641163+03:00", 
+    "status": "active.enquiries", 
+    "tenderPeriod": {
+      "startDate": "2017-06-26T17:38:12.594923+03:00", 
+      "endDate": "2017-07-03T17:38:12.594923+03:00"
+    }, 
+    "procurementMethodType": "belowThreshold", 
+    "title_en": "[TESTING] Cases with state awards", 
+    "date": "2017-06-19T17:38:26.635270+03:00", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "items": [
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "description_en": "Cases with state awards", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "description_ru": "футляры к государственным наградам", 
+        "id": "17282930f2fd4fc8aa77d80b761a38c5", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "mode": "test", 
+    "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам", 
+    "awardCriteria": "lowestCost"
   }
 }
 
