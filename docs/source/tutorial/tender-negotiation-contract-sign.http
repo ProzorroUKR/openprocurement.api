@@ -1,4 +1,4 @@
-PATCH /api/2.0/tenders/32d1f54584f64c8f84b5ae648d152a8f/contracts/6546c6b032c04301a1dcb6ce63392fed?acc_token=f87cf1d8cff14c18a50487d850b721c8 HTTP/1.0
+PATCH /api/2.3/tenders/0f67d0af4cdb47f2bab36b37e33bd84a/contracts/a082f0d8c9e0467799042ce231c43c98?acc_token=62e6766aacb942c481ff5833e5f1274a HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -19,7 +19,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Послуги з харчування у школах", 
           "id": "55523100-3"
         }, 
@@ -32,15 +32,15 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T12:58:51.540194+03:00", 
-          "endDate": "2016-04-20T12:58:51.540194+03:00"
+          "startDate": "2017-06-21T20:02:22.515286+03:00", 
+          "endDate": "2017-06-24T20:02:22.515286+03:00"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
@@ -74,10 +74,11 @@ Content-Type: application/json; charset=UTF-8
       "amount": 475000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-04-15T12:59:04.645270+03:00", 
-    "awardID": "7be49ddc877b4f2e866f49da39615a25", 
-    "id": "6546c6b032c04301a1dcb6ce63392fed", 
-    "contractID": "UA-2016-04-15-000001-1"
+    "dateSigned": "2017-06-19T20:02:33.798112+03:00", 
+    "date": "2017-06-19T20:02:33.801458+03:00", 
+    "awardID": "13926fdfd30c4e2e939e9b7529fb0edd", 
+    "id": "a082f0d8c9e0467799042ce231c43c98", 
+    "contractID": "UA-2017-06-19-000001-1"
   }
 }
 
