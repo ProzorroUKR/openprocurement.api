@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/a1966d1d8b374e48bedb7c24b4185423 HTTP/1.0
+GET /api/2.3/tenders/287854f554614aa989e594659998a3e0 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,10 +8,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-04-28-000001", 
+    "tenderID": "UA-2017-06-19-000001", 
     "tenderPeriod": {
-      "startDate": "2016-04-28T13:07:20.037742+03:00", 
-      "endDate": "2016-05-14T13:07:02.139044+03:00"
+      "startDate": "2017-06-19T19:52:49.148528+03:00", 
+      "endDate": "2017-07-05T19:52:32.752063+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -20,13 +20,13 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-04-28T13:07:20.037742+03:00", 
-      "clarificationsUntil": "2016-05-17T00:00:00+03:00", 
-      "endDate": "2016-05-12T00:00:00+03:00"
+      "startDate": "2017-06-19T19:52:49.148528+03:00", 
+      "clarificationsUntil": "2017-07-04T19:52:32.752063+03:00", 
+      "endDate": "2017-06-30T19:52:32.752063+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-04-28T13:07:20.037742+03:00", 
-      "endDate": "2016-05-12T13:07:02.139044+03:00"
+      "startDate": "2017-06-19T19:52:49.148528+03:00", 
+      "endDate": "2017-07-03T00:00:00+03:00"
     }, 
     "procurementMethodType": "aboveThresholdUA.defense", 
     "value": {
@@ -35,7 +35,8 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-05-14T13:07:02.139044+03:00", 
+    "date": "2017-06-19T19:52:49.187849+03:00", 
+    "next_check": "2017-07-05T19:52:32.752063+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -47,7 +48,6 @@ Content-Type: application/json; charset=UTF-8
         "id": "21725150", 
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
       }, 
-      "name": "ЗОСШ #10 м.Вінниці", 
       "kind": "defense", 
       "address": {
         "postalCode": "21027", 
@@ -55,18 +55,19 @@ Content-Type: application/json; charset=UTF-8
         "streetAddress": "вул. Стахурського. 22", 
         "region": "м. Вінниця", 
         "locality": "м. Вінниця"
-      }
+      }, 
+      "name": "ЗОСШ #10 м.Вінниці"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-05-14T13:07:02.139044+03:00"
+      "shouldStartAfter": "2017-07-06T00:00:00+03:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-04-28T13:07:20.146060+03:00", 
+    "dateModified": "2017-06-19T19:52:49.192986+03:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -78,17 +79,17 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-05-18T13:07:02.138959+03:00", 
-          "endDate": "2016-06-17T13:07:02.139011+03:00"
+          "startDate": "2017-07-09T19:52:32.751993+03:00", 
+          "endDate": "2017-08-08T19:52:32.752034+03:00"
         }, 
-        "id": "b015c6f428ce4c7584a9ca4aa483bb06", 
+        "id": "46be9bb068104f66b5ff5708ed5c708d", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -96,7 +97,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
-    "id": "a1966d1d8b374e48bedb7c24b4185423", 
+    "id": "287854f554614aa989e594659998a3e0", 
     "awardCriteria": "lowestCost"
   }
 }
