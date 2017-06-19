@@ -1,23 +1,24 @@
-POST /api/2.3/tenders/eb698577a75b4ecea208190337eab0ac/complaints/fbb866ad00a546a092af58ae44e02ac2/documents?acc_token=a9be77a03f2e4a01b5633e21930ce1f3 HTTP/1.0
+POST /api/2.3/tenders/13bb383bde3241ba9712c8d71bb655c5/complaints/3a7214e5226640c8b4802d8248a42ab5/documents?acc_token=d438b2dfa69e48c2abbd0b36ea979687 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 201
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy242528612123$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy175232890693$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/eb698577a75b4ecea208190337eab0ac/complaints/fbb866ad00a546a092af58ae44e02ac2/documents/604e589daea0424b82c2326556e77919
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/13bb383bde3241ba9712c8d71bb655c5/complaints/3a7214e5226640c8b4802d8248a42ab5/documents/7c167b0024ec42fab923e9beaa9826b5
 {
   "data": {
+    "hash": "md5:00000000000000000000000000000000", 
     "author": "complaint_owner", 
     "language": "uk", 
     "title": "Complaint_Attachement.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/eb698577a75b4ecea208190337eab0ac/complaints/fbb866ad00a546a092af58ae44e02ac2/documents/604e589daea0424b82c2326556e77919?download=90e2317265784d27ac8b4114c6b173e2", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/4892ca2d54c84b1b83ef52b5036bcf8d?KeyID=75de2f7e&Signature=eH64WmCPOr3pL1yrWkdMNJuqAKz6BIYMUr7sYUgQt4oKJOlFvA051Drbf5IOWRHwcHTPazWm6hZfrhmjtH8LCA%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-06-10T16:03:50.397100+03:00", 
-    "id": "604e589daea0424b82c2326556e77919", 
-    "dateModified": "2016-06-10T16:03:50.397142+03:00"
+    "datePublished": "2017-06-19T19:46:16.167201+03:00", 
+    "id": "7c167b0024ec42fab923e9beaa9826b5", 
+    "dateModified": "2017-06-19T19:46:16.167249+03:00"
   }
 }
 
