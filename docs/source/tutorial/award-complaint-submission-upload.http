@@ -1,24 +1,25 @@
-POST /api/2.3/tenders/666f40d0071740b78d5cfe0559687f15/awards/db2f84c9ab524972881abcd001082c30/complaints/4cb020688f2d4a13a5478a010491002b/documents?acc_token=ad609cfb45f748d1b89a3da4dabd6fee HTTP/1.0
+POST /api/2.3/tenders/c7521c08029f4ac68acd3cc919fac2ea/awards/b4806729dee84903af3f2f79a5e31f55/complaints/e236f99ba47e4f75b68a0fc667ff51f0/documents?acc_token=de4835b6a9854975b656638d3e3296f5 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 201
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy189946211591$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy184362947881$
 Host: api-sandbox.openprocurement.org
 
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/666f40d0071740b78d5cfe0559687f15/awards/db2f84c9ab524972881abcd001082c30/complaints/4cb020688f2d4a13a5478a010491002b/documents/db4595794a23421aa9168a0d07fb63e5
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/c7521c08029f4ac68acd3cc919fac2ea/awards/b4806729dee84903af3f2f79a5e31f55/complaints/e236f99ba47e4f75b68a0fc667ff51f0/documents/06087ac47b42494eb5e973e2cb63f8f1
 {
   "data": {
+    "hash": "md5:00000000000000000000000000000000", 
     "author": "complaint_owner", 
     "language": "uk", 
     "title": "Complaint_Attachement.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/666f40d0071740b78d5cfe0559687f15/awards/db2f84c9ab524972881abcd001082c30/complaints/4cb020688f2d4a13a5478a010491002b/documents/db4595794a23421aa9168a0d07fb63e5?download=1eb713daf8b04862883572a932aa2ec7", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/68683f687e604bd195608078be7aed52?KeyID=23845905&Signature=wWQS7R1q6Hcfksp22ffD%2FiYSWl2xoEpjzrIRm7eeqEMlspbiOjgQ%252BepI9A0vpKErt5oQadvUPwDk1TciDKLZBg%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-10-12T02:40:54.558439+03:00", 
-    "id": "db4595794a23421aa9168a0d07fb63e5", 
-    "dateModified": "2016-10-12T02:40:54.558468+03:00"
+    "datePublished": "2017-06-20T12:32:53.131247+03:00", 
+    "id": "06087ac47b42494eb5e973e2cb63f8f1", 
+    "dateModified": "2017-06-20T12:32:53.131286+03:00"
   }
 }
 

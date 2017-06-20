@@ -1,4 +1,4 @@
-POST /api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058/bids HTTP/1.0
+POST /api/2.3/tenders/6a46e717b72244b687994b70c92240d5/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 871
 Content-Type: application/json

@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058?acc_token=1f1418327df54ebcb9e2eff321cc6b74 HTTP/1.0
+PATCH /api/2.3/tenders/6a46e717b72244b687994b70c92240d5?acc_token=5d0fda9cac5540f6847db3d7eb2769f7 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 40
 Content-Type: application/json
@@ -14,12 +14,12 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "procurementMethod": "selective", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-10-12-000001", 
+    "procurementMethod": "selective", 
+    "tenderID": "UA-2017-06-20-000001", 
     "tenderPeriod": {
-      "startDate": "2016-10-12T02:41:54.459133+03:00", 
-      "endDate": "2016-11-11T02:42:04.695264+03:00"
+      "startDate": "2017-06-20T12:34:15.407937+03:00", 
+      "endDate": "2017-07-20T12:34:25.531429+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -28,14 +28,14 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-10-12T02:41:54.459133+03:00", 
-      "clarificationsUntil": "2016-11-04T02:42:04.695264+03:00", 
-      "endDate": "2016-11-01T02:42:04.695264+03:00", 
-      "invalidationDate": "2016-10-12T02:41:54.810091+03:00"
+      "startDate": "2017-06-20T12:34:15.407937+03:00", 
+      "clarificationsUntil": "2017-07-13T12:34:25.531429+03:00", 
+      "endDate": "2017-07-10T12:34:25.531429+03:00", 
+      "invalidationDate": "2017-06-20T12:34:15.718632+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-10-12T02:41:54.459133+03:00", 
-      "endDate": "2016-11-07T00:00:00+02:00"
+      "startDate": "2017-06-20T12:34:15.407937+03:00", 
+      "endDate": "2017-07-16T00:00:00+03:00"
     }, 
     "procurementMethodType": "competitiveDialogueUA.stage2", 
     "value": {
@@ -70,8 +70,8 @@ Content-Type: application/json; charset=UTF-8
         "name": "«Кенгуру»"
       }
     ], 
-    "date": "2016-10-12T02:41:54.811516+03:00", 
-    "next_check": "2016-11-11T01:42:04.695264+02:00", 
+    "date": "2017-06-20T12:34:15.722114+03:00", 
+    "next_check": "2017-07-20T12:34:25.531429+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -94,15 +94,15 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-11-12T00:00:00+03:00"
+      "shouldStartAfter": "2017-07-21T00:00:00+03:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-10-12T02:41:54.811516+03:00", 
+    "dateModified": "2017-06-20T12:34:15.722114+03:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -114,17 +114,17 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-11-01T02:40:39.055005+03:00", 
-          "endDate": "2016-12-01T02:40:39.055016+03:00"
+          "startDate": "2017-07-10T12:32:38.405171+03:00", 
+          "endDate": "2017-08-09T12:32:38.405193+03:00"
         }, 
-        "id": "c7750735bb9c4c699b4262432003d354", 
+        "id": "76a646d3e1d7409abab5d5ed6ea3c80b", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -132,7 +132,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
-    "id": "6fc6f5752f5049eaa1e96357da331058", 
+    "id": "6a46e717b72244b687994b70c92240d5", 
     "awardCriteria": "lowestCost"
   }
 }

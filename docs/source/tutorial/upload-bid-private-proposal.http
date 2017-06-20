@@ -1,25 +1,26 @@
-POST /api/2.3/tenders/1d20995ed5284e04af2a300ca3d6c106/bids/f14a1354e4214936961609808b0e8de8/documents?acc_token=22785998d6754fc48c042d74113c3445 HTTP/1.0
+POST /api/2.3/tenders/223852eccea04e92926bcc49032f04b8/bids/c3804d7a99454d4d991898f1e25e8dd3/documents?acc_token=8b3b1005130a409f94df1794663a9cba HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 200
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy561692770464$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy810603141973$
 Host: api-sandbox.openprocurement.org
 
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/1d20995ed5284e04af2a300ca3d6c106/bids/f14a1354e4214936961609808b0e8de8/documents/c9fc4b2edbf24102a23a8d9ff4e7d4d4
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/223852eccea04e92926bcc49032f04b8/bids/c3804d7a99454d4d991898f1e25e8dd3/documents/c95ee86be9b543e1b9a3789e62f1c657
 {
   "data": {
+    "hash": "md5:00000000000000000000000000000000", 
     "confidentiality": "public", 
     "language": "uk", 
     "title": "Proposal_top_secrets.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/1d20995ed5284e04af2a300ca3d6c106/bids/f14a1354e4214936961609808b0e8de8/documents/c9fc4b2edbf24102a23a8d9ff4e7d4d4?download=b9c9c7aa849c473096a7a98aa7e13ee9", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/223852eccea04e92926bcc49032f04b8/bids/c3804d7a99454d4d991898f1e25e8dd3/documents/c95ee86be9b543e1b9a3789e62f1c657?download=e18790434134424da49d0fc66b8b5db3", 
     "format": "application/pdf", 
     "isDescriptionDecision": false, 
     "documentOf": "tender", 
-    "datePublished": "2016-10-12T02:41:32.473873+03:00", 
-    "id": "c9fc4b2edbf24102a23a8d9ff4e7d4d4", 
-    "dateModified": "2016-10-12T02:41:32.473893+03:00"
+    "datePublished": "2017-06-20T12:33:42.876015+03:00", 
+    "id": "c95ee86be9b543e1b9a3789e62f1c657", 
+    "dateModified": "2017-06-20T12:33:42.876048+03:00"
   }
 }
 
