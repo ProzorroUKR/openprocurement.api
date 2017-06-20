@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/9df8920066d142c9929feedb60feb68c/contracts/d85316fca03a448cabc556f6367726e2 HTTP/1.0
+GET /api/2.3/tenders/336777a2c4f74b85b675c3a22cf5279a/contracts/121fbdd9d2fe440fa947d64e7494d3de HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -11,7 +11,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "футляри до державних нагород", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Cartons", 
           "id": "44617100-9"
         }, 
@@ -30,10 +30,42 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-10-08T11:41:10.967073+03:00", 
-          "endDate": "2016-10-11T11:41:10.967073+03:00"
+          "startDate": "2017-06-22T14:42:48.235165+03:00", 
+          "endDate": "2017-06-25T14:42:48.235165+03:00"
         }, 
-        "id": "47c2cd63f8324f61bfdd82241b860408", 
+        "id": "282ab3daee314cfbb00c11823f8767ce", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }, 
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2017-06-22T14:42:48.235165+03:00", 
+          "endDate": "2017-06-25T14:42:48.235165+03:00"
+        }, 
+        "id": "2274c5a0cf594974aea408cb5d3771e8", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -67,11 +99,11 @@ Content-Type: application/json; charset=UTF-8
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-10-06T11:41:14.838145+03:00", 
-    "date": "2016-10-06T11:41:14.843491+03:00", 
-    "awardID": "0fe3968c3b6441b6b8825243591d446b", 
-    "id": "d85316fca03a448cabc556f6367726e2", 
-    "contractID": "UA-2016-10-06-000001-1"
+    "dateSigned": "2017-06-20T14:42:51.819633+03:00", 
+    "date": "2017-06-20T14:42:51.825140+03:00", 
+    "awardID": "629db36e412f41da9a9272c813c3233a", 
+    "id": "121fbdd9d2fe440fa947d64e7494d3de", 
+    "contractID": "UA-2017-06-20-000001-1"
   }
 }
 
