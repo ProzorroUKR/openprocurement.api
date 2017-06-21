@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/8eabe23c010349c9affbb18b4e4d647c/complaints/163099137a7345108f9bc065f717f1a0?acc_token=b0bf56278e1d4c1cb38fd83aa3fdc3b2 HTTP/1.0
+PATCH /api/2.3/tenders/95406b89097549e48c364931fcf50fc9/complaints/049ab535aeb84789a56318014a00aade?acc_token=77957aa64dc24b669d681339dc47b154 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 29
 Content-Type: application/json
@@ -19,21 +19,21 @@ Content-Type: application/json; charset=UTF-8
       {
         "author": "complaint_owner", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/8eabe23c010349c9affbb18b4e4d647c/complaints/163099137a7345108f9bc065f717f1a0/documents/4a57f43f39b1409b99d826a12fcc75c7?download=9cb61a3ed10441c19c4f8cbf08091c16", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/95406b89097549e48c364931fcf50fc9/complaints/049ab535aeb84789a56318014a00aade/documents/88ccb2488c7841dcaf11779a9e473ea8?download=22c9c8df023f406db6807e4bd52e52e9", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-05-06T12:33:34.910065+03:00", 
-        "id": "4a57f43f39b1409b99d826a12fcc75c7", 
-        "dateModified": "2016-05-06T12:33:34.910116+03:00"
+        "datePublished": "2017-06-21T16:09:20.845593+03:00", 
+        "id": "88ccb2488c7841dcaf11779a9e473ea8", 
+        "dateModified": "2017-06-21T16:09:20.845635+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2016-05-06T12:33:35.083344+03:00", 
-    "complaintID": "UA-2016-05-06-000001.1", 
-    "date": "2016-05-06T12:33:34.777461+03:00", 
+    "dateSubmitted": "2017-06-21T16:09:20.920952+03:00", 
+    "complaintID": "UA-2017-06-21-000001.1", 
+    "date": "2017-06-21T16:09:20.924906+03:00", 
     "type": "claim", 
-    "id": "163099137a7345108f9bc065f717f1a0"
+    "id": "049ab535aeb84789a56318014a00aade"
   }
 }
 
