@@ -1,4 +1,4 @@
-GET /api/2.3/contracts/d85316fca03a448cabc556f6367726e2 HTTP/1.0
+GET /api/2.3/contracts/bebdbaf7777d4bd39756f3e8872c1f46 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -15,20 +15,20 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "contract_changes.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/d85316fca03a448cabc556f6367726e2/documents/c0135e9855984cd39410ba654101c7ce?download=2b72424b562d41a78e0b8b0a6c9ed0fe", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/bebdbaf7777d4bd39756f3e8872c1f46/documents/853ad85f888c403eb64b3db2ce16fed7?download=6b9d115c4fa94edb8d1f07615ed5b85c", 
         "format": "application/msword", 
         "documentOf": "change", 
-        "datePublished": "2016-10-06T11:41:15.627743+03:00", 
-        "id": "c0135e9855984cd39410ba654101c7ce", 
-        "relatedItem": "3ba8592459904c73bf05d7bc48e7083c", 
-        "dateModified": "2016-10-06T11:41:15.627787+03:00"
+        "datePublished": "2017-06-21T17:53:05.477533+03:00", 
+        "id": "853ad85f888c403eb64b3db2ce16fed7", 
+        "relatedItem": "c382f2a7da3647bbb4e8fea2af514157", 
+        "dateModified": "2017-06-21T17:53:05.477575+03:00"
       }
     ], 
     "items": [
       {
-        "description": "коробки для футлярів до державних нагород", 
+        "description": "футляри до державних нагород", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Cartons", 
           "id": "44617100-9"
         }, 
@@ -47,10 +47,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-10-08T11:41:10.967073+03:00", 
-          "endDate": "2016-10-11T11:41:10.967073+03:00"
+          "startDate": "2017-06-23T17:53:02.070092+03:00", 
+          "endDate": "2017-06-26T17:53:02.070092+03:00"
         }, 
-        "id": "5c8f7e8e78ac4b499bde67864993b538", 
+        "id": "f8a311c2c9a34ff08bdf59bbc8092348", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -80,11 +80,11 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-10-06T11:41:15.720242+03:00", 
-      "endDate": "2016-11-05T11:41:15.720282+03:00"
+      "startDate": "2017-06-21T17:53:05.582663+03:00", 
+      "endDate": "2017-07-21T17:53:05.582718+03:00"
     }, 
-    "dateSigned": "2016-10-06T11:41:14.838145+03:00", 
-    "id": "d85316fca03a448cabc556f6367726e2", 
+    "dateSigned": "2017-06-21T17:53:04.594612+03:00", 
+    "id": "bebdbaf7777d4bd39756f3e8872c1f46", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -105,9 +105,9 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "contractID": "UA-2016-10-06-000001-1", 
+    "contractID": "UA-2017-06-21-000001-1", 
     "owner": "broker", 
-    "awardID": "0fe3968c3b6441b6b8825243591d446b", 
+    "awardID": "2f549474497c475b8023d51845cbb2bd", 
     "changes": [
       {
         "status": "active", 
@@ -116,14 +116,14 @@ Content-Type: application/json; charset=UTF-8
           "priceReduction"
         ], 
         "rationale_en": "Contract change cause", 
-        "dateSigned": "2016-10-06T11:41:16.243354+03:00", 
+        "dateSigned": "2017-06-21T17:53:05.978602+03:00", 
         "rationale": "Друга і третя поставка має бути розфасована", 
-        "date": "2016-10-06T11:41:16.269024+03:00", 
-        "id": "3ba8592459904c73bf05d7bc48e7083c"
+        "date": "2017-06-21T17:53:06.002992+03:00", 
+        "id": "c382f2a7da3647bbb4e8fea2af514157"
       }
     ], 
-    "dateModified": "2016-10-06T11:41:16.272947+03:00", 
-    "tender_id": "9df8920066d142c9929feedb60feb68c"
+    "dateModified": "2017-06-21T17:53:06.006808+03:00", 
+    "tender_id": "7dc086c4a213492ab9c43b95b43bd817"
   }
 }
 

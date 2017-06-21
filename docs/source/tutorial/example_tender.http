@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/9df8920066d142c9929feedb60feb68c HTTP/1.0
+GET /api/2.3/tenders/7dc086c4a213492ab9c43b95b43bd817 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -9,12 +9,12 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "status": "complete", 
     "awardPeriod": {
-      "startDate": "2016-09-26T11:41:10.967073+03:00", 
-      "endDate": "2016-09-26T11:41:10.967073+03:00"
+      "startDate": "2017-06-11T17:53:02.070092+03:00", 
+      "endDate": "2017-06-11T17:53:02.070092+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-09-11T11:41:10.967073+03:00", 
-      "endDate": "2016-09-18T11:41:10.967073+03:00"
+      "startDate": "2017-05-27T17:53:02.070092+03:00", 
+      "endDate": "2017-06-03T17:53:02.070092+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "procuringEntity": {
@@ -38,14 +38,14 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "owner": "broker", 
-    "id": "9df8920066d142c9929feedb60feb68c", 
+    "id": "7dc086c4a213492ab9c43b95b43bd817", 
     "title": "футляри до державних нагород", 
-    "tenderID": "UA-2016-10-06-000001", 
-    "dateModified": "2016-10-06T11:41:14.843491+03:00", 
+    "tenderID": "UA-2017-06-21-000001", 
+    "dateModified": "2017-06-21T17:53:04.600513+03:00", 
     "numberOfBids": 1, 
     "tenderPeriod": {
-      "startDate": "2016-09-18T11:41:10.967073+03:00", 
-      "endDate": "2016-09-25T11:41:10.967073+03:00"
+      "startDate": "2017-06-03T17:53:02.070092+03:00", 
+      "endDate": "2017-06-10T17:53:02.070092+03:00"
     }, 
     "contracts": [
       {
@@ -54,7 +54,7 @@ Content-Type: application/json; charset=UTF-8
           {
             "description": "футляри до державних нагород", 
             "classification": {
-              "scheme": "CPV", 
+              "scheme": "ДК021", 
               "description": "Cartons", 
               "id": "44617100-9"
             }, 
@@ -73,10 +73,42 @@ Content-Type: application/json; charset=UTF-8
               "locality": "м. Київ"
             }, 
             "deliveryDate": {
-              "startDate": "2016-10-08T11:41:10.967073+03:00", 
-              "endDate": "2016-10-11T11:41:10.967073+03:00"
+              "startDate": "2017-06-23T17:53:02.070092+03:00", 
+              "endDate": "2017-06-26T17:53:02.070092+03:00"
             }, 
-            "id": "47c2cd63f8324f61bfdd82241b860408", 
+            "id": "f8a311c2c9a34ff08bdf59bbc8092348", 
+            "unit": {
+              "code": "44617100-9", 
+              "name": "item"
+            }, 
+            "quantity": 5
+          }, 
+          {
+            "description": "футляри до державних нагород", 
+            "classification": {
+              "scheme": "ДК021", 
+              "description": "Cartons", 
+              "id": "44617100-9"
+            }, 
+            "additionalClassifications": [
+              {
+                "scheme": "ДКПП", 
+                "id": "17.21.1", 
+                "description": "папір і картон гофровані, паперова й картонна тара"
+              }
+            ], 
+            "deliveryAddress": {
+              "postalCode": "79000", 
+              "countryName": "Україна", 
+              "streetAddress": "вул. Банкова 1", 
+              "region": "м. Київ", 
+              "locality": "м. Київ"
+            }, 
+            "deliveryDate": {
+              "startDate": "2017-06-23T17:53:02.070092+03:00", 
+              "endDate": "2017-06-26T17:53:02.070092+03:00"
+            }, 
+            "id": "c008a4d57c584dafa187ea72647e3cb7", 
             "unit": {
               "code": "44617100-9", 
               "name": "item"
@@ -110,24 +142,24 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "dateSigned": "2016-10-06T11:41:14.838145+03:00", 
-        "date": "2016-10-06T11:41:14.843491+03:00", 
-        "awardID": "0fe3968c3b6441b6b8825243591d446b", 
-        "id": "d85316fca03a448cabc556f6367726e2", 
-        "contractID": "UA-2016-10-06-000001-1"
+        "dateSigned": "2017-06-21T17:53:04.594612+03:00", 
+        "date": "2017-06-21T17:53:04.600513+03:00", 
+        "awardID": "2f549474497c475b8023d51845cbb2bd", 
+        "id": "bebdbaf7777d4bd39756f3e8872c1f46", 
+        "contractID": "UA-2017-06-21-000001-1"
       }
     ], 
     "auctionPeriod": {
-      "startDate": "2016-09-25T11:41:10.967073+03:00", 
-      "endDate": "2016-09-26T11:41:10.967073+03:00"
+      "startDate": "2017-06-10T17:53:02.070092+03:00", 
+      "endDate": "2017-06-11T17:53:02.070092+03:00"
     }, 
     "procurementMethodType": "belowThreshold", 
     "awards": [
       {
         "status": "active", 
         "complaintPeriod": {
-          "startDate": "2016-10-06T11:41:14.519709+03:00", 
-          "endDate": "2016-10-06T11:41:14.519709+03:00"
+          "startDate": "2017-06-21T17:53:04.214845+03:00", 
+          "endDate": "2017-06-21T17:53:04.214845+03:00"
         }, 
         "suppliers": [
           {
@@ -150,17 +182,17 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bid_id": "3f5218249bf84999ae2cd59aafd1f485", 
+        "bid_id": "41624dd6141643cbaa71ac75450e661f", 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2016-10-06T11:41:14.633587+03:00", 
-        "id": "0fe3968c3b6441b6b8825243591d446b"
+        "date": "2017-06-21T17:53:04.342631+03:00", 
+        "id": "2f549474497c475b8023d51845cbb2bd"
       }
     ], 
-    "date": "2016-10-06T11:41:14.843491+03:00", 
+    "date": "2017-06-21T17:53:04.600513+03:00", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 35.0, 
@@ -170,7 +202,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "футляри до державних нагород", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Cartons", 
           "id": "44617100-9"
         }, 
@@ -189,10 +221,42 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-10-08T11:41:10.967073+03:00", 
-          "endDate": "2016-10-11T11:41:10.967073+03:00"
+          "startDate": "2017-06-23T17:53:02.070092+03:00", 
+          "endDate": "2017-06-26T17:53:02.070092+03:00"
         }, 
-        "id": "47c2cd63f8324f61bfdd82241b860408", 
+        "id": "f8a311c2c9a34ff08bdf59bbc8092348", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }, 
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2017-06-23T17:53:02.070092+03:00", 
+          "endDate": "2017-06-26T17:53:02.070092+03:00"
+        }, 
+        "id": "c008a4d57c584dafa187ea72647e3cb7", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -202,9 +266,9 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "bids": [
       {
-        "date": "2016-10-06T11:41:14.377864+03:00", 
+        "date": "2017-06-21T17:53:04.040407+03:00", 
         "status": "active", 
-        "id": "3f5218249bf84999ae2cd59aafd1f485", 
+        "id": "41624dd6141643cbaa71ac75450e661f", 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
