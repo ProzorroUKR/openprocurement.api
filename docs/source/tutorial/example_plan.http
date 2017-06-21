@@ -1,4 +1,4 @@
-GET /api/2.3/plans/c834673ae78c4ec7a595bdd6b01f0817 HTTP/1.0
+GET /api/2.3/plans/52862ec099ff4debbf9f26a0980f27f3 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -7,7 +7,7 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "classification": {
-      "scheme": "CPV", 
+      "scheme": "ДК021", 
       "description": "Seeds", 
       "id": "03111000-2"
     }, 
@@ -15,7 +15,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Насіння гірчиці", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Mustard seeds", 
           "id": "03111600-8"
         }, 
@@ -27,9 +27,9 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryDate": {
-          "endDate": "2016-05-30T23:26:56.153527+03:00"
+          "endDate": "2017-07-06T17:41:39.677983+03:00"
         }, 
-        "id": "b282d47971c34994b09ac06d7cdc253f", 
+        "id": "f8173e5bf8754aec89a47a624b3cefd1", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -39,7 +39,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Насіння соняшнику", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Sunflower seeds", 
           "id": "03111300-5"
         }, 
@@ -51,9 +51,9 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryDate": {
-          "endDate": "2016-05-31T23:26:56.153527+03:00"
+          "endDate": "2017-07-07T17:41:39.677983+03:00"
         }, 
-        "id": "bf70aa5aada241b980b9dcc5c12da9d4", 
+        "id": "3b0208637aa44a99b388a9b540533a1c", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -63,7 +63,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Насіння бавовнику", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Cotton seeds", 
           "id": "03111400-6"
         }, 
@@ -75,9 +75,9 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryDate": {
-          "endDate": "2016-06-01T23:26:56.153527+03:00"
+          "endDate": "2017-07-08T17:41:39.677983+03:00"
         }, 
-        "id": "6e11d21f6b0947fb8c9e4c1a3984c0f3", 
+        "id": "7266c3c7b95246718021ab671207335e", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -85,7 +85,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 3000
       }
     ], 
-    "planID": "UA-P-2016-05-16-000001", 
+    "planID": "UA-P-2017-06-21-000001", 
     "budget": {
       "amountNet": 12222.0, 
       "description": "budget_description", 
@@ -97,12 +97,12 @@ Content-Type: application/json; charset=UTF-8
       "amount": 10000.0, 
       "id": "12303111000-2"
     }, 
-    "datePublished": "2016-05-16T01:26:56.882978+03:00", 
+    "datePublished": "2017-06-21T17:41:40.564867+03:00", 
     "tender": {
       "procurementMethod": "open", 
       "procurementMethodType": "belowThreshold", 
       "tenderPeriod": {
-        "startDate": "2016-05-22T23:26:56.153527+03:00"
+        "startDate": "2017-06-28T17:41:39.677983+03:00"
       }
     }, 
     "additionalClassifications": [
@@ -121,8 +121,8 @@ Content-Type: application/json; charset=UTF-8
       "name": "ДУС"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-05-16T01:26:56.976021+03:00", 
-    "id": "c834673ae78c4ec7a595bdd6b01f0817"
+    "dateModified": "2017-06-21T17:41:40.588719+03:00", 
+    "id": "52862ec099ff4debbf9f26a0980f27f3"
   }
 }
 
