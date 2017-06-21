@@ -1,4 +1,4 @@
-POST /api/2.3/tenders/2436da94a50f460b89c1e014f8b95738/qualifications/c476a711da764a05b93089fd742d52a8/complaints?acc_token=34c8400dab2c4f488c885a344edbd0c4 HTTP/1.0
+POST /api/2.3/tenders/78941caa5f6b4c8380b2eebdfceac04f/qualifications/72bbc4d0fa6044c994346054d7070802/complaints?acc_token=801c416e120e4d2c95f43306d6fb8ac9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1682
 Content-Type: application/json
@@ -34,40 +34,20 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/2436da94a50f460b89c1e014f8b95738/qualifications/c476a711da764a05b93089fd742d52a8/complaints/ae37a435c4044e46a56845748e2b5446
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/78941caa5f6b4c8380b2eebdfceac04f/qualifications/72bbc4d0fa6044c994346054d7070802/complaints/8a97aff577b14b8899e0d82f8622cfad
 {
   "access": {
-    "token": "ae472fdaa8d243ed9290eb4ebebbfa61"
+    "token": "8157bf88398948cba02246502e54d7b0"
   }, 
   "data": {
     "status": "draft", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "author": {
-      "contactPoint": {
-        "email": "soleksuk@gmail.com", 
-        "telephone": "+380 (432) 21-69-30", 
-        "name": "Сергій Олексюк"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
-        "id": "13313462", 
-        "uri": "http://sch10.edu.vn.ua/"
-      }, 
-      "name": "ДКП «Школяр»", 
-      "address": {
-        "postalCode": "21100", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Островського, 33", 
-        "region": "м. Вінниця", 
-        "locality": "м. Вінниця"
-      }
-    }, 
     "title": "Недостатньо інформації", 
-    "complaintID": "UA-2016-07-19-000001.1", 
-    "date": "2016-07-19T18:44:33.707830+03:00", 
-    "type": "complaint", 
-    "id": "ae37a435c4044e46a56845748e2b5446"
+    "bid_id": "f851154f0a4a4a869dfc56386a5858ad", 
+    "complaintID": "UA-2017-06-21-000001.1", 
+    "date": "2017-06-21T16:03:07.581215+03:00", 
+    "type": "claim", 
+    "id": "8a97aff577b14b8899e0d82f8622cfad"
   }
 }
 
