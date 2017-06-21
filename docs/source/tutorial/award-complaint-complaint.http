@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/0ce93a11f6b14fdca10cf8cd620c0590/awards/2e1bea72fbdf4d7e95b7dfe9d2b3ec62/complaints/10efe858183443a8af16f184288e11d2?acc_token=4133c6f6f5db4923be979ec124956dce HTTP/1.0
+PATCH /api/2.3/tenders/9eaa2f3beb554dd5b22ba7ab74f89d1f/awards/bdda4791877a4e7ca0d3ba4f00fa28c6/complaints/2e4cc336e8964ba5ada86f29c99e618f?acc_token=ad733eb9aa194f1bbd9337b3403c073a HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 31
 Content-Type: application/json
@@ -19,12 +19,12 @@ Content-Type: application/json; charset=UTF-8
       {
         "author": "complaint_owner", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/0ce93a11f6b14fdca10cf8cd620c0590/awards/2e1bea72fbdf4d7e95b7dfe9d2b3ec62/complaints/10efe858183443a8af16f184288e11d2/documents/74f77864a60e45efa174d287b86b9f1e?download=74fe6fc867d54affa21b98071f4ae800", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/9eaa2f3beb554dd5b22ba7ab74f89d1f/awards/bdda4791877a4e7ca0d3ba4f00fa28c6/complaints/2e4cc336e8964ba5ada86f29c99e618f/documents/c2b960bd63864644ac4b037b72248938?download=f08fe6ae1cc64651a4563cb0ceca2bc9", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-06-10T15:46:23.344709+03:00", 
-        "id": "74f77864a60e45efa174d287b86b9f1e", 
-        "dateModified": "2016-06-10T15:46:23.344742+03:00"
+        "datePublished": "2017-06-21T15:53:08.346179+03:00", 
+        "id": "c2b960bd63864644ac4b037b72248938", 
+        "dateModified": "2017-06-21T15:53:08.346231+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -50,11 +50,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "dateSubmitted": "2016-06-10T15:46:23.504231+03:00", 
-    "complaintID": "UA-2016-06-10-000002.1", 
-    "date": "2016-06-10T15:46:23.040718+03:00", 
+    "dateSubmitted": "2017-06-21T15:53:08.495937+03:00", 
+    "complaintID": "UA-2017-06-21-000001.1", 
+    "date": "2017-06-21T15:53:08.505248+03:00", 
     "type": "complaint", 
-    "id": "10efe858183443a8af16f184288e11d2"
+    "id": "2e4cc336e8964ba5ada86f29c99e618f"
   }
 }
 
