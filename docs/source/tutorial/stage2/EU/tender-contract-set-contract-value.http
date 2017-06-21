@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/contracts/bd3d80e72dab490e9eceeaca13eaa4b8?acc_token=8d605867b28c4983a170331fcda0d57b HTTP/1.0
+PATCH /api/2.3/tenders/2332d7f2a08e47d7a9d115ad1fee1eb8/contracts/a5adbe0ebe494994ae44b6f5df0066a4?acc_token=e77ee989307e43bb9481309d328df6d1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 68
 Content-Type: application/json
@@ -22,7 +22,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -35,17 +35,17 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-11-01T02:40:39.054928+03:00", 
-          "endDate": "2016-11-11T02:41:50.787622+03:00"
+          "startDate": "2017-07-11T17:04:37.418860+03:00", 
+          "endDate": "2017-07-21T17:05:33.111966+03:00"
         }, 
-        "id": "74e7a4472305456794577a77d050934c", 
+        "id": "deaf5398b54e4bd5abc5cca172a40d15", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -81,9 +81,9 @@ Content-Type: application/json; charset=UTF-8
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "awardID": "b00bbb69bdb04308b33f63f62f2e4ad1", 
-    "id": "bd3d80e72dab490e9eceeaca13eaa4b8", 
-    "contractID": "UA-2016-10-12-000001-1"
+    "awardID": "7514340e56294579afe4843f6acffb2c", 
+    "id": "a5adbe0ebe494994ae44b6f5df0066a4", 
+    "contractID": "UA-2017-06-21-000001-1"
   }
 }
 

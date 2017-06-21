@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/documents/703160c68646426c96e9c59a6a4fdb84?acc_token=8d605867b28c4983a170331fcda0d57b HTTP/1.0
+GET /api/2.3/tenders/2332d7f2a08e47d7a9d115ad1fee1eb8/documents/95a16064160d49fe820a8bee63fff415?acc_token=e77ee989307e43bb9481309d328df6d1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -6,15 +6,16 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
+    "hash": "md5:00000000000000000000000000000000", 
     "language": "uk", 
     "title": "Notice.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/documents/703160c68646426c96e9c59a6a4fdb84?download=b3de4db5f494466cba24fd0619282faa", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/f8910e202a3f451a904ae67142358a74?KeyID=d8e133db&Signature=gWwLvym6za8Ii%252BfpoueQoftCtQSE4M%2FyyNKu%2FtLjuy96l%2FYJoH%252BUFQ4Up8YpoFnppZo1mHxGOuZ2XMOK49ZLDg%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-10-12T02:41:40.196808+03:00", 
+    "datePublished": "2017-06-21T17:05:22.481301+03:00", 
     "previousVersions": [], 
-    "id": "703160c68646426c96e9c59a6a4fdb84", 
-    "dateModified": "2016-10-12T02:41:40.196831+03:00"
+    "id": "95a16064160d49fe820a8bee63fff415", 
+    "dateModified": "2017-06-21T17:05:22.481335+03:00"
   }
 }
 

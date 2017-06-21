@@ -1,23 +1,24 @@
-POST /api/2.3/tenders/271b59b289b541e7be2928301b7ed7dd/cancellations/f77449e667ad466295ba24d2aa6b6733/documents?acc_token=f4f66b152e344424b0a39b26ecabb818 HTTP/1.0
+POST /api/2.3/tenders/ff1c3c94d9a54a39bd264e19cc1e6b07/cancellations/88f485e0940e478f8d49152656282eb7/documents?acc_token=d0d2a78b5ffb452ca2fb141b56570e23 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 182
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy1330199247$
+Content-Length: 186
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy460908790704$
 Host: api-sandbox.openprocurement.org
 
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/271b59b289b541e7be2928301b7ed7dd/cancellations/f77449e667ad466295ba24d2aa6b6733/documents/aeca005e8d074511a430610948146be3
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/ff1c3c94d9a54a39bd264e19cc1e6b07/cancellations/88f485e0940e478f8d49152656282eb7/documents/c379765bbdba4bb285c029a26a4e3346
 {
   "data": {
+    "hash": "md5:00000000000000000000000000000000", 
     "language": "uk", 
     "title": "Notice.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/271b59b289b541e7be2928301b7ed7dd/cancellations/f77449e667ad466295ba24d2aa6b6733/documents/aeca005e8d074511a430610948146be3?download=bae38f8dedd0494395a7da4463e48465", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/f10c69861d444087bb5c91c9cbb5c781?KeyID=b779f9bb&Signature=Qyv6i8wj1jIogpcQvm7kT8JAhWQRDQD4J1%2F2KRZ2RY7h%2FDPQeh%252BzhT3vR%252B80DOjmOCiUuyb0dKvpuyvgwainDw%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-10-12T02:41:01.869169+03:00", 
-    "id": "aeca005e8d074511a430610948146be3", 
-    "dateModified": "2016-10-12T02:41:01.869191+03:00"
+    "datePublished": "2017-06-21T17:04:53.655208+03:00", 
+    "id": "c379765bbdba4bb285c029a26a4e3346", 
+    "dateModified": "2017-06-21T17:04:53.655245+03:00"
   }
 }
 
