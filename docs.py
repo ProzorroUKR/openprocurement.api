@@ -837,7 +837,7 @@ class TenderResourceTest(BaseTenderWebTest):
 
         #### Rejecting Tender Conditions Complaint
         #
-
+        # disable complaints ref asana 342594055523082
         # self.app.authorization = ('Basic', ('reviewer', ''))
 
         # with open('docs/source/complaints/complaint-reject.http', 'w') as self.app.file_obj:
@@ -872,7 +872,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(
                 self.tender_id, complaint4_id, complaint4_token), {"data":{"status":"resolved","satisfied":False}})
 
-
+        # disable complaints ref asana 342594055523082
         # self.app.authorization = ('Basic', ('reviewer', ''))
 
         # with open('docs/source/complaints/complaint-resolution-upload.http', 'w') as self.app.file_obj:
@@ -1082,10 +1082,10 @@ class TenderResourceTest(BaseTenderWebTest):
 
         #### Rejecting Tender Award Complaint
         #
-
+        # disable complaints ref asana 342594055523082
         # self.app.authorization = ('Basic', ('reviewer', ''))
 
-        # with open('docs/source/complaints/award-complaint-reject.http', 'w') as self.app.file_obj:
+        # with # disable complaints ref asana 342594055523082open('docs/source/complaints/award-complaint-reject.http', 'w') as self.app.file_obj:
         #     response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(
         #             self.tender_id, award_id, complaint2_id), {"data":{"status":"invalid"}})
         #     self.assertEqual(response.status, '200 OK')
@@ -1116,6 +1116,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
                 self.tender_id, award_id, complaint4_id, complaint4_token), {"data":{"status":"resolved","satisfied":False}})
 
+        # disable complaints ref asana 342594055523082
         # self.app.authorization = ('Basic', ('reviewer', ''))
 
         # with open('docs/source/complaints/award-complaint-resolution-upload.http', 'w') as self.app.file_obj:
