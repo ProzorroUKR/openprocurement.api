@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/contracts/2d8a4d99de124bf09281300fd40f8a83/documents HTTP/1.0
+GET /api/2.3/tenders/9796c1eae0ea423990752b84b4b42136/contracts/755bd36bc765488684c9c36fa606571e/documents HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -7,26 +7,28 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": [
     {
+      "hash": "md5:00000000000000000000000000000000", 
       "language": "uk", 
       "title": "contract_first_document.doc", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/contracts/2d8a4d99de124bf09281300fd40f8a83/documents/b74c8f6b73254ae7a5bf5e6d9e001945?download=f554f340647b44f7893e8c57dd38e209", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/d646727441554ea08f5e87b6d008515c?KeyID=17b2e1e5&Signature=UTGEIWv5o0f0zAgHUuTicrYeiUmqrzRhd02%2F6%252BZYwfquLv5sEmOXgtLtZHKjZnt1Z70H%252BidvBF1T6UEG3AJqAA%253D%253D", 
       "format": "application/msword", 
       "documentOf": "tender", 
-      "datePublished": "2016-06-10T16:04:06.527811+03:00", 
-      "id": "b74c8f6b73254ae7a5bf5e6d9e001945", 
-      "dateModified": "2016-06-10T16:04:06.527850+03:00"
+      "datePublished": "2017-06-19T19:46:29.114865+03:00", 
+      "id": "1cddfc1712bd4fcfb88a8cc7fd26ab25", 
+      "dateModified": "2017-06-19T19:46:29.114903+03:00"
     }, 
     {
+      "hash": "md5:00000000000000000000000000000000", 
       "language": "en", 
       "title": "contract_second_document.doc", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/contracts/2d8a4d99de124bf09281300fd40f8a83/documents/966812631623436daf433deb4714dbc9?download=d4f3a2cd52b149648c9fbe87e7c57be7", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/38dac496a83d468b84d026e45b8fc88b?KeyID=17b2e1e5&Signature=65R4MHWKuBjJR4PRt3NjCORTCCpAOjaybG7IVhQ3R%252BiE45DE7yivjgNWJtnx2Ubqa4kHaSJ3Xy8N%252BZYmD9F3CA%253D%253D", 
       "format": "application/msword", 
       "title_en": "Title of Document", 
       "description_en": "Description of Document", 
-      "datePublished": "2016-06-10T16:04:06.879491+03:00", 
+      "datePublished": "2017-06-19T19:46:29.471402+03:00", 
       "documentOf": "tender", 
-      "id": "966812631623436daf433deb4714dbc9", 
-      "dateModified": "2016-06-10T16:04:06.879526+03:00"
+      "id": "c8295cd72a67420ebe59ad2752cf8125", 
+      "dateModified": "2017-06-19T19:46:29.471446+03:00"
     }
   ]
 }

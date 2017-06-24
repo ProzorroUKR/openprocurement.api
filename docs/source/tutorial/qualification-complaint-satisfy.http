@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/2436da94a50f460b89c1e014f8b95738/qualifications/c476a711da764a05b93089fd742d52a8/complaints/966e7d27d8ef4b92af943f114a89d0f1?acc_token=9b7fb358c7c14945935b55bab887f16d HTTP/1.0
+PATCH /api/2.3/tenders/e737e10e3bc541c08fd7f0eb8e7b7e9b/qualifications/c9742d1d5b094fe79bcac83934499c2b/complaints/70aab05f0b1243a1a7afb834851a1ec2?acc_token=0c7c1ac5b2c84a929b299c0bab728770 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 29
 Content-Type: application/json
@@ -16,37 +16,17 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "answered", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "author": {
-      "contactPoint": {
-        "email": "soleksuk@gmail.com", 
-        "telephone": "+380 (432) 21-69-30", 
-        "name": "Сергій Олексюк"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
-        "id": "13313462", 
-        "uri": "http://sch10.edu.vn.ua/"
-      }, 
-      "name": "ДКП «Школяр»", 
-      "address": {
-        "postalCode": "21100", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Островського, 33", 
-        "region": "м. Вінниця", 
-        "locality": "м. Вінниця"
-      }
-    }, 
-    "resolutionType": "resolved", 
-    "type": "complaint", 
     "title": "Недостатньо інформації", 
+    "resolutionType": "resolved", 
+    "type": "claim", 
     "satisfied": true, 
-    "dateAnswered": "2016-07-19T18:44:35.329828+03:00", 
-    "dateSubmitted": "2016-07-19T18:44:35.120063+03:00", 
-    "complaintID": "UA-2016-07-19-000001.6", 
-    "date": "2016-07-19T18:44:35.339166+03:00", 
+    "bid_id": "ff013873542d46d0bcd6d768d4d15f31", 
+    "dateAnswered": "2017-06-19T19:46:37.928786+03:00", 
+    "dateSubmitted": "2017-06-19T19:46:37.727464+03:00", 
+    "complaintID": "UA-2017-06-19-000001.6", 
+    "date": "2017-06-19T19:46:37.938648+03:00", 
     "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
-    "id": "966e7d27d8ef4b92af943f114a89d0f1"
+    "id": "70aab05f0b1243a1a7afb834851a1ec2"
   }
 }
 

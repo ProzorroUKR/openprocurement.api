@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/80cba6dda2404063ad4aabaeb448830b/bids/aba1534bae3f4210994c9af738f3e2b9?acc_token=772411107dfb4d9a8ce61e1243facf36 HTTP/1.0
+GET /api/2.3/tenders/79286d9674e24d7c9f08885bef23b599/bids/777ca3571dd048f88233618bcd92d6ea?acc_token=e67c5b78bf374924806826f872584b17 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -7,7 +7,7 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "invalid", 
-    "id": "aba1534bae3f4210994c9af738f3e2b9"
+    "id": "777ca3571dd048f88233618bcd92d6ea"
   }
 }
 
