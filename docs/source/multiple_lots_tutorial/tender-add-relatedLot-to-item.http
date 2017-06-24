@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/4bec589c36ec421ebfbc2f785b273fff?acc_token=021f23e2ed4548c1b5a3d4104b071dc9 HTTP/1.0
+PATCH /api/2.3/tenders/e2f60567d1d8406e8bc9f40931e1132b?acc_token=56bff70fcb174649879a0f9d83055a8c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 73
 Content-Type: application/json
@@ -8,7 +8,7 @@ Host: api-sandbox.openprocurement.org
   "data": {
     "items": [
       {
-        "relatedLot": "d4d982e10ce844aaa98054c8f113470d"
+        "relatedLot": "132b472e0b564c2a9151fb10fa7abb08"
       }
     ]
   }
@@ -32,16 +32,16 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500000.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2016-09-12T14:29:33.409560+03:00", 
-        "id": "d4d982e10ce844aaa98054c8f113470d"
+        "date": "2017-06-19T20:02:50.533976+03:00", 
+        "id": "132b472e0b564c2a9151fb10fa7abb08"
       }
     ], 
     "items": [
       {
-        "relatedLot": "d4d982e10ce844aaa98054c8f113470d", 
+        "relatedLot": "132b472e0b564c2a9151fb10fa7abb08", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Послуги з харчування у школах", 
           "id": "55523100-3"
         }, 
@@ -54,31 +54,30 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-09-14T11:29:24.989068+03:00", 
-          "endDate": "2016-09-17T11:29:24.989068+03:00"
+          "startDate": "2017-06-21T20:02:22.515286+03:00", 
+          "endDate": "2017-06-24T20:02:22.515286+03:00"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
       }
     ], 
-    "procurementMethodType": "negotiation", 
-    "causeDescription_en": "original tender has failed twice", 
+    "procurementMethodType": "negotiation.quick", 
     "value": {
       "currency": "UAH", 
       "amount": 500000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateModified": "2016-09-12T14:29:33.481943+03:00", 
+    "dateModified": "2017-06-19T20:02:50.619378+03:00", 
     "causeDescription_ru": "оригинальный тендер не получился дважды", 
-    "date": "2016-09-12T14:29:33.338540+03:00", 
-    "title_en": "Services in school canteens", 
+    "date": "2017-06-19T20:02:50.482399+03:00", 
+    "causeDescription_en": "original tender has failed twice", 
     "description_ru": "Услуги школьных столовых", 
     "description_en": "Services in school canteens", 
     "title_ru": "Услуги школьных столовых", 
@@ -104,9 +103,9 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "cause": "twiceUnsuccessful", 
-    "id": "4bec589c36ec421ebfbc2f785b273fff", 
-    "tenderID": "UA-2016-09-12-000001"
+    "title_en": "Services in school canteens", 
+    "id": "e2f60567d1d8406e8bc9f40931e1132b", 
+    "tenderID": "UA-2017-06-19-000001"
   }
 }
 
