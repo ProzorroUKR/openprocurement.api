@@ -85,7 +85,7 @@ class PlanResourceTest(BasePlanWebTest):
                     {
                         "description": "Насіння овочевих культур",
                         "classification": {
-                            "scheme": "CPV",
+                            "scheme": "ДК021",
                             "description": "Vegetable seeds",
                             "id": "03111700-9"
                         },
