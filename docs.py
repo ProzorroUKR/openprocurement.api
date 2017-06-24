@@ -65,7 +65,7 @@ test_tender_data = {
       "description": "Послуги шкільних їдалень",
       "description_en": "Services in school canteens",
       "classification": {
-        "scheme": "CPV",
+        "scheme": "ДК021",
         "id": "37810000-9",
         "description": "Test"
       },
@@ -96,7 +96,7 @@ test_tender_data = {
       "description": "Послуги шкільних їдалень",
       "description_en": "Services in school canteens",
       "classification": {
-        "scheme": "CPV",
+        "scheme": "ДК021",
         "id": "37810000-9",
         "description": "Test"
       },

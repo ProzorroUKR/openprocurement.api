@@ -1,23 +1,24 @@
-POST /api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a/qualification_documents?acc_token=f8306e73d0544899bbf82e4af348b066 HTTP/1.0
+POST /api/2.3/tenders/aa0cd6b584d543848108968ea24a7891/bids/cbd4381d9f3f402aaa82812b1b9f126e/qualification_documents?acc_token=3b4a7e83c82941c4b47ecadc2659689f HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 200
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy25779415277$
+Content-Length: 202
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy173629433403$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a/qualification_documents/6e34700423de45d59e814f6496d08649
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/aa0cd6b584d543848108968ea24a7891/bids/cbd4381d9f3f402aaa82812b1b9f126e/qualification_documents/c84046fc5b794d1caada1f3c7d63e8ca
 {
   "data": {
+    "hash": "md5:00000000000000000000000000000000", 
     "confidentiality": "public", 
     "language": "uk", 
     "title": "qualification_document.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a/qualification_documents/6e34700423de45d59e814f6496d08649?download=18d3b4a9768a48efb71d3d723bb6b6ac", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/aa0cd6b584d543848108968ea24a7891/bids/cbd4381d9f3f402aaa82812b1b9f126e/qualification_documents/c84046fc5b794d1caada1f3c7d63e8ca?download=835c4b4239d8411591c74254e61969de", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-06-10T16:04:00.330333+03:00", 
-    "id": "6e34700423de45d59e814f6496d08649", 
-    "dateModified": "2016-06-10T16:04:00.330370+03:00"
+    "datePublished": "2017-06-21T16:02:55.355624+03:00", 
+    "id": "c84046fc5b794d1caada1f3c7d63e8ca", 
+    "dateModified": "2017-06-21T16:02:55.355657+03:00"
   }
 }
 

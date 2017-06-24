@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/contracts/2d8a4d99de124bf09281300fd40f8a83?acc_token=0219bee565f845878079d8754f1c4570 HTTP/1.0
+PATCH /api/2.3/tenders/aa0cd6b584d543848108968ea24a7891/contracts/624361c4840644079b02fe204e68954e?acc_token=ef9c0578dbdd435ab058ee3eef53e1b7 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 60
 Content-Type: application/json
@@ -6,7 +6,7 @@ Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "dateSigned": "2016-06-10T16:04:05.814968+03:00"
+    "dateSigned": "2017-06-21T16:03:00.108024+03:00"
   }
 }
 
@@ -19,7 +19,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -32,17 +32,17 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-06-30T16:03:38.558565+03:00", 
-          "endDate": "2016-07-30T16:03:38.558601+03:00"
+          "startDate": "2017-07-11T16:02:36.221241+03:00", 
+          "endDate": "2017-08-10T16:02:36.221295+03:00"
         }, 
-        "id": "bc9a0053d04344b0a21fdff5b9239d85", 
+        "id": "bb438534444d47eea7b1bd2fe84e58fb", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -52,7 +52,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -65,17 +65,17 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-06-30T16:03:38.558629+03:00", 
-          "endDate": "2016-07-30T16:03:38.558650+03:00"
+          "startDate": "2017-07-11T16:02:36.221327+03:00", 
+          "endDate": "2017-08-10T16:02:36.221351+03:00"
         }, 
-        "id": "776287fb56354c659e3a798e18756619", 
+        "id": "962bd32f921c4e8a8335c59a3e6f0fd6", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -106,16 +106,15 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "contractNumber": "contract#1", 
-    "dateSigned": "2016-06-10T16:04:05.814968+03:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2016-06-10T16:04:05.968513+03:00", 
-    "awardID": "4aa96e34b59e43bcbb3103e55428540d", 
-    "id": "2d8a4d99de124bf09281300fd40f8a83", 
-    "contractID": "UA-2016-06-10-000001-1"
+    "dateSigned": "2017-06-21T16:03:00.108024+03:00", 
+    "awardID": "abb108bc37ee4eccaafded21c379db45", 
+    "id": "624361c4840644079b02fe204e68954e", 
+    "contractID": "UA-2017-06-21-000001-1"
   }
 }
 
