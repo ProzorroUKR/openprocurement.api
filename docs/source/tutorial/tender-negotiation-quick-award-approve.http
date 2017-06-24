@@ -1,12 +1,13 @@
-PATCH /api/2.0/tenders/5812ceb8858c43dc97853e1f869aa87c/awards/1b3bdb6eedb3475599f185730bb1a9c9?acc_token=cbe2f3062cdd4a01bb4db318e6c01950 HTTP/1.0
+PATCH /api/2.3/tenders/fbe007bb04b54a7e9974cbbbcdef51ab/awards/6dccbaf0a343468e8ae2028384be7a91?acc_token=ac0eaef0400b42b58e6e86827edaa809 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 30
+Content-Length: 49
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
 {
   "data": {
-    "status": "active"
+    "status": "active", 
+    "qualified": true
   }
 }
 
@@ -16,8 +17,8 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "active", 
     "complaintPeriod": {
-      "startDate": "2016-04-15T12:59:23.635099+03:00", 
-      "endDate": "2016-04-20T12:59:23.767870+03:00"
+      "startDate": "2017-06-21T16:19:09.144070+03:00", 
+      "endDate": "2017-06-27T00:00:00+03:00"
     }, 
     "suppliers": [
       {
@@ -47,8 +48,9 @@ Content-Type: application/json; charset=UTF-8
       "amount": 475000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2016-04-15T12:59:23.627184+03:00", 
-    "id": "1b3bdb6eedb3475599f185730bb1a9c9"
+    "qualified": true, 
+    "date": "2017-06-21T16:19:09.214099+03:00", 
+    "id": "6dccbaf0a343468e8ae2028384be7a91"
   }
 }
 

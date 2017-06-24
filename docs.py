@@ -23,7 +23,7 @@ test_tender_data = {
                 "classification": {
                     "description": "Послуги з харчування у школах",
                     "id": "55523100-3",
-                    "scheme": "CPV"
+                    "scheme": "ДК021"
                 },
                 "description": "Послуги шкільних їдалень",
                 "description_en": "Services in school canteens",
