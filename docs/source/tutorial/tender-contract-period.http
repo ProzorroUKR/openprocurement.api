@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/fd9fbaf7245d44b0b8706d5aa48817ab/contracts/ca6c6f6ea05d43f99646a9a826fdb375?acc_token=e374c63118b7417ca5a812b0c89b71cc HTTP/1.0
+PATCH /api/2.3/tenders/09293a94655b4954b1a0add5c5feaa94/contracts/514d59f85bfc46d68bd8cff443cfc1a2?acc_token=96dadf11cc92481b9f3874c4a4af5e40 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 118
 Content-Type: application/json
@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "period": {
-      "startDate": "2016-06-10T15:46:40.556227+03:00", 
-      "endDate": "2017-06-10T15:46:40.556266+03:00"
+      "startDate": "2017-06-19T18:35:47.549744+03:00", 
+      "endDate": "2018-06-19T18:35:47.549794+03:00"
     }
   }
 }
@@ -22,7 +22,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -41,10 +41,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-06-30T15:46:21.093225+03:00", 
-          "endDate": "2016-07-30T15:46:21.093258+03:00"
+          "startDate": "2017-07-09T18:35:29.079941+03:00", 
+          "endDate": "2017-08-08T18:35:29.080005+03:00"
         }, 
-        "id": "679e7db9d7f44ead836426dc89b1db95", 
+        "id": "3c6e7828ed774906b9ffd56f95278f6e", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -75,19 +75,18 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-06-10T15:46:40.556227+03:00", 
-      "endDate": "2017-06-10T15:46:40.556266+03:00"
+      "startDate": "2017-06-19T18:35:47.549744+03:00", 
+      "endDate": "2018-06-19T18:35:47.549794+03:00"
     }, 
-    "dateSigned": "2016-06-10T15:46:40.344440+03:00", 
+    "dateSigned": "2017-06-19T18:35:47.381141+03:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2016-06-10T15:46:40.662205+03:00", 
-    "awardID": "8ae76f24a254451081ab8b9292f354a0", 
-    "id": "ca6c6f6ea05d43f99646a9a826fdb375", 
-    "contractID": "UA-2016-06-10-000001-1"
+    "awardID": "1899150f3d2344acbe862dc8cefc03fa", 
+    "id": "514d59f85bfc46d68bd8cff443cfc1a2", 
+    "contractID": "UA-2017-06-19-000001-1"
   }
 }
 

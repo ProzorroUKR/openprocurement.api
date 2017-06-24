@@ -1,21 +1,21 @@
-POST /api/2.3/tenders/fd9fbaf7245d44b0b8706d5aa48817ab/documents?acc_token=e374c63118b7417ca5a812b0c89b71cc HTTP/1.0
+POST /api/2.3/tenders/09293a94655b4954b1a0add5c5feaa94/documents?acc_token=96dadf11cc92481b9f3874c4a4af5e40 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 186
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy813089008547$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy646428937962$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/fd9fbaf7245d44b0b8706d5aa48817ab/documents/6c400e10ade540718f1fa8155e28ad42
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/09293a94655b4954b1a0add5c5feaa94/documents/ddb7b4b26a94407baeaa182dba405735
 {
   "data": {
     "title": "Notice.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/fd9fbaf7245d44b0b8706d5aa48817ab/documents/6c400e10ade540718f1fa8155e28ad42?download=627854ebbbb745e7940040a5819496b1", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/09293a94655b4954b1a0add5c5feaa94/documents/ddb7b4b26a94407baeaa182dba405735?download=6e06f94345fe4c7e95d038210216052a", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-06-10T15:46:36.569448+03:00", 
-    "id": "6c400e10ade540718f1fa8155e28ad42", 
-    "dateModified": "2016-06-10T15:46:36.569480+03:00"
+    "datePublished": "2017-06-19T18:35:44.717914+03:00", 
+    "id": "ddb7b4b26a94407baeaa182dba405735", 
+    "dateModified": "2017-06-19T18:35:44.717955+03:00"
   }
 }
 
