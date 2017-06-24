@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/fd9fbaf7245d44b0b8706d5aa48817ab?acc_token=e374c63118b7417ca5a812b0c89b71cc HTTP/1.0
+PATCH /api/2.3/tenders/97dd0ca9a0f741a6ad5628c6873d1de9?acc_token=4da34917776743398aa0bb0b7a639d70 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 75
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2016-06-25T15:46:46.086136+03:00"
+      "endDate": "2017-07-06T15:53:30.143101+03:00"
     }
   }
 }
@@ -18,10 +18,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2016-06-10-000001", 
+    "awardCriteria": "lowestCost", 
     "tenderPeriod": {
-      "startDate": "2016-06-10T15:46:35.794512+03:00", 
-      "endDate": "2016-06-25T15:46:46.086136+03:00"
+      "startDate": "2017-06-21T15:53:20.003863+03:00", 
+      "endDate": "2017-07-06T15:53:30.143101+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -30,14 +30,14 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-06-10T15:46:35.794512+03:00", 
-      "clarificationsUntil": "2016-06-21T15:46:46.086136+03:00", 
-      "endDate": "2016-06-15T15:46:46.086136+03:00", 
-      "invalidationDate": "2016-06-10T15:46:36.276524+03:00"
+      "startDate": "2017-06-21T15:53:20.003863+03:00", 
+      "clarificationsUntil": "2017-06-30T15:53:30.143101+03:00", 
+      "endDate": "2017-06-26T15:53:30.143101+03:00", 
+      "invalidationDate": "2017-06-21T15:53:20.206626+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-06-10T15:46:35.794512+03:00", 
-      "endDate": "2016-06-21T15:46:46.086136+03:00"
+      "startDate": "2017-06-21T15:53:20.003863+03:00", 
+      "endDate": "2017-07-02T00:00:00+03:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
@@ -46,7 +46,8 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-06-25T15:46:46.086136+03:00", 
+    "date": "2017-06-21T15:53:20.034093+03:00", 
+    "next_check": "2017-07-06T15:53:30.143101+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -69,15 +70,15 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-06-25T15:46:46.086136+03:00"
+      "shouldStartAfter": "2017-07-07T00:00:00+03:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-06-10T15:46:36.280054+03:00", 
+    "dateModified": "2017-06-21T15:53:20.209544+03:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -89,17 +90,17 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-06-30T15:46:21.093225+03:00", 
-          "endDate": "2016-07-30T15:46:21.093258+03:00"
+          "startDate": "2017-07-11T15:53:06.068598+03:00", 
+          "endDate": "2017-08-10T15:53:06.068650+03:00"
         }, 
-        "id": "679e7db9d7f44ead836426dc89b1db95", 
+        "id": "fc733ce56c434220bb9e7418b0de6162", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -107,8 +108,8 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1
       }
     ], 
-    "id": "fd9fbaf7245d44b0b8706d5aa48817ab", 
-    "awardCriteria": "lowestCost"
+    "id": "97dd0ca9a0f741a6ad5628c6873d1de9", 
+    "tenderID": "UA-2017-06-21-000001"
   }
 }
 

@@ -70,7 +70,7 @@ test_tender_ua_data = {
             "streetAddress": u"вул. Банкова 1"
       },
       "classification": {
-        "scheme": "CPV",
+        "scheme": "ДК021",
         "id": "37810000-9",
         "description": "Test"
       },

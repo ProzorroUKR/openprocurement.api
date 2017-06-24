@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/feb9cd1a8095418b87ee7179eb420f34/awards/8d3f273f4d8848b784876a078bd6e9a1/complaints/d5f7f36b16684fbca5dd7fd8271cfbc0?acc_token=25ebfe73511a45798002c47f126de547 HTTP/1.0
+PATCH /api/2.3/tenders/9eaa2f3beb554dd5b22ba7ab74f89d1f/awards/bdda4791877a4e7ca0d3ba4f00fa28c6/complaints/691ce2951a4645f2b2afbf99883c5fbb?acc_token=6d598cd8e98748bc89119c83b5842719 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 387
 Content-Type: application/json
@@ -42,12 +42,12 @@ Content-Type: application/json; charset=UTF-8
     "resolutionType": "resolved", 
     "type": "claim", 
     "title": "Недостатньо інформації", 
-    "dateAnswered": "2016-07-19T14:01:23.093255+03:00", 
-    "dateSubmitted": "2016-07-19T14:01:22.874573+03:00", 
-    "complaintID": "UA-2016-07-19-000001.6", 
-    "date": "2016-07-19T14:01:23.102919+03:00", 
+    "dateAnswered": "2017-06-21T15:53:09.562568+03:00", 
+    "dateSubmitted": "2017-06-21T15:53:09.365755+03:00", 
+    "complaintID": "UA-2017-06-21-000001.6", 
+    "date": "2017-06-21T15:53:09.573439+03:00", 
     "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
-    "id": "d5f7f36b16684fbca5dd7fd8271cfbc0"
+    "id": "691ce2951a4645f2b2afbf99883c5fbb"
   }
 }
 

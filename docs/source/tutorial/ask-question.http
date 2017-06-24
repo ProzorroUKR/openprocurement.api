@@ -1,4 +1,4 @@
-POST /api/2.3/tenders/fd9fbaf7245d44b0b8706d5aa48817ab/questions HTTP/1.0
+POST /api/2.3/tenders/97dd0ca9a0f741a6ad5628c6873d1de9/questions HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1506
 Content-Type: application/json
@@ -34,7 +34,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/fd9fbaf7245d44b0b8706d5aa48817ab/questions/c61901c6bc9841f09b86256fcdca3bcd
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/97dd0ca9a0f741a6ad5628c6873d1de9/questions/d490583bca4b41d68e36b2b53a5f4caf
 {
   "data": {
     "description": "Просимо додати таблицю потрібної калорійності харчування", 
@@ -60,8 +60,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/fd9fbaf7245d44b
       }
     }, 
     "title": "Калорійність", 
-    "date": "2016-06-10T15:46:36.990524+03:00", 
-    "id": "c61901c6bc9841f09b86256fcdca3bcd", 
+    "date": "2017-06-21T15:53:20.738523+03:00", 
+    "id": "d490583bca4b41d68e36b2b53a5f4caf", 
     "questionOf": "tender"
   }
 }
