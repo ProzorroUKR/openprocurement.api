@@ -104,7 +104,7 @@ def validate_create_award_only_for_active_lot(request):
 
 # award complaint
 def validate_award_complaint_update_not_in_allowed_status(request):
-    if request.context.status not in ['draft', 'claim', 'answered', 'pending']:
+    if request.context.status not in ['draft', 'claim', 'answered']:
         raise_operation_error(request, 'Can\'t update complaint in current ({}) status'.format(request.context.status))
 
 # contract document

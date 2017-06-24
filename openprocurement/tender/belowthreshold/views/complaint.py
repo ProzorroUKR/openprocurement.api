@@ -80,7 +80,7 @@ class TenderComplaintResource(APIResource):
         tender = self.request.validated['tender']
         data = self.request.validated['data']
         # complaint_owner
-        if self.request.authenticated_role == 'complaint_owner' and self.context.status in ['draft', 'claim', 'answered', 'pending'] and data.get('status', self.context.status) == 'cancelled':
+        if self.request.authenticated_role == 'complaint_owner' and self.context.status in ['draft', 'claim', 'answered'] and data.get('status', self.context.status) == 'cancelled':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and tender.status in ['active.enquiries', 'active.tendering'] and self.context.status == 'draft' and data.get('status', self.context.status) == self.context.status:
@@ -90,12 +90,12 @@ class TenderComplaintResource(APIResource):
             self.context.dateSubmitted = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('satisfied', self.context.satisfied) is True and data.get('status', self.context.status) == 'resolved':
+        elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and isinstance(data.get('satisfied', self.context.satisfied), bool) and data.get('status', self.context.status) == 'resolved':
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('satisfied', self.context.satisfied) is False and data.get('status', self.context.status) == 'pending':
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.type = 'complaint'
-            self.context.dateEscalated = get_now()
+        # elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('satisfied', self.context.satisfied) is False and data.get('status', self.context.status) == 'pending':
+        #     apply_patch(self.request, save=False, src=self.context.serialize())
+        #     self.context.type = 'complaint'
+        #     self.context.dateEscalated = get_now()
         # tender_owner
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
@@ -104,19 +104,19 @@ class TenderComplaintResource(APIResource):
                 raise_operation_error(self.request, 'Can\'t update complaint: resolution too short')
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAnswered = get_now()
-        elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'pending':
-            apply_patch(self.request, save=False, src=self.context.serialize())
+        # elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'pending':
+        #     apply_patch(self.request, save=False, src=self.context.serialize())
         # reviewers
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
-            apply_patch(self.request, save=False, src=self.context.serialize())
-        elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) in ['resolved', 'invalid', 'declined']:
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateDecision = get_now()
+        # elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) == self.context.status:
+        #     apply_patch(self.request, save=False, src=self.context.serialize())
+        # elif self.request.authenticated_role == 'reviewers' and self.context.status == 'pending' and data.get('status', self.context.status) in ['resolved', 'invalid', 'declined']:
+        #     apply_patch(self.request, save=False, src=self.context.serialize())
+        #     self.context.dateDecision = get_now()
         else:
             raise_operation_error(self.request, 'Can\'t update complaint')
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
-        if self.context.status not in ['draft', 'claim', 'answered', 'pending'] and tender.status in ['active.qualification', 'active.awarded']:
+        if self.context.status not in ['draft', 'claim', 'answered'] and tender.status in ['active.qualification', 'active.awarded']:
             check_tender_status(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender complaint {}'.format(self.context.id),
