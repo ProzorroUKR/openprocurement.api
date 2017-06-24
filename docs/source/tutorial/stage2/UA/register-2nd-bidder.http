@@ -1,12 +1,20 @@
-POST /api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058/bids HTTP/1.0
+POST /api/2.3/tenders/92ad8804586d4edbb98cdb5c7c79412f/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 749
+Content-Length: 1090
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "selfEligible": true, 
+    "documents": [
+      {
+        "url": "http://public.docs-sandbox.openprocurement.org/get/33748309e27e4d45a9982fd6fa9a7746?KeyID=1b00d854&Signature=OBYLJGA1M6K0zCIcRXLg4w3gpQzbfJZRKgFxfwVg%2FgZ42eG2untyPwh0pwyyBqcuBfYRh2DS72777s49Y%2BJUAw%3D%3D", 
+        "title": "Proposal_part1.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }
+    ], 
     "selfQualified": true, 
     "value": {
       "amount": 499
@@ -14,9 +22,9 @@ DATA:
     "tenderers": [
       {
         "contactPoint": {
+          "email": "aagt@gmail.com", 
           "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк", 
-          "email": "aagt@gmail.com"
+          "name": "Андрій Олексюк"
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
@@ -38,20 +46,32 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058/bids/587e68410f0342278e903436e3940c21
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/92ad8804586d4edbb98cdb5c7c79412f/bids/388af60857fa4ac69f9a53214dea400a
 {
   "access": {
-    "token": "f3c71396cd024fd49aa62646c5213e78"
+    "token": "6f7d1089d007420cbdad36dbfe02a2c9"
   }, 
   "data": {
     "status": "active", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Proposal_part1.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/92ad8804586d4edbb98cdb5c7c79412f/bids/388af60857fa4ac69f9a53214dea400a/documents/cd12e1eb7a9647a69c2695a87d612d6d?download=33748309e27e4d45a9982fd6fa9a7746", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2017-06-21T17:05:37.145285+03:00", 
+        "id": "cd12e1eb7a9647a69c2695a87d612d6d", 
+        "dateModified": "2017-06-21T17:05:37.145317+03:00"
+      }
+    ], 
     "selfEligible": true, 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "selfQualified": true, 
+    "id": "388af60857fa4ac69f9a53214dea400a", 
     "tenderers": [
       {
         "contactPoint": {
@@ -74,8 +94,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/6fc6f5752f5049e
         }
       }
     ], 
-    "date": "2016-10-12T02:41:56.226223+03:00", 
-    "id": "587e68410f0342278e903436e3940c21"
+    "date": "2017-06-21T17:05:37.144235+03:00", 
+    "selfQualified": true
   }
 }
 

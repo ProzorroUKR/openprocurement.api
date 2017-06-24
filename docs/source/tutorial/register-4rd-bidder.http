@@ -1,12 +1,28 @@
-POST /api/2.3/tenders/1d20995ed5284e04af2a300ca3d6c106/bids HTTP/1.0
+POST /api/2.3/tenders/c91cc0e7dffc4bc7b59cf53d9bbfd0bf/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 781
+Content-Length: 1564
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "selfEligible": true, 
+    "documents": [
+      {
+        "url": "http://public.docs-sandbox.openprocurement.org/get/0eba44f9b85c4c2ab0a628ef8b358dcb?KeyID=ee3bcdd8&Signature=TnFYoib976xUYdZmzub4DBnnMj6mlSQtmFwbKTQ%2Bv%2FAqiABtc0hUo9MLbz7PQTZ2HeQJKK60f6IjemeTN05wBA%3D%3D", 
+        "title": "Proposal_part1.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "buyerOnly", 
+        "title": "Proposal_part2.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/a8d02f05d73a4f72801a8223580e87c9?KeyID=ee3bcdd8&Signature=ewI%2FFmqPo36FPJlRsXBYAivJdJd6L0NQ%2FVf9KA%2FlV2Mw2umZOP1zZV68u1%2BtfQJKucSxrUXm%2B8I8k608VqhRBg%3D%3D", 
+        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+        "format": "application/pdf"
+      }
+    ], 
     "selfQualified": true, 
     "value": {
       "amount": 5
@@ -14,9 +30,9 @@ DATA:
     "tenderers": [
       {
         "contactPoint": {
+          "email": "fake@mail.com", 
           "telephone": "+380 (322) 12-34-56", 
-          "name": "Іван Карпенко", 
-          "email": "fake@mail.com"
+          "name": "Іван Карпенко"
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
@@ -38,13 +54,42 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/1d20995ed5284e04af2a300ca3d6c106/bids/8ce20b31a959425383ada76447a39284
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/c91cc0e7dffc4bc7b59cf53d9bbfd0bf/bids/7918119aa7584a10b19cfa71e47b1288
 {
   "access": {
-    "token": "d1ee1fe8fd2b4c21922f925593e1ddda"
+    "token": "ee52038ecee14f48b2cc869dff435d7d"
   }, 
   "data": {
     "status": "pending", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "Proposal_part1.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/c91cc0e7dffc4bc7b59cf53d9bbfd0bf/bids/7918119aa7584a10b19cfa71e47b1288/documents/170d3b5f86d8410eb5bc4aa6751dc015?download=0eba44f9b85c4c2ab0a628ef8b358dcb", 
+        "format": "application/pdf", 
+        "isDescriptionDecision": false, 
+        "documentOf": "tender", 
+        "datePublished": "2017-06-21T17:05:16.360844+03:00", 
+        "id": "170d3b5f86d8410eb5bc4aa6751dc015", 
+        "dateModified": "2017-06-21T17:05:16.360890+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "buyerOnly", 
+        "language": "uk", 
+        "format": "application/pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/c91cc0e7dffc4bc7b59cf53d9bbfd0bf/bids/7918119aa7584a10b19cfa71e47b1288/documents/f54d567c1aaa448ebe4ac0939f96471c?download=a8d02f05d73a4f72801a8223580e87c9", 
+        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+        "title": "Proposal_part2.pdf", 
+        "isDescriptionDecision": false, 
+        "documentOf": "tender", 
+        "datePublished": "2017-06-21T17:05:16.362131+03:00", 
+        "id": "f54d567c1aaa448ebe4ac0939f96471c", 
+        "dateModified": "2017-06-21T17:05:16.362174+03:00"
+      }
+    ], 
     "selfEligible": true, 
     "selfQualified": true, 
     "tenderers": [
@@ -69,8 +114,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/1d20995ed5284e0
         }
       }
     ], 
-    "date": "2016-10-12T02:41:33.138422+03:00", 
-    "id": "8ce20b31a959425383ada76447a39284"
+    "date": "2017-06-21T17:05:16.359333+03:00", 
+    "id": "7918119aa7584a10b19cfa71e47b1288"
   }
 }
 

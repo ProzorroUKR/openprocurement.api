@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846?acc_token=8d605867b28c4983a170331fcda0d57b HTTP/1.0
+PATCH /api/2.3/tenders/2332d7f2a08e47d7a9d115ad1fee1eb8?acc_token=e77ee989307e43bb9481309d328df6d1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 40
 Content-Type: application/json
@@ -16,21 +16,21 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "selective", 
     "complaintPeriod": {
-      "startDate": "2016-10-12T02:41:39.612243+03:00", 
-      "endDate": "2016-11-07T00:00:00+02:00"
+      "startDate": "2017-06-21T17:05:21.942397+03:00", 
+      "endDate": "2017-07-17T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-10-12T02:41:39.612243+03:00", 
-      "clarificationsUntil": "2016-11-04T02:41:49.855820+03:00", 
-      "endDate": "2016-11-01T02:41:49.855820+03:00", 
-      "invalidationDate": "2016-10-12T02:41:40.018134+03:00"
+      "startDate": "2017-06-21T17:05:21.942397+03:00", 
+      "clarificationsUntil": "2017-07-14T17:05:32.086781+03:00", 
+      "endDate": "2017-07-11T17:05:32.086781+03:00", 
+      "invalidationDate": "2017-06-21T17:05:22.307607+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-11-11T01:41:49.855820+02:00", 
+    "next_check": "2017-07-21T17:05:32.086781+03:00", 
     "awardCriteria": "lowestCost", 
     "owner": "broker", 
     "title_en": "Services in school canteens", 
-    "id": "dfc5fb2c8ef24ef188309dd62a0e8846", 
+    "id": "2332d7f2a08e47d7a9d115ad1fee1eb8", 
     "title": "Послуги шкільних їдалень", 
     "shortlistedFirms": [
       {
@@ -58,18 +58,18 @@ Content-Type: application/json; charset=UTF-8
         "name": "«Кенгуру»"
       }
     ], 
-    "tenderID": "UA-2016-10-12-000001", 
-    "dateModified": "2016-10-12T02:41:40.019718+03:00", 
+    "tenderID": "UA-2017-06-21-000001", 
+    "dateModified": "2017-06-21T17:05:22.311551+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2016-10-12T02:41:39.612243+03:00", 
-      "endDate": "2016-11-11T02:41:49.855820+03:00"
+      "startDate": "2017-06-21T17:05:21.942397+03:00", 
+      "endDate": "2017-07-21T17:05:32.086781+03:00"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2016-12-17T00:00:00+03:00"
+      "shouldStartAfter": "2017-08-26T00:00:00+03:00"
     }, 
     "procurementMethodType": "competitiveDialogueEU.stage2", 
-    "date": "2016-10-12T02:41:40.019718+03:00", 
+    "date": "2017-06-21T17:05:22.311551+03:00", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 35.0, 
@@ -79,7 +79,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -92,17 +92,17 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-11-01T02:40:39.054928+03:00", 
-          "endDate": "2016-12-01T02:40:39.054939+03:00"
+          "startDate": "2017-07-11T17:04:37.418860+03:00", 
+          "endDate": "2017-08-10T17:04:37.418883+03:00"
         }, 
-        "id": "74e7a4472305456794577a77d050934c", 
+        "id": "deaf5398b54e4bd5abc5cca172a40d15", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -112,7 +112,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -125,17 +125,17 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-11-01T02:40:39.054958+03:00", 
-          "endDate": "2016-12-01T02:40:39.054969+03:00"
+          "startDate": "2017-07-11T17:04:37.418917+03:00", 
+          "endDate": "2017-08-10T17:04:37.418938+03:00"
         }, 
-        "id": "808037ded8d944be899e561fd1c64c8c", 
+        "id": "0a0eefea19c14635ab119c2ca32c4109", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

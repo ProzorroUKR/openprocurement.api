@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058/contracts/ccee6d8b44684e79a081dc8522c89486?acc_token=1f1418327df54ebcb9e2eff321cc6b74 HTTP/1.0
+GET /api/2.3/tenders/92ad8804586d4edbb98cdb5c7c79412f/contracts/2565e20d778242a0a9d27fdab2a68bb5?acc_token=415d188e59964730bee17aae7ed1f7ab HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -9,20 +9,20 @@ Content-Type: application/json; charset=UTF-8
     "status": "pending", 
     "documents": [
       {
+        "hash": "md5:00000000000000000000000000000000", 
         "title": "contract_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058/contracts/ccee6d8b44684e79a081dc8522c89486/documents/52488d2846ec4fec855b3127a9efee99?download=a8db686f9e7b4b31817e7bbdd04e7b18", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/d0045d5795864ba793bb60ae3691bb6f?KeyID=1b00d854&Signature=2ys181JjejvGgq5ViInraeFPpCFD%252B%252Bu9kg6wQSYDRGlW1olqpCbi23rP7zGNv%252BNudvjROqx2rsCE96mqd9zYDA%253D%253D", 
         "format": "application/msword", 
-        "documentOf": "tender", 
-        "datePublished": "2016-10-12T02:41:57.228710+03:00", 
-        "id": "52488d2846ec4fec855b3127a9efee99", 
-        "dateModified": "2016-10-12T02:41:57.228736+03:00"
+        "datePublished": "2017-06-21T17:05:38.856701+03:00", 
+        "id": "b0af1247b222471aa970d3404f22d7cb", 
+        "dateModified": "2017-06-21T17:05:38.856740+03:00"
       }
     ], 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -34,17 +34,17 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-11-01T02:40:39.055005+03:00", 
-          "endDate": "2016-11-11T02:42:05.542376+03:00"
+          "startDate": "2017-07-11T17:04:37.419004+03:00", 
+          "endDate": "2017-07-21T17:05:46.028866+03:00"
         }, 
-        "id": "c7750735bb9c4c699b4262432003d354", 
+        "id": "770e64d0f1ee48d2b468359361f14862", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -75,18 +75,18 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2016-10-12T02:41:57.099279+03:00", 
-      "endDate": "2017-10-12T02:41:57.099325+03:00"
+      "startDate": "2017-06-21T17:05:38.597334+03:00", 
+      "endDate": "2018-06-21T17:05:38.597385+03:00"
     }, 
+    "dateSigned": "2017-06-21T17:05:38.421602+03:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-10-12T02:41:57.011466+03:00", 
-    "awardID": "4517a7ef8a6d496282bf2c885dea61ac", 
-    "id": "ccee6d8b44684e79a081dc8522c89486", 
-    "contractID": "UA-2016-10-12-000001-1"
+    "awardID": "2e46b74286c04dd6bb8625c2b6d2b39a", 
+    "id": "2565e20d778242a0a9d27fdab2a68bb5", 
+    "contractID": "UA-2017-06-21-000001-1"
   }
 }
 

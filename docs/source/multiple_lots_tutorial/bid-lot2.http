@@ -1,4 +1,4 @@
-POST /api/2.3/tenders/c69bc7d44dbe456e866cdb1e862446c1/bids HTTP/1.0
+POST /api/2.3/tenders/c9fa44b1c65d4e59b5db6ebaad408a9d/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 975
 Content-Type: application/json
@@ -10,10 +10,10 @@ DATA:
     "selfQualified": true, 
     "lotValues": [
       {
-        "relatedLot": "1f528c20ff7e43d4985064f5825ba98e"
+        "relatedLot": "064dcd27e2cd4789a5b57519ad77c250"
       }, 
       {
-        "relatedLot": "412c8c769eea447f8758959ee76830bf", 
+        "relatedLot": "6868e864385a42c0a731970504b26a8f", 
         "subcontractingDetails": "ДКП «Укр Прінт», Україна"
       }
     ], 
@@ -44,23 +44,23 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/c69bc7d44dbe456e866cdb1e862446c1/bids/bca2ade397ae487c9d60e2b1ca6a94e7
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/c9fa44b1c65d4e59b5db6ebaad408a9d/bids/f534ae7310424dbdac38109faa4b2327
 {
   "access": {
-    "token": "e224597863fe4299ad3c6833ac1ca452"
+    "token": "b7ffa465c80e4485b61a592adafd4ebc"
   }, 
   "data": {
     "status": "pending", 
     "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "1f528c20ff7e43d4985064f5825ba98e", 
-        "date": "2016-10-12T02:41:15.264792+03:00", 
+        "relatedLot": "064dcd27e2cd4789a5b57519ad77c250", 
+        "date": "2017-06-21T17:05:01.501565+03:00", 
         "status": "pending"
       }, 
       {
-        "relatedLot": "412c8c769eea447f8758959ee76830bf", 
-        "date": "2016-10-12T02:41:15.264941+03:00", 
+        "relatedLot": "6868e864385a42c0a731970504b26a8f", 
+        "date": "2017-06-21T17:05:01.501971+03:00", 
         "status": "pending", 
         "subcontractingDetails": "ДКП «Укр Прінт», Україна"
       }
@@ -88,8 +88,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/c69bc7d44dbe456
         }
       }
     ], 
-    "date": "2016-10-12T02:41:15.264492+03:00", 
-    "id": "bca2ade397ae487c9d60e2b1ca6a94e7"
+    "date": "2017-06-21T17:05:01.500939+03:00", 
+    "id": "f534ae7310424dbdac38109faa4b2327"
   }
 }
 
