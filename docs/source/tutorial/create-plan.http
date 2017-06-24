@@ -1,13 +1,13 @@
 POST /api/2.3/plans?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 2406
+Content-Length: 2454
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
 {
   "data": {
     "classification": {
-      "scheme": "CPV", 
+      "scheme": "ДК021", 
       "description": "Seeds", 
       "id": "03111000-2"
     }, 
@@ -15,7 +15,7 @@ Host: api-sandbox.openprocurement.org
       {
         "description": "Насіння гірчиці", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Mustard seeds", 
           "id": "03111600-8"
         }, 
@@ -27,7 +27,7 @@ Host: api-sandbox.openprocurement.org
           }
         ], 
         "deliveryDate": {
-          "endDate": "2016-05-30T23:26:56.153527"
+          "endDate": "2017-07-05T12:41:41.857893"
         }, 
         "unit": {
           "code": "KGM", 
@@ -38,7 +38,7 @@ Host: api-sandbox.openprocurement.org
       {
         "description": "Насіння соняшнику", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Sunflower seeds", 
           "id": "03111300-5"
         }, 
@@ -50,7 +50,7 @@ Host: api-sandbox.openprocurement.org
           }
         ], 
         "deliveryDate": {
-          "endDate": "2016-05-31T23:26:56.153527"
+          "endDate": "2017-07-06T12:41:41.857893"
         }, 
         "unit": {
           "code": "KGM", 
@@ -61,7 +61,7 @@ Host: api-sandbox.openprocurement.org
       {
         "description": "Насіння бавовнику", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Cotton seeds", 
           "id": "03111400-6"
         }, 
@@ -73,7 +73,7 @@ Host: api-sandbox.openprocurement.org
           }
         ], 
         "deliveryDate": {
-          "endDate": "2016-06-01T23:26:56.153527"
+          "endDate": "2017-07-07T12:41:41.857893"
         }, 
         "unit": {
           "code": "KGM", 
@@ -112,7 +112,7 @@ Host: api-sandbox.openprocurement.org
       "procurementMethod": "open", 
       "procurementMethodType": "belowThreshold", 
       "tenderPeriod": {
-        "startDate": "2016-05-22T23:26:56.153527"
+        "startDate": "2017-06-27T12:41:41.857893"
       }
     }
   }
@@ -120,14 +120,14 @@ Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/plans/c834673ae78c4ec7a595bdd6b01f0817
+Location: http://api-sandbox.openprocurement.org/api/2.3/plans/b18f0d6638d64b4499666998e664977a
 {
   "access": {
-    "token": "1c04ffce20d5475cae136e0be85604ec"
+    "token": "e1562366c516497d8154ff0237c55fce"
   }, 
   "data": {
     "classification": {
-      "scheme": "CPV", 
+      "scheme": "ДК021", 
       "description": "Seeds", 
       "id": "03111000-2"
     }, 
@@ -135,7 +135,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/plans/c834673ae78c4ec7a
       {
         "description": "Насіння гірчиці", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Mustard seeds", 
           "id": "03111600-8"
         }, 
@@ -147,9 +147,9 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/plans/c834673ae78c4ec7a
           }
         ], 
         "deliveryDate": {
-          "endDate": "2016-05-30T23:26:56.153527+03:00"
+          "endDate": "2017-07-05T12:41:41.857893+03:00"
         }, 
-        "id": "b282d47971c34994b09ac06d7cdc253f", 
+        "id": "aa20b36ad490439ab0d3d7f8673f8197", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -159,7 +159,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/plans/c834673ae78c4ec7a
       {
         "description": "Насіння соняшнику", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Sunflower seeds", 
           "id": "03111300-5"
         }, 
@@ -171,9 +171,9 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/plans/c834673ae78c4ec7a
           }
         ], 
         "deliveryDate": {
-          "endDate": "2016-05-31T23:26:56.153527+03:00"
+          "endDate": "2017-07-06T12:41:41.857893+03:00"
         }, 
-        "id": "bf70aa5aada241b980b9dcc5c12da9d4", 
+        "id": "a8f6f67f36e54f4f94df2e04d297d530", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -183,7 +183,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/plans/c834673ae78c4ec7a
       {
         "description": "Насіння бавовнику", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Cotton seeds", 
           "id": "03111400-6"
         }, 
@@ -195,9 +195,9 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/plans/c834673ae78c4ec7a
           }
         ], 
         "deliveryDate": {
-          "endDate": "2016-06-01T23:26:56.153527+03:00"
+          "endDate": "2017-07-07T12:41:41.857893+03:00"
         }, 
-        "id": "6e11d21f6b0947fb8c9e4c1a3984c0f3", 
+        "id": "8163a94be49b47b9a3daf01fad79a997", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -205,7 +205,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/plans/c834673ae78c4ec7a
         "quantity": 3000
       }
     ], 
-    "planID": "UA-P-2016-05-16-000001", 
+    "planID": "UA-P-2017-06-20-000001", 
     "budget": {
       "amountNet": 12222.0, 
       "description": "budget_description", 
@@ -217,12 +217,12 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/plans/c834673ae78c4ec7a
       "amount": 10000.0, 
       "id": "12303111000-2"
     }, 
-    "datePublished": "2016-05-16T01:26:56.882978+03:00", 
+    "datePublished": "2017-06-20T12:41:42.541383+03:00", 
     "tender": {
       "procurementMethod": "open", 
       "procurementMethodType": "belowThreshold", 
       "tenderPeriod": {
-        "startDate": "2016-05-22T23:26:56.153527+03:00"
+        "startDate": "2017-06-27T12:41:41.857893+03:00"
       }
     }, 
     "additionalClassifications": [
@@ -241,8 +241,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/plans/c834673ae78c4ec7a
       "name": "ДУС"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-05-16T01:26:56.976021+03:00", 
-    "id": "c834673ae78c4ec7a595bdd6b01f0817"
+    "dateModified": "2017-06-20T12:41:42.560100+03:00", 
+    "id": "b18f0d6638d64b4499666998e664977a"
   }
 }
 
