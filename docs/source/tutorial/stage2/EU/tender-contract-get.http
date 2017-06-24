@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/contracts/bd3d80e72dab490e9eceeaca13eaa4b8?acc_token=8d605867b28c4983a170331fcda0d57b HTTP/1.0
+GET /api/2.3/tenders/bf450bfcf933416f8205cfcde69d0ee1/contracts/3123f25634ce43b9bfde50665f1be837?acc_token=24df0fd7ada04964a1df8416ecc946b0 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -9,33 +9,35 @@ Content-Type: application/json; charset=UTF-8
     "status": "pending", 
     "documents": [
       {
+        "hash": "md5:00000000000000000000000000000000", 
         "language": "uk", 
         "title": "contract_first_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/contracts/bd3d80e72dab490e9eceeaca13eaa4b8/documents/c82a0986b35f44faaa62c184927300dd?download=ceaf3b189436481f9c994a3dd61118dd", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/3623621a6bc34df18b906c5a5a9c0a66?KeyID=1bb59008&Signature=OnMi5W78F8fA77H%252BxfAFmODHxK%2FP3Z%2F%2FB6dCMJELc%2FdWGI03Jml7vtruNnXi4ZQIfYzIcU2LqraNLO1a%252BaA%2FAQ%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2016-10-12T02:41:44.173596+03:00", 
-        "id": "c82a0986b35f44faaa62c184927300dd", 
-        "dateModified": "2016-10-12T02:41:44.173620+03:00"
+        "datePublished": "2017-06-20T12:34:01.784977+03:00", 
+        "id": "7d1a149f2bd043a492f6cf8784d9b1d8", 
+        "dateModified": "2017-06-20T12:34:01.785031+03:00"
       }, 
       {
+        "hash": "md5:00000000000000000000000000000000", 
         "language": "en", 
         "title": "contract_second_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/contracts/bd3d80e72dab490e9eceeaca13eaa4b8/documents/e62a9d0a6cf04a82833aebada59b70b6?download=dc033fc1f5cf4796978cf78a6caa9771", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/de07597f55f344caa4be0d252f2b24a1?KeyID=1bb59008&Signature=qa9P5OthieQDHr%252Bjh%2FSVQd52sxUo4yWkJr3IbhWOSBXJvJyWvM%2FoXtoHhkXLvzRXL0J2%2F4J954JlNe8twMmxCA%253D%253D", 
         "format": "application/msword", 
         "title_en": "Title of Document", 
         "description_en": "Description of Document", 
-        "datePublished": "2016-10-12T02:41:44.381218+03:00", 
+        "datePublished": "2017-06-20T12:34:02.116253+03:00", 
         "documentOf": "tender", 
-        "id": "e62a9d0a6cf04a82833aebada59b70b6", 
-        "dateModified": "2016-10-12T02:41:44.381240+03:00"
+        "id": "e315e6bb840648ad9d5bd7a7abc87f3d", 
+        "dateModified": "2017-06-20T12:34:02.116290+03:00"
       }
     ], 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -48,17 +50,17 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-11-01T02:40:39.054928+03:00", 
-          "endDate": "2016-11-11T02:41:50.787622+03:00"
+          "startDate": "2017-07-10T12:32:38.405029+03:00", 
+          "endDate": "2017-07-20T12:34:05.224266+03:00"
         }, 
-        "id": "74e7a4472305456794577a77d050934c", 
+        "id": "8603dff804fb4bb6aa392e2d8231b2ad", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -90,18 +92,18 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "contractNumber": "contract#1", 
     "period": {
-      "startDate": "2016-10-12T02:41:43.996540+03:00", 
-      "endDate": "2017-10-12T02:41:43.996584+03:00"
+      "startDate": "2017-06-20T12:34:01.400032+03:00", 
+      "endDate": "2018-06-20T12:34:01.400079+03:00"
     }, 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2016-10-12T02:41:43.851411+03:00", 
-    "awardID": "b00bbb69bdb04308b33f63f62f2e4ad1", 
-    "id": "bd3d80e72dab490e9eceeaca13eaa4b8", 
-    "contractID": "UA-2016-10-12-000001-1"
+    "dateSigned": "2017-06-20T12:34:01.151112+03:00", 
+    "awardID": "4e95ddabf7dc44429d29f0f7136cf659", 
+    "id": "3123f25634ce43b9bfde50665f1be837", 
+    "contractID": "UA-2017-06-20-000001-1"
   }
 }
 

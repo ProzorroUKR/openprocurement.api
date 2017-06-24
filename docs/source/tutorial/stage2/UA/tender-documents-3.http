@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058/documents HTTP/1.0
+GET /api/2.3/tenders/6a46e717b72244b687994b70c92240d5/documents HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -7,22 +7,26 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": [
     {
+      "hash": "md5:00000000000000000000000000000000", 
+      "author": "tender_owner", 
       "title": "Notice.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058/documents/fd979707bf7e4a5690ed20031abe14c7?download=d2a9efdb222d4292a5cca24c57596fbd", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/48cf2d34ca0b46f6bdd1a8c086483298?KeyID=d98c6de5&Signature=sxAtHOD5CKPrqwNO56eVtoQbAkekIOYXx%252BMx26AWdNcko%252Bs3w4w5sHIqt9%2FE1EIR8Mza1qL387K4VvCEJauiCg%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-10-12T02:41:54.936737+03:00", 
-      "id": "fd979707bf7e4a5690ed20031abe14c7", 
-      "dateModified": "2016-10-12T02:41:54.936799+03:00"
+      "datePublished": "2017-06-20T12:34:15.833856+03:00", 
+      "id": "91064c7ae41543b2b62a8f65ef563925", 
+      "dateModified": "2017-06-20T12:34:15.833890+03:00"
     }, 
     {
+      "hash": "md5:00000000000000000000000000000000", 
+      "author": "tender_owner", 
       "title": "AwardCriteria-2.pdf", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058/documents/cfca964f13cf46cdb32dd014cc0c1154?download=ce4eaf5e738647d4b322e199ad7ae236", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/62e07eb4fec949709971a62c36c10ac5?KeyID=d98c6de5&Signature=2j%252BCT1Uae6N%2FInM8ql7SCWk043LzaD8ztuEvdKPdDly0P3zvYLQHZaklQry39UpqKqcNE3TiUTaGnXVxz4xoDw%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2016-10-12T02:41:55.033913+03:00", 
-      "id": "cfca964f13cf46cdb32dd014cc0c1154", 
-      "dateModified": "2016-10-12T02:41:55.136169+03:00"
+      "datePublished": "2017-06-20T12:34:15.925520+03:00", 
+      "id": "7ed8eab0af3b485e960fff0083f5b015", 
+      "dateModified": "2017-06-20T12:34:16.020639+03:00"
     }
   ]
 }

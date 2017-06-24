@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058/bids/7f29b2561d514935a89d1eec049cceb1?acc_token=406edaa872b74601b72c0bc75624cb52 HTTP/1.0
+GET /api/2.3/tenders/6a46e717b72244b687994b70c92240d5/bids/b176d7fbadbd40dc94b280557a12a151?acc_token=41c0e02434b7426ea7c79b73a97ae4bd HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -9,17 +9,18 @@ Content-Type: application/json; charset=UTF-8
     "status": "active", 
     "documents": [
       {
+        "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/6fc6f5752f5049eaa1e96357da331058/bids/7f29b2561d514935a89d1eec049cceb1/documents/d8f0a520e7674ca59bce5faaeabfe0db?download=d833facb5fe04a7da51d2f240d747319", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/6a46e717b72244b687994b70c92240d5/bids/b176d7fbadbd40dc94b280557a12a151/documents/f6bd90a714df4b1495742bda9da8de53?download=8cf941a2cdb7497cb696cf21217550c1", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2016-10-12T02:41:55.933419+03:00", 
-        "id": "d8f0a520e7674ca59bce5faaeabfe0db", 
-        "dateModified": "2016-10-12T02:41:55.933438+03:00"
+        "datePublished": "2017-06-20T12:34:16.996548+03:00", 
+        "id": "f6bd90a714df4b1495742bda9da8de53", 
+        "dateModified": "2017-06-20T12:34:16.996581+03:00"
       }
     ], 
     "selfEligible": true, 
-    "id": "7f29b2561d514935a89d1eec049cceb1", 
+    "id": "b176d7fbadbd40dc94b280557a12a151", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
@@ -48,9 +49,9 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2016-10-12T02:41:55.782086+03:00", 
+    "date": "2017-06-20T12:34:16.793945+03:00", 
     "selfQualified": true, 
-    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/6fc6f5752f5049eaa1e96357da331058?key_for_bid=7f29b2561d514935a89d1eec049cceb1"
+    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/6a46e717b72244b687994b70c92240d5?key_for_bid=b176d7fbadbd40dc94b280557a12a151"
   }
 }
 

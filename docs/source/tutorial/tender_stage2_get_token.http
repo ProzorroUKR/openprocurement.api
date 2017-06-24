@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/6cad84b872e4449389df5ba1668db064/credentials?acc_token=21c9b9907e0046e982f060fa94d6e1a2 HTTP/1.0
+PATCH /api/2.3/tenders/0dc365b362084383aad1745ac2562359/credentials?acc_token=6ecc159e1942403f88015bfe0bd2220e HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 2
 Content-Type: application/json
@@ -10,15 +10,15 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "access": {
-    "token": "e4abd951b15e4bc48eba80f26ae7de3e"
+    "token": "73617d8e667b4092bdfc2e0377579cbf"
   }, 
   "data": {
-    "procurementMethod": "selective", 
     "status": "draft.stage2", 
     "numberOfBids": 0, 
+    "tenderID": "UA-2017-06-20-000002", 
     "tenderPeriod": {
-      "startDate": "2016-10-12T02:41:34.608524+03:00", 
-      "endDate": "2016-11-11T02:41:34.608524+03:00"
+      "startDate": "2017-06-20T12:33:46.912360+03:00", 
+      "endDate": "2017-07-20T12:33:46.912360+03:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -27,13 +27,13 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-10-12T02:41:34.608524+03:00", 
-      "clarificationsUntil": "2016-11-04T02:41:34.608524+03:00", 
-      "endDate": "2016-11-01T02:41:34.608524+03:00"
+      "startDate": "2017-06-20T12:33:46.912360+03:00", 
+      "clarificationsUntil": "2017-07-13T12:33:46.912360+03:00", 
+      "endDate": "2017-07-10T12:33:46.912360+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2016-10-12T02:41:34.608524+03:00", 
-      "endDate": "2016-11-07T00:00:00+02:00"
+      "startDate": "2017-06-20T12:33:46.912360+03:00", 
+      "endDate": "2017-07-16T00:00:00+03:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -68,8 +68,7 @@ Content-Type: application/json; charset=UTF-8
         "name": "«Кенгуру»"
       }
     ], 
-    "date": "2016-10-12T02:41:34.792899+03:00", 
-    "tenderID": "UA-2016-10-12-000002", 
+    "date": "2017-06-20T12:33:47.018089+03:00", 
     "procurementMethodType": "competitiveDialogueEU.stage2", 
     "procuringEntity": {
       "kind": "general", 
@@ -100,7 +99,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -113,17 +112,17 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-11-01T02:40:39.054928+03:00", 
-          "endDate": "2016-12-01T02:40:39.054939+03:00"
+          "startDate": "2017-07-10T12:32:38.405029+03:00", 
+          "endDate": "2017-08-09T12:32:38.405052+03:00"
         }, 
-        "id": "a0e415f2662146c69c33b8ab232b9040", 
+        "id": "24e9a16f05fc4b848247946ace230e1a", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -133,7 +132,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -146,17 +145,17 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-11-01T02:40:39.054958+03:00", 
-          "endDate": "2016-12-01T02:40:39.054969+03:00"
+          "startDate": "2017-07-10T12:32:38.405086+03:00", 
+          "endDate": "2017-08-09T12:32:38.405108+03:00"
         }, 
-        "id": "617e4acdf7d4487f86dadafa965d0ec4", 
+        "id": "4585d7240f5c4c55876fb7676d01e199", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -165,8 +164,9 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "dateModified": "2016-10-12T02:41:35.112455+03:00", 
-    "id": "6cad84b872e4449389df5ba1668db064", 
+    "dateModified": "2017-06-20T12:33:47.586871+03:00", 
+    "id": "0dc365b362084383aad1745ac2562359", 
+    "procurementMethod": "selective", 
     "awardCriteria": "lowestCost"
   }
 }
