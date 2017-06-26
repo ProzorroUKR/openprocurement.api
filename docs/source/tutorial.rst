@@ -131,7 +131,9 @@ See examples of `items` customization below. You can:
 .. include:: tutorial/update-contract-item.http
    :code:
 
-* delete item (if contract has more than 1 item):
+* delete item:
+
+Request example for cases when contract has several items:
 
 .. include:: tutorial/delete-contract-item.http
    :code:
