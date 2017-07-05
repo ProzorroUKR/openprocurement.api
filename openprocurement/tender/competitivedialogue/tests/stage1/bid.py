@@ -5,15 +5,17 @@ from copy import deepcopy
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     test_tender_data_eu,
-    test_features_tender_eu_data,
+    test_features_tender_eu_data, # was test_features_tender_data as test_features_tender_eu_data from openprocurement.tender.openeu.tests.base
     test_bids_eu as test_bids
 )
-from openprocurement.tender.openeu.tests.base import (
-    test_tender_data,
-    test_features_tender_data as test_features_tender_eu_data
-)
+# from openprocurement.tender.openeu.tests.base import (
+#     test_tender_data,
+#     test_features_tender_data as test_features_tender_eu_data_temp
+# )
 
-test_bids.append(test_bids[0].copy())  # Minimal number of bits is 3
+test_bids.append(test_bids[0].copy())  # Minimal number of bids is 3.
+# Attention - if this test file runs after another file with the same line, such as lot.py,
+# we will have different number of test bids!
 
 
 class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
@@ -665,6 +667,8 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         """
         bids_access = {}
 
+        initial_bids_cnt = len(test_bids)
+
         # submit bids
         for data in test_bids:
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
@@ -764,7 +768,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.app.authorization = ('Basic', ('anon', ''))
         response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']), 7)
+        self.assertEqual(len(response.json['data']), initial_bids_cnt + 3)  # was 7 with dependency on another test from lot.py
         for b in response.json['data']:
             if b['status'] == u'invalid':
                 self.assertEqual(set(b.keys()), set(['id', 'status']))
@@ -785,7 +789,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.set_status('complete')
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']['bids']), 7)
+        self.assertEqual(len(response.json['data']['bids']), initial_bids_cnt + 3) # was 7 with dependency on another test from lot.py
         for bid in response.json['data']['bids']:
             if bid['id'] in bids_access:  # previously invalidated bids
                 self.assertEqual(bid['status'], 'invalid')
@@ -836,7 +840,8 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
 
 class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentWebTest):
-    initial_data = test_features_tender_eu_data
+    initial_data =  test_features_tender_eu_data
+    # initial_data = test_features_tender_eu_data_temp
     initial_status = 'active.tendering'
     initial_auth = ('Basic', ('broker', ''))
 
@@ -844,41 +849,20 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
         test_features_bids = [
             {
                 # "status": "pending",
-                "parameters": [
-                    {
-                        "code": i["code"],
-                        "value": 0.1,
-                    }
-                    for i in self.initial_data['features']
-                ],
-                "tenderers": test_bids[0]["tenderers"],
-                "value": {
-                    "amount": 469,
-                    "currency": "UAH",
-                    "valueAddedTaxIncluded": True
-                },
+                'selfEligible': True,
+                'subcontractingDetails': u'ДКП «Орфей», Україна',
                 'selfQualified': True,
-                'selfEligible': True
+                "tenderers": test_bids[0]["tenderers"],
             },
             {
                 "status": "pending",
-                "parameters": [
-                    {
-                        "code": i["code"],
-                        "value": 0.15,
-                    }
-                    for i in self.initial_data['features']
-                ],
-                "tenderers": test_bids[1]["tenderers"],
-                "value": {
-                    "amount": 479,
-                    "currency": "UAH",
-                    "valueAddedTaxIncluded": True
-                },
+                'selfEligible': True,
+                'subcontractingDetails': u'ДКП «Орфей», Україна',
                 'selfQualified': True,
-                'selfEligible': True
-            },
+                "tenderers": test_bids[1]["tenderers"],
+            }
         ]
+
         for i in test_features_bids:
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
             i['status'] = "pending"
@@ -891,12 +875,7 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
 
     def test_features_bidder_invalid(self):
         data = {
-            "tenderers": test_bids[0]["tenderers"],
-            "value": {
-                "amount": 469,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": True
-            },
+            # "tenderers": test_bids[0]["tenderers"],
             'selfQualified': True,
             'selfEligible': True
         }
@@ -905,42 +884,75 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'parameters'}
+            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderers'}
         ])
-        data["parameters"] = [
+        data["tenderers"] = [
             {
-                "code": "OCDS-123454-AIR-INTAKE",
-                "value": 0.1,
+                "name": u"Державне управління справами",
+                "name_en": u"State administration",
+                "identifier": {
+                    "legalName_en": u"dus.gov.ua",
+                    "scheme": u"UA-EDR",
+                    "id": u"00037256",
+                    "uri": u"http://www.dus.gov.ua/"
+                }
             }
         ]
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'All features parameters is required.'], u'location': u'body', u'name': u'parameters'}
-        ])
-        data["parameters"].append({
-            "code": "OCDS-123454-AIR-INTAKE",
-            "value": 0.1,
-        })
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'Parameter code should be uniq for all parameters'], u'location': u'body', u'name': u'parameters'}
-        ])
-        data["parameters"][1]["code"] = "OCDS-123454-YEARS"
-        data["parameters"][1]["value"] = 0.2
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [{u'value': [u'value should be one of feature value.']}], u'location': u'body', u'name': u'parameters'}
-        ])
 
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [
+                {u'contactPoint': [u'This field is required.'], u'address': [u'This field is required.']}],
+             u'location': u'body', u'name': u'tenderers'}
+        ])
+        data["tenderers"][0]['address'] = {
+                "countryName": u"Україна",
+                "postalCode": u"01220",
+                "region": u"м. Київ",
+                "locality": u"м. Київ",
+                "streetAddress": u"вул. Банкова, 11, корпус 1"
+            }
+
+        data["tenderers"][0]['contactPoint'] = {
+                "name": u"Державне управління справами",
+                "name_en": u"State administration",
+                "telephone": u"0440000000"
+            }
+
+        data["tenderers"].append(
+            {
+                "name": u"Інше державне управління справами",
+                "name_en": u"Another state administration",
+                "identifier": {
+                    "legalName_en": u"dus.gov.ua",
+                    "scheme": u"UA-EDR",
+                    "id": u"00037256",
+                    "uri": u"http://www.dus.gov.ua/"
+                },
+                "address": {
+                    "countryName": u"Україна",
+                    "postalCode": u"01221",
+                    "region": u"м. Київ",
+                    "locality": u"м. Київ",
+                    "streetAddress": u"вул. Банкова, 11, корпус 2"
+                },
+                "contactPoint": {
+                    "name": u"Державне управління справами інше",
+                    "name_en": u"State administration nearby",
+                    "telephone": u"0440000001"
+                }
+            })
+
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'Please provide no more than 1 item.'], u'location': u'body', u'name': u'tenderers'}
+        ])
 
 class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
