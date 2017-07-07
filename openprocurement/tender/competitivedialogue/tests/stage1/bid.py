@@ -853,6 +853,13 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
                 'subcontractingDetails': u'ДКП «Орфей», Україна',
                 'selfQualified': True,
                 "tenderers": test_bids[0]["tenderers"],
+                "parameters": [
+                    {
+                        "code": i["code"],
+                        "value": 0.1,
+                    }
+                    for i in self.initial_data['features']
+                ]
             },
             {
                 "status": "pending",
@@ -860,6 +867,13 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
                 'subcontractingDetails': u'ДКП «Орфей», Україна',
                 'selfQualified': True,
                 "tenderers": test_bids[1]["tenderers"],
+                "parameters": [
+                    {
+                        "code": i["code"],
+                        "value": 0.15,
+                    }
+                    for i in self.initial_data['features']
+                ]
             }
         ]
 
@@ -871,6 +885,7 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
             bid = response.json['data']
             bid.pop(u'date')
             bid.pop(u'id')
+            i.pop('parameters')
             self.assertEqual(bid, i)
 
     def test_features_bidder_invalid(self):
@@ -886,17 +901,18 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
         self.assertEqual(response.json['errors'], [
             {u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderers'}
         ])
-        data["tenderers"] = [
+
+        data["tenderers"] = test_bids[0]["tenderers"]
+
+        data["parameters"] = [
             {
-                "name": u"Державне управління справами",
-                "name_en": u"State administration",
-                "identifier": {
-                    "legalName_en": u"dus.gov.ua",
-                    "scheme": u"UA-EDR",
-                    "id": u"00037256",
-                    "uri": u"http://www.dus.gov.ua/"
-                }
-            }
+                "code": "OCDS-123454-AIR-INTAKE",
+                "value": 0.1,
+            },
+            {
+                "code": "OCDS-123454-AIR-INTAKE",
+                "value": 0.1,
+            },
         ]
 
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
@@ -904,54 +920,17 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [
-                {u'contactPoint': [u'This field is required.'], u'address': [u'This field is required.']}],
-             u'location': u'body', u'name': u'tenderers'}
+            {u'description': [u'Parameter code should be uniq for all parameters'], u'location': u'body', u'name': u'parameters'}
         ])
-        data["tenderers"][0]['address'] = {
-                "countryName": u"Україна",
-                "postalCode": u"01220",
-                "region": u"м. Київ",
-                "locality": u"м. Київ",
-                "streetAddress": u"вул. Банкова, 11, корпус 1"
-            }
 
-        data["tenderers"][0]['contactPoint'] = {
-                "name": u"Державне управління справами",
-                "name_en": u"State administration",
-                "telephone": u"0440000000"
-            }
-
-        data["tenderers"].append(
-            {
-                "name": u"Інше державне управління справами",
-                "name_en": u"Another state administration",
-                "identifier": {
-                    "legalName_en": u"dus.gov.ua",
-                    "scheme": u"UA-EDR",
-                    "id": u"00037256",
-                    "uri": u"http://www.dus.gov.ua/"
-                },
-                "address": {
-                    "countryName": u"Україна",
-                    "postalCode": u"01221",
-                    "region": u"м. Київ",
-                    "locality": u"м. Київ",
-                    "streetAddress": u"вул. Банкова, 11, корпус 2"
-                },
-                "contactPoint": {
-                    "name": u"Державне управління справами інше",
-                    "name_en": u"State administration nearby",
-                    "telephone": u"0440000001"
-                }
-            })
-
+        data["parameters"][1]["code"] = "OCDS-123454-YEARS"
+        data["parameters"][1]["value"] = 0.2
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': [u'Please provide no more than 1 item.'], u'location': u'body', u'name': u'tenderers'}
+            {u'description': [{u'value': [u'value should be one of feature value.']}], u'location': u'body', u'name': u'parameters'}
         ])
 
 class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
