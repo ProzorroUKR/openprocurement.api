@@ -31,7 +31,11 @@ def extract_contract(request):
     db = request.registry.db
     contract_id = request.matchdict['contract_id']
     doc = db.get(contract_id)
-    if doc is None or doc.get('doc_type') != 'Contract':
+    if doc is not None and doc.get('doc_type') == 'contract':
+        request.errors.add('url', 'contract_id', 'Archived')
+        request.errors.status = 410
+        raise error_handler(request.errors)
+    elif doc is None or doc.get('doc_type') != 'Contract':
         request.errors.add('url', 'contract_id', 'Not Found')
         request.errors.status = 404
         raise error_handler(request.errors)
