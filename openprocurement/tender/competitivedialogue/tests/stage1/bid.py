@@ -836,7 +836,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
 
 class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentWebTest):
-    initial_data =  test_features_tender_eu_data
+    initial_data = test_features_tender_eu_data
     initial_status = 'active.tendering'
     initial_auth = ('Basic', ('broker', ''))
 
