@@ -906,7 +906,7 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
         self.assertEqual(response.content_type, 'application/json')
         return response
 
-test_features_tender_eu_data = test_features_tender_data.copy()
+test_features_tender_eu_data = deepcopy(test_features_tender_data)
 test_features_tender_eu_data['procurementMethodType'] = CD_EU_TYPE
 
 author = deepcopy(test_bids[0]["tenderers"][0])
