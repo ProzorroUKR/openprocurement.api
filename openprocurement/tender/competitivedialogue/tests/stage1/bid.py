@@ -5,13 +5,9 @@ from copy import deepcopy
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     test_tender_data_eu,
-    test_features_tender_eu_data, # was test_features_tender_data as test_features_tender_eu_data from openprocurement.tender.openeu.tests.base
+    test_features_tender_eu_data,
     test_bids_eu as test_bids
 )
-# from openprocurement.tender.openeu.tests.base import (
-#     test_tender_data,
-#     test_features_tender_data as test_features_tender_eu_data_temp
-# )
 
 test_bids.append(test_bids[0].copy())  # Minimal number of bids is 3.
 # Attention - if this test file runs after another file with the same line, such as lot.py,
@@ -841,14 +837,12 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
 class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_data =  test_features_tender_eu_data
-    # initial_data = test_features_tender_eu_data_temp
     initial_status = 'active.tendering'
     initial_auth = ('Basic', ('broker', ''))
 
     def test_features_bidder(self):
         test_features_bids = [
             {
-                # "status": "pending",
                 'selfEligible': True,
                 'subcontractingDetails': u'ДКП «Орфей», Україна',
                 'selfQualified': True,
@@ -890,7 +884,6 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
 
     def test_features_bidder_invalid(self):
         data = {
-            # "tenderers": test_bids[0]["tenderers"],
             'selfQualified': True,
             'selfEligible': True
         }
