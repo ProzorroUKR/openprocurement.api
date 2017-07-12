@@ -79,6 +79,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_tender = snitch(patch_tender)
     test_required_field_deletion = snitch(required_field_deletion)
 
+
 class TenderProcessTest(BaseTenderWebTest):
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
