@@ -231,7 +231,7 @@ class Tender(BaseTender):
             'edit_cancelled': whitelist(),
             'view': view_role,
             'listing': listing_role,
-            'auction_view': auction_view_role,
+            'auction_view': auction_view_role + whitelist('NBUdiscountRate'),
             'auction_post': auction_post_role,
             'auction_patch': auction_patch_role,
             'draft': enquiries_role,
