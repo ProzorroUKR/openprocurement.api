@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import webtest
 from datetime import datetime, timedelta
 from copy import deepcopy
 from openprocurement.api.constants import SANDBOX_MODE
@@ -23,7 +22,7 @@ test_tender_data["items"] = [{
         "description": u"футляри до державних нагород",
         "description_en": u"Cases for state awards",
         "classification": {
-            "scheme": u"CPV",
+            "scheme": u"ДК021",
             "id": u"44617100-9",
             "description": u"Cartons"
         },
@@ -75,12 +74,21 @@ test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["
 
 from openprocurement.api.utils import apply_data_patch
 
+
 class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     initial_lots = None
     relative_to = os.path.dirname(__file__)
+    primary_tender_status = 'active.tendering'  # status, to which tender should be switched from 'draft'
+    question_claim_block_status = 'active.auction'  # status, tender cannot be switched to while it has questions/complaints related to its lot
+    forbidden_document_modification_actions_status = "active.auction"  # status, in which operations with tender documents (adding, updating) are forbidden
+    forbidden_question_modification_actions_status = 'active.auction'  # status, in which adding/updating tender questions is forbidden
+    forbidden_lot_actions_status = 'active.auction'  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+    forbidden_contract_document_modification_actions_status = 'unsuccessful'  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+    forbidden_auction_actions_status = 'active.tendering'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_document_create_actions_status = 'active.tendering'  # status, in which adding document to tender auction is forbidden
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
@@ -97,19 +105,6 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
                 "startDate": (now + timedelta(days=2)).isoformat()
             }
         })
-
-    def setUp(self):
-        super(BaseTenderWebTest, self).setUp()
-        self.app.authorization = ('Basic', ('broker', ''))
-        self.couchdb_server = self.app.app.registry.couchdb_server
-        self.db = self.app.app.registry.db
-        if self.docservice:
-            self.setUpDS()
-
-    def tearDown(self):
-        if self.docservice:
-           self.tearDownDS()
-        del self.couchdb_server[self.db.name]
 
     def set_status(self, status, extra=None):
         data = {'status': status}
