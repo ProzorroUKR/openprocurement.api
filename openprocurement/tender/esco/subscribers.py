@@ -1,10 +1,10 @@
 from pyramid.events import subscriber
-from openprocurement.api.utils import error_handler
 from openprocurement.tender.core.events import TenderInitializeEvent
 from openprocurement.tender.core.utils import get_now, calculate_business_date
 from openprocurement.tender.core.models import EnquiryPeriod
 from openprocurement.tender.openua.constants import ENQUIRY_STAND_STILL_TIME
 from openprocurement.tender.openeu.constants import QUESTIONS_STAND_STILL
+
 
 @subscriber(TenderInitializeEvent, procurementMethodType="esco.EU")
 def tender_init_handler(event):
@@ -21,11 +21,13 @@ def tender_init_handler(event):
     if tender.lots:
         for lot in tender.lots:
             lot.date = now
-    
+
     check_submission_method_details(tender)
 
 
 # TODO: temporary decision, while esco auction is not ready. Remove after adding auction. Remove field 'submissionMethodDetails' in openprocurement.tender.esco.models.Tender
+from openprocurement.api.utils import error_handler
+
 def check_submission_method_details(tender):
     if tender.submissionMethodDetails != "quick(mode:no-auction)":
         tender.__parent__.request.errors.add(
