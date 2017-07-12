@@ -280,6 +280,7 @@ class Tender(BaseTender):
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
     NBUdiscountRate = FloatType(required=True, min_value=0, max_value=0.99)
+    submissionMethodDetails = StringType(default="quick(mode:no-auction)")  # TODO: temporary decision, while esco auction is not ready. Remove after adding auction. Remove function "check_submission_method_details" in openprocurement.tender.esco.subscribers
 
     create_accreditation = 3
     edit_accreditation = 4
