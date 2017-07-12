@@ -54,6 +54,7 @@ class TenderESCOEUTest(BaseESCOWebTest):
 class TestTenderEU(BaseESCOEUContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     """ ESCO EU tender test """
     initialize_initial_data = False
+    test_tender_data['submissionMethodDetails'] = "quick(mode:no-auction)"  # TODO: remove this line after adding auction
     initial_data = test_tender_data
     test_lots_data = test_lots
     test_bids_data = test_bids
@@ -66,6 +67,10 @@ class TestTenderEU(BaseESCOEUContentWebTest, TenderResourceTestMixin, TenderUARe
     test_guarantee = snitch(guarantee)
     test_invalid_bid_tender_features = snitch(invalid_bid_tender_features)
     test_invalid_bid_tender_lot = snitch(invalid_bid_tender_lot)
+
+    # TODO: remove this test after adding auction
+    from openprocurement.tender.esco.tests.tender_blanks import create_tender_submission_method_details
+    test_create_tender_submission_method_details = snitch(create_tender_submission_method_details)
 
 
 class TestTenderEUProcess(BaseESCOEUContentWebTest):
