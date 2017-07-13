@@ -34,6 +34,7 @@ from openprocurement.tender.esco.tests.auction_blanks import (
     post_tender_auction,
     post_tender_lots_auction,
     post_tender_lot_auction,
+    auction_check_NBUdiscountRate,
 )
 
 
@@ -64,6 +65,7 @@ class TenderAuctionResourceTest(BaseESCOEUContentWebTest, TenderAuctionResourceT
         # # switch to active.pre-qualification.stand-still
 
     test_post_tender_auction = snitch(post_tender_auction)
+    test_auction_check_NBUdiscountRate = snitch(auction_check_NBUdiscountRate)
 
 
 class TenderSameValueAuctionResourceTest(BaseESCOEUContentWebTest):

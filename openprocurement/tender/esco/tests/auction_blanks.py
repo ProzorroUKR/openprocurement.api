@@ -83,6 +83,35 @@ def post_tender_auction(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't report auction results in current (active.qualification) tender status")
 
+
+def auction_check_NBUdiscountRate(self):
+    self.app.authorization = ('Basic', ('auction', ''))
+    self.set_status('active.auction')
+
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['NBUdiscountRate'], 0.22)
+
+    patch_data = {
+        'NBUdiscountRate': 0.33
+    }
+
+    response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+
+    response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+
+    # check if NBUdiscountRate stays the same
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['NBUdiscountRate'], 0.22)
+
+
 # TenderLotAuctionResourceTest
 
 
