@@ -41,8 +41,6 @@ from openprocurement.tender.esco.tests.base import (
 from openprocurement.tender.esco.tests.lot_blanks import (
     create_tender_lot_invalid,
     patch_tender_lot_minValue,
-    patch_tender_currency,
-    patch_tender_vat,
     get_tender_lot,
     get_tender_lots,
     tender_min_value,
@@ -67,8 +65,6 @@ class TenderLotResourceTest(BaseESCOEUContentWebTest):
     test_patch_tender_lot_minValue = snitch(patch_tender_lot_minValue)
     test_delete_tender_lot = snitch(delete_tender_lot)
 
-    test_patch_tender_currency = snitch(patch_tender_currency)
-    test_patch_tender_vat = snitch(patch_tender_vat)
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
 
     test_get_tender_lot = snitch(get_tender_lot)
@@ -84,6 +80,9 @@ class TenderLotEdgeCasesTest(BaseESCOEUContentWebTest, TenderLotEdgeCasesTestMix
 
 class TenderLotFeatureResourceTest(BaseESCOEUContentWebTest):
     initial_lots = 2 * test_lots
+    # for passing test_tender_min_value while min value = 0
+    initial_lots[0]['minValue'] = {"amount": 0}
+    initial_lots[1]['minValue'] = {"amount": 0}
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
     test_lots_data = test_lots

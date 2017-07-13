@@ -7,7 +7,7 @@ from schematics.types import StringType, FloatType, IntType, URLType, BooleanTyp
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
-from schematics.transforms import whitelist
+from schematics.transforms import whitelist, blacklist
 from barbecue import vnmax
 from openprocurement.api.utils import get_now, get_root
 from openprocurement.api.constants import TZ
@@ -81,8 +81,8 @@ class IESCOTender(IAboveThresholdEUTender):
 class Lot(BaseLot):
     class Options:
         roles = {
-            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'minValue', 'guarantee', 'minimalStep'),
-            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'minValue', 'guarantee', 'minimalStep'),
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStep'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStep'),
             'embedded': embedded_lot_role,
             'view': default_lot_role,
             'default': default_lot_role,
@@ -92,7 +92,7 @@ class Lot(BaseLot):
             'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
         }
 
-    minValue = ModelType(Value, required=True)
+    minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH', 'valueAddedTaxIncluded': True})
     minimalStep = ModelType(Value, required=True)
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
@@ -125,11 +125,6 @@ class Lot(BaseLot):
         return Value(dict(amount=self.minValue.amount,
                           currency=self.__parent__.minValue.currency,
                           valueAddedTaxIncluded=self.__parent__.minValue.valueAddedTaxIncluded))
-
-    def validate_minimalStep(self, data, value):
-        if value and value.amount and data.get('minValue'):
-            if data.get('minValue').amount < value.amount:
-                raise ValidationError(u"value should be less than minValue of lot")
 
 
 class ESCOValue(Value):
@@ -217,10 +212,10 @@ class Tender(BaseTender):
     class Options:
         roles = {
             'plain': plain_role,
-            'create': create_role_eu,
-            'edit': edit_role_eu,
-            'edit_draft': edit_role_eu,
-            'edit_active.tendering': edit_role_eu,
+            'create': create_role_eu + blacklist('minValue', 'tender_minValue'),
+            'edit': edit_role_eu + blacklist('minValue', 'tender_minValue'),
+            'edit_draft': edit_role_eu + blacklist('minValue', 'tender_minValue'),
+            'edit_active.tendering': edit_role_eu + blacklist('minValue', 'tender_minValue'),
             'edit_active.pre-qualification': whitelist('status'),
             'edit_active.pre-qualification.stand-still': whitelist(),
             'edit_active.auction': whitelist(),
@@ -255,7 +250,8 @@ class Tender(BaseTender):
     title_en = StringType(required=True, min_length=1)
 
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
-    minValue = ModelType(Value, required=True)  # The total estimated value of the procurement.
+    minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH', 'valueAddedTaxIncluded': True})  # The total estimated value of the procurement.
+
     enquiryPeriod = ModelType(EnquiryPeriod, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
@@ -458,8 +454,6 @@ class Tender(BaseTender):
 
     def validate_minimalStep(self, data, value):
         if value and value.amount and data.get('minValue'):
-            if data.get('minValue').amount < value.amount:
-                raise ValidationError(u"value should be less than minValue of tender")
             if data.get('minValue').currency != value.currency:
                 raise ValidationError(u"currency should be identical to currency of minValue of tender")
             if data.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:

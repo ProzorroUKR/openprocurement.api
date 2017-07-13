@@ -55,7 +55,6 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json['errors'], [
         {u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'},
         {u'description': [u'This field is required.'], u'location': u'body', u'name': u'title'},
-        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'minValue'},
     ])
 
     response = self.app.post_json(request_path, {'data': {'invalid_field': 'invalid_value'}}, status=422)
@@ -65,43 +64,6 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json['errors'], [
         {u'description': u'Rogue field', u'location': u'body', u'name': u'invalid_field'}
     ])
-
-    response = self.app.post_json(request_path, {'data': {'minValue': 'invalid_value'}}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [
-            u'Please use a mapping for this field or Value instance instead of unicode.'], u'location': u'body', u'name': u'minValue'}
-    ])
-
-    response = self.app.post_json(request_path, {'data': {
-        'title': 'lot title',
-        'description': 'lot description',
-        'minValue': {'amount': '100.0'},
-        'minimalStep': {'amount': '500.0'},
-    }}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u'value should be less than minValue of lot'], u'location': u'body', u'name': u'minimalStep'}
-    ])
-
-    response = self.app.post_json(request_path, {'data': {
-        'title': 'lot title',
-        'description': 'lot description',
-        'minValue': {'amount': '500.0'},
-        'minimalStep': {'amount': '100.0', 'currency': "USD"}
-    }})
-    self.assertEqual(response.status, '201 Created')
-    # but minimalStep currency stays unchanged
-    response = self.app.get(request_path)
-    self.assertEqual(response.content_type, 'application/json')
-    lots = response.json['data']
-    self.assertEqual(len(lots), 1)
-    self.assertEqual(lots[0]['minimalStep']['currency'], "UAH")
-    self.assertEqual(lots[0]['minimalStep']['amount'], 100)
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {"items": [{'relatedLot': '0' * 32}]}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -121,130 +83,8 @@ def patch_tender_lot_minValue(self):
     response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"minValue": {"amount": 300}}})
     self.assertEqual(response.status, '200 OK')
     self.assertIn('minValue', response.json['data'])
-    self.assertEqual(response.json['data']['minValue']['amount'], 300)
+    self.assertEqual(response.json['data']['minValue']['amount'], 0)
     self.assertEqual(response.json['data']['minValue']['currency'], 'UAH')
-
-
-def patch_tender_currency(self):
-    # create lot
-    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token), {'data': self.test_lots_data[0]})
-    self.assertEqual(response.status, '201 Created')
-    self.assertEqual(response.content_type, 'application/json')
-    lot = response.json['data']
-    self.assertEqual(lot['minValue']['currency'], "UAH")
-
-    # update tender currency without mimimalStep currency change
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {"minValue": {"currency": "GBP"}}}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u'currency should be identical to currency of minValue of tender'],
-         u'location': u'body', u'name': u'minimalStep'}
-    ])
-
-    # update tender currency
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {
-        "minValue": {"currency": "GBP"},
-        "minimalStep": {"currency": "GBP"}
-    }})
-    self.assertEqual(response.status, '200 OK')
-    # log currency is updated too
-    response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    lot = response.json['data']
-    self.assertEqual(lot['minValue']['currency'], "GBP")
-
-    # try to update lot currency
-    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"minValue": {"currency": "USD"}}})
-    self.assertEqual(response.status, '200 OK')
-    # but the value stays unchanged
-    response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    lot = response.json['data']
-    self.assertEqual(lot['minValue']['currency'], "GBP")
-
-    # try to update minimalStep currency
-    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"minimalStep": {"currency": "USD"}}})
-    self.assertEqual(response.status, '200 OK')
-    # but the value stays unchanged
-    response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    lot = response.json['data']
-    self.assertEqual(lot['minimalStep']['currency'], "GBP")
-
-    # try to update lot minimalStep currency and lot value currency in single request
-    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"minValue": {"currency": "USD"},
-                                                                                                      "minimalStep": {"currency": "USD"}}})
-    self.assertEqual(response.status, '200 OK')
-    # but the value stays unchanged
-    response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    lot = response.json['data']
-    self.assertEqual(lot['minValue']['currency'], "GBP")
-    self.assertEqual(lot['minimalStep']['currency'], "GBP")
-
-
-def patch_tender_vat(self):
-    # set tender VAT
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {"minValue": {"valueAddedTaxIncluded": True}}})
-    self.assertEqual(response.status, '200 OK')
-
-    # create lot
-    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token), {'data': self.test_lots_data[0]})
-    self.assertEqual(response.status, '201 Created')
-    self.assertEqual(response.content_type, 'application/json')
-    lot = response.json['data']
-    self.assertTrue(lot['minValue']['valueAddedTaxIncluded'])
-
-    # update tender VAT
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data":
-                                                                          {"minValue": {"valueAddedTaxIncluded": False},
-                                                                           "minimalStep": {"valueAddedTaxIncluded": False}}
-                                                                          })
-    self.assertEqual(response.status, '200 OK')
-    # log VAT is updated too
-    response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    lot = response.json['data']
-    self.assertFalse(lot['minValue']['valueAddedTaxIncluded'])
-
-    # try to update lot VAT
-    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"minValue": {"valueAddedTaxIncluded": True}}})
-    self.assertEqual(response.status, '200 OK')
-    # but the value stays unchanged
-    response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    lot = response.json['data']
-    self.assertFalse(lot['minValue']['valueAddedTaxIncluded'])
-
-    # try to update minimalStep VAT
-    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"minimalStep": {"valueAddedTaxIncluded": True}}})
-    self.assertEqual(response.status, '200 OK')
-    # but the value stays unchanged
-    response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    lot = response.json['data']
-    self.assertFalse(lot['minimalStep']['valueAddedTaxIncluded'])
-
-    # try to update minimalStep VAT and value VAT in single request
-    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"minValue": {"valueAddedTaxIncluded": True},
-                                                                                                      "minimalStep": {"valueAddedTaxIncluded": True}}})
-    self.assertEqual(response.status, '200 OK')
-    # but the value stays unchanged
-    response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    lot = response.json['data']
-    self.assertFalse(lot['minValue']['valueAddedTaxIncluded'])
-    self.assertEqual(lot['minimalStep']['valueAddedTaxIncluded'], lot['minValue']['valueAddedTaxIncluded'])
 
 
 def get_tender_lot(self):
@@ -376,16 +216,17 @@ def create_tender_bid_invalid(self):
         {u'description': [{u'relatedLot': [u'relatedLot should be one of lots']}], u'location': u'body', u'name': u'lotValues'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True, 'tenderers': self.test_bids_data[0]['tenderers'], 'lotValues': [{"value": {
-        'yearlyPayments': 0.9,
-        'annualCostsReduction': 15.5,
-        'contractDuration': 10}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [{u'value': [u'value of bid should be greater than minValue of lot']}], u'location': u'body', u'name': u'lotValues'}
-    ])
+    # comment this test while minValue = 0
+    # response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True, 'tenderers': self.test_bids_data[0]['tenderers'], 'lotValues': [{"value": {
+    #     'yearlyPayments': 0.9,
+    #     'annualCostsReduction': 15.5,
+    #     'contractDuration': 10}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
+    # self.assertEqual(response.status, '422 Unprocessable Entity')
+    # self.assertEqual(response.content_type, 'application/json')
+    # self.assertEqual(response.json['status'], 'error')
+    # self.assertEqual(response.json['errors'], [
+    #     {u'description': [{u'value': [u'value of bid should be greater than minValue of lot']}], u'location': u'body', u'name': u'lotValues'}
+    # ])
 
     response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True, 'tenderers': self.test_bids_data[0]['tenderers'], 'lotValues': [{"value": {
         'yearlyPayments': 0.9,
@@ -492,16 +333,17 @@ def create_tender_feature_bid_invalid(self):
         {u'description': [{u'relatedLot': [u'relatedLot should be one of lots']}], u'location': u'body', u'name': u'lotValues'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True, 'tenderers': self.test_bids_data[0]['tenderers'], 'lotValues': [{"value": {
-        'yearlyPayments': 0.9,
-        'annualCostsReduction': 15.5,
-        'contractDuration': 10}, 'relatedLot': self.lot_id}]}}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [{u'value': [u'value of bid should be greater than minValue of lot']}], u'location': u'body', u'name': u'lotValues'}
-    ])
+    # comment this test while minValue = 0
+    # response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True, 'tenderers': self.test_bids_data[0]['tenderers'], 'lotValues': [{"value": {
+    #     'yearlyPayments': 0.9,
+    #     'annualCostsReduction': 15.5,
+    #     'contractDuration': 10}, 'relatedLot': self.lot_id}]}}, status=422)
+    # self.assertEqual(response.status, '422 Unprocessable Entity')
+    # self.assertEqual(response.content_type, 'application/json')
+    # self.assertEqual(response.json['status'], 'error')
+    # self.assertEqual(response.json['errors'], [
+    #     {u'description': [{u'value': [u'value of bid should be greater than minValue of lot']}], u'location': u'body', u'name': u'lotValues'}
+    # ])
 
     response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True, 'tenderers': self.test_bids_data[0]['tenderers'], 'lotValues': [{"value": {
         'yearlyPayments': 0.9,
