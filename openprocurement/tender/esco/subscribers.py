@@ -33,7 +33,7 @@ def check_submission_method_details(tender):
         tender.__parent__.request.errors.add(
             'data',
             'submissionMethodDetails',
-            'Invalid field value \'{0}\'. Only \'quick(mode:no-auction)\' is allowed while auction for this type of procedure is not ready.'.
+            'Invalid field value "{0}". Only "quick(mode:no-auction)" is allowed while auction module for this type of procedure is not fully implemented'.
                 format(tender.submissionMethodDetails))
         tender.__parent__.request.errors.status = 403
         raise error_handler(tender.__parent__.request.errors)

@@ -19,7 +19,7 @@ def validate_submission_method_details(request):
         request.errors.add(
                 'data',
                 'submissionMethodDetails',
-                'Invalid field value \'{0}\'. Only \'quick(mode:no-auction)\' is allowed while auction for this type of procedure is not ready.'.
+                'Invalid field value "{0}". Only "quick(mode:no-auction)" is allowed while auction module for this type of procedure is not fully implemented'.
                     format(submission_method_details))
         request.errors.status = 403
         raise error_handler(request.errors)

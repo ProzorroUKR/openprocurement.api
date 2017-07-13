@@ -526,7 +526,7 @@ def tender_submission_method_details_no_auction_only(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'], [
         {u'description':
-             u'Invalid field value \'quick(mode:fast-forward)\'. Only \'quick(mode:no-auction)\' is allowed while auction for this type of procedure is not ready.',
+             u'Invalid field value "quick(mode:fast-forward)". Only "quick(mode:no-auction)" is allowed while auction module for this type of procedure is not fully implemented',
              u'location': u'data',
              u'name': u'submissionMethodDetails'}
     ])
@@ -550,8 +550,7 @@ def tender_submission_method_details_no_auction_only(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'], [
-        {u'description':
-             u'Invalid field value \'quick(mode:fast-forward)\'. Only \'quick(mode:no-auction)\' is allowed while auction for this type of procedure is not ready.',
+        {u'description': u'Invalid field value "quick(mode:fast-forward)". Only "quick(mode:no-auction)" is allowed while auction module for this type of procedure is not fully implemented',
          u'location': u'data',
          u'name': u'submissionMethodDetails'}
     ])
