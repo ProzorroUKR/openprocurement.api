@@ -4,8 +4,6 @@ from openprocurement.tender.core.utils import optendersresource
 
 
 #  TODO: remove these import section after adding auction
-from openprocurement.api.tests.base import snitch
-
 from openprocurement.api.utils import json_view, error_handler
 from openprocurement.tender.core.validation import (
     validate_tender_status_update_in_terminated_status,
@@ -40,4 +38,4 @@ class TenderESCOEUResource(TenderEUResource):
                                   validate_tender_status_update_in_terminated_status,
                                   validate_tender_status_update_not_in_pre_qualificaton,
                                   validate_submission_method_details),
-                      permission='edit_tender')(snitch(TenderEUResource.patch))
+                      permission='edit_tender')(TenderEUResource.patch)
