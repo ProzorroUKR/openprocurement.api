@@ -15,7 +15,7 @@ from openprocurement.tender.openua.validation import validate_patch_tender_ua_da
 #  TODO: remove this validator after adding auction
 def validate_submission_method_details(request):
     submission_method_details = request.validated['data'].get("submissionMethodDetails", request.context.submissionMethodDetails)
-    if submission_method_details != request.context.status and submission_method_details != 'quick(mode:no-auction)':
+    if submission_method_details != request.context.submissionMethodDetails and submission_method_details != 'quick(mode:no-auction)':
         request.errors.add(
                 'data',
                 'submissionMethodDetails',
