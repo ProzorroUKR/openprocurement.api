@@ -69,8 +69,8 @@ class TestTenderEU(BaseESCOEUContentWebTest, TenderResourceTestMixin, TenderUARe
     test_invalid_bid_tender_lot = snitch(invalid_bid_tender_lot)
 
     # TODO: remove this test after adding auction
-    from openprocurement.tender.esco.tests.tender_blanks import create_tender_submission_method_details
-    test_create_tender_submission_method_details = snitch(create_tender_submission_method_details)
+    from openprocurement.tender.esco.tests.tender_blanks import tender_submission_method_details_no_auction_only
+    test_tender_submission_method_details_no_auction_only = snitch(tender_submission_method_details_no_auction_only)
 
 
 class TestTenderEUProcess(BaseESCOEUContentWebTest):
