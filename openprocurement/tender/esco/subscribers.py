@@ -22,3 +22,18 @@ def tender_init_handler(event):
         for lot in tender.lots:
             lot.date = now
 
+    check_submission_method_details(tender)
+
+
+# TODO: temporary decision, while esco auction is not ready. Remove after adding auction. Remove field 'submissionMethodDetails' in openprocurement.tender.esco.models.Tender
+from openprocurement.api.utils import error_handler
+
+def check_submission_method_details(tender):
+    if tender.submissionMethodDetails != "quick(mode:no-auction)":
+        tender.__parent__.request.errors.add(
+            'data',
+            'submissionMethodDetails',
+            'Invalid field value "{0}". Only "quick(mode:no-auction)" is allowed while auction module for this type of procedure is not fully implemented'.
+                format(tender.submissionMethodDetails))
+        tender.__parent__.request.errors.status = 403
+        raise error_handler(tender.__parent__.request.errors)

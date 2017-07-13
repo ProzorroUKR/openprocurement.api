@@ -364,7 +364,7 @@ def tender_with_nbu_discount_rate(self):
         u'procurementMethodType', u'id', u'dateModified', u'tenderID',
         u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod',
         u'complaintPeriod', u'minimalStep', u'items', u'minValue', u'owner',
-        u'procuringEntity', u'next_check', u'procurementMethod',
+        u'procuringEntity', u'next_check', u'procurementMethod', u'submissionMethodDetails',  # TODO: remove u'submissionMethodDetails' from set after adding auction
         u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date', u'NBUdiscountRate']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
@@ -506,10 +506,59 @@ def create_tender_generated(self):
         tender.pop('procurementMethodDetails')
     self.assertEqual(set(tender), set([
         u'procurementMethodType', u'id', u'dateModified', u'tenderID',
-        u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod',
+        u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod', u'submissionMethodDetails',  # TODO: remove u'submissionMethodDetails' from set after adding auction
         u'complaintPeriod', u'minimalStep', u'items', u'minValue', u'owner',
         u'procuringEntity', u'next_check', u'procurementMethod', u'NBUdiscountRate',
         u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date',]))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])
+
+
+# TODO: remove this test after adding auction
+def tender_submission_method_details_no_auction_only(self):
+    response = self.app.get('/tenders')
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(len(response.json['data']), 0)
+
+    my_data = deepcopy(self.initial_data)
+    my_data['submissionMethodDetails'] = 'quick(mode:fast-forward)'
+
+    response = self.app.post_json('/tenders', {"data": my_data}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'], [
+        {u'description':
+             u'Invalid field value "quick(mode:fast-forward)". Only "quick(mode:no-auction)" is allowed while auction module for this type of procedure is not fully implemented',
+             u'location': u'data',
+             u'name': u'submissionMethodDetails'}
+    ])
+
+    response = self.app.post_json('/tenders', {"data": self.initial_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['submissionMethodDetails'], "quick(mode:no-auction)")
+    tender = response.json['data']
+    self.tender_id = response.json['data']['id']
+    owner_token = response.json['access']['token']
+
+    response = self.app.get('/tenders/{}'.format(tender['id']))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(set(response.json['data']), set(tender))
+    self.assertEqual(response.json['data'], tender)
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        tender['id'], owner_token), {'data': {'submissionMethodDetails': "quick(mode:fast-forward)"}}, status=403)
+
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'], [
+        {u'description': u'Invalid field value "quick(mode:fast-forward)". Only "quick(mode:no-auction)" is allowed while auction module for this type of procedure is not fully implemented',
+         u'location': u'data',
+         u'name': u'submissionMethodDetails'}
+    ])
+
+    response = self.app.get('/tenders/{}'.format(tender['id']))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['submissionMethodDetails'], "quick(mode:no-auction)")
