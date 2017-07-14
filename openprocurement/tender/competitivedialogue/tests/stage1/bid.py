@@ -6,12 +6,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     test_tender_data_eu,
     test_features_tender_eu_data,
-    test_bids_eu as test_bids
+    test_bids_cd as test_bids
 )
-
-test_bids.append(test_bids[0].copy())  # Minimal number of bids is 3.
-# Attention - if this test file runs after another file with the same line, such as lot.py,
-# we will have different number of test bids!
 
 
 class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
@@ -764,7 +760,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.app.authorization = ('Basic', ('anon', ''))
         response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']), initial_bids_cnt + 3)  # was 7 with dependency on another test from lot.py
+        self.assertEqual(len(response.json['data']), initial_bids_cnt + 3)
         for b in response.json['data']:
             if b['status'] == u'invalid':
                 self.assertEqual(set(b.keys()), set(['id', 'status']))
@@ -785,7 +781,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.set_status('complete')
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']['bids']), initial_bids_cnt + 3) # was 7 with dependency on another test from lot.py
+        self.assertEqual(len(response.json['data']['bids']), initial_bids_cnt + 3)
         for bid in response.json['data']['bids']:
             if bid['id'] in bids_access:  # previously invalidated bids
                 self.assertEqual(bid['status'], 'invalid')
@@ -843,32 +839,29 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
     def test_features_bidder(self):
         test_features_bids = [
             {
-                'selfEligible': True,
-                'subcontractingDetails': u'ДКП «Орфей», Україна',
-                'selfQualified': True,
-                "tenderers": test_bids[0]["tenderers"],
                 "parameters": [
                     {
                         "code": i["code"],
                         "value": 0.1,
                     }
                     for i in self.initial_data['features']
-                ]
+                ],
+                "tenderers": test_bids[0]["tenderers"],
+                'selfQualified': True,
+                'selfEligible': True
             },
             {
-                "status": "pending",
-                'selfEligible': True,
-                'subcontractingDetails': u'ДКП «Орфей», Україна',
-                'selfQualified': True,
-                "tenderers": test_bids[1]["tenderers"],
                 "parameters": [
                     {
                         "code": i["code"],
                         "value": 0.15,
                     }
                     for i in self.initial_data['features']
-                ]
-            }
+                ],
+                "tenderers": test_bids[1]["tenderers"],
+                'selfQualified': True,
+                'selfEligible': True
+            },
         ]
 
         for i in test_features_bids:
@@ -925,6 +918,7 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
         self.assertEqual(response.json['errors'], [
             {u'description': [{u'value': [u'value should be one of feature value.']}], u'location': u'body', u'name': u'parameters'}
         ])
+
 
 class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
