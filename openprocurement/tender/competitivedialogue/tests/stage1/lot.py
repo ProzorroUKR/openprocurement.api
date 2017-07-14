@@ -1472,8 +1472,11 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         bids = []
-        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
-        for index, test_bid in enumerate(test_bids):
+        temp_bids = deepcopy(test_bids)
+        temp_bids.append(temp_bids[0].copy())  # Need at least 4 bids to delete one and still proceed
+        self.assertGreaterEqual(len(temp_bids), 4)
+        bidder_data = deepcopy(temp_bids[0]['tenderers'][0])
+        for index, test_bid in enumerate(temp_bids):
             bidder_data['identifier']['id'] = str(00037256+index)
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                           {'data': {'selfEligible': True,
@@ -1486,6 +1489,7 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         response = self.app.delete('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bids[2].keys()[0],
                                                                              bids[2].values()[0]))
         self.assertEqual(response.status, '200 OK')
+
         # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
@@ -3146,7 +3150,10 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         self.app.authorization = ('Basic', ('broker', ''))
         bids = []
         bidder_data = deepcopy(test_bids[0]['tenderers'][0])
-        for index, test_bid in enumerate(test_bids):
+        temp_bids = deepcopy(test_bids)
+        temp_bids.append(temp_bids[0].copy())  # Need at least 4 bids to delete one and still proceed
+        self.assertGreaterEqual(len(temp_bids), 4)
+        for index, test_bid in enumerate(temp_bids):
             bidder_data['identifier']['id'] = (00037256+index)
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                           {'data': {'selfEligible': True,
