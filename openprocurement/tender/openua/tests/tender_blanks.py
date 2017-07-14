@@ -584,10 +584,7 @@ def patch_tender_period(self):
     dateModified = tender.pop('dateModified')
     self.tender_id = tender['id']
     self.go_to_enquiryPeriod_end()
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"minimalStep": {
-        "amount": 25,
-        "currency": u"UAH"
-    }}}, status=403)
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"description": "new description"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "tenderPeriod should be extended by 7 days")
@@ -595,10 +592,7 @@ def patch_tender_period(self):
     enquiryPeriod_endDate = tenderPeriod_endDate - (timedelta(minutes=10) if SANDBOX_MODE else timedelta(days=10))
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data':
         {
-            "minimalStep": {
-                "amount": 25,
-                "currency": u"UAH"
-            },
+            "description": "new description",
             "tenderPeriod": {
                 "endDate": tenderPeriod_endDate.isoformat()
             }
