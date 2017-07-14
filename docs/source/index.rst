@@ -19,6 +19,7 @@ Contents:
    :maxdepth: 2
 
    overview
+   tutorial
    standard/index.rst
 
 
