@@ -9,11 +9,10 @@ from openprocurement.tender.competitivedialogue.tests.base import (BaseCompetiti
                                                                    BaseCompetitiveDialogEUContentWebTest,
                                                                    test_tender_data_eu as test_tender_data,
                                                                    test_tender_data_ua,
-                                                                   test_lots)
-from openprocurement.tender.openeu.tests.base import test_bids
-from openprocurement.tender.competitivedialogue.models import FEATURES_MAX_SUM
+                                                                   test_lots,
+                                                                   test_bids_cd as test_bids)
 
-test_bids.append(test_bids[0].copy())  # Minimal number of bits is 3
+from openprocurement.tender.competitivedialogue.models import FEATURES_MAX_SUM
 
 
 class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest):
