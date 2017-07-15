@@ -663,6 +663,48 @@ def put_qualification_document_after_status_change(self):
         {"description": u"Can't update document in current (active.pre-qualification.stand-still) tender status",
          u'location': u'body', u'name': u'data'}])
 
+
+def create_qualification_document_bot(self):
+    self.app.authorization = ('Basic', ('bot', 'bot'))
+    response = self.app.post('/tenders/{}/qualifications/{}/documents'.format(
+        self.tender_id, self.qualifications[0]['id']), upload_files=[('file', 'edr_request.yaml','content')])
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    doc_id = response.json["data"]['id']
+    self.assertIn(doc_id, response.headers['Location'])
+    self.assertEqual('edr_request.yaml', response.json["data"]["title"])
+    if self.docservice:
+        self.assertIn('Signature=', response.json["data"]["url"])
+        self.assertIn('KeyID=', response.json["data"]["url"])
+        self.assertNotIn('Expires=', response.json["data"]["url"])
+        key = response.json["data"]["url"].split('/')[-1].split('?')[0]
+        tender = self.db.get(self.tender_id)
+        self.assertIn(key, tender['awards'][-1]['documents'][-1]["url"])
+        self.assertIn('Signature=', tender['awards'][-1]['documents'][-1]["url"])
+        self.assertIn('KeyID=', tender['awards'][-1]['documents'][-1]["url"])
+        self.assertNotIn('Expires=', tender['awards'][-1]['documents'][-1]["url"])
+
+
+
+def patch_document_not_author(self):
+    authorization = self.app.authorization
+    self.app.authorization = ('Basic', ('bot', 'bot'))
+
+    response = self.app.post('/tenders/{}/qualifications/{}/documents'.format(self.tender_id, self.qualifications[0]['id']),
+                             upload_files=[('file', 'edr_request.yaml', 'content')])
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    doc_id = response.json["data"]['id']
+    self.assertIn(doc_id, response.headers['Location'])
+
+    self.app.authorization = authorization
+    response = self.app.patch_json('/tenders/{}/qualifications/{}/documents/{}?acc_token={}'.format(
+        self.tender_id, self.qualifications[0]['id'], doc_id, self.tender_token),
+        {"data": {"description": "document description"}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "Can update document only author")
+
 # TenderQualificationComplaintResourceTest
 
 

@@ -16,6 +16,7 @@ from openprocurement.api.validation import (
     validate_file_upload,
     validate_patch_document_data,
 )
+from openprocurement.tender.core.validation import validate_tender_document_update_not_by_author_or_tender_owner
 from openprocurement.tender.openeu.utils import qualifications_resource
 from openprocurement.tender.openeu.validation import (
     validate_qualification_document_operation_not_in_pending,
@@ -42,11 +43,12 @@ class TenderQualificationDocumentResource(APIResource):
             ]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
-    @json_view(permission='edit_tender', validators=(validate_file_upload, validate_qualification_document_operation_not_in_allowed_status, validate_qualification_document_operation_not_in_pending))
+    @json_view(permission='upload_tender_documents', validators=(validate_file_upload, validate_qualification_document_operation_not_in_allowed_status, validate_qualification_document_operation_not_in_pending))
     def collection_post(self):
         """Tender Qualification Document Upload
         """
         document = upload_file(self.request)
+        document.author = self.request.authenticated_role
         self.context.documents.append(document)
         if save_tender(self.request):
             self.LOGGER.info('Created tender qualification document {}'.format(document.id),
@@ -70,7 +72,8 @@ class TenderQualificationDocumentResource(APIResource):
         ]
         return {'data': document_data}
 
-    @json_view(validators=(validate_file_update, validate_qualification_document_operation_not_in_allowed_status, validate_qualification_document_operation_not_in_pending), permission='edit_tender')
+    @json_view(validators=(validate_file_update, validate_qualification_document_operation_not_in_allowed_status, validate_qualification_document_operation_not_in_pending,
+               validate_tender_document_update_not_by_author_or_tender_owner), permission='upload_tender_documents')
     def put(self):
         """Tender Qualification Document Update"""
         document = upload_file(self.request)
@@ -81,7 +84,7 @@ class TenderQualificationDocumentResource(APIResource):
             return {'data': document.serialize("view")}
 
     @json_view(content_type="application/json", validators=(validate_patch_document_data, validate_qualification_document_operation_not_in_allowed_status,
-               validate_qualification_document_operation_not_in_pending), permission='edit_tender')
+               validate_qualification_document_operation_not_in_pending, validate_tender_document_update_not_by_author_or_tender_owner), permission='upload_tender_documents')
     def patch(self):
         """Tender Qualification Document Update"""
         if apply_patch(self.request, src=self.request.context.serialize()):
