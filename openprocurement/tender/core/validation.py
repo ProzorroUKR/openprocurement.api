@@ -269,6 +269,13 @@ def validate_document_operation_in_not_allowed_period(request):
         request.authenticated_role == 'auction' and request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
         raise_operation_error(request, 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(request.method), request.validated['tender_status']))
 
+
+def validate_tender_document_update_not_by_author_or_tender_owner(request):
+    if request.authenticated_role != (request.context.author or 'tender_owner'):
+        request.errors.add('url', 'role', 'Can update document only author')
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
 # bids
 def validate_bid_operation_not_in_tendering(request):
     if request.validated['tender_status'] != 'active.tendering':
