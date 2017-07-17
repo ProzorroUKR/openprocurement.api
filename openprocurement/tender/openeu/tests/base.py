@@ -546,6 +546,8 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                         for i in self.initial_lots
                     ]
                 })
+            if self.initial_bids:
+                data.update({'bids': [{'status': 'active'}] for i in self.initial_bids})
         if extra:
             data.update(extra)
 
