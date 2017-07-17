@@ -1472,11 +1472,9 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         bids = []
-        temp_bids = deepcopy(test_bids)
-        temp_bids.append(temp_bids[0].copy())  # Need at least 4 bids to delete one and still proceed
-        self.assertGreaterEqual(len(temp_bids), 4)
-        bidder_data = deepcopy(temp_bids[0]['tenderers'][0])
-        for index, test_bid in enumerate(temp_bids):
+        self.assertEqual(len(test_bids), 3)
+        bidder_data = deepcopy(test_bids[0]['tenderers'][0])
+        for index, test_bid in enumerate(test_bids):
             bidder_data['identifier']['id'] = str(00037256+index)
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                           {'data': {'selfEligible': True,
@@ -1490,33 +1488,13 @@ class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest)
                                                                              bids[2].values()[0]))
         self.assertEqual(response.status, '200 OK')
 
-        # switch to active.pre-qualification
+        # try switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
-        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
-        self.assertEqual(response.content_type, 'application/json')
-        qualifications = response.json['data']
-
-        for qualification in qualifications:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
-                                                                                               qualification['id'],
-                                                                                               owner_token),
-                                      {"data": {'status': 'active', "qualified": True, "eligible": True}})
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['status'], 'active')
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
-                                       {"data": {"status": "active.pre-qualification.stand-still"}})
-        self.assertEqual(response.status, "200 OK")
-        self.check_chronograph()
-
-        response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, owner_token))
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.status, "200 OK")
-
-        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.status, "200 OK")
+        response = self.app.get('/tenders/{}?acc_token={}'.format(tender_id, owner_token))
+        self.assertTrue(all([i['status'] == 'unsuccessful' for i in response.json['data']['lots']]))
+        self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
     def test_1lot_3bid_1un(self):
         self.app.authorization = ('Basic', ('broker', ''))
@@ -3150,10 +3128,8 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         self.app.authorization = ('Basic', ('broker', ''))
         bids = []
         bidder_data = deepcopy(test_bids[0]['tenderers'][0])
-        temp_bids = deepcopy(test_bids)
-        temp_bids.append(temp_bids[0].copy())  # Need at least 4 bids to delete one and still proceed
-        self.assertGreaterEqual(len(temp_bids), 4)
-        for index, test_bid in enumerate(temp_bids):
+        self.assertEqual(len(test_bids), 3)
+        for index, test_bid in enumerate(test_bids):
             bidder_data['identifier']['id'] = (00037256+index)
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                           {'data': {'selfEligible': True,
@@ -3170,29 +3146,9 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
 
-        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
-        self.assertEqual(response.content_type, 'application/json')
-        qualifications = response.json['data']
-
-        for qualification in qualifications:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id,
-                                                                                               qualification['id'],
-                                                                                               owner_token),
-                                      {"data": {'status': 'active', "qualified": True, "eligible": True}})
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['status'], 'active')
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
-                                       {"data": {"status": "active.pre-qualification.stand-still"}})
-        self.assertEqual(response.status, "200 OK")
-        self.check_chronograph()
-
         response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, owner_token))
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.status, "200 OK")
-
-        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.status, "200 OK")
+        self.assertTrue(all([i['status'] == 'unsuccessful' for i in response.json['data']['lots']]))
+        self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
     def test_1lot_3bid_1un(self):
         self.app.authorization = ('Basic', ('broker', ''))

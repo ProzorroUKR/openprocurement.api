@@ -659,8 +659,6 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         """
         bids_access = {}
 
-        initial_bids_cnt = len(test_bids)
-
         # submit bids
         for data in test_bids:
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
@@ -760,7 +758,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.app.authorization = ('Basic', ('anon', ''))
         response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']), initial_bids_cnt + 3)
+        self.assertEqual(len(response.json['data']), 6)
         for b in response.json['data']:
             if b['status'] == u'invalid':
                 self.assertEqual(set(b.keys()), set(['id', 'status']))
@@ -781,7 +779,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
         self.set_status('complete')
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
-        self.assertEqual(len(response.json['data']['bids']), initial_bids_cnt + 3)
+        self.assertEqual(len(response.json['data']['bids']), 6)
         for bid in response.json['data']['bids']:
             if bid['id'] in bids_access:  # previously invalidated bids
                 self.assertEqual(bid['status'], 'invalid')
@@ -874,51 +872,6 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
             bid.pop(u'id')
             i.pop('parameters')
             self.assertEqual(bid, i)
-
-    def test_features_bidder_invalid(self):
-        data = {
-            'selfQualified': True,
-            'selfEligible': True
-        }
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderers'}
-        ])
-
-        data["tenderers"] = test_bids[0]["tenderers"]
-
-        data["parameters"] = [
-            {
-                "code": "OCDS-123454-AIR-INTAKE",
-                "value": 0.1,
-            },
-            {
-                "code": "OCDS-123454-AIR-INTAKE",
-                "value": 0.1,
-            },
-        ]
-
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [u'Parameter code should be uniq for all parameters'], u'location': u'body', u'name': u'parameters'}
-        ])
-
-        data["parameters"][1]["code"] = "OCDS-123454-YEARS"
-        data["parameters"][1]["value"] = 0.2
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [{u'value': [u'value should be one of feature value.']}], u'location': u'body', u'name': u'parameters'}
-        ])
-
 
 class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
