@@ -20,6 +20,7 @@ from openprocurement.api.design import sync_design
 from openprocurement.api.tests.base import PrefixedRequestClass, test_organization
 from openprocurement.tender.openua.tests.base import (test_tender_data as base_test_tender_data_ua, BaseTenderWebTest)
 
+
 now = datetime.now()
 test_tender_data_eu = deepcopy(base_test_tender_data_eu)
 test_tender_data_eu["procurementMethodType"] = CD_EU_TYPE
@@ -906,9 +907,12 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
         self.assertEqual(response.content_type, 'application/json')
         return response
 
-test_features_tender_eu_data = test_features_tender_data.copy()
+test_features_tender_eu_data = deepcopy(test_features_tender_data)
 test_features_tender_eu_data['procurementMethodType'] = CD_EU_TYPE
 
 author = deepcopy(test_bids[0]["tenderers"][0])
 author['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
 author['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
+
+test_bids_cd = deepcopy(test_bids_eu)
+test_bids_cd.append(test_bids_cd[0].copy())  # Minimal number of bids for successfull competitive dialogue is 3.
