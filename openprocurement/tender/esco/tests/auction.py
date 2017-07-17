@@ -34,6 +34,7 @@ from openprocurement.tender.esco.tests.auction_blanks import (
     post_tender_auction,
     post_tender_lots_auction,
     post_tender_lot_auction,
+    auction_check_NBUdiscountRate,
 )
 
 
@@ -118,6 +119,35 @@ class TenderSameValueAuctionResourceTest(BaseESCOEUContentWebTest):
     test_post_tender_auction_reversed = snitch(post_tender_auction_reversed)
 
 
+class TenderAuctionNBUdiscountRateTest(BaseESCOEUContentWebTest):
+    #initial_data = tender_data
+    initial_auth = ('Basic', ('broker', ''))
+    initial_bids = test_bids
+
+    def setUp(self):
+        super(TenderAuctionNBUdiscountRateTest, self).setUp()
+        # switch to active.pre-qualification
+        self.time_shift('active.pre-qualification')
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification")
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
+        for qualific in response.json['data']:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
+                self.tender_id, qualific['id'], self.tender_token), {'data': {"status": "active", "qualified": True, "eligible": True}})
+            self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+        self.assertEqual(response.status, "200 OK")
+        # # switch to active.pre-qualification.stand-still
+
+    test_auction_check_NBUdiscountRate = snitch(auction_check_NBUdiscountRate)
+
+
 class TenderLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderAuctionResourceTest):
     initial_lots = test_lots
     # initial_data = test_tender_data
@@ -179,6 +209,7 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAuctionNBUdiscountRateTest))
     suite.addTest(unittest.makeSuite(TenderLotAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderMultipleLotAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))

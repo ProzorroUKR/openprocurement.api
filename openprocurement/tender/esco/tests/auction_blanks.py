@@ -83,6 +83,61 @@ def post_tender_auction(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't report auction results in current (active.qualification) tender status")
 
+
+def auction_check_NBUdiscountRate(self):
+    self.app.authorization = ('Basic', ('auction', ''))
+    self.set_status('active.auction')
+
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['NBUdiscountRate'], 0.22)
+
+    # try to patch NBUdiscountRate in tender
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {"NBUdiscountRate": 0.44}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["location"], "url")
+    self.assertEqual(response.json['errors'][0]["name"], "permission")
+    self.assertEqual(response.json['errors'][0]["description"], "Forbidden")
+
+    # try to patch NBUdiscountRate in auction data, but it should not change
+    response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': {"NBUdiscountRate": 0.44}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['NBUdiscountRate'], 0.22)
+
+    patch_data = {
+        'bids': [
+            {
+                "id": self.initial_bids[1]['id'],
+                "value": {
+                    'yearlyPayments': 0.9,
+                    'annualCostsReduction': 785.5,
+                    'contractDuration': 10,
+                    'amount': 730.044
+                 },
+            },
+            {
+                "id": self.initial_bids[0]['id'],
+                "value": {
+                    'yearlyPayments': 0.85,
+                    'annualCostsReduction': 798.1,
+                    'contractDuration': 10,
+                    'amount': 898.309
+                },
+            },
+        ],
+        'NBUdiscountRate': 0.33,
+    }
+
+    # try to change NBUdiscountRate with posting auction results, but it should not change
+    response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['NBUdiscountRate'], 0.22)
+
+
 # TenderLotAuctionResourceTest
 
 
