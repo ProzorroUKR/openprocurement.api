@@ -837,25 +837,11 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
     def test_features_bidder(self):
         test_features_bids = [
             {
-                "parameters": [
-                    {
-                        "code": i["code"],
-                        "value": 0.1,
-                    }
-                    for i in self.initial_data['features']
-                ],
                 "tenderers": test_bids[0]["tenderers"],
                 'selfQualified': True,
                 'selfEligible': True
             },
             {
-                "parameters": [
-                    {
-                        "code": i["code"],
-                        "value": 0.15,
-                    }
-                    for i in self.initial_data['features']
-                ],
                 "tenderers": test_bids[1]["tenderers"],
                 'selfQualified': True,
                 'selfEligible': True
@@ -870,7 +856,6 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
             bid = response.json['data']
             bid.pop(u'date')
             bid.pop(u'id')
-            i.pop('parameters')
             self.assertEqual(bid, i)
 
 class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
