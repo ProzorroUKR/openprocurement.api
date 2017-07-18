@@ -62,11 +62,6 @@ def patch_tender_contract(self):
 
     self.set_status('complete', {'status': 'active.awarded'})
 
-    tender = self.db.get(self.tender_id)
-    for i in tender.get('bids', []):
-        i['status'] = 'active'
-    self.db.save(tender)
-
     token = self.initial_bids_tokens[self.initial_bids[0]['id']]
     response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
         self.tender_id, self.award_id, token),
