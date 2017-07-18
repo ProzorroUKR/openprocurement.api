@@ -382,6 +382,16 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.db.save(tender)
 
     def set_status(self, status, extra=None):
+        tender = self.db.get(self.tender_id)
+
+        def activate_bids():
+            if tender.get('bids', ''):
+                bids = tender['bids']
+                for bid in bids:
+                    if bid['status'] == 'pending':
+                        bid.update({'status': 'active'})
+                data.update({'bids': bids})
+
         data = {'status': status}
         if status == 'active.tendering':
             data.update({
@@ -425,6 +435,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     "startDate": (now + COMPLAINT_STAND_STILL).isoformat()
                 }
             })
+            activate_bids()
         elif status == 'active.auction':
             data.update({
                 "enquiryPeriod": {
@@ -454,6 +465,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                         for i in self.initial_lots
                     ]
                 })
+            activate_bids()
         elif status == 'active.qualification':
             data.update({
                 "enquiryPeriod": {
@@ -472,6 +484,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     "startDate": (now).isoformat()
                 }
             })
+            activate_bids()
             if self.initial_lots:
                 data.update({
                     'lots': [
@@ -503,6 +516,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     "endDate": (now).isoformat()
                 }
             })
+            activate_bids()
             if self.initial_lots:
                 data.update({
                     'lots': [
@@ -549,7 +563,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         if extra:
             data.update(extra)
 
-        tender = self.db.get(self.tender_id)
         tender.update(apply_data_patch(tender, data))
         self.db.save(tender)
 
