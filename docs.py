@@ -12,6 +12,7 @@ from openprocurement.contracting.api.tests.base import test_contract_data
 from webtest import TestApp
 from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_organization
 
+test_tender_data['items'].append(deepcopy(test_tender_data['items'][0]))
 
 class DumpsTestAppwebtest(TestApp):
     def do_request(self, req, status=None, expect_errors=None):
@@ -215,22 +216,12 @@ class TenderResourceTest(BaseTenderWebTest):
                                                                 'endDate': custom_period_end_date}}})
             self.assertEqual(response.status, '200 OK')
 
-        # add item
-        with open('docs/source/tutorial/add-contract-item.http', 'w') as self.app.file_obj:
-            item = deepcopy(response.json['data']['items'][0])
-            del item['id']
-            item["description"] = u"коробки для футлярів до державних нагород"
-            response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract_id, contract_token),
-                                           {"data": {"items": [{}, item]}})
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(len(response.json['data']['items']), 2)
-
         # update item
         with open('docs/source/tutorial/update-contract-item.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/contracts/{}?acc_token={}'.format(contract_id, contract_token),
-                                           {"data": {"items": [{}, {'quantity': 2}]}, })
+                                           {"data": {"items": [{'quantity': 2}, {}]}, })
             self.assertEqual(response.status, '200 OK')
-            item2 = response.json['data']['items'][1]
+            item2 = response.json['data']['items'][0]
             self.assertEqual(item2['quantity'], 2)
 
         # delete item

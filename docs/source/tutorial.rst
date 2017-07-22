@@ -46,9 +46,9 @@ Getting access
 
 In order to get rights for future contract editing, you need to use this view ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}`` with the API key of the eMall (broker), where tender was generated.
 
-In the ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``: 
+In the ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``:
 
-* ``id`` stands for contract id, 
+* ``id`` stands for contract id,
 
 * ``tender_token`` is tender's token (is used for contract token generation).
 
@@ -69,7 +69,7 @@ We do see the internal `id` of a contract (that can be used to construct full UR
 Modifying contract
 ------------------
 
-You can make changes to the contract in cases described in the 4th part of Article 36 of the Law "On the Public Procurement". 
+You can make changes to the contract in cases described in the 4th part of Article 36 of the Law "On the Public Procurement".
 
 **Essential contract terms** can be modified by the submission of a new :ref:`change` object to the `Contract.changes` container.
 
@@ -91,7 +91,7 @@ You can view the `change`:
    :code:
 
 `Change` can be modified while it is in the ``pending`` status:
-   
+
 .. include:: tutorial/patch-contract-change.http
    :code:
 
@@ -103,7 +103,7 @@ Document can be added only while `change` is in the ``pending`` status.
 Document has to be added in two stages:
 
 * you should upload document
-  
+
 .. include:: tutorial/add-contract-change-document.http
    :code:
 
@@ -126,11 +126,6 @@ Fields that can be modified: `title`, `description`, `status`, `value.amount`, `
 
 See examples of `items` customization below. You can:
 
-* add item:
-
-.. include:: tutorial/add-contract-item.http
-   :code:
-
 * update item:
 
 .. include:: tutorial/update-contract-item.http
@@ -138,18 +133,20 @@ See examples of `items` customization below. You can:
 
 * delete item:
 
+Request example for cases when contract has several items:
+
 .. include:: tutorial/delete-contract-item.http
    :code:
 
 Applying the change
 ~~~~~~~~~~~~~~~~~~~
 
-`Change` can be applied by switching to the ``active`` status. 
+`Change` can be applied by switching to the ``active`` status.
 
 In order to apply ``active`` status `dateSigned` field must be set.
 
 After this `change` can't be modified anymore.
-   
+
 .. include:: tutorial/apply-contract-change.http
    :code:
 
@@ -205,7 +202,7 @@ And we can see that it is overriding the original version:
 .. index:: Enquiries, Question, Answer
 
 
-   
+
 Completing contract
 -------------------
 
