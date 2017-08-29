@@ -9,7 +9,10 @@ from openprocurement.tender.core.utils import (
     calculate_business_date
 )
 from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
-from openprocurement.tender.core.validation import validate_document_operation_in_not_allowed_period
+from openprocurement.tender.core.validation import (
+    validate_document_operation_in_not_allowed_period,
+    validate_tender_document_update_not_by_author_or_tender_owner
+)
 from openprocurement.tender.belowthreshold.views.tender_document import TenderDocumentResource
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
@@ -36,6 +39,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
         if not self.validate_update_tender():
             raise error_handler(self.request.errors)
         document = upload_file(self.request)
+        document.author = self.request.authenticated_role
         self.context.documents.append(document)
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             self.context.invalidate_bids_data()
@@ -47,7 +51,8 @@ class TenderUaDocumentResource(TenderDocumentResource):
             self.request.response.headers['Location'] = self.request.current_route_url(_route_name=document_route, document_id=document.id, _query={})
             return {'data': document.serialize("view")}
 
-    @json_view(permission='upload_tender_documents', validators=(validate_file_update, validate_document_operation_in_not_allowed_period))
+    @json_view(permission='upload_tender_documents', validators=(validate_file_update, validate_document_operation_in_not_allowed_period,
+               validate_tender_document_update_not_by_author_or_tender_owner))
     def put(self):
         """Tender Document Update"""
         if not self.validate_update_tender():
@@ -62,7 +67,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
             return {'data': document.serialize("view")}
 
     @json_view(content_type="application/json", permission='upload_tender_documents', validators=(validate_patch_document_data,
-               validate_document_operation_in_not_allowed_period))
+               validate_document_operation_in_not_allowed_period, validate_tender_document_update_not_by_author_or_tender_owner))
     def patch(self):
         """Tender Document Update"""
         if not self.validate_update_tender():

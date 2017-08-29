@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import raise_operation_error, error_handler
 from openprocurement.tender.belowthreshold.views.award_document import TenderAwardDocumentResource
 from openprocurement.tender.core.utils import optendersresource
 
@@ -22,4 +22,8 @@ class TenderUaAwardDocumentResource(TenderAwardDocumentResource):
             raise_operation_error(self.request, 'Can {} document only in active lot status'.format(operation))
         if any([any([c.status == 'accepted' for c in i.complaints]) for i in self.request.validated['tender'].awards if i.lotID == self.request.validated['award'].lotID]):
             raise_operation_error(self.request, 'Can\'t {} document with accepted complaint')
+        if operation == 'update' and self.request.authenticated_role != (self.context.author or 'tender_owner'):
+            self.request.errors.add('url', 'role', 'Can update document only author')
+            self.request.errors.status = 403
+            raise error_handler(self.request.errors)
         return True
