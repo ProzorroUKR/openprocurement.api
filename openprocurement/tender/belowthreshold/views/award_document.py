@@ -6,7 +6,8 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
-    raise_operation_error
+    raise_operation_error,
+    error_handler
 )
 from openprocurement.api.validation import (
     validate_file_update,
@@ -34,6 +35,10 @@ class TenderAwardDocumentResource(APIResource):
             raise_operation_error(self.request, 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
         if any([i.status != 'active' for i in self.request.validated['tender'].lots if i.id == self.request.validated['award'].lotID]):
             raise_operation_error(self.request, 'Can {} document only in active lot status'.format(operation))
+        if operation == 'update' and self.request.authenticated_role != (self.context.author or 'tender_owner'):
+            self.request.errors.add('url', 'role', 'Can update document only author')
+            self.request.errors.status = 403
+            raise error_handler(self.request.errors)
         return True
 
     @json_view(permission='view_tender')
@@ -48,13 +53,14 @@ class TenderAwardDocumentResource(APIResource):
             ]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
-    @json_view(validators=(validate_file_upload,), permission='edit_tender')
+    @json_view(validators=(validate_file_upload,), permission='upload_tender_documents')
     def collection_post(self):
         """Tender Award Document Upload
         """
         if not self.validate_award_document('add'):
             return
         document = upload_file(self.request)
+        document.author = self.request.authenticated_role
         self.context.documents.append(document)
         if save_tender(self.request):
             self.LOGGER.info('Created tender award document {}'.format(document.id),

@@ -16,6 +16,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     dateModified_tender,
     guarantee,
     tender_Administrator_change,
+    patch_not_author,
     listing_draft,
     tender_fields,
     listing_changes,
@@ -52,6 +53,7 @@ class TenderResourceTestMixin(object):
     test_dateModified_tender = snitch(dateModified_tender)
     test_tender_not_found = snitch(tender_not_found)
     test_tender_Administrator_change = snitch(tender_Administrator_change)
+    test_patch_not_author = snitch(patch_not_author)
 
 
 class TenderTest(BaseWebTest):
