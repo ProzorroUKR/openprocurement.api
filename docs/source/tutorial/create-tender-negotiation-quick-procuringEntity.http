@@ -1,6 +1,6 @@
-POST /api/2.0/tenders?opt_pretty=1 HTTP/1.0
+POST /api/2.3/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 3707
+Content-Length: 3719
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
@@ -41,7 +41,7 @@ Host: api-sandbox.openprocurement.org
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Послуги з харчування у школах", 
           "id": "55523100-3"
         }, 
@@ -61,8 +61,8 @@ Host: api-sandbox.openprocurement.org
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T12:58:51.540194", 
-          "endDate": "2016-04-20T12:58:51.540194"
+          "startDate": "2017-06-21T20:02:22.515286", 
+          "endDate": "2017-06-24T20:02:22.515286"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
@@ -80,10 +80,10 @@ Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/5812ceb8858c43dc97853e1f869aa87c
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/ed2bd8393c4a422786a49846f1a5eb61
 {
   "access": {
-    "token": "cbe2f3062cdd4a01bb4db318e6c01950"
+    "token": "e3475b5af2ce460895020a2db1c9926d"
   }, 
   "data": {
     "procurementMethod": "limited", 
@@ -94,7 +94,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/5812ceb8858c43d
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Послуги з харчування у школах", 
           "id": "55523100-3"
         }, 
@@ -107,15 +107,15 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/5812ceb8858c43d
           }
         ], 
         "deliveryAddress": {
-          "countryName": "Україна", 
           "postalCode": "79000", 
+          "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-04-17T12:58:51.540194+03:00", 
-          "endDate": "2016-04-20T12:58:51.540194+03:00"
+          "startDate": "2017-06-21T20:02:22.515286+03:00", 
+          "endDate": "2017-06-24T20:02:22.515286+03:00"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
@@ -127,8 +127,9 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/5812ceb8858c43d
       "amount": 500000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateModified": "2016-04-15T12:59:23.494422+03:00", 
+    "dateModified": "2017-06-19T20:02:48.214465+03:00", 
     "causeDescription_ru": "оригинальный тендер не получился дважды", 
+    "date": "2017-06-19T20:02:48.211248+03:00", 
     "causeDescription_en": "original tender has failed twice", 
     "description_ru": "Услуги школьных столовых", 
     "description_en": "Services in school canteens", 
@@ -156,8 +157,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.0/tenders/5812ceb8858c43d
       }
     }, 
     "title_en": "Services in school canteens", 
-    "id": "5812ceb8858c43dc97853e1f869aa87c", 
-    "tenderID": "UA-2016-04-15-000001"
+    "id": "ed2bd8393c4a422786a49846f1a5eb61", 
+    "tenderID": "UA-2017-06-19-000001"
   }
 }
 
