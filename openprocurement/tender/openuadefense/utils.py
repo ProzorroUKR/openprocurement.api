@@ -12,7 +12,7 @@ from openprocurement.tender.openua.utils import (
 
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
-CALCULATE_BUSINESS_DATE_FROM = datetime(2017, 8, 30, tzinfo=TZ)
+CALCULATE_BUSINESS_DATE_FROM = datetime(2017, 8, 31, tzinfo=TZ)
 
 
 def read_json(name):
