@@ -1,9 +1,10 @@
-from datetime import timedelta
+from datetime import datetime, time, timedelta
 from logging import getLogger
 from pkg_resources import get_distribution
 
-from openprocurement.api.models import read_json, get_now, TZ
-from openprocurement.api.utils import ACCELERATOR_RE, datetime, time, context_unpack, check_tender_status
+from openprocurement.api.models import get_now, TZ
+from openprocurement.api.utils import ACCELERATOR_RE, context_unpack, check_tender_status
+from openprocurement.api.utils import calculate_business_date as calculate_business_date_openua
 from openprocurement.tender.openua.utils import (
     check_complaint_status, add_next_award, has_unanswered_questions,
     has_unanswered_complaints
@@ -11,16 +12,30 @@ from openprocurement.tender.openua.utils import (
 
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
+CALCULATE_BUSINESS_DATE_FROM = datetime(2017, 8, 30, tzinfo=TZ)
+
+
+def read_json(name):
+    import os.path
+    from json import loads
+    curr_dir = os.path.dirname(os.path.realpath(__file__))
+    file_path = os.path.join(curr_dir, name)
+    with open(file_path) as lang_file:
+        data = lang_file.read()
+    return loads(data)
+
+
 WORKING_DAYS = read_json('working_days.json')
 
 
 def calculate_business_date(date_obj, timedelta_obj, context=None, working_days=False):
+    if (context.get('revisions')[0].date if context and context.get('revisions') else get_now()) < CALCULATE_BUSINESS_DATE_FROM:
+        return calculate_business_date_openua(date_obj, timedelta_obj, context, working_days)
     if context and 'procurementMethodDetails' in context and context['procurementMethodDetails']:
         re_obj = ACCELERATOR_RE.search(context['procurementMethodDetails'])
         if re_obj and 'accelerator' in re_obj.groupdict():
             return date_obj + (timedelta_obj / int(re_obj.groupdict()['accelerator']))
     if working_days:
-        date = date_obj
         if timedelta_obj > timedelta():
             if date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True) or WORKING_DAYS.get(date_obj.date().isoformat(), False):
                 date_obj = datetime.combine(date_obj.date(), time(0, tzinfo=date_obj.tzinfo)) + timedelta(1)
@@ -69,11 +84,11 @@ def check_status(request):
                 'suppliers': award.suppliers,
                 'value': award.value,
                 'date': now,
-                'items': [i for i in tender.items if i.relatedLot == award.lotID ],
-                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1) }))
+                'items': [i for i in tender.items if i.relatedLot == award.lotID],
+                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1)}))
             add_next_award(request)
     if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
-        not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
+            not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
@@ -84,7 +99,7 @@ def check_status(request):
             tender.auctionPeriod.startDate = None
         return
     elif tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
-        not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
+            not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
