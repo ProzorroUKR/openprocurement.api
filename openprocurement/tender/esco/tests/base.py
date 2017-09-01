@@ -45,17 +45,12 @@ class BaseESCOWebTest(BaseTenderWebTest):
 
 
 
-class BaseESCOContentWebTestBasic(BaseESCOWebTest):
+class BaseESCOContentWebTest(BaseESCOWebTest):
     """ ESCO Content Test """
     initialize_initial_data = True
+    initial_data = test_tender_data
 
     def setUp(self):
-        super(BaseESCOContentWebTestBasic, self).setUp()
+        super(BaseESCOContentWebTest, self).setUp()
         if self.initial_data and self.initialize_initial_data:
             self.create_tender()
-
-
-class BaseESCOContentWebTest(BaseESCOContentWebTestBasic):
-    """ ESCO Content Test """
-
-    initial_data = test_tender_data
