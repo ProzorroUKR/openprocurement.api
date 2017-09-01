@@ -45,7 +45,7 @@ body of response reveals the information about the created tender: its internal
 `dateModified` datestamp stating the moment in time when tender was last
 modified.  Note that tender is created with `active.tendering` status.
 
-The peculiarity of the ESCO procedure is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``esco.EU``.
+The peculiarity of the ESCO procedure is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``esco``.
 Also, ``value`` was changed to ``minValue`` and new field ``NBUdiscountRate`` was added.
 There is also no opportunity to set up ``enquiryPeriod``, it will be assigned automatically.
 

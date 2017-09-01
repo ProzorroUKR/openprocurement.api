@@ -15,7 +15,7 @@ DATA:
       "amount": 35
     }, 
     "NBUdiscountRate": 0.22, 
-    "procurementMethodType": "esco.EU", 
+    "procurementMethodType": "esco",
     "minValue": {
       "currency": "UAH", 
       "amount": 500
@@ -151,7 +151,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/55834ec489eb4ca
     "auctionPeriod": {
       "shouldStartAfter": "2017-07-24T00:00:00+03:00"
     }, 
-    "procurementMethodType": "esco.EU", 
+    "procurementMethodType": "esco",
     "date": "2017-05-18T15:24:06.343912+03:00", 
     "minValue": {
       "currency": "UAH", 
