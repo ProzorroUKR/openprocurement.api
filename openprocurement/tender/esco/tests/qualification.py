@@ -4,7 +4,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.esco.tests.base import (
-    BaseESCOEUContentWebTest,
+    BaseESCOContentWebTest,
     test_bids,
     test_lots,
 )
@@ -60,7 +60,7 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
 )
 
 
-class TenderQualificationResourceTest(BaseESCOEUContentWebTest):
+class TenderQualificationResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification' status sets in setUp
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
@@ -113,7 +113,7 @@ class Tender2LotQualificationResourceTest(TenderQualificationResourceTest):
     test_tender_qualification_cancelled = snitch(tender_qualification_cancelled)
 
 
-class TenderQualificationDocumentResourceTest(BaseESCOEUContentWebTest):
+class TenderQualificationDocumentResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
@@ -140,7 +140,7 @@ class TenderQualificationDocumentResourceTest(BaseESCOEUContentWebTest):
     test_patch_document_not_author = snitch(patch_document_not_author)
 
 
-class TenderQualificationComplaintResourceTest(BaseESCOEUContentWebTest):
+class TenderQualificationComplaintResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
@@ -247,7 +247,7 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
     test_create_tender_qualification_claim = snitch(create_tender_qualification_claim)
 
 
-class TenderQualificationComplaintDocumentResourceTest(BaseESCOEUContentWebTest):
+class TenderQualificationComplaintDocumentResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))

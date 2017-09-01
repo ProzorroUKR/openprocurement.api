@@ -5,14 +5,14 @@ from datetime import timedelta
 from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, SANDBOX_MODE
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.esco.models import TenderESCOEU
+from openprocurement.tender.esco.models import TenderESCO
 
 
-# TenderESCOEUTest
+# TenderESCOTest
 
 
 def simple_add_tender(self):
-    u = TenderESCOEU(self.initial_data)
+    u = TenderESCO(self.initial_data)
     u.tenderID = "UA-X"
 
     assert u.id is None
@@ -27,8 +27,8 @@ def simple_add_tender(self):
 
     assert u.tenderID == fromdb['tenderID']
     assert u.doc_type == "Tender"
-    assert u.procurementMethodType == "esco.EU"
-    assert fromdb['procurementMethodType'] == "esco.EU"
+    assert u.procurementMethodType == "esco"
+    assert fromdb['procurementMethodType'] == "esco"
 
     u.delete_instance(self.db)
 
@@ -139,7 +139,7 @@ def create_tender_invalid(self):
         {u'description': u'Not implemented', u'location': u'data', u'name': u'procurementMethodType'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'esco.EU',
+    response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'esco',
                                   'invalid_field': 'invalid_value'}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -149,7 +149,7 @@ def create_tender_invalid(self):
             u'body', u'name': u'invalid_field'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'esco.EU',
+    response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'esco',
                                                           'minValue': 'invalid_value'}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -159,7 +159,7 @@ def create_tender_invalid(self):
             u'Please use a mapping for this field or Value instance instead of unicode.'], u'location': u'body', u'name': u'minValue'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'esco.EU',
+    response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'esco',
                                                           'procurementMethod': 'invalid_value'}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -171,7 +171,7 @@ def create_tender_invalid(self):
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
 
-    response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'esco.EU',
+    response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'esco',
                                                           'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -180,7 +180,7 @@ def create_tender_invalid(self):
         {u'description': {u'endDate': [u"Could not parse invalid_value. Should be ISO8601."]}, u'location': u'body', u'name': u'enquiryPeriod'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'esco.EU',
+    response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'esco',
                                                           'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')

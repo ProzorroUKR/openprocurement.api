@@ -32,7 +32,7 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
 )
 
 from openprocurement.tender.esco.tests.base import (
-    BaseESCOEUContentWebTest,
+    BaseESCOContentWebTest,
     test_tender_data,
     test_lots,
     test_bids,
@@ -53,7 +53,7 @@ from openprocurement.tender.esco.tests.lot_blanks import (
 )
 
 
-class TenderLotResourceTest(BaseESCOEUContentWebTest):
+class TenderLotResourceTest(BaseESCOContentWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
     test_lots_data = test_lots  # TODO: change attribute identifier
@@ -71,14 +71,14 @@ class TenderLotResourceTest(BaseESCOEUContentWebTest):
     test_get_tender_lots = snitch(get_tender_lots)
 
 
-class TenderLotEdgeCasesTest(BaseESCOEUContentWebTest, TenderLotEdgeCasesTestMixin):
+class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_lots = test_lots * 2
     initial_bids = test_bids
     test_author = test_organization
 
 
-class TenderLotFeatureResourceTest(BaseESCOEUContentWebTest):
+class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     initial_lots = 2 * test_lots
     # for passing test_tender_min_value while min value = 0
     initial_lots[0]['minValue'] = {"amount": 0}
@@ -95,7 +95,7 @@ class TenderLotFeatureResourceTest(BaseESCOEUContentWebTest):
     test_tender_lot_document = snitch(tender_lot_document)
 
 
-class TenderLotBidResourceTest(BaseESCOEUContentWebTest):
+class TenderLotBidResourceTest(BaseESCOContentWebTest):
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids  # TODO: change attribute identifier
@@ -104,7 +104,7 @@ class TenderLotBidResourceTest(BaseESCOEUContentWebTest):
     test_patch_tender_bid = snitch(patch_tender_bid)
 
 
-class TenderLotFeatureBidResourceTest(BaseESCOEUContentWebTest):
+class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
@@ -178,8 +178,8 @@ class TenderLotFeatureBidResourceTest(BaseESCOEUContentWebTest):
     test_create_tender_bid = snitch(create_tender_feature_bid)
 
 
-class TenderLotProcessTest(BaseESCOEUContentWebTest, TenderLotProcessTestMixin):
-    setUp = BaseESCOEUContentWebTest.setUp
+class TenderLotProcessTest(BaseESCOContentWebTest, TenderLotProcessTestMixin):
+    setUp = BaseESCOContentWebTest.setUp
     test_lots_data = test_lots  # TODO: change attribute identifier
     test_bids_data = test_bids
     initial_data = test_tender_data

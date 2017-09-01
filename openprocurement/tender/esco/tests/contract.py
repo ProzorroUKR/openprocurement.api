@@ -17,7 +17,7 @@ from openprocurement.tender.openua.tests.contract_blanks import (
 )
 
 from openprocurement.tender.esco.tests.base import (
-    BaseESCOEUContentWebTest,
+    BaseESCOContentWebTest,
     test_tender_data,
     test_bids
 )
@@ -32,7 +32,7 @@ from openprocurement.tender.esco.tests.contract_blanks import (
 )
 
 
-class TenderContractResourceTest(BaseESCOEUContentWebTest, TenderContractResourceTestMixin):
+class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
@@ -54,7 +54,7 @@ class TenderContractResourceTest(BaseESCOEUContentWebTest, TenderContractResourc
     test_patch_tender_contract = snitch(patch_tender_contract)
 
 
-class TenderContractDocumentResourceTest(BaseESCOEUContentWebTest, TenderContractDocumentResourceTestMixin):
+class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))

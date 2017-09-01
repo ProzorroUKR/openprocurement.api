@@ -24,20 +24,20 @@ from openprocurement.tender.openeu.tests.complaint_blanks import (
 )
 
 from openprocurement.tender.esco.tests.base import (
-    BaseESCOEUContentWebTest,
+    BaseESCOContentWebTest,
     test_lots,
     test_bids
 )
 
 
-class TenderComplaintResourceTest(BaseESCOEUContentWebTest,
+class TenderComplaintResourceTest(BaseESCOContentWebTest,
                                   TenderComplaintResourceTestMixin,
                                   TenderUAComplaintResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     test_author = test_bids[0]["tenderers"][0]
 
 
-class TenderLotAwardComplaintResourceTest(BaseESCOEUContentWebTest):
+class TenderLotAwardComplaintResourceTest(BaseESCOContentWebTest):
     initial_lots = test_lots
     test_author = test_bids[0]["tenderers"][0]
     initial_auth = ('Basic', ('broker', ''))
@@ -45,7 +45,7 @@ class TenderLotAwardComplaintResourceTest(BaseESCOEUContentWebTest):
     test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
 
-class TenderComplaintDocumentResourceTest(BaseESCOEUContentWebTest):
+class TenderComplaintDocumentResourceTest(BaseESCOContentWebTest):
 
     test_author = test_bids[0]["tenderers"][0]
     initial_auth = ('Basic', ('broker', ''))
