@@ -18,7 +18,7 @@ Main responsibilities
 
 ESCO procedure is applied for all energy service procurements regardless their price. The main assessment criterion for this type of procurement procedure is Net Present Value (NPV). ESCO procedure features reverse approach compared to the other openprocurement procedures: tender is won by supplier who offered the highest Net Present Value. 
 
-The `procurementMethodType` is `esco.EU`. 
+The `procurementMethodType` is `esco`.
 
 ESCO contracts use separate extension: https://github.com/openprocurement/openprocurement.contract.esco
 

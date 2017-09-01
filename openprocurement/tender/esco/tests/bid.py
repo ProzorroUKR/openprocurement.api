@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.tender.esco.tests.base import (
     test_bids, test_features_tender_data,
-    BaseESCOEUContentWebTest
+    BaseESCOContentWebTest
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
@@ -55,7 +55,7 @@ from openprocurement.tender.esco.tests.bid_blanks import (
 )
 
 
-class TenderBidResourceTest(BaseESCOEUContentWebTest):
+class TenderBidResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
     test_bids_data = test_bids
     author_data = test_bids_data[0]['tenderers'][0]
@@ -76,7 +76,7 @@ class TenderBidResourceTest(BaseESCOEUContentWebTest):
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
 
 
-class TenderBidFeaturesResourceTest(BaseESCOEUContentWebTest):
+class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
     initial_data = test_features_tender_data
     test_bids_data = test_bids
@@ -85,7 +85,7 @@ class TenderBidFeaturesResourceTest(BaseESCOEUContentWebTest):
     test_features_bid_invalid = snitch(features_bid_invalid)
 
 
-class TenderBidDocumentResourceTest(BaseESCOEUContentWebTest, TenderBidDocumentResourceTestMixin):
+class TenderBidDocumentResourceTest(BaseESCOContentWebTest, TenderBidDocumentResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_status = 'active.tendering'
     test_bids_data = test_bids
@@ -120,7 +120,7 @@ class TenderBidDocumentWithoutDSResourceTest(TenderBidDocumentResourceTest):
     docservice = False
 
 
-class TenderBidBatchDocumentsWithDSResourceTest(BaseESCOEUContentWebTest):
+class TenderBidBatchDocumentsWithDSResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_status = 'active.tendering'
 

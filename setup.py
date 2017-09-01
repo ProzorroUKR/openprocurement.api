@@ -20,7 +20,7 @@ docs_requires = requires + [
 
 entry_points = {
     'openprocurement.tender.core.plugins': [
-        'esco.EU = openprocurement.tender.esco.includeme:includeme',
+        'esco = openprocurement.tender.esco.includeme:includeme',
     ],
 }
 

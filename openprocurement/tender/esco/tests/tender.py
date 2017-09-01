@@ -3,7 +3,7 @@ import unittest
 from openprocurement.tender.openeu.constants import TENDERING_DAYS
 from openprocurement.tender.esco.tests.base import (
     test_tender_data, test_lots, test_bids,
-    BaseESCOWebTest, BaseESCOEUContentWebTest,
+    BaseESCOWebTest, BaseESCOContentWebTest,
 )
 from openprocurement.api.tests.base import snitch
 
@@ -30,7 +30,7 @@ from openprocurement.tender.openeu.tests.tender_blanks import (
 )
 
 from openprocurement.tender.esco.tests.tender_blanks import (
-    #TenderESCOEUTest
+    #TenderESCOTest
     simple_add_tender,
     tender_value,
     tender_min_value,
@@ -42,7 +42,7 @@ from openprocurement.tender.esco.tests.tender_blanks import (
 )
 
 
-class TenderESCOEUTest(BaseESCOWebTest):
+class TenderESCOTest(BaseESCOWebTest):
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
 
@@ -51,8 +51,8 @@ class TenderESCOEUTest(BaseESCOWebTest):
     test_tender_min_value = snitch(tender_min_value)
 
 
-class TestTenderEU(BaseESCOEUContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
-    """ ESCO EU tender test """
+class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
+    """ ESCO tender test """
     initialize_initial_data = False
     test_tender_data['submissionMethodDetails'] = "quick(mode:no-auction)"  # TODO: remove this line after adding auction
     initial_data = test_tender_data
@@ -75,7 +75,7 @@ class TestTenderEU(BaseESCOEUContentWebTest, TenderResourceTestMixin, TenderUARe
     test_tender_submission_method_details_no_auction_only = snitch(tender_submission_method_details_no_auction_only)
 
 
-class TestTenderEUProcess(BaseESCOEUContentWebTest):
+class TestTenderEUProcess(BaseESCOContentWebTest):
 
     initialize_initial_data = False
     initial_data = test_tender_data
@@ -91,7 +91,7 @@ class TestTenderEUProcess(BaseESCOEUContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderESCOEUTest))
+    suite.addTest(unittest.makeSuite(TenderESCOTest))
     suite.addTest(unittest.makeSuite(TestTenderEU))
     suite.addTest(unittest.makeSuite(TestTenderEUProcess))
     return suite

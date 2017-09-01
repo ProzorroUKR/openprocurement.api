@@ -6,10 +6,10 @@ from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentWithDSResourceTestMixin
 )
 
-from openprocurement.tender.esco.tests.base import BaseESCOEUContentWebTest
+from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest
 
 
-class TenderDocumentResourceTest(BaseESCOEUContentWebTest, TenderDocumentResourceTestMixin):
+class TenderDocumentResourceTest(BaseESCOContentWebTest, TenderDocumentResourceTestMixin):
     docservice = False
     initial_auth = ('Basic', ('broker', ''))
 

@@ -13,13 +13,13 @@ from openprocurement.tender.openeu.tests.base import (
 NBU_DISCOUNT_RATE = 0.22
 
 test_tender_data = deepcopy(base_eu_test_data)
-test_tender_data['procurementMethodType'] = "esco.EU"
+test_tender_data['procurementMethodType'] = "esco"
 test_tender_data['NBUdiscountRate'] = NBU_DISCOUNT_RATE
 
 del test_tender_data['value']
 
 test_features_tender_data = deepcopy(base_eu_test_features_data)
-test_features_tender_data['procurementMethodType'] = "esco.EU"
+test_features_tender_data['procurementMethodType'] = "esco"
 test_features_tender_data['NBUdiscountRate'] = NBU_DISCOUNT_RATE
 
 del test_features_tender_data['value']
@@ -48,14 +48,9 @@ class BaseESCOWebTest(BaseTenderWebTest):
 class BaseESCOContentWebTest(BaseESCOWebTest):
     """ ESCO Content Test """
     initialize_initial_data = True
+    initial_data = test_tender_data
 
     def setUp(self):
         super(BaseESCOContentWebTest, self).setUp()
         if self.initial_data and self.initialize_initial_data:
             self.create_tender()
-
-
-class BaseESCOEUContentWebTest(BaseESCOContentWebTest):
-    """ ESCO EU Content Test """
-
-    initial_data = test_tender_data

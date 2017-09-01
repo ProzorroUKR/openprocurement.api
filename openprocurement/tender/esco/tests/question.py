@@ -17,7 +17,7 @@ from openprocurement.tender.openua.tests.question_blanks import (
 )
 
 from openprocurement.tender.esco.tests.base import (
-    BaseESCOEUContentWebTest,
+    BaseESCOContentWebTest,
     test_bids,
     test_lots,
 )
@@ -28,7 +28,7 @@ from openprocurement.tender.openeu.tests.question_blanks import (
 )
 
 
-class TenderQuestionResourceTest(BaseESCOEUContentWebTest, TenderQuestionResourceTestMixin):
+class TenderQuestionResourceTest(BaseESCOContentWebTest, TenderQuestionResourceTestMixin):
 
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids
@@ -38,7 +38,7 @@ class TenderQuestionResourceTest(BaseESCOEUContentWebTest, TenderQuestionResourc
     test_answering_question = snitch(answering_question)
 
 
-class TenderLotQuestionResourceTest(BaseESCOEUContentWebTest):
+class TenderLotQuestionResourceTest(BaseESCOContentWebTest):
 
     initial_lots = 2 * test_lots
     initial_auth = ('Basic', ('broker', ''))

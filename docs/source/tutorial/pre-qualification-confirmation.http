@@ -172,7 +172,7 @@ Content-Type: application/json; charset=UTF-8
     "auctionPeriod": {
       "shouldStartAfter": "2017-06-08T00:00:00+03:00"
     }, 
-    "procurementMethodType": "esco.EU", 
+    "procurementMethodType": "esco",
     "date": "2017-06-02T13:00:56.023871+03:00", 
     "minValue": {
       "currency": "UAH", 

@@ -159,7 +159,7 @@ Content-Type: application/json; charset=UTF-8
         "id": "defe3473378c4ef2960c749f9b2451e6"
       }
     ], 
-    "procurementMethodType": "esco.EU", 
+    "procurementMethodType": "esco",
     "date": "2017-06-02T13:00:54.322309+03:00", 
     "minValue": {
       "currency": "UAH", 

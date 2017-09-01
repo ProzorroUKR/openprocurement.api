@@ -23,7 +23,7 @@ from openprocurement.tender.openeu.tests.auction_blanks import (
 )
 
 from openprocurement.tender.esco.tests.base import (
-    BaseESCOEUContentWebTest,
+    BaseESCOContentWebTest,
     test_features_tender_data,
     test_bids,
     test_lots,
@@ -38,7 +38,7 @@ from openprocurement.tender.esco.tests.auction_blanks import (
 )
 
 
-class TenderAuctionResourceTest(BaseESCOEUContentWebTest, TenderAuctionResourceTestMixin):
+class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTestMixin):
     #initial_data = tender_data
     initial_auth = ('Basic', ('broker', ''))
     initial_bids = test_bids
@@ -67,7 +67,7 @@ class TenderAuctionResourceTest(BaseESCOEUContentWebTest, TenderAuctionResourceT
     test_post_tender_auction = snitch(post_tender_auction)
 
 
-class TenderSameValueAuctionResourceTest(BaseESCOEUContentWebTest):
+class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
 
     initial_status = 'active.auction'
     tenderer_info = deepcopy(test_bids[0]['tenderers'])
@@ -119,7 +119,7 @@ class TenderSameValueAuctionResourceTest(BaseESCOEUContentWebTest):
     test_post_tender_auction_reversed = snitch(post_tender_auction_reversed)
 
 
-class TenderAuctionNBUdiscountRateTest(BaseESCOEUContentWebTest):
+class TenderAuctionNBUdiscountRateTest(BaseESCOContentWebTest):
     #initial_data = tender_data
     initial_auth = ('Basic', ('broker', ''))
     initial_bids = test_bids
@@ -161,7 +161,7 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
     test_post_tender_auction = snitch(post_tender_lots_auction)
 
 
-class TenderFeaturesAuctionResourceTest(BaseESCOEUContentWebTest):
+class TenderFeaturesAuctionResourceTest(BaseESCOContentWebTest):
     initial_data = test_features_tender_data
     initial_status = 'active.auction'
     tenderer_info = deepcopy(test_bids[0]['tenderers'])

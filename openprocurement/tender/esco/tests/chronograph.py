@@ -10,7 +10,7 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
 )
 
 from openprocurement.tender.esco.tests.base import (
-    BaseESCOEUContentWebTest, test_bids, test_lots
+    BaseESCOContentWebTest, test_bids, test_lots
 )
 from openprocurement.tender.openeu.tests.chronograph_blanks import (
     # TenderComplaintSwitchResourceTest
@@ -30,7 +30,7 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
 )
 
 
-class TenderSwitchPreQualificationResourceTest(BaseESCOEUContentWebTest):
+class TenderSwitchPreQualificationResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
 
@@ -43,7 +43,7 @@ class TenderLotSwitchPreQualificationResourceTest(TenderSwitchPreQualificationRe
     initial_lots = test_lots
 
 
-class TenderSwitchAuctionResourceTest(BaseESCOEUContentWebTest):
+class TenderSwitchAuctionResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.pre-qualification.stand-still'
     initial_bids = test_bids
 
@@ -55,7 +55,7 @@ class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):
     initial_lots = test_lots
 
 
-class TenderSwitchUnsuccessfulResourceTest(BaseESCOEUContentWebTest):
+class TenderSwitchUnsuccessfulResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
@@ -66,20 +66,20 @@ class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTe
     initial_lots = test_lots
 
 
-class TenderAuctionPeriodResourceTest(BaseESCOEUContentWebTest):
+class TenderAuctionPeriodResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
 
     test_set_auction_period = snitch(set_auction_period)
 
 
-class TenderLotAuctionPeriodResourceTest(BaseESCOEUContentWebTest):
+class TenderLotAuctionPeriodResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
     initial_lots = test_lots
 
     test_set_auction_period = snitch(set_auction_period_lot)
 
 
-class TenderComplaintSwitchResourceTest(BaseESCOEUContentWebTest):
+class TenderComplaintSwitchResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
     author_data = test_organization

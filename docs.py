@@ -21,7 +21,7 @@ test_tender_data = {
     "currency": "UAH",
     "amount": 35
   },
-  "procurementMethodType": "esco.EU",
+  "procurementMethodType": "esco",
   "minValue": {
     "currency": "UAH",
     "amount": 500

@@ -37,7 +37,7 @@ Schema
 :procurementMethodType:
     string
 
-    value: ``esco.EU``
+    value: ``esco``
 
 :procuringEntity:
    :ref:`ProcuringEntity`, required

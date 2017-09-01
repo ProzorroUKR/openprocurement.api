@@ -39,13 +39,13 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
 )
 
 from openprocurement.tender.esco.tests.base import (
-    BaseESCOEUContentWebTest,
+    BaseESCOContentWebTest,
     test_bids,
     test_lots
 )
 
 
-class TenderCancellationResourceTest(BaseESCOEUContentWebTest, TenderCancellationResourceTestMixin):
+class TenderCancellationResourceTest(BaseESCOContentWebTest, TenderCancellationResourceTestMixin):
 
     initial_auth = ('Basic', ('broker', ''))
 
@@ -53,7 +53,7 @@ class TenderCancellationResourceTest(BaseESCOEUContentWebTest, TenderCancellatio
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
 
 
-class TenderCancellationBidsAvailabilityTest(BaseESCOEUContentWebTest, TenderCancellationBidsAvailabilityUtils):
+class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest, TenderCancellationBidsAvailabilityUtils):
     initial_auth = ('Basic', ('broker', ''))
     initial_bids = test_bids * 2
     bid_visible_fields = [u'status', u'documents', u'tenderers', u'id', u'eligibilityDocuments']
@@ -73,7 +73,7 @@ class TenderCancellationBidsAvailabilityTest(BaseESCOEUContentWebTest, TenderCan
     test_bids_on_tender_cancellation_in_awarded = snitch(bids_on_tender_cancellation_in_awarded)
 
 
-class TenderLotCancellationResourceTest(BaseESCOEUContentWebTest):
+class TenderLotCancellationResourceTest(BaseESCOContentWebTest):
     initial_lots = test_lots
 
     initial_auth = ('Basic', ('broker', ''))
@@ -82,7 +82,7 @@ class TenderLotCancellationResourceTest(BaseESCOEUContentWebTest):
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
 
 
-class TenderLotsCancellationResourceTest(BaseESCOEUContentWebTest):
+class TenderLotsCancellationResourceTest(BaseESCOContentWebTest):
     initial_lots = 2 * test_lots
 
     initial_auth = ('Basic', ('broker', ''))
@@ -90,7 +90,7 @@ class TenderLotsCancellationResourceTest(BaseESCOEUContentWebTest):
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
 
 
-class TenderAwardsCancellationResourceTest(BaseESCOEUContentWebTest):
+class TenderAwardsCancellationResourceTest(BaseESCOContentWebTest):
     initial_lots = 2 * test_lots
     initial_status = 'active.tendering'
     initial_bids = test_bids
@@ -101,7 +101,7 @@ class TenderAwardsCancellationResourceTest(BaseESCOEUContentWebTest):
     test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
 
 
-class TenderCancellationDocumentResourceTest(BaseESCOEUContentWebTest, TenderCancellationDocumentResourceTestMixin):
+class TenderCancellationDocumentResourceTest(BaseESCOContentWebTest, TenderCancellationDocumentResourceTestMixin):
 
     initial_auth = ('Basic', ('broker', ''))
 

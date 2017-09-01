@@ -89,7 +89,7 @@ Content-Type: application/json; charset=UTF-8
       "endDate": "2017-06-18T15:23:55.424726+03:00"
     }, 
     "NBUdiscountRate": 0.22, 
-    "procurementMethodType": "esco.EU", 
+    "procurementMethodType": "esco",
     "date": "2017-05-18T15:24:06.343912+03:00", 
     "minValue": {
       "currency": "UAH", 

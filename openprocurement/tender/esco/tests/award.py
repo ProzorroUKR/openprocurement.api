@@ -34,7 +34,7 @@ from openprocurement.tender.openeu.tests.award_blanks import (
 from openprocurement.tender.esco.utils import calculate_npv
 
 from openprocurement.tender.esco.tests.base import (
-    BaseESCOEUContentWebTest,
+    BaseESCOContentWebTest,
     test_bids,
     test_lots,
     NBU_DISCOUNT_RATE
@@ -47,7 +47,7 @@ award_amount = calculate_npv(NBU_DISCOUNT_RATE,
                              test_bids[0]['value']['contractDuration'])
 
 
-class TenderAwardResourceTest(BaseESCOEUContentWebTest,
+class TenderAwardResourceTest(BaseESCOContentWebTest,
                               TenderAwardResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = test_bids
@@ -68,7 +68,7 @@ class TenderAwardResourceTest(BaseESCOEUContentWebTest,
         self.app.authorization = ('Basic', ('broker', ''))
 
 
-class TenderLotAwardCheckResourceTest(BaseESCOEUContentWebTest,
+class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest,
                               TenderLotAwardCheckResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = deepcopy(test_bids)
@@ -95,7 +95,7 @@ class TenderLotAwardCheckResourceTest(BaseESCOEUContentWebTest,
         self.app.authorization = ('Basic', ('broker', ''))
 
 
-class TenderLotAwardResourceTest(BaseESCOEUContentWebTest,
+class TenderLotAwardResourceTest(BaseESCOContentWebTest,
                                  TenderLotAwardResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = test_bids
@@ -114,7 +114,7 @@ class TenderLotAwardResourceTest(BaseESCOEUContentWebTest,
         self.app.authorization = ('Basic', ('broker', ''))
 
 
-class Tender2LotAwardResourceTest(BaseESCOEUContentWebTest,
+class Tender2LotAwardResourceTest(BaseESCOContentWebTest,
                                   Tender2LotAwardResourceTestMixin):
     initial_status = 'active.tendering'
     initial_lots = 2 * test_lots
@@ -132,7 +132,7 @@ class Tender2LotAwardResourceTest(BaseESCOEUContentWebTest,
         self.app.authorization = ('Basic', ('broker', ''))
 
 
-class TenderAwardComplaintResourceTest(BaseESCOEUContentWebTest,
+class TenderAwardComplaintResourceTest(BaseESCOContentWebTest,
                                        TenderAwardComplaintResourceTestMixin,
                                        TenderUaAwardComplaintResourceTestMixin):
     # initial_data = tender_data
@@ -156,7 +156,7 @@ class TenderAwardComplaintResourceTest(BaseESCOEUContentWebTest,
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
 
 
-class TenderLotAwardComplaintResourceTest(BaseESCOEUContentWebTest,
+class TenderLotAwardComplaintResourceTest(BaseESCOContentWebTest,
                                           TenderLotAwardComplaintResourceTestMixin):
     # initial_data = tender_data
     initial_status = 'active.tendering'
@@ -189,7 +189,7 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest,
     initial_lots = 2 * test_lots
 
 
-class TenderAwardComplaintDocumentResourceTest(BaseESCOEUContentWebTest,
+class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest,
                                                TenderAwardComplaintDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
@@ -217,7 +217,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseESCOEUContentWebTest,
     test_patch_tender_award_complaint_document = snitch(patch_tender_award_complaint_document)
 
 
-class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOEUContentWebTest):
+class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_lots = 2 * test_lots
@@ -248,7 +248,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOEUContentWebTest):
     test_patch_tender_award_complaint_document = snitch(patch_tender_2lot_award_complaint_document)
 
 
-class TenderAwardDocumentResourceTest(BaseESCOEUContentWebTest,
+class TenderAwardDocumentResourceTest(BaseESCOContentWebTest,
                                       TenderAwardDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
@@ -264,7 +264,7 @@ class TenderAwardDocumentResourceTest(BaseESCOEUContentWebTest,
         self.award_id = award['id']
 
 
-class Tender2LotAwardDocumentResourceTest(BaseESCOEUContentWebTest,
+class Tender2LotAwardDocumentResourceTest(BaseESCOContentWebTest,
                                           Tender2LotAwardDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
