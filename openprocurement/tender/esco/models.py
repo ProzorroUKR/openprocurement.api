@@ -170,19 +170,19 @@ class LotValue(BaseLotValue):
 
 
 class Contract(BaseEUContract):
-    """ESCO EU contract model"""
+    """ESCO contract model"""
 
     value = ModelType(ESCOValue)
 
 
 class Award(BaseEUAward):
-    """ESCO EU award model"""
+    """ESCO award model"""
 
     value = ModelType(ESCOValue)
 
 
 class Bid(BaseEUBid):
-    """ ESCO EU bid model """
+    """ ESCO bid model """
 
     value = ModelType(ESCOValue)
     lotValues = ListType(ModelType(LotValue), default=list())
@@ -208,7 +208,7 @@ class Bid(BaseEUBid):
 
 @implementer(IESCOTender)
 class Tender(BaseTender):
-    """ ESCO EU Tender model """
+    """ ESCO Tender model """
     class Options:
         roles = {
             'plain': plain_role,
@@ -246,7 +246,7 @@ class Tender(BaseTender):
             'contracting': whitelist('doc_id', 'owner'),
         }
 
-    procurementMethodType = StringType(default="esco.EU")
+    procurementMethodType = StringType(default="esco")
     title_en = StringType(required=True, min_length=1)
 
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
@@ -494,4 +494,4 @@ class Tender(BaseTender):
             if bid.status not in ["deleted", "draft"]:
                 bid.status = "invalid"
 
-TenderESCOEU = Tender
+TenderESCO = Tender

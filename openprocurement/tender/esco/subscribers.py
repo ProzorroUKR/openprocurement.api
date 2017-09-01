@@ -6,9 +6,9 @@ from openprocurement.tender.openua.constants import ENQUIRY_STAND_STILL_TIME
 from openprocurement.tender.openeu.constants import QUESTIONS_STAND_STILL
 
 
-@subscriber(TenderInitializeEvent, procurementMethodType="esco.EU")
+@subscriber(TenderInitializeEvent, procurementMethodType="esco")
 def tender_init_handler(event):
-    """ initialization handler for esco eu tenders """
+    """ initialization handler for esco tenders """
     tender = event.tender
     endDate = calculate_business_date(tender.tenderPeriod.endDate,
                                       -QUESTIONS_STAND_STILL, tender)

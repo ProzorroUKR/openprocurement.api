@@ -3,10 +3,10 @@ from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openeu.views.lot import TenderEULotResource
 
 
-@optendersresource(name='esco.EU:Tender Lots',
+@optendersresource(name='esco:Tender Lots',
                    collection_path='/tenders/{tender_id}/lots',
                    path='/tenders/{tender_id}/lots/{lot_id}',
-                   procurementMethodType='esco.EU',
-                   description="Tender ESCO EU lots")
-class TenderESCOEULotResource(TenderEULotResource):
-    """ Tender ESCO EU Lot Resource """
+                   procurementMethodType='esco',
+                   description="Tender ESCO lots")
+class TenderESCOLotResource(TenderEULotResource):
+    """ Tender ESCO Lot Resource """

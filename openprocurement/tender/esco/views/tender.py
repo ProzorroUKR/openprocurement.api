@@ -25,12 +25,12 @@ def validate_submission_method_details(request):
         raise error_handler(request.errors)
 
 
-@optendersresource(name='esco.EU:Tender',
+@optendersresource(name='esco:Tender',
                    path='/tenders/{tender_id}',
-                   procurementMethodType='esco.EU',
+                   procurementMethodType='esco',
                    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
-class TenderESCOEUResource(TenderEUResource):
-    """ Resource handler for Tender ESCO EU """
+class TenderESCOResource(TenderEUResource):
+    """ Resource handler for Tender ESCO """
 
     # TODO: remove this method after adding auction
     patch = json_view(content_type="application/json",

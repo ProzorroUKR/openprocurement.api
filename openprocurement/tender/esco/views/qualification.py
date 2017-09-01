@@ -4,10 +4,10 @@ from openprocurement.tender.openeu.views.qualification import \
     TenderQualificationResource as TenderEUQualificationResource
 
 
-@qualifications_resource(name='esco.EU:Tender Qualification',
+@qualifications_resource(name='esco:Tender Qualification',
                          collection_path='/tenders/{tender_id}/qualifications',
                          path='/tenders/{tender_id}/qualifications/{qualification_id}',
-                         procurementMethodType='esco.EU',
-                         description="Tender ESCO EU Qualification")
-class TenderESCOEULotResource(TenderEUQualificationResource):
-    """ Tender ESCO EU Lot Resource """
+                         procurementMethodType='esco',
+                         description="Tender ESCO Qualification")
+class TenderESCOLotResource(TenderEUQualificationResource):
+    """ Tender ESCO Lot Resource """
