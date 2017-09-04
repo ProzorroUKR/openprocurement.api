@@ -121,7 +121,9 @@ class TenderUaAwardResource(TenderAwardResource):
                     i.status = 'cancelled'
             add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
-            award.complaintPeriod.endDate = get_now()
+            now = get_now()
+            if award.complaintPeriod.endDate > now:
+                award.complaintPeriod.endDate = now
             for i in tender.contracts:
                 if i.awardID == award.id:
                     i.status = 'cancelled'
