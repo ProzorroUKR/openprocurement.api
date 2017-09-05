@@ -70,7 +70,7 @@ test_tender_data_stage1 = {
       "description": "Послуги шкільних їдалень",
       "description_en": "Services in school canteens",
       "classification": {
-        "scheme": "CPV",
+        "scheme": "ДК021",
         "id": "37810000-9",
         "description": "Test"
       },
@@ -101,7 +101,7 @@ test_tender_data_stage1 = {
       "description": "Послуги шкільних їдалень",
       "description_en": "Services in school canteens",
       "classification": {
-        "scheme": "CPV",
+        "scheme": "ДК021",
         "id": "37810000-9",
         "description": "Test"
       },
@@ -203,7 +203,7 @@ test_tender_data_stage2_multiple_lots = {
       "description": "Послуги шкільних їдалень",
       "description_en": "Services in school canteens",
       "classification": {
-        "scheme": "CPV",
+        "scheme": "ДК021",
         "id": "37810000-9",
         "description": "Test"
       },
@@ -234,7 +234,7 @@ test_tender_data_stage2_multiple_lots = {
       "description": "Послуги шкільних їдалень",
       "description_en": "Services in school canteens",
       "classification": {
-        "scheme": "CPV",
+        "scheme": "ДК021",
         "id": "37810000-9",
         "description": "Test"
       },
@@ -337,7 +337,7 @@ test_tender_data_stage2EU = {
       "description": "Послуги шкільних їдалень",
       "description_en": "Services in school canteens",
       "classification": {
-        "scheme": "CPV",
+        "scheme": "ДК021",
         "id": "37810000-9",
         "description": "Test"
       },
@@ -368,7 +368,7 @@ test_tender_data_stage2EU = {
       "description": "Послуги шкільних їдалень",
       "description_en": "Services in school canteens",
       "classification": {
-        "scheme": "CPV",
+        "scheme": "ДК021",
         "id": "37810000-9",
         "description": "Test"
       },
@@ -475,7 +475,7 @@ test_tender_data_stage2UA = {
             "streetAddress": u"вул. Банкова 1"
       },
       "classification": {
-        "scheme": "CPV",
+        "scheme": "ДК021",
         "id": "37810000-9",
         "description": "Test"
       },
@@ -681,33 +681,6 @@ bid4_with_docs["data"]["documents"] = [
          'confidentialityRationale': 'Only our company sells badgers with pink hair.',
      }
  ]
-
-bid4_with_docs["data"]["eligibilityDocuments"] = [
-    {
-        'title': u'eligibility_doc.pdf',
-        'url': u"http://broken3.ds",
-        'hash': 'md5:' + '0' * 32,
-        'format': 'application/pdf'
-    }
-]
-
-bid4_with_docs["data"]["financialDocuments"] = [
-    {
-         'title': u'financial_doc.pdf',
-         'url': u"http://broken4.ds",
-         'hash': 'md5:' + '0' * 32,
-         'format': 'application/pdf'
-    }
-]
-
-bid4_with_docs["data"]["qualificationDocuments"] = [
-    {
-         'title': u'qualification_document.pdf',
-         'url': u"http://broken5.ds",
-         'hash': 'md5:' + '0' * 32,
-         'format': 'application/pdf'
-    }
-]
 
 question = {
     "data": {
@@ -1498,6 +1471,33 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
             bid2_id = response.json['data']['id']
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
+
+        bid4_with_docs["data"]["eligibilityDocuments"] = [
+            {
+                'title': u'eligibility_doc.pdf',
+                'url': u"http://broken3.ds",
+                'hash': 'md5:' + '0' * 32,
+                'format': 'application/pdf'
+            }
+        ]
+
+        bid4_with_docs["data"]["financialDocuments"] = [
+            {
+                'title': u'financial_doc.pdf',
+                'url': u"http://broken4.ds",
+                'hash': 'md5:' + '0' * 32,
+                'format': 'application/pdf'
+            }
+        ]
+
+        bid4_with_docs["data"]["qualificationDocuments"] = [
+            {
+                'title': u'qualification_document.pdf',
+                'url': u"http://broken5.ds",
+                'hash': 'md5:' + '0' * 32,
+                'format': 'application/pdf'
+            }
+        ]
 
         with open('docs/source/tutorial/stage2/EU/register-3rd-bidder.http', 'w') as self.app.file_obj:
             for document in bid4_with_docs['data']['documents']:

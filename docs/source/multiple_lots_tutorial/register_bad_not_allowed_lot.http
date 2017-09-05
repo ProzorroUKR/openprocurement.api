@@ -1,4 +1,4 @@
-POST /api/2.3/tenders/fa0e88977bfd4aa99fcd6527e50b69bf/bids HTTP/1.0
+POST /api/2.3/tenders/b8496c5fc266422a98d772a454ff88a6/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 984
 Content-Type: application/json
@@ -10,7 +10,7 @@ DATA:
     "selfQualified": true, 
     "lotValues": [
       {
-        "relatedLot": "412c8c769eea447f8758959ee76830bf", 
+        "relatedLot": "1d72110b5f1e4197b15f9e59049b5713", 
         "value": {
           "amount": 300
         }, 

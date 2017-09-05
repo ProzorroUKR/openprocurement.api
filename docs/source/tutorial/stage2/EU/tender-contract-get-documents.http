@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/contracts/bd3d80e72dab490e9eceeaca13eaa4b8/documents HTTP/1.0
+GET /api/2.3/tenders/bf450bfcf933416f8205cfcde69d0ee1/contracts/3123f25634ce43b9bfde50665f1be837/documents HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -7,14 +7,15 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": [
     {
+      "hash": "md5:00000000000000000000000000000000", 
       "language": "uk", 
       "title": "contract_first_document.doc", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/contracts/bd3d80e72dab490e9eceeaca13eaa4b8/documents/c82a0986b35f44faaa62c184927300dd?download=ceaf3b189436481f9c994a3dd61118dd", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/3623621a6bc34df18b906c5a5a9c0a66?KeyID=1bb59008&Signature=OnMi5W78F8fA77H%252BxfAFmODHxK%2FP3Z%2F%2FB6dCMJELc%2FdWGI03Jml7vtruNnXi4ZQIfYzIcU2LqraNLO1a%252BaA%2FAQ%253D%253D", 
       "format": "application/msword", 
       "documentOf": "tender", 
-      "datePublished": "2016-10-12T02:41:44.173596+03:00", 
-      "id": "c82a0986b35f44faaa62c184927300dd", 
-      "dateModified": "2016-10-12T02:41:44.173620+03:00"
+      "datePublished": "2017-06-20T12:34:01.784977+03:00", 
+      "id": "7d1a149f2bd043a492f6cf8784d9b1d8", 
+      "dateModified": "2017-06-20T12:34:01.785031+03:00"
     }
   ]
 }

@@ -1,24 +1,25 @@
-POST /api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/bids/ae7d4a11476a4c40b1cf699ec06602a2/financial_documents?acc_token=49ef655569404ffea9e43a8698b4e1ba HTTP/1.0
+POST /api/2.3/tenders/bf450bfcf933416f8205cfcde69d0ee1/bids/31f913f477f848439f3ba6909810f750/financial_documents?acc_token=f2ae31b7e2dd4273803d35a6ccd61aaf HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 191
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy632994221342$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy274136972062$
 Host: api-sandbox.openprocurement.org
 
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/bids/ae7d4a11476a4c40b1cf699ec06602a2/financial_documents/269e07e14f414642a4b5ff6a2e3c8381
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/bf450bfcf933416f8205cfcde69d0ee1/bids/31f913f477f848439f3ba6909810f750/financial_documents/72af05f630b54d7f941e67dec3ace32a
 {
   "data": {
+    "hash": "md5:00000000000000000000000000000000", 
     "confidentiality": "public", 
     "language": "uk", 
     "title": "financial_doc.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/dfc5fb2c8ef24ef188309dd62a0e8846/bids/ae7d4a11476a4c40b1cf699ec06602a2/financial_documents/269e07e14f414642a4b5ff6a2e3c8381?download=8aff75cd2c1e4936b410f04be7cf4b0b", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/bf450bfcf933416f8205cfcde69d0ee1/bids/31f913f477f848439f3ba6909810f750/financial_documents/72af05f630b54d7f941e67dec3ace32a?download=9840d6594d604445a99757a9db39c1ce", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-10-12T02:41:41.412147+03:00", 
-    "id": "269e07e14f414642a4b5ff6a2e3c8381", 
-    "dateModified": "2016-10-12T02:41:41.412167+03:00"
+    "datePublished": "2017-06-20T12:33:56.241118+03:00", 
+    "id": "72af05f630b54d7f941e67dec3ace32a", 
+    "dateModified": "2017-06-20T12:33:56.241162+03:00"
   }
 }
 
