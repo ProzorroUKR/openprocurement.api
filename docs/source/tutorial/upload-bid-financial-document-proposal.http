@@ -1,23 +1,24 @@
-POST /api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a/financial_documents?acc_token=f8306e73d0544899bbf82e4af348b066 HTTP/1.0
+POST /api/2.3/tenders/9796c1eae0ea423990752b84b4b42136/bids/09088313ca5f44449fe1c946b5ebb898/financial_documents?acc_token=d274a4ecd1ae420480d3d3468762f7f7 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 193
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy0492835557041$
+Content-Length: 191
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy886410804269$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a/financial_documents/9a62ac90489f41fa9b606362d7d88f7c
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/9796c1eae0ea423990752b84b4b42136/bids/09088313ca5f44449fe1c946b5ebb898/financial_documents/e0844b17c8cc44ff9e7a45ccd00029c8
 {
   "data": {
+    "hash": "md5:00000000000000000000000000000000", 
     "confidentiality": "public", 
     "language": "uk", 
     "title": "financial_doc.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/72a60ff1652a431692b0095fc9184a86/bids/3adfb37218124cc59b6d7b3a06b2356a/financial_documents/9a62ac90489f41fa9b606362d7d88f7c?download=2aa3fcefebc44260ba8116a737ca8968", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/9796c1eae0ea423990752b84b4b42136/bids/09088313ca5f44449fe1c946b5ebb898/financial_documents/e0844b17c8cc44ff9e7a45ccd00029c8?download=0d5546cac7ab48419d0c99026673c24e", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-06-10T16:03:59.692239+03:00", 
-    "id": "9a62ac90489f41fa9b606362d7d88f7c", 
-    "dateModified": "2016-06-10T16:03:59.692276+03:00"
+    "datePublished": "2017-06-19T19:46:23.135334+03:00", 
+    "id": "e0844b17c8cc44ff9e7a45ccd00029c8", 
+    "dateModified": "2017-06-19T19:46:23.135367+03:00"
   }
 }
 
