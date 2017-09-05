@@ -1,4 +1,4 @@
-GET /api/2.3/contracts/d85316fca03a448cabc556f6367726e2/documents?acc_token=54ff017bad3549e995208fde9d41da29 HTTP/1.0
+GET /api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de/documents?acc_token=14aa72437e414b1c877d778604886220 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,22 +8,22 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "title": "contract_changes.doc", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/d85316fca03a448cabc556f6367726e2/documents/c0135e9855984cd39410ba654101c7ce?download=2b72424b562d41a78e0b8b0a6c9ed0fe", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de/documents/a2c9ab8a156b4faea05c1767b84f125e?download=29f9390fe3e24f51a163d2fac6d7cb35", 
       "format": "application/msword", 
       "documentOf": "change", 
-      "datePublished": "2016-10-06T11:41:15.627743+03:00", 
-      "id": "c0135e9855984cd39410ba654101c7ce", 
-      "relatedItem": "3ba8592459904c73bf05d7bc48e7083c", 
-      "dateModified": "2016-10-06T11:41:15.627787+03:00"
+      "datePublished": "2017-06-20T14:42:52.679032+03:00", 
+      "id": "a2c9ab8a156b4faea05c1767b84f125e", 
+      "relatedItem": "b2d895ea1db4438aba162de021184349", 
+      "dateModified": "2017-06-20T14:42:52.679071+03:00"
     }, 
     {
       "title": "contract.doc", 
-      "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/d85316fca03a448cabc556f6367726e2/documents/fca8a8dfbd724137a3b9405e4e4140a5?download=39498df45f6d4950b27737498c6aeb43", 
+      "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de/documents/fc183463ef084f7bad04c6c32ff80266?download=ad77fbd9d03c431aa1601bbbaf7f26ef", 
       "format": "application/msword", 
       "documentOf": "contract", 
-      "datePublished": "2016-10-06T11:41:16.388368+03:00", 
-      "id": "fca8a8dfbd724137a3b9405e4e4140a5", 
-      "dateModified": "2016-10-06T11:41:16.388408+03:00"
+      "datePublished": "2017-06-20T14:42:53.309273+03:00", 
+      "id": "fc183463ef084f7bad04c6c32ff80266", 
+      "dateModified": "2017-06-20T14:42:53.309313+03:00"
     }
   ]
 }

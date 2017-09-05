@@ -1,6 +1,6 @@
-PATCH /api/2.3/contracts/d85316fca03a448cabc556f6367726e2?acc_token=54ff017bad3549e995208fde9d41da29 HTTP/1.0
+PATCH /api/2.3/contracts/6fea81cf76cc4391ba5ada48b4bee0b4?acc_token=f9d84584bd784145b5358ebd1e830b8a HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 1178
+Content-Length: 1190
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -11,7 +11,7 @@ DATA:
       {
         "description": "коробки для футлярів до державних нагород", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Cartons", 
           "id": "44617100-9"
         }, 
@@ -30,8 +30,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-10-08T11:41:10.967073+03:00", 
-          "endDate": "2016-10-11T11:41:10.967073+03:00"
+          "startDate": "2017-06-22T13:34:01.377143+03:00", 
+          "endDate": "2017-06-25T13:34:01.377143+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -40,162 +40,6 @@ DATA:
         "quantity": 5
       }
     ]
-  }
-}
-
-Response: 200 OK
-Content-Type: application/json; charset=UTF-8
-{
-  "data": {
-    "status": "active", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 438.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "documents": [
-      {
-        "title": "contract_changes.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/d85316fca03a448cabc556f6367726e2/documents/c0135e9855984cd39410ba654101c7ce?download=2b72424b562d41a78e0b8b0a6c9ed0fe", 
-        "format": "application/msword", 
-        "documentOf": "change", 
-        "datePublished": "2016-10-06T11:41:15.627743+03:00", 
-        "id": "c0135e9855984cd39410ba654101c7ce", 
-        "relatedItem": "3ba8592459904c73bf05d7bc48e7083c", 
-        "dateModified": "2016-10-06T11:41:15.627787+03:00"
-      }
-    ], 
-    "items": [
-      {
-        "description": "футляри до державних нагород", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Cartons", 
-          "id": "44617100-9"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2016-10-08T11:41:10.967073+03:00", 
-          "endDate": "2016-10-11T11:41:10.967073+03:00"
-        }, 
-        "id": "47c2cd63f8324f61bfdd82241b860408", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 5
-      }, 
-      {
-        "description": "коробки для футлярів до державних нагород", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Cartons", 
-          "id": "44617100-9"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2016-10-08T11:41:10.967073+03:00", 
-          "endDate": "2016-10-11T11:41:10.967073+03:00"
-        }, 
-        "id": "5c8f7e8e78ac4b499bde67864993b538", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 5
-      }
-    ], 
-    "suppliers": [
-      {
-        "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
-        }, 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00037256", 
-          "uri": "http://www.dus.gov.ua/"
-        }, 
-        "name": "Державне управління справами", 
-        "address": {
-          "postalCode": "01220", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }
-      }
-    ], 
-    "period": {
-      "startDate": "2016-10-06T11:41:15.720242+03:00", 
-      "endDate": "2016-11-05T11:41:15.720282+03:00"
-    }, 
-    "dateSigned": "2016-10-06T11:41:14.838145+03:00", 
-    "id": "d85316fca03a448cabc556f6367726e2", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "contractID": "UA-2016-10-06-000001-1", 
-    "owner": "broker", 
-    "awardID": "0fe3968c3b6441b6b8825243591d446b", 
-    "changes": [
-      {
-        "status": "pending", 
-        "rationaleTypes": [
-          "volumeCuts", 
-          "priceReduction"
-        ], 
-        "rationale_en": "Contract change cause", 
-        "rationale": "Друга і третя поставка має бути розфасована", 
-        "date": "2016-10-06T11:41:15.285638+03:00", 
-        "id": "3ba8592459904c73bf05d7bc48e7083c"
-      }
-    ], 
-    "dateModified": "2016-10-06T11:41:15.923861+03:00", 
-    "tender_id": "9df8920066d142c9929feedb60feb68c"
   }
 }
 
