@@ -752,6 +752,50 @@ class ContractResource4BrokersTest(BaseContractWebTest):
         self.assertEqual(response.json['data']['terminationDetails'], 'sink')
 
 
+test_contract_data_wo_items = deepcopy(test_contract_data)
+del test_contract_data_wo_items['items']
+
+
+class ContractWOItemsResource4BrokersTest(BaseContractWebTest):
+    initial_data = test_contract_data_wo_items
+    initial_auth = ('Basic', ('broker', ''))
+
+    def test_contract_wo_items_status_change(self):
+        tender_token = self.initial_data['tender_token']
+
+        response = self.app.get('/contracts/{}'.format(self.contract['id']))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']["status"], "active")
+        self.assertNotIn('items', response.json['data'])
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], tender_token),
+                                       {"data": {"status": "active"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+
+        response = self.app.patch_json('/contracts/{}/credentials?acc_token={}'.format(self.contract['id'], tender_token),
+                                       {'data': ''})
+        self.assertEqual(response.status, '200 OK')
+        token = response.json['access']['token']
+
+        # active > terminated allowed
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"status": "terminated"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [
+            {u'description': u"Can't terminate contract while 'amountPaid' is not set", u'location': u'body', u'name': u'data'}])
+
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"status": "terminated", "amountPaid": {"amount": 100, "valueAddedTaxIncluded": True, "currency": "UAH"}}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'terminated')
+
+        # terminated > active not allowed
+        response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                       {"data": {"status": "active"}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+
+
 class ContractResource4AdministratorTest(BaseContractWebTest):
     """ contract resource test """
     initial_auth = ('Basic', ('administrator', ''))
@@ -842,13 +886,16 @@ class ContractCredentialsTest(BaseContractWebTest):
         self.assertEqual(response.json['errors'], [
             {u'description': u"Can't generate credentials in current (terminated) contract status", u'location': u'body', u'name': u'data'}])
 
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(ContractTest))
     suite.addTest(unittest.makeSuite(ContractResourceTest))
-    suite.addTest(unittest.makeSuite(ContractCredentialsTest))
+    suite.addTest(unittest.makeSuite(ContractWDocumentsWithDSResourceTest))
     suite.addTest(unittest.makeSuite(ContractResource4BrokersTest))
+    suite.addTest(unittest.makeSuite(ContractWOItemsResource4BrokersTest))
     suite.addTest(unittest.makeSuite(ContractResource4AdministratorTest))
+    suite.addTest(unittest.makeSuite(ContractCredentialsTest))
     return suite
 
 
