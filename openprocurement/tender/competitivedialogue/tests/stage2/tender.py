@@ -36,6 +36,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     dateModified_tender,
     guarantee,
     tender_Administrator_change,
+    patch_not_author,
     # TenderStage2UAProcessTest
     invalid_tender_conditions,
     one_valid_bid_tender_ua,
@@ -125,6 +126,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_tender_not_found = snitch(tender_not_found)
     test_guarantee = snitch(guarantee)
     test_tender_Administrator_change = snitch(tender_Administrator_change)
+    test_patch_not_author = snitch(patch_not_author)
 
 
 class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
@@ -166,6 +168,7 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
     test_tender_not_found = snitch(tender_not_found)
     test_guarantee = snitch(guarantee)
     test_tender_Administrator_change = snitch(tender_Administrator_change)
+    test_patch_not_author = snitch(patch_not_author)
 
 
 class TenderStage2UAProcessTest(BaseCompetitiveDialogUAStage2WebTest):

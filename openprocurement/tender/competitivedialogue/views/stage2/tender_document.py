@@ -4,6 +4,7 @@ from openprocurement.api.utils import (
     raise_operation_error
 )
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.validation import validate_tender_document_update_not_by_author_or_tender_owner
 from openprocurement.tender.core.utils import (
     optendersresource, calculate_business_date
 )
@@ -36,6 +37,8 @@ class CompetitiveDialogueStage2EUDocumentResource(TenderEUDocumentResource):
             raise_operation_error(self.request, 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(self.request.method), self.request.validated['tender_status']))
         if self.request.validated['tender_status'] == 'active.tendering' and calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated['tender']) > self.request.validated['tender'].tenderPeriod.endDate:
             raise_operation_error(self.request, 'tenderPeriod should be extended by {0.days} days'.format(TENDERING_EXTRA_PERIOD))
+        if self.request.method in ['PUT', 'PATCH']:
+            validate_tender_document_update_not_by_author_or_tender_owner(self.request)
         return True
 
 
