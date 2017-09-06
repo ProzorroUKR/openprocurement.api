@@ -108,6 +108,11 @@ test_contract_data = {
     u"owner": u"broker"
 }
 
+
+test_contract_data_wo_items = deepcopy(test_contract_data)
+del test_contract_data_wo_items['items']
+
+
 documents = [
     {
         "title": "contract_first_document.doc",

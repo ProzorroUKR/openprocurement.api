@@ -6,6 +6,7 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.contracting.api.tests.base import (
     test_contract_data,
+    test_contract_data_wo_items,
     BaseWebTest,
     BaseContractWebTest,
     documents
@@ -33,6 +34,8 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     # ContractCredentialsTest
     get_credentials,
     generate_credentials,
+    # ContractWOItemsResource4BrokersTest
+    contract_wo_items_status_change,
 )
 
 
@@ -89,6 +92,14 @@ class ContractCredentialsTest(BaseContractWebTest):
 
     test_get_credentials = snitch(get_credentials)
     test_generate_credentials = snitch(generate_credentials)
+
+
+class ContractWOItemsResource4BrokersTest(BaseContractWebTest):
+    initial_data = test_contract_data_wo_items
+    initial_auth = ('Basic', ('broker', ''))
+
+    test_contract_wo_items_status_change = snitch(contract_wo_items_status_change)
+
 
 def suite():
     suite = unittest.TestSuite()
