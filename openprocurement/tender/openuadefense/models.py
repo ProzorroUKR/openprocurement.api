@@ -15,7 +15,7 @@ from openprocurement.tender.openua.models import (
     calc_auction_end_time, validate_lots_uniq, calculate_normalized_date,
 )
 
-from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.openuadefense.utils import calculate_business_date
 
 
 STAND_STILL_TIME = timedelta(days=4)
