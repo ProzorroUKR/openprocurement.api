@@ -54,7 +54,10 @@ def generate_plan_id(ctime, db, server_id=''):
 
 def plan_serialize(request, plan_data, fields):
     plan = request.plan_from_data(plan_data, raise_error=False)
-    return dict([(i, j) for i, j in plan.serialize("view").items() if i in fields])
+    plan.__parent__ = request.context
+    return dict(
+        [(i, j) for i, j in plan.serialize("view").items() if i in fields]
+    )
 
 
 def save_plan(request):
