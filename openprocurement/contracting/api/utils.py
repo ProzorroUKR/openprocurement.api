@@ -45,6 +45,7 @@ def contract_from_data(request, data, raise_error=True, create=True):
 
 def contract_serialize(request, contract_data, fields):
     contract = request.contract_from_data(contract_data, raise_error=False)
+    contract.__parent__ = request.context
     return dict([(i, j) for i, j in contract.serialize("view").items() if i in fields])
 
 
