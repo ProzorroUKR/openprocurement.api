@@ -1,17 +1,65 @@
 from logging import getLogger
 from pkg_resources import get_distribution
+from datetime import datetime, time, timedelta
 
-from openprocurement.api.constants import read_json, TZ
+from openprocurement.api.constants import TZ
 from openprocurement.tender.core.utils import (
-    context_unpack, get_now, has_unanswered_questions, has_unanswered_complaints
+    context_unpack, get_now, has_unanswered_questions,
+    has_unanswered_complaints, ACCELERATOR_RE
 )
 from openprocurement.tender.openua.utils import (
     check_complaint_status, add_next_award
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
+from openprocurement.tender.core.utils import (
+    calculate_business_date as calculate_business_date_base
+)
+from openprocurement.tender.openuadefense.constants import (
+    CALCULATE_BUSINESS_DATE_FROM
+)
+
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
+
+
+def read_json(name):
+    import os.path
+    from json import loads
+    curr_dir = os.path.dirname(os.path.realpath(__file__))
+    file_path = os.path.join(curr_dir, name)
+    with open(file_path) as lang_file:
+        data = lang_file.read()
+    return loads(data)
+
+
 WORKING_DAYS = read_json('working_days.json')
+
+
+def calculate_business_date(date_obj, timedelta_obj, context=None, working_days=False):
+    if (context.get('revisions')[0].date if context and context.get('revisions') else get_now()) < CALCULATE_BUSINESS_DATE_FROM:
+        return calculate_business_date_base(date_obj, timedelta_obj, context, working_days)
+    if context and 'procurementMethodDetails' in context and context['procurementMethodDetails']:
+        re_obj = ACCELERATOR_RE.search(context['procurementMethodDetails'])
+        if re_obj and 'accelerator' in re_obj.groupdict():
+            return date_obj + (timedelta_obj / int(re_obj.groupdict()['accelerator']))
+    if working_days:
+        if timedelta_obj > timedelta():
+            if date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True) or WORKING_DAYS.get(date_obj.date().isoformat(), False):
+                date_obj = datetime.combine(date_obj.date(), time(0, tzinfo=date_obj.tzinfo)) + timedelta(1)
+                while date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True) or WORKING_DAYS.get(date_obj.date().isoformat(), False):
+                    date_obj += timedelta(1)
+        else:
+            if date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True) or WORKING_DAYS.get(date_obj.date().isoformat(), False):
+                date_obj = datetime.combine(date_obj.date(), time(0, tzinfo=date_obj.tzinfo))
+                while date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True) or WORKING_DAYS.get(date_obj.date().isoformat(), False):
+                    date_obj -= timedelta(1)
+                date_obj += timedelta(1)
+        for _ in xrange(abs(timedelta_obj.days)):
+            date_obj += timedelta(1) if timedelta_obj > timedelta() else -timedelta(1)
+            while date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True) or WORKING_DAYS.get(date_obj.date().isoformat(), False):
+                date_obj += timedelta(1) if timedelta_obj > timedelta() else -timedelta(1)
+        return date_obj
+    return date_obj + timedelta_obj
 
 
 def check_bids(request):

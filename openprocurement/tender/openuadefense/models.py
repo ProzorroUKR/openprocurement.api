@@ -21,7 +21,6 @@ from openprocurement.tender.openua.models import (
 )
 from openprocurement.tender.openua.utils import calculate_normalized_date
 from openprocurement.tender.core.utils import (
-    calculate_business_date,
     calc_auction_end_time,
 )
 from openprocurement.tender.openuadefense.constants import (
@@ -31,6 +30,10 @@ from openprocurement.tender.openuadefense.constants import (
     COMPLAINT_SUBMIT_TIME,
     COMPLAINT_OLD_SUBMIT_TIME,
     COMPLAINT_OLD_SUBMIT_TIME_BEFORE
+)
+
+from openprocurement.tender.openuadefense.utils import (
+    calculate_business_date,
 )
 
 
