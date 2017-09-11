@@ -795,6 +795,48 @@ class TenderAwardsCancellationResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
 
+    def test_cancellation_active_tendering_j708(self):
+        bid = test_bids[0].copy()
+        value = bid.pop('value')
+        bid['lotValues'] = [
+            {
+                'value': value,
+                'relatedLot': self.initial_lots[0]['id'],
+            }
+        ]
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid})
+        self.assertEqual(response.status, '201 Created')
+        self.initial_bids_tokens[response.json['data']['id']] = response.json['access']['token']
+        self.initial_bids.append(response.json['data'])
+
+        response = self.app.delete('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, response.json['data']['id'], response.json['access']['token']))
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
+            'reason': 'cancellation reason',
+            'status': 'pending',
+            "cancellationOf": "lot",
+            "relatedLot": self.initial_lots[0]['id']
+        }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+        response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, response.json['data']['id'], self.tender_token), {'data': {
+            'status': 'active',
+        }})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid})
+        self.assertEqual(response.status, '201 Created')
+        self.initial_bids_tokens[response.json['data']['id']] = response.json['access']['token']
+        self.initial_bids.append(response.json['data'])
+
+        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+
     def test_cancellation_active_qualification(self):
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))

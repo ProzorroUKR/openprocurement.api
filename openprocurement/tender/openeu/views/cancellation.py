@@ -41,8 +41,8 @@ class TenderCancellationResource(BaseResource):
                 bid.qualificationDocuments = [i for i in bid.qualificationDocuments if i.documentOf != 'lot' or i.relatedItem not in cancelled_lots]
                 bid.parameters = [i for i in bid.parameters if i.code not in cancelled_features]
                 bid.lotValues = [i for i in bid.lotValues if i.relatedLot not in cancelled_lots]
-                if not bid.lotValues:
-                    bid.status = 'invalid' if tender.status == 'active.tendering' and bid.status in ['pending', 'active'] else 'invalid.pre-qualification'
+                if not bid.lotValues and bid.status in ['pending', 'active']:
+                    bid.status = 'invalid' if tender.status == 'active.tendering' else 'invalid.pre-qualification'
         for qualification in tender.qualifications:
             if qualification.lotID in cancelled_lots:
                 qualification.status = 'cancelled'

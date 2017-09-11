@@ -84,7 +84,7 @@ def bids_validation_wrapper(validation_func):
         orig_data = data
         while not isinstance(data['__parent__'], Tender):
             data = data['__parent__']
-        if data['status'] in ('deleted', 'invalid', 'draft'):
+        if data['status'] in ('deleted', 'invalid', 'invalid.pre-qualification', 'draft'):
             # skip not valid bids
             return
         tender = data['__parent__']
