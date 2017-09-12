@@ -1,6 +1,8 @@
 import os
 from setuptools import setup, find_packages
 
+version = '2.4'
+
 here = os.path.abspath(os.path.dirname(__file__))
 
 with open(os.path.join(here, 'README.rst')) as f:
@@ -43,7 +45,7 @@ entry_points = {
 }
 
 setup(name='openprocurement.tender.belowthreshold',
-      version='2.3.0',
+      version=version,
       description='openprocurement.tender.belowthreshold',
       long_description=README,
       classifiers=[
