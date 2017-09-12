@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
 
 # TenderCancellationBidsAvailabilityTest
 
@@ -244,14 +245,7 @@ def bids_on_tender_cancellation_in_awarded(self):
 
 
 def cancellation_active_tendering_j708(self):
-    bid = self.initial_bids[0].copy()
-    value = bid.pop('value')
-    bid['lotValues'] = [
-        {
-            'value': value,
-            'relatedLot': self.initial_lots[0]['id'],
-        }
-    ]
+    bid = deepcopy(self.initial_bids[0])
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid})
     self.assertEqual(response.status, '201 Created')
     self.initial_bids_tokens[response.json['data']['id']] = response.json['access']['token']
