@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.3.20'
+version = '2.4'
 
 requires = [
     'setuptools',
@@ -18,7 +18,7 @@ docs_requires = requires + [
 ]
 
 api_requires = requires + [
-    'openprocurement.api',  # XXX TODO: set required version
+    'openprocurement.api>=2.4',
     'openprocurement.tender.core',
 ]
 
@@ -53,7 +53,7 @@ setup(name='openprocurement.contracting.api',
       zip_safe=False,
       install_requires=requires,
       tests_require=test_requires,
-      extras_require={'api': api_requires, 'test': test_requires, 
+      extras_require={'api': api_requires, 'test': test_requires,
                       'docs': docs_requires},
       entry_points=entry_points,
       )
