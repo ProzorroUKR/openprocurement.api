@@ -81,8 +81,8 @@ class IESCOTender(IAboveThresholdEUTender):
 class Lot(BaseLot):
     class Options:
         roles = {
-            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStep'),
-            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStep'),
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee'),
             'embedded': embedded_lot_role,
             'view': default_lot_role,
             'default': default_lot_role,
@@ -93,7 +93,7 @@ class Lot(BaseLot):
         }
 
     minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH', 'valueAddedTaxIncluded': True})
-    minimalStep = ModelType(Value, required=True)
+    minimalStep = ModelType(Value, required=False, serialize_when_none=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
     guarantee = ModelType(Guarantee)
@@ -113,12 +113,6 @@ class Lot(BaseLot):
         if self.guarantee:
             currency = self.__parent__.guarantee.currency if self.__parent__.guarantee else self.guarantee.currency
             return Guarantee(dict(amount=self.guarantee.amount, currency=currency))
-
-    @serializable(serialized_name="minimalStep", type=ModelType(Value))
-    def lot_minimalStep(self):
-        return Value(dict(amount=self.minimalStep.amount,
-                          currency=self.__parent__.minimalStep.currency,
-                          valueAddedTaxIncluded=self.__parent__.minimalStep.valueAddedTaxIncluded))
 
     @serializable(serialized_name="minValue", type=ModelType(Value))
     def lot_minValue(self):
@@ -212,10 +206,10 @@ class Tender(BaseTender):
     class Options:
         roles = {
             'plain': plain_role,
-            'create': create_role_eu + blacklist('minValue', 'tender_minValue'),
-            'edit': edit_role_eu + blacklist('minValue', 'tender_minValue'),
-            'edit_draft': edit_role_eu + blacklist('minValue', 'tender_minValue'),
-            'edit_active.tendering': edit_role_eu + blacklist('minValue', 'tender_minValue'),
+            'create': create_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep'),
+            'edit': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep'),
+            'edit_draft': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep'),
+            'edit_active.tendering': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep'),
             'edit_active.pre-qualification': whitelist('status'),
             'edit_active.pre-qualification.stand-still': whitelist(),
             'edit_active.auction': whitelist(),
@@ -262,7 +256,7 @@ class Tender(BaseTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
-    minimalStep = ModelType(Value, required=True)
+    minimalStep = ModelType(Value, required=False, serialize_when_none=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
     questions = ListType(ModelType(Question), default=list())
     complaints = ListType(ComplaintModelType(Complaint), default=list())
     auctionUrl = URLType()
@@ -423,11 +417,6 @@ class Tender(BaseTender):
         else:
             return self.guarantee
 
-    @serializable(serialized_name="minimalStep", type=ModelType(Value))
-    def tender_minimalStep(self):
-        return Value(dict(amount=min([i.minimalStep.amount for i in self.lots]),
-                          currency=self.minimalStep.currency,
-                          valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if self.lots else self.minimalStep
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False
