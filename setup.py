@@ -1,17 +1,17 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.13'
+version = '2.4'
 
 requires = [
     'setuptools'
 ]
 
 api_requires = requires + [
-    'openprocurement.api>=2.3',#XXX TODO set correct API version for refactoring
-    'openprocurement.tender.openua',
-    'openprocurement.tender.openeu',
-    'openprocurement.tender.core'
+    'openprocurement.api>=2.4',
+    'openprocurement.tender.openua>=2.4',
+    'openprocurement.tender.openeu>=2.4',
+    'openprocurement.tender.core>=2.4'
 ]
 
 test_requires = api_requires + requires + [
