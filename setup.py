@@ -22,7 +22,7 @@ requires = [
     'rfc6266',
     'setuptools',
     'tzlocal',
-    'openprocurement.api',  # XXX TODO set version
+    'openprocurement.api>=2.4',
     'openprocurement.tender.core',
 ]
 test_requires = requires + [
