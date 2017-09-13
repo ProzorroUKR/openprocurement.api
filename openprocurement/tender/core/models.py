@@ -261,6 +261,7 @@ class Contract(BaseContract):
 
     value = ModelType(Value)
     awardID = StringType(required=True)
+    documents = ListType(ModelType(Document), default=list())
 
     def validate_awardID(self, data, awardID):
         if awardID and isinstance(data['__parent__'], Model) and awardID not in [i.id for i in data['__parent__'].awards]:
