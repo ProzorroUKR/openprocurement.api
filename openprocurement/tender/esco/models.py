@@ -93,7 +93,7 @@ class Lot(BaseLot):
         }
 
     minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH', 'valueAddedTaxIncluded': True})
-    minimalStep = ModelType(Value, required=False, serialize_when_none=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
+    minimalStep = ModelType(Value, required=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
     guarantee = ModelType(Guarantee)
@@ -113,6 +113,13 @@ class Lot(BaseLot):
         if self.guarantee:
             currency = self.__parent__.guarantee.currency if self.__parent__.guarantee else self.guarantee.currency
             return Guarantee(dict(amount=self.guarantee.amount, currency=currency))
+
+    @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
+    def lot_minimalStep(self):
+        if self.minimalStep and self.__parent__.minimalStep:
+            return Value(dict(amount=self.minimalStep.amount,
+                          currency=self.__parent__.minimalStep.currency,
+                          valueAddedTaxIncluded=self.__parent__.minimalStep.valueAddedTaxIncluded))
 
     @serializable(serialized_name="minValue", type=ModelType(Value))
     def lot_minValue(self):
@@ -256,7 +263,7 @@ class Tender(BaseTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
-    minimalStep = ModelType(Value, required=False, serialize_when_none=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
+    minimalStep = ModelType(Value, required=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
     questions = ListType(ModelType(Question), default=list())
     complaints = ListType(ComplaintModelType(Complaint), default=list())
     auctionUrl = URLType()
@@ -417,6 +424,12 @@ class Tender(BaseTender):
         else:
             return self.guarantee
 
+    @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
+    def tender_minimalStep(self):
+        if self.minimalStep:
+            return Value(dict(amount=min([i.minimalStep.amount for i in self.lots]),
+                          currency=self.minimalStep.currency,
+                          valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if self.lots else self.minimalStep
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False
