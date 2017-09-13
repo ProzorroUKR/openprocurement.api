@@ -426,10 +426,10 @@ class Tender(BaseTender):
 
     @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
     def tender_minimalStep(self):
-        if self.minimalStep:
+        if self.minimalStep and self.lots and all([i.minimalStep is not None for i in self.lots]):
             return Value(dict(amount=min([i.minimalStep.amount for i in self.lots]),
                           currency=self.minimalStep.currency,
-                          valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if self.lots else self.minimalStep
+                          valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if (self.lots and all([i.minimalStep is not None for i in self.lots])) else self.minimalStep
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False
