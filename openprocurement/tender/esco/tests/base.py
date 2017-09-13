@@ -15,6 +15,7 @@ NBU_DISCOUNT_RATE = 0.22
 test_tender_data = deepcopy(base_eu_test_data)
 test_tender_data['procurementMethodType'] = "esco"
 test_tender_data['NBUdiscountRate'] = NBU_DISCOUNT_RATE
+test_tender_data['minimalStepPercentage'] = 0.027
 
 del test_tender_data['value']
 del test_tender_data['minimalStep']
@@ -22,6 +23,7 @@ del test_tender_data['minimalStep']
 test_features_tender_data = deepcopy(base_eu_test_features_data)
 test_features_tender_data['procurementMethodType'] = "esco"
 test_features_tender_data['NBUdiscountRate'] = NBU_DISCOUNT_RATE
+test_features_tender_data['minimalStepPercentage'] = 0.027
 
 del test_features_tender_data['value']
 del test_features_tender_data['minimalStep']
@@ -29,6 +31,7 @@ del test_features_tender_data['minimalStep']
 test_lots = deepcopy(base_eu_lots)
 del test_lots[0]['value']
 del test_lots[0]['minimalStep']
+test_lots[0]['minimalStepPercentage'] = 0.025
 
 test_bids = deepcopy(base_eu_bids)
 for bid in test_bids:
