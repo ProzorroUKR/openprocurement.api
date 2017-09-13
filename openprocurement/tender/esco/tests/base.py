@@ -17,15 +17,18 @@ test_tender_data['procurementMethodType'] = "esco"
 test_tender_data['NBUdiscountRate'] = NBU_DISCOUNT_RATE
 
 del test_tender_data['value']
+del test_tender_data['minimalStep']
 
 test_features_tender_data = deepcopy(base_eu_test_features_data)
 test_features_tender_data['procurementMethodType'] = "esco"
 test_features_tender_data['NBUdiscountRate'] = NBU_DISCOUNT_RATE
 
 del test_features_tender_data['value']
+del test_features_tender_data['minimalStep']
 
 test_lots = deepcopy(base_eu_lots)
 del test_lots[0]['value']
+del test_lots[0]['minimalStep']
 
 test_bids = deepcopy(base_eu_bids)
 for bid in test_bids:

@@ -53,7 +53,6 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'},
         {u'description': [u'This field is required.'], u'location': u'body', u'name': u'title'},
     ])
 
@@ -98,7 +97,7 @@ def get_tender_lot(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(set(response.json['data']), set(
-        [u'status', u'date', u'description', u'title', u'minimalStep', u'auctionPeriod', u'minValue', u'id']))
+        [u'status', u'date', u'description', u'title', u'auctionPeriod', u'minValue', u'id']))
 
     self.set_status('active.qualification')
 
@@ -138,7 +137,7 @@ def get_tender_lots(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(set(response.json['data'][0]), set(
-        [u'status', u'description', u'date', u'title', u'minimalStep', u'auctionPeriod', u'minValue', u'id']))
+        [u'status', u'description', u'date', u'title', u'auctionPeriod', u'minValue', u'id']))
 
     self.set_status('active.qualification')
 
@@ -158,6 +157,26 @@ def get_tender_lots(self):
     ])
 
 
+def lot_minimal_step_invalid(self):
+    request_path = '/tenders/{}'.format(self.tender_id)
+    response = self.app.get(request_path)
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotIn('minimalStep', response.json['data'])
+
+    data = self.test_lots_data[0]
+    data['minimalStep'] = {'amount': 100}
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token), {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotIn('minimalStep', response.json['data'])
+    lot = response.json['data']
+
+    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"minimalStep": {"amount": 300}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertNotIn('minimalStep', response.json['data'])
+
+
 # Tender Lot Feature Resource Test
 
 
@@ -167,7 +186,6 @@ def tender_min_value(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['minValue']['amount'], sum([i['minValue']['amount'] for i in self.initial_lots]))
-    self.assertEqual(response.json['data']['minimalStep']['amount'], min([i['minimalStep']['amount'] for i in self.initial_lots]))
 
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token), {'data': self.test_lots_data[0]})
     self.assertEqual(response.status, '201 Created')

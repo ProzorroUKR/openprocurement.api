@@ -80,6 +80,21 @@ def tender_min_value(self):
     self.assertEqual(response.json['data']['minValue']['currency'], 'UAH')
 
 
+def tender_minimal_step_invalid(self):
+    data = self.initial_data
+    data['minimalStep'] = {'amount': 100}
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    tender = response.json['data']
+    owner_token = response.json['access']['token']
+    self.assertNotIn('minimalStep', response.json['data'])
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"minimalStep": {"amount": 100}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertNotIn('minimalStep', response.json['data'])
+
+
 # TestTenderEU
 
 
@@ -167,7 +182,6 @@ def create_tender_invalid(self):
     self.assertIn({u'description': [u"Value must be one of ['open', 'selective', 'limited']."], u'location': u'body',
                    u'name': u'procurementMethod'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderPeriod'}, response.json['errors'])
-    self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
 
@@ -231,39 +245,6 @@ def create_tender_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description': [u'period should begin after auctionPeriod'], u'location': u'body', u'name': u'awardPeriod'}
-    ])
-
-    # data = self.initial_data['minimalStep']
-    # self.initial_data['minimalStep'] = {'amount': '1000.0'}
-    # response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    # self.initial_data['minimalStep'] = data
-    # self.assertEqual(response.status, '422 Unprocessable Entity')
-    # self.assertEqual(response.content_type, 'application/json')
-    # self.assertEqual(response.json['status'], 'error')
-    # self.assertEqual(response.json['errors'], [
-    #     {u'description': [u'value should be less than minValue of tender'], u'location': u'body', u'name': u'minimalStep'}
-    # ])
-
-    data = self.initial_data['minimalStep']
-    self.initial_data['minimalStep'] = {'amount': '100.0', 'valueAddedTaxIncluded': False}
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data['minimalStep'] = data
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u'valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of minValue of tender'], u'location': u'body', u'name': u'minimalStep'}
-    ])
-
-    data = self.initial_data['minimalStep']
-    self.initial_data['minimalStep'] = {'amount': '100.0', 'currency': "USD"}
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data['minimalStep'] = data
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u'currency should be identical to currency of minValue of tender'], u'location': u'body', u'name': u'minimalStep'}
     ])
 
     data = self.initial_data["items"][0].pop("additionalClassifications")
@@ -363,7 +344,7 @@ def tender_with_nbu_discount_rate(self):
     self.assertEqual(set(tender), set([
         u'procurementMethodType', u'id', u'dateModified', u'tenderID',
         u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod',
-        u'complaintPeriod', u'minimalStep', u'items', u'minValue', u'owner',
+        u'complaintPeriod', u'items', u'minValue', u'owner',
         u'procuringEntity', u'next_check', u'procurementMethod', u'submissionMethodDetails',  # TODO: remove u'submissionMethodDetails' from set after adding auction
         u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date', u'NBUdiscountRate']))
     self.assertNotEqual(data['id'], tender['id'])
@@ -507,7 +488,7 @@ def create_tender_generated(self):
     self.assertEqual(set(tender), set([
         u'procurementMethodType', u'id', u'dateModified', u'tenderID',
         u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod', u'submissionMethodDetails',  # TODO: remove u'submissionMethodDetails' from set after adding auction
-        u'complaintPeriod', u'minimalStep', u'items', u'minValue', u'owner',
+        u'complaintPeriod', u'items', u'minValue', u'owner',
         u'procuringEntity', u'next_check', u'procurementMethod', u'NBUdiscountRate',
         u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date',]))
     self.assertNotEqual(data['id'], tender['id'])
