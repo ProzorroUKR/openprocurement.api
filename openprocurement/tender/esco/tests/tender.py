@@ -25,7 +25,6 @@ from openprocurement.tender.openeu.tests.tender_blanks import (
     multiple_bidders_tender,
     lost_contract_for_active_award,
     #TenderResourceTest
-    patch_tender,
     invalid_bid_tender_lot,
 )
 
@@ -37,6 +36,7 @@ from openprocurement.tender.esco.tests.tender_blanks import (
     tender_minimal_step_invalid,
     #TestTenderEU
     create_tender_invalid,
+    patch_tender,
     tender_with_nbu_discount_rate,
     invalid_bid_tender_features,
     create_tender_generated,
