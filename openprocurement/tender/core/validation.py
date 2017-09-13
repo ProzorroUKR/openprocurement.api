@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
+from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document_batch # XXX tender context
 from openprocurement.tender.core.utils import calculate_business_date
@@ -99,10 +100,16 @@ def validate_tender_auction_data(request):
         data = {}
     if request.method == 'POST':
         now = get_now().isoformat()
-        if tender.lots:
-            data['lots'] = [{'auctionPeriod': {'endDate': now}} if i.id == lot_id else {} for i in tender.lots]
+        if (SANDBOX_MODE and tender.submissionMethodDetails and tender.submissionMethodDetails in [u'quick(mode:no-auction)', u'quick(mode:fast-forward)']):
+            if tender.lots:
+                data['lots'] = [{'auctionPeriod': {'startDate': now, 'endDate': now}} if i.id == lot_id else {} for i in tender.lots]
+            else:
+                data['auctionPeriod'] = {'startDate': now, 'endDate': now}
         else:
-            data['auctionPeriod'] = {'endDate': now}
+            if tender.lots:
+                data['lots'] = [{'auctionPeriod': {'endDate': now}} if i.id == lot_id else {} for i in tender.lots]
+            else:
+                data['auctionPeriod'] = {'endDate': now}
     request.validated['data'] = data
 
 
