@@ -81,8 +81,8 @@ class IESCOTender(IAboveThresholdEUTender):
 class Lot(BaseLot):
     class Options:
         roles = {
-            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee'),
-            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee'),
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStepPercentage'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStepPercentage'),
             'embedded': embedded_lot_role,
             'view': default_lot_role,
             'default': default_lot_role,
@@ -94,6 +94,7 @@ class Lot(BaseLot):
 
     minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH', 'valueAddedTaxIncluded': True})
     minimalStep = ModelType(Value, required=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
+    minimalStepPercentage = FloatType(required=True, min_value=0.005, max_value=0.03)
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
     guarantee = ModelType(Guarantee)
@@ -227,7 +228,7 @@ class Tender(BaseTender):
             'edit_cancelled': whitelist(),
             'view': view_role,
             'listing': listing_role,
-            'auction_view': auction_view_role + whitelist('NBUdiscountRate'),
+            'auction_view': auction_view_role + whitelist('NBUdiscountRate', 'minimalStepPercentage'),
             'auction_post': auction_post_role,
             'auction_patch': auction_patch_role,
             'draft': enquiries_role,
@@ -264,6 +265,7 @@ class Tender(BaseTender):
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     minimalStep = ModelType(Value, required=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
+    minimalStepPercentage = FloatType(required=True, min_value=0.005, max_value=0.03)
     questions = ListType(ModelType(Question), default=list())
     complaints = ListType(ComplaintModelType(Complaint), default=list())
     auctionUrl = URLType()
@@ -430,6 +432,10 @@ class Tender(BaseTender):
         # return Value(dict(amount=min([i.minimalStep.amount for i in self.lots]),
         #                   currency=self.minimalStep.currency,
         #                   valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if self.lots else self.minimalStep
+
+    @serializable(serialized_name="minimalStepPercentage")
+    def tender_minimalStepPercentage(self):
+        return min([i.minimalStepPercentage for i in self.lots]) if self.lots else self.minimalStepPercentage
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False
