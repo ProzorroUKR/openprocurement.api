@@ -13,8 +13,6 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     # TenderSameValueAuctionResourceTest
     post_tender_auction_reversed,
     post_tender_auction_not_changed,
-    # TenderFeaturesAuctionResourceTest
-    get_tender_auction_feature,
 )
 
 from openprocurement.tender.openeu.tests.auction_blanks import (
@@ -31,10 +29,18 @@ from openprocurement.tender.esco.tests.base import (
 
 from openprocurement.tender.esco.tests.auction_blanks import (
     # TenderAuctionResourceTest
+    get_tender_auction,
     post_tender_auction,
-    post_tender_lots_auction,
+    # TenderLotAuctionResourceTest
+    get_tender_lot_auction,
     post_tender_lot_auction,
+    # TenderMultipleLotAuctionResourceTest
+    get_tender_lots_auction,
+    post_tender_lots_auction,
+    # TenderAuctionNBUdiscountRateTest
     auction_check_NBUdiscountRate,
+    # TenderFeaturesAuctionResourceTest
+    get_tender_auction_feature,
 )
 
 
@@ -64,6 +70,7 @@ class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTes
         self.assertEqual(response.status, "200 OK")
         # # switch to active.pre-qualification.stand-still
 
+    test_get_tender_auction = snitch(get_tender_auction)
     test_post_tender_auction = snitch(post_tender_auction)
 
 
@@ -151,12 +158,14 @@ class TenderAuctionNBUdiscountRateTest(BaseESCOContentWebTest):
 class TenderLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderAuctionResourceTest):
     initial_lots = test_lots
     # initial_data = test_tender_data
+    test_get_tender_auction = snitch(get_tender_lot_auction)
     test_post_tender_auction = snitch(post_tender_lot_auction)
 
 
 class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderAuctionResourceTest):
     initial_lots = 2 * test_lots
 
+    test_get_tender_auction = snitch(get_tender_lots_auction)
     test_patch_tender_auction = snitch(patch_tender_2lot_auction)
     test_post_tender_auction = snitch(post_tender_lots_auction)
 

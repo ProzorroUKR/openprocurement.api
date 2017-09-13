@@ -2,6 +2,44 @@
 # TenderAuctionResourceTest
 
 
+def get_tender_auction(self):
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current ({}) tender status".format(self.forbidden_auction_actions_status))
+
+    self.set_status('active.auction')
+
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    auction = response.json['data']
+    self.assertNotEqual(auction, self.initial_data)
+    self.assertIn('dateModified', auction)
+    self.assertNotIn("procuringEntity", auction)
+    self.assertNotIn("tenderers", auction["bids"][0])
+    self.assertEqual(auction["bids"][0]['value']['amount'], self.initial_bids[0]['value']['amount'])
+    self.assertEqual(auction["bids"][1]['value']['amount'], self.initial_bids[1]['value']['amount'])
+
+    response = self.app.get('/tenders/{}/auction?opt_jsonp=callback'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/javascript')
+    self.assertIn('callback({"data": {"', response.body)
+
+    response = self.app.get('/tenders/{}/auction?opt_pretty=1'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('{\n    "data": {\n        "', response.body)
+
+    self.set_status('active.qualification')
+
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current (active.qualification) tender status")
+
+
 def post_tender_auction(self):
     self.app.authorization = ('Basic', ('auction', ''))
     response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': {}}, status=403)
@@ -141,6 +179,35 @@ def auction_check_NBUdiscountRate(self):
 # TenderLotAuctionResourceTest
 
 
+def get_tender_lot_auction(self):
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current ({}) tender status".format(self.forbidden_auction_actions_status))
+
+    self.set_status('active.auction')
+
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    auction = response.json['data']
+    self.assertNotEqual(auction, self.initial_data)
+    self.assertIn('dateModified', auction)
+    self.assertIn('lots', auction)
+    self.assertNotIn("procuringEntity", auction)
+    self.assertNotIn("tenderers", auction["bids"][0])
+    self.assertEqual(auction["bids"][0]['lotValues'][0]['value']['amount'], self.initial_bids[0]['lotValues'][0]['value']['amount'])
+    self.assertEqual(auction["bids"][1]['lotValues'][0]['value']['amount'], self.initial_bids[1]['lotValues'][0]['value']['amount'])
+
+    self.set_status('active.qualification')
+
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current (active.qualification) tender status")
+
+
 def post_tender_lot_auction(self):
     self.app.authorization = ('Basic', ('auction', ''))
     response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': {}}, status=403)
@@ -235,6 +302,38 @@ def post_tender_lot_auction(self):
     self.assertEqual(response.json['errors'][0]["description"], "Can't report auction results in current (active.qualification) tender status")
 
 # TenderMultipleLotAuctionResourceTest
+
+
+def get_tender_lots_auction(self):
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current ({}) tender status".format(self.forbidden_auction_actions_status))
+
+    self.set_status('active.auction')
+
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    auction = response.json['data']
+    self.assertNotEqual(auction, self.initial_data)
+    self.assertIn('dateModified', auction)
+    self.assertIn('lots', auction)
+    self.assertIn('items', auction)
+    self.assertNotIn("procuringEntity", auction)
+    self.assertNotIn("tenderers", auction["bids"][0])
+    self.assertEqual(auction["bids"][0]['lotValues'][0]['value']['amount'], self.initial_bids[0]['lotValues'][0]['value']['amount'])
+    self.assertEqual(auction["bids"][1]['lotValues'][0]['value']['amount'], self.initial_bids[1]['lotValues'][0]['value']['amount'])
+    self.assertEqual(auction["bids"][0]['lotValues'][1]['value']['amount'], self.initial_bids[0]['lotValues'][1]['value']['amount'])
+    self.assertEqual(auction["bids"][1]['lotValues'][1]['value']['amount'], self.initial_bids[1]['lotValues'][1]['value']['amount'])
+
+    self.set_status('active.qualification')
+
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id), status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "Can't get auction info in current (active.qualification) tender status")
 
 
 def post_tender_lots_auction(self):
@@ -347,3 +446,22 @@ def post_tender_lots_auction(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't report auction results in current (active.qualification) tender status")
+
+
+# TenderFeaturesAuctionResourceTest
+
+
+def get_tender_auction_feature(self):
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    auction = response.json['data']
+    self.assertNotEqual(auction, self.initial_data)
+    self.assertIn('dateModified', auction)
+    self.assertNotIn("procuringEntity", auction)
+    self.assertNotIn("tenderers", auction["bids"][0])
+    self.assertEqual(auction["bids"][0]['value']['amount'], self.initial_bids[0]['value']['amount'])
+    self.assertEqual(auction["bids"][1]['value']['amount'], self.initial_bids[1]['value']['amount'])
+    self.assertIn('features', auction)
+    self.assertIn('parameters', auction["bids"][0])
