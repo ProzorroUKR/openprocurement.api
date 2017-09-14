@@ -331,6 +331,13 @@ class TenderLimitedResourceTest(BaseTenderWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['value']['amount'], 238)
 
+        #### Set contact.item.unit value
+        with open('docs/source/tutorial/tender-contract-set-contract_items_unit-value.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token), {"data": {"items": [{'unit': {'value': {'amount': 12}}}]}})
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['items'][0]['unit']['value']['amount'], 12)
+
         #### Setting contract signature date
         #
 
