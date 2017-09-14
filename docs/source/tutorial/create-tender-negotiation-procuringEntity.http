@@ -62,8 +62,8 @@ Host: api-sandbox.openprocurement.org
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-06-23T16:18:46.759393", 
-          "endDate": "2017-06-26T16:18:46.759393"
+          "startDate": "2017-09-16T19:39:39.580353", 
+          "endDate": "2017-09-19T19:39:39.580353"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
@@ -81,10 +81,10 @@ Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/25897276e2804633af97bce1b8823686
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/97cf65391926469b81293beab084b426
 {
   "access": {
-    "token": "255dabb2d2f347409021ef9cfaff7624"
+    "token": "d6417c718191458a8d1b7ae505b014e9"
   }, 
   "data": {
     "procurementMethod": "limited", 
@@ -115,8 +115,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/25897276e280463
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-06-23T16:18:46.759393+03:00", 
-          "endDate": "2017-06-26T16:18:46.759393+03:00"
+          "startDate": "2017-09-16T19:39:39.580353+03:00", 
+          "endDate": "2017-09-19T19:39:39.580353+03:00"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
@@ -129,9 +129,9 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/25897276e280463
       "amount": 500000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateModified": "2017-06-21T16:18:56.493865+03:00", 
+    "dateModified": "2017-09-14T19:40:11.270862+03:00", 
     "causeDescription_ru": "оригинальный тендер не получился дважды", 
-    "date": "2017-06-21T16:18:56.490633+03:00", 
+    "date": "2017-09-14T19:40:11.263658+03:00", 
     "title_en": "Services in school canteens", 
     "description_ru": "Услуги школьных столовых", 
     "description_en": "Services in school canteens", 
@@ -159,8 +159,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/25897276e280463
       }
     }, 
     "cause": "twiceUnsuccessful", 
-    "id": "25897276e2804633af97bce1b8823686", 
-    "tenderID": "UA-2017-06-21-000001"
+    "id": "97cf65391926469b81293beab084b426", 
+    "tenderID": "UA-2017-09-14-000001"
   }
 }
 

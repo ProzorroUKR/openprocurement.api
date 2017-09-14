@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/319699c45d7a4a6cbb437fab5cc6a22b/contracts/f3c8b4336339496792bf3e795610c71b?acc_token=7b798e8f12644defa0f09edf282ffdd8 HTTP/1.0
+PATCH /api/2.3/tenders/d014500a9769491a81f3f1cecc1004f3/contracts/3dbc3c6138fa47c6a655ea74daa706dc?acc_token=0b5ecdd3b42e4a3eb9f4c05235bdbbfa HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -18,19 +18,21 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "title": "contract_first_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/319699c45d7a4a6cbb437fab5cc6a22b/contracts/f3c8b4336339496792bf3e795610c71b/documents/6778019ecefa4d02bccb03dea4fe2800?download=8a566932241c40f4b3c46868d1535012", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/d014500a9769491a81f3f1cecc1004f3/contracts/3dbc3c6138fa47c6a655ea74daa706dc/documents/aae194cd817740419b4f162099050fef?download=9bc850c0967c4b65a948d9c8dd1b5036", 
         "format": "application/msword", 
-        "datePublished": "2017-06-21T16:18:51.816654+03:00", 
-        "dateModified": "2017-06-21T16:18:51.816711+03:00", 
-        "id": "6778019ecefa4d02bccb03dea4fe2800"
+        "documentOf": "tender", 
+        "datePublished": "2017-09-14T19:39:55.954562+03:00", 
+        "id": "aae194cd817740419b4f162099050fef", 
+        "dateModified": "2017-09-14T19:39:55.954646+03:00"
       }, 
       {
         "title": "contract_second_document.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/319699c45d7a4a6cbb437fab5cc6a22b/contracts/f3c8b4336339496792bf3e795610c71b/documents/0594ed412d3a43fdb3d46ba70f9c34fa?download=9bb04e21669b4c6eaa0536db2da104fa", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/d014500a9769491a81f3f1cecc1004f3/contracts/3dbc3c6138fa47c6a655ea74daa706dc/documents/df10cc7a6b7143f4b5fb9077917c4165?download=1b4e0ece50af4319ad1b5ce9a72a7df5", 
         "format": "application/msword", 
-        "datePublished": "2017-06-21T16:18:51.984263+03:00", 
-        "dateModified": "2017-06-21T16:18:51.984308+03:00", 
-        "id": "0594ed412d3a43fdb3d46ba70f9c34fa"
+        "documentOf": "tender", 
+        "datePublished": "2017-09-14T19:39:56.688746+03:00", 
+        "id": "df10cc7a6b7143f4b5fb9077917c4165", 
+        "dateModified": "2017-09-14T19:39:56.688830+03:00"
       }
     ], 
     "items": [
@@ -57,14 +59,19 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-06-23T16:18:46.759393+03:00", 
-          "endDate": "2017-06-26T16:18:46.759393+03:00"
+          "startDate": "2017-09-16T19:39:39.580353+03:00", 
+          "endDate": "2017-09-19T19:39:39.580353+03:00"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac", 
         "unit": {
           "code": "MON", 
-          "name": "month"
+          "name": "month", 
+          "value": {
+            "currency": "UAH", 
+            "amount": 12.0, 
+            "valueAddedTaxIncluded": true
+          }
         }, 
         "quantity": 9
       }
@@ -93,19 +100,19 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2017-06-21T16:18:46.759393+03:00", 
-      "endDate": "2018-06-21T16:18:46.759393+03:00"
+      "startDate": "2017-09-14T19:39:39.580353+03:00", 
+      "endDate": "2018-09-14T19:39:39.580353+03:00"
     }, 
-    "dateSigned": "2017-06-21T16:18:46.759393+03:00", 
+    "dateSigned": "2017-09-14T19:39:39.580353+03:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2017-06-21T16:18:52.170461+03:00", 
-    "awardID": "050275b8d62545f7a1605701701e51de", 
-    "id": "f3c8b4336339496792bf3e795610c71b", 
-    "contractID": "UA-2017-06-21-000001-1"
+    "date": "2017-09-14T19:39:57.421578+03:00", 
+    "awardID": "fad3d99dace64fb4b61d9c1713165c1a", 
+    "id": "3dbc3c6138fa47c6a655ea74daa706dc", 
+    "contractID": "UA-2017-09-14-000001-1"
   }
 }
 

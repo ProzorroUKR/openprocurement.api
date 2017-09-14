@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/25897276e2804633af97bce1b8823686/contracts/14c4b3c82f474511b1dedcf1e8883980?acc_token=255dabb2d2f347409021ef9cfaff7624 HTTP/1.0
+PATCH /api/2.3/tenders/97cf65391926469b81293beab084b426/contracts/c375ec3987c64e7c957d13836c22bd1c?acc_token=d6417c718191458a8d1b7ae505b014e9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -39,8 +39,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-06-23T16:18:46.759393+03:00", 
-          "endDate": "2017-06-26T16:18:46.759393+03:00"
+          "startDate": "2017-09-16T19:39:39.580353+03:00", 
+          "endDate": "2017-09-19T19:39:39.580353+03:00"
         }, 
         "description_ru": "Услуги школьных столовых", 
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
@@ -74,11 +74,11 @@ Content-Type: application/json; charset=UTF-8
       "amount": 475000.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2017-06-21T16:18:56.751967+03:00", 
-    "date": "2017-06-21T16:18:56.755355+03:00", 
-    "awardID": "c65fb9bc28db473ba98492ed16df24f5", 
-    "id": "14c4b3c82f474511b1dedcf1e8883980", 
-    "contractID": "UA-2017-06-21-000001-1"
+    "dateSigned": "2017-09-14T19:40:12.213847+03:00", 
+    "date": "2017-09-14T19:40:12.226407+03:00", 
+    "awardID": "4f13c6ef3d4c4e32bec71f1b5024f2d9", 
+    "id": "c375ec3987c64e7c957d13836c22bd1c", 
+    "contractID": "UA-2017-09-14-000001-1"
   }
 }
 
