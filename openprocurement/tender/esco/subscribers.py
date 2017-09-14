@@ -18,9 +18,13 @@ def tender_init_handler(event):
                                          clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, tender, True)))
     now = get_now()
     tender.date = now
+    if not tender.fundingKind:
+        tender.fundingKind = 'other'
     if tender.lots:
         for lot in tender.lots:
             lot.date = now
+            if not lot.fundingKind:
+                lot.fundingKind = 'other'
 
     check_submission_method_details(tender)
 

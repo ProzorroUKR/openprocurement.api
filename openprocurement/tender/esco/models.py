@@ -81,8 +81,8 @@ class IESCOTender(IAboveThresholdEUTender):
 class Lot(BaseLot):
     class Options:
         roles = {
-            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStepPercentage'),
-            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStepPercentage'),
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStepPercentage', 'fundingKind'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStepPercentage', 'fundingKind'),
             'embedded': embedded_lot_role,
             'view': default_lot_role,
             'default': default_lot_role,
@@ -98,6 +98,7 @@ class Lot(BaseLot):
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
     guarantee = ModelType(Guarantee)
+    fundingKind = StringType(choices=['budget', 'other'])
 
     @serializable
     def numberOfBids(self):
@@ -114,6 +115,11 @@ class Lot(BaseLot):
         if self.guarantee:
             currency = self.__parent__.guarantee.currency if self.__parent__.guarantee else self.guarantee.currency
             return Guarantee(dict(amount=self.guarantee.amount, currency=currency))
+
+    @serializable(serialized_name="fundingKind")
+    def lot_fundingKind(self):
+        if self.fundingKind:
+            return self.__parent__.fundingKind if self.__parent__.fundingKind else self.fundingKind
 
     @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
     def lot_minimalStep(self):
@@ -279,6 +285,7 @@ class Tender(BaseTender):
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
     NBUdiscountRate = FloatType(required=True, min_value=0, max_value=0.99)
+    fundingKind = StringType(choices=['budget', 'other'])
     submissionMethodDetails = StringType(default="quick(mode:no-auction)")  # TODO: temporary decision, while esco auction is not ready. Remove after adding auction. Remove function "check_submission_method_details" in openprocurement.tender.esco.subscribers
 
     create_accreditation = 3
@@ -484,6 +491,8 @@ class Tender(BaseTender):
     def validate_lots(self, data, value):
         if len(set([lot.guarantee.currency for lot in value if lot.guarantee])) > 1:
             raise ValidationError(u"lot guarantee currency should be identical to tender guarantee currency")
+        if len(set([lot.fundingKind for lot in value])) > 1:
+            raise ValidationError(u"lot funding kind should be identical to tender funding kind")
 
 
     def check_auction_time(self):
