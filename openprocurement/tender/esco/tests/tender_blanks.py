@@ -266,6 +266,17 @@ def create_tender_invalid(self):
     ])
     self.initial_data['minimalStepPercentage'] = data
 
+    data = self.initial_data['fundingKind']
+    self.initial_data['fundingKind'] = 'invalid funding kind'
+    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u"Value must be one of ['budget', 'other']."], u'location': u'body', u'name': u'fundingKind'}
+    ])
+    self.initial_data['fundingKind'] = data
+
     data = self.initial_data["items"][0].pop("additionalClassifications")
     if get_now() > CPV_ITEMS_CLASS_FROM:
         cpv_code = self.initial_data["items"][0]['classification']['id']
@@ -444,6 +455,14 @@ def patch_tender(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['minimalStepPercentage'], 0.025)
 
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"fundingKind": "budget"}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['fundingKind'], 'budget')
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"fundingKind": "other"}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
+
     #response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.auction'}})
     #self.assertEqual(response.status, '200 OK')
 
@@ -486,7 +505,8 @@ def tender_with_nbu_discount_rate(self):
         u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod',
         u'complaintPeriod', u'items', u'minValue', u'owner', u'minimalStepPercentage',
         u'procuringEntity', u'next_check', u'procurementMethod', u'submissionMethodDetails',  # TODO: remove u'submissionMethodDetails' from set after adding auction
-        u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date', u'NBUdiscountRate']))
+        u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date', u'NBUdiscountRate',
+        u'fundingKind']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -630,7 +650,8 @@ def create_tender_generated(self):
         u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod', u'submissionMethodDetails',  # TODO: remove u'submissionMethodDetails' from set after adding auction
         u'complaintPeriod', u'items', u'minValue', u'owner', u'minimalStepPercentage',
         u'procuringEntity', u'next_check', u'procurementMethod', u'NBUdiscountRate',
-        u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date',]))
+        u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date',
+        u'fundingKind']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])

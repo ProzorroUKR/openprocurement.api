@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from iso8601 import parse_date
+from copy import deepcopy
 # Tender Lot Resouce Test
 
 
@@ -98,7 +99,8 @@ def get_tender_lot(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(set(response.json['data']), set(
-        [u'status', u'date', u'description', u'title', u'auctionPeriod', u'minValue', u'id', u'minimalStepPercentage']))
+        [u'status', u'date', u'description', u'title', u'auctionPeriod', u'minValue', u'id',
+         u'minimalStepPercentage', u'fundingKind']))
 
     self.set_status('active.qualification')
 
@@ -138,7 +140,8 @@ def get_tender_lots(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(set(response.json['data'][0]), set(
-        [u'status', u'description', u'date', u'title', u'auctionPeriod', u'minValue', u'id', u'minimalStepPercentage']))
+        [u'status', u'description', u'date', u'title', u'auctionPeriod', u'minValue', u'id',
+         u'minimalStepPercentage', u'fundingKind']))
 
     self.set_status('active.qualification')
 
@@ -189,6 +192,50 @@ def tender_minimal_step_percentage(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['minimalStepPercentage'], min([i['minimalStepPercentage'] for i in self.test_lots_data]))
+
+
+def tender_lot_funding_kind(self):
+    data = deepcopy(self.initial_data)
+    data['fundingKind'] = 'budget'
+    response = self.app.post_json('/tenders', {'data': data})
+    tender = response.json['data']
+    tender_token = response.json['access']['token']
+    self.assertEqual(response.status, '201 Created')
+    self.assertIn('fundingKind', response.json['data'])
+    self.assertEqual(response.json['data']['fundingKind'], 'budget')
+
+    lot = deepcopy(self.test_lots_data[0])
+    lot['fundingKind'] = 'budget'
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender['id'], tender_token), {'data': lot})
+    self.assertEqual(response.status, '201 Created')
+    self.assertIn('fundingKind', response.json['data'])
+    self.assertEqual(response.json['data']['fundingKind'], 'budget')
+    lot1_id = response.json['data']['id']
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], tender_token), {'data': {'fundingKind': 'other'}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('fundingKind', response.json['data'])
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
+
+    response = self.app.get('/tenders/{}/lots/{}'.format(tender['id'], lot1_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('fundingKind', response.json['data'])
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
+
+    lot['fundingKind'] = 'budget'
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender['id'], tender_token), {'data': lot}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'lot funding kind should be identical to tender funding kind'], u'location': u'body', u'name': u'lots'}
+    ])
+
+    # try to change lot funding king to budget, but it stays the same (other, same as tender funding kind)
+    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(tender['id'], lot1_id, tender_token), {'data': lot})
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('fundingKind', response.json['data'])
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
 
 
 # Tender Lot Feature Resource Test
