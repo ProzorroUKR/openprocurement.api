@@ -54,8 +54,9 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStepPercentage'},
         {u'description': [u'This field is required.'], u'location': u'body', u'name': u'title'},
+        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStepPercentage'},
+        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'yearlyPaymentsPercentageRange'},
     ])
 
     response = self.app.post_json(request_path, {'data': {'invalid_field': 'invalid_value'}}, status=422)
@@ -100,7 +101,7 @@ def get_tender_lot(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(set(response.json['data']), set(
         [u'status', u'date', u'description', u'title', u'auctionPeriod', u'minValue', u'id',
-         u'minimalStepPercentage', u'fundingKind']))
+         u'minimalStepPercentage', u'fundingKind', u'yearlyPaymentsPercentageRange']))
 
     self.set_status('active.qualification')
 
@@ -141,7 +142,7 @@ def get_tender_lots(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(set(response.json['data'][0]), set(
         [u'status', u'description', u'date', u'title', u'auctionPeriod', u'minValue', u'id',
-         u'minimalStepPercentage', u'fundingKind']))
+         u'minimalStepPercentage', u'fundingKind', u'yearlyPaymentsPercentageRange']))
 
     self.set_status('active.qualification')
 

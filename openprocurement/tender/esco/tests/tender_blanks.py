@@ -506,7 +506,7 @@ def tender_with_nbu_discount_rate(self):
         u'complaintPeriod', u'items', u'minValue', u'owner', u'minimalStepPercentage',
         u'procuringEntity', u'next_check', u'procurementMethod', u'submissionMethodDetails',  # TODO: remove u'submissionMethodDetails' from set after adding auction
         u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date', u'NBUdiscountRate',
-        u'fundingKind']))
+        u'fundingKind', u'yearlyPaymentsPercentageRange']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -651,7 +651,7 @@ def create_tender_generated(self):
         u'complaintPeriod', u'items', u'minValue', u'owner', u'minimalStepPercentage',
         u'procuringEntity', u'next_check', u'procurementMethod', u'NBUdiscountRate',
         u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date',
-        u'fundingKind']))
+        u'fundingKind', u'yearlyPaymentsPercentageRange']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])
