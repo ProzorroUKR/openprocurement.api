@@ -48,4 +48,5 @@ git+https://github.com/openprocurement/python-json-patch.git
 git+https://github.com/openprocurement/rfc6266.git
 git+https://github.com/openprocurement/openprocurement.api.git
 git+https://github.com/openprocurement/openprocurement.tender.core.git
+git+https://github.com/openprocurement/openprocurement.tender.belowthreshold.git
 git+https://github.com/openprocurement/openprocurement.tender.openua.git
