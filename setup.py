@@ -4,6 +4,7 @@ import os
 version = '1.0'
 
 requires = [
+    'esculator',
     'setuptools',
     'openprocurement.api>=2.3',
     'openprocurement.tender.openeu',
