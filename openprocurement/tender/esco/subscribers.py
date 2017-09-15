@@ -20,11 +20,15 @@ def tender_init_handler(event):
     tender.date = now
     if not tender.fundingKind:
         tender.fundingKind = 'other'
+    if not tender.yearlyPaymentsPercentageRange and tender.fundingKind == 'other':
+        tender.yearlyPaymentsPercentageRange = 0.8
     if tender.lots:
         for lot in tender.lots:
             lot.date = now
             if not lot.fundingKind:
                 lot.fundingKind = 'other'
+            if not lot.yearlyPaymentsPercentageRange and lot.fundingKind == 'other':
+                lot.yearlyPaymentsPercentageRange = 0.8
 
     check_submission_method_details(tender)
 

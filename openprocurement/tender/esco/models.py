@@ -81,8 +81,8 @@ class IESCOTender(IAboveThresholdEUTender):
 class Lot(BaseLot):
     class Options:
         roles = {
-            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStepPercentage', 'fundingKind'),
-            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStepPercentage', 'fundingKind'),
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStepPercentage', 'fundingKind', 'yearlyPaymentsPercentageRange'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStepPercentage', 'fundingKind', 'yearlyPaymentsPercentageRange'),
             'embedded': embedded_lot_role,
             'view': default_lot_role,
             'default': default_lot_role,
@@ -99,6 +99,7 @@ class Lot(BaseLot):
     auctionUrl = URLType()
     guarantee = ModelType(Guarantee)
     fundingKind = StringType(choices=['budget', 'other'])
+    yearlyPaymentsPercentageRange = FloatType(required=True)
 
     @serializable
     def numberOfBids(self):
@@ -133,6 +134,12 @@ class Lot(BaseLot):
         return Value(dict(amount=self.minValue.amount,
                           currency=self.__parent__.minValue.currency,
                           valueAddedTaxIncluded=self.__parent__.minValue.valueAddedTaxIncluded))
+
+    def validate_yearlyPaymentsPercentageRange(self, data, value):
+        if data['fundingKind'] == 'other' and value != 0.8:
+            raise ValidationError('when fundingKind is "other", yearlyPaymentsPercentageRange should be equal 0.8')
+        if data['fundingKind'] == 'budget' and (value > 0.8 or value < 0):
+            raise ValidationError('when fundingKind is "budget", yearlyPaymentsPercentageRange should be less or equal 0.8, and more than 0')
 
 
 class ESCOValue(Value):
@@ -286,6 +293,7 @@ class Tender(BaseTender):
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
     NBUdiscountRate = FloatType(required=True, min_value=0, max_value=0.99)
     fundingKind = StringType(choices=['budget', 'other'])
+    yearlyPaymentsPercentageRange = FloatType(required=True)
     submissionMethodDetails = StringType(default="quick(mode:no-auction)")  # TODO: temporary decision, while esco auction is not ready. Remove after adding auction. Remove function "check_submission_method_details" in openprocurement.tender.esco.subscribers
 
     create_accreditation = 3
@@ -494,6 +502,11 @@ class Tender(BaseTender):
         if len(set([lot.fundingKind for lot in value])) > 1:
             raise ValidationError(u"lot funding kind should be identical to tender funding kind")
 
+    def validate_yearlyPaymentsPercentageRange(self, data, value):
+        if data['fundingKind'] == 'other' and value != 0.8:
+            raise ValidationError('when fundingKind is "other", yearlyPaymentsPercentageRange should be equal 0.8')
+        if data['fundingKind'] == 'budget' and (value > 0.8 or value < 0):
+            raise ValidationError('when fundingKind is "budget", yearlyPaymentsPercentageRange should be less or equal 0.8, and more than 0')
 
     def check_auction_time(self):
         if self.auctionPeriod and self.auctionPeriod.startDate and self.auctionPeriod.shouldStartAfter \
