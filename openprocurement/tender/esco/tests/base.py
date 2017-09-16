@@ -41,9 +41,10 @@ test_lots[0]['yearlyPaymentsPercentageRange'] = 0.8
 
 test_bids = deepcopy(base_eu_bids)
 for bid in test_bids:
-    bid['value'] = {'yearlyPayments': 0.9,
-                       'annualCostsReduction': 751.5,
-                       'contractDuration': 10}
+    bid['value'] = {'yearlyPaymentsPercentage': 0.9,
+                    'annualCostsReduction': [100] * 21,
+                    'contractDuration': {'years': 10, 'days': 10}
+                    }
 
 
 class BaseESCOWebTest(BaseTenderWebTest):
