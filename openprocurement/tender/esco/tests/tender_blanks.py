@@ -585,7 +585,7 @@ def invalid_bid_tender_features(self):
         {u'location': u'body', u'name': u'value',
          u'description': {u'contractDuration': [u'This field is required.'],
                           u'annualCostsReduction': [u'This field is required.'],
-                          u'yearlyPayments': [u'This field is required.']}}
+                          u'yearlyPaymentsPercentage': [u'This field is required.']}}
     ])
 
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
