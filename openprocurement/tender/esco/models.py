@@ -138,9 +138,9 @@ class Lot(BaseLot):
 
     def validate_yearlyPaymentsPercentageRange(self, data, value):
         if data['fundingKind'] == 'other' and value != 0.8:
-            raise ValidationError('when fundingKind is "other", yearlyPaymentsPercentageRange should be equal 0.8')
+            raise ValidationError('when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8')
         if data['fundingKind'] == 'budget' and (value > 0.8 or value < 0):
-            raise ValidationError('when fundingKind is "budget", yearlyPaymentsPercentageRange should be less or equal 0.8, and more than 0')
+            raise ValidationError('when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more than 0')
 
 
 class ContractDuration(Model):
@@ -522,9 +522,9 @@ class Tender(BaseTender):
 
     def validate_yearlyPaymentsPercentageRange(self, data, value):
         if data['fundingKind'] == 'other' and value != 0.8:
-            raise ValidationError('when fundingKind is "other", yearlyPaymentsPercentageRange should be equal 0.8')
+            raise ValidationError('when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8')
         if data['fundingKind'] == 'budget' and (value > 0.8 or value < 0):
-            raise ValidationError('when fundingKind is "budget", yearlyPaymentsPercentageRange should be less or equal 0.8, and more than 0')
+            raise ValidationError('when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more than 0')
 
     def check_auction_time(self):
         if self.auctionPeriod and self.auctionPeriod.startDate and self.auctionPeriod.shouldStartAfter \
