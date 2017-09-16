@@ -95,6 +95,34 @@ def tender_minimal_step_invalid(self):
     self.assertNotIn('minimalStep', response.json['data'])
 
 
+def tender_yearlyPaymentsPercentageRange_invalid(self):
+    data = deepcopy(self.initial_data)
+    data['yearlyPaymentsPercentageRange'] = 0.6
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8'], u'location': u'body', u'name': u'yearlyPaymentsPercentageRange'}
+    ])
+
+    data['fundingKind'] = 'budget'
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['fundingKind'], 'budget')
+    tender_id = response.json['data']['id']
+    tender_token = response.json['access']['token']
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_token), {'data': {'yearlyPaymentsPercentageRange': 1}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more than 0'], u'location': u'body', u'name': u'yearlyPaymentsPercentageRange'}
+    ])
+
+
 # TestTenderEU
 
 

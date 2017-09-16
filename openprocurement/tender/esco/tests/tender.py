@@ -34,6 +34,7 @@ from openprocurement.tender.esco.tests.tender_blanks import (
     tender_value,
     tender_min_value,
     tender_minimal_step_invalid,
+    tender_yearlyPaymentsPercentageRange_invalid,
     #TestTenderEU
     create_tender_invalid,
     patch_tender,
@@ -51,6 +52,7 @@ class TenderESCOTest(BaseESCOWebTest):
     test_tender_value = snitch(tender_value)
     test_tender_min_value = snitch(tender_min_value)
     test_tender_minimal_step_invalid = snitch(tender_minimal_step_invalid)
+    test_tender_yearlyPaymentsPercentageRange_invalid = snitch(tender_yearlyPaymentsPercentageRange_invalid)
 
 
 class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
