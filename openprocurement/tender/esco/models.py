@@ -9,6 +9,7 @@ from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
 from barbecue import vnmax
+from esculator import npv, escp
 from openprocurement.api.utils import get_now, get_root
 from openprocurement.api.constants import TZ
 from openprocurement.api.validation import (
@@ -142,26 +143,57 @@ class Lot(BaseLot):
             raise ValidationError('when fundingKind is "budget", yearlyPaymentsPercentageRange should be less or equal 0.8, and more than 0')
 
 
+class ContractDuration(Model):
+    years = IntType(required=True, min_value=0, max_value=15)
+    days = IntType(required=False, min_value=0, max_value=364)
+
+    def validate_days(self, data, days):
+        if data['years'] == 15 and days > 0:
+            raise ValidationError('max contract duration 15 years')
+        if data['years'] == 0 and days < 1:
+            raise ValidationError('min contract duration 1 day')
+
+
 class ESCOValue(Value):
     class Options:
         roles = {
-            'create': whitelist('amount', 'amount_npv', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
-            'edit': whitelist('amount', 'amount_npv', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
-            'auction_view': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
-            'auction_post': whitelist('amount', 'yearlyPayments', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'create': whitelist('amount', 'amount_escp', 'amountPerfomance', 'amountPerfomance_npv', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'edit': whitelist('amount', 'amount_escp', 'amountPerfomance', 'amountPerfomance_npv', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'auction_view': whitelist('amountPerfomance', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'auction_post': whitelist('yearlyPaymentsPercentage', 'contractDuration'),
         }
-    amount = FloatType(required=False, min_value=0)  # Amount as a number.
-    yearlyPayments = FloatType(min_value=0.8, max_value=0.9, required=True)  # The percentage of annual payments in favor of Bidder
-    annualCostsReduction = FloatType(min_value=0, required=True)  # Buyer's annual costs reduction
-    contractDuration = IntType(min_value=1, max_value=15, required=True)
+    amount = FloatType(min_value=0, required=False)  # Calculated energy service contract value.
+    amountPerfomance = FloatType(required=False)  # Calculated energy service contract performance indicator
+    yearlyPaymentsPercentage = FloatType(required=True)  # The percentage of annual payments in favor of Bidder
+    annualCostsReduction = ListType(FloatType, required=True)  # Buyer's annual costs reduction
+    contractDuration = ModelType(ContractDuration, required=True)
 
-    @serializable(serialized_name="amount")
-    def amount_npv(self):
+    @serializable(serialized_name='amountPerfomance')
+    def amountPerfomance_npv(self):
         """ Calculated energy service contract perfomance indicator """
-        return calculate_npv(get_root(self).NBUdiscountRate,
+        # TODO add not dummy npv
+        return npv(get_root(self).NBUdiscountRate,
                              self.annualCostsReduction,
-                             self.yearlyPayments,
+                             self.yearlyPaymentsPercentage,
                              self.contractDuration)
+
+    @serializable(serialized_name='amount')
+    def amount_escp(self):
+        # TODO add not dummy ced
+        return escp(get_root(self).NBUdiscountRate,
+                             self.annualCostsReduction,
+                             self.yearlyPaymentsPercentage,
+                             self.contractDuration)
+
+    def validate_annualCostsReduction(self, data, value):
+        if len(value) != 21:
+            raise ValidationError('annual costs reduction should be set for 21 period')
+
+    def validate_yearlyPaymentsPercentage(self, data, value):
+        if get_tender(data['__parent__']).fundingKind == 'other' and (value < 0.8 or value > 1):
+            raise ValidationError('yearlyPaymentsPercentage should be greater than 0.8 and less than 1')
+        if get_tender(data['__parent__']).fundingKind == 'budget'and (value < 0 or value > get_tender(data['__parent__']).yearlyPaymentsPercentageRange):
+            raise ValidationError('yearlyPaymentsPercentage should be greater than 0 and less than {}'.format(get_tender(data['__parent__']).yearlyPaymentsPercentageRange))
 
 
 class LotValue(BaseLotValue):
@@ -173,15 +205,6 @@ class LotValue(BaseLotValue):
             lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
             if not lots:
                 return
-            lot = lots[0]
-            tender = lot['__parent__']
-            amount = calculate_npv(tender.NBUdiscountRate, value.annualCostsReduction, value.yearlyPayments, value.contractDuration)  #XXX: Calculating value.amount manually
-            if lot.minValue.amount > amount:
-                raise ValidationError(u"value of bid should be greater than minValue of lot")
-            if lot.get('minValue').currency != value.currency:
-                raise ValidationError(u"currency of bid should be identical to currency of minValue of lot")
-            if lot.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-                raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of lot")
 
 
 class Contract(BaseEUContract):
@@ -212,13 +235,6 @@ class Bid(BaseEUBid):
             else:
                 if not value:
                     raise ValidationError(u'This field is required.')
-                amount = calculate_npv(tender.NBUdiscountRate, value.annualCostsReduction, value.yearlyPayments, value.contractDuration)  #XXX: Calculating value.amount manually
-                if tender.minValue.amount > amount:
-                    raise ValidationError(u'value of bid should be greater than minValue of tender')
-                if tender.get('minValue').currency != value.currency:
-                    raise ValidationError(u"currency of bid should be identical to currency of minValue of tender")
-                if tender.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-                    raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender")
 
 
 @implementer(IESCOTender)
