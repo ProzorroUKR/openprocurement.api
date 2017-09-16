@@ -98,7 +98,6 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'Value must be one of [True].'], u'location': u'body', u'name': u'selfEligible'},
         {u'description': [u'This field is required.'], u'location': u'body', u'name': u'selfQualified'},
         {u'description': [{
             u'contactPoint': [u'This field is required.'],
@@ -267,6 +266,15 @@ def create_tender_bid(self):
     self.assertEqual(bid['value']['yearlyPaymentsPercentage'], self.test_bids_data[0]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(bid['value']['amountPerfomance'], self.test_bids_data[0]['value']['annualCostsReduction'][0]) # TODO change when npv is ok
     self.assertEqual(bid['value']['amount'], self.test_bids_data[0]['value']['annualCostsReduction'][0]) # TODO change when escp is ok
+
+    data = deepcopy(self.test_bids_data[0])
+    data['selfQualified'] = False
+    data['selfEligible'] = False
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['selfQualified'], False)
+    self.assertEqual(response.json['data']['selfEligible'], False)
 
     for status in ('active', 'unsuccessful', 'deleted', 'invalid'):
         data = deepcopy(self.test_bids_data[0])
