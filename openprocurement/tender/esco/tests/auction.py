@@ -48,6 +48,9 @@ class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTes
     #initial_data = tender_data
     initial_auth = ('Basic', ('broker', ''))
     initial_bids = test_bids
+    initial_bids[1]['value'] = {'yearlyPaymentsPercentage': 0.9,
+                                'annualCostsReduction': [100] * 21,
+                                'contractDuration': {'years': 10, 'days': 10}}
 
     def setUp(self):
         super(TenderAuctionResourceTest, self).setUp()
@@ -82,9 +85,9 @@ class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
         {
             "tenderers": tenderer_info,
             "value": {
-                'yearlyPayments': 0.9,
-                'annualCostsReduction': 751.5,
-                'contractDuration': 10
+                'yearlyPaymentsPercentage': 0.9,
+                'annualCostsReduction': [751.5] * 21,
+                'contractDuration': {'years': 10, 'days': 10}
             },
             'selfQualified': True,
             'selfEligible': True
@@ -185,9 +188,9 @@ class TenderFeaturesAuctionResourceTest(BaseESCOContentWebTest):
             ],
             "tenderers": tenderer_info,
             "value": {
-                'yearlyPayments': 0.9,
-                'annualCostsReduction': 751.5,
-                'contractDuration': 10
+                'yearlyPaymentsPercentage': 0.9,
+                'annualCostsReduction': [751.5] * 21,
+                'contractDuration': {'years': 10}
             },
             'selfQualified': True,
             'selfEligible': True
@@ -202,9 +205,9 @@ class TenderFeaturesAuctionResourceTest(BaseESCOContentWebTest):
             ],
             "tenderers": tenderer_info,
             "value": {
-                'yearlyPayments': 0.9,
-                'annualCostsReduction': 785.5,
-                'contractDuration': 10
+                'yearlyPaymentsPercentage': 0.9,
+                'annualCostsReduction': [785.5] * 21,
+                'contractDuration': {'years': 10}
             },
             'selfQualified': True,
             'selfEligible': True
