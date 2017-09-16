@@ -2,6 +2,7 @@
 import unittest
 from copy import deepcopy
 
+from esculator import npv, escp
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.esco.adapters import TenderESCOConfigurator
 from openprocurement.tender.belowthreshold.tests.base import test_organization
@@ -31,8 +32,6 @@ from openprocurement.tender.openeu.tests.award_blanks import (
     patch_tender_2lot_award_complaint_document,
 )
 
-from openprocurement.tender.esco.utils import calculate_npv
-
 from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
     test_bids,
@@ -40,11 +39,20 @@ from openprocurement.tender.esco.tests.base import (
     NBU_DISCOUNT_RATE
 )
 
+from openprocurement.tender.esco.tests.award_blanks import (
+    patch_tender_award,
+    patch_tender_lot_award
+)
 
-award_amount = calculate_npv(NBU_DISCOUNT_RATE,
+award_amountPerfomance = npv(NBU_DISCOUNT_RATE,
                              test_bids[0]['value']['annualCostsReduction'],
-                             test_bids[0]['value']['yearlyPayments'],
+                             test_bids[0]['value']['yearlyPaymentsPercentage'],
                              test_bids[0]['value']['contractDuration'])
+
+award_amount = escp(NBU_DISCOUNT_RATE,
+                   test_bids[0]['value']['annualCostsReduction'],
+                   test_bids[0]['value']['yearlyPaymentsPercentage'],
+                   test_bids[0]['value']['contractDuration'])
 
 
 class TenderAwardResourceTest(BaseESCOContentWebTest,
@@ -53,6 +61,7 @@ class TenderAwardResourceTest(BaseESCOContentWebTest,
     initial_bids = test_bids
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
+    expected_award_amountPerfomance = award_amountPerfomance
     expected_award_amount = award_amount
 
     def setUp(self):
@@ -66,6 +75,8 @@ class TenderAwardResourceTest(BaseESCOContentWebTest,
         self.award_id = response.json['data'][0]['id']
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
         self.app.authorization = ('Basic', ('broker', ''))
+
+    test_patch_tender_award = snitch(patch_tender_award)
 
 
 class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest,
@@ -101,6 +112,7 @@ class TenderLotAwardResourceTest(BaseESCOContentWebTest,
     initial_bids = test_bids
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
+    expected_award_amountPerfomance = award_amountPerfomance
     expected_award_amount = award_amount
 
     def setUp(self):
@@ -112,6 +124,8 @@ class TenderLotAwardResourceTest(BaseESCOContentWebTest,
         self.award_id = response.json['data'][0]['id']
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
         self.app.authorization = ('Basic', ('broker', ''))
+
+    test_patch_tender_award= snitch(patch_tender_lot_award)
 
 
 class Tender2LotAwardResourceTest(BaseESCOContentWebTest,
