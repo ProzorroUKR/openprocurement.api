@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implementer
-from datetime import timedelta
+from datetime import timedelta, datetime
 from iso8601 import parse_date
 from pyramid.security import Allow
 from schematics.types import StringType, FloatType, IntType, URLType, BooleanType
@@ -313,6 +313,7 @@ class Tender(BaseTender):
     fundingKind = StringType(choices=['budget', 'other'])
     yearlyPaymentsPercentageRange = FloatType(required=True)
     submissionMethodDetails = StringType(default="quick(mode:no-auction)")  # TODO: temporary decision, while esco auction is not ready. Remove after adding auction. Remove function "check_submission_method_details" in openprocurement.tender.esco.subscribers
+    announcementDate = datetime(2017, 9, 19) # XXX
 
     create_accreditation = 3
     edit_accreditation = 4
