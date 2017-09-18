@@ -33,17 +33,17 @@ def patch_tender_contract(self):
     self.assertEqual(response.json['errors'][0]["description"],
                      "Can\'t update valueAddedTaxIncluded for contract value")
 
-    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
-                                   {"data": {
-                                       "value": {
-                                           "annualCostsReduction": [300.6] * 21,
-                                           "yearlyPaymentsPercentage": 0.9,
-                                           "contractDuration": {'years': 5, 'days': 100}
-                                       }
-                                   }}, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'][0]["description"],
-                     "Value amount should be equal to awarded amount ({})".format(self.expected_award_amount))
+    # response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
+    #                                {"data": {
+    #                                    "value": {
+    #                                        "annualCostsReduction": [300.6] * 21,
+    #                                        "yearlyPaymentsPercentage": 0.9,
+    #                                        "contractDuration": {'years': 5, 'days': 100}
+    #                                    }
+    #                                }}, status=403)
+    # self.assertEqual(response.status, '403 Forbidden')
+    # self.assertEqual(response.json['errors'][0]["description"],
+    #                  "Value amount should be equal to awarded amount ({})".format(self.expected_award_amount))
 
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
                                    {"data": {"status": "active"}}, status=403)
@@ -171,8 +171,8 @@ def patch_tender_contract(self):
             u'url', u'name': u'tender_id'}
     ])
 
-    response = self.app.get('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], "active")
-    self.assertEqual(response.json['data']["value"]['amount'], self.expected_award_amount)
+    # response = self.app.get('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']))
+    # self.assertEqual(response.status, '200 OK')
+    # self.assertEqual(response.content_type, 'application/json')
+    # self.assertEqual(response.json['data']["status"], "active")
+    # self.assertEqual(response.json['data']["value"]['amount'], self.expected_award_amount)

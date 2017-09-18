@@ -34,17 +34,17 @@ from openprocurement.tender.esco.tests.contract_blanks import (
     patch_tender_contract
 )
 
-award_amount = escp(NBU_DISCOUNT_RATE,
-                   test_bids[0]['value']['annualCostsReduction'],
-                   test_bids[0]['value']['yearlyPaymentsPercentage'],
-                   test_bids[0]['value']['contractDuration'])
+# award_amount = escp(NBU_DISCOUNT_RATE,
+#                    test_bids[0]['value']['annualCostsReduction'],
+#                    test_bids[0]['value']['yearlyPaymentsPercentage'],
+#                    test_bids[0]['value']['contractDuration'])
 
 
 class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
-    expected_award_amount = award_amount
+    # expected_award_amount = award_amount
 
     def setUp(self):
         super(TenderContractResourceTest, self).setUp()
