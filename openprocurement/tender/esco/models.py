@@ -69,8 +69,7 @@ from openprocurement.tender.openeu.models import (
     pre_qualifications_role, eu_auction_role
 )
 from openprocurement.tender.openeu.constants import (
-    TENDERING_DURATION,
-    QUESTIONS_STAND_STILL
+    TENDERING_DURATION, QUESTIONS_STAND_STILL, TENDERING_DAYS
 )
 from openprocurement.tender.esco.utils import calculate_npv
 
