@@ -47,18 +47,12 @@ Schema
    |ocdsDescription|
    The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
 
-:minValue:
-   :ref:`minValue`, required
-
-   Calculated minimal energy service contract performance indicator. Bids smaller then ``minValue`` will be rejected.
-
-   |ocdsDescription|
-   The total estimated minValue of the procurement.
 
 :NBUdiscountRate:
     float, required
 
-    NBU Discount Rate.
+    NBU Discount Rate as of tender notice publication date. Possible values: from 0 to 0.99 (from 0% to 99% respectively), with 3-digit precision after comma (e.g. 00.000). NBUdiscountRate change is interpreted as a change of tender conditions. 
+
 :guarantee:
     :ref:`Guarantee`
 
@@ -101,14 +95,11 @@ Schema
    |ocdsDescription|
    A list of all the companies who entered submissions for the tender.
 
-:minimalStep:
-   :ref:`value`, required
+:minimalStepPercentage:
+   :ref:`value`, Float, required.
 
-   The minimal step of auction (reduction). Validation rules:
-
-   * `amount` should be less then `Tender.minValue.amount`
-   * `currency` should either be absent or match `Tender.minValue.currency`
-   * `valueAddedTaxIncluded` should either be absent or match `Tender.minValue.valueAddedTaxIncluded`
+   Minimum step increment of the energy service contract performance indicator during auction that is calculated from  participant’s bid. 
+   Possible values: from 0.05 to 0.3 (from 0.5% to 3%), with 3-digit precision after comma.
 
 :awards:
     List of :ref:`award` objects
@@ -217,3 +208,19 @@ Schema
         * `tenderPeriod.startDate`
         * `enquiryPeriod.endDate`
         * `tenderPeriod.endDate`
+
+:fundingKind:
+    String, required.
+    
+    Tender funding source. Possible values:
+        * budget -  Budget funding.
+        * other - exclusively supplier’s funding.
+    
+    Default value: other
+    
+:yearlyPaymentsPercentageRange:
+    float, required
+    
+    Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma. Possible values:
+        * from 0.8 to 1 (from 80% to 100% respectively) if tender:fundingKind:other. - Default value.
+        * from 0 to 0.8 (from 0% to 80% respectively) if tender:fundingKind:budget.

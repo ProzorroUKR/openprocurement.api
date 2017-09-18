@@ -32,13 +32,7 @@ Schema
     * `deleted`
 
 :value:
-    :ref:`ESCOValue`, required
-
-    Validation rules:
-
-    * `amount` should be greater than `Tender.minValue.amout`
-    * `currency` should either be absent or match `Tender.minValue.currency`
-    * `valueAddedTaxIncluded` should either be absent or match `Tender.minValue.valueAddedTaxIncluded`
+    :ref:`Value`, required
 
 :subcontractingDetails:
     string
