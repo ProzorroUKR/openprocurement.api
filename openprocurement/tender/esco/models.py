@@ -171,19 +171,20 @@ class ESCOValue(Value):
     @serializable(serialized_name='amountPerfomance')
     def amountPerfomance_npv(self):
         """ Calculated energy service contract perfomance indicator """
-        # TODO add not dummy npv
-        return npv(get_root(self).NBUdiscountRate,
-                             self.annualCostsReduction,
-                             self.yearlyPaymentsPercentage,
-                             self.contractDuration)
+        return float(npv(self.contractDuration.years,
+                         self.contractDuration.days,
+                         self.yearlyPaymentsPercentage,
+                         self.annualCostsReduction,
+                         get_tender(self).announcementDate or get_tender(self).enquiryPeriod.startDate,
+                         get_tender(self).NBUdiscountRate))
 
     @serializable(serialized_name='amount')
     def amount_escp(self):
-        # TODO add not dummy ced
-        return escp(get_root(self).NBUdiscountRate,
-                             self.annualCostsReduction,
-                             self.yearlyPaymentsPercentage,
-                             self.contractDuration)
+        return float(escp(self.contractDuration.years,
+                          self.contractDuration.days,
+                          self.yearlyPaymentsPercentage,
+                          self.annualCostsReduction,
+                          get_tender(self).announcementDate or get_tender(self).enquiryPeriod.startDate))
 
     def validate_annualCostsReduction(self, data, value):
         if len(value) != 21:
