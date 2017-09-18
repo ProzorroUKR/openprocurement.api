@@ -73,7 +73,7 @@ Schema
     List of :ref:`Organization` objects, auto-generated, read-only
 
 :value:
-    `ESCOValue` object, auto-generated, read-only
+    `Value` object, auto-generated, read-only
 
     |ocdsDescription|
     The total value of this contract.

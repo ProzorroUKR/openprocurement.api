@@ -49,19 +49,8 @@ Schema
     Description of the unit which the good comes in e.g.  hours, kilograms. 
     Made up of a unit name, and the value of a single unit.
 
-:quantity:
-    integer
-
-    |ocdsDescription|
-    The number of units required
-
-:deliveryDate:
-    :ref:`Period`, required
-
-    Period during which the item should be delivered.
-
 :deliveryAddress:
-    :ref:`Address`, required
+    :ref:`Address`, not required
 
     Address, where the item should be delivered.
 
