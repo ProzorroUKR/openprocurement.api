@@ -145,7 +145,7 @@ class Lot(BaseLot):
 
 class ContractDuration(Model):
     years = IntType(required=True, min_value=0, max_value=15)
-    days = IntType(required=False, min_value=0, max_value=364)
+    days = IntType(required=False, min_value=0, max_value=364, default=0)
 
     def validate_days(self, data, days):
         if data['years'] == 15 and days > 0:
