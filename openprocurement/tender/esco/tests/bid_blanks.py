@@ -264,8 +264,10 @@ def create_tender_bid(self):
     self.assertEqual(bid['value']['contractDuration']['days'], self.test_bids_data[0]['value']['contractDuration']['days'])
     self.assertEqual(bid['value']['annualCostsReduction'], self.test_bids_data[0]['value']['annualCostsReduction'])
     self.assertEqual(bid['value']['yearlyPaymentsPercentage'], self.test_bids_data[0]['value']['yearlyPaymentsPercentage'])
-    self.assertEqual(bid['value']['amountPerfomance'], self.test_bids_data[0]['value']['annualCostsReduction'][0]) # TODO change when npv is ok
-    self.assertEqual(bid['value']['amount'], self.test_bids_data[0]['value']['annualCostsReduction'][0]) # TODO change when escp is ok
+    self.assertGreater(bid['value']['amountPerfomance'], 10)
+    self.assertLess(bid['value']['amountPerfomance'], 1500)
+    self.assertGreater(bid['value']['amount'], 500)
+    self.assertLess(bid['value']['amount'], 15000)
 
     data = deepcopy(self.test_bids_data[0])
     data['selfQualified'] = False
@@ -334,9 +336,10 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotEqual(response.json['data']['value'], bid['value'])
     self.assertEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
-    self.assertEqual(response.json['data']['value']['amountPerfomance'], 200)
-    self.assertEqual(response.json['data']['value']['amount'], 200)
-
+    self.assertGreater(bid['value']['amountPerfomance'], 10)
+    self.assertLess(bid['value']['amountPerfomance'], 1500)
+    self.assertGreater(bid['value']['amount'], 500)
+    self.assertLess(bid['value']['amount'], 15000)
 
     response = self.app.patch_json('/tenders/{}/bids/some_id?acc_token={}'.format(self.tender_id, bid_token),
                                    {"data": {"value": {"amount": 400}}}, status=404)
