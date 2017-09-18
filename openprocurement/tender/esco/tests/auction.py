@@ -9,11 +9,6 @@ from openprocurement.tender.belowthreshold.tests.auction import (
     TenderLotAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin
 )
-from openprocurement.tender.belowthreshold.tests.auction_blanks import (
-    # TenderSameValueAuctionResourceTest
-    post_tender_auction_reversed,
-    post_tender_auction_not_changed,
-)
 
 from openprocurement.tender.openeu.tests.auction_blanks import (
     # TenderMultipleLotAuctionResourceTest
@@ -41,6 +36,8 @@ from openprocurement.tender.esco.tests.auction_blanks import (
     auction_check_NBUdiscountRate,
     # TenderFeaturesAuctionResourceTest
     get_tender_auction_feature,
+    post_tender_auction_not_changed,
+    post_tender_auction_reversed,
 )
 
 
