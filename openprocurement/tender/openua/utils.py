@@ -151,7 +151,7 @@ def add_next_award(request, reverse=False, awarding_criteria_key='amount'):
             bids = [
                 {
                     'id': bid.id,
-                    'value': [i for i in bid.lotValues if lot.id == i.relatedLot][0].value,
+                    'value': [i for i in bid.lotValues if lot.id == i.relatedLot][0].value.serialize(),
                     'tenderers': bid.tenderers,
                     'parameters': [i for i in bid.parameters if i.code in codes],
                     'date': [i for i in bid.lotValues if lot.id == i.relatedLot][0].date
@@ -193,10 +193,20 @@ def add_next_award(request, reverse=False, awarding_criteria_key='amount'):
     else:
         if not tender.awards or tender.awards[-1].status not in ['pending', 'active']:
             unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
-            active_bids = [bid for bid in tender.bids if bid.status == "active"]
+            active_bids = [
+                {
+                    'id': bid.id,
+                    'value': bid.value.serialize(),
+                    'tenderers': bid.tenderers,
+                    'parameters': [i for i in bid.parameters if i.code in codes],
+                    'date': bid.date
+                }
+                for bid in tender.bids
+                if bid.status == "active"
+            ]
             bids = chef(active_bids, tender.features or [], unsuccessful_awards, reverse, awarding_criteria_key)
             if bids:
-                bid = bids[0].serialize()
+                bid = bids[0]
                 award = tender.__class__.awards.model_class({
                     'bid_id': bid['id'],
                     'status': 'pending',
