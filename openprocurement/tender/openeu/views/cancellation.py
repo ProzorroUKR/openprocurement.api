@@ -63,7 +63,8 @@ class TenderCancellationResource(BaseResource):
             for i in self.request.validated['tender'].lots
             if i.status == 'active'
         ]):
-            add_next_award(self.request)
+            configurator = self.request.content_configurator
+            add_next_award(self.request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
 
     def validate_cancellation(self, operation):
         """ TODO move validators
