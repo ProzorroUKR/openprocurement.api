@@ -123,6 +123,166 @@ def tender_yearlyPaymentsPercentageRange_invalid(self):
     ])
 
 
+def items_without_deliveryDate_quantity(self):
+    self.assertEqual(len(self.initial_data['items']), 1)
+    for item in self.initial_data['items']:
+        self.assertIn('deliveryDate', item)
+        self.assertIn('quantity', item)
+
+    # create role
+    tender_data = deepcopy(self.initial_data)
+    tender_data['status'] = 'draft'
+
+    response = self.app.post_json('/tenders', {"data": tender_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['status'], 'draft')
+    self.tender_id = response.json['data']['id']
+    self.tender_token = response.json['access']['token']
+
+    for item in response.json['data']['items']:
+        self.assertNotIn('deliveryDate', item)
+        self.assertNotIn('quantity', item)
+
+    # edit_draft role
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, self.tender_token), {'data': {'items': [{'quantity': 5}]}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (draft) status")
+
+    # edit_active.tendering role
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, self.tender_token), {'data': {'status': 'active.tendering'}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['status'], 'active.tendering')
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, self.tender_token), {'data': {'items': [{'quantity': 5}]}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+
+    for item in response.json['data']['items']:
+        self.assertNotIn('deliveryDate', item)
+        self.assertNotIn('quantity', item)
+
+    # award preparation
+
+    # post bids
+    for bid_data in self.test_bids_data:
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+    # switch to active.pre-qualification
+    self.set_status('active.pre-qualification', {'status': 'active.tendering'})
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+
+    # qualify bids
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+    for qualification in response.json['data']:
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
+            self.tender_id, qualification['id'], self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, "200 OK")
+
+    # switch to active.pre-qualification.stand-still
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, self.tender_token), {"data": {"status": 'active.pre-qualification.stand-still'}})
+    self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
+
+    # switch to active.auction
+    self.set_status('active.auction', {'status': 'active.pre-qualification.stand-still'})
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual(response.json['data']['status'], "active.auction")
+
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    auction_bids_data = response.json['data']['bids']
+    response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id),
+                                  {'data': {'bids': auction_bids_data}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, 'application/json')
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.json['data']['status'], "active.qualification")
+
+    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+    self.award_id = response.json['data'][0]['id']
+    self.app.authorization = ('Basic', ('broker', ''))
+
+    # qualify award
+    response = self.app.patch_json(
+        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+        {"data": {'status': 'active', "qualified": True, "eligible": True,
+                  "items": [{
+                      "description": u"футляри до державних нагород",
+                      "description_en": u"Cases for state awards",
+                      "classification": {
+                          "scheme": u"ДК021",
+                          "id": u"44617100-9",
+                          "description": u"Cartons"
+                      },
+                      "additionalClassifications": [
+                          {
+                              "scheme": u"ДКПП",
+                              "id": u"17.21.1",
+                              "description": u"папір і картон гофровані, паперова й картонна тара"
+                          }
+                      ],
+                      "unit": {
+                          "name": u"item",
+                          "code": u"44617100-9"
+                      },
+                      "quantity": 5,
+                      "deliveryDate": {
+                          "startDate": (get_now() + timedelta(days=2)).isoformat(),
+                          "endDate": (get_now() + timedelta(days=5)).isoformat()
+                      },
+                      "deliveryAddress": {
+                          "countryName": u"Україна",
+                          "postalCode": "79000",
+                          "region": u"м. Київ",
+                          "locality": u"м. Київ",
+                          "streetAddress": u"вул. Банкова 1"
+                      }
+                  }]}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['status'], 'active')
+
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    contract = response.json['data']['contracts'][0]
+
+    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
+       {"data": {'status': 'pending', "items": [{'quantity': 10,
+                                                 "deliveryDate": {
+                                                     "startDate": (get_now() + timedelta(days=12)).isoformat(),
+                                                     "endDate": (get_now() + timedelta(days=15)).isoformat()
+                                                 }}]}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.body, 'null')
+
+    response = self.app.get('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    contract = response.json['data']
+    self.assertEqual(len(contract['items']), 1)
+
+    for item in contract['items']:
+        self.assertNotIn('deliveryDate', item)
+        self.assertNotIn('quantity', item)
+
+
 # TestTenderEU
 
 
@@ -365,16 +525,6 @@ def create_tender_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description': [u'CPV group of items be identical'], u'location': u'body', u'name': u'items'}
-    ])
-
-    data = deepcopy(self.initial_data)
-    del data["items"][0]['deliveryDate']
-    response = self.app.post_json(request_path, {'data': data}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [{u'deliveryDate': [u'This field is required.']}], u'location': u'body', u'name': u'items'}
     ])
 
 
