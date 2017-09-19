@@ -93,6 +93,7 @@ class TenderUaAwardResource(TenderAwardResource):
         award = self.request.context
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
+        configurator = self.request.content_configurator
         if award_status == 'pending' and award.status == 'active':
             normalized_end = calculate_normalized_date(get_now(), tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, STAND_STILL_TIME, tender)
@@ -102,7 +103,7 @@ class TenderUaAwardResource(TenderAwardResource):
                 'value': award.value,
                 'items': [i for i in tender.items if i.relatedLot == award.lotID ],
                 'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) +1) }))
-            add_next_award(self.request, reverse=self.request.content_configurator.reverse_awarding_criteria)
+            add_next_award(self.request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
         elif award_status == 'active' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             now = get_now()
             cancelled_awards = []
@@ -116,7 +117,7 @@ class TenderUaAwardResource(TenderAwardResource):
             for i in tender.contracts:
                 if i.awardID in cancelled_awards:
                     i.status = 'cancelled'
-            add_next_award(self.request, reverse=self.request.content_configurator.reverse_awarding_criteria)
+            add_next_award(self.request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
         elif award_status == 'active' and award.status == 'cancelled':
             now = get_now()
             if award.complaintPeriod.endDate > now:
@@ -124,11 +125,11 @@ class TenderUaAwardResource(TenderAwardResource):
             for i in tender.contracts:
                 if i.awardID == award.id:
                     i.status = 'cancelled'
-            add_next_award(self.request, reverse=self.request.content_configurator.reverse_awarding_criteria)
+            add_next_award(self.request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
         elif award_status == 'pending' and award.status == 'unsuccessful':
             normalized_end = calculate_normalized_date(get_now(), tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, STAND_STILL_TIME, tender)
-            add_next_award(self.request, reverse=self.request.content_configurator.reverse_awarding_criteria)
+            add_next_award(self.request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
         elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             if tender.status == 'active.awarded':
                 tender.status = 'active.qualification'
@@ -147,7 +148,7 @@ class TenderUaAwardResource(TenderAwardResource):
             for i in tender.contracts:
                 if i.awardID in cancelled_awards:
                     i.status = 'cancelled'
-            add_next_award(self.request, reverse=self.request.content_configurator.reverse_awarding_criteria)
+            add_next_award(self.request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
         elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
             raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
         if save_tender(self.request):
