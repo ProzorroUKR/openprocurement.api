@@ -121,6 +121,7 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
     initial_bids[2]['tenderers'][0]['name'] = u'Точно не Державне управління справами'
     initial_bids[2]['tenderers'][0]['identifier']['id'] = u'44437256'
     reverse = TenderBelowThersholdConfigurator.reverse_awarding_criteria
+    awarding_key = TenderBelowThersholdConfigurator.awarding_criteria_key
 
     def setUp(self):
         super(TenderLotAwardCheckResourceTest, self).setUp()

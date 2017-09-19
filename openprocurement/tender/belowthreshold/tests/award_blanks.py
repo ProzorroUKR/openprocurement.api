@@ -2477,7 +2477,7 @@ def check_tender_award(self):
     bids = response.json['data']
     # sort bids by value amount, from lower to higher if reverse is False (all tenders, except esco)
     # or from higher to lower if reverse is True (esco tenders)
-    sorted_bids = sorted(bids, key=lambda bid: bid['lotValues'][0]['value']['amount'], reverse=self.reverse)
+    sorted_bids = sorted(bids, key=lambda bid: bid['lotValues'][0]['value'][self.awarding_key], reverse=self.reverse)
 
     # get awards
     response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
