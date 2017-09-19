@@ -88,7 +88,12 @@ class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest,
     initial_bids[1]['tenderers'][0]['identifier']['id'] = u'88837256'
     initial_bids[2]['tenderers'][0]['name'] = u'Точно не Державне управління справами'
     initial_bids[2]['tenderers'][0]['identifier']['id'] = u'44437256'
+    initial_bids[1]['value'] = {'yearlyPaymentsPercentage': 0.9,
+                    'annualCostsReduction': [100] * 21,
+                    'contractDuration': {'years': 2, 'days': 10}
+                    }
     reverse = TenderESCOConfigurator.reverse_awarding_criteria
+    awarding_key = TenderESCOConfigurator.awarding_criteria_key
 
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
