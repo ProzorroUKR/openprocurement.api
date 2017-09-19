@@ -17,7 +17,7 @@ from openprocurement.api.validation import (
 )
 from openprocurement.api.models import (
     Value, Model, SifterListType,
-    ListType, Period
+    ListType, Period, Address, PeriodEndRequired
 )
 from openprocurement.api.models import (
     plain_role, listing_role,
@@ -58,7 +58,7 @@ from openprocurement.tender.openua.constants import (
 from openprocurement.tender.openeu.models import (
     IAboveThresholdEUTender, Bid as BaseEUBid,
     LotValue as BaseLotValue,
-    ComplaintModelType, Item, TenderAuctionPeriod,
+    ComplaintModelType, Item as BaseItem, TenderAuctionPeriod,
     ProcuringEntity, Award as BaseEUAward, Complaint,
     Cancellation, OpenEUDocument as Document,
     Qualification, LotAuctionPeriod,
@@ -207,16 +207,32 @@ class LotValue(BaseLotValue):
                 return
 
 
+class Item(BaseItem):
+    """A good, service, or work to be contracted."""
+    class Options:
+        roles = {
+            'edit': blacklist("quantity", "deliveryDate"),
+            'edit_draft': blacklist("quantity", "deliveryDate"),
+            'edit_active.tendering': blacklist("quantity", "deliveryDate"),
+            "create": blacklist("quantity", "deliveryDate")
+        }
+    deliveryAddress = ModelType(Address, required=False)
+    deliveryDate = ModelType(PeriodEndRequired, required=False)
+    quantity = IntType(required=False)
+
+
 class Contract(BaseEUContract):
     """ESCO contract model"""
 
     value = ModelType(ESCOValue)
+    items = ListType(ModelType(Item))
 
 
 class Award(BaseEUAward):
     """ESCO award model"""
 
     value = ModelType(ESCOValue)
+    items = ListType(ModelType(Item))
 
 
 class Bid(BaseEUBid):
