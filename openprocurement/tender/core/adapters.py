@@ -24,3 +24,6 @@ class TenderConfigurator(ContentConfigurator):
     # When False, awards are generated from lower to higher by value.amount
     # When True, awards are generated from higher to lower by value.amount
     reverse_awarding_criteria = False
+
+    # Defines awarding criteria field name
+    awarding_criteria_key = 'amount'
