@@ -201,10 +201,11 @@ class LotValue(BaseLotValue):
     value = ModelType(ESCOValue, required=True)
 
     def validate_value(self, data, value):
-        if value and isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:
-            lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
-            if not lots:
-                return
+        pass
+    #     if value and isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:
+    #         lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
+    #         if not lots:
+    #             return
 
 
 class Item(BaseItem):
@@ -512,11 +513,12 @@ class Tender(BaseTender):
             raise ValidationError(u"url should be posted for each lot")
 
     def validate_minimalStep(self, data, value):
-        if value and value.amount and data.get('minValue'):
-            if data.get('minValue').currency != value.currency:
-                raise ValidationError(u"currency should be identical to currency of minValue of tender")
-            if data.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-                raise ValidationError(u"valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of minValue of tender")
+        pass
+    #     if value and value.amount and data.get('minValue'):
+    #         if data.get('minValue').currency != value.currency:
+    #             raise ValidationError(u"currency should be identical to currency of minValue of tender")
+    #         if data.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+    #             raise ValidationError(u"valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of minValue of tender")
 
     def validate_tenderPeriod(self, data, period):
         # if data['_rev'] is None when tender was created just now
