@@ -1,0 +1,87 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.esco 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-19 12:50+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Qualification"
+msgstr ""
+
+msgid "Schema"
+msgstr ""
+
+msgid "string, auto-generated"
+msgstr ""
+
+msgid "string, multilingual"
+msgstr ""
+
+msgid "|ocdsDescription| Qualification title."
+msgstr ""
+
+msgid "|ocdsDescription| Qualification description."
+msgstr ""
+
+msgid "bool"
+msgstr ""
+
+msgid ""
+"Confirms compliance of eligibility criteria set by the procuring entity in "
+"the tendering documents."
+msgstr ""
+
+msgid ""
+"Confirms the absence of grounds for refusal to participate in accordance "
+"with Article 17 of the Law of Ukraine \"On Public Procurement\"."
+msgstr ""
+
+msgid "Bid that this Qualification protocol relates to."
+msgstr ""
+
+msgid "In Multilot tenders, lot that this Qualification protocol relates to."
+msgstr ""
+
+msgid "string, :ref:`Date`, auto-generated, read-only"
+msgstr ""
+
+msgid "The date of the qualification."
+msgstr ""
+
+msgid "List of :ref:`Document` objects"
+msgstr ""
+
+msgid ""
+"Container for Qualification documentation, protocols, reasons for "
+"qualification or disqualification. Uploaded by tender committee."
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "Possible values are:"
+msgstr ""
+
+msgid "`pending`"
+msgstr ""
+
+msgid "`active`"
+msgstr ""
+
+msgid "`unsuccessful`"
+msgstr ""
+
+msgid "`cancelled`"
+msgstr ""
+
+msgid "Workflow"
+msgstr ""
+
+msgid "\\* marks initial state"
+msgstr ""

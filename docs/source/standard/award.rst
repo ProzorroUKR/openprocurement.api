@@ -63,31 +63,31 @@ Schema
     The date of the contract award.
     
 :value:
-    List of :ref:`Value` objects, auto-generated, read-only
+    list of :ref:`Value` objects, auto-generated, read-only
     
     |ocdsDescription|
     The total value of this award.
     
 :suppliers:
-    List of :ref:`Organization` objects, auto-generated, read-only
+    list of :ref:`Organization` objects, auto-generated, read-only
     
     |ocdsDescription|
     The suppliers awarded with this award.
     
 :items:
-    List of :ref:`Item` objects, auto-generated, read-only
+    list of :ref:`Item` objects, auto-generated, read-only
     
     |ocdsDescription|
     The goods and services awarded in this award, broken into line items wherever possible. Items should not be duplicated, but the quantity specified instead. 
     
 :documents:
-    List of :ref:`Document` objects
+    list of :ref:`Document` objects
     
     |ocdsDescription|
     All documents and attachments related to the award, including any notices. 
     
 :complaints:
-    List of :ref:`Complaint` objects
+    list of :ref:`Complaint` objects
 
 :complaintPeriod:
     :ref:`period`

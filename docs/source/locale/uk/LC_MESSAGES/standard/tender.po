@@ -1,0 +1,393 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.esco 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-19 12:50+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Tender"
+msgstr ""
+
+msgid "Schema"
+msgstr ""
+
+msgid ""
+"string, multilingual, uk (title) and en (title_en) translations are required"
+msgstr ""
+
+msgid ""
+"The name of the tender, displayed in listings. You can include the following"
+" items:"
+msgstr ""
+
+msgid "tender code (in procuring organization management system)"
+msgstr ""
+
+msgid "periodicity of the tender (annual, quarterly, etc.)"
+msgstr ""
+
+msgid "item being procured"
+msgstr ""
+
+msgid "some other info"
+msgstr ""
+
+msgid "string, multilingual"
+msgstr ""
+
+msgid "Detailed description of tender."
+msgstr ""
+
+msgid "string, auto-generated, read-only"
+msgstr ""
+
+msgid "The tender identifier to refer tender to in \"paper\" documentation."
+msgstr ""
+
+msgid ""
+"|ocdsDescription| TenderID should always be the same as the OCID. It is "
+"included to make the flattened data structure more convenient."
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "value: ``esco``"
+msgstr ""
+
+msgid ":ref:`ProcuringEntity`, required"
+msgstr ""
+
+msgid "Organization conducting the tender."
+msgstr ""
+
+msgid ""
+"|ocdsDescription| The entity managing the procurement, which may be "
+"different from the buyer who is paying / using the items being procured."
+msgstr ""
+
+msgid "float, required"
+msgstr ""
+
+msgid ":ref:`Guarantee`"
+msgstr ""
+
+msgid "Bid guarantee"
+msgstr ""
+
+msgid "list of :ref:`item` objects, required"
+msgstr ""
+
+msgid "List that contains single item being procured."
+msgstr ""
+
+msgid ""
+"|ocdsDescription| The goods and services to be purchased, broken into line "
+"items wherever possible. Items should not be duplicated, but a quantity of 2"
+" specified instead."
+msgstr ""
+
+msgid "list of :ref:`Feature` objects"
+msgstr ""
+
+msgid "Features of tender."
+msgstr ""
+
+msgid "|ocdsDescription| All documents and attachments related to the tender."
+msgstr ""
+
+msgid "Questions to ``procuringEntity`` and answers to them."
+msgstr ""
+
+msgid "Complaints to tender conditions and their resolutions."
+msgstr ""
+
+msgid ""
+"A list of all bids placed in the tender with information about tenderers, "
+"their proposal and other qualification documentation."
+msgstr ""
+
+msgid ""
+"|ocdsDescription| A list of all the companies who entered submissions for "
+"the tender."
+msgstr ""
+
+msgid "All qualifications (disqualifications and awards)."
+msgstr ""
+
+msgid "List of :ref:`Contract` objects"
+msgstr ""
+
+msgid ":ref:`period`, required"
+msgstr ""
+
+msgid "Period when questions are allowed."
+msgstr ""
+
+msgid "|ocdsDescription| The period during which enquiries may be made."
+msgstr ""
+
+msgid ""
+"Period when bids can be submitted. At least `endDate` has to be provided."
+msgstr ""
+
+msgid ""
+"|ocdsDescription| The period when the tender is open for submissions. The "
+"end date is the closing date for tender submissions."
+msgstr ""
+
+msgid ":ref:`period`, read-only"
+msgstr ""
+
+msgid ""
+"This period consists of qualification and 10 days of stand still period."
+msgstr ""
+
+msgid ""
+"|ocdsDescription| Period when qualification can be submitted with stand "
+"still period."
+msgstr ""
+
+msgid "Period when Auction is conducted."
+msgstr ""
+
+msgid "url"
+msgstr ""
+
+msgid "A web address for view auction."
+msgstr ""
+
+msgid "Awarding process period."
+msgstr ""
+
+msgid ""
+"|ocdsDescription| The date or period on which an award is anticipated to be "
+"made."
+msgstr ""
+
+msgid "Enquiries and tendering period"
+msgstr ""
+
+msgid "Pre qulification period"
+msgstr ""
+
+msgid "Standstill before auction"
+msgstr ""
+
+msgid "Auction period (auction)"
+msgstr ""
+
+msgid "Winner qualification (qualification)"
+msgstr ""
+
+msgid "Standstill period (standstill)"
+msgstr ""
+
+msgid "Complete tender (complete)"
+msgstr ""
+
+msgid "Unsuccessful tender (unsuccessful)"
+msgstr ""
+
+msgid "Cancelled tender (cancelled)"
+msgstr ""
+
+msgid "Status of the Tender."
+msgstr ""
+
+msgid "Contains all tender lots."
+msgstr ""
+
+msgid "Contains all tender qualifications."
+msgstr ""
+
+msgid "Contains 1 object with `active` status in case of cancelled Tender."
+msgstr ""
+
+msgid ""
+"The :ref:`cancellation` object describes the reason of tender cancellation "
+"contains accompanying documents  if any."
+msgstr ""
+
+msgid "Historical changes to Tender object properties."
+msgstr ""
+
+msgid "The Tender dates should be sequential:"
+msgstr ""
+
+msgid "Current time"
+msgstr ""
+
+msgid "`enquiryPeriod.startDate`"
+msgstr ""
+
+msgid "`tenderPeriod.startDate`"
+msgstr ""
+
+msgid "`enquiryPeriod.endDate`"
+msgstr ""
+
+msgid "`tenderPeriod.endDate`"
+msgstr ""
+
+msgid ""
+"NBU Discount Rate as of tender notice publication date. Possible values: "
+"from 0 to 0.99 (from 0% to 99% respectively), with 3-digit precision after "
+"comma (e.g. 00.000). NBUdiscountRate change is interpreted as a change of "
+"tender conditions."
+msgstr ""
+"NBU Discount Rate (що діє на дату оголошення про проведення процедури "
+"закупівлі енергосервісу) - обов’язкове для заповнення, зміна значення "
+"вважається зміною умов. Допустимі значення для ЦБД: від 0 до 0.99 (0 - 99% "
+"відповідно), точність вказання - три знаки після коми (00.000)."
+
+msgid ":ref:`value`, Float, required."
+msgstr ""
+
+msgid ""
+"Minimum step increment of the energy service contract performance indicator "
+"during auction that is calculated from  participant’s bid. Possible values: "
+"from 0.05 to 0.3 (from 0.5% to 3%), with 3-digit precision after comma."
+msgstr ""
+"Мінімальний крок підвищення показника ефективності енергосервісного договору"
+" під час аукціону, %. (розраховується від пропозиції учасника). Допустимі "
+"значення для ЦБД: від 0.05 до 0.3 (0.5% до 3%). Точність вказання відсотка -"
+" три знаки після коми."
+
+msgid "Tender funding source. Possible values:"
+msgstr ""
+
+msgid "budget -  Budget funding."
+msgstr ""
+
+msgid "other - exclusively supplier’s funding."
+msgstr ""
+
+msgid "Default value: other"
+msgstr ""
+
+msgid ""
+"Fixed percentage of participant's cost reduction sum, with 3-digit precision"
+" after comma. Possible values:"
+msgstr ""
+"Фіксований відсоток суми скорочення витрат замовника, %.Точність вказання "
+"відсотка - три знаки після коми. Допустимі значення:"
+
+msgid "list of :ref:`document` objects"
+msgstr ""
+
+msgid "list of :ref:`question` objects"
+msgstr ""
+
+msgid "list of :ref:`complaint` objects"
+msgstr ""
+
+msgid "list of :ref:`bid` objects"
+msgstr ""
+
+msgid "list of :ref:`award` objects"
+msgstr ""
+
+msgid "list of :ref:`lot` objects."
+msgstr ""
+
+msgid "list of :ref:`Qualification` objects."
+msgstr ""
+
+msgid "list of :ref:`cancellation` objects."
+msgstr ""
+
+msgid "list of :ref:`revision` objects, auto-generated"
+msgstr ""
+
+msgid "string, required."
+msgstr ""
+
+msgid ""
+"from 0.8 to 1 (from 80% to 100% respectively) if tender:fundingKind:other."
+msgstr ""
+
+msgid ""
+"from 0 to x, where x can vary from 0 to 0.8 (from 0% to x% respectively) if "
+"tender:fundingKind:budget."
+msgstr ""
+
+#~ msgid "List of :ref:`document` objects"
+#~ msgstr ""
+
+#~ msgid "List of :ref:`question` objects"
+#~ msgstr ""
+
+#~ msgid "List of :ref:`complaint` objects"
+#~ msgstr ""
+
+#~ msgid "List of :ref:`bid` objects"
+#~ msgstr ""
+
+#~ msgid "List of :ref:`award` objects"
+#~ msgstr ""
+
+#~ msgid "List of :ref:`lot` objects."
+#~ msgstr ""
+
+#~ msgid "List of :ref:`Qualification` objects."
+#~ msgstr ""
+
+#~ msgid "List of :ref:`cancellation` objects."
+#~ msgstr ""
+
+#~ msgid "List of :ref:`revision` objects, auto-generated"
+#~ msgstr ""
+
+#~ msgid "String, required."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "from 0.8 to 1 (from 80% to 100% respectively) if tender:fundingKind:other. -"
+#~ " Default value."
+#~ msgstr ""
+#~ "від 0.8 до 1 (від 80% до 100% відповідно) при вказанні tender.fundingKind = "
+#~ "other. Значення за замовчуванням."
+
+#~ msgid ""
+#~ "from 0 to 0.8 (from 0% to 80% respectively) if tender:fundingKind:budget."
+#~ msgstr ""
+#~ "від 0 до 0.8 (від 0% до 80% відповідно) у випадку співфінансування з "
+#~ "бюджетних коштів "
+
+#~ msgid ":ref:`minValue`, required"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Calculated minimal energy service contract performance indicator. Bids "
+#~ "smaller then ``minValue`` will be rejected."
+#~ msgstr ""
+
+#~ msgid "|ocdsDescription| The total estimated minValue of the procurement."
+#~ msgstr ""
+
+#~ msgid "NBU Discount Rate."
+#~ msgstr ""
+
+#~ msgid ":ref:`value`, required"
+#~ msgstr ""
+
+#~ msgid "The minimal step of auction (reduction). Validation rules:"
+#~ msgstr ""
+
+#~ msgid "`amount` should be less then `Tender.minValue.amount`"
+#~ msgstr ""
+
+#~ msgid "`currency` should either be absent or match `Tender.minValue.currency`"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "`valueAddedTaxIncluded` should either be absent or match "
+#~ "`Tender.minValue.valueAddedTaxIncluded`"
+#~ msgstr ""

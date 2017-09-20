@@ -1,0 +1,61 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.esco 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-19 12:50+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "ProcuringEntity"
+msgstr ""
+
+msgid "Schema"
+msgstr ""
+
+msgid "string, multilingual"
+msgstr ""
+
+msgid "|ocdsDescription| The common name of the organization."
+msgstr ""
+
+msgid ":ref:`Identifier`"
+msgstr ""
+
+msgid "|ocdsDescription| The primary identifier for this organization."
+msgstr ""
+
+msgid "List of :ref:`identifier` objects"
+msgstr ""
+
+msgid ":ref:`Address`, required"
+msgstr ""
+
+msgid ":ref:`ContactPoint`, required"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "Type of procuring entity"
+msgstr ""
+
+msgid "Possible values:"
+msgstr ""
+
+msgid "``general`` - Procuring entity (general)"
+msgstr ""
+
+msgid ""
+"``special`` - Procuring entity that operates in certain spheres of economic "
+"activity"
+msgstr ""
+
+msgid ""
+"``defense`` - Procuring entity that conducts procurement for the defense "
+"needs"
+msgstr ""

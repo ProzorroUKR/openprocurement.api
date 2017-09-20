@@ -1,0 +1,75 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.esco 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-19 12:50+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Feature"
+msgstr ""
+
+msgid "Schema"
+msgstr ""
+
+msgid "string, auto-generated"
+msgstr ""
+
+msgid "Code of the feature."
+msgstr ""
+
+msgid "string, required"
+msgstr ""
+
+msgid "Possible values are:"
+msgstr ""
+
+msgid "`tenderer`"
+msgstr ""
+
+msgid "`lot`"
+msgstr ""
+
+msgid "`item`"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "Id of related item."
+msgstr ""
+
+msgid "string, multilingual, required"
+msgstr ""
+
+msgid "Title of the feature."
+msgstr ""
+
+msgid "string, multilingual"
+msgstr ""
+
+msgid "Description of the feature."
+msgstr ""
+
+msgid "list"
+msgstr ""
+
+msgid "List of values:"
+msgstr ""
+
+msgid "float, required"
+msgstr ""
+
+msgid "Value of the feature."
+msgstr ""
+
+msgid "Title of the value."
+msgstr ""
+
+msgid "Description of the value."
+msgstr ""

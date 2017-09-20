@@ -1,0 +1,484 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.esco 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-19 12:50+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Tutorial"
+msgstr ""
+
+msgid "Exploring basic rules"
+msgstr ""
+
+msgid "Let's try exploring the `/tenders` endpoint:"
+msgstr ""
+
+msgid "Just invoking it reveals empty set."
+msgstr ""
+
+msgid "Now let's attempt creating some tender:"
+msgstr ""
+
+msgid ""
+"Error states that the only accepted Content-Type is `application/json`."
+msgstr ""
+
+msgid "Let's satisfy the Content-type requirement:"
+msgstr ""
+
+msgid "Error states that no `data` has been found in JSON body."
+msgstr ""
+
+msgid "Creating tender"
+msgstr ""
+
+msgid "Let's provide the data attribute in the submitted body :"
+msgstr ""
+
+msgid ""
+"Success! Now we can see that new object was created. Response code is `201` "
+"and `Location` response header reports the location of the created object.  "
+"The body of response reveals the information about the created tender: its "
+"internal `id` (that matches the `Location` segment), its official `tenderID`"
+" and `dateModified` datestamp stating the moment in time when tender was "
+"last modified.  Note that tender is created with `active.tendering` status."
+msgstr ""
+
+msgid ""
+"The peculiarity of the ESCO procedure is that ``procurementMethodType`` was "
+"changed from ``belowThreshold`` to ``esco``. Also, ``value`` was changed to "
+"``minValue`` and new field ``NBUdiscountRate`` was added. There is also no "
+"opportunity to set up ``enquiryPeriod``, it will be assigned automatically."
+msgstr ""
+
+msgid ""
+"Let's access the URL of the created object (the `Location` header of the "
+"response):"
+msgstr ""
+
+msgid "We can see the same response we got after creating tender."
+msgstr ""
+
+msgid "Let's see what listing of tenders reveals us:"
+msgstr ""
+
+msgid ""
+"We do see the internal `id` of a tender (that can be used to construct full "
+"URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) "
+"and its `dateModified` datestamp."
+msgstr ""
+
+msgid "Modifying tender"
+msgstr ""
+
+msgid ""
+"Let's update tender by supplementing it with all other essential properties:"
+msgstr ""
+
+msgid ""
+"We see the added properies have merged with existing tender data. "
+"Additionally, the `dateModified` property was updated to reflect the last "
+"modification datestamp."
+msgstr ""
+
+msgid "Checking the listing again reflects the new modification date:"
+msgstr ""
+
+msgid ""
+"Procuring entity can not change tender if there are less than 7 days before "
+"tenderPeriod ends. Changes will not be accepted by API."
+msgstr ""
+
+msgid "That is why tenderPeriod has to be extended by 7 days."
+msgstr ""
+
+msgid "Procuring entity can set bid guarantee:"
+msgstr ""
+
+msgid "Uploading documentation"
+msgstr ""
+
+msgid ""
+"Procuring entity can upload PDF files into the created tender. Uploading "
+"should follow the :ref:`upload` rules."
+msgstr ""
+
+msgid ""
+"`201 Created` response code and `Location` header confirm document creation."
+" We can additionally query the `documents` collection API endpoint to "
+"confirm the action:"
+msgstr ""
+
+msgid ""
+"The single array element describes the uploaded document. We can upload more"
+" documents:"
+msgstr ""
+
+msgid "And again we can confirm that there are two documents uploaded."
+msgstr ""
+
+msgid ""
+"In case we made an error, we can reupload the document over the older "
+"version:"
+msgstr ""
+
+msgid "And we can see that it is overriding the original version:"
+msgstr ""
+
+msgid "Enquiries"
+msgstr ""
+
+msgid ""
+"When tender has ``active.tendering`` status and "
+"``Tender.enquiryPeriod.endDate``  hasn't come yet, interested parties can "
+"ask questions:"
+msgstr ""
+
+msgid "Procuring entity can answer them:"
+msgstr ""
+
+msgid "One can retrieve either questions list:"
+msgstr ""
+
+msgid "or individual answer:"
+msgstr ""
+
+msgid "Enquiries can be made only during ``Tender.enquiryPeriod``"
+msgstr ""
+
+msgid "Registering bid"
+msgstr ""
+
+msgid "Bid registration"
+msgstr ""
+
+msgid "Tender status ``active.tendering`` allows registration of bids."
+msgstr ""
+
+msgid "Bidder can register a bid with `draft` status:"
+msgstr ""
+
+msgid "anjd approve to pending status:"
+msgstr ""
+
+msgid "Proposal Uploading"
+msgstr ""
+
+msgid "Then bidder should upload proposal technical document(s):"
+msgstr ""
+
+msgid "Confidentiality"
+msgstr ""
+
+msgid "Documents can be either public or private:"
+msgstr ""
+
+msgid ""
+"Privacy settings can be changed only for the latest version of the document."
+msgstr ""
+
+msgid ""
+"When you upload new version of the document, privacy settings are copied "
+"from the previous version."
+msgstr ""
+
+msgid ""
+"Privacy settings can be changed only during `tenderPeriod` (with "
+"`active.tendering` status)."
+msgstr ""
+
+msgid ""
+"If tender has status `active.qualification` winner can upload only public "
+"documents."
+msgstr ""
+
+msgid "Let's upload private document:"
+msgstr ""
+
+msgid ""
+"To define the document as \"private\" - `confidentiality` and "
+"`confidentialityRationale` fields should be set."
+msgstr ""
+
+msgid ""
+"`confidentiality` field value can be either `buyerOnly` (document is "
+"private) or `public` (document is publicly accessible)."
+msgstr ""
+
+msgid ""
+"Content of private documents (`buyerOnly`) can be accessed only by procuring"
+" entity or by participant who uploaded them."
+msgstr ""
+
+msgid ""
+"`confidentialityRationale` field is required only for private documents and "
+"should contain at least 30 characters."
+msgstr ""
+
+msgid "Let's mark the document as \"private\":"
+msgstr ""
+
+msgid "It is possible to check the uploaded documents:"
+msgstr ""
+
+msgid "Financial, eligibility and qualification documents uploading"
+msgstr ""
+
+msgid ""
+"Financial, eligibility and qualification documents are also a part of Bid "
+"but are located in different end-points."
+msgstr ""
+
+msgid ""
+"In order to create and/or get financial document ``financial_documents`` "
+"end-point should be used:"
+msgstr ""
+
+msgid "Get financial documents:"
+msgstr ""
+
+msgid ""
+"In order to create and/or get eligibility document ``eligibility_documents``"
+" end-point should be used:"
+msgstr ""
+
+msgid ""
+"In order to create and/or get qualification document "
+"``qualification_documents`` end-point should be used:"
+msgstr ""
+
+msgid ""
+"`Financial` and `qualification` documents will be publicly accessible after "
+"the auction. `Eligibility` documents will become publicly accessible "
+"starting from tender pre-qualification period."
+msgstr ""
+
+msgid "Here is bidder proposal with all documents."
+msgstr ""
+
+msgid ""
+"Note that financial, eligibility, and qualification documents are stored in "
+"`financialDocuments`, `eligibilityDocuments`, and `qualificationDocuments` "
+"attributes of :ref:`Bid`."
+msgstr ""
+
+msgid "Bid invalidation"
+msgstr ""
+
+msgid ""
+"If tender is modified, status of all bid proposals will be changed to "
+"``invalid``. Bid proposal will look the following way after tender has been "
+"modified:"
+msgstr ""
+
+msgid "Bid confirmation"
+msgstr ""
+
+msgid "Bidder should confirm bid proposal:"
+msgstr ""
+
+msgid ""
+"Open EU procedure demands at least two bidders, so there should be at least "
+"two bid proposals registered to move to auction stage:"
+msgstr ""
+
+msgid "Batch-mode bid registration"
+msgstr ""
+
+msgid ""
+"Register one more bid with documents using single request (batch-mode):"
+msgstr ""
+
+msgid "Bid Qualification"
+msgstr ""
+
+msgid "Open EU procedure requires bid qualification."
+msgstr ""
+
+msgid "Let's list qualifications:"
+msgstr ""
+
+msgid "Approve first two bids through qualification objects:"
+msgstr ""
+
+msgid "We can also reject bid:"
+msgstr ""
+
+msgid "And check that qualified bids are switched to `active`:"
+msgstr ""
+
+msgid "Rejected bid is not shown in `bids/` listing."
+msgstr ""
+
+msgid "We can access rejected bid by id:"
+msgstr ""
+
+msgid "Procuring entity approves qualifications by switching to next status:"
+msgstr ""
+
+msgid "You may notice 10 day stand-still time set in `qualificationPeriod`."
+msgstr ""
+
+msgid "Auction"
+msgstr ""
+
+msgid ""
+"After auction is scheduled anybody can visit it to watch. The auction can be"
+" reached at `Tender.auctionUrl`:"
+msgstr ""
+
+msgid "Bidders can find out their participation URLs via their bids:"
+msgstr ""
+
+msgid ""
+"See the `Bid.participationUrl` in the response. Similar, but different, URL "
+"can be retrieved for other participants:"
+msgstr ""
+
+msgid "Confirming qualification"
+msgstr ""
+
+msgid ""
+"Qualification commission registers its decision via the following call:"
+msgstr ""
+
+msgid "Setting  contract value"
+msgstr ""
+
+msgid ""
+"By default contract value is set based on the award, but there is a "
+"possibility to set custom contract value."
+msgstr ""
+
+msgid ""
+"If you want to **lower contract value**, you can insert new one into the "
+"`amount` field."
+msgstr ""
+
+msgid "`200 OK` response was returned. The value was modified successfully."
+msgstr ""
+
+msgid "Setting contract signature date"
+msgstr ""
+
+msgid ""
+"There is a possibility to set custom contract signature date. You can insert"
+" appropriate date into the `dateSigned` field."
+msgstr ""
+
+msgid ""
+"If this date is not set, it will be auto-generated on the date of contract "
+"registration."
+msgstr ""
+
+msgid "Setting contract validity period"
+msgstr ""
+
+msgid ""
+"Setting contract validity period is optional, but if it is needed, you can "
+"set appropriate `startDate` and `endDate`."
+msgstr ""
+
+msgid "Uploading contract documentation"
+msgstr ""
+
+msgid "You can upload contract documents for the OpenEU procedure."
+msgstr ""
+
+msgid "Let's upload contract document:"
+msgstr ""
+
+msgid ""
+"`201 Created` response code and `Location` header confirm that this document"
+" was added."
+msgstr ""
+
+msgid "Let's see the list of contract documents:"
+msgstr ""
+
+msgid "We can upload another contract document:"
+msgstr ""
+
+msgid ""
+"`201 Created` response code and `Location` header confirm that the second "
+"document was uploaded."
+msgstr ""
+
+msgid ""
+"By default, document language is Ukrainian. You can can change it and set "
+"another language for the document by assigning appropriate language code to "
+"the `language` field (available options: ``uk``, ``en``, ``ru``). You can "
+"also set document's title (e.g. `title_en`) and description (e.g. "
+"`description_en`) fields. See :ref:`Document` data structure for details."
+msgstr ""
+
+msgid "Let's see the list of all added contract documents:"
+msgstr ""
+
+msgid "Let's view separate contract document:"
+msgstr ""
+
+msgid "Cancelling tender"
+msgstr ""
+
+msgid ""
+"Tender creator can cancel tender anytime. The following steps should be "
+"applied:"
+msgstr ""
+
+msgid "Prepare cancellation request."
+msgstr ""
+
+msgid "Fill it with the protocol describing the cancellation reasons."
+msgstr ""
+
+msgid "Cancel the tender with the prepared reasons."
+msgstr ""
+
+msgid ""
+"Only the request that has been activated (3rd step above) has power to "
+"cancel tender.  I.e.  you have to not only prepare cancellation request but "
+"to activate it as well."
+msgstr ""
+
+msgid "See :ref:`cancellation` data structure for details."
+msgstr ""
+
+msgid "Preparing the cancellation request"
+msgstr ""
+
+msgid "You should pass `reason`, `status` defaults to `pending`."
+msgstr ""
+
+msgid "`id` is autogenerated and passed in the `Location` header of response."
+msgstr ""
+
+msgid ""
+"There are two possible types of cancellation reason: tender was `cancelled` "
+"or `unsuccessful`. By default ``reasonType`` value is `cancelled`."
+msgstr ""
+
+msgid "You can change ``reasonType`` value to `unsuccessful`."
+msgstr ""
+
+msgid "Filling cancellation with protocol and supplementary documentation"
+msgstr ""
+
+msgid "Upload the file contents"
+msgstr ""
+
+msgid "Change the document description and other properties"
+msgstr ""
+
+msgid "Upload new version of the document"
+msgstr ""
+
+msgid "Activating the request and cancelling tender"
+msgstr ""

@@ -1,0 +1,250 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.esco 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-19 12:50+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "ConfidentialDocument"
+msgstr ""
+
+msgid "Schema"
+msgstr ""
+
+msgid "string, auto-generated"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "Possible values for :ref:`tender`"
+msgstr ""
+
+msgid "`notice` - **Tender notice**"
+msgstr ""
+
+msgid ""
+"The formal notice that gives details of a tender. This may be a link to a "
+"downloadable document, to a web page, or to an official gazette in which the"
+" notice is contained."
+msgstr ""
+
+msgid "`biddingDocuments` - **Bidding Documents**"
+msgstr ""
+
+msgid ""
+"Information for potential suppliers, describing the goals of the contract "
+"(e.g. goods and services to be procured), and the bidding process."
+msgstr ""
+
+msgid "`technicalSpecifications` - **Technical Specifications**"
+msgstr ""
+
+msgid "Detailed technical information about goods or services to be provided."
+msgstr ""
+
+msgid "`evaluationCriteria` - **Evaluation Criteria**"
+msgstr ""
+
+msgid "Information about how bids will be evaluated."
+msgstr ""
+
+msgid "`clarifications` - **Clarifications to bidders questions**"
+msgstr ""
+
+msgid "Including replies to issues raised in pre-bid conferences."
+msgstr ""
+
+msgid "`eligibilityCriteria` - **Eligibility Criteria**"
+msgstr ""
+
+msgid "Detailed documents about the eligibility of bidders."
+msgstr ""
+
+msgid "`shortlistedFirms` - **Shortlisted Firms**"
+msgstr ""
+
+msgid ""
+"`riskProvisions` - **Provisions for management of risks and liabilities**"
+msgstr ""
+
+msgid "`billOfQuantity` - **Bill Of Quantity**"
+msgstr ""
+
+msgid "`bidders` - **Information on bidders**"
+msgstr ""
+
+msgid ""
+"Information on bidders or participants, their validation documents and any "
+"procedural exemptions for which they qualify."
+msgstr ""
+
+msgid "`conflictOfInterest` - **Conflicts of interest uncovered**"
+msgstr ""
+
+msgid "`debarments` - **Debarments issued**"
+msgstr ""
+
+msgid "Possible values for :ref:`award`"
+msgstr ""
+
+msgid "`notice` - **Award Notice**"
+msgstr ""
+
+msgid ""
+"The formal notice that gives details of the contract award. This may be a "
+"link to a downloadable document, to a web page, or to an official gazette in"
+" which the notice is contained."
+msgstr ""
+
+msgid "`evaluationReports` - **Evaluation report**"
+msgstr ""
+
+msgid ""
+"Report on the evaluation of the bids and the application of the evaluation "
+"criteria, including the justification fo the award."
+msgstr ""
+
+msgid "`winningBid` - **Winning Bid**"
+msgstr ""
+
+msgid "`complaints` - **Complaints and decisions**"
+msgstr ""
+
+msgid "Possible values for :ref:`contract`"
+msgstr ""
+
+msgid "`notice` - **Contract notice**"
+msgstr ""
+
+msgid ""
+"The formal notice that gives details of a contract being signed and valid to"
+" start implementation. This may be a link to a downloadable document, to a "
+"web page, or to an official gazette in which the notice is contained."
+msgstr ""
+
+msgid "`contractSigned` - **Signed Contract**"
+msgstr ""
+
+msgid "`contractArrangements` - **Arrangements for ending contract**"
+msgstr ""
+
+msgid "`contractSchedule` - **Schedules and milestones**"
+msgstr ""
+
+msgid "`contractAnnexe` - **Annexes to the Contract**"
+msgstr ""
+
+msgid "`contractGuarantees` - **Guarantees**"
+msgstr ""
+
+msgid "`subContract` - **Subcontracts**"
+msgstr ""
+
+msgid "Possible values for :ref:`bid`"
+msgstr ""
+
+msgid "`commercialProposal` - **Сommercial proposal**"
+msgstr ""
+
+msgid ""
+"For Open EU procedure `commercialProposal` should be contained in "
+"`financialDocuments` envelope. See :ref:`bid`."
+msgstr ""
+
+msgid "`qualificationDocuments` - **Qualification documents**"
+msgstr ""
+
+msgid ""
+"For Open EU procedure `qualificationDocuments` should be contained in "
+"`documents` envelope. See :ref:`bid`."
+msgstr ""
+
+msgid "`eligibilityDocuments` - **Eligibility documents**"
+msgstr ""
+
+msgid ""
+"For Open EU procedure `eligibilityDocuments` should be contained in "
+"`eligibilityDocuments` envelope. See :ref:`bid`."
+msgstr ""
+
+msgid "string, multilingual"
+msgstr ""
+
+msgid "|ocdsDescription| The document title."
+msgstr ""
+
+msgid ""
+"|ocdsDescription| A short description of the document. In the event the "
+"document is not accessible online, the description field can be used to "
+"describe arrangements for obtaining a copy of the document."
+msgstr ""
+
+msgid ""
+"|ocdsDescription| The format of the document taken from the `IANA Media "
+"Types code list <http://www.iana.org/assignments/media-types/>`_, with the "
+"addition of one extra value for 'offline/print', used when this document "
+"entry is being used to describe the offline publication of a document."
+msgstr ""
+
+msgid "|ocdsDescription| Direct link to the document or attachment."
+msgstr ""
+
+msgid "Possible values are:"
+msgstr ""
+
+msgid "`public`"
+msgstr ""
+
+msgid "`buyerOnly`"
+msgstr ""
+
+msgid "Reasons for confidentiality of documents."
+msgstr ""
+
+msgid "string, :ref:`date`"
+msgstr ""
+
+msgid "|ocdsDescription| The date on which the document was first published."
+msgstr ""
+
+msgid "|ocdsDescription| Date that the document was last modified"
+msgstr ""
+
+msgid "string, default = `uk`"
+msgstr ""
+
+msgid "`uk`"
+msgstr ""
+
+msgid "`en`"
+msgstr ""
+
+msgid "`ru`"
+msgstr ""
+
+msgid ""
+"|ocdsDescription| Specifies the language of the linked document using either"
+" two-digit `ISO 639-1 "
+"<https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, or extended "
+"`BCP47 language tags <http://www.w3.org/International/articles/language-"
+"tags/>`_."
+msgstr ""
+
+msgid "`tender`"
+msgstr ""
+
+msgid "`item`"
+msgstr ""
+
+msgid "`lot`"
+msgstr ""
+
+msgid "ID of related :ref:`lot` or :ref:`item`."
+msgstr ""
