@@ -61,9 +61,12 @@ Schema
 :fundingKind:
     string, required
     
-    Lot funding source. Possible values:
-        * budget -  Budget funding.
-        * other - Supplier funding.
+:Lot funding source:
+      Possible values:
+       
+       *budget -  Budget funding.
+       *other - Supplier funding.
+    
     Default value: other
     
 :yearlyPaymentsPercentageRange:
@@ -72,10 +75,11 @@ Schema
      Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma.
 
      Possible values:
-     * from 0.8 to 1 (from 80% to 100% respectively) if lot:fundingKind:other. - Default value.
-     * from 0 to 0.8 (from 0% to 80% respectively) if lot:fundingKind:budget.
+     
+     *from 0.8 to 1 (from 80% to 100% respectively) if lot:fundingKind:other. Default value.
+     *from 0 to 0.8 (from 0% to 80% respectively) if lot:fundingKind:budget.
 
-     Input precision - 3-digit after comma.
+     Input precision - 3 digits after comma.
 
 
 Workflow

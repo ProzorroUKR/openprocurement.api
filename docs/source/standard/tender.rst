@@ -72,23 +72,23 @@ Schema
    Features of tender.
 
 :documents:
-   List of :ref:`document` objects
+   list of :ref:`document` objects
 
    |ocdsDescription|
    All documents and attachments related to the tender.
 
 :questions:
-   List of :ref:`question` objects
+   list of :ref:`question` objects
 
    Questions to ``procuringEntity`` and answers to them.
 
 :complaints:
-   List of :ref:`complaint` objects
+   list of :ref:`complaint` objects
 
    Complaints to tender conditions and their resolutions.
 
 :bids:
-   List of :ref:`bid` objects
+   list of :ref:`bid` objects
 
    A list of all bids placed in the tender with information about tenderers, their proposal and other qualification documentation.
 
@@ -102,7 +102,7 @@ Schema
    Possible values: from 0.05 to 0.3 (from 0.5% to 3%), with 3-digit precision after comma.
 
 :awards:
-    List of :ref:`award` objects
+    list of :ref:`award` objects
 
     All qualifications (disqualifications and awards).
 
@@ -176,18 +176,17 @@ Schema
    Status of the Tender.
 
 :lots:
-   List of :ref:`lot` objects.
+   list of :ref:`lot` objects.
 
    Contains all tender lots.
 
 :qualifications:
-
-   List of :ref:`Qualification` objects.
+   list of :ref:`Qualification` objects.
 
    Contains all tender qualifications.
 
 :cancellations:
-   List of :ref:`cancellation` objects.
+   list of :ref:`cancellation` objects.
 
    Contains 1 object with `active` status in case of cancelled Tender.
 
@@ -195,22 +194,12 @@ Schema
    documents  if any.
 
 :revisions:
-   List of :ref:`revision` objects, auto-generated
+   list of :ref:`revision` objects, auto-generated
 
    Historical changes to Tender object properties.
-
-.. important::
-
-    The Tender dates should be sequential:
-
-        * Current time
-        * `enquiryPeriod.startDate`
-        * `tenderPeriod.startDate`
-        * `enquiryPeriod.endDate`
-        * `tenderPeriod.endDate`
-
+   
 :fundingKind:
-    String, required.
+    string, required.
     
     Tender funding source. Possible values:
         * budget -  Budget funding.
@@ -221,6 +210,18 @@ Schema
 :yearlyPaymentsPercentageRange:
     float, required
     
-    Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma. Possible values:
-        * from 0.8 to 1 (from 80% to 100% respectively) if tender:fundingKind:other. - Default value.
-        * from 0 to 0.8 (from 0% to 80% respectively) if tender:fundingKind:budget.
+    Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma.
+    Possible values:
+    
+        * from 0.8 to 1 (from 80% to 100% respectively) if tender:fundingKind:other.
+        * from 0 to x, where x can vary from 0 to 0.8 (from 0% to x% respectively) if tender:fundingKind:budget.
+        
+.. important::
+
+    The Tender dates should be sequential:
+
+        * Current time
+        * `enquiryPeriod.startDate`
+        * `tenderPeriod.startDate`
+        * `enquiryPeriod.endDate`
+        * `tenderPeriod.endDate`
