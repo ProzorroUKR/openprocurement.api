@@ -47,6 +47,8 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     lot_minimal_step_invalid,
     tender_minimal_step_percentage,
     tender_lot_funding_kind,
+    tender_1lot_fundingKind_default,
+    tender_2lot_fundingKind_default,
     # TenderLotFeatureBidderResourceTest
     create_tender_feature_bid_invalid,
     create_tender_feature_bid,
@@ -75,6 +77,8 @@ class TenderLotResourceTest(BaseESCOContentWebTest):
     test_lot_minimal_step_invalid = snitch(lot_minimal_step_invalid)
     test_tender_minimal_step_percentage = snitch(tender_minimal_step_percentage)
     test_tender_lot_funding_kind = snitch(tender_lot_funding_kind)
+    test_tender_1lot_fundingKind_default = snitch(tender_1lot_fundingKind_default)
+    test_tender_2lot_fundingKind_default = snitch(tender_2lot_fundingKind_default)
 
 
 class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin):

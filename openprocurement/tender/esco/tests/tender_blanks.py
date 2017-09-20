@@ -123,6 +123,16 @@ def tender_yearlyPaymentsPercentageRange_invalid(self):
     ])
 
 
+def tender_fundingKind_default(self):
+    data = deepcopy(self.initial_data)
+    del data['fundingKind']
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    # when no fundingKind field in initial data, default value should be set
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
+
+
 def items_without_deliveryDate_quantity(self):
     self.assertEqual(len(self.initial_data['items']), 1)
     for item in self.initial_data['items']:

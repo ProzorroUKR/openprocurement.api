@@ -239,6 +239,145 @@ def tender_lot_funding_kind(self):
     self.assertEqual(response.json['data']['fundingKind'], 'other')
 
 
+def tender_1lot_fundingKind_default(self):
+    data = deepcopy(self.initial_data)
+    del data['fundingKind']
+    lot = deepcopy(self.test_lots_data[0])
+    del lot['fundingKind']
+
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    # when no fundingKind field in initial data, default value should be set
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
+    tender = response.json['data']
+    tender_token = response.json['access']['token']
+
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender['id'], tender_token), {'data': lot})
+    self.assertEqual(response.status, '201 Created')
+    self.assertIn('fundingKind', response.json['data'])
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
+
+    lot['fundingKind'] = 'budget'
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
+    tender = response.json['data']
+    tender_token = response.json['access']['token']
+
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender['id'], tender_token), {'data': lot})
+    self.assertEqual(response.status, '201 Created')
+    self.assertIn('fundingKind', response.json['data'])
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
+
+    lot['fundingKind'] = 'other'
+    data['fundingKind'] = 'budget'
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['fundingKind'], 'budget')
+    tender = response.json['data']
+    tender_token = response.json['access']['token']
+
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender['id'], tender_token), {'data': lot})
+    self.assertEqual(response.status, '201 Created')
+    self.assertIn('fundingKind', response.json['data'])
+    self.assertEqual(response.json['data']['fundingKind'], 'budget')
+
+    del lot['fundingKind']
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['fundingKind'], 'budget')
+    tender = response.json['data']
+    tender_token = response.json['access']['token']
+
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender['id'], tender_token), {'data': lot})
+    self.assertEqual(response.status, '201 Created')
+    self.assertIn('fundingKind', response.json['data'])
+    self.assertEqual(response.json['data']['fundingKind'], 'budget')
+
+    data['lots'] = []
+    data['lots'].append(deepcopy(lot))
+    data['lots'][0]['fundingKind'] = 'budget'
+    del data['fundingKind']
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertIn('fundingKind', response.json['data'])
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
+    self.assertIn('lots', response.json['data'])
+    self.assertIn('fundingKind', response.json['data']['lots'][0])
+    self.assertEqual(response.json['data']['lots'][0]['fundingKind'], 'other')
+
+    del data['lots'][0]['fundingKind']
+    data['fundingKind'] = 'budget'
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertIn('fundingKind', response.json['data'])
+    self.assertEqual(response.json['data']['fundingKind'], 'budget')
+    self.assertIn('lots', response.json['data'])
+    self.assertIn('fundingKind', response.json['data']['lots'][0])
+    self.assertEqual(response.json['data']['lots'][0]['fundingKind'], 'budget')
+
+
+def tender_2lot_fundingKind_default(self):
+    data = deepcopy(self.initial_data)
+    lot = deepcopy(self.test_lots_data[0])
+    data['lots'] = []
+    data['lots'].append(deepcopy(lot))
+    data['lots'].append(deepcopy(lot))
+    del data['fundingKind']
+    del data['lots'][0]['fundingKind']
+    del data['lots'][1]['fundingKind']
+
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
+    self.assertIn('lots', response.json['data'])
+    self.assertIn('fundingKind', response.json['data']['lots'][0])
+    self.assertEqual(response.json['data']['lots'][0]['fundingKind'], 'other')
+    self.assertIn('fundingKind', response.json['data']['lots'][1])
+    self.assertEqual(response.json['data']['lots'][1]['fundingKind'], 'other')
+
+    data['lots'][0]['fundingKind'] = 'budget'
+    data['lots'][1]['fundingKind'] = 'budget'
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
+    self.assertIn('lots', response.json['data'])
+    self.assertIn('fundingKind', response.json['data']['lots'][0])
+    self.assertEqual(response.json['data']['lots'][0]['fundingKind'], 'other')
+    self.assertIn('fundingKind', response.json['data']['lots'][1])
+    self.assertEqual(response.json['data']['lots'][1]['fundingKind'], 'other')
+
+    data['fundingKind'] = 'budget'
+    del data['lots'][0]['fundingKind']
+    del data['lots'][1]['fundingKind']
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['fundingKind'], 'budget')
+    self.assertIn('lots', response.json['data'])
+    self.assertIn('fundingKind', response.json['data']['lots'][0])
+    self.assertEqual(response.json['data']['lots'][0]['fundingKind'], 'budget')
+    self.assertIn('fundingKind', response.json['data']['lots'][1])
+    self.assertEqual(response.json['data']['lots'][1]['fundingKind'], 'budget')
+
+    del data['fundingKind']
+    data['lots'][0]['fundingKind'] = 'other'
+    data['lots'][1]['fundingKind'] = 'budget'
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'lot funding kind should be identical to tender funding kind'], u'location': u'body', u'name': u'lots'}
+    ])
+
+
 # Tender Lot Feature Resource Test
 
 
