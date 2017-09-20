@@ -99,7 +99,7 @@ class Lot(BaseLot):
     auctionUrl = URLType()
     guarantee = ModelType(Guarantee)
     fundingKind = StringType(choices=['budget', 'other'], required=True, default='other')
-    yearlyPaymentsPercentageRange = FloatType(required=True, default=0.8)
+    yearlyPaymentsPercentageRange = FloatType(required=True, default=0.8, min_value=0, max_value=1)
 
     @serializable
     def numberOfBids(self):
@@ -327,7 +327,7 @@ class Tender(BaseTender):
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
     NBUdiscountRate = FloatType(required=True, min_value=0, max_value=0.99)
     fundingKind = StringType(choices=['budget', 'other'], required=True, default='other')
-    yearlyPaymentsPercentageRange = FloatType(required=True, default=0.8)
+    yearlyPaymentsPercentageRange = FloatType(required=True, default=0.8, min_value=0, max_value=1)
     submissionMethodDetails = StringType(default="quick(mode:no-auction)")  # TODO: temporary decision, while esco auction is not ready. Remove after adding auction. Remove function "check_submission_method_details" in openprocurement.tender.esco.subscribers
     announcementDate = datetime(2017, 9, 19) # XXX
 
