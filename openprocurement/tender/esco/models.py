@@ -119,7 +119,7 @@ class Lot(BaseLot):
 
     @serializable(serialized_name="fundingKind")
     def lot_fundingKind(self):
-        return self.__parent__.fundingKind if self.__parent__.fundingKind else self.fundingKind
+        return self.__parent__.fundingKind  # if self.__parent__.fundingKind else self.fundingKind
 
     @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
     def lot_minimalStep(self):
