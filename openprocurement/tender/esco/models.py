@@ -333,9 +333,29 @@ class Tender(BaseTender):
 
     create_accreditation = 3
     edit_accreditation = 4
+    special_fields = ['fundingKind', 'yearlyPaymentsPercentageRange']
     procuring_entity_kinds = ['general', 'special', 'defense']
     block_tender_complaint_status = OpenUATender.block_tender_complaint_status
     block_complaint_status = OpenUATender.block_complaint_status
+
+    def import_data(self, raw_data, **kw):
+        """
+        Converts and imports the raw data into the instance of the model
+        according to the fields in the model.
+        :param raw_data:
+            The data to be imported.
+        """
+        data = self.convert(raw_data, **kw)
+        del_keys = [k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)]
+        for k in del_keys:
+            if k in self.special_fields:
+                # skip special fields :)
+                continue
+            del data[k]
+        self._data.update(data)
+        return self
+
+
 
     def __local_roles__(self):
         roles = dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])
