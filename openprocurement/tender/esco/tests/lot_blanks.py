@@ -54,9 +54,8 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'title'},
         {u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStepPercentage'},
-        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'yearlyPaymentsPercentageRange'},
+        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'title'},
     ])
 
     response = self.app.post_json(request_path, {'data': {'invalid_field': 'invalid_value'}}, status=422)
@@ -376,6 +375,46 @@ def tender_2lot_fundingKind_default(self):
     self.assertEqual(response.json['errors'], [
         {u'description': [u'lot funding kind should be identical to tender funding kind'], u'location': u'body', u'name': u'lots'}
     ])
+
+
+def tender_lot_yearlyPaymentsPercentageRange(self):
+    data = deepcopy(self.initial_data)
+    data['fundingKind'] = 'budget'
+    data['yearlyPaymentsPercentageRange'] = 0.7
+    lot = deepcopy(self.test_lots_data[0])
+    data['lots'] = []
+    data['lots'].append(deepcopy(lot))
+    data['lots'].append(deepcopy(lot))
+
+    del data['lots'][0]['yearlyPaymentsPercentageRange']
+    del data['lots'][1]['yearlyPaymentsPercentageRange']
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('lots', response.json['data'])
+    self.assertEqual(response.json['data']['lots'][0]['yearlyPaymentsPercentageRange'], 0.8)
+    self.assertEqual(response.json['data']['lots'][1]['yearlyPaymentsPercentageRange'], 0.8)
+    tender_id = response.json['data']['id']
+    tender_token = response.json['access']['token']
+    lot1_id = response.json['data']['lots'][0]['id']
+
+    response = self.app.get('/tenders/{}'.format(tender_id))
+    lots = response.json['data']['lots']
+    self.assertEqual(response.json['data']['yearlyPaymentsPercentageRange'], min([i['yearlyPaymentsPercentageRange'] for i in lots]))
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_token), {'data': {'yearlyPaymentsPercentageRange': 0.5}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['yearlyPaymentsPercentageRange'], min([i['yearlyPaymentsPercentageRange'] for i in lots]))
+
+    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(tender_id, lot1_id, tender_token), {'data': {'yearlyPaymentsPercentageRange': 0.3}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['yearlyPaymentsPercentageRange'], 0.3)
+
+    response = self.app.get('/tenders/{}'.format(tender_id))
+    lots = response.json['data']['lots']
+    self.assertEqual(response.json['data']['yearlyPaymentsPercentageRange'], min([i['yearlyPaymentsPercentageRange'] for i in lots]))
 
 
 # Tender Lot Feature Resource Test
