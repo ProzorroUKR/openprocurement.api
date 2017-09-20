@@ -507,6 +507,10 @@ class Tender(BaseTender):
     def tender_minimalStepPercentage(self):
         return min([i.minimalStepPercentage for i in self.lots]) if self.lots else self.minimalStepPercentage
 
+    @serializable(serialized_name="yearlyPaymentsPercentageRange")
+    def tender_yearlyPaymentsPercentageRange(self):
+        return min([i.yearlyPaymentsPercentageRange for i in self.lots]) if self.lots else self.yearlyPaymentsPercentageRange
+
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False
         if not cpv_336_group and (data.get('revisions')[0].date if data.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM and items and len(set([i.classification.id[:4] for i in items])) != 1:
