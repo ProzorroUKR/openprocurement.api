@@ -1,23 +1,25 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    save_tender,
-    apply_patch,
-    opresource,
     json_view,
     context_unpack,
 )
-from openprocurement.api.validation import (
+from openprocurement.tender.core.validation import (
     validate_tender_auction_data,
 )
-from openprocurement.api.views.auction import TenderAuctionResource
+from openprocurement.tender.core.utils import (
+    apply_patch,
+    save_tender,
+    optendersresource
+)
+from openprocurement.tender.belowthreshold.views.auction import TenderAuctionResource
 from openprocurement.tender.openua.utils import add_next_award
 
 
-@opresource(name='Tender UA Auction',
-            collection_path='/tenders/{tender_id}/auction',
-            path='/tenders/{tender_id}/auction/{auction_lot_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender UA auction data")
+@optendersresource(name='aboveThresholdUA:Tender Auction',
+                   collection_path='/tenders/{tender_id}/auction',
+                   path='/tenders/{tender_id}/auction/{auction_lot_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender UA auction data")
 class TenderUaAuctionResource(TenderAuctionResource):
 
     @json_view(content_type="application/json", permission='auction', validators=(validate_tender_auction_data))
@@ -94,7 +96,7 @@ class TenderUaAuctionResource(TenderAuctionResource):
         """
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.status == 'active']):
-            add_next_award(self.request)
+            add_next_award(self.request, reverse=self.request.content_configurator.reverse_awarding_criteria)
         if save_tender(self.request):
             self.LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_auction_post'}))
             return {'data': self.request.validated['tender'].serialize(self.request.validated['tender'].status)}
@@ -113,7 +115,7 @@ class TenderUaAuctionResource(TenderAuctionResource):
         """
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.status == 'active']):
-            add_next_award(self.request)
+            add_next_award(self.request, reverse=self.request.content_configurator.reverse_awarding_criteria)
         if save_tender(self.request):
             self.LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_auction_post'}))
             return {'data': self.request.validated['tender'].serialize(self.request.validated['tender'].status)}

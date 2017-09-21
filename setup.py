@@ -1,11 +1,13 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.3.29'
+version = '2.4'
 
 requires = [
     'setuptools',
-    'openprocurement.api>=2.3',
+    'openprocurement.api>=2.4',
+    'openprocurement.tender.core',
+    'openprocurement.tender.belowthreshold'
 ]
 test_requires = requires + [
     'webtest',
@@ -16,8 +18,8 @@ docs_requires = requires + [
 ]
 
 entry_points = {
-    'openprocurement.api.plugins': [
-        'aboveThresholdUA = openprocurement.tender.openua:includeme'
+    'openprocurement.tender.core.plugins': [
+        'aboveThresholdUA = openprocurement.tender.openua.includeme:includeme'
     ]
 }
 

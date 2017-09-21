@@ -1,39 +1,31 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
-    apply_patch,
-    save_tender,
-    opresource,
-    json_view,
-    context_unpack,
+    get_now, raise_operation_error
 )
-from openprocurement.api.validation import (
-    validate_question_data,
-    validate_patch_question_data,
+from openprocurement.tender.core.utils import (
+    optendersresource
 )
-from openprocurement.api.views.question import TenderQuestionResource
-from openprocurement.tender.openua.models import ENQUIRY_STAND_STILL_TIME
-from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.belowthreshold.views.question import TenderQuestionResource
 
 
-@opresource(name='Tender UA Questions',
-            collection_path='/tenders/{tender_id}/questions',
-            path='/tenders/{tender_id}/questions/{question_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender questions")
+@optendersresource(name='aboveThresholdUA:Tender Questions',
+                   collection_path='/tenders/{tender_id}/questions',
+                   path='/tenders/{tender_id}/questions/{question_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender questions")
 class TenderUaQuestionResource(TenderQuestionResource):
 
     def validate_question(self, operation):
+        """ TODO move validators
+        This class is inherited from below package, but validate_question function has different validators.
+        For now, we have no way to use different validators on methods according to procedure type.
+        """
         tender = self.request.validated['tender']
         now = get_now()
         if operation == 'add' and (now < tender.enquiryPeriod.startDate or now > tender.enquiryPeriod.endDate):
-            self.request.errors.add('body', 'data', 'Can add question only in enquiryPeriod')
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can add question only in enquiryPeriod')
         if operation == 'update' and tender.status != 'active.tendering':
-            self.request.errors.add('body', 'data', 'Can\'t update question in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t update question in current ({}) tender status'.format(tender.status))
         question = self.request.validated['question']
         items_dict = {i.id: i.relatedLot for i in tender.items}
         if any([
@@ -41,11 +33,7 @@ class TenderUaQuestionResource(TenderQuestionResource):
             for i in tender.lots
             if question.questionOf == 'lot' and i.id == question.relatedItem or question.questionOf == 'item' and i.id == items_dict[question.relatedItem]
         ]):
-            self.request.errors.add('body', 'data', 'Can {} question only in active lot status'.format(operation))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can {} question only in active lot status'.format(operation))
         if operation == 'update' and now > tender.enquiryPeriod.clarificationsUntil:
-            self.request.errors.add('body', 'data', 'Can update question only before enquiryPeriod.clarificationsUntil')
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can update question only before enquiryPeriod.clarificationsUntil')
         return True

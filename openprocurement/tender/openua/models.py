@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta, time, datetime
+from datetime import time, timedelta, datetime
 from iso8601 import parse_date
 from zope.interface import implementer
 from pyramid.security import Allow
@@ -8,123 +8,62 @@ from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.models import Award as BaseAward
-from openprocurement.api.models import Parameter as BaseParameter
-from openprocurement.api.models import Bid as BaseBid
-from openprocurement.api.models import Complaint as BaseComplaint
-from openprocurement.api.models import ListType
-from openprocurement.api.models import Lot as BaseLot
-from openprocurement.api.models import Period, IsoDateTimeType
-from openprocurement.api.models import Address
-from openprocurement.api.models import Tender as BaseTender
-from openprocurement.api.models import LotValue as BaseLotValue
-from openprocurement.api.models import Item as BaseItem
-from openprocurement.api.models import Contract as BaseContract
-from openprocurement.api.models import Cancellation as BaseCancellation
+from openprocurement.api.utils import get_now
 from openprocurement.api.models import (
-    plain_role, create_role, edit_role, view_role, listing_role, SANDBOX_MODE,
-    auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
-    auction_role, chronograph_role, chronograph_view_role, view_bid_role,
-    Administrator_bid_role, Administrator_role, schematics_default_role,
-    TZ, get_now, schematics_embedded_role, validate_lots_uniq, draft_role,
-    embedded_lot_role, default_lot_role, calc_auction_end_time, get_tender,
-    ComplaintModelType, validate_cpv_group, validate_items_uniq, Model,
-    rounding_shouldStartAfter, PeriodEndRequired as BasePeriodEndRequired,
-    validate_parameters_uniq,
+    plain_role, listing_role,
+    schematics_default_role, schematics_embedded_role, draft_role,
+    Model, PeriodEndRequired as BasePeriodEndRequired,
+    ListType, SifterListType, Period, IsoDateTimeType, Address
 )
-from openprocurement.api.models import ITender
+from openprocurement.api.constants import (
+    TZ
+)
+from openprocurement.api.validation import (
+    validate_cpv_group, validate_items_uniq
+)
+from openprocurement.tender.core.models import (
+    view_role, create_role, edit_role,
+    auction_view_role, auction_post_role, auction_patch_role,
+    auction_role, chronograph_role, embedded_lot_role,
+    chronograph_view_role, view_bid_role, Administrator_bid_role,
+    get_tender, validate_lots_uniq, bids_validation_wrapper, Lot,
+    ComplaintModelType, Award as BaseAward, Parameter as BaseParameter,
+    Bid as BaseBid, Complaint as BaseComplaint,
+    default_lot_role, LotValue as BaseLotValue, Item as BaseItem,
+    Contract as BaseContract, Cancellation as BaseCancellation,
+    validate_parameters_uniq, ITender,
+    PeriodStartEndRequired,
+    EnquiryPeriod
+    # TenderAuctionPeriod
+)
+from openprocurement.tender.core.utils import (
+    rounding_shouldStartAfter, calc_auction_end_time, calculate_business_date,
+    has_unanswered_questions, has_unanswered_complaints
+)
+from openprocurement.tender.core.validation import (
+    validate_LotValue_value,
+)
+from openprocurement.tender.belowthreshold.models import (
+    Tender as BaseTender,
+    enquiries_role,
+    Administrator_role
+)
 from openprocurement.tender.openua.utils import (
-    calculate_business_date, has_unanswered_questions, has_unanswered_complaints
+    calculate_normalized_date
 )
-
+from openprocurement.tender.openua.constants import (
+    ENQUIRY_STAND_STILL_TIME,
+    COMPLAINT_SUBMIT_TIME,
+    TENDER_PERIOD,
+    ENQUIRY_PERIOD_TIME,
+    AUCTION_PERIOD_TIME,
+    PERIOD_END_REQUIRED_FROM,
+)
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 
 
-STAND_STILL_TIME = timedelta(days=10)
-ENQUIRY_STAND_STILL_TIME = timedelta(days=3)
-CLAIM_SUBMIT_TIME = timedelta(days=10)
-COMPLAINT_SUBMIT_TIME = timedelta(days=4)
-TENDER_PERIOD = timedelta(days=15)
-ENQUIRY_PERIOD_TIME = timedelta(days=10)
-TENDERING_EXTRA_PERIOD = timedelta(days=7)
-AUCTION_PERIOD_TIME = timedelta(days=2)
-PERIOD_END_REQUIRED_FROM = datetime(2016, 7, 16, tzinfo=TZ)
-NORMALIZED_COMPLAINT_PERIOD_FROM = datetime(2016, 7, 20, tzinfo=TZ)
-
-
-def calculate_normalized_date(dt, tender, ceil=False):
-    if (tender.revisions[0].date if tender.revisions else get_now()) > NORMALIZED_COMPLAINT_PERIOD_FROM and \
-            not (SANDBOX_MODE and tender.procurementMethodDetails):
-        if ceil:
-            return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
-        return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0)
-    return dt
-
-
-def bids_validation_wrapper(validation_func):
-    def validator(klass, data, value):
-        orig_data = data
-        while not isinstance(data['__parent__'], Tender):
-            data = data['__parent__']
-        if data['status'] in ('deleted', 'invalid', 'draft'):
-            # skip not valid bids
-            return
-        tender = data['__parent__']
-        request = tender.__parent__.request
-        if request.method == "PATCH" and isinstance(tender, Tender) and request.authenticated_role == "tender_owner":
-            # disable bids validation on tender PATCH requests as tender bids will be invalidated
-            return
-        return validation_func(klass, orig_data, value)
-    return validator
-
-
-class SifterListType(ListType):
-
-    def __init__(self, field, min_size=None, max_size=None,
-                 filter_by=None, filter_in_values=[], **kwargs):
-        self.filter_by = filter_by
-        self.filter_in_values = filter_in_values
-        super(SifterListType, self).__init__(field, min_size=min_size,
-                                             max_size=max_size, **kwargs)
-
-    def export_loop(self, list_instance, field_converter,
-                    role=None, print_none=False):
-        """ Use the same functionality as original method but apply
-        additional filters.
-        """
-        data = []
-        for value in list_instance:
-            if hasattr(self.field, 'export_loop'):
-                item_role = role
-                # apply filters
-                if role not in ['plain', None] and self.filter_by and hasattr(value, self.filter_by):
-                    val = getattr(value, self.filter_by)
-                    if val in self.filter_in_values:
-                        item_role = val
-
-                shaped = self.field.export_loop(value, field_converter,
-                                                role=item_role,
-                                                print_none=print_none)
-                feels_empty = shaped and len(shaped) == 0
-            else:
-                shaped = field_converter(self.field, value)
-                feels_empty = shaped is None
-
-            # Print if we want empty or found a value
-            if feels_empty and self.field.allow_none():
-                data.append(shaped)
-            elif shaped is not None:
-                data.append(shaped)
-            elif print_none:
-                data.append(shaped)
-
-        # Return data if the list contains anything
-        if len(data) > 0:
-            return data
-        elif len(data) == 0 and self.allow_none():
-            return data
-        elif print_none:
-            return data
+class IAboveThresholdUATender(ITender):
+     """ Marker interface for aboveThresholdUA tenders """
 
 
 class TenderAuctionPeriod(Period):
@@ -149,50 +88,14 @@ class TenderAuctionPeriod(Period):
             start_after = max(decision_dates)
         return rounding_shouldStartAfter(start_after, tender).isoformat()
 
-
-class LotAuctionPeriod(Period):
-    """The auction period."""
-
-    @serializable(serialize_when_none=False)
-    def shouldStartAfter(self):
-        if self.endDate:
-            return
-        tender = get_tender(self)
-        lot = self.__parent__
-        if tender.status not in ['active.tendering', 'active.auction'] or lot.status != 'active':
-            return
-        if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
-            start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
-        else:
-            decision_dates = [
-                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
-                for complaint in tender.complaints
-                if complaint.dateDecision
-            ]
-            decision_dates.append(tender.tenderPeriod.endDate)
-            start_after = max(decision_dates)
-        return rounding_shouldStartAfter(start_after, tender).isoformat()
-
-
 class PeriodEndRequired(BasePeriodEndRequired):
-
+    #TODO different validator compared with belowthreshold
     def validate_startDate(self, data, value):
         tender = get_tender(data['__parent__'])
         if (tender.revisions[0].date if tender.revisions else get_now()) < PERIOD_END_REQUIRED_FROM:
             return
         if value and data.get('endDate') and data.get('endDate') < value:
             raise ValidationError(u"period should begin before its end")
-
-
-class PeriodStartEndRequired(Period):
-    startDate = IsoDateTimeType(required=True, default=get_now)  # The state date for the period.
-    endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
-
-
-class EnquiryPeriod(Period):
-    clarificationsUntil = IsoDateTimeType()
-    invalidationDate = IsoDateTimeType()
-
 
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
@@ -219,16 +122,7 @@ class LotValue(BaseLotValue):
 
     def validate_value(self, data, value):
         if value and isinstance(data['__parent__'], Bid) and ( data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:
-            lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
-            if not lots:
-                return
-            lot = lots[0]
-            if lot.value.amount < value.amount:
-                raise ValidationError(u"value of bid should be less than value of lot")
-            if lot.get('value').currency != value.currency:
-                raise ValidationError(u"currency of bid should be identical to currency of value of lot")
-            if lot.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-                raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot")
+            validate_LotValue_value(get_tender(data['__parent__']), data['relatedLot'], value)
 
     def validate_relatedLot(self, data, relatedLot):
         if isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
@@ -243,7 +137,6 @@ class Parameter(BaseParameter):
     @bids_validation_wrapper
     def validate_code(self, data, code):
         BaseParameter._validator_functions['code'](self, data, code)
-
 
 class Bid(BaseBid):
 
@@ -363,7 +256,6 @@ class Complaint(BaseComplaint):
         if not cancellationReason and data.get('status') in ['cancelled', 'stopping']:
             raise ValidationError(u'This field is required.')
 
-
 class Award(BaseAward):
     class Options:
         roles = {
@@ -383,34 +275,6 @@ class Award(BaseAward):
         if data['status'] == 'active' and not eligible:
             raise ValidationError(u'This field is required.')
 
-
-class Lot(BaseLot):
-
-    class Options:
-        roles = {
-            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
-            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
-            'embedded': embedded_lot_role,
-            'view': default_lot_role,
-            'default': default_lot_role,
-            'auction_view': default_lot_role,
-            'auction_patch': whitelist('id', 'auctionUrl'),
-            'chronograph': whitelist('id', 'auctionPeriod'),
-            'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
-        }
-
-    auctionPeriod = ModelType(LotAuctionPeriod, default={})
-
-    @serializable
-    def numberOfBids(self):
-        """A property that is serialized by schematics exports."""
-        bids = [
-            bid
-            for bid in self.__parent__.bids
-            if self.id in [i.relatedLot for i in bid.lotValues] and bid.status == "active"
-        ]
-        return len(bids)
-
 class Cancellation(BaseCancellation):
     class Options:
         roles = {
@@ -422,7 +286,8 @@ class Cancellation(BaseCancellation):
 
     reasonType = StringType(choices=['cancelled', 'unsuccessful'], default='cancelled')
 
-@implementer(ITender)
+
+@implementer(IAboveThresholdUATender)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
 
@@ -499,18 +364,6 @@ class Tender(BaseTender):
             raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
         if period and calculate_business_date(period.startDate, TENDER_PERIOD, data) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than 15 days")
-
-    def initialize(self):
-        endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)
-        self.enquiryPeriod = EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
-                                                endDate=endDate,
-                                                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                                                clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
-        now = get_now()
-        self.date = now
-        if self.lots:
-            for lot in self.lots:
-                lot.date = now
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):

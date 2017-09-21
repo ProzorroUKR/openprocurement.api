@@ -1,18 +1,33 @@
 # -*- coding: utf-8 -*-
 from pkg_resources import get_distribution
 from datetime import timedelta
-import re
 from logging import getLogger
-from openprocurement.api.models import get_now, TZ
-from openprocurement.api.utils import (
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import TZ, SANDBOX_MODE
+from openprocurement.tender.core.utils import (
+    has_unanswered_questions,
+    has_unanswered_complaints,
+    remove_draft_bids
+)
+from openprocurement.tender.belowthreshold.utils import (
     check_tender_status,
     context_unpack,
-    calculate_business_date,
-    remove_draft_bids,
+)
+from openprocurement.tender.openua.constants import (
+    NORMALIZED_COMPLAINT_PERIOD_FROM
 )
 from barbecue import chef
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
+
+
+def calculate_normalized_date(dt, tender, ceil=False):
+    if (tender.revisions[0].date if tender.revisions else get_now()) > NORMALIZED_COMPLAINT_PERIOD_FROM and \
+            not (SANDBOX_MODE and tender.procurementMethodDetails):
+        if ceil:
+            return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
+        return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0)
+    return dt
 
 
 def check_bids(request):
@@ -34,26 +49,6 @@ def check_complaint_status(request, complaint):
         complaint.status = complaint.resolutionType
 
 
-def has_unanswered_questions(tender, filter_cancelled_lots=True):
-    if filter_cancelled_lots and tender.lots:
-        active_lots = [l.id for l in tender.lots if l.status == 'active']
-        active_items = [i.id for i in tender.items if not i.relatedLot or i.relatedLot in active_lots]
-        return any([
-            not i.answer
-            for i in tender.questions
-            if i.questionOf == 'tender' or i.questionOf == 'lot' and i.relatedItem in active_lots or i.questionOf == 'item' and i.relatedItem in active_items
-        ])
-    return any([not i.answer for i in tender.questions])
-
-
-def has_unanswered_complaints(tender, filter_cancelled_lots=True):
-    if filter_cancelled_lots and tender.lots:
-        active_lots = [l.id for l in tender.lots if l.status == 'active']
-        return any([i.status in tender.block_tender_complaint_status for i in tender.complaints if not i.relatedLot \
-                    or (i.relatedLot and i.relatedLot in active_lots)])
-    return any([i.status in tender.block_tender_complaint_status for i in tender.complaints])
-
-
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
@@ -66,7 +61,7 @@ def check_status(request):
                 'date': now,
                 'items': [i for i in tender.items if i.relatedLot == award.lotID ],
                 'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1) }))
-            add_next_award(request)
+            add_next_award(request, reverse=request.content_configurator.reverse_awarding_criteria)
     if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
         not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
         for complaint in tender.complaints:
@@ -121,7 +116,15 @@ def check_status(request):
                 return
 
 
-def add_next_award(request):
+def add_next_award(request, reverse=False):
+    """Adding next award.
+    :param request:
+        The pyramid request object.
+    :param reverse:
+        Is used for sorting bids to generate award.
+        By default (reverse = False) awards are generated from lower to higher by value.amount
+        When reverse is set to True awards are generated from higher to lower by value.amount
+    """
     tender = request.validated['tender']
     now = get_now()
     if not tender.awardPeriod:
@@ -160,7 +163,7 @@ def add_next_award(request):
                 statuses.add('unsuccessful')
                 continue
             unsuccessful_awards = [i.bid_id for i in lot_awards if i.status == 'unsuccessful']
-            bids = chef(bids, features, unsuccessful_awards)
+            bids = chef(bids, features, unsuccessful_awards, reverse)
             if bids:
                 bid = bids[0]
                 award = tender.__class__.awards.model_class({
@@ -174,8 +177,9 @@ def add_next_award(request):
                         'startDate': now.isoformat()
                     }
                 })
+                award.__parent__ = tender
                 tender.awards.append(award)
-                request.response.headers['Location'] = request.route_url('Tender Awards', tender_id=tender.id, award_id=award['id'])
+                request.response.headers['Location'] = request.route_url('{}:Tender Awards'.format(tender.procurementMethodType), tender_id=tender.id, award_id=award['id'])
                 statuses.add('pending')
             else:
                 statuses.add('unsuccessful')
@@ -189,7 +193,7 @@ def add_next_award(request):
         if not tender.awards or tender.awards[-1].status not in ['pending', 'active']:
             unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
             active_bids = [bid for bid in tender.bids if bid.status == "active"]
-            bids = chef(active_bids, tender.features or [], unsuccessful_awards)
+            bids = chef(active_bids, tender.features or [], unsuccessful_awards, reverse)
             if bids:
                 bid = bids[0].serialize()
                 award = tender.__class__.awards.model_class({
@@ -202,8 +206,9 @@ def add_next_award(request):
                         'startDate': get_now().isoformat()
                     }
                 })
+                award.__parent__ = tender
                 tender.awards.append(award)
-                request.response.headers['Location'] = request.route_url('Tender Awards', tender_id=tender.id, award_id=award['id'])
+                request.response.headers['Location'] = request.route_url('{}:Tender Awards'.format(tender.procurementMethodType), tender_id=tender.id, award_id=award['id'])
         if tender.awards[-1].status == 'pending':
             tender.awardPeriod.endDate = None
             tender.status = 'active.qualification'

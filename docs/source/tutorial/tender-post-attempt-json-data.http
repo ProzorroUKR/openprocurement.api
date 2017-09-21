@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2017-07-05T18:35:29.080033+03:00"
+      "endDate": "2017-07-07T15:53:06.068679+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -37,8 +37,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-07-09T18:35:29.079941+03:00", 
-          "endDate": "2017-08-08T18:35:29.080005+03:00"
+          "startDate": "2017-07-11T15:53:06.068598+03:00", 
+          "endDate": "2017-08-10T15:53:06.068650+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -78,18 +78,18 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/c7414873a56548b3a51183388903ca1a
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/1b2ee380634a4d6e9c44d26f6b5003e8
 {
   "access": {
-    "token": "be83c76e7a7f40b58e9e8c3afa20d2c2"
+    "token": "4a6eb88d7be44a3da2fc039348c2a90c"
   }, 
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2017-06-19-000002", 
+    "awardCriteria": "lowestCost", 
     "tenderPeriod": {
-      "startDate": "2017-06-19T18:35:49.095140+03:00", 
-      "endDate": "2017-07-05T18:35:29.080033+03:00"
+      "startDate": "2017-06-21T15:53:24.829819+03:00", 
+      "endDate": "2017-07-07T15:53:06.068679+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -98,13 +98,13 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/c7414873a56548b
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2017-06-19T18:35:49.095140+03:00", 
-      "clarificationsUntil": "2017-06-30T00:00:00+03:00", 
-      "endDate": "2017-06-25T18:35:29.080033+03:00"
+      "startDate": "2017-06-21T15:53:24.829819+03:00", 
+      "clarificationsUntil": "2017-07-03T15:53:06.068679+03:00", 
+      "endDate": "2017-06-27T15:53:06.068679+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2017-06-19T18:35:49.095140+03:00", 
-      "endDate": "2017-07-01T00:00:00+03:00"
+      "startDate": "2017-06-21T15:53:24.829819+03:00", 
+      "endDate": "2017-07-03T00:00:00+03:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
     "value": {
@@ -113,8 +113,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/c7414873a56548b
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "date": "2017-06-19T18:35:49.125223+03:00", 
-    "next_check": "2017-07-05T18:35:29.080033+03:00", 
+    "date": "2017-06-21T15:53:24.857904+03:00", 
+    "next_check": "2017-07-07T15:53:06.068679+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -137,10 +137,10 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/c7414873a56548b
       }
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2017-07-06T00:00:00+03:00"
+      "shouldStartAfter": "2017-07-08T00:00:00+03:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2017-06-19T18:35:49.130039+03:00", 
+    "dateModified": "2017-06-21T15:53:24.862584+03:00", 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -164,10 +164,10 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/c7414873a56548b
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-07-09T18:35:29.079941+03:00", 
-          "endDate": "2017-08-08T18:35:29.080005+03:00"
+          "startDate": "2017-07-11T15:53:06.068598+03:00", 
+          "endDate": "2017-08-10T15:53:06.068650+03:00"
         }, 
-        "id": "2e0b0909ddfb4bfb959ffb310c17f1e5", 
+        "id": "6722b7b18fcb430880214d27464554df", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -175,8 +175,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/c7414873a56548b
         "quantity": 1
       }
     ], 
-    "id": "c7414873a56548b3a51183388903ca1a", 
-    "awardCriteria": "lowestCost"
+    "id": "1b2ee380634a4d6e9c44d26f6b5003e8", 
+    "tenderID": "UA-2017-06-21-000002"
   }
 }
 

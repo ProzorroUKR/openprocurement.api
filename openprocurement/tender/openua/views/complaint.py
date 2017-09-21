@@ -1,55 +1,56 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
-from openprocurement.api.views.complaint import TenderComplaintResource
+from openprocurement.tender.belowthreshold.views.complaint import TenderComplaintResource
 from openprocurement.api.utils import (
-    apply_patch,
-    check_tender_status,
     context_unpack,
     json_view,
-    opresource,
-    save_tender,
     set_ownership,
+    get_now,
+    raise_operation_error
 )
-from openprocurement.api.validation import (
+from openprocurement.tender.openua.utils import (
+    check_tender_status,
+)
+from openprocurement.tender.core.validation import (
     validate_complaint_data,
+    validate_submit_complaint_time,
     validate_patch_complaint_data,
+    validate_complaint_operation_not_in_active_tendering,
+    validate_update_complaint_not_in_allowed_complaint_status
 )
-from openprocurement.tender.openua.models import CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME
-from openprocurement.tender.openua.utils import calculate_business_date
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource,
+    calculate_business_date
+)
+from openprocurement.tender.openua.validation import validate_submit_claim_time
+from openprocurement.tender.openua.constants import (
+    CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
+)
 
 
-@opresource(name='Tender UA Complaints',
-            collection_path='/tenders/{tender_id}/complaints',
-            path='/tenders/{tender_id}/complaints/{complaint_id}',
-            procurementMethodType='aboveThresholdUA',
-            description="Tender complaints")
+@optendersresource(name='aboveThresholdUA:Tender Complaints',
+                   collection_path='/tenders/{tender_id}/complaints',
+                   path='/tenders/{tender_id}/complaints/{complaint_id}',
+                   procurementMethodType='aboveThresholdUA',
+                   description="Tender complaints")
 class TenderUaComplaintResource(TenderComplaintResource):
 
     def complaints_len(self, tender):
         return sum([len(i.complaints) for i in tender.awards], len(tender.complaints))
 
-    @json_view(content_type="application/json", validators=(validate_complaint_data,), permission='create_complaint')
+    @json_view(content_type="application/json", validators=(validate_complaint_data, validate_complaint_operation_not_in_active_tendering), permission='create_complaint')
     def collection_post(self):
         """Post a complaint
         """
         tender = self.context
-        if tender.status != 'active.tendering':
-            self.request.errors.add('body', 'data', 'Can\'t add complaint in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
         complaint = self.request.validated['complaint']
         complaint.date = get_now()
         if complaint.status == 'claim':
-            if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -CLAIM_SUBMIT_TIME, tender):
-                self.request.errors.add('body', 'data', 'Can submit claim not later than {0.days} days before tenderPeriod end'.format(CLAIM_SUBMIT_TIME))
-                self.request.errors.status = 403
-                return
+            validate_submit_claim_time(self.request)
             complaint.dateSubmitted = get_now()
         elif complaint.status == 'pending':
-            if get_now() > tender.complaintPeriod.endDate:
-                self.request.errors.add('body', 'data', 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(COMPLAINT_SUBMIT_TIME))
-                self.request.errors.status = 403
-                return
+            validate_submit_complaint_time(self.request)
             complaint.dateSubmitted = get_now()
             complaint.type = 'complaint'
         else:
@@ -61,7 +62,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             self.LOGGER.info('Created tender complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Complaints', tender_id=tender.id, complaint_id=complaint.id)
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Complaints'.format(tender.procurementMethodType), tender_id=tender.id, complaint_id=complaint.id)
             return {
                 'data': complaint.serialize(tender.status),
                 'access': {
@@ -69,19 +70,11 @@ class TenderUaComplaintResource(TenderComplaintResource):
                 }
             }
 
-    @json_view(content_type="application/json", validators=(validate_patch_complaint_data,), permission='edit_complaint')
+    @json_view(content_type="application/json", validators=(validate_patch_complaint_data, validate_complaint_operation_not_in_active_tendering, validate_update_complaint_not_in_allowed_complaint_status), permission='edit_complaint')
     def patch(self):
         """Post a complaint resolution
         """
         tender = self.request.validated['tender']
-        if tender.status != 'active.tendering':
-            self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping']:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) status'.format(self.context.status))
-            self.request.errors.status = 403
-            return
         data = self.request.validated['data']
         # complaint_owner
         if self.request.authenticated_role == 'complaint_owner' and self.context.status in ['draft', 'claim', 'answered'] and data.get('status', self.context.status) == 'cancelled':
@@ -94,16 +87,12 @@ class TenderUaComplaintResource(TenderComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'complaint_owner' and tender.status == 'active.tendering' and self.context.status == 'draft' and data.get('status', self.context.status) == 'claim':
             if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -CLAIM_SUBMIT_TIME, tender):
-                self.request.errors.add('body', 'data', 'Can submit claim not later than {0.days} days before tenderPeriod end'.format(CLAIM_SUBMIT_TIME))
-                self.request.errors.status = 403
-                return
+                raise_operation_error(self.request, 'Can submit claim not later than {0.days} days before tenderPeriod end'.format(CLAIM_SUBMIT_TIME))
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateSubmitted = get_now()
         elif self.request.authenticated_role == 'complaint_owner' and tender.status == 'active.tendering' and self.context.status in ['draft', 'claim'] and data.get('status', self.context.status) == 'pending':
             if get_now() > tender.complaintPeriod.endDate:
-                self.request.errors.add('body', 'data', 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(COMPLAINT_SUBMIT_TIME))
-                self.request.errors.status = 403
-                return
+                raise_operation_error(self.request, 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(COMPLAINT_SUBMIT_TIME))
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = 'complaint'
             self.context.dateSubmitted = get_now()
@@ -113,9 +102,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'complaint_owner' and self.context.status == 'answered' and data.get('satisfied', self.context.satisfied) is False and data.get('status', self.context.status) == 'pending':
             if get_now() > tender.complaintPeriod.endDate:
-                self.request.errors.add('body', 'data', 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(COMPLAINT_SUBMIT_TIME))
-                self.request.errors.status = 403
-                return
+                raise_operation_error(self.request, 'Can submit complaint not later than {0.days} days before tenderPeriod end'.format(COMPLAINT_SUBMIT_TIME))
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = 'complaint'
             self.context.dateEscalated = get_now()
@@ -123,22 +110,16 @@ class TenderUaComplaintResource(TenderComplaintResource):
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('status', self.context.status) == self.context.status:
             now = get_now()
             if now > tender.enquiryPeriod.clarificationsUntil:
-                self.request.errors.add('body', 'data', 'Can update claim only before enquiryPeriod.clarificationsUntil')
-                self.request.errors.status = 403
-                return
+                raise_operation_error(self.request, 'Can update claim only before enquiryPeriod.clarificationsUntil')
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'satisfied' and data.get('status', self.context.status) == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif self.request.authenticated_role == 'tender_owner' and self.context.status == 'claim' and data.get('resolution', self.context.resolution) and data.get('resolutionType', self.context.resolutionType) and data.get('status', self.context.status) == 'answered':
             now = get_now()
             if now > tender.enquiryPeriod.clarificationsUntil:
-                self.request.errors.add('body', 'data', 'Can update claim only before enquiryPeriod.clarificationsUntil')
-                self.request.errors.status = 403
-                return
+                raise_operation_error(self.request, 'Can update claim only before enquiryPeriod.clarificationsUntil')
             if len(data.get('resolution', self.context.resolution)) < 20:
-                self.request.errors.add('body', 'data', 'Can\'t update complaint: resolution too short')
-                self.request.errors.status = 403
-                return
+                raise_operation_error(self.request, 'Can\'t update complaint: resolution too short')
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateAnswered = get_now()
         elif self.request.authenticated_role == 'tender_owner' and self.context.status in ['pending', 'accepted']:
@@ -167,9 +148,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             self.context.dateDecision = get_now()
             self.context.dateCanceled = self.context.dateCanceled or get_now()
         else:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint')
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t update complaint')
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping'] and tender.status in ['active.qualification', 'active.awarded']:

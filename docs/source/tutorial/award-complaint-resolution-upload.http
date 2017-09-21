@@ -1,22 +1,22 @@
-POST /api/2.3/tenders/bedc169a4a1144ee970c8c19b37b8a09/awards/ac0e4a1ef9404ca1a5fe396247bba06d/complaints/b68e4de680d4441988c7e9437b4711e7/documents HTTP/1.0
+POST /api/2.3/tenders/9eaa2f3beb554dd5b22ba7ab74f89d1f/awards/bdda4791877a4e7ca0d3ba4f00fa28c6/complaints/2e4cc336e8964ba5ada86f29c99e618f/documents HTTP/1.0
 Authorization: Basic cmV2aWV3ZXI6
 Content-Length: 199
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy266674576331$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy119779843287$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/bedc169a4a1144ee970c8c19b37b8a09/awards/ac0e4a1ef9404ca1a5fe396247bba06d/complaints/b68e4de680d4441988c7e9437b4711e7/documents/9c25a0acc776405b8c5fc82596c941ca
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/9eaa2f3beb554dd5b22ba7ab74f89d1f/awards/bdda4791877a4e7ca0d3ba4f00fa28c6/complaints/2e4cc336e8964ba5ada86f29c99e618f/documents/bd62cf6967734a8ab7f17cdc545b224f
 {
   "data": {
     "author": "aboveThresholdReviewers", 
     "title": "ComplaintResolution.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/bedc169a4a1144ee970c8c19b37b8a09/awards/ac0e4a1ef9404ca1a5fe396247bba06d/complaints/b68e4de680d4441988c7e9437b4711e7/documents/9c25a0acc776405b8c5fc82596c941ca?download=35f7767a1eae4874b0eee028f0c6a56f", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/9eaa2f3beb554dd5b22ba7ab74f89d1f/awards/bdda4791877a4e7ca0d3ba4f00fa28c6/complaints/2e4cc336e8964ba5ada86f29c99e618f/documents/bd62cf6967734a8ab7f17cdc545b224f?download=141223be6b82484e9a9d81c399766b09", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2017-06-19T18:35:35.756507+03:00", 
-    "id": "9c25a0acc776405b8c5fc82596c941ca", 
-    "dateModified": "2017-06-19T18:35:35.756543+03:00"
+    "datePublished": "2017-06-21T15:53:12.249735+03:00", 
+    "id": "bd62cf6967734a8ab7f17cdc545b224f", 
+    "dateModified": "2017-06-21T15:53:12.249771+03:00"
   }
 }
 
