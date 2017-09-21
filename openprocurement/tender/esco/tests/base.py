@@ -28,6 +28,11 @@ test_features_tender_data['NBUdiscountRate'] = NBU_DISCOUNT_RATE
 test_features_tender_data['minimalStepPercentage'] = 0.027
 test_features_tender_data['fundingKind'] = 'other'
 test_features_tender_data['yearlyPaymentsPercentageRange'] = 0.8
+test_features_tender_data['features'][0]['enum'][0]['value'] = 0.03
+test_features_tender_data['features'][0]['enum'][1]['value'] = 0.07
+test_features_tender_data['features'][1]['enum'][0]['value'] = 0.03
+test_features_tender_data['features'][1]['enum'][1]['value'] = 0.05
+test_features_tender_data['features'][1]['enum'][2]['value'] = 0.07
 
 del test_features_tender_data['value']
 del test_features_tender_data['minimalStep']

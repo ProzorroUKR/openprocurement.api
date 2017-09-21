@@ -25,7 +25,8 @@ from openprocurement.api.models import (
 )
 from openprocurement.tender.core.models import (
     Tender as BaseTender, EnquiryPeriod, PeriodStartEndRequired,
-    Question, Feature, Guarantee, BaseLot
+    Question, Feature, Guarantee, BaseLot,
+    FeatureValue as BaseFeatureValue, Feature as BaseFeature
 )
 from openprocurement.tender.core.models import (
     get_tender, view_role, auction_view_role, auction_post_role,
@@ -33,7 +34,7 @@ from openprocurement.tender.core.models import (
     chronograph_view_role, Administrator_role,
     embedded_lot_role, default_lot_role,
     validate_features_uniq, validate_lots_uniq,
-    bids_validation_wrapper
+    bids_validation_wrapper, validate_values_uniq
 )
 from openprocurement.tender.core.utils import (
     calc_auction_end_time,
@@ -253,6 +254,14 @@ class Bid(BaseEUBid):
             else:
                 if not value:
                     raise ValidationError(u'This field is required.')
+
+
+class FeatureValue(BaseFeatureValue):
+    value = FloatType(required=True, min_value=0.0, max_value=0.25)
+
+
+class Feature(BaseFeature):
+    enum = ListType(ModelType(FeatureValue), default=list(), min_size=1, validators=[validate_values_uniq])
 
 
 @implementer(IESCOTender)
