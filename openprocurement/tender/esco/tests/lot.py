@@ -53,6 +53,7 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     # TenderLotFeatureBidderResourceTest
     create_tender_feature_bid_invalid,
     create_tender_feature_bid,
+    tender_features_invalid,
     # TenderLotBidResourceTest
     create_tender_bid_invalid,
     patch_tender_bid,
@@ -99,10 +100,11 @@ class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     initial_data = test_tender_data
     test_lots_data = test_lots
     invalid_feature_value = 0.4
-    max_feature_value = 0.3
-    sum_of_max_value_of_all_features = 0.3
+    max_feature_value = 0.25
+    sum_of_max_value_of_all_features = 0.25
 
     test_tender_min_value = snitch(tender_min_value)
+    test_tender_features_invalid = snitch(tender_features_invalid)
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_tender_lot_document = snitch(tender_lot_document)
 
