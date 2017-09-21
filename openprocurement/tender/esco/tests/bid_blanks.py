@@ -911,7 +911,7 @@ def features_bid_invalid(self):
     data["parameters"] = [
         {
             "code": "OCDS-123454-AIR-INTAKE",
-            "value": 0.1,
+            "value": 0.03,
         }
     ]
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
@@ -923,7 +923,7 @@ def features_bid_invalid(self):
     ])
     data["parameters"].append({
         "code": "OCDS-123454-AIR-INTAKE",
-        "value": 0.1,
+        "value": 0.03,
     })
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -949,7 +949,7 @@ def features_bid(self):
         "parameters": [
             {
                 "code": i["code"],
-                "value": 0.1,
+                "value": 0.03,
             }
             for i in self.initial_data['features']
         ]
