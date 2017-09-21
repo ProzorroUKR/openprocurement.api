@@ -770,6 +770,181 @@ def tender_with_nbu_discount_rate(self):
     self.assertEqual(response.json['data']['NBUdiscountRate'], 0.3)
 
 
+def tender_features_invalid(self):
+    data = self.initial_data.copy()
+    item = data['items'][0].copy()
+    item['id'] = "1"
+    data['items'] = [item, item.copy()]
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Item id should be uniq for all items'], u'location': u'body', u'name': u'items'}
+    ])
+    data['items'][0]["id"] = "0"
+    data['features'] = [
+        {
+            "code": "OCDS-123454-AIR-INTAKE",
+            "featureOf": "lot",
+            "title": u"Потужність всмоктування",
+            "enum": [
+                {
+                    "value": 0.1,
+                    "title": u"До 1000 Вт"
+                },
+                {
+                    "value": 0.15,
+                    "title": u"Більше 1000 Вт"
+                }
+            ]
+        }
+    ]
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [{u'relatedItem': [u'This field is required.']}], u'location': u'body', u'name': u'features'}
+    ])
+    data['features'][0]["relatedItem"] = "2"
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [{u'relatedItem': [u'relatedItem should be one of lots']}], u'location': u'body', u'name': u'features'}
+    ])
+    data['features'][0]["featureOf"] = "item"
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [{u'relatedItem': [u'relatedItem should be one of items']}], u'location': u'body', u'name': u'features'}
+    ])
+    data['features'][0]["relatedItem"] = "1"
+    data['features'][0]["enum"][0]["value"] = 0.5
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [{u'enum': [{u'value': [u'Float value should be less than 0.25.']}]}], u'location': u'body', u'name': u'features'}
+    ])
+    data['features'][0]["enum"][0]["value"] = 0.15
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [{u'enum': [u'Feature value should be uniq for feature']}], u'location': u'body', u'name': u'features'}
+    ])
+    data['features'][0]["enum"][0]["value"] = 0.1
+    data['features'].append(data['features'][0].copy())
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Feature code should be uniq for all features'], u'location': u'body', u'name': u'features'}
+    ])
+    data['features'][1]["code"] = u"OCDS-123454-YEARS"
+    data['features'][1]["enum"][0]["value"] = 0.2
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Sum of max value of all features should be less then or equal to 25%'], u'location': u'body', u'name': u'features'}
+    ])
+
+
+def tender_features(self):
+    data = self.initial_data.copy()
+    data['procuringEntity']['contactPoint']['faxNumber'] = u"0440000000"
+    item = data['items'][0].copy()
+    item['id'] = "1"
+    data['items'] = [item]
+    data['features'] = [
+        {
+            "code": "OCDS-123454-AIR-INTAKE",
+            "featureOf": "item",
+            "relatedItem": "1",
+            "title": u"Потужність всмоктування",
+            "title_en": u"Air Intake",
+            "description": u"Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+            "enum": [
+                {
+                    "value": 0.01,
+                    "title": u"До 1000 Вт"
+                },
+                {
+                    "value": 0.04,
+                    "title": u"Більше 1000 Вт"
+                }
+            ]
+        },
+        {
+            "code": "OCDS-123454-YEARS",
+            "featureOf": "tenderer",
+            "title": u"Років на ринку",
+            "title_en": u"Years trading",
+            "description": u"Кількість років, які організація учасник працює на ринку",
+            "enum": [
+                {
+                    "value": 0.03,
+                    "title": u"До 3 років"
+                },
+                {
+                    "value": 0.07,
+                    "title": u"Більше 3 років"
+                }
+            ]
+        },
+        {
+            "code": "OCDS-123454-POSTPONEMENT",
+            "featureOf": "tenderer",
+            "title": u"Відстрочка платежу",
+            "title_en": u"Postponement of payment",
+            "description": u"Термін відстрочки платежу",
+            "enum": [
+                {
+                    "value": 0.03,
+                    "title": u"До 90 днів"
+                },
+                {
+                    "value": 0.07,
+                    "title": u"Більше 90 днів"
+                }
+            ]
+        }
+    ]
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    tender = response.json['data']
+    token = response.json['access']['token']
+    self.assertEqual(tender['features'], data['features'])
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), {'data': {'features': [{
+        "featureOf": "tenderer",
+        "relatedItem": None
+    }, {}, {}]}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('features', response.json['data'])
+    self.assertNotIn('relatedItem', response.json['data']['features'][0])
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), {'data': {'procuringEntity': {'contactPoint': {'faxNumber': None}}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('features', response.json['data'])
+    self.assertNotIn('faxNumber', response.json['data']['procuringEntity']['contactPoint'])
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), {'data': {'features': []}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertNotIn('features', response.json['data'])
+
+
 def invalid_bid_tender_features(self):
     # empty tenders listing
     response = self.app.get('/tenders')

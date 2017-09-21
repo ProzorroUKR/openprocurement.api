@@ -42,6 +42,8 @@ from openprocurement.tender.esco.tests.tender_blanks import (
     create_tender_invalid,
     patch_tender,
     tender_with_nbu_discount_rate,
+    tender_features,
+    tender_features_invalid,
     invalid_bid_tender_features,
     create_tender_generated,
 )
@@ -78,6 +80,8 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     test_create_tender_generated = snitch(create_tender_generated)
     test_patch_tender = snitch(patch_tender)
     test_guarantee = snitch(guarantee)
+    test_tender_features = snitch(tender_features)
+    test_tender_features_invalid = snitch(tender_features_invalid)
     test_invalid_bid_tender_features = snitch(invalid_bid_tender_features)
     test_invalid_bid_tender_lot = snitch(invalid_bid_tender_lot)
 
