@@ -36,6 +36,14 @@ from openprocurement.tender.esco.tests.auction_blanks import (
     auction_check_NBUdiscountRate,
     # TenderFeaturesAuctionResourceTest
     get_tender_auction_feature,
+    post_tender_auction_feature,
+    # TenderFeaturesLotAuctionResourceTest
+    get_tender_lot_auction_feature,
+    post_tender_lot_auction_feature,
+    # TenderFeaturesMultipleLotAuctionResourceTest,
+    get_tender_lots_auction_feature,
+    post_tender_lots_auction_feature,
+    # TenderSameValueAuctionResourceTest
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
 )
@@ -172,21 +180,20 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
 
 class TenderFeaturesAuctionResourceTest(BaseESCOContentWebTest):
     initial_data = test_features_tender_data
-    initial_status = 'active.auction'
     tenderer_info = deepcopy(test_bids[0]['tenderers'])
     initial_bids = [
         {
             "parameters": [
                 {
                     "code": i["code"],
-                    "value": 0.1,
+                    "value": 0.03,
                 }
                 for i in test_features_tender_data['features']
             ],
             "tenderers": tenderer_info,
             "value": {
                 'yearlyPaymentsPercentage': 0.9,
-                'annualCostsReduction': [751.5] * 21,
+                'annualCostsReduction': [100] * 21,
                 'contractDuration': {'years': 10}
             },
             'selfQualified': True,
@@ -196,14 +203,14 @@ class TenderFeaturesAuctionResourceTest(BaseESCOContentWebTest):
             "parameters": [
                 {
                     "code": i["code"],
-                    "value": 0.15,
+                    "value": 0.07,
                 }
                 for i in test_features_tender_data['features']
             ],
             "tenderers": tenderer_info,
             "value": {
                 'yearlyPaymentsPercentage': 0.9,
-                'annualCostsReduction': [785.5] * 21,
+                'annualCostsReduction': [100] * 21,
                 'contractDuration': {'years': 10}
             },
             'selfQualified': True,
@@ -211,7 +218,45 @@ class TenderFeaturesAuctionResourceTest(BaseESCOContentWebTest):
         }
     ]
 
+    def setUp(self):
+        super(TenderFeaturesAuctionResourceTest, self).setUp()
+        # switch to active.pre-qualification
+        self.time_shift('active.pre-qualification')
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification")
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
+        for qualific in response.json['data']:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
+                self.tender_id, qualific['id'], self.tender_token), {'data': {"status": "active", "qualified": True, "eligible": True}})
+            self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+        self.assertEqual(response.status, "200 OK")
+        # # switch to active.pre-qualification.stand-still
+
     test_get_tender_auction = snitch(get_tender_auction_feature)
+    test_post_tender_auction = snitch(post_tender_auction_feature)
+
+
+class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest):
+    initial_data = test_features_tender_data
+    initial_lots = test_lots
+
+    test_get_tender_auction = snitch(get_tender_lot_auction_feature)
+    test_post_tender_auction = snitch(post_tender_lot_auction_feature)
+
+
+class TenderFeaturesMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest):
+    initial_data = test_features_tender_data
+    initial_lots = 2 * test_lots
+
+    test_get_tender_auction = snitch(get_tender_lots_auction_feature)
+    test_post_tender_auction = snitch(post_tender_lots_auction_feature)
 
 
 def suite():
