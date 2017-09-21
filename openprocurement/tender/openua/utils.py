@@ -193,6 +193,7 @@ def add_next_award(request, reverse=False, awarding_criteria_key='amount'):
     else:
         if not tender.awards or tender.awards[-1].status not in ['pending', 'active']:
             unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
+            codes = [i.code for i in tender.features or []]
             active_bids = [
                 {
                     'id': bid.id,
