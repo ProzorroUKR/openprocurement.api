@@ -1,58 +1,45 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.models import get_now
-from openprocurement.api.validation import validate_data
-from openprocurement.api.views.award_complaint import TenderAwardComplaintResource
 from openprocurement.api.utils import (
-    apply_patch,
+    get_now,
     context_unpack,
     json_view,
-    opresource,
-    save_tender,
     set_ownership,
-    update_logging_context,
+    raise_operation_error
 )
 
-def validate_complaint_data(request):
-    if not request.check_accreditation(request.tender.edit_accreditation):
-        request.errors.add('procurementMethodType', 'accreditation', 'Broker Accreditation level does not permit complaint creation')
-        request.errors.status = 403
-        return
-    if request.tender.get('mode', None) is None and request.check_accreditation('t'):
-        request.errors.add('procurementMethodType', 'mode', 'Broker Accreditation level does not permit complaint creation')
-        request.errors.status = 403
-        return
-    update_logging_context(request, {'complaint_id': '__new__'})
-    model = type(request.context).complaints.model_class
-    return validate_data(request, model)
+from openprocurement.tender.core.utils import (
+    apply_patch, save_tender, optendersresource
+)
+
+from openprocurement.tender.core.validation import (
+    validate_add_complaint_not_in_complaint_period,
+    validate_update_complaint_not_in_allowed_complaint_status
+)
+
+from openprocurement.tender.limited.validation import (
+    validate_complaint_data,
+    validate_patch_complaint_data,
+    validate_award_complaint_operation_not_in_active
+)
+
+from openprocurement.tender.belowthreshold.views.award_complaint import (
+    TenderAwardComplaintResource
+)
 
 
-def validate_patch_complaint_data(request):
-    model = type(request.context.__parent__).complaints.model_class
-    return validate_data(request, model, True)
-
-
-@opresource(name='Tender negotiation Award Complaints',
-            collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
-            path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
-            procurementMethodType='negotiation',
-            description="Tender negotiation award complaints")
+@optendersresource(name='negotiation:Tender Award Complaints',
+                   collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
+                   path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
+                   procurementMethodType='negotiation',
+                   description="Tender negotiation award complaints")
 class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
 
-    @json_view(content_type="application/json", permission='create_award_complaint', validators=(validate_complaint_data,))
+    @json_view(content_type="application/json", permission='create_award_complaint', validators=(validate_complaint_data, validate_award_complaint_operation_not_in_active,
+               validate_add_complaint_not_in_complaint_period))
     def collection_post(self):
         """Post a complaint for award
         """
         tender = self.request.validated['tender']
-        if tender.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t add complaint in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if self.context.complaintPeriod and \
-           (self.context.complaintPeriod.startDate and self.context.complaintPeriod.startDate > get_now() or
-                self.context.complaintPeriod.endDate and self.context.complaintPeriod.endDate < get_now()):
-            self.request.errors.add('body', 'data', 'Can add complaint only in complaintPeriod')
-            self.request.errors.status = 403
-            return
         complaint = self.request.validated['complaint']
         complaint.date = get_now()
         complaint.type = 'complaint'
@@ -67,7 +54,10 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
             self.LOGGER.info('Created tender award complaint {}'.format(complaint.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_complaint_create'}, {'complaint_id': complaint.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender negotiation Award Complaints', tender_id=tender.id, award_id=self.request.validated['award_id'], complaint_id=complaint['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Award Complaints'.format(tender.procurementMethodType),
+                                                                               tender_id=tender.id,
+                                                                               award_id=self.request.validated['award_id'],
+                                                                               complaint_id=complaint['id'])
             return {
                 'data': complaint.serialize("view"),
                 'access': {
@@ -75,19 +65,11 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
                 }
             }
 
-    @json_view(content_type="application/json", permission='edit_complaint', validators=(validate_patch_complaint_data,))
+    @json_view(content_type="application/json", permission='edit_complaint', validators=(validate_patch_complaint_data, validate_award_complaint_operation_not_in_active,
+               validate_update_complaint_not_in_allowed_complaint_status))
     def patch(self):
         """Post a complaint resolution for award
         """
-        tender = self.request.validated['tender']
-        if tender.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if self.context.status not in ['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping']:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) status'.format(self.context.status))
-            self.request.errors.status = 403
-            return
         data = self.request.validated['data']
         complaintPeriod = self.request.validated['award'].complaintPeriod
         is_complaintPeriod = complaintPeriod.startDate < get_now() and complaintPeriod.endDate > get_now() if complaintPeriod.endDate else complaintPeriod.startDate < get_now()
@@ -133,9 +115,7 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
             self.context.dateDecision = get_now()
             self.context.dateCanceled = self.context.dateCanceled or get_now()
         else:
-            self.request.errors.add('body', 'data', 'Can\'t update complaint')
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t update complaint')
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if save_tender(self.request):
@@ -144,10 +124,10 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
             return {'data': self.context.serialize("view")}
 
 
-@opresource(name='Tender negotiation.quick Award Complaints',
-            collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
-            path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
-            procurementMethodType='negotiation.quick',
-            description="Tender negotiation.quick award complaints")
+@optendersresource(name='negotiation.quick:Tender Award Complaints',
+                   collection_path='/tenders/{tender_id}/awards/{award_id}/complaints',
+                   path='/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}',
+                   procurementMethodType='negotiation.quick',
+                   description="Tender negotiation.quick award complaints")
 class TenderNegotiationQuickAwardComplaintResource(TenderNegotiationAwardComplaintResource):
-    pass
+    """ Tender Negotiation Quick Award Complaint Resource """

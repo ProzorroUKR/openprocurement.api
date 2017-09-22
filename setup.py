@@ -1,12 +1,14 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.3.26'
+version = '2.4'
 
 requires = [
     'setuptools',
-    'openprocurement.api>=2.3',
-    'openprocurement.tender.openua',
+    'openprocurement.api>=2.4',
+    'openprocurement.tender.core>=2.4',
+    'openprocurement.tender.belowthreshold>=2.4',
+    'openprocurement.tender.openua>=2.4',
 ]
 
 test_requires = requires + [
@@ -19,10 +21,10 @@ docs_requires = requires + [
 ]
 
 entry_points = {
-    'openprocurement.api.plugins': [
-        'reporting = openprocurement.tender.limited:includeme',
-        'negotiation = openprocurement.tender.limited:includeme_negotiation',
-        'negotiation.quick = openprocurement.tender.limited:includeme_negotiation_quick'
+    'openprocurement.tender.core.plugins': [
+        'reporting = openprocurement.tender.limited.includeme:includeme',
+        'negotiation = openprocurement.tender.limited.includeme:includeme_negotiation',
+        'negotiation.quick = openprocurement.tender.limited.includeme:includeme_negotiation_quick'
     ]
 }
 

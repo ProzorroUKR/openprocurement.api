@@ -182,7 +182,8 @@ Setting value per item's unit
 .. include:: tutorial/tender-contract-set-contract_items_unit-value.http
    :code:
 
-200 OK response was returned with successfully set item.unit.value structure.
+`200 OK` response was returned with successfully set item.unit.value structure.
+
 
 Setting contract signature date
 -------------------------------

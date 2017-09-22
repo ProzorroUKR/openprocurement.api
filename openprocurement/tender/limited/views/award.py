@@ -1,28 +1,38 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
-    apply_patch,
-    save_tender,
-    opresource,
+    get_now,
     json_view,
     context_unpack,
-    APIResource
+    APIResource,
+    error_handler,
+    raise_operation_error
 )
-from openprocurement.api.validation import (
-    validate_patch_award_data,
-    validate_award_data,
+
+from openprocurement.tender.core.utils import (
+    apply_patch, save_tender, optendersresource, calculate_business_date
 )
-from openprocurement.tender.openua.utils import calculate_business_date
-from openprocurement.tender.openua.models import calculate_normalized_date
+
+from openprocurement.tender.core.validation import (
+    validate_patch_award_data, validate_award_data,
+)
+
+from openprocurement.tender.openua.utils import calculate_normalized_date
+
+from openprocurement.tender.limited.validation import (
+    validate_create_new_award,
+    validate_lot_cancellation,
+    validate_create_new_award_with_lots,
+    validate_award_operation_not_in_active_status
+)
 
 
-@opresource(name='Tender Limited Awards',
-            collection_path='/tenders/{tender_id}/awards',
-            path='/tenders/{tender_id}/awards/{award_id}',
-            description="Tender awards",
-            procurementMethodType='reporting',
-            )
+@optendersresource(name='reporting:Tender Awards',
+                   collection_path='/tenders/{tender_id}/awards',
+                   path='/tenders/{tender_id}/awards/{award_id}',
+                   description="Tender awards",
+                   procurementMethodType='reporting',
+                   )
 class TenderAwardResource(APIResource):
 
     @json_view(permission='view_tender')
@@ -80,7 +90,7 @@ class TenderAwardResource(APIResource):
         """
         return {'data': [i.serialize("view") for i in self.request.validated['tender'].awards]}
 
-    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_award_data,))
+    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_award_data, validate_award_operation_not_in_active_status,validate_create_new_award))
     def collection_post(self):
         """Accept or reject bidder application
 
@@ -162,21 +172,14 @@ class TenderAwardResource(APIResource):
 
         """
         tender = self.request.validated['tender']
-        if tender.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t create award in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if tender.awards and tender.awards[-1].status in ['pending', 'active']:
-            self.request.errors.add('body', 'data', 'Can\'t create new award while any ({}) award exists'.format(tender.awards[-1].status))
-            self.request.errors.status = 403
-            return
         award = self.request.validated['award']
         tender.awards.append(award)
         if save_tender(self.request):
             self.LOGGER.info('Created tender award {}'.format(award.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_create'}, {'award_id': award.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Awards', tender_id=tender.id, award_id=award['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Awards'.format(tender.procurementMethodType),
+                                                                               tender_id=tender.id, award_id=award['id'])
             return {'data': award.serialize("view")}
 
     @json_view(permission='view_tender')
@@ -231,7 +234,7 @@ class TenderAwardResource(APIResource):
         """
         return {'data': self.request.validated['award'].serialize("view")}
 
-    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_award_data,))
+    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_award_data, validate_award_operation_not_in_active_status))
     def patch(self):
         """Update of award
 
@@ -290,11 +293,6 @@ class TenderAwardResource(APIResource):
 
         """
         tender = self.request.validated['tender']
-        if tender.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-
         award = self.request.context
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
@@ -316,13 +314,9 @@ class TenderAwardResource(APIResource):
             pass
             # add_next_award(self.request)
         elif award_status != award.status:
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
         elif award_status != 'pending':
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
 
         if save_tender(self.request):
             self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
@@ -330,27 +324,16 @@ class TenderAwardResource(APIResource):
             return {'data': award.serialize("view")}
 
 
-@opresource(name='Tender Negotiation Awards',
-            collection_path='/tenders/{tender_id}/awards',
-            path='/tenders/{tender_id}/awards/{award_id}',
-            description="Tender awards",
-            procurementMethodType='negotiation')
+@optendersresource(name='negotiation:Tender Awards',
+                   collection_path='/tenders/{tender_id}/awards',
+                   path='/tenders/{tender_id}/awards/{award_id}',
+                   description="Tender awards",
+                   procurementMethodType='negotiation')
 class TenderNegotiationAwardResource(TenderAwardResource):
     """ Tender Negotiation Award Resource """
     stand_still_delta = timedelta(days=10)
 
-    def validate_lot_cancellation(self, operation):
-        tender = self.request.validated['tender']
-        award = self.request.validated['award']
-        if tender.get('lots') and tender.get('cancellations') and \
-                [cancellation for cancellation in tender.get('cancellations', []) if cancellation.get('relatedLot') == award.lotID]:
-            self.request.errors.add('body', 'data', 'Can\'t {} award while cancellation for corresponding lot exists'.
-                                    format(operation))
-            self.request.errors.status = 403
-            return
-        return True
-
-    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_award_data,))
+    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_award_data, validate_award_operation_not_in_active_status, validate_lot_cancellation, validate_create_new_award_with_lots))
     def collection_post(self):
         """Accept or reject bidder application
 
@@ -432,37 +415,18 @@ class TenderNegotiationAwardResource(TenderAwardResource):
 
         """
         tender = self.request.validated['tender']
-        if tender.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t create award in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
         award = self.request.validated['award']
-        if not self.validate_lot_cancellation('add'):
-            return
-        if tender.awards:
-            if tender.lots:  # If tender with lots
-                if award.lotID in [aw.lotID for aw in tender.awards if aw.status in ['pending', 'active']]:
-                    self.request.errors.add(
-                        'body',
-                        'data',
-                        'Can\'t create new award on lot while any ({}) award exists'.format(tender.awards[-1].status))
-                    self.request.errors.status = 403
-                    return
-            elif tender.awards[-1].status in ['pending', 'active']:
-                self.request.errors.add('body', 'data',
-                                        'Can\'t create new award while any ({}) award exists'.format(tender.awards[-1].status))
-                self.request.errors.status = 403
-                return
         award.complaintPeriod = {'startDate': get_now().isoformat()}
         tender.awards.append(award)
         if save_tender(self.request):
             self.LOGGER.info('Created tender award {}'.format(award.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_create'}, {'award_id': award.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('Tender Awards', tender_id=tender.id, award_id=award['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Awards'.format(tender.procurementMethodType),
+                                                                               tender_id=tender.id, award_id=award['id'])
             return {'data': award.serialize("view")}
 
-    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_award_data,))
+    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_award_data,validate_award_operation_not_in_active_status, validate_lot_cancellation))
     def patch(self):
         """Update of award
 
@@ -521,25 +485,17 @@ class TenderNegotiationAwardResource(TenderAwardResource):
 
         """
         tender = self.request.validated['tender']
-        if tender.status != 'active':
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-
         award = self.request.context
-        if not self.validate_lot_cancellation('update'):
-            return
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award.status == "active" and not award.qualified:
-            self.request.errors.add('body', 'data', 'Can\'t update award to active status with not qualified')
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t update award to active status with not qualified')
+
         if award.lotID and \
                 [aw.lotID for aw in tender.awards if aw.status in['pending', 'active']].count(award.lotID) > 1:
             self.request.errors.add('body', 'lotID', 'Another award is already using this lotID.')
             self.request.errors.status = 403
-            return
+            raise error_handler(self.request.errors)
         if award_status == 'pending' and award.status == 'active':
             normalized_end = calculate_normalized_date(get_now(), tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, self.stand_still_delta, tender)
@@ -589,13 +545,9 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                 if i.awardID in cancelled_awards:
                     i.status = 'cancelled'
         elif award_status != award.status:
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
         elif self.request.authenticated_role != 'Administrator' and award_status != 'pending':
-            self.request.errors.add('body', 'data', 'Can\'t update award in current ({}) status'.format(award_status))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
 
         if save_tender(self.request):
             self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
@@ -603,11 +555,11 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             return {'data': award.serialize("view")}
 
 
-@opresource(name='Tender Negotiation Quick Awards',
-            collection_path='/tenders/{tender_id}/awards',
-            path='/tenders/{tender_id}/awards/{award_id}',
-            description="Tender awards",
-            procurementMethodType='negotiation.quick')
+@optendersresource(name='negotiation.quick:Tender Awards',
+                   collection_path='/tenders/{tender_id}/awards',
+                   path='/tenders/{tender_id}/awards/{award_id}',
+                   description="Tender awards",
+                   procurementMethodType='negotiation.quick')
 class TenderNegotiationQuickAwardResource(TenderNegotiationAwardResource):
     """ Tender Negotiation Quick Award Resource """
     stand_still_delta = timedelta(days=5)
