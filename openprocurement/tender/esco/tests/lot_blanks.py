@@ -416,6 +416,32 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
     lots = response.json['data']['lots']
     self.assertEqual(response.json['data']['yearlyPaymentsPercentageRange'], min([i['yearlyPaymentsPercentageRange'] for i in lots]))
 
+    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(tender_id, lot1_id, tender_token), {'data': {'yearlyPaymentsPercentageRange': 0.9}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more than 0'], u'location': u'body', u'name': u'yearlyPaymentsPercentageRange'}
+    ])
+
+    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(tender_id, lot1_id, tender_token), {'data': {'yearlyPaymentsPercentageRange': 0.8}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['yearlyPaymentsPercentageRange'], 0.8)
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_token), {'data': {'fundingKind': 'other', 'yearlyPaymentsPercentageRange': 0.8}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('fundingKind', response.json['data'])
+    self.assertEqual(response.json['data']['fundingKind'], 'other')
+    self.assertEqual(response.json['data']['yearlyPaymentsPercentageRange'], 0.8)
+
+    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(tender_id, lot1_id, tender_token), {'data': {'yearlyPaymentsPercentageRange': 0.9}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8'], u'location': u'body', u'name': u'yearlyPaymentsPercentageRange'}
+    ])
 
 # Tender Lot Feature Resource Test
 
