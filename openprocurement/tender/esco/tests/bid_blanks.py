@@ -82,8 +82,6 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'selfEligible'},
-        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'selfQualified'},
         {u'description': [
             {u'contactPoint': [u'This field is required.'],
              u'identifier': {u'scheme': [u'This field is required.'], u'id': [u'This field is required.']},
@@ -98,7 +96,6 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'selfQualified'},
         {u'description': [{
             u'contactPoint': [u'This field is required.'],
             u'identifier': {u'scheme': [u'This field is required.'],
@@ -277,6 +274,15 @@ def create_tender_bid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['selfQualified'], False)
     self.assertEqual(response.json['data']['selfEligible'], False)
+
+    del data['selfQualified']
+    del data['selfEligible']
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotIn('selfQualified', response.json['data'])
+    self.assertNotIn('selfEligible', response.json['data'])
+
 
     for status in ('active', 'unsuccessful', 'deleted', 'invalid'):
         data = deepcopy(self.test_bids_data[0])

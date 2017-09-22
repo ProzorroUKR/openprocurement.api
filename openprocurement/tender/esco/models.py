@@ -241,8 +241,8 @@ class Bid(BaseEUBid):
 
     value = ModelType(ESCOValue)
     lotValues = ListType(ModelType(LotValue), default=list())
-    selfQualified = BooleanType(required=True)
-    selfEligible = BooleanType(required=True)
+    selfQualified = BooleanType(required=False)
+    selfEligible = BooleanType(required=False)
 
     @bids_validation_wrapper
     def validate_value(self, data, value):
