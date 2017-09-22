@@ -119,7 +119,7 @@ def tender_yearlyPaymentsPercentageRange_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more than 0'], u'location': u'body', u'name': u'yearlyPaymentsPercentageRange'}
+        {u'description': [u'when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0'], u'location': u'body', u'name': u'yearlyPaymentsPercentageRange'}
     ])
 
 
