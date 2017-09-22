@@ -22,10 +22,12 @@ def get_tender_auction(self):
     self.assertIn('minimalStepPercentage', auction)
     self.assertIn('yearlyPaymentsPercentageRange', auction)
     self.assertIn('fundingKind', auction)
+    self.assertIn('procurementMethodType', auction)
     self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(auction["bids"][0]['value']['amountPerfomance'], self.initial_bids[0]['value']['amountPerfomance'])
     self.assertEqual(auction["bids"][1]['value']['amountPerfomance'], self.initial_bids[1]['value']['amountPerfomance'])
+    self.assertEqual(auction['procurementMethodType'], 'esco')
 
     response = self.app.get('/tenders/{}/auction?opt_jsonp=callback'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
