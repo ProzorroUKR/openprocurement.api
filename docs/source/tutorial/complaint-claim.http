@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/123d4e8873914c779058abd96911c73f/complaints/3f4222a1aea7420baebd64dd3e70baca?acc_token=60e5d0c28e6f4314a75a040926cb9318 HTTP/1.0
+PATCH /api/2.3/tenders/c6fd33d038b643b294284b182652113b/complaints/7e8cf1de3d4a4846a2c85858d8eb980f?acc_token=3189ee010de340058ef3dc3901cde2a6 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 29
 Content-Type: application/json
@@ -21,21 +21,21 @@ Content-Type: application/json; charset=UTF-8
         "author": "complaint_owner", 
         "language": "uk", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/91a99cbc3090419c92ba69915b4521b6?KeyID=6176a273&Signature=idjxozAndmuEmbxHRSgmy4GS2IBH3d6z1N67cAFRpjc3mkLfW6kb792tVtAbd%252BDP1AYT2%252BqEjzmWTllQXcHNAw%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/2995c0e5cc9543f0aa87658b1fe46e91?KeyID=5b003024&Signature=xry7O1f8Fy1Wc3A4IirA2N2mwVm8hWUTBbA53xfHz5%2F69sjB%252BAcRwphAOFenjWou3Y8UrPi8pOJoJ5IOLK74Dw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2017-09-05T14:44:05.718991+03:00", 
-        "id": "78f20b1977a5444098706ee5e972dac5", 
-        "dateModified": "2017-09-05T14:44:05.719011+03:00"
+        "datePublished": "2017-06-21T16:02:48.540083+03:00", 
+        "id": "7be1c6fe3d944b84add6892052d8b553", 
+        "dateModified": "2017-06-21T16:02:48.540134+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2017-09-05T14:44:05.765624+03:00", 
-    "complaintID": "UA-2017-09-05-000001.1", 
-    "date": "2017-09-05T14:44:05.767842+03:00", 
+    "dateSubmitted": "2017-06-21T16:02:48.628345+03:00", 
+    "complaintID": "UA-2017-06-21-000001.1", 
+    "date": "2017-06-21T16:02:48.632754+03:00", 
     "type": "claim", 
-    "id": "3f4222a1aea7420baebd64dd3e70baca"
+    "id": "7e8cf1de3d4a4846a2c85858d8eb980f"
   }
 }
 

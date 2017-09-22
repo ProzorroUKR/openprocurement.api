@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/d5dae9eea0214f8f94a5f95c9f2dc8a0/documents?acc_token=3c7e3a5c241644e3ad10cd43ffa5bcdb HTTP/1.0
+GET /api/2.3/tenders/aa0cd6b584d543848108968ea24a7891/documents?acc_token=ef9c0578dbdd435ab058ee3eef53e1b7 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,27 +8,25 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "hash": "md5:00000000000000000000000000000000", 
-      "author": "tender_owner", 
       "language": "uk", 
       "title": "Notice.pdf", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/177cad5de74d4404842a065472d7d464?KeyID=b5549f61&Signature=HveT%252B41r9EPBouwCe7upeu6%252BNR8YPC%252Bqtne1wKIb8epD%2Fgv22KmdS7IfgF9qHEDT7YhVgLwJP8qReKwGfqgOCw%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/b64cfec8cd64459ebaec33994a2e7ef1?KeyID=bc8341ee&Signature=JJrhOb2gKyYM4rXqOfugRN4fXRwqF9zhXAPLce4E9zDk%2F7xE3JErNxQ5NyZ42DMF%2FSm9TvVg2Pw8yWoT692YCA%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2017-09-05T14:44:09.855475+03:00", 
-      "id": "ffbfbf545efd4107b69d71a151ea8e3d", 
-      "dateModified": "2017-09-05T14:44:09.855493+03:00"
+      "datePublished": "2017-06-21T16:02:53.239482+03:00", 
+      "id": "6f6ec5b03eba4122a48a5a09e8585aa0", 
+      "dateModified": "2017-06-21T16:02:53.239515+03:00"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
-      "author": "tender_owner", 
       "language": "uk", 
       "title": "AwardCriteria.pdf", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/e814d588a87341d8ba0f21bc9ce3b880?KeyID=b5549f61&Signature=IVpu%2FnU3cf%252Bi%2FtDOXFU0TLu7zCGOnCfJzvcJbKk%252B3Fgs%2FlEAD8TPV04r1tUQkCpGVFXWokLZ%252BjXZGCwgs3jmAg%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/41032a252f9e41748bc057860b7d3115?KeyID=bc8341ee&Signature=nKk1Tyr6aRTrg755ymwD99RCyf0igBnH%252Bih9KqNHd2VWlrZ%2FUcgXIMxAMVD2QuHWebecoUUI0AsmmqaThdmdDA%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2017-09-05T14:44:09.907174+03:00", 
-      "id": "8d3703fd4dcf41549b7e2c9ea6cad4e8", 
-      "dateModified": "2017-09-05T14:44:09.907192+03:00"
+      "datePublished": "2017-06-21T16:02:53.344451+03:00", 
+      "id": "03268a7f71cd4fe7a091ef9662a942c5", 
+      "dateModified": "2017-06-21T16:02:53.344518+03:00"
     }
   ]
 }

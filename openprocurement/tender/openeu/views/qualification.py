@@ -1,21 +1,30 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    apply_patch,
-    save_tender,
     json_view,
     context_unpack,
     APIResource,
+    raise_operation_error
 )
-from openprocurement.tender.openeu.validation import validate_patch_qualification_data
-from openprocurement.tender.openeu.utils import qualifications_resource, prepare_qualifications
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch
+)
+from openprocurement.tender.openeu.validation import (
+    validate_patch_qualification_data,
+    validate_cancelled_qualification_update,
+    validate_qualification_update_not_in_pre_qualification
+)
+from openprocurement.tender.openeu.utils import (
+    qualifications_resource,
+    prepare_qualifications
+)
 
 
-@qualifications_resource(
-    name='TenderEU Qualification',
-    collection_path='/tenders/{tender_id}/qualifications',
-    path='/tenders/{tender_id}/qualifications/{qualification_id}',
-    procurementMethodType='aboveThresholdEU',
-    description="TenderEU Qualification")
+@qualifications_resource(name='aboveThresholdEU:Tender Qualification',
+                         collection_path='/tenders/{tender_id}/qualifications',
+                         path='/tenders/{tender_id}/qualifications/{qualification_id}',
+                         procurementMethodType='aboveThresholdEU',
+                         description="TenderEU Qualification")
 class TenderQualificationResource(APIResource):
 
     @json_view(permission='view_tender')
@@ -30,7 +39,8 @@ class TenderQualificationResource(APIResource):
         """
         return {'data': self.request.validated['qualification'].serialize("view")}
 
-    @json_view(content_type="application/json", validators=(validate_patch_qualification_data,), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_qualification_data, validate_qualification_update_not_in_pre_qualification,
+               validate_cancelled_qualification_update), permission='edit_tender')
     def patch(self):
         """Post a qualification resolution
         """
@@ -47,21 +57,10 @@ class TenderQualificationResource(APIResource):
                     bid.status = status
                     return bid
         tender = self.request.validated['tender']
-        if tender.status not in ['active.pre-qualification']:
-            self.request.errors.add('body', 'data', 'Can\'t update qualification in current ({}) tender status'.format(tender.status))
-            self.request.errors.status = 403
-            return
-        if self.request.context.status == 'cancelled':
-            self.request.errors.add('body', 'data', 'Can\'t update qualification in current cancelled qualification status')
-            self.request.errors.status = 403
-            return
-
         prev_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if prev_status != 'pending' and self.request.context.status != 'cancelled':
-            self.request.errors.add('body', 'data', 'Can\'t update qualification status'.format(tender.status))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t update qualification status'.format(tender.status))
         if self.request.context.status == 'active':
             # approve related bid
             set_bid_status(tender, self.request.context.bidID, 'active', self.request.context.lotID)
@@ -73,7 +72,7 @@ class TenderQualificationResource(APIResource):
             bid = set_bid_status(tender, self.request.context.bidID, 'pending', self.request.context.lotID)
             # generate new qualification for related bid
             ids = prepare_qualifications(self.request, bids=[bid], lotId=self.request.context.lotID)
-            self.request.response.headers['Location'] = self.request.route_url('TenderEU Qualification',
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Qualification'.format(tender.procurementMethodType),
                                                                                tender_id=tender.id,
                                                                                qualification_id=ids[0])
         if save_tender(self.request):

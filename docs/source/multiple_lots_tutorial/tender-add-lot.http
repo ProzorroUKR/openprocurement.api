@@ -1,4 +1,4 @@
-POST /api/2.3/tenders/b45fe31e8db34ef5a6a3154d8f9188d7/lots?acc_token=6734c8e8c8414f53982e9032e8294500 HTTP/1.0
+POST /api/2.3/tenders/bcfa4c735e7c48efac20aa4542534c10/lots?acc_token=f4d2262d4f0f4d93af5daf1de01836d7 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 214
 Content-Type: application/json
@@ -21,7 +21,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/b45fe31e8db34ef5a6a3154d8f9188d7/lots/727d53c750cb4849b3ceb4c2fda96508
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/bcfa4c735e7c48efac20aa4542534c10/lots/be0820de82f94afd887c4715ce9bcd8c
 {
   "data": {
     "status": "active", 
@@ -33,15 +33,15 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/b45fe31e8db34ef
       "valueAddedTaxIncluded": true
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2017-11-11T00:00:00+03:00"
+      "shouldStartAfter": "2017-08-27T00:00:00+03:00"
     }, 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2017-09-05T14:44:18.181212+03:00", 
-    "id": "727d53c750cb4849b3ceb4c2fda96508"
+    "date": "2017-06-21T16:03:04.166654+03:00", 
+    "id": "be0820de82f94afd887c4715ce9bcd8c"
   }
 }
 

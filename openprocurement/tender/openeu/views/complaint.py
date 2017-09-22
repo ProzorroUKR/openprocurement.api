@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource
-from openprocurement.tender.openua.views.complaint import TenderUaComplaintResource
+from openprocurement.tender.core.utils import optendersresource
+from openprocurement.tender.openua.views.complaint import (
+    TenderUaComplaintResource
+)
 
 
-@opresource(name='Tender EU Complaints',
-            collection_path='/tenders/{tender_id}/complaints',
-            path='/tenders/{tender_id}/complaints/{complaint_id}',
-            procurementMethodType='aboveThresholdEU',
-            description="Tender EU complaints")
+@optendersresource(name='aboveThresholdEU:Tender Complaints',
+                   collection_path='/tenders/{tender_id}/complaints',
+                   path='/tenders/{tender_id}/complaints/{complaint_id}',
+                   procurementMethodType='aboveThresholdEU',
+                   description="Tender EU complaints")
 class TenderEUComplaintResource(TenderUaComplaintResource):
 
     def complaints_len(self, tender):

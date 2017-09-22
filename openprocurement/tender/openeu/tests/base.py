@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
-import webtest
 from datetime import datetime, timedelta
-from uuid import uuid4
-from copy import deepcopy
-from openprocurement.api.tests.base import BaseTenderWebTest as BaseBaseTenderWebTest
-from openprocurement.api.utils import apply_data_patch
-from openprocurement.api.models import get_now, SANDBOX_MODE
-from openprocurement.tender.openeu.models import TENDERING_DAYS, TENDERING_DURATION, QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL
-
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAWebTest as BaseBaseTenderWebTest
+)
+from openprocurement.api.utils import apply_data_patch, get_now
+from openprocurement.tender.openeu.constants import (
+    TENDERING_DAYS,
+    TENDERING_DURATION,
+    QUESTIONS_STAND_STILL,
+    COMPLAINT_STAND_STILL
+)
 
 test_bids = [
     {
@@ -214,6 +217,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_lots = None
     initial_auth = None
     relative_to = os.path.dirname(__file__)
+    forbidden_question_modification_actions_status = 'active.pre-qualification'  # status, in which adding/updating tender questions is forbidden
+    question_claim_block_status = "active.pre-qualification"  # status, tender cannot be switched to while it has questions/complaints related to its lot
+    # auction role actions
+    forbidden_auction_actions_status = 'active.pre-qualification.stand-still'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_document_create_actions_status = 'active.pre-qualification.stand-still'  # status, in which adding document to tender auction is forbidden
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()
@@ -374,6 +382,16 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.db.save(tender)
 
     def set_status(self, status, extra=None):
+        tender = self.db.get(self.tender_id)
+
+        def activate_bids():
+            if tender.get('bids', ''):
+                bids = tender['bids']
+                for bid in bids:
+                    if bid['status'] == 'pending':
+                        bid.update({'status': 'active'})
+                data.update({'bids': bids})
+
         data = {'status': status}
         if status == 'active.tendering':
             data.update({
@@ -417,6 +435,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     "startDate": (now + COMPLAINT_STAND_STILL).isoformat()
                 }
             })
+            activate_bids()
         elif status == 'active.auction':
             data.update({
                 "enquiryPeriod": {
@@ -446,6 +465,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                         for i in self.initial_lots
                     ]
                 })
+            activate_bids()
         elif status == 'active.qualification':
             data.update({
                 "enquiryPeriod": {
@@ -464,6 +484,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     "startDate": (now).isoformat()
                 }
             })
+            activate_bids()
             if self.initial_lots:
                 data.update({
                     'lots': [
@@ -495,6 +516,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     "endDate": (now).isoformat()
                 }
             })
+            activate_bids()
             if self.initial_lots:
                 data.update({
                     'lots': [
@@ -541,7 +563,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         if extra:
             data.update(extra)
 
-        tender = self.db.get(self.tender_id)
         tender.update(apply_data_patch(tender, data))
         self.db.save(tender)
 
@@ -554,12 +575,53 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.assertEqual(response.content_type, 'application/json')
         return response
 
+    def prepare_award(self):
+        # switch to active.pre-qualification
+        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(
+            self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+
+        # qualify bids
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        self.app.authorization = ('Basic', ('broker', ''))
+        for qualification in response.json['data']:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
+                self.tender_id, qualification['id'], self.tender_token),
+                {"data": {"status": "active", "qualified": True, "eligible": True}})
+            self.assertEqual(response.status, "200 OK")
+
+        # switch to active.pre-qualification.stand-still
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            self.tender_id, self.tender_token), {"data": {"status": 'active.pre-qualification.stand-still'}})
+        self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
+
+        # switch to active.auction
+        self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(
+            self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json['data']['status'], "active.auction")
+
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+        auction_bids_data = response.json['data']['bids']
+        for lot_id in self.initial_lots:
+            response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, lot_id['id']),
+                                          {'data': {'bids': auction_bids_data}})
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, 'application/json')
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.json['data']['status'], "active.qualification")
+
 
 class BaseTenderContentWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     initial_lots = None
+    relative_to = os.path.dirname(__file__)
 
     def setUp(self):
         super(BaseTenderContentWebTest, self).setUp()

@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource
-from openprocurement.api.views.cancellation import TenderCancellationResource as BaseResource
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.utils import (
+    optendersresource
+)
+from openprocurement.tender.belowthreshold.views.cancellation import (
+    TenderCancellationResource as BaseResource
+)
 from openprocurement.tender.openua.utils import add_next_award
 
 
-@opresource(name='TenderEU Cancellations',
-            collection_path='/tenders/{tender_id}/cancellations',
-            path='/tenders/{tender_id}/cancellations/{cancellation_id}',
-            procurementMethodType='aboveThresholdEU',
-            description="Tender cancellations")
+@optendersresource(name='aboveThresholdEU:Tender Cancellations',
+                   collection_path='/tenders/{tender_id}/cancellations',
+                   path='/tenders/{tender_id}/cancellations/{cancellation_id}',
+                   procurementMethodType='aboveThresholdEU',
+                   description="Tender cancellations")
 class TenderCancellationResource(BaseResource):
     """ TenderEU Cancellations """
 
@@ -61,6 +66,10 @@ class TenderCancellationResource(BaseResource):
             add_next_award(self.request)
 
     def validate_cancellation(self, operation):
+        """ TODO move validators
+        This class is inherited in below package, but validate_cancellation function has different validators.
+        For now, we have no way to use different validators on methods according to procedure type.
+        """
         if not super(TenderCancellationResource, self).validate_cancellation(operation):
             return
         tender = self.request.validated['tender']
@@ -73,7 +82,5 @@ class TenderCancellationResource(BaseResource):
             statuses = set([i.status for i in tender.awards or tender.qualifications if i.lotID == cancellation.relatedLot])
             block_cancellation = not statuses.difference(set(['unsuccessful', 'cancelled'])) if statuses else False
         if block_cancellation:
-            self.request.errors.add('body', 'data', 'Can\'t {} cancellation if all {} is unsuccessful'.format(operation, 'awards' if tender.awards else 'qualifications'))
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t {} cancellation if all {} is unsuccessful'.format(operation, 'awards' if tender.awards else 'qualifications'))
         return True

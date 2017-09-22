@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/d5dae9eea0214f8f94a5f95c9f2dc8a0/contracts/de099a82262646e1bf150644e1828d74/documents/cab3183d4b984960b482ffb8ad33d316?acc_token=3c7e3a5c241644e3ad10cd43ffa5bcdb HTTP/1.0
+PATCH /api/2.3/tenders/aa0cd6b584d543848108968ea24a7891/contracts/624361c4840644079b02fe204e68954e/documents/65794d1bdf3441909f9bd7542a0a8cdd?acc_token=ef9c0578dbdd435ab058ee3eef53e1b7 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 106
 Content-Type: application/json
@@ -19,14 +19,14 @@ Content-Type: application/json; charset=UTF-8
     "hash": "md5:00000000000000000000000000000000", 
     "language": "en", 
     "title": "contract_second_document.doc", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/c30c8e85db0b4452a4bcddb0040f8aa9?KeyID=b5549f61&Signature=R6txINUBsTGvIFB%2FgjbSHxUTk2RwQ4AJdKoAZLovp%252BvJ3fU8w1q%2FRarSg6NGayPx631K5jrYo%252Bo2xAB7s%252BtWBQ%253D%253D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/e4946e432db9489fadf8174a32fb4065?KeyID=bc8341ee&Signature=Q6EFF1lDTZljcMckYZUVCPLoSuxJ1%2FHQfz6MisMDqyjaoVXm%252BYVMnaNeOdvTTDGJDAd5hseHoZFD8SHv%2FBB2CA%253D%253D", 
     "format": "application/msword", 
     "title_en": "Title of Document", 
     "description_en": "Description of Document", 
-    "datePublished": "2017-09-05T14:44:15.291998+03:00", 
+    "datePublished": "2017-06-21T16:03:01.107520+03:00", 
     "documentOf": "tender", 
-    "id": "cab3183d4b984960b482ffb8ad33d316", 
-    "dateModified": "2017-09-05T14:44:15.292018+03:00"
+    "id": "65794d1bdf3441909f9bd7542a0a8cdd", 
+    "dateModified": "2017-06-21T16:03:01.107559+03:00"
   }
 }
 

@@ -4,20 +4,25 @@ from functools import partial
 from cornice.resource import resource
 from openprocurement.api.models import get_now, TZ
 from openprocurement.api.utils import (
-    check_tender_status,
     error_handler,
     context_unpack,
-    remove_draft_bids
+)
+from openprocurement.tender.core.utils import (
+    remove_draft_bids,
+    has_unanswered_questions,
+    has_unanswered_complaints
+)
+from openprocurement.tender.belowthreshold.utils import (
+    check_tender_status
 )
 from openprocurement.tender.openua.utils import (
     add_next_award,
-    check_complaint_status, has_unanswered_questions, has_unanswered_complaints
+    check_complaint_status
 )
 from openprocurement.tender.openeu.models import Qualification
 from openprocurement.tender.openeu.traversal import (
     qualifications_factory, bid_financial_documents_factory,
     bid_eligibility_documents_factory, bid_qualification_documents_factory)
-from barbecue import chef
 
 LOGGER = getLogger(__name__)
 

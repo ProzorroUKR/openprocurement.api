@@ -652,6 +652,14 @@ class TenderResourceTest(BaseTenderWebTest):
         # tutorial/register-2nd-bidder.http
 
         with open('docs/source/tutorial/register-2nd-bidder.http', 'w') as self.app.file_obj:
+            for document in bid3['data']['documents']:
+                document['url'] = self.generate_docservice_url()
+            for document in bid3['data']['eligibilityDocuments']:
+                document['url'] = self.generate_docservice_url()
+            for document in bid3['data']['financialDocuments']:
+                document['url'] = self.generate_docservice_url()
+            for document in bid3['data']['qualificationDocuments']:
+                document['url'] = self.generate_docservice_url()
             response = self.app.post_json('/tenders/{}/bids'.format(
                     self.tender_id), bid2)
             bid2_id = response.json['data']['id']

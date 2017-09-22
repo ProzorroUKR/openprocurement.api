@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.traversal import Root, get_item
+from openprocurement.tender.core.traversal import Root, get_item
 
 
 def qualifications_factory(request):

@@ -1,28 +1,34 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
     get_file,
-    save_tender,
     upload_file,
-    apply_patch,
     update_file_content_type,
     json_view,
     context_unpack,
     APIResource,
+)
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch
 )
 from openprocurement.api.validation import (
     validate_file_update,
     validate_file_upload,
     validate_patch_document_data,
 )
+from openprocurement.tender.core.validation import validate_tender_document_update_not_by_author_or_tender_owner
 from openprocurement.tender.openeu.utils import qualifications_resource
+from openprocurement.tender.openeu.validation import (
+    validate_qualification_document_operation_not_in_pending,
+    validate_qualification_document_operation_not_in_allowed_status
+)
 
 
-@qualifications_resource(
-    name='TenderEU Qualification Documents',
-    collection_path='/tenders/{tender_id}/qualifications/{qualification_id}/documents',
-    path='/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}',
-    procurementMethodType='aboveThresholdEU',
-    description="Tender qualification documents")
+@qualifications_resource(name='aboveThresholdEU:Tender Qualification Documents',
+                         collection_path='/tenders/{tender_id}/qualifications/{qualification_id}/documents',
+                         path='/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}',
+                         procurementMethodType='aboveThresholdEU',
+                         description="Tender qualification documents")
 class TenderQualificationDocumentResource(APIResource):
 
     def validate_award_document(self, operation):
@@ -48,17 +54,10 @@ class TenderQualificationDocumentResource(APIResource):
             ]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
-    @json_view(permission='upload_tender_documents', validators=(validate_file_upload,))
+    @json_view(permission='upload_tender_documents', validators=(validate_file_upload, validate_qualification_document_operation_not_in_allowed_status, validate_qualification_document_operation_not_in_pending))
     def collection_post(self):
         """Tender Qualification Document Upload
         """
-        if not self.validate_award_document('add'):
-            return
-        qualification = self.request.validated['qualification']
-        if qualification.status != 'pending':
-            self.request.errors.add('body', 'data', 'Can\'t add document in current qualification status')
-            self.request.errors.status = 403
-            return
         document = upload_file(self.request)
         document.author = self.request.authenticated_role
         self.context.documents.append(document)
@@ -84,16 +83,10 @@ class TenderQualificationDocumentResource(APIResource):
         ]
         return {'data': document_data}
 
-    @json_view(validators=(validate_file_update,), permission='upload_tender_documents')
+    @json_view(validators=(validate_file_update, validate_qualification_document_operation_not_in_allowed_status, validate_qualification_document_operation_not_in_pending,
+               validate_tender_document_update_not_by_author_or_tender_owner), permission='upload_tender_documents')
     def put(self):
         """Tender Qualification Document Update"""
-        if not self.validate_award_document('update'):
-            return
-        qualification = self.request.validated['qualification']
-        if qualification.status != 'pending':
-            self.request.errors.add('body', 'data', 'Can\'t update document in current qualification status')
-            self.request.errors.status = 403
-            return
         document = upload_file(self.request)
         self.request.validated['qualification'].documents.append(document)
         if save_tender(self.request):
@@ -101,16 +94,10 @@ class TenderQualificationDocumentResource(APIResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_qualification_document_put'}))
             return {'data': document.serialize("view")}
 
-    @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='upload_tender_documents')
+    @json_view(content_type="application/json", validators=(validate_patch_document_data, validate_qualification_document_operation_not_in_allowed_status,
+               validate_qualification_document_operation_not_in_pending, validate_tender_document_update_not_by_author_or_tender_owner), permission='upload_tender_documents')
     def patch(self):
         """Tender Qualification Document Update"""
-        if not self.validate_award_document('update'):
-            return
-        qualification = self.request.validated['qualification']
-        if qualification.status != 'pending':
-            self.request.errors.add('body', 'data', 'Can\'t update document in current qualification status')
-            self.request.errors.status = 403
-            return
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
             self.LOGGER.info('Updated tender qualification document {}'.format(self.request.context.id),
