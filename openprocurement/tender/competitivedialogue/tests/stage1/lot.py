@@ -57,8 +57,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.lot_blanks import (
 
 from openprocurement.tender.openeu.tests.base import test_bids
 
-from openprocurement.tender.competitivedialogue.models import FEATURES_MAX_SUM
-
+test_bids.append(test_bids[0].copy())  # Minimal number of bits is 3
 
 class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
     initial_auth = ('Basic', ('broker', ''))
