@@ -2,12 +2,13 @@
 from uuid import uuid4
 from couchdb_schematics.document import SchematicsDocument
 from schematics.exceptions import ValidationError
+from openprocurement.api.utils import get_now
 from openprocurement.api.models import Model, Period, Revision
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
-from openprocurement.api.models import validate_cpv_group, validate_items_uniq, validate_dkpp, get_now
-from openprocurement.api.models import CPV_ITEMS_CLASS_FROM, ADDITIONAL_CLASSIFICATIONS_SCHEMES, ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017
+from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
+from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, ADDITIONAL_CLASSIFICATIONS_SCHEMES, ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, IntType, FloatType, BaseType

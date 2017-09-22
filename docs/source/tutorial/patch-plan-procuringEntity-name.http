@@ -1,4 +1,4 @@
-PATCH /api/2.3/plans/b18f0d6638d64b4499666998e664977a?acc_token=e1562366c516497d8154ff0237c55fce HTTP/1.0
+PATCH /api/2.3/plans/52862ec099ff4debbf9f26a0980f27f3?acc_token=fc9c0f555bf24dffa2b855ed618bc81c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 652
 Content-Type: application/json
@@ -61,7 +61,7 @@ Content-Type: application/json; charset=UTF-8
         "deliveryDate": {
           "endDate": "2016-06-01T23:06:30.023018+03:00"
         }, 
-        "id": "aa20b36ad490439ab0d3d7f8673f8197", 
+        "id": "f8173e5bf8754aec89a47a624b3cefd1", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -69,7 +69,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 5000
       }
     ], 
-    "planID": "UA-P-2017-06-20-000001", 
+    "planID": "UA-P-2017-06-21-000001", 
     "budget": {
       "amountNet": 12222.0, 
       "description": "budget_description", 
@@ -81,12 +81,12 @@ Content-Type: application/json; charset=UTF-8
       "amount": 10000.0, 
       "id": "12303111000-2"
     }, 
-    "datePublished": "2017-06-20T12:41:42.541383+03:00", 
+    "datePublished": "2017-06-21T17:41:40.564867+03:00", 
     "tender": {
       "procurementMethod": "open", 
       "procurementMethodType": "belowThreshold", 
       "tenderPeriod": {
-        "startDate": "2017-06-27T12:41:41.857893+03:00"
+        "startDate": "2017-06-28T17:41:39.677983+03:00"
       }
     }, 
     "additionalClassifications": [
@@ -105,8 +105,8 @@ Content-Type: application/json; charset=UTF-8
       "name": "ДУС"
     }, 
     "owner": "broker", 
-    "dateModified": "2017-06-20T12:41:42.740142+03:00", 
-    "id": "b18f0d6638d64b4499666998e664977a"
+    "dateModified": "2017-06-21T17:41:40.747307+03:00", 
+    "id": "52862ec099ff4debbf9f26a0980f27f3"
   }
 }
 

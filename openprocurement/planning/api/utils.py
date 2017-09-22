@@ -10,10 +10,10 @@ from base64 import b64encode
 from cornice.resource import resource
 from cornice.util import json_error
 from couchdb.http import ResourceConflict
-from openprocurement.api.models import Revision, get_now
+from openprocurement.api.models import Revision
 from openprocurement.api.utils import (
-    update_logging_context, context_unpack, get_revision_changes,
-    apply_data_patch, generate_id, DOCUMENT_BLACKLISTED_FIELDS, get_filename,
+    update_logging_context, context_unpack, get_revision_changes, get_now,
+    apply_data_patch, error_handler
 )
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.traversal import factory
@@ -55,9 +55,7 @@ def generate_plan_id(ctime, db, server_id=''):
 def plan_serialize(request, plan_data, fields):
     plan = request.plan_from_data(plan_data, raise_error=False)
     plan.__parent__ = request.context
-    return dict(
-        [(i, j) for i, j in plan.serialize("view").items() if i in fields]
-    )
+    return dict([(i, j) for i, j in plan.serialize("view").items() if i in fields])
 
 
 def save_plan(request):
@@ -94,22 +92,6 @@ def apply_patch(request, data=None, save=True, src=None):
         request.context.import_data(patch)
         if save:
             return save_plan(request)
-
-
-def error_handler(errors, request_params=True):
-    params = {
-        'ERROR_STATUS': errors.status
-    }
-    if request_params:
-        params['ROLE'] = str(errors.request.authenticated_role)
-        if errors.request.params:
-            params['PARAMS'] = str(dict(errors.request.params))
-    if errors.request.matchdict:
-        for x, j in errors.request.matchdict.items():
-            params[x.upper()] = j
-    LOGGER.info('Error on processing request "{}"'.format(dumps(errors, indent=4)),
-                extra=context_unpack(errors.request, {'MESSAGE_ID': 'error_handler'}, params))
-    return json_error(errors)
 
 
 opresource = partial(resource, error_handler=error_handler, factory=factory)
