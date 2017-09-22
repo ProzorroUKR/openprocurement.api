@@ -1,24 +1,24 @@
-POST /api/2.3/tenders/bf450bfcf933416f8205cfcde69d0ee1/contracts/3123f25634ce43b9bfde50665f1be837/documents?acc_token=24df0fd7ada04964a1df8416ecc946b0 HTTP/1.0
+POST /api/2.3/tenders/2332d7f2a08e47d7a9d115ad1fee1eb8/contracts/a5adbe0ebe494994ae44b6f5df0066a4/documents?acc_token=e77ee989307e43bb9481309d328df6d1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 207
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy205712285648$
+Content-Length: 209
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy0115947275353$
 Host: api-sandbox.openprocurement.org
 
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/bf450bfcf933416f8205cfcde69d0ee1/contracts/3123f25634ce43b9bfde50665f1be837/documents/e315e6bb840648ad9d5bd7a7abc87f3d
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/2332d7f2a08e47d7a9d115ad1fee1eb8/contracts/a5adbe0ebe494994ae44b6f5df0066a4/documents/1d846fe1d19048d7a92c300fa1f92f1e
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "language": "uk", 
     "title": "contract_second_document.doc", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/de07597f55f344caa4be0d252f2b24a1?KeyID=1bb59008&Signature=qa9P5OthieQDHr%252Bjh%2FSVQd52sxUo4yWkJr3IbhWOSBXJvJyWvM%2FoXtoHhkXLvzRXL0J2%2F4J954JlNe8twMmxCA%253D%253D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/111f40dc6a464cb88700b558980259b1?KeyID=d8e133db&Signature=OpR94xXZYzGPfbsKJyId%252B0c7QWtQUZyi0NFCVV%252BalfdWRBVRWUz36fqlAF5UepzOmxXTLSeQ0VH1D%252BTqd5GEBg%253D%253D", 
     "format": "application/msword", 
     "documentOf": "tender", 
-    "datePublished": "2017-06-20T12:34:02.116253+03:00", 
-    "id": "e315e6bb840648ad9d5bd7a7abc87f3d", 
-    "dateModified": "2017-06-20T12:34:02.116290+03:00"
+    "datePublished": "2017-06-21T17:05:29.837548+03:00", 
+    "id": "1d846fe1d19048d7a92c300fa1f92f1e", 
+    "dateModified": "2017-06-21T17:05:29.837587+03:00"
   }
 }
 

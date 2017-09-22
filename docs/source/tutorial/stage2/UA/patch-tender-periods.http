@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/6a46e717b72244b687994b70c92240d5?acc_token=5d0fda9cac5540f6847db3d7eb2769f7 HTTP/1.0
+PATCH /api/2.3/tenders/92ad8804586d4edbb98cdb5c7c79412f?acc_token=415d188e59964730bee17aae7ed1f7ab HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 75
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2017-07-20T12:34:25.531429+03:00"
+      "endDate": "2017-07-21T17:05:45.162746+03:00"
     }
   }
 }
@@ -18,10 +18,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "draft.stage2", 
     "procurementMethod": "selective", 
-    "tenderID": "UA-2017-06-20-000001", 
+    "awardCriteria": "lowestCost", 
     "tenderPeriod": {
-      "startDate": "2017-06-20T12:34:15.407937+03:00", 
-      "endDate": "2017-07-20T12:34:25.531429+03:00"
+      "startDate": "2017-06-21T17:05:35.036836+03:00", 
+      "endDate": "2017-07-21T17:05:45.162746+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -30,13 +30,13 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2017-06-20T12:34:15.407937+03:00", 
-      "clarificationsUntil": "2017-07-13T12:34:25.531429+03:00", 
-      "endDate": "2017-07-10T12:34:25.531429+03:00"
+      "startDate": "2017-06-21T17:05:35.036836+03:00", 
+      "clarificationsUntil": "2017-07-14T17:05:45.162746+03:00", 
+      "endDate": "2017-07-11T17:05:45.162746+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2017-06-20T12:34:15.407937+03:00", 
-      "endDate": "2017-07-16T00:00:00+03:00"
+      "startDate": "2017-06-21T17:05:35.036836+03:00", 
+      "endDate": "2017-07-17T00:00:00+03:00"
     }, 
     "procurementMethodType": "competitiveDialogueUA.stage2", 
     "value": {
@@ -71,7 +71,7 @@ Content-Type: application/json; charset=UTF-8
         "name": "«Кенгуру»"
       }
     ], 
-    "date": "2017-06-20T12:34:15.495556+03:00", 
+    "date": "2017-06-21T17:05:35.130513+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -116,10 +116,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-07-10T12:32:38.405171+03:00", 
-          "endDate": "2017-08-09T12:32:38.405193+03:00"
+          "startDate": "2017-07-11T17:04:37.419004+03:00", 
+          "endDate": "2017-08-10T17:04:37.419026+03:00"
         }, 
-        "id": "76a646d3e1d7409abab5d5ed6ea3c80b", 
+        "id": "770e64d0f1ee48d2b468359361f14862", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -128,9 +128,9 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "dateModified": "2017-06-20T12:34:15.604443+03:00", 
-    "id": "6a46e717b72244b687994b70c92240d5", 
-    "awardCriteria": "lowestCost"
+    "dateModified": "2017-06-21T17:05:35.235527+03:00", 
+    "id": "92ad8804586d4edbb98cdb5c7c79412f", 
+    "tenderID": "UA-2017-06-21-000001"
   }
 }
 

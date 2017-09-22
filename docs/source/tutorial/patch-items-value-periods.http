@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/223852eccea04e92926bcc49032f04b8?acc_token=6ecc159e1942403f88015bfe0bd2220e HTTP/1.0
+PATCH /api/2.3/tenders/c91cc0e7dffc4bc7b59cf53d9bbfd0bf?acc_token=1c073921ab5f4a30a693936b569bfa3b HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 75
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2017-07-20T12:33:50.930002+03:00"
+      "endDate": "2017-07-21T17:05:23.338995+03:00"
     }
   }
 }
@@ -18,10 +18,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "status": "active.tendering", 
-    "tenderID": "UA-2017-06-20-000001", 
+    "awardCriteria": "lowestCost", 
     "tenderPeriod": {
-      "startDate": "2017-06-20T12:33:40.750111+03:00", 
-      "endDate": "2017-07-20T12:33:50.930002+03:00"
+      "startDate": "2017-06-21T17:05:13.179260+03:00", 
+      "endDate": "2017-07-21T17:05:23.338995+03:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -30,14 +30,14 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2017-06-20T12:33:40.750111+03:00", 
-      "clarificationsUntil": "2017-07-13T12:33:50.930002+03:00", 
-      "endDate": "2017-07-10T12:33:50.930002+03:00", 
-      "invalidationDate": "2017-06-20T12:33:41.034119+03:00"
+      "startDate": "2017-06-21T17:05:13.179260+03:00", 
+      "clarificationsUntil": "2017-07-14T17:05:23.338995+03:00", 
+      "endDate": "2017-07-11T17:05:23.338995+03:00", 
+      "invalidationDate": "2017-06-21T17:05:13.421519+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2017-06-20T12:33:40.750111+03:00", 
-      "endDate": "2017-07-16T00:00:00+03:00"
+      "startDate": "2017-06-21T17:05:13.179260+03:00", 
+      "endDate": "2017-07-17T00:00:00+03:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -46,8 +46,8 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "date": "2017-06-20T12:33:40.800437+03:00", 
-    "dateModified": "2017-06-20T12:33:41.038546+03:00", 
+    "date": "2017-06-21T17:05:13.222591+03:00", 
+    "dateModified": "2017-06-21T17:05:13.425016+03:00", 
     "procurementMethodType": "competitiveDialogueEU", 
     "procuringEntity": {
       "kind": "general", 
@@ -98,10 +98,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-07-10T12:32:38.404735+03:00", 
-          "endDate": "2017-08-09T12:32:38.404777+03:00"
+          "startDate": "2017-07-11T17:04:37.418546+03:00", 
+          "endDate": "2017-08-10T17:04:37.418606+03:00"
         }, 
-        "id": "086abd922b044d5988906d8c6dc0377e", 
+        "id": "ce277c854b1443028376f6af6900b29c", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -131,10 +131,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-07-10T12:32:38.404807+03:00", 
-          "endDate": "2017-08-09T12:32:38.404830+03:00"
+          "startDate": "2017-07-11T17:04:37.418636+03:00", 
+          "endDate": "2017-08-10T17:04:37.418662+03:00"
         }, 
-        "id": "b22e1d01d46d4be79f11358a15616449", 
+        "id": "9585d44eb74548e3b05d7aea37f16600", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -143,9 +143,9 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "next_check": "2017-07-20T12:33:50.930002+03:00", 
-    "id": "223852eccea04e92926bcc49032f04b8", 
-    "awardCriteria": "lowestCost"
+    "next_check": "2017-07-21T17:05:23.338995+03:00", 
+    "id": "c91cc0e7dffc4bc7b59cf53d9bbfd0bf", 
+    "tenderID": "UA-2017-06-21-000001"
   }
 }
 

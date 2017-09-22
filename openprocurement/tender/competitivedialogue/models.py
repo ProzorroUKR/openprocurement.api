@@ -1,64 +1,71 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from schematics.types import StringType, FloatType
 from schematics.exceptions import ValidationError
+from schematics.transforms import whitelist, blacklist
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
 from openprocurement.api.models import (
-    ITender, Identifier, Model, validate_values_uniq,
-    get_tender, validate_features_uniq,
-    Feature as BaseFeature,
-    FeatureValue as BaseFeatureValue
+    Model, Identifier, plain_role,
+    listing_role, schematics_default_role,
+    schematics_embedded_role, ListType, SifterListType,
+    BooleanType, Value as BaseValue, CPVClassification as BaseCPVClassification
 )
-
-from openprocurement.api.utils import calculate_business_date, get_now
+from openprocurement.api.utils import (
+    get_now
+)
+from openprocurement.api.validation import (
+    validate_cpv_group, validate_items_uniq
+)
+from openprocurement.tender.core.models import (
+    ITender, validate_features_uniq,
+    validate_values_uniq, Feature as BaseFeature,
+    FeatureValue as BaseFeatureValue, create_role,
+    edit_role, view_role, enquiries_role,
+    chronograph_role, chronograph_view_role,
+    Administrator_role, ProcuringEntity as BaseProcuringEntity,
+    get_tender, PeriodStartEndRequired,
+    validate_lots_uniq, Lot as BaseLotUA
+)
+from openprocurement.tender.core.utils import (
+    calculate_business_date
+)
 from openprocurement.tender.openua.models import (
-    SifterListType,
     Item as BaseUAItem,
     Tender as BaseTenderUA,
-    TENDER_PERIOD as TENDERING_DURATION_UA,
-    Lot as BaseLotUA,
-    PeriodEndRequired as BasePeriodEndRequired
 )
-
+from openprocurement.tender.openua.constants import (
+    TENDER_PERIOD as TENDERING_DURATION_UA,
+)
 from openprocurement.tender.openeu.models import (
     Administrator_bid_role, view_bid_role,
     pre_qualifications_role, ConfidentialDocument,
-    edit_role_eu, auction_patch_role, auction_view_role,
-    auction_post_role, QUESTIONS_STAND_STILL, ENQUIRY_STAND_STILL_TIME,
-    PeriodStartEndRequired, EnquiryPeriod,
-    validate_lots_uniq, embedded_lot_role, default_lot_role,
-    Lot as BaseLotEU,
+    auction_patch_role, auction_view_role,
+    auction_post_role, embedded_lot_role,
+    default_lot_role, Lot as BaseLotEU,
+    Item as BaseEUItem, LotValue as BaseLotValueEU,
+    Tender as BaseTenderEU, Bid as BidEU
+)
+from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION as TENDERING_DURATION_EU,
-    Item as BaseEUItem,
-    LotValue as BaseLotValueEU,
-    Tender as BaseTenderEU,
-    Bid as BidEU,
+)
+from openprocurement.tender.competitivedialogue.utils import (
+    validate_features_custom_weight
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_UA_TYPE, CD_EU_TYPE,
+    STAGE_2_EU_TYPE, STAGE_2_UA_TYPE,
+    STAGE2_STATUS, FEATURES_MAX_SUM
 )
 
-from openprocurement.api.models import (
-    plain_role, create_role, edit_role, view_role, listing_role,
-    enquiries_role, validate_cpv_group, validate_items_uniq,
-    chronograph_role, chronograph_view_role, ProcuringEntity as BaseProcuringEntity,
-    Administrator_role, schematics_default_role,
-    schematics_embedded_role, ListType, BooleanType,
-    Value as BaseValue, CPVClassification as BaseCPVClassification,
-)
-from schematics.transforms import whitelist, blacklist
-from openprocurement.tender.competitivedialogue.utils import (validate_features_custom_weight)
-
-from openprocurement.tender.competitivedialogue.models_constants import (
-    CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS, FEATURES_MAX_SUM
-)
 
 edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 edit_stage2_pending = whitelist('status')
 edit_stage2_waiting = whitelist('status', 'stage2TenderID')
-
 view_role_stage1 = (view_role + blacklist('auctionPeriod'))
-pre_qualifications_role_stage1 = (pre_qualifications_role + blacklist('auctionPeriod'))
+pre_qualifications_role_stage1 = (pre_qualifications_role
+                                  + blacklist('auctionPeriod'))
+
 roles = {
     'plain': plain_role,
     'create': create_role,
@@ -73,6 +80,7 @@ roles = {
     'active.tendering': (enquiries_role + blacklist('auctionPeriod')),
     'complete': view_role_stage1,
     'unsuccessful': view_role_stage1,
+
     'cancelled': view_role_stage1,
     'chronograph': chronograph_role,
     'chronograph_view': chronograph_view_role,
@@ -81,6 +89,22 @@ roles = {
     'contracting': whitelist('doc_id', 'owner'),
     'competitive_dialogue': edit_stage2_waiting
 }
+
+
+class ICDEUTender(ITender):
+    """ Marker interface for Competitive Dialogue EU tenders """
+
+
+class ICDUATender(ITender):
+    """ Marker interface for Competitive Dialogue UA tenders """
+
+
+class ICDEUStage2Tender(ITender):
+    """ Marker interface for Competitive Dialogue EU Stage 2 tenders """
+
+
+class ICDUAStage2Tender(ITender):
+    """ Marker interface for Competitive Dialogue UA Stage 2 tenders """
 
 
 class Document(ConfidentialDocument):
@@ -129,7 +153,7 @@ class Bid(BidEU):
             'view': view_bid_role_stage1,
             'create': whitelist('tenderers', 'lotValues',
                                 'status', 'selfQualified', 'selfEligible', 'subcontractingDetails',
-                                'documents', 'eligibilityDocuments', 'financialDocuments', 'qualificationDocuments'),
+                                'documents'),
             'edit': whitelist('tenderers', 'lotValues', 'status', 'subcontractingDetails'),
             'active.enquiries': whitelist(),
             'active.tendering': whitelist(),
@@ -192,7 +216,7 @@ class Lot(BaseLotEU):
 LotStage1 = Lot
 
 
-@implementer(ITender)
+@implementer(ICDEUTender)
 class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=CD_EU_TYPE)
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
@@ -264,7 +288,7 @@ class Firms(Model):
     lots = ListType(ModelType(LotId), default=list())
 
 
-@implementer(ITender)
+@implementer(ICDUATender)
 class Tender(CompetitiveDialogEU):
     procurementMethodType = StringType(default=CD_UA_TYPE)
     title_en = StringType()
@@ -394,7 +418,6 @@ class Item(BaseEUItem):
 
     classification = ModelType(CPVClassification, required=True)
 
-
 ItemStage2EU = Item
 
 
@@ -419,7 +442,7 @@ class Contract(BaseTenderEU.contracts.model_class):
     items = ListType(ModelType(ItemStage2EU))
 
 
-@implementer(ITender)
+@implementer(ICDEUStage2Tender)
 class Tender(BaseTenderEU):
     procurementMethodType = StringType(default=STAGE_2_EU_TYPE)
     dialogue_token = StringType(required=True)
@@ -453,10 +476,6 @@ class Tender(BaseTenderEU):
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
 
-    def initialize(self):
-        self.tenderPeriod.endDate = calculate_business_date(self.tenderPeriod.startDate, TENDERING_DURATION_EU, self)
-        super(TenderStage2EU, self).initialize()
-
 TenderStage2EU = Tender
 
 
@@ -470,7 +489,7 @@ class Contract(BaseTenderUA.contracts.model_class):
     items = ListType(ModelType(ItemStage2UA))
 
 
-@implementer(ITender)
+@implementer(ICDUAStage2Tender)
 class Tender(BaseTenderUA):
     procurementMethodType = StringType(default=STAGE_2_UA_TYPE)
     dialogue_token = StringType(required=True)
@@ -501,10 +520,5 @@ class Tender(BaseTenderUA):
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
-
-    def initialize(self):
-        self.tenderPeriod.endDate = calculate_business_date(self.tenderPeriod.startDate, TENDERING_DURATION_UA, self)
-        super(TenderStage2UA, self).initialize()
-
 
 TenderStage2UA = Tender

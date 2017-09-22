@@ -1,28 +1,33 @@
 # -*- coding: utf-8 -*-
+from barbecue import vnmax
 from logging import getLogger
 from schematics.exceptions import ValidationError
-from openprocurement.tender.openua.utils import calculate_business_date
-from openprocurement.tender.openua.models import TENDERING_EXTRA_PERIOD
-from openprocurement.api.models import get_now
-from openprocurement.api.utils import save_tender, apply_patch, context_unpack, generate_id
-from openprocurement.tender.openeu.utils import all_bids_are_reviewed
-from openprocurement.tender.openeu.models import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
-from openprocurement.tender.openua.utils import (
-    check_complaint_status, has_unanswered_questions, has_unanswered_complaints
-)
-from openprocurement.tender.openeu.utils import prepare_qualifications
 from openprocurement.api.utils import (
-    save_tender,
-    set_ownership as api_set_ownership,
-    apply_patch,
-    context_unpack,
-    generate_id,
+    context_unpack, generate_id, get_now, raise_operation_error,
+    set_ownership as api_set_ownership
 )
-
-from barbecue import vnmax
+from openprocurement.tender.core.utils import (
+    save_tender, apply_patch, calculate_business_date,
+    has_unanswered_questions, has_unanswered_complaints
+)
+from openprocurement.tender.core.validation import (
+    validate_tender_period_extension
+)
+from openprocurement.tender.openua.utils import (
+    check_complaint_status
+)
+from openprocurement.tender.openeu.utils import (
+    all_bids_are_reviewed, prepare_qualifications
+)
+from openprocurement.tender.openeu.constants import (
+    PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    MINIMAL_NUMBER_OF_BIDS
+)
+from openprocurement.tender.core.events import TenderInitializeEvent
 
 LOGGER = getLogger(__name__)
-MINIMAL_NUMBER_OF_BITS = 3
 
 
 def patch_eu(self):
@@ -74,29 +79,13 @@ def patch_eu(self):
 
             """
     tender = self.context
-    if self.request.authenticated_role != 'Administrator' and tender.status in ['complete', 'unsuccessful',
-                                                                                'cancelled']:
-        self.request.errors.add('body', 'data', 'Can\'t update tender in current ({}) status'.format(tender.status))
-        self.request.errors.status = 403
-        return
     data = self.request.validated['data']
-    if self.request.authenticated_role == 'tender_owner' and 'status' in data and \
-            data['status'] not in ['active.pre-qualification.stand-still', 'active.stage2.waiting', tender.status]:
-        self.request.errors.add('body', 'data', 'Can\'t update tender status')
-        self.request.errors.status = 403
-        return
-
     if self.request.authenticated_role == 'tender_owner' \
             and self.request.validated['tender_status'] == 'active.tendering':
         if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
             self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
-            if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated['tender']) > \
-                    self.request.validated['tender'].tenderPeriod.endDate:
-                self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} days'.format(
-                    TENDERING_EXTRA_PERIOD))
-                self.request.errors.status = 403
-                return
-            self.request.validated['tender'].initialize()
+            validate_tender_period_extension(self.request)
+            self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
             self.request.validated['data']["enquiryPeriod"] = self.request.validated[
                 'tender'].enquiryPeriod.serialize()
 
@@ -113,15 +102,11 @@ def patch_eu(self):
                                                                          self.request.validated['tender'])
             tender.check_auction_time()
         else:
-            self.request.errors.add('body', 'data', 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
-            self.request.errors.status = 403
-            return
+            raise_operation_error(self.request, 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
     elif self.request.authenticated_role == 'tender_owner' and \
             self.request.validated['tender_status'] == 'active.pre-qualification' and \
             tender.status != "active.pre-qualification.stand-still":
-        self.request.errors.add('body', 'data', 'Can\'t update tender status')
-        self.request.errors.status = 403
-        return
+        raise_operation_error(self.request, 'Can\'t update tender status')
 
     save_tender(self.request)
     self.LOGGER.info('Updated tender {}'.format(tender.id),
@@ -131,16 +116,16 @@ def patch_eu(self):
 
 def validate_unique_bids(bids):
     """ Return Bool
-        True if number of unique identifier id biggest then MINIMAL_NUMBER_OF_BITS
+        True if number of unique identifier id biggest then MINIMAL_NUMBER_OF_BIDS
         else False
     """
-    return len(set(bid['tenderers'][0]['identifier']['id'] for bid in bids)) >= MINIMAL_NUMBER_OF_BITS
+    return len(set(bid['tenderers'][0]['identifier']['id'] for bid in bids)) >= MINIMAL_NUMBER_OF_BIDS
 
 
 def check_initial_bids_count(request):
     tender = request.validated['tender']
     if tender.lots:
-        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < MINIMAL_NUMBER_OF_BITS and i.auctionPeriod and i.auctionPeriod.startDate]
+        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < MINIMAL_NUMBER_OF_BIDS and i.auctionPeriod and i.auctionPeriod.startDate]
         for i in tender.lots:
             # gather all bids by lot id
             bids = [bid
@@ -148,7 +133,7 @@ def check_initial_bids_count(request):
                     if i.id in [i_lot.relatedLot for i_lot in bid.lotValues
                                 if i_lot.status in ["active", "pending"]] and bid.status in ["active", "pending"]]
 
-            if i.numberOfBids < MINIMAL_NUMBER_OF_BITS or not validate_unique_bids(bids) and i.status == 'active':
+            if i.numberOfBids < MINIMAL_NUMBER_OF_BIDS or not validate_unique_bids(bids) and i.status == 'active':
                 setattr(i, 'status', 'unsuccessful')
                 for bid_index, bid in enumerate(tender.bids):
                     for lot_index, lot_value in enumerate(bid.lotValues):
@@ -159,7 +144,7 @@ def check_initial_bids_count(request):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
-    elif tender.numberOfBids < MINIMAL_NUMBER_OF_BITS or not validate_unique_bids(tender.bids):
+    elif tender.numberOfBids < MINIMAL_NUMBER_OF_BIDS or not validate_unique_bids(tender.bids):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
         tender.status = 'unsuccessful'
@@ -262,31 +247,10 @@ def prepare_bid_identifier(bid):
 
 def stage2_bid_post(self):
     tender = self.request.validated['tender']
-    if self.request.validated['tender_status'] != 'active.tendering':
-        self.request.errors.add('body', 'data', 'Can\'t add bid in current ({}) tender status'.format(
-            self.request.validated['tender_status']))
-        self.request.errors.status = 403
-        return
-    if tender.tenderPeriod.startDate and \
-            get_now() < tender.tenderPeriod.startDate or \
-            get_now() > tender.tenderPeriod.endDate:
-        self.request.errors.add('body', 'data',
-                                'Bid can be added only during the tendering period: from ({}) to ({}).'.format(
-                                    tender.tenderPeriod.startDate, tender.tenderPeriod.endDate))
-        self.request.errors.status = 403
-        return
     bid = self.request.validated['bid']
-    firm_keys = prepare_shortlistedFirms(tender.shortlistedFirms)
-    bid_keys = prepare_bid_identifier(bid)
-    if not (bid_keys <= firm_keys):
-        self.request.errors.add('body', 'data', 'Firm can\'t create bid')
-        self.request.errors.status = 403
-        return
+    # TODO can't move validator because of self.allowed_bid_status_on_create
     if bid.status not in self.allowed_bid_status_on_create:
-        self.request.errors.add('body', 'data',
-                                'Bid can be added only with status: {}.'.format(self.allowed_bid_status_on_create))
-        self.request.errors.status = 403
-        return
+        raise_operation_error(self.request, 'Bid can be added only with status: {}.'.format(self.allowed_bid_status_on_create))
     tender.modified = False
     api_set_ownership(bid, self.request)
     tender.bids.append(bid)
@@ -295,7 +259,7 @@ def stage2_bid_post(self):
                          extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_create'},
                                               {'bid_id': bid.id}))
         self.request.response.status = 201
-        self.request.response.headers['Location'] = self.request.route_url('Tender Bids', tender_id=tender.id,
+        self.request.response.headers['Location'] = self.request.route_url('{}:Tender Bids'.format(tender.procurementMethodType), tender_id=tender.id,
                                                                            bid_id=bid['id'])
         return {
             'data': bid.serialize('view'),

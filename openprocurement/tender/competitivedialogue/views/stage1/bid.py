@@ -1,10 +1,26 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource, context_unpack, apply_patch, get_now, json_view
-from openprocurement.tender.openeu.views.bid import TenderBidResource as BaseResourceEU
-from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.api.validation import validate_patch_bid_data
+from openprocurement.tender.core.utils import (
+    optendersresource, apply_patch
+)
+from openprocurement.api.utils import (
+    context_unpack, get_now, json_view
+)
+from openprocurement.tender.openeu.views.bid import (
+    TenderBidResource as BaseResourceEU
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_EU_TYPE, CD_UA_TYPE
+)
+from openprocurement.tender.core.validation import (
+    validate_patch_bid_data,
+    validate_update_deleted_bid,
+    validate_bid_operation_period,
+    validate_bid_operation_not_in_tendering,
+    validate_bid_status_update_not_to_pending
+)
+from openprocurement.tender.competitivedialogue.validation import validate_bid_status_update_not_to_pending_or_draft
 
-
+@json_view(validators=(validate_bid_operation_not_in_tendering, validate_bid_operation_period, validate_update_deleted_bid, validate_bid_status_update_not_to_pending_or_draft))
 def patch_bid_first_stage(self):
     """Update of proposal
 
@@ -42,29 +58,6 @@ def patch_bid_first_stage(self):
                     }
 
                 """
-    if self.request.authenticated_role != 'Administrator' and self.request.validated['tender_status'] != 'active.tendering':
-        self.request.errors.add('body', 'data', 'Can\'t update bid in current ({}) tender status'.format(self.request.validated['tender_status']))
-        self.request.errors.status = 403
-        return
-    tender = self.request.validated['tender']
-    if self.request.authenticated_role != 'Administrator' and (
-                    tender.tenderPeriod.startDate and get_now() < tender.tenderPeriod.startDate or get_now() > tender.tenderPeriod.endDate):
-        self.request.errors.add('body', 'data',
-                                'Bid can be updated only during the tendering period: from ({}) to ({}).'.format(
-                                    tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.isoformat(),
-                                    tender.tenderPeriod.endDate.isoformat()))
-        self.request.errors.status = 403
-        return
-    if self.request.context.status == 'deleted':
-            self.request.errors.add('body', 'bid', 'Can\'t update bid in ({}) status'.format(self.request.context.status))
-            self.request.errors.status = 403
-            return
-    if self.request.authenticated_role != 'Administrator':
-        bid_status_to = self.request.validated['data'].get("status", self.request.context.status)
-        if bid_status_to not in ['pending', 'draft']:
-            self.request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
-            self.request.errors.status = 403
-            return
     self.request.validated['tender'].modified = False
     if apply_patch(self.request, src=self.request.context.serialize()):
         self.LOGGER.info('Updated tender bid {}'.format(self.request.context.id),
@@ -72,27 +65,29 @@ def patch_bid_first_stage(self):
         return {'data': self.request.context.serialize("view")}
 
 
-@opresource(name='Competitive Dialogue EU Bids',
-            collection_path='/tenders/{tender_id}/bids',
-            path='/tenders/{tender_id}/bids/{bid_id}',
-            procurementMethodType=CD_EU_TYPE,
-            description="Competitive Dialogue EU bids")
+@optendersresource(name='{}:Tender Bids'.format(CD_EU_TYPE),
+                   collection_path='/tenders/{tender_id}/bids',
+                   path='/tenders/{tender_id}/bids/{bid_id}',
+                   procurementMethodType=CD_EU_TYPE,
+                   description="Competitive Dialogue EU bids")
 class CompetitiveDialogueEUBidResource(BaseResourceEU):
     """ Tender EU bids """
 
     patch = json_view(content_type="application/json",
                       permission='edit_bid',
-                      validators=(validate_patch_bid_data,))(patch_bid_first_stage)
+                      validators=(validate_patch_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period,
+               validate_update_deleted_bid, validate_bid_status_update_not_to_pending))(patch_bid_first_stage)
 
 
-@opresource(name='Competitive Dialogue UA Bids',
-            collection_path='/tenders/{tender_id}/bids',
-            path='/tenders/{tender_id}/bids/{bid_id}',
-            procurementMethodType=CD_UA_TYPE,
-            description="Competitive Dialogue UA bids")
+@optendersresource(name='{}:Tender Bids'.format(CD_UA_TYPE),
+                   collection_path='/tenders/{tender_id}/bids',
+                   path='/tenders/{tender_id}/bids/{bid_id}',
+                   procurementMethodType=CD_UA_TYPE,
+                   description="Competitive Dialogue UA bids")
 class CompetitiveDialogueUABidResource(BaseResourceEU):
     """ Tender UA bids """
 
     patch = json_view(content_type="application/json",
                       permission='edit_bid',
-                      validators=(validate_patch_bid_data,))(patch_bid_first_stage)
+                      validators=(validate_patch_bid_data,validate_bid_operation_not_in_tendering, validate_bid_operation_period,
+               validate_update_deleted_bid, validate_bid_status_update_not_to_pending))(patch_bid_first_stage)

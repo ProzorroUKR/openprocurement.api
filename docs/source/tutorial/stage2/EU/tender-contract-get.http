@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/bf450bfcf933416f8205cfcde69d0ee1/contracts/3123f25634ce43b9bfde50665f1be837?acc_token=24df0fd7ada04964a1df8416ecc946b0 HTTP/1.0
+GET /api/2.3/tenders/2332d7f2a08e47d7a9d115ad1fee1eb8/contracts/a5adbe0ebe494994ae44b6f5df0066a4?acc_token=e77ee989307e43bb9481309d328df6d1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -12,25 +12,25 @@ Content-Type: application/json; charset=UTF-8
         "hash": "md5:00000000000000000000000000000000", 
         "language": "uk", 
         "title": "contract_first_document.doc", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/3623621a6bc34df18b906c5a5a9c0a66?KeyID=1bb59008&Signature=OnMi5W78F8fA77H%252BxfAFmODHxK%2FP3Z%2F%2FB6dCMJELc%2FdWGI03Jml7vtruNnXi4ZQIfYzIcU2LqraNLO1a%252BaA%2FAQ%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/8f7ef2d7ed7645e9969422b23ab7f68b?KeyID=d8e133db&Signature=8wLZj59BcDtUIl%2FWGtgeoK6KlIO2rxMEsFQy5CbVY25e6eDqzi%2FK3OzRGCQH3F76g4HAPZXPz6EfWnCB75HFAg%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2017-06-20T12:34:01.784977+03:00", 
-        "id": "7d1a149f2bd043a492f6cf8784d9b1d8", 
-        "dateModified": "2017-06-20T12:34:01.785031+03:00"
+        "datePublished": "2017-06-21T17:05:29.503615+03:00", 
+        "id": "b046a1032f264cfe8b4634d25af6701e", 
+        "dateModified": "2017-06-21T17:05:29.503659+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "language": "en", 
         "title": "contract_second_document.doc", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/de07597f55f344caa4be0d252f2b24a1?KeyID=1bb59008&Signature=qa9P5OthieQDHr%252Bjh%2FSVQd52sxUo4yWkJr3IbhWOSBXJvJyWvM%2FoXtoHhkXLvzRXL0J2%2F4J954JlNe8twMmxCA%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/111f40dc6a464cb88700b558980259b1?KeyID=d8e133db&Signature=OpR94xXZYzGPfbsKJyId%252B0c7QWtQUZyi0NFCVV%252BalfdWRBVRWUz36fqlAF5UepzOmxXTLSeQ0VH1D%252BTqd5GEBg%253D%253D", 
         "format": "application/msword", 
         "title_en": "Title of Document", 
         "description_en": "Description of Document", 
-        "datePublished": "2017-06-20T12:34:02.116253+03:00", 
+        "datePublished": "2017-06-21T17:05:29.837548+03:00", 
         "documentOf": "tender", 
-        "id": "e315e6bb840648ad9d5bd7a7abc87f3d", 
-        "dateModified": "2017-06-20T12:34:02.116290+03:00"
+        "id": "1d846fe1d19048d7a92c300fa1f92f1e", 
+        "dateModified": "2017-06-21T17:05:29.837587+03:00"
       }
     ], 
     "items": [
@@ -57,10 +57,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-07-10T12:32:38.405029+03:00", 
-          "endDate": "2017-07-20T12:34:05.224266+03:00"
+          "startDate": "2017-07-11T17:04:37.418860+03:00", 
+          "endDate": "2017-07-21T17:05:33.111966+03:00"
         }, 
-        "id": "8603dff804fb4bb6aa392e2d8231b2ad", 
+        "id": "deaf5398b54e4bd5abc5cca172a40d15", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -92,18 +92,18 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "contractNumber": "contract#1", 
     "period": {
-      "startDate": "2017-06-20T12:34:01.400032+03:00", 
-      "endDate": "2018-06-20T12:34:01.400079+03:00"
+      "startDate": "2017-06-21T17:05:29.145094+03:00", 
+      "endDate": "2018-06-21T17:05:29.145144+03:00"
     }, 
+    "dateSigned": "2017-06-21T17:05:28.900492+03:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2017-06-20T12:34:01.151112+03:00", 
-    "awardID": "4e95ddabf7dc44429d29f0f7136cf659", 
-    "id": "3123f25634ce43b9bfde50665f1be837", 
-    "contractID": "UA-2017-06-20-000001-1"
+    "awardID": "7514340e56294579afe4843f6acffb2c", 
+    "id": "a5adbe0ebe494994ae44b6f5df0066a4", 
+    "contractID": "UA-2017-06-21-000001-1"
   }
 }
 

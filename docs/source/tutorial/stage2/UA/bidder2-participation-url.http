@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/6a46e717b72244b687994b70c92240d5/bids/e82f81e96dfb4594b57517008b19670c?acc_token=67f0d8c6ce3e41e3bff3252ba3a7526b HTTP/1.0
+GET /api/2.3/tenders/92ad8804586d4edbb98cdb5c7c79412f/bids/388af60857fa4ac69f9a53214dea400a?acc_token=6f7d1089d007420cbdad36dbfe02a2c9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -11,12 +11,12 @@ Content-Type: application/json; charset=UTF-8
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal_part1.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/6a46e717b72244b687994b70c92240d5/bids/e82f81e96dfb4594b57517008b19670c/documents/26e98c0f25e64fbc92b722220bec40f3?download=22c40fcc95c14c65ba969e6ed9518c59", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/92ad8804586d4edbb98cdb5c7c79412f/bids/388af60857fa4ac69f9a53214dea400a/documents/cd12e1eb7a9647a69c2695a87d612d6d?download=33748309e27e4d45a9982fd6fa9a7746", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2017-06-20T12:34:17.512734+03:00", 
-        "id": "26e98c0f25e64fbc92b722220bec40f3", 
-        "dateModified": "2017-06-20T12:34:17.512765+03:00"
+        "datePublished": "2017-06-21T17:05:37.145285+03:00", 
+        "id": "cd12e1eb7a9647a69c2695a87d612d6d", 
+        "dateModified": "2017-06-21T17:05:37.145317+03:00"
       }
     ], 
     "selfEligible": true, 
@@ -25,7 +25,7 @@ Content-Type: application/json; charset=UTF-8
       "amount": 499.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "id": "e82f81e96dfb4594b57517008b19670c", 
+    "id": "388af60857fa4ac69f9a53214dea400a", 
     "tenderers": [
       {
         "contactPoint": {
@@ -48,9 +48,9 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2017-06-20T12:34:17.511725+03:00", 
+    "date": "2017-06-21T17:05:37.144235+03:00", 
     "selfQualified": true, 
-    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/6a46e717b72244b687994b70c92240d5?key_for_bid=e82f81e96dfb4594b57517008b19670c"
+    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/92ad8804586d4edbb98cdb5c7c79412f?key_for_bid=388af60857fa4ac69f9a53214dea400a"
   }
 }
 

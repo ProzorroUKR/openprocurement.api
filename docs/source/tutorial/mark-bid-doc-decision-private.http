@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/223852eccea04e92926bcc49032f04b8/bids/c3804d7a99454d4d991898f1e25e8dd3/documents/9d233e7f9f4340caa54b1134d4c2c3b2?acc_token=8b3b1005130a409f94df1794663a9cba HTTP/1.0
+PATCH /api/2.3/tenders/c91cc0e7dffc4bc7b59cf53d9bbfd0bf/bids/2b73ea4bdef34b6481601d7f4049d3f0/documents/95baea1455bb4178956a1a19c2463961?acc_token=f91fb379075c41f2909602d2d0152c2b HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 42
 Content-Type: application/json
@@ -18,13 +18,13 @@ Content-Type: application/json; charset=UTF-8
     "confidentiality": "buyerOnly", 
     "language": "uk", 
     "title": "DescriptiveProposal.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/223852eccea04e92926bcc49032f04b8/bids/c3804d7a99454d4d991898f1e25e8dd3/documents/9d233e7f9f4340caa54b1134d4c2c3b2?download=a69cf7b018804d149edce9d27c0025f3", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/tenders/c91cc0e7dffc4bc7b59cf53d9bbfd0bf/bids/2b73ea4bdef34b6481601d7f4049d3f0/documents/95baea1455bb4178956a1a19c2463961?download=ee55a3ff10ab4477a1d631c7b597ea74", 
     "format": "application/pdf", 
     "isDescriptionDecision": true, 
     "documentOf": "tender", 
-    "datePublished": "2017-06-20T12:33:42.631745+03:00", 
-    "id": "9d233e7f9f4340caa54b1134d4c2c3b2", 
-    "dateModified": "2017-06-20T12:33:42.631778+03:00"
+    "datePublished": "2017-06-21T17:05:14.951905+03:00", 
+    "id": "95baea1455bb4178956a1a19c2463961", 
+    "dateModified": "2017-06-21T17:05:14.951937+03:00"
   }
 }
 

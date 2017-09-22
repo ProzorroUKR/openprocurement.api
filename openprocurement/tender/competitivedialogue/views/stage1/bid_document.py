@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import opresource
-from openprocurement.tender.openeu.views.bid_document import TenderEUBidDocumentResource
-from openprocurement.tender.competitivedialogue.models import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.tender.core.utils import optendersresource
+from openprocurement.tender.openeu.views.bid_document import (
+    TenderEUBidDocumentResource
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_EU_TYPE, CD_UA_TYPE
+)
 
 
-@opresource(
-    name='Competitive Dialogue EU Bid Documents',
+@optendersresource(
+    name='{}:Tender Bid Documents'.format(CD_EU_TYPE),
     collection_path='/tenders/{tender_id}/bids/{bid_id}/documents',
     path='/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}',
     procurementMethodType=CD_EU_TYPE,
@@ -14,8 +18,8 @@ class CompetitiveDialogueEUBidDocumentResource(TenderEUBidDocumentResource):
     pass
 
 
-@opresource(
-    name='Competitive Dialogue UA Bid Documents',
+@optendersresource(
+    name='{}:Tender Bid Documents'.format(CD_UA_TYPE),
     collection_path='/tenders/{tender_id}/bids/{bid_id}/documents',
     path='/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}',
     procurementMethodType=CD_UA_TYPE,

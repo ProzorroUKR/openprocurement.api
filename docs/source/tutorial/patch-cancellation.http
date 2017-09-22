@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/95909188721e4a85af1563228b4ba119/cancellations/c67278ff9e25469e842fe49f97b67597/documents/c8d4b4a1c90142519d42d6e0f070e424?acc_token=f129e57d71e94bbb8b69ad15867573bb HTTP/1.0
+PATCH /api/2.3/tenders/ff1c3c94d9a54a39bd264e19cc1e6b07/cancellations/88f485e0940e478f8d49152656282eb7/documents/c379765bbdba4bb285c029a26a4e3346?acc_token=d0d2a78b5ffb452ca2fb141b56570e23 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 48
 Content-Type: application/json
@@ -18,12 +18,12 @@ Content-Type: application/json; charset=UTF-8
     "description": "Changed description", 
     "language": "uk", 
     "title": "Notice.pdf", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/94edf638de1c4ff8ae880ba38a515e2d?KeyID=3731b088&Signature=7k6xPF%252BesUYIV9uko0AgzsB92JA24gH4D1WeFyjdHXvDIEN6Z3GoCIj9C8Owxp4cJfimJ2RZCKHERehjYWnNAw%253D%253D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/f10c69861d444087bb5c91c9cbb5c781?KeyID=b779f9bb&Signature=Qyv6i8wj1jIogpcQvm7kT8JAhWQRDQD4J1%2F2KRZ2RY7h%2FDPQeh%252BzhT3vR%252B80DOjmOCiUuyb0dKvpuyvgwainDw%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2017-06-20T12:33:04.736241+03:00", 
-    "id": "c8d4b4a1c90142519d42d6e0f070e424", 
-    "dateModified": "2017-06-20T12:33:04.736283+03:00"
+    "datePublished": "2017-06-21T17:04:53.655208+03:00", 
+    "id": "c379765bbdba4bb285c029a26a4e3346", 
+    "dateModified": "2017-06-21T17:04:53.655245+03:00"
   }
 }
 

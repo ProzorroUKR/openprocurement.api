@@ -1,16 +1,17 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.18'
+version = '2.4'
 
 requires = [
     'setuptools'
 ]
 
 api_requires = requires + [
-    'openprocurement.api>=2.3',
-    'openprocurement.tender.openua',
-    'openprocurement.tender.openeu'
+    'openprocurement.api>=2.4',
+    'openprocurement.tender.openua>=2.4',
+    'openprocurement.tender.openeu>=2.4',
+    'openprocurement.tender.core>=2.4'
 ]
 
 test_requires = api_requires + requires + [
@@ -23,21 +24,10 @@ docs_requires = requires + [
 ]
 
 entry_points = {
-    'console_scripts': [
-        'competitive_dialogue_data_bridge = openprocurement.tender.competitivedialogue.databridge:main'
-    ],
-    'openprocurement.api.plugins': [
-        'competitivedialogue = openprocurement.tender.competitivedialogue:includeme'
+    'openprocurement.tender.core.plugins': [
+        'competitivedialogue = openprocurement.tender.competitivedialogue.includeme:includeme'
     ]
 }
-
-databridge_requires = requires + [
-    'PyYAML',
-    'gevent',
-    'LazyDB',
-    'ExtendedJournalHandler',
-    'openprocurement_client>=1.0b2'
-]
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -65,6 +55,6 @@ setup(name='openprocurement.tender.competitivedialogue',
       zip_safe=False,
       install_requires=requires,
       extras_require={'test': test_requires, 'docs': docs_requires,
-                      'databridge': databridge_requires, 'api': api_requires},
+                      'api': api_requires},
       test_suite="openprocurement.tender.competitivedialogue.tests.main.suite",
       entry_points=entry_points)

@@ -7,7 +7,7 @@ from copy import deepcopy
 
 import openprocurement.tender.competitivedialogue.tests.base as base_test
 from openprocurement.api.models import get_now
-from openprocurement.tender.competitivedialogue.tests.base import PrefixedRequestClass
+from openprocurement.api.tests.base import PrefixedRequestClass
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUWebTest,
     BaseCompetitiveDialogUAStage2WebTest
@@ -1473,32 +1473,31 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest):
             self.assertEqual(response.status, '201 Created')
 
         bid4_with_docs["data"]["eligibilityDocuments"] = [
-            {
-                'title': u'eligibility_doc.pdf',
-                'url': u"http://broken3.ds",
-                'hash': 'md5:' + '0' * 32,
-                'format': 'application/pdf'
-            }
+          {
+            'title': u'eligibility_doc.pdf',
+            'url': u"http://broken3.ds",
+            'hash': 'md5:' + '0' * 32,
+            'format': 'application/pdf'
+          }
         ]
 
         bid4_with_docs["data"]["financialDocuments"] = [
-            {
-                'title': u'financial_doc.pdf',
-                'url': u"http://broken4.ds",
-                'hash': 'md5:' + '0' * 32,
-                'format': 'application/pdf'
-            }
+          {
+            'title': u'financial_doc.pdf',
+            'url': u"http://broken4.ds",
+            'hash': 'md5:' + '0' * 32,
+            'format': 'application/pdf'
+          }
         ]
 
         bid4_with_docs["data"]["qualificationDocuments"] = [
-            {
-                'title': u'qualification_document.pdf',
-                'url': u"http://broken5.ds",
-                'hash': 'md5:' + '0' * 32,
-                'format': 'application/pdf'
-            }
+          {
+            'title': u'qualification_document.pdf',
+            'url': u"http://broken5.ds",
+            'hash': 'md5:' + '0' * 32,
+            'format': 'application/pdf'
+          }
         ]
-
         with open('docs/source/tutorial/stage2/EU/register-3rd-bidder.http', 'w') as self.app.file_obj:
             for document in bid4_with_docs['data']['documents']:
                 document['url'] = self.generate_docservice_url()
@@ -2648,6 +2647,14 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         self.couchdb_server = self.app.app.registry.couchdb_server
         self.db = self.app.app.registry.db
+        if self.docservice:
+            self.setUpDS()
+            self.app.app.registry.docservice_url = 'http://public.docs-sandbox.openprocurement.org'
+
+    def generate_docservice_url(self):
+        return super(TenderResourceTestStage2UA,self).generate_docservice_url().replace(
+            '/localhost/', '/public.docs-sandbox.openprocurement.org/'
+        )
 
         if self.docservice:
             self.setUpDS()

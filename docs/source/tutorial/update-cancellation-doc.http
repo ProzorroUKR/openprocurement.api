@@ -1,7 +1,7 @@
-PUT /api/2.3/tenders/95909188721e4a85af1563228b4ba119/cancellations/c67278ff9e25469e842fe49f97b67597/documents/c8d4b4a1c90142519d42d6e0f070e424?acc_token=f129e57d71e94bbb8b69ad15867573bb HTTP/1.0
+PUT /api/2.3/tenders/ff1c3c94d9a54a39bd264e19cc1e6b07/cancellations/88f485e0940e478f8d49152656282eb7/documents/c379765bbdba4bb285c029a26a4e3346?acc_token=d0d2a78b5ffb452ca2fb141b56570e23 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 189
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy910172350853$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy726948521238$
 Host: api-sandbox.openprocurement.org
 
 
@@ -13,12 +13,12 @@ Content-Type: application/json; charset=UTF-8
     "description": "Changed description", 
     "language": "uk", 
     "title": "Notice-2.pdf", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/907f93e6a4974e8fbf7353b379cb5003?KeyID=3731b088&Signature=YzhnyFJNMdpEn0%2FTVfqQC4Tmkj9spMQETya%252BtPO7onvaglxTwSvVfjmbX%2FkgNIcCRuB7FdoQe2dqk3ukhzrLAg%253D%253D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/ae7e99ecf79e4a159a2a2857191e1132?KeyID=b779f9bb&Signature=ERYVpV9SXGCdzB0yL3I1QW77fQIqgWMDIVWlQUtj13M3erpChwTjVUhu4alsqWPQVO%2F7cULTdt6wwbitwXxQAA%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2017-06-20T12:33:04.736241+03:00", 
-    "id": "c8d4b4a1c90142519d42d6e0f070e424", 
-    "dateModified": "2017-06-20T12:33:04.891235+03:00"
+    "datePublished": "2017-06-21T17:04:53.655208+03:00", 
+    "id": "c379765bbdba4bb285c029a26a4e3346", 
+    "dateModified": "2017-06-21T17:04:53.800190+03:00"
   }
 }
 

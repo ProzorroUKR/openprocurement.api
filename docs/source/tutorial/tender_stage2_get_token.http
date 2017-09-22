@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/0dc365b362084383aad1745ac2562359/credentials?acc_token=6ecc159e1942403f88015bfe0bd2220e HTTP/1.0
+PATCH /api/2.3/tenders/2ef2dc9524d24bdb9acc44358e958874/credentials?acc_token=1c073921ab5f4a30a693936b569bfa3b HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 2
 Content-Type: application/json
@@ -10,15 +10,15 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "access": {
-    "token": "73617d8e667b4092bdfc2e0377579cbf"
+    "token": "1d5fc4d19ceb471bb2c5c48bfb976943"
   }, 
   "data": {
     "status": "draft.stage2", 
     "numberOfBids": 0, 
-    "tenderID": "UA-2017-06-20-000002", 
+    "awardCriteria": "lowestCost", 
     "tenderPeriod": {
-      "startDate": "2017-06-20T12:33:46.912360+03:00", 
-      "endDate": "2017-07-20T12:33:46.912360+03:00"
+      "startDate": "2017-06-21T17:05:19.282636+03:00", 
+      "endDate": "2017-07-21T17:05:19.282636+03:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -27,13 +27,13 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "enquiryPeriod": {
-      "startDate": "2017-06-20T12:33:46.912360+03:00", 
-      "clarificationsUntil": "2017-07-13T12:33:46.912360+03:00", 
-      "endDate": "2017-07-10T12:33:46.912360+03:00"
+      "startDate": "2017-06-21T17:05:19.282636+03:00", 
+      "clarificationsUntil": "2017-07-14T17:05:19.282636+03:00", 
+      "endDate": "2017-07-11T17:05:19.282636+03:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2017-06-20T12:33:46.912360+03:00", 
-      "endDate": "2017-07-16T00:00:00+03:00"
+      "startDate": "2017-06-21T17:05:19.282636+03:00", 
+      "endDate": "2017-07-17T00:00:00+03:00"
     }, 
     "title_en": "Services in school canteens", 
     "value": {
@@ -68,7 +68,7 @@ Content-Type: application/json; charset=UTF-8
         "name": "«Кенгуру»"
       }
     ], 
-    "date": "2017-06-20T12:33:47.018089+03:00", 
+    "date": "2017-06-21T17:05:19.389669+03:00", 
     "procurementMethodType": "competitiveDialogueEU.stage2", 
     "procuringEntity": {
       "kind": "general", 
@@ -119,10 +119,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-07-10T12:32:38.405029+03:00", 
-          "endDate": "2017-08-09T12:32:38.405052+03:00"
+          "startDate": "2017-07-11T17:04:37.418860+03:00", 
+          "endDate": "2017-08-10T17:04:37.418883+03:00"
         }, 
-        "id": "24e9a16f05fc4b848247946ace230e1a", 
+        "id": "72a1fff2fbc54547a24076df54e06167", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -152,10 +152,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-07-10T12:32:38.405086+03:00", 
-          "endDate": "2017-08-09T12:32:38.405108+03:00"
+          "startDate": "2017-07-11T17:04:37.418917+03:00", 
+          "endDate": "2017-08-10T17:04:37.418938+03:00"
         }, 
-        "id": "4585d7240f5c4c55876fb7676d01e199", 
+        "id": "aee72d6cc34843938643e94e9148563b", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -164,10 +164,10 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "dateModified": "2017-06-20T12:33:47.586871+03:00", 
-    "id": "0dc365b362084383aad1745ac2562359", 
+    "dateModified": "2017-06-21T17:05:19.941239+03:00", 
+    "id": "2ef2dc9524d24bdb9acc44358e958874", 
     "procurementMethod": "selective", 
-    "awardCriteria": "lowestCost"
+    "tenderID": "UA-2017-06-21-000002"
   }
 }
 
