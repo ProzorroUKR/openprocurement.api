@@ -1,4 +1,4 @@
-GET /api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de/changes/b2d895ea1db4438aba162de021184349 HTTP/1.0
+GET /api/2.3/contracts/bebdbaf7777d4bd39756f3e8872c1f46/changes/c382f2a7da3647bbb4e8fea2af514157 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -13,8 +13,8 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "rationale_en": "Contract change cause", 
     "rationale": "Опис причини змін контракту", 
-    "date": "2017-06-20T14:42:52.317121+03:00", 
-    "id": "b2d895ea1db4438aba162de021184349"
+    "date": "2017-06-21T17:53:05.109702+03:00", 
+    "id": "c382f2a7da3647bbb4e8fea2af514157"
   }
 }
 

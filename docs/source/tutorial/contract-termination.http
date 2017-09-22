@@ -1,4 +1,4 @@
-PATCH /api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de?acc_token=14aa72437e414b1c877d778604886220 HTTP/1.0
+PATCH /api/2.3/contracts/bebdbaf7777d4bd39756f3e8872c1f46?acc_token=2f1294ae618e49219d85607d17afabf6 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 65
 Content-Type: application/json
@@ -31,49 +31,49 @@ Content-Type: application/json; charset=UTF-8
           "priceReduction"
         ], 
         "rationale_en": "Contract change cause", 
-        "dateSigned": "2017-06-20T14:42:53.164802+03:00", 
+        "dateSigned": "2017-06-21T17:53:05.978602+03:00", 
         "rationale": "Друга і третя поставка має бути розфасована", 
-        "date": "2017-06-20T14:42:53.189458+03:00", 
-        "id": "b2d895ea1db4438aba162de021184349"
+        "date": "2017-06-21T17:53:06.002992+03:00", 
+        "id": "c382f2a7da3647bbb4e8fea2af514157"
       }
     ], 
     "documents": [
       {
         "title": "contract_changes.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de/documents/a2c9ab8a156b4faea05c1767b84f125e?download=29f9390fe3e24f51a163d2fac6d7cb35", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/bebdbaf7777d4bd39756f3e8872c1f46/documents/853ad85f888c403eb64b3db2ce16fed7?download=6b9d115c4fa94edb8d1f07615ed5b85c", 
         "format": "application/msword", 
         "documentOf": "change", 
-        "datePublished": "2017-06-20T14:42:52.679032+03:00", 
-        "id": "a2c9ab8a156b4faea05c1767b84f125e", 
-        "relatedItem": "b2d895ea1db4438aba162de021184349", 
-        "dateModified": "2017-06-20T14:42:52.679071+03:00"
+        "datePublished": "2017-06-21T17:53:05.477533+03:00", 
+        "id": "853ad85f888c403eb64b3db2ce16fed7", 
+        "relatedItem": "c382f2a7da3647bbb4e8fea2af514157", 
+        "dateModified": "2017-06-21T17:53:05.477575+03:00"
       }, 
       {
         "title": "contract.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de/documents/fc183463ef084f7bad04c6c32ff80266?download=ad77fbd9d03c431aa1601bbbaf7f26ef", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/bebdbaf7777d4bd39756f3e8872c1f46/documents/398c861329694c5fb8aad22169159606?download=a0d8357d8aca4a81aafce6912df0a6f7", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2017-06-20T14:42:53.309273+03:00", 
-        "id": "fc183463ef084f7bad04c6c32ff80266", 
-        "dateModified": "2017-06-20T14:42:53.309313+03:00"
+        "datePublished": "2017-06-21T17:53:06.124541+03:00", 
+        "id": "398c861329694c5fb8aad22169159606", 
+        "dateModified": "2017-06-21T17:53:06.124581+03:00"
       }, 
       {
         "title": "contract_additional_docs.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de/documents/85563913cc564b748f43b79a70d4b71b?download=0033fd174a7948fab8489cb4081dade1", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/bebdbaf7777d4bd39756f3e8872c1f46/documents/167427d8f0ed431784f1a9b7dafe91b1?download=e071206d6e464a2590fa505a5ba91c3d", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2017-06-20T14:42:53.410005+03:00", 
-        "id": "85563913cc564b748f43b79a70d4b71b", 
-        "dateModified": "2017-06-20T14:42:53.410043+03:00"
+        "datePublished": "2017-06-21T17:53:06.232704+03:00", 
+        "id": "167427d8f0ed431784f1a9b7dafe91b1", 
+        "dateModified": "2017-06-21T17:53:06.232747+03:00"
       }, 
       {
         "title": "contract_additional_docs.doc", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de/documents/85563913cc564b748f43b79a70d4b71b?download=6048dab13d21408b928917d5dc6b4511", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/bebdbaf7777d4bd39756f3e8872c1f46/documents/167427d8f0ed431784f1a9b7dafe91b1?download=f9f4d77eb7fb4dfba28f96e89993e75e", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2017-06-20T14:42:53.410005+03:00", 
-        "id": "85563913cc564b748f43b79a70d4b71b", 
-        "dateModified": "2017-06-20T14:42:53.474785+03:00"
+        "datePublished": "2017-06-21T17:53:06.232704+03:00", 
+        "id": "167427d8f0ed431784f1a9b7dafe91b1", 
+        "dateModified": "2017-06-21T17:53:06.301704+03:00"
       }
     ], 
     "items": [
@@ -99,10 +99,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-06-22T14:42:48.235165+03:00", 
-          "endDate": "2017-06-25T14:42:48.235165+03:00"
+          "startDate": "2017-06-23T17:53:02.070092+03:00", 
+          "endDate": "2017-06-26T17:53:02.070092+03:00"
         }, 
-        "id": "282ab3daee314cfbb00c11823f8767ce", 
+        "id": "f8a311c2c9a34ff08bdf59bbc8092348", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -132,11 +132,11 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2017-06-20T14:42:52.782594+03:00", 
-      "endDate": "2017-07-20T14:42:52.782645+03:00"
+      "startDate": "2017-06-21T17:53:05.582663+03:00", 
+      "endDate": "2017-07-21T17:53:05.582718+03:00"
     }, 
-    "dateSigned": "2017-06-20T14:42:51.819633+03:00", 
-    "id": "121fbdd9d2fe440fa947d64e7494d3de", 
+    "dateSigned": "2017-06-21T17:53:04.594612+03:00", 
+    "id": "bebdbaf7777d4bd39756f3e8872c1f46", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -157,16 +157,16 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "contractID": "UA-2017-06-20-000001-1", 
+    "contractID": "UA-2017-06-21-000001-1", 
     "owner": "broker", 
-    "awardID": "629db36e412f41da9a9272c813c3233a", 
+    "awardID": "2f549474497c475b8023d51845cbb2bd", 
     "amountPaid": {
       "currency": "UAH", 
       "amount": 430.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateModified": "2017-06-20T14:42:53.650357+03:00", 
-    "tender_id": "336777a2c4f74b85b675c3a22cf5279a"
+    "dateModified": "2017-06-21T17:53:06.561834+03:00", 
+    "tender_id": "7dc086c4a213492ab9c43b95b43bd817"
   }
 }
 

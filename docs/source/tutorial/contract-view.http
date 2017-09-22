@@ -1,4 +1,4 @@
-GET /api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de HTTP/1.0
+GET /api/2.3/contracts/bebdbaf7777d4bd39756f3e8872c1f46 HTTP/1.0
 Host: api-sandbox.openprocurement.org
 
 Response: 200 OK
@@ -34,10 +34,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-06-22T14:42:48.235165+03:00", 
-          "endDate": "2017-06-25T14:42:48.235165+03:00"
+          "startDate": "2017-06-23T17:53:02.070092+03:00", 
+          "endDate": "2017-06-26T17:53:02.070092+03:00"
         }, 
-        "id": "282ab3daee314cfbb00c11823f8767ce", 
+        "id": "f8a311c2c9a34ff08bdf59bbc8092348", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -66,10 +66,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-06-22T14:42:48.235165+03:00", 
-          "endDate": "2017-06-25T14:42:48.235165+03:00"
+          "startDate": "2017-06-23T17:53:02.070092+03:00", 
+          "endDate": "2017-06-26T17:53:02.070092+03:00"
         }, 
-        "id": "2274c5a0cf594974aea408cb5d3771e8", 
+        "id": "c008a4d57c584dafa187ea72647e3cb7", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -98,8 +98,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "dateSigned": "2017-06-20T14:42:51.819633+03:00", 
-    "dateModified": "2017-06-20T14:42:52.092444+03:00", 
+    "dateSigned": "2017-06-21T17:53:04.594612+03:00", 
+    "dateModified": "2017-06-21T17:53:04.877904+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -120,11 +120,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "contractID": "UA-2017-06-20-000001-1", 
+    "contractID": "UA-2017-06-21-000001-1", 
     "owner": "broker", 
-    "awardID": "629db36e412f41da9a9272c813c3233a", 
-    "id": "121fbdd9d2fe440fa947d64e7494d3de", 
-    "tender_id": "336777a2c4f74b85b675c3a22cf5279a"
+    "awardID": "2f549474497c475b8023d51845cbb2bd", 
+    "id": "bebdbaf7777d4bd39756f3e8872c1f46", 
+    "tender_id": "7dc086c4a213492ab9c43b95b43bd817"
   }
 }
 

@@ -8,8 +8,8 @@ from datetime import datetime
 from requests.models import Response
 from urllib import urlencode
 from uuid import uuid4
-from openprocurement.api.utils import VERSION, SESSION
-from openprocurement.api.models import get_now
+from openprocurement.api.constants import VERSION, SESSION
+from openprocurement.api.utils import get_now
 
 now = datetime.now()
 
@@ -107,6 +107,11 @@ test_contract_data = {
     u"tender_token": uuid4().hex,
     u"owner": u"broker"
 }
+
+
+test_contract_data_wo_items = deepcopy(test_contract_data)
+del test_contract_data_wo_items['items']
+
 
 documents = [
     {

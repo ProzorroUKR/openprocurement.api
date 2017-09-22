@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from hashlib import md5
 from uuid import uuid4
 from zope.interface import implementer, Interface
 from couchdb_schematics.document import SchematicsDocument
@@ -9,19 +8,21 @@ from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Organization as BaseOrganization
 from openprocurement.api.models import ContactPoint as BaseContactPoint
+from openprocurement.api.models import CPVClassification as BaseCPVClassification
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import CPVClassification as BaseCPVClassification
 from openprocurement.api.models import (Model, ListType, Revision, Value,
                                         IsoDateTimeType)
-from openprocurement.api.models import validate_cpv_group, validate_items_uniq
-from openprocurement.api.models import (plain_role, Administrator_role,
-                                        schematics_default_role,
-                                        schematics_embedded_role)
+from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.models import (
+    plain_role, schematics_default_role, schematics_embedded_role
+)
+from openprocurement.tender.core.models import Administrator_role
 
 contract_create_role = (whitelist(
     'id', 'awardID', 'contractID', 'contractNumber', 'title', 'title_en',
@@ -116,12 +117,6 @@ class Item(BaseItem):
         }
 
     classification = ModelType(CPVClassification, required=True)
-
-    def validate_additionalClassifications(self, data, items):
-        pass
-
-    def validate_relatedLot(self, data, relatedLot):
-        pass
 
 
 class Change(Model):
@@ -235,10 +230,3 @@ class Contract(SchematicsDocument, BaseContract):
                               currency=self.value.currency,
                               valueAddedTaxIncluded=self.value.valueAddedTaxIncluded))
 
-    def validate_awardID(self, data, awardID):
-        # awardID is not validatable without tender data
-        pass
-
-    def validate_dateSigned(self, data, value):
-        # dateSigned changes is denied by roles
-        pass

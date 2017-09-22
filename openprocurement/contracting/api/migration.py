@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.traversal import Root
 from openprocurement.contracting.api.models import Contract
 

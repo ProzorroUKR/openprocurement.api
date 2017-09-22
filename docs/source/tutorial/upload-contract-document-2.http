@@ -1,21 +1,21 @@
-POST /api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de/documents?acc_token=14aa72437e414b1c877d778604886220 HTTP/1.0
+POST /api/2.3/contracts/bebdbaf7777d4bd39756f3e8872c1f46/documents?acc_token=2f1294ae618e49219d85607d17afabf6 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 215
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy500859520735$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy730885500672$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de/documents/85563913cc564b748f43b79a70d4b71b
+Location: http://api-sandbox.openprocurement.org/api/2.3/contracts/bebdbaf7777d4bd39756f3e8872c1f46/documents/167427d8f0ed431784f1a9b7dafe91b1
 {
   "data": {
     "title": "contract_additional_docs.doc", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/121fbdd9d2fe440fa947d64e7494d3de/documents/85563913cc564b748f43b79a70d4b71b?download=0033fd174a7948fab8489cb4081dade1", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.3/contracts/bebdbaf7777d4bd39756f3e8872c1f46/documents/167427d8f0ed431784f1a9b7dafe91b1?download=e071206d6e464a2590fa505a5ba91c3d", 
     "format": "application/msword", 
     "documentOf": "contract", 
-    "datePublished": "2017-06-20T14:42:53.410005+03:00", 
-    "id": "85563913cc564b748f43b79a70d4b71b", 
-    "dateModified": "2017-06-20T14:42:53.410043+03:00"
+    "datePublished": "2017-06-21T17:53:06.232704+03:00", 
+    "id": "167427d8f0ed431784f1a9b7dafe91b1", 
+    "dateModified": "2017-06-21T17:53:06.232747+03:00"
   }
 }
 

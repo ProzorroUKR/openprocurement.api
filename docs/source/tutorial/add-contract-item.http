@@ -1,4 +1,4 @@
-PATCH /api/2.3/contracts/6fea81cf76cc4391ba5ada48b4bee0b4?acc_token=f9d84584bd784145b5358ebd1e830b8a HTTP/1.0
+PATCH /api/2.3/contracts/1342f285f29a4461854772db9cd3e63b?acc_token=2c5fbf6d966644f2a865bc7018c4fbea HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1190
 Content-Type: application/json
@@ -30,8 +30,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-06-22T13:34:01.377143+03:00", 
-          "endDate": "2017-06-25T13:34:01.377143+03:00"
+          "startDate": "2017-06-23T17:46:49.540737+03:00", 
+          "endDate": "2017-06-26T17:46:49.540737+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 

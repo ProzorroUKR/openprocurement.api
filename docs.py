@@ -6,10 +6,11 @@ from copy import deepcopy
 
 from openprocurement.api.models import get_now
 import openprocurement.contracting.api.tests.base as base_test
-from openprocurement.api.tests.base import PrefixedRequestClass, BaseTenderWebTest
+from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest
+from openprocurement.api.tests.base import PrefixedRequestClass
 from openprocurement.contracting.api.tests.base import test_contract_data
 from webtest import TestApp
-from openprocurement.api.tests.base import test_tender_data, test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_organization
 
 test_tender_data['items'].append(deepcopy(test_tender_data['items'][0]))
 
