@@ -1,13 +1,22 @@
 # -*- coding: utf-8 -*-
 import os
-import webtest
-from datetime import datetime, timedelta
-from openprocurement.api.models import get_now, SANDBOX_MODE
-from openprocurement.api.tests.base import (test_tender_data as test_tender_data_api,
-                                            test_procuringEntity as test_procuringEntity_api,
-                                            now,
-                                            test_features_tender_data,
-                                            BaseTenderWebTest)
+from datetime import timedelta
+from openprocurement.api.utils import (
+    get_now,
+    apply_data_patch
+)
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.tender.openua.tests.base import (
+    now,
+    test_features_tender_data,
+    BaseTenderUAWebTest as BaseTenderWebTest
+)
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_procuringEntity as test_procuringEntity_api,
+    test_tender_data as test_tender_data_api,
+)
+from openprocurement.api.utils import apply_data_patch
+
 
 test_tender_data = test_tender_ua_data = test_tender_data_api.copy()
 test_tender_data['procurementMethodType'] = "aboveThresholdUA.defense"
@@ -18,63 +27,55 @@ test_contactPoint["availableLanguage"] = 'uk'
 test_procuringEntity["contactPoint"] = test_contactPoint
 test_procuringEntity["additionalContactPoints"] = [test_contactPoint.copy()]
 test_tender_data["procuringEntity"] = test_procuringEntity
-# test_tender_data["enquiryPeriod"] = {}
 del test_tender_data["enquiryPeriod"]
 test_tender_data["tenderPeriod"] = {
-        "endDate": (now + timedelta(days=16)).isoformat()
+    "endDate": (now + timedelta(days=16)).isoformat()
 }
 test_tender_data["items"] = [{
-        "description": u"футляри до державних нагород",
-        "description_en": u"Cases for state awards",
-        "classification": {
-            "scheme": u"ДК021",
-            "id": u"44617100-9",
-            "description": u"Cartons"
-        },
-        "additionalClassifications": [
-            {
-                "scheme": u"ДКПП",
-                "id": u"17.21.1",
-                "description": u"папір і картон гофровані, паперова й картонна тара"
-            }
-        ],
-        "unit": {
-            "name": u"item",
-            "code": u"44617100-9"
-        },
-        "quantity": 5,
-        "deliveryDate": {
-            "startDate": (now + timedelta(days=2)).isoformat(),
-            "endDate": (now + timedelta(days=5)).isoformat()
-        },
-        "deliveryAddress": {
-            "countryName": u"Україна",
-            "postalCode": "79000",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова 1"
+    "description": u"футляри до державних нагород",
+    "description_en": u"Cases for state awards",
+    "classification": {
+        "scheme": u"ДК021",
+        "id": u"44617100-9",
+        "description": u"Cartons"
+    },
+    "additionalClassifications": [
+        {
+            "scheme": u"ДКПП",
+            "id": u"17.21.1",
+            "description": u"папір і картон гофровані, паперова й картонна тара"
         }
+    ],
+    "unit": {
+        "name": u"item",
+        "code": u"44617100-9"
+    },
+    "quantity": 5,
+    "deliveryDate": {
+        "startDate": (now + timedelta(days=2)).isoformat(),
+        "endDate": (now + timedelta(days=5)).isoformat()
+    },
+    "deliveryAddress": {
+        "countryName": u"Україна",
+        "postalCode": "79000",
+        "region": u"м. Київ",
+        "locality": u"м. Київ",
+        "streetAddress": u"вул. Банкова 1"
+    }
 }]
 if SANDBOX_MODE:
     test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
-
-
-# test_tender_data["tenderPeriod"] = test_tender_data["enquiryPeriod"].copy()
-
 test_features_tender_ua_data = test_features_tender_data.copy()
 test_features_tender_ua_data['procurementMethodType'] = "aboveThresholdUA.defense"
 test_features_tender_ua_data["procuringEntity"] = test_procuringEntity
-# test_features_tender_ua_data["enquiryPeriod"] = {}
 del test_features_tender_ua_data["enquiryPeriod"]
 test_features_tender_ua_data["tenderPeriod"] = {
-        "endDate": (now + timedelta(days=16)).isoformat()
+    "endDate": (now + timedelta(days=16)).isoformat()
 }
 test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_data["items"][0]["deliveryDate"]
 test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["items"][0]["deliveryAddress"]
 # test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
 
-
-from openprocurement.api.utils import VERSION, apply_data_patch
 
 class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
@@ -82,6 +83,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     relative_to = os.path.dirname(__file__)
+    forbidden_lot_actions_status = "active.auction"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
 
     def go_to_enquiryPeriod_end(self):
         now = get_now()

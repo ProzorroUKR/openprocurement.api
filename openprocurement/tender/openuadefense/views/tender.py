@@ -1,26 +1,31 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.views.tender import TenderResource
-from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
-from openprocurement.tender.openuadefense.utils import calculate_business_date, check_status
 from openprocurement.api.utils import (
-    save_tender,
-    apply_patch,
-    opresource,
     json_view,
     context_unpack,
+    get_now,
 )
-from openprocurement.api.models import get_now
-from openprocurement.tender.openuadefense.models import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource,
+    calculate_business_date
+)
+from openprocurement.tender.core.validation import validate_tender_status_update_in_terminated_status
+from openprocurement.tender.belowthreshold.views.tender import TenderResource
+from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
+from openprocurement.tender.openuadefense.utils import check_status
+from openprocurement.tender.openuadefense.validation import validate_tender_period_extension_with_working_days
+from openprocurement.tender.core.events import TenderInitializeEvent
 
 
-@opresource(name='Tender UA.defense',
-            path='/tenders/{tender_id}',
-            procurementMethodType='aboveThresholdUA.defense',
-            description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
+@optendersresource(name='aboveThresholdUA.defense:Tender',
+                   path='/tenders/{tender_id}',
+                   procurementMethodType='aboveThresholdUA.defense',
+                   description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderUAResource(TenderResource):
     """ Resource handler for TenderUA """
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data, ), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data, validate_tender_status_update_in_terminated_status), permission='edit_tender')
     def patch(self):
         """Tender Edit (partial)
 
@@ -70,20 +75,13 @@ class TenderUAResource(TenderResource):
 
         """
         tender = self.context
-        if self.request.authenticated_role != 'Administrator' and tender.status in ['complete', 'unsuccessful', 'cancelled']:
-            self.request.errors.add('body', 'data', 'Can\'t update tender in current ({}) status'.format(tender.status))
-            self.request.errors.status = 403
-            return
         data = self.request.validated['data']
 
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
                 self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
-                if calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, tender, True) > self.request.validated['tender'].tenderPeriod.endDate:
-                    self.request.errors.add('body', 'data', 'tenderPeriod should be extended by {0.days} working days'.format(TENDERING_EXTRA_PERIOD))
-                    self.request.errors.status = 403
-                    return
-                self.request.validated['tender'].initialize()
+                validate_tender_period_extension_with_working_days(self.request)
+                self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
                 self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
 
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])

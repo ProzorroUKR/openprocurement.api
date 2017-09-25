@@ -1,10 +1,18 @@
 # -*- coding: utf-8 -*-
-
 import unittest
-
 from openprocurement.tender.openuadefense.tests import (
-    auction, award, bid, cancellation, chronograph, complaint, contract,
-    document, lot, question, tender)
+    auction,
+    award,
+    bid,
+    cancellation,
+    chronograph,
+    complaint,
+    contract,
+    document,
+    lot,
+    question,
+    tender
+)
 
 
 def suite():

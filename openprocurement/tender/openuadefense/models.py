@@ -2,31 +2,43 @@
 from datetime import timedelta, datetime, time
 from schematics.exceptions import ValidationError
 from schematics.types import StringType
-from openprocurement.api.models import ListType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
+from openprocurement.api.utils import get_now
 from openprocurement.api.models import (
-    ITender, Period, get_now, TZ,
-    ProcuringEntity as BaseProcuringEntity, ContactPoint as BaseContactPoint,
+    Period,
+    ListType,
+    ContactPoint as BaseContactPoint
+)
+from openprocurement.tender.core.models import (
+    ProcuringEntity as BaseProcuringEntity, EnquiryPeriod,
+    Lot as BaseLot, validate_lots_uniq, get_tender
 )
 from openprocurement.tender.openua.models import (
-    Tender as BaseTender, EnquiryPeriod, Lot as BaseLot, get_tender,
-    calc_auction_end_time, validate_lots_uniq, calculate_normalized_date,
+    Tender as BaseTender,
+    IAboveThresholdUATender,
+)
+from openprocurement.tender.openua.utils import calculate_normalized_date
+from openprocurement.tender.core.utils import (
+    calc_auction_end_time,
+)
+from openprocurement.tender.openuadefense.constants import (
+    TENDER_PERIOD,
+    ENQUIRY_STAND_STILL_TIME,
+    ENQUIRY_PERIOD_TIME,
+    COMPLAINT_SUBMIT_TIME,
+    COMPLAINT_OLD_SUBMIT_TIME,
+    COMPLAINT_OLD_SUBMIT_TIME_BEFORE
 )
 
-from openprocurement.tender.openuadefense.utils import calculate_business_date
+from openprocurement.tender.openuadefense.utils import (
+    calculate_business_date,
+)
 
 
-STAND_STILL_TIME = timedelta(days=4)
-ENQUIRY_STAND_STILL_TIME = timedelta(days=2)
-CLAIM_SUBMIT_TIME = timedelta(days=3)
-COMPLAINT_SUBMIT_TIME = timedelta(days=2)
-COMPLAINT_OLD_SUBMIT_TIME = timedelta(days=3)
-COMPLAINT_OLD_SUBMIT_TIME_BEFORE = datetime(2016, 7, 5, tzinfo=TZ)
-TENDER_PERIOD = timedelta(days=6)
-ENQUIRY_PERIOD_TIME = timedelta(days=3)
-TENDERING_EXTRA_PERIOD = timedelta(days=2)
+class IAboveThresholdUADefTender(IAboveThresholdUATender):
+     """ Marker interface for aboveThresholdUA defense tenders """
 
 
 class LotAuctionPeriod(Period):
@@ -71,7 +83,7 @@ class ProcuringEntity(BaseProcuringEntity):
                                        required=False)
 
 
-@implementer(ITender)
+@implementer(IAboveThresholdUADefTender)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
 
@@ -79,18 +91,6 @@ class Tender(BaseTender):
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     procurementMethodType = StringType(default="aboveThresholdUA.defense")
     procuring_entity_kinds = ['defense']
-
-    def initialize(self):
-        endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self, True)
-        self.enquiryPeriod = EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
-                                                endDate=endDate,
-                                                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                                                clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
-        now = get_now()
-        self.date = now
-        if self.lots:
-            for lot in self.lots:
-                lot.date = now
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):

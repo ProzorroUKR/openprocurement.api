@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/8967a0305c30452a965e7f3ca7b24f3c/complaints/1f80bafc25b8491099375e07d90a080f?acc_token=25037d3c95024b6eb1d94fc9e8f0e5c5 HTTP/1.0
+PATCH /api/2.3/tenders/95406b89097549e48c364931fcf50fc9/complaints/f2cabe6d19dd473bb09750ce13c72e86?acc_token=7e6d9d7b24a443fdb054a0591d1ce3a1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 150
 Content-Type: application/json
@@ -19,11 +19,11 @@ Content-Type: application/json; charset=UTF-8
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
     "cancellationReason": "Умови виправлено", 
-    "dateCanceled": "2017-06-19T19:52:47.619425+03:00", 
-    "complaintID": "UA-2017-06-19-000001.7", 
-    "date": "2017-06-19T19:52:47.627877+03:00", 
+    "dateCanceled": "2017-06-21T16:09:24.020699+03:00", 
+    "complaintID": "UA-2017-06-21-000001.7", 
+    "date": "2017-06-21T16:09:24.029153+03:00", 
     "type": "claim", 
-    "id": "1f80bafc25b8491099375e07d90a080f"
+    "id": "f2cabe6d19dd473bb09750ce13c72e86"
   }
 }
 

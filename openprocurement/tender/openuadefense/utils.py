@@ -1,18 +1,25 @@
-from datetime import datetime, time, timedelta
 from logging import getLogger
 from pkg_resources import get_distribution
+from datetime import datetime, time, timedelta
 
-from openprocurement.api.models import get_now, TZ
-from openprocurement.api.utils import ACCELERATOR_RE, context_unpack, check_tender_status
-from openprocurement.api.utils import calculate_business_date as calculate_business_date_openua
+from openprocurement.api.constants import TZ
+from openprocurement.tender.core.utils import (
+    context_unpack, get_now, has_unanswered_questions,
+    has_unanswered_complaints, ACCELERATOR_RE
+)
 from openprocurement.tender.openua.utils import (
-    check_complaint_status, add_next_award, has_unanswered_questions,
-    has_unanswered_complaints
+    check_complaint_status, add_next_award
+)
+from openprocurement.tender.belowthreshold.utils import check_tender_status
+from openprocurement.tender.core.utils import (
+    calculate_business_date as calculate_business_date_base
+)
+from openprocurement.tender.openuadefense.constants import (
+    CALCULATE_BUSINESS_DATE_FROM
 )
 
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
-CALCULATE_BUSINESS_DATE_FROM = datetime(2017, 9, 8, tzinfo=TZ)
 
 
 def read_json(name):
@@ -30,7 +37,7 @@ WORKING_DAYS = read_json('working_days.json')
 
 def calculate_business_date(date_obj, timedelta_obj, context=None, working_days=False):
     if (context.get('revisions')[0].date if context and context.get('revisions') else get_now()) < CALCULATE_BUSINESS_DATE_FROM:
-        return calculate_business_date_openua(date_obj, timedelta_obj, context, working_days)
+        return calculate_business_date_base(date_obj, timedelta_obj, context, working_days)
     if context and 'procurementMethodDetails' in context and context['procurementMethodDetails']:
         re_obj = ACCELERATOR_RE.search(context['procurementMethodDetails'])
         if re_obj and 'accelerator' in re_obj.groupdict():

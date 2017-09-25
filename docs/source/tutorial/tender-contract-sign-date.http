@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/287854f554614aa989e594659998a3e0/contracts/8560dacc22494942b150873d520c3f8e?acc_token=8b1a089a6e1b471291009cdcb2a363f7 HTTP/1.0
+PATCH /api/2.3/tenders/d3dba9240047439492b162acda141abd/contracts/465353a6aab44e30861bda991f255702?acc_token=4d2022f0685446d6ab06c53b51e10410 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 60
 Content-Type: application/json
@@ -6,7 +6,7 @@ Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "dateSigned": "2017-06-19T19:52:52.234797+03:00"
+    "dateSigned": "2017-06-21T16:09:27.739357+03:00"
   }
 }
 
@@ -38,10 +38,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-07-09T19:52:32.751993+03:00", 
-          "endDate": "2017-08-08T19:52:32.752034+03:00"
+          "startDate": "2017-07-11T16:09:10.869776+03:00", 
+          "endDate": "2017-08-10T16:09:10.869828+03:00"
         }, 
-        "id": "46be9bb068104f66b5ff5708ed5c708d", 
+        "id": "088c06079114432a868884642967dd98", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -71,15 +71,15 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
+    "dateSigned": "2017-06-21T16:09:27.739357+03:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2017-06-19T19:52:52.234797+03:00", 
-    "awardID": "440ec82a32e249b193ecd1c7c2cfb7ee", 
-    "id": "8560dacc22494942b150873d520c3f8e", 
-    "contractID": "UA-2017-06-19-000001-1"
+    "awardID": "e3d40093a1cf4f438eb0915fbd77f847", 
+    "id": "465353a6aab44e30861bda991f255702", 
+    "contractID": "UA-2017-06-21-000001-1"
   }
 }
 
