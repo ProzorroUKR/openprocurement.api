@@ -25,6 +25,7 @@ class BaseTenderWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
 
     def set_status(self, status, extra=None):
+        data = {'status': status}
         if extra:
             data.update(extra)
 
