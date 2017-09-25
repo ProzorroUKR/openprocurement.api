@@ -194,6 +194,11 @@ def listing(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 4)
 
+    response = self.app.get('/contracts?mode=_all_&opt_fields=status')
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(len(response.json['data']), 4)
+
+
 def listing_changes(self):
     response = self.app.get('/contracts?feed=changes')
     self.assertEqual(response.status, '200 OK')
