@@ -59,7 +59,7 @@ class ContractsResource(APIResourceListing):
         self.CHANGES_VIEW_MAP = CHANGES_VIEW_MAP
         self.FEED = FEED
         self.FIELDS = FIELDS
-        self.serialize_fucn = contract_serialize
+        self.serialize_func = contract_serialize
         self.object_name_for_listing = 'Contracts'
         self.log_message_id = 'contract_list_custom'
 
