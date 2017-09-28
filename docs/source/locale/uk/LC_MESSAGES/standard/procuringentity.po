@@ -15,47 +15,49 @@ msgid "ProcuringEntity"
 msgstr ""
 
 msgid "Schema"
-msgstr ""
+msgstr "Схема"
 
 msgid "string, multilingual"
-msgstr ""
+msgstr "string, багатомовний"
 
 msgid "|ocdsDescription| The common name of the organization."
-msgstr ""
+msgstr "|ocdsDescription| Назва організації."
 
 msgid ":ref:`Identifier`"
-msgstr ""
+msgstr ":ref:`Identifier`"
 
 msgid "|ocdsDescription| The primary identifier for this organization."
-msgstr ""
+msgstr "|ocdsDescription| Ідентифікатор цієї організації."
 
 msgid "List of :ref:`identifier` objects"
-msgstr ""
+msgstr "Список об’єктів :ref:`identifier`"
 
 msgid ":ref:`Address`, required"
-msgstr ""
+msgstr ":ref:`Address`, обов’язково"
 
 msgid ":ref:`ContactPoint`, required"
-msgstr ""
+msgstr ":ref:`ContactPoint`, обов’язково"
 
 msgid "string"
-msgstr ""
+msgstr "string"
 
 msgid "Type of procuring entity"
-msgstr ""
+msgstr "Тип організації замовника"
 
 msgid "Possible values:"
-msgstr ""
+msgstr "Можливі значення:"
 
 msgid "``general`` - Procuring entity (general)"
-msgstr ""
+msgstr "``general`` - Замовник (загальний)"
 
 msgid ""
 "``special`` - Procuring entity that operates in certain spheres of economic "
 "activity"
 msgstr ""
+"``special`` - Замовник, що здійснює діяльність в окремих сферах "
+"господарювання"
 
 msgid ""
 "``defense`` - Procuring entity that conducts procurement for the defense "
 "needs"
-msgstr ""
+msgstr "``defense`` - Замовник, що здійснює закупівлі для потреб оборони"

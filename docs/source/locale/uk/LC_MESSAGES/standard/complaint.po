@@ -15,60 +15,62 @@ msgid "Complaint"
 msgstr ""
 
 msgid "Schema"
-msgstr ""
+msgstr "Схема"
 
 msgid "uid, auto-generated"
-msgstr ""
+msgstr "uid, генерується автоматично"
 
 msgid ":ref:`Organization`, required"
-msgstr ""
+msgstr ":ref:`Organization`, обов’язково"
 
 msgid ""
 "Organization filing a complaint (contactPoint - person, identification - "
 "organization that person represents)."
 msgstr ""
+"Організація, яка подає скаргу (contactPoint - людина, identification - "
+"організація, яку ця людина представляє)"
 
 msgid "string, required"
-msgstr ""
+msgstr "string, обов’язковий"
 
 msgid "Title of the complaint."
-msgstr ""
+msgstr "Заголовок скарги."
 
 msgid "Description of the issue."
-msgstr ""
+msgstr "Опис запитання."
 
 msgid "string, :ref:`date`, auto-generated"
-msgstr ""
+msgstr "string, :ref:`date`, генерується автоматично"
 
 msgid "Date of posting."
-msgstr ""
+msgstr "Дата подання."
 
 msgid "Date when claim was submitted."
-msgstr ""
+msgstr "Дата, коли вимога була подана."
 
 msgid "Date when Procuring entity answered the claim."
-msgstr ""
+msgstr "Дата, коли замовник відповів на вимогу."
 
 msgid "Date of claim to complaint escalation."
-msgstr ""
+msgstr "Дата ескалації (перетворення вимоги на скаргу)."
 
 msgid "Date of complaint decision."
-msgstr ""
+msgstr "День прийняття рішення по вимозі."
 
 msgid "Date of cancelling."
-msgstr ""
+msgstr "Дата відхилення."
 
 msgid "string"
-msgstr ""
+msgstr "string"
 
 msgid "Possible values are:"
-msgstr ""
+msgstr "Можливі значення:"
 
 msgid "`draft`"
 msgstr ""
 
 msgid "`claim`"
-msgstr ""
+msgstr "вимога"
 
 msgid "`answered`"
 msgstr ""
@@ -92,43 +94,43 @@ msgid "`accepted`"
 msgstr ""
 
 msgid "Possible values of type are:"
-msgstr ""
+msgstr "Можливі значення типу:"
 
 msgid "`complaint`"
-msgstr ""
+msgstr "скарга"
 
 msgid "Resolution of Procuring entity."
-msgstr ""
+msgstr "Рішення замовника."
 
 msgid "Possible values of resolution type are:"
-msgstr ""
+msgstr "Можливі значення типу вирішення:"
 
 msgid "bool"
 msgstr ""
 
 msgid "Claim is satisfied?"
-msgstr ""
+msgstr "Вимога задовільнена?"
 
 msgid "Reviewer decision."
-msgstr ""
+msgstr "Рішення органу оскарження."
 
 msgid "Cancellation reason."
-msgstr ""
+msgstr "Причини відхилення."
 
 msgid "List of :ref:`Document` objects"
-msgstr ""
+msgstr "Список об’єктів :ref:`Document`"
 
 msgid "Id of related :ref:`lot`."
-msgstr ""
+msgstr "ID пов’язаного"
 
 msgid "Tenderer action."
-msgstr ""
+msgstr "Дія учасника."
 
 msgid "Date of tenderer action."
-msgstr ""
+msgstr "Дата дії учасника."
 
 msgid "Possible values of reject reason are:"
-msgstr ""
+msgstr "Можливі значення причини відхилення:"
 
 msgid "`law`"
 msgstr ""
@@ -140,10 +142,10 @@ msgid "`fixed`"
 msgstr ""
 
 msgid "Reject reason description."
-msgstr ""
+msgstr "Опис причин відхилення."
 
 msgid "Date of review."
-msgstr ""
+msgstr "Дата розгляду."
 
 msgid "Place of review."
-msgstr ""
+msgstr "Місце розгляду."
