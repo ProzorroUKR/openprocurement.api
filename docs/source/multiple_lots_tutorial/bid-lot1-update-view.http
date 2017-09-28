@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/280597ddd8b840fbbd91ce17c8b50ee7/bids/fecabf8bbfaf42d994b71814efcc5ce6?acc_token=7f29cc377a5643f59df9f0bd09510c64 HTTP/1.0
+PATCH /api/2.4/tenders/ae550ff97b034f8391b117ff7a1f7c69/bids/40a83840a8e1400d8bcaa1bd1d0aad18?acc_token=4df8379b16e04cf59ad0cd5f34a295b4 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 214
 Content-Type: application/json
@@ -9,7 +9,7 @@ DATA:
     "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "3e270fdf1d3343feb0e2b26f7e2267fd", 
+        "relatedLot": "1af1f23fd5af42f19d8bb4f7893c924c", 
         "value": {
           "amount": 500
         }, 
@@ -27,16 +27,42 @@ Content-Type: application/json; charset=UTF-8
     "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "3e270fdf1d3343feb0e2b26f7e2267fd", 
-        "date": "2017-06-02T13:01:05.161926+03:00", 
+        "relatedLot": "1af1f23fd5af42f19d8bb4f7893c924c", 
+        "date": "2017-09-28T18:39:20.648464+03:00", 
         "status": "pending", 
         "value": {
-          "yearlyPayments": 0.9, 
+          "amountPerfomance": 1482.3384524678127, 
+          "yearlyPaymentsPercentage": 0.87, 
           "valueAddedTaxIncluded": true, 
           "currency": "UAH", 
-          "amount": 698.444, 
-          "contractDuration": 10, 
-          "annualCostsReduction": 751.5
+          "amount": 6039.945205479452, 
+          "contractDuration": {
+            "days": 0, 
+            "years": 7
+          }, 
+          "annualCostsReduction": [
+            200.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0
+          ]
         }, 
         "subcontractingDetails": "ДКП «Орфей»"
       }
@@ -64,8 +90,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2017-06-02T13:01:05.161031+03:00", 
-    "id": "fecabf8bbfaf42d994b71814efcc5ce6"
+    "date": "2017-09-28T18:39:20.647953+03:00", 
+    "id": "40a83840a8e1400d8bcaa1bd1d0aad18"
   }
 }
 

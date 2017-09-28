@@ -1,6 +1,6 @@
-POST /api/2.3/tenders/280597ddd8b840fbbd91ce17c8b50ee7/bids HTTP/1.0
+POST /api/2.4/tenders/ae550ff97b034f8391b117ff7a1f7c69/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 1173
+Content-Length: 1454
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -10,19 +10,67 @@ DATA:
     "selfQualified": true, 
     "lotValues": [
       {
-        "relatedLot": "3e270fdf1d3343feb0e2b26f7e2267fd", 
+        "relatedLot": "1af1f23fd5af42f19d8bb4f7893c924c", 
         "value": {
-          "contractDuration": 10, 
-          "annualCostsReduction": 751.5, 
-          "yearlyPayments": 0.9
+          "contractDuration": {
+            "years": 7
+          }, 
+          "yearlyPaymentsPercentage": 0.9, 
+          "annualCostsReduction": [
+            700, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600, 
+            1600
+          ]
         }
       }, 
       {
-        "relatedLot": "ff756271183a4f6fb165a9cf9e3f45a4", 
+        "relatedLot": "9fcbe0f29fd8456e8f3518c678b0ce02", 
         "value": {
-          "contractDuration": 10, 
-          "annualCostsReduction": 751.5, 
-          "yearlyPayments": 0.9
+          "contractDuration": {
+            "years": 9
+          }, 
+          "yearlyPaymentsPercentage": 0.96, 
+          "annualCostsReduction": [
+            600, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200, 
+            1200
+          ]
         }, 
         "subcontractingDetails": "ДКП «Укр Прінт», Україна"
       }
@@ -54,39 +102,91 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/280597ddd8b840fbbd91ce17c8b50ee7/bids/c9b2a39e6121440cb5fc10828e12a8ed
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/ae550ff97b034f8391b117ff7a1f7c69/bids/7f5df8e4b7ba48d5af8393f5fbc02428
 {
   "access": {
-    "token": "ef275dcfe99d44698395fb1c1561df3b"
+    "token": "85559a1593f14d5dbac035b62fdf71be"
   }, 
   "data": {
     "status": "pending", 
     "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "3e270fdf1d3343feb0e2b26f7e2267fd", 
-        "date": "2017-06-02T13:01:05.319919+03:00", 
+        "relatedLot": "1af1f23fd5af42f19d8bb4f7893c924c", 
+        "date": "2017-09-28T18:39:20.797821+03:00", 
         "status": "pending", 
         "value": {
-          "yearlyPayments": 0.9, 
+          "amountPerfomance": 2246.373237166645, 
+          "yearlyPaymentsPercentage": 0.9, 
           "valueAddedTaxIncluded": true, 
           "currency": "UAH", 
-          "amount": 698.444, 
-          "contractDuration": 10, 
-          "annualCostsReduction": 751.5
+          "amount": 10339.150684931506, 
+          "contractDuration": {
+            "days": 0, 
+            "years": 7
+          }, 
+          "annualCostsReduction": [
+            700.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0
+          ]
         }
       }, 
       {
-        "relatedLot": "ff756271183a4f6fb165a9cf9e3f45a4", 
-        "date": "2017-06-02T13:01:05.320678+03:00", 
+        "relatedLot": "9fcbe0f29fd8456e8f3518c678b0ce02", 
+        "date": "2017-09-28T18:39:20.798720+03:00", 
         "status": "pending", 
         "value": {
-          "yearlyPayments": 0.9, 
+          "amountPerfomance": 1002.3030619536949, 
+          "yearlyPaymentsPercentage": 0.96, 
           "valueAddedTaxIncluded": true, 
           "currency": "UAH", 
-          "amount": 698.444, 
-          "contractDuration": 10, 
-          "annualCostsReduction": 751.5
+          "amount": 10647.320547945206, 
+          "contractDuration": {
+            "days": 0, 
+            "years": 9
+          }, 
+          "annualCostsReduction": [
+            600.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0, 
+            1200.0
+          ]
         }, 
         "subcontractingDetails": "ДКП «Укр Прінт», Україна"
       }
@@ -114,8 +214,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/280597ddd8b840f
         }
       }
     ], 
-    "date": "2017-06-02T13:01:05.319286+03:00", 
-    "id": "c9b2a39e6121440cb5fc10828e12a8ed"
+    "date": "2017-09-28T18:39:20.797275+03:00", 
+    "id": "7f5df8e4b7ba48d5af8393f5fbc02428"
   }
 }
 

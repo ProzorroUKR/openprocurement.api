@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/1c7e0940d57a447480c563f65398362d/awards/a2be3e5f23cb4f7cbf5654f8691d5fa4?acc_token=cfaff150345049c0bb22b1e9ac79c66d HTTP/1.0
+PATCH /api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/awards/be2ce9f03ff048ecb8f5ab9c1615a5d7?acc_token=11d441c30b1648359d073e803a147fe1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 67
 Content-Type: application/json
@@ -41,21 +41,47 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "complaintPeriod": {
-      "startDate": "2017-06-02T13:00:58.000042+03:00", 
-      "endDate": "2017-06-13T00:00:00+03:00"
+      "startDate": "2017-09-28T18:39:10.047359+03:00", 
+      "endDate": "2017-10-09T00:00:00+03:00"
     }, 
-    "bid_id": "bc22f14f04c344b5bb797826a1cd8392", 
+    "bid_id": "befa6117e647452f8154dcff6a166947", 
     "value": {
-      "yearlyPayments": 0.9, 
+      "amountPerfomance": 929.3479606267625, 
+      "yearlyPaymentsPercentage": 0.9, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 509.678, 
-      "contractDuration": 4, 
-      "annualCostsReduction": 230.0
+      "amount": 9400.684931506848, 
+      "contractDuration": {
+        "days": 74, 
+        "years": 10
+      }, 
+      "annualCostsReduction": [
+        500.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0
+      ]
     }, 
     "qualified": true, 
-    "date": "2017-06-02T13:00:58.457738+03:00", 
-    "id": "a2be3e5f23cb4f7cbf5654f8691d5fa4"
+    "date": "2017-09-28T18:39:12.415262+03:00", 
+    "id": "be2ce9f03ff048ecb8f5ab9c1615a5d7"
   }
 }
 

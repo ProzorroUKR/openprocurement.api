@@ -1,4 +1,4 @@
-POST /api/2.3/tenders/8e66e6ec79884e3bae079ce132af8c71/qualifications/4c89d8b74f294b90809b913facdc09f0/complaints?acc_token=e8909e3c44804e5fb5253e5e10a1ab83 HTTP/1.0
+POST /api/2.4/tenders/5a4381eb16f44f1c814eb5a091374398/qualifications/a3751657f0db4189837d63baa61fee39/complaints?acc_token=4b6299c383cb4cb39538505606686462 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1701
 Content-Type: application/json
@@ -35,21 +35,21 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/8e66e6ec79884e3bae079ce132af8c71/qualifications/4c89d8b74f294b90809b913facdc09f0/complaints/33ce07329b974fb9afd86f73924e857f
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/5a4381eb16f44f1c814eb5a091374398/qualifications/a3751657f0db4189837d63baa61fee39/complaints/8ba6075271614328a36dcc2bec83bfeb
 {
   "access": {
-    "token": "7877f99431f149e5ad73f007e187429a"
+    "token": "1f8e39579d4d4e7ebad2cb32a7ad4b4b"
   }, 
   "data": {
     "status": "claim", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
-    "bid_id": "e7360dbfaf3d439b88ef6c67dc491e03", 
-    "dateSubmitted": "2017-05-22T17:28:29.853938+03:00", 
-    "complaintID": "UA-2017-05-22-000001.6", 
-    "date": "2017-05-22T17:28:29.853713+03:00", 
+    "bid_id": "5ba9d1c26eb64257824215e8001a33ef", 
+    "dateSubmitted": "2017-09-28T18:39:26.158255+03:00", 
+    "complaintID": "UA-2017-09-28-000001.6", 
+    "date": "2017-09-28T18:39:26.158096+03:00", 
     "type": "claim", 
-    "id": "33ce07329b974fb9afd86f73924e857f"
+    "id": "8ba6075271614328a36dcc2bec83bfeb"
   }
 }
 

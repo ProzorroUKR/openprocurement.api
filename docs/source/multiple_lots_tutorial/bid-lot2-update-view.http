@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/280597ddd8b840fbbd91ce17c8b50ee7/bids/c9b2a39e6121440cb5fc10828e12a8ed?acc_token=ef275dcfe99d44698395fb1c1561df3b HTTP/1.0
+PATCH /api/2.4/tenders/ae550ff97b034f8391b117ff7a1f7c69/bids/7f5df8e4b7ba48d5af8393f5fbc02428?acc_token=85559a1593f14d5dbac035b62fdf71be HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 124
 Content-Type: application/json
@@ -9,7 +9,7 @@ DATA:
     "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "3e270fdf1d3343feb0e2b26f7e2267fd", 
+        "relatedLot": "1af1f23fd5af42f19d8bb4f7893c924c", 
         "value": {
           "amount": 500
         }
@@ -26,16 +26,42 @@ Content-Type: application/json; charset=UTF-8
     "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "3e270fdf1d3343feb0e2b26f7e2267fd", 
-        "date": "2017-06-02T13:01:05.319919+03:00", 
+        "relatedLot": "1af1f23fd5af42f19d8bb4f7893c924c", 
+        "date": "2017-09-28T18:39:20.797821+03:00", 
         "status": "pending", 
         "value": {
-          "yearlyPayments": 0.9, 
+          "amountPerfomance": 2246.373237166645, 
+          "yearlyPaymentsPercentage": 0.9, 
           "valueAddedTaxIncluded": true, 
           "currency": "UAH", 
-          "amount": 698.444, 
-          "contractDuration": 10, 
-          "annualCostsReduction": 751.5
+          "amount": 10339.150684931506, 
+          "contractDuration": {
+            "days": 0, 
+            "years": 7
+          }, 
+          "annualCostsReduction": [
+            700.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0
+          ]
         }
       }
     ], 
@@ -62,8 +88,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2017-06-02T13:01:05.319286+03:00", 
-    "id": "c9b2a39e6121440cb5fc10828e12a8ed"
+    "date": "2017-09-28T18:39:20.797275+03:00", 
+    "id": "7f5df8e4b7ba48d5af8393f5fbc02428"
   }
 }
 

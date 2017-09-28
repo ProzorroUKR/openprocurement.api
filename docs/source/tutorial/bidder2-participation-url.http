@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/1c7e0940d57a447480c563f65398362d/bids/ea44725731434fbebec02a23b32d8d28?acc_token=709e35899a804789b787558ce606264b HTTP/1.0
+GET /api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/bids/4a0ec83307f442b9ad95ada4dca7c562?acc_token=ad2719021bd74c8cb62d39e55f5e11ca HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -7,16 +7,40 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "selfEligible": true, 
     "value": {
-      "yearlyPayments": 0.9, 
+      "amountPerfomance": 848.2546242936753, 
+      "yearlyPaymentsPercentage": 0.85, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 508.407, 
-      "contractDuration": 5, 
-      "annualCostsReduction": 270.0
+      "amount": 9742.164383561643, 
+      "contractDuration": {
+        "days": 200, 
+        "years": 12
+      }, 
+      "annualCostsReduction": [
+        400.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0
+      ]
     }, 
-    "selfQualified": true, 
     "tenderers": [
       {
         "contactPoint": {
@@ -39,9 +63,9 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2017-06-02T13:00:53.415611+03:00", 
-    "id": "ea44725731434fbebec02a23b32d8d28", 
-    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/1c7e0940d57a447480c563f65398362d?key_for_bid=ea44725731434fbebec02a23b32d8d28"
+    "date": "2017-09-28T18:39:05.891896+03:00", 
+    "id": "4a0ec83307f442b9ad95ada4dca7c562", 
+    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/d8399d1bdfd04ca6889534e64c132549?key_for_bid=4a0ec83307f442b9ad95ada4dca7c562"
   }
 }
 
