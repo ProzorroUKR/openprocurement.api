@@ -17,7 +17,8 @@ from openprocurement.api.validation import (
 )
 from openprocurement.api.models import (
     Value, Model, SifterListType,
-    ListType, Period, Address, PeriodEndRequired
+    ListType, Period, Address, PeriodEndRequired,
+    IsoDateTimeType
 )
 from openprocurement.api.models import (
     plain_role, listing_role,
@@ -270,10 +271,10 @@ class Tender(BaseTender):
     class Options:
         roles = {
             'plain': plain_role,
-            'create': create_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep'),
-            'edit': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep'),
-            'edit_draft': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep'),
-            'edit_active.tendering': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep'),
+            'create': create_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep', 'noticePublicationDate', 'tender_noticePublicationDate'),
+            'edit': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep', 'noticePublicationDate', 'tender_noticePublicationDate'),
+            'edit_draft': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep', 'noticePublicationDate', 'tender_noticePublicationDate'),
+            'edit_active.tendering': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep', 'noticePublicationDate', 'tender_noticePublicationDate'),
             'edit_active.pre-qualification': whitelist('status'),
             'edit_active.pre-qualification.stand-still': whitelist(),
             'edit_active.auction': whitelist(),
@@ -284,7 +285,7 @@ class Tender(BaseTender):
             'edit_cancelled': whitelist(),
             'view': view_role,
             'listing': listing_role,
-            'auction_view': auction_view_role + whitelist('NBUdiscountRate', 'minimalStepPercentage', 'yearlyPaymentsPercentageRange', 'fundingKind', 'procurementMethodType'),
+            'auction_view': auction_view_role + whitelist('NBUdiscountRate', 'minimalStepPercentage', 'yearlyPaymentsPercentageRange', 'fundingKind', 'procurementMethodType', 'noticePublicationDate'),
             'auction_post': auction_post_role,
             'auction_patch': auction_patch_role,
             'draft': enquiries_role,
@@ -338,7 +339,7 @@ class Tender(BaseTender):
     fundingKind = StringType(choices=['budget', 'other'], required=True, default='other')
     yearlyPaymentsPercentageRange = FloatType(required=True, default=0.8, min_value=0, max_value=1)
     submissionMethodDetails = StringType(default="quick(mode:no-auction)")  # TODO: temporary decision, while esco auction is not ready. Remove after adding auction. Remove function "check_submission_method_details" in openprocurement.tender.esco.subscribers
-    announcementDate = datetime(2017, 9, 19) # XXX
+    noticePublicationDate = IsoDateTimeType()
 
     create_accreditation = 3
     edit_accreditation = 4
@@ -363,8 +364,6 @@ class Tender(BaseTender):
             del data[k]
         self._data.update(data)
         return self
-
-
 
     def __local_roles__(self):
         roles = dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])
@@ -519,6 +518,13 @@ class Tender(BaseTender):
     @serializable(serialized_name="yearlyPaymentsPercentageRange")
     def tender_yearlyPaymentsPercentageRange(self):
         return min([i.yearlyPaymentsPercentageRange for i in self.lots]) if self.lots else self.yearlyPaymentsPercentageRange
+
+    @serializable(serialized_name="noticePublicationDate", serialize_when_none=False, type=IsoDateTimeType())
+    def tender_noticePublicationDate(self):
+        if not self.noticePublicationDate and self.status == 'active.tendering':
+            return self.__parent__.request.now
+        else:
+            return self.noticePublicationDate
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False
