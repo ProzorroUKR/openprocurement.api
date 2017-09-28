@@ -99,7 +99,7 @@ Schema
    :ref:`value`, Float, required.
 
    Minimum step increment of the energy service contract performance indicator during auction that is calculated from  participant’s bid. 
-   Possible values: from 0.05 to 0.3 (from 0.5% to 3%), with 3-digit precision after comma.
+   Possible values: from 0.005 to 0.03 (from 0.5% to 3%), with 3-digit precision after comma.
 
 :awards:
     list of :ref:`award` objects
