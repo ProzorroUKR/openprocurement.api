@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/280597ddd8b840fbbd91ce17c8b50ee7/bids/fecabf8bbfaf42d994b71814efcc5ce6?acc_token=7f29cc377a5643f59df9f0bd09510c64 HTTP/1.0
+PATCH /api/2.4/tenders/f95d42a31c634575b8ad8cdeed62636d/bids/a3ec5486cf3c4dce8ba24b279ca7b431?acc_token=c85c13b800b548498ac996893dd8873d HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 214
 Content-Type: application/json
@@ -9,7 +9,7 @@ DATA:
     "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "3e270fdf1d3343feb0e2b26f7e2267fd", 
+        "relatedLot": "c338dc9fe93b4303a12ff998f71470b4", 
         "value": {
           "amount": 500
         }, 
@@ -27,16 +27,42 @@ Content-Type: application/json; charset=UTF-8
     "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "3e270fdf1d3343feb0e2b26f7e2267fd", 
-        "date": "2017-06-02T13:01:05.161926+03:00", 
+        "relatedLot": "c338dc9fe93b4303a12ff998f71470b4", 
+        "date": "2017-09-28T15:01:25.191874+03:00", 
         "status": "pending", 
         "value": {
-          "yearlyPayments": 0.9, 
+          "amountPerfomance": 1699.7161925299627, 
+          "yearlyPaymentsPercentage": 0.87, 
           "valueAddedTaxIncluded": true, 
           "currency": "UAH", 
-          "amount": 698.444, 
-          "contractDuration": 10, 
-          "annualCostsReduction": 751.5
+          "amount": 7584.493150684932, 
+          "contractDuration": {
+            "days": 0, 
+            "years": 7
+          }, 
+          "annualCostsReduction": [
+            2000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0
+          ]
         }, 
         "subcontractingDetails": "ДКП «Орфей»"
       }
@@ -64,8 +90,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2017-06-02T13:01:05.161031+03:00", 
-    "id": "fecabf8bbfaf42d994b71814efcc5ce6"
+    "date": "2017-09-28T15:01:25.191359+03:00", 
+    "id": "a3ec5486cf3c4dce8ba24b279ca7b431"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/1c7e0940d57a447480c563f65398362d/contracts/7d551bcba258424abbb42c332e1c3ce4?acc_token=cfaff150345049c0bb22b1e9ac79c66d HTTP/1.0
+PATCH /api/2.4/tenders/0bade97aaaa44e198ec7bb7b7b8d7af8/contracts/ee04a2f3d80e4e2b8e350df76eeb93f8?acc_token=6a90c93afc974f7d9137d9624d0aa75f HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 118
 Content-Type: application/json
@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "period": {
-      "startDate": "2017-06-02T13:00:59.568423+03:00", 
-      "endDate": "2018-06-02T13:00:59.568513+03:00"
+      "startDate": "2017-09-28T15:01:19.624580+03:00", 
+      "endDate": "2018-09-28T15:01:19.624626+03:00"
     }
   }
 }
@@ -22,7 +22,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -41,21 +41,16 @@ Content-Type: application/json; charset=UTF-8
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "deliveryDate": {
-          "startDate": "2017-06-22T13:00:24.660718+03:00", 
-          "endDate": "2017-07-22T13:00:24.660775+03:00"
-        }, 
-        "id": "470f5f02d2f7481daca88109f117c42d", 
+        "id": "b63b85e308ab41e2899b62071af3d380", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
-        }, 
-        "quantity": 1
+        }
       }, 
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Test", 
           "id": "37810000-9"
         }, 
@@ -74,57 +69,77 @@ Content-Type: application/json; charset=UTF-8
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "deliveryDate": {
-          "startDate": "2017-06-22T13:00:24.660804+03:00", 
-          "endDate": "2017-07-22T13:00:24.660837+03:00"
-        }, 
-        "id": "cd96b051f5e1497eb2650a2ea75b1e6c", 
+        "id": "74b9d1cc58794975b5f23462f0c61cba", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
-        }, 
-        "quantity": 1
+        }
       }
     ], 
     "suppliers": [
       {
         "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "00137256", 
+          "id": "00137226", 
           "uri": "http://www.sc.gov.ua/"
         }, 
-        "name": "ДКП «Школяр»", 
+        "name": "ДКП «Книга»", 
         "address": {
-          "postalCode": "21100", 
+          "postalCode": "79013", 
           "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
-          "locality": "м. Вінниця"
+          "streetAddress": "вул. Островського, 34", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
         }
       }
     ], 
-    "contractNumber": "contract#1", 
     "period": {
-      "startDate": "2017-06-02T13:00:59.568423+03:00", 
-      "endDate": "2018-06-02T13:00:59.568513+03:00"
+      "startDate": "2017-09-28T15:01:19.624580+03:00", 
+      "endDate": "2018-09-28T15:01:19.624626+03:00"
     }, 
-    "dateSigned": "2017-06-02T13:00:59.192684+03:00", 
     "value": {
-      "yearlyPayments": 0.9, 
+      "amountPerfomance": 1174.6200911956682, 
+      "yearlyPaymentsPercentage": 0.85, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 509.678, 
-      "contractDuration": 4, 
-      "annualCostsReduction": 230.0
+      "amount": 11089.123287671233, 
+      "contractDuration": {
+        "days": 0, 
+        "years": 12
+      }, 
+      "annualCostsReduction": [
+        2500.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0
+      ]
     }, 
-    "awardID": "a2be3e5f23cb4f7cbf5654f8691d5fa4", 
-    "id": "7d551bcba258424abbb42c332e1c3ce4", 
-    "contractID": "UA-2017-06-02-000001-1"
+    "dateSigned": "2017-09-28T15:01:19.204471+03:00", 
+    "awardID": "2282056ca4af41f98dfc5dcd42908310", 
+    "id": "ee04a2f3d80e4e2b8e350df76eeb93f8", 
+    "contractID": "UA-2017-09-28-000001-1"
   }
 }
 

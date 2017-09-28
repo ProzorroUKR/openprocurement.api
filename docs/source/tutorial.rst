@@ -49,6 +49,17 @@ The peculiarity of the ESCO procedure is that ``procurementMethodType`` was chan
 Also, ``value`` was changed to ``minValue`` and new field ``NBUdiscountRate`` was added.
 There is also no opportunity to set up ``enquiryPeriod``, it will be assigned automatically.
 
+``fundingKind`` and ``yearlyPaymentsPercentageRange`` dependency TABLE:
+
+===========  ==============================
+   Tender fields
+-------------------------------------------
+fundingKind   yearlyPaymentsPercentageRange
+===========  ==============================
+  other         0.8 - 1 (80% - 100%)
+  budget        0   - 0.8 (0% - 80%)
+===========  ==============================
+
 Let's access the URL of the created object (the `Location` header of the response):
 
 .. include:: tutorial/blank-tender-view.http
@@ -82,7 +93,7 @@ Checking the listing again reflects the new modification date:
 .. include:: tutorial/tender-listing-after-patch.http
    :code:
 
-Procuring entity can not change tender if there are less than 7 days before tenderPeriod ends. Changes will not be accepted by API.
+Procuring entity can not change tender if there are less than 7 days (working-days, saturday and sunday we don't count) before tenderPeriod ends. Changes will not be accepted by API.
 
 .. include:: tutorial/update-tender-after-enqiery.http
    :code:
@@ -183,7 +194,7 @@ Bidder can register a bid with `draft` status:
 
 .. include:: tutorial/register-bidder.http
    :code:
-anjd approve to pending status:
+and approve to pending status:
 
 .. include:: tutorial/activate-bidder.http
    :code:
@@ -284,7 +295,7 @@ Bidder should confirm bid proposal:
 .. include:: tutorial/bidder-activate-after-changing-tender.http
    :code:
 
-Open EU procedure demands at least two bidders, so there should be at least two bid proposals registered to move to auction stage:
+ESCO procedure demands at least two bidders, so there should be at least two bid proposals registered to move to auction stage. So let's create second bid:
 
 .. include:: tutorial/register-2nd-bidder.http
    :code:
@@ -303,7 +314,7 @@ Register one more bid with documents using single request (batch-mode):
 Bid Qualification
 -----------------
 
-Open EU procedure requires bid qualification.
+ESCO procedure requires bid qualification.
 
 Let's list qualifications:
 
@@ -369,17 +380,17 @@ Qualification commission registers its decision via the following call:
 .. include:: tutorial/confirm-qualification.http
    :code:
 
-Setting  contract value
------------------------
+.. Setting  contract value
+   -----------------------
 
-By default contract value is set based on the award, but there is a possibility to set custom contract value.
+   By default contract value is set based on the award, but there is a possibility to set custom contract value.
 
-If you want to **lower contract value**, you can insert new one into the `amount` field.
+   If you want to **lower contract value**, you can change `contractDuration`, `yearlyPaymentsPercentage` and `annualCostsReduction`  fields.
 
-.. include:: tutorial/tender-contract-set-contract-value.http
-   :code:
+   .. include:: tutorial/tender-contract-set-contract-value.http
+      :code:
 
-`200 OK` response was returned. The value was modified successfully.
+   `200 OK` response was returned. The value was modified successfully.
 
 Setting contract signature date
 -------------------------------
@@ -402,7 +413,7 @@ Setting contract validity period is optional, but if it is needed, you can set a
 Uploading contract documentation
 --------------------------------
 
-You can upload contract documents for the OpenEU procedure.
+You can upload contract documents for the ESCO procedure.
 
 Let's upload contract document:
 
@@ -435,7 +446,7 @@ Let's see the list of all added contract documents:
 
 Let's view separate contract document:
 
-.. include:: tutorial/tender-contract-get.http
+.. include:: tutorial/tender-contract-get-separate.http
     :code:
 
 Cancelling tender
@@ -495,3 +506,11 @@ Activating the request and cancelling tender
 
 .. include::  tutorial/active-cancellation.http
    :code:
+
+We can check if tender was actually cancelled.
+
+.. include::  tutorial/tender-cancelled.http
+   :code:
+
+Now  ``status`` value is `cancelled`.
+

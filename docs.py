@@ -12,111 +12,108 @@ from openprocurement.tender.core.tests.base import DumpsTestAppwebtest
 from openprocurement.tender.esco.tests.base import BaseESCOWebTest
 
 test_tender_data = {
-  "tenderPeriod": {
-    "endDate": "2016-02-11T14:04:18.962451"
-  },
-  "title": "Послуги шкільних їдалень",
-  "title_en": "Services in school canteens",
-  "minimalStep": {
-    "currency": "UAH",
-    "amount": 35
-  },
-  "procurementMethodType": "esco",
-  "minValue": {
-    "currency": "UAH",
-    "amount": 500
-  },
-  "procuringEntity": {
-    "kind": "general",
-    "address": {
-        "countryName": "Україна",
-        "locality": "м. Вінниця",
-        "postalCode": "21027",
-        "region": "м. Вінниця",
-        "streetAddress": "вул. Стахурського. 22"
+    "title": "Послуги шкільних їдалень",
+    "title_en": "Services in school canteens",
+    "procurementMethodType": "esco",
+    "minValue": {
+        "currency": "UAH",
+        "amount": 500
     },
-    "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "name_en": "Kutsa Svitlana V.",
-        "telephone": "+380 (432) 46-53-02",
-        "availableLanguage": u"uk",
-        "url": "http://sch10.edu.vn.ua/"
+    "minimalStepPercentage": 0.006,
+    "procuringEntity": {
+        "kind": "general",
+        "address": {
+            "countryName": "Україна",
+            "locality": "м. Вінниця",
+            "postalCode": "21027",
+            "region": "м. Вінниця",
+            "streetAddress": "вул. Стахурського. 22"
+        },
+        "contactPoint": {
+            "name": "Куца Світлана Валентинівна",
+            "name_en": "Kutsa Svitlana V.",
+            "telephone": "+380 (432) 46-53-02",
+            "availableLanguage": u"uk",
+            "url": "http://sch10.edu.vn.ua/"
+        },
+        "identifier": {
+            "id": "21725150",
+            "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+            "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"",
+            "scheme": "UA-EDR"
+        },
+        "name": "ЗОСШ #10 м.Вінниці",
+        "name_en": "School #10 of Vinnytsia"
     },
-    "identifier": {
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"",
-        "scheme": "UA-EDR"
-    },
-    "name": "ЗОСШ #10 м.Вінниці",
-    "name_en": "School #10 of Vinnytsia"
-  },
-  "items": [
-    {
-      "unit": {
-        "code": "44617100-9",
-        "name": "item"
-      },
-      "additionalClassifications": [
+    "items": [
         {
-          "scheme": "ДКПП",
-          "id": "17.21.1",
-          "description": "Послуги шкільних їдалень"
-        }
-      ],
-      "description": "Послуги шкільних їдалень",
-      "description_en": "Services in school canteens",
-      "classification": {
-        "scheme": "CPV",
-        "id": "37810000-9",
-        "description": "Test"
-      },
-      "deliveryDate": {
-            "startDate": (get_now() + timedelta(days=20)).isoformat(),
-            "endDate": (get_now() + timedelta(days=50)).isoformat()
-      },
-      "deliveryAddress": {
-            "countryName": u"Україна",
-            "postalCode": "79000",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова 1"
-      },
-      "quantity": 1
-    }, {
-      "unit": {
-        "code": "44617100-9",
-        "name": "item"
-      },
-      "additionalClassifications": [
+            "unit": {
+                "code": "44617100-9",
+                "name": "item"
+            },
+            "additionalClassifications": [
+                {
+                    "scheme": "ДКПП",
+                    "id": "17.21.1",
+                    "description": "Послуги шкільних їдалень"
+                }
+            ],
+            "description": "Послуги шкільних їдалень",
+            "description_en": "Services in school canteens",
+            "classification": {
+                "scheme": "ДК021",
+                "id": "37810000-9",
+                "description": "Test"
+            },
+            "deliveryDate": {
+                "startDate": (get_now() + timedelta(days=20)).isoformat(),
+                "endDate": (get_now() + timedelta(days=50)).isoformat()
+            },
+            "deliveryAddress": {
+                "countryName": u"Україна",
+                "postalCode": "79000",
+                "region": u"м. Київ",
+                "locality": u"м. Київ",
+                "streetAddress": u"вул. Банкова 1"
+            },
+            "quantity": 1
+        },
         {
-          "scheme": "ДКПП",
-          "id": "17.21.1",
-          "description": "Послуги шкільних їдалень"
+            "unit": {
+                "code": "44617100-9",
+                "name": "item"
+            },
+            "additionalClassifications": [
+                {
+                    "scheme": "ДКПП",
+                    "id": "17.21.1",
+                    "description": "Послуги шкільних їдалень"
+                }
+            ],
+            "description": "Послуги шкільних їдалень",
+            "description_en": "Services in school canteens",
+            "classification": {
+                "scheme": "ДК021",
+                "id": "37810000-9",
+                "description": "Test"
+            },
+            "quantity": 1,
+            "deliveryDate": {
+                "startDate": (get_now() + timedelta(days=20)).isoformat(),
+                "endDate": (get_now() + timedelta(days=50)).isoformat()
+            },
+            "deliveryAddress": {
+                "countryName": u"Україна",
+                "postalCode": "79000",
+                "region": u"м. Київ",
+                "locality": u"м. Київ",
+                "streetAddress": u"вул. Банкова 1"
+            }
         }
-      ],
-      "description": "Послуги шкільних їдалень",
-      "description_en": "Services in school canteens",
-      "classification": {
-        "scheme": "CPV",
-        "id": "37810000-9",
-        "description": "Test"
-      },
-      "quantity": 1,
-      "deliveryDate": {
-            "startDate": (get_now() + timedelta(days=20)).isoformat(),
-            "endDate": (get_now() + timedelta(days=50)).isoformat()
-      },
-      "deliveryAddress": {
-            "countryName": u"Україна",
-            "postalCode": "79000",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова 1"
-      }
-    }
-  ],
-  "NBUdiscountRate": 0.22
+    ],
+    "NBUdiscountRate": 0.22,
+    "fundingKind": "other",
+    "yearlyPaymentsPercentageRange": 0.8
 }
 
 test_tender_data["tenderPeriod"] = {
@@ -149,9 +146,12 @@ bid = {
             }
         ],
         "value": {
-            "yearlyPayments": 0.9,
-            "annualCostsReduction": 230,
-            "contractDuration": 4,
+            "annualCostsReduction": [2000] + [1000]*20,
+            "yearlyPaymentsPercentage": 0.9,
+            "contractDuration": {
+                "years": 10,
+                "days": 74
+            },
         },
         "status": "draft",
         "subcontractingDetails": "ДКП «Орфей», Україна",
@@ -185,9 +185,11 @@ bid2 = {
             }
         ],
         "value": {
-            "yearlyPayments": 0.9,
-            "annualCostsReduction": 270,
-            "contractDuration": 5,
+            "annualCostsReduction": [2500] + [900]*20,
+            "yearlyPaymentsPercentage": 0.85,
+            "contractDuration": {
+                "years": 12
+            },
         },
         'selfEligible': True,
         'selfQualified': True,
@@ -219,9 +221,12 @@ bid3 = {
             }
         ],
         "value": {
-            "yearlyPayments": 0.85,
-            "annualCostsReduction": 751.5,
-            "contractDuration": 10,
+            "annualCostsReduction": [4000] + [800]*20,
+            "yearlyPaymentsPercentage": 0.86,
+            "contractDuration": {
+                "years": 13,
+                "days": 40
+            },
         },
         "documents": [
             {
@@ -336,13 +341,13 @@ test_lots = [
         'title': 'Лот №1',
         'description': 'Опис Лот №1',
         'minValue': test_tender_data['minValue'],
-        'minimalStep': test_tender_data['minimalStep'],
+        'minimalStepPercentage': test_tender_data['minimalStepPercentage'],
     },
     {
         'title': 'Лот №2',
         'description': 'Опис Лот №2',
         'minValue': test_tender_data['minValue'],
-        'minimalStep': test_tender_data['minimalStep'],
+        'minimalStepPercentage': test_tender_data['minimalStepPercentage'],
     }
 ]
 
@@ -407,6 +412,13 @@ class TenderResourceTest(BaseESCOWebTest):
             self.app.authorization = None
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')
+        # have to make two equal requests, because after first we dont see tender list
+        with open('docs/source/tutorial/tender-listing-no-auth.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get(request_path)
+            self.assertEqual(response.status, '200 OK')
+
+
 
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -422,6 +434,7 @@ class TenderResourceTest(BaseESCOWebTest):
                     }
                 }
             })
+            self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/tender-listing-after-patch.http', 'w') as self.app.file_obj:
             self.app.authorization = None
@@ -505,6 +518,7 @@ class TenderResourceTest(BaseESCOWebTest):
         self.app.authorization = ('Basic', ('broker', ''))
         with open('docs/source/tutorial/update-tender-after-enqiery.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}?acc_token={}'.format(tender['id'], owner_token))
+            self.assertEqual(response.status, '200 OK')
             response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                            {'data': {"minValue": {'amount': 501.0}}}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
@@ -574,10 +588,15 @@ class TenderResourceTest(BaseESCOWebTest):
             self.assertEqual(response.status, '201 Created')
             financial_doc_id = response.json['data']['id']
 
-        response = self.app.post('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
+            response = self.app.post('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]), upload_files=[('file', 'financial_doc2.pdf', '1000$')])
-        self.assertEqual(response.status, '201 Created')
-        financial_doc_id = response.json['data']['id']
+            self.assertEqual(response.status, '201 Created')
+            financial_doc_id = response.json['data']['id']
+
+        with open('docs/source/tutorial/bidder-documents.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/bids/{}/documents?acc_token={}'.format(
+                    self.tender_id, bid1_id, bids_access[bid1_id]))
+            self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/bidder-financial-documents.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
@@ -754,7 +773,8 @@ class TenderResourceTest(BaseESCOWebTest):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         with open('docs/source/tutorial/confirm-qualification.http', 'w') as self.app.file_obj:
-            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
+            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                                {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
@@ -768,16 +788,21 @@ class TenderResourceTest(BaseESCOWebTest):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.db.save(tender)
 
-        with open('docs/source/tutorial/tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
-                self.tender_id, self.contract_id, owner_token), {"data": {"contractNumber": "contract#1",
-                                                                          "value": {
-                                                                              'yearlyPayments': 0.9,
-                                                                              'annualCostsReduction': 230,
-                                                                              'contractDuration': 4,
-                                                                          }}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['value']['amount'], 509.678)
+        # cannot change any contract attirbutes
+        # with open('docs/source/tutorial/tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
+        #     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+        #         self.tender_id, self.contract_id, owner_token), {"data": {"contractNumber": "contract#1",
+        #                                                                   "value": {
+        #                                                                       # "annualCostsReduction": [300.6] * 21, can change only when tender status is active.tendering
+        #                                                                       # "yearlyPaymentsPercentage": 0.9,
+        #                                                                       "amount": 11089.1232877, #cannot change is generated auto
+        #                                                                       "contractDuration": {
+        #                                                                           'years': 5, 'days': 100
+        #                                                                       }
+        #                                                                   }
+        #                                                                   }})
+        #     self.assertEqual(response.status, '200 OK')
+        #self.assertEqual(response.json['data']['value']['amount'], 509.678)
 
         #### Setting contract signature date
         #
@@ -824,9 +849,11 @@ class TenderResourceTest(BaseESCOWebTest):
                 self.tender_id, self.contract_id))
         self.assertEqual(response.status, '200 OK')
 
-        with open('docs/source/tutorial/tender-contract-get.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/contracts/{}?acc_token={}'.format(
-                self.tender_id, self.contract_id, owner_token))
+        tender_contract_separate_id = response.json['data'][0]['id']
+
+        with open('docs/source/tutorial/tender-contract-get-separate.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, tender_contract_separate_id, owner_token))
             self.assertEqual(response.status, '200 OK')
 
         #### Preparing the cancellation request
@@ -869,6 +896,11 @@ class TenderResourceTest(BaseESCOWebTest):
         with open('docs/source/tutorial/active-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}/cancellations/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token), {"data":{"status":"active"}})
+            self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/tutorial/tender-cancelled.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}?acc_token={}'.format(
+                self.tender_id, owner_token))
             self.assertEqual(response.status, '200 OK')
 
     def test_complaints(self):
@@ -1574,7 +1606,8 @@ class TenderResourceTest(BaseESCOWebTest):
 
         # add relatedLot for item
         with open('docs/source/multiple_lots_tutorial/tender-add-relatedLot-to-item.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": [{'relatedLot': lot_id1}, {'relatedLot': lot_id2}]}})
+            response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                                           {"data": {"items": [{'relatedLot': lot_id1}, {'relatedLot': lot_id2}]}})
             self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/multiple_lots_tutorial/tender-listing-no-auth.http', 'w') as self.app.file_obj:
@@ -1587,14 +1620,20 @@ class TenderResourceTest(BaseESCOWebTest):
             self.assertEqual(response.status, '200 OK')
 
         self.app.authorization = ('Basic', ('broker', ''))
+
         with open('docs/source/multiple_lots_tutorial/bid-lot1.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                {'data': {'selfEligible': True, 'selfQualified': True,
-                          'tenderers': bid['data']["tenderers"], 'lotValues':
+                {'data': {'selfEligible': True,
+                          'selfQualified': True,
+                          'tenderers': bid['data']["tenderers"],
+                          'lotValues':
                               [{"subcontractingDetails": "ДКП «Орфей», Україна",
-                                "value": {'yearlyPayments': 0.9,
-                                          'annualCostsReduction': 751.5,
-                                          'contractDuration': 10},
+                                "value": {'annualCostsReduction': [2000] + [1000]*20,
+                                          'yearlyPaymentsPercentage': 0.87,
+                                          'contractDuration': {
+                                                  "years": 7
+                                              }
+                                          },
                                 'relatedLot': lot_id1}]}})
             self.assertEqual(response.status, '201 Created')
             bid1_token = response.json['access']['token']
@@ -1604,15 +1643,23 @@ class TenderResourceTest(BaseESCOWebTest):
             response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                 {'data': {'selfEligible': True, 'selfQualified': True,
                           'tenderers': bid2['data']["tenderers"],
-                          'lotValues': [{"value": {'yearlyPayments': 0.9,
-                                                   'annualCostsReduction': 751.5,
-                                                   'contractDuration': 10},
+                          'lotValues': [
+                              {"value": {'annualCostsReduction': [2100] + [1600]*20,
+                                          'yearlyPaymentsPercentage': 0.9,
+                                          'contractDuration': {
+                                                  "years": 7
+                                              }
+                                          },
                                          'relatedLot': lot_id1},
-                                        {"subcontractingDetails": "ДКП «Укр Прінт», Україна",
-                                         "value": {'yearlyPayments': 0.9,
-                                                   'annualCostsReduction': 751.5,
-                                                   'contractDuration': 10},
-                                         'relatedLot': lot_id2}]}})
+                              {"subcontractingDetails": "ДКП «Укр Прінт», Україна",
+                               "value": {'annualCostsReduction': [2200] + [1200]*20,
+                                          'yearlyPaymentsPercentage': 0.96,
+                                          'contractDuration': {
+                                                  "years": 9
+                                              }
+                                          },
+                               'relatedLot': lot_id2}
+                          ]}})
             self.assertEqual(response.status, '201 Created')
             bid2_id = response.json['data']['id']
             bid2_token = response.json['access']['token']

@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/1c7e0940d57a447480c563f65398362d/bids/bc22f14f04c344b5bb797826a1cd8392?acc_token=55aa493721db4a85935863378229890a HTTP/1.0
+PATCH /api/2.4/tenders/0bade97aaaa44e198ec7bb7b7b8d7af8/bids/19f21326b5a44151ad3555fc585aac04?acc_token=4c2dbd95e46b466fb8dc4f6cac302e37 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 31
 Content-Type: application/json
@@ -16,16 +16,42 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "pending", 
     "selfEligible": true, 
+    "id": "19f21326b5a44151ad3555fc585aac04", 
     "value": {
-      "yearlyPayments": 0.9, 
+      "amountPerfomance": 1068.2996522422093, 
+      "yearlyPaymentsPercentage": 0.9, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 509.678, 
-      "contractDuration": 4, 
-      "annualCostsReduction": 230.0
+      "amount": 10728.493150684932, 
+      "contractDuration": {
+        "days": 74, 
+        "years": 10
+      }, 
+      "annualCostsReduction": [
+        2000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0
+      ]
     }, 
     "subcontractingDetails": "ДКП «Орфей», Україна", 
-    "selfQualified": true, 
     "tenderers": [
       {
         "contactPoint": {
@@ -48,8 +74,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2017-06-02T13:00:50.957049+03:00", 
-    "id": "bc22f14f04c344b5bb797826a1cd8392"
+    "date": "2017-09-28T15:01:11.615254+03:00", 
+    "selfQualified": true
   }
 }
 

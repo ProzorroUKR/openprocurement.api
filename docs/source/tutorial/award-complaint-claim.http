@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/f11f4fb8087d45a58f99c9cf25920dda/awards/180f46004e7f407abcfb622bbbe90009/complaints/9f07de002da941e2877992fca1576cc9?acc_token=5c3ca7da69d14789b45495bb053e4104 HTTP/1.0
+PATCH /api/2.4/tenders/b352465dabe3471c9cb6a56fdefa98bf/awards/e0aa67b4120d4e72a9d2d49e61199658/complaints/bbaf8c28967d4f4e8406e3901bb421dc?acc_token=5c81b9b7d6e24c42a469bbc42bd456fd HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 29
 Content-Type: application/json
@@ -38,11 +38,11 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2017-06-02T13:00:36.343782+03:00", 
-    "complaintID": "UA-2017-06-02-000001.8", 
-    "date": "2017-06-02T13:00:36.364289+03:00", 
+    "dateSubmitted": "2017-09-28T15:00:57.887268+03:00", 
+    "complaintID": "UA-2017-09-28-000001.8", 
+    "date": "2017-09-28T15:00:57.933232+03:00", 
     "type": "claim", 
-    "id": "9f07de002da941e2877992fca1576cc9"
+    "id": "bbaf8c28967d4f4e8406e3901bb421dc"
   }
 }
 

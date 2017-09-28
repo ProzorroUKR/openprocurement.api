@@ -1,25 +1,24 @@
-POST /api/2.3/tenders?opt_pretty=1 HTTP/1.0
+POST /api/2.4/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 3772
+Content-Length: 3837
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2017-06-18T15:23:55.424726+03:00"
+      "endDate": "2017-10-29T15:00:47.537006+03:00"
     }, 
+    "fundingKind": "other", 
     "title": "Послуги шкільних їдалень", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 35
-    }, 
     "NBUdiscountRate": 0.22, 
-    "procurementMethodType": "esco",
+    "yearlyPaymentsPercentageRange": 0.8, 
+    "title_en": "Services in school canteens", 
     "minValue": {
       "currency": "UAH", 
       "amount": 500
     }, 
+    "procurementMethodType": "esco", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -45,11 +44,12 @@ DATA:
         "telephone": "+380 (432) 46-53-02"
       }
     }, 
+    "minimalStepPercentage": 0.006, 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "id": "37810000-9", 
           "description": "Test"
         }, 
@@ -69,8 +69,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-06-07T15:23:55.424586+03:00", 
-          "endDate": "2017-07-07T15:23:55.424645+03:00"
+          "startDate": "2017-10-18T15:00:47.536877+03:00", 
+          "endDate": "2017-11-17T15:00:47.536934+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -81,7 +81,7 @@ DATA:
       {
         "description": "Послуги шкільних їдалень", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "id": "37810000-9", 
           "description": "Test"
         }, 
@@ -101,8 +101,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-06-07T15:23:55.424678+03:00", 
-          "endDate": "2017-07-07T15:23:55.424701+03:00"
+          "startDate": "2017-10-18T15:00:47.536963+03:00", 
+          "endDate": "2017-11-17T15:00:47.536983+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -110,127 +110,30 @@ DATA:
         }, 
         "quantity": 1
       }
-    ], 
-    "title_en": "Services in school canteens"
+    ]
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/55834ec489eb4ca2a066384035add318
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/f95d42a31c634575b8ad8cdeed62636d
 {
   "access": {
-    "token": "c2451a1f96b44c67afa67cd6bf3bbc08"
+    "token": "33588f8be1fd498a8a6bbb949eafa4e0"
   }, 
   "data": {
     "procurementMethod": "open", 
     "complaintPeriod": {
-      "startDate": "2017-05-18T15:24:06.310208+03:00", 
-      "endDate": "2017-06-14T00:00:00+03:00"
+      "startDate": "2017-09-28T15:01:24.705364+03:00", 
+      "endDate": "2017-10-25T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2017-05-18T15:24:06.310208+03:00", 
-      "clarificationsUntil": "2017-06-13T15:23:55.424726+03:00", 
-      "endDate": "2017-06-08T15:23:55.424726+03:00"
+      "startDate": "2017-09-28T15:01:24.705364+03:00", 
+      "clarificationsUntil": "2017-10-24T15:00:47.537006+03:00", 
+      "endDate": "2017-10-19T15:00:47.537006+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2017-06-18T15:23:55.424726+03:00", 
-    "awardCriteria": "lowestCost", 
-    "owner": "broker", 
-    "title_en": "Services in school canteens", 
-    "id": "55834ec489eb4ca2a066384035add318", 
-    "title": "Послуги шкільних їдалень", 
-    "tenderID": "UA-2017-05-18-000001", 
-    "NBUdiscountRate": 0.22, 
-    "dateModified": "2017-05-18T15:24:06.348878+03:00", 
-    "status": "active.tendering", 
-    "tenderPeriod": {
-      "startDate": "2017-05-18T15:24:06.310208+03:00", 
-      "endDate": "2017-06-18T15:23:55.424726+03:00"
-    }, 
-    "auctionPeriod": {
-      "shouldStartAfter": "2017-07-24T00:00:00+03:00"
-    }, 
-    "procurementMethodType": "esco",
-    "date": "2017-05-18T15:24:06.343912+03:00", 
-    "minValue": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 35.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "items": [
-      {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "description_en": "Services in school canteens", 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "Послуги шкільних їдалень"
-          }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2017-06-07T15:23:55.424586+03:00", 
-          "endDate": "2017-07-07T15:23:55.424645+03:00"
-        }, 
-        "id": "caa03c04c3ee4ce4995e95c1c3de9891", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 1
-      }, 
-      {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "CPV", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "description_en": "Services in school canteens", 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "Послуги шкільних їдалень"
-          }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2017-06-07T15:23:55.424678+03:00", 
-          "endDate": "2017-07-07T15:23:55.424701+03:00"
-        }, 
-        "id": "2fadc56e0ed044dc8e1decfa1f2aeb3e", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 1
-      }
-    ], 
+    "next_check": "2017-10-29T14:00:47.537006+02:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -255,7 +158,92 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/55834ec489eb4ca
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
       }, 
       "name_en": "School #10 of Vinnytsia"
-    }
+    }, 
+    "owner": "broker", 
+    "title_en": "Services in school canteens", 
+    "id": "f95d42a31c634575b8ad8cdeed62636d", 
+    "title": "Послуги шкільних їдалень", 
+    "tenderID": "UA-2017-09-28-000001", 
+    "minimalStepPercentage": 0.006, 
+    "yearlyPaymentsPercentageRange": 0.8, 
+    "dateModified": "2017-09-28T15:01:24.748093+03:00", 
+    "status": "active.tendering", 
+    "tenderPeriod": {
+      "startDate": "2017-09-28T15:01:24.705364+03:00", 
+      "endDate": "2017-10-29T15:00:47.537006+03:00"
+    }, 
+    "auctionPeriod": {
+      "shouldStartAfter": "2017-12-03T15:00:47.537006+03:00"
+    }, 
+    "procurementMethodType": "esco", 
+    "date": "2017-09-28T15:01:24.740790+03:00", 
+    "NBUdiscountRate": 0.22, 
+    "minValue": {
+      "currency": "UAH", 
+      "amount": 0.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "fundingKind": "other", 
+    "submissionMethodDetails": "quick(mode:no-auction)", 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "id": "35352616173242cbae80d0954a8cfc42", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }
+      }, 
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "id": "0704fd61703b4fffab92fcfa24d6cda5", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }
+      }
+    ], 
+    "awardCriteria": "lowestCost"
   }
 }
 
