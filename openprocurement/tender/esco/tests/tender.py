@@ -38,9 +38,11 @@ from openprocurement.tender.esco.tests.tender_blanks import (
     tender_yearlyPaymentsPercentageRange_invalid,
     tender_fundingKind_default,
     items_without_deliveryDate_quantity,
+    tender_noticePublicationDate,
     #TestTenderEU
     create_tender_invalid,
     patch_tender,
+    tender_fields,
     tender_with_nbu_discount_rate,
     tender_features,
     tender_features_invalid,
@@ -62,6 +64,7 @@ class TenderESCOTest(BaseESCOWebTest):
     test_tender_yearlyPaymentsPercentageRange = snitch(tender_yearlyPaymentsPercentageRange)
     test_items_without_deliveryDate_quantity = snitch(items_without_deliveryDate_quantity)
     test_tender_fundingKind_default = snitch(tender_fundingKind_default)
+    test_tender_noticePublicationDate = snitch(tender_noticePublicationDate)
 
 
 class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
@@ -75,6 +78,7 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     test_bids_data = test_bids
     tender_period_duration = TENDERING_DAYS
 
+    test_tender_fields = snitch(tender_fields)
     test_tender_with_nbu_discount_rate = snitch(tender_with_nbu_discount_rate)
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)

@@ -14,6 +14,7 @@ from openprocurement.tender.esco.models import TenderESCO
 def simple_add_tender(self):
     u = TenderESCO(self.initial_data)
     u.tenderID = "UA-X"
+    u.noticePublicationDate = get_now().isoformat()
 
     assert u.id is None
     assert u.rev is None
@@ -337,6 +338,116 @@ def items_without_deliveryDate_quantity(self):
         self.assertNotIn('quantity', item)
 
 
+def tender_noticePublicationDate(self):
+    # create in active tendering
+    tender_data = deepcopy(self.initial_data)
+    tender_data['status'] = 'active.tendering'
+    tender_data['noticePublicationDate'] = (get_now() + timedelta(minutes=30)).isoformat()
+
+    response = self.app.post_json('/tenders', {"data": tender_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('noticePublicationDate', response.json['data'])
+    self.assertNotEqual(response.json['data']['noticePublicationDate'], tender_data['noticePublicationDate'])
+
+    # create in draft
+    tender_data = deepcopy(self.initial_data)
+    tender_data['status'] = 'draft'
+    tender_data['noticePublicationDate'] = (get_now() + timedelta(minutes=30)).isoformat()
+
+    response = self.app.post_json('/tenders', {"data": tender_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotIn('noticePublicationDate', response.json['data'])
+    self.tender_id = response.json['data']['id']
+    self.tender_token = response.json['access']['token']
+
+    # try to set noticePublicationDate in draft
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, self.tender_token), {'data': {'noticePublicationDate': (get_now() + timedelta(minutes=30)).isoformat()}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (draft) status")
+
+    # set active.tendering status
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, self.tender_token), {'data': {'status': 'active.tendering'}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('noticePublicationDate', response.json['data'])
+    publication_date =  response.json['data']['noticePublicationDate']
+
+    # try to patch noticePublicationDate in tendering
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, self.tender_token), {'data': {'noticePublicationDate': (get_now() + timedelta(minutes=30)).isoformat()}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['noticePublicationDate'], publication_date)
+
+    # award preparation
+
+    # post bids
+    for bid_data in self.test_bids_data:
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+
+    # switch to active.pre-qualification
+    self.set_status('active.pre-qualification', {'status': 'active.tendering'})
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+
+    # try to patch noticePublicationDate in pre-qualification
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, self.tender_token), {'data': {'noticePublicationDate': (get_now() + timedelta(minutes=30)).isoformat()}})
+    self.assertEqual(response.status, '200 OK')
+    # import pdb; pdb.set_trace()
+    self.assertEqual(response.content_type, 'application/json')
+    # self.assertEqual(body
+    self.assertEqual(response.json['data']['noticePublicationDate'], publication_date)
+
+    # qualify bids
+    response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+    for qualification in response.json['data']:
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
+            self.tender_id, qualification['id'], self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, "200 OK")
+
+    # switch to active.pre-qualification.stand-still
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, self.tender_token), {"data": {"status": 'active.pre-qualification.stand-still'}})
+    self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
+
+    # try to patch noticePublicationDate in pre-qualification.stand-still
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, self.tender_token), {'data': {'noticePublicationDate': (get_now() + timedelta(minutes=30)).isoformat()}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['noticePublicationDate'], publication_date)
+
+    # switch to active.auction
+    self.set_status('active.auction', {'status': 'active.pre-qualification.stand-still'})
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual(response.json['data']['status'], "active.auction")
+
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    auction_bids_data = response.json['data']['bids']
+    response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id),
+                                  {'data': {'bids': auction_bids_data}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, 'application/json')
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.json['data']['status'], "active.qualification")
+    self.assertEqual(response.json['data']['noticePublicationDate'], publication_date)
+
+
 # TestTenderEU
 
 
@@ -582,6 +693,24 @@ def create_tender_invalid(self):
     ])
 
 
+def tender_fields(self):
+
+    response = self.app.post_json('/tenders', {"data": self.initial_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    tender = response.json['data']
+    tender_set = set(tender)
+    if 'procurementMethodDetails' in tender_set:
+        tender_set.remove('procurementMethodDetails')
+    self.assertEqual(tender_set - set(self.initial_data), set([
+        u'id', u'dateModified', u'enquiryPeriod', u'auctionPeriod',
+        u'complaintPeriod', u'tenderID', u'status', u'procurementMethod',
+        u'awardCriteria', u'submissionMethod', u'next_check', u'owner', u'date',
+        u'noticePublicationDate',
+    ]))
+    self.assertIn(tender['id'], response.headers['Location'])
+
+
 def patch_tender(self):
     response = self.app.get('/tenders')
     self.assertEqual(response.status, '200 OK')
@@ -732,6 +861,8 @@ def tender_with_nbu_discount_rate(self):
     owner_token = response.json['access']['token']
     if 'procurementMethodDetails' in tender:
         tender.pop('procurementMethodDetails')
+    if 'noticePublicationDate' in tender:
+        tender.pop('noticePublicationDate')
     self.assertEqual(set(tender), set([
         u'procurementMethodType', u'id', u'dateModified', u'tenderID',
         u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod',
@@ -1052,6 +1183,8 @@ def create_tender_generated(self):
     tender = response.json['data']
     if 'procurementMethodDetails' in tender:
         tender.pop('procurementMethodDetails')
+    if 'noticePublicationDate' in tender:
+        tender.pop('noticePublicationDate')
     self.assertEqual(set(tender), set([
         u'procurementMethodType', u'id', u'dateModified', u'tenderID',
         u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod', u'submissionMethodDetails',  # TODO: remove u'submissionMethodDetails' from set after adding auction
