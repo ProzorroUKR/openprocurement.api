@@ -175,7 +175,7 @@ class ESCOValue(Value):
                          self.contractDuration.days,
                          self.yearlyPaymentsPercentage,
                          self.annualCostsReduction,
-                         get_tender(self).__class__.announcementDate or get_tender(self).enquiryPeriod.startDate,
+                         get_tender(self).noticePublicationDate,
                          get_tender(self).NBUdiscountRate))
 
     @serializable(serialized_name='amount')
@@ -184,7 +184,7 @@ class ESCOValue(Value):
                           self.contractDuration.days,
                           self.yearlyPaymentsPercentage,
                           self.annualCostsReduction,
-                          get_tender(self).__class__.announcementDate or get_tender(self).enquiryPeriod.startDate))
+                          get_tender(self).noticePublicationDate))
 
     def validate_annualCostsReduction(self, data, value):
         if len(value) != 21:
