@@ -73,7 +73,6 @@ from openprocurement.tender.openeu.models import (
 from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION, QUESTIONS_STAND_STILL, TENDERING_DAYS
 )
-from openprocurement.tender.esco.utils import calculate_npv
 
 
 class IESCOTender(IAboveThresholdEUTender):
