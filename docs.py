@@ -15,10 +15,6 @@ test_tender_data = {
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "procurementMethodType": "esco",
-    "minValue": {
-        "currency": "UAH",
-        "amount": 500
-    },
     "minimalStepPercentage": 0.006,
     "procuringEntity": {
         "kind": "general",
@@ -146,7 +142,7 @@ bid = {
             }
         ],
         "value": {
-            "annualCostsReduction": [2000] + [1000]*20,
+            "annualCostsReduction": [500] + [1000]*20,
             "yearlyPaymentsPercentage": 0.9,
             "contractDuration": {
                 "years": 10,
@@ -155,8 +151,6 @@ bid = {
         },
         "status": "draft",
         "subcontractingDetails": "ДКП «Орфей», Україна",
-        'selfEligible': True,
-        'selfQualified': True,
     }
 }
 
@@ -185,14 +179,13 @@ bid2 = {
             }
         ],
         "value": {
-            "annualCostsReduction": [2500] + [900]*20,
+            "annualCostsReduction": [400] + [900]*20,
             "yearlyPaymentsPercentage": 0.85,
             "contractDuration": {
-                "years": 12
+                "years": 12,
+                "days" : 200
             },
         },
-        'selfEligible': True,
-        'selfQualified': True,
     }
 }
 
@@ -221,7 +214,7 @@ bid3 = {
             }
         ],
         "value": {
-            "annualCostsReduction": [4000] + [800]*20,
+            "annualCostsReduction": [200] + [800]*20,
             "yearlyPaymentsPercentage": 0.86,
             "contractDuration": {
                 "years": 13,
@@ -262,8 +255,6 @@ bid3 = {
             'hash': 'md5:' + '0' * 32,
             'format': 'application/pdf',
         }],
-        'selfEligible': True,
-        'selfQualified': True,
     }
 }
 
@@ -340,13 +331,13 @@ test_lots = [
     {
         'title': 'Лот №1',
         'description': 'Опис Лот №1',
-        'minValue': test_tender_data['minValue'],
+        'fundingKind': 'other',
         'minimalStepPercentage': test_tender_data['minimalStepPercentage'],
     },
     {
         'title': 'Лот №2',
         'description': 'Опис Лот №2',
-        'minValue': test_tender_data['minValue'],
+        'fundingKind': 'other',
         'minimalStepPercentage': test_tender_data['minimalStepPercentage'],
     }
 ]
@@ -1628,7 +1619,7 @@ class TenderResourceTest(BaseESCOWebTest):
                           'tenderers': bid['data']["tenderers"],
                           'lotValues':
                               [{"subcontractingDetails": "ДКП «Орфей», Україна",
-                                "value": {'annualCostsReduction': [2000] + [1000]*20,
+                                "value": {'annualCostsReduction': [200] + [1000]*20,
                                           'yearlyPaymentsPercentage': 0.87,
                                           'contractDuration': {
                                                   "years": 7
@@ -1644,7 +1635,7 @@ class TenderResourceTest(BaseESCOWebTest):
                 {'data': {'selfEligible': True, 'selfQualified': True,
                           'tenderers': bid2['data']["tenderers"],
                           'lotValues': [
-                              {"value": {'annualCostsReduction': [2100] + [1600]*20,
+                              {"value": {'annualCostsReduction': [700] + [1600]*20,
                                           'yearlyPaymentsPercentage': 0.9,
                                           'contractDuration': {
                                                   "years": 7
@@ -1652,7 +1643,7 @@ class TenderResourceTest(BaseESCOWebTest):
                                           },
                                          'relatedLot': lot_id1},
                               {"subcontractingDetails": "ДКП «Укр Прінт», Україна",
-                               "value": {'annualCostsReduction': [2200] + [1200]*20,
+                               "value": {'annualCostsReduction': [600] + [1200]*20,
                                           'yearlyPaymentsPercentage': 0.96,
                                           'contractDuration': {
                                                   "years": 9

@@ -45,20 +45,11 @@ body of response reveals the information about the created tender: its internal
 `dateModified` datestamp stating the moment in time when tender was last
 modified.  Note that tender is created with `active.tendering` status.
 
-The peculiarity of the ESCO procedure is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``esco``.
-Also, ``value`` was changed to ``minValue`` and new field ``NBUdiscountRate`` was added.
+The peculiarity of the ESCO procedure is that ``procurementMethodType`` is ``esco``.
+Also,  new fields ``NBUdiscountRate``, ``minimalStepPercentage``, ``fundingKind``, ``yearlyPaymentsPercentageRange``  were added to tender object.
+
 There is also no opportunity to set up ``enquiryPeriod``, it will be assigned automatically.
 
-``fundingKind`` and ``yearlyPaymentsPercentageRange`` dependency TABLE:
-
-===========  ==============================
-   Tender fields
--------------------------------------------
-fundingKind   yearlyPaymentsPercentageRange
-===========  ==============================
-  other         0.8 - 1 (80% - 100%)
-  budget        0   - 0.8 (0% - 80%)
-===========  ==============================
 
 Let's access the URL of the created object (the `Location` header of the response):
 
@@ -93,7 +84,7 @@ Checking the listing again reflects the new modification date:
 .. include:: tutorial/tender-listing-after-patch.http
    :code:
 
-Procuring entity can not change tender if there are less than 7 days (working-days, saturday and sunday we don't count) before tenderPeriod ends. Changes will not be accepted by API.
+Procuring entity can not change tender if there are less than 7 days before tenderPeriod ends. Changes will not be accepted by API.
 
 .. include:: tutorial/update-tender-after-enqiery.http
    :code:

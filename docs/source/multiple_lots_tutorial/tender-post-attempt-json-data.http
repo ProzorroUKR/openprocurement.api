@@ -1,23 +1,17 @@
 POST /api/2.4/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 3837
+Content-Length: 3789
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2017-10-29T15:00:47.537006+03:00"
+      "endDate": "2017-10-29T18:38:33.361131+03:00"
     }, 
     "fundingKind": "other", 
     "title": "Послуги шкільних їдалень", 
     "NBUdiscountRate": 0.22, 
-    "yearlyPaymentsPercentageRange": 0.8, 
-    "title_en": "Services in school canteens", 
-    "minValue": {
-      "currency": "UAH", 
-      "amount": 500
-    }, 
     "procurementMethodType": "esco", 
     "procuringEntity": {
       "kind": "general", 
@@ -45,6 +39,7 @@ DATA:
       }
     }, 
     "minimalStepPercentage": 0.006, 
+    "yearlyPaymentsPercentageRange": 0.8, 
     "items": [
       {
         "description": "Послуги шкільних їдалень", 
@@ -69,8 +64,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-10-18T15:00:47.536877+03:00", 
-          "endDate": "2017-11-17T15:00:47.536934+03:00"
+          "startDate": "2017-10-18T18:38:33.361001+03:00", 
+          "endDate": "2017-11-17T18:38:33.361057+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -101,8 +96,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2017-10-18T15:00:47.536963+03:00", 
-          "endDate": "2017-11-17T15:00:47.536983+03:00"
+          "startDate": "2017-10-18T18:38:33.361084+03:00", 
+          "endDate": "2017-11-17T18:38:33.361105+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -110,30 +105,31 @@ DATA:
         }, 
         "quantity": 1
       }
-    ]
+    ], 
+    "title_en": "Services in school canteens"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/f95d42a31c634575b8ad8cdeed62636d
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/ae550ff97b034f8391b117ff7a1f7c69
 {
   "access": {
-    "token": "33588f8be1fd498a8a6bbb949eafa4e0"
+    "token": "8bca5c964d844a7e9ebd206c0ae423b5"
   }, 
   "data": {
     "procurementMethod": "open", 
     "complaintPeriod": {
-      "startDate": "2017-09-28T15:01:24.705364+03:00", 
+      "startDate": "2017-09-28T18:39:20.161585+03:00", 
       "endDate": "2017-10-25T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2017-09-28T15:01:24.705364+03:00", 
-      "clarificationsUntil": "2017-10-24T15:00:47.537006+03:00", 
-      "endDate": "2017-10-19T15:00:47.537006+03:00"
+      "startDate": "2017-09-28T18:39:20.161585+03:00", 
+      "clarificationsUntil": "2017-10-24T18:38:33.361131+03:00", 
+      "endDate": "2017-10-19T18:38:33.361131+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2017-10-29T14:00:47.537006+02:00", 
+    "next_check": "2017-10-29T17:38:33.361131+02:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -161,22 +157,22 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/f95d42a31c63457
     }, 
     "owner": "broker", 
     "title_en": "Services in school canteens", 
-    "id": "f95d42a31c634575b8ad8cdeed62636d", 
+    "id": "ae550ff97b034f8391b117ff7a1f7c69", 
     "title": "Послуги шкільних їдалень", 
     "tenderID": "UA-2017-09-28-000001", 
     "minimalStepPercentage": 0.006, 
     "yearlyPaymentsPercentageRange": 0.8, 
-    "dateModified": "2017-09-28T15:01:24.748093+03:00", 
+    "dateModified": "2017-09-28T18:39:20.199147+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2017-09-28T15:01:24.705364+03:00", 
-      "endDate": "2017-10-29T15:00:47.537006+03:00"
+      "startDate": "2017-09-28T18:39:20.161585+03:00", 
+      "endDate": "2017-10-29T18:38:33.361131+03:00"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2017-12-03T15:00:47.537006+03:00"
+      "shouldStartAfter": "2017-12-03T18:38:33.361131+03:00"
     }, 
     "procurementMethodType": "esco", 
-    "date": "2017-09-28T15:01:24.740790+03:00", 
+    "date": "2017-09-28T18:39:20.193384+03:00", 
     "NBUdiscountRate": 0.22, 
     "minValue": {
       "currency": "UAH", 
@@ -208,7 +204,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/f95d42a31c63457
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "35352616173242cbae80d0954a8cfc42", 
+        "id": "2f2b0c20f8d04ab49e709d18d7448519", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -236,14 +232,15 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/f95d42a31c63457
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "0704fd61703b4fffab92fcfa24d6cda5", 
+        "id": "25609b74075c4235b13d28115677363d", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
         }
       }
     ], 
-    "awardCriteria": "lowestCost"
+    "noticePublicationDate": "2017-09-28T18:39:20.173555+03:00", 
+    "awardCriteria": "ratedCriteria"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/0bade97aaaa44e198ec7bb7b7b8d7af8/awards/2282056ca4af41f98dfc5dcd42908310?acc_token=6a90c93afc974f7d9137d9624d0aa75f HTTP/1.0
+PATCH /api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/awards/be2ce9f03ff048ecb8f5ab9c1615a5d7?acc_token=11d441c30b1648359d073e803a147fe1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 67
 Content-Type: application/json
@@ -21,67 +21,67 @@ Content-Type: application/json; charset=UTF-8
     "suppliers": [
       {
         "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Школяр»", 
         "address": {
-          "postalCode": "79013", 
+          "postalCode": "21100", 
           "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "м. Львів", 
-          "locality": "м. Львів"
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
         }
       }
     ], 
     "complaintPeriod": {
-      "startDate": "2017-09-28T15:01:18.419587+03:00", 
+      "startDate": "2017-09-28T18:39:10.047359+03:00", 
       "endDate": "2017-10-09T00:00:00+03:00"
     }, 
-    "bid_id": "062a6f48cb6c440daf82dad30cc3a894", 
+    "bid_id": "befa6117e647452f8154dcff6a166947", 
     "value": {
-      "amountPerfomance": 1174.6200911956682, 
-      "yearlyPaymentsPercentage": 0.85, 
+      "amountPerfomance": 929.3479606267625, 
+      "yearlyPaymentsPercentage": 0.9, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 11089.123287671233, 
+      "amount": 9400.684931506848, 
       "contractDuration": {
-        "days": 0, 
-        "years": 12
+        "days": 74, 
+        "years": 10
       }, 
       "annualCostsReduction": [
-        2500.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0
+        500.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0
       ]
     }, 
     "qualified": true, 
-    "date": "2017-09-28T15:01:18.914153+03:00", 
-    "id": "2282056ca4af41f98dfc5dcd42908310"
+    "date": "2017-09-28T18:39:12.415262+03:00", 
+    "id": "be2ce9f03ff048ecb8f5ab9c1615a5d7"
   }
 }
 

@@ -1,24 +1,21 @@
-POST /api/2.4/tenders/f95d42a31c634575b8ad8cdeed62636d/lots?acc_token=33588f8be1fd498a8a6bbb949eafa4e0 HTTP/1.0
+POST /api/2.4/tenders/ae550ff97b034f8391b117ff7a1f7c69/lots?acc_token=8bca5c964d844a7e9ebd206c0ae423b5 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 199
+Content-Length: 175
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "title": "Лот №1", 
+    "fundingKind": "other", 
     "description": "Опис Лот №1", 
     "minimalStepPercentage": 0.006, 
-    "minValue": {
-      "currency": "UAH", 
-      "amount": 500
-    }
+    "title": "Лот №1"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/f95d42a31c634575b8ad8cdeed62636d/lots/c338dc9fe93b4303a12ff998f71470b4
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/ae550ff97b034f8391b117ff7a1f7c69/lots/1af1f23fd5af42f19d8bb4f7893c924c
 {
   "data": {
     "status": "active", 
@@ -26,7 +23,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/f95d42a31c63457
     "fundingKind": "other", 
     "title": "Лот №1", 
     "auctionPeriod": {
-      "shouldStartAfter": "2017-12-03T15:00:47.537006+03:00"
+      "shouldStartAfter": "2017-12-03T18:38:33.361131+03:00"
     }, 
     "minValue": {
       "currency": "UAH", 
@@ -35,8 +32,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/f95d42a31c63457
     }, 
     "minimalStepPercentage": 0.006, 
     "yearlyPaymentsPercentageRange": 0.8, 
-    "date": "2017-09-28T15:01:24.814827+03:00", 
-    "id": "c338dc9fe93b4303a12ff998f71470b4"
+    "date": "2017-09-28T18:39:20.266088+03:00", 
+    "id": "1af1f23fd5af42f19d8bb4f7893c924c"
   }
 }
 

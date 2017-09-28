@@ -1,48 +1,48 @@
-POST /api/2.4/tenders/0bade97aaaa44e198ec7bb7b7b8d7af8/bids/19f21326b5a44151ad3555fc585aac04/financial_documents?acc_token=4c2dbd95e46b466fb8dc4f6cac302e37 HTTP/1.0
+POST /api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/bids/befa6117e647452f8154dcff6a166947/financial_documents?acc_token=483b24464bc242b7adbd1e299bcef0f4 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 191
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy344082710482$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy158196979327$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0bade97aaaa44e198ec7bb7b7b8d7af8/bids/19f21326b5a44151ad3555fc585aac04/financial_documents/28c55b1c36f64fb6834ceefbf4884bd3
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/bids/befa6117e647452f8154dcff6a166947/financial_documents/1c0752c639a0408eb2b95138801dd912
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "confidentiality": "public", 
     "language": "uk", 
     "title": "financial_doc.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/0bade97aaaa44e198ec7bb7b7b8d7af8/bids/19f21326b5a44151ad3555fc585aac04/financial_documents/28c55b1c36f64fb6834ceefbf4884bd3?download=a234476ad3644a8397cc943228918906", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/bids/befa6117e647452f8154dcff6a166947/financial_documents/1c0752c639a0408eb2b95138801dd912?download=3ad81de7c8824936a078c399738c20ff", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2017-09-28T15:01:12.347873+03:00", 
-    "id": "28c55b1c36f64fb6834ceefbf4884bd3", 
-    "dateModified": "2017-09-28T15:01:12.347900+03:00"
+    "datePublished": "2017-09-28T18:39:04.159933+03:00", 
+    "id": "1c0752c639a0408eb2b95138801dd912", 
+    "dateModified": "2017-09-28T18:39:04.159960+03:00"
   }
 }
 
-POST /api/2.4/tenders/0bade97aaaa44e198ec7bb7b7b8d7af8/bids/19f21326b5a44151ad3555fc585aac04/financial_documents?acc_token=4c2dbd95e46b466fb8dc4f6cac302e37 HTTP/1.0
+POST /api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/bids/befa6117e647452f8154dcff6a166947/financial_documents?acc_token=483b24464bc242b7adbd1e299bcef0f4 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 192
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy506745356093$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy384458669269$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0bade97aaaa44e198ec7bb7b7b8d7af8/bids/19f21326b5a44151ad3555fc585aac04/financial_documents/6bc26c30010a4622b03e82f4458d7d8c
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/bids/befa6117e647452f8154dcff6a166947/financial_documents/29f520029a154e87a60068ebf63773b6
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "confidentiality": "public", 
     "language": "uk", 
     "title": "financial_doc2.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/0bade97aaaa44e198ec7bb7b7b8d7af8/bids/19f21326b5a44151ad3555fc585aac04/financial_documents/6bc26c30010a4622b03e82f4458d7d8c?download=726195b248ef4f2c90f4271701483e3f", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/bids/befa6117e647452f8154dcff6a166947/financial_documents/29f520029a154e87a60068ebf63773b6?download=e0c3deabe7fb410e9623870dde265386", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2017-09-28T15:01:12.487720+03:00", 
-    "id": "6bc26c30010a4622b03e82f4458d7d8c", 
-    "dateModified": "2017-09-28T15:01:12.487749+03:00"
+    "datePublished": "2017-09-28T18:39:04.308241+03:00", 
+    "id": "29f520029a154e87a60068ebf63773b6", 
+    "dateModified": "2017-09-28T18:39:04.308272+03:00"
   }
 }
 

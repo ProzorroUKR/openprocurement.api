@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/0bade97aaaa44e198ec7bb7b7b8d7af8/contracts/ee04a2f3d80e4e2b8e350df76eeb93f8?acc_token=6a90c93afc974f7d9137d9624d0aa75f HTTP/1.0
+PATCH /api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/contracts/ff37206dbb1541beaf1aaa9cde46cd2a?acc_token=11d441c30b1648359d073e803a147fe1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 60
 Content-Type: application/json
@@ -6,7 +6,7 @@ Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "dateSigned": "2017-09-28T15:01:19.204471+03:00"
+    "dateSigned": "2017-09-28T18:39:12.727434+03:00"
   }
 }
 
@@ -38,7 +38,7 @@ Content-Type: application/json; charset=UTF-8
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "b63b85e308ab41e2899b62071af3d380", 
+        "id": "f112d84dbd414e06b088eea9dd3d147b", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -66,7 +66,7 @@ Content-Type: application/json; charset=UTF-8
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "74b9d1cc58794975b5f23462f0c61cba", 
+        "id": "a87314f5cee141138b9aecf2348f1968", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -76,62 +76,62 @@ Content-Type: application/json; charset=UTF-8
     "suppliers": [
       {
         "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Школяр»", 
         "address": {
-          "postalCode": "79013", 
+          "postalCode": "21100", 
           "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "м. Львів", 
-          "locality": "м. Львів"
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
         }
       }
     ], 
     "value": {
-      "amountPerfomance": 1174.6200911956682, 
-      "yearlyPaymentsPercentage": 0.85, 
+      "amountPerfomance": 929.3479606267625, 
+      "yearlyPaymentsPercentage": 0.9, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 11089.123287671233, 
+      "amount": 9400.684931506848, 
       "contractDuration": {
-        "days": 0, 
-        "years": 12
+        "days": 74, 
+        "years": 10
       }, 
       "annualCostsReduction": [
-        2500.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0
+        500.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0
       ]
     }, 
-    "dateSigned": "2017-09-28T15:01:19.204471+03:00", 
-    "awardID": "2282056ca4af41f98dfc5dcd42908310", 
-    "id": "ee04a2f3d80e4e2b8e350df76eeb93f8", 
+    "dateSigned": "2017-09-28T18:39:12.727434+03:00", 
+    "awardID": "be2ce9f03ff048ecb8f5ab9c1615a5d7", 
+    "id": "ff37206dbb1541beaf1aaa9cde46cd2a", 
     "contractID": "UA-2017-09-28-000001-1"
   }
 }

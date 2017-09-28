@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/f95d42a31c634575b8ad8cdeed62636d/qualifications?acc_token=33588f8be1fd498a8a6bbb949eafa4e0 HTTP/1.0
+GET /api/2.4/tenders/ae550ff97b034f8391b117ff7a1f7c69/qualifications?acc_token=8bca5c964d844a7e9ebd206c0ae423b5 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,21 +8,21 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "status": "pending", 
-      "lotID": "c338dc9fe93b4303a12ff998f71470b4", 
+      "lotID": "1af1f23fd5af42f19d8bb4f7893c924c", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "a3ec5486cf3c4dce8ba24b279ca7b431", 
-      "date": "2017-09-28T15:01:26.384888+03:00", 
-      "id": "70328a61218e47f69dfc02b7cace9298"
+      "bidID": "40a83840a8e1400d8bcaa1bd1d0aad18", 
+      "date": "2017-09-28T18:39:21.820652+03:00", 
+      "id": "2fb0b93479d6446c9ca1f11245ef2ad5"
     }, 
     {
       "status": "pending", 
-      "lotID": "c338dc9fe93b4303a12ff998f71470b4", 
+      "lotID": "1af1f23fd5af42f19d8bb4f7893c924c", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "63fb35cb9efa48b0970dd3781ae99e8c", 
-      "date": "2017-09-28T15:01:26.385285+03:00", 
-      "id": "197df0dac87044888a8899a713a48b65"
+      "bidID": "7f5df8e4b7ba48d5af8393f5fbc02428", 
+      "date": "2017-09-28T18:39:21.821006+03:00", 
+      "id": "fa416c6aa95c428ba362bccdfd24b825"
     }
   ]
 }

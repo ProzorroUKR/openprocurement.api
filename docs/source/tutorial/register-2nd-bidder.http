@@ -1,20 +1,19 @@
-POST /api/2.4/tenders/0bade97aaaa44e198ec7bb7b7b8d7af8/bids HTTP/1.0
+POST /api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 935
+Content-Length: 902
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
-    "selfEligible": true, 
-    "selfQualified": true, 
     "value": {
       "contractDuration": {
+        "days": 200, 
         "years": 12
       }, 
       "yearlyPaymentsPercentage": 0.85, 
       "annualCostsReduction": [
-        2500, 
+        400, 
         900, 
         900, 
         900, 
@@ -64,26 +63,27 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0bade97aaaa44e198ec7bb7b7b8d7af8/bids/062a6f48cb6c440daf82dad30cc3a894
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/bids/4a0ec83307f442b9ad95ada4dca7c562
 {
   "access": {
-    "token": "4769546090f94d6080bfd9826405954e"
+    "token": "ad2719021bd74c8cb62d39e55f5e11ca"
   }, 
   "data": {
+    "date": "2017-09-28T18:39:05.891896+03:00", 
     "status": "pending", 
-    "selfEligible": true, 
+    "id": "4a0ec83307f442b9ad95ada4dca7c562", 
     "value": {
-      "amountPerfomance": 1174.6200911956682, 
+      "amountPerfomance": 848.2546242936753, 
       "yearlyPaymentsPercentage": 0.85, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 11089.123287671233, 
+      "amount": 9742.164383561643, 
       "contractDuration": {
-        "days": 0, 
+        "days": 200, 
         "years": 12
       }, 
       "annualCostsReduction": [
-        2500.0, 
+        400.0, 
         900.0, 
         900.0, 
         900.0, 
@@ -106,7 +106,6 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0bade97aaaa44e1
         900.0
       ]
     }, 
-    "selfQualified": true, 
     "tenderers": [
       {
         "contactPoint": {
@@ -128,9 +127,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0bade97aaaa44e1
           "locality": "м. Львів"
         }
       }
-    ], 
-    "date": "2017-09-28T15:01:13.673213+03:00", 
-    "id": "062a6f48cb6c440daf82dad30cc3a894"
+    ]
   }
 }
 
