@@ -23,6 +23,7 @@ def get_tender_auction(self):
     self.assertIn('yearlyPaymentsPercentageRange', auction)
     self.assertIn('fundingKind', auction)
     self.assertIn('procurementMethodType', auction)
+    self.assertIn('noticePublicationDate', auction)
     self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(auction["bids"][0]['value']['amountPerfomance'], self.initial_bids[0]['value']['amountPerfomance'])
@@ -131,6 +132,9 @@ def post_tender_auction(self):
     self.assertEqual(response.json['errors'][0]["description"], "Can't report auction results in current (active.qualification) tender status")
 
 
+# TenderAuctionFieldsTest
+
+
 def auction_check_NBUdiscountRate(self):
     self.app.authorization = ('Basic', ('auction', ''))
     self.set_status('active.auction')
@@ -179,6 +183,57 @@ def auction_check_NBUdiscountRate(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['NBUdiscountRate'], 0.22)
+
+
+def auction_check_noticePublicationDate(self):
+    self.app.authorization = ('Basic', ('auction', ''))
+    self.set_status('active.auction')
+
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('noticePublicationDate', response.json['data'])
+    publication_date = response.json['data']['noticePublicationDate']
+
+    # try to patch noticePublicationDate in tender
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {"noticePublicationDate": get_now().isoformat()}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["location"], "url")
+    self.assertEqual(response.json['errors'][0]["name"], "permission")
+    self.assertEqual(response.json['errors'][0]["description"], "Forbidden")
+
+    # try to patch noticePublicationDate in auction data, but it should not change
+    response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': {"noticePublicationDate": get_now().isoformat()}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['noticePublicationDate'], publication_date)
+
+    patch_data = {
+        'bids': [
+            {
+                "id": self.initial_bids[1]['id'],
+                "value": {
+                    'yearlyPaymentsPercentage': 0.9,
+                    'contractDuration': {'years': 10},
+                 },
+            },
+            {
+                "id": self.initial_bids[0]['id'],
+                "value": {
+                    'yearlyPaymentsPercentage': 0.85,
+                    'contractDuration': {'years': 10},
+                },
+            },
+        ],
+        'noticePublicationDate': get_now().isoformat(),
+    }
+
+    # try to change noticePublicationDate with posting auction results, but it should not change
+    response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['noticePublicationDate'], publication_date)
 
 
 # TenderSameValueAuctionResourceTest

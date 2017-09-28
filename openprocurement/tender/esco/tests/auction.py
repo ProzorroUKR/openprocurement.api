@@ -32,8 +32,9 @@ from openprocurement.tender.esco.tests.auction_blanks import (
     # TenderMultipleLotAuctionResourceTest
     get_tender_lots_auction,
     post_tender_lots_auction,
-    # TenderAuctionNBUdiscountRateTest
+    # TenderAuctionFieldsTest
     auction_check_NBUdiscountRate,
+    auction_check_noticePublicationDate,
     # TenderFeaturesAuctionResourceTest
     get_tender_auction_feature,
     post_tender_auction_feature,
@@ -134,13 +135,13 @@ class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
     test_post_tender_auction_reversed = snitch(post_tender_auction_reversed)
 
 
-class TenderAuctionNBUdiscountRateTest(BaseESCOContentWebTest):
+class TenderAuctionFieldsTest(BaseESCOContentWebTest):
     #initial_data = tender_data
     initial_auth = ('Basic', ('broker', ''))
     initial_bids = test_bids
 
     def setUp(self):
-        super(TenderAuctionNBUdiscountRateTest, self).setUp()
+        super(TenderAuctionFieldsTest, self).setUp()
         # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -161,6 +162,7 @@ class TenderAuctionNBUdiscountRateTest(BaseESCOContentWebTest):
         # # switch to active.pre-qualification.stand-still
 
     test_auction_check_NBUdiscountRate = snitch(auction_check_NBUdiscountRate)
+    test_auction_check_noticePublicationDate = snitch(auction_check_noticePublicationDate)
 
 
 class TenderLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderAuctionResourceTest):
