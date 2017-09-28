@@ -15,114 +15,131 @@ msgid "Award"
 msgstr ""
 
 msgid "Schema"
-msgstr ""
+msgstr "Схема"
 
 msgid "string, auto-generated, read-only"
-msgstr ""
+msgstr "string, генерується автоматично, лише для читання"
 
 msgid "|ocdsDescription| The identifier for this award."
-msgstr ""
+msgstr "|ocdsDescription| Ідентифікатор цього рішення."
 
 msgid "The Id of a bid that the award relates to."
-msgstr ""
+msgstr "ID пропозиції, що виграла закупівлю"
 
 msgid "string, multilingual"
-msgstr ""
+msgstr "string, багатомовний"
 
 msgid "|ocdsDescription| Award title."
-msgstr ""
+msgstr "|ocdsDescription| Назва рішення."
 
 msgid "|ocdsDescription| Award description."
-msgstr ""
+msgstr "|ocdsDescription| Опис рішення."
 
 msgid "bool"
-msgstr ""
+msgstr "bool"
 
 msgid ""
 "Confirms compliance of eligibility criteria set by the procuring entity in "
 "the tendering documents."
 msgstr ""
+"Підтверджує відповідність критеріям прийнятності, встановлених замовником "
+"втендерній документації."
 
 msgid ""
 "Confirms the absence of grounds for refusal to participate in accordance "
 "with Article 17 of the Law of Ukraine \"On Public Procurement\"."
 msgstr ""
+"Підтверджує відсутність підстав для відмови від участі відповідно достатті "
+"17 Закону України “Про державні закупівлі”."
 
 msgid "string"
-msgstr ""
+msgstr "string"
 
 msgid ""
 "|ocdsDescription| The current status of the award drawn from the "
 "`awardStatus` codelist."
 msgstr ""
+"|ocdsDescription| Поточний статус рішення, взятий зі списку кодів "
+"`awardStatus`."
 
 msgid "Possible values are:"
-msgstr ""
+msgstr "Можливі значення:"
 
 msgid "`pending` - the award is under review of qualification committee"
-msgstr ""
+msgstr "`pending` - переможець розглядається кваліфікаційною комісією"
 
 msgid "`unsuccessful` - the award has been rejected by qualification comittee"
-msgstr ""
+msgstr "`unsuccessful` - кваліфікаційна комісія відмовила переможцю"
 
 msgid "`active` - the tender is awarded to the bidder from the `bid_id`"
-msgstr ""
+msgstr "`active` - закупівлю виграв учасник з пропозицією `bid_id`"
 
 msgid "`cancelled` - the award has been cancelled by complaint review body"
 msgstr ""
+"`cancelled` - орган, що розглядає скарги, відмінив результати закупівлі"
 
 msgid "string, :ref:`Date`, auto-generated, read-only"
-msgstr ""
+msgstr "string,  :ref:`Date`, генерується автоматично, лише для читання"
 
 msgid "|ocdsDescription| The date of the contract award."
-msgstr ""
+msgstr "|ocdsDescription| Дата рішення про підписання договору."
 
 msgid "|ocdsDescription| The total value of this award."
-msgstr ""
+msgstr "|ocdsDescription| Загальна вартість згідно цього рішення."
 
 msgid "|ocdsDescription| The suppliers awarded with this award."
 msgstr ""
+"|ocdsDescription| Постачальники, що були визнані переможцями згідно цього "
+"рішення."
 
 msgid ""
 "|ocdsDescription| The goods and services awarded in this award, broken into "
 "line items wherever possible. Items should not be duplicated, but the "
 "quantity specified instead."
 msgstr ""
+"|ocdsDescription| Товари та послуги, що розглядались цим рішенням, поділені "
+"наокремі рядки, де це можливо. Елементи не повинні бути продубльовані, а "
+"повиннімати вказану кількість."
 
 msgid ""
 "|ocdsDescription| All documents and attachments related to the award, "
 "including any notices."
 msgstr ""
+"|ocdsDescription| Усі документи та додатки пов’язані з рішенням, включноз "
+"будь-якими повідомленнями."
 
 msgid ":ref:`period`"
-msgstr ""
+msgstr ":ref:`period`"
 
 msgid "The timeframe when complaints can be submitted."
-msgstr ""
+msgstr "Період часу, під час якого можна подавати скарги."
 
 msgid "Id of related :ref:`lot`."
-msgstr ""
+msgstr "ID пов’язаного :ref:`lot`."
 
 msgid "Workflow"
-msgstr ""
+msgstr "Схема роботи"
 
 msgid "\\* marks initial state"
-msgstr ""
+msgstr "\\* позначає початковий стан"
 
 msgid "list of :ref:`Value` objects, auto-generated, read-only"
 msgstr ""
+"Список об’єктів :ref:`Value`, генерується автоматично, лише для читання"
 
 msgid "list of :ref:`Organization` objects, auto-generated, read-only"
 msgstr ""
+"Список об’єктів :ref:`Organization`, генерується автоматично, лишедля "
+"читання"
 
 msgid "list of :ref:`Item` objects, auto-generated, read-only"
-msgstr ""
+msgstr "Список об’єктів :ref:`Item`, генерується автоматично, лише длячитання"
 
 msgid "list of :ref:`Document` objects"
-msgstr ""
+msgstr "Список об’єктів :ref:`Document`"
 
 msgid "list of :ref:`Complaint` objects"
-msgstr ""
+msgstr "Список об’єктів :ref:`Complaint`"
 
 #~ msgid "List of :ref:`Organization` objects, auto-generated, read-only"
 #~ msgstr ""

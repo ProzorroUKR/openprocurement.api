@@ -32,7 +32,7 @@ Schema
 :minimalStepPercentage:
    float, required
 
-  Minimum step increment of the energy service contract performance indicator during auction that is calculated on participant’s bid. Possible values: from 0.05 to 0.3 (from 0.5% to 3% respectively) with 3-digit precision after comma.
+  Minimum step increment of the energy service contract performance indicator during auction that is calculated on participant’s bid. Possible values: from 0.005 to 0.03 (from 0.5% to 3% respectively) with 3-digit precision after comma.
 
 :auctionPeriod:
    :ref:`period`, read-only
@@ -62,22 +62,23 @@ Schema
     string, required
     
 :Lot funding source:
-      Possible values:
-       
-       *budget -  Budget funding.
-       *other - Supplier funding.
+
+    Possible values:
+      
+    * budget -  Budget funding.
+    * other - Supplier funding.
     
     Default value: other
     
 :yearlyPaymentsPercentageRange:
     float, required
 
-     Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma.
+    Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma.
 
-     Possible values:
+    Possible values:
      
-     *from 0.8 to 1 (from 80% to 100% respectively) if lot:fundingKind:other. Default value.
-     *from 0 to 0.8 (from 0% to 80% respectively) if lot:fundingKind:budget.
+   * from 0.8 to 1 (from 80% to 100% respectively) if lot:fundingKind:other.
+   * from 0 to 0.8 (from 0% to 80% respectively) if lot:fundingKind:budget.
 
      Input precision - 3 digits after comma.
 

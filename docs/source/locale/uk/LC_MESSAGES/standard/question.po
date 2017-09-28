@@ -15,42 +15,44 @@ msgid "Question"
 msgstr ""
 
 msgid "Schema"
-msgstr ""
+msgstr "Схема"
 
 msgid "uid, auto-generated"
-msgstr ""
+msgstr "uid, генерується автоматично"
 
 msgid ":ref:`Organization`, required"
-msgstr ""
+msgstr ":ref:`Organization`, обов’язково"
 
 msgid ""
 "Who is asking a question (contactPoint - person, identification - "
 "organization that person represents)."
 msgstr ""
+"Хто задає питання (contactPoint - людина, identification -організація, яку "
+"ця людина представляє)."
 
 msgid "string, required"
-msgstr ""
+msgstr "string, обов’язковий"
 
 msgid "Title of the question."
-msgstr ""
+msgstr "Назва запитання."
 
 msgid "string"
-msgstr ""
+msgstr "string"
 
 msgid "Description of the question."
-msgstr ""
+msgstr "Опис запитання."
 
 msgid "string, :ref:`date`, auto-generated"
-msgstr ""
+msgstr "string, :ref:`date`, генерується автоматично"
 
 msgid "Date of posting."
-msgstr ""
+msgstr "Дата публікації."
 
 msgid "Answer for the question asked."
-msgstr ""
+msgstr "Відповідь на задане питання."
 
 msgid "Possible values are:"
-msgstr ""
+msgstr "Можливі значення:"
 
 msgid "`tender`"
 msgstr ""
@@ -62,4 +64,4 @@ msgid "`lot`"
 msgstr ""
 
 msgid "Id of related :ref:`lot` or :ref:`item`."
-msgstr ""
+msgstr "ID пов’язаних :ref:`lot` або :ref:`item`."

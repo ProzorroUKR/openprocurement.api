@@ -15,61 +15,61 @@ msgid "Feature"
 msgstr ""
 
 msgid "Schema"
-msgstr ""
+msgstr "Схема"
 
 msgid "string, auto-generated"
-msgstr ""
+msgstr "string, генерується автоматично"
 
 msgid "Code of the feature."
-msgstr ""
+msgstr "Код нецінового критерію."
 
 msgid "string, required"
-msgstr ""
+msgstr "string, обов’язковий"
 
 msgid "Possible values are:"
-msgstr ""
+msgstr "Можливі значення:"
 
 msgid "`tenderer`"
-msgstr ""
+msgstr "`tenderer` - учасник закупівлі"
 
 msgid "`lot`"
-msgstr ""
+msgstr "`lot` - лот"
 
 msgid "`item`"
-msgstr ""
+msgstr "`item`"
 
 msgid "string"
-msgstr ""
+msgstr "string"
 
 msgid "Id of related item."
-msgstr ""
+msgstr "ID пов’язаного елемента."
 
 msgid "string, multilingual, required"
-msgstr ""
+msgstr "string, багатомовний, обов’язковий"
 
 msgid "Title of the feature."
-msgstr ""
+msgstr "Назва критерію."
 
 msgid "string, multilingual"
-msgstr ""
+msgstr "string, багатомовний"
 
 msgid "Description of the feature."
-msgstr ""
+msgstr "Опис критерію."
 
 msgid "list"
-msgstr ""
+msgstr "список"
 
 msgid "List of values:"
-msgstr ""
+msgstr "Список значень:"
 
 msgid "float, required"
-msgstr ""
+msgstr "float, обов’язково"
 
 msgid "Value of the feature."
-msgstr ""
+msgstr "Значення критерію."
 
 msgid "Title of the value."
-msgstr ""
+msgstr "Назва значення."
 
 msgid "Description of the value."
-msgstr ""
+msgstr "Опис значення."

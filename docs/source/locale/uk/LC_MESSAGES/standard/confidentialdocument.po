@@ -15,176 +15,203 @@ msgid "ConfidentialDocument"
 msgstr ""
 
 msgid "Schema"
-msgstr ""
+msgstr "Схема"
 
 msgid "string, auto-generated"
-msgstr ""
+msgstr "string, генерується автоматично"
 
 msgid "string"
-msgstr ""
+msgstr "string"
 
 msgid "Possible values for :ref:`tender`"
-msgstr ""
+msgstr "Можливі значення для :ref:`tender`"
 
 msgid "`notice` - **Tender notice**"
-msgstr ""
+msgstr "`notice` - **Повідомлення про закупівлю**"
 
 msgid ""
 "The formal notice that gives details of a tender. This may be a link to a "
 "downloadable document, to a web page, or to an official gazette in which the"
 " notice is contained."
 msgstr ""
+"Офіційне повідомлення, що містить деталі закупівлі. Це може бути посилання "
+"надокумент, веб-сторінку, чи на офіційний бюлетень, де розміщено "
+"повідомлення."
 
 msgid "`biddingDocuments` - **Bidding Documents**"
-msgstr ""
+msgstr "`biddingDocuments` - **Документи закупівлі**"
 
 msgid ""
 "Information for potential suppliers, describing the goals of the contract "
 "(e.g. goods and services to be procured), and the bidding process."
 msgstr ""
+"Інформація для потенційних постачальників, що описує цілі договору "
+"(наприклад, товари та послуги, які будуть закуплені) і процес торгів."
 
 msgid "`technicalSpecifications` - **Technical Specifications**"
-msgstr ""
+msgstr "`technicalSpecifications` - **Технічні специфікації**"
 
 msgid "Detailed technical information about goods or services to be provided."
 msgstr ""
+"Детальна технічна інформація про товари або послуги, що повинні бути надані."
 
 msgid "`evaluationCriteria` - **Evaluation Criteria**"
-msgstr ""
+msgstr "`evaluationCriteria` - **Критерії оцінки**"
 
 msgid "Information about how bids will be evaluated."
-msgstr ""
+msgstr "Інформація про те, як будуть оцінюватись пропозиції."
 
 msgid "`clarifications` - **Clarifications to bidders questions**"
-msgstr ""
+msgstr "`clarifications` - **Пояснення до питань заданих учасниками**"
 
 msgid "Including replies to issues raised in pre-bid conferences."
-msgstr ""
+msgstr "Включає відповіді на питання, підняті на передтендерних конференціях."
 
 msgid "`eligibilityCriteria` - **Eligibility Criteria**"
-msgstr ""
+msgstr "`eligibilityCriteria` - **Критерії прийнятності**"
 
 msgid "Detailed documents about the eligibility of bidders."
-msgstr ""
+msgstr "Докладні документи про критерії відбору."
 
 msgid "`shortlistedFirms` - **Shortlisted Firms**"
-msgstr ""
+msgstr "`shortlistedFirms` - **Фірми у короткому списку**"
 
 msgid ""
 "`riskProvisions` - **Provisions for management of risks and liabilities**"
 msgstr ""
+"riskProvisions` - **Положення для управління ризиками та зобов’язаннями**"
 
 msgid "`billOfQuantity` - **Bill Of Quantity**"
-msgstr ""
+msgstr "`billOfQuantity` - **Кошторис**"
 
 msgid "`bidders` - **Information on bidders**"
-msgstr ""
+msgstr "`bidders` - **Інформація про учасників**"
 
 msgid ""
 "Information on bidders or participants, their validation documents and any "
 "procedural exemptions for which they qualify."
 msgstr ""
+"Інформація про учасників, їхні документи для перевірки та будь-які "
+"процесуальніпільги, на які вони можуть претендувати."
 
 msgid "`conflictOfInterest` - **Conflicts of interest uncovered**"
-msgstr ""
+msgstr "`conflictOfInterest` - **Виявлені конфлікти інтересів**"
 
 msgid "`debarments` - **Debarments issued**"
-msgstr ""
+msgstr "`debarments` - **Відмова у допуску до закупівлі**"
 
 msgid "Possible values for :ref:`award`"
-msgstr ""
+msgstr "Можливі значення для :ref:`award`"
 
 msgid "`notice` - **Award Notice**"
-msgstr ""
+msgstr "`notice` - **Повідомлення про рішення**"
 
 msgid ""
 "The formal notice that gives details of the contract award. This may be a "
 "link to a downloadable document, to a web page, or to an official gazette in"
 " which the notice is contained."
 msgstr ""
+"Офіційне повідомлення, що містить деталі рішення про визначення переможця.Це"
+" може бути посилання на документ, веб-сторінку, чи на офіційний бюлетень,де "
+"розміщено повідомлення."
 
 msgid "`evaluationReports` - **Evaluation report**"
-msgstr ""
+msgstr "`evaluationReports` - **Звіт про оцінку**"
 
 msgid ""
 "Report on the evaluation of the bids and the application of the evaluation "
 "criteria, including the justification fo the award."
 msgstr ""
+"Звіт про оцінку пропозицій і застосування критеріїв оцінки, у тому "
+"числі,обґрунтування рішення про визначення переможця."
 
 msgid "`winningBid` - **Winning Bid**"
-msgstr ""
+msgstr "`winningBid` - **Пропозиція, що перемогла**"
 
 msgid "`complaints` - **Complaints and decisions**"
-msgstr ""
+msgstr "`complaints` - **Скарги та рішення**"
 
 msgid "Possible values for :ref:`contract`"
-msgstr ""
+msgstr "Можливі значення для :ref:`contract`"
 
 msgid "`notice` - **Contract notice**"
-msgstr ""
+msgstr "`notice` - **Повідомлення про договір**"
 
 msgid ""
 "The formal notice that gives details of a contract being signed and valid to"
 " start implementation. This may be a link to a downloadable document, to a "
 "web page, or to an official gazette in which the notice is contained."
 msgstr ""
+"Офіційне повідомлення, що містить деталі підписання договору та початку "
+"йогореалізації. Це може бути посилання на документ, веб-сторінку, чи на "
+"офіційнийбюлетень, де розміщено повідомлення."
 
 msgid "`contractSigned` - **Signed Contract**"
-msgstr ""
+msgstr "`contractSigned` - **Підписаний договір**"
 
 msgid "`contractArrangements` - **Arrangements for ending contract**"
-msgstr ""
+msgstr "`contractArrangements` - **Заходи для припинення договору**"
 
 msgid "`contractSchedule` - **Schedules and milestones**"
-msgstr ""
+msgstr "`contractSchedule` - **Розклад та етапи**"
 
 msgid "`contractAnnexe` - **Annexes to the Contract**"
-msgstr ""
+msgstr "`contractAnnexe` - **Додатки до договору**"
 
 msgid "`contractGuarantees` - **Guarantees**"
-msgstr ""
+msgstr "`contractGuarantees` - **Гарантії**"
 
 msgid "`subContract` - **Subcontracts**"
-msgstr ""
+msgstr "`subContract` - **Субпідряд**"
 
 msgid "Possible values for :ref:`bid`"
-msgstr ""
+msgstr "Можливі значення для :ref:`bid`"
 
 msgid "`commercialProposal` - **Сommercial proposal**"
-msgstr ""
+msgstr "`commercialProposal` - **Комерційна пропозиція**"
 
 msgid ""
 "For Open EU procedure `commercialProposal` should be contained in "
 "`financialDocuments` envelope. See :ref:`bid`."
 msgstr ""
+"Для європейських закупівель `commercialProposal` повинна міститись уконверті"
+" фінансових документів (`financialDocuments`). Див. :ref:`bid`."
 
 msgid "`qualificationDocuments` - **Qualification documents**"
-msgstr ""
+msgstr "`qualificationDocuments` - **Кваліфікаційні документи**"
 
 msgid ""
 "For Open EU procedure `qualificationDocuments` should be contained in "
 "`documents` envelope. See :ref:`bid`."
 msgstr ""
+"Для європейських закупівель `qualificationDocuments` повинні міститись "
+"уконверті документи `documents` Див. :ref:`bid`."
 
 msgid "`eligibilityDocuments` - **Eligibility documents**"
-msgstr ""
+msgstr "`eligibilityDocuments` - **Кваліфікаційні документи"
 
 msgid ""
 "For Open EU procedure `eligibilityDocuments` should be contained in "
 "`eligibilityDocuments` envelope. See :ref:`bid`."
 msgstr ""
+"Для європейських закупівель `eligibilityDocuments` повинні міститись "
+"уконверті кваліфікаційних документів `eligibilityDocuments`. Див. "
+":ref:`bid`."
 
 msgid "string, multilingual"
-msgstr ""
+msgstr "string, багатомовний"
 
 msgid "|ocdsDescription| The document title."
-msgstr ""
+msgstr "|ocdsDescription| Назва документа."
 
 msgid ""
 "|ocdsDescription| A short description of the document. In the event the "
 "document is not accessible online, the description field can be used to "
 "describe arrangements for obtaining a copy of the document."
 msgstr ""
+"|ocdsDescription|Короткий опис документа. Якщо документ не буде "
+"доступнийонлайн, то поле опису можна використати для вказання способу "
+"отриманнякопії документа."
 
 msgid ""
 "|ocdsDescription| The format of the document taken from the `IANA Media "
@@ -192,42 +219,46 @@ msgid ""
 "addition of one extra value for 'offline/print', used when this document "
 "entry is being used to describe the offline publication of a document."
 msgstr ""
+"|ocdsDescription| Формат документа зі `списку кодів IANA Media "
+"<http://www.iana.org/assignments/media-types/>`_, з одним додатковим "
+"значенням‘offline/print’, що буде використовуватись, коли запис цього "
+"документавикористовується для опису офлайнової публікації документа."
 
 msgid "|ocdsDescription| Direct link to the document or attachment."
-msgstr ""
+msgstr "|ocdsDescription| Пряме посилання на документ або додаток."
 
 msgid "Possible values are:"
-msgstr ""
+msgstr "Можливі значення:"
 
 msgid "`public`"
-msgstr ""
+msgstr "`public` - публічний документ"
 
 msgid "`buyerOnly`"
-msgstr ""
+msgstr "`buyerOnly` - приватний документ"
 
 msgid "Reasons for confidentiality of documents."
-msgstr ""
+msgstr "Причина для конфіденційності документів."
 
 msgid "string, :ref:`date`"
-msgstr ""
+msgstr "string, :ref:`date`"
 
 msgid "|ocdsDescription| The date on which the document was first published."
-msgstr ""
+msgstr "|ocdsDescription| Дата, коли документ був опублікований вперше."
 
 msgid "|ocdsDescription| Date that the document was last modified"
-msgstr ""
+msgstr "|ocdsDescription| Дата, коли документ був змінений востаннє."
 
 msgid "string, default = `uk`"
-msgstr ""
+msgstr "string, значення за замовчуванням - `uk`"
 
 msgid "`uk`"
-msgstr ""
+msgstr "`uk`"
 
 msgid "`en`"
-msgstr ""
+msgstr "`en`"
 
 msgid "`ru`"
-msgstr ""
+msgstr "`ru`"
 
 msgid ""
 "|ocdsDescription| Specifies the language of the linked document using either"
@@ -236,15 +267,19 @@ msgid ""
 "`BCP47 language tags <http://www.w3.org/International/articles/language-"
 "tags/>`_."
 msgstr ""
+"|ocdsDescription| Вказує мову документа, використовуючи або двоцифровий код "
+"`ISO 639-1 <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, або "
+"розширений`BCP47 language tags <http://www.w3.org/International/articles"
+"/language-tags/>`_."
 
 msgid "`tender`"
-msgstr ""
+msgstr "`tender`"
 
 msgid "`item`"
-msgstr ""
+msgstr "`item`"
 
 msgid "`lot`"
-msgstr ""
+msgstr "`lot`"
 
 msgid "ID of related :ref:`lot` or :ref:`item`."
-msgstr ""
+msgstr "ID пов'язаного :ref:`lot` або :ref:`item`."

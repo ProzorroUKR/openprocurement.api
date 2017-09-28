@@ -15,81 +15,70 @@ msgid "Lot"
 msgstr ""
 
 msgid "Schema"
-msgstr ""
+msgstr "Схема"
 
 msgid "string, auto-generated"
-msgstr ""
+msgstr "string, генерується автоматично"
 
 msgid "string, multilingual"
-msgstr ""
+msgstr "string, багатомовний"
 
 msgid "The name of the tender lot."
-msgstr ""
+msgstr "Назва лота закупівлі."
 
 msgid "Detailed description of tender lot."
-msgstr ""
+msgstr "Детальний опис лота закупівлі."
 
 msgid ":ref:`Guarantee`"
-msgstr ""
+msgstr ":ref:`Guarantee`"
 
 msgid "Bid guarantee"
-msgstr ""
+msgstr "Забезпечення тендерної пропозиції"
 
 msgid ":ref:`period`, read-only"
-msgstr ""
+msgstr ":ref:`period`, лише для читання"
 
 msgid "Period when Auction is conducted."
-msgstr ""
+msgstr "Період проведення аукціону."
 
 msgid "url"
-msgstr ""
+msgstr "URL-адреса"
 
 msgid "A web address for view auction."
-msgstr ""
+msgstr "Веб-адреса для перегляду аукціону."
 
 msgid "string"
-msgstr ""
+msgstr "string"
 
 msgid "Active tender lot"
-msgstr ""
+msgstr "Активний лот закупівлі"
 
 msgid "Unsuccessful tender lot"
-msgstr ""
+msgstr "Неуспішний лот закупівлі"
 
 msgid "Completed tender lot"
-msgstr ""
+msgstr "Завершений лот закупівлі"
 
 msgid "Cancelled tender lot"
-msgstr ""
+msgstr "Відмінений лот закупівлі"
 
 msgid "Status of the Lot."
-msgstr ""
+msgstr "Статус лота."
 
 msgid "Workflow"
-msgstr ""
+msgstr "Схема роботи"
 
 msgid "\\* marks initial state"
-msgstr ""
+msgstr "\\* позначає початковий стан"
 
 msgid "float, required"
-msgstr ""
-
-msgid ""
-"Minimum step increment of the energy service contract performance indicator "
-"during auction that is calculated on participant’s bid. Possible values: "
-"from 0.05 to 0.3 (from 0.5% to 3% respectively) with 3-digit precision after"
-" comma."
-msgstr ""
-"Мінімальний крок підвищення показника ефективності енергосервісногодоговору "
-"під час аукціону, %. (розраховується від пропозиції учасника).Допустимі "
-"значення для ЦБД: від 0.05 до 0.3 (0.5% до 3%).Точність вказання відсотка - "
-"три знаки після коми."
+msgstr "float, обов'язковий"
 
 msgid "string, required"
-msgstr ""
+msgstr "string, обов'язковий"
 
 msgid "Default value: other"
-msgstr ""
+msgstr "Значення за замовчуванням: other"
 
 msgid ""
 "Fixed percentage of participant's cost reduction sum, with 3-digit precision"
@@ -99,7 +88,7 @@ msgstr ""
 "відсотка - три знаки після коми."
 
 msgid "Possible values:"
-msgstr ""
+msgstr "Можливі значення:"
 
 msgid "*budget -  Budget funding. *other - Supplier funding."
 msgstr ""
@@ -111,7 +100,29 @@ msgid ""
 msgstr ""
 
 msgid "Input precision - 3 digits after comma."
+msgstr "Точність вказання - 3 знаки після коми."
+
+msgid ""
+"Minimum step increment of the energy service contract performance indicator "
+"during auction that is calculated on participant’s bid. Possible values: "
+"from 0.005 to 0.03 (from 0.5% to 3% respectively) with 3-digit precision "
+"after comma."
 msgstr ""
+"Мінімальний крок підвищення показника ефективності енергосервісногодоговору "
+"під час аукціону, %. (розраховується від пропозиції учасника).Допустимі "
+"значення для ЦБД: від 0.005 до 0.03 (0.5% до 3%).Точність вказання відсотка - "
+"три знаки після коми."
+
+#~ msgid ""
+#~ "Minimum step increment of the energy service contract performance indicator "
+#~ "during auction that is calculated on participant’s bid. Possible values: "
+#~ "from 0.05 to 0.3 (from 0.5% to 3% respectively) with 3-digit precision after"
+#~ " comma."
+#~ msgstr ""
+#~ "Мінімальний крок підвищення показника ефективності енергосервісногодоговору "
+#~ "під час аукціону, %. (розраховується від пропозиції учасника).Допустимі "
+#~ "значення для ЦБД: від 0.05 до 0.3 (0.5% до 3%).Точність вказання відсотка - "
+#~ "три знаки після коми."
 
 #~ msgid "Lot funding source. Possible values:"
 #~ msgstr ""

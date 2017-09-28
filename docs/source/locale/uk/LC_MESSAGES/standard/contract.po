@@ -15,103 +15,122 @@ msgid "Contract"
 msgstr ""
 
 msgid "Schema"
-msgstr ""
+msgstr "Схема"
 
 msgid "uid, auto-generated"
-msgstr ""
+msgstr "uid, генерується автоматично"
 
 msgid "|ocdsDescription| The identifier for this contract."
-msgstr ""
+msgstr "|ocdsDescription| Ідентифікатор цього договору."
 
 msgid "string, required"
-msgstr ""
+msgstr "string, обов’язковий"
 
 msgid ""
 "|ocdsDescription| The `Award.id` against which this contract is being "
 "issued."
 msgstr ""
+"`|ocdsDescription| Award.id` вказує на рішення, згідно з яким видається "
+"договір."
 
 msgid "string, auto-generated, read-only"
-msgstr ""
+msgstr "string, генерується автоматично, лише для читання"
 
 msgid "string"
-msgstr ""
+msgstr "string"
 
 msgid "|ocdsDescription| Contract title"
-msgstr ""
+msgstr "|ocdsDescription| Назва договору"
 
 msgid "|ocdsDescription| Contract description"
-msgstr ""
+msgstr "|ocdsDescription| Опис договору"
 
 msgid "|ocdsDescription| The current status of the contract."
-msgstr ""
+msgstr "|ocdsDescription| Поточний статус договору"
 
 msgid "Possible values are:"
-msgstr ""
+msgstr "Можливі значення:"
 
 msgid ""
 "`pending` - this contract has been proposed, but is not yet in force. It may"
 " be awaiting signature."
 msgstr ""
+"`pending` - цей договір запропоновано, але він ще не діє.Можливо очікується "
+"його підписання."
 
 msgid ""
 "`active` - this contract has been signed by all the parties, and is now "
 "legally in force."
 msgstr ""
+"`active` - цей договір підписаний всіма учасниками, і зараз діє на законних "
+"підставах."
 
 msgid "`cancelled` - this contract has been cancelled prior to being signed."
-msgstr ""
+msgstr "`cancelled` - цей договір було скасовано до підписання."
 
 msgid ""
 "`terminated` - this contract was signed and in force, and has now come to a "
 "close.  This may be due to a successful completion of the contract, or may "
 "be early termination due to some non-completion issue."
 msgstr ""
+"`terminated` - цей договір був підписаний, діяв на законних підставах, а "
+"заразйого дія закінчилась. Це може бути успішне виконання договору, або "
+"розірваннядоговору у зв'язку з невиконанням його умов."
 
 msgid ":ref:`Period`"
-msgstr ""
+msgstr ":ref:`Period`"
 
 msgid "|ocdsDescription| The start and end date for the contract."
-msgstr ""
+msgstr "|ocdsDescription| Дата початку та завершення договору."
 
 msgid "List of :ref:`Item` objects, auto-generated, read-only"
 msgstr ""
+"Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
 
 msgid ""
 "|ocdsDescription| The goods, services, and any intangible outcomes in this "
 "contract. Note: If the items are the same as the award do not repeat."
 msgstr ""
+"|ocdsDescription| Товари, послуги та інші нематеріальні результати у цій "
+"угоді.Зверніть увагу: Якщо список співпадає з визначенням переможця "
+"`award`,то його не потрібно повторювати."
 
 msgid "List of :ref:`Organization` objects, auto-generated, read-only"
 msgstr ""
+"Список об’єктів :ref:`Organization`, генерується автоматично,лише для "
+"читання"
 
 msgid "|ocdsDescription| The total value of this contract."
-msgstr ""
+msgstr "|ocdsDescription| Загальна вартість договору."
 
 msgid "string, :ref:`date`, auto-generated"
-msgstr ""
+msgstr "string, :ref:`date`, генерується автоматично"
 
 msgid ""
 "|ocdsDescription| The date the contract was signed. In the case of multiple "
 "signatures, the date of the last signature."
 msgstr ""
+"|ocdsDescription| Дата підписання договору. Якщо було декілька підписань,то "
+"береться дата останнього підписання."
 
 msgid "List of :ref:`Document` objects"
-msgstr ""
+msgstr "Список об’єктів :ref:`Document`"
 
 msgid ""
 "|ocdsDescription| All documents and attachments related to the contract, "
 "including any notices."
 msgstr ""
+"|ocdsDescription| Усі документи та додатки пов’язані з договором, включноз "
+"будь-якими повідомленнями."
 
 msgid "Workflow"
-msgstr ""
+msgstr "Схема"
 
 msgid "\\* marks initial state"
-msgstr ""
+msgstr "\\* позначає початковий стан"
 
 msgid "`Value` object, auto-generated, read-only"
-msgstr ""
+msgstr "Об’єкт `Value`, генерується автоматично, лише для читання"
 
 #~ msgid "`ESCOValue` object, auto-generated, read-only"
 #~ msgstr ""

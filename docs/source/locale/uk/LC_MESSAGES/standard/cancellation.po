@@ -15,64 +15,68 @@ msgid "Cancellation"
 msgstr ""
 
 msgid "Schema"
-msgstr ""
+msgstr "Схема"
 
 msgid "uid, auto-generated"
-msgstr ""
+msgstr "uid, генерується автоматично"
 
 msgid "string, multilingual, required"
-msgstr ""
+msgstr "string, багатомовний, обов’язковий"
 
 msgid "The reason, why Tender is being cancelled."
-msgstr ""
+msgstr "Причина, з якої скасовується закупівля."
 
 msgid "string"
-msgstr ""
+msgstr "string"
 
 msgid "Possible values are:"
-msgstr ""
+msgstr "Можливі значення:"
 
 msgid "Default. The request is being prepared."
-msgstr ""
+msgstr "За замовчуванням. Запит оформляється."
 
 msgid "Cancellation activated."
-msgstr ""
+msgstr "Скасування активоване."
 
 msgid ""
 "There are two possible types of cancellation reason set by procuring entity:"
 msgstr ""
+"При скасуванні закупівлі, замовник має визначити один з двох типів - "
+"`reasonType:`"
 
 msgid "Default. Tender was cancelled."
-msgstr ""
+msgstr "За замовчуванням. Торги були відмінені."
 
 msgid "Tender was unsuccessful."
-msgstr ""
+msgstr "Торги не відбулися."
 
 msgid "List of :ref:`Document` objects"
-msgstr ""
+msgstr "Список об’єктів :ref:`Document`"
 
 msgid ""
 "Documents accompanying the Cancellation: Protocol of Tender Committee with "
 "decision to cancel the Tender."
 msgstr ""
+"Супровідна документація скасування: Протокол рішення Тендерного "
+"комітетуЗамовника про скасування закупівлі."
 
 msgid "string, :ref:`date`"
-msgstr ""
+msgstr "string, :ref:`date`"
 
 msgid "Cancellation date."
-msgstr ""
+msgstr "Дата скасування."
 
 msgid "`tender`"
-msgstr ""
+msgstr "закупівля"
 
 msgid "`lot`"
-msgstr ""
+msgstr "лот"
 
 msgid "Id of related :ref:`lot`."
-msgstr ""
+msgstr "ID пов’язаного :ref:`lot`."
 
 msgid "Workflow"
-msgstr ""
+msgstr "Схема роботи"
 
 msgid "\\* marks initial state"
-msgstr ""
+msgstr "\\* позначає початковий стан"

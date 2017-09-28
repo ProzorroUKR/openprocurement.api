@@ -18,70 +18,77 @@ msgid "Schema"
 msgstr ""
 
 msgid "string, auto-generated"
-msgstr ""
+msgstr "string, генерується автоматично"
 
 msgid "string, multilingual"
-msgstr ""
+msgstr "string, багатомовний"
 
 msgid "|ocdsDescription| Qualification title."
-msgstr ""
+msgstr "|ocdsDescription|Назва кваліфікації."
 
 msgid "|ocdsDescription| Qualification description."
-msgstr ""
+msgstr "|ocdsDescription| Опис кваліфікації."
 
 msgid "bool"
-msgstr ""
+msgstr "bool"
 
 msgid ""
 "Confirms compliance of eligibility criteria set by the procuring entity in "
 "the tendering documents."
 msgstr ""
+"Підтверджує відповідність критеріям прийнятності, встановлених замовником в "
+"тендерній документації."
 
 msgid ""
 "Confirms the absence of grounds for refusal to participate in accordance "
 "with Article 17 of the Law of Ukraine \"On Public Procurement\"."
 msgstr ""
+"Підтверджує відсутність підстав для відмови від участі відповідно до "
+"статті17 Закону України “Про державні закупівлі”."
 
 msgid "Bid that this Qualification protocol relates to."
-msgstr ""
+msgstr "Пропозиція, з якою пов’язаний протокол кваліфікації."
 
 msgid "In Multilot tenders, lot that this Qualification protocol relates to."
 msgstr ""
+"В багатолотових закупівлях це лот, з яким пов’язаний протокол кваліфікації."
 
 msgid "string, :ref:`Date`, auto-generated, read-only"
-msgstr ""
+msgstr "string,  :ref:`Date`, генерується автоматично, лише для читання"
 
 msgid "The date of the qualification."
-msgstr ""
+msgstr "Дата кваліфікації."
 
 msgid "List of :ref:`Document` objects"
-msgstr ""
+msgstr "Список об’єктів :ref:`Document`"
 
 msgid ""
 "Container for Qualification documentation, protocols, reasons for "
 "qualification or disqualification. Uploaded by tender committee."
 msgstr ""
+"Контейнер для кваліфікаційних документів, протоколів, причин длякваліфікації"
+" чи дискваліфікації. Завантажується закупівельним комітетом."
 
 msgid "string"
-msgstr ""
+msgstr "string"
 
 msgid "Possible values are:"
-msgstr ""
+msgstr "Можливі значення:"
 
 msgid "`pending`"
-msgstr ""
+msgstr "`pending` - очікує на кваліфікацію"
 
 msgid "`active`"
-msgstr ""
+msgstr "`active` - кваліфікацію підтверджено"
 
 msgid "`unsuccessful`"
-msgstr ""
+msgstr "`unsuccessful` - учасник не пройшов кваліфікації"
 
 msgid "`cancelled`"
-msgstr ""
+msgstr "`cancelled`- відміна рішення по кваліфікації"
 
 msgid "Workflow"
-msgstr ""
+msgstr "Схема роботи"
 
 msgid "\\* marks initial state"
-msgstr ""
+msgstr "\\* позначає початковий стан"
