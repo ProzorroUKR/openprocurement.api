@@ -694,7 +694,7 @@ def bids_invalidation_on_tender_change(self):
     self.app.authorization = ('Basic', ('anon', ''))
     response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']), 7)
+    self.assertEqual(len(response.json['data']), 6)
     for b in response.json['data']:
         if b['status'] == u'invalid':
             self.assertEqual(set(b.keys()), set(['id', 'status']))
@@ -715,7 +715,7 @@ def bids_invalidation_on_tender_change(self):
     self.set_status('complete')
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']['bids']), 7)
+    self.assertEqual(len(response.json['data']['bids']), 6)
     for bid in response.json['data']['bids']:
         if bid['id'] in bids_access:  # previously invalidated bids
             self.assertEqual(bid['status'], 'invalid')

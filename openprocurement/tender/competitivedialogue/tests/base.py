@@ -27,6 +27,7 @@ from openprocurement.tender.openua.tests.base import (
     test_tender_data as base_test_tender_data_ua
 )
 
+test_bids.append(deepcopy(test_bids[0]))  # Minimal number of bits is 3
 
 now = datetime.now()
 test_tender_data_eu = deepcopy(base_test_tender_data_eu)

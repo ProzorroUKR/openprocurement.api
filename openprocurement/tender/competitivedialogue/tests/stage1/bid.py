@@ -5,12 +5,11 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.openeu.tests.bid import TenderBidResourceTestMixin
-from openprocurement.tender.openeu.tests.base import (
-    test_bids
-)
 
 from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogEUContentWebTest, test_features_tender_eu_data
+    BaseCompetitiveDialogEUContentWebTest,
+    test_bids,
+    test_features_tender_eu_data
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
     # CompetitiveDialogEUBidResourceTest
@@ -38,8 +37,6 @@ from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
     create_tender_bidder_invalid_document_description,
     create_tender_bidder_invalid_confidential_document,
 )
-
-test_bids.append(test_bids[0].copy())  # Minimal number of bits is 3
 
 
 class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest, TenderBidResourceTestMixin):
