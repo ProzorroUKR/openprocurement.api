@@ -410,8 +410,6 @@ def create_plan_invalid(self):
                   response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'classification'},
                   response.json['errors'])
-    self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'budget'},
-                  response.json['errors'])
 
     data = self.initial_data['tender']
     self.initial_data['tender'] = {'procurementMethod': 'open', 'procurementMethodType': 'reporting', 'tenderPeriod' : data['tenderPeriod'] }
@@ -420,7 +418,7 @@ def create_plan_invalid(self):
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertIn({u'description': {u'procurementMethodType': [u"Value must be one of ('belowThreshold', 'aboveThresholdUA', 'aboveThresholdEU', 'aboveThresholdUA.defense', 'competitiveDialogueUA', 'competitiveDialogueEU')."]}, u'location': u'body', u'name': u'tender'},
+    self.assertIn({u'description': {u'procurementMethodType': [u"Value must be one of ('belowThreshold', 'aboveThresholdUA', 'aboveThresholdEU', 'aboveThresholdUA.defense', 'competitiveDialogueUA', 'competitiveDialogueEU', 'esco')."]}, u'location': u'body', u'name': u'tender'},
                  response.json['errors'])
 
     data = self.initial_data['tender']
@@ -512,6 +510,18 @@ def create_plan_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description': {u'name': [u'This field is required.']}, u'location': u'body', u'name': u'procuringEntity'}
+    ])
+
+    data = self.initial_data["budget"]
+    del self.initial_data["budget"]
+    self.initial_data['tender']['procurementMethodType'] = 'belowThreshold'
+    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+    self.initial_data["budget"] = data
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'budget'}
     ])
 
     data = self.initial_data["items"][0].copy()
