@@ -9,6 +9,7 @@ from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
+    test_bids,
     test_tender_data_eu,
     test_tender_data_ua,
     test_lots
@@ -55,9 +56,6 @@ from openprocurement.tender.competitivedialogue.tests.stage1.lot_blanks import (
     two_lot_2bid_2com_2win,
 )
 
-from openprocurement.tender.openeu.tests.base import test_bids
-
-test_bids.append(test_bids[0].copy())  # Minimal number of bits is 3
 
 class CompetitiveDialogueEULotResourceTest(BaseCompetitiveDialogEUContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
     initial_auth = ('Basic', ('broker', ''))
