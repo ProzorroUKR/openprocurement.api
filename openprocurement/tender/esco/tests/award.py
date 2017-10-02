@@ -44,7 +44,7 @@ from openprocurement.tender.esco.tests.award_blanks import (
     patch_tender_lot_award
 )
 
-# award_amountPerfomance = npv(NBU_DISCOUNT_RATE,
+# award_amountPerformance = npv(NBU_DISCOUNT_RATE,
 #                              test_bids[0]['value']['annualCostsReduction'],
 #                              test_bids[0]['value']['yearlyPaymentsPercentage'],
 #                              test_bids[0]['value']['contractDuration'])
@@ -61,7 +61,7 @@ class TenderAwardResourceTest(BaseESCOContentWebTest,
     initial_bids = test_bids
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
-    # expected_award_amountPerfomance = award_amountPerfomance
+    # expected_award_amountPerformance = award_amountPerformance
     # expected_award_amount = award_amount
 
     def setUp(self):
@@ -117,7 +117,7 @@ class TenderLotAwardResourceTest(BaseESCOContentWebTest,
     initial_bids = test_bids
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
-    # expected_award_amountPerfomance = award_amountPerfomance
+    # expected_award_amountPerformance = award_amountPerformance
     # expected_award_amount = award_amount
 
     def setUp(self):

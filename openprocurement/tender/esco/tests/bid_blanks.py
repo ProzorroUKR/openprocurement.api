@@ -261,8 +261,8 @@ def create_tender_bid(self):
     self.assertEqual(bid['value']['contractDuration']['days'], self.test_bids_data[0]['value']['contractDuration']['days'])
     self.assertEqual(bid['value']['annualCostsReduction'], self.test_bids_data[0]['value']['annualCostsReduction'])
     self.assertEqual(bid['value']['yearlyPaymentsPercentage'], self.test_bids_data[0]['value']['yearlyPaymentsPercentage'])
-    self.assertGreater(bid['value']['amountPerfomance'], 10)
-    self.assertLess(bid['value']['amountPerfomance'], 1500)
+    self.assertGreater(bid['value']['amountPerformance'], 10)
+    self.assertLess(bid['value']['amountPerformance'], 1500)
     self.assertGreater(bid['value']['amount'], 500)
     self.assertLess(bid['value']['amount'], 15000)
 
@@ -329,12 +329,12 @@ def patch_tender_bid(self):
     self.assertNotEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
 
     response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
-                                   {"data": {"value": {"amountPerfomance": 500}, 'tenderers': self.test_bids_data[0]['tenderers']}})
+                                   {"data": {"value": {"amountPerformance": 500}, 'tenderers': self.test_bids_data[0]['tenderers']}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['value'], bid['value'])
     self.assertEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
-    self.assertNotEqual(response.json['data']['value']['amountPerfomance'], 500)
+    self.assertNotEqual(response.json['data']['value']['amountPerformance'], 500)
 
     response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
                                    {"data": {"value": {"annualCostsReduction": [200] * 21}, 'tenderers': self.test_bids_data[0]['tenderers']}})
@@ -342,8 +342,8 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotEqual(response.json['data']['value'], bid['value'])
     self.assertEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
-    self.assertGreater(bid['value']['amountPerfomance'], 10)
-    self.assertLess(bid['value']['amountPerfomance'], 1500)
+    self.assertGreater(bid['value']['amountPerformance'], 10)
+    self.assertLess(bid['value']['amountPerformance'], 1500)
     self.assertGreater(bid['value']['amount'], 500)
     self.assertLess(bid['value']['amount'], 15000)
 
@@ -618,7 +618,7 @@ def bid_Administrator_change(self):
     self.assertNotEqual(response.json['data']["value"]["annualCostsReduction"], [200] * 21)
     self.assertNotEqual(response.json['data']["value"]["yearlyPaymentsPercentage"], 0.8)
     self.assertNotEqual(response.json['data']["value"]["contractDuration"]["years"], 8)
-    self.assertNotEqual(response.json['data']["value"]["amountPerfomance"], 300)
+    self.assertNotEqual(response.json['data']["value"]["amountPerformance"], 300)
     self.assertNotEqual(response.json['data']["value"]["amount"], 300)
     self.assertEqual(response.json['data']["tenderers"][0]["identifier"]["id"], "00000000")
 

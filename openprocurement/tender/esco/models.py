@@ -156,20 +156,20 @@ class ContractDuration(Model):
 class ESCOValue(Value):
     class Options:
         roles = {
-            'create': whitelist('amount', 'amount_escp', 'amountPerfomance', 'amountPerfomance_npv', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
-            'edit': whitelist('amount', 'amount_escp', 'amountPerfomance', 'amountPerfomance_npv', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
-            'auction_view': whitelist('amountPerfomance', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'create': whitelist('amount', 'amount_escp', 'amountPerformance', 'amountPerformance_npv', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'edit': whitelist('amount', 'amount_escp', 'amountPerformance', 'amountPerformance_npv', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
+            'auction_view': whitelist('amountPerformance', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
             'auction_post': whitelist('yearlyPaymentsPercentage', 'contractDuration'),
         }
     amount = FloatType(min_value=0, required=False)  # Calculated energy service contract value.
-    amountPerfomance = FloatType(required=False)  # Calculated energy service contract performance indicator
+    amountPerformance = FloatType(required=False)  # Calculated energy service contract performance indicator
     yearlyPaymentsPercentage = FloatType(required=True)  # The percentage of annual payments in favor of Bidder
     annualCostsReduction = ListType(FloatType, required=True)  # Buyer's annual costs reduction
     contractDuration = ModelType(ContractDuration, required=True)
 
-    @serializable(serialized_name='amountPerfomance')
-    def amountPerfomance_npv(self):
-        """ Calculated energy service contract perfomance indicator """
+    @serializable(serialized_name='amountPerformance')
+    def amountPerformance_npv(self):
+        """ Calculated energy service contract performance indicator """
         return float(npv(self.contractDuration.years,
                          self.contractDuration.days,
                          self.yearlyPaymentsPercentage,

@@ -13,4 +13,4 @@ class TenderESCOConfigurator(TenderAboveThresholdEUConfigurator):
     reverse_awarding_criteria = True
 
     # Param to set awarding criteria field
-    awarding_criteria_key = 'amountPerfomance'
+    awarding_criteria_key = 'amountPerformance'

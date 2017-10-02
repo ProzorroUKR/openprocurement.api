@@ -80,7 +80,7 @@ def patch_tender_award(self):
     # response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id))
     # self.assertEqual(response.status, '200 OK')
     # self.assertEqual(response.content_type, 'application/json')
-    # self.assertEqual(response.json['data']["value"]["amountPerfomance"], self.expected_award_amountPerfomance)
+    # self.assertEqual(response.json['data']["value"]["amountPerformance"], self.expected_award_amountPerformance)
 
     # response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id))
     # self.assertEqual(response.status, '200 OK')
@@ -164,7 +164,7 @@ def patch_tender_lot_award(self):
         # response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id))
         # self.assertEqual(response.status, '200 OK')
         # self.assertEqual(response.content_type, 'application/json')
-        # self.assertEqual(response.json['data']["value"]["amountPerfomance"], self.expected_award_amountPerfomance)
+        # self.assertEqual(response.json['data']["value"]["amountPerformance"], self.expected_award_amountPerformance)
 
         # response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id))
         # self.assertEqual(response.status, '200 OK')
