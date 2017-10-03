@@ -2,8 +2,9 @@
 import unittest
 from copy import deepcopy
 
-from esculator import npv, escp
+from esculator import escp
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.belowthreshold.tests.contract import (
@@ -21,7 +22,6 @@ from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
     test_tender_data,
     test_bids,
-    NBU_DISCOUNT_RATE
 )
 
 from openprocurement.tender.openeu.tests.contract_blanks import (
@@ -34,17 +34,18 @@ from openprocurement.tender.esco.tests.contract_blanks import (
     patch_tender_contract
 )
 
-# award_amount = escp(NBU_DISCOUNT_RATE,
-#                    test_bids[0]['value']['annualCostsReduction'],
-#                    test_bids[0]['value']['yearlyPaymentsPercentage'],
-#                    test_bids[0]['value']['contractDuration'])
+award_amount = round((escp(test_bids[0]['value']['contractDuration']['years'],
+                           test_bids[0]['value']['contractDuration']['days'],
+                           test_bids[0]['value']['yearlyPaymentsPercentage'],
+                           test_bids[0]['value']['annualCostsReduction'],
+                           get_now())), 2)
 
 
 class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
-    # expected_award_amount = award_amount
+    expected_award_amount = award_amount
 
     def setUp(self):
         super(TenderContractResourceTest, self).setUp()
