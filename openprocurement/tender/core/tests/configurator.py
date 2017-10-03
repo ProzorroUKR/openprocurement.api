@@ -20,8 +20,8 @@ class ConfiguratorTest(unittest.TestCase, ConfiguratorTestMixin):
 
 
 def suite():
-    current_suite = unittest.TestSuite()
-    current_suite.addTest(unittest.makeSuite(ConfiguratorTest))
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(ConfiguratorTest))
     return suite
 
 
