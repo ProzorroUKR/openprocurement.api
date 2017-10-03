@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/documents HTTP/1.0
+GET /api/2.4/tenders/898e921c72d042e4af3df6253abb1678/documents HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -11,24 +11,24 @@ Content-Type: application/json; charset=UTF-8
       "author": "tender_owner", 
       "language": "uk", 
       "title": "Notice.pdf", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/ef9cc3cd676d4f969cbe5ed5e2ecde4f?KeyID=841e91ab&Signature=bfBMacqxi%252BkE0dbWN5mwyiGumEzbhWVEb4RkZg6FR62GOnDLKhNsq3lz1GVegWHjnskt%252BIZTasVMPUsGUyhjAg%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/ce9eb61448f7454ab49eef183cd6bdf5?KeyID=262131e9&Signature=0iQ8PIMWc4klgQAkq47pomdpwl%2FEoR%2FtXjzvDQtm13GG4LXcLRlO0tjQ4VZSx%2F2q9zHrDcyU1Juo0SQni%2F4dCg%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2017-09-28T18:39:00.505513+03:00", 
-      "id": "3680dc845f6d435d81817457f447e481", 
-      "dateModified": "2017-09-28T18:39:00.505569+03:00"
+      "datePublished": "2017-10-03T11:17:52.004504+03:00", 
+      "id": "b924122d8aa649bb931641e59b900021", 
+      "dateModified": "2017-10-03T11:17:52.004543+03:00"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
       "author": "tender_owner", 
       "language": "uk", 
       "title": "AwardCriteria-2.pdf", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/55bde41b252f47e09537e6a0317a7cd5?KeyID=841e91ab&Signature=qm%2FIXJOl%2FO15Y9apy2TJyABSyhEhkrw3qW7tP9%252BW0uGetWadokKvSP0NQAz6VU8T5pDv1GxHMbUNOsMOV63xCA%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/70e69ab70c4c4706acb07cdc1635e7a3?KeyID=262131e9&Signature=DMznSIB7oXb3MlsSRFLK1EvnzmCdd6XI%2FCl8niFBPcUo2Xeo0T9s%2FrA3MoqScJe4bbd8OqYoMN6m9r63FhqqDw%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2017-09-28T18:39:00.629357+03:00", 
-      "id": "861fb6821d9e44469f64fcccf6485156", 
-      "dateModified": "2017-09-28T18:39:00.920210+03:00"
+      "datePublished": "2017-10-03T11:17:52.110382+03:00", 
+      "id": "0dcc32fd53874190ae83e3b9493eaccf", 
+      "dateModified": "2017-10-03T11:17:52.323366+03:00"
     }
   ]
 }

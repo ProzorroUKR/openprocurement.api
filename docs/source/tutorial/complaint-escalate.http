@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/0564aad11c594b96877719244e797fc8/complaints/70240c2f118d4f41aa612cf1681f1bf3?acc_token=dbe87250c2a249b398f5bf8178d7106e HTTP/1.0
+PATCH /api/2.4/tenders/5edb7347341b4620b034f3b85522c7a2/complaints/f7ae68c0fc044307b8823c8e2fdb09cf?acc_token=8d8dc6f836d04ced9d3990916dfeb2fe HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 51
 Content-Type: application/json
@@ -42,13 +42,13 @@ Content-Type: application/json; charset=UTF-8
     "type": "complaint", 
     "title": "Недостатньо інформації", 
     "satisfied": false, 
-    "dateEscalated": "2017-09-28T18:38:55.115671+03:00", 
-    "dateAnswered": "2017-09-28T18:38:54.901975+03:00", 
-    "dateSubmitted": "2017-09-28T18:38:54.443516+03:00", 
-    "complaintID": "UA-2017-09-28-000001.4", 
-    "date": "2017-09-28T18:38:55.121316+03:00", 
+    "dateEscalated": "2017-10-03T11:17:48.343600+03:00", 
+    "dateAnswered": "2017-10-03T11:17:48.132400+03:00", 
+    "dateSubmitted": "2017-10-03T11:17:47.828265+03:00", 
+    "complaintID": "UA-2017-10-03-000001.4", 
+    "date": "2017-10-03T11:17:48.349056+03:00", 
     "resolution": "Вимога не відповідає предмету закупівлі", 
-    "id": "70240c2f118d4f41aa612cf1681f1bf3"
+    "id": "f7ae68c0fc044307b8823c8e2fdb09cf"
   }
 }
 
