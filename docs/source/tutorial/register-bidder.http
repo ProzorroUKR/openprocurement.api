@@ -1,4 +1,4 @@
-POST /api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/bids HTTP/1.0
+POST /api/2.4/tenders/898e921c72d042e4af3df6253abb1678/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1107
 Content-Type: application/json
@@ -65,23 +65,23 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549/bids/befa6117e647452f8154dcff6a166947
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/898e921c72d042e4af3df6253abb1678/bids/d5dd8c754aa941f98c304ee2579adf31
 {
   "access": {
-    "token": "483b24464bc242b7adbd1e299bcef0f4"
+    "token": "9ee6c05ce95f4d8c910a494a17b8cda2"
   }, 
   "data": {
     "status": "draft", 
     "value": {
-      "amountPerfomance": 929.3479606267625, 
       "yearlyPaymentsPercentage": 0.9, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 9400.684931506848, 
+      "amount": 9413.013698630137, 
       "contractDuration": {
         "days": 74, 
         "years": 10
       }, 
+      "amountPerformance": 930.6233519809404, 
       "annualCostsReduction": [
         500.0, 
         1000.0, 
@@ -129,8 +129,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/d8399d1bdfd04ca
         }
       }
     ], 
-    "date": "2017-09-28T18:39:01.672496+03:00", 
-    "id": "befa6117e647452f8154dcff6a166947"
+    "date": "2017-10-03T11:17:53.026420+03:00", 
+    "id": "d5dd8c754aa941f98c304ee2579adf31"
   }
 }
 

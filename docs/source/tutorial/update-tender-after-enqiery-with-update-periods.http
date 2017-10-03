@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/d8399d1bdfd04ca6889534e64c132549?acc_token=11d441c30b1648359d073e803a147fe1 HTTP/1.0
+PATCH /api/2.4/tenders/898e921c72d042e4af3df6253abb1678?acc_token=f329278573ee4e2fbdc52652e338a673 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 123
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2017-10-06T18:39:01.457503+03:00"
+      "endDate": "2017-10-11T11:17:52.818806+03:00"
     }, 
     "minValue": {
       "currency": "UAH", 
@@ -22,17 +22,17 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "complaintPeriod": {
-      "startDate": "2017-08-31T18:39:01.253219+03:00", 
-      "endDate": "2017-10-02T00:00:00+03:00"
+      "startDate": "2017-09-05T11:17:52.623445+03:00", 
+      "endDate": "2017-10-07T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2017-08-31T18:39:01.253219+03:00", 
-      "clarificationsUntil": "2017-09-29T18:39:01.457503+03:00", 
-      "endDate": "2017-09-26T18:39:01.457503+03:00", 
-      "invalidationDate": "2017-09-28T18:39:01.570034+03:00"
+      "startDate": "2017-09-05T11:17:52.623445+03:00", 
+      "clarificationsUntil": "2017-10-05T00:00:00+03:00", 
+      "endDate": "2017-10-01T11:17:52.818806+03:00", 
+      "invalidationDate": "2017-10-03T11:17:52.924971+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2017-10-06T18:39:01.457503+03:00", 
+    "next_check": "2017-10-11T11:17:52.818806+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -61,17 +61,17 @@ Content-Type: application/json; charset=UTF-8
     "questions": [
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
-        "dateAnswered": "2017-09-28T18:39:01.126518+03:00", 
+        "dateAnswered": "2017-10-03T11:17:52.517341+03:00", 
         "title": "Калорійність", 
-        "date": "2017-09-28T18:39:01.033301+03:00", 
+        "date": "2017-10-03T11:17:52.430766+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "3d79bc6c9eac4227bf5877accb6dc555", 
+        "id": "8ec04817d67a4318b84d3cba65306e96", 
         "questionOf": "tender"
       }
     ], 
     "owner": "broker", 
     "title_en": "Services in school canteens", 
-    "id": "d8399d1bdfd04ca6889534e64c132549", 
+    "id": "898e921c72d042e4af3df6253abb1678", 
     "guarantee": {
       "currency": "USD", 
       "amount": 8.0
@@ -82,53 +82,53 @@ Content-Type: application/json; charset=UTF-8
         "author": "tender_owner", 
         "language": "uk", 
         "title": "Notice.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/ef9cc3cd676d4f969cbe5ed5e2ecde4f?KeyID=841e91ab&Signature=bfBMacqxi%252BkE0dbWN5mwyiGumEzbhWVEb4RkZg6FR62GOnDLKhNsq3lz1GVegWHjnskt%252BIZTasVMPUsGUyhjAg%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/ce9eb61448f7454ab49eef183cd6bdf5?KeyID=262131e9&Signature=0iQ8PIMWc4klgQAkq47pomdpwl%2FEoR%2FtXjzvDQtm13GG4LXcLRlO0tjQ4VZSx%2F2q9zHrDcyU1Juo0SQni%2F4dCg%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2017-09-28T18:39:00.505513+03:00", 
-        "id": "3680dc845f6d435d81817457f447e481", 
-        "dateModified": "2017-09-28T18:39:00.505569+03:00"
+        "datePublished": "2017-10-03T11:17:52.004504+03:00", 
+        "id": "b924122d8aa649bb931641e59b900021", 
+        "dateModified": "2017-10-03T11:17:52.004543+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/e7fe6d15ca7545e2aff61bfafdc00f7b?KeyID=841e91ab&Signature=FLBVvlILM%252BnZCEJ6uLIObNslXPDsnuQvN8JB8viLuHYr1w%252Bhoj6KJ1nQe4Uae2rhei8IkPbp4V6rLasXoDxvAg%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/aec49d1ed5e3419cb6b48dd5e0e1e7f7?KeyID=262131e9&Signature=aXyqxrDoEmYgdWnzgD1Sh1xiuzQM5fS9Znc1UPTAJsvKBuP4JT%2FuCAe6rl299bjPg8R8FizIX0wvbS9APOq7Cw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2017-09-28T18:39:00.629357+03:00", 
-        "id": "861fb6821d9e44469f64fcccf6485156", 
-        "dateModified": "2017-09-28T18:39:00.629391+03:00"
+        "datePublished": "2017-10-03T11:17:52.110382+03:00", 
+        "id": "0dcc32fd53874190ae83e3b9493eaccf", 
+        "dateModified": "2017-10-03T11:17:52.110408+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/55bde41b252f47e09537e6a0317a7cd5?KeyID=841e91ab&Signature=qm%2FIXJOl%2FO15Y9apy2TJyABSyhEhkrw3qW7tP9%252BW0uGetWadokKvSP0NQAz6VU8T5pDv1GxHMbUNOsMOV63xCA%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/70e69ab70c4c4706acb07cdc1635e7a3?KeyID=262131e9&Signature=DMznSIB7oXb3MlsSRFLK1EvnzmCdd6XI%2FCl8niFBPcUo2Xeo0T9s%2FrA3MoqScJe4bbd8OqYoMN6m9r63FhqqDw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2017-09-28T18:39:00.629357+03:00", 
-        "id": "861fb6821d9e44469f64fcccf6485156", 
-        "dateModified": "2017-09-28T18:39:00.920210+03:00"
+        "datePublished": "2017-10-03T11:17:52.110382+03:00", 
+        "id": "0dcc32fd53874190ae83e3b9493eaccf", 
+        "dateModified": "2017-10-03T11:17:52.323366+03:00"
       }
     ], 
     "title": "Послуги шкільних їдалень", 
-    "tenderID": "UA-2017-09-28-000001", 
+    "tenderID": "UA-2017-10-03-000001", 
     "minimalStepPercentage": 0.006, 
     "yearlyPaymentsPercentageRange": 0.8, 
-    "dateModified": "2017-09-28T18:39:01.574196+03:00", 
+    "dateModified": "2017-10-03T11:17:52.928977+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2017-08-31T18:39:01.253219+03:00", 
-      "endDate": "2017-10-06T18:39:01.457503+03:00"
+      "startDate": "2017-09-05T11:17:52.623445+03:00", 
+      "endDate": "2017-10-11T11:17:52.818806+03:00"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2017-11-10T18:39:01.457503+03:00"
+      "shouldStartAfter": "2017-11-15T11:17:52.818806+03:00"
     }, 
     "procurementMethodType": "esco", 
-    "date": "2017-09-28T18:38:59.960014+03:00", 
+    "date": "2017-10-03T11:17:51.440140+03:00", 
     "NBUdiscountRate": 0.22, 
     "minValue": {
       "currency": "UAH", 
@@ -160,7 +160,7 @@ Content-Type: application/json; charset=UTF-8
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "f112d84dbd414e06b088eea9dd3d147b", 
+        "id": "896096667a4146ae990a6f6872fa66e5", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -188,14 +188,14 @@ Content-Type: application/json; charset=UTF-8
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "a87314f5cee141138b9aecf2348f1968", 
+        "id": "1484c360c4f446e08fb8b563c4dae36d", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
         }
       }
     ], 
-    "noticePublicationDate": "2017-09-28T18:38:59.941304+03:00", 
+    "noticePublicationDate": "2017-10-03T11:17:51.420717+03:00", 
     "awardCriteria": "ratedCriteria"
   }
 }
