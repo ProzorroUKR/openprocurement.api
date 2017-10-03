@@ -3,6 +3,7 @@ import unittest
 from copy import deepcopy
 
 from esculator import npv, escp
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.esco.adapters import TenderESCOConfigurator
 from openprocurement.tender.belowthreshold.tests.base import test_organization
@@ -44,15 +45,19 @@ from openprocurement.tender.esco.tests.award_blanks import (
     patch_tender_lot_award
 )
 
-# award_amountPerformance = npv(NBU_DISCOUNT_RATE,
-#                              test_bids[0]['value']['annualCostsReduction'],
-#                              test_bids[0]['value']['yearlyPaymentsPercentage'],
-#                              test_bids[0]['value']['contractDuration'])
 
-# award_amount = escp(NBU_DISCOUNT_RATE,
-#                    test_bids[0]['value']['annualCostsReduction'],
-#                    test_bids[0]['value']['yearlyPaymentsPercentage'],
-#                    test_bids[0]['value']['contractDuration'])
+award_amountPerformance = round(npv(test_bids[0]['value']['contractDuration']['years'],
+                                    test_bids[0]['value']['contractDuration']['days'],
+                                    test_bids[0]['value']['yearlyPaymentsPercentage'],
+                                    test_bids[0]['value']['annualCostsReduction'],
+                                    get_now(),
+                                    NBU_DISCOUNT_RATE), 2)
+
+award_amount = round(escp(test_bids[0]['value']['contractDuration']['years'],
+                          test_bids[0]['value']['contractDuration']['days'],
+                          test_bids[0]['value']['yearlyPaymentsPercentage'],
+                          test_bids[0]['value']['annualCostsReduction'],
+                          get_now()), 2)
 
 
 class TenderAwardResourceTest(BaseESCOContentWebTest,
@@ -61,8 +66,8 @@ class TenderAwardResourceTest(BaseESCOContentWebTest,
     initial_bids = test_bids
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
-    # expected_award_amountPerformance = award_amountPerformance
-    # expected_award_amount = award_amount
+    expected_award_amountPerformance = award_amountPerformance
+    expected_award_amount = award_amount
 
     def setUp(self):
         super(TenderAwardResourceTest, self).setUp()
@@ -117,8 +122,8 @@ class TenderLotAwardResourceTest(BaseESCOContentWebTest,
     initial_bids = test_bids
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
-    # expected_award_amountPerformance = award_amountPerformance
-    # expected_award_amount = award_amount
+    expected_award_amountPerformance = award_amountPerformance
+    expected_award_amount = award_amount
 
     def setUp(self):
         super(TenderLotAwardResourceTest, self).setUp()
