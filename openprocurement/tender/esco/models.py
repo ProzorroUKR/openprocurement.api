@@ -224,6 +224,10 @@ class Item(BaseItem):
 
 class Contract(BaseEUContract):
     """ESCO contract model"""
+    class Options:
+        roles = {
+            'edit': blacklist('id', 'documents', 'date', 'awardID', 'suppliers', 'items', 'contractID', 'value'),
+        }
 
     value = ModelType(ESCOValue)
     items = ListType(ModelType(Item))
