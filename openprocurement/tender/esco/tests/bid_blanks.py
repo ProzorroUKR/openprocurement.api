@@ -265,6 +265,9 @@ def create_tender_bid(self):
     self.assertLess(bid['value']['amountPerformance'], 1500)
     self.assertGreater(bid['value']['amount'], 500)
     self.assertLess(bid['value']['amount'], 15000)
+    # check if bids value precision = 2
+    self.assertEqual(len(str(bid['value']['amountPerformance']).split('.')[1]), 2)
+    self.assertEqual(len(str(bid['value']['amount']).split('.')[1]), 2)
 
     data = deepcopy(self.test_bids_data[0])
     data['selfQualified'] = False
@@ -327,6 +330,9 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['date'], bid['date'])
     self.assertNotEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
+    # check if bids value precision = 2
+    self.assertEqual(len(str(response.json['data']['value']['amountPerformance']).split('.')[1]), 2)
+    self.assertEqual(len(str(response.json['data']['value']['amount']).split('.')[1]), 2)
 
     response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
                                    {"data": {"value": {"amountPerformance": 500}, 'tenderers': self.test_bids_data[0]['tenderers']}})
@@ -335,6 +341,9 @@ def patch_tender_bid(self):
     self.assertEqual(response.json['data']['value'], bid['value'])
     self.assertEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
     self.assertNotEqual(response.json['data']['value']['amountPerformance'], 500)
+    # check if bids value precision = 2
+    self.assertEqual(len(str(response.json['data']['value']['amountPerformance']).split('.')[1]), 2)
+    self.assertEqual(len(str(response.json['data']['value']['amount']).split('.')[1]), 2)
 
     response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
                                    {"data": {"value": {"annualCostsReduction": [200] * 21}, 'tenderers': self.test_bids_data[0]['tenderers']}})
@@ -384,6 +393,9 @@ def patch_tender_bid(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotEqual(response.json['data']["value"]["amount"], 400)
+    # check if bids value precision = 2
+    self.assertEqual(len(str(response.json['data']['value']['amountPerformance']).split('.')[1]), 2)
+    self.assertEqual(len(str(response.json['data']['value']['amount']).split('.')[1]), 2)
 
     response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
                                    {"data": {"value": {"amount": 400}}}, status=403)
@@ -450,6 +462,9 @@ def delete_tender_bidder(self):
     self.assertEqual(response.status, '201 Created')
     bid = response.json['data']
     bid_token = response.json['access']['token']
+    # check if bids value precision = 2
+    self.assertEqual(len(str(response.json['data']['value']['amountPerformance']).split('.')[1]), 2)
+    self.assertEqual(len(str(response.json['data']['value']['amount']).split('.')[1]), 2)
 
     # update tender. we can set value that is less than a value in bid as
     # they will be invalidated by this request
@@ -527,6 +542,9 @@ def delete_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.json['data']['status'], "active.qualification")
+    # check if bids value precision = 2
+    self.assertEqual(len(str(response.json['data']['bids'][2]['value']['amountPerformance']).split('.')[1]), 2)
+    self.assertEqual(len(str(response.json['data']['bids'][2]['value']['amount']).split('.')[1]), 2)
 
     # get awards
     response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
@@ -618,8 +636,6 @@ def bid_Administrator_change(self):
     self.assertNotEqual(response.json['data']["value"]["annualCostsReduction"], [200] * 21)
     self.assertNotEqual(response.json['data']["value"]["yearlyPaymentsPercentage"], 0.8)
     self.assertNotEqual(response.json['data']["value"]["contractDuration"]["years"], 8)
-    self.assertNotEqual(response.json['data']["value"]["amountPerformance"], 300)
-    self.assertNotEqual(response.json['data']["value"]["amount"], 300)
     self.assertEqual(response.json['data']["tenderers"][0]["identifier"]["id"], "00000000")
 
 
