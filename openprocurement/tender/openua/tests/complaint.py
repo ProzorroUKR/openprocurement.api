@@ -21,6 +21,7 @@ from openprocurement.tender.openua.tests.complaint_blanks import (
     create_tender_complaint,
     patch_tender_complaint,
     review_tender_complaint,
+    review_tender_stopping_complaint,
     # TenderComplaintDocumentResourceTest
     patch_tender_complaint_document,
     put_tender_complaint_document,
@@ -33,6 +34,7 @@ class TenderUAComplaintResourceTestMixin(object):
     test_create_tender_complaint = snitch(create_tender_complaint)
     test_patch_tender_complaint = snitch(patch_tender_complaint)
     test_review_tender_complaint = snitch(review_tender_complaint)
+    test_review_tender_stopping_complaint = snitch(review_tender_stopping_complaint)
 
 
 class TenderComplaintResourceTest(BaseTenderUAContentWebTest,
