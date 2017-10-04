@@ -183,7 +183,7 @@ class BaseESCOValue(Value):
 
 class ESCOValue(BaseESCOValue):
 
-    @serializable(serialized_name='amountPerformance')
+    @serializable(serialized_name='amountPerformance', type=DecimalType(precision=-2))
     def amountPerformance_npv(self):
         """ Calculated energy service contract performance indicator """
         return to_decimal(npv(self.contractDuration.years,
@@ -193,7 +193,7 @@ class ESCOValue(BaseESCOValue):
                          get_tender(self).noticePublicationDate,
                          get_tender(self).NBUdiscountRate))
 
-    @serializable(serialized_name='amount')
+    @serializable(serialized_name='amount', type=DecimalType(precision=-2))
     def amount_escp(self):
         return to_decimal(escp(self.contractDuration.years,
                           self.contractDuration.days,
