@@ -44,20 +44,21 @@ from openprocurement.tender.esco.tests.award_blanks import (
     patch_tender_award,
     patch_tender_lot_award
 )
+from openprocurement.tender.esco.utils import to_decimal
 
 
-award_amountPerformance = round(npv(test_bids[0]['value']['contractDuration']['years'],
-                                    test_bids[0]['value']['contractDuration']['days'],
-                                    test_bids[0]['value']['yearlyPaymentsPercentage'],
-                                    test_bids[0]['value']['annualCostsReduction'],
-                                    get_now(),
-                                    NBU_DISCOUNT_RATE), 2)
+award_amountPerformance = round(to_decimal(npv(test_bids[0]['value']['contractDuration']['years'],
+                                               test_bids[0]['value']['contractDuration']['days'],
+                                               test_bids[0]['value']['yearlyPaymentsPercentage'],
+                                               test_bids[0]['value']['annualCostsReduction'],
+                                               get_now(),
+                                               NBU_DISCOUNT_RATE)), 2)
 
-award_amount = round(escp(test_bids[0]['value']['contractDuration']['years'],
-                          test_bids[0]['value']['contractDuration']['days'],
-                          test_bids[0]['value']['yearlyPaymentsPercentage'],
-                          test_bids[0]['value']['annualCostsReduction'],
-                          get_now()), 2)
+award_amount = round(to_decimal(escp(test_bids[0]['value']['contractDuration']['years'],
+                                     test_bids[0]['value']['contractDuration']['days'],
+                                     test_bids[0]['value']['yearlyPaymentsPercentage'],
+                                     test_bids[0]['value']['annualCostsReduction'],
+                                     get_now())), 2)
 
 
 class TenderAwardResourceTest(BaseESCOContentWebTest,
