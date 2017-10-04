@@ -2,6 +2,7 @@
 from zope.interface import implementer
 from datetime import timedelta, datetime
 from iso8601 import parse_date
+from decimal import Decimal
 from pyramid.security import Allow
 from schematics.types import StringType, FloatType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
@@ -18,7 +19,7 @@ from openprocurement.api.validation import (
 from openprocurement.api.models import (
     Value, Model, SifterListType,
     ListType, Period, Address, PeriodEndRequired,
-    IsoDateTimeType
+    IsoDateTimeType, DecimalType
 )
 from openprocurement.api.models import (
     plain_role, listing_role,
@@ -73,6 +74,10 @@ from openprocurement.tender.openeu.models import (
 from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION, QUESTIONS_STAND_STILL, TENDERING_DAYS
 )
+from openprocurement.tender.esco.utils import to_decimal
+
+
+view_value_role_esco = whitelist('amount', 'amountPerformance', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded')
 
 
 class IESCOTender(IAboveThresholdEUTender):
@@ -95,12 +100,12 @@ class Lot(BaseLot):
 
     minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH', 'valueAddedTaxIncluded': True})
     minimalStep = ModelType(Value, required=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
-    minimalStepPercentage = FloatType(required=True, min_value=0.005, max_value=0.03)
+    minimalStepPercentage = DecimalType(required=True, min_value=Decimal('0.005'), max_value=Decimal('0.03'))
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
     guarantee = ModelType(Guarantee)
     fundingKind = StringType(choices=['budget', 'other'], required=True, default='other')
-    yearlyPaymentsPercentageRange = FloatType(required=True, default=0.8, min_value=0, max_value=1)
+    yearlyPaymentsPercentageRange = DecimalType(required=True, default=Decimal('0.8'), min_value=Decimal('0'), max_value=Decimal('1'))
 
     @serializable
     def numberOfBids(self):
@@ -136,9 +141,9 @@ class Lot(BaseLot):
                           valueAddedTaxIncluded=self.__parent__.minValue.valueAddedTaxIncluded))
 
     def validate_yearlyPaymentsPercentageRange(self, data, value):
-        if data['fundingKind'] == 'other' and value != 0.8:
+        if data['fundingKind'] == 'other' and value != Decimal('0.8'):
             raise ValidationError('when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8')
-        if data['fundingKind'] == 'budget' and (value > 0.8 or value < 0):
+        if data['fundingKind'] == 'budget' and (value > Decimal('0.8') or value < Decimal('0')):
             raise ValidationError('when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0')
 
 
@@ -153,24 +158,35 @@ class ContractDuration(Model):
             raise ValidationError('min contract duration 1 day')
 
 
-class ESCOValue(Value):
+class BaseESCOValue(Value):
     class Options:
         roles = {
+            'embedded': view_value_role_esco,
+            'view': view_value_role_esco,
             'create': whitelist('amount', 'amount_escp', 'amountPerformance', 'amountPerformance_npv', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
             'edit': whitelist('amount', 'amount_escp', 'amountPerformance', 'amountPerformance_npv', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
             'auction_view': whitelist('amountPerformance', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
-            'auction_post': whitelist('yearlyPaymentsPercentage', 'contractDuration'),
+            'auction_post': whitelist('amount_escp', 'amountPerformance_npv', 'yearlyPaymentsPercentage', 'contractDuration'),
+            'active.qualification': view_value_role_esco,
+            'active.awarded': view_value_role_esco,
+            'complete': view_value_role_esco,
+            'unsuccessful': view_value_role_esco,
+            'cancelled': view_value_role_esco,
         }
-    amount = FloatType(min_value=0, required=False)  # Calculated energy service contract value.
-    amountPerformance = FloatType(required=False)  # Calculated energy service contract performance indicator
-    yearlyPaymentsPercentage = FloatType(required=True)  # The percentage of annual payments in favor of Bidder
-    annualCostsReduction = ListType(FloatType, required=True)  # Buyer's annual costs reduction
+
+    amount = DecimalType(min_value=Decimal('0'), required=False, precision=-2)  # Calculated energy service contract value.
+    amountPerformance = DecimalType(required=False, precision=-2)  # Calculated energy service contract performance indicator
+    yearlyPaymentsPercentage = DecimalType(required=True)  # The percentage of annual payments in favor of Bidder
+    annualCostsReduction = ListType(DecimalType(), required=True)  # Buyer's annual costs reduction
     contractDuration = ModelType(ContractDuration, required=True)
+
+
+class ESCOValue(BaseESCOValue):
 
     @serializable(serialized_name='amountPerformance')
     def amountPerformance_npv(self):
         """ Calculated energy service contract performance indicator """
-        return float(npv(self.contractDuration.years,
+        return to_decimal(npv(self.contractDuration.years,
                          self.contractDuration.days,
                          self.yearlyPaymentsPercentage,
                          self.annualCostsReduction,
@@ -179,7 +195,7 @@ class ESCOValue(Value):
 
     @serializable(serialized_name='amount')
     def amount_escp(self):
-        return float(escp(self.contractDuration.years,
+        return to_decimal(escp(self.contractDuration.years,
                           self.contractDuration.days,
                           self.yearlyPaymentsPercentage,
                           self.annualCostsReduction,
@@ -190,9 +206,9 @@ class ESCOValue(Value):
             raise ValidationError('annual costs reduction should be set for 21 period')
 
     def validate_yearlyPaymentsPercentage(self, data, value):
-        if get_tender(data['__parent__']).fundingKind == 'other' and (value < 0.8 or value > 1):
+        if get_tender(data['__parent__']).fundingKind == 'other' and (value < Decimal('0.8') or value > Decimal('1')):
             raise ValidationError('yearlyPaymentsPercentage should be greater than 0.8 and less than 1')
-        if get_tender(data['__parent__']).fundingKind == 'budget'and (value < 0 or value > get_tender(data['__parent__']).yearlyPaymentsPercentageRange):
+        if get_tender(data['__parent__']).fundingKind == 'budget'and (value < Decimal('0') or value > get_tender(data['__parent__']).yearlyPaymentsPercentageRange):
             raise ValidationError('yearlyPaymentsPercentage should be greater than 0 and less than {}'.format(get_tender(data['__parent__']).yearlyPaymentsPercentageRange))
 
 
@@ -229,14 +245,14 @@ class Contract(BaseEUContract):
             'edit': blacklist('id', 'documents', 'date', 'awardID', 'suppliers', 'items', 'contractID', 'value'),
         }
 
-    value = ModelType(ESCOValue)
+    value = ModelType(BaseESCOValue)
     items = ListType(ModelType(Item))
 
 
 class Award(BaseEUAward):
     """ESCO award model"""
 
-    value = ModelType(ESCOValue)
+    value = ModelType(BaseESCOValue)
     items = ListType(ModelType(Item))
 
 
@@ -326,7 +342,7 @@ class Tender(BaseTender):
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     minimalStep = ModelType(Value, required=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
-    minimalStepPercentage = FloatType(required=True, min_value=0.005, max_value=0.03)
+    minimalStepPercentage = DecimalType(required=True, min_value=Decimal('0.005'), max_value=Decimal('0.03'))
     questions = ListType(ModelType(Question), default=list())
     complaints = ListType(ComplaintModelType(Complaint), default=list())
     auctionUrl = URLType()
@@ -339,9 +355,9 @@ class Tender(BaseTender):
     qualificationPeriod = ModelType(Period)
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
-    NBUdiscountRate = FloatType(required=True, min_value=0, max_value=0.99)
+    NBUdiscountRate = DecimalType(required=True, min_value=Decimal('0'), max_value=Decimal('0.99'))
     fundingKind = StringType(choices=['budget', 'other'], required=True, default='other')
-    yearlyPaymentsPercentageRange = FloatType(required=True, default=0.8, min_value=0, max_value=1)
+    yearlyPaymentsPercentageRange = DecimalType(required=True, default=Decimal('0.8'), min_value=Decimal('0'), max_value=Decimal('1'))
     submissionMethodDetails = StringType(default="quick(mode:no-auction)")  # TODO: temporary decision, while esco auction is not ready. Remove after adding auction. Remove function "check_submission_method_details" in openprocurement.tender.esco.subscribers
     noticePublicationDate = IsoDateTimeType()
 
@@ -582,9 +598,9 @@ class Tender(BaseTender):
             raise ValidationError(u"lot funding kind should be identical to tender funding kind")
 
     def validate_yearlyPaymentsPercentageRange(self, data, value):
-        if data['fundingKind'] == 'other' and value != 0.8:
+        if data['fundingKind'] == 'other' and value != Decimal('0.8'):
             raise ValidationError('when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8')
-        if data['fundingKind'] == 'budget' and (value > 0.8 or value < 0):
+        if data['fundingKind'] == 'budget' and (value > Decimal('0.8') or value < Decimal('0')):
             raise ValidationError('when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0')
 
     def check_auction_time(self):
