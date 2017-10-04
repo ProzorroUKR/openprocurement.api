@@ -55,6 +55,29 @@ def patch_tender_award(self):
 
     response = self.app.patch_json(
         '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+        {"data": {"value": {"amount": 500}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.body, 'null')
+
+    response = self.app.patch_json(
+        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+        {"data": {"value": {"amountPerformance": 500}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.body, 'null')
+
+    response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+                                   {"data": {
+                                       "value": {
+                                           "annualCostsReduction": [300.6] * 21,
+                                           "yearlyPaymentsPercentage": 0.9,
+                                           "contractDuration": {'years': 5, 'days': 100}
+                                       }
+                                   }})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.body, 'null')
+
+    response = self.app.patch_json(
+        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
         {"data": {"status": "unsuccessful"}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
