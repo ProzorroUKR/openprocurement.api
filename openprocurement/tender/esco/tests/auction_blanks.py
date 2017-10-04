@@ -120,7 +120,7 @@ def post_tender_auction(self):
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
     # self.assertIn(tender["awards"][0]["id"], response.headers['Location'])
 
-    # bid with higher amountPerformance is awarded because of reversed awardCriteria for esco.EUf
+    # bid with higher amountPerformance is awarded because of reversed awardCriteria for esco.EU
     self.assertEqual(tender["awards"][0]['bid_id'], tender["bids"][0]['id'])
     self.assertEqual(tender["awards"][0]['value']['amountPerformance'], tender["bids"][0]['value']['amountPerformance'])
     self.assertEqual(tender["awards"][0]['value']['amount'], tender["bids"][0]['value']['amount'])
@@ -614,7 +614,7 @@ def post_tender_auction_feature(self):
                 "id": self.initial_bids[1]['id'],
                 "value": {
                     'yearlyPaymentsPercentage': 0.9,
-                    'contractDuration': {'years': 10},
+                    'contractDuration': {'years': 10, 'days':10},
                  },
             },
         ]
@@ -628,7 +628,7 @@ def post_tender_auction_feature(self):
     patch_data['bids'].append({
         "value": {
             'yearlyPaymentsPercentage': 0.9,
-            'contractDuration': {'years': 10},
+            'contractDuration': {'years': 10, 'days': 10},
         },
     })
 
@@ -738,7 +738,7 @@ def post_tender_lot_auction_feature(self):
                     {
                         "value": {
                             'yearlyPaymentsPercentage': 0.9,
-                            'contractDuration': {'years': 10}
+                            'contractDuration': {'years': 10, 'days':10}
                         }
                     }
                 ]
@@ -756,7 +756,7 @@ def post_tender_lot_auction_feature(self):
             {
                 "value": {
                     'yearlyPaymentsPercentage': 0.9,
-                    'contractDuration': {'years': 10},
+                    'contractDuration': {'years': 10, 'days':10},
                 }
             }
         ]
@@ -872,7 +872,7 @@ def post_tender_lots_auction_feature(self):
                     {
                         "value": {
                             'yearlyPaymentsPercentage': 0.9,
-                            'contractDuration': {'years': 10},
+                            'contractDuration': {'years': 10, 'days': 10},
                         }
                     }
                 ]
@@ -890,7 +890,7 @@ def post_tender_lots_auction_feature(self):
             {
                 "value": {
                     'yearlyPaymentsPercentage': 0.9,
-                    'contractDuration': {'years': 10},
+                    'contractDuration': {'years': 10, 'days': 10},
                 }
             }
         ]
