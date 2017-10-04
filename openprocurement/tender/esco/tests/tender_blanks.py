@@ -404,9 +404,7 @@ def tender_noticePublicationDate(self):
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
         self.tender_id, self.tender_token), {'data': {'noticePublicationDate': (get_now() + timedelta(minutes=30)).isoformat()}})
     self.assertEqual(response.status, '200 OK')
-    # import pdb; pdb.set_trace()
     self.assertEqual(response.content_type, 'application/json')
-    # self.assertEqual(body
     self.assertEqual(response.json['data']['noticePublicationDate'], publication_date)
 
     # qualify bids
@@ -600,24 +598,23 @@ def create_tender_invalid(self):
         {u'description': [u'period should begin after auctionPeriod'], u'location': u'body', u'name': u'awardPeriod'}
     ])
 
-    data = self.initial_data['minimalStepPercentage']
-    self.initial_data['minimalStepPercentage'] = 0.001
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+    data = deepcopy(self.initial_data)
+    data['minimalStepPercentage'] = 0.001
+    response = self.app.post_json(request_path, {'data': data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'Float value should be greater than 0.005.'], u'location': u'body', u'name': u'minimalStepPercentage'}
+        {u'description': [u'Value should be greater than 0.005.'], u'location': u'body', u'name': u'minimalStepPercentage'}
     ])
-    self.initial_data['minimalStepPercentage'] = 0.5
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+    data['minimalStepPercentage'] = 0.5
+    response = self.app.post_json(request_path, {'data': data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'Float value should be less than 0.03.'], u'location': u'body', u'name': u'minimalStepPercentage'}
+        {u'description': [u'Value should be less than 0.03.'], u'location': u'body', u'name': u'minimalStepPercentage'}
     ])
-    self.initial_data['minimalStepPercentage'] = data
 
     data = self.initial_data['fundingKind']
     self.initial_data['fundingKind'] = 'invalid funding kind'
@@ -880,7 +877,7 @@ def tender_with_nbu_discount_rate(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'Float value should be less than 0.99.'],
+        {u'description': [u'Value should be less than 0.99.'],
          u'location': u'body', u'name': u'NBUdiscountRate'}
     ])
 
@@ -890,7 +887,7 @@ def tender_with_nbu_discount_rate(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'Float value should be greater than 0.'],
+        {u'description': [u'Value should be greater than 0.'],
          u'location': u'body', u'name': u'NBUdiscountRate'}
     ])
 
