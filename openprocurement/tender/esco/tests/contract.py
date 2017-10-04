@@ -33,12 +33,14 @@ from openprocurement.tender.esco.tests.contract_blanks import (
     # TenderContractResourceTest
     patch_tender_contract
 )
+from openprocurement.tender.esco.utils import to_decimal
 
-award_amount = round((escp(test_bids[0]['value']['contractDuration']['years'],
-                           test_bids[0]['value']['contractDuration']['days'],
-                           test_bids[0]['value']['yearlyPaymentsPercentage'],
-                           test_bids[0]['value']['annualCostsReduction'],
-                           get_now())), 2)
+
+award_amount = round(to_decimal(escp(test_bids[0]['value']['contractDuration']['years'],
+                                     test_bids[0]['value']['contractDuration']['days'],
+                                     test_bids[0]['value']['yearlyPaymentsPercentage'],
+                                     test_bids[0]['value']['annualCostsReduction'],
+                                     get_now())), 2)
 
 
 class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceTestMixin):
