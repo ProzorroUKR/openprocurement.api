@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '2.4'
+version = '2.4.1'
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -25,7 +25,7 @@ requires = [
     'setuptools',
     'tzlocal',
     'openprocurement.api>=2.4',
-    'openprocurement.tender.core',
+    'openprocurement.tender.core>=2.4.1',
 ]
 test_requires = requires + [
     'webtest',
