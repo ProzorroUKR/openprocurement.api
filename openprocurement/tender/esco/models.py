@@ -358,7 +358,6 @@ class Tender(BaseTender):
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal('0'), max_value=Decimal('0.99'))
     fundingKind = StringType(choices=['budget', 'other'], required=True, default='other')
     yearlyPaymentsPercentageRange = DecimalType(required=True, default=Decimal('0.8'), min_value=Decimal('0'), max_value=Decimal('1'))
-    submissionMethodDetails = StringType(default="quick(mode:no-auction)")  # TODO: temporary decision, while esco auction is not ready. Remove after adding auction. Remove function "check_submission_method_details" in openprocurement.tender.esco.subscribers
     noticePublicationDate = IsoDateTimeType()
 
     create_accreditation = 3
