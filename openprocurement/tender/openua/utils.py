@@ -52,6 +52,7 @@ def check_complaint_status(request, complaint):
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
+    configurator = request.content_configurator
     for award in tender.awards:
         if award.status == 'active' and not any([i.awardID == award.id for i in tender.contracts]):
             tender.contracts.append(type(tender).contracts.model_class({
@@ -61,7 +62,7 @@ def check_status(request):
                 'date': now,
                 'items': [i for i in tender.items if i.relatedLot == award.lotID ],
                 'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1) }))
-            add_next_award(request, reverse=request.content_configurator.reverse_awarding_criteria)
+            add_next_award(request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
     if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
         not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
         for complaint in tender.complaints:
@@ -116,7 +117,7 @@ def check_status(request):
                 return
 
 
-def add_next_award(request, reverse=False):
+def add_next_award(request, reverse=False, awarding_criteria_key='amount'):
     """Adding next award.
     :param request:
         The pyramid request object.
@@ -150,7 +151,7 @@ def add_next_award(request, reverse=False):
             bids = [
                 {
                     'id': bid.id,
-                    'value': [i for i in bid.lotValues if lot.id == i.relatedLot][0].value,
+                    'value': [i for i in bid.lotValues if lot.id == i.relatedLot][0].value.serialize(),
                     'tenderers': bid.tenderers,
                     'parameters': [i for i in bid.parameters if i.code in codes],
                     'date': [i for i in bid.lotValues if lot.id == i.relatedLot][0].date
@@ -163,7 +164,7 @@ def add_next_award(request, reverse=False):
                 statuses.add('unsuccessful')
                 continue
             unsuccessful_awards = [i.bid_id for i in lot_awards if i.status == 'unsuccessful']
-            bids = chef(bids, features, unsuccessful_awards, reverse)
+            bids = chef(bids, features, unsuccessful_awards, reverse, awarding_criteria_key)
             if bids:
                 bid = bids[0]
                 award = tender.__class__.awards.model_class({
@@ -192,10 +193,21 @@ def add_next_award(request, reverse=False):
     else:
         if not tender.awards or tender.awards[-1].status not in ['pending', 'active']:
             unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
-            active_bids = [bid for bid in tender.bids if bid.status == "active"]
-            bids = chef(active_bids, tender.features or [], unsuccessful_awards, reverse)
+            codes = [i.code for i in tender.features or []]
+            active_bids = [
+                {
+                    'id': bid.id,
+                    'value': bid.value.serialize(),
+                    'tenderers': bid.tenderers,
+                    'parameters': [i for i in bid.parameters if i.code in codes],
+                    'date': bid.date
+                }
+                for bid in tender.bids
+                if bid.status == "active"
+            ]
+            bids = chef(active_bids, tender.features or [], unsuccessful_awards, reverse, awarding_criteria_key)
             if bids:
-                bid = bids[0].serialize()
+                bid = bids[0]
                 award = tender.__class__.awards.model_class({
                     'bid_id': bid['id'],
                     'status': 'pending',
