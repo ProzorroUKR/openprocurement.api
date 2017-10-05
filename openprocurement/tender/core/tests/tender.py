@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import unittest
 from openprocurement.tender.core.tests.base import BaseWebTest
 
 
@@ -67,3 +68,12 @@ class TenderResourceTest(BaseWebTest):
         self.assertNotIn('descending=1', response.json['prev_page']['uri'])
         self.assertIn('limit=10', response.json['prev_page']['uri'])
 
+
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TenderResourceTest))
+    return suite
+
+
+if __name__ == '__main__':
+    unittest.main(defaultTest='suite')
