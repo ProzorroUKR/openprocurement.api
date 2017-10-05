@@ -113,6 +113,7 @@ def check_status(request):
     tender = request.validated['tender']
     now = get_now()
     active_lots = [lot.id for lot in tender.lots if lot.status == 'active'] if tender.lots else [None]
+    configurator = request.content_configurator
     for award in tender.awards:
         if award.status == 'active' and not any([i.awardID == award.id for i in tender.contracts]):
             tender.contracts.append(type(tender).contracts.model_class({
@@ -122,7 +123,7 @@ def check_status(request):
                 'date': now,
                 'items': [i for i in tender.items if i.relatedLot == award.lotID ],
                 'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1) }))
-            add_next_award(request)
+            add_next_award(request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
 
     if tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
             not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
