@@ -11,6 +11,7 @@ test_requires = requires + [
     'webtest',
     'noseplugins',
     'python-coveralls',
+    'mock',
 ]
 docs_requires = requires + [
     'sphinxcontrib-httpdomain',
@@ -28,7 +29,7 @@ entry_points = {
 setup(name='openprocurement.tender.core',
       version=version,
       description="",
-      long_description=open("README.txt").read(),
+      long_description=open("README.md").read(),
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
