@@ -22,7 +22,7 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
 )
-from openprocurement.tender.openua.constants import STAND_STILL_TIME
+from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
 from openprocurement.tender.openua.utils import (
     calculate_normalized_date, add_next_award
 )
