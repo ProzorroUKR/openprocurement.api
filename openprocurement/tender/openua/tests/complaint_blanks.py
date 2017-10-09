@@ -213,7 +213,7 @@ def patch_tender_complaint(self):
 
 def review_tender_complaint(self):
     for status in ['invalid', 'stopped', 'satisfied', 'declined']:
-        self.app.authorization = ('Basic', ('token', ''))
+        self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
@@ -261,7 +261,7 @@ def review_tender_complaint(self):
 
 def review_tender_stopping_complaint(self):
     for status in ['satisfied', 'stopped', 'declined', 'mistaken', 'invalid']:
-        self.app.authorization = ('Basic', ('token', ''))
+        self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {
             'data': {
                 'title': 'complaint title',

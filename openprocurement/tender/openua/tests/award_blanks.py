@@ -851,7 +851,7 @@ def patch_tender_award_complaint(self):
 
 def review_tender_award_complaint(self):
     for status in ['invalid', 'stopped', 'declined', 'satisfied']:
-        self.app.authorization = ('Basic', ('token', ''))
+        self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.bid_token), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
@@ -904,8 +904,8 @@ def review_tender_award_complaint(self):
 
 def review_tender_award_stopping_complaint(self):
     for status in ['satisfied', 'stopped', 'declined', 'mistaken', 'invalid']:
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id), {
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.bid_token), {
             'data': {
                 'title': 'complaint title',
                 'description': 'complaint description',
