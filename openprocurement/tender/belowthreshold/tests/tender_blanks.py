@@ -705,6 +705,54 @@ def create_tender(self):
     self.assertNotIn('region', response.json['data']['items'][0]['deliveryAddress'])
 
 
+def tender_funders(self):
+    tender_data = deepcopy(self.initial_data)
+    tender_data['funders'] = []
+    tender_data['funders'].append(deepcopy(test_organization))
+    response = self.app.post_json('/tenders', {'data': tender_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('funders', response.json['data'])
+
+    tender_data['funders'].append(deepcopy(test_organization))
+    response = self.app.post_json('/tenders', {'data': tender_data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u"Funders' identifier should be unique"], u'location': u'body', u'name': u'funders'}
+    ])
+
+    tender_data['funders'][0]['identifier']['id'] = 'some id'
+    response = self.app.post_json('/tenders', {'data': tender_data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u"Funder identifier should be one of the values allowed"], u'location': u'body', u'name': u'funders'}
+    ])
+
+    tender_data['funders'][0]['identifier']['id'] = '11111111'
+    response = self.app.post_json('/tenders', {'data': tender_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('funders', response.json['data'])
+    self.assertEqual(len(response.json['data']['funders']), 2)
+    tender = response.json['data']
+    token = response.json['access']['token']
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), {'data': {'funders': [{
+        "identifier": {'id': '22222222'}}, {}]}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('funders', response.json['data'])
+    self.assertEqual(len(response.json['data']['funders']), 2)
+    self.assertEqual(response.json['data']['funders'][0]['identifier']['id'], '22222222')
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), {'data': {'funders': []}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertNotIn('funders', response.json['data'])
+
+
 def tender_fields(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     self.assertEqual(response.status, '201 Created')
