@@ -50,6 +50,7 @@ from openprocurement.tender.openua.tests.award_blanks import (
     patch_tender_award_complaint,
     review_tender_award_complaint,
     review_tender_award_claim,
+    review_tender_award_stopping_complaint,
     # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
     patch_tender_lot_award_complaint,
@@ -121,6 +122,7 @@ class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
     test_create_tender_award_complaint = snitch(create_tender_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_award_complaint)
     test_review_tender_award_complaint = snitch(review_tender_award_complaint)
+    test_review_tender_award_stopping_complaint = snitch(review_tender_award_stopping_complaint)
     test_review_tender_award_claim = snitch(review_tender_award_claim)
     test_get_tender_award_complaint = snitch(get_tender_award_complaint)
     test_get_tender_award_complaints = snitch(get_tender_award_complaints)
