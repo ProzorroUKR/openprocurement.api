@@ -28,7 +28,8 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.constants import (
     SANDBOX_MODE, COORDINATES_REG_EXP,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
-    ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017
+    ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017,
+    FUNDERS,
 )
 
 from openprocurement.tender.core.constants import (
@@ -204,6 +205,19 @@ def validate_lots_uniq(lots, *args):
         ids = [i.id for i in lots]
         if [i for i in set(ids) if ids.count(i) > 1]:
             raise ValidationError(u"Lot id should be uniq for all lots")
+
+
+def validate_funders_unique(funders, *args):
+    if funders:
+        ids = [(i.identifier.scheme, i.identifier.id) for i in funders]
+        if len(funders) > len(set(ids)):
+            raise ValidationError(u"Funders' identifier should be unique")
+
+
+def validate_funders_ids(funders, *args):
+    for funder in funders:
+        if (funder.identifier.scheme, funder.identifier.id) not in FUNDERS:
+            raise ValidationError(u"Funder identifier should be one of the values allowed")
 
 
 class LotAuctionPeriod(Period):
@@ -769,6 +783,7 @@ class BaseTender(SchematicsDocument, Model):
     procurementMethodRationale_ru = StringType()
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()
+    funders = ListType(ModelType(Organization), validators=[validate_funders_unique, validate_funders_ids])
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = ListType(ModelType(Revision), default=list())
