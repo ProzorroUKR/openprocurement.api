@@ -7,6 +7,8 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.utils import get_now
 
+from openprocurement.tender.belowthreshold.tests.base import test_organization
+
 from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_UA_TYPE, STAGE_2_EU_TYPE, STAGE2_STATUS,
     CD_UA_TYPE, CD_EU_TYPE
@@ -1076,6 +1078,43 @@ def create_tender(self):
     self.assertIn('guarantee', data)
     self.assertEqual(data['guarantee']['amount'], 100500)
     self.assertEqual(data['guarantee']['currency'], "USD")
+
+
+def tender_funders(self):
+    tender_data = deepcopy(self.initial_data)
+    tender_data['funders'] = []
+    tender_data['funders'].append(deepcopy(test_organization))
+    tender_data['funders'][0]['identifier']['id'] = '00037256'
+    response = self.app.post_json('/tenders', {'data': tender_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('funders', response.json['data'])
+
+    tender_data['funders'].append(deepcopy(test_organization))
+    tender_data['funders'][1]['identifier']['id'] = '00037256'
+    response = self.app.post_json('/tenders', {'data': tender_data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u"Funders' identifier should be unique"], u'location': u'body', u'name': u'funders'}
+    ])
+
+    tender_data['funders'][0]['identifier']['id'] = 'some id'
+    response = self.app.post_json('/tenders', {'data': tender_data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u"Funder identifier should be one of the values allowed"], u'location': u'body', u'name': u'funders'}
+    ])
+
+    tender_data['funders'][0]['identifier']['id'] = '11111111'
+    response = self.app.post_json('/tenders', {'data': tender_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('funders', response.json['data'])
+    self.assertEqual(len(response.json['data']['funders']), 2)
 
 
 def tender_features_invalid(self):
