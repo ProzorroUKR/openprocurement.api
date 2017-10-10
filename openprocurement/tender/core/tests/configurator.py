@@ -15,7 +15,7 @@ class ConfiguratorTestMixin(object):
 class ConfiguratorTest(unittest.TestCase, ConfiguratorTestMixin):
     configurator_class = TenderConfigurator
     reverse_awarding_criteria = False
-    awarding_criteria_key = 'not yet implemented'
+    awarding_criteria_key = 'amount'
     configurator_model = None
 
 
