@@ -1549,7 +1549,7 @@ def patch_tender_award_complaint(self):
 
 
 def review_tender_award_complaint(self):
-    for status in ['invalid', 'declined', 'satisfied']:
+    for status in ['invalid', 'stopped', 'declined', 'satisfied']:
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id),
                                       {'data': {'title': 'complaint title', 'description': 'complaint description',
@@ -1560,12 +1560,17 @@ def review_tender_award_complaint(self):
 
         self.app.authorization = ('Basic', ('reviewer', ''))
         response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(
-            self.tender_id, self.award_id, complaint['id']), {"data": {"decision": '{} complaint'.format(status)}})
+            self.tender_id, self.award_id, complaint['id']),
+            {'data': {
+                'decision': '{} complaint'.format(status),
+                'rejectReasonDescription': 'reject reason',
+            }})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["decision"], '{} complaint'.format(status))
+        self.assertEqual(response.json['data']['rejectReasonDescription'], 'reject reason')
 
-        if status != "invalid":
+        if status in ['declined', 'satisfied']:
             response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}'.format(
                 self.tender_id, self.award_id, complaint['id']), {"data": {"status": "accepted"}})
             self.assertEqual(response.status, '200 OK')
@@ -1585,6 +1590,42 @@ def review_tender_award_complaint(self):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']["status"], status)
+
+
+def review_tender_award_stopping_complaint(self):
+    for status in ['stopped', 'declined', 'mistaken', 'invalid', 'satisfied']:
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id),
+                                      {'data': {'title': 'complaint title', 'description': 'complaint description',
+                                                'author': test_organization, 'status': 'pending'}})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        complaint = response.json['data']
+        owner_token = response.json['access']['token']
+
+        url_patch_complaint = '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, self.award_id, complaint['id'])
+        response = self.app.patch_json('{}?acc_token={}'.format(url_patch_complaint, owner_token), {
+            'data': {
+                'status': 'stopping',
+                'cancellationReason': 'reason',
+            }
+        })
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['status'], 'stopping')
+        self.assertEqual(response.json['data']['cancellationReason'], 'reason')
+
+        self.app.authorization = ('Basic', ('reviewer', ''))
+        response = self.app.patch_json(url_patch_complaint, {
+            'data': {
+                'decision': 'decision',
+                'status': status,
+            }
+        })
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['decision'], 'decision')
+        self.assertEqual(response.json['data']['status'], status)
 
 
 def get_tender_award_complaint(self):
