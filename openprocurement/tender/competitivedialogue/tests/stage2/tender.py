@@ -37,6 +37,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     guarantee,
     tender_Administrator_change,
     patch_not_author,
+    tender_funders,
     # TenderStage2UAProcessTest
     invalid_tender_conditions,
     one_valid_bid_tender_ua,
@@ -127,6 +128,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_guarantee = snitch(guarantee)
     test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_patch_not_author = snitch(patch_not_author)
+    test_tender_funders = snitch(tender_funders)
 
     def test_patch_not_author(self):
         authorization = self.app.authorization
