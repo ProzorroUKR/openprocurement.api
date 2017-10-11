@@ -850,10 +850,11 @@ def tender_with_nbu_discount_rate(self):
     ])
 
     data = deepcopy(self.initial_data)
-    data.update({'id': 'hash', 'doc_id': 'hash2', 'tenderID': 'hash3'})
+    data.update({'id': 'hash', 'doc_id': 'hash2', 'tenderID': 'hash3', 'NBUdiscountRate': 0.22986})
     response = self.app.post_json('/tenders', {'data': data})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['NBUdiscountRate'], 0.22986)
     tender = response.json['data']
     owner_token = response.json['access']['token']
     if 'procurementMethodDetails' in tender:
@@ -892,10 +893,10 @@ def tender_with_nbu_discount_rate(self):
     ])
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                   {"data": {"NBUdiscountRate": 0.3}})
+                                   {"data": {"NBUdiscountRate": 0.39876}})
     self.assertEqual(response.status, '200 OK')
     self.assertIn('NBUdiscountRate', response.json['data'])
-    self.assertEqual(response.json['data']['NBUdiscountRate'], 0.3)
+    self.assertEqual(response.json['data']['NBUdiscountRate'], 0.39876)
 
 
 def tender_features_invalid(self):
