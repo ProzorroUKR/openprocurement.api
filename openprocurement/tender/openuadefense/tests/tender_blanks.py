@@ -307,17 +307,12 @@ def patch_tender(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotEqual(response.json['data']['status'], 'cancelled')
 
-    response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'cancelled'}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertNotEqual(response.json['data']['status'], 'cancelled')
-
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'procuringEntity': {'kind': 'general'}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotEqual(response.json['data']['procuringEntity']['kind'], 'general')
 
-    response = self.app.patch_json('/tenders/{}'.format(tender['id']),
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
         {'data': {'tenderPeriod': {'startDate': tender['enquiryPeriod']['endDate']}}},
         status=422
     )
