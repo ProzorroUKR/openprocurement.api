@@ -38,6 +38,7 @@ from openprocurement.tender.limited.tests.award_blanks import (
     create_tender_negotiation_award_complaints,
     patch_tender_award_complaint,
     review_tender_award_complaint,
+    review_tender_award_stopping_complaint,
     get_tender_award_complaint,
     get_tender_award_complaints,
     cancelled_award_with_complaint,
@@ -146,6 +147,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
     test_create_tender_award_complaints = snitch(create_tender_negotiation_award_complaints)
     test_patch_tender_award_complaint = snitch(patch_tender_award_complaint)
     test_review_tender_award_complaint = snitch(review_tender_award_complaint)
+    test_review_tender_award_stopping_complaint = snitch(review_tender_award_stopping_complaint)
     test_get_tender_award_complaint = snitch(get_tender_award_complaint)
     test_get_tender_award_complaints = snitch(get_tender_award_complaints)
     test_cancelled_award_with_complaint = snitch(cancelled_award_with_complaint)
