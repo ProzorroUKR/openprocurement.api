@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/7e6642727235482986a448db769d31ae/qualifications/32eb161665f14ff2810419b933281501/complaints/d1098f96e72e47219cdadc6083bc547c?acc_token=be6a7cea56864236a8a2098183fa3866 HTTP/1.0
+PATCH /api/2.4/tenders/7a02bad8eb4f4f7fb33fa5ff0f536b4c/qualifications/68a5f98b716f4fa4bf3be70c91d28fd7/complaints/321a20f3c1664d3ab8f2a9fc45d4de5d?acc_token=b77910361c0348139c947f06542cdb9b HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 29
 Content-Type: application/json
@@ -17,12 +17,12 @@ Content-Type: application/json; charset=UTF-8
     "status": "claim", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
-    "bid_id": "836d540d95c44fdfb4a597f1d62134ba", 
-    "dateSubmitted": "2017-10-03T11:18:13.493700+03:00", 
-    "complaintID": "UA-2017-10-03-000001.8", 
-    "date": "2017-10-03T11:18:13.525884+03:00", 
+    "bid_id": "196fa18058da455f96e7b27e5a9bfd72", 
+    "dateSubmitted": "2017-10-11T17:20:42.557651+03:00", 
+    "complaintID": "UA-2017-10-11-000001.8", 
+    "date": "2017-10-11T17:20:42.592509+03:00", 
     "type": "claim", 
-    "id": "d1098f96e72e47219cdadc6083bc547c"
+    "id": "321a20f3c1664d3ab8f2a9fc45d4de5d"
   }
 }
 
