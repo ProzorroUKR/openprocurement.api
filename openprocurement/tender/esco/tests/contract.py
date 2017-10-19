@@ -2,7 +2,7 @@
 import unittest
 from copy import deepcopy
 
-from esculator import escp
+from esculator import npv, escp
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 
@@ -22,6 +22,7 @@ from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
     test_tender_data,
     test_bids,
+    NBU_DISCOUNT_RATE
 )
 
 from openprocurement.tender.openeu.tests.contract_blanks import (
@@ -36,18 +37,26 @@ from openprocurement.tender.esco.tests.contract_blanks import (
 from openprocurement.tender.esco.utils import to_decimal
 
 
-award_amount = round(to_decimal(escp(test_bids[0]['value']['contractDuration']['years'],
-                                     test_bids[0]['value']['contractDuration']['days'],
-                                     test_bids[0]['value']['yearlyPaymentsPercentage'],
-                                     test_bids[0]['value']['annualCostsReduction'],
-                                     get_now())), 2)
+contract_amountPerformance = round(to_decimal(npv(test_bids[0]['value']['contractDuration']['years'],
+                                                  test_bids[0]['value']['contractDuration']['days'],
+                                                  test_bids[0]['value']['yearlyPaymentsPercentage'],
+                                                  test_bids[0]['value']['annualCostsReduction'],
+                                                  get_now(),
+                                                  NBU_DISCOUNT_RATE)), 2)
+
+contract_amount = round(to_decimal(escp(test_bids[0]['value']['contractDuration']['years'],
+                                        test_bids[0]['value']['contractDuration']['days'],
+                                        test_bids[0]['value']['yearlyPaymentsPercentage'],
+                                        test_bids[0]['value']['annualCostsReduction'],
+                                        get_now())), 2)
 
 
 class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
-    expected_award_amount = award_amount
+    expected_contract_amountPerformance = contract_amountPerformance
+    expected_contract_amount = contract_amount
 
     def setUp(self):
         super(TenderContractResourceTest, self).setUp()

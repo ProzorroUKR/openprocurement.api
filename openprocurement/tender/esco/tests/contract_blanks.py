@@ -9,9 +9,6 @@ from openprocurement.api.utils import get_now
 def patch_tender_contract(self):
     response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
     contract = response.json['data'][0]
-    # check if contract value precision = 2
-    self.assertEqual(len(str(contract['value']['amountPerformance']).split('.')[1]), 2)
-    self.assertEqual(len(str(contract['value']['amount']).split('.')[1]), 2)
 
     fake_contractID = "myselfID"
     fake_items_data = [{"description": "New Description"}]
@@ -186,4 +183,5 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], "active")
-    self.assertEqual(response.json['data']["value"]['amount'], self.expected_award_amount)
+    self.assertEqual(response.json['data']["value"]["amountPerformance"], self.expected_contract_amountPerformance)
+    self.assertEqual(response.json['data']["value"]['amount'], self.expected_contract_amount)
