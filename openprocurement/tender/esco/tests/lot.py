@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import unittest
 
+from esculator import npv, escp
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
@@ -36,6 +38,7 @@ from openprocurement.tender.esco.tests.base import (
     test_tender_data,
     test_lots,
     test_bids,
+    NBU_DISCOUNT_RATE,
 )
 
 from openprocurement.tender.esco.tests.lot_blanks import (
@@ -58,6 +61,21 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     create_tender_bid_invalid,
     patch_tender_bid,
 )
+from openprocurement.tender.esco.utils import to_decimal
+
+
+lot_bid_amountPerformance = round(to_decimal(npv(test_bids[0]['value']['contractDuration']['years'],
+                                                 test_bids[0]['value']['contractDuration']['days'],
+                                                 test_bids[0]['value']['yearlyPaymentsPercentage'],
+                                                 test_bids[0]['value']['annualCostsReduction'],
+                                                 get_now(),
+                                                 NBU_DISCOUNT_RATE)), 2)
+
+lot_bid_amount = round(to_decimal(escp(test_bids[0]['value']['contractDuration']['years'],
+                                       test_bids[0]['value']['contractDuration']['days'],
+                                       test_bids[0]['value']['yearlyPaymentsPercentage'],
+                                       test_bids[0]['value']['annualCostsReduction'],
+                                       get_now())), 2)
 
 
 class TenderLotResourceTest(BaseESCOContentWebTest):
@@ -113,6 +131,8 @@ class TenderLotBidResourceTest(BaseESCOContentWebTest):
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids  # TODO: change attribute identifier
+    expected_bid_amountPerformance = lot_bid_amountPerformance
+    expected_bid_amount = lot_bid_amount
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_patch_tender_bid = snitch(patch_tender_bid)
