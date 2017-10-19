@@ -28,8 +28,6 @@ def get_tender_auction(self):
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(auction["bids"][0]['value']['amountPerformance'], self.initial_bids[0]['value']['amountPerformance'])
     self.assertEqual(auction["bids"][1]['value']['amountPerformance'], self.initial_bids[1]['value']['amountPerformance'])
-    # check if bids value precision = 2
-    self.assertEqual(len(str(auction['bids'][0]['value']['amountPerformance']).split('.')[1]), 2)
     self.assertEqual(auction['procurementMethodType'], 'esco')
 
     response = self.app.get('/tenders/{}/auction?opt_jsonp=callback'.format(self.tender_id))
@@ -307,8 +305,6 @@ def get_tender_lot_auction(self):
     self.assertIn('fundingKind', auction['lots'][0])
     self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
-    # check if bids value precision = 2
-    self.assertEqual(len(str(auction["bids"][0]['lotValues'][0]['value']['amountPerformance']).split('.')[1]), 2)
     self.assertEqual(auction["bids"][0]['lotValues'][0]['value']['amountPerformance'], self.initial_bids[0]['lotValues'][0]['value']['amountPerformance'])
     self.assertEqual(auction["bids"][1]['lotValues'][0]['value']['amountPerformance'], self.initial_bids[1]['lotValues'][0]['value']['amountPerformance'])
 
@@ -443,8 +439,6 @@ def get_tender_lots_auction(self):
     self.assertIn('items', auction)
     self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
-    # check if bids value precision = 2
-    self.assertEqual(len(str(auction["bids"][0]['lotValues'][0]['value']['amountPerformance']).split('.')[1]), 2)
     self.assertEqual(auction["bids"][0]['lotValues'][0]['value']['amountPerformance'], self.initial_bids[0]['lotValues'][0]['value']['amountPerformance'])
     self.assertEqual(auction["bids"][1]['lotValues'][0]['value']['amountPerformance'], self.initial_bids[1]['lotValues'][0]['value']['amountPerformance'])
 
@@ -594,8 +588,6 @@ def get_tender_auction_feature(self):
     self.assertIn('yearlyPaymentsPercentageRange', auction)
     self.assertIn('fundingKind', auction)
     self.assertNotIn("tenderers", auction["bids"][0])
-    # check if bids value precision = 2
-    self.assertEqual(len(str(auction['bids'][0]['value']['amountPerformance']).split('.')[1]), 2)
     self.assertEqual(auction["bids"][0]['value']['amountPerformance'], self.initial_bids[0]['value']['amountPerformance'])
     self.assertEqual(auction["bids"][1]['value']['amountPerformance'], self.initial_bids[1]['value']['amountPerformance'])
     self.assertIn('features', auction)
@@ -721,8 +713,6 @@ def get_tender_lot_auction_feature(self):
     self.assertIn('fundingKind', auction['lots'][0])
     self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
-    # check if bids value precision = 2
-    self.assertEqual(len(str(auction["bids"][0]['lotValues'][0]['value']['amountPerformance']).split('.')[1]), 2)
     self.assertEqual(auction["bids"][0]['lotValues'][0]['value']['amountPerformance'], self.initial_bids[0]['lotValues'][0]['value']['amountPerformance'])
     self.assertEqual(auction["bids"][1]['lotValues'][0]['value']['amountPerformance'], self.initial_bids[1]['lotValues'][0]['value']['amountPerformance'])
     self.assertIn('features', auction)
@@ -860,8 +850,6 @@ def get_tender_lots_auction_feature(self):
     self.assertIn('items', auction)
     self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
-    # check if bids value precision = 2
-    self.assertEqual(len(str(auction["bids"][0]['lotValues'][0]['value']['amountPerformance']).split('.')[1]), 2)
     self.assertEqual(auction["bids"][0]['lotValues'][0]['value']['amountPerformance'], self.initial_bids[0]['lotValues'][0]['value']['amountPerformance'])
     self.assertEqual(auction["bids"][1]['lotValues'][0]['value']['amountPerformance'], self.initial_bids[1]['lotValues'][0]['value']['amountPerformance'])
     self.assertIn('features', auction)
