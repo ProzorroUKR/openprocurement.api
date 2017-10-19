@@ -15,9 +15,9 @@ NBU_DISCOUNT_RATE = 0.22
 test_tender_data = deepcopy(base_eu_test_data)
 test_tender_data['procurementMethodType'] = "esco"
 test_tender_data['NBUdiscountRate'] = NBU_DISCOUNT_RATE
-test_tender_data['minimalStepPercentage'] = 0.027
+test_tender_data['minimalStepPercentage'] = 0.02712
 test_tender_data['fundingKind'] = 'other'
-test_tender_data['yearlyPaymentsPercentageRange'] = 0.8
+test_tender_data['yearlyPaymentsPercentageRange'] = 0.80000
 
 del test_tender_data['value']
 del test_tender_data['minimalStep']
@@ -27,7 +27,7 @@ test_features_tender_data['procurementMethodType'] = "esco"
 test_features_tender_data['NBUdiscountRate'] = NBU_DISCOUNT_RATE
 test_features_tender_data['minimalStepPercentage'] = 0.027
 test_features_tender_data['fundingKind'] = 'other'
-test_features_tender_data['yearlyPaymentsPercentageRange'] = 0.8
+test_features_tender_data['yearlyPaymentsPercentageRange'] = 0.80000
 test_features_tender_data['features'][0]['enum'][0]['value'] = 0.03
 test_features_tender_data['features'][0]['enum'][1]['value'] = 0.07
 test_features_tender_data['features'][1]['enum'][0]['value'] = 0.03
@@ -40,9 +40,9 @@ del test_features_tender_data['minimalStep']
 test_lots = deepcopy(base_eu_lots)
 del test_lots[0]['value']
 del test_lots[0]['minimalStep']
-test_lots[0]['minimalStepPercentage'] = 0.025
+test_lots[0]['minimalStepPercentage'] = 0.02514
 test_lots[0]['fundingKind'] = 'other'
-test_lots[0]['yearlyPaymentsPercentageRange'] = 0.8
+test_lots[0]['yearlyPaymentsPercentageRange'] = 0.80000
 
 test_bids = deepcopy(base_eu_bids)
 for bid in test_bids:

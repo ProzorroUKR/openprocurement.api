@@ -348,6 +348,16 @@ def patch_tender_bid(self):
     self.assertNotEqual(response.json['data']['value']['amount'], self.expected_bid_amount)
     self.assertNotEqual(response.json['data']['value']['amountPerformance'], self.expected_bid_amountPerformance)
 
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
+                                   {"data": {"value": {"yearlyPaymentsPercentage": 0.91111}, 'tenderers': self.test_bids_data[0]['tenderers']}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotEqual(response.json['data']['value'], bid['value'])
+    self.assertEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
+    self.assertEqual(response.json['data']['value']['yearlyPaymentsPercentage'], 0.91111)
+    self.assertNotEqual(response.json['data']['value']['amount'], self.expected_bid_amount)
+    self.assertNotEqual(response.json['data']['value']['amountPerformance'], self.expected_bid_amountPerformance)
+
     response = self.app.patch_json('/tenders/{}/bids/some_id?acc_token={}'.format(self.tender_id, bid_token),
                                    {"data": {"value": {"amount": 400}}}, status=404)
     self.assertEqual(response.status, '404 Not Found')

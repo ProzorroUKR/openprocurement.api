@@ -135,10 +135,10 @@ def tender_yearlyPaymentsPercentageRange(self):
     tender_id = response.json['data']['id']
     tender_token = response.json['access']['token']
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_token), {"data": {"fundingKind": "budget", "yearlyPaymentsPercentageRange": 0.3}})
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_token), {"data": {"fundingKind": "budget", "yearlyPaymentsPercentageRange": 0.31456}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['fundingKind'], 'budget')
-    self.assertEqual(response.json['data']['yearlyPaymentsPercentageRange'], 0.3)
+    self.assertEqual(response.json['data']['yearlyPaymentsPercentageRange'], 0.31456)
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_token), {"data": {"fundingKind": "other"}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -809,9 +809,9 @@ def patch_tender(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['guarantee']['currency'], 'USD')
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"minimalStepPercentage": 0.025}})
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"minimalStepPercentage": 0.02516}})
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['minimalStepPercentage'], 0.025)
+    self.assertEqual(response.json['data']['minimalStepPercentage'], 0.02516)
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"fundingKind": "budget"}})
     self.assertEqual(response.status, '200 OK')
