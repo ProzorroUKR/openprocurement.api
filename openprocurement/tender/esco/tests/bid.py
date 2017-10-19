@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
 
+from esculator import npv, escp
+from openprocurement.api.utils import get_now
 from openprocurement.tender.esco.tests.base import (
     test_bids, test_features_tender_data,
-    BaseESCOContentWebTest
+    BaseESCOContentWebTest, NBU_DISCOUNT_RATE
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
@@ -54,12 +56,29 @@ from openprocurement.tender.esco.tests.bid_blanks import (
     deleted_bid_do_not_locks_tender_in_state,
     create_tender_bid_invalid_funding_kind_budget,
 )
+from openprocurement.tender.esco.utils import to_decimal
+
+
+bid_amountPerformance = round(to_decimal(npv(test_bids[0]['value']['contractDuration']['years'],
+                                             test_bids[0]['value']['contractDuration']['days'],
+                                             test_bids[0]['value']['yearlyPaymentsPercentage'],
+                                             test_bids[0]['value']['annualCostsReduction'],
+                                             get_now(),
+                                             NBU_DISCOUNT_RATE)), 2)
+
+bid_amount = round(to_decimal(escp(test_bids[0]['value']['contractDuration']['years'],
+                                   test_bids[0]['value']['contractDuration']['days'],
+                                   test_bids[0]['value']['yearlyPaymentsPercentage'],
+                                   test_bids[0]['value']['annualCostsReduction'],
+                                   get_now())), 2)
 
 
 class TenderBidResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
     test_bids_data = test_bids
     author_data = test_bids_data[0]['tenderers'][0]
+    expected_bid_amountPerformance = bid_amountPerformance
+    expected_bid_amount = bid_amount
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_create_tender_bid = snitch(create_tender_bid)
