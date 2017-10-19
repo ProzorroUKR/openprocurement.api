@@ -126,9 +126,6 @@ def patch_tender_award(self):
     response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    # check if award value precision = 2
-    self.assertEqual(len(str(response.json['data']['value']['amountPerformance']).split('.')[1]), 2)
-    self.assertEqual(len(str(response.json['data']['value']['amount']).split('.')[1]), 2)
     self.assertEqual(response.json['data']["value"]["amountPerformance"], self.expected_award_amountPerformance)
     self.assertEqual(response.json['data']["value"]["amount"], self.expected_award_amount)
 
@@ -209,9 +206,6 @@ def patch_tender_lot_award(self):
     response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    # check if award value precision = 2
-    self.assertEqual(len(str(response.json['data']['value']['amountPerformance']).split('.')[1]), 2)
-    self.assertEqual(len(str(response.json['data']['value']['amount']).split('.')[1]), 2)
     self.assertEqual(response.json['data']["value"]["amountPerformance"], self.expected_award_amountPerformance)
     self.assertEqual(response.json['data']["value"]["amount"], self.expected_award_amount)
 
