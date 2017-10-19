@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # TenderAuctionResourceTest
 from datetime import timedelta
+from esculator import npv, escp
 from openprocurement.api.utils import get_now
+from openprocurement.tender.esco.utils import to_decimal
 
 
 def get_tender_auction(self):
@@ -107,17 +109,27 @@ def post_tender_auction(self):
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
 
-    self.assertGreater(tender["bids"][0]['value']['amountPerformance'], 10)
-    self.assertLess(tender["bids"][0]['value']['amountPerformance'], 1500)
-    self.assertGreater(tender["bids"][0]['value']['amount'], 500)
-    self.assertLess(tender["bids"][0]['value']['amount'], 15000)
-    # check if bids value precision = 2
-    self.assertEqual(len(str(tender['bids'][0]['value']['amountPerformance']).split('.')[1]), 2)
-    self.assertEqual(len(str(tender['bids'][0]['value']['amount']).split('.')[1]), 2)
     self.assertEqual(tender["bids"][0]['value']['yearlyPaymentsPercentage'], patch_data["bids"][1]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(tender["bids"][1]['value']['yearlyPaymentsPercentage'], patch_data["bids"][0]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(tender["bids"][0]['value']['contractDuration']['years'], patch_data["bids"][1]['value']['contractDuration']['years'])
     self.assertEqual(tender["bids"][1]['value']['contractDuration']['years'], patch_data["bids"][0]['value']['contractDuration']['years'])
+
+    expected_amountPerformance = round(to_decimal(npv(tender["bids"][0]['value']['contractDuration']['years'],
+                                                      tender["bids"][0]['value']['contractDuration']['days'],
+                                                      tender["bids"][0]['value']['yearlyPaymentsPercentage'],
+                                                      tender["bids"][0]['value']['annualCostsReduction'],
+                                                      get_now(),
+                                                      tender['NBUdiscountRate'])), 2)
+
+    expected_amount = round(to_decimal(escp(tender["bids"][0]['value']['contractDuration']['years'],
+                                            tender["bids"][0]['value']['contractDuration']['days'],
+                                            tender["bids"][0]['value']['yearlyPaymentsPercentage'],
+                                            tender["bids"][0]['value']['annualCostsReduction'],
+                                            get_now())), 2)
+
+    self.assertEqual(tender['bids'][0]['value']['amountPerformance'], expected_amountPerformance)
+    self.assertEqual(tender['bids'][0]['value']['amount'], expected_amount)
+
     self.assertEqual('active.qualification', tender["status"])
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
@@ -386,17 +398,27 @@ def post_tender_lot_auction(self):
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
 
-    self.assertGreater(tender["bids"][0]['lotValues'][0]['value']['amountPerformance'], 10)
-    self.assertLess(tender["bids"][0]['lotValues'][0]['value']['amountPerformance'], 1500)
-    self.assertGreater(tender["bids"][0]['lotValues'][0]['value']['amount'], 500)
-    self.assertLess(tender["bids"][0]['lotValues'][0]['value']['amount'], 15000)
-    # check if bids value precision = 2
-    self.assertEqual(len(str(tender["bids"][0]['lotValues'][0]['value']['amountPerformance']).split('.')[1]), 2)
-    self.assertEqual(len(str(tender["bids"][0]['lotValues'][0]['value']['amount']).split('.')[1]), 2)
     self.assertEqual(tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'], patch_data["bids"][1]['lotValues'][0]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(tender["bids"][1]['lotValues'][0]['value']['yearlyPaymentsPercentage'], patch_data["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(tender["bids"][0]['lotValues'][0]['value']['contractDuration']['years'], patch_data["bids"][1]['lotValues'][0]['value']['contractDuration']['years'])
     self.assertEqual(tender["bids"][1]['lotValues'][0]['value']['contractDuration']['years'], patch_data["bids"][0]['lotValues'][0]['value']['contractDuration']['years'])
+
+    expected_amountPerformance = round(to_decimal(npv(tender["bids"][0]['lotValues'][0]['value']['contractDuration']['years'],
+                                                      tender["bids"][0]['lotValues'][0]['value']['contractDuration']['days'],
+                                                      tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'],
+                                                      tender["bids"][0]['lotValues'][0]['value']['annualCostsReduction'],
+                                                      get_now(),
+                                                      tender['NBUdiscountRate'])), 2)
+
+    expected_amount = round(to_decimal(escp(tender["bids"][0]['lotValues'][0]['value']['contractDuration']['years'],
+                                            tender["bids"][0]['lotValues'][0]['value']['contractDuration']['days'],
+                                            tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'],
+                                            tender["bids"][0]['lotValues'][0]['value']['annualCostsReduction'],
+                                            get_now())), 2)
+
+    self.assertEqual(tender['bids'][0]['lotValues'][0]['value']['amountPerformance'], expected_amountPerformance)
+    self.assertEqual(tender['bids'][0]['lotValues'][0]['value']['amount'], expected_amount)
+
     self.assertEqual('active.qualification', tender["status"])
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
@@ -538,17 +560,27 @@ def post_tender_lots_auction(self):
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
 
-    self.assertGreater(tender["bids"][0]['lotValues'][0]['value']['amountPerformance'], 10)
-    self.assertLess(tender["bids"][0]['lotValues'][0]['value']['amountPerformance'], 1500)
-    self.assertGreater(tender["bids"][0]['lotValues'][0]['value']['amount'], 500)
-    self.assertLess(tender["bids"][0]['lotValues'][0]['value']['amount'], 15000)
-    # check if bids value precision = 2
-    self.assertEqual(len(str(tender["bids"][0]['lotValues'][0]['value']['amountPerformance']).split('.')[1]), 2)
-    self.assertEqual(len(str(tender["bids"][0]['lotValues'][0]['value']['amount']).split('.')[1]), 2)
     self.assertEqual(tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'], patch_data["bids"][1]['lotValues'][0]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(tender["bids"][1]['lotValues'][0]['value']['yearlyPaymentsPercentage'], patch_data["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(tender["bids"][0]['lotValues'][0]['value']['contractDuration']['years'], patch_data["bids"][1]['lotValues'][0]['value']['contractDuration']['years'])
     self.assertEqual(tender["bids"][1]['lotValues'][0]['value']['contractDuration']['years'], patch_data["bids"][0]['lotValues'][0]['value']['contractDuration']['years'])
+
+    expected_amountPerformance = round(to_decimal(npv(tender["bids"][0]['lotValues'][0]['value']['contractDuration']['years'],
+                                                      tender["bids"][0]['lotValues'][0]['value']['contractDuration']['days'],
+                                                      tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'],
+                                                      tender["bids"][0]['lotValues'][0]['value']['annualCostsReduction'],
+                                                      get_now(),
+                                                      tender['NBUdiscountRate'])), 2)
+
+    expected_amount = round(to_decimal(escp(tender["bids"][0]['lotValues'][0]['value']['contractDuration']['years'],
+                                            tender["bids"][0]['lotValues'][0]['value']['contractDuration']['days'],
+                                            tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'],
+                                            tender["bids"][0]['lotValues'][0]['value']['annualCostsReduction'],
+                                            get_now())), 2)
+
+    self.assertEqual(tender['bids'][0]['lotValues'][0]['value']['amountPerformance'], expected_amountPerformance)
+    self.assertEqual(tender['bids'][0]['lotValues'][0]['value']['amount'], expected_amount)
+
     self.assertEqual('active.qualification', tender["status"])
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
@@ -660,17 +692,27 @@ def post_tender_auction_feature(self):
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
 
-    self.assertGreater(tender["bids"][0]['value']['amountPerformance'], 10)
-    self.assertLess(tender["bids"][0]['value']['amountPerformance'], 1500)
-    self.assertGreater(tender["bids"][0]['value']['amount'], 500)
-    self.assertLess(tender["bids"][0]['value']['amount'], 15000)
-    # check if bids value precision = 2
-    self.assertEqual(len(str(tender['bids'][0]['value']['amountPerformance']).split('.')[1]), 2)
-    self.assertEqual(len(str(tender['bids'][0]['value']['amount']).split('.')[1]), 2)
     self.assertEqual(tender["bids"][0]['value']['yearlyPaymentsPercentage'], patch_data["bids"][1]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(tender["bids"][1]['value']['yearlyPaymentsPercentage'], patch_data["bids"][0]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(tender["bids"][0]['value']['contractDuration']['years'], patch_data["bids"][1]['value']['contractDuration']['years'])
     self.assertEqual(tender["bids"][1]['value']['contractDuration']['years'], patch_data["bids"][0]['value']['contractDuration']['years'])
+
+    expected_amountPerformance = round(to_decimal(npv(tender["bids"][0]['value']['contractDuration']['years'],
+                                                      tender["bids"][0]['value']['contractDuration']['days'],
+                                                      tender["bids"][0]['value']['yearlyPaymentsPercentage'],
+                                                      tender["bids"][0]['value']['annualCostsReduction'],
+                                                      get_now(),
+                                                      tender['NBUdiscountRate'])), 2)
+
+    expected_amount = round(to_decimal(escp(tender["bids"][0]['value']['contractDuration']['years'],
+                                            tender["bids"][0]['value']['contractDuration']['days'],
+                                            tender["bids"][0]['value']['yearlyPaymentsPercentage'],
+                                            tender["bids"][0]['value']['annualCostsReduction'],
+                                            get_now())), 2)
+
+    self.assertEqual(tender['bids'][0]['value']['amountPerformance'], expected_amountPerformance)
+    self.assertEqual(tender['bids'][0]['value']['amount'], expected_amount)
+
     self.assertEqual('active.qualification', tender["status"])
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
@@ -796,17 +838,27 @@ def post_tender_lot_auction_feature(self):
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
 
-    self.assertGreater(tender["bids"][0]['lotValues'][0]['value']['amountPerformance'], 10)
-    self.assertLess(tender["bids"][0]['lotValues'][0]['value']['amountPerformance'], 1500)
-    self.assertGreater(tender["bids"][0]['lotValues'][0]['value']['amount'], 500)
-    self.assertLess(tender["bids"][0]['lotValues'][0]['value']['amount'], 15000)
-    # check if bids value precision = 2
-    self.assertEqual(len(str(tender["bids"][0]['lotValues'][0]['value']['amountPerformance']).split('.')[1]), 2)
-    self.assertEqual(len(str(tender["bids"][0]['lotValues'][0]['value']['amount']).split('.')[1]), 2)
     self.assertEqual(tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'], patch_data["bids"][1]['lotValues'][0]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(tender["bids"][1]['lotValues'][0]['value']['yearlyPaymentsPercentage'], patch_data["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(tender["bids"][0]['lotValues'][0]['value']['contractDuration']['years'], patch_data["bids"][1]['lotValues'][0]['value']['contractDuration']['years'])
     self.assertEqual(tender["bids"][1]['lotValues'][0]['value']['contractDuration']['years'], patch_data["bids"][0]['lotValues'][0]['value']['contractDuration']['years'])
+
+    expected_amountPerformance = round(to_decimal(npv(tender["bids"][0]['lotValues'][0]['value']['contractDuration']['years'],
+                                                      tender["bids"][0]['lotValues'][0]['value']['contractDuration']['days'],
+                                                      tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'],
+                                                      tender["bids"][0]['lotValues'][0]['value']['annualCostsReduction'],
+                                                      get_now(),
+                                                      tender['NBUdiscountRate'])), 2)
+
+    expected_amount = round(to_decimal(escp(tender["bids"][0]['lotValues'][0]['value']['contractDuration']['years'],
+                                            tender["bids"][0]['lotValues'][0]['value']['contractDuration']['days'],
+                                            tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'],
+                                            tender["bids"][0]['lotValues'][0]['value']['annualCostsReduction'],
+                                            get_now())), 2)
+
+    self.assertEqual(tender['bids'][0]['lotValues'][0]['value']['amountPerformance'], expected_amountPerformance)
+    self.assertEqual(tender['bids'][0]['lotValues'][0]['value']['amount'], expected_amount)
+
     self.assertEqual('active.qualification', tender["status"])
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
@@ -951,17 +1003,27 @@ def post_tender_lots_auction_feature(self):
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
 
-    self.assertGreater(tender["bids"][0]['lotValues'][0]['value']['amountPerformance'], 10)
-    self.assertLess(tender["bids"][0]['lotValues'][0]['value']['amountPerformance'], 1500)
-    self.assertGreater(tender["bids"][0]['lotValues'][0]['value']['amount'], 500)
-    self.assertLess(tender["bids"][0]['lotValues'][0]['value']['amount'], 15000)
-    # check if bids value precision = 2
-    self.assertEqual(len(str(tender["bids"][0]['lotValues'][0]['value']['amountPerformance']).split('.')[1]), 2)
-    self.assertEqual(len(str(tender["bids"][0]['lotValues'][0]['value']['amount']).split('.')[1]), 2)
     self.assertEqual(tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'], patch_data["bids"][1]['lotValues'][0]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(tender["bids"][1]['lotValues'][0]['value']['yearlyPaymentsPercentage'], patch_data["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'])
     self.assertEqual(tender["bids"][0]['lotValues'][0]['value']['contractDuration']['years'], patch_data["bids"][1]['lotValues'][0]['value']['contractDuration']['years'])
     self.assertEqual(tender["bids"][1]['lotValues'][0]['value']['contractDuration']['years'], patch_data["bids"][0]['lotValues'][0]['value']['contractDuration']['years'])
+
+    expected_amountPerformance = round(to_decimal(npv(tender["bids"][0]['lotValues'][0]['value']['contractDuration']['years'],
+                                                      tender["bids"][0]['lotValues'][0]['value']['contractDuration']['days'],
+                                                      tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'],
+                                                      tender["bids"][0]['lotValues'][0]['value']['annualCostsReduction'],
+                                                      get_now(),
+                                                      tender['NBUdiscountRate'])), 2)
+
+    expected_amount = round(to_decimal(escp(tender["bids"][0]['lotValues'][0]['value']['contractDuration']['years'],
+                                            tender["bids"][0]['lotValues'][0]['value']['contractDuration']['days'],
+                                            tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'],
+                                            tender["bids"][0]['lotValues'][0]['value']['annualCostsReduction'],
+                                            get_now())), 2)
+
+    self.assertEqual(tender['bids'][0]['lotValues'][0]['value']['amountPerformance'], expected_amountPerformance)
+    self.assertEqual(tender['bids'][0]['lotValues'][0]['value']['amount'], expected_amount)
+
     self.assertEqual('active.qualification', tender["status"])
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
