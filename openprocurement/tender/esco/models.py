@@ -217,11 +217,15 @@ class LotValue(BaseLotValue):
     value = ModelType(ESCOValue, required=True)
 
     def validate_value(self, data, value):
-        pass
-    #     if value and isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:
-    #         lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
-    #         if not lots:
-    #             return
+        if value and isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:
+            lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
+            if not lots:
+                return
+            lot = lots[0]
+            if lot.get('minValue').currency != value.currency:
+                raise ValidationError(u"currency of bid should be identical to currency of minValue of lot")
+            if lot.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+                raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of lot")
 
 
 class Item(BaseItem):
@@ -274,6 +278,11 @@ class Bid(BaseEUBid):
             else:
                 if not value:
                     raise ValidationError(u'This field is required.')
+                if tender.get('minValue').currency != value.currency:
+                    raise ValidationError(u"currency of bid should be identical to currency of minValue of tender")
+                if tender.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+                    raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender")
+
 
 
 class FeatureValue(BaseFeatureValue):
