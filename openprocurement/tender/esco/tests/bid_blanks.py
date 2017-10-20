@@ -203,6 +203,31 @@ def create_tender_bid_invalid(self):
          u'description': {u'annualCostsReduction': [u'annual costs reduction should be set for 21 period']}}
     ])
 
+    response = self.app.post_json(request_path, {'data': {
+        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.author_data],
+        'value': {'yearlyPaymentsPercentage': 0.8, 'contractDuration': {'years': 12},
+        'annualCostsReduction': [100]*21, 'currency': 'USD'}}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'location': u'body', u'name': u'value',
+         u'description': [u'currency of bid should be identical to currency of minValue of tender']}
+    ])
+
+    response = self.app.post_json(request_path, {'data': {
+        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.author_data],
+        'value': {'yearlyPaymentsPercentage': 0.8, 'contractDuration': {'years': 12},
+        'annualCostsReduction': [100]*21, 'currency': 'UAH', 'valueAddedTaxIncluded': False}}},
+        status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'location': u'body', u'name': u'value',
+         u'description': [u'valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender']}
+    ])
+
     # create bid with given value.amount
     # comment this test while minValue = 0
     # response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': {
