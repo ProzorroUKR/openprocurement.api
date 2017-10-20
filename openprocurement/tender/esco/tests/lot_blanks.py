@@ -585,6 +585,26 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
 
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
+        {'data': { 'lotValues': [{'value': {'currency': 'USD'}}]}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'location': u'body', u'name': u'lotValues',
+         u'description': [{u'value': [u'currency of bid should be identical to currency of minValue of lot']}]}
+    ])
+
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
+        {'data': { 'lotValues': [{'value': {'valueAddedTaxIncluded': False}}]}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'location': u'body', u'name': u'lotValues',
+         u'description': [{u'value': [u'valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of lot']}]}
+    ])
+
     response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token), {"data": {'lotValues': [{"value": {
         'yearlyPaymentsPercentage': 0.9,
         'annualCostsReduction': [760.5] * 21,

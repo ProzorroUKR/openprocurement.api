@@ -345,6 +345,26 @@ def patch_tender_bid(self):
     # ])
 
     response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
+                                   {"data": {"value": {"currency": "USD"}}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'location': u'body', u'name': u'value',
+         u'description': [u'currency of bid should be identical to currency of minValue of tender']}
+    ])
+
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
+                                   {"data": {"value": {"valueAddedTaxIncluded": False}}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'location': u'body', u'name': u'value',
+         u'description': [u'valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender']}
+    ])
+
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], bid_token),
                                    {"data": {'tenderers': [{"name": u"Державне управління управлінням справами"}]}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
