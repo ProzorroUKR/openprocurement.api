@@ -14,7 +14,8 @@ class TenderDocumentResourceTest(BaseESCOContentWebTest, TenderDocumentResourceT
     initial_auth = ('Basic', ('broker', ''))
 
 
-class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumentWithDSResourceTestMixin):
+class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest,
+                                       TenderDocumentWithDSResourceTestMixin):
     docservice = True
 
 

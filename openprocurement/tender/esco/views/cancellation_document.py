@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.openeu.views.cancellation_document import TenderCancellationDocumentResource as TenderEUCancellationDocumentResource
+from openprocurement.tender.openeu.views.cancellation_document import \
+    TenderCancellationDocumentResource as TenderEUCancellationDocumentResource
 
 
 @optendersresource(name='esco:Tender Cancellation Documents',

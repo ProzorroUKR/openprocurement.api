@@ -25,7 +25,6 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     get_tender_bidder_document_ds,
     # TenderBidDocumentResourceTest
     create_tender_bidder_document_nopending,
-    patch_tender_bidder_document_private,
     # TenderBidBatchDocumentWithDSResourceTest
     create_tender_bid_with_all_documents,
     create_tender_bid_with_eligibility_document_invalid,
@@ -59,18 +58,20 @@ from openprocurement.tender.esco.tests.bid_blanks import (
 from openprocurement.tender.esco.utils import to_decimal
 
 
-bid_amountPerformance = round(to_decimal(npv(test_bids[0]['value']['contractDuration']['years'],
-                                             test_bids[0]['value']['contractDuration']['days'],
-                                             test_bids[0]['value']['yearlyPaymentsPercentage'],
-                                             test_bids[0]['value']['annualCostsReduction'],
-                                             get_now(),
-                                             NBU_DISCOUNT_RATE)), 2)
+bid_amountPerformance = round(to_decimal(npv(
+    test_bids[0]['value']['contractDuration']['years'],
+    test_bids[0]['value']['contractDuration']['days'],
+    test_bids[0]['value']['yearlyPaymentsPercentage'],
+    test_bids[0]['value']['annualCostsReduction'],
+    get_now(),
+    NBU_DISCOUNT_RATE)), 2)
 
-bid_amount = round(to_decimal(escp(test_bids[0]['value']['contractDuration']['years'],
-                                   test_bids[0]['value']['contractDuration']['days'],
-                                   test_bids[0]['value']['yearlyPaymentsPercentage'],
-                                   test_bids[0]['value']['annualCostsReduction'],
-                                   get_now())), 2)
+bid_amount = round(to_decimal(escp(
+    test_bids[0]['value']['contractDuration']['years'],
+    test_bids[0]['value']['contractDuration']['days'],
+    test_bids[0]['value']['yearlyPaymentsPercentage'],
+    test_bids[0]['value']['annualCostsReduction'],
+    get_now())), 2)
 
 
 class TenderBidResourceTest(BaseESCOContentWebTest):
@@ -86,7 +87,6 @@ class TenderBidResourceTest(BaseESCOContentWebTest):
     test_get_tender_bidder = snitch(get_tender_bidder)
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
-
 
     test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
@@ -121,7 +121,8 @@ class TenderBidDocumentResourceTest(BaseESCOContentWebTest, TenderBidDocumentRes
         self.bid_id = bid['id']
         self.bid_token = response.json['access']['token']
         # create second bid
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[1]})
+        response = self.app.post_json('/tenders/{}/bids'.format(
+            self.tender_id), {'data': test_bids[1]})
         bid2 = response.json['data']
         self.bid2_id = bid2['id']
         self.bid2_token = response.json['access']['token']
@@ -146,12 +147,12 @@ class TenderBidBatchDocumentsWithDSResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_status = 'active.tendering'
 
-
-    bid_data_wo_docs = {'tenderers': [test_organization],
-                        'value': test_bids[0]['value'],
-                        'selfEligible': True,
-                        'selfQualified': True,
-                        'documents': []
+    bid_data_wo_docs = {
+        'tenderers': [test_organization],
+        'value': test_bids[0]['value'],
+        'selfEligible': True,
+        'selfQualified': True,
+        'documents': []
         }
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)

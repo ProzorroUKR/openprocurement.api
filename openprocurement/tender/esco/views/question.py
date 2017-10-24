@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.openeu.views.question import TenderQuestionResource as TenderEUQuestionResource
+from openprocurement.tender.openeu.views.question import \
+    TenderQuestionResource as TenderEUQuestionResource
 
 
 @optendersresource(name='esco:Tender Questions',

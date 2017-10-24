@@ -46,14 +46,14 @@ from openprocurement.tender.esco.tests.base import (
 
 
 class TenderCancellationResourceTest(BaseESCOContentWebTest, TenderCancellationResourceTestMixin):
-
     initial_auth = ('Basic', ('broker', ''))
 
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
 
 
-class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest, TenderCancellationBidsAvailabilityUtils):
+class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest,
+                                             TenderCancellationBidsAvailabilityUtils):
     initial_auth = ('Basic', ('broker', ''))
     initial_bids = test_bids * 2
     bid_visible_fields = [u'status', u'documents', u'tenderers', u'id', u'eligibilityDocuments']
@@ -101,8 +101,8 @@ class TenderAwardsCancellationResourceTest(BaseESCOContentWebTest):
     test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
 
 
-class TenderCancellationDocumentResourceTest(BaseESCOContentWebTest, TenderCancellationDocumentResourceTestMixin):
-
+class TenderCancellationDocumentResourceTest(BaseESCOContentWebTest,
+                                             TenderCancellationDocumentResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):

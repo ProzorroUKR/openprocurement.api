@@ -9,27 +9,27 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    #TenderProcessTest
+    # TenderProcessTest
     invalid_tender_conditions,
-    #TenderResourceTest
+    # TenderResourceTest
     guarantee,
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
 
 from openprocurement.tender.openeu.tests.tender_blanks import (
-    #TenderProcessTest
+    # TenderProcessTest
     one_bid_tender,
     unsuccessful_after_prequalification_tender,
     one_qualificated_bid_tender,
     multiple_bidders_tender,
     lost_contract_for_active_award,
-    #TenderResourceTest
+    # TenderResourceTest
     invalid_bid_tender_lot,
 )
 
 from openprocurement.tender.esco.tests.tender_blanks import (
-    #TenderESCOTest
+    # TenderESCOTest
     simple_add_tender,
     tender_value,
     tender_min_value,
@@ -39,7 +39,7 @@ from openprocurement.tender.esco.tests.tender_blanks import (
     tender_fundingKind_default,
     items_without_deliveryDate_quantity,
     tender_noticePublicationDate,
-    #TestTenderEU
+    # TestTenderEU
     create_tender_invalid,
     patch_tender,
     tender_fields,

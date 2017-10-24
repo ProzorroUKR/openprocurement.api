@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implementer
-from datetime import timedelta, datetime
-from iso8601 import parse_date
 from decimal import Decimal
+from datetime import timedelta
+from zope.interface import implementer
+from iso8601 import parse_date
 from pyramid.security import Allow
 from schematics.types import StringType, FloatType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
@@ -11,7 +11,7 @@ from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
 from barbecue import vnmax
 from esculator import npv, escp
-from openprocurement.api.utils import get_now, get_root
+from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TZ
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
@@ -27,8 +27,8 @@ from openprocurement.api.models import (
 )
 from openprocurement.tender.core.models import (
     Tender as BaseTender, EnquiryPeriod, PeriodStartEndRequired,
-    Question, Feature, Guarantee, BaseLot,
-    FeatureValue as BaseFeatureValue, Feature as BaseFeature
+    Question, Feature as BaseFeature, Guarantee, BaseLot,
+    FeatureValue as BaseFeatureValue
 )
 from openprocurement.tender.core.models import (
     get_tender, view_role, auction_view_role, auction_post_role,
@@ -68,8 +68,7 @@ from openprocurement.tender.openeu.models import (
     Contract as BaseEUContract, BidModelType
 )
 from openprocurement.tender.openeu.models import (
-    eu_role, edit_role_eu, create_role_eu,
-    pre_qualifications_role, eu_auction_role
+    edit_role_eu, create_role_eu, pre_qualifications_role
 )
 from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION, QUESTIONS_STAND_STILL, TENDERING_DAYS
@@ -77,7 +76,9 @@ from openprocurement.tender.openeu.constants import (
 from openprocurement.tender.esco.utils import to_decimal
 
 
-view_value_role_esco = whitelist('amount', 'amountPerformance', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded')
+view_value_role_esco = whitelist('amount', 'amountPerformance', 'yearlyPaymentsPercentage',
+                                 'annualCostsReduction', 'contractDuration',
+                                 'currency', 'valueAddedTaxIncluded')
 
 
 class IESCOTender(IAboveThresholdEUTender):
@@ -87,8 +88,13 @@ class IESCOTender(IAboveThresholdEUTender):
 class Lot(BaseLot):
     class Options:
         roles = {
-            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStepPercentage', 'fundingKind', 'yearlyPaymentsPercentageRange'),
-            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'guarantee', 'minimalStepPercentage', 'fundingKind', 'yearlyPaymentsPercentageRange'),
+            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description',
+                                'description_en', 'description_ru', 'guarantee',
+                                'minimalStepPercentage', 'fundingKind',
+                                'yearlyPaymentsPercentageRange'),
+            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en',
+                              'description_ru', 'guarantee', 'minimalStepPercentage', 'fundingKind',
+                              'yearlyPaymentsPercentageRange'),
             'embedded': embedded_lot_role,
             'view': default_lot_role,
             'default': default_lot_role,
@@ -98,14 +104,17 @@ class Lot(BaseLot):
             'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
         }
 
-    minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH', 'valueAddedTaxIncluded': True})
+    minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH',
+                                                         'valueAddedTaxIncluded': True})
     minimalStep = ModelType(Value, required=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
-    minimalStepPercentage = DecimalType(required=True, min_value=Decimal('0.005'), max_value=Decimal('0.03'))
+    minimalStepPercentage = DecimalType(required=True,
+                                        min_value=Decimal('0.005'), max_value=Decimal('0.03'))
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
     guarantee = ModelType(Guarantee)
     fundingKind = StringType(choices=['budget', 'other'], required=True, default='other')
-    yearlyPaymentsPercentageRange = DecimalType(required=True, default=Decimal('0.8'), min_value=Decimal('0'), max_value=Decimal('1'))
+    yearlyPaymentsPercentageRange = DecimalType(required=True, default=Decimal('0.8'),
+                                                min_value=Decimal('0'), max_value=Decimal('1'))
 
     @serializable
     def numberOfBids(self):
@@ -163,10 +172,18 @@ class BaseESCOValue(Value):
         roles = {
             'embedded': view_value_role_esco,
             'view': view_value_role_esco,
-            'create': whitelist('amount', 'amount_escp', 'amountPerformance', 'amountPerformance_npv', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
-            'edit': whitelist('amount', 'amount_escp', 'amountPerformance', 'amountPerformance_npv', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
-            'auction_view': whitelist('amountPerformance', 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration', 'currency', 'valueAddedTaxIncluded'),
-            'auction_post': whitelist('amount_escp', 'amountPerformance_npv', 'yearlyPaymentsPercentage', 'contractDuration'),
+            'create': whitelist('amount', 'amount_escp', 'amountPerformance',
+                                'amountPerformance_npv', 'yearlyPaymentsPercentage',
+                                'annualCostsReduction', 'contractDuration',
+                                'currency', 'valueAddedTaxIncluded'),
+            'edit': whitelist('amount', 'amount_escp', 'amountPerformance', 'amountPerformance_npv',
+                              'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration',
+                              'currency', 'valueAddedTaxIncluded'),
+            'auction_view': whitelist('amountPerformance', 'yearlyPaymentsPercentage',
+                                      'annualCostsReduction', 'contractDuration',
+                                      'currency', 'valueAddedTaxIncluded'),
+            'auction_post': whitelist('amount_escp', 'amountPerformance_npv',
+                                      'yearlyPaymentsPercentage', 'contractDuration'),
             'active.qualification': view_value_role_esco,
             'active.awarded': view_value_role_esco,
             'complete': view_value_role_esco,
@@ -186,20 +203,22 @@ class ESCOValue(BaseESCOValue):
     @serializable(serialized_name='amountPerformance', type=DecimalType(precision=-2))
     def amountPerformance_npv(self):
         """ Calculated energy service contract performance indicator """
-        return to_decimal(npv(self.contractDuration.years,
-                         self.contractDuration.days,
-                         self.yearlyPaymentsPercentage,
-                         self.annualCostsReduction,
-                         get_tender(self).noticePublicationDate,
-                         get_tender(self).NBUdiscountRate))
+        return to_decimal(npv(
+            self.contractDuration.years,
+            self.contractDuration.days,
+            self.yearlyPaymentsPercentage,
+            self.annualCostsReduction,
+            get_tender(self).noticePublicationDate,
+            get_tender(self).NBUdiscountRate))
 
     @serializable(serialized_name='amount', type=DecimalType(precision=-2))
     def amount_escp(self):
-        return to_decimal(escp(self.contractDuration.years,
-                          self.contractDuration.days,
-                          self.yearlyPaymentsPercentage,
-                          self.annualCostsReduction,
-                          get_tender(self).noticePublicationDate))
+        return to_decimal(escp(
+            self.contractDuration.years,
+            self.contractDuration.days,
+            self.yearlyPaymentsPercentage,
+            self.annualCostsReduction,
+            get_tender(self).noticePublicationDate))
 
     def validate_annualCostsReduction(self, data, value):
         if len(value) != 21:
@@ -246,7 +265,8 @@ class Contract(BaseEUContract):
     """ESCO contract model"""
     class Options:
         roles = {
-            'edit': blacklist('id', 'documents', 'date', 'awardID', 'suppliers', 'items', 'contractID', 'value'),
+            'edit': blacklist('id', 'documents', 'date', 'awardID', 'suppliers',
+                              'items', 'contractID', 'value'),
         }
 
     value = ModelType(BaseESCOValue)
@@ -284,13 +304,13 @@ class Bid(BaseEUBid):
                     raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender")
 
 
-
 class FeatureValue(BaseFeatureValue):
     value = FloatType(required=True, min_value=0.0, max_value=0.25)
 
 
 class Feature(BaseFeature):
-    enum = ListType(ModelType(FeatureValue), default=list(), min_size=1, validators=[validate_values_uniq])
+    enum = ListType(ModelType(FeatureValue), default=list(), min_size=1,
+                    validators=[validate_values_uniq])
 
 
 @implementer(IESCOTender)
@@ -299,10 +319,19 @@ class Tender(BaseTender):
     class Options:
         roles = {
             'plain': plain_role,
-            'create': create_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep', 'noticePublicationDate', 'tender_noticePublicationDate'),
-            'edit': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep', 'noticePublicationDate', 'tender_noticePublicationDate'),
-            'edit_draft': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep', 'noticePublicationDate', 'tender_noticePublicationDate'),
-            'edit_active.tendering': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep', 'noticePublicationDate', 'tender_noticePublicationDate'),
+            'create': create_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep',
+                                                 'tender_minimalStep', 'noticePublicationDate',
+                                                 'tender_noticePublicationDate'),
+            'edit': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep',
+                                             'tender_minimalStep', 'noticePublicationDate',
+                                             'tender_noticePublicationDate'),
+            'edit_draft': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep',
+                                                   'tender_minimalStep', 'noticePublicationDate',
+                                                   'tender_noticePublicationDate'),
+            'edit_active.tendering': edit_role_eu + blacklist('minValue', 'tender_minValue',
+                                                              'minimalStep', 'tender_minimalStep',
+                                                              'noticePublicationDate',
+                                                              'tender_noticePublicationDate'),
             'edit_active.pre-qualification': whitelist('status'),
             'edit_active.pre-qualification.stand-still': whitelist(),
             'edit_active.auction': whitelist(),
@@ -313,7 +342,10 @@ class Tender(BaseTender):
             'edit_cancelled': whitelist(),
             'view': view_role,
             'listing': listing_role,
-            'auction_view': auction_view_role + whitelist('NBUdiscountRate', 'minimalStepPercentage', 'yearlyPaymentsPercentageRange', 'fundingKind', 'procurementMethodType', 'noticePublicationDate'),
+            'auction_view': auction_view_role + whitelist('NBUdiscountRate', 'minimalStepPercentage',
+                                                          'yearlyPaymentsPercentageRange',
+                                                          'fundingKind', 'procurementMethodType',
+                                                          'noticePublicationDate'),
             'auction_post': auction_post_role,
             'auction_patch': auction_patch_role,
             'draft': enquiries_role,
@@ -336,8 +368,10 @@ class Tender(BaseTender):
     procurementMethodType = StringType(default="esco")
     title_en = StringType(required=True, min_length=1)
 
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
-    minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH', 'valueAddedTaxIncluded': True})  # The total estimated value of the procurement.
+    items = ListType(ModelType(Item), required=True, min_size=1,
+                     validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH',
+                                                         'valueAddedTaxIncluded': True})  # The total estimated value of the procurement.
 
     enquiryPeriod = ModelType(EnquiryPeriod, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
@@ -346,12 +380,14 @@ class Tender(BaseTender):
     awardCriteria = StringType(default='ratedCriteria')
     awardPeriod = ModelType(Period)  # The date or period on which an award is anticipated to be made.
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
-    bids = SifterListType(BidModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'invalid.pre-qualification', 'deleted'])  # A list of all the companies who entered submissions for the tender.
+    bids = SifterListType(BidModelType(Bid), default=list(), filter_by='status',
+                          filter_in_values=['invalid', 'invalid.pre-qualification', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     minimalStep = ModelType(Value, required=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
-    minimalStepPercentage = DecimalType(required=True, min_value=Decimal('0.005'), max_value=Decimal('0.03'))
+    minimalStepPercentage = DecimalType(required=True,
+                                        min_value=Decimal('0.005'), max_value=Decimal('0.03'))
     questions = ListType(ModelType(Question), default=list())
     complaints = ListType(ComplaintModelType(Complaint), default=list())
     auctionUrl = URLType()
@@ -362,11 +398,14 @@ class Tender(BaseTender):
     documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
     qualifications = ListType(ModelType(Qualification), default=list())
     qualificationPeriod = ModelType(Period)
-    status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
-                                 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+    status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
+                                 'active.pre-qualification.stand-still', 'active.auction',
+                                 'active.qualification', 'active.awarded', 'complete',
+                                 'cancelled', 'unsuccessful'], default='active.tendering')
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal('0'), max_value=Decimal('0.99'))
     fundingKind = StringType(choices=['budget', 'other'], required=True, default='other')
-    yearlyPaymentsPercentageRange = DecimalType(required=True, default=Decimal('0.8'), min_value=Decimal('0'), max_value=Decimal('1'))
+    yearlyPaymentsPercentageRange = DecimalType(required=True, default=Decimal('0.8'),
+                                                min_value=Decimal('0'), max_value=Decimal('1'))
     noticePublicationDate = IsoDateTimeType()
 
     create_accreditation = 3
@@ -420,15 +459,18 @@ class Tender(BaseTender):
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
         endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
-        return EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
-                                  endDate=endDate,
-                                  invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                                  clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
+        return EnquiryPeriod(dict(
+            startDate=self.tenderPeriod.startDate,
+            endDate=endDate,
+            invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
+            clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
         normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self)))
+        return Period(dict(
+            startDate=self.tenderPeriod.startDate,
+            endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self)))
 
     @serializable(serialize_when_none=False)
     def next_check(self):
@@ -513,9 +555,10 @@ class Tender(BaseTender):
 
     @serializable(serialized_name="minValue", type=ModelType(Value))
     def tender_minValue(self):
-        return Value(dict(amount=sum([i.minValue.amount for i in self.lots]),
-                          currency=self.minValue.currency,
-                          valueAddedTaxIncluded=self.minValue.valueAddedTaxIncluded)) if self.lots else self.minValue
+        return Value(dict(
+            amount=sum([i.minValue.amount for i in self.lots]),
+            currency=self.minValue.currency,
+            valueAddedTaxIncluded=self.minValue.valueAddedTaxIncluded)) if self.lots else self.minValue
 
     @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
     def tender_guarantee(self):
@@ -535,9 +578,10 @@ class Tender(BaseTender):
     @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
     def tender_minimalStep(self):
         pass
-        # return Value(dict(amount=min([i.minimalStep.amount for i in self.lots]),
-        #                   currency=self.minimalStep.currency,
-        #                   valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if self.lots else self.minimalStep
+        # return Value(dict(
+        #     amount=min([i.minimalStep.amount for i in self.lots]),
+        #     currency=self.minimalStep.currency,
+        #     valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if self.lots else self.minimalStep
 
     @serializable(serialized_name="minimalStepPercentage")
     def tender_minimalStepPercentage(self):
@@ -626,5 +670,6 @@ class Tender(BaseTender):
         for bid in self.bids:
             if bid.status not in ["deleted", "draft"]:
                 bid.status = "invalid"
+
 
 TenderESCO = Tender

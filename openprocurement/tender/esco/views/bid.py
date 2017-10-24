@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
-
 from openprocurement.tender.openeu.views.bid import TenderBidResource as TenderEUBidResource
 
 

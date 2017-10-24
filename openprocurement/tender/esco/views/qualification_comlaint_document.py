@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.openeu.utils import qualifications_resource
-from openprocurement.tender.openeu.views.qualification_complaint_document import TenderEUQualificationComplaintDocumentResource
+from openprocurement.tender.openeu.views.qualification_complaint_document import \
+    TenderEUQualificationComplaintDocumentResource
 
 
 @qualifications_resource(name='esco:Tender Qualification Complaint Documents',

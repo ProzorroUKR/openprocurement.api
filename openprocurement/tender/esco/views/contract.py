@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.openeu.views.contract import TenderAwardContractResource as TenderEUContractResource
 from openprocurement.tender.core.utils import optendersresource
+from openprocurement.tender.openeu.views.contract import \
+    TenderAwardContractResource as TenderEUContractResource
 
 
 @optendersresource(name='esco:Tender Contracts',

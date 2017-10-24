@@ -46,10 +46,11 @@ test_lots[0]['yearlyPaymentsPercentageRange'] = 0.8
 
 test_bids = deepcopy(base_eu_bids)
 for bid in test_bids:
-    bid['value'] = {'yearlyPaymentsPercentage': 0.9,
-                    'annualCostsReduction': [100] * 21,
-                    'contractDuration': {'years': 10, 'days': 10}
-                    }
+    bid['value'] = {
+        'yearlyPaymentsPercentage': 0.9,
+        'annualCostsReduction': [100] * 21,
+        'contractDuration': {'years': 10, 'days': 10}
+        }
 
 
 class BaseESCOWebTest(BaseTenderWebTest):
@@ -60,7 +61,6 @@ class BaseESCOWebTest(BaseTenderWebTest):
     initial_lots = None
     initial_auth = ('Basic', ('broker', ''))
     docservice = False
-
 
 
 class BaseESCOContentWebTest(BaseESCOWebTest):

@@ -57,7 +57,7 @@ class TenderComplaintDocumentResourceTest(BaseESCOContentWebTest):
             self.tender_id), {'data': {'title': 'complaint title',
                                        'description': 'complaint description',
                                        'author': test_bids[0]["tenderers"][0]
-                                       }})
+                                      }})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']

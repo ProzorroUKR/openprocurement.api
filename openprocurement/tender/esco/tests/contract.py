@@ -37,18 +37,20 @@ from openprocurement.tender.esco.tests.contract_blanks import (
 from openprocurement.tender.esco.utils import to_decimal
 
 
-contract_amountPerformance = round(to_decimal(npv(test_bids[0]['value']['contractDuration']['years'],
-                                                  test_bids[0]['value']['contractDuration']['days'],
-                                                  test_bids[0]['value']['yearlyPaymentsPercentage'],
-                                                  test_bids[0]['value']['annualCostsReduction'],
-                                                  get_now(),
-                                                  NBU_DISCOUNT_RATE)), 2)
+contract_amountPerformance = round(to_decimal(npv(
+    test_bids[0]['value']['contractDuration']['years'],
+    test_bids[0]['value']['contractDuration']['days'],
+    test_bids[0]['value']['yearlyPaymentsPercentage'],
+    test_bids[0]['value']['annualCostsReduction'],
+    get_now(),
+    NBU_DISCOUNT_RATE)), 2)
 
-contract_amount = round(to_decimal(escp(test_bids[0]['value']['contractDuration']['years'],
-                                        test_bids[0]['value']['contractDuration']['days'],
-                                        test_bids[0]['value']['yearlyPaymentsPercentage'],
-                                        test_bids[0]['value']['annualCostsReduction'],
-                                        get_now())), 2)
+contract_amount = round(to_decimal(escp(
+    test_bids[0]['value']['contractDuration']['years'],
+    test_bids[0]['value']['contractDuration']['days'],
+    test_bids[0]['value']['yearlyPaymentsPercentage'],
+    test_bids[0]['value']['annualCostsReduction'],
+    get_now())), 2)
 
 
 class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceTestMixin):
@@ -63,19 +65,24 @@ class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceT
         # Create award
         self.supplier_info = deepcopy(test_organization)
         self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [self.supplier_info], 'status': 'pending', 'bid_id': self.initial_bids[0]['id'], 'value': self.initial_bids[0]['value'], 'items': test_tender_data["items"]}})
+        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
+            'suppliers': [self.supplier_info], 'status': 'pending',
+            'bid_id': self.initial_bids[0]['id'], 'value': self.initial_bids[0]['value'],
+            'items': test_tender_data["items"]}})
         award = response.json['data']
         self.award_id = award['id']
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, self.tender_token), {"data": {
+                "status": "active", "qualified": True, "eligible": True}})
     test_contract_termination = snitch(contract_termination)
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
     test_patch_tender_contract = snitch(patch_tender_contract)
 
 
-class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractDocumentResourceTestMixin):
+class TenderContractDocumentResourceTest(BaseESCOContentWebTest,
+                                         TenderContractDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
@@ -85,13 +92,19 @@ class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractD
         # Create award
         supplier_info = deepcopy(test_organization)
         self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [supplier_info], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
+        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
+            'suppliers': [supplier_info], 'status': 'pending',
+            'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
-        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "active", "qualified": True, "eligible": True}})
+        response = self.app.patch_json('/tenders/{}/awards/{}'.format(
+            self.tender_id, self.award_id), {"data": {
+                "status": "active", "qualified": True, "eligible": True}})
         # Create contract for award
-        response = self.app.post_json('/tenders/{}/contracts'.format(self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
+        response = self.app.post_json('/tenders/{}/contracts'.format(self.tender_id), {'data': {
+            'title': 'contract title',
+            'description': 'contract description',
+            'awardID': self.award_id}})
         contract = response.json['data']
         self.contract_id = contract['id']
         self.app.authorization = ('Basic', ('broker', ''))
