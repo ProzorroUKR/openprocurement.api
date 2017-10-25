@@ -602,6 +602,11 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
 
     # for SECOND lot
     lot_id = lots[1]
+    # check lots auction period
+    response = self.app.get('/tenders/{}/lots/{}'.format(tender_id, lot_id))
+    self.assertIn('auctionPeriod', response.json['data'])
+    self.assertIn('startDate', response.json['data']['auctionPeriod'])
+    self.assertNotIn('shouldStartAfter', response.json['data']['auctionPeriod'])
     # get pending award
     response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
     award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == lot_id][0]
