@@ -1775,3 +1775,55 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertTrue(all([i['status'] == 'complete' for i in response.json['data']['lots']]))
     self.assertEqual(response.json['data']['status'], 'complete')
+
+
+def proc_2lot_2diff_bids_check_auction(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    # create tender
+    response = self.app.post_json('/tenders', {"data": self.initial_data})
+    tender_id = self.tender_id = response.json['data']['id']
+    owner_token = response.json['access']['token']
+    lots = []
+    for lot in 2 * self.test_lots_data:
+        # add lot
+        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+                                      {'data': self.test_lots_data[0]})
+        self.assertEqual(response.status, '201 Created')
+        lots.append(response.json['data']['id'])
+    self.initial_lots = lots
+    # add item
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                                   {"data": {"items": [self.initial_data['items'][0] for i in lots]}})
+    # add relatedLot for item
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                                   {"data": {"items": [{'relatedLot': i} for i in lots]}})
+    self.assertEqual(response.status, '200 OK')
+    # switch to active.tendering
+    response = self.set_status('active.tendering', {"lots": [
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
+        for i in lots
+        ]})
+    # create bid (for 2 lots)
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                  {'data': {'tenderers': [test_organization], 'lotValues': [
+                                          {"value": {"amount": 500}, 'relatedLot': lot_id}
+                                          for lot_id in lots
+                                          ]}})
+    # create second bid (only for 1 lot)
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                  {'data': {'tenderers': [test_organization], 'lotValues': [
+                                          {"value": {"amount": 500}, 'relatedLot': lots[0]}]}})
+    # switch to active.auction
+    self.set_status('active.auction')
+    # check lots auction period
+    # first lot (with 2 bids) should have 'start date' and 'should start after' field
+    response = self.app.get('/tenders/{}'.format(tender_id))
+    self.assertIn('auctionPeriod', response.json['data']['lots'][0])
+    self.assertIn('startDate', response.json['data']['lots'][0]['auctionPeriod'])
+    self.assertIn('shouldStartAfter', response.json['data']['lots'][0]['auctionPeriod'])
+    # second lot (with only 1 bid) should have 'start date' and no 'should start after' field
+    self.assertIn('auctionPeriod', response.json['data']['lots'][1])
+    self.assertIn('startDate', response.json['data']['lots'][1]['auctionPeriod'])
+    self.assertNotIn('shouldStartAfter', response.json['data']['lots'][1]['auctionPeriod'])
