@@ -32,18 +32,19 @@ from openprocurement.tender.core.models import (
 )
 
 from openprocurement.tender.core.models import (
-    validate_features_uniq, validate_lots_uniq
+    validate_features_uniq, validate_lots_uniq,
+    get_tender
 )
 
 from openprocurement.tender.core.models import (
     Guarantee, ComplaintModelType, TenderAuctionPeriod,
     PeriodEndRequired, Tender as BaseTender, Bid, ProcuringEntity,
     Item, Award, Contract, Question, Cancellation, Feature,
-    Lot, Complaint,
+    Lot as BaseLot, Complaint,
 )
 
 from openprocurement.tender.core.utils import (
-    calc_auction_end_time
+    calc_auction_end_time, rounding_shouldStartAfter
 )
 
 from openprocurement.tender.core.constants import (
@@ -52,6 +53,30 @@ from openprocurement.tender.core.constants import (
 
 enquiries_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
 Administrator_role = whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots')
+
+
+class LotAuctionPeriod(Period):
+    """The auction period."""
+
+    @serializable(serialize_when_none=False)
+    def shouldStartAfter(self):
+        if self.endDate:
+            return
+        tender = get_tender(self)
+        lot = self.__parent__
+        if tender.status not in ['active.tendering', 'active.auction'] or lot.status != 'active':
+            return
+        if tender.status == 'active.auction' and lot.numberOfBids < 2:
+            return
+        if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
+            start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
+        else:
+            start_after = tender.tenderPeriod.endDate
+        return rounding_shouldStartAfter(start_after, tender).isoformat()
+
+
+class Lot(BaseLot):
+    auctionPeriod = ModelType(LotAuctionPeriod, default={})
 
 
 class IBelowThresholdTender(ITender):

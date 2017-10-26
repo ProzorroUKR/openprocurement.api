@@ -41,7 +41,8 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     proc_2lot_1bid_0com_0win,
     proc_2lot_1bid_1com_1win,
     proc_2lot_2bid_2com_2win,
-    proc_2lot_1feature_2bid_2com_2win
+    proc_2lot_1feature_2bid_2com_2win,
+    proc_2lot_2diff_bids_check_auction
 )
 
 
@@ -178,6 +179,7 @@ class TenderLotProcessTest(BaseTenderWebTest, TenderLotProcessTestMixin):
     test_proc_2lot_1bid_1com_1win = snitch(proc_2lot_1bid_1com_1win)
     test_proc_2lot_2bid_2com_2win = snitch(proc_2lot_2bid_2com_2win)
     test_proc_2lot_1feature_2bid_2com_2win = snitch(proc_2lot_1feature_2bid_2com_2win)
+    test_proc_2lot_2diff_bids_check_auction = snitch(proc_2lot_2diff_bids_check_auction)
 
 
 def suite():
