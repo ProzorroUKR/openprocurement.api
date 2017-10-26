@@ -1,13 +1,13 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.1'
+version = '1.0.2'
 
 requires = [
     'esculator',
     'setuptools',
     'openprocurement.api>=2.4.1',
-    'openprocurement.tender.openeu>=2.4.1',
+    'openprocurement.tender.openeu>=2.4.2',
 ]
 
 test_requires = requires + [
