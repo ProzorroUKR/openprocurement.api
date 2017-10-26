@@ -449,6 +449,8 @@ class Question(Model):
             'active.enquiries': (blacklist('author') + schematics_embedded_role),
             'active.tendering': (blacklist('author') + schematics_embedded_role),
             'active.auction': (blacklist('author') + schematics_embedded_role),
+            'active.pre-qualification': (blacklist('author') + schematics_embedded_role),
+            'active.pre-qualification.stand-still': (blacklist('author') + schematics_embedded_role),
             'active.qualification': schematics_default_role,
             'active.awarded': schematics_default_role,
             'complete': schematics_default_role,

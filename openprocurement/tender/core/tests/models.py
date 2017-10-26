@@ -4,7 +4,7 @@ from mock import patch, MagicMock
 from datetime import datetime, timedelta, time
 from schematics.exceptions import ModelValidationError
 from openprocurement.tender.core.models import (
-    PeriodEndRequired, get_tender, Tender, TenderAuctionPeriod
+    PeriodEndRequired, get_tender, Tender, TenderAuctionPeriod, Question
 )
 from openprocurement.api.constants import TZ
 
@@ -136,6 +136,26 @@ class TestTenderAuctionPeriod(unittest.TestCase):
             {'startDate': tender_auction_period.startDate.isoformat(),
              'shouldStartAfter': should_start_after.isoformat()}
         )
+
+class TestQuestionModel(unittest.TestCase):
+
+    def test_serialize_pre_qualification(self):
+        question = Question()
+        with self.assertRaises(ValueError) as e:
+            question.serialize("invalid_role")
+        self.assertIsInstance(e.exception, ValueError)
+        self.assertEqual(
+            e.exception.message,
+            "Question Model has no role \"invalid_role\""
+        )
+        serialized_question = question.serialize("active.pre-qualification")
+        self.assertEqual(serialized_question['questionOf'], 'tender')
+        self.assertEqual(len(serialized_question['id']), 32)
+
+        serialized_question = question.serialize(
+            "active.pre-qualification.stand-still")
+        self.assertEqual(serialized_question['questionOf'], 'tender')
+        self.assertEqual(len(serialized_question['id']), 32)
 
 
 def suite():
