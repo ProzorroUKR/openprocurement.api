@@ -49,6 +49,8 @@ from openprocurement.tender.openua.tests.award_blanks import (
     create_tender_award_complaint,
     patch_tender_award_complaint,
     review_tender_award_complaint,
+    review_tender_award_claim,
+    review_tender_award_stopping_complaint,
     # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
     patch_tender_lot_award_complaint,
@@ -63,10 +65,6 @@ from openprocurement.tender.openua.tests.award_blanks import (
 )
 
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
-from openprocurement.tender.openuadefense.tests.award_blanks import (
-    # TenderAwardComplaintResourceTest
-    review_tender_award_claim,
-)
 
 
 class TenderAwardResourceTest(BaseTenderUAContentWebTest):
@@ -109,11 +107,14 @@ class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
         super(TenderAwardComplaintResourceTest, self).setUp()
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
         # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
         self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {'data': {'status': 'active', "qualified": True, "eligible": True}})
+        self.app.authorization = auth
 
     test_create_tender_award_complaint_invalid = snitch(create_tender_award_complaint_invalid)
     test_create_tender_award_claim = snitch(create_tender_award_claim)
@@ -121,6 +122,7 @@ class TenderAwardComplaintResourceTest(BaseTenderUAContentWebTest):
     test_create_tender_award_complaint = snitch(create_tender_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_award_complaint)
     test_review_tender_award_complaint = snitch(review_tender_award_complaint)
+    test_review_tender_award_stopping_complaint = snitch(review_tender_award_stopping_complaint)
     test_review_tender_award_claim = snitch(review_tender_award_claim)
     test_get_tender_award_complaint = snitch(get_tender_award_complaint)
     test_get_tender_award_complaints = snitch(get_tender_award_complaints)
@@ -136,11 +138,14 @@ class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
         # Create award
         bid = self.initial_bids[0]
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': bid['id'], 'lotID': bid['lotValues'][0]['relatedLot']}})
         award = response.json['data']
         self.award_id = award['id']
         self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {'data': {'status': 'active', "qualified": True, "eligible": True}})
+        self.app.authorization = auth
 
     test_create_tender_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_lot_award_complaint)
@@ -162,14 +167,19 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
     def setUp(self):
         super(TenderAwardComplaintDocumentResourceTest, self).setUp()
         # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
         self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {'data': {'status': 'active', "qualified": True, "eligible": True}})
+        self.app.authorization = auth
+
         # Create complaint for award
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+        bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
+            self.tender_id, self.award_id, bid_token), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
@@ -189,14 +199,18 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
         super(Tender2LotAwardComplaintDocumentResourceTest, self).setUp()
         # Create award
         bid = self.initial_bids[0]
+        bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': bid['id'], 'lotID': bid['lotValues'][0]['relatedLot']}})
         award = response.json['data']
         self.award_id = award['id']
         self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {'data': {'status': 'active', "qualified": True, "eligible": True}})
+        self.app.authorization = auth
         # Create complaint for award
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
+            self.tender_id, self.award_id, bid_token), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
@@ -213,10 +227,13 @@ class TenderAwardDocumentResourceTest(BaseTenderUAContentWebTest, TenderAwardDoc
     def setUp(self):
         super(TenderAwardDocumentResourceTest, self).setUp()
         # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
         award = response.json['data']
         self.award_id = award['id']
+        self.app.authorization = auth
 
 
 class Tender2LotAwardDocumentResourceTest(BaseTenderUAContentWebTest):
@@ -228,10 +245,13 @@ class Tender2LotAwardDocumentResourceTest(BaseTenderUAContentWebTest):
         super(Tender2LotAwardDocumentResourceTest, self).setUp()
         # Create award
         bid = self.initial_bids[0]
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(
             self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': bid['id'], 'lotID': bid['lotValues'][0]['relatedLot']}})
         award = response.json['data']
         self.award_id = award['id']
+        self.app.authorization = auth
 
     test_create_tender_award_document = snitch(create_tender_lots_award_document)
     test_put_tender_award_document = snitch(put_tender_lots_award_document)

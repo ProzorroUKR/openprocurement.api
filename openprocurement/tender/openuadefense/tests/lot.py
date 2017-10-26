@@ -80,7 +80,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
         self.lot_id = self.initial_lots[0]['id']
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {
             "items": [
                 {
                     'relatedLot': self.lot_id,

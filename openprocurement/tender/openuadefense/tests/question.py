@@ -12,18 +12,19 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     patch_tender_question,
     # TenderLotQuestionResourceTest
     lot_create_tender_question,
+    lot_patch_tender_question,
 )
 
 from openprocurement.tender.openua.tests.question_blanks import (
     # TenderQuestionResourceTest
     create_tender_question,
+    # TenderLotQuestionResourceTest
+    tender_has_unanswered_questions,
+    lot_has_unanswered_questions,
+    item_has_unanswered_questions,
 )
 
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
-from openprocurement.tender.openuadefense.tests.question_blanks import (
-    # TenderLotQuestionResourceTest
-    patch_multilot_tender_question,
-)
 
 
 class TenderQuestionResourceTest(BaseTenderUAContentWebTest, TenderQuestionResourceTestMixin):
@@ -37,8 +38,22 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
     initial_lots = 2 * test_lots
     author_data = test_organization
 
-    test_create_tender_question = snitch(lot_create_tender_question)
-    test_patch_tender_question = snitch(patch_multilot_tender_question)
+    def create_question_for(self, questionOf, relatedItem):
+        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id), {'data': {
+            'title': 'question title',
+            'description': 'question description',
+            "questionOf": questionOf,
+            "relatedItem": relatedItem,
+            'author': test_organization
+        }})
+        self.assertEqual(response.status, '201 Created')
+        return response.json['data']['id']
+
+    test_create_tender_lot_question = snitch(lot_create_tender_question)
+    test_patch_tender_lot_question = snitch(lot_patch_tender_question)
+    test_tender_has_unanswered_questions = snitch(tender_has_unanswered_questions)
+    test_lot_has_unanswered_questions = snitch(lot_has_unanswered_questions)
+    test_item_has_unanswered_questions = snitch(item_has_unanswered_questions)
 
 
 def suite():
