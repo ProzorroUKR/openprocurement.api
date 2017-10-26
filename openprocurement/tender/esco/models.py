@@ -108,13 +108,15 @@ class Lot(BaseLot):
                                                          'valueAddedTaxIncluded': True})
     minimalStep = ModelType(Value, required=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
     minimalStepPercentage = DecimalType(required=True,
-                                        min_value=Decimal('0.005'), max_value=Decimal('0.03'))
+                                        min_value=Decimal('0.005'), max_value=Decimal('0.03'),
+                                        precision=-5)
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
     guarantee = ModelType(Guarantee)
     fundingKind = StringType(choices=['budget', 'other'], required=True, default='other')
     yearlyPaymentsPercentageRange = DecimalType(required=True, default=Decimal('0.8'),
-                                                min_value=Decimal('0'), max_value=Decimal('1'))
+                                                min_value=Decimal('0'), max_value=Decimal('1'),
+                                                precision=-5)
 
     @serializable
     def numberOfBids(self):
@@ -193,7 +195,7 @@ class BaseESCOValue(Value):
 
     amount = DecimalType(min_value=Decimal('0'), required=False, precision=-2)  # Calculated energy service contract value.
     amountPerformance = DecimalType(required=False, precision=-2)  # Calculated energy service contract performance indicator
-    yearlyPaymentsPercentage = DecimalType(required=True)  # The percentage of annual payments in favor of Bidder
+    yearlyPaymentsPercentage = DecimalType(required=True, precision=-5)  # The percentage of annual payments in favor of Bidder
     annualCostsReduction = ListType(DecimalType(), required=True)  # Buyer's annual costs reduction
     contractDuration = ModelType(ContractDuration, required=True)
 
@@ -387,7 +389,8 @@ class Tender(BaseTender):
     contracts = ListType(ModelType(Contract), default=list())
     minimalStep = ModelType(Value, required=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
     minimalStepPercentage = DecimalType(required=True,
-                                        min_value=Decimal('0.005'), max_value=Decimal('0.03'))
+                                        min_value=Decimal('0.005'), max_value=Decimal('0.03'),
+                                        precision=-5)
     questions = ListType(ModelType(Question), default=list())
     complaints = ListType(ComplaintModelType(Complaint), default=list())
     auctionUrl = URLType()
@@ -406,7 +409,8 @@ class Tender(BaseTender):
                                   precision=-5)
     fundingKind = StringType(choices=['budget', 'other'], required=True, default='other')
     yearlyPaymentsPercentageRange = DecimalType(required=True, default=Decimal('0.8'),
-                                                min_value=Decimal('0'), max_value=Decimal('1'))
+                                                min_value=Decimal('0'), max_value=Decimal('1'),
+                                                precision=-5)
     noticePublicationDate = IsoDateTimeType()
 
     create_accreditation = 3
