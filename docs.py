@@ -107,7 +107,7 @@ test_tender_data = {
             }
         }
     ],
-    "NBUdiscountRate": 0.22,
+    "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
     "yearlyPaymentsPercentageRange": 0.8
 }

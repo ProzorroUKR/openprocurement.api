@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/7e6642727235482986a448db769d31ae/qualifications/32eb161665f14ff2810419b933281501/complaints/c94e93a1b7244c1f8aa4075eccab8895?acc_token=557a205dfab04b20b74083041736b39d HTTP/1.0
+PATCH /api/2.4/tenders/7a02bad8eb4f4f7fb33fa5ff0f536b4c/qualifications/68a5f98b716f4fa4bf3be70c91d28fd7/complaints/9bf4ba960f534c67b1493d7fa3e8fbbb?acc_token=3edc7cf8f08047f8923f4c0f1796df5d HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -20,13 +20,13 @@ Content-Type: application/json; charset=UTF-8
     "resolutionType": "invalid", 
     "type": "claim", 
     "satisfied": false, 
-    "bid_id": "836d540d95c44fdfb4a597f1d62134ba", 
-    "dateAnswered": "2017-10-03T11:18:12.663742+03:00", 
-    "dateSubmitted": "2017-10-03T11:18:12.368221+03:00", 
-    "complaintID": "UA-2017-10-03-000001.7", 
-    "date": "2017-10-03T11:18:12.691811+03:00", 
+    "bid_id": "196fa18058da455f96e7b27e5a9bfd72", 
+    "dateAnswered": "2017-10-11T17:20:41.595209+03:00", 
+    "dateSubmitted": "2017-10-11T17:20:41.254212+03:00", 
+    "complaintID": "UA-2017-10-11-000001.7", 
+    "date": "2017-10-11T17:20:41.640764+03:00", 
     "resolution": "Вимога не відповідає предмету закупівлі", 
-    "id": "c94e93a1b7244c1f8aa4075eccab8895"
+    "id": "9bf4ba960f534c67b1493d7fa3e8fbbb"
   }
 }
 

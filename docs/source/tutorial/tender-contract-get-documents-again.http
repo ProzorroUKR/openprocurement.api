@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/898e921c72d042e4af3df6253abb1678/contracts/880b08b810fa42039ccf97119bf8e98e/documents HTTP/1.0
+GET /api/2.4/tenders/5a12aa2342aa4042bf6980a62d52669b/contracts/14592124eee847cc86f970c2e238626d/documents HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -10,25 +10,25 @@ Content-Type: application/json; charset=UTF-8
       "hash": "md5:00000000000000000000000000000000", 
       "language": "uk", 
       "title": "contract_first_document.doc", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/f253e32eda9f481c9fe379013cc31949?KeyID=262131e9&Signature=07u7GkGs6pSCTUNtlBRjKN4S01H%2FK2jMdNtygvoF1z1AAmYRMoZR9OPLfVhlnuuvxC1rldFTedwfYQep%2FNlLAw%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/97f2f714419d47f0b40480e6e9d67d80?KeyID=e9f0c83f&Signature=MNrcVDFXhJaiJj4MspFjSf%2F5Q1KVTpatvqanUf9wskkDqeEipuX0GuDMUDe6IFuFkydXphA1ScEo%2Fo9ynJQcDQ%253D%253D", 
       "format": "application/msword", 
       "documentOf": "tender", 
-      "datePublished": "2017-10-03T11:18:00.396642+03:00", 
-      "id": "f54d465626f64aa39c5a3e2e35f25644", 
-      "dateModified": "2017-10-03T11:18:00.396693+03:00"
+      "datePublished": "2017-10-11T17:20:27.120325+03:00", 
+      "id": "749aabfc28ce4773b7f82246e2e8f249", 
+      "dateModified": "2017-10-11T17:20:27.120361+03:00"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
       "language": "en", 
       "title": "contract_second_document.doc", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/e431d7950a8e485890f366f72aa7a5b3?KeyID=262131e9&Signature=L6kB496SlQQUVwqddfI4TdFEmzgVhWirpuS387%252B6Rkf241CxhtumULGHsbDDkh%2FW8baVcm0pICrJBysAvkwvAQ%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/53ae263805aa4a5ea46d4370c9edfc84?KeyID=e9f0c83f&Signature=u8dUl4aqI8M%252B4VDybOk4tvAYFd%2FLWLfr9ABwuLM3uBSU5n47vgy64Dvhn%252Bbj9aIC%2Ff5ee3%2FlzIjfzLFBRBSpCw%253D%253D", 
       "format": "application/msword", 
       "title_en": "Title of Document", 
       "description_en": "Description of Document", 
-      "datePublished": "2017-10-03T11:18:00.844817+03:00", 
+      "datePublished": "2017-10-11T17:20:27.753546+03:00", 
       "documentOf": "tender", 
-      "id": "522c7135fdc14a18b59fa5a5ed23041d", 
-      "dateModified": "2017-10-03T11:18:00.844858+03:00"
+      "id": "1e88ca34b5964d5497fb82cb6c6c44da", 
+      "dateModified": "2017-10-11T17:20:27.753592+03:00"
     }
   ]
 }

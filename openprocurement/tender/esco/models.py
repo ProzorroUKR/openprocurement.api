@@ -402,7 +402,8 @@ class Tender(BaseTender):
                                  'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete',
                                  'cancelled', 'unsuccessful'], default='active.tendering')
-    NBUdiscountRate = DecimalType(required=True, min_value=Decimal('0'), max_value=Decimal('0.99'))
+    NBUdiscountRate = DecimalType(required=True, min_value=Decimal('0'), max_value=Decimal('0.99'),
+                                  precision=-5)
     fundingKind = StringType(choices=['budget', 'other'], required=True, default='other')
     yearlyPaymentsPercentageRange = DecimalType(required=True, default=Decimal('0.8'),
                                                 min_value=Decimal('0'), max_value=Decimal('1'))
