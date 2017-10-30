@@ -786,12 +786,15 @@ def bids_invalidation_on_tender_change(self):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'pending')
 
-    # update tender. we can set value that is less than a value in bids as
-    # they will be invalidated by this request
+    # update tender. we can set yearlyPaymentsPercentageRange value
+    # that is less than a value in bids as they will be invalidated by this request
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-        self.tender_id, self.tender_token), {"data": {"description": "new description"}})
+        self.tender_id, self.tender_token), {'data': {
+            'yearlyPaymentsPercentageRange': 0.7,
+            'fundingKind': 'budget'}})
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']["description"], "new description")
+    self.assertEqual(response.json['data']["yearlyPaymentsPercentageRange"], 0.7)
+    self.assertEqual(response.json['data']["fundingKind"], "budget")
 
     # check bids status
     for bid_id, token in bids_access.items():
@@ -825,7 +828,7 @@ def bids_invalidation_on_tender_change(self):
     data = deepcopy(self.test_bids_data[0])
     data['value'] = {
         "annualCostsReduction": [200] * 21,
-        "yearlyPaymentsPercentage": 0.8,
+        "yearlyPaymentsPercentage": 0.7,
         "contractDuration": {"years": 10, "days": 15}
     }
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
@@ -839,7 +842,7 @@ def bids_invalidation_on_tender_change(self):
                                    'tenderers': self.test_bids_data[1]['tenderers'],
                                    "value": {
                                        "annualCostsReduction": [200] * 21,
-                                       "yearlyPaymentsPercentage": 0.8,
+                                       "yearlyPaymentsPercentage": 0.7,
                                        "contractDuration": {"years": 10, "days": 15}
                                    }}})
 
