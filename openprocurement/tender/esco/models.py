@@ -226,6 +226,7 @@ class ESCOValue(BaseESCOValue):
         if len(value) != 21:
             raise ValidationError('annual costs reduction should be set for 21 period')
 
+    @bids_validation_wrapper
     def validate_yearlyPaymentsPercentage(self, data, value):
         if get_tender(data['__parent__']).fundingKind == 'other' and (value < Decimal('0.8') or value > Decimal('1')):
             raise ValidationError('yearlyPaymentsPercentage should be greater than 0.8 and less than 1')
@@ -237,6 +238,7 @@ class LotValue(BaseLotValue):
 
     value = ModelType(ESCOValue, required=True)
 
+    @bids_validation_wrapper
     def validate_value(self, data, value):
         if value and isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:
             lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
