@@ -740,6 +740,20 @@ def create_tender_invalid(self):
          u'location': u'body', u'name': u'items'}
     ])
 
+    new_item = deepcopy(self.initial_data['items'][0])
+    new_item['classification']['id'] = u'44620000-2'
+    self.initial_data['items'].append(new_item)
+
+    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'CPV class of items should be identical'],
+         u'location': u'body', u'name': u'items'}
+    ])
+    self.initial_data['items'].pop()
+
 
 def tender_fields(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
@@ -769,6 +783,21 @@ def patch_tender(self):
     self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
     dateModified = tender.pop('dateModified')
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                   {'data': {'tenderPeriod': {'startDate': tender['enquiryPeriod']['endDate']}}},
+                                   status=422
+                                   )
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'], [{
+        "location": "body",
+        "name": "tenderPeriod",
+        "description": [
+            "tenderPeriod should be greater than 30 days"
+        ]
+    }
+    ])
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
         tender['id'], owner_token), {'data': {'procurementMethodRationale': 'Open'}})
