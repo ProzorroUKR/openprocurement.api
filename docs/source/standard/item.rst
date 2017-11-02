@@ -144,3 +144,5 @@ Schema
 
 :value:
     :ref:`Value`
+    
+    Price per unit.

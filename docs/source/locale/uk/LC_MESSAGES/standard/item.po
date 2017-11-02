@@ -192,6 +192,9 @@ msgstr "Код одиниці в UN/CEFACT Recommendation 20."
 msgid "|ocdsDescription| Name of the unit"
 msgstr "|ocdsDescription| Назва одиниці"
 
+msgid "Price per unit."
+msgstr "Ціна за одиницю."
+
 #: ../../source/standard/item.rst:15
 msgid "string, auto-generated"
 msgstr "рядок, генерується автоматично"
