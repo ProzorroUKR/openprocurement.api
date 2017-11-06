@@ -19,6 +19,13 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     post_tender_auction_not_changed,
     # TenderFeaturesAuctionResourceTest
     get_tender_auction_feature,
+    post_tender_auction_feature,
+    # TenderFeaturesLotAuctionResourceTest
+    get_tender_lot_auction_features,
+    post_tender_lot_auction_features,
+    # TenderFeaturesMultilotAuctionResourceTest
+    get_tender_lots_auction_features,
+    post_tender_lots_auction_features
 )
 
 from openprocurement.tender.openeu.tests.base import (
@@ -125,9 +132,8 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
     test_patch_tender_auction = snitch(patch_tender_2lot_auction)
 
 
-class TenderFeaturesAuctionResourceTest(BaseTenderContentWebTest):
+class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
     initial_data = test_features_tender_data
-    initial_status = 'active.auction'
     tenderer_info = deepcopy(test_organization)
     initial_bids = [
         {
@@ -171,6 +177,21 @@ class TenderFeaturesAuctionResourceTest(BaseTenderContentWebTest):
     ]
 
     test_get_tender_auction = snitch(get_tender_auction_feature)
+    test_post_tender_auction = snitch(post_tender_auction_feature)
+
+
+class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest):
+    initial_lots = test_lots
+    test_get_tender_auction = snitch(get_tender_lot_auction_features)
+    test_post_tender_auction = snitch(post_tender_lot_auction_features)
+
+
+class TenderFeaturesMultilotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin,
+                                                TenderFeaturesAuctionResourceTest):
+    initial_lots = test_lots * 2
+    test_get_tender_auction = snitch(get_tender_lots_auction_features)
+    test_post_tender_auction = snitch(post_tender_lots_auction_features)
+    test_patch_tender_auction = snitch(patch_tender_2lot_auction)
 
 
 def suite():
