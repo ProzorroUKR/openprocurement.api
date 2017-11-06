@@ -21,6 +21,13 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     patch_tender_lots_auction,
     # TenderFeaturesAuctionResourceTest
     get_tender_auction_feature,
+    post_tender_auction_feature,
+    # TenderFeaturesLotAuctionResourceTest
+    get_tender_lot_auction_features,
+    post_tender_lot_auction_features,
+    # TenderFeaturesMultilotAuctionResourceTest
+    get_tender_lots_auction_features,
+    post_tender_lots_auction_features
 )
 
 from openprocurement.tender.openua.tests.base import test_bids
@@ -76,7 +83,7 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
 
 class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_features_tender_ua_data
-    initial_status = 'active.auction'
+    initial_status = 'active.tendering'
     initial_bids = [
         {
             "parameters": [
@@ -119,6 +126,21 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
     ]
 
     test_get_tender_auction = snitch(get_tender_auction_feature)
+    test_post_tender_auction = snitch(post_tender_auction_feature)
+
+
+class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin,
+                                           TenderFeaturesAuctionResourceTest):
+    initial_lots = test_lots
+    test_get_tender_auction = snitch(get_tender_lot_auction_features)
+    test_post_tender_auction = snitch(post_tender_lot_auction_features)
+
+
+class TenderFeaturesMultilotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin,
+                                                TenderFeaturesAuctionResourceTest):
+    initial_lots = test_lots * 2
+    test_get_tender_auction = snitch(get_tender_lots_auction_features)
+    test_post_tender_auction = snitch(post_tender_lots_auction_features)
 
 
 def suite():
@@ -126,6 +148,8 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderFeaturesLotAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderFeaturesMultilotAuctionResourceTest))
     return suite
 
 
