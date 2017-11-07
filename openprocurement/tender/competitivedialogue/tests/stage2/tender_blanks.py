@@ -1082,16 +1082,21 @@ def create_tender(self):
 
 def tender_funders(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data['funders'] = []
-    tender_data['funders'].append(deepcopy(test_organization))
-    tender_data['funders'][0]['identifier']['id'] = '00037256'
+    tender_data['funders'] = [deepcopy(test_organization)]
+    tender_data['funders'][0]['identifier']['id'] = '44000'
+    tender_data['funders'][0]['identifier']['scheme'] = 'XM-DAC'
     response = self.app.post_json('/tenders', {'data': tender_data})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     self.assertIn('funders', response.json['data'])
+    self.assertEqual(response.json['data']['funders'][0]['identifier']['id'], '44000')
+    self.assertEqual(response.json['data']['funders'][0]['identifier']['scheme'], 'XM-DAC')
+    tender = response.json['data']
+    token = response.json['access']['token']
 
     tender_data['funders'].append(deepcopy(test_organization))
-    tender_data['funders'][1]['identifier']['id'] = '00037256'
+    tender_data['funders'][1]['identifier']['id'] = '44000'
+    tender_data['funders'][1]['identifier']['scheme'] = 'XM-DAC'
     response = self.app.post_json('/tenders', {'data': tender_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -1109,12 +1114,13 @@ def tender_funders(self):
         {u'description': [u"Funder identifier should be one of the values allowed"], u'location': u'body', u'name': u'funders'}
     ])
 
-    tender_data['funders'][0]['identifier']['id'] = '11111111'
-    response = self.app.post_json('/tenders', {'data': tender_data})
-    self.assertEqual(response.status, '201 Created')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertIn('funders', response.json['data'])
-    self.assertEqual(len(response.json['data']['funders']), 2)
+    # Can't test different funders for now 'cause we have only one funder in list
+    # tender_data['funders'][0]['identifier']['id'] = '11111111'
+    # response = self.app.post_json('/tenders', {'data': tender_data})
+    # self.assertEqual(response.status, '201 Created')
+    # self.assertEqual(response.content_type, 'application/json')
+    # self.assertIn('funders', response.json['data'])
+    # self.assertEqual(len(response.json['data']['funders']), 2)
 
 
 def tender_features_invalid(self):
