@@ -801,6 +801,8 @@ def post_tender_auction_feature(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
+    self.assertIn('features', tender)
+    self.assertIn('parameters', tender["bids"][0])
 
     self.assertEqual(tender["bids"][0]['value']['yearlyPaymentsPercentage'],
                      patch_data["bids"][1]['value']['yearlyPaymentsPercentage'])
@@ -972,6 +974,8 @@ def post_tender_lot_auction_feature(self):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
+    self.assertIn('features', tender)
+    self.assertIn('parameters', tender["bids"][0])
 
     self.assertEqual(tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'],
                      patch_data["bids"][1]['lotValues'][0]['value']['yearlyPaymentsPercentage'])
@@ -1167,6 +1171,8 @@ def post_tender_lots_auction_feature(self):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
+    self.assertIn('features', tender)
+    self.assertIn('parameters', tender["bids"][0])
 
     self.assertEqual(tender["bids"][0]['lotValues'][0]['value']['yearlyPaymentsPercentage'],
                      patch_data["bids"][1]['lotValues'][0]['value']['yearlyPaymentsPercentage'])
