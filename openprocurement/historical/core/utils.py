@@ -33,28 +33,29 @@ class Root(object):
         self.db = request.registry.db
 
 
-def get_version_from_date(request, doc, revisions):
-    version_date = request.headers.get(VERSION_BY_DATE)
+def get_valid_apply_patch_doc(doc, request, patch):
+    try:
+        doc = _apply_patch(doc, patch['changes'])
+        return doc
+    except (JsonPointerException, JsonPatchException):
+        raise_not_implemented(request)
 
-    if parse_date(version_date) > parse_date(doc['dateModified']) or \
-            parse_date(version_date) < parse_date(revisions[1]['date']):
+
+def get_version_from_date(request, doc, revisions):
+    version_date = parse_date(request.headers.get(VERSION_BY_DATE))
+    if version_date > parse_date(doc['dateModified']) or \
+            version_date < parse_date(revisions[1]['date']):
         return return404(request, 'header', 'hash')
     for version, patch in reversed(list(enumerate(revisions))):
-        try:
-            doc = _apply_patch(doc, patch['changes'])
-        except (JsonPointerException, JsonPatchException):
-            raise_not_implemented(request)
-        if parse_date(version_date) < parse_date(patch['date']):
+        doc = get_valid_apply_patch_doc(doc, request, patch)
+        if version_date < parse_date(patch['date']):
             continue
         else:
-            if request.validated[HASH] and \
-                                request.validated[HASH] != parse_hash(patch.get('rev')):
-                    return return404(request, 'header', 'hash')
             doc['dateModified'] = find_dateModified(revisions[:version + 1])
             return (doc,
                     parse_hash(patch['rev']),
                     parse_hash(revisions[version - 1].get('rev', '')))
-    return return404(request, 'header', 'hash')
+    return404('header', 'hash')
 
 
 def extract_doc(request, doc_type):
@@ -108,10 +109,7 @@ def raise_not_implemented(request):
 
 def apply_while(request, doc, revisions):
     for version, patch in reversed(list(enumerate(revisions))):
-        try:
-            doc = _apply_patch(doc, patch['changes'])
-        except (JsonPointerException, JsonPatchException):
-            raise_not_implemented(request)
+        doc = get_valid_apply_patch_doc(doc, request, patch)
         if str(version) == request.validated[VERSION]:
             if request.validated[HASH] and\
                request.validated[HASH] != parse_hash(patch.get('rev')):
