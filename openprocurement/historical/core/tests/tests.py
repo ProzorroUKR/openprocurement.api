@@ -269,6 +269,98 @@ class HistoricalResourceTestCase(unittest.TestCase):
             u'name': u'hash'
         }])
 
+    def test_get_version_by_date(self):
+        # The date is longer than the date of modification
+        response = self.app.get('/mock/{}/historical'.format(mock_doc.id),
+                                headers={
+                                    'X-Revision-Date': '2306-06-14T18:18:44.458246+03:00'
+                                }, status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [{
+            u'description': u'Not Found',
+            u'location': u'header',
+            u'name': u'hash'
+        }])
+        # Date is less than the date of create the tender
+        response = self.app.get('/mock/{}/historical'.format(mock_doc.id),
+                                headers={
+                                    'X-Revision-Date': '2000-06-14T18:18:44.458246+03:00'
+                                }, status=404)
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [{
+            u'description': u'Not Found',
+            u'location': u'header',
+            u'name': u'hash'
+        }])
+
+        # The correct date to search
+        response = self.app.get('/mock/{}/historical'.format(mock_doc.id),
+                                headers={'X-Revision-Date': '2016-06-14T17:00:21.592530+03:00'})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # Other date format
+        response = self.app.get('/mock/{}/historical'.format(mock_doc.id),
+                                headers={'X-Revision-Date': '2016-06-14T17:00:21'})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # First revision
+        response = self.app.get('/mock/{}/historical'.format(mock_doc.id),
+                                headers={'X-Revision-Date': '2016-06-14T16:59:58.951698+03:00'})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # Date between revisions 5 and 6
+        response = self.app.get('/mock/{}/historical'.format(mock_doc.id),
+                                headers={'X-Revision-Date': "2016-06-14T17:17:33"})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # Empty header
+        response = self.app.get('/mock/{}/historical'.format(mock_doc.id),
+                                headers={'X-Revision-Date': ""})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        # Have not header
+        response = self.app.get('/mock/{}/historical'.format(mock_doc.id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        # Invalid date or number
+        response = self.app.get('/mock/{}/historical'.format(mock_doc.id),
+                                headers={'X-Revision-Date': "test_test"}, status=404)
+
+        self.assertEqual(response.status, '404 Not Found')
+        self.assertEqual(response.json['errors'], [{
+            u'description': u'Not Found',
+            u'location': u'header',
+            u'name': u'version'
+        }])
+
+        response = self.app.get('/mock/{}/historical'.format(mock_doc.id),
+                                headers={'X-Revision-Date': "test_test",
+                                         'X-Revision-N': '2'})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        response = self.app.get('/mock/{}/historical'.format(mock_doc.id),
+                                headers={'X-Revision-Date': "2016-06-14T17:17:33",
+                                         'X-Revision-N': 'invalid_version'})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        response = self.app.get('/mock/{}/historical'.format(mock_doc.id),
+                                headers={'X-Revision-Date': "invalid",
+                                         'X-Revision-N': 'invalid'}, status=404)
+        self.assertEqual(response.json['errors'], [{
+            u'description': u'Not Found',
+            u'location': u'header',
+            u'name': u'version'
+        }])
+
 
 def suite():
     suite = unittest.TestSuite()

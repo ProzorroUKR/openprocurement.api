@@ -1,6 +1,7 @@
 from jsonpointer import JsonPointerException
 from jsonpatch import JsonPatchException
 
+from iso8601 import parse_date
 from zope.interface import providedBy
 
 from pyramid.view import _call_view
@@ -8,7 +9,7 @@ from pyramid.security import Allow
 from pyramid.interfaces import IRouteRequest, IRoutesMapper
 
 from openprocurement.historical.core.constants import (
-    VERSION, HASH, PREVIOUS_HASH, ACCREDITATION_LEVEL
+    VERSION, HASH, PREVIOUS_HASH, ACCREDITATION_LEVEL, VERSION_BY_DATE
 )
 from openprocurement.api.utils import (
     error_handler,
@@ -32,6 +33,30 @@ class Root(object):
         self.db = request.registry.db
 
 
+def get_version_from_date(request, doc, revisions):
+    version_date = request.headers.get(VERSION_BY_DATE)
+
+    if parse_date(version_date) > parse_date(doc['dateModified']) or \
+            parse_date(version_date) < parse_date(revisions[1]['date']):
+        return return404(request, 'header', 'hash')
+    for version, patch in reversed(list(enumerate(revisions))):
+        try:
+            doc = _apply_patch(doc, patch['changes'])
+        except (JsonPointerException, JsonPatchException):
+            raise_not_implemented(request)
+        if parse_date(version_date) < parse_date(patch['date']):
+            continue
+        else:
+            if request.validated[HASH] and \
+                                request.validated[HASH] != parse_hash(patch.get('rev')):
+                    return return404(request, 'header', 'hash')
+            doc['dateModified'] = find_dateModified(revisions[:version + 1])
+            return (doc,
+                    parse_hash(patch['rev']),
+                    parse_hash(revisions[version - 1].get('rev', '')))
+    return return404(request, 'header', 'hash')
+
+
 def extract_doc(request, doc_type):
     doc_id = request.matchdict['doc_id']
     if doc_id is None:
@@ -42,6 +67,13 @@ def extract_doc(request, doc_type):
         return404(request, 'url', '{}_id'.format(doc_type.lower()))
 
     revisions = doc.pop('revisions', [])
+
+    if request.validated.get(VERSION_BY_DATE):
+        doc, revision_hash, prev_hash = get_version_from_date(request, doc, revisions)
+        add_responce_headers(request, version=request.validated[VERSION],
+                             rhash=revision_hash, phash=prev_hash)
+        return doc
+
     if not revisions or not request.validated.get(VERSION):
         add_responce_headers(request, version=str(len(revisions)),
                              rhash=parse_hash(doc.get('_rev', '')),
@@ -140,10 +172,26 @@ def parse_hash(rev_hash):
 
 def validate_header(request):
     version = request.headers.get(VERSION, '')
+    version_by_date = request.headers.get(VERSION_BY_DATE, '')
+    version_invalid = False
     if version and (not version.isdigit() or int(version) < 1):
+        version_invalid = True
+    if version_by_date and version_by_date != '':
+        try:
+            parse_date(version_by_date)
+        except:
+            if version_invalid or version == '':
+                return404(request, 'header', 'version')
+            else:
+                request.validated[VERSION] = version
+                request.validated[HASH] = request.headers.get(HASH, '')
+                request.validated[VERSION_BY_DATE] = False
+                return
+    if version_invalid and version_by_date == '':
         return404(request, 'header', 'version')
     request.validated[VERSION] = version
     request.validated[HASH] = request.headers.get(HASH, '')
+    request.validated[VERSION_BY_DATE] = request.headers.get(VERSION_BY_DATE, '')
 
 
 def validate_accreditation(request):
