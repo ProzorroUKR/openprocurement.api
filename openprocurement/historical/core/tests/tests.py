@@ -24,7 +24,7 @@ from openprocurement.historical.core.utils import (
     HasRequestMethod,
 )
 
-from openprocurement.api.utils import (
+from openprocurement.api.subscribers import (
     add_logging_context,
     set_logging_context,
 )
