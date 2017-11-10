@@ -46,16 +46,16 @@ def get_version_from_date(request, doc, revisions):
     if version_date > parse_date(doc['dateModified']) or \
             version_date < parse_date(revisions[1]['date']):
         return return404(request, 'header', 'hash')
-    for version, patch in reversed(list(enumerate(revisions))):
-        doc = get_valid_apply_patch_doc(doc, request, patch)
-        if version_date < parse_date(patch['date']):
+    for version, revision in reversed(list(enumerate(revisions))):
+        doc = get_valid_apply_patch_doc(doc, request, revision)
+        if version_date < parse_date(find_dateModified(revisions[:version])):
             continue
         else:
             doc['dateModified'] = find_dateModified(revisions[:version + 1])
             return (doc,
-                    parse_hash(patch['rev']),
+                    parse_hash(revision['rev']),
                     parse_hash(revisions[version - 1].get('rev', '')))
-    return404('header', 'hash')
+    return404(request, 'header', 'hash')
 
 
 def extract_doc(request, doc_type):
@@ -169,27 +169,20 @@ def parse_hash(rev_hash):
 
 
 def validate_header(request):
-    version = request.headers.get(VERSION, '')
-    version_by_date = request.headers.get(VERSION_BY_DATE, '')
-    version_invalid = False
-    if version and (not version.isdigit() or int(version) < 1):
-        version_invalid = True
+    version = request.validated[VERSION] = request.headers.get(VERSION, '')
+    version_by_date = request.validated[VERSION_BY_DATE] = request.headers.get(VERSION_BY_DATE, '')
+    request.validated[HASH] = request.headers.get(HASH, '')
     if version_by_date and version_by_date != '':
         try:
             parse_date(version_by_date)
         except:
-            if version_invalid or version == '':
+            if (version and (not version.isdigit() or int(version) < 1)) or version == '':
                 return404(request, 'header', 'version')
             else:
-                request.validated[VERSION] = version
-                request.validated[HASH] = request.headers.get(HASH, '')
                 request.validated[VERSION_BY_DATE] = False
                 return
-    if version_invalid and version_by_date == '':
+    if (version and (not version.isdigit() or int(version) < 1)) and version_by_date == '':
         return404(request, 'header', 'version')
-    request.validated[VERSION] = version
-    request.validated[HASH] = request.headers.get(HASH, '')
-    request.validated[VERSION_BY_DATE] = request.headers.get(VERSION_BY_DATE, '')
 
 
 def validate_accreditation(request):
