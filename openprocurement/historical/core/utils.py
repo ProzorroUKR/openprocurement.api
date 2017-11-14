@@ -170,18 +170,17 @@ def parse_hash(rev_hash):
 
 def validate_header(request):
     version = request.validated[VERSION] = request.headers.get(VERSION, '')
-    version_by_date = request.validated[VERSION_BY_DATE] = request.headers.get(VERSION_BY_DATE, '')
     request.validated[HASH] = request.headers.get(HASH, '')
-    if version_by_date and version_by_date != '':
+    if request.headers.get(VERSION_BY_DATE, '') != '':
         try:
-            parse_date(version_by_date)
+            request.validated[VERSION_BY_DATE] = parse_date(request.headers.get(VERSION_BY_DATE, ''))
         except:
             if (version and (not version.isdigit() or int(version) < 1)) or version == '':
                 return404(request, 'header', 'version')
             else:
                 request.validated[VERSION_BY_DATE] = False
                 return
-    if (version and (not version.isdigit() or int(version) < 1)) and version_by_date == '':
+    if (version and (not version.isdigit() or int(version) < 1)) and request.headers.get(VERSION_BY_DATE, '') == '':
         return404(request, 'header', 'version')
 
 
