@@ -1,6 +1,7 @@
 from jsonpointer import JsonPointerException
 from jsonpatch import JsonPatchException
 
+from iso8601 import parse_date
 from zope.interface import providedBy
 
 from pyramid.view import _call_view
@@ -8,7 +9,7 @@ from pyramid.security import Allow
 from pyramid.interfaces import IRouteRequest, IRoutesMapper
 
 from openprocurement.historical.core.constants import (
-    VERSION, HASH, PREVIOUS_HASH, ACCREDITATION_LEVEL
+    VERSION, HASH, PREVIOUS_HASH, ACCREDITATION_LEVEL, VERSION_BY_DATE
 )
 from openprocurement.api.utils import (
     error_handler,
@@ -32,6 +33,31 @@ class Root(object):
         self.db = request.registry.db
 
 
+def get_valid_apply_patch_doc(doc, request, patch):
+    try:
+        doc = _apply_patch(doc, patch['changes'])
+        return doc
+    except (JsonPointerException, JsonPatchException):
+        raise_not_implemented(request)
+
+
+def get_version_from_date(request, doc, revisions):
+    version_date = parse_date(request.headers.get(VERSION_BY_DATE))
+    if version_date > parse_date(doc['dateModified']) or \
+            version_date < parse_date(revisions[1]['date']):
+        return return404(request, 'header', 'hash')
+    for version, revision in reversed(list(enumerate(revisions))):
+        doc = get_valid_apply_patch_doc(doc, request, revision)
+        if version_date < parse_date(find_dateModified(revisions[:version])):
+            continue
+        else:
+            doc['dateModified'] = find_dateModified(revisions[:version + 1])
+            return (doc,
+                    parse_hash(revision['rev']),
+                    parse_hash(revisions[version - 1].get('rev', '')))
+    return404(request, 'header', 'hash')
+
+
 def extract_doc(request, doc_type):
     doc_id = request.matchdict['doc_id']
     if doc_id is None:
@@ -42,6 +68,13 @@ def extract_doc(request, doc_type):
         return404(request, 'url', '{}_id'.format(doc_type.lower()))
 
     revisions = doc.pop('revisions', [])
+
+    if request.validated.get(VERSION_BY_DATE):
+        doc, revision_hash, prev_hash = get_version_from_date(request, doc, revisions)
+        add_responce_headers(request, version=request.validated[VERSION],
+                             rhash=revision_hash, phash=prev_hash)
+        return doc
+
     if not revisions or not request.validated.get(VERSION):
         add_responce_headers(request, version=str(len(revisions)),
                              rhash=parse_hash(doc.get('_rev', '')),
@@ -76,10 +109,7 @@ def raise_not_implemented(request):
 
 def apply_while(request, doc, revisions):
     for version, patch in reversed(list(enumerate(revisions))):
-        try:
-            doc = _apply_patch(doc, patch['changes'])
-        except (JsonPointerException, JsonPatchException):
-            raise_not_implemented(request)
+        doc = get_valid_apply_patch_doc(doc, request, patch)
         if str(version) == request.validated[VERSION]:
             if request.validated[HASH] and\
                request.validated[HASH] != parse_hash(patch.get('rev')):
@@ -139,11 +169,19 @@ def parse_hash(rev_hash):
 
 
 def validate_header(request):
-    version = request.headers.get(VERSION, '')
-    if version and (not version.isdigit() or int(version) < 1):
-        return404(request, 'header', 'version')
-    request.validated[VERSION] = version
+    version = request.validated[VERSION] = request.headers.get(VERSION, '')
     request.validated[HASH] = request.headers.get(HASH, '')
+    if request.headers.get(VERSION_BY_DATE, '') != '':
+        try:
+            request.validated[VERSION_BY_DATE] = parse_date(request.headers.get(VERSION_BY_DATE, ''))
+        except:
+            if (version and (not version.isdigit() or int(version) < 1)) or version == '':
+                return404(request, 'header', 'version')
+            else:
+                request.validated[VERSION_BY_DATE] = ''
+                return
+    if (version and (not version.isdigit() or int(version) < 1)) and request.headers.get(VERSION_BY_DATE, '') == '':
+        return404(request, 'header', 'version')
 
 
 def validate_accreditation(request):
