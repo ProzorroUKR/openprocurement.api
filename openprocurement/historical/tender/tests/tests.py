@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os.path
 from jsonpointer import resolve_pointer
 from copy import deepcopy
@@ -10,7 +11,7 @@ from openprocurement.historical.core.constants import (
     PREVIOUS_HASH as PHASH,
     HASH,
 )
-from openprocurement.api.tests.base import (
+from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     test_tender_data,
 )
@@ -31,6 +32,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
     def setUp(self):
         super(HistoricalTenderTestCase, self).setUp()
         self.app.authorization = ('Basic', ('broker', ''))
+        self.create_tender()
 
     def _update_doc(self):
         data = test_data_with_revisions.copy()
@@ -184,7 +186,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
     def test_route_not_find(self):
         self.app.app.routes_mapper.routelist = [
             r for r in self.app.app.routes_mapper.routelist
-            if r.name != 'Tender'
+            if r.name != 'belowThreshold:Tender'
         ]
         response = self.app.get('/tenders/{}/historical'.format(self.tender_id), status=404)
         self.assertEqual(response.status, '404 Not Found')
