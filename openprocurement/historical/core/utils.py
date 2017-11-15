@@ -178,7 +178,7 @@ def validate_header(request):
             if (version and (not version.isdigit() or int(version) < 1)) or version == '':
                 return404(request, 'header', 'version')
             else:
-                request.validated[VERSION_BY_DATE] = False
+                request.validated[VERSION_BY_DATE] = ''
                 return
     if (version and (not version.isdigit() or int(version) < 1)) and request.headers.get(VERSION_BY_DATE, '') == '':
         return404(request, 'header', 'version')
