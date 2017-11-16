@@ -59,6 +59,7 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     # TenderLotBidResourceTest
     create_tender_bid_invalid,
     patch_tender_bid,
+    bids_invalidation_on_lot_change,
 )
 from openprocurement.tender.esco.utils import to_decimal
 
@@ -137,6 +138,7 @@ class TenderLotBidResourceTest(BaseESCOContentWebTest):
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_patch_tender_bid = snitch(patch_tender_bid)
+    test_bids_invalidation_on_lot_change = snitch(bids_invalidation_on_lot_change)
 
 
 class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):

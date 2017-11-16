@@ -734,6 +734,46 @@ def patch_tender_bid(self):
     self.assertEqual(response.json['errors'][0]["description"],
                      "Can't update bid in current (unsuccessful) tender status")
 
+
+def bids_invalidation_on_lot_change(self):
+    bids_access = {}
+
+    lot_id = self.initial_lots[0]['id']
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': {
+        'selfEligible': True, 'selfQualified': True,
+        'tenderers': self.test_bids_data[0]["tenderers"],
+        'lotValues': [{"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}]}})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    bid = response.json['data']
+    bid_token = response.json['access']['token']
+
+    # check initial status
+    response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(
+        self.tender_id, bid['id'], bid_token))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'pending')
+
+    # update tender (with fundingKind budget we can set not 0.8 in yppr field)
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, self.tender_token), {'data': {'fundingKind': 'budget'}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']["fundingKind"], "budget")
+
+    # update lot. we can set yppr that is less than a value in bids as
+    # they will be invalidated by this request
+    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(
+        self.tender_id, lot_id, self.tender_token), {"data": {"yearlyPaymentsPercentageRange": 0.1}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']["yearlyPaymentsPercentageRange"], 0.1)
+
+    # check bids status
+    response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(
+        self.tender_id, bid['id'], bid_token))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'invalid')
+
+
 # TenderLotFeatureBidResourceTest
 
 
