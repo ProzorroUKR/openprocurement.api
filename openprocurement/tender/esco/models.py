@@ -102,6 +102,7 @@ class Lot(BaseLot):
             'auction_patch': whitelist('id', 'auctionUrl'),
             'chronograph': whitelist('id', 'auctionPeriod'),
             'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
+            'Administrator': whitelist('auctionPeriod', 'yearlyPaymentsPercentageRange'),
         }
 
     minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH',
