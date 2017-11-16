@@ -59,6 +59,8 @@ class PlanItem(Model):
 
     def validate_classification(self, data, classification):
         plan = data['__parent__']
+        if not plan.classification:
+            return
         plan_from_2017 = (plan.get('revisions')[0].date if plan.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM
         cpv_336_group = plan.classification.id[:3] == '336'
         base_cpv_code = plan.classification.id[:4] if not cpv_336_group and plan_from_2017 else plan.classification.id[:3]
@@ -69,6 +71,8 @@ class PlanItem(Model):
 
     def validate_additionalClassifications(self, data, items):
         plan = data['__parent__']
+        if not plan.classification:
+            return
         plan_from_2017 = (plan.get('revisions')[0].date if plan.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM
         not_cpv = data['classification']['id'] == '99999999-9'
         if not items and (not plan_from_2017 or plan_from_2017 and not_cpv):
