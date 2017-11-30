@@ -102,6 +102,7 @@ class Lot(BaseLot):
             'auction_patch': whitelist('id', 'auctionUrl'),
             'chronograph': whitelist('id', 'auctionPeriod'),
             'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
+            'Administrator': whitelist('auctionPeriod', 'yearlyPaymentsPercentageRange'),
         }
 
     minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH',
@@ -152,10 +153,10 @@ class Lot(BaseLot):
                           valueAddedTaxIncluded=self.__parent__.minValue.valueAddedTaxIncluded))
 
     def validate_yearlyPaymentsPercentageRange(self, data, value):
-        if data['fundingKind'] == 'other' and value != Decimal('0.8'):
-            raise ValidationError('when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8')
-        if data['fundingKind'] == 'budget' and (value > Decimal('0.8') or value < Decimal('0')):
-            raise ValidationError('when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0')
+        if data['__parent__']['fundingKind'] == 'other' and value != Decimal('0.8'):
+            raise ValidationError('when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8')
+        if data['__parent__']['fundingKind'] == 'budget' and (value > Decimal('0.8') or value < Decimal('0')):
+            raise ValidationError('when tender fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0')
 
 
 class ContractDuration(Model):
@@ -364,7 +365,7 @@ class Tender(BaseTender):
             'cancelled': view_role,
             'chronograph': chronograph_role,
             'chronograph_view': chronograph_view_role,
-            'Administrator': Administrator_role,
+            'Administrator': Administrator_role + whitelist('yearlyPaymentsPercentageRange'),
             'default': schematics_default_role,
             'contracting': whitelist('doc_id', 'owner'),
         }
