@@ -47,6 +47,7 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     get_tender_lots,
     tender_min_value,
     lot_minimal_step_invalid,
+    lot_yppr_validation,
     tender_minimal_step_percentage,
     tender_lot_funding_kind,
     tender_1lot_fundingKind_default,
@@ -86,10 +87,12 @@ class TenderLotResourceTest(BaseESCOContentWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
     test_lots_data = test_lots  # TODO: change attribute identifier
+    test_bids = test_bids
     initial_data = test_tender_data
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     test_create_tender_lot = snitch(create_tender_lot)
+    test_lot_yppr_validation = snitch(lot_yppr_validation)
     test_patch_tender_lot = snitch(patch_tender_lot)
     test_patch_tender_lot_minValue = snitch(patch_tender_lot_minValue)
     test_delete_tender_lot = snitch(delete_tender_lot)

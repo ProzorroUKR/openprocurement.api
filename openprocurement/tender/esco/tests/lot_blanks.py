@@ -342,6 +342,74 @@ def tender_1lot_fundingKind_default(self):
     self.assertEqual(response.json['data']['lots'][0]['fundingKind'], 'budget')
 
 
+def lot_yppr_validation(self):
+    data = deepcopy(self.initial_data)
+    data['fundingKind'] = 'budget'  # for tender
+
+    lot = deepcopy(self.test_lots_data[0])
+    del lot['fundingKind']
+
+    data['lots'] = [deepcopy(lot), deepcopy(lot)]
+    data['lots'][0]['yearlyPaymentsPercentageRange'] = 0.8  # first lot yearlyPaymentsPercentageRange = 0.8
+    data['lots'][1]['yearlyPaymentsPercentageRange'] = 0.6  # second lot yearlyPaymentsPercentageRange = 0.6
+
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['fundingKind'], 'budget')
+    self.assertIn('lots', response.json['data'])
+    self.assertIn('fundingKind', response.json['data']['lots'][0])
+    self.assertEqual(response.json['data']['lots'][0]['fundingKind'], 'budget')
+    self.assertEqual(response.json['data']['lots'][0]['yearlyPaymentsPercentageRange'], 0.8)
+    self.assertIn('fundingKind', response.json['data']['lots'][1])
+    self.assertEqual(response.json['data']['lots'][1]['fundingKind'], 'budget')
+    self.assertEqual(response.json['data']['lots'][1]['yearlyPaymentsPercentageRange'], 0.6)
+    self.assertEqual(response.json['data']['yearlyPaymentsPercentageRange'], 0.6)
+    owner_token = response.json['access']['token']
+    tender_id = response.json['data']['id']
+    lot_id1 = response.json['data']['lots'][0]['id']
+    lot_id2 = response.json['data']['lots'][1]['id']
+
+    bid = deepcopy(self.test_bids[0])
+    bid['lotValues'] = [{'value': deepcopy(bid)['value'] },  {'value': deepcopy(bid)['value'] }]
+
+    bid['lotValues'][0]['value']['yearlyPaymentsPercentage'] = 0.65
+    bid['lotValues'][1]['value']['yearlyPaymentsPercentage'] = 0.7
+    bid['lotValues'][0]['relatedLot'] = lot_id1
+    bid['lotValues'][1]['relatedLot'] = lot_id2
+    del bid['value']
+
+    response = self.app.post_json('/tenders/{}/bids?acc_token={}'.format(tender_id, owner_token), {'data': bid},
+                                  status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [{u'description': [{u'value': {
+        u'yearlyPaymentsPercentage': [u'yearlyPaymentsPercentage should be greater than 0 and less than 0.6']}}],
+        u'location': u'body', u'name': u'lotValues'}])
+
+    bid['lotValues'][0]['value']['yearlyPaymentsPercentage'] = -0.1
+    bid['lotValues'][1]['value']['yearlyPaymentsPercentage'] = 1.1
+    response = self.app.post_json('/tenders/{}/bids?acc_token={}'.format(tender_id, owner_token), {'data': bid},
+                                  status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+
+    self.assertEqual(response.json['errors'], [{u'description': [
+        {u'value': {u'yearlyPaymentsPercentage': [u'Value should be greater than 0.']}},
+        {u'value': {u'yearlyPaymentsPercentage': [u'Value should be less than 1.']}}], u'location': u'body',
+                                                u'name': u'lotValues'}])
+
+    bid['lotValues'][0]['value']['yearlyPaymentsPercentage'] = 0.65
+    bid['lotValues'][1]['value']['yearlyPaymentsPercentage'] = 0.4
+    response = self.app.post_json('/tenders/{}/bids?acc_token={}'.format(tender_id, owner_token), {'data': bid})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.json['data']['status'], 'pending')
+    self.assertEqual(response.json['data']['lotValues'][0]['value']['yearlyPaymentsPercentage'], 0.65)
+    self.assertEqual(response.json['data']['lotValues'][1]['value']['yearlyPaymentsPercentage'], 0.4)
+
+
 def tender_2lot_fundingKind_default(self):
     data = deepcopy(self.initial_data)
     lot = deepcopy(self.test_lots_data[0])
