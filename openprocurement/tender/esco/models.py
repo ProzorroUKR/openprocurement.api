@@ -196,7 +196,7 @@ class BaseESCOValue(Value):
 
     amount = DecimalType(min_value=Decimal('0'), required=False, precision=-2)  # Calculated energy service contract value.
     amountPerformance = DecimalType(required=False, precision=-2)  # Calculated energy service contract performance indicator
-    yearlyPaymentsPercentage = DecimalType(required=True, precision=-5)  # The percentage of annual payments in favor of Bidder
+    yearlyPaymentsPercentage = DecimalType(required=True, precision=-5, min_value=Decimal('0'), max_value=Decimal('1'))  # The percentage of annual payments in favor of Bidder
     annualCostsReduction = ListType(DecimalType(), required=True)  # Buyer's annual costs reduction
     contractDuration = ModelType(ContractDuration, required=True)
 
@@ -229,10 +229,21 @@ class ESCOValue(BaseESCOValue):
 
     @bids_validation_wrapper
     def validate_yearlyPaymentsPercentage(self, data, value):
-        if get_tender(data['__parent__']).fundingKind == 'other' and (value < Decimal('0.8') or value > Decimal('1')):
+        tender = get_tender(data['__parent__'])
+
+        if tender.fundingKind == 'other' and value < Decimal('0.8'):
             raise ValidationError('yearlyPaymentsPercentage should be greater than 0.8 and less than 1')
-        if get_tender(data['__parent__']).fundingKind == 'budget'and (value < Decimal('0') or value > get_tender(data['__parent__']).yearlyPaymentsPercentageRange):
-            raise ValidationError('yearlyPaymentsPercentage should be greater than 0 and less than {}'.format(get_tender(data['__parent__']).yearlyPaymentsPercentageRange))
+        if tender.fundingKind == 'budget':
+            if tender.lots:
+                lots = [i for i in tender.lots if i.id == data['__parent__']['relatedLot']]
+
+                if lots and value > lots[0].yearlyPaymentsPercentageRange:
+                    raise ValidationError('yearlyPaymentsPercentage should be greater than 0 and less than {}'.format(
+                        lots[0].yearlyPaymentsPercentageRange))
+            else:
+                if value > tender.yearlyPaymentsPercentageRange:
+                    raise ValidationError('yearlyPaymentsPercentage should be greater than 0 and less than {}'.format(
+                        tender.yearlyPaymentsPercentageRange))
 
 
 class LotValue(BaseLotValue):
