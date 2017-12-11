@@ -280,7 +280,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.assertEqual(response.json['errors'], [{
             u'description': u'Not Found',
             u'location': u'header',
-            u'name': u'hash'
+            u'name': u'version'
         }])
         # Date is less than the date of create the tender
         response = self.app.get('/mock/{}/historical'.format(mock_doc.id),
@@ -292,7 +292,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.assertEqual(response.json['errors'], [{
             u'description': u'Not Found',
             u'location': u'header',
-            u'name': u'hash'
+            u'name': u'version'
         }])
 
         # The correct date to search
