@@ -1,5 +1,5 @@
 from uuid import uuid4
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, time
 from iso8601 import parse_date
 from pyramid.security import Allow
 from zope.interface import implementer
@@ -222,7 +222,14 @@ class TenderAuctionPeriod(Period):
         elif self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
-            start_after = tender.qualificationPeriod.endDate
+            decision_dates = [
+                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
+                for qualification in tender.qualifications
+                for complaint in qualification.complaints
+                if complaint.dateDecision
+            ]
+            decision_dates.append(tender.qualificationPeriod.endDate)
+            start_after = max(decision_dates)
         if start_after:
             return rounding_shouldStartAfter(start_after, tender).isoformat()
 
@@ -244,7 +251,14 @@ class LotAuctionPeriod(Period):
         elif self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
-            start_after = tender.qualificationPeriod.endDate
+            decision_dates = [
+                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
+                for qualification in tender.qualifications
+                for complaint in qualification.complaints
+                if complaint.dateDecision
+            ]
+            decision_dates.append(tender.qualificationPeriod.endDate)
+            start_after = max(decision_dates)
         if start_after:
             return rounding_shouldStartAfter(start_after, tender).isoformat()
 
