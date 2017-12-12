@@ -111,7 +111,7 @@ class HistoricalUtilsTestCase(unittest.TestCase):
         self.assertIn(VERSION, request.response.headers)
         self.assertEqual(request.response.headers[VERSION], '2')
         self.assertEqual(doc['dateModified'],
-                         mock_doc['revisions'][1]['date'])
+                         mock_doc['revisions'][0]['date'])
 
 
 class HistoricalResourceTestCase(unittest.TestCase):

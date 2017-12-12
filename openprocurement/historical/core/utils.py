@@ -86,6 +86,9 @@ def extract_doc(request, doc_type):
                                  revisions[-1].get('rev')
                                  if len(revisions) > 0 else ''
                              ))
+        date_modified = find_dateModified(revisions)
+        if date_modified:
+            doc['dateModified'] = date_modified
         return doc
 
     if int(request.validated.get(VERSION)) > len(revisions):
@@ -128,9 +131,10 @@ def apply_while(request, doc, revisions):
 
 def find_dateModified(revisions):
     for patch in reversed(revisions):
-        if not any(op.get('path') for op in patch.get('changes')
-                   if 'bids' in op.get('path')):
-            return patch.get('date')
+        if not patch.get('author') == "chronograph":
+            if not any(op.get('path') for op in patch.get('changes')
+                       if 'bids' in op.get('path')):
+                    return patch.get('date')
     return ''
 
 
