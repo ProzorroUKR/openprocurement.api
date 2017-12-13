@@ -45,7 +45,7 @@ def get_version_from_date(request, doc, revisions):
     version_date = parse_date(request.headers.get(VERSION_BY_DATE))
     if version_date > parse_date(doc['dateModified']) or \
             version_date < parse_date(revisions[1]['date']):
-        return return404(request, 'header', 'hash')
+        return return404(request, 'header', 'version')
     for version, revision in reversed(list(enumerate(revisions))):
         doc = get_valid_apply_patch_doc(doc, request, revision)
         if version_date < parse_date(find_dateModified(revisions[:version])):
@@ -55,10 +55,11 @@ def get_version_from_date(request, doc, revisions):
             return (doc,
                     parse_hash(revision['rev']),
                     parse_hash(revisions[version - 1].get('rev', '')))
-    return404(request, 'header', 'hash')
+    return404(request, 'header', 'version')
 
 
 def extract_doc(request, doc_type):
+
     doc_id = request.matchdict['doc_id']
     if doc_id is None:
         return404(request, 'url', '{}_id'.format(doc_type.lower()))  # pragma: no cover
@@ -75,6 +76,9 @@ def extract_doc(request, doc_type):
                              rhash=revision_hash, phash=prev_hash)
         return doc
 
+    if request.validated.get(VERSION) and int(request.validated.get(VERSION)) == len(revisions):
+        request.validated[VERSION] = ''
+
     if not revisions or not request.validated.get(VERSION):
         add_responce_headers(request, version=str(len(revisions)),
                              rhash=parse_hash(doc.get('_rev', '')),
@@ -82,6 +86,9 @@ def extract_doc(request, doc_type):
                                  revisions[-1].get('rev')
                                  if len(revisions) > 0 else ''
                              ))
+        date_modified = find_dateModified(revisions)
+        if date_modified:
+            doc['dateModified'] = date_modified
         return doc
 
     if int(request.validated.get(VERSION)) > len(revisions):
@@ -124,9 +131,10 @@ def apply_while(request, doc, revisions):
 
 def find_dateModified(revisions):
     for patch in reversed(revisions):
-        if not any(op.get('path') for op in patch.get('changes')
-                   if 'bids' in op.get('path')):
-            return patch.get('date')
+        if not patch.get('author') == "chronograph":
+            if not any(op.get('path') for op in patch.get('changes')
+                       if 'bids' in op.get('path')):
+                    return patch.get('date')
     return ''
 
 
