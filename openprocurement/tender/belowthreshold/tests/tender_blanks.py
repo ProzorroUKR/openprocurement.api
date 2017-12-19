@@ -5,7 +5,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX, CPV_BLOCK_FROM
+from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX, CPV_BLOCK_FROM, INN_CODES, ATC_CODES
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
 )
@@ -572,20 +572,43 @@ def create_tender_invalid(self):
     self.assertIn(u'classification', response.json['errors'][0][u'description'][0])
     self.assertIn(u'id', response.json['errors'][0][u'description'][0][u'classification'])
     self.assertIn("Value must be one of [u", response.json['errors'][0][u'description'][0][u'classification'][u'id'][0])
+    data = deepcopy(self.initial_data)
+    data["items"] = [data["items"][0]]
+    data["items"][0]['classification']['id'] = u'33600000-6'
+    del data["items"][0]['additionalClassifications']
 
-    data = self.initial_data["items"][0].copy()
-    classification = data['classification'].copy()
-    classification["id"] = u'33600000-6'
-    data['classification'] = classification
-    self.initial_data["items"] = [data, self.initial_data["items"][0]]
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data["items"] = self.initial_data["items"][1:]
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    data["items"][0]['additionalClassifications'] = [{
+        "scheme": u"INN",
+        "id": u"17.21.1",
+        "description": u"папір і картон гофровані, паперова й картонна тара"
+    }]
+
+    response = self.app.post_json('/tenders', {"data": data}, status=422)
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u'CPV group of items be identical'], u'location': u'body', u'name': u'items'}
-    ])
+    self.assertEqual(response.json['errors'],
+                     [{u'description': [
+                         {u'additionalClassifications': [{u'id': [u"Value must be one of {}.".format(INN_CODES)]}]}],
+                         u'name': u'items', u'location': u'body'}]
+                     )
+
+    # assign correct id code
+    data['items'][0]['additionalClassifications'][0]['id'] = u'sodium oxybate'
+    additional_classification = {
+        "scheme": u"ATC",
+        "id": u"17.21.1",
+        "description": u"папір і картон гофровані, паперова й картонна тара"
+    }
+    data['items'][0]['additionalClassifications'].append(additional_classification)
+
+    response = self.app.post_json('/tenders', {"data": data}, status=422)
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': [
+                         {u'additionalClassifications': [{u'id': [u"Value must be one of {}.".format(ATC_CODES)]}]}],
+                         u'name': u'items', u'location': u'body'}]
+                     )
 
     procuringEntity = self.initial_data["procuringEntity"]
     data = self.initial_data["procuringEntity"].copy()
@@ -703,6 +726,38 @@ def create_tender(self):
     self.assertNotIn('locality', response.json['data']['items'][0]['deliveryAddress'])
     self.assertNotIn('streetAddress', response.json['data']['items'][0]['deliveryAddress'])
     self.assertNotIn('region', response.json['data']['items'][0]['deliveryAddress'])
+
+    data = deepcopy(self.initial_data)
+    data["items"] = [data["items"][0]]
+    data["items"][0]['classification']['id'] = u'33600000-6'
+
+    additional_classification_0 = {
+        "scheme": u"INN",
+        "id": u"sodium oxybate",
+        "description": u"папір і картон гофровані, паперова й картонна тара"
+    }
+    data["items"][0]['additionalClassifications'] = [additional_classification_0]
+
+    response = self.app.post_json('/tenders', {"data": data})
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.json['data']['items'][0]['classification']['id'], '33600000-6')
+    self.assertEqual(response.json['data']['items'][0]['classification']['scheme'], u'ДК021')
+    self.assertEqual(response.json['data']['items'][0]['additionalClassifications'][0], additional_classification_0)
+
+    additional_classification_1 = {
+        "scheme": u"ATC",
+        "id": u"A02AF",
+        "description": u"папір і картон гофровані, паперова й картонна тара"
+    }
+    data['items'][0]['additionalClassifications'].append(additional_classification_1)
+    response = self.app.post_json('/tenders', {"data": data})
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.json['data']['items'][0]['classification']['id'], '33600000-6')
+    self.assertEqual(response.json['data']['items'][0]['classification']['scheme'], u'ДК021')
+    self.assertEqual(response.json['data']['items'][0]['additionalClassifications'],
+                     [additional_classification_0, additional_classification_1])
 
 
 def tender_funders(self):
