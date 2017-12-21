@@ -123,7 +123,7 @@ class Item(BaseItem):
         }
 
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications =  ListType(ModelType(AdditionalClassification, required=True))
+    additionalClassifications =  ListType(ModelType(AdditionalClassification, default=list()))
 
 
 class Change(Model):
