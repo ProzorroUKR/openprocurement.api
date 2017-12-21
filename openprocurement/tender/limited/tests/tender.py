@@ -10,6 +10,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     get_tender,
     dateModified_tender,
     tender_not_found,
+    tender_funders,
 )
 
 from openprocurement.tender.limited.tests.base import (
@@ -101,6 +102,7 @@ class TenderResourceTest(BaseTenderWebTest):
     test_dateModified_tender = snitch(dateModified_tender)
     test_tender_not_found = snitch(tender_not_found)
     test_tender_Administrator_change = snitch(tender_Administrator_change)
+    test_tender_funders = snitch(tender_funders)
 
 
 class TenderNegotiationResourceTest(TenderResourceTest):
