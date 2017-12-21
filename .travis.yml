@@ -26,7 +26,6 @@ script:
   - bin/nosetests
 after_success:
   - bin/coveralls
-  - bin/pylint --errors-only --disable=no-member,not-an-iterable,bad-super-call,unsubscriptable-object,too-many-format-args openprocurement.tender.belowthreshold
 notifications:
   webhooks:
     urls:
