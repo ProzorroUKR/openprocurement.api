@@ -54,6 +54,7 @@ from openprocurement.tender.esco.tests.bid_blanks import (
     bids_invalidation_on_tender_change,
     deleted_bid_do_not_locks_tender_in_state,
     create_tender_bid_invalid_funding_kind_budget,
+    create_tender_bid_31_12,
 )
 from openprocurement.tender.esco.utils import to_decimal
 
@@ -96,6 +97,7 @@ class TenderBidResourceTest(BaseESCOContentWebTest):
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
 
     test_create_tender_bid_invalid_funding_kind_budget = snitch(create_tender_bid_invalid_funding_kind_budget)
+    test_create_tender_bid_31_12 = snitch(create_tender_bid_31_12)
 
 
 class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):

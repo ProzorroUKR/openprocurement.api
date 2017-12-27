@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+from datetime import datetime
 
 
 # TenderBidResourceTest
@@ -345,6 +346,56 @@ def create_tender_bid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"],
                      "Can't add bid in current (complete) tender status")
+
+
+def create_tender_bid_31_12(self):
+    # time travel - announce tender 31.12.17
+    tender = self.db.get(self.tender_id)
+    tender['noticePublicationDate'] = datetime(2017, 12, 31).isoformat()
+    self.db.save(tender)
+
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                  {'data': self.test_bids_data[0]})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    bid = response.json['data']
+    self.assertEqual(bid['tenderers'][0]['name'], self.test_bids_data[0]['tenderers'][0]['name'])
+    self.assertIn('id', bid)
+    self.assertIn(bid['id'], response.headers['Location'])
+    self.assertIn('value', bid)
+    self.assertEqual(bid['value']['contractDuration']['years'],
+                     self.test_bids_data[0]['value']['contractDuration']['years'])
+    self.assertEqual(bid['value']['contractDuration']['days'],
+                     self.test_bids_data[0]['value']['contractDuration']['days'])
+    self.assertEqual(bid['value']['annualCostsReduction'],
+                     self.test_bids_data[0]['value']['annualCostsReduction'])
+    self.assertEqual(bid['value']['yearlyPaymentsPercentage'],
+                     self.test_bids_data[0]['value']['yearlyPaymentsPercentage'])
+    self.assertIn('amount', response.json['data']['value'])
+    self.assertIn('amountPerformance', response.json['data']['value'])
+
+    data = deepcopy(self.test_bids_data[0])
+    data['value']['yearlyPaymentsPercentage'] = 1
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['value']['yearlyPaymentsPercentage'],
+                     data['value']['yearlyPaymentsPercentage'])
+    self.assertIn('amount', response.json['data']['value'])
+    self.assertIn('amountPerformance', response.json['data']['value'])
+
+    data = deepcopy(self.test_bids_data[0])
+    data['value']['contractDuration']['years'] = 1
+    data['value']['contractDuration']['days'] = 1
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['value']['contractDuration']['years'],
+                     data['value']['contractDuration']['years'])
+    self.assertEqual(response.json['data']['value']['contractDuration']['days'],
+                     data['value']['contractDuration']['days'])
+    self.assertIn('amount', response.json['data']['value'])
+    self.assertIn('amountPerformance', response.json['data']['value'])
 
 
 def patch_tender_bid(self):
