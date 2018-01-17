@@ -163,7 +163,7 @@ def bids_validation_wrapper(validation_func):
             # in case this validation wrapper is used for subelement of bid (such as parameters)
             # traverse back to the bid to get possibility to check status  # troo-to-to =)
             data = data['__parent__']
-        if data['status'] in ('deleted', 'invalid', 'invalid.pre-qualification', 'draft'):
+        if data['status'] in ('deleted', 'invalid', 'invalid.pre-qualification', 'draft', 'unsuccessful'):
             # skip not valid bids
             return
         tender = data['__parent__']
