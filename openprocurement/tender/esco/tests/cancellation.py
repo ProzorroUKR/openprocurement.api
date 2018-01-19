@@ -29,6 +29,8 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
     cancellation_unsuccessful_qualification,
     cancellation_active_award,
     cancellation_unsuccessful_award,
+    cancellation_active_tendering_j708,
+    cancellation_active_qualification_j1427,
     # TenderCancellationBidsAvailabilityTest
     bids_on_tender_cancellation_in_tendering,
     bids_on_tender_cancellation_in_pre_qualification,
@@ -95,6 +97,8 @@ class TenderAwardsCancellationResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
 
+    test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
+    test_cancellation_active_tendering_j708 = snitch(cancellation_active_tendering_j708)
     test_cancellation_active_qualification = snitch(cancellation_active_qualification)
     test_cancellation_unsuccessful_qualification = snitch(cancellation_unsuccessful_qualification)
     test_cancellation_active_award = snitch(cancellation_active_award)
