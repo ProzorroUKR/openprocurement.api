@@ -6,7 +6,8 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
-    test_lots
+    test_lots,
+    test_bids
 )
 
 from openprocurement.tender.belowthreshold.tests.cancellation import (
@@ -21,6 +22,9 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lots_cancellation,
     patch_tender_lots_cancellation,
 )
+from openprocurement.tender.competitivedialogue.tests.stage1.cancellation_blanks import (
+    cancellation_active_qualification_j1427,
+)
 
 
 class CompetitiveDialogUACancellationResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderCancellationResourceTestMixin):
@@ -29,16 +33,20 @@ class CompetitiveDialogUACancellationResourceTest(BaseCompetitiveDialogUAContent
 
 class CompetitiveDialogUALotCancellationResourceTest(BaseCompetitiveDialogUAContentWebTest):
     initial_lots = test_lots
+    initial_bids = test_bids
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
+    test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
 
 
 class CompetitiveDialogUALotsCancellationResourceTest(BaseCompetitiveDialogUAContentWebTest):
     initial_lots = 2 * test_lots
+    initial_bids = test_bids
 
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
+    test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
 
 
 class CompetitiveDialogUACancellationDocumentResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderCancellationDocumentResourceTestMixin):
@@ -59,19 +67,23 @@ class CompetitiveDialogEUCancellationResourceTest(BaseCompetitiveDialogEUContent
 
 class CompetitiveDialogEULotCancellationResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_lots = test_lots
+    initial_bids = test_bids
 
     initial_auth = ('Basic', ('broker', ''))
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
+    test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
 
 
 class CompetitiveDialogEULotsCancellationResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_lots = 2 * test_lots
+    initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
 
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
+    test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
 
 
 class CompetitiveDialogEUCancellationDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest, TenderCancellationDocumentResourceTestMixin):

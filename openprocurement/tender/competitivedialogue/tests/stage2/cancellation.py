@@ -6,6 +6,8 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_lots
 
 from openprocurement.tender.competitivedialogue.tests.base import (
+    test_bids,
+    test_shortlistedFirms,
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest
 )
@@ -21,6 +23,14 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lots_cancellation,
     patch_tender_lots_cancellation,
 )
+from openprocurement.tender.competitivedialogue.tests.stage2.cancellation_blanks import (
+    cancellation_active_qualification_j1427,
+)
+
+
+for bid in test_bids:
+    bid['tenderers'][0]['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
+    bid['tenderers'][0]['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
 
 
 class TenderStage2EUCancellationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationResourceTestMixin):
@@ -29,16 +39,20 @@ class TenderStage2EUCancellationResourceTest(BaseCompetitiveDialogEUStage2Conten
 
 class TenderStage2EULotCancellationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_lots = test_lots
+    initial_bids = test_bids
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
+    test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
 
 
 class TenderStage2EULotsCancellationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_lots = 2 * test_lots
+    initial_bids = test_bids
 
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
+    test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
 
 
 class TenderStage2EUCancellationDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationDocumentResourceTestMixin):
