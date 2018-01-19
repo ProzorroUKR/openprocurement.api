@@ -426,7 +426,7 @@ class Bid(BaseBid):
 
     @serializable(serialized_name="status")
     def serialize_status(self):
-        if self.status in ['draft', 'invalid', 'unsuccessful', 'deleted'] or self.__parent__.status in ['active.tendering', 'cancelled']:
+        if self.status in ['draft', 'invalid', 'invalid.pre-qualification', 'unsuccessful', 'deleted'] or self.__parent__.status in ['active.tendering', 'cancelled']:
             return self.status
         if self.__parent__.lots:
             active_lots = [lot.id for lot in self.__parent__.lots if lot.status in ('active', 'complete',)]
