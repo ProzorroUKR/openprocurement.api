@@ -161,6 +161,7 @@ class Bid(BidEU):
             'active.pre-qualification.stand-still': whitelist('id', 'status', 'documents', 'tenderers'),
             'active.auction': whitelist('id', 'status', 'documents', 'tenderers'),
             'active.stage2.pending': whitelist('id', 'status', 'documents', 'tenderers'),
+            'active.stage2.waiting': whitelist('id', 'status', 'documents', 'tenderers'),
             'active.qualification': view_bid_role,
             'complete': view_bid_role_stage1,
             'unsuccessful': view_bid_role_stage1,

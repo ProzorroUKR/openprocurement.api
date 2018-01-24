@@ -1898,3 +1898,13 @@ def bids_view_j1446(self):
     # check bids are available
     self.assertIn("numberOfBids", response.json['data'])
     self.assertIn("bids", response.json['data'])
+
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_owner_token),
+                                   {"data": {"status": "active.stage2.waiting"}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertIn("numberOfBids", response.json['data'])
+    self.assertIn("bids", response.json['data'])
+    # private info is hidden
+    self.assertNotIn("owner", response.json['data']['bids'][0])
+    self.assertNotIn("owner_token", response.json['data']['bids'][0])
