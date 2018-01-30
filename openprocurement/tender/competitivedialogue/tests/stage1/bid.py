@@ -36,6 +36,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
     create_tender_bidder_document_description,
     create_tender_bidder_invalid_document_description,
     create_tender_bidder_invalid_confidential_document,
+    bids_view_j1446,
 )
 
 
@@ -105,6 +106,7 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
     test_create_tender_bidder_document_description = snitch(create_tender_bidder_document_description)
     test_create_tender_bidder_invalid_document_description = snitch(create_tender_bidder_invalid_document_description)
     test_create_tender_bidder_invalid_confidential_document = snitch(create_tender_bidder_invalid_confidential_document)
+    test_bids_view_j1446 = snitch(bids_view_j1446)
 
 
 def suite():
