@@ -57,7 +57,8 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     get_tender_qualifications_collection,
     patch_tender_qualifications,
     get_tender_qualifications,
-    patch_tender_qualifications_after_status_change
+    patch_tender_qualifications_after_status_change,
+    switch_bid_status_unsuccessul_to_active
 )
 
 
@@ -307,6 +308,10 @@ class Tender2LotQualificationComplaintDocumentResourceTest(TenderQualificationCo
     test_put_tender_qualification_complaint_document = snitch(put_tender_2lot_qualification_complaint_document)
     test_patch_tender_qualification_complaint_document = snitch(patch_tender_2lot_qualification_complaint_document)
 
+
+class TenderIssueCBD1713Test(Tender2LotQualificationResourceTest):
+
+    test_switch_bid_status_unsuccessul_to_active = snitch(switch_bid_status_unsuccessul_to_active)
 
 def suite():
     suite = unittest.TestSuite()
