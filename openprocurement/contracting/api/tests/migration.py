@@ -51,7 +51,8 @@ class MigrateTest(BaseWebTest):
 
         migrate_data(self.app.app.registry, 1)
         migrated_item = self.db.get(contract.id)
-
+        tender['awards'][0]['value']['amount'] = \
+            str(tender['awards'][0]['value']['amount'])
         self.assertIn("value", migrated_item)
         self.assertEqual(migrated_item['value'], tender['awards'][0]['value'])
         self.assertIn("suppliers", migrated_item)
