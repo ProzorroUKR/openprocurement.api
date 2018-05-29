@@ -112,7 +112,7 @@ setup_args = dict(to_dir=tmpeggs, download_delay=0)
 if options.setuptools_version is not None:
     setup_args['version'] = options.setuptools_version
 else:
-    setup_args['version'] = "7.0"
+    setup_args['version'] = "33.1.1"
 if options.setuptools_to_dir is not None:
     setup_args['to_dir'] = options.setuptools_to_dir
 

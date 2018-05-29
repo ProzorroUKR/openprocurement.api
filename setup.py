@@ -25,7 +25,7 @@ entry_points = {
 setup(name='openprocurement.tender.openuadefense',
       version=version,
       description="",
-      long_description=open("README.txt").read() + "\n" +
+      long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
