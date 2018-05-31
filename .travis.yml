@@ -22,10 +22,3 @@ script:
   - bin/py.test ./openprocurement/planning/api/tests --cov=openprocurement/planning/api
 after_success:
   - bin/coveralls
-notifications:
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/4000c648ae50a8d3fcee
-    on_success: true
-    on_failure: true
-    on_start: false
