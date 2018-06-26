@@ -1,0 +1,41 @@
+[
+    {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+        "title": "Потужність всмоктування",
+        "enum": [
+            {
+                "value": 0.1,
+                "title": "До 1000 Вт"
+            },
+            {
+                "value": 0.15,
+                "title": "Більше 1000 Вт"
+            }
+        ],
+        "title_en": "Air Intake",
+        "relatedItem": "1",
+        "featureOf": "item"
+    },
+    {
+        "code": "OCDS-123454-YEARS",
+        "description": "Кількість років, які організація учасник працює на ринку",
+        "title": "Років на ринку",
+        "enum": [
+            {
+                "value": 0.05,
+                "title": "До 3 років"
+            },
+            {
+                "value": 0.1,
+                "title": "Більше 3 років, менше 5 років"
+            },
+            {
+                "value": 0.15,
+                "title": "Більше 5 років"
+            }
+        ],
+        "title_en": "Years trading",
+        "featureOf": "tenderer"
+    }
+]

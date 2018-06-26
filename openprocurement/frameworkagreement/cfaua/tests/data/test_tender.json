@@ -1,0 +1,73 @@
+{
+    "procurementMethodType": "closeFrameworkAgreementUA",
+    "procuringEntity": {
+        "kind": "general",
+        "name": "Державне управління справами",
+        "address": {
+            "countryName": "Україна",
+            "postalCode": "01220",
+            "region": "м. Київ",
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+            "locality": "м. Київ"
+        },
+        "name_en": "State administration",
+        "identifier": {
+            "scheme": "UA-EDR",
+            "legalName_en": "dus.gov.ua",
+            "id": "00037256",
+            "uri": "http://www.dus.gov.ua/"
+        },
+        "contactPoint": {
+            "name_en": "State administration",
+            "name": "Державне управління справами",
+            "telephone": "0440000000"
+        }
+    },
+    "title": "футляри до державних нагород",
+    "minimalStep": {
+        "currency": "UAH",
+        "amount": 35
+    },
+    "items": [
+        {
+            "unit": {
+                "code": "44617100-9",
+                "name": "item"
+            },
+            "additionalClassifications": [
+                {
+                    "scheme": "ДКПП",
+                    "id": "17.21.1",
+                    "description": "папір і картон гофровані, паперова й картонна тара"
+                }
+            ],
+            "description": "футляри до державних нагород",
+            "classification": {
+                "scheme": "ДК021",
+                "id": "44617100-9",
+                "description": "Cartons"
+            },
+            "deliveryAddress": {
+                "countryName": "Україна",
+                "postalCode": "79000",
+                "region": "м. Київ",
+                "streetAddress": "вул. Банкова 1",
+                "locality": "м. Київ"
+            },
+            "deliveryDate": {
+                "startDate": "2018-06-27T13:39:09.362837",
+                "endDate": "2018-06-30T13:39:09.362837"
+            },
+            "description_en": "Cases for state awards",
+            "quantity": 5
+        }
+    ],
+    "title_en": "Cases for state awards",
+    "value": {
+        "currency": "UAH",
+        "amount": 500
+    },
+    "tenderPeriod": {
+        "endDate": "2018-09-01T10:10:10"
+    }
+}
