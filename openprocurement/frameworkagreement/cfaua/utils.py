@@ -19,7 +19,7 @@ from openprocurement.tender.openua.utils import (
     add_next_award,
     check_complaint_status
 )
-from openprocurement.frameworkagreement.cfaua.models.tender import Qualification
+from openprocurement.frameworkagreement.cfaua.models.submodels.qualification import Qualification
 from openprocurement.frameworkagreement.cfaua.traversal import (
     qualifications_factory, bid_financial_documents_factory,
     bid_eligibility_documents_factory, bid_qualification_documents_factory)

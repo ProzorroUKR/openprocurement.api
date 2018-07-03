@@ -5,6 +5,8 @@ version = '1.0.0'
 
 requires = [
     'setuptools',
+    'zope.component',
+    'zope.configuration',
     'openprocurement.api>=2.4',
 ]
 

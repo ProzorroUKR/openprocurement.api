@@ -7,13 +7,13 @@ from openprocurement.api.utils import get_now
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
-from openprocurement.frameworkagreement.cfaua.models.tender import Tender
+from openprocurement.frameworkagreement.cfaua.models.tender import CloseFrameworkAgreementUA
 
 # TenderTest
 
 
 def simple_add_tender(self):
-    u = Tender(self.initial_data)
+    u = CloseFrameworkAgreementUA(self.initial_data)
     u.tenderID = "UA-X"
 
     assert u.id is None
