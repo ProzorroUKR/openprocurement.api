@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now, raise_operation_error
 from openprocurement.api.validation import validate_data, OPERATIONS
-from openprocurement.frameworkagreement.cfaua.models.submodels.qualification import Qualification
 
 
 def validate_patch_qualification_data(request):
