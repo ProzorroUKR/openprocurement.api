@@ -24,7 +24,11 @@ from openprocurement.frameworkagreement.cfaua.constants import (
     TENDERING_DAYS
 )
 from openprocurement.frameworkagreement.cfaua.interfaces import (
-    ICloseFrameworkAgreementUA, ISerializableTenderValue, ISerializableTenderGuarantee, ISerializableTenderMinimalStep
+    ICloseFrameworkAgreementUA,
+    ISerializableTenderValue,
+    ISerializableTenderGuarantee,
+    ISerializableTenderMinimalStep,
+    ISerializableTenderEnquiryPeriod
 )
 from openprocurement.frameworkagreement.cfaua.models.submodels.award import Award
 from openprocurement.frameworkagreement.cfaua.models.submodels.bids import BidModelType, Bid
@@ -175,11 +179,7 @@ class CloseFrameworkAgreementUA(Tender):
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
-        endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
-        return EnquiryPeriod(dict(startDate=self.tenderPeriod.startDate,
-                                  endDate=endDate,
-                                  invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                                  clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)))
+        return getAdapter(self, ISerializableTenderEnquiryPeriod)()
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):

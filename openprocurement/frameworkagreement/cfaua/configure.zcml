@@ -30,4 +30,10 @@
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
+    <adapter
+        factory=".adapters.serializable.enquiryPeriod.TenderEnquiryPeriod"
+        provides=".interfaces.ISerializableTenderEnquiryPeriod"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
 </configure>

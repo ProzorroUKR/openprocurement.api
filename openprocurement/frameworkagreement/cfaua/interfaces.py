@@ -19,3 +19,7 @@ class ISerializableTenderMinimalStep(Interface):
 
 class ISerializableTenderGuarantee(Interface):
      pass
+
+
+class ISerializableTenderEnquiryPeriod(Interface):
+     pass
