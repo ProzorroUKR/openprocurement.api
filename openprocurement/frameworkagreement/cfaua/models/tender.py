@@ -26,8 +26,6 @@ from openprocurement.frameworkagreement.cfaua.constants import (
 )
 from openprocurement.frameworkagreement.cfaua.interfaces import (
     ICloseFrameworkAgreementUA,
-    ISerializableTenderGuarantee,
-    ISerializableTenderMinimalStep,
     ISerializableTenderField
 )
 from openprocurement.frameworkagreement.cfaua.models.submodels.award import Award
