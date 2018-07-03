@@ -1,15 +1,25 @@
 <configure xmlns="http://namespaces.zope.org/zope">
     <include package="zope.component" file="meta.zcml" />
 
+    <!-- getAdapter(tender, openprocurement.api.interfaces.IContentConfigurator) -->
     <adapter
         factory=".adapters.configurator.CloseFrameworkAgreementUAConfigurator"
         provides="openprocurement.api.interfaces.IContentConfigurator"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
+    <!-- getAdapter(tender, interfaces.ISerializableTenderField, 'value') -->
     <adapter
+        name="value"
         factory=".adapters.serializable.value.TenderMultilotValue"
-        provides=".interfaces.ISerializableTenderValue"
+        provides=".interfaces.ISerializableTenderField"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="next_check"
+        factory=".adapters.serializable.next_check.SerializableTenderNextCheck"
+        provides=".interfaces.ISerializableTenderField"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 

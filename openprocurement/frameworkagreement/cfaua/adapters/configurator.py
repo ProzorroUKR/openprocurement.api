@@ -9,6 +9,12 @@ from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD, STAT
 class CloseFrameworkAgreementUAConfigurator(TenderConfigurator):
     """ AboveThresholdEU Tender configuration adapter """
 
+    def __init__(self, *args, **kwargs):
+        if len(args) == 2:
+            self.context, self.request = args
+        else:
+            self.context = args[0]
+
     name = "CloseFrameworkAgreementUA Tender configurator"
     model = CloseFrameworkAgreementUA
 
