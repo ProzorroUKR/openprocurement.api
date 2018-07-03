@@ -1,3 +1,4 @@
+from openprocurement.api.constants import TZ
 from openprocurement.frameworkagreement.cfaua.constants import TENDERING_DURATION, \
     PREQUALIFICATION_COMPLAINT_STAND_STILL
 from openprocurement.frameworkagreement.cfaua.models.tender import CloseFrameworkAgreementUA
@@ -15,6 +16,7 @@ class CloseFrameworkAgreementUAConfigurator(TenderConfigurator):
         else:
             self.context = args[0]
 
+    tz = TZ
     name = "CloseFrameworkAgreementUA Tender configurator"
     model = CloseFrameworkAgreementUA
 
