@@ -31,6 +31,18 @@
         />
 
     <adapter
+        name="enquiryPeriod"
+        factory=".adapters.serializable.enquiryperiod.TenderEnquiryPeriod"
+        provides=".interfaces.ISerializableTenderField"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <!--<adapter-->
+        <!--factory="openprocurement.frameworkagreement.cfaua.adapters.serializable.minimalstep.SerializableTenderMinimalStep"-->
+        <!--provides="openprocurement.frameworkagreement.cfaua.interfaces.ISerializableTenderMinimalStep"-->
+        <!--for="openprocurement.frameworkagreement.cfaua.interfaces.ICloseFrameworkAgreementUA"-->
+        <!--/>-->
+    <adapter
         name="minimalStep"
         factory=".adapters.serializable.minimalstep.SerializableTenderMinimalStep"
         provides=".interfaces.ISerializableTenderField"
