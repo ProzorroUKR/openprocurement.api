@@ -11,9 +11,6 @@ class ICloseFrameworkAgreementUA(ITender):
 class ISerializableTenderField(Interface):
      pass
 
-class ISerializableTenderMinimalStep(Interface):
-     pass
 
-
-class ISerializableTenderGuarantee(Interface):
+class IValidateTenderField(Interface):
      pass

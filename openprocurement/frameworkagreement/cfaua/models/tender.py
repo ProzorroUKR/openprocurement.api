@@ -225,12 +225,12 @@ class CloseFrameworkAgreementUA(Tender):
 
     @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
     def tender_guarantee(self):
-        return getAdapter(self, ISerializableTenderGuarantee)()
+        return getAdapter(self, ISerializableTenderField, 'guarantee')()
 
 
     @serializable(serialized_name="minimalStep", type=ModelType(Value))
     def tender_minimalStep(self):
-        return getAdapter(self, ISerializableTenderMinimalStep)()
+        return getAdapter(self, ISerializableTenderField, 'minimalStep')()
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False
