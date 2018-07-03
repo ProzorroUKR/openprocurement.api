@@ -302,9 +302,6 @@ class CloseFrameworkAgreementUA(Tender):
     @serializable(serialized_name="minimalStep", type=ModelType(Value))
     def tender_minimalStep(self):
         return getAdapter(self, ISerializableTenderMinimalStep)()
-        # return Value(dict(amount=min([i.minimalStep.amount for i in self.lots]),
-        #                   currency=self.minimalStep.currency,
-        #                   valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if self.lots else self.minimalStep
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False

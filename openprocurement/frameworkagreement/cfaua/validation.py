@@ -5,7 +5,8 @@ from openprocurement.frameworkagreement.cfaua.models.submodels.qualification imp
 
 
 def validate_patch_qualification_data(request):
-    return validate_data(request, Qualification, True)
+    qualification_class = type(request.context)
+    return validate_data(request, qualification_class, True)
 
 # bids
 def validate_view_bids_in_active_tendering(request):

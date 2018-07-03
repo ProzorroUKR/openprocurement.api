@@ -1,15 +1,22 @@
 <configure xmlns="http://namespaces.zope.org/zope">
     <include package="zope.component" file="meta.zcml" />
+
     <adapter
-        factory="openprocurement.frameworkagreement.cfaua.adapters.serializable.value.TenderMultilotValue"
-        provides="openprocurement.frameworkagreement.cfaua.interfaces.ISerializableTenderValue"
-        for="openprocurement.frameworkagreement.cfaua.interfaces.ICloseFrameworkAgreementUA"
+        factory=".adapters.configurator.CloseFrameworkAgreementUAConfigurator"
+        provides="openprocurement.api.interfaces.IContentConfigurator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
-        factory="openprocurement.frameworkagreement.cfaua.adapters.serializable.guarantee.SerializableTenderGuarantee"
-        provides="openprocurement.frameworkagreement.cfaua.interfaces.ISerializableTenderGuarantee"
-        for="openprocurement.frameworkagreement.cfaua.interfaces.ICloseFrameworkAgreementUA"
+        factory=".adapters.serializable.value.TenderMultilotValue"
+        provides=".interfaces.ISerializableTenderValue"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        factory=".adapters.serializable.guarantee.SerializableTenderGuarantee"
+        provides=".interfaces.ISerializableTenderGuarantee"
+        for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <!--<adapter-->
