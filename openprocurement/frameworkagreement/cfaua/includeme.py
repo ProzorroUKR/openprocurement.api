@@ -9,7 +9,7 @@ from openprocurement.frameworkagreement.cfaua.adapters.configurator import Close
 from openprocurement.frameworkagreement.cfaua.interfaces import ICloseFrameworkAgreementUA
 from openprocurement.frameworkagreement.cfaua.models.tender import CloseFrameworkAgreementUA
 
-# from zope.component import provideAdapter
+from zope.component import provideAdapter
 # from openprocurement.frameworkagreement.cfaua.adapters.serializable.guarantee import SerializableTenderGuarantee
 # from openprocurement.frameworkagreement.cfaua.adapters.serializable.minimalstep import SerializableTenderMinimalStep
 # from openprocurement.frameworkagreement.cfaua.adapters.serializable.value import TenderMultilotValue
