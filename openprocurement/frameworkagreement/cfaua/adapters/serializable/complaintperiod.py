@@ -1,4 +1,4 @@
-# /home/andriis/ramki/openprocurement.buildout/src/openprocurement.tender.openua/openprocurement/tender/openua/models.py:377
+# src/openprocurement.tender.openua/openprocurement/tender/openua/models.py:377
 from openprocurement.tender.core.utils import calculate_business_date
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
 from openprocurement.tender.openua.utils import calculate_normalized_date
