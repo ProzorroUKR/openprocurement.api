@@ -197,7 +197,7 @@ class CloseFrameworkAgreementUA(Tender):
     @serializable
     def numberOfBids(self):
         """A property that is serialized by schematics exports."""
-        return len([bid for bid in self.bids if bid.status in ("active", "pending",)])
+        return getAdapter(self, ISerializableTenderField, 'numberOfBids')()
 
     def check_auction_time(self):
         if self.auctionPeriod and self.auctionPeriod.startDate and self.auctionPeriod.shouldStartAfter \
