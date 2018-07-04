@@ -57,14 +57,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_questions,
     has_unanswered_complaints,
 )
-from openprocurement.tender.openua.constants import (
-    COMPLAINT_SUBMIT_TIME,
-    AUCTION_PERIOD_TIME,
-)
-from openprocurement.tender.openua.utils import (
-    calculate_normalized_date
-)
-
+from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
 
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
@@ -180,8 +173,7 @@ class CloseFrameworkAgreementUA(Tender):
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
-        normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self)))
+        return getAdapter(self, ISerializableTenderField, 'complaintPeriod')()
 
     @serializable(serialize_when_none=False)
     def next_check(self):
@@ -222,7 +214,6 @@ class CloseFrameworkAgreementUA(Tender):
     @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
     def tender_guarantee(self):
         return getAdapter(self, ISerializableTenderField, 'guarantee')()
-
 
     @serializable(serialized_name="minimalStep", type=ModelType(Value))
     def tender_minimalStep(self):

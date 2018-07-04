@@ -37,6 +37,13 @@
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
+    <adapter
+        name="complaintPeriod"
+        factory=".adapters.serializable.complaintperiod.TenderComplaintPeriod"
+        provides=".interfaces.ISerializableTenderField"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
     <!--<adapter-->
         <!--factory="openprocurement.frameworkagreement.cfaua.adapters.serializable.minimalstep.SerializableTenderMinimalStep"-->
         <!--provides="openprocurement.frameworkagreement.cfaua.interfaces.ISerializableTenderMinimalStep"-->
