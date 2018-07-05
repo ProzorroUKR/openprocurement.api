@@ -1,0 +1,69 @@
+PATCH /api/2.3/tenders/9347ba8701344744bba03bd4d268c55b/awards/a8d69a40d16e47f3af7235c37ed90b60/complaints/9bc223dd8d884e10a233ef5827ca6a7e?acc_token=dd9813a1897048e4918b41394815a99e HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 51
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+
+{
+  "data": {
+    "status": "resolved", 
+    "satisfied": true
+  }
+}
+
+
+200 OK
+Content-Type: application/json; charset=UTF-8
+
+{
+  "data": {
+    "status": "resolved", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "complaint_owner", 
+        "title": "Complaint_Attachement.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/74e2b0a8d8674bc5ba2e54e8be0f1ff1?KeyID=2469e056&Signature=nRUYhAcQQkPQrAkG19aaWGSBTa9e0SrchWM23%252BzT%252BSGxDdUHd%252Baf1kK584iRW%2Ff5bxrr48xrwWfA7SWwNkDCBQ%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2017-06-17T15:33:08.173614+03:00", 
+        "id": "9f06a82fad5c40809a93704ec0c90b42", 
+        "dateModified": "2017-06-17T15:33:08.173650+03:00"
+      }
+    ], 
+    "description": "complaint description", 
+    "author": {
+      "contactPoint": {
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00137256", 
+        "uri": "http://www.sc.gov.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "postalCode": "21100", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 33", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "resolutionType": "resolved", 
+    "type": "claim", 
+    "title": "complaint title", 
+    "satisfied": true, 
+    "tendererAction": "Виправлено неконкурентні умови", 
+    "dateAnswered": "2017-06-17T15:33:09.125758+03:00", 
+    "tendererActionDate": "2017-06-17T15:33:09.125783+03:00", 
+    "dateSubmitted": "2017-06-17T15:33:08.441802+03:00", 
+    "complaintID": "UA-2017-06-17-000001.5", 
+    "date": "2017-06-17T15:33:09.404096+03:00", 
+    "resolution": "Виправлено неконкурентні умови", 
+    "id": "9bc223dd8d884e10a233ef5827ca6a7e"
+  }
+}
+

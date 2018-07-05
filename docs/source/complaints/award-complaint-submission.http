@@ -1,0 +1,73 @@
+POST /api/2.3/tenders/9347ba8701344744bba03bd4d268c55b/awards/a8d69a40d16e47f3af7235c37ed90b60/complaints?acc_token=3aca0f0c46fe4b65af658066d327c521 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 775
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+
+{
+  "data": {
+    "title": "complaint title", 
+    "description": "complaint description", 
+    "author": {
+      "contactPoint": {
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк", 
+        "email": "soleksuk@gmail.com"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00137256", 
+        "uri": "http://www.sc.gov.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "21100", 
+        "region": "м. Вінниця", 
+        "streetAddress": "вул. Островського, 33", 
+        "locality": "м. Вінниця"
+      }
+    }
+  }
+}
+
+
+201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/9347ba8701344744bba03bd4d268c55b/awards/a8d69a40d16e47f3af7235c37ed90b60/complaints/9bc223dd8d884e10a233ef5827ca6a7e
+
+{
+  "access": {
+    "token": "dd9813a1897048e4918b41394815a99e"
+  }, 
+  "data": {
+    "status": "draft", 
+    "description": "complaint description", 
+    "title": "complaint title", 
+    "author": {
+      "contactPoint": {
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00137256", 
+        "uri": "http://www.sc.gov.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "postalCode": "21100", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 33", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "complaintID": "UA-2017-06-17-000001.5", 
+    "date": "2017-06-17T15:33:07.939825+03:00", 
+    "type": "claim", 
+    "id": "9bc223dd8d884e10a233ef5827ca6a7e"
+  }
+}
+
