@@ -79,11 +79,11 @@ class Lot(BaseLot):
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
 
 
-class IBelowThresholdTender(ITender):
+class ICFASelectionUATender(ITender):
      """ Marker interface for closeFrameworkAgreementSelectionUA tenders """
 
 
-@implementer(IBelowThresholdTender)
+@implementer(ICFASelectionUATender)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors
     to submit bids for evaluation and selecting a winner or winners.

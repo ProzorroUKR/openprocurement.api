@@ -357,7 +357,9 @@ def create_tender_invalid(self):
     ])
 
     response = self.app.post_json(request_path, {'data': {
-                                  'invalid_field': 'invalid_value'}}, status=422)
+        "procurementMethodType": "closeFrameworkAgreementSelectionUA",
+        'invalid_field': 'invalid_value'
+    }}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -366,7 +368,10 @@ def create_tender_invalid(self):
             u'body', u'name': u'invalid_field'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'value': 'invalid_value'}}, status=422)
+    response = self.app.post_json(request_path, {'data': {
+        "procurementMethodType": "closeFrameworkAgreementSelectionUA",
+        'value': 'invalid_value'
+    }}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -375,7 +380,10 @@ def create_tender_invalid(self):
             u'Please use a mapping for this field or Value instance instead of unicode.'], u'location': u'body', u'name': u'value'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'procurementMethod': 'invalid_value'}}, status=422)
+    response = self.app.post_json(request_path, {'data': {
+        "procurementMethodType": "closeFrameworkAgreementSelectionUA",
+        'procurementMethod': 'invalid_value'
+    }}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -387,7 +395,10 @@ def create_tender_invalid(self):
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
 
-    response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
+    response = self.app.post_json(request_path, {'data': {
+        "procurementMethodType": "closeFrameworkAgreementSelectionUA",
+        'enquiryPeriod': {'endDate': 'invalid_value'}
+    }}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -395,7 +406,10 @@ def create_tender_invalid(self):
         {u'description': {u'endDate': [u"Could not parse invalid_value. Should be ISO8601."]}, u'location': u'body', u'name': u'enquiryPeriod'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}}}, status=422)
+    response = self.app.post_json(request_path, {'data': {
+        "procurementMethodType": "closeFrameworkAgreementSelectionUA",
+        'enquiryPeriod': {'endDate': '9999-12-31T23:59:59.999999'}
+    }}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')

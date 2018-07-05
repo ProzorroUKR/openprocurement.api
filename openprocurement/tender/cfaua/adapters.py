@@ -4,9 +4,9 @@ from openprocurement.tender.cfaua.constants import STATUS4ROLE
 
 
 class TenderBelowThersholdConfigurator(TenderConfigurator):
-    """ BelowThreshold Tender configuration adapter """
+    """ CFASelectionUA Tender configuration adapter """
 
-    name = "BelowThreshold configurator"
+    name = "CFASelectionUA configurator"
 
     # Dictionary with allowed complaint statuses for operations for each role
     allowed_statuses_for_complaint_operations_for_roles = STATUS4ROLE
