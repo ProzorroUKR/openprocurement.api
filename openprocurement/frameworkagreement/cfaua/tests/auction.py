@@ -33,7 +33,7 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_features_tender_data,
     test_bids
 )
-from openprocurement.frameworkagreement.cfaua.tests.auction_blanks import (
+from openprocurement.tender.openeu.tests.auction_blanks import (
     # TenderMultipleLotAuctionResourceTest
     patch_tender_2lot_auction,
 )

@@ -24,7 +24,7 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_lots,
     test_bids
 )
-from openprocurement.frameworkagreement.cfaua.tests.lot_blanks import (
+from openprocurement.tender.openeu.tests.lot_blanks import (
     # TenderLotProcessTest
     one_lot_1bid,
     one_lot_2bid_1unqualified,

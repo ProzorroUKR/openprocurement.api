@@ -19,7 +19,7 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_features_tender_data,
     test_bids
 )
-from openprocurement.frameworkagreement.cfaua.tests.bid_blanks import (
+from openprocurement.tender.openeu.tests.bid_blanks import (
     # TenderBidDocumentWithDSResourceTest
     patch_tender_bidder_document_private_json,
     put_tender_bidder_document_private_json,

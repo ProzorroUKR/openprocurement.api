@@ -27,7 +27,7 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_bids,
     test_lots
 )
-from openprocurement.frameworkagreement.cfaua.tests.cancellation_blanks import (
+from openprocurement.tender.openeu.tests.cancellation_blanks import (
     # TenderAwardsCancellationResourceTest
     cancellation_active_tendering_j708,
     cancellation_active_qualification_j1427,

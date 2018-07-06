@@ -21,7 +21,7 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_bids,
     test_lots,
 )
-from openprocurement.frameworkagreement.cfaua.tests.question_blanks import (
+from openprocurement.tender.openeu.tests.question_blanks import (
     # TenderQuestionResourceTest
     patch_tender_question,
     answering_question,

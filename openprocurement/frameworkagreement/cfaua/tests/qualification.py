@@ -8,7 +8,7 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_bids,
     test_lots,
 )
-from openprocurement.frameworkagreement.cfaua.tests.qualification_blanks import (
+from openprocurement.tender.openeu.tests.qualification_blanks import (
     # Tender2LotQualificationComplaintDocumentResourceTest
     create_tender_2lot_qualification_complaint_document,
     put_tender_2lot_qualification_complaint_document,

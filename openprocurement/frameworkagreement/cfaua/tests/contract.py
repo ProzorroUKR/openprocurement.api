@@ -21,7 +21,7 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_tender_data,
     test_bids
 )
-from openprocurement.frameworkagreement.cfaua.tests.contract_blanks import (
+from openprocurement.tender.openeu.tests.contract_blanks import (
     # TenderContractResourceTest
     contract_termination,
     patch_tender_contract,

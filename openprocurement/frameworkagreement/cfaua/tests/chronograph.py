@@ -12,7 +12,7 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
 from openprocurement.frameworkagreement.cfaua.tests.base import (
     BaseTenderContentWebTest, test_bids, test_lots
 )
-from openprocurement.frameworkagreement.cfaua.tests.chronograph_blanks import (
+from openprocurement.tender.openeu.tests.chronograph_blanks import (
     # TenderComplaintSwitchResourceTest
     switch_to_complaint,
     # TenderSwitchAuctionResourceTest
