@@ -19,6 +19,7 @@ from openprocurement.tender.core.utils import (
 
 from openprocurement.tender.cfaua.validation import validate_cancellation_document_operation_not_in_allowed_status
 
+
 @optendersresource(name='closeFrameworkAgreementSelectionUA:Tender Cancellation Documents',
                    collection_path='/tenders/{tender_id}/cancellations/{cancellation_id}/documents',
                    path='/tenders/{tender_id}/cancellations/{cancellation_id}/documents/{document_id}',

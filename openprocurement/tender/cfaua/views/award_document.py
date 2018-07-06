@@ -19,6 +19,7 @@ from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
 )
 
+
 @optendersresource(name='closeFrameworkAgreementSelectionUA:Tender Award Documents',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
                    path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',

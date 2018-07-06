@@ -48,7 +48,7 @@ from openprocurement.tender.core.utils import (
 )
 
 from openprocurement.tender.core.constants import (
-    CPV_ITEMS_CLASS_FROM, COMPLAINT_STAND_STILL_TIME
+    COMPLAINT_STAND_STILL_TIME
 )
 
 enquiries_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
@@ -80,7 +80,7 @@ class Lot(BaseLot):
 
 
 class ICFASelectionUATender(ITender):
-     """ Marker interface for closeFrameworkAgreementSelectionUA tenders """
+    """ Marker interface for closeFrameworkAgreementSelectionUA tenders """
 
 
 @implementer(ICFASelectionUATender)
@@ -181,11 +181,11 @@ class Tender(BaseTender):
         elif not self.lots and self.status == 'active.awarded' and not any([
                 i.status in self.block_complaint_status
                 for i in self.complaints
-            ]) and not any([
+        ]) and not any([
                 i.status in self.block_complaint_status
                 for a in self.awards
                 for i in a.complaints
-            ]):
+        ]):
             standStillEnds = [
                 a.complaintPeriod.endDate.astimezone(TZ)
                 for a in self.awards
@@ -197,7 +197,7 @@ class Tender(BaseTender):
         elif self.lots and self.status in ['active.qualification', 'active.awarded'] and not any([
                 i.status in self.block_complaint_status and i.relatedLot is None
                 for i in self.complaints
-            ]):
+        ]):
             for lot in self.lots:
                 if lot['status'] != 'active':
                     continue
@@ -270,7 +270,7 @@ class Tender(BaseTender):
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False
-        if not cpv_336_group and (data.get('revisions')[0].date if data.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM and items and len(set([i.classification.id[:4] for i in items])) != 1:
+        if not cpv_336_group and items and len(set([i.classification.id[:4] for i in items])) != 1:
             raise ValidationError(u"CPV class of items should be identical")
         else:
             validate_cpv_group(items)

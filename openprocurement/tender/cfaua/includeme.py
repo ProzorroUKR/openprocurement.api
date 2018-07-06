@@ -5,7 +5,6 @@ from openprocurement.tender.cfaua.models import Tender, ICFASelectionUATender
 from openprocurement.tender.cfaua.adapters import TenderBelowThersholdConfigurator
 
 
-
 def includeme(config):
     config.add_tender_procurementMethodType(Tender)
     config.scan("openprocurement.tender.cfaua.views")

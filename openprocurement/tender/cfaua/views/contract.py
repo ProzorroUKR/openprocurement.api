@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
     get_now,
-    opresource,
     json_view,
     context_unpack,
     APIResource,
@@ -21,6 +20,7 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.cfaua.utils import (
     check_tender_status,
 )
+
 
 @optendersresource(name='closeFrameworkAgreementSelectionUA:Tender Contracts',
                    collection_path='/tenders/{tender_id}/contracts',

@@ -20,6 +20,7 @@ from openprocurement.tender.cfaua.utils import (
 
 from openprocurement.tender.cfaua.validation import validate_auction_info_view
 
+
 @optendersresource(name='closeFrameworkAgreementSelectionUA:Tender Auction',
                    collection_path='/tenders/{tender_id}/auction',
                    path='/tenders/{tender_id}/auction/{auction_lot_id}',

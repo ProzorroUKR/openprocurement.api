@@ -305,8 +305,8 @@ class TenderAwardResource(APIResource):
                 'suppliers': award.suppliers,
                 'value': award.value,
                 'date': get_now(),
-                'items': [i for i in tender.items if i.relatedLot == award.lotID ],
-                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) + 1) }))
+                'items': [i for i in tender.items if i.relatedLot == award.lotID],
+                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) + 1)}))
             add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
             now = get_now()

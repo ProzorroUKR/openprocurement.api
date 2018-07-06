@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 from barbecue import chef
-from base64 import b64decode
-from datetime import datetime, time, timedelta
 from logging import getLogger
-from openprocurement.api.constants import TZ, WORKING_DAYS
+from openprocurement.api.constants import TZ
 from pkg_resources import get_distribution
-from urllib import unquote
-from urlparse import urlparse, parse_qsl
 from openprocurement.api.utils import get_now, context_unpack
 from openprocurement.tender.core.utils import (
-    ACCELERATOR_RE, error_handler, calculate_business_date, cleanup_bids_for_cancelled_lots,
-    remove_draft_bids
+    calculate_business_date, cleanup_bids_for_cancelled_lots, remove_draft_bids,
 )
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 
@@ -74,8 +69,8 @@ def check_status(request):
                 'suppliers': award.suppliers,
                 'value': award.value,
                 'date': now,
-                'items': [i for i in tender.items if i.relatedLot == award.lotID ],
-                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1) }))
+                'items': [i for i in tender.items if i.relatedLot == award.lotID],
+                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1)}))
             add_next_award(request)
         for complaint in award.complaints:
             check_complaint_status(request, complaint, now)
