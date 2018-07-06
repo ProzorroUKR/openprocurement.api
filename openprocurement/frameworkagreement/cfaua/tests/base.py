@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
+
 import os, json
 from datetime import datetime, timedelta
 from openprocurement.api.constants import SANDBOX_MODE
@@ -18,7 +20,10 @@ now = datetime.now()
 
 # Prepare test_bids_data
 with open(os.path.join(BASE_DIR, 'data/test_bids.json')) as fd:
-    test_bids = json.load(fd)
+   test_bids = json.load(fd)
+   test_bids = [deepcopy(test_bids[0]) for _ in xrange(MIN_NUMBER_OF_BIDS)]
+   for num, test_bid in enumerate(test_bids):
+       test_bid['value']['amount'] = test_bid['value']['amount'] + num * 10
 
 # Prepare test_features_tender_data
 with open(os.path.join(BASE_DIR, 'data/test_tender.json')) as fd:
@@ -43,6 +48,7 @@ with open(os.path.join(BASE_DIR, 'data/test_lots.json')) as fd:
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):
+    min_number_of_bids = MIN_NUMBER_OF_BIDS
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
