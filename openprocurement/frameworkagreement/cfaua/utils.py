@@ -2,6 +2,7 @@
 from logging import getLogger
 from functools import partial
 from cornice.resource import resource
+from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.api.models import get_now, TZ
 from openprocurement.api.utils import (
     error_handler,
@@ -23,6 +24,7 @@ from openprocurement.frameworkagreement.cfaua.models.submodels.qualification imp
 from openprocurement.frameworkagreement.cfaua.traversal import (
     qualifications_factory, bid_financial_documents_factory,
     bid_eligibility_documents_factory, bid_qualification_documents_factory)
+from zope.component import getAdapter
 
 LOGGER = getLogger(__name__)
 
@@ -35,10 +37,10 @@ bid_qualification_documents_resource = partial(resource, error_handler=error_han
 def check_initial_bids_count(request):
     tender = request.validated['tender']
     if tender.lots:
-        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod and i.auctionPeriod.startDate]
+        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_number_of_bids and i.auctionPeriod and i.auctionPeriod.startDate]
 
         for i in tender.lots:
-            if i.numberOfBids < 2 and i.status == 'active':
+            if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_number_of_bids and i.status == 'active':
                 setattr(i, 'status', 'unsuccessful')
                 for bid_index, bid in enumerate(tender.bids):
                     for lot_index, lot_value in enumerate(bid.lotValues):
@@ -51,7 +53,7 @@ def check_initial_bids_count(request):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
-    elif tender.numberOfBids < 2:
+    elif tender.numberOfBids < getAdapter(tender, IContentConfigurator).min_number_of_bids:
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
         if tender.auctionPeriod and tender.auctionPeriod.startDate:

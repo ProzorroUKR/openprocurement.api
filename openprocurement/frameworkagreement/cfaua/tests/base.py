@@ -10,8 +10,8 @@ from openprocurement.frameworkagreement.cfaua.constants import (
     TENDERING_DAYS,
     TENDERING_DURATION,
     QUESTIONS_STAND_STILL,
-    COMPLAINT_STAND_STILL
-)
+    COMPLAINT_STAND_STILL,
+    MIN_NUMBER_OF_BIDS)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 now = datetime.now()
@@ -449,6 +449,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
 
 
 class BaseTenderContentWebTest(BaseTenderWebTest):
+    min_number_of_bids = MIN_NUMBER_OF_BIDS
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
