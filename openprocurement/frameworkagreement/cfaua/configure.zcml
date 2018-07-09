@@ -80,4 +80,11 @@
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
+    <adapter
+        name="features"
+        factory=".adapters.validators.features.TenderFeaturesValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
 </configure>
