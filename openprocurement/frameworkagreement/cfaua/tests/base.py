@@ -455,7 +455,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
 
 
 class BaseTenderContentWebTest(BaseTenderWebTest):
-    min_number_of_bids = MIN_NUMBER_OF_BIDS
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
