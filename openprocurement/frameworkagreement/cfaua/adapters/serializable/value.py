@@ -1,11 +1,11 @@
 # src/openprocurement.tender.belowthreshold/openprocurement/tender/belowthreshold/models.py:246
-class TenderMultilotValue(object):
-    def __init__(self, tender):
-        self.context = tender
+from openprocurement.api.adapters import Serializable
 
-    def __call__(self, *args, **kwargs):
-        # Value = self.context.value.__class__
-        value_class = self.context._fields['value']
-        return value_class(dict(amount=sum([i.value.amount for i in self.context.lots]),
-                                currency=self.context.value.currency,
-                                valueAddedTaxIncluded=self.context.value.valueAddedTaxIncluded)) if self.context.lots else self.context.value
+class SerializableTenderMultilotValue(Serializable):
+    serialized_name = "value"
+
+    def __call__(self, obj, *args, **kwargs):
+        value_class = obj._fields['value']
+        return value_class(dict(amount=sum([i.value.amount for i in obj.lots]),
+                                currency=obj.value.currency,
+                                valueAddedTaxIncluded=obj.value.valueAddedTaxIncluded)) if obj.lots else obj.value

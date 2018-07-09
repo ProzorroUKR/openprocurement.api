@@ -4,25 +4,17 @@ from iso8601 import parse_date
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
-from schematics.types import IntType, URLType, BooleanType
+from schematics.types import IntType, URLType, BooleanType, BaseType
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
-from zope.component import getAdapter
-
-from openprocurement.api.constants import TZ
 from openprocurement.api.models import (
     listing_role, Period, ListType, SifterListType, plain_role, Value
 )
 from openprocurement.api.utils import get_now
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
-)
-from openprocurement.frameworkagreement.cfaua.constants import (
-    TENDERING_DURATION,
-    QUESTIONS_STAND_STILL,
-    TENDERING_DAYS
 )
 from openprocurement.frameworkagreement.cfaua.interfaces import (
     ICloseFrameworkAgreementUA,
@@ -147,7 +139,6 @@ class CloseFrameworkAgreementUA(Tender):
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     title_en = StringType(required=True, min_length=1)
-
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
 
     def __local_roles__(self):
@@ -174,25 +165,10 @@ class CloseFrameworkAgreementUA(Tender):
         ])
         return acl
 
-    @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
-    def tender_enquiryPeriod(self):
-        return getAdapter(self, ISerializableTenderField, 'enquiryPeriod')()
-
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
         normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
         return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self)))
-
-    @serializable(serialize_when_none=False)
-    def next_check(self):
-        return getAdapter(self, ISerializableTenderField, 'next_check')()
-
-    def validate_tenderPeriod(self, data, period):
-        # if data['_rev'] is None when tender was created just now
-        if not data['_rev'] and calculate_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
-            raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
-        if period and calculate_business_date(period.startDate, TENDERING_DURATION, data) > period.endDate:
-            raise ValidationError(u"tenderPeriod should be greater than {} days".format(TENDERING_DAYS))
 
     @serializable
     def numberOfBids(self):
@@ -214,19 +190,6 @@ class CloseFrameworkAgreementUA(Tender):
         for bid in self.bids:
             if bid.status not in ["deleted", "draft"]:
                 bid.status = "invalid"
-
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def tender_value(self):
-        return getAdapter(self, ISerializableTenderField, 'value')()
-
-    @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
-    def tender_guarantee(self):
-        return getAdapter(self, ISerializableTenderField, 'guarantee')()
-
-
-    @serializable(serialized_name="minimalStep", type=ModelType(Value))
-    def tender_minimalStep(self):
-        return getAdapter(self, ISerializableTenderField, 'minimalStep')()
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False

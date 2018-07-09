@@ -9,43 +9,48 @@
         />
 
     <!-- Serializable Fields: getAdapter(tender, interfaces.ISerializableTenderField, 'fieldname') -->
-    <adapter
-        name="value"
-        factory=".adapters.serializable.value.TenderMultilotValue"
-        provides=".interfaces.ISerializableTenderField"
-        for=".interfaces.ICloseFrameworkAgreementUA"
-        />
 
     <adapter
         name="next_check"
         factory=".adapters.serializable.next_check.SerializableTenderNextCheck"
-        provides=".interfaces.ISerializableTenderField"
+        provides="openprocurement.api.interfaces.ISerializable"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
-        name="guarantee"
+        name="serializable_enquiryPeriod"
+        factory=".adapters.serializable.enquiryperiod.SerializableTenderEnquiryPeriod"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="serializable_guarantee"
         factory=".adapters.serializable.guarantee.SerializableTenderGuarantee"
-        provides=".interfaces.ISerializableTenderField"
+        provides="openprocurement.api.interfaces.ISerializable"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
-        name="enquiryPeriod"
-        factory=".adapters.serializable.enquiryperiod.TenderEnquiryPeriod"
-        provides=".interfaces.ISerializableTenderField"
+        name="serializable_value"
+        factory=".adapters.serializable.value.SerializableTenderMultilotValue"
+        provides="openprocurement.api.interfaces.ISerializable"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
-    <!--<adapter-->
-        <!--factory="openprocurement.frameworkagreement.cfaua.adapters.serializable.minimalstep.SerializableTenderMinimalStep"-->
-        <!--provides="openprocurement.frameworkagreement.cfaua.interfaces.ISerializableTenderMinimalStep"-->
-        <!--for="openprocurement.frameworkagreement.cfaua.interfaces.ICloseFrameworkAgreementUA"-->
-        <!--/>-->
     <adapter
-        name="minimalStep"
+        name="serializable_minimalStep"
         factory=".adapters.serializable.minimalstep.SerializableTenderMinimalStep"
-        provides=".interfaces.ISerializableTenderField"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+
+    <!-- Validators -->
+    <adapter
+        name="tenderPeriod"
+        factory=".adapters.validators.tenderperiod.TenderPeriod"
+        provides="openprocurement.api.interfaces.IValidator"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 

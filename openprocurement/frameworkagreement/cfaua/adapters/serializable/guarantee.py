@@ -1,20 +1,21 @@
-
 # openprocurement.tender.belowthreshold/openprocurement/tender/belowthreshold/models.py:250
-class SerializableTenderGuarantee(object):
-    def __init__(self, tender):
-        self.context = tender
+from openprocurement.api.adapters import Serializable
 
-    def __call__(self, *args, **kwargs):
-        if self.context.lots:
-            lots_amount = [i.guarantee.amount for i in self.context.lots if i.guarantee]
+class SerializableTenderGuarantee(Serializable):
+    serialized_name = "guarantee"
+    serialize_when_none = False
+
+    def __call__(self, obj, *args, **kwargs):
+        if obj.lots:
+            lots_amount = [i.guarantee.amount for i in obj.lots if i.guarantee]
             if not lots_amount:
-                return self.context.guarantee
+                return obj.guarantee
             guarantee = {'amount': sum(lots_amount)}
-            lots_currency = [i.guarantee.currency for i in self.context.lots if i.guarantee]
+            lots_currency = [i.guarantee.currency for i in obj.lots if i.guarantee]
             guarantee['currency'] = lots_currency[0] if lots_currency else None
-            if self.context.guarantee:
-                guarantee['currency'] = self.context.guarantee.currency
-            guarantee_class = self.context._fields['guarantee']
+            if obj.guarantee:
+                guarantee['currency'] = obj.guarantee.currency
+            guarantee_class = obj._fields['guarantee']
             return guarantee_class(guarantee)
         else:
-            return self.context.guarantee
+            return obj.guarantee

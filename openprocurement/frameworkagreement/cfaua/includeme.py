@@ -3,7 +3,7 @@ import os
 from openprocurement.api.interfaces import IContentConfigurator
 from pyramid.interfaces import IRequest
 from zope.configuration.xmlconfig import file as ZcmlFile
-
+from zope.interface import directlyProvides
 import openprocurement.frameworkagreement.cfaua
 from openprocurement.frameworkagreement.cfaua.adapters.configurator import CloseFrameworkAgreementUAConfigurator
 from openprocurement.frameworkagreement.cfaua.interfaces import ICloseFrameworkAgreementUA
@@ -16,6 +16,7 @@ from zope.component import provideAdapter
 # from openprocurement.frameworkagreement.cfaua.interfaces import ISerializableTenderValue, ISerializableTenderGuarantee, ISerializableTenderMinimalStep
 
 def includeme(config):
+    directlyProvides(CloseFrameworkAgreementUA, ICloseFrameworkAgreementUA)
     config.add_tender_procurementMethodType(CloseFrameworkAgreementUA)
     config.scan("openprocurement.frameworkagreement.cfaua.views")
     config.scan("openprocurement.frameworkagreement.cfaua.subscribers")
@@ -26,20 +27,3 @@ def includeme(config):
         os.path.join(os.path.dirname(os.path.abspath(__file__)), 'configure.zcml'),
         package=openprocurement.frameworkagreement.cfaua
     )
-    # provideAdapter(
-    #     TenderMultilotValue,
-    #     [ICloseFrameworkAgreementUA, ],
-    #     ISerializableTenderValue
-    # )
-
-    # provideAdapter(
-    #     SerializableTenderGuarantee,
-    #     [ICloseFrameworkAgreementUA, ],
-    #     ISerializableTenderGuarantee
-    # )
-
-    # provideAdapter(
-    #     SerializableTenderMinimalStep,
-    #     [ICloseFrameworkAgreementUA, ],
-    #     ISerializableTenderMinimalStep
-    # )

@@ -1,17 +1,17 @@
 # src/openprocurement.tender.belowthreshold/openprocurement/tender/belowthreshold/models.py:267
-class SerializableTenderMinimalStep(object):
-    def __init__(self, tender):
-        self.context = tender
+from openprocurement.api.adapters import Serializable
 
-    def __call__(self, *args, **kwargs):
-        if self.context.lots:
-            minimalStep = self.context._fields['minimalStep']
-            # minimalStep = type(self.context.minimalStep)
+class SerializableTenderMinimalStep(Serializable):
+    serialized_name = "minimalStep"
+
+    def __call__(self, obj, *args, **kwargs):
+        if obj.lots:
+            minimalStep = obj._fields['minimalStep']
             return minimalStep(
-                dict(amount=min([i.minimalStep.amount for i in self.context.lots]),
-                     currency=self.context.minimalStep.currency,
-                     valueAddedTaxIncluded=self.context.minimalStep.valueAddedTaxIncluded
+                dict(amount=min([i.minimalStep.amount for i in obj.lots]),
+                     currency=obj.minimalStep.currency,
+                     valueAddedTaxIncluded=obj.minimalStep.valueAddedTaxIncluded
                 )
             )
         else:
-            return self.context.minimalStep
+            return obj.minimalStep

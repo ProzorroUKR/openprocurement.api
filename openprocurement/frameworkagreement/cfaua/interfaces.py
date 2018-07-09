@@ -7,6 +7,11 @@ from openprocurement.tender.core.models import ITender
 class ICloseFrameworkAgreementUA(ITender):
      pass
 
+class IValidator(Interface):
+     pass
+
+class ISerializable(Interface):
+     pass
 
 class ISerializableTenderField(Interface):
      pass
