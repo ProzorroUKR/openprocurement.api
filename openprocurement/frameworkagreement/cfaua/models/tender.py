@@ -170,11 +170,6 @@ class CloseFrameworkAgreementUA(Tender):
         normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
         return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self)))
 
-    @serializable
-    def numberOfBids(self):
-        """A property that is serialized by schematics exports."""
-        return len([bid for bid in self.bids if bid.status in ("active", "pending",)])
-
     def check_auction_time(self):
         if self.auctionPeriod and self.auctionPeriod.startDate and self.auctionPeriod.shouldStartAfter \
                 and self.auctionPeriod.startDate > calculate_business_date(parse_date(self.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True):
