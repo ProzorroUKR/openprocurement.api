@@ -49,14 +49,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_questions,
     has_unanswered_complaints,
 )
-from openprocurement.tender.openua.constants import (
-    COMPLAINT_SUBMIT_TIME,
-    AUCTION_PERIOD_TIME,
-)
-from openprocurement.tender.openua.utils import (
-    calculate_normalized_date
-)
-
+from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
 
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
@@ -164,11 +157,6 @@ class CloseFrameworkAgreementUA(Tender):
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
         ])
         return acl
-
-    @serializable(type=ModelType(Period))
-    def complaintPeriod(self):
-        normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self)))
 
     def check_auction_time(self):
         if self.auctionPeriod and self.auctionPeriod.startDate and self.auctionPeriod.shouldStartAfter \
