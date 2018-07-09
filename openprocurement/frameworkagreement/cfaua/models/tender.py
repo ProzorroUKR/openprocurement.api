@@ -8,7 +8,7 @@ from schematics.types import IntType, URLType, BooleanType, BaseType
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from zope.interface import implementer
+from zope.interface import implementer, provider
 from openprocurement.api.models import (
     listing_role, Period, ListType, SifterListType, plain_role, Value
 )
@@ -17,8 +17,7 @@ from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
 )
 from openprocurement.frameworkagreement.cfaua.interfaces import (
-    ICloseFrameworkAgreementUA,
-    ISerializableTenderField
+    ICloseFrameworkAgreementUA
 )
 from openprocurement.frameworkagreement.cfaua.models.submodels.award import Award
 from openprocurement.frameworkagreement.cfaua.models.submodels.bids import BidModelType, Bid
@@ -31,9 +30,7 @@ from openprocurement.frameworkagreement.cfaua.models.submodels.lot import Lot
 from openprocurement.frameworkagreement.cfaua.models.submodels.organization import ProcuringEntity
 from openprocurement.frameworkagreement.cfaua.models.submodels.periods import TenderAuctionPeriod
 from openprocurement.frameworkagreement.cfaua.models.submodels.qualification import Qualification
-from openprocurement.tender.core.constants import (
-    CPV_ITEMS_CLASS_FROM
-)
+
 from openprocurement.tender.core.models import (
     EnquiryPeriod,
     PeriodStartEndRequired,
@@ -60,6 +57,7 @@ eu_auction_role = auction_role
 
 
 @implementer(ICloseFrameworkAgreementUA)
+@provider(ICloseFrameworkAgreementUA)
 class CloseFrameworkAgreementUA(Tender):
     """ OpenEU tender model """
     class Options:
@@ -173,13 +171,6 @@ class CloseFrameworkAgreementUA(Tender):
         for bid in self.bids:
             if bid.status not in ["deleted", "draft"]:
                 bid.status = "invalid"
-
-    def validate_items(self, data, items):
-        cpv_336_group = items[0].classification.id[:3] == '336' if items else False
-        if not cpv_336_group and (data.get('revisions')[0].date if data.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM and items and len(set([i.classification.id[:4] for i in items])) != 1:
-            raise ValidationError(u"CPV class of items should be identical")
-        else:
-            validate_cpv_group(items)
 
     def validate_features(self, data, features):
         if features and data['lots'] and any([

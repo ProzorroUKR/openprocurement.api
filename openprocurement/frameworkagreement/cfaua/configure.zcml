@@ -73,4 +73,11 @@
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
+    <adapter
+        name="items"
+        factory=".adapters.validators.items.TenderCPVItemsValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
 </configure>

@@ -5,7 +5,6 @@ from openprocurement.api.utils import get_now
 from schematics.exceptions import ValidationError
 from openprocurement.frameworkagreement.cfaua.constants import (
     TENDERING_DURATION,
-    QUESTIONS_STAND_STILL,
     TENDERING_DAYS
 )
 
@@ -14,8 +13,6 @@ class TenderPeriod(object):
         self.context = tender
 
     def __call__(self, cls, data, period):
-        # Value = self.context.value.__class__
-        # import pdb; pdb.set_trace()
         if not data['_rev'] and calculate_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
             raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
         if period and calculate_business_date(period.startDate, TENDERING_DURATION, data) > period.endDate:

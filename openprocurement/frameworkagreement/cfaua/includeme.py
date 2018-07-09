@@ -16,7 +16,6 @@ from zope.component import provideAdapter
 # from openprocurement.frameworkagreement.cfaua.interfaces import ISerializableTenderValue, ISerializableTenderGuarantee, ISerializableTenderMinimalStep
 
 def includeme(config):
-    directlyProvides(CloseFrameworkAgreementUA, ICloseFrameworkAgreementUA)
     config.add_tender_procurementMethodType(CloseFrameworkAgreementUA)
     config.scan("openprocurement.frameworkagreement.cfaua.views")
     config.scan("openprocurement.frameworkagreement.cfaua.subscribers")
