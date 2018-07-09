@@ -37,6 +37,13 @@
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
+    <adapter
+        name="numberOfBids"
+        factory=".adapters.serializable.numberofbids.TenderNumberOfBids"
+        provides=".interfaces.ISerializableTenderField"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
     <!--<adapter-->
         <!--factory="openprocurement.frameworkagreement.cfaua.adapters.serializable.minimalstep.SerializableTenderMinimalStep"-->
         <!--provides="openprocurement.frameworkagreement.cfaua.interfaces.ISerializableTenderMinimalStep"-->
