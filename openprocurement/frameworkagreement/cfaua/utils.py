@@ -62,6 +62,33 @@ def check_initial_bids_count(request):
         tender.status = 'unsuccessful'
 
 
+def check_initial_awards_count(request):
+    tender = request.validated['tender']
+    if tender.lots:
+        [setattr(i.awardPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number and i.awardPeriod and i.awardPeriod.startDate]
+
+        for i in tender.lots:
+            if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number and i.status == 'active':
+                setattr(i, 'status', 'unsuccessful')
+                for bid_index, bid in enumerate(tender.bids):
+                    for lot_index, lot_value in enumerate(bid.lotValues):
+                        if lot_value.relatedLot == i.id:
+                            setattr(tender.bids[bid_index].lotValues[lot_index], 'status', 'unsuccessful')
+
+        # [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2 and i.status == 'active']
+
+        if not set([i.status for i in tender.lots]).difference(set(['unsuccessful', 'cancelled'])):
+            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
+            tender.status = 'unsuccessful'
+    elif tender.numberOfAwards < getAdapter(tender, IContentConfigurator).min_bids_number:
+        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
+        if tender.awardPeriod and tender.awardPeriod.startDate:
+            tender.auctionPeriod.startDate = None
+        tender.status = 'unsuccessful'
+
+
 def prepare_qualifications(request, bids=[], lotId=None):
     """ creates Qualification for each Bid
     """
@@ -116,17 +143,6 @@ def check_status(request):
     tender = request.validated['tender']
     now = get_now()
     active_lots = [lot.id for lot in tender.lots if lot.status == 'active'] if tender.lots else [None]
-    configurator = request.content_configurator
-    for award in tender.awards:
-        if award.status == 'active' and not any([i.awardID == award.id for i in tender.contracts]):
-            tender.contracts.append(type(tender).contracts.model_class({
-                'awardID': award.id,
-                'suppliers': award.suppliers,
-                'value': award.value,
-                'date': now,
-                'items': [i for i in tender.items if i.relatedLot == award.lotID ],
-                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1) }))
-            add_next_award(request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
 
     if tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
             not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
@@ -182,6 +198,24 @@ def check_status(request):
             if standStillEnd <= now:
                 check_tender_status(request)
                 return
+    elif tender.status == 'active.qualification.stand-still' and tender.awardPeriod and tender.awardPeriod.endDate <= now and not any([
+        i.status in tender.block_complaint_status
+        for q in tender.qualifications
+        for i in q.complaints
+        if q.lotID in active_lots
+    ]):
+        LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.awarded'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.awarded'}))
+        tender.status = 'active.awarded'
+        check_initial_awards_count(request)
+        if tender.status == 'active.awarded':
+            tender.contracts.append(type(tender).contracts.model_class({
+                'awardID': tender.awards[0].id,
+                'suppliers': tender.awards[0].suppliers,
+                'value': tender.awards[0].value,
+                'items': [i for i in tender.items if i.relatedLot == tender.awards[0].lotID],
+                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1)}))
+        return
 
 
 def create_awards(request, reverse=False, awarding_criteria_key='amount'):

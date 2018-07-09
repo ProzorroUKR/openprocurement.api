@@ -46,6 +46,13 @@
         />
 
     <adapter
+        name="numberOfAwards"
+        factory=".adapters.tender.serializable.numberofawards.SerializableTenderNumberOfAwards"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
         name="complaintPeriod"
         factory=".adapters.tender.serializable.complaintperiod.SerializableTenderComplaintPeriod"
         provides="openprocurement.api.interfaces.ISerializable"

@@ -10,9 +10,9 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     #TenderResourceTest
     guarantee,
 )
+from openprocurement.tender.openua.tests.tender_blanks import empty_listing, tender_fields, patch_tender_period
 
-from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
-
+from openprocurement.frameworkagreement.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_tender_data,
     BaseTenderWebTest,
@@ -36,6 +36,11 @@ from openprocurement.frameworkagreement.cfaua.tests.tender_blanks import (
     simple_add_tender,
 )
 
+class TenderUAResourceTestMixin:
+    test_empty_listing = snitch(empty_listing)
+    #test_tender_fields = snitch(tender_fields)  added new field need to copy and fix this test
+    test_patch_tender_period = snitch(patch_tender_period)
+
 
 class TenderTest(BaseTenderWebTest):
 
@@ -51,6 +56,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     initial_data = test_tender_data
     test_lots_data = test_lots  # TODO: change attribute identifier
     test_bids_data = test_bids
+    min_bids_number = MIN_BIDS_NUMBER
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)

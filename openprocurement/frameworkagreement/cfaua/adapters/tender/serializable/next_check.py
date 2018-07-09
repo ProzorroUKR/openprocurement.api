@@ -43,6 +43,15 @@ class SerializableTenderNextCheck(Serializable):
                     checks.append(lot.auctionPeriod.startDate.astimezone(configurator.tz))
                 elif now < calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(configurator.tz):
                     checks.append(calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(configurator.tz))
+        elif obj.status == 'active.qualification.stand-still' and obj.awardPeriod and obj.awardPeriod.endDate:
+            active_lots = [lot.id for lot in obj.lots if lot.status == 'active'] if obj.lots else [None]
+            if not any([
+                        i.status in obj.block_complaint_status
+                for q in obj.qualifications
+                for i in q.complaints
+                if q.lotID in active_lots
+            ]):
+                checks.append(obj.awardPeriod.endDate.astimezone(configurator.tz))
         elif not obj.lots and obj.status == 'active.awarded' and not any([
                     i.status in obj.block_complaint_status
             for i in obj.complaints
@@ -51,11 +60,7 @@ class SerializableTenderNextCheck(Serializable):
             for a in obj.awards
             for i in a.complaints
         ]):
-            standStillEnds = [
-                a.complaintPeriod.endDate.astimezone(configurator.tz)
-                for a in obj.awards
-                if a.complaintPeriod.endDate
-            ]
+            standStillEnds = obj.awardPeriod.endDate
             last_award_status = obj.awards[-1].status if obj.awards else ''
             if standStillEnds and last_award_status == 'unsuccessful':
                 checks.append(max(standStillEnds))
@@ -76,14 +81,9 @@ class SerializableTenderNextCheck(Serializable):
                     for a in lot_awards
                     for i in a.complaints
                 ])
-                standStillEnds = [
-                    a.complaintPeriod.endDate.astimezone(configurator.tz)
-                    for a in lot_awards
-                    if a.complaintPeriod.endDate
-                ]
-                last_award_status = lot_awards[-1].status if lot_awards else ''
-                if not pending_complaints and not pending_awards_complaints and standStillEnds and last_award_status == 'unsuccessful':
-                    checks.append(max(standStillEnds))
+                standStillEnds = obj.awardPeriod.endDate
+                if not pending_complaints and not pending_awards_complaints and standStillEnds:
+                    checks.append(standStillEnds)
         if obj.status.startswith('active'):
             for award in obj.awards:
                 if award.status == 'active' and not any([i.awardID == award.id for i in obj.contracts]):

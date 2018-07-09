@@ -42,9 +42,6 @@ class TenderAwardResource(BaseResource):
         award = self.request.context
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
-        configurator = self.request.content_configurator
-        self.request.response.headers['Location'] = self.request.route_url(
-            '{}:Tender Awards'.format(tender.procurementMethodType), tender_id=tender.id, award_id=award.id)
 
         if award_status == 'pending' and award.status in ['active', 'unsuccessful']:
             pass
