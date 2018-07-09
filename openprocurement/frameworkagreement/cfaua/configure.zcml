@@ -87,4 +87,11 @@
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
+    <adapter
+        name="auctionUrl"
+        factory=".adapters.validators.auctionurl.TenderAuctionUrl"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
 </configure>

@@ -172,12 +172,6 @@ class CloseFrameworkAgreementUA(Tender):
             if bid.status not in ["deleted", "draft"]:
                 bid.status = "invalid"
 
-
-
-    def validate_auctionUrl(self, data, url):
-        if url and data['lots']:
-            raise ValidationError(u"url should be posted for each lot")
-
     def validate_minimalStep(self, data, value):
         if value and value.amount and data.get('value'):
             if data.get('value').amount < value.amount:
