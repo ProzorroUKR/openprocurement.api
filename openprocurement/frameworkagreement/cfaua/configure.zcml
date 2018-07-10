@@ -101,5 +101,11 @@
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
+    <adapter
+        name="awardPeriod"
+        factory=".adapters.validators.awardperiod.AwardPeriodValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
 
 </configure>

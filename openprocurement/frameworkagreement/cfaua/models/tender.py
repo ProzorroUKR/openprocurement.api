@@ -172,11 +172,7 @@ class CloseFrameworkAgreementUA(Tender):
             if bid.status not in ["deleted", "draft"]:
                 bid.status = "invalid"
 
-    def validate_awardPeriod(self, data, period):
-        if period and period.startDate and data.get('auctionPeriod') and data.get('auctionPeriod').endDate and period.startDate < data.get('auctionPeriod').endDate:
-            raise ValidationError(u"period should begin after auctionPeriod")
-        if period and period.startDate and data.get('tenderPeriod') and data.get('tenderPeriod').endDate and period.startDate < data.get('tenderPeriod').endDate:
-            raise ValidationError(u"period should begin after tenderPeriod")
+
 
     def validate_lots(self, data, value):
         if len(set([lot.guarantee.currency for lot in value if lot.guarantee])) > 1:
