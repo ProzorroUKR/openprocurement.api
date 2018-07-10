@@ -92,7 +92,7 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-@unittest.skipIf(True, 'Rewrite tests') # TODO Rewrite tests
+@unittest.skipIf(True, 'Rewrite tests')  # TODO Rewrite tests
 class TenderBidDocumentResourceTest(BaseTenderContentWebTest, TenderBidDocumentResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_status = 'active.tendering'
@@ -112,10 +112,6 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest, TenderBidDocumentR
         bid2 = response.json['data']
         self.bid2_id = bid2['id']
         self.bid2_token = response.json['access']['token']
-
-        if self.min_number_of_bids > 2:
-            for i in range(2, self.min_number_of_bids):
-                response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[2]})
 
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)

@@ -21,7 +21,7 @@ now = datetime.now()
 # Prepare test_bids_data
 with open(os.path.join(BASE_DIR, 'data/test_bids.json')) as fd:
    test_bids = json.load(fd)
-   test_bids = [deepcopy(test_bids[0]) for _ in xrange(MIN_NUMBER_OF_BIDS)]
+   test_bids = [deepcopy(test_bids[0]) for _ in range(MIN_NUMBER_OF_BIDS)]
    for num, test_bid in enumerate(test_bids):
        test_bid['value']['amount'] = test_bid['value']['amount'] + num * 10
 

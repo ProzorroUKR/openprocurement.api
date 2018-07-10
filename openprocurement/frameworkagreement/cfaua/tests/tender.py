@@ -59,7 +59,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     test_invalid_bid_tender_features = snitch(invalid_bid_tender_features)
     test_invalid_bid_tender_lot = snitch(invalid_bid_tender_lot)
 
-
     def test_patch_not_author(self):
         response = self.app.post_json('/tenders', {'data': test_tender_data})
         self.assertEqual(response.status, '201 Created')
@@ -95,7 +94,7 @@ class TenderProcessTest(BaseTenderWebTest):
     test_unsuccessful_after_prequalification_tender = snitch(unsuccessful_after_prequalification_tender)
     test_one_qualificated_bid_tender = snitch(one_qualificated_bid_tender)
     test_multiple_bidders_tender = snitch(multiple_bidders_tender)
-    test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)# FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
 
 
 def suite():
