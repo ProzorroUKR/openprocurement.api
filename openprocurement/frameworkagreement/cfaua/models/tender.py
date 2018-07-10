@@ -173,7 +173,3 @@ class CloseFrameworkAgreementUA(Tender):
                 bid.status = "invalid"
 
 
-
-    def validate_lots(self, data, value):
-        if len(set([lot.guarantee.currency for lot in value if lot.guarantee])) > 1:
-            raise ValidationError(u"lot guarantee currency should be identical to tender guarantee currency")

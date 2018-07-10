@@ -108,4 +108,11 @@
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
+    <adapter
+        name="lots"
+        factory=".adapters.validators.lots.LotsValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
 </configure>
