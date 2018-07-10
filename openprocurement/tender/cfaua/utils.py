@@ -298,3 +298,40 @@ def add_next_award(request):
         else:
             tender.awardPeriod.endDate = now
             tender.status = 'active.awarded'
+
+
+def prepare_shortlistedFirms(shortlistedFirms):
+    """ Make list with keys
+        key = {identifier_id}_{identifier_scheme}_{lot_id}
+    """
+    shortlistedFirms = shortlistedFirms if shortlistedFirms else []
+    all_keys = set()
+    for firm in shortlistedFirms:
+        key = u"{firm_id}_{firm_scheme}".format(firm_id=firm['identifier']['id'],
+                                                firm_scheme=firm['identifier']['scheme'])
+        #if firm.get('lots'):
+            #keys = set([u"{key}_{lot_id}".format(key=key, lot_id=lot['id']) for lot in firm.get('lots')])
+        #else:
+            #keys = set([key])
+        keys = set([key])
+        all_keys |= keys
+    return all_keys
+
+
+def prepare_bid_identifier(bid):
+    """ Make list with keys
+        key = {identifier_id}_{identifier_scheme}_{lot_id}
+    """
+    all_keys = set()
+    for tenderer in bid['tenderers']:
+        key = u"{id}_{scheme}".format(id=tenderer['identifier']['id'],
+                                      scheme=tenderer['identifier']['scheme'])
+        #if bid.get('lotValues'):
+            #keys = set([u"{key}_{lot_id}".format(key=key,
+                                                 #lot_id=lot['relatedLot'])
+                        #for lot in bid.get('lotValues')])
+        #else:
+            #keys = set([key])
+        keys = set([key])
+        all_keys |= keys
+    return all_keys

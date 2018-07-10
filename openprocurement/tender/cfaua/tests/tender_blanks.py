@@ -5,14 +5,12 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX, CPV_BLOCK_FROM, INN_CODES, ATC_CODES
+from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX, INN_CODES, ATC_CODES
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
 )
 from openprocurement.tender.cfaua.models import Tender
-from openprocurement.tender.cfaua.tests.base import (
-    test_organization
-)
+from openprocurement.tender.cfaua.tests.base import test_organization
 
 # TenderTest
 
@@ -573,12 +571,8 @@ def create_tender_invalid(self):
     self.assertIn("Value must be one of [u", response.json['errors'][0][u'description'][0][u'classification'][u'id'][0])
 
     cpv = self.initial_data["items"][0]['classification']["id"]
-    if get_now() < CPV_BLOCK_FROM:
-        self.initial_data["items"][0]['classification']["scheme"] = u'CPV'
     self.initial_data["items"][0]['classification']["id"] = u'00000000-0'
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    if get_now() < CPV_BLOCK_FROM:
-        self.initial_data["items"][0]['classification']["scheme"] = u'CPV'
     self.initial_data["items"][0]['classification']["id"] = cpv
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -650,7 +644,7 @@ def create_tender_generated(self):
         tender.pop('procurementMethodDetails')
     self.assertEqual(set(tender), set([u'procurementMethodType', u'id', u'date', u'dateModified', u'tenderID', u'status', u'enquiryPeriod',
                                        u'tenderPeriod', u'minimalStep', u'items', u'value', u'procuringEntity', u'next_check',
-                                       u'procurementMethod', u'awardCriteria', u'submissionMethod', u'title', u'owner']))
+                                       u'procurementMethod', u'awardCriteria', u'submissionMethod', u'title', u'owner', u'shortlistedFirms']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])

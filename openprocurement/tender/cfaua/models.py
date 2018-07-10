@@ -12,7 +12,7 @@ from openprocurement.api.models import (
 )
 
 from openprocurement.api.models import (
-    ListType, Period, Value
+    ListType, Period, Value, Identifier, Model,
 )
 
 from openprocurement.api.utils import (
@@ -24,19 +24,11 @@ from openprocurement.api.validation import (
     validate_items_uniq, validate_cpv_group
 )
 
-from openprocurement.tender.core.models import ITender
 from openprocurement.tender.core.models import (
-    view_role, create_role, edit_role,
+    ITender, validate_features_uniq, validate_lots_uniq, get_tender,
+    view_role, create_role, edit_role as base_edit_role,
     auction_view_role, auction_post_role, auction_patch_role, auction_role,
     chronograph_role, chronograph_view_role,
-)
-
-from openprocurement.tender.core.models import (
-    validate_features_uniq, validate_lots_uniq,
-    get_tender
-)
-
-from openprocurement.tender.core.models import (
     Guarantee, ComplaintModelType, TenderAuctionPeriod,
     PeriodEndRequired, Tender as BaseTender, Bid, ProcuringEntity,
     Item, Award, Contract, Question, Cancellation, Feature,
@@ -52,6 +44,8 @@ from openprocurement.tender.core.constants import (
 )
 
 enquiries_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
+#edit_role = (blacklist('shortlistedFirms') + base_edit_role)
+edit_role = base_edit_role
 Administrator_role = whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots')
 
 
@@ -77,6 +71,11 @@ class LotAuctionPeriod(Period):
 
 class Lot(BaseLot):
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
+
+
+class Firms(Model):
+    identifier = ModelType(Identifier, required=True)
+    name = StringType(required=True)
 
 
 class ICFASelectionUATender(ITender):
@@ -143,7 +142,9 @@ class Tender(BaseTender):
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     guarantee = ModelType(Guarantee)
+    shortlistedFirms = ListType(ModelType(Firms), min_size=3)
 
+    procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')
     procurementMethodType = StringType(default="closeFrameworkAgreementSelectionUA")
 
     procuring_entity_kinds = ['general', 'special', 'defense', 'other']

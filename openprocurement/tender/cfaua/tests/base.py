@@ -81,6 +81,12 @@ test_tender_data = {
         "endDate": (now + timedelta(days=14)).isoformat()
     },
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
+    "shortlistedFirms": [
+        {
+            "identifier": test_organization["identifier"],
+            "name": test_organization["name"]
+        }
+    ] * 3
 }
 if SANDBOX_MODE:
     test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'

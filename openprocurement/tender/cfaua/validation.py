@@ -2,6 +2,10 @@
 from openprocurement.api.utils import (error_handler, raise_operation_error,
                                        get_now)
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.cfaua.utils import (
+    prepare_shortlistedFirms, prepare_bid_identifier
+)
+
 
 
 # tender documents
@@ -24,6 +28,16 @@ def validate_update_bid_status(request):
             request.errors.add('body', 'bid', 'Can\'t update bid to ({}) status'.format(bid_status_to))
             request.errors.status = 403
             raise error_handler(request.errors)
+
+
+def validate_firm_to_create_bid(request):
+    tender = request.validated['tender']
+    bid = request.validated['bid']
+    firm_keys = prepare_shortlistedFirms(tender.shortlistedFirms)
+    bid_keys = prepare_bid_identifier(bid)
+    print firm_keys, bid_keys
+    if not (bid_keys <= firm_keys):
+        raise_operation_error(request, 'Firm can\'t create bid')
 
 
 # bid documents
