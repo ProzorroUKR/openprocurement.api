@@ -28,14 +28,18 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     post_tender_lots_auction_features
 )
 from openprocurement.frameworkagreement.cfaua.constants import MIN_BIDS_NUMBER
+from openprocurement.tender.openeu.tests.auction_blanks import (
+    # TenderMultipleLotAuctionResourceTest
+    patch_tender_2lot_auction,
+)
 from openprocurement.frameworkagreement.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_features_tender_data,
     test_bids
 )
-from openprocurement.tender.openeu.tests.auction_blanks import (
-    # TenderMultipleLotAuctionResourceTest
-    patch_tender_2lot_auction,
+from openprocurement.frameworkagreement.cfaua.tests.auction_blanks import (
+    # TenderAuctionResourceTest
+    post_tender_auction_all_awards_pending,
 )
 
 
@@ -64,6 +68,10 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
                                        {"data": {"status": "active.pre-qualification.stand-still"}})
         self.assertEqual(response.status, "200 OK")
         # # switch to active.pre-qualification.stand-still
+
+
+class TenderFrameworkResourceTest(TenderAuctionResourceTest):
+    test_post_tender_auction_all_awards_pending = snitch(post_tender_auction_all_awards_pending)
 
 
 class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
@@ -180,6 +188,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderFrameworkResourceTest))
     return suite
 
 

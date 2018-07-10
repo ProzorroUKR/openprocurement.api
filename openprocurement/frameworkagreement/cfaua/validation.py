@@ -76,3 +76,9 @@ def validate_add_complaint_not_in_qualification_period(request):
        (tender.qualificationPeriod.startDate and tender.qualificationPeriod.startDate > get_now() or
                 tender.qualificationPeriod.endDate and tender.qualificationPeriod.endDate < get_now()):
         raise_operation_error(request, 'Can add complaint only in qualificationPeriod')
+
+def validate_tender_status_update(request):
+    tender = request.context
+    data = request.validated['data']
+    if request.authenticated_role == 'tender_owner' and 'status' in data and data['status'] not in ['active.pre-qualification.stand-still', 'active.qualification.stand-still', tender.status]:
+        raise_operation_error(request, 'Can\'t update tender status')
