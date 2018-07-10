@@ -172,15 +172,6 @@ class CloseFrameworkAgreementUA(Tender):
             if bid.status not in ["deleted", "draft"]:
                 bid.status = "invalid"
 
-    def validate_minimalStep(self, data, value):
-        if value and value.amount and data.get('value'):
-            if data.get('value').amount < value.amount:
-                raise ValidationError(u"value should be less than value of tender")
-            if data.get('value').currency != value.currency:
-                raise ValidationError(u"currency should be identical to currency of value of tender")
-            if data.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-                raise ValidationError(u"valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender")
-
     def validate_awardPeriod(self, data, period):
         if period and period.startDate and data.get('auctionPeriod') and data.get('auctionPeriod').endDate and period.startDate < data.get('auctionPeriod').endDate:
             raise ValidationError(u"period should begin after auctionPeriod")

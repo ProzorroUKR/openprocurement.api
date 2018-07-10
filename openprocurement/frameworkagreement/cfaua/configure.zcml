@@ -94,4 +94,12 @@
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
+    <adapter
+        name="minimalStep"
+        factory=".adapters.validators.minimalstep.MinimalStepValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+
 </configure>
