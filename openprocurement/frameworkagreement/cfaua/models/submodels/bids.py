@@ -1,15 +1,15 @@
-from openprocurement.api.models import ListType
-from openprocurement.api.utils import get_now
-from openprocurement.frameworkagreement.cfaua.constants import BID_UNSUCCESSFUL_FROM
-from openprocurement.frameworkagreement.cfaua.models.submodels.documents import BidderEUDocument
-from openprocurement.frameworkagreement.cfaua.models.submodels.lotvalue import LotValue
-from openprocurement.tender.core.models import Bid as BaseBid, Administrator_bid_role, view_bid_role, \
-    validate_parameters_uniq, bids_validation_wrapper
-from openprocurement.tender.openua.models import Parameter
 from schematics.transforms import export_loop, whitelist
 from schematics.types import BooleanType, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
+from openprocurement.api.models import ListType
+from openprocurement.api.utils import get_now
+from openprocurement.tender.core.models import Bid as BaseBid, Administrator_bid_role, view_bid_role, \
+    validate_parameters_uniq, bids_validation_wrapper
+from openprocurement.frameworkagreement.cfaua.constants import BID_UNSUCCESSFUL_FROM
+from openprocurement.frameworkagreement.cfaua.models.submodels.documents import BidderEUDocument
+from openprocurement.frameworkagreement.cfaua.models.submodels.lotvalue import LotValue
+from openprocurement.frameworkagreement.cfaua.models.submodels.parameters import Parameter
 
 
 class BidModelType(ModelType):

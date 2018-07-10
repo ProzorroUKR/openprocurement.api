@@ -12,54 +12,54 @@
 
     <adapter
         name="next_check"
-        factory=".adapters.serializable.next_check.SerializableTenderNextCheck"
+        factory=".adapters.tender.serializable.next_check.SerializableTenderNextCheck"
         provides="openprocurement.api.interfaces.ISerializable"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
         name="serializable_enquiryPeriod"
-        factory=".adapters.serializable.enquiryperiod.SerializableTenderEnquiryPeriod"
+        factory=".adapters.tender.serializable.enquiryperiod.SerializableTenderEnquiryPeriod"
         provides="openprocurement.api.interfaces.ISerializable"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
         name="serializable_guarantee"
-        factory=".adapters.serializable.guarantee.SerializableTenderGuarantee"
+        factory=".adapters.tender.serializable.guarantee.SerializableTenderGuarantee"
         provides="openprocurement.api.interfaces.ISerializable"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
         name="serializable_value"
-        factory=".adapters.serializable.value.SerializableTenderMultilotValue"
+        factory=".adapters.tender.serializable.value.SerializableTenderMultilotValue"
         provides="openprocurement.api.interfaces.ISerializable"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
         name="numberOfBids"
-        factory=".adapters.serializable.numberofbids.SerializableTenderNumberOfBids"
+        factory=".adapters.tender.serializable.numberofbids.SerializableTenderNumberOfBids"
         provides="openprocurement.api.interfaces.ISerializable"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
         name="complaintPeriod"
-        factory=".adapters.serializable.complaintperiod.SerializableTenderComplaintPeriod"
+        factory=".adapters.tender.serializable.complaintperiod.SerializableTenderComplaintPeriod"
         provides="openprocurement.api.interfaces.ISerializable"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <!--<adapter-->
-        <!--factory="openprocurement.frameworkagreement.cfaua.adapters.serializable.minimalstep.SerializableTenderMinimalStep"-->
+        <!--factory="openprocurement.frameworkagreement.cfaua.adapters.tender.serializable.minimalstep.SerializableTenderMinimalStep"-->
         <!--provides="openprocurement.frameworkagreement.cfaua.interfaces.ISerializableTenderMinimalStep"-->
         <!--for="openprocurement.frameworkagreement.cfaua.interfaces.ICloseFrameworkAgreementUA"-->
         <!--/>-->
     <adapter
         name="serializable_minimalStep"
-        factory=".adapters.serializable.minimalstep.SerializableTenderMinimalStep"
+        factory=".adapters.tender.serializable.minimalstep.SerializableTenderMinimalStep"
         provides="openprocurement.api.interfaces.ISerializable"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
@@ -68,49 +68,49 @@
     <!-- Validators -->
     <adapter
         name="tenderPeriod"
-        factory=".adapters.validators.tenderperiod.TenderPeriod"
+        factory=".adapters.tender.validators.tenderperiod.TenderPeriodValidate"
         provides="openprocurement.api.interfaces.IValidator"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
         name="items"
-        factory=".adapters.validators.items.TenderCPVItemsValidate"
+        factory=".adapters.tender.validators.items.TenderCPVItemsValidate"
         provides="openprocurement.api.interfaces.IValidator"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
         name="features"
-        factory=".adapters.validators.features.TenderFeaturesValidate"
+        factory=".adapters.tender.validators.features.TenderFeaturesValidate"
         provides="openprocurement.api.interfaces.IValidator"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
         name="auctionUrl"
-        factory=".adapters.validators.auctionurl.TenderAuctionUrl"
+        factory=".adapters.tender.validators.auctionurl.TenderAuctionUrlValidate"
         provides="openprocurement.api.interfaces.IValidator"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
         name="minimalStep"
-        factory=".adapters.validators.minimalstep.MinimalStepValidate"
+        factory=".adapters.tender.validators.minimalstep.MinimalStepValidate"
         provides="openprocurement.api.interfaces.IValidator"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
         name="awardPeriod"
-        factory=".adapters.validators.awardperiod.AwardPeriodValidate"
+        factory=".adapters.tender.validators.awardperiod.AwardPeriodValidate"
         provides="openprocurement.api.interfaces.IValidator"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
 
     <adapter
         name="lots"
-        factory=".adapters.validators.lots.LotsValidate"
+        factory=".adapters.tender.validators.lots.LotsValidate"
         provides="openprocurement.api.interfaces.IValidator"
         for=".interfaces.ICloseFrameworkAgreementUA"
         />
