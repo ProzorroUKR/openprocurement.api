@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from openprocurement.api.models import ListType
 from openprocurement.frameworkagreement.cfaua.models.submodels.documents import EUDocument
 from openprocurement.frameworkagreement.cfaua.models.submodels.item import Item
