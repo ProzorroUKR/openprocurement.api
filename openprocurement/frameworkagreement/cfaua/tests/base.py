@@ -13,7 +13,7 @@ from openprocurement.frameworkagreement.cfaua.constants import (
     TENDERING_DURATION,
     QUESTIONS_STAND_STILL,
     COMPLAINT_STAND_STILL,
-    MIN_NUMBER_OF_BIDS)
+    MIN_BIDS_NUMBER)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 now = datetime.now()
@@ -21,7 +21,7 @@ now = datetime.now()
 # Prepare test_bids_data
 with open(os.path.join(BASE_DIR, 'data/test_bids.json')) as fd:
    test_bids = json.load(fd)
-   test_bids = [deepcopy(test_bids[0]) for _ in range(MIN_NUMBER_OF_BIDS)]
+   test_bids = [deepcopy(test_bids[0]) for _ in range(MIN_BIDS_NUMBER)]
    for num, test_bid in enumerate(test_bids):
        test_bid['value']['amount'] = test_bid['value']['amount'] + num * 10
 
@@ -48,7 +48,7 @@ with open(os.path.join(BASE_DIR, 'data/test_lots.json')) as fd:
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):
-    min_number_of_bids = MIN_NUMBER_OF_BIDS
+    min_bids_number = MIN_BIDS_NUMBER
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None

@@ -129,7 +129,7 @@ class TenderQualificationDocumentResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
         self.assertEqual(response.status, "200 OK")
         self.qualifications = response.json['data']
-        self.assertEqual(len(self.qualifications), self.min_number_of_bids)
+        self.assertEqual(len(self.qualifications), self.min_bids_number)
 
     test_not_found = snitch(not_found)
     test_create_qualification_document = snitch(create_qualification_document)

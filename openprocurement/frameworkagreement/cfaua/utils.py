@@ -37,10 +37,10 @@ bid_qualification_documents_resource = partial(resource, error_handler=error_han
 def check_initial_bids_count(request):
     tender = request.validated['tender']
     if tender.lots:
-        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_number_of_bids and i.auctionPeriod and i.auctionPeriod.startDate]
+        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number and i.auctionPeriod and i.auctionPeriod.startDate]
 
         for i in tender.lots:
-            if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_number_of_bids and i.status == 'active':
+            if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number and i.status == 'active':
                 setattr(i, 'status', 'unsuccessful')
                 for bid_index, bid in enumerate(tender.bids):
                     for lot_index, lot_value in enumerate(bid.lotValues):
@@ -53,7 +53,7 @@ def check_initial_bids_count(request):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
-    elif tender.numberOfBids < getAdapter(tender, IContentConfigurator).min_number_of_bids:
+    elif tender.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number:
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
         if tender.auctionPeriod and tender.auctionPeriod.startDate:

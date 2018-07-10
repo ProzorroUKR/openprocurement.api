@@ -672,7 +672,7 @@ def one_qualificated_bid_tender(self):
     bidder_data = deepcopy(test_organization)
     self.app.authorization = ('Basic', ('broker', ''))
 
-    for i in range(self.min_number_of_bids):
+    for i in range(self.min_bids_number):
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
                                        'tenderers': [bidder_data], "value": self.test_bids_data[i]['value']}})
@@ -689,7 +689,7 @@ def one_qualificated_bid_tender(self):
     response = self.app.get('/tenders/{}/qualifications'.format(tender_id))
     self.assertEqual(response.status, "200 OK")
     qualifications = response.json['data']
-    self.assertEqual(len(qualifications), self.min_number_of_bids)
+    self.assertEqual(len(qualifications), self.min_bids_number)
     # approve first qualification/bid
     self.app.authorization = None
     response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(tender_id, qualifications[0]['id']), {"data": {"status": "active", "qualified": True, "eligible": True}}, status=403)
@@ -701,7 +701,7 @@ def one_qualificated_bid_tender(self):
     response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[0]['id'], "c"*32), {"data": {"status": "active", "qualified": True, "eligible": True}}, status=403)
     self.assertEqual(response.status, "403 Forbidden")
     self.app.authorization = ('Basic', ('broker', ''))
-    for i in range(self.min_number_of_bids-1):
+    for i in range(self.min_bids_number-1):
         response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[i]['id'], tender_owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
     self.assertEqual(response.status, "200 OK")
     # bid should be activated
@@ -709,10 +709,10 @@ def one_qualificated_bid_tender(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json['data']['status'], "active")
     # invalidate second qualification/bid
-    response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[self.min_number_of_bids-1]['id'], tender_owner_token), {"data": {"status": "unsuccessful"}})
+    response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[self.min_bids_number-1]['id'], tender_owner_token), {"data": {"status": "unsuccessful"}})
 
     # bid should be cancelled
-    response = self.app.get('/tenders/{}/bids/{}'.format(tender_id, qualifications[self.min_number_of_bids-1]['bidID']))
+    response = self.app.get('/tenders/{}/bids/{}'.format(tender_id, qualifications[self.min_bids_number-1]['bidID']))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json['data']['status'], "unsuccessful")
     self.assertNotIn('value', response.json['data'])
@@ -742,7 +742,7 @@ def multiple_bidders_tender(self):
     bidder_data = deepcopy(test_organization)
     self.app.authorization = ('Basic', ('broker', ''))
 
-    for i in range(self.min_number_of_bids):
+    for i in range(self.min_bids_number):
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
                                             'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
@@ -764,10 +764,10 @@ def multiple_bidders_tender(self):
     response = self.app.get('/tenders/{}/qualifications'.format(tender_id))
     self.assertEqual(response.status, "200 OK")
     qualifications = response.json['data']
-    self.assertEqual(len(qualifications), self.min_number_of_bids+1)
+    self.assertEqual(len(qualifications), self.min_bids_number+1)
     # approve first two bids qualification/bid
     self.app.authorization = ('Basic', ('broker', ''))
-    for i in range(self.min_number_of_bids - 1):
+    for i in range(self.min_bids_number - 1):
         response = self.app.patch_json(
             '/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[i]['id'], tender_owner_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}})
@@ -775,7 +775,7 @@ def multiple_bidders_tender(self):
 
     # cancel qualification for second bid
     response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-        tender_id, qualifications[self.min_number_of_bids - 1]['id'], tender_owner_token),
+        tender_id, qualifications[self.min_bids_number - 1]['id'], tender_owner_token),
         {"data": {"status": "cancelled"}})
 
     self.assertEqual(response.status, "200 OK")
@@ -793,7 +793,7 @@ def multiple_bidders_tender(self):
     self.assertEqual(response.json['data']['status'], "active.pre-qualification")
     # reject third bid
     self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[self.min_number_of_bids]['id'], tender_owner_token), {"data": {"status": "unsuccessful"}})
+    response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(tender_id, qualifications[self.min_bids_number]['id'], tender_owner_token), {"data": {"status": "unsuccessful"}})
     self.assertEqual(response.status, "200 OK")
     # switch to next status
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, tender_owner_token),
@@ -893,7 +893,7 @@ def lost_contract_for_active_award(self):
     owner_token = response.json['access']['token']
 
     # create bids
-    for i in range(self.min_number_of_bids):
+    for i in range(self.min_bids_number):
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
