@@ -3,6 +3,33 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 
 
+def update_patch_data(self, patch_data, key=None, start=0, interval=''):
+
+    iterator = list(range(self.min_bids_number))[start::interval] if start else \
+        list(range(self.min_bids_number))[::interval]
+    data = {
+        'value': {
+            'amount': 459,
+            'currency': 'UAH',
+            'valueAddedTaxIncluded': True
+        },
+        'lotValues': [
+            {
+                'value': {
+                    'amount': 489,
+                    'currency': 'UAH',
+                    'valueAddedTaxIncluded': True
+                }
+            }
+        ]
+    }
+
+    for x in iterator:
+        patch_data['bids'].append({
+            'id': self.initial_bids[x]['id'],
+            key: data[key]
+        })
+
 # TenderAuctionResourceTest
 
 
@@ -109,15 +136,7 @@ def post_tender_auction(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Number of auction results did not match the number of tender bids")
 
-    for x in list(range(0, self.min_bids_number))[-2::-1]:
-        patch_data['bids'].append({
-            "id": self.initial_bids[x]['id'],
-            "value": {
-                "amount": 419,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": True
-            }
-        })
+    update_patch_data(self, patch_data, key='value', start=-2, interval=-1)
 
     patch_data['bids'][-1]['id'] = "some_id"
 
@@ -188,7 +207,7 @@ def patch_tender_auction(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Number of auction results did not match the number of tender bids")
 
-    for x in list(range(0, self.min_bids_number))[-1:0:-1]:
+    for x in list(range(self.min_bids_number))[-1:0:-1]:
         patch_data['bids'].append({
             "participationUrl": u'http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}'.format(self.tender_id, self.initial_bids[x]['id'])
         })
@@ -240,16 +259,7 @@ def post_tender_auction_document(self):
     key = response.json["data"]["url"].split('?')[-1].split('=')[-1]
 
     patch_data = {'bids': []}
-    for x in list(range(self.min_bids_number))[::-1]:
-        patch_data['bids'].append(
-            {
-                "id": self.initial_bids[x]['id'],
-                "value": {
-                    "amount": 409,
-                    "currency": "UAH",
-                    "valueAddedTaxIncluded": True
-                }
-            })
+    update_patch_data(self, patch_data, key='value', interval=-1)
 
     response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data})
     self.assertEqual(response.status, '200 OK')
@@ -379,19 +389,7 @@ def post_tender_lot_auction(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Number of auction results did not match the number of tender bids")
 
-    for x in list(range(0, self.min_bids_number))[-2::-1]:
-        patch_data['bids'].append({
-            'id': self.initial_bids[x]['id'],
-            'lotValues': [
-                {
-                    "value": {
-                        "amount": 419,
-                        "currency": "UAH",
-                        "valueAddedTaxIncluded": True
-                    }
-                }
-            ]
-        })
+    update_patch_data(self, patch_data, key='lotValues', start=-2, interval=-1)
 
     patch_data['bids'][-1]['id'] = "some_id"
 
@@ -494,7 +492,7 @@ def patch_tender_lot_auction(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Number of auction results did not match the number of tender bids")
 
-    for x in list(range(0, self.min_bids_number))[-2::-1]:
+    for x in list(range(self.min_bids_number))[-2::-1]:
         patch_data['bids'].append({
             'lotValues': [
                 {
@@ -563,20 +561,7 @@ def post_tender_lot_auction_document(self):
     self.assertEqual(response.json["data"]["relatedItem"], self.initial_lots[0]['id'])
 
     patch_data ={'bids': []}
-    for x in list(range(0, self.min_bids_number))[::-1]:
-        patch_data['bids'].append({
-                    "id": self.initial_bids[x]['id'],
-                    'lotValues': [
-                        {
-                            "value": {
-                                "amount": 409 + x*10,
-                                "currency": "UAH",
-                                "valueAddedTaxIncluded": True
-                            }
-                        }
-                    ]
-                })
-
+    update_patch_data(self, patch_data, key='lotValues', interval=-1)
 
     response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data})
     self.assertEqual(response.status, '200 OK')
@@ -670,19 +655,7 @@ def post_tender_lots_auction(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Number of auction results did not match the number of tender bids")
 
-    for x in list(range(0, self.min_bids_number))[-2::-1]:
-        patch_data['bids'].append({
-            'id': self.initial_bids[x]['id'],
-            'lotValues': [
-                {
-                    "value": {
-                        "amount": 419,
-                        "currency": "UAH",
-                        "valueAddedTaxIncluded": True
-                    }
-                }
-            ]
-        })
+    update_patch_data(self, patch_data, key='lotValues', start=-2, interval=-1)
 
     patch_data['bids'][-1]['id'] = "some_id"
 
@@ -913,7 +886,7 @@ def post_tender_lots_auction_document(self):
     self.assertEqual(response.json["data"]["relatedItem"], self.initial_lots[0]['id'])
 
     patch_data = {'bids': []}
-    for x in list(range(0, self.min_bids_number))[::-1]:
+    for x in list(range(self.min_bids_number))[::-1]:
         patch_data['bids'].append({
                 "id": self.initial_bids[x]['id'],
                 'lotValues': [
@@ -1006,15 +979,7 @@ def post_tender_auction_feature(self):
     self.assertEqual(response.json['errors'][0]["description"],
                      "Number of auction results did not match the number of tender bids")
 
-    for x in list(range(0, self.min_bids_number))[-2::-1]:
-        patch_data['bids'].append({
-            "id": self.initial_bids[x]['id'],
-            "value": {
-                "amount": 459,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": True
-            }
-        })
+    update_patch_data(self, patch_data, key='value', start=-2, interval=-1)
 
     patch_data['bids'][-1]['id'] = "some_id"
 
@@ -1130,19 +1095,7 @@ def post_tender_lot_auction_features(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Number of auction results did not match the number of tender bids")
 
-    for x in list(range(0, self.min_bids_number))[-2::-1]:
-        patch_data['bids'].append({
-            'id': self.initial_bids[x]['id'],
-            'lotValues': [
-                {
-                    "value": {
-                        "amount": 459 + x*10,
-                        "currency": "UAH",
-                        "valueAddedTaxIncluded": True
-                    }
-                }
-            ]
-        })
+    update_patch_data(self, patch_data, key='lotValues', start=-2, interval=-1)
 
     patch_data['bids'][-1]['id'] = "some_id"
     response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data}, status=422)
@@ -1270,19 +1223,7 @@ def post_tender_lots_auction_features(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Number of auction results did not match the number of tender bids")
 
-    for x in list(range(0, self.min_bids_number))[-2::-1]:
-        patch_data['bids'].append({
-            'id': self.initial_bids[x]['id'],
-            'lotValues': [
-                {
-                    "value": {
-                        "amount": 459,
-                        "currency": "UAH",
-                        "valueAddedTaxIncluded": True
-                    }
-                }
-            ]
-        })
+    update_patch_data(self, patch_data, key='lotValues', start=-2, interval=-1)
 
     patch_data['bids'][-1]['id'] = "some_id"
 
