@@ -431,13 +431,13 @@ def one_lot_2bid_1unqualified(self):
     self.assertEqual(response.status, '200 OK')
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                  {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': self.test_bids_data[0]["tenderers"], 'lotValues': [{"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}]}})
 
-    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                  {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': self.test_bids_data[1]["tenderers"], 'lotValues': [{"value": self.test_bids_data[1]['value'], 'relatedLot': lot_id}]}})
+    for i in range(self.min_bids_number):
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': self.test_bids_data[i]["tenderers"], 'lotValues': [
+                                              {"value": self.test_bids_data[i]['value'], 'relatedLot': lot_id}]}})
+
     # switch to active.pre-qualification
     self.time_shift('active.pre-qualification')
     self.check_chronograph()
@@ -445,14 +445,16 @@ def one_lot_2bid_1unqualified(self):
     response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
     self.assertEqual(response.content_type, 'application/json')
     qualifications = response.json['data']
+    for i in range(self.min_bids_number - 1):
+        response = self.app.patch_json(
+            '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[i]['id'], owner_token),
+            {"data": {'status': 'active', "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
 
-    response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[0]['id'], owner_token),
-                              {"data": {'status': 'active', "qualified": True, "eligible": True}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['status'], 'active')
-
-    response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[1]['id'], owner_token),
-                              {"data": {'status': 'unsuccessful'}})
+    response = self.app.patch_json(
+        '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[-1]['id'], owner_token),
+        {"data": {'status': 'unsuccessful'}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
@@ -964,17 +966,14 @@ def two_lot_2bid_0com_1can(self):
     self.assertEqual(response.status, '200 OK')
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                                                                  'tenderers': self.test_bids_data[0]['tenderers'], 'lotValues': [
-        {"value": self.test_bids_data[0]['value'], 'relatedLot': lot_id}
-        for lot_id in lots
-    ]}})
 
-    response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                                                                  'tenderers': self.test_bids_data[1]['tenderers'], 'lotValues': [
-        {"value": self.test_bids_data[1]['value'], 'relatedLot': lot_id}
-        for lot_id in lots
-    ]}})
+    for i in range(self.min_bids_number):
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': self.test_bids_data[i]['tenderers'],
+                                                'lotValues': [
+                                                    {"value": self.test_bids_data[i]['value'], 'relatedLot': lot_id}
+                                                    for lot_id in lots]}})
 
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender_id, owner_token), {'data': {
@@ -992,7 +991,7 @@ def two_lot_2bid_0com_1can(self):
     response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
     self.assertEqual(response.content_type, 'application/json')
     qualifications = response.json['data']
-    self.assertEqual(len(qualifications), 2)
+    self.assertEqual(len(qualifications), self.min_bids_number)
 
     for qualification in qualifications:
         response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], owner_token),
