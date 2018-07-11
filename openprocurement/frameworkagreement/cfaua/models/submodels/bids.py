@@ -4,6 +4,7 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import ListType
 from openprocurement.api.utils import get_now
+from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.core.models import Bid as BaseBid, Administrator_bid_role, view_bid_role, \
     validate_parameters_uniq, bids_validation_wrapper
 from openprocurement.frameworkagreement.cfaua.constants import BID_UNSUCCESSFUL_FROM
@@ -40,37 +41,9 @@ class BidModelType(ModelType):
         elif print_none:
             return shaped
 
-
 class Bid(BaseBid):
     class Options:
-        roles = {
-            'Administrator': Administrator_bid_role,
-            'embedded': view_bid_role,
-            'view': view_bid_role,
-            'create': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'selfQualified',
-                                'selfEligible', 'subcontractingDetails', 'documents', 'financialDocuments',
-                                'eligibilityDocuments', 'qualificationDocuments'),
-            'edit': whitelist('value', 'tenderers', 'parameters', 'lotValues', 'status', 'subcontractingDetails'),
-            'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl', 'status'),
-            'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
-            'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
-            'active.enquiries': whitelist(),
-            'active.tendering': whitelist(),
-            'active.pre-qualification': whitelist('id', 'status', 'documents', 'eligibilityDocuments', 'tenderers'),
-            'active.pre-qualification.stand-still': whitelist('id', 'status', 'documents', 'eligibilityDocuments',
-                                                              'tenderers'),
-            'active.auction': whitelist('id', 'status', 'documents', 'eligibilityDocuments', 'tenderers'),
-            'active.qualification': view_bid_role,
-            'active.awarded': view_bid_role,
-            'complete': view_bid_role,
-            'unsuccessful': view_bid_role,
-            'bid.unsuccessful': whitelist('id', 'status', 'tenderers', 'documents', 'eligibilityDocuments',
-                                          'parameters', 'selfQualified', 'selfEligible', 'subcontractingDetails'),
-            'cancelled': view_bid_role,
-            'invalid': whitelist('id', 'status'),
-            'invalid.pre-qualification': whitelist('id', 'status', 'documents', 'eligibilityDocuments', 'tenderers'),
-            'deleted': whitelist('id', 'status'),
-        }
+        roles = RolesFromCsv('bid.csv', relative_to=__file__)
 
     documents = ListType(ModelType(BidderEUDocument), default=list())
     financialDocuments = ListType(ModelType(BidderEUDocument), default=list())
@@ -83,7 +56,8 @@ class Bid(BaseBid):
     parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
     status = StringType(
         choices=['draft', 'pending', 'active', 'invalid', 'invalid.pre-qualification', 'unsuccessful', 'deleted'],
-        default='pending')
+        default='pending'
+    )
 
     def serialize(self, role=None):
         if role and role != 'create' and self.status in ['invalid', 'invalid.pre-qualification', 'deleted']:
