@@ -154,16 +154,16 @@ def patch_tender_contract(self):
 
     self.set_status('complete', {'status': 'active.awarded'})
 
-    token = self.initial_bids_tokens.values()[0]
-    response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, token), {'data': {
-        'title': 'complaint title',
-        'description': 'complaint description',
-        'author': test_organization,
-        'status': 'claim'
-    }})
-    self.assertEqual(response.status, '201 Created')
-    complaint = response.json['data']
-    owner_token = response.json['access']['token']
+    #token = self.initial_bids_tokens.values()[0]
+    #response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, token), {'data': {
+        #'title': 'complaint title',
+        #'description': 'complaint description',
+        #'author': test_organization,
+        #'status': 'claim'
+    #}})
+    #self.assertEqual(response.status, '201 Created')
+    #complaint = response.json['data']
+    #owner_token = response.json['access']['token']
 
     tender = self.db.get(self.tender_id)
     for i in tender.get('awards', []):
@@ -206,29 +206,29 @@ def patch_tender_contract(self):
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token), {"data": {"dateSigned": custom_signature_date}})
     self.assertEqual(response.status, '200 OK')
 
-    response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, complaint['id'], self.tender_token), {"data": {
-        "status": "answered",
-        "resolutionType": "resolved",
-        "resolution": "resolution text " * 2
-    }})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], "answered")
-    self.assertEqual(response.json['data']["resolutionType"], "resolved")
-    self.assertEqual(response.json['data']["resolution"], "resolution text " * 2)
+    #response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, complaint['id'], self.tender_token), {"data": {
+        #"status": "answered",
+        #"resolutionType": "resolved",
+        #"resolution": "resolution text " * 2
+    #}})
+    #self.assertEqual(response.status, '200 OK')
+    #self.assertEqual(response.content_type, 'application/json')
+    #self.assertEqual(response.json['data']["status"], "answered")
+    #self.assertEqual(response.json['data']["resolutionType"], "resolved")
+    #self.assertEqual(response.json['data']["resolution"], "resolution text " * 2)
 
-    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}}, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't sign contract before reviewing all complaints")
+    #response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}}, status=403)
+    #self.assertEqual(response.status, '403 Forbidden')
+    #self.assertEqual(response.content_type, 'application/json')
+    #self.assertEqual(response.json['errors'][0]["description"], "Can't sign contract before reviewing all complaints")
 
-    response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, complaint['id'], owner_token), {"data": {
-        "satisfied": True,
-        "status": "resolved"
-    }})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], "resolved")
+    #response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, complaint['id'], owner_token), {"data": {
+        #"satisfied": True,
+        #"status": "resolved"
+    #}})
+    #self.assertEqual(response.status, '200 OK')
+    #self.assertEqual(response.content_type, 'application/json')
+    #self.assertEqual(response.json['data']["status"], "resolved")
 
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}})
     self.assertEqual(response.status, '200 OK')

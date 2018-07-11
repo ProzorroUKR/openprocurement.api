@@ -82,64 +82,8 @@ class TenderLotAuctionPeriodResourceTest(TenderAuctionPeriodResourceTest):
     initial_lots = test_lots
 
 
-class TenderComplaintSwitchResourceTest(TenderContentWebTest):
-
-    test_switch_to_ignored_on_complete = snitch(switch_to_ignored_on_complete)
-    test_switch_from_pending_to_ignored = snitch(switch_from_pending_to_ignored)
-    test_switch_from_pending = snitch(switch_from_pending)
-    test_switch_to_complaint = snitch(switch_to_complaint)
-
-
-class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
-    initial_lots = test_lots
-
-
-class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
-    initial_status = 'active.qualification'
-    initial_bids = test_bids
-
-    def setUp(self):
-        super(TenderAwardComplaintSwitchResourceTest, self).setUp()
-        # Create award
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
-        award = response.json['data']
-        self.award_id = award['id']
-        self.app.authorization = auth
-
-    test_award_switch_to_ignored_on_complete = snitch(award_switch_to_ignored_on_complete)
-    test_award_switch_from_pending_to_ignored = snitch(award_switch_from_pending_to_ignored)
-    test_award_switch_from_pending = snitch(award_switch_from_pending)
-    test_award_switch_to_complaint = snitch(award_switch_to_complaint)
-
-
-class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResourceTest):
-    initial_lots = test_lots
-
-    def setUp(self):
-        super(TenderAwardComplaintSwitchResourceTest, self).setUp()
-        # Create award
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
-            'suppliers': [test_organization],
-            'status': 'pending',
-            'bid_id': self.initial_bids[0]['id'],
-            'lotID': self.initial_bids[0]['lotValues'][0]['relatedLot']
-        }})
-        award = response.json['data']
-        self.award_id = award['id']
-        self.app.authorization = auth
-
-
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotAwardComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotComplaintSwitchResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))

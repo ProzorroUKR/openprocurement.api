@@ -2,7 +2,7 @@
 
 import unittest
 
-from openprocurement.tender.cfaua.tests import auction, award, bid, document, tender, question, complaint
+from openprocurement.tender.cfaua.tests import auction, award, bid, document, tender
 
 
 def suite():
@@ -10,9 +10,9 @@ def suite():
     suite.addTest(auction.suite())
     suite.addTest(award.suite())
     suite.addTest(bid.suite())
-    suite.addTest(complaint.suite())
+    #suite.addTest(complaint.suite())
     suite.addTest(document.suite())
-    suite.addTest(question.suite())
+    #suite.addTest(question.suite())
     suite.addTest(tender.suite())
     return suite
 

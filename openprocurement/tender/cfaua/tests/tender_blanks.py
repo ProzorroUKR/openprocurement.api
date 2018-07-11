@@ -1342,10 +1342,10 @@ def tender_Administrator_change(self):
     self.assertEqual(response.status, '201 Created')
     tender = response.json['data']
 
-    response = self.app.post_json('/tenders/{}/questions'.format(tender['id']), {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}})
-    self.assertEqual(response.status, '201 Created')
-    self.assertEqual(response.content_type, 'application/json')
-    question = response.json['data']
+    #response = self.app.post_json('/tenders/{}/questions'.format(tender['id']), {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}})
+    #self.assertEqual(response.status, '201 Created')
+    #self.assertEqual(response.content_type, 'application/json')
+    #question = response.json['data']
 
     authorization = self.app.authorization
     self.app.authorization = ('Basic', ('administrator', ''))
@@ -1355,12 +1355,12 @@ def tender_Administrator_change(self):
     self.assertEqual(response.json['data']['mode'], u'test')
     self.assertEqual(response.json['data']["procuringEntity"]["identifier"]["id"], "00000000")
 
-    response = self.app.patch_json('/tenders/{}/questions/{}'.format(tender['id'], question['id']), {"data": {"answer": "answer"}}, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'], [
-        {"location": "url", "name": "role", "description": "Forbidden"}
-    ])
+    #response = self.app.patch_json('/tenders/{}/questions/{}'.format(tender['id'], question['id']), {"data": {"answer": "answer"}}, status=403)
+    #self.assertEqual(response.status, '403 Forbidden')
+    #self.assertEqual(response.content_type, 'application/json')
+    #self.assertEqual(response.json['errors'], [
+        #{"location": "url", "name": "role", "description": "Forbidden"}
+    #])
     self.app.authorization = authorization
 
     response = self.app.post_json('/tenders', {'data': self.initial_data})
@@ -1418,22 +1418,22 @@ def invalid_tender_conditions(self):
     owner_token = response.json['access']['token']
     # switch to active.tendering
     self.set_status('active.tendering')
-    # create compaint
-    response = self.app.post_json('/tenders/{}/complaints'.format(tender_id),
-                                  {'data': {'title': 'invalid conditions', 'description': 'description', 'author': test_organization, 'status': 'claim'}})
-    complaint_id = response.json['data']['id']
-    complaint_owner_token = response.json['access']['token']
-    # answering claim
-    self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(tender_id, complaint_id, owner_token), {"data": {
-        "status": "answered",
-        "resolutionType": "resolved",
-        "resolution": "I will cancel the tender"
-    }})
-    # satisfying resolution
-    self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(tender_id, complaint_id, complaint_owner_token), {"data": {
-        "satisfied": True,
-        "status": "resolved"
-    }})
+    ## create compaint
+    #response = self.app.post_json('/tenders/{}/complaints'.format(tender_id),
+                                  #{'data': {'title': 'invalid conditions', 'description': 'description', 'author': test_organization, 'status': 'claim'}})
+    #complaint_id = response.json['data']['id']
+    #complaint_owner_token = response.json['access']['token']
+    ## answering claim
+    #self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(tender_id, complaint_id, owner_token), {"data": {
+        #"status": "answered",
+        #"resolutionType": "resolved",
+        #"resolution": "I will cancel the tender"
+    #}})
+    ## satisfying resolution
+    #self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(tender_id, complaint_id, complaint_owner_token), {"data": {
+        #"satisfied": True,
+        #"status": "resolved"
+    #}})
     # cancellation
     self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender_id, owner_token), {'data': {
         'reason': 'invalid conditions',
@@ -1604,27 +1604,27 @@ def first_bid_tender(self):
     # get pending award
     award2_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
     self.assertNotEqual(award_id, award2_id)
-    # create first award complaint
-    self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(tender_id, award_id, bid_token),
-                                  {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization, 'status': 'claim'}})
-    complaint_id = response.json['data']['id']
-    complaint_owner_token = response.json['access']['token']
-    # create first award complaint #2
-    response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(tender_id, award_id, bid_token),
-                                  {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
-    # answering claim
-    self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(tender_id, award_id, complaint_id, owner_token), {"data": {
-        "status": "answered",
-        "resolutionType": "resolved",
-        "resolution": "resolution text " * 2
-    }})
-    # satisfying resolution
-    self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(tender_id, award_id, complaint_id, complaint_owner_token), {"data": {
-        "satisfied": True,
-        "status": "resolved"
-    }})
-    # get awards
+    ## create first award complaint
+    #self.app.authorization = ('Basic', ('broker', ''))
+    #response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(tender_id, award_id, bid_token),
+                                  #{'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization, 'status': 'claim'}})
+    #complaint_id = response.json['data']['id']
+    #complaint_owner_token = response.json['access']['token']
+    ## create first award complaint #2
+    #response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(tender_id, award_id, bid_token),
+                                  #{'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+    ## answering claim
+    #self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(tender_id, award_id, complaint_id, owner_token), {"data": {
+        #"status": "answered",
+        #"resolutionType": "resolved",
+        #"resolution": "resolution text " * 2
+    #}})
+    ## satisfying resolution
+    #self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(tender_id, award_id, complaint_id, complaint_owner_token), {"data": {
+        #"satisfied": True,
+        #"status": "resolved"
+    #}})
+    ## get awards
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
     # get pending award
