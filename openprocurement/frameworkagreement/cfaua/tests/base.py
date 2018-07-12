@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from copy import deepcopy
 
 import os, json
 from copy import deepcopy
