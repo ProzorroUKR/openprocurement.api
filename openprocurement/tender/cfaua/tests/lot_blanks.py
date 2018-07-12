@@ -513,12 +513,15 @@ def tender_lot_guarantee(self):
     data['guarantee'] = {"amount": 100, "currency": "USD"}
     response = self.app.post_json('/tenders', {'data': data})
     tender = response.json['data']
+    self.tender_id = tender['id']
     tender_token = response.json['access']['token']
     self.assertEqual(response.status, '201 Created')
     self.assertIn('guarantee', response.json['data'])
     self.assertEqual(response.json['data']['guarantee']['amount'], 100)
     self.assertEqual(response.json['data']['guarantee']['currency'], "USD")
 
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     lot = deepcopy(self.test_lots_data[0])
     lot['guarantee'] = {"amount": 20, "currency": "USD"}
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender['id'], tender_token), {'data': lot})
@@ -948,6 +951,8 @@ def proc_1lot_0bid(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     # add lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': self.test_lots_data[0]})
     self.assertEqual(response.status, '201 Created')
@@ -972,6 +977,8 @@ def proc_1lot_1bid(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     # add lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': self.test_lots_data[0]})
     self.assertEqual(response.status, '201 Created')
@@ -1023,6 +1030,8 @@ def proc_1lot_2bid(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     # add lot
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': self.test_lots_data[0]})
     self.assertEqual(response.status, '201 Created')
@@ -1115,6 +1124,8 @@ def proc_2lot_0bid(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1151,6 +1162,8 @@ def proc_2lot_2can(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1187,6 +1200,8 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1261,6 +1276,8 @@ def proc_2lot_1bid_0com_1can(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1334,6 +1351,8 @@ def proc_2lot_1bid_2com_1win(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1399,6 +1418,8 @@ def proc_2lot_1bid_0com_0win(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1463,6 +1484,8 @@ def proc_2lot_1bid_1com_1win(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1548,6 +1571,8 @@ def proc_2lot_2bid_2com_2win(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1676,6 +1701,8 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1783,6 +1810,8 @@ def proc_2lot_2diff_bids_check_auction(self):
     response = self.app.post_json('/tenders', {"data": self.initial_data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
+    # switch to active.enquiries
+    self.set_status('active.enquiries')
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot

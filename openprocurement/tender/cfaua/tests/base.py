@@ -209,7 +209,7 @@ class BaseTenderWebTest(BaseTWT):
     docservice = False
     relative_to = os.path.dirname(__file__)
     # Statuses for test, that will be imported from others procedures
-    primary_tender_status = 'active.enquiries'  # status, to which tender should be switched from 'draft'
+    primary_tender_status = 'draft.pending'  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = 'active.tendering'  # status, in which operations with tender documents (adding, updating) are forbidden
     forbidden_question_modification_actions_status = 'active.tendering'  # status, in which adding/updating tender questions is forbidden
     forbidden_lot_actions_status = 'active.tendering'  # status, in which operations with tender lots (adding, updating, deleting) are forbidden

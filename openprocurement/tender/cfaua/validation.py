@@ -10,7 +10,7 @@ from openprocurement.tender.cfaua.utils import (
 
 # tender documents
 def validate_document_operation_in_not_allowed_tender_status(request):
-    if request.authenticated_role != 'auction' and request.validated['tender_status'] != 'active.enquiries' or \
+    if request.authenticated_role != 'auction' and request.validated['tender_status'] not in ['draft.pending', 'active.enquiries'] or \
        request.authenticated_role == 'auction' and request.validated['tender_status'] not in ['active.auction', 'active.qualification']:
         raise_operation_error(request, 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(request.method), request.validated['tender_status']))
 
@@ -35,7 +35,6 @@ def validate_firm_to_create_bid(request):
     bid = request.validated['bid']
     firm_keys = prepare_shortlistedFirms(tender.shortlistedFirms)
     bid_keys = prepare_bid_identifier(bid)
-    print firm_keys, bid_keys
     if not (bid_keys <= firm_keys):
         raise_operation_error(request, 'Firm can\'t create bid')
 
@@ -72,7 +71,7 @@ def validate_update_question(request):
 # lot
 def validate_lot_operation(request):
     tender = request.validated['tender']
-    if tender.status not in ['active.enquiries']:
+    if tender.status not in ['draft.pending', 'active.enquiries']:
         raise_operation_error(request, 'Can\'t {} lot in current ({}) tender status'.format(OPERATIONS.get(request.method), tender.status))
 
 

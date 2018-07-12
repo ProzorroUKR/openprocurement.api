@@ -36,6 +36,7 @@ from openprocurement.tender.cfaua.tests.chronograph_blanks import (
 
 class TenderSwitchTenderingResourceTest(TenderContentWebTest):
 
+    initial_status = 'active.enquiries'
     test_switch_to_tendering_by_tenderPeriod_startDate = snitch(switch_to_tendering_by_tenderPeriod_startDate)
 
 

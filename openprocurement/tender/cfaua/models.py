@@ -93,6 +93,7 @@ class Tender(BaseTender):
             'create': create_role,
             'edit': edit_role,
             'edit_draft': draft_role,
+            'edit_draft.pending': whitelist(),
             'edit_active.enquiries': edit_role,
             'edit_active.tendering': whitelist(),
             'edit_active.auction': whitelist(),
@@ -107,6 +108,7 @@ class Tender(BaseTender):
             'auction_post': auction_post_role,
             'auction_patch': auction_patch_role,
             'draft': enquiries_role,
+            'draft.pending': enquiries_role,
             'active.enquiries': enquiries_role,
             'active.tendering': enquiries_role,
             'active.auction': auction_role,
@@ -143,6 +145,7 @@ class Tender(BaseTender):
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     guarantee = ModelType(Guarantee)
     shortlistedFirms = ListType(ModelType(Firms), min_size=3)
+    status = StringType(choices=['draft', 'draft.pending', 'active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='draft.pending')
 
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')
     procurementMethodType = StringType(default="closeFrameworkAgreementSelectionUA")

@@ -72,6 +72,7 @@ class TenderLotProcessTestMixin(object):
 
 
 class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
+    initial_status = 'active.enquiries'
     test_lots_data = test_lots
 
     test_get_tender_lot = snitch(get_tender_lot)
@@ -79,6 +80,7 @@ class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, Te
 
 
 class TenderLotFeatureResourceTest(TenderContentWebTest, TenderLotFeatureResourceTestMixin):
+    initial_status = 'active.enquiries'
     initial_lots = 2 * test_lots
     invalid_feature_value = 0.5
     max_feature_value = 0.3
@@ -94,6 +96,7 @@ class TenderLotBidResourceTest(TenderContentWebTest):
 
 
 class TenderLotFeatureBidResourceTest(TenderContentWebTest):
+    initial_status = 'active.enquiries'
     initial_lots = test_lots
 
     def setUp(self):
@@ -166,6 +169,7 @@ class TenderLotFeatureBidResourceTest(TenderContentWebTest):
 
 
 class TenderLotProcessTest(BaseTenderWebTest, TenderLotProcessTestMixin):
+    #initial_status = 'active.enquiries'
     test_lots_data = test_lots
 
     days_till_auction_starts = 10

@@ -36,6 +36,7 @@ class TenderDocumentWithDSResourceTestMixin(object):
 
 class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):
 
+    initial_status = 'active.enquiries'
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
 
 
