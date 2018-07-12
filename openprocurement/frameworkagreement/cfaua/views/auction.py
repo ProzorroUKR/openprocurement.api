@@ -12,7 +12,7 @@ from openprocurement.tender.core.utils import (
     optendersresource
 )
 from openprocurement.tender.openua.views.auction import TenderUaAuctionResource as BaseResource
-from openprocurement.frameworkagreement.cfaua.utils import create_awards
+from openprocurement.frameworkagreement.cfaua.utils import add_next_awards
 
 
 @optendersresource(name='closeFrameworkAgreementUA:Tender Auction',
@@ -34,7 +34,7 @@ class TenderAuctionResource(BaseResource):
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.status == 'active']):
             configurator = self.request.content_configurator
-            create_awards(self.request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
+            add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
         if save_tender(self.request):
             self.LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_auction_post'}))
             return {'data': self.request.validated['tender'].serialize(self.request.validated['tender'].status)}
@@ -46,7 +46,7 @@ class TenderAuctionResource(BaseResource):
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if all([i.auctionPeriod and i.auctionPeriod.endDate for i in self.request.validated['tender'].lots if i.status == 'active']):
             configurator = self.request.content_configurator
-            create_awards(self.request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
+            add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
         if save_tender(self.request):
             self.LOGGER.info('Report auction results', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_auction_post'}))
             return {'data': self.request.validated['tender'].serialize(self.request.validated['tender'].status)}

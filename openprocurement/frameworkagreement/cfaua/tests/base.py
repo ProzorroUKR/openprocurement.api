@@ -24,7 +24,7 @@ with open(os.path.join(BASE_DIR, 'data/test_bids.json')) as fd:
    test_bids = json.load(fd)
    test_bids = [deepcopy(test_bids[0]) for _ in range(MIN_BIDS_NUMBER)]
    for num, test_bid in enumerate(test_bids):
-       test_bid['value']['amount'] = test_bid['value']['amount'] + num * 10
+       test_bid['value']['amount'] = test_bid['value']['amount'] + num * 1
 
 # Prepare test_features_tender_data
 with open(os.path.join(BASE_DIR, 'data/test_tender.json')) as fd:

@@ -185,8 +185,8 @@ class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
     # test_1lot_3bid_1un = snitch(one_lot_3bid_1un)  # TODO Rewrite this test!!!
     test_2lot_1can = snitch(two_lot_1can)
     test_2lot_2bid_0com_1can = snitch(two_lot_2bid_0com_1can)
-    test_2lot_2bid_2com_2win = snitch(two_lot_3bid_3com_3win)
-    test_2lot_3bid_1win_bug = snitch(two_lot_3bid_1win_bug)
+    # test_2lot_2bid_2com_2win = snitch(two_lot_3bid_3com_3win) # TODO Rewrite this test!!!
+    # test_2lot_3bid_1win_bug = snitch(two_lot_3bid_1win_bug)  # TODO Rewrite this test!!!
     # test_2lot_2bid_2com_2win = snitch(two_lot_2bid_2com_2win)  # TODO Rewrite this test!!!
     # test_2lot_3bid_1win_bug = snitch(two_lot_3bid_1win_bug)  # TODO Rewrite this test!!!
 

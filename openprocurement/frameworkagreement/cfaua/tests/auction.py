@@ -32,6 +32,7 @@ from openprocurement.tender.openeu.tests.auction_blanks import (
     # TenderMultipleLotAuctionResourceTest
     patch_tender_2lot_auction,
 )
+from openprocurement.frameworkagreement.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.frameworkagreement.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_features_tender_data,

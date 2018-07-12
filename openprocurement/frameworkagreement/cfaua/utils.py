@@ -21,6 +21,7 @@ from openprocurement.tender.openua.utils import (
     add_next_award,
     check_complaint_status
 )
+from openprocurement.frameworkagreement.cfaua.constants import MaxAwards, MIN_BIDS_NUMBER
 from openprocurement.frameworkagreement.cfaua.models.submodels.qualification import Qualification
 from openprocurement.frameworkagreement.cfaua.traversal import (
     qualifications_factory, bid_financial_documents_factory,
@@ -218,7 +219,7 @@ def check_status(request):
         return
 
 
-def create_awards(request, reverse=False, awarding_criteria_key='amount'):
+def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
     """Adding next award.
     :param request:
         The pyramid request object.
@@ -291,7 +292,7 @@ def create_awards(request, reverse=False, awarding_criteria_key='amount'):
             tender.awardPeriod.endDate = now
             tender.status = 'active.awarded'
     else:
-        if not tender.awards :
+        if not tender.awards or len(tender.numberOfAwards) < MIN_BIDS_NUMBER:
             unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
             codes = [i.code for i in tender.features or []]
             active_bids = [
@@ -306,6 +307,7 @@ def create_awards(request, reverse=False, awarding_criteria_key='amount'):
                 if bid.status == "active"
             ]
             bids = chef(active_bids, tender.features or [], unsuccessful_awards, reverse, awarding_criteria_key)
+            bids = bids[:MaxAwards] if MaxAwards else bids
             if bids:
                 for bid in bids:
                     award = tender.__class__.awards.model_class({
