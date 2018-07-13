@@ -207,8 +207,9 @@ def patch_tender_auction(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Number of auction results did not match the number of tender bids")
 
-    for x in list(range(self.min_bids_number))[-1:0:-1]:
+    for x in list(range(self.min_bids_number))[-2::-1]:
         patch_data['bids'].append({
+            "id": self.initial_bids[x]['id'],
             "participationUrl": u'http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}'.format(self.tender_id, self.initial_bids[x]['id'])
         })
 
@@ -313,9 +314,9 @@ def post_tender_auction_reversed(self):
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
     self.assertEqual('active.qualification', tender["status"])
-    self.assertEqual(tender["awards"][0]['bid_id'], self.initial_bids[2]['id'])
-    self.assertEqual(tender["awards"][0]['value']['amount'], self.initial_bids[2]['value']['amount'])
-    self.assertEqual(tender["awards"][0]['suppliers'], self.initial_bids[2]['tenderers'])
+    self.assertEqual(tender["awards"][0]['bid_id'], self.initial_bids[-1]['id'])
+    self.assertEqual(tender["awards"][0]['value']['amount'], self.initial_bids[-1]['value']['amount'])
+    self.assertEqual(tender["awards"][0]['suppliers'], self.initial_bids[-1]['tenderers'])
 
 
 # TenderLotAuctionResourceTest
