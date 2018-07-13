@@ -1,0 +1,8 @@
+image: alpine
+before_script:
+  - pip install setuptools==36.6.0 python-coveralls --user
+  - python bootstrap.py
+  - bin/buildout -N
+tests:
+  script:
+    - bin/nosetests
