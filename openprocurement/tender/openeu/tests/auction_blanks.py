@@ -68,8 +68,9 @@ def patch_tender_2lot_auction(self):
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
 
-    for x in list(range(self.min_bids_number))[-1:0:-1]:
+    for x in list(range(self.min_bids_number))[-2::-1]:
         patch_data['bids'].append({
+            'id': self.initial_bids[x]['id'],
             'lotValues': [
                 {
                     "participationUrl": u'http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}'.format(
