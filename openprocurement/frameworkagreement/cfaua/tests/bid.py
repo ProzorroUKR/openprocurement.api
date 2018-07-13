@@ -20,7 +20,6 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_bids
 )
 from openprocurement.frameworkagreement.cfaua.tests.bid_blanks import (
-    not_found,
     get_tender_bidder_document,
     create_tender_bidder_document,
     put_tender_bidder_document,
@@ -58,6 +57,7 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     create_tender_bid_with_financial_documents,
     create_tender_bid_with_eligibility_documents,
     create_tender_bid_with_qualification_documents,
+    not_found,
 
 )
 
@@ -92,7 +92,6 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-@unittest.skipIf(True, 'Rewrite tests')  # TODO Rewrite tests
 class TenderBidDocumentResourceTest(BaseTenderContentWebTest, TenderBidDocumentResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_status = 'active.tendering'
@@ -100,18 +99,15 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest, TenderBidDocumentR
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
-        # Create bid
-        response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': test_bids[0]})
-        bid = response.json['data']
-        self.bid_id = bid['id']
-        self.bid_token = response.json['access']['token']
+        # Create bids
+        for x in range(self.min_bids_number):
+            response = self.app.post_json('/tenders/{}/bids'.format(
+                self.tender_id), {'data': test_bids[0]})
+            bid = response.json['data']
+            x = '' if x == 0 else x + 1
+            setattr(self, 'bid{}_id'.format(x), bid['id'])
+            setattr(self, 'bid{}_token'.format(x), response.json['access']['token'])
 
-        # create second bid
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[1]})
-        bid2 = response.json['data']
-        self.bid2_id = bid2['id']
-        self.bid2_token = response.json['access']['token']
 
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)

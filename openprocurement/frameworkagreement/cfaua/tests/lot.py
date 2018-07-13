@@ -28,14 +28,9 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
     # TenderLotProcessTest
     one_lot_1bid,
     one_lot_2bid_1unqualified,
-    one_lot_2bid,
     two_lot_2bid_1lot_del,
-    one_lot_3bid_1del,
-    one_lot_3bid_1un,
     two_lot_1can,
     two_lot_2bid_0com_1can,
-    two_lot_2bid_2com_2win,
-    two_lot_3bid_1win_bug,
     # TenderLotFeatureBidderResourceTest
     create_tender_feature_bidder_invalid,
     create_tender_feature_bidder,
@@ -48,7 +43,13 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
     next_check_value_with_unanswered_question,
     next_check_value_with_unanswered_claim,
 )
-
+from openprocurement.frameworkagreement.cfaua.tests.lot_blanks import (
+    one_lot_2bid,
+    two_lot_3bid_3com_3win,
+    one_lot_3bid_1del,
+    one_lot_3bid_1un,
+    two_lot_3bid_1win_bug
+)
 
 class TenderLotEdgeCasesTestMixin(object):
 
@@ -183,7 +184,7 @@ class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
     test_1lot_3bid_1un = snitch(one_lot_3bid_1un)
     test_2lot_1can = snitch(two_lot_1can)
     test_2lot_2bid_0com_1can = snitch(two_lot_2bid_0com_1can)
-    test_2lot_2bid_2com_2win = snitch(two_lot_2bid_2com_2win)
+    test_2lot_2bid_2com_2win = snitch(two_lot_3bid_3com_3win)
     test_2lot_3bid_1win_bug = snitch(two_lot_3bid_1win_bug)
 
 

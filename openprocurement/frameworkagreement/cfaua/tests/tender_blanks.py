@@ -613,15 +613,11 @@ def unsuccessful_after_prequalification_tender(self):
     # create bid
     bidder_data = deepcopy(test_organization)
     self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                  {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
-    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                  {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
-    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                  {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
+    for x in range(self.min_bids_number):
+        response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
+                                      {'data': {'selfEligible': True, 'selfQualified': True,
+                                                'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
+
     # switch to active.pre-qualification
     self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
     self.app.authorization = ('Basic', ('chronograph', ''))
@@ -634,7 +630,7 @@ def unsuccessful_after_prequalification_tender(self):
     response = self.app.get('/tenders/{}/qualifications'.format(tender_id))
     self.assertEqual(response.status, "200 OK")
     qualifications = response.json['data']
-    self.assertEqual(len(qualifications), 3)
+    self.assertEqual(len(qualifications), self.min_bids_number)
     # disqualify all bids
     self.app.authorization = ('Basic', ('broker', ''))
     for qualification in qualifications:

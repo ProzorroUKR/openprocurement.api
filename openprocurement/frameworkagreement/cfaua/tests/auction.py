@@ -27,7 +27,7 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     get_tender_lots_auction_features,
     post_tender_lots_auction_features
 )
-
+from openprocurement.frameworkagreement.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.frameworkagreement.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_features_tender_data,
@@ -83,7 +83,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
             'selfQualified': True,
             'selfEligible': True
         }
-        for i in range(3)
+        for i in range(MIN_BIDS_NUMBER)
     ]
 
     def setUp(self):
@@ -140,7 +140,7 @@ class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
             "parameters": [
                 {
                     "code": i["code"],
-                    "value": 0.1,
+                    "value": 0.15 if x == 1 else 0.1,
                 }
                 for i in test_features_tender_data['features']
             ],
@@ -148,32 +148,13 @@ class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
                 tenderer_info
             ],
             "value": {
-                "amount": 469,
+                "amount": 469 + x * 1,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": True
             },
             'selfQualified': True,
             'selfEligible': True
-        },
-        {
-            "parameters": [
-                {
-                    "code": i["code"],
-                    "value": 0.15,
-                }
-                for i in test_features_tender_data['features']
-            ],
-            "tenderers": [
-                tenderer_info
-            ],
-            "value": {
-                "amount": 479,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": True
-            },
-            'selfQualified': True,
-            'selfEligible': True
-        }
+        } for x in range(TenderAuctionResourceTest.min_bids_number)
     ]
 
     test_get_tender_auction = snitch(get_tender_auction_feature)

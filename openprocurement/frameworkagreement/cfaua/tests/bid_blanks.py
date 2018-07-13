@@ -1,126 +1,6 @@
+# -*- coding: utf-8 -*-
 
 
-
-# TODO Rewrite this test
-def not_found(self):
-    auth = self.app.authorization
-    for doc_resource in ['financial_documents', 'eligibility_documents', 'qualification_documents']:
-        self.app.authorization = auth
-        response = self.app.post('/tenders/some_id/bids/some_id/{}?acc_token={}'.format(doc_resource, self.bid_token), status=404, upload_files=[
-                                ('file', 'name.doc', 'content')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'tender_id'}
-        ])
-
-        response = self.app.post('/tenders/{}/bids/some_id/{}?acc_token={}'.format(self.tender_id, doc_resource, self.bid_token), status=404, upload_files=[('file', 'name.doc', 'content')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'bid_id'}
-        ])
-
-        response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource, self.bid_token), status=404, upload_files=[
-                                ('invalid_value', 'name.doc', 'content')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'body', u'name': u'file'}
-        ])
-
-        response = self.app.get('/tenders/some_id/bids/some_id/{}?acc_token={}'.format(doc_resource, self.bid_token), status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'tender_id'}
-        ])
-
-        response = self.app.get('/tenders/{}/bids/some_id/{}?acc_token={}'.format(self.tender_id, doc_resource, self.bid_token), status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'bid_id'}
-        ])
-
-        response = self.app.get('/tenders/some_id/bids/some_id/{}/some_id?acc_token={}'.format(doc_resource, self.bid_token), status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'tender_id'}
-        ])
-
-        response = self.app.get('/tenders/{}/bids/some_id/{}/some_id?acc_token={}'.format(self.tender_id, doc_resource, self.bid_token), status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'bid_id'}
-        ])
-
-        response = self.app.get('/tenders/{}/bids/{}/{}/some_id?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource, self.bid_token), status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'document_id'}
-        ])
-
-        response = self.app.put('/tenders/some_id/bids/some_id/{}/some_id?acc_token={}'.format(doc_resource, self.bid_token), status=404,
-                                upload_files=[('file', 'name.doc', 'content2')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'tender_id'}
-        ])
-
-        response = self.app.put('/tenders/{}/bids/some_id/{}/some_id?acc_token={}'.format(self.tender_id, doc_resource, self.bid_token), status=404, upload_files=[
-                                ('file', 'name.doc', 'content2')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'bid_id'}
-        ])
-
-        response = self.app.put('/tenders/{}/bids/{}/{}/some_id?acc_token={}'.format(
-            self.tender_id, self.bid_id, doc_resource, self.bid_token), status=404, upload_files=[('file', 'name.doc', 'content2')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location': u'url', u'name': u'document_id'}
-        ])
-
-        self.app.authorization = ('Basic', ('invalid', ''))
-        response = self.app.put('/tenders/{}/bids/{}/{}/some_id?acc_token={}'.format(
-            self.tender_id, self.bid_id, doc_resource, self.bid_token), status=404, upload_files=[('file', 'name.doc', 'content2')])
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location': u'url', u'name': u'document_id'}
-        ])
-
-
-# TODO Rewrite this test
 def get_tender_bidder_document(self):
 
     doc_id_by_type = {}
@@ -267,7 +147,7 @@ def get_tender_bidder_document(self):
     self.app.authorization = ('Basic', ('anon', ''))
     response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']), 2)
+    self.assertEqual(len(response.json['data']), self.min_bids_number)
     self.assertEqual(set(response.json['data'][0].keys()), set(['id', 'status', 'documents', 'eligibilityDocuments', 'tenderers']))
     self.assertEqual(set(response.json['data'][1].keys()), set(['id', 'status', 'tenderers']))
     response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, self.bid_id))
@@ -324,7 +204,7 @@ def get_tender_bidder_document(self):
     self.app.authorization = ('Basic', ('anon', ''))
     response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']), 2)
+    self.assertEqual(len(response.json['data']), self.min_bids_number)
     self.assertEqual(set(response.json['data'][0].keys()), set(['id', 'status', 'documents', 'eligibilityDocuments', 'tenderers']))
     self.assertEqual(set(response.json['data'][1].keys()), set(['id', 'status', 'tenderers']))
     response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, self.bid_id))
@@ -358,7 +238,7 @@ def get_tender_bidder_document(self):
     self.app.authorization = ('Basic', ('anon', ''))
     response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']), 2)
+    self.assertEqual(len(response.json['data']), self.min_bids_number)
     self.assertEqual(set(response.json['data'][0].keys()), set(['id', 'status', 'documents', 'eligibilityDocuments', 'tenderers']))
     self.assertEqual(set(response.json['data'][1].keys()), set(['id', 'status', 'tenderers']))
     response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, self.bid_id))
@@ -396,7 +276,7 @@ def get_tender_bidder_document(self):
     self.app.authorization = ('Basic', ('anon', ''))
     response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']), 2)
+    self.assertEqual(len(response.json['data']), self.min_bids_number)
     self.assertEqual(set(response.json['data'][0].keys()), set([u'date', u'status', u'id', u'value', u'tenderers', u'documents',
                                                                 u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments',
                                                                 u'selfEligible', u'selfQualified']))
@@ -428,7 +308,7 @@ def get_tender_bidder_document(self):
     self.app.authorization = ('Basic', ('anon', ''))
     response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']), 2)
+    self.assertEqual(len(response.json['data']), self.min_bids_number)
     self.assertEqual(set(response.json['data'][0].keys()), set([u'date', u'status', u'id', u'value', u'tenderers', u'documents',
                                                                 u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments',
                                                                 u'selfEligible', u'selfQualified']))
@@ -462,7 +342,7 @@ def get_tender_bidder_document(self):
     self.app.authorization = ('Basic', ('anon', ''))
     response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']), 2)
+    self.assertEqual(len(response.json['data']), self.min_bids_number)
     self.assertEqual(set(response.json['data'][0].keys()), set([u'date', u'status', u'id', u'value', u'tenderers', u'documents',
                                                                 u'eligibilityDocuments', u'qualificationDocuments', u'financialDocuments',
                                                                 u'selfEligible', u'selfQualified']))
@@ -479,7 +359,6 @@ def get_tender_bidder_document(self):
     all_public_documents_are_accessible_for_others()
 
 
-# TODO Rewrite this test
 def create_tender_bidder_document(self):
     doc_id_by_type = {}
     for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
@@ -663,7 +542,6 @@ def create_tender_bidder_document(self):
         self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
 
 
-# TODO Rewrite this test
 def put_tender_bidder_document(self):
     doc_id_by_type = {}
     doc_id_by_type2 = {}
@@ -849,7 +727,6 @@ def put_tender_bidder_document(self):
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
 
 
-# TODO Rewrite this test
 def patch_tender_bidder_document(self):
     doc_id_by_type = {}
     doc_id_by_type2 = {}
@@ -905,7 +782,6 @@ def patch_tender_bidder_document(self):
         self.assertEqual(response.status, '200 OK')
 
 
-# TODO Rewrite this test
 def patch_tender_bidder_document_private(self):
     doc_id_by_type = {}
     private_doc_id_by_type = {}
@@ -939,7 +815,6 @@ def patch_tender_bidder_document_private(self):
         self.assertEqual('Only our company sells badgers with pink hair.', response.json["data"]["confidentialityRationale"])
 
 
-# TODO Rewrite this test
 def download_tender_bidder_document(self):
     doc_id_by_type = {}
     private_doc_id_by_type = {}
