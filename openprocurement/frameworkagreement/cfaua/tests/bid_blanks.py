@@ -330,12 +330,14 @@ def get_tender_bidder_document(self):
         i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
     self.db.save(tender)
 
-    # sign contract
+    # sign agreement
     response = self.app.get('/tenders/{}'.format(self.tender_id))
-    contract_id = response.json['data']['contracts'][-1]['id']
+    agreement_id = response.json['data']['agreements'][-1]['id']
     self.app.authorization = ('Basic', ('token', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract_id, self.tender_token),
-                        {"data": {"status": "active"}})
+    self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement_id, self.tender_token),
+        {"data": {"status": "active"}}
+    )
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.json['data']['status'], 'complete')
 
@@ -525,12 +527,12 @@ def create_tender_bidder_document(self):
         i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
     self.db.save(tender)
 
-    # sign contract
+    # sign agreement
     response = self.app.get('/tenders/{}'.format(self.tender_id))
-    contract_id = response.json['data']['contracts'][-1]['id']
+    agreement_id = response.json['data']['agreements'][-1]['id']
     self.app.authorization = ('Basic', ('token', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract_id, self.tender_token),
-                        {"data": {"status": "active"}})
+    self.app.patch_json('/tenders/{}/agreements/{}?acc_token={}'.format(
+        self.tender_id, agreement_id, self.tender_token), {"data": {"status": "active"}})
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.json['data']['status'], 'complete')
 

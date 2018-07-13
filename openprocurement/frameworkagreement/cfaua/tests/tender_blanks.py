@@ -858,9 +858,9 @@ def multiple_bidders_tender(self):
     self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award2_id, tender_owner_token),
                         {"data": {"status": "active", "qualified": True, "eligible": True}})
     self.assertEqual(response.status, "200 OK")
-    # get contract id
+    # get agreement id
     response = self.app.get('/tenders/{}'.format(tender_id))
-    contract_id = response.json['data']['contracts'][-1]['id']
+    agreement_id = response.json['data']['agreements'][-1]['id']
 
     # XXX rewrite following part with less of magic actions
     # after stand slill period
@@ -871,9 +871,9 @@ def multiple_bidders_tender(self):
     for i in tender.get('awards', []):
         i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
     self.db.save(tender)
-    # sign contract
+    # sign agreement
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, tender_owner_token),
+    self.app.patch_json('/tenders/{}/agreements/{}?acc_token={}'.format(tender_id, agreement_id, tender_owner_token),
                         {"data": {"status": "active"}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
@@ -931,30 +931,31 @@ def lost_contract_for_active_award(self):
     award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
     # set award as active
     self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
-    # lost contract
+    # lost agreement
     tender = self.db.get(tender_id)
-    tender['contracts'] = None
+    tender['agreements'] = None
     self.db.save(tender)
     # check tender
     response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertEqual(response.json['data']['status'], 'active.awarded')
-    self.assertNotIn('contracts', response.json['data'])
+    self.assertNotIn('agreements', response.json['data'])
     self.assertIn('next_check', response.json['data'])
-    # create lost contract
+    # create lost agreement
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     self.assertEqual(response.json['data']['status'], 'active.awarded')
-    self.assertIn('contracts', response.json['data'])
+    self.assertIn('agreements', response.json['data'])
     self.assertNotIn('next_check', response.json['data'])
-    contract_id = response.json['data']['contracts'][-1]['id']
+    agreement_id = response.json['data']['agreements'][-1]['id']
     # time travel
     tender = self.db.get(tender_id)
     for i in tender.get('awards', []):
         i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
     self.db.save(tender)
-    # sign contract
+    # sign agreement
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+    self.app.patch_json('/tenders/{}/agreements/{}?acc_token={}'.format(tender_id, agreement_id, owner_token),
+                        {"data": {"status": "active"}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(tender_id))
