@@ -5,7 +5,7 @@ from schematics.types.serializable import serializable
 from openprocurement.api.models import ListType
 from openprocurement.api.utils import get_now
 from openprocurement.api.roles import RolesFromCsv
-from openprocurement.tender.core.models import Bid as BaseBid, Administrator_bid_role, view_bid_role, \
+from openprocurement.tender.core.models import Bid as BaseBid, \
     validate_parameters_uniq, bids_validation_wrapper
 from openprocurement.frameworkagreement.cfaua.constants import BID_UNSUCCESSFUL_FROM
 from openprocurement.frameworkagreement.cfaua.models.submodels.documents import BidderEUDocument
@@ -41,9 +41,10 @@ class BidModelType(ModelType):
         elif print_none:
             return shaped
 
+
 class Bid(BaseBid):
     class Options:
-        roles = RolesFromCsv('bid.csv', relative_to=__file__)
+        roles = RolesFromCsv('Bid.csv', relative_to=__file__)
 
     documents = ListType(ModelType(BidderEUDocument), default=list())
     financialDocuments = ListType(ModelType(BidderEUDocument), default=list())
@@ -98,5 +99,3 @@ class Bid(BaseBid):
     @bids_validation_wrapper
     def validate_parameters(self, data, parameters):
         BaseBid._validator_functions['parameters'](self, data, parameters)
-
-

@@ -1,0 +1,6 @@
+rolename,status,description,title_en,period,description_en,dateSigned,date,id,__parent__,documents,title,items,suppliers,contractNumber,value,title_ru,awardID,description_ru,contractID
+edit,1,1,1,1,1,1,,,1,,1,,,1,1,1,,1,
+default,1,1,1,1,1,1,1,1,,1,1,1,1,1,1,1,1,1,1
+create,,1,1,1,1,,,,1,,1,1,1,1,1,1,1,1,1
+embedded,1,1,1,1,1,1,1,1,,1,1,1,1,1,1,1,1,1,1
+view,1,1,1,1,1,1,1,1,,1,1,1,1,1,1,1,1,1,1
