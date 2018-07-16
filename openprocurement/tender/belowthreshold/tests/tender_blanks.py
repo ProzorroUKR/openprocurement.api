@@ -5,7 +5,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX, CPV_BLOCK_FROM, INN_CODES, ATC_CODES
+from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX, CPV_BLOCK_FROM
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
 )
@@ -572,43 +572,6 @@ def create_tender_invalid(self):
     self.assertIn(u'classification', response.json['errors'][0][u'description'][0])
     self.assertIn(u'id', response.json['errors'][0][u'description'][0][u'classification'])
     self.assertIn("Value must be one of [u", response.json['errors'][0][u'description'][0][u'classification'][u'id'][0])
-    data = deepcopy(self.initial_data)
-    data["items"] = [data["items"][0]]
-    data["items"][0]['classification']['id'] = u'33600000-6'
-    del data["items"][0]['additionalClassifications']
-
-    data["items"][0]['additionalClassifications'] = [{
-        "scheme": u"INN",
-        "id": u"17.21.1",
-        "description": u"папір і картон гофровані, паперова й картонна тара"
-    }]
-
-    response = self.app.post_json('/tenders', {"data": data}, status=422)
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'],
-                     [{u'description': [
-                         {u'additionalClassifications': [{u'id': [u"Value must be one of {}.".format(INN_CODES)]}]}],
-                         u'name': u'items', u'location': u'body'}]
-                     )
-
-    # assign correct id code
-    data['items'][0]['additionalClassifications'][0]['id'] = u'sodium oxybate'
-    additional_classification = {
-        "scheme": u"ATC",
-        "id": u"17.21.1",
-        "description": u"папір і картон гофровані, паперова й картонна тара"
-    }
-    data['items'][0]['additionalClassifications'].append(additional_classification)
-
-    response = self.app.post_json('/tenders', {"data": data}, status=422)
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'],
-                     [{u'description': [
-                         {u'additionalClassifications': [{u'id': [u"Value must be one of {}.".format(ATC_CODES)]}]}],
-                         u'name': u'items', u'location': u'body'}]
-                     )
 
     procuringEntity = self.initial_data["procuringEntity"]
     data = self.initial_data["procuringEntity"].copy()
