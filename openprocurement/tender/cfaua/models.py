@@ -6,6 +6,7 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from barbecue import vnmax
 from zope.interface import implementer
+from pyramid.security import Allow
 
 from openprocurement.api.models import (
     plain_role, listing_role, draft_role, schematics_default_role, schematics_embedded_role
@@ -26,7 +27,7 @@ from openprocurement.api.validation import (
 
 from openprocurement.tender.core.models import (
     ITender, validate_features_uniq, validate_lots_uniq, get_tender,
-    view_role, create_role, edit_role as base_edit_role,
+    view_role, create_role as base_create_role, edit_role as base_edit_role,
     auction_view_role, auction_post_role, auction_patch_role, auction_role,
     chronograph_role, chronograph_view_role,
     Guarantee, ComplaintModelType, TenderAuctionPeriod,
@@ -43,9 +44,11 @@ from openprocurement.tender.core.constants import (
     COMPLAINT_STAND_STILL_TIME
 )
 
+from openprocurement.tender.cfaua.constants import BOT_NAME, DRAFT_FIELDS
+
 enquiries_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
-#edit_role = (blacklist('shortlistedFirms') + base_edit_role)
-edit_role = base_edit_role
+edit_role = (blacklist(*DRAFT_FIELDS) + base_edit_role)
+create_role = (blacklist(*DRAFT_FIELDS) + base_create_role)
 Administrator_role = whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots')
 
 
@@ -122,9 +125,10 @@ class Tender(BaseTender):
             'Administrator': Administrator_role,
             'default': schematics_default_role,
             'contracting': whitelist('doc_id', 'owner'),
+            BOT_NAME: whitelist(*DRAFT_FIELDS)
         }
 
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    items = ListType(ModelType(Item), min_size=1, validators=[validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
     enquiryPeriod = ModelType(PeriodEndRequired, required=True)  # The period during which enquiries may be made and will be answered.
     tenderPeriod = ModelType(PeriodEndRequired, required=True)  # The period when the tender is open for submissions. The end date is the closing date for tender submissions.
@@ -142,7 +146,7 @@ class Tender(BaseTender):
     auctionUrl = URLType()
     cancellations = ListType(ModelType(Cancellation), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
-    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq], max_size=1)
     guarantee = ModelType(Guarantee)
     shortlistedFirms = ListType(ModelType(Firms), min_size=3)
     status = StringType(choices=['draft', 'draft.pending', 'active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='draft.pending')
@@ -152,6 +156,36 @@ class Tender(BaseTender):
 
     procuring_entity_kinds = ['general', 'special', 'defense', 'other']
     block_complaint_status = ['answered', 'pending']
+
+    def get_role(self):
+        root = self.__parent__
+        request = root.request
+        if request.authenticated_role == 'Administrator':
+            role = 'Administrator'
+        elif request.authenticated_role == 'chronograph':
+            role = 'chronograph'
+        elif request.authenticated_role == 'auction':
+            role = 'auction_{}'.format(request.method.lower())
+        elif request.authenticated_role == 'contracting':
+            role = 'contracting'
+        elif request.authenticated_userid == BOT_NAME:
+            role = BOT_NAME
+        else:
+            role = 'edit_{}'.format(request.context.status)
+        return role
+
+    def __acl__(self):
+        acl = [
+            (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_award_complaint')
+            for i in self.bids
+        ]
+        acl.extend([
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_tender'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
+            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
+            (Allow, BOT_NAME, 'edit_tender'),
+        ])
+        return acl
 
     def __local_roles__(self):
         roles = dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])

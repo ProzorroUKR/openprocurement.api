@@ -56,6 +56,7 @@ class TenderLotCancellationResourceTest(TenderContentWebTest):
     test_patch_tender_lot_cancellation = snitch(patch_tender_lot_cancellation)
 
 
+@unittest.skip("Skip multi-lots tests")
 class TenderLotsCancellationResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_lots = 2 * test_lots

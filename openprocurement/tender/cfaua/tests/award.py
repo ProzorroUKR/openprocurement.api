@@ -135,6 +135,7 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
     test_patch_tender_lot_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
 
 
+@unittest.skip("Skip multi-lots tests")
 class Tender2LotAwardResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_lots = 2 * test_lots
@@ -164,6 +165,7 @@ class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
     docservice = True
 
 
+@unittest.skip("Skip multi-lots tests")
 class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
@@ -182,6 +184,7 @@ class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardD
         self.app.authorization = auth
 
 
+@unittest.skip("Skip multi-lots tests")
 class Tender2LotAwardDocumentWithDSResourceTest(Tender2LotAwardDocumentResourceTest):
     docservice = True
 

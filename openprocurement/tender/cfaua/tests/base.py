@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 import os
+from copy import deepcopy
 from datetime import datetime, timedelta
+from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import apply_data_patch
 from openprocurement.tender.core.tests.base import (
     BaseTenderWebTest as BaseTWT
 )
+from openprocurement.tender.cfaua.constants import DRAFT_FIELDS, BOT_NAME
 
 now = datetime.now()
 test_organization = {
@@ -30,6 +33,45 @@ test_organization = {
 }
 test_procuringEntity = test_organization.copy()
 test_procuringEntity["kind"] = "general"
+test_shortlistedFirms = [
+    {
+        "identifier": test_organization["identifier"],
+        "name": test_organization["name"]
+    }
+] * 3
+test_items = [
+    {
+        "description": u"футляри до державних нагород",
+        "classification": {
+            "scheme": u"ДК021",
+            "id": u"44617100-9",
+            "description": u"Cartons"
+        },
+        "additionalClassifications": [
+            {
+                "scheme": u"ДКПП",
+                "id": u"17.21.1",
+                "description": u"папір і картон гофровані, паперова й картонна тара"
+            }
+        ],
+        "unit": {
+            "name": u"item",
+            "code": u"44617100-9"
+        },
+        "quantity": 5,
+        "deliveryDate": {
+            "startDate": (now + timedelta(days=2)).isoformat(),
+            "endDate": (now + timedelta(days=5)).isoformat()
+        },
+        "deliveryAddress": {
+            "countryName": u"Україна",
+            "postalCode": "79000",
+            "region": u"м. Київ",
+            "locality": u"м. Київ",
+            "streetAddress": u"вул. Банкова 1"
+        }
+    }
+]
 test_tender_data = {
     "title": u"футляри до державних нагород",
     "procuringEntity": test_procuringEntity,
@@ -41,39 +83,6 @@ test_tender_data = {
         "amount": 35,
         "currency": u"UAH"
     },
-    "items": [
-        {
-            "description": u"футляри до державних нагород",
-            "classification": {
-                "scheme": u"ДК021",
-                "id": u"44617100-9",
-                "description": u"Cartons"
-            },
-            "additionalClassifications": [
-                {
-                    "scheme": u"ДКПП",
-                    "id": u"17.21.1",
-                    "description": u"папір і картон гофровані, паперова й картонна тара"
-                }
-            ],
-            "unit": {
-                "name": u"item",
-                "code": u"44617100-9"
-            },
-            "quantity": 5,
-            "deliveryDate": {
-                "startDate": (now + timedelta(days=2)).isoformat(),
-                "endDate": (now + timedelta(days=5)).isoformat()
-            },
-            "deliveryAddress": {
-                "countryName": u"Україна",
-                "postalCode": "79000",
-                "region": u"м. Київ",
-                "locality": u"м. Київ",
-                "streetAddress": u"вул. Банкова 1"
-            }
-        }
-    ],
     "enquiryPeriod": {
         "endDate": (now + timedelta(days=7)).isoformat()
     },
@@ -81,17 +90,13 @@ test_tender_data = {
         "endDate": (now + timedelta(days=14)).isoformat()
     },
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
-    "shortlistedFirms": [
-        {
-            "identifier": test_organization["identifier"],
-            "name": test_organization["name"]
-        }
-    ] * 3
+    "items": test_items,
+    "shortlistedFirms": test_shortlistedFirms
 }
 if SANDBOX_MODE:
     test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
 test_features_tender_data = test_tender_data.copy()
-test_features_item = test_features_tender_data['items'][0].copy()
+test_features_item = test_items[0].copy()
 test_features_item['id'] = "1"
 test_features_tender_data['items'] = [test_features_item]
 test_features_tender_data["features"] = [
@@ -218,6 +223,56 @@ class BaseTenderWebTest(BaseTWT):
     forbidden_auction_actions_status = 'active.tendering'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = 'active.tendering'  # status, in which adding document to tender auction is forbidden
 
+    def create_tender(self):
+        data = deepcopy(self.initial_data)
+        if self.initial_lots:
+            lots = []
+            for i in self.initial_lots:
+                lot = deepcopy(i)
+                lot['id'] = uuid4().hex
+                lots.append(lot)
+            data['lots'] = self.initial_lots = lots
+        response = self.app.post_json('/tenders', {'data': data})
+        tender = response.json['data']
+        self.tender_token = response.json['access']['token']
+        self.tender_id = tender['id']
+        status = tender['status']
+        if self.initial_status != None:
+            data = dict([(i, data[i]) for i in DRAFT_FIELDS if i in data])
+            if self.initial_lots:
+                for i, item in enumerate(data['items']):
+                    item['relatedLot'] = self.initial_lots[i % len(lots)]['id']
+            authorization = self.app.authorization
+            self.app.authorization = ('Basic', (BOT_NAME, ''))
+            response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': data})
+            self.app.authorization = authorization
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.content_type, 'application/json')
+            self.set_status('active.enquiries')
+        if self.initial_bids:
+            self.initial_bids_tokens = {}
+            response = self.set_status('active.tendering')
+            status = response.json['data']['status']
+            bids = []
+            for i in self.initial_bids:
+                if self.initial_lots:
+                    i = i.copy()
+                    value = i.pop('value')
+                    i['lotValues'] = [
+                        {
+                            'value': value,
+                            'relatedLot': l['id'],
+                        }
+                        for l in self.initial_lots
+                    ]
+                response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
+                self.assertEqual(response.status, '201 Created')
+                bids.append(response.json['data'])
+                self.initial_bids_tokens[response.json['data']['id']] = response.json['access']['token']
+            self.initial_bids = bids
+        if self.initial_status != status:
+            self.set_status(self.initial_status)
+
     def set_status(self, status, extra=None):
         data = {'status': status}
         if status == 'active.enquiries':
@@ -229,7 +284,9 @@ class BaseTenderWebTest(BaseTWT):
                 "tenderPeriod": {
                     "startDate": (now + timedelta(days=7)).isoformat(),
                     "endDate": (now + timedelta(days=14)).isoformat()
-                }
+                },
+                "items": test_items,
+                "shortlistedFirms": test_shortlistedFirms
             })
         elif status == 'active.tendering':
             data.update({
@@ -240,7 +297,9 @@ class BaseTenderWebTest(BaseTWT):
                 "tenderPeriod": {
                     "startDate": (now).isoformat(),
                     "endDate": (now + timedelta(days=7)).isoformat()
-                }
+                },
+                "items": test_items,
+                "shortlistedFirms": test_shortlistedFirms
             })
         elif status == 'active.auction':
             data.update({

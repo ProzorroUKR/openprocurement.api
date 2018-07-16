@@ -68,6 +68,7 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
     test_patch_tender_contract = snitch(patch_tender_contract)
 
 
+@unittest.skip("Skip multi-lots tests")
 class Tender2LotContractResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids
@@ -121,6 +122,7 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
         self.app.authorization = auth
 
 
+@unittest.skip("Skip multi-lots tests")
 class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_bids = test_bids

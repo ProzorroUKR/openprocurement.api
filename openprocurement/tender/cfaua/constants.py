@@ -8,3 +8,5 @@ STATUS4ROLE = {
     'reviewers': ['pending'],
     'tender_owner': ['claim'],
 }
+BOT_NAME = 'fa_bot'
+DRAFT_FIELDS = ('items', 'shortlistedFirms', 'features')

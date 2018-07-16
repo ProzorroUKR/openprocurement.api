@@ -107,6 +107,7 @@ class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourc
         super(TenderLotAuctionResourceTest, self).setUp()
 
 
+@unittest.skip("Skip multi-lots tests")
 class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleLotAuctionResourceTestMixin):
     initial_lots = 2 * test_lots
     initial_data = auction_test_tender_data
@@ -168,6 +169,7 @@ class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin,
     test_post_tender_auction = snitch(post_tender_lot_auction_features)
 
 
+@unittest.skip("Skip multi-lots tests")
 class TenderFeaturesMultilotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin,
                                                 TenderFeaturesAuctionResourceTest):
     initial_lots = test_lots * 2
