@@ -40,6 +40,14 @@ class TenderAuctionResource(BaseResource):
             return {'data': self.request.validated['tender'].serialize(self.request.validated['tender'].status)}
 
     @json_view(content_type="application/json", permission='auction', validators=(validate_tender_auction_data))
+    def patch(self):
+        """Set urls for access to auction for lot.
+        """
+        if apply_patch(self.request, src=self.request.validated['tender_src']):
+            self.LOGGER.info('Updated auction urls', extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_lot_auction_patch'}))
+            return {'data': self.request.validated['tender'].serialize("auction_view")}
+
+    @json_view(content_type="application/json", permission='auction', validators=(validate_tender_auction_data))
     def post(self):
         """Report auction results for lot.
         """
