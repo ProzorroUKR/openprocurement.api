@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from copy import deepcopy
 
 import os, json
+from copy import deepcopy
 from datetime import datetime, timedelta
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.tender.openua.tests.base import (
@@ -13,7 +13,8 @@ from openprocurement.frameworkagreement.cfaua.constants import (
     TENDERING_DURATION,
     QUESTIONS_STAND_STILL,
     COMPLAINT_STAND_STILL,
-    MIN_BIDS_NUMBER)
+    MIN_BIDS_NUMBER
+)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 now = datetime.now()
@@ -23,7 +24,7 @@ with open(os.path.join(BASE_DIR, 'data/test_bids.json')) as fd:
    test_bids = json.load(fd)
    test_bids = [deepcopy(test_bids[0]) for _ in range(MIN_BIDS_NUMBER)]
    for num, test_bid in enumerate(test_bids):
-       test_bid['value']['amount'] = test_bid['value']['amount'] + num * 10
+       test_bid['value']['amount'] = test_bid['value']['amount'] + num * 1
 
 # Prepare test_features_tender_data
 with open(os.path.join(BASE_DIR, 'data/test_tender.json')) as fd:
@@ -55,6 +56,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_lots = None
     initial_auth = None
     relative_to = os.path.dirname(__file__)
+    min_bids_number = MIN_BIDS_NUMBER
     forbidden_question_modification_actions_status = 'active.pre-qualification'  # status, in which adding/updating tender questions is forbidden
     question_claim_block_status = 'active.pre-qualification'  # status, tender cannot be switched to while it has questions/complaints related to its lot
     # auction role actions

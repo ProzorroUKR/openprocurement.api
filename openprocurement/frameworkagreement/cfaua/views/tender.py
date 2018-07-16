@@ -14,19 +14,20 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.core.validation import (
     validate_tender_period_extension,
     validate_tender_status_update_in_terminated_status,
-    validate_tender_status_update_not_in_pre_qualificaton
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.frameworkagreement.cfaua.utils import (
     check_status,
-    all_bids_are_reviewed
+    all_bids_are_reviewed,
+    all_awards_are_reviewed
 )
 from openprocurement.tender.openua.utils import calculate_normalized_date
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.frameworkagreement.cfaua.constants import (
-    PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
+    QUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
 )
 from openprocurement.tender.core.events import TenderInitializeEvent
+from openprocurement.frameworkagreement.cfaua.validation import validate_tender_status_update
 
 @optendersresource(name='closeFrameworkAgreementUA:Tender',
                    path='/tenders/{tender_id}',
@@ -35,8 +36,7 @@ from openprocurement.tender.core.events import TenderInitializeEvent
 class TenderEUResource(TenderResource):
     """ Resource handler for TenderEU """
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data, validate_tender_status_update_in_terminated_status,
-               validate_tender_status_update_not_in_pre_qualificaton, ), permission='edit_tender')
+    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data, validate_tender_status_update_in_terminated_status, validate_tender_status_update, ), permission='edit_tender')
     def patch(self):
         """Tender Edit (partial)
 
@@ -109,6 +109,12 @@ class TenderEUResource(TenderResource):
                 tender.check_auction_time()
             else:
                 raise_operation_error(self.request, 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
+        elif self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.qualification' and tender.status == "active.qualification.stand-still":
+            if all_awards_are_reviewed(self.request):
+                normalized_date = calculate_normalized_date(get_now(), tender, True)
+                tender.awardPeriod.endDate = calculate_business_date(normalized_date, COMPLAINT_STAND_STILL, self.request.validated['tender'])
+            else:
+                raise_operation_error(self.request, 'Can\'t switch to \'active.qualification.stand-still\' while not all awards are qualified')
 
         save_tender(self.request)
         self.LOGGER.info('Updated tender {}'.format(tender.id),
