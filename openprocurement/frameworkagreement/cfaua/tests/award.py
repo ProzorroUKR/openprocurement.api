@@ -26,7 +26,7 @@ from openprocurement.tender.openua.tests.award_blanks import (
     patch_tender_lot_award_complaint,
 )
 
-from openprocurement.frameworkagreement.cfaua.tests.award_blanks import (
+from openprocurement.tender.openeu.tests.award_blanks import (
     # Tender2LotAwardComplaintDocumentResourceTest
     patch_tender_award_complaint_document,
     # TenderAwardComplaintDocumentResourceTest

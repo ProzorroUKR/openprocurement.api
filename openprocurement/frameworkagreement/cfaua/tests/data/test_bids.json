@@ -31,38 +31,5 @@
         }
       }
     ]
-  },
-  {
-    "selfEligible": true,
-    "selfQualified": true,
-    "value": {
-      "currency": "UAH",
-      "amount": 479,
-      "valueAddedTaxIncluded": true
-    },
-    "tenderers": [
-      {
-        "contactPoint": {
-          "name_en": "State administration",
-          "name": "Державне управління справами",
-          "telephone": "0440000000"
-        },
-        "name_en": "State administration",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "legalName_en": "dus.gov.ua",
-          "id": "00037256",
-          "uri": "http://www.dus.gov.ua/"
-        },
-        "name": "Державне управління справами",
-        "address": {
-          "countryName": "Україна",
-          "postalCode": "01220",
-          "region": "м. Київ",
-          "streetAddress": "вул. Банкова, 11, корпус 1",
-          "locality": "м. Київ"
-        }
-      }
-    ]
   }
 ]

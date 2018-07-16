@@ -1,6 +1,6 @@
 from openprocurement.api.constants import TZ
 from openprocurement.frameworkagreement.cfaua.constants import TENDERING_DURATION, \
-    PREQUALIFICATION_COMPLAINT_STAND_STILL, QUESTIONS_STAND_STILL
+    PREQUALIFICATION_COMPLAINT_STAND_STILL, QUESTIONS_STAND_STILL, MIN_BIDS_NUMBER
 from openprocurement.frameworkagreement.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.core.adapters import TenderConfigurator
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD, STATUS4ROLE, CLAIM_SUBMIT_TIME, \
@@ -46,3 +46,5 @@ class CloseFrameworkAgreementUAConfigurator(TenderConfigurator):
 
     # Tender complaints should be sumbitted not later then "tender_claim_submit_time" days before tendering period end. Timedelta object
     tender_complaint_submit_time = COMPLAINT_SUBMIT_TIME
+
+    min_bids_number = MIN_BIDS_NUMBER
