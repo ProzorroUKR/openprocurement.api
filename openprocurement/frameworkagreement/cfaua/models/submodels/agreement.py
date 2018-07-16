@@ -16,13 +16,17 @@ class Agreement(BaseContract):
     class Options:
         roles = {
             'create': blacklist('id', 'status', 'date', 'documents', 'dateSigned'),
-            'edit': blacklist('id', 'documents', 'date', 'awardID', 'suppliers', 'items', 'agreementID'),
+            'edit': blacklist('id', 'documents', 'date', 'awardIDs', 'suppliers', 'items', 'agreementID'),
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
         }
 
     contractID = None
+    contractNumber = None
+    awardID = None
+    awardIDs = ListType(StringType(), default=list())
     agreementID = StringType()
+    agreementNumber = StringType()
     documents = ListType(ModelType(Document), default=list())
     items = ListType(ModelType(Item))
 
