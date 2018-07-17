@@ -56,7 +56,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_lots = None
     initial_auth = None
     relative_to = os.path.dirname(__file__)
-    min_bids_number = MIN_BIDS_NUMBER
     forbidden_question_modification_actions_status = 'active.pre-qualification'  # status, in which adding/updating tender questions is forbidden
     question_claim_block_status = 'active.pre-qualification'  # status, tender cannot be switched to while it has questions/complaints related to its lot
     # auction role actions

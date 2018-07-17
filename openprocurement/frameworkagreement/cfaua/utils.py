@@ -267,6 +267,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
                 continue
             unsuccessful_awards = [i.bid_id for i in lot_awards if i.status == 'unsuccessful']
             bids = chef(bids, features, unsuccessful_awards, reverse, awarding_criteria_key)
+            bids = bids[:MaxAwards] if MaxAwards else bids
             if bids:
                 for bid in bids:
                     award = tender.__class__.awards.model_class({
