@@ -79,6 +79,12 @@ def validate_add_complaint_not_in_qualification_period(request):
         raise_operation_error(request, 'Can add complaint only in qualificationPeriod')
 
 
+def validate_tender_status_update(request):
+    tender = request.context
+    data = request.validated['data']
+    if request.authenticated_role == 'tender_owner' and 'status' in data and data['status'] not in ['active.pre-qualification.stand-still', 'active.qualification.stand-still', tender.status]:
+        raise_operation_error(request, 'Can\'t update tender status')
+
 # agreement
 def validate_agreement_data(request):
     update_logging_context(request, {'agreement_id': '__new__'})

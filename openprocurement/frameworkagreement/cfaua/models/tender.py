@@ -71,7 +71,7 @@ class CloseFrameworkAgreementUA(Tender):
             'edit_active.pre-qualification': whitelist('status'),
             'edit_active.pre-qualification.stand-still': whitelist(),
             'edit_active.auction': whitelist(),
-            'edit_active.qualification': whitelist(),
+            'edit_active.qualification': whitelist('status'),
             'edit_active.awarded': whitelist(),
             'edit_complete': whitelist(),
             'edit_unsuccessful': whitelist(),
@@ -87,6 +87,7 @@ class CloseFrameworkAgreementUA(Tender):
             'active.pre-qualification.stand-still': pre_qualifications_role,
             'active.auction': pre_qualifications_role,
             'active.qualification': view_role,
+            'active.qualification.stand-still': view_role,
             'active.awarded': view_role,
             'complete': view_role,
             'unsuccessful': view_role,
@@ -127,7 +128,7 @@ class CloseFrameworkAgreementUA(Tender):
     qualificationPeriod = ModelType(Period)
     qualifications = ListType(ModelType(Qualification), default=list())
     questions = ListType(ModelType(Question), default=list())
-    status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+    status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction', 'active.qualification', 'active.qualification.stand-still', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     title_en = StringType(required=True, min_length=1)
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
