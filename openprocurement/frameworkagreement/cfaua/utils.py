@@ -89,7 +89,8 @@ def check_initial_awards_count(request):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
-    elif tender.numberOfAwards < getAdapter(tender, IContentConfigurator).min_bids_number:
+    elif len([award for award in tender.awards if award.status in ("active", "pending",)])\
+            < getAdapter(tender, IContentConfigurator).min_bids_number:
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
         if tender.awardPeriod and tender.awardPeriod.startDate:
@@ -383,7 +384,8 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
             tender.awardPeriod.endDate = now
             tender.status = 'active.awarded'
     else:
-        if not tender.awards or len(tender.numberOfAwards) < MIN_BIDS_NUMBER:
+        if not tender.awards or len(
+                [award for award in tender.awards if award.status in ("active", "pending",)]) < MIN_BIDS_NUMBER:
             unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
             codes = [i.code for i in tender.features or []]
             active_bids = [
