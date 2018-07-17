@@ -90,7 +90,7 @@ class TenderCancellationBidsAvailabilityUtils(object):
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         self.assertEqual(response.status, "200 OK")
         qualifications = response.json['data']
-        self.assertEqual(len(qualifications), 3)
+        self.assertEqual(len(qualifications), self.min_bids_number*2-1)
         offset = 0 if qualify_all else 1
         for qualification in qualifications[offset:]:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
