@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import ListType
+from openprocurement.api.roles import RolesFromCsv
 from openprocurement.frameworkagreement.cfaua.models.submodels.documents import EUDocument
 from openprocurement.tender.core.models import \
     ComplaintModelType as BaseComplaintModelType, \
-    view_bid_role, get_tender, \
-    Complaint as BaseComplaint
+    get_tender, Complaint as BaseComplaint
 from schematics.types.compound import ModelType
 from schematics.types import StringType, BooleanType
-from schematics.transforms import whitelist, blacklist
 from schematics.exceptions import ValidationError
-from openprocurement.api.models import schematics_embedded_role, schematics_default_role
 from openprocurement.api.models import IsoDateTimeType
 from pyramid.security import Allow
+
 
 class ComplaintModelType(BaseComplaintModelType):
     view_claim_statuses = ['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction']
@@ -20,22 +19,7 @@ class ComplaintModelType(BaseComplaintModelType):
 # openprocurement.tender.openua.models.Complaint + openprocurement.tender.openeu.models.Complaint
 class Complaint(BaseComplaint):
     class Options:
-        roles = {
-            'create': whitelist('author', 'title', 'description', 'status', 'relatedLot'),
-            'draft': whitelist('author', 'title', 'description', 'status'),
-            'cancellation': whitelist('cancellationReason', 'status'),
-            'satisfy': whitelist('satisfied', 'status'),
-            'escalate': whitelist('status'),
-            'resolve': whitelist('status', 'tendererAction'),
-            'answer': whitelist('resolution', 'resolutionType', 'status', 'tendererAction'),
-            'action': whitelist('tendererAction'),
-            'pending': whitelist('decision', 'status', 'rejectReason', 'rejectReasonDescription'),
-            'review': whitelist('decision', 'status', 'reviewDate', 'reviewPlace'),
-            'embedded': (blacklist('owner_token', 'owner', 'bid_id') + schematics_embedded_role),
-            'view': (blacklist('owner_token', 'owner', 'bid_id') + schematics_default_role),
-            'active.pre-qualification': view_bid_role,
-            'active.pre-qualification.stand-still': view_bid_role,
-        }
+        roles = RolesFromCsv('Complaint.csv', relative_to=__file__)
     documents = ListType(ModelType(EUDocument), default=list())
     status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled', 'satisfied', 'stopping', 'stopped', 'mistaken'], default='draft')
     acceptance = BooleanType()

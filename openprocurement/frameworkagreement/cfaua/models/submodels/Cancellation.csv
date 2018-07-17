@@ -1,0 +1,6 @@
+rolename,status,relatedLot,reason_en,reason_ru,reason,documents,reasonType,date,cancellationOf,id,__parent__
+edit,1,,,,,,1,,,,
+default,1,1,1,1,1,1,1,1,1,1,
+create,1,1,,,1,,1,,1,,
+embedded,1,1,1,1,1,1,1,1,1,1,
+view,1,1,1,1,1,1,1,1,1,1,

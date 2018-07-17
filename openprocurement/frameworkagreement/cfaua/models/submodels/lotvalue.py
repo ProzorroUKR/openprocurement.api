@@ -1,17 +1,13 @@
 from openprocurement.api.models import Model
+from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.core.models import LotValue as BaseLotValue, get_tender
 from schematics.exceptions import ValidationError
-from schematics.transforms import whitelist
 from schematics.types import StringType
 
 
 class LotValue(BaseLotValue):
     class Options:
-        roles = {
-            'create': whitelist('value', 'relatedLot', 'subcontractingDetails'),
-            'edit': whitelist('value', 'relatedLot', 'subcontractingDetails'),
-            'auction_view': whitelist('value', 'date', 'relatedLot', 'participationUrl', 'status',),
-        }
+        roles = RolesFromCsv('LotValue.csv', relative_to=__file__)
 
     subcontractingDetails = StringType()
     status = StringType(choices=['pending', 'active', 'unsuccessful'],
