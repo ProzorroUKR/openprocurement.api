@@ -71,6 +71,7 @@ class TenderLotAuctionResourceTestMixin(object):
     test_patch_tender_auction = snitch(patch_tender_lot_auction)
     test_post_tender_auction_document = snitch(post_tender_lot_auction_document)
 
+
 class TenderMultipleLotAuctionResourceTestMixin(object):
     test_get_tender_auction = snitch(get_tender_lots_auction)
     test_post_tender_auction = snitch(post_tender_lots_auction)
@@ -102,6 +103,10 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
                                        {"data": {"status": "active.pre-qualification.stand-still"}})
         self.assertEqual(response.status, "200 OK")
         # # switch to active.pre-qualification.stand-still
+
+class TenderAuctionBidsOverMaxAwards(TenderAuctionResourceTest):
+    initial_bids = test_bids + deepcopy(test_bids)  # double testbids
+    min_bids_number = MIN_BIDS_NUMBER * 2
 
 
 class TenderFrameworkResourceTest(TenderAuctionResourceTest):
@@ -223,6 +228,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderFrameworkResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAuctionBidsOverMaxAwards))
     return suite
 
 

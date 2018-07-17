@@ -139,7 +139,8 @@ def post_tender_auction(self):
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
 
-    for x in range(self.min_bids_number):
+    self.assertLessEqual(len(tender['awards']), MaxAwards)
+    for x in list(range(self.min_bids_number))[:MaxAwards]:
         self.assertEqual(tender["awards"][x]['bid_id'], patch_data["bids"][x]['id'])
         self.assertEqual(tender["awards"][x]['value']['amount'], patch_data["bids"][x]['value']['amount'])
         self.assertEqual(tender["awards"][x]['suppliers'], self.initial_bids[x]['tenderers'])
