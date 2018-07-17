@@ -7,6 +7,7 @@ from openprocurement.api.utils import apply_data_patch
 from openprocurement.tender.core.tests.base import (
     BaseTenderWebTest as BaseTWT
 )
+from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 
 now = datetime.now()
 test_organization = {
@@ -202,6 +203,7 @@ class BaseTenderWebTest(BaseTWT):
     initial_auth = ('Basic', ('broker', ''))
     docservice = False
     relative_to = os.path.dirname(__file__)
+    min_bids_number = MIN_BIDS_NUMBER
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = 'active.enquiries'  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = 'active.tendering'  # status, in which operations with tender documents (adding, updating) are forbidden
