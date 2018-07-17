@@ -1,10 +1,9 @@
 from string import hexdigits
 from urlparse import parse_qs, urlparse
 
-from openprocurement.api.models import schematics_embedded_role, schematics_default_role
+from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.core.models import Document
 from schematics.exceptions import ValidationError
-from schematics.transforms import blacklist, whitelist
 from schematics.types import StringType
 from schematics.types.serializable import serializable
 
@@ -12,6 +11,7 @@ from schematics.types.serializable import serializable
 class EUDocument(Document):
     class Options:
         namespace = 'document'
+        roles = RolesFromCsv('EUDocument.csv', relative_to=__file__)
 
     language = StringType(required=True, choices=['uk', 'en', 'ru'], default='uk')
 
@@ -19,14 +19,7 @@ class EUDocument(Document):
 class BidderEUDocument(EUDocument):
     """ Confidential Document """
     class Options:
-        roles = {
-            'edit': blacklist('id', 'url', 'datePublished', 'dateModified', 'author', 'md5', 'download_url'),
-            'embedded': schematics_embedded_role,
-            'view': (blacklist('revisions') + schematics_default_role),
-            'restricted_view': (blacklist('revisions', 'url', 'download_url') + schematics_default_role),
-            'revisions': whitelist('url', 'dateModified'),
-        }
-
+        roles = RolesFromCsv('BidderEUDocument.csv', relative_to=__file__)
     confidentiality = StringType(choices=['public', 'buyerOnly'], default='public')
     confidentialityRationale = StringType()
 

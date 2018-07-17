@@ -1,11 +1,10 @@
 from uuid import uuid4
 
-from openprocurement.api.models import Model, schematics_embedded_role, schematics_default_role, IsoDateTimeType, \
-    ListType
+from openprocurement.api.models import Model, IsoDateTimeType, ListType
+from openprocurement.api.roles import RolesFromCsv
 from openprocurement.frameworkagreement.cfaua.models.submodels.complaint import Complaint
 from openprocurement.frameworkagreement.cfaua.models.submodels.documents import EUDocument
 from schematics.exceptions import ValidationError
-from schematics.transforms import blacklist, whitelist
 from schematics.types import StringType, MD5Type, BooleanType
 from schematics.types.compound import ModelType
 
@@ -14,13 +13,7 @@ class Qualification(Model):
     """ Pre-Qualification """
 
     class Options:
-        roles = {
-            'create': blacklist('id', 'status', 'documents', 'date'),
-            'edit': whitelist('status', 'qualified', 'eligible', 'title', 'title_en', 'title_ru',
-                              'description', 'description_en', 'description_ru'),
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
-        }
+        roles = RolesFromCsv('Qualification.csv', relative_to=__file__)
 
     title = StringType()
     title_en = StringType()
