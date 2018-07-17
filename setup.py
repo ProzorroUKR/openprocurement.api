@@ -27,7 +27,7 @@ entry_points = {
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(here, 'README.txt')) as f:
+with open(os.path.join(here, 'README.md')) as f:
     README = f.read()
 
 setup(name='openprocurement.frameworkagreement.cfaua',
@@ -37,9 +37,9 @@ setup(name='openprocurement.frameworkagreement.cfaua',
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
-        "License :: OSI Approved :: Apache Software License",
-        "Programming Language :: Python",
-        ],
+          "License :: OSI Approved :: Apache Software License",
+          "Programming Language :: Python",
+      ],
       keywords="web services",
       author='Quintagroup, Ltd.',
       author_email='info@quintagroup.com',

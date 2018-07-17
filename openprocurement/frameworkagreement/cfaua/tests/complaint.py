@@ -18,7 +18,7 @@ from openprocurement.tender.openua.tests.complaint_blanks import (
     create_tender_lot_complaint,
 )
 
-from openprocurement.frameworkagreement.cfaua.tests.complaint_blanks import (
+from openprocurement.tender.openeu.tests.complaint_blanks import (
     # TenderComplaintDocumentResourceTest
     put_tender_complaint_document,
 )

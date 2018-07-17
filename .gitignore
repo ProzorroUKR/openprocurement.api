@@ -63,13 +63,7 @@ src/
 cover/
 output.html
 .noseids
-.coveragerc
 
 
 ##
-.travis.yml
-bootstrap.py
-buildout.cfg
 docs/
-requirements.txt
-versions.cfg
