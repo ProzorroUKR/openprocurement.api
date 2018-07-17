@@ -104,6 +104,7 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
         self.assertEqual(response.status, "200 OK")
         # # switch to active.pre-qualification.stand-still
 
+
 class TenderAuctionBidsOverMaxAwards(TenderAuctionResourceTest):
     initial_bids = test_bids + deepcopy(test_bids)  # double testbids
     min_bids_number = MIN_BIDS_NUMBER * 2
@@ -173,6 +174,11 @@ class TenderLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderAuct
     # initial_data = test_tender_data
 
 
+class TenderLotAuctionBidsOverMaxAwards(TenderLotAuctionResourceTest):
+    initial_bids = test_bids + deepcopy(test_bids)  # double testbids
+    min_bids_number = MIN_BIDS_NUMBER * 2
+
+
 class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderAuctionResourceTest):
     initial_lots = 2 * test_lots
 
@@ -222,6 +228,32 @@ class TenderFeaturesMultilotAuctionResourceTest(TenderMultipleLotAuctionResource
     test_patch_tender_auction = snitch(patch_tender_2lot_auction)
 
 
+class TenderMultilotAuctionBidsOverMaxAwards(TenderFeaturesMultilotAuctionResourceTest):
+    tenderer_info = deepcopy(test_organization)
+    initial_bids = [
+        {
+            "parameters": [
+                {
+                    "code": i["code"],
+                    "value": 0.15 if x == 1 else 0.1,
+                }
+                for i in test_features_tender_data['features']
+            ],
+            "tenderers": [
+                tenderer_info
+            ],
+            "value": {
+                "amount": 469 + x * 1,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": True
+            },
+            'selfQualified': True,
+            'selfEligible': True
+        } for x in range(TenderAuctionResourceTest.min_bids_number * 2)
+    ]
+    min_bids_number = TenderAuctionResourceTest.min_bids_number * 2  # double min bids number
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
@@ -229,6 +261,8 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderFrameworkResourceTest))
     suite.addTest(unittest.makeSuite(TenderAuctionBidsOverMaxAwards))
+    suite.addTest(unittest.makeSuite(TenderLotAuctionBidsOverMaxAwards))
+    suite.addTest(unittest.makeSuite(TenderMultilotAuctionBidsOverMaxAwards))
     return suite
 
 

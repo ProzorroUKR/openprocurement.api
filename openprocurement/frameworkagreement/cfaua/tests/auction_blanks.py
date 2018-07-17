@@ -139,7 +139,11 @@ def post_tender_auction(self):
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
 
-    self.assertLessEqual(len(tender['awards']), MaxAwards)
+    if len(self.initial_bids) > MaxAwards:
+        self.assertEqual(len(tender['awards']), MaxAwards)
+    else:
+        self.assertLessEqual(len(tender['awards']), MaxAwards)
+
     for x in list(range(self.min_bids_number))[:MaxAwards]:
         self.assertEqual(tender["awards"][x]['bid_id'], patch_data["bids"][x]['id'])
         self.assertEqual(tender["awards"][x]['value']['amount'], patch_data["bids"][x]['value']['amount'])
@@ -231,7 +235,12 @@ def post_tender_lot_auction(self):
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
 
-    for x in range(self.min_bids_number):
+    if len(self.initial_bids) > MaxAwards:
+        self.assertEqual(len(tender['awards']), MaxAwards)
+    else:
+        self.assertLessEqual(len(tender['awards']), MaxAwards)
+
+    for x in list(range(self.min_bids_number))[:MaxAwards]:
         self.assertEqual(tender["awards"][x]['bid_id'], patch_data["bids"][x]['id'])
         self.assertEqual(tender["awards"][x]['value']['amount'],
                          patch_data["bids"][x]['lotValues'][0]['value']['amount'])
@@ -332,6 +341,11 @@ def post_tender_lots_auction(self):
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
 
+    if len(self.initial_bids) > MaxAwards:
+        self.assertEqual(len(tender['awards']), MaxAwards * 2)  # init bids * 2lot (for each lot award)
+    else:
+        self.assertLessEqual(len(tender['awards']), MaxAwards * 2)
+
     for x, y in enumerate(list(range(self.min_bids_number))[::-1]):
         self.assertNotEqual(tender["bids"][x]['lotValues'][0]['value']['amount'],
                             self.initial_bids[x]['lotValues'][0]['value']['amount'])
@@ -342,7 +356,7 @@ def post_tender_lots_auction(self):
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
 
-    for x in range(self.min_bids_number):
+    for x in list(range(self.min_bids_number))[:MaxAwards]:
         self.assertEqual(tender["awards"][x]['bid_id'], patch_data["bids"][x]['id'])
         self.assertEqual(tender["awards"][x]['value']['amount'],
                          patch_data["bids"][x]['lotValues'][0]['value']['amount'])
