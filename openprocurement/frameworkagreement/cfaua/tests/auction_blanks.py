@@ -68,7 +68,7 @@ def post_tender_auction_all_awards_pending(self):
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
     self.assertEqual(response.json['data']['status'], "active.awarded")
 
-    self.assertIn('contracts', response.json['data'])
+    self.assertIn('agreements', response.json['data'])
 
 
 def post_tender_auction(self):

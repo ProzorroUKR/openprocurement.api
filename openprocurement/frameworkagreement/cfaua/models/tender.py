@@ -23,7 +23,7 @@ from openprocurement.frameworkagreement.cfaua.models.submodels.award import Awar
 from openprocurement.frameworkagreement.cfaua.models.submodels.bids import BidModelType, Bid
 from openprocurement.frameworkagreement.cfaua.models.submodels.cancellation import Cancellation
 from openprocurement.frameworkagreement.cfaua.models.submodels.complaint import ComplaintModelType, Complaint
-from openprocurement.frameworkagreement.cfaua.models.submodels.contract import Contract
+from openprocurement.frameworkagreement.cfaua.models.submodels.agreement import Agreement
 from openprocurement.frameworkagreement.cfaua.models.submodels.documents import EUDocument
 from openprocurement.frameworkagreement.cfaua.models.submodels.item import Item
 from openprocurement.frameworkagreement.cfaua.models.submodels.lot import Lot
@@ -113,7 +113,7 @@ class CloseFrameworkAgreementUA(Tender):
     bids = SifterListType(BidModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'invalid.pre-qualification', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     cancellations = ListType(ModelType(Cancellation), default=list())
     complaints = ListType(ComplaintModelType(Complaint), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
+    agreements = ListType(ModelType(Agreement), default=list())
     documents = ListType(ModelType(EUDocument), default=list())  # All documents and attachments related to the tender.
     enquiryPeriod = ModelType(EnquiryPeriod, required=False)
     guarantee = ModelType(Guarantee)

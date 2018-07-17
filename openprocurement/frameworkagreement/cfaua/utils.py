@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from functools import partial
+
 from cornice.resource import resource
 from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.api.models import get_now, TZ
@@ -9,31 +10,37 @@ from openprocurement.api.utils import (
     context_unpack,
 )
 from barbecue import chef
+from openprocurement.tender.belowthreshold.utils import check_ignored_claim
 from openprocurement.tender.core.utils import (
     remove_draft_bids,
     has_unanswered_questions,
     has_unanswered_complaints
 )
-from openprocurement.tender.belowthreshold.utils import (
-    check_tender_status
-)
-from openprocurement.tender.openua.utils import (
-    add_next_award,
-    check_complaint_status
-)
+from openprocurement.tender.openua.utils import  check_complaint_status
+
 from openprocurement.frameworkagreement.cfaua.constants import MaxAwards, MIN_BIDS_NUMBER
+
 from openprocurement.frameworkagreement.cfaua.models.submodels.qualification import Qualification
 from openprocurement.frameworkagreement.cfaua.traversal import (
-    qualifications_factory, bid_financial_documents_factory,
+    agreement_factory, qualifications_factory, bid_financial_documents_factory,
     bid_eligibility_documents_factory, bid_qualification_documents_factory)
 from zope.component import getAdapter
 
+
 LOGGER = getLogger(__name__)
 
+
+agreement_resource = partial(resource, error_handler=error_handler, factory=agreement_factory)
 qualifications_resource = partial(resource, error_handler=error_handler, factory=qualifications_factory)
-bid_financial_documents_resource = partial(resource, error_handler=error_handler, factory=bid_financial_documents_factory)
-bid_eligibility_documents_resource = partial(resource, error_handler=error_handler, factory=bid_eligibility_documents_factory)
-bid_qualification_documents_resource = partial(resource, error_handler=error_handler, factory=bid_qualification_documents_factory)
+bid_financial_documents_resource = partial(resource,
+                                           error_handler=error_handler,
+                                           factory=bid_financial_documents_factory)
+bid_eligibility_documents_resource = partial(resource,
+                                             error_handler=error_handler,
+                                             factory=bid_eligibility_documents_factory)
+bid_qualification_documents_resource = partial(resource,
+                                               error_handler=error_handler,
+                                               factory=bid_qualification_documents_factory)
 
 
 def check_initial_bids_count(request):
@@ -140,6 +147,88 @@ def all_bids_are_reviewed(request):
         return all([bid.status != 'pending' for bid in request.validated['tender'].bids])
 
 
+def check_tender_status(request):
+    tender = request.validated['tender']
+    now = get_now()
+    if tender.lots:
+        if any([i.status in tender.block_complaint_status and i.relatedLot is None for i in tender.complaints]):
+            return
+        for lot in tender.lots:
+            if lot.status != 'active':
+                continue
+            lot_awards = [i for i in tender.awards if i.lotID == lot.id]
+            if not lot_awards:
+                continue
+            last_award = lot_awards[-1]
+            pending_complaints = any([
+                i['status'] in tender.block_complaint_status and i.relatedLot == lot.id
+                for i in tender.complaints
+            ])
+            pending_awards_complaints = any([
+                i.status in tender.block_complaint_status
+                for a in lot_awards
+                for i in a.complaints
+            ])
+            stand_still_end = max([
+                a.complaintPeriod.endDate or now
+                for a in lot_awards
+            ])
+            if pending_complaints or pending_awards_complaints or not stand_still_end <= now:
+                continue
+            elif last_award.status == 'unsuccessful':
+                LOGGER.info(
+                    'Switched lot {} of tender {} to {}'.format(lot.id, tender.id, 'unsuccessful'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_lot_unsuccessful'}, {'LOT_ID': lot.id})
+                )
+                lot.status = 'unsuccessful'
+                continue
+            elif last_award.status == 'active' and \
+                    any([i.status == 'active' and i.awardID == last_award.id for i in tender.agreements]):
+                LOGGER.info('Switched lot {} of tender {} to {}'.format(lot.id, tender.id, 'complete'),
+                            extra=context_unpack(request, {'MESSAGE_ID': 'switched_lot_complete'}, {'LOT_ID': lot.id}))
+                lot.status = 'complete'
+        statuses = set([lot.status for lot in tender.lots])
+        if statuses == set(['cancelled']):
+            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'cancelled'),
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_cancelled'}))
+            tender.status = 'cancelled'
+        elif not statuses.difference(set(['unsuccessful', 'cancelled'])):
+            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
+            tender.status = 'unsuccessful'
+        elif not statuses.difference(set(['complete', 'unsuccessful', 'cancelled'])):
+            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'complete'),
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_complete'}))
+            tender.status = 'complete'
+    else:
+        pending_complaints = any([
+            i.status in tender.block_complaint_status
+            for i in tender.complaints
+        ])
+        pending_awards_complaints = any([
+            i.status in tender.block_complaint_status
+            for a in tender.awards
+            for i in a.complaints
+        ])
+        stand_still_ends = [
+            a.complaintPeriod.endDate
+            for a in tender.awards
+            if a.complaintPeriod.endDate
+        ]
+        stand_still_end = max(stand_still_ends) if stand_still_ends else now
+        stand_still_time_expired = stand_still_end < now
+        last_award_status = tender.awards[-1].status if tender.awards else ''
+        if not pending_complaints and not pending_awards_complaints and \
+                stand_still_time_expired and last_award_status == 'unsuccessful':
+            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
+            tender.status = 'unsuccessful'
+        if tender.agreements and tender.agreements[-1].status == 'active':
+            tender.status = 'complete'
+    if tender.procurementMethodType == "belowThreshold":
+        check_ignored_claim(tender)
+
+
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
@@ -210,13 +299,14 @@ def check_status(request):
         tender.status = 'active.awarded'
         check_initial_awards_count(request)
         if tender.status == 'active.awarded':
-            tender.contracts.append(type(tender).contracts.model_class({
+            tender.agreements.append(type(tender).agreements.model_class({
                 'awardID': tender.awards[0].id,
                 'suppliers': tender.awards[0].suppliers,
                 'value': tender.awards[0].value,
                 'items': [i for i in tender.items if i.relatedLot == tender.awards[0].lotID],
-                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1)}))
+                'agreementID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.agreements) + 1)}))
         return
+
 
 
 def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):

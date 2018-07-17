@@ -86,6 +86,6 @@ class SerializableTenderNextCheck(Serializable):
                     checks.append(standStillEnds)
         if obj.status.startswith('active'):
             for award in obj.awards:
-                if award.status == 'active' and not any([i.awardID == award.id for i in obj.contracts]):
+                if award.status == 'active' and not any([i.awardID == award.id for i in obj.agreements]):
                     checks.append(award.date)
         return min(checks).isoformat() if checks else None

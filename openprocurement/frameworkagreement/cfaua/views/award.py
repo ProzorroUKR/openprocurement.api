@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    json_view,
     context_unpack,
     get_now,
+    json_view,
     raise_operation_error
 )
 from openprocurement.tender.core.validation import (
@@ -15,10 +15,10 @@ from openprocurement.tender.core.utils import (
     apply_patch,
     optendersresource,
     save_tender,
-    calculate_business_date
 )
 from openprocurement.tender.openua.views.award import TenderUaAwardResource as BaseResource
 from openprocurement.frameworkagreement.cfaua.utils import add_next_awards
+
 
 
 @optendersresource(name='closeFrameworkAgreementUA:Tender Awards',
@@ -28,16 +28,66 @@ from openprocurement.frameworkagreement.cfaua.utils import add_next_awards
                    procurementMethodType='closeFrameworkAgreementUA')
 class TenderAwardResource(BaseResource):
     """ EU award resource """
+    @json_view(content_type="application/json", permission='edit_tender',
+               validators=(validate_patch_award_data,
+                           validate_update_award_in_not_allowed_status,
+                           validate_update_award_only_for_active_lots,
+                           validate_update_award_with_accepted_complaint))
 
-    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_award_data, validate_update_award_in_not_allowed_status,
-               validate_update_award_only_for_active_lots, validate_update_award_with_accepted_complaint))
     def patch(self):
         """Update of award
 
         Example request to change the award:
 
         .. sourcecode:: http
+            PATCH /tenders/4879d3f8ee2443169b5fbbc9f89fa607/awards/71b6c23ed8944d688e92a31ec8c3f61a HTTP/1.1
+            Host: example.com
+            Accept: application/json
 
+            {
+                "data": {
+                    "value": {
+                        "amount": 600
+                    }
+                }
+            }
+
+        And here is the response to be expected:
+
+        .. sourcecode:: http
+
+            HTTP/1.0 200 OK
+            Content-Type: application/json
+
+            {
+                "data": {
+                    "id": "4879d3f8ee2443169b5fbbc9f89fa607",
+                    "date": "2014-10-28T11:44:17.947Z",
+                    "status": "active",
+                    "suppliers": [
+                        {
+                            "id": {
+                                "name": "Державне управління справами",
+                                "scheme": "https://ns.openprocurement.org/ua/edrpou",
+                                "uid": "00037256",
+                                "uri": "http://www.dus.gov.ua/"
+                            },
+                            "address": {
+                                "countryName": "Україна",
+                                "postalCode": "01220",
+                                "region": "м. Київ",
+                                "locality": "м. Київ",
+                                "streetAddress": "вул. Банкова, 11, корпус 1"
+                            }
+                        }
+                    ],
+                    "value": {
+                        "amount": 600,
+                        "currency": "UAH",
+                        "valueAddedTaxIncluded": true
+                    }
+                }
+            }
         """
         tender = self.request.validated['tender']
         award = self.request.context
