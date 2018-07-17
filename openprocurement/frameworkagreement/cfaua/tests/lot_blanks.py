@@ -96,9 +96,9 @@ def two_lot_3bid_3com_3win(self):
     # set award as active
     self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token),
                         {"data": {"status": "active", "qualified": True, "eligible": True}})
-    # get contract id
+    # get agreement id
     response = self.app.get('/tenders/{}'.format(tender_id))
-    contract_id = response.json['data']['contracts'][-1]['id']
+    agreement_id = response.json['data']['agreements'][-1]['id']
     # after stand slill period
     self.set_status('complete', {'status': 'active.awarded'})
     # time travel
@@ -106,9 +106,9 @@ def two_lot_3bid_3com_3win(self):
     for i in tender.get('awards', []):
         i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
     self.db.save(tender)
-    # sign contract
+    # sign agreement
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token),
+    self.app.patch_json('/tenders/{}/agreements/{}?acc_token={}'.format(tender_id, agreement_id, owner_token),
                         {"data": {"status": "active"}})
     # for second lot
     lot_id = lots[1]
@@ -128,9 +128,9 @@ def two_lot_3bid_3com_3win(self):
     # set award as active
     self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token),
                         {"data": {"status": "active", "qualified": True, "eligible": True}})
-    # get contract id
+    # get agreement id
     response = self.app.get('/tenders/{}'.format(tender_id))
-    contract_id = response.json['data']['contracts'][-1]['id']
+    agreement_id = response.json['data']['agreements'][-1]['id']
     # after stand slill period
     self.set_status('complete', {'status': 'active.awarded'})
     # time travel
@@ -138,9 +138,9 @@ def two_lot_3bid_3com_3win(self):
     for i in tender.get('awards', []):
         i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
     self.db.save(tender)
-    # sign contract
+    # sign agreement
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token),
+    self.app.patch_json('/tenders/{}/agreements/{}?acc_token={}'.format(tender_id, agreement_id, owner_token),
                         {"data": {"status": "active"}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))

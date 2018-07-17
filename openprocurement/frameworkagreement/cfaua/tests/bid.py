@@ -20,8 +20,10 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_bids
 )
 from openprocurement.frameworkagreement.cfaua.tests.bid_blanks import (
-    get_tender_bidder_document,
     create_tender_bidder_document,
+    delete_tender_bidder,
+    get_tender_bidder,
+    get_tender_bidder_document,
     put_tender_bidder_document,
     patch_tender_bidder_document,
     patch_tender_bidder_document_private,
@@ -44,7 +46,6 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     features_bidder,
     features_bidder_invalid,
     # TenderBidResourceTest
-    delete_tender_bidder,
     bids_invalidation_on_tender_change,
 
     create_tender_bid_with_all_documents,
@@ -78,6 +79,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin
     test_bids_data = test_bids  # TODO: change attribute identifier
     author_data = test_bids_data[0]['tenderers'][0]
 
+    test_get_tender_bidder = snitch(get_tender_bidder)
     test_delete_tender_bidder = snitch(delete_tender_bidder)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
 
@@ -108,7 +110,6 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest, TenderBidDocumentR
             setattr(self, 'bid{}_id'.format(x), bid['id'])
             setattr(self, 'bid{}_token'.format(x), response.json['access']['token'])
 
-
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
 
@@ -121,7 +122,6 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_get_tender_bidder_document_ds = snitch(get_tender_bidder_document_ds)
 
 
-
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     docservice = True
 
@@ -129,7 +129,6 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderContentWebTest):
     docservice = True
     initial_status = 'active.tendering'
-
 
     bid_data_wo_docs = {'tenderers': [test_organization],
                         'value': {'amount': 500},
