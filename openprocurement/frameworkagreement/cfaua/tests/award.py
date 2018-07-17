@@ -43,8 +43,6 @@ from openprocurement.tender.openeu.tests.award_blanks import (
     # TenderAwardResourceTest
     create_tender_award_invalid,
     get_tender_award,
-    patch_tender_award,  # NEEDS TO BE FULLY UPDATED
-    patch_tender_award_active,
     patch_tender_award_unsuccessful,  # NEEDS TO BE FULLY UPDATED
     patch_tender_award_Administrator_change,
 )
@@ -53,20 +51,25 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_bids,
     test_lots
 )
+from openprocurement.frameworkagreement.cfaua.tests.award_blanks import (
+    # TenderAwardResourceTestMixin
+    patch_tender_award,
+    patch_tender_award_active,
+)
 
 no_award_logic = True
 no_lot_logic = True
 
+
 class TenderAwardResourceTestMixin(object):
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     # test_patch_tender_award = snitch(patch_tender_award) NEEDS TO BE FULLY UPDATED DUE MULTIPLE AWARDS
-    # test_patch_tender_award_active = snitch(patch_tender_award_active) NEEDS TO BE FULLY UPDATED DUE MULTIPLE AWARDS
+    test_patch_tender_award_active = snitch(patch_tender_award_active)
     # test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful) NEEDS TO BE FULLY UPDATED NEEDS TO BE FULLY UPDATED DUE MULTIPLE AWARDS
     test_get_tender_award = snitch(get_tender_award)
     test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
 
 
-@unittest.skipIf(no_award_logic, 'Implement award logic later')
 class TenderAwardResourceTest(BaseTenderContentWebTest,
                               TenderAwardResourceTestMixin):
     initial_status = 'active.tendering'

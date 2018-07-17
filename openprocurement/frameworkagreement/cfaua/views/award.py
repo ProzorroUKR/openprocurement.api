@@ -18,6 +18,7 @@ from openprocurement.tender.core.utils import (
     calculate_business_date
 )
 from openprocurement.tender.openua.views.award import TenderUaAwardResource as BaseResource
+from openprocurement.frameworkagreement.cfaua.utils import add_next_awards
 
 
 @optendersresource(name='closeFrameworkAgreementUA:Tender Awards',
@@ -42,8 +43,12 @@ class TenderAwardResource(BaseResource):
         award = self.request.context
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
+        configurator = self.request.content_configurator
 
-        if award_status == 'pending' and award.status in ['active', 'unsuccessful']:
+        if award_status == 'pending' and award.status == 'unsuccessful':
+            add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria,
+                            awarding_criteria_key=configurator.awarding_criteria_key)
+        elif award_status == 'pending' and award.status == 'active':
             pass
         elif award_status == 'active' and award.status == 'cancelled':
             pass
