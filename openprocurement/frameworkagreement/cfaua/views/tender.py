@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from zope.component import getAdapter
+
+from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
@@ -23,9 +26,6 @@ from openprocurement.frameworkagreement.cfaua.utils import (
 )
 from openprocurement.tender.openua.utils import calculate_normalized_date
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
-from openprocurement.frameworkagreement.cfaua.constants import (
-    QUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
-)
 from openprocurement.tender.core.events import TenderInitializeEvent
 from openprocurement.frameworkagreement.cfaua.validation import validate_tender_status_update
 
@@ -86,6 +86,7 @@ class TenderEUResource(TenderResource):
 
         """
         tender = self.context
+        config = getAdapter(tender, IContentConfigurator)
         data = self.request.validated['data']
         if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
@@ -105,14 +106,14 @@ class TenderEUResource(TenderResource):
                 raise_operation_error(self.request, 'Can\'t switch to \'active.pre-qualification.stand-still\' before resolve all complaints')
             if all_bids_are_reviewed(self.request):
                 normalized_date = calculate_normalized_date(get_now(), tender, True)
-                tender.qualificationPeriod.endDate = calculate_business_date(normalized_date, COMPLAINT_STAND_STILL, self.request.validated['tender'])
+                tender.qualificationPeriod.endDate = calculate_business_date(normalized_date, config.qualification_complaint_stand_still, self.request.validated['tender'])
                 tender.check_auction_time()
             else:
                 raise_operation_error(self.request, 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
         elif self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.qualification' and tender.status == "active.qualification.stand-still":
             if all_awards_are_reviewed(self.request):
                 normalized_date = calculate_normalized_date(get_now(), tender, True)
-                tender.awardPeriod.endDate = calculate_business_date(normalized_date, COMPLAINT_STAND_STILL, self.request.validated['tender'])
+                tender.awardPeriod.endDate = calculate_business_date(normalized_date, config.qualification_complaint_stand_still, self.request.validated['tender'])
             else:
                 raise_operation_error(self.request, 'Can\'t switch to \'active.qualification.stand-still\' while not all awards are qualified')
 
