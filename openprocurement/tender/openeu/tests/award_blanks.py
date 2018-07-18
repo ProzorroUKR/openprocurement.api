@@ -147,10 +147,10 @@ def create_tender_award_invalid(self):
     self.set_status('complete')
 
     bid = self.initial_bids[0]
-    response = self.app.post_json('/tenders/{}/awards'.format(
-        self.tender_id), {
-        'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id'],
-                 'lotID': bid['lotValues'][0]['relatedLot']}}, status=403)
+    data = {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}}
+    if self.initial_lots:
+        data['data']['lotID'] = bid['lotValues'][0]['relatedLot']
+    response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), data, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't create award in current (complete) tender status")
@@ -423,10 +423,10 @@ def get_tender_award(self):
 
 def patch_tender_award_Administrator_change(self):
     self.app.authorization = ('Basic', ('token', ''))
-    response = self.app.post_json('/tenders/{}/awards'.format(
-        self.tender_id), {
-        'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id'],
-                 'lotID': self.initial_lots[0]['id']}})
+    data = {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}}
+    if self.initial_lots:
+        data['data']['lotID'] = self.initial_lots[0]['id']
+    response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), data)
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     award = response.json['data']
