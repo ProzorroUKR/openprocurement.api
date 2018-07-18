@@ -4,4 +4,4 @@ before_script:
   - bin/buildout -N
 tests:
   script:
-    - bin/nosetests
+    - bin/py.test openprocurement/frameworkagreement/cfaua/tests --cov=openprocurement.frameworkagreement.cfaua
