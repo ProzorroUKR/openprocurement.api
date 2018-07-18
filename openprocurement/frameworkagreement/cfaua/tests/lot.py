@@ -51,6 +51,10 @@ from openprocurement.frameworkagreement.cfaua.tests.lot_blanks import (
     two_lot_3bid_1win_bug
 )
 
+
+one_lot_restriction = True
+
+
 class TenderLotEdgeCasesTestMixin(object):
 
     test_question_blocking = snitch(question_blocking)
@@ -69,6 +73,8 @@ class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin
     test_get_tender_lots = snitch(get_tender_lots)
 
 
+# TODO: Remove if will be approved.
+@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_lots = test_lots * 2
@@ -76,6 +82,8 @@ class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMix
     test_author = test_organization
 
 
+# TODO: Remove if will be approved.
+@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureResourceTestMixin):
     initial_lots = 2 * test_lots
     initial_auth = ('Basic', ('broker', ''))
@@ -180,16 +188,15 @@ class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
     test_1lot_2bid_1unqualified = snitch(one_lot_2bid_1unqualified)
 
     # test_1lot_2bid = snitch(one_lot_2bid)  # TODO Rewrite this test!!!
-    test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del)
+    # test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del)  # TODO: CFAUA not allow more than one lot
     # test_1lot_3bid_1del = snitch(one_lot_3bid_1del)  # TODO Rewrite this test!!!
     # test_1lot_3bid_1un = snitch(one_lot_3bid_1un)  # TODO Rewrite this test!!!
-    test_2lot_1can = snitch(two_lot_1can)
-    test_2lot_2bid_0com_1can = snitch(two_lot_2bid_0com_1can)
+    # test_2lot_1can = snitch(two_lot_1can)  # TODO: CFAUA not allow more than one lot
+    # test_2lot_2bid_0com_1can = snitch(two_lot_2bid_0com_1can)  # TODO: CFAUA not allow more than one lot
     # test_2lot_2bid_2com_2win = snitch(two_lot_3bid_3com_3win) # TODO Rewrite this test!!!
     # test_2lot_3bid_1win_bug = snitch(two_lot_3bid_1win_bug)  # TODO Rewrite this test!!!
     # test_2lot_2bid_2com_2win = snitch(two_lot_2bid_2com_2win)  # TODO Rewrite this test!!!
     # test_2lot_3bid_1win_bug = snitch(two_lot_3bid_1win_bug)  # TODO Rewrite this test!!!
-
 
 
 def suite():

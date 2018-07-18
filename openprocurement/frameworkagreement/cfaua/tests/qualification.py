@@ -61,6 +61,9 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
 )
 
 
+one_lot_restriction = True
+
+
 class TenderQualificationResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification' status sets in setUp
     initial_bids = test_bids
@@ -86,6 +89,8 @@ class TenderQualificationResourceTest(BaseTenderContentWebTest):
     test_patch_tender_qualifications_after_status_change = snitch(patch_tender_qualifications_after_status_change)
 
 
+# TODO: Remove if will be approved.
+@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class Tender2LotQualificationResourceTest(TenderQualificationResourceTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_lots = 2 * test_lots
@@ -196,6 +201,8 @@ class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintRe
     test_get_tender_qualification_complaints = snitch(get_tender_lot_qualification_complaints)
 
 
+# TODO: Remove if will be approved.
+@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class Tender2LotQualificationComplaintResourceTest(TenderLotQualificationComplaintResourceTest):
     initial_lots = 2 * test_lots
 
@@ -207,6 +214,8 @@ class Tender2LotQualificationComplaintResourceTest(TenderLotQualificationComplai
     test_change_status_to_standstill_with_complaint_cancel_lot = snitch(change_status_to_standstill_with_complaint_cancel_lot)
 
 
+# TODO: Remove if will be approved.
+@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintResourceTest):
 
     after_qualification_switch_to = "unsuccessful"
@@ -247,6 +256,7 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
         self.assertEqual(response.status, '200 OK')
 
     test_create_tender_qualification_claim = snitch(create_tender_qualification_claim)
+
 
 class TenderQualificationComplaintDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
@@ -298,6 +308,8 @@ class TenderQualificationComplaintDocumentResourceTest(BaseTenderContentWebTest)
     test_patch_tender_qualification_complaint_document = snitch(patch_tender_qualification_complaint_document)
 
 
+# TODO: Remove if will be approved.
+@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class Tender2LotQualificationComplaintDocumentResourceTest(TenderQualificationComplaintDocumentResourceTest):
     initial_lots = 2 * test_lots
 
