@@ -100,7 +100,8 @@ class TenderAwardResource(BaseResource):
         elif award_status == 'pending' and award.status == 'active':
             pass
         elif award_status == 'active' and award.status == 'cancelled':
-            pass
+            add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria,
+                            awarding_criteria_key=configurator.awarding_criteria_key)
         elif award_status == 'pending' and award.status == 'cancelled': # and award.status  'active':
             print 'need to cancel here'
         elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
