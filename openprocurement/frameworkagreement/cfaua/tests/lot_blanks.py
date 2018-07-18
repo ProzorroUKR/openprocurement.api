@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
+
+from openprocurement.api.utils import get_now
 
 
 def two_lot_3bid_3com_3win(self):
@@ -712,3 +715,40 @@ def two_lot_3bid_1win_bug(self):
     response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertEqual(set([i['status'] for i in response.json['data']['lots']]), set(['complete', 'unsuccessful']))
     self.assertEqual(response.json['data']['status'], 'complete')
+
+
+def proc_1lot_1can(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    # create tender
+    response = self.app.post_json('/tenders', {"data": self.initial_data})
+    tender_id = self.tender_id = response.json['data']['id']
+    owner_token = response.json['access']['token']
+
+    # add lot
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+                                  {'data': self.test_lots_data[0]})
+    self.assertEqual(response.status, '201 Created')
+    lot_id = response.json['data']['id']
+    # add item
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                                   {"data": {"items": [self.initial_data['items'][0]]}})
+    # add relatedLot for item
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                                   {"data": {"items": [{'relatedLot': lot_id}]}})
+    self.assertEqual(response.status, '200 OK')
+    # switch to active.tendering
+    response = self.set_status('active.tendering', {"lots": [
+        {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
+    ]})
+    self.assertTrue(all(["auctionPeriod" in i for i in response.json['data']['lots']]))
+    # cancel lot
+    response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender_id, owner_token),
+                                  {'data': {
+                                      'reason': 'cancellation reason',
+                                      'status': 'active',
+                                      "cancellationOf": "lot",
+                                      "relatedLot": lot_id
+                                  }})
+    response = self.app.get('/tenders/{}'.format(tender_id))
+    self.assertTrue(all([i['status'] == 'cancelled' for i in response.json['data']['lots']]))
+    self.assertEqual(response.json['data']['status'], 'cancelled')

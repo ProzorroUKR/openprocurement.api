@@ -3,11 +3,6 @@ from openprocurement.api.utils import get_now, raise_operation_error, update_log
 from openprocurement.api.validation import validate_data, OPERATIONS
 
 
-def validate_tender_lots_count(request):
-    if request.validated['tender'].lots and len(request.validated['tender'].lots) > 1:
-        raise_operation_error(request, "Can't add to tender more than one lot.")
-
-
 def validate_patch_qualification_data(request):
     qualification_class = type(request.context)
     return validate_data(request, qualification_class, True)

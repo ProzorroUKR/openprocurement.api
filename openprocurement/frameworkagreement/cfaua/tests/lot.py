@@ -7,8 +7,9 @@ from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotResourceTestMixin,
     TenderLotValueTestMixin,
     TenderLotFeatureResourceTestMixin,
-    TenderLotProcessTestMixin
+    # TenderLotProcessTestMixin
 )
+from openprocurement.tender.belowthreshold.tests.lot_blanks import proc_1lot_0bid
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
@@ -48,11 +49,17 @@ from openprocurement.frameworkagreement.cfaua.tests.lot_blanks import (
     two_lot_3bid_3com_3win,
     one_lot_3bid_1del,
     one_lot_3bid_1un,
-    two_lot_3bid_1win_bug
+    two_lot_3bid_1win_bug,
+    proc_1lot_1can
 )
 
 
 one_lot_restriction = True
+
+
+class TenderLotProcessTestMixin(object):
+    test_proc_1lot_0bid = snitch(proc_1lot_0bid)
+    test_proc_1lot_1can = snitch(proc_1lot_1can)
 
 
 class TenderLotEdgeCasesTestMixin(object):
