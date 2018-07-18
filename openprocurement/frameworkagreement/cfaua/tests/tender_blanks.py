@@ -960,3 +960,42 @@ def lost_contract_for_active_award(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertEqual(response.json['data']['status'], 'complete')
+
+
+def patch_tender_active_qualification_2_active_qualification_stand_still(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+
+    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+
+    awards = response.json['data']
+    for award in awards:
+        self.assertEqual(award['status'], 'pending')
+
+    self.app.patch_json(
+        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, awards[0]['id'], self.tender_token),
+        {"data": {"status": "active", "qualified": True, "eligible": True}})
+
+    # try to switch not all awards qualified
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {"data": {"status": 'active.qualification.stand-still'}},
+                                   status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'][0]["description"],
+                     u"Can't switch to 'active.qualification.stand-still' while not all awards are qualified")
+
+    for award in awards[1:]:
+        response = self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {"data": {"status": 'active.qualification.stand-still'}})
+    self.assertEqual(response.json['data']['status'], 'active.qualification.stand-still')
+
+    # check award.complaintPeriod.endDate
+    tender = response.json['data']
+    for award in tender['awards']:
+        self.assertEqual(award['complaintPeriod']['endDate'], tender['awardPeriod']['endDate'])

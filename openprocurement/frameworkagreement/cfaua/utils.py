@@ -409,6 +409,9 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
                         'date': get_now(),
                         'value': bid['value'],
                         'suppliers': bid['tenderers'],
+                        'complaintPeriod': {
+                            'startDate': now.isoformat()
+                        }
                     })
                     award.__parent__ = tender
                     tender.awards.append(award)
