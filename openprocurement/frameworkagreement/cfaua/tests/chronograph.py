@@ -2,6 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.frameworkagreement.cfaua.tests.chronograph_blanks import next_check_field_in_active_qualification
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
@@ -91,6 +92,15 @@ class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
 class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
     initial_lots = test_lots
 #
+
+
+class TenderSwitchStatusesForNextCheckResourceTest(BaseTenderContentWebTest):
+    initial_status = 'active.pre-qualification'
+    initial_bids = test_bids
+
+    test_next_check_field_in_active_qualification = snitch(next_check_field_in_active_qualification)
+
+
 # class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResourceTest):
 #     initial_lots = test_lots
 #
@@ -119,6 +129,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchQualificationResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.makeSuite(TenderSwitchStatusesForNextCheckResourceTest))
     return suite
 
 
