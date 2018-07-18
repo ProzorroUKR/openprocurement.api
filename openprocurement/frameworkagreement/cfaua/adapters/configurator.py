@@ -1,6 +1,7 @@
 from openprocurement.api.constants import TZ
 from openprocurement.frameworkagreement.cfaua.constants import TENDERING_DURATION, \
-    PREQUALIFICATION_COMPLAINT_STAND_STILL, QUESTIONS_STAND_STILL, MIN_BIDS_NUMBER
+    PREQUALIFICATION_COMPLAINT_STAND_STILL, QUESTIONS_STAND_STILL, MIN_BIDS_NUMBER, \
+    QUALIFICATION_COMPLAINT_STAND_STILL
 from openprocurement.frameworkagreement.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.core.adapters import TenderConfigurator
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD, STATUS4ROLE, CLAIM_SUBMIT_TIME, \
@@ -28,6 +29,9 @@ class CloseFrameworkAgreementUAConfigurator(TenderConfigurator):
 
     # duration of pre-qualification stand-still period. timedelta object.
     prequalification_complaint_stand_still = PREQUALIFICATION_COMPLAINT_STAND_STILL
+
+    # duration of qualification stand-still period. timedelta object.
+    qualification_complaint_stand_still = QUALIFICATION_COMPLAINT_STAND_STILL
 
     # duration of questions stand-still period. timedelta object.
     questions_stand_still = QUESTIONS_STAND_STILL
