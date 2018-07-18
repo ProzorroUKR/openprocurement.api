@@ -108,8 +108,8 @@ class TenderLotAwardResourceTestMixin(object):
     # test_create_tender_award = snitch(create_tender_lot_award)
 
 
-class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourceTestMixin,
-                                 TenderAwardResourceTestMixin):
+class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderAwardResourceTestMixin,
+                                 TenderLotAwardResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = test_bids
     initial_lots = test_lots
