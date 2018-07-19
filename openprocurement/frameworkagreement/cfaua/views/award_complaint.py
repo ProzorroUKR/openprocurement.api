@@ -3,18 +3,22 @@ from openprocurement.api.utils import (
     get_now,
     context_unpack,
     json_view,
-    raise_operation_error
+    raise_operation_error,
+    set_ownership
 )
 from openprocurement.tender.core.validation import (
+    validate_add_complaint_not_in_complaint_period,
+    validate_complaint_data,
     validate_patch_complaint_data,
+    validate_award_complaint_add_only_for_active_lots,
     validate_award_complaint_update_only_for_active_lots,
-    validate_award_complaint_operation_not_in_allowed_status,
     validate_update_complaint_not_in_allowed_complaint_status
 )
 from openprocurement.tender.core.utils import apply_patch, optendersresource, save_tender
-from openprocurement.tender.openua.views.award_complaint import TenderUaAwardComplaintResource
+from openprocurement.tender.openua.views.award_complaint import TenderUaAwardComplaintResource, get_bid_id
 
 from openprocurement.frameworkagreement.cfaua.utils import check_tender_status
+from openprocurement.frameworkagreement.cfaua.validation import validate_award_complaint_operation_not_in_allowed_status
 
 
 @optendersresource(name='closeFrameworkAgreementUA:Tender Award Complaints',
@@ -28,6 +32,55 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
         return sum([len(i.complaints) for i in tender.awards],
                    sum([len(i.complaints) for i in tender.qualifications],
                    len(tender.complaints)))
+
+    @json_view(content_type="application/json",
+               permission='create_award_complaint',
+               validators=(validate_complaint_data,
+                           validate_award_complaint_operation_not_in_allowed_status,
+                           validate_award_complaint_add_only_for_active_lots,
+                           validate_add_complaint_not_in_complaint_period))
+    def collection_post(self):
+        """Post a complaint for award
+        """
+        tender = self.request.validated['tender']
+        complaint = self.request.validated['complaint']
+        complaint.date = get_now()
+        complaint.relatedLot = self.context.lotID
+        complaint.bid_id = get_bid_id(self.request)
+        if complaint.status == 'claim':
+            complaint.dateSubmitted = get_now()
+        elif complaint.status == 'pending':
+            if not any([i.status == 'active'
+                        for i in tender.awards
+                        if i.lotID == self.request.validated['award'].lotID]):
+                raise_operation_error(self.request, 'Complaint submission is allowed only after award activation.')
+            complaint.type = 'complaint'
+            complaint.dateSubmitted = get_now()
+        else:
+            complaint.status = 'draft'
+        if self.context.status == 'unsuccessful' and complaint.status == 'claim' and \
+                self.context.bid_id != complaint.bid_id:
+            raise_operation_error(self.request, 'Can add claim only on unsuccessful award of your bid')
+        complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
+        set_ownership(complaint, self.request)
+        self.context.complaints.append(complaint)
+        if save_tender(self.request):
+            self.LOGGER.info('Created tender award complaint {}'.format(complaint.id),
+                             extra=context_unpack(self.request,
+                                                  {'MESSAGE_ID': 'tender_award_complaint_create'},
+                                                  {'complaint_id': complaint.id}))
+            self.request.response.status = 201
+            self.request.response.headers['Location'] = \
+                self.request.route_url('{}:Tender Award Complaints'.format(tender.procurementMethodType),
+                                       tender_id=tender.id,
+                                       award_id=self.request.validated['award_id'],
+                                       complaint_id=complaint['id'])
+            return {
+                'data': complaint.serialize("view"),
+                'access': {
+                    'token': complaint.owner_token
+                }
+            }
 
     @json_view(content_type="application/json",
                permission='edit_complaint',

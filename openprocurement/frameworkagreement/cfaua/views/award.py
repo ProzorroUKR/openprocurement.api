@@ -33,7 +33,6 @@ class TenderAwardResource(BaseResource):
                            validate_update_award_in_not_allowed_status,
                            validate_update_award_only_for_active_lots,
                            validate_update_award_with_accepted_complaint))
-
     def patch(self):
         """Update of award
 

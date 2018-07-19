@@ -163,3 +163,13 @@ def validate_agreement_update_with_accepted_complaint(request):
         any([c.status == 'accepted' for c in i.complaints])
             for i in tender.awards if i.lotID in [a.lotID for a in tender.awards if a.id == request.context.awardID]]):
         raise_operation_error(request, 'Can\'t update agreement with accepted complaint')
+
+
+# award complaint
+def validate_award_complaint_operation_not_in_allowed_status(request):
+    tender = request.validated['tender']
+    if tender.status not in ['active.qualification', 'active.qualification.stand-still', 'active.awarded']:
+        raise_operation_error(
+            request,
+            'Can\'t {} complaint in current ({}) tender status'.format(OPERATIONS.get(request.method), tender.status)
+        )
