@@ -139,7 +139,10 @@ class TenderEUResource(TenderResource):
                     normalized_date, config.qualification_complaint_stand_still, self.request.validated['tender']
                 )
                 for award in tender.awards:
-                    award.complaintPeriod.endDate = tender.awardPeriod.endDate
+                    award['complaintPeriod'] = {
+                        'startDate': get_now().isoformat(),
+                        'endDate': tender.awardPeriod.endDate.isoformat()
+                    }
             else:
                 raise_operation_error(
                     self.request,
