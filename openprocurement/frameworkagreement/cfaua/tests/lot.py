@@ -38,11 +38,6 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
     # TenderLotBidderResourceTest
     create_tender_bidder_invalid,
     patch_tender_bidder,
-    # TenderLotEdgeCasesTest
-    claim_blocking,
-    next_check_value_with_unanswered_claim,
-    question_blocking,
-    next_check_value_with_unanswered_question
 )
 from openprocurement.frameworkagreement.cfaua.tests.lot_blanks import (
     one_lot_2bid,
@@ -53,6 +48,9 @@ from openprocurement.frameworkagreement.cfaua.tests.lot_blanks import (
     proc_1lot_1can,
     create_tender_lot,
     tender_lot_guarantee,
+    # TenderLotEdgeCasesTest
+    claim_blocking,
+    question_blocking
     )
 
 
@@ -68,9 +66,6 @@ class TenderLotEdgeCasesTestMixin(object):
 
     test_question_blocking = snitch(question_blocking)
     test_claim_blocking = snitch(claim_blocking)
-    test_next_check_value_with_unanswered_question = snitch(next_check_value_with_unanswered_question)
-    test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
-
 
 class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
 
@@ -85,10 +80,10 @@ class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin
 
 
 # TODO: Remove if will be approved.
-@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
+# @unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMixin):
     initial_auth = ('Basic', ('broker', ''))
-    initial_lots = test_lots * 2
+    initial_lots = test_lots
     initial_bids = test_bids
     test_author = test_organization
 
