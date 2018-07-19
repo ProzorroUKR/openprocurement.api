@@ -63,7 +63,6 @@ from openprocurement.frameworkagreement.cfaua.tests.award_blanks import (
     review_tender_award_claim,
     review_tender_award_stopping_complaint,
     patch_tender_award_unsuccessful,
-
 )
 
 no_lot_logic = True
@@ -108,8 +107,8 @@ class TenderLotAwardResourceTestMixin(object):
     # test_create_tender_award = snitch(create_tender_lot_award)
 
 
-class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderAwardResourceTestMixin,
-                                 TenderLotAwardResourceTestMixin):
+class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourceTestMixin,
+                                 TenderAwardResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = test_bids
     initial_lots = test_lots
