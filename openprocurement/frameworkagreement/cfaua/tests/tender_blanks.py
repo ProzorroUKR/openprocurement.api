@@ -542,20 +542,20 @@ def invalid_bid_tender_lot(self):
     tender = response.json['data']
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
-
     lots = []
-    for lot in self.test_lots_data * 2:
-        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': lot})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        lots.append(response.json['data']['id'])
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+                                  {'data': self.test_lots_data[0]})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    lots.append(response.json['data']['id'])
 
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
                                             'status': 'draft',
-                                            'lotValues': [{"value": self.test_bids_data[0]['value'], 'relatedLot': i} for i in lots],
+                                            'lotValues': [{"value": self.test_bids_data[0]['value'],
+                                                           'relatedLot': i} for i in lots],
                                             'tenderers': [test_organization]}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')

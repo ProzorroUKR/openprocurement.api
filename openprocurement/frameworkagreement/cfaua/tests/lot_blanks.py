@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
@@ -752,3 +753,147 @@ def proc_1lot_1can(self):
     response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertTrue(all([i['status'] == 'cancelled' for i in response.json['data']['lots']]))
     self.assertEqual(response.json['data']['status'], 'cancelled')
+
+
+def create_tender_lot(self):
+    lot = deepcopy(self.test_lots_data[0])
+    lot['guarantee'] = {"amount": 100500, "currency": "USD"}
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                  {'data': lot})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+
+    data = response.json['data']
+    self.assertIn('guarantee', data)
+    self.assertEqual(data['guarantee']['amount'], 100500)
+    self.assertEqual(data['guarantee']['currency'], "USD")
+
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertIn('guarantee', response.json['data'])
+    self.assertEqual(response.json['data']['guarantee']['amount'], 100500)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "USD")
+    self.assertIn('guarantee', response.json['data']['lots'][0])
+
+    # Create second lot with error
+    lot2 = deepcopy(self.test_lots_data[0])
+    lot2['guarantee'] = {"amount": 500, "currency": "UAH"}
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                  {'data': lot2}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Please provide no more than 1 item.'], u'location': u'body', u'name': u'lots'}
+    ])
+    
+    lot2['guarantee'] = {"currency": "USD"}
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                  {'data': lot2}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': {u'amount': [u'This field is required.']}, u'location': u'body', u'name': u'guarantee'}
+    ])
+
+    lot2['guarantee'] = {"amount": 100600}
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                  {'data': lot2}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Please provide no more than 1 item.'], u'location': u'body', u'name': u'lots'}
+    ])
+
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertIn('guarantee', response.json['data'])
+    self.assertEqual(response.json['data']['guarantee']['amount'], 100500)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "USD")
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {"data": {"guarantee": {"currency": "EUR"}}})
+    self.assertEqual(response.json['data']['guarantee']['amount'], 100500)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "EUR")
+    self.assertIn('guarantee', response.json['data']['lots'][0])
+    self.assertEqual(len(response.json['data']['lots']), 1)
+
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+                                  {'data': self.test_lots_data[0]}, status=422)
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Please provide no more than 1 item.'], u'location': u'body', u'name': u'lots'}
+    ])
+
+
+def tender_lot_guarantee(self):
+    data = deepcopy(self.initial_data)
+    data['guarantee'] = {"amount": 100, "currency": "USD"}
+    response = self.app.post_json('/tenders', {'data': data})
+    tender = response.json['data']
+    tender_token = response.json['access']['token']
+    self.assertEqual(response.status, '201 Created')
+    self.assertIn('guarantee', response.json['data'])
+    self.assertEqual(response.json['data']['guarantee']['amount'], 100)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "USD")
+
+    lot = deepcopy(self.test_lots_data[0])
+    lot['guarantee'] = {"amount": 20, "currency": "USD"}
+
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender['id'], tender_token), {'data': lot})
+    lot_id = response.json['data']['id']
+    self.assertEqual(response.status, '201 Created')
+    self.assertIn('guarantee', response.json['data'])
+    self.assertEqual(response.json['data']['guarantee']['amount'], 20)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "USD")
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], tender_token),
+                                   {'data': {'guarantee': {"currency": "GBP"}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('guarantee', response.json['data'])
+    self.assertEqual(response.json['data']['guarantee']['amount'], 20)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
+
+    lot['guarantee'] = {"amount": 20, "currency": "GBP"}
+    response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(tender['id'], tender_token),
+                                  {'data': lot}, status=422)
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Please provide no more than 1 item.'], u'location': u'body', u'name': u'lots'}
+    ])
+
+    response = self.app.get('/tenders/{}'.format(tender['id']))
+    self.assertEqual(response.json['data']['guarantee']['amount'], 20)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
+
+    response = self.app.get('/tenders/{}'.format(tender['id']))
+    self.assertIn('guarantee', response.json['data'])
+    self.assertEqual(response.json['data']['guarantee']['amount'], 20)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], tender_token), {"data": {"guarantee": {"amount": 55}}})
+    self.assertEqual(response.json['data']['guarantee']['amount'], 20)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
+
+    response = self.app.get('/tenders/{}'.format(tender['id']))
+    self.assertIn('guarantee', response.json['data'])
+    self.assertEqual(response.json['data']['guarantee']['amount'], 20)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
+    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(tender['id'], lot_id, tender_token), {'data': {'guarantee': {"amount": 0, "currency": "GBP"}}})
+    self.assertEqual(response.json['data']['guarantee']['amount'], 0)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
+
+    response = self.app.get('/tenders/{}'.format(tender['id']))
+    self.assertIn('guarantee', response.json['data'])
+    self.assertEqual(response.json['data']['guarantee']['amount'], 0)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")
+
+    response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(tender['id'], lot_id, tender_token))
+    self.assertEqual(response.status, '200 OK')
+
+    response = self.app.get('/tenders/{}'.format(tender['id']))
+    self.assertIn('guarantee', response.json['data'])
+    self.assertEqual(response.json['data']['guarantee']['amount'], 0)
+    self.assertEqual(response.json['data']['guarantee']['currency'], "GBP")

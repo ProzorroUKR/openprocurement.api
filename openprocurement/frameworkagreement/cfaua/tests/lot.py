@@ -39,10 +39,10 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
     create_tender_bidder_invalid,
     patch_tender_bidder,
     # TenderLotEdgeCasesTest
-    question_blocking,
     claim_blocking,
-    next_check_value_with_unanswered_question,
     next_check_value_with_unanswered_claim,
+    question_blocking,
+    next_check_value_with_unanswered_question
 )
 from openprocurement.frameworkagreement.cfaua.tests.lot_blanks import (
     one_lot_2bid,
@@ -50,8 +50,10 @@ from openprocurement.frameworkagreement.cfaua.tests.lot_blanks import (
     one_lot_3bid_1del,
     one_lot_3bid_1un,
     two_lot_3bid_1win_bug,
-    proc_1lot_1can
-)
+    proc_1lot_1can,
+    create_tender_lot,
+    tender_lot_guarantee,
+    )
 
 
 one_lot_restriction = True
@@ -78,6 +80,8 @@ class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin
 
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
+    test_create_tender_lot = snitch(create_tender_lot)
+    test_tender_lot_guarantee = snitch(tender_lot_guarantee)
 
 
 # TODO: Remove if will be approved.
