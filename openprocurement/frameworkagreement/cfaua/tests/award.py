@@ -38,12 +38,9 @@ from openprocurement.tender.openeu.tests.award_blanks import (
     patch_tender_2lot_award,
     # TenderLotAwardResourceTest
     create_tender_lot_award,
-    patch_tender_lot_award,
-    patch_tender_lot_award_unsuccessful,
     # TenderAwardResourceTest
     create_tender_award_invalid,
     get_tender_award,
-    patch_tender_award_unsuccessful,  # NEEDS TO BE FULLY UPDATED
     patch_tender_award_Administrator_change,
 )
 from openprocurement.frameworkagreement.cfaua.tests.base import (
@@ -64,10 +61,11 @@ from openprocurement.frameworkagreement.cfaua.tests.award_blanks import (
     patch_tender_award_complaint,
     review_tender_award_complaint,
     review_tender_award_claim,
-    review_tender_award_stopping_complaint
+    review_tender_award_stopping_complaint,
+    patch_tender_award_unsuccessful,
+
 )
 
-no_award_logic = True
 no_lot_logic = True
 one_lot_restriction = True
 
@@ -76,7 +74,7 @@ class TenderAwardResourceTestMixin(object):
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_patch_tender_award = snitch(patch_tender_award)
     test_patch_tender_award_active = snitch(patch_tender_award_active)
-    # test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful) NEEDS TO BE FULLY UPDATED NEEDS TO BE FULLY UPDATED DUE MULTIPLE AWARDS
+    test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_get_tender_award = snitch(get_tender_award)
     test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
 
@@ -108,12 +106,10 @@ class TenderAwardBidsOverMaxAwardsResourceTest(BidsOverMaxAwardsMixin, TenderAwa
 class TenderLotAwardResourceTestMixin(object):
     """ Pass temporarily"""
     # test_create_tender_award = snitch(create_tender_lot_award)
-    # test_patch_tender_award= snitch(patch_tender_lot_award)
-    # test_patch_tender_award_unsuccessful= snitch(patch_tender_lot_award_unsuccessful)
 
 
-class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderAwardResourceTestMixin,
-                                 TenderLotAwardResourceTestMixin):
+class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourceTestMixin,
+                                 TenderAwardResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = test_bids
     initial_lots = test_lots

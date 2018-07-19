@@ -362,6 +362,8 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
             bids = [bid for bid in bids if bid['id'] == cancelled_awards[0]] if cancelled_awards else bids
             bids = chef(bids, features, unsuccessful_awards, reverse, awarding_criteria_key)
             bids = bids[:MaxAwards] if MaxAwards else bids
+            active_awards = [a.bid_id for a in tender.awards if a.status in ('active', 'pending')]
+            bids = [bid for bid in bids if bid['id'] not in active_awards]
             if bids:
                 for bid in bids:
                     award = tender.__class__.awards.model_class({
@@ -381,7 +383,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
             tender.awardPeriod.endDate = None
             tender.status = 'active.qualification'
     else:
-        if not tender.awards or request.context.status in ("cancelled",):
+        if not tender.awards or request.context.status in ('cancelled', 'unsuccessful'):
             codes = [i.code for i in tender.features or []]
             active_bids = [
                 {
@@ -400,6 +402,8 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
             bids = chef(active_bids, tender.features or [], unsuccessful_awards, reverse, awarding_criteria_key)
             bids = [bid for bid in bids if bid['id'] == cancelled_awards[0]] if cancelled_awards else bids
             bids = bids[:MaxAwards] if MaxAwards else bids
+            active_awards = [a.bid_id for a in tender.awards if a.status in ('active', 'pending')]
+            bids = [bid for bid in bids if bid['id'] not in active_awards]
             if bids:
                 for bid in bids:
                     award = tender.__class__.awards.model_class({

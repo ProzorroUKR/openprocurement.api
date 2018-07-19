@@ -256,85 +256,65 @@ def patch_tender_award_active(self):
 
 
 def patch_tender_award_unsuccessful(self):
-    request_path = '/tenders/{}/awards'.format(self.tender_id)
+
+    def assert_awards_count():
+        if len(self.initial_bids) > MaxAwards:
+            self.assertEqual(len(active_awards_ids),
+                             MaxAwards if len(self.initial_bids) - MaxAwards - unsuccessful_award_count >= 0 else len(
+                                 self.initial_bids) - unsuccessful_award_count)
+        else:
+            self.assertEqual(len(active_awards_ids), len(self.awards_ids) - unsuccessful_award_count)
+
+    # patch award to unsuccessful
     response = self.app.patch_json(
         '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
         {"data": {"status": "unsuccessful"}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertIn('Location', response.headers)
-    new_award_location = response.headers['Location']
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
-    response = self.app.patch_json(new_award_location[-81:] + '?acc_token={}'.format(self.tender_token),
-                                   {"data": {"status": "active", "qualified": True, "eligible": True}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertNotIn('Location', response.headers)
+    # get all awards and check if new award is created
+    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+    active_awards_ids = [award['id'] for award in response.json['data'] if award['status'] in ('pending', 'active')]
 
-    response = self.app.get(request_path)
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(len(response.json['data']), 2)
+    unsuccessful_award_count = 1
+    assert_awards_count()
 
-    response = self.app.post_json(
-        '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.bid_token),
-        {'data': {
-            'title': 'complaint title',
-            'description': 'complaint description',
-            'author': test_organization,
-            'status': 'pending'
-        }})
-    self.assertEqual(response.status, '201 Created')
-
-    self.app.authorization = ('Basic', ('reviewer', ''))
+    # patch another award to unsuccessful
+    new_award_id = active_awards_ids[0]
+    unsuccessful_award_count += 1
     response = self.app.patch_json(
-        '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, self.award_id, response.json['data']['id']),
-        {'data': {
-            'status': 'accepted'
-        }})
+        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award_id, self.tender_token),
+        {"data": {"status": "unsuccessful"}})
     self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
+    # get all awards and check if new award is created
+    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+    active_awards_ids = [award['id'] for award in response.json['data'] if award['status'] in ('pending', 'active')]
+
+    assert_awards_count()
+
+    # get all awards and check if new award is created
+    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+    active_awards_ids = [award['id'] for award in response.json['data'] if award['status'] in ('pending', 'active')]
+
+    # patch another award to unsuccessful
+    new_award_id = active_awards_ids[0]
+    unsuccessful_award_count += 1
     response = self.app.patch_json(
-        '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, self.award_id, response.json['data']['id']),
-        {'data': {
-            'status': 'satisfied'
-        }})
-    self.assertEqual(response.status, '200 OK')
-
-    self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.post_json('{}/complaints?acc_token={}'.format(new_award_location[-81:], self.bid_token),
-                                  {'data': {
-                                      'title': 'complaint title',
-                                      'description': 'complaint description',
-                                      'author': test_organization
-                                  }})
-    self.assertEqual(response.status, '201 Created')
-
-    response = self.app.patch_json(
-        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
-        {"data": {"status": "cancelled"}})
+        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award_id, self.tender_token),
+        {"data": {"status": "unsuccessful"}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertIn('Location', response.headers)
-    new_award_location = response.headers['Location']
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
-    response = self.app.patch_json(new_award_location[-81:] + '?acc_token={}'.format(self.tender_token),
-                                   {"data": {"status": "unsuccessful"}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertIn('Location', response.headers)
-    new_award_location = response.headers['Location']
+    # get all awards and check if new award is created
+    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+    active_awards_ids = [award['id'] for award in response.json['data'] if award['status'] in ('pending', 'active')]
 
-    response = self.app.patch_json(new_award_location[-81:] + '?acc_token={}'.format(self.tender_token),
-                                   {"data": {"status": "unsuccessful"}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertNotIn('Location', response.headers)
-
-    response = self.app.get(request_path)
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(len(response.json['data']), 4)
+    assert_awards_count()
 
 
 def get_tender_award(self):
@@ -425,150 +405,6 @@ def create_tender_lot_award(self):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['data']['status'], u'cancelled')
         self.assertIn('Location', response.headers)
-
-
-def patch_tender_lot_award(self):
-        response = self.app.patch_json('/tenders/{}/awards/some_id'.format(self.tender_id), {"data": {"status": "unsuccessful"}}, status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'award_id'}
-        ])
-
-        response = self.app.patch_json('/tenders/some_id/awards/some_id', {"data": {"status": "unsuccessful"}}, status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location':
-                u'url', u'name': u'tender_id'}
-        ])
-
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"awardStatus": "unsuccessful"}}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'], [
-            {"location": "body", "name": "awardStatus", "description": "Rogue field"}
-        ])
-
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "unsuccessful"}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertIn('Location', response.headers)
-        new_award_location = response.headers['Location']
-
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "pending"}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update award in current (unsuccessful) status")
-
-        response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(len(response.json['data']), 2)
-        self.assertIn(response.json['data'][-1]['id'], new_award_location)
-        new_award = response.json['data'][-1]
-
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award['id'], self.tender_token), {"data": {"status": "active", "eligible": True}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-
-        response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(len(response.json['data']), 2)
-
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award['id'], self.tender_token), {"data": {"status": "cancelled"}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertIn('Location', response.headers)
-
-        response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(len(response.json['data']), 3)
-
-        self.set_status('complete')
-
-        response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id))
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']["value"]["amount"], self.expected_award_amount)
-
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "unsuccessful"}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update award in current (complete) tender status")
-
-
-def patch_tender_lot_award_unsuccessful(self):
-        request_path = '/tenders/{}/awards'.format(self.tender_id)
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "unsuccessful"}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertIn('Location', response.headers)
-        new_award_location = response.headers['Location']
-
-        response = self.app.patch_json(new_award_location[-81:]+'?acc_token={}'.format(self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertNotIn('Location', response.headers)
-
-        response = self.app.get(request_path)
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(len(response.json['data']), 2)
-
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.bid_token), {'data': {
-            'title': 'complaint title',
-            'description': 'complaint description',
-            'author': test_organization,
-            'status': 'pending'
-        }})
-        self.assertEqual(response.status, '201 Created')
-
-        self.app.authorization = ('Basic', ('reviewer', ''))
-        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, response.json['data']['id'], self.bid_token), {'data': {
-            'status': 'accepted'
-        }})
-        self.assertEqual(response.status, '200 OK')
-
-        response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, response.json['data']['id'], self.bid_token), {'data': {
-            'status': 'satisfied'
-        }})
-        self.assertEqual(response.status, '200 OK')
-
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json('{}/complaints?acc_token={}'.format(new_award_location[-81:], self.bid_token), {'data': {
-            'title': 'complaint title',
-            'description': 'complaint description',
-            'author': test_organization
-        }})
-        self.assertEqual(response.status, '201 Created')
-
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "cancelled"}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertIn('Location', response.headers)
-        new_award_location = response.headers['Location']
-
-        response = self.app.patch_json(new_award_location[-81:]+'?acc_token={}'.format(self.tender_token), {"data": {"status": "unsuccessful"}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertIn('Location', response.headers)
-        new_award_location = response.headers['Location']
-
-        response = self.app.patch_json(new_award_location[-81:]+'?acc_token={}'.format(self.tender_token), {"data": {"status": "unsuccessful"}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertNotIn('Location', response.headers)
-
-        response = self.app.get(request_path)
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(len(response.json['data']), 4)
 
 
 # Tender2LotAwardResourceTest
