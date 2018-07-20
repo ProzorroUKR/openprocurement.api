@@ -257,71 +257,36 @@ def patch_tender_award_active(self):
 
 def patch_tender_award_unsuccessful(self):
 
-    def assert_awards_count():
-        if len(self.initial_bids) > MaxAwards:
-            self.assertEqual(len(active_awards_ids),
-                             MaxAwards if len(self.initial_bids) - MaxAwards - unsuccessful_award_count >= 0 else len(
-                                 self.initial_bids) - unsuccessful_award_count)
+    for x in range(1, 4):
+        # patch award to unsuccessful
+        response = self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "unsuccessful"}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
+        # get all awards and check if new award is created
+        response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+        active_awards_ids = [award['id'] for award in response.json['data'] if
+                             award['status'] in ('pending', 'active')]
+
+        if len(self.initial_bids) - MaxAwards - x >= 0:
+            self.assertEqual(len(active_awards_ids), MaxAwards)
+            # new award bid_id is unique
+            self.assertNotIn(response.json['data'][-1]['bid_id'], (a['id'] for a in response.json['data']))
         else:
-            self.assertEqual(len(active_awards_ids), len(self.awards_ids) - unsuccessful_award_count)
+            self.assertEqual(len(active_awards_ids), len(self.initial_bids) - x)
 
-    # patch award to unsuccessful
-    response = self.app.patch_json(
-        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
-        {"data": {"status": "unsuccessful"}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']['status'], 'unsuccessful')
+        unsuccessful_award = self.award_id
+        self.award_id = active_awards_ids[0] if active_awards_ids else None
 
-    # get all awards and check if new award is created
-    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-    active_awards_ids = [award['id'] for award in response.json['data'] if award['status'] in ('pending', 'active')]
-
-    unsuccessful_award_count = 1
-    assert_awards_count()
-
-    # patch another award to unsuccessful
-    new_award_id = active_awards_ids[0]
-    unsuccessful_award_count += 1
-    response = self.app.patch_json(
-        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award_id, self.tender_token),
-        {"data": {"status": "unsuccessful"}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']['status'], 'unsuccessful')
-
-    # get all awards and check if new award is created
-    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-    active_awards_ids = [award['id'] for award in response.json['data'] if award['status'] in ('pending', 'active')]
-
-    assert_awards_count()
-
-    # get all awards and check if new award is created
-    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-    active_awards_ids = [award['id'] for award in response.json['data'] if award['status'] in ('pending', 'active')]
-
-    # patch another award to unsuccessful
-    new_award_id = active_awards_ids[0]
-    unsuccessful_award_count += 1
-    response = self.app.patch_json(
-        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award_id, self.tender_token),
-        {"data": {"status": "unsuccessful"}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']['status'], 'unsuccessful')
-
-    # get all awards and check if new award is created
-    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-    active_awards_ids = [award['id'] for award in response.json['data'] if award['status'] in ('pending', 'active')]
-    old_awards_ids = [award['id'] for award in response.json['data']]
-
-    assert_awards_count()
+    old_awards_ids = (award['id'] for award in response.json['data'])
 
     # patch unsuccessful award to cancelled, new batch of award should be created
     # old awards are cancelled
-    unsuccessful_award_count = 0
     response = self.app.patch_json(
-        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award_id, self.tender_token),
+        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, unsuccessful_award, self.tender_token),
         {"data": {"status": "cancelled"}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
@@ -335,7 +300,10 @@ def patch_tender_award_unsuccessful(self):
         self.assertEqual(award_statuses[award_id], 'cancelled')
 
     active_awards_ids = [award['id'] for award in response.json['data'] if award['status'] in ('pending', 'active')]
-    assert_awards_count()
+    if len(self.initial_bids) - MaxAwards >= 0:
+        self.assertEqual(len(active_awards_ids), MaxAwards)
+    else:
+        self.assertEqual(len(active_awards_ids), len(self.initial_bids))
 
 
 
