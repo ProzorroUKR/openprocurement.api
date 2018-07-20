@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from email.header import Header
 
 from openprocurement.api.utils import get_now
 
@@ -963,3 +964,106 @@ def claim_blocking(self):
 
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.json['data']['status'], 'cancelled')
+
+
+# Tender Lot Feature Resource Test
+
+
+def tender_value(self):
+    request_path = '/tenders/{}'.format(self.tender_id)
+    response = self.app.get(request_path)
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['value']['amount'], sum([i['value']['amount'] for i in self.initial_lots]))
+    self.assertEqual(response.json['data']['minimalStep']['amount'], min([i['minimalStep']['amount'] for i in self.initial_lots]))
+
+
+def tender_features_invalid(self):
+    request_path = '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token)
+    data = self.initial_data.copy()
+    item = data['items'][0].copy()
+    item['id'] = "1"
+    data['items'] = [item]
+    data['features'] = [
+        {
+            "featureOf": "lot",
+            "relatedItem": self.initial_lots[0]['id'],
+            "title": u"Потужність всмоктування",
+            "enum": [
+                {
+                    "value": self.invalid_feature_value,
+                    "title": u"До 1000 Вт"
+                },
+                {
+                    "value": 0.15,
+                    "title": u"Більше 1000 Вт"
+                }
+            ]
+        }
+    ]
+    response = self.app.patch_json(request_path, {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [{u'enum': [{u'value': [u'Float value should be less than {}.'.format(self.max_feature_value)]}]}], u'location': u'body', u'name': u'features'}
+    ])
+    data['features'][0]["enum"][0]["value"] = 0.1
+    data['features'].append(data['features'][0].copy())
+    data['features'][1]["enum"][0]["value"] = self.sum_of_max_value_of_all_features
+    response = self.app.patch_json(request_path, {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Sum of max value of all features for lot should be less then or equal to {0:.0%}'.format(self.sum_of_max_value_of_all_features)], u'location': u'body', u'name': u'features'}
+    ])
+
+
+def tender_lot_document(self):
+    response = self.app.post('/tenders/{}/documents?acc_token={}'.format(
+        self.tender_id, self.tender_token), upload_files=[('file', str(Header(u'укр.doc', 'utf-8')), 'content')])
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    doc_id = response.json["data"]['id']
+    #dateModified = response.json["data"]['dateModified']
+    self.assertIn(doc_id, response.headers['Location'])
+    self.assertEqual(u'укр.doc', response.json["data"]["title"])
+    self.assertNotIn("documentType", response.json["data"])
+
+    response = self.app.patch_json('/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, self.tender_token), {"data": {
+        "documentOf": "lot"
+    }}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'relatedItem'},
+    ])
+
+    response = self.app.patch_json('/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, self.tender_token), {"data": {
+        "documentOf": "lot",
+        "relatedItem": '0' * 32
+    }}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'relatedItem should be one of lots'], u'location': u'body', u'name': u'relatedItem'}
+    ])
+
+    # get tender for lot id
+    response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), status=200)
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    tender = response.json['data']
+
+    # add document with lot_id
+    lot_id = tender['lots'][0]['id']
+    response = self.app.patch_json('/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, self.tender_token), {"data": {
+        "documentOf": "lot",
+        "relatedItem": lot_id
+    }}, status=200)
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['relatedItem'], lot_id)
