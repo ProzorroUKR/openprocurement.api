@@ -1,6 +1,7 @@
 
 from datetime import timedelta
 from iso8601 import parse_date
+from openprocurement.api.roles import RolesFromCsv
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
@@ -62,42 +63,7 @@ class CloseFrameworkAgreementUA(Tender):
     """ OpenEU tender model """
     class Options:
         namespace = 'Tender'
-        roles = {
-            'plain': plain_role,
-            'create': create_role_eu,
-            'edit': edit_role_eu,
-            'edit_draft': edit_role_eu,
-            'edit_active.tendering': edit_role_eu,
-            'edit_active.pre-qualification': whitelist('status'),
-            'edit_active.pre-qualification.stand-still': whitelist(),
-            'edit_active.auction': whitelist(),
-            'edit_active.qualification': whitelist('status'),
-            'edit_active.awarded': whitelist(),
-            'edit_complete': whitelist(),
-            'edit_unsuccessful': whitelist(),
-            'edit_cancelled': whitelist(),
-            'view': view_role,
-            'listing': listing_role,
-            'auction_view': auction_view_role,
-            'auction_post': auction_post_role,
-            'auction_patch': auction_patch_role,
-            'draft': enquiries_role,
-            'active.tendering': enquiries_role,
-            'active.pre-qualification': pre_qualifications_role,
-            'active.pre-qualification.stand-still': pre_qualifications_role,
-            'active.auction': pre_qualifications_role,
-            'active.qualification': view_role,
-            'active.qualification.stand-still': view_role,
-            'active.awarded': view_role,
-            'complete': view_role,
-            'unsuccessful': view_role,
-            'cancelled': view_role,
-            'chronograph': chronograph_role,
-            'chronograph_view': chronograph_view_role,
-            'Administrator': Administrator_role,
-            'default': schematics_default_role,
-            'contracting': whitelist('doc_id', 'owner'),
-        }
+        roles = RolesFromCsv('CloseFrameworkAgreementUA.csv', relative_to=__file__)
 
     create_accreditation = 3
     edit_accreditation = 4
