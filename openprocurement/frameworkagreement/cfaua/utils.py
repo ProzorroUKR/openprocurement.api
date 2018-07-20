@@ -309,7 +309,8 @@ def check_status(request):
         return
 
 
-def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
+def add_next_awards(request, reverse=False, awarding_criteria_key='amount', regenerate_all_awards=False):
+
     """Adding next award.
     :param request:
         The pyramid request object.
@@ -357,8 +358,10 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
                 lot.status = 'unsuccessful'
                 statuses.add('unsuccessful')
                 continue
+            cancelled_awards = None
+            if not regenerate_all_awards:
+                cancelled_awards = [award.bid_id for award in lot_awards if award.status == 'cancelled' and request.context.id == award.id]
             unsuccessful_awards = [i.bid_id for i in lot_awards if i.status == 'unsuccessful']
-            cancelled_awards = [award.bid_id for award in lot_awards if award.status == 'cancelled' and request.context.id == award.id]
             bids = [bid for bid in bids if bid['id'] == cancelled_awards[0]] if cancelled_awards else bids
             bids = chef(bids, features, unsuccessful_awards, reverse, awarding_criteria_key)
             bids = bids[:MaxAwards] if MaxAwards else bids
@@ -396,8 +399,10 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
                 for bid in tender.bids
                 if bid.status == "active"
             ]
-            cancelled_awards = [award.bid_id for award in tender.awards if
-                                award.status == 'cancelled' and request.context.id == award.id]
+            cancelled_awards = None
+            if not regenerate_all_awards:
+                cancelled_awards = [award.bid_id for award in tender.awards if
+                                    award.status == 'cancelled' and request.context.id == award.id]
             unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
             bids = chef(active_bids, tender.features or [], unsuccessful_awards, reverse, awarding_criteria_key)
             bids = [bid for bid in bids if bid['id'] == cancelled_awards[0]] if cancelled_awards else bids
