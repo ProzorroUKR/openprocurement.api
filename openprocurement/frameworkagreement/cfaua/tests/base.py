@@ -232,6 +232,20 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                         bid.update({'status': 'active'})
                 data.update({'bids': bids})
 
+        def activate_awards():
+            if tender.get('awards', []):
+                awards = tender['awards']
+                for award in awards:
+                    if award['status'] == 'pending':
+                        award.update({'status': 'active'})
+                    award.update({
+                        'complaintPeriod': {
+                            'startDate': now.isoformat(),
+                            'endDate': (now + timedelta(days=7)).isoformat()
+                        }
+                    })
+                data.update({'awards': awards})
+
         data = {'status': status}
         if status == 'active.tendering':
             data.update({
@@ -337,6 +351,8 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                         for i in self.initial_lots
                     ]
                 })
+        elif status == 'active.qualification.stand-still':
+            activate_awards()
         elif status == 'active.awarded':
             data.update({
                 'enquiryPeriod': {

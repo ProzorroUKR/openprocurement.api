@@ -53,8 +53,17 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
 )
 from openprocurement.frameworkagreement.cfaua.tests.award_blanks import (
     # TenderAwardResourceTestMixin
+    create_tender_award_claim,
+    create_tender_award_complaint,
+    create_tender_award_complaint_not_active,
+    get_tender_award_complaint,
+    get_tender_award_complaints,
     patch_tender_award,
     patch_tender_award_active,
+    patch_tender_award_complaint,
+    review_tender_award_complaint,
+    review_tender_award_claim,
+    review_tender_award_stopping_complaint
 )
 
 no_award_logic = True
@@ -94,8 +103,9 @@ class TenderAwardResourceTest(BaseTenderContentWebTest,
 @unittest.skipIf(no_lot_logic, 'Implement logic for test later')
 class TenderLotAwardResourceTestMixin(object):
     test_create_tender_award = snitch(create_tender_lot_award)
-    test_patch_tender_award= snitch(patch_tender_lot_award)
-    test_patch_tender_award_unsuccessful= snitch(patch_tender_lot_award_unsuccessful)
+    test_patch_tender_award = snitch(patch_tender_lot_award)
+    test_patch_tender_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
+
 
 @unittest.skipIf(no_lot_logic, 'Implement logic for test later')
 class TenderLotAwardResourceTest(BaseTenderContentWebTest,
@@ -123,6 +133,7 @@ class Tender2LotAwardResourceTestMixin(object):
 
     test_create_tender_award = snitch(create_tender_2lot_award)
     test_patch_tender_award = snitch(patch_tender_2lot_award)
+
 
 @unittest.skipIf(no_lot_logic, 'Implement logic for test later')
 class Tender2LotAwardResourceTest(BaseTenderContentWebTest,
@@ -163,8 +174,23 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest,
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
         self.award_id = response.json['data'][0]['id']
         self.app.authorization = ('Basic', ('broker', ''))
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {'data': {'status': 'active', "qualified": True, "eligible": True}})
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+            {'data': {'status': 'active', "qualified": True, "eligible": True}}
+        )
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
+
+        # self.set_status('active.qualification.stand-still')
+
+    test_create_tender_award_claim = snitch(create_tender_award_claim)
+    test_get_tender_award_complaints = snitch(get_tender_award_complaints)
+    test_patch_tender_award_complaint = snitch(patch_tender_award_complaint)
+    test_review_tender_award_claim = snitch(review_tender_award_claim)
+    test_review_tender_award_complaint = snitch(review_tender_award_complaint)
+    test_review_tender_award_stopping_complaint = snitch(review_tender_award_stopping_complaint)
+    test_create_tender_award_complaint = snitch(create_tender_award_complaint)
+    test_create_tender_award_complaint_not_active = snitch(create_tender_award_complaint_not_active)
+    test_get_tender_award_complaint = snitch(get_tender_award_complaint)
 
 
 @unittest.skipIf(no_lot_logic, 'Implement logic for test later')

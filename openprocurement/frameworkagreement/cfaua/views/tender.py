@@ -32,10 +32,12 @@ from openprocurement.frameworkagreement.cfaua.validation import (
 )
 
 
+
 @optendersresource(name='closeFrameworkAgreementUA:Tender',
                    path='/tenders/{tender_id}',
                    procurementMethodType='closeFrameworkAgreementUA',
-                   description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
+                   description="Open Contracting compatible data exchange format. "
+                   "See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderEUResource(TenderResource):
     """ Resource handler for TenderEU """
 
@@ -95,34 +97,60 @@ class TenderEUResource(TenderResource):
         tender = self.context
         config = getAdapter(tender, IContentConfigurator)
         data = self.request.validated['data']
-        if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
+        if self.request.authenticated_role == 'tender_owner' and \
+                self.request.validated['tender_status'] == 'active.tendering':
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
                 self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
                 validate_tender_period_extension(self.request)
                 self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
-                self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
+                self.request.validated['data']["enquiryPeriod"] = \
+                    self.request.validated['tender'].enquiryPeriod.serialize()
 
         apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
         if self.request.authenticated_role == 'chronograph':
             check_status(self.request)
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.tendering':
             tender.invalidate_bids_data()
-        elif self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.pre-qualification' and tender.status == "active.pre-qualification.stand-still":
+        elif self.request.authenticated_role == 'tender_owner' and \
+                self.request.validated['tender_status'] == 'active.pre-qualification' and \
+                tender.status == "active.pre-qualification.stand-still":
             active_lots = [lot.id for lot in tender.lots if lot.status == 'active'] if tender.lots else [None]
-            if any([i['status'] in self.request.validated['tender'].block_complaint_status for q in self.request.validated['tender']['qualifications'] for i in q['complaints'] if q['lotID'] in active_lots]):
-                raise_operation_error(self.request, 'Can\'t switch to \'active.pre-qualification.stand-still\' before resolve all complaints')
+            if any([i['status'] in self.request.validated['tender'].block_complaint_status
+                    for q in self.request.validated['tender']['qualifications']
+                    for i in q['complaints'] if q['lotID'] in active_lots]):
+                raise_operation_error(
+                    self.request,
+                    'Can\'t switch to \'active.pre-qualification.stand-still\' before resolve all complaints'
+                )
             if all_bids_are_reviewed(self.request):
                 normalized_date = calculate_normalized_date(get_now(), tender, True)
-                tender.qualificationPeriod.endDate = calculate_business_date(normalized_date, config.qualification_complaint_stand_still, self.request.validated['tender'])
+                tender.qualificationPeriod.endDate = calculate_business_date(
+                    normalized_date, config.qualification_complaint_stand_still, self.request.validated['tender']
+                )
                 tender.check_auction_time()
             else:
-                raise_operation_error(self.request, 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
-        elif self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.qualification' and tender.status == "active.qualification.stand-still":
+                raise_operation_error(
+                    self.request,
+                    'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified'
+                )
+        elif self.request.authenticated_role == 'tender_owner' and \
+                self.request.validated['tender_status'] == 'active.qualification' and \
+                tender.status == "active.qualification.stand-still":
             if all_awards_are_reviewed(self.request):
                 normalized_date = calculate_normalized_date(get_now(), tender, True)
-                tender.awardPeriod.endDate = calculate_business_date(normalized_date, config.qualification_complaint_stand_still, self.request.validated['tender'])
+                tender.awardPeriod.endDate = calculate_business_date(
+                    normalized_date, config.qualification_complaint_stand_still, self.request.validated['tender']
+                )
+                for award in tender.awards:
+                    award['complaintPeriod'] = {
+                        'startDate': get_now().isoformat(),
+                        'endDate': tender.awardPeriod.endDate.isoformat()
+                    }
             else:
-                raise_operation_error(self.request, 'Can\'t switch to \'active.qualification.stand-still\' while not all awards are qualified')
+                raise_operation_error(
+                    self.request,
+                    'Can\'t switch to \'active.qualification.stand-still\' while not all awards are qualified'
+                )
 
         save_tender(self.request)
         self.LOGGER.info('Updated tender {}'.format(tender.id),

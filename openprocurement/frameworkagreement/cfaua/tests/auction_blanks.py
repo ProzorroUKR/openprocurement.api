@@ -4,6 +4,7 @@ from openprocurement.frameworkagreement.cfaua.constants import MaxAwards
 
 
 def post_tender_auction_all_awards_pending(self):
+    # TODO: @codertarasvaskiv refactor this test
     self.app.authorization = ('Basic', ('auction', ''))
     response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': {}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')

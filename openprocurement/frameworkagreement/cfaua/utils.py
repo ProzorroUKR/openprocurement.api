@@ -16,7 +16,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_questions,
     has_unanswered_complaints
 )
-from openprocurement.tender.openua.utils import  check_complaint_status
+from openprocurement.tender.openua.utils import check_complaint_status
 
 from openprocurement.frameworkagreement.cfaua.constants import MaxAwards, MIN_BIDS_NUMBER
 
@@ -309,7 +309,6 @@ def check_status(request):
         return
 
 
-
 def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
     """Adding next award.
     :param request:
@@ -367,10 +366,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
                         'status': 'pending',
                         'date': get_now(),
                         'value': bid['value'],
-                        'suppliers': bid['tenderers'],
-                        'complaintPeriod': {
-                            'startDate': now.isoformat()
-                        }
+                        'suppliers': bid['tenderers']
                     })
                     award.__parent__ = tender
                     tender.awards.append(award)
@@ -408,7 +404,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
                         'status': 'pending',
                         'date': get_now(),
                         'value': bid['value'],
-                        'suppliers': bid['tenderers'],
+                        'suppliers': bid['tenderers']
                     })
                     award.__parent__ = tender
                     tender.awards.append(award)

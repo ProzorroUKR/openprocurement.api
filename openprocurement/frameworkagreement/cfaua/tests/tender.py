@@ -10,12 +10,14 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     #TenderResourceTest
     guarantee,
 )
-from openprocurement.tender.openua.tests.tender_blanks import empty_listing, tender_fields, patch_tender_period
-
+from openprocurement.tender.openua.tests.tender_blanks import (
+    empty_listing, tender_fields, patch_tender_period
+)
 from openprocurement.frameworkagreement.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_tender_data,
     BaseTenderWebTest,
+    BaseTenderContentWebTest,
     test_lots,
     test_bids,
 )
@@ -34,7 +36,9 @@ from openprocurement.frameworkagreement.cfaua.tests.tender_blanks import (
     invalid_bid_tender_lot,
     #TenderTest
     simple_add_tender,
+    patch_tender_active_qualification_2_active_qualification_stand_still,
 )
+
 
 class TenderUAResourceTestMixin:
     test_empty_listing = snitch(empty_listing)
@@ -99,8 +103,60 @@ class TenderProcessTest(BaseTenderWebTest):
     test_one_bid_tender = snitch(one_bid_tender)
     test_unsuccessful_after_prequalification_tender = snitch(unsuccessful_after_prequalification_tender)
     test_one_qualificated_bid_tender = snitch(one_qualificated_bid_tender)
+
     # test_multiple_bidders_tender = snitch(multiple_bidders_tender)    TODO REWRITE TEST
     # test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)   TODO REWRITE TEST
+
+
+class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
+    initial_auth = ('Basic', ('broker', ''))
+    initial_bids = test_bids
+
+    def setUp(self):
+        super(TenderPendingAwardsResourceTest, self).setUp()
+        # switch to active.pre-qualification
+        self.time_shift('active.pre-qualification')
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification")
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
+        for qualific in response.json['data']:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
+                self.tender_id, qualific['id'], self.tender_token), {'data': {"status": "active", "qualified": True, "eligible": True}})
+            self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+        self.assertEqual(response.status, "200 OK")
+
+        self.set_status('active.auction')
+
+        patch_data = {'bids': []}
+        for x in range(self.min_bids_number):
+            patch_data['bids'].append({
+                "id": self.initial_bids[x]['id'],
+                "value": {
+                    "amount": 409 + x * 10,
+                    "currency": "UAH",
+                    "valueAddedTaxIncluded": True
+                }
+            })
+
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        tender = response.json['data']
+
+        for x in range(self.min_bids_number):
+            self.assertEqual(tender["bids"][x]['value']['amount'], patch_data["bids"][x]['value']['amount'])
+            self.assertEqual(tender["awards"][x]['status'], 'pending')  # all awards are in pending status
+
+    test_patch_tender_active_qualification_2_active_qualification_stand_still = \
+        snitch(patch_tender_active_qualification_2_active_qualification_stand_still)
 
 
 def suite():
@@ -108,6 +164,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderProcessTest))
     suite.addTest(unittest.makeSuite(TenderResourceTest))
     suite.addTest(unittest.makeSuite(TenderTest))
+    suite.addTest(unittest.makeSuite(TenderPendingAwardsResourceTest))
     return suite
 
 
