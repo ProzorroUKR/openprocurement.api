@@ -177,6 +177,7 @@ def patch_tender_award(self):
         self.assertEqual(response.content_type, 'application/json')
 
     # patch first award from active to cancelled
+    count_cancelled_awards = 1
     response = self.app.patch_json(
         '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.awards_ids[0], self.tender_token),
         {"data": {"status": "cancelled"}})
@@ -196,8 +197,33 @@ def patch_tender_award(self):
     response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(len(response.json['data']), len(self.awards_ids)+1)  # + 1 award
+    self.assertEqual(len(response.json['data']), len(self.awards_ids)+count_cancelled_awards)  # + 1 award
     self.assertEqual(response.json['data'][0]['bid_id'], response.json['data'][-1]['bid_id'])
+    self.assertEqual(response.json['data'][-1]['status'], 'pending')
+
+    # patch second award from active to cancelled
+    count_cancelled_awards += 1
+    response = self.app.patch_json(
+        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.awards_ids[1], self.tender_token),
+        {"data": {"status": "cancelled"}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['status'], 'cancelled')
+
+    # cant patch cancelled award
+    response = self.app.patch_json(
+        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.awards_ids[1], self.tender_token),
+        {"data": {"status": "unsuccessful"}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update award in current (cancelled) status")
+
+    # get all awards and check that new award is created
+    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(len(response.json['data']), len(self.awards_ids)+count_cancelled_awards)  # + 1 award
+    self.assertEqual(response.json['data'][1]['bid_id'], response.json['data'][-1]['bid_id'])
     self.assertEqual(response.json['data'][-1]['status'], 'pending')
 
     # later test for other status changes
