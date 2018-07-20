@@ -384,7 +384,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     'endDate': (now - timedelta(days=2)).isoformat()
                 },
                 'awardPeriod': {
-                    'startDate': (now - timedelta(da    ys=1)).isoformat(),
+                    'startDate': (now - timedelta(days=1)).isoformat(),
                     'endDate': (now).isoformat()
                 }
             })
