@@ -39,7 +39,6 @@ from openprocurement.tender.openeu.tests.auction_blanks import (
     # TenderMultipleLotAuctionResourceTest
     patch_tender_2lot_auction,
 )
-from openprocurement.frameworkagreement.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.frameworkagreement.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_features_tender_data,
@@ -55,6 +54,9 @@ from openprocurement.frameworkagreement.cfaua.tests.auction_blanks import (
     # TenderMultipleLotAuctionResourceTestMixin
     post_tender_lots_auction
 )
+
+
+one_lot_restriction = True
 
 
 class TenderAuctionResourceTestMixin(object):
@@ -179,6 +181,8 @@ class TenderLotAuctionBidsOverMaxAwards(TenderLotAuctionResourceTest):
     min_bids_number = MIN_BIDS_NUMBER * 2
 
 
+# TODO: Remove if will be approved.
+@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderAuctionResourceTest):
     initial_lots = 2 * test_lots
 
@@ -220,6 +224,8 @@ class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, Te
     test_post_tender_auction = snitch(post_tender_lot_auction_features)
 
 
+# TODO: Remove if will be approved.
+@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class TenderFeaturesMultilotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin,
                                                 TenderFeaturesAuctionResourceTest):
     initial_lots = test_lots * 2
@@ -228,6 +234,8 @@ class TenderFeaturesMultilotAuctionResourceTest(TenderMultipleLotAuctionResource
     test_patch_tender_auction = snitch(patch_tender_2lot_auction)
 
 
+# TODO: Remove if will be approved.
+@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class TenderMultilotAuctionBidsOverMaxAwards(TenderFeaturesMultilotAuctionResourceTest):
     tenderer_info = deepcopy(test_organization)
     initial_bids = [

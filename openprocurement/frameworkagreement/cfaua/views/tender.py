@@ -6,13 +6,13 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     get_now,
-    raise_operation_error
+    raise_operation_error,
 )
 from openprocurement.tender.core.utils import (
     optendersresource,
     apply_patch,
     save_tender,
-    calculate_business_date
+    calculate_business_date,
 )
 from openprocurement.tender.core.validation import (
     validate_tender_period_extension,
@@ -27,7 +27,10 @@ from openprocurement.frameworkagreement.cfaua.utils import (
 from openprocurement.tender.openua.utils import calculate_normalized_date
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.tender.core.events import TenderInitializeEvent
-from openprocurement.frameworkagreement.cfaua.validation import validate_tender_status_update
+from openprocurement.frameworkagreement.cfaua.validation import (
+    validate_tender_status_update
+)
+
 
 @optendersresource(name='closeFrameworkAgreementUA:Tender',
                    path='/tenders/{tender_id}',
@@ -36,7 +39,11 @@ from openprocurement.frameworkagreement.cfaua.validation import validate_tender_
 class TenderEUResource(TenderResource):
     """ Resource handler for TenderEU """
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data, validate_tender_status_update_in_terminated_status, validate_tender_status_update, ), permission='edit_tender')
+    @json_view(content_type="application/json",
+               validators=(validate_patch_tender_ua_data,
+                           validate_tender_status_update_in_terminated_status,
+                           validate_tender_status_update,),
+               permission='edit_tender')
     def patch(self):
         """Tender Edit (partial)
 
@@ -119,5 +126,5 @@ class TenderEUResource(TenderResource):
 
         save_tender(self.request)
         self.LOGGER.info('Updated tender {}'.format(tender.id),
-                    extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
+                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
         return {'data': tender.serialize(tender.status)}

@@ -45,7 +45,10 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
     bids_on_tender_cancellation_in_awarded,
 )
 
+
 no_award_logic = True
+one_lot_restriction = True
+
 
 class TenderCancellationResourceTest(BaseTenderContentWebTest, TenderCancellationResourceTestMixin):
 
@@ -84,6 +87,8 @@ class TenderLotCancellationResourceTest(BaseTenderContentWebTest):
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
 
 
+# TODO: Remove if will be approved.
+@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class TenderLotsCancellationResourceTest(BaseTenderContentWebTest):
     initial_lots = 2 * test_lots
 
@@ -92,6 +97,8 @@ class TenderLotsCancellationResourceTest(BaseTenderContentWebTest):
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
 
 
+# TODO: Remove if will be approved.
+@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class TenderAwardsCancellationResourceTest(BaseTenderContentWebTest):
     initial_lots = 2 * test_lots
     initial_status = 'active.tendering'

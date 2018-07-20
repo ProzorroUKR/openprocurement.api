@@ -59,6 +59,7 @@ from openprocurement.frameworkagreement.cfaua.tests.award_blanks import (
 
 no_award_logic = True
 no_lot_logic = True
+one_lot_restriction = True
 
 
 class TenderAwardResourceTestMixin(object):
@@ -142,6 +143,8 @@ class Tender2LotAwardResourceTest(BaseTenderContentWebTest,
         self.app.authorization = ('Basic', ('broker', ''))
 
 
+# TODO: Remove if will be approved.
+@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class TenderAwardComplaintResourceTest(BaseTenderContentWebTest,
                                        TenderAwardComplaintResourceTestMixin,
                                        TenderUaAwardComplaintResourceTestMixin):

@@ -6,9 +6,10 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotResourceTestMixin,
     TenderLotValueTestMixin,
-    TenderLotFeatureResourceTestMixin,
-    TenderLotProcessTestMixin
+    # TenderLotFeatureResourceTestMixin,
+    # TenderLotProcessTestMixin
 )
+from openprocurement.tender.belowthreshold.tests.lot_blanks import proc_1lot_0bid
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
@@ -37,27 +38,43 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
     # TenderLotBidderResourceTest
     create_tender_bidder_invalid,
     patch_tender_bidder,
-    # TenderLotEdgeCasesTest
-    question_blocking,
-    claim_blocking,
-    next_check_value_with_unanswered_question,
-    next_check_value_with_unanswered_claim,
 )
 from openprocurement.frameworkagreement.cfaua.tests.lot_blanks import (
     one_lot_2bid,
     two_lot_3bid_3com_3win,
     one_lot_3bid_1del,
     one_lot_3bid_1un,
-    two_lot_3bid_1win_bug
-)
+    two_lot_3bid_1win_bug,
+    proc_1lot_1can,
+    create_tender_lot,
+    tender_lot_guarantee,
+    # TenderLotEdgeCasesTest
+    claim_blocking,
+    question_blocking,
+    # TenderLotFeatureResourceTest
+    tender_value,
+    tender_features_invalid,
+    tender_lot_document
+    )
+
+
+one_lot_restriction = True
+
+
+class TenderLotProcessTestMixin(object):
+    test_proc_1lot_0bid = snitch(proc_1lot_0bid)
+    test_proc_1lot_1can = snitch(proc_1lot_1can)
+
 
 class TenderLotEdgeCasesTestMixin(object):
 
     test_question_blocking = snitch(question_blocking)
     test_claim_blocking = snitch(claim_blocking)
-    test_next_check_value_with_unanswered_question = snitch(next_check_value_with_unanswered_question)
-    test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
 
+class TenderLotFeatureResourceTestMixin(object):
+    test_tender_value = snitch(tender_value)
+    test_tender_features_invalid = snitch(tender_features_invalid)
+    test_tender_lot_document = snitch(tender_lot_document)
 
 class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
 
@@ -67,17 +84,23 @@ class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin
 
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
+    test_create_tender_lot = snitch(create_tender_lot)
+    test_tender_lot_guarantee = snitch(tender_lot_guarantee)
 
 
+# TODO: Remove if will be approved.
+# @unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMixin):
     initial_auth = ('Basic', ('broker', ''))
-    initial_lots = test_lots * 2
+    initial_lots = test_lots
     initial_bids = test_bids
     test_author = test_organization
 
 
+# TODO: Remove if will be approved.
+# @unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
 class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureResourceTestMixin):
-    initial_lots = 2 * test_lots
+    initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
     invalid_feature_value = 0.4
@@ -180,16 +203,15 @@ class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
     test_1lot_2bid_1unqualified = snitch(one_lot_2bid_1unqualified)
 
     # test_1lot_2bid = snitch(one_lot_2bid)  # TODO Rewrite this test!!!
-    test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del)
+    # test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del)  # TODO: CFAUA not allow more than one lot
     # test_1lot_3bid_1del = snitch(one_lot_3bid_1del)  # TODO Rewrite this test!!!
     # test_1lot_3bid_1un = snitch(one_lot_3bid_1un)  # TODO Rewrite this test!!!
-    test_2lot_1can = snitch(two_lot_1can)
-    test_2lot_2bid_0com_1can = snitch(two_lot_2bid_0com_1can)
+    # test_2lot_1can = snitch(two_lot_1can)  # TODO: CFAUA not allow more than one lot
+    # test_2lot_2bid_0com_1can = snitch(two_lot_2bid_0com_1can)  # TODO: CFAUA not allow more than one lot
     # test_2lot_2bid_2com_2win = snitch(two_lot_3bid_3com_3win) # TODO Rewrite this test!!!
     # test_2lot_3bid_1win_bug = snitch(two_lot_3bid_1win_bug)  # TODO Rewrite this test!!!
     # test_2lot_2bid_2com_2win = snitch(two_lot_2bid_2com_2win)  # TODO Rewrite this test!!!
     # test_2lot_3bid_1win_bug = snitch(two_lot_3bid_1win_bug)  # TODO Rewrite this test!!!
-
 
 
 def suite():
