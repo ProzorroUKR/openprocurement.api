@@ -7,7 +7,6 @@ from openprocurement.api.utils import (
     set_ownership
 )
 from openprocurement.tender.core.validation import (
-    validate_add_complaint_not_in_complaint_period,
     validate_complaint_data,
     validate_patch_complaint_data,
     validate_award_complaint_add_only_for_active_lots,
@@ -18,7 +17,10 @@ from openprocurement.tender.core.utils import apply_patch, optendersresource, sa
 from openprocurement.tender.openua.views.award_complaint import TenderUaAwardComplaintResource, get_bid_id
 
 from openprocurement.frameworkagreement.cfaua.utils import check_tender_status
-from openprocurement.frameworkagreement.cfaua.validation import validate_award_complaint_operation_not_in_allowed_status
+from openprocurement.frameworkagreement.cfaua.validation import (
+    validate_add_complaint_not_in_complaint_period,
+    validate_award_complaint_operation_not_in_allowed_status,
+)
 
 
 @optendersresource(name='closeFrameworkAgreementUA:Tender Award Complaints',

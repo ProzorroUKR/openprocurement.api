@@ -173,3 +173,10 @@ def validate_award_complaint_operation_not_in_allowed_status(request):
             request,
             'Can\'t {} complaint in current ({}) tender status'.format(OPERATIONS.get(request.method), tender.status)
         )
+
+
+def validate_add_complaint_not_in_complaint_period(request):
+    if not request.context.complaintPeriod or (request.context.complaintPeriod and
+       (request.context.complaintPeriod.startDate and request.context.complaintPeriod.startDate > get_now() or
+            request.context.complaintPeriod.endDate and request.context.complaintPeriod.endDate < get_now())):
+        raise_operation_error(request, 'Can add complaint only in complaintPeriod')
