@@ -232,6 +232,8 @@ class BaseTenderWebTest(BaseTWT):
                 lot['id'] = uuid4().hex
                 lots.append(lot)
             data['lots'] = self.initial_lots = lots
+            for i, item in enumerate(data['items']):
+                item['relatedLot'] = lots[i % len(lots)]['id']
         response = self.app.post_json('/tenders', {'data': data})
         tender = response.json['data']
         self.tender_token = response.json['access']['token']
@@ -239,9 +241,9 @@ class BaseTenderWebTest(BaseTWT):
         status = tender['status']
         if self.initial_status != None:
             data = dict([(i, data[i]) for i in DRAFT_FIELDS if i in data])
-            if self.initial_lots:
-                for i, item in enumerate(data['items']):
-                    item['relatedLot'] = self.initial_lots[i % len(lots)]['id']
+            #if self.initial_lots:
+                #for i, item in enumerate(data['items']):
+                    #item['relatedLot'] = self.initial_lots[i % len(lots)]['id']
             authorization = self.app.authorization
             self.app.authorization = ('Basic', (BOT_NAME, ''))
             response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': data})
@@ -285,7 +287,7 @@ class BaseTenderWebTest(BaseTWT):
                     "startDate": (now + timedelta(days=7)).isoformat(),
                     "endDate": (now + timedelta(days=14)).isoformat()
                 },
-                "items": test_items,
+                #"items": test_items,
                 "shortlistedFirms": test_shortlistedFirms
             })
         elif status == 'active.tendering':
@@ -298,7 +300,7 @@ class BaseTenderWebTest(BaseTWT):
                     "startDate": (now).isoformat(),
                     "endDate": (now + timedelta(days=7)).isoformat()
                 },
-                "items": test_items,
+                #"items": test_items,
                 "shortlistedFirms": test_shortlistedFirms
             })
         elif status == 'active.auction':

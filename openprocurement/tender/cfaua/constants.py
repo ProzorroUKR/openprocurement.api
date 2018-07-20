@@ -9,4 +9,4 @@ STATUS4ROLE = {
     'tender_owner': ['claim'],
 }
 BOT_NAME = 'fa_bot'
-DRAFT_FIELDS = ('items', 'shortlistedFirms', 'features')
+DRAFT_FIELDS = ('shortlistedFirms',)
