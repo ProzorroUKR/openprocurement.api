@@ -40,7 +40,7 @@ class TenderAwardContractDocumentResource(BaseResource):
                 for i in self.request.validated['tender'].lots
                 if i.id in [a.lotID
                             for a in self.request.validated['tender'].awards
-                            if a.id == self.request.validated['agreement'].awardID]]):
+                            if a.id in self.request.validated['agreement'].get_awards_id()]]):
             raise_operation_error(self.request, 'Can {} document only in active lot status'.format(operation))
         if self.request.validated['agreement'].status not in ['pending', 'active']:
             raise_operation_error(self.request, 'Can\'t {} document in current agreement status'.format(operation))
@@ -48,7 +48,7 @@ class TenderAwardContractDocumentResource(BaseResource):
                 for i in self.request.validated['tender'].awards
                 if i.lotID in [a.lotID
                                for a in self.request.validated['tender'].awards
-                               if a.id == self.request.validated['agreement'].awardID]]):
+                               if a.id in self.request.validated['agreement'].get_awards_id()]]):
             raise_operation_error(self.request, 'Can\'t {} document with accepted complaint')
         return True
 

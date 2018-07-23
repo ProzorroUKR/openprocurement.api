@@ -205,7 +205,7 @@ class TenderLotAwardComplaintResourceTestMixin(object):
 @unittest.skipIf(no_lot_logic, 'Implement logic for test later')
 class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest,
                                           TenderLotAwardComplaintResourceTestMixin):
-    #initial_data = tender_data
+    # initial_data = tender_data
     initial_status = 'active.tendering'
     initial_lots = test_lots
     initial_bids = test_bids
@@ -249,14 +249,22 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest,
     def setUp(self):
         super(TenderAwardComplaintDocumentResourceTest, self).setUp()
         # Create award
-        response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
+        response = self.app.post_json(
+            '/tenders/{}/awards'.format(self.tender_id),
+            {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}}
+        )
         award = response.json['data']
         self.award_id = award['id']
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {'data': {'status': 'active', "qualified": True, "eligible": True}})
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+            {'data': {'status': 'active', "qualified": True, "eligible": True}}
+        )
+        self.set_status('active.qualification.stand-still')
         # Create complaint for award
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+        response = self.app.post_json(
+            '/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id),
+            {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}}
+        )
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']

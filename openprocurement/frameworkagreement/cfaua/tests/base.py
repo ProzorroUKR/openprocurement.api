@@ -13,6 +13,7 @@ from openprocurement.frameworkagreement.cfaua.constants import (
     TENDERING_DURATION,
     QUESTIONS_STAND_STILL,
     COMPLAINT_STAND_STILL,
+    STAND_STILL_TIME,
     MIN_BIDS_NUMBER
 )
 
@@ -321,6 +322,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 })
             activate_bids()
         elif status == 'active.qualification':
+            
             data.update({
                 'enquiryPeriod': {
                     'startDate': (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
@@ -352,6 +354,24 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     ]
                 })
         elif status == 'active.qualification.stand-still':
+            data.update({
+                'enquiryPeriod': {
+                    'startDate': (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
+                    'endDate': (now - QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat()
+                },
+                'tenderPeriod': {
+                    'startDate': (now - TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat(),
+                    'endDate': (now - COMPLAINT_STAND_STILL - timedelta(days=1)).isoformat()
+                },
+                'auctionPeriod': {
+                    'startDate': (now - timedelta(days=1)).isoformat(),
+                    'endDate': (now).isoformat()
+                },
+                'awardPeriod': {
+                    'startDate': now.isoformat(),
+                    'endDate': (now + STAND_STILL_TIME).isoformat()
+                }
+            })
             activate_awards()
         elif status == 'active.awarded':
             data.update({

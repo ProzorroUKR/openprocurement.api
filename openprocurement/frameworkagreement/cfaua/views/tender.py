@@ -32,7 +32,6 @@ from openprocurement.frameworkagreement.cfaua.validation import (
 )
 
 
-
 @optendersresource(name='closeFrameworkAgreementUA:Tender',
                    path='/tenders/{tender_id}',
                    procurementMethodType='closeFrameworkAgreementUA',

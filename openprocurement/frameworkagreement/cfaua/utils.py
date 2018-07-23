@@ -234,7 +234,6 @@ def check_status(request):
     tender = request.validated['tender']
     now = get_now()
     active_lots = [lot.id for lot in tender.lots if lot.status == 'active'] if tender.lots else [None]
-
     if tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
             not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):
         for complaint in tender.complaints:
@@ -289,23 +288,29 @@ def check_status(request):
             if standStillEnd <= now:
                 check_tender_status(request)
                 return
-    elif tender.status == 'active.qualification.stand-still' and tender.awardPeriod and tender.awardPeriod.endDate <= now and not any([
-        i.status in tender.block_complaint_status
-        for q in tender.qualifications
-        for i in q.complaints
-        if q.lotID in active_lots
-    ]):
+    elif tender.status == 'active.qualification.stand-still' and tender.awardPeriod and \
+            tender.awardPeriod.endDate <= now and \
+            not any([i.status in tender.block_complaint_status
+                     for a in tender.awards
+                     for i in a.complaints
+                     if a.lotID in active_lots]):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.awarded'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.awarded'}))
         tender.status = 'active.awarded'
         check_initial_awards_count(request)
         if tender.status == 'active.awarded':
-            tender.agreements.append(type(tender).agreements.model_class({
-                'awardID': tender.awards[0].id,
-                'suppliers': tender.awards[0].suppliers,
-                'value': tender.awards[0].value,
-                'items': [i for i in tender.items if i.relatedLot == tender.awards[0].lotID],
-                'agreementID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.agreements) + 1)}))
+            lots = [l for l in tender.get('lots', []) if l.status == 'active']
+            if lots:
+                for lot in lots:
+                    agreement_data = generate_agreement_data(request, tender, lot)
+                    agreement = type(tender).agreements.model_class(agreement_data)
+                    agreement.__parent__ = tender
+                    tender.agreements.append(agreement)
+            else:
+                agreement_data = generate_agreement_data(request, tender)
+                agreement = type(tender).agreements.model_class(agreement_data)
+                agreement.__parent__ = tender
+                tender.agreements.append(agreement)
         return
 
 
@@ -420,3 +425,35 @@ def all_awards_are_reviewed(request):
     """ checks if all tender awards are reviewed
     """
     return all([award.status != 'pending' for award in request.validated['tender'].awards])
+
+
+def generate_agreement_data(request, tender, lot=None):
+    data = {
+        'items': tender.items if not lot else [i for i in tender.items if i.relatedLot == lot.id],
+        'agreementID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.agreements) + 1),
+        'date': get_now().isoformat(),
+        'title': tender.title if not lot else lot.title,
+        'description': tender.description if not lot else lot.description,
+        'contracts': []
+    }
+    unit_prices = [
+        {
+            'relatedItem': item.id,
+            'value': {
+                'currency': tender.value.currency,
+                'valueAddedTaxIncluded': tender.value.valueAddedTaxIncluded
+            }
+        }
+        for item in data['items']
+    ]
+    for award in tender.awards:
+        if lot and lot.id != award.lotID:
+            continue
+        data['contracts'].append({
+            'suppliers': award.suppliers,
+            'awardID': award.id,
+            'bidID': award.bid_id,
+            'date': get_now().isoformat(),
+            'unitPrices': unit_prices
+        })
+    return data
