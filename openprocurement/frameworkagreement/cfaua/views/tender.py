@@ -32,7 +32,6 @@ from openprocurement.frameworkagreement.cfaua.validation import (
 )
 
 
-
 @optendersresource(name='closeFrameworkAgreementUA:Tender',
                    path='/tenders/{tender_id}',
                    procurementMethodType='closeFrameworkAgreementUA',
@@ -97,6 +96,7 @@ class TenderEUResource(TenderResource):
         tender = self.context
         config = getAdapter(tender, IContentConfigurator)
         data = self.request.validated['data']
+        now = get_now()
         if self.request.authenticated_role == 'tender_owner' and \
                 self.request.validated['tender_status'] == 'active.tendering':
             if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
@@ -123,7 +123,7 @@ class TenderEUResource(TenderResource):
                     'Can\'t switch to \'active.pre-qualification.stand-still\' before resolve all complaints'
                 )
             if all_bids_are_reviewed(self.request):
-                normalized_date = calculate_normalized_date(get_now(), tender, True)
+                normalized_date = calculate_normalized_date(now, tender, True)
                 tender.qualificationPeriod.endDate = calculate_business_date(
                     normalized_date, config.qualification_complaint_stand_still, self.request.validated['tender']
                 )
@@ -137,13 +137,13 @@ class TenderEUResource(TenderResource):
                 self.request.validated['tender_status'] == 'active.qualification' and \
                 tender.status == "active.qualification.stand-still":
             if all_awards_are_reviewed(self.request):
-                normalized_date = calculate_normalized_date(get_now(), tender, True)
+                normalized_date = calculate_normalized_date(now, tender, True)
                 tender.awardPeriod.endDate = calculate_business_date(
                     normalized_date, config.qualification_complaint_stand_still, self.request.validated['tender']
                 )
                 for award in tender.awards:
                     award['complaintPeriod'] = {
-                        'startDate': get_now().isoformat(),
+                        'startDate': now.isoformat(),
                         'endDate': tender.awardPeriod.endDate.isoformat()
                     }
             else:

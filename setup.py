@@ -11,6 +11,7 @@ requires = [
 ]
 
 test_requires = requires + [
+    'mock',
     'webtest',
     'python-coveralls',
 ]

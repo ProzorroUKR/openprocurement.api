@@ -9,7 +9,6 @@ from openprocurement.api.models import (
     IsoDateTimeType,
     ListType,
     Model,
-    Organization,
     Period,
     Value,
     schematics_default_role,
@@ -17,23 +16,21 @@ from openprocurement.api.models import (
 )
 from openprocurement.api.utils import get_now
 
+from openprocurement.frameworkagreement.cfaua.models.submodels.contract import Contract
 from openprocurement.frameworkagreement.cfaua.models.submodels.documents import Document
 from openprocurement.frameworkagreement.cfaua.models.submodels.item import Item
-# from openprocurement.frameworkagreement.cfaua.models.submodels.organization import Organization
 
 
 class Agreement(Model):
     class Options:
         roles = {
             'create': blacklist('id', 'status', 'date', 'documents', 'dateSigned'),
-            'edit': blacklist('id', 'documents', 'date', 'awardID', 'suppliers', 'items', 'agreementID'),
+            'edit': blacklist('id', 'documents', 'date', 'contracts', 'items', 'agreementID'),
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
         }
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    # awardIDs = ListType(StringType(), default=list())
-    awardID = StringType()
     agreementID = StringType()
     agreementNumber = StringType()
     date = IsoDateTimeType()
@@ -44,8 +41,8 @@ class Agreement(Model):
     documents = ListType(ModelType(Document), default=list())
     items = ListType(ModelType(Item))
     period = ModelType(Period)
-    status = StringType(choices=['pending', 'terminated', 'active', 'cancelled'], default='pending')
-    suppliers = ListType(ModelType(Organization), min_size=1, max_size=1)
+    status = StringType(choices=['pending', 'active', 'cancelled'], default='pending')
+    contracts = ListType(ModelType(Contract))
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
@@ -62,7 +59,5 @@ class Agreement(Model):
             if value > get_now():
                 raise ValidationError(u"Agreement signature date can't be in the future")
 
-    def validate_awardID(self, data, awardID):
-        if awardID and isinstance(data['__parent__'], Model) and \
-                awardID not in [i.id for i in data['__parent__'].awards]:
-            raise ValidationError(u"awardID should be one of awards")
+    def get_awards_id(self):
+        return tuple([c.awardID for c in self.contracts])

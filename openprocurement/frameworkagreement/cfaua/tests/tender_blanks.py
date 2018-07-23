@@ -2,6 +2,8 @@
 from datetime import timedelta
 from copy import deepcopy
 
+from iso8601 import parse_date
+from mock import patch
 from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM
 from openprocurement.api.utils import get_now
 
@@ -999,3 +1001,35 @@ def patch_tender_active_qualification_2_active_qualification_stand_still(self):
     tender = response.json['data']
     for award in tender['awards']:
         self.assertEqual(award['complaintPeriod']['endDate'], tender['awardPeriod']['endDate'])
+
+
+def switch_tender_to_active_awarded(self):
+    """ Test for switch tender from active.qualification.stand-still to active.awarded """
+
+    status = 'active.qualification.stand-still'
+    self.set_status(status)
+
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.json['data']['status'], status)
+
+    # Try switch with role 'broker'
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}])
+
+    # Try switch before awardPeriod complete
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], status)
+    self.assertGreater(response.json['data']['awardPeriod']['endDate'], get_now().isoformat())
+
+    # Switch after awardPeriod complete
+    # Use timeshift
+    with patch('openprocurement.frameworkagreement.cfaua.utils.get_now') as mocked_time:
+        mocked_time.return_value = parse_date(response.json['data']['awardPeriod']['endDate'])
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'active.awarded')

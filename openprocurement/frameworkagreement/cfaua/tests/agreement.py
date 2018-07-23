@@ -101,7 +101,7 @@ class TenderAgreementDocumentResourceTest(BaseTenderContentWebTest, TenderAgreem
         # Create agreement for award
         response = self.app.post_json(
             '/tenders/{}/agreements'.format(self.tender_id),
-            {'data': {'title': 'agreement title', 'description': 'agreement description', 'awardID': self.award_id}}
+            {'data': {'title': 'agreement title', 'description': 'agreement description', 'contracts': [{}]}}
         )
         agreement = response.json['data']
         self.agreement_id = agreement['id']
