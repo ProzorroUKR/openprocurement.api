@@ -73,8 +73,6 @@ def check_initial_bids_count(request):
 def check_initial_awards_count(request):
     tender = request.validated['tender']
     if tender.lots:
-        [setattr(i.awardPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number and i.awardPeriod and i.awardPeriod.startDate]
-
         for i in tender.lots:
             if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number and i.status == 'active':
                 setattr(i, 'status', 'unsuccessful')
@@ -309,7 +307,8 @@ def check_status(request):
         return
 
 
-def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
+def add_next_awards(request, reverse=False, awarding_criteria_key='amount', regenerate_all_awards=False):
+
     """Adding next award.
     :param request:
         The pyramid request object.
@@ -329,9 +328,11 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
         for lot in tender.lots:
             if lot.status != 'active':
                 continue
-            lot_awards = [i for i in tender.awards if i.lotID == lot.id]
-            if lot_awards and lot_awards[-1].status in ['pending', 'active']:
-                statuses.add(lot_awards[-1].status if lot_awards else 'unsuccessful')
+            lot_awards = [award for award in tender.awards if award.lotID == lot.id]
+            lot_awards_statuses = [award['status'] for award in tender.awards if award.lotID == lot.id]
+            set_lot_awards_statuses = set(lot_awards_statuses)
+            if lot_awards_statuses and set_lot_awards_statuses == set(['pending', 'active']):
+                statuses.union(set_lot_awards_statuses)
                 continue
             lot_items = [i.id for i in tender.items if i.relatedLot == lot.id]
             features = [
@@ -355,9 +356,15 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
                 lot.status = 'unsuccessful'
                 statuses.add('unsuccessful')
                 continue
+            cancelled_awards = None
+            if not regenerate_all_awards:
+                cancelled_awards = [award.bid_id for award in lot_awards if award.status == 'cancelled' and request.context.id == award.id]
             unsuccessful_awards = [i.bid_id for i in lot_awards if i.status == 'unsuccessful']
+            bids = [bid for bid in bids if bid['id'] == cancelled_awards[0]] if cancelled_awards else bids
             bids = chef(bids, features, unsuccessful_awards, reverse, awarding_criteria_key)
             bids = bids[:MaxAwards] if MaxAwards else bids
+            active_awards = [a.bid_id for a in tender.awards if a.status in ('active', 'pending')]
+            bids = [bid for bid in bids if bid['id'] not in active_awards]
             if bids:
                 for bid in bids:
                     award = tender.__class__.awards.model_class({
@@ -373,16 +380,11 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
                 statuses.add('pending')
             else:
                 statuses.add('unsuccessful')
-        if statuses.difference(set(['unsuccessful', 'active'])):
+        if statuses.difference(set(['unsuccessful', 'active'])):  # logic for auction to switch status
             tender.awardPeriod.endDate = None
             tender.status = 'active.qualification'
-        else:
-            tender.awardPeriod.endDate = now
-            tender.status = 'active.awarded'
     else:
-        if not tender.awards or len(
-                [award for award in tender.awards if award.status in ("active", "pending",)]) < MIN_BIDS_NUMBER:
-            unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
+        if not tender.awards or request.context.status in ('cancelled', 'unsuccessful'):
             codes = [i.code for i in tender.features or []]
             active_bids = [
                 {
@@ -395,8 +397,16 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
                 for bid in tender.bids
                 if bid.status == "active"
             ]
+            cancelled_awards = None
+            if not regenerate_all_awards:
+                cancelled_awards = [award.bid_id for award in tender.awards if
+                                    award.status == 'cancelled' and request.context.id == award.id]
+            unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
             bids = chef(active_bids, tender.features or [], unsuccessful_awards, reverse, awarding_criteria_key)
+            bids = [bid for bid in bids if bid['id'] == cancelled_awards[0]] if cancelled_awards else bids
             bids = bids[:MaxAwards] if MaxAwards else bids
+            active_awards = [a.bid_id for a in tender.awards if a.status in ('active', 'pending')]
+            bids = [bid for bid in bids if bid['id'] not in active_awards]
             if bids:
                 for bid in bids:
                     award = tender.__class__.awards.model_class({
@@ -408,12 +418,9 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount'):
                     })
                     award.__parent__ = tender
                     tender.awards.append(award)
-        if tender.awards[-1].status == 'pending':
+        if tender.awards[-1].status == 'pending':  # logic for auction to switch status
             tender.awardPeriod.endDate = None
             tender.status = 'active.qualification'
-        else:
-            tender.awardPeriod.endDate = now
-            tender.status = 'active.awarded'
 
 
 def all_awards_are_reviewed(request):

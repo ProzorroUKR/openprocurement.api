@@ -41,6 +41,7 @@ from openprocurement.tender.openeu.tests.auction_blanks import (
 )
 from openprocurement.frameworkagreement.cfaua.tests.base import (
     BaseTenderContentWebTest,
+    BidsOverMaxAwardsMixin,
     test_features_tender_data,
     test_bids
 )
@@ -107,9 +108,8 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
         # # switch to active.pre-qualification.stand-still
 
 
-class TenderAuctionBidsOverMaxAwards(TenderAuctionResourceTest):
-    initial_bids = test_bids + deepcopy(test_bids)  # double testbids
-    min_bids_number = MIN_BIDS_NUMBER * 2
+class TenderAuctionBidsOverMaxAwards(BidsOverMaxAwardsMixin, TenderAuctionResourceTest):
+    """Testing auction with bids over max awards"""
 
 
 class TenderFrameworkResourceTest(TenderAuctionResourceTest):
@@ -176,9 +176,8 @@ class TenderLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderAuct
     # initial_data = test_tender_data
 
 
-class TenderLotAuctionBidsOverMaxAwards(TenderLotAuctionResourceTest):
-    initial_bids = test_bids + deepcopy(test_bids)  # double testbids
-    min_bids_number = MIN_BIDS_NUMBER * 2
+class TenderLotAuctionBidsOverMaxAwards(BidsOverMaxAwardsMixin, TenderLotAuctionResourceTest):
+    """Testing one lot auction with bids over max awards"""
 
 
 # TODO: Remove if will be approved.

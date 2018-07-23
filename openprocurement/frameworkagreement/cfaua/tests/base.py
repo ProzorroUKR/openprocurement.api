@@ -431,7 +431,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.assertEqual(response.content_type, 'application/json')
         return response
 
-    def prepare_award(self):
+    def prepare_awards(self):
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {'id': self.tender_id, 'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -463,11 +463,15 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         auction_bids_data = response.json['data']['bids']
-        for lot_id in self.initial_lots:
-            response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, lot_id['id']),
+        if self.initial_lots:
+            for lot_id in self.initial_lots:
+                response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, lot_id['id']),
+                                              {'data': {'bids': auction_bids_data}})
+        else:
+            response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id),
                                           {'data': {'bids': auction_bids_data}})
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], 'active.qualification')
 
@@ -482,3 +486,8 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
     def setUp(self):
         super(BaseTenderContentWebTest, self).setUp()
         self.create_tender()
+
+
+class BidsOverMaxAwardsMixin(object):
+    initial_bids = test_bids + deepcopy(test_bids)  # double testbids
+    min_bids_number = MIN_BIDS_NUMBER * 2

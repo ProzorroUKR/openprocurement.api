@@ -38,16 +38,14 @@ from openprocurement.tender.openeu.tests.award_blanks import (
     patch_tender_2lot_award,
     # TenderLotAwardResourceTest
     create_tender_lot_award,
-    patch_tender_lot_award,
-    patch_tender_lot_award_unsuccessful,
     # TenderAwardResourceTest
     create_tender_award_invalid,
     get_tender_award,
-    patch_tender_award_unsuccessful,  # NEEDS TO BE FULLY UPDATED
     patch_tender_award_Administrator_change,
 )
 from openprocurement.frameworkagreement.cfaua.tests.base import (
     BaseTenderContentWebTest,
+    BidsOverMaxAwardsMixin,
     test_bids,
     test_lots
 )
@@ -63,19 +61,19 @@ from openprocurement.frameworkagreement.cfaua.tests.award_blanks import (
     patch_tender_award_complaint,
     review_tender_award_complaint,
     review_tender_award_claim,
-    review_tender_award_stopping_complaint
+    review_tender_award_stopping_complaint,
+    patch_tender_award_unsuccessful,
 )
 
-no_award_logic = True
 no_lot_logic = True
 one_lot_restriction = True
 
 
 class TenderAwardResourceTestMixin(object):
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
-    # test_patch_tender_award = snitch(patch_tender_award) NEEDS TO BE FULLY UPDATED DUE MULTIPLE AWARDS
+    test_patch_tender_award = snitch(patch_tender_award)
     test_patch_tender_award_active = snitch(patch_tender_award_active)
-    # test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful) NEEDS TO BE FULLY UPDATED NEEDS TO BE FULLY UPDATED DUE MULTIPLE AWARDS
+    test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_get_tender_award = snitch(get_tender_award)
     test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
 
@@ -84,32 +82,33 @@ class TenderAwardResourceTest(BaseTenderContentWebTest,
                               TenderAwardResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = test_bids
-    initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
     expected_award_amount = test_bids[0]['value']['amount']
 
     def setUp(self):
         super(TenderAwardResourceTest, self).setUp()
 
-        self.prepare_award()
+        self.prepare_awards()
 
-        # Get award
+        # Get awards
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-        self.award_id = response.json['data'][0]['id']
+        self.awards_ids = [award['id'] for award in response.json['data']]
+        self.award_id = self.awards_ids[0]  # for compability with belowthreshonl and openeu tests
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
         self.app.authorization = ('Basic', ('broker', ''))
 
 
-@unittest.skipIf(no_lot_logic, 'Implement logic for test later')
+class TenderAwardBidsOverMaxAwardsResourceTest(BidsOverMaxAwardsMixin, TenderAwardResourceTest):
+    """Testing awards with bids over max awards"""
+
+
 class TenderLotAwardResourceTestMixin(object):
-    test_create_tender_award = snitch(create_tender_lot_award)
-    test_patch_tender_award = snitch(patch_tender_lot_award)
-    test_patch_tender_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
+    """ Pass temporarily"""
+    # test_create_tender_award = snitch(create_tender_lot_award)
 
 
-@unittest.skipIf(no_lot_logic, 'Implement logic for test later')
-class TenderLotAwardResourceTest(BaseTenderContentWebTest,
-                                 TenderLotAwardResourceTestMixin):
+class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourceTestMixin,
+                                 TenderAwardResourceTestMixin):
     initial_status = 'active.tendering'
     initial_bids = test_bids
     initial_lots = test_lots
@@ -119,11 +118,12 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest,
     def setUp(self):
         super(TenderLotAwardResourceTest, self).setUp()
 
-        self.prepare_award()
+        self.prepare_awards()
 
-        # Get award
+        # Get awards
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-        self.award_id = response.json['data'][0]['id']
+        self.awards_ids = [award['id'] for award in response.json['data']]
+        self.award_id = self.awards_ids[0]  # for compability with belowthreshonl and openeu tests
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -146,7 +146,7 @@ class Tender2LotAwardResourceTest(BaseTenderContentWebTest,
     def setUp(self):
         super(Tender2LotAwardResourceTest, self).setUp()
 
-        self.prepare_award()
+        self.prepare_awards()
 
         # Get award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
@@ -168,7 +168,7 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest,
     def setUp(self):
         super(TenderAwardComplaintResourceTest, self).setUp()
 
-        self.prepare_award()
+        self.prepare_awards()
 
         # Get award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
@@ -214,7 +214,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest,
     def setUp(self):
         super(TenderLotAwardComplaintResourceTest, self).setUp()
 
-        self.prepare_award()
+        self.prepare_awards()
 
         # Create award
         self.app.authorization = ('Basic', ('token', ''))
@@ -331,6 +331,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAwardBidsOverMaxAwardsResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
     return suite
 
