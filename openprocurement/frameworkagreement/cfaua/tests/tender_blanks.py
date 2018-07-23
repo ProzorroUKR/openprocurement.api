@@ -1014,16 +1014,14 @@ def switch_tender_to_active_awarded(self):
     self.assertEqual(response.json['data']['status'], status)
 
     # Try switch with role 'broker'
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                   {"data": {"status": 'active.awarded'}},
-                                   status=403)
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'], [{"location": "url", "name": "role", "description": "Forbidden"}])
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}])
 
     # Try switch before awardPeriod complete
     self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                   {"data": {"status": 'active.awarded'}})
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], status)
     self.assertGreater(response.json['data']['awardPeriod']['endDate'], get_now().isoformat())
@@ -1032,7 +1030,6 @@ def switch_tender_to_active_awarded(self):
     # Use timeshift
     with patch('openprocurement.frameworkagreement.cfaua.utils.get_now') as mocked_time:
         mocked_time.return_value = parse_date(response.json['data']['awardPeriod']['endDate'])
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {"data": {"status": 'active.awarded'}})
+        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active.awarded')

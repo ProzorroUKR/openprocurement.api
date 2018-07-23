@@ -71,8 +71,6 @@ def post_tender_auction_all_awards_pending(self):
 
     self.assertIn('agreements', response.json['data'])
 
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
-
 
 def post_tender_auction(self):
     self.app.authorization = ('Basic', ('auction', ''))
