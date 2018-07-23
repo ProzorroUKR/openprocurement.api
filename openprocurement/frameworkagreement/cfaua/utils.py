@@ -73,8 +73,6 @@ def check_initial_bids_count(request):
 def check_initial_awards_count(request):
     tender = request.validated['tender']
     if tender.lots:
-        [setattr(i.awardPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number and i.awardPeriod and i.awardPeriod.startDate]
-
         for i in tender.lots:
             if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number and i.status == 'active':
                 setattr(i, 'status', 'unsuccessful')
