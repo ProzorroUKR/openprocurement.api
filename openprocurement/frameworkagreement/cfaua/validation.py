@@ -168,7 +168,7 @@ def validate_agreement_update_with_accepted_complaint(request):
 # award complaint
 def validate_award_complaint_operation_not_in_allowed_status(request):
     tender = request.validated['tender']
-    if tender.status not in ['active.qualification', 'active.qualification.stand-still', 'active.awarded']:
+    if tender.status not in ['active.qualification.stand-still']:
         raise_operation_error(
             request,
             'Can\'t {} complaint in current ({}) tender status'.format(OPERATIONS.get(request.method), tender.status)
