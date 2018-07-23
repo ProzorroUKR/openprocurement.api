@@ -519,9 +519,15 @@ def cancellation_unsuccessful_award(self):
     self.assertEqual(response.json['data']['status'], "active.qualification")
 
     self.app.authorization = ('Basic', ('token', ''))
-    for i in range(self.min_bids_number):
+
+    # patch all first lot related Awards to unsuccessful
+    while True:
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == self.initial_lots[0]['id']][0]
+        awards = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == self.initial_lots[0]['id']]
+        if awards:
+            award_id = awards[0]
+        else:
+            break
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
                                        {"data": {"status": "unsuccessful"}})
         self.assertEqual(response.status, '200 OK')
