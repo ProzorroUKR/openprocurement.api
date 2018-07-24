@@ -49,6 +49,8 @@ def agreement_factory(request):
             return change
         elif request.matchdict.get('document_id'):
             return get_item(agreement, 'document', request)
+        elif request.matchdict.get('contract_id'):
+            return get_item(agreement, 'contract', request)
         else:
             return agreement
     request.validated['id'] = request.matchdict['tender_id']

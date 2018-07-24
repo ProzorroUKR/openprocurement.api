@@ -85,6 +85,7 @@ def validate_tender_status_update(request):
     if request.authenticated_role == 'tender_owner' and 'status' in data and data['status'] not in ['active.pre-qualification.stand-still', 'active.qualification.stand-still', tender.status]:
         raise_operation_error(request, 'Can\'t update tender status')
 
+
 # agreement
 def validate_agreement_data(request):
     update_logging_context(request, {'agreement_id': '__new__'})
@@ -106,38 +107,41 @@ def validate_agreement_operation_not_in_allowed_status(request):
 
 def validate_update_agreement_only_for_active_lots(request):
     tender = request.validated['tender']
+    awards_id = request.context.get_awards_id()
     if any([
         i.status != 'active'
-            for i in tender.lots if i.id in [a.lotID for a in tender.awards if a.id == request.context.awardID]]):
+            for i in tender.lots if i.id in [a.lotID for a in tender.awards if a.id in awards_id]]):
         raise_operation_error(request, 'Can update agreement only in active lot status')
 
-
-def validate_update_agreement_value(request):
-    tender = request.validated['tender']
-    data = request.validated['data']
-    if data.get('value'):
-        for ro_attr in ('valueAddedTaxIncluded', 'currency'):
-            if data['value'][ro_attr] != getattr(request.context.value, ro_attr):
-                raise_operation_error(request, 'Can\'t update {} for agreement value'.format(ro_attr))
-        award = [a for a in tender.awards if a.id == request.context.awardID][0]
-        if request.content_configurator.reverse_awarding_criteria:
-            if data['value']['amount'] != award.value.amount:
-                raise_operation_error(
-                    request, 'Value amount should be equal to awarded amount ({})'.format(award.value.amount)
-                )
-        else:
-            if data['value']['amount'] > award.value.amount:
-                raise_operation_error(
-                    request, 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount)
-                )
+# Unknown logic for agreement.value
+# def validate_update_agreement_value(request):
+#     tender = request.validated['tender']
+#     data = request.validated['data']
+#     awards_id = request.context.get_awards_id()
+#     if data.get('value'):
+#         for ro_attr in ('valueAddedTaxIncluded', 'currency'):
+#             if data['value'][ro_attr] != getattr(request.context.value, ro_attr):
+#                 raise_operation_error(request, 'Can\'t update {} for agreement value'.format(ro_attr))
+#         award = [a for a in tender.awards if a.id == request.context.awardID][0]
+#         if request.content_configurator.reverse_awarding_criteria:
+#             if data['value']['amount'] != award.value.amount:
+#                 raise_operation_error(
+#                     request, 'Value amount should be equal to awarded amount ({})'.format(award.value.amount)
+#                 )
+#         else:
+#             if data['value']['amount'] > award.value.amount:
+#                 raise_operation_error(
+#                     request, 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount)
+#                 )
 
 
 def validate_agreement_signing(request):
     tender = request.validated['tender']
     data = request.validated['data']
     if request.context.status != 'active' and 'status' in data and data['status'] == 'active':
-        award = [a for a in tender.awards if a.id == request.context.awardID][0]
-        stand_still_end = award.complaintPeriod.endDate
+        awards = [a for a in tender.awards if a.id in request.context.get_awards_id()]
+        stand_still_end = awards[0].complaintPeriod.endDate
+        lots_id = set([a.lotID for a in awards] + [None])
         if stand_still_end > get_now():
             raise_operation_error(
                 request, 'Can\'t sign agreement before stand-still period end ({})'.format(stand_still_end.isoformat())
@@ -145,23 +149,28 @@ def validate_agreement_signing(request):
         pending_complaints = [
             i
             for i in tender.complaints
-            if i.status in tender.block_complaint_status and i.relatedLot in [None, award.lotID]
+            if i.status in tender.block_complaint_status and i.relatedLot in lots_id
         ]
         pending_awards_complaints = [
             i
             for a in tender.awards
             for i in a.complaints
-            if i.status in tender.block_complaint_status and a.lotID == award.lotID
+            if i.status in tender.block_complaint_status and a.lotID in lots_id
         ]
         if pending_complaints or pending_awards_complaints:
             raise_operation_error(request, 'Can\'t sign agreement before reviewing all complaints')
+        empty_unitprices = [v.value.amount is None for c in request.context.contracts for v in c.unitPrices]
+        if any(empty_unitprices):
+            raise_operation_error(request, 'Can\'t sign agreement without all contracts.unitPrices.value.amount')
+
 
 
 def validate_agreement_update_with_accepted_complaint(request):
     tender = request.validated['tender']
+    awards_id = request.context.get_awards_id()
     if any([
         any([c.status == 'accepted' for c in i.complaints])
-            for i in tender.awards if i.lotID in [a.lotID for a in tender.awards if a.id == request.context.awardID]]):
+            for i in tender.awards if i.lotID in [a.lotID for a in tender.awards if a.id == awards_id]]):
         raise_operation_error(request, 'Can\'t update agreement with accepted complaint')
 
 
@@ -180,3 +189,30 @@ def validate_add_complaint_not_in_complaint_period(request):
        (request.context.complaintPeriod.startDate and request.context.complaintPeriod.startDate > get_now() or
             request.context.complaintPeriod.endDate and request.context.complaintPeriod.endDate < get_now())):
         raise_operation_error(request, 'Can add complaint only in complaintPeriod')
+
+
+# agreement contract
+def validate_patch_agreement_contract_data(request):
+    model = type(request.tender).agreements.model_class.contracts.model_class
+    return validate_data(request, model, True)
+
+
+def validate_agreement_contract_unitprices_update(request):
+    contract = request.context
+    tender = request.validated['tender']
+    agreement_items_id = {u.relatedItem for u in contract.unitPrices}
+    validated_items_id = {u['relatedItem']
+                          for u in request.validated['data']['unitPrices']
+                          if u['value']['amount'] is not None}
+    quantity_cache = {i.id: i.quantity for i in contract.__parent__.items}
+    if request.validated['data']['status'] == 'active':
+        if len(agreement_items_id) != len(validated_items_id):
+            raise_operation_error(request, "unitPrice.value.amount count doesn't match with contract.")  
+        elif agreement_items_id != validated_items_id:
+            raise_operation_error(request, "All relatedItem values doesn't match with contract.")
+
+        calculated_value = sum([quantity_cache[u['relatedItem']] * u['value']['amount']
+                                for u in request.validated['data']['unitPrices']])
+        bid = [b for b in tender.bids if b.id == contract.bidID][0]
+        if calculated_value > bid.value.amount:
+            raise_operation_error(request, "Total amount can't be greater than bid.value.amount")

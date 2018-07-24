@@ -6,13 +6,12 @@ from openprocurement.tender.openua.views.contract import (
 )
 
 from openprocurement.frameworkagreement.cfaua.validation import (
-    validate_agreement_data,
     validate_agreement_operation_not_in_allowed_status,
     validate_agreement_signing,
     validate_agreement_update_with_accepted_complaint,
     validate_patch_agreement_data,
     validate_update_agreement_only_for_active_lots,
-    validate_update_agreement_value,
+    # validate_update_agreement_value,
 )
 from openprocurement.frameworkagreement.cfaua.utils import agreement_resource, check_tender_status
 
@@ -24,28 +23,6 @@ from openprocurement.frameworkagreement.cfaua.utils import agreement_resource, c
                     description="Tender EU agreements")
 class TenderAwardContractResource(BaseResource):
     """ """
-
-    @json_view(content_type="application/json",
-               permission='create_agreement',
-               validators=(validate_agreement_data, validate_agreement_operation_not_in_allowed_status))
-    def collection_post(self):
-        """ Post a agreement for award """
-
-        tender = self.request.validated['tender']
-        agreement = self.request.validated['agreement']
-        tender.agreements.append(agreement)
-        if save_tender(self.request):
-            self.LOGGER.info(
-                'Created tender agreement {}'.format(agreement.id),
-                extra=context_unpack(self.request,
-                                     {'MESSAGE_ID': 'tender_agreement_create'}, {'agreement_id': agreement.id})
-            )
-            self.request.response.status = 201
-            self.request.response.headers['Location'] = \
-                self.request.route_url('{}:Tender Agreements'.format(tender.procurementMethodType),
-                                       tender_id=tender.id,
-                                       agreement_id=agreement['id'])
-            return {'data': agreement.serialize()}
 
     @json_view(permission='view_tender')
     def collection_get(self):
@@ -65,7 +42,7 @@ class TenderAwardContractResource(BaseResource):
                            validate_agreement_operation_not_in_allowed_status,
                            validate_update_agreement_only_for_active_lots,
                            validate_agreement_update_with_accepted_complaint,
-                           validate_update_agreement_value,
+                        #    validate_update_agreement_value,
                            validate_agreement_signing))
     def patch(self):
         """ Update of agreement """

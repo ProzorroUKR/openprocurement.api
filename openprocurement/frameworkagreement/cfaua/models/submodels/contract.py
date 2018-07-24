@@ -2,6 +2,7 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
+from schematics.transforms import blacklist
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 from openprocurement.api.models import (
@@ -9,12 +10,21 @@ from openprocurement.api.models import (
     ListType,
     Model,
     Organization,
+    schematics_default_role,
+    schematics_embedded_role
 )
 
 from openprocurement.frameworkagreement.cfaua.models.submodels.unitprice import UnitPrice
 
 
 class Contract(Model):
+    class Options:
+        roles = {
+            'create': blacklist(),
+            'edit': blacklist('id', 'suppliers', 'date', 'awardID', 'bidID'),
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+        }
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     status = StringType(choices=['active', 'unsuccessful'], default='active')
     suppliers = ListType(ModelType(Organization))
