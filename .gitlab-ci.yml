@@ -1,7 +1,7 @@
 image: alpine
 before_script:
-  - ./bootstrap.sh
   - eval `ssh-agent -s` && ssh-add
+  - ./bootstrap.sh
   - bin/buildout -N
 tests:
   script:
