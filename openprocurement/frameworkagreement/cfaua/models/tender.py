@@ -49,7 +49,6 @@ from openprocurement.tender.core.utils import (
     has_unanswered_complaints,
 )
 from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
-from openprocurement.frameworkagreement.cfaua.constants import MIN_BIDS_NUMBER
 
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
