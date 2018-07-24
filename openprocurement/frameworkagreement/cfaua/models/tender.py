@@ -17,6 +17,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
 )
+from openprocurement.frameworkagreement.cfaua.validation import validate_max_awards_number
 from openprocurement.frameworkagreement.cfaua.interfaces import (
     ICloseFrameworkAgreementUA
 )
@@ -48,6 +49,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_complaints,
 )
 from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
+from openprocurement.frameworkagreement.cfaua.constants import MIN_BIDS_NUMBER
 
 
 eu_role = blacklist('enquiryPeriod', 'qualifications')
@@ -88,6 +90,7 @@ class CloseFrameworkAgreementUA(Tender):
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
     minimalStep = ModelType(Value, required=True)
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
+    maxAwards = IntType(required=True, validators=[validate_max_awards_number])
     lots = ListType(ModelType(Lot), max_size=1, default=list(), validators=[validate_lots_uniq])
     procurementMethodType = StringType(default="closeFrameworkAgreementUA")
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+from schematics.exceptions import ValidationError
+
 from openprocurement.api.utils import get_now, raise_operation_error, update_logging_context
 from openprocurement.api.validation import validate_data, OPERATIONS
+from openprocurement.frameworkagreement.cfaua.constants import MIN_BIDS_NUMBER
 
 
 def validate_patch_qualification_data(request):
@@ -180,3 +183,8 @@ def validate_add_complaint_not_in_complaint_period(request):
        (request.context.complaintPeriod.startDate and request.context.complaintPeriod.startDate > get_now() or
             request.context.complaintPeriod.endDate and request.context.complaintPeriod.endDate < get_now())):
         raise_operation_error(request, 'Can add complaint only in complaintPeriod')
+
+
+def validate_max_awards_number(number, *args):
+    if number < MIN_BIDS_NUMBER:
+        raise ValidationError('Maximal awards number can\'t be less then minimal')
