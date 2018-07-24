@@ -1,5 +1,6 @@
 image: alpine
 before_script:
+  - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.quintagroup.com/op/openprocurement.frameworkagreement.cfaua.git code
   - ./bootstrap.sh
   - bin/buildout -N
 tests:
