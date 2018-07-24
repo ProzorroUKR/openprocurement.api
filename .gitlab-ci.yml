@@ -1,5 +1,6 @@
 image: alpine
 before_script:
+  - git clone https://gitlab-ci-token:${environment:CI_JOB_TOKEN}@gitlab.quintagroup.com/openprocurement.api.git  openprocurement.api
   - ./bootstrap.sh
   - bin/buildout -N
 tests:
