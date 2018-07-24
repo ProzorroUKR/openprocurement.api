@@ -1,7 +1,7 @@
 image: alpine
 before_script:
-  - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.quintagroup.com/op/openprocurement.api.git code1
-  - rm -rf code1 code
+  - eval `ssh-agent -s`
+  - ssh-add
   - ./bootstrap.sh
   - bin/buildout -N
 tests:
