@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
 from openprocurement.tender.belowthreshold.tests.auction_blanks import update_patch_data
 from openprocurement.frameworkagreement.cfaua.constants import MaxAwards
 
@@ -70,6 +71,58 @@ def post_tender_auction_all_awards_pending(self):
     self.assertEqual(response.json['data']['status'], "active.awarded")
 
     self.assertIn('agreements', response.json['data'])
+
+
+def tender_go_to_awarded_with_one_lot(self):
+    response = self.set_status('active.auction')
+    self.assertEqual(response.status, '200 OK')
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    auction_bids_data = response.json['data']['bids']
+    auction_lot_data = response.json['data']['lots']
+    if auction_lot_data:
+        for lot in auction_lot_data:
+            response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, lot['id']),
+                                          {'data': {'bids': auction_bids_data}})
+    else:
+        response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id),
+                                      {'data': {'bids': auction_bids_data}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+
+    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+
+    self.app.authorization = ('Basic', ('broker', ''))
+    awards = response.json['data']
+
+    self.app.patch_json(
+        '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, awards[0]['id'], self.tender_token),
+        {"data": {"status": "active", "qualified": True, "eligible": True}})
+
+    # try to switch not all awards qualified
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {"data": {"status": 'active.qualification.stand-still'}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'][0]["description"],
+                     u"Can't switch to 'active.qualification.stand-still' while not all awards are qualified")
+    # qualified all awards
+    for award in awards[1:]:
+        response = self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award['id'], self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+    # switch to active.qualification.stand-still
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {"data": {"status": 'active.qualification.stand-still'}})
+    self.assertEqual(response.json['data']['status'], 'active.qualification.stand-still')
+
+    # switch to active.awarded
+    self.set_status('active.awarded', {"id": self.tender_id, 'status': 'active.qualification.stand-still'})
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual(response.json['data']['status'], "active.awarded")
 
 
 def post_tender_auction(self):
