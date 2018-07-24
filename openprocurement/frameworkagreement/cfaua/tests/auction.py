@@ -53,8 +53,8 @@ from openprocurement.frameworkagreement.cfaua.tests.auction_blanks import (
     # TenderLotAuctionResourceTestMixin
     post_tender_lot_auction,
     # TenderMultipleLotAuctionResourceTestMixin
-    post_tender_lots_auction
-)
+    post_tender_lots_auction,
+    tender_go_to_awarded_with_one_lot)
 
 
 one_lot_restriction = True
@@ -176,6 +176,18 @@ class TenderLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderAuct
     # initial_data = test_tender_data
 
 
+class TenderWithLotGoToAtiveAwarded(BaseTenderContentWebTest):
+    initial_lots = test_lots
+    test_bids_data = test_bids
+    initial_auth = ('Basic', ('broker', ''))
+    initial_bids = test_bids
+
+    def setUp(self):
+        super(TenderWithLotGoToAtiveAwarded, self).setUp()
+
+    test_tender_go_to_awarded_with_one_lot = snitch(tender_go_to_awarded_with_one_lot)
+
+
 class TenderLotAuctionBidsOverMaxAwards(BidsOverMaxAwardsMixin, TenderLotAuctionResourceTest):
     """Testing one lot auction with bids over max awards"""
 
@@ -270,6 +282,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderAuctionBidsOverMaxAwards))
     suite.addTest(unittest.makeSuite(TenderLotAuctionBidsOverMaxAwards))
     suite.addTest(unittest.makeSuite(TenderMultilotAuctionBidsOverMaxAwards))
+    suite.addTest(unittest.makeSuite(TenderWithLotGoToAtiveAwarded))
     return suite
 
 

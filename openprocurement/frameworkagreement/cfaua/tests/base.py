@@ -231,6 +231,9 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 for bid in bids:
                     if bid['status'] == 'pending':
                         bid.update({'status': 'active'})
+                    if tender.get('lots', ''):
+                        for lotValue in bid['lotValues']:
+                            lotValue.update({'status': 'active'})
                 data.update({'bids': bids})
 
         def activate_awards():
