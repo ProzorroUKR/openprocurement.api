@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-
-import os, json
+import json
+import os
 from copy import deepcopy
 from datetime import datetime, timedelta
+from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAWebTest as BaseBaseTenderWebTest
@@ -250,6 +251,55 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     })
                 data.update({'awards': awards})
 
+        def generate_agreement_data(tender, lot=None):
+            data = {
+                'id': uuid4().hex,
+                'items': tender['items'] if not lot else [i for i in tender['items'] if i['relatedLot'] == lot['id']],
+                'agreementID': '{}-{}{}'.format(tender['tenderID'], uuid4().hex, len(tender['agreements']) + 1),
+                'date': get_now().isoformat(),
+                'contracts': [],
+                'status': 'pending'
+            }
+            unit_prices = [
+                {
+                    'relatedItem': item['id'],
+                    'value': {
+                        'currency': tender['value']['currency'],
+                        'valueAddedTaxIncluded': tender['value']['valueAddedTaxIncluded']
+                    }
+                }
+                for item in data['items']
+            ]
+            for award in tender['awards']:
+                if lot and lot['id'] != award['lotID']:
+                    continue
+                if award['status'] != 'active':
+                    continue
+                data['contracts'].append({
+                    'id': uuid4().hex,
+                    'suppliers': award['suppliers'],
+                    'awardID': award['id'],
+                    'bidID': award['bid_id'],
+                    'date': get_now().isoformat(),
+                    'unitPrices': unit_prices,
+                    'status': 'active'
+                })
+            return data
+
+        def generate_agreements():
+            agreements = []
+            tender['agreements'] = agreements
+            if 'lots' in tender:
+                for lot in tender['lots']:
+                    if lot['status'] != 'active':
+                        continue
+                    agreement = generate_agreement_data(tender, lot)
+                    agreements.append(agreement)
+            else:
+                agreement = generate_agreement_data(tender)
+                agreements.append(agreement)
+            data.update({'agreements': agreements})
+
         data = {'status': status}
         if status == 'active.tendering':
             data.update({
@@ -391,11 +441,12 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     'endDate': (now - timedelta(days=1)).isoformat()
                 },
                 'awardPeriod': {
-                    'startDate': (now - timedelta(days=1)).isoformat(),
-                    'endDate': (now).isoformat()
+                    'startDate': now.isoformat(),
+                    'endDate': (now + timedelta(days=7)).isoformat()
                 }
             })
             activate_bids()
+            activate_awards()
             if self.initial_lots:
                 data.update({
                     'lots': [
@@ -408,6 +459,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                         for i in self.initial_lots
                     ]
                 })
+            generate_agreements()
         elif status == 'complete':
             data.update({
                 'enquiryPeriod': {
