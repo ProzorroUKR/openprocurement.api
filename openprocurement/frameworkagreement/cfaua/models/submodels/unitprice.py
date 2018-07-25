@@ -10,7 +10,7 @@ from openprocurement.api.models import (
 
 class Value(BaseValue):
 
-    amount = FloatType(min_value=0, default=0)
+    amount = FloatType(min_value=0)
 
     def validate_amount(self, data, amount):
         pass

@@ -46,11 +46,11 @@ class Agreement(Model):
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
-    value = ModelType(Value)
 
     def validate_dateSigned(self, data, value):
+        awards_id = [c.awardID for c in data['contracts']]
         if value and isinstance(data['__parent__'], Model):
-            award = [i for i in data['__parent__'].awards if i.id == data['awardID']][0]
+            award = [i for i in data['__parent__'].awards if i.id in awards_id][0]
             if award.complaintPeriod.endDate >= value:
                 raise ValidationError(
                     u"Agreement signature date should be after award complaint period end date ({})".format(
@@ -60,4 +60,4 @@ class Agreement(Model):
                 raise ValidationError(u"Agreement signature date can't be in the future")
 
     def get_awards_id(self):
-        return tuple([c.awardID for c in self.contracts])
+        return tuple(c.awardID for c in self.contracts)
