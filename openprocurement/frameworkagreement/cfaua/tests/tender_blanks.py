@@ -10,6 +10,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 from openprocurement.frameworkagreement.cfaua.models.tender import CloseFrameworkAgreementUA
+from openprocurement.frameworkagreement.cfaua.utils import add_next_awards
 
 # TenderTest
 
@@ -1085,3 +1086,67 @@ def patch_max_awards(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotEqual(tender['maxAwards'], min_awards_number + 1)
+
+
+def _awards_to_bids_number(self, max_awards_number, bids_number, expected_awards_number):
+    response = self.app.get('/tenders')
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(len(response.json['data']), 0)
+
+    initial_data = self.initial_data
+    initial_data['maxAwards'] = max_awards_number
+
+    response = self.app.post_json('/tenders', {'data': initial_data})
+    self.assertEqual(response.status, '201 Created')
+    self.tender_id = response.json['data']['id']
+    self.tender_token = response.json['access']['token']
+    # create bids
+    for _ in range(bids_number):
+        response = self.app.post_json('/tenders/{}/bids?acc_token={}'.format(self.tender_id, self.tender_token),
+                                  {'data': {'selfEligible': True, 'selfQualified': True,
+                                            'tenderers': [test_organization], "value": self.test_bids_data[0]['value']}})
+    # switch to active.pre-qualification
+    self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+    # list qualifications
+    response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    qualifications = response.json['data']
+    # approve qualification
+    for qualification in qualifications:
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.patch_json(
+            '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, "200 OK")
+    # switch to active.auction
+    self.set_status('active.auction')
+    # get auction info
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    auction_bids_data = response.json['data']['bids']
+    # posting auction results
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id),
+                                  {'data': {'bids': auction_bids_data}})
+    # get awards
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(len(response.json['data']), expected_awards_number)
+    del self.db[self.tender_id]
+
+
+def awards_to_bids_number(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    _awards_to_bids_number(self, max_awards_number=3, bids_number=3, expected_awards_number=3)
+    _awards_to_bids_number(self, max_awards_number=3, bids_number=4, expected_awards_number=3)
+    _awards_to_bids_number(self, max_awards_number=3, bids_number=5, expected_awards_number=3)
+    _awards_to_bids_number(self, max_awards_number=4, bids_number=3, expected_awards_number=3)
+    _awards_to_bids_number(self, max_awards_number=4, bids_number=4, expected_awards_number=4)
+    _awards_to_bids_number(self, max_awards_number=4, bids_number=5, expected_awards_number=4)
+    _awards_to_bids_number(self, max_awards_number=5, bids_number=3, expected_awards_number=3)
+    _awards_to_bids_number(self, max_awards_number=5, bids_number=4, expected_awards_number=4)
+    _awards_to_bids_number(self, max_awards_number=5, bids_number=5, expected_awards_number=5)
