@@ -155,7 +155,7 @@ def validate_agreement_update_with_accepted_complaint(request):
     awards_id = request.context.get_awards_id()
     if any([
         any([c.status == 'accepted' for c in i.complaints])
-            for i in tender.awards if i.lotID in [a.lotID for a in tender.awards if a.id == awards_id]]):
+            for i in tender.awards if i.lotID in [a.lotID for a in tender.awards if a.id in awards_id]]):
         raise_operation_error(request, 'Can\'t update agreement with accepted complaint')
 
 

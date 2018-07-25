@@ -20,7 +20,7 @@ from openprocurement.frameworkagreement.cfaua.utils import agreement_resource, c
                     path='/tenders/{tender_id}/agreements/{agreement_id}',
                     procurementMethodType='closeFrameworkAgreementUA',
                     description="Tender EU agreements")
-class TenderAwardContractResource(BaseResource):
+class TenderAgreementResource(BaseResource):
     """ """
 
     @json_view(permission='view_tender')
