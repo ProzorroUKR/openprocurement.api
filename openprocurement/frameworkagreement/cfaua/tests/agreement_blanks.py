@@ -102,159 +102,138 @@ def patch_tender_agreement_datesigned(self, validation_time, view_time, model_ti
         }]
     )
 
-    # Income rules:
-    # All agreement.contracts.unitprices.value.amount filled.
-    # response = self.app.patch_json(
-    #     '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-    #     {"data": {"status": "active"}},
-    #     status=422
-    # )
-    # self.assertEqual(response.status, '422 Unprocessable Entity')
-    # self.assertEqual(
-    #     response.json['errors'],
-    #     [{
-    #         "location": "body",
-    #         "name": "agreements",
-    #         "description": [{
-    #             "dateSigned": [
-    #                 "Agreement signature date should be after award complaint period end date ({})".format(
-    #                     tender['awardPeriod']['endDate']
-    #                 )
-    #             ]
-    #         }]
-    #     }]
-    # )
+    # Fill unitPrice.value.amount for all contracts in agreement
+    response = self.app.get('/tenders/{}/agreements/{}/contracts'.format(self.tender_id, self.agreement_id))
+    contracts = response.json['data']
+    for contract in contracts:
+        unit_prices = contract['unitPrices']
+        for unit_price in unit_prices:
+            unit_price['value']['amount'] = 60
+        response = self.app.patch_json(
+            '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
+                                                                         contract['id'], self.tender_token),
+            {'data': {'unitPrices': unit_prices}}
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
 
-    # Move to separated test
-    # # Time configuration
-    # view_time.return_value = parse_date(tender['awardPeriod']['endDate']) + timedelta(days=1)
-    # model_time.return_value = parse_date(tender['awardPeriod']['endDate']) + timedelta(days=2)
-    # response = self.app.patch_json(
-    #     '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-    #     {"data": {"status": "active"}}
-    # )
-    # self.assertEqual(response.status, '200 OK')
-    # self.assertEqual(response.content_type, 'application/json')
-    # self.assertEqual(response.json['data']["status"], "active")
-    # self.assertIn(u"dateSigned", response.json['data'].keys())
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active"}},
+        status=422
+    )
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(
+        response.json['errors'],
+        [{
+            "location": "body",
+            "name": "agreements",
+            "description": [{
+                "dateSigned": [
+                    "Agreement signature date should be after award complaint period end date ({})".format(
+                        tender['awardPeriod']['endDate']
+                    )
+                ]
+            }]
+        }]
+    )
+
+    # Time configuration
+    view_time.return_value = parse_date(tender['awardPeriod']['endDate']) + timedelta(days=1)
+    model_time.return_value = parse_date(tender['awardPeriod']['endDate']) + timedelta(days=2)
+
+    # Set first contract.status in unsuccessful
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
+                                                                     contracts[0]['id'], self.tender_token),
+        {'data': {'status': 'unsuccessful'}}
+    )
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active"}},
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Agreement don't reach minimum active contracts.",
+                       u'location': u'body',
+                       u'name': u'data'}])
+
+    # Set first contract.status in active
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
+                                                                     contracts[0]['id'], self.tender_token),
+        {'data': {'status': 'active'}}
+    )
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'active')
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active"}}
+    )
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["status"], "active")
+    self.assertIn(u"dateSigned", response.json['data'].keys())
+
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'complete')
+
 
 def agreement_termination(self):
     response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))
     agreement = response.json['data'][0]
+
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
         {"data": {"status": "terminated"}},
+        status=422
+    )
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.json['errors'][0]["description"],
+                     [u"Value must be one of ['pending', 'active', 'cancelled']."])
+
+
+@patch('openprocurement.frameworkagreement.cfaua.models.submodels.agreement.get_now')
+@patch('openprocurement.frameworkagreement.cfaua.views.agreement.get_now')
+@patch('openprocurement.frameworkagreement.cfaua.validation.get_now')
+def agreement_cancellation(self, validation_time, view_time, model_time):
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender = response.json['data']
+    self.assertEqual(tender['status'], 'active.awarded')
+
+    response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))
+    agreement = response.json['data'][0]
+
+    # Time configuration
+    validation_time.return_value = parse_date(tender['awardPeriod']['endDate'])
+    view_time.return_value = parse_date(tender['awardPeriod']['endDate']) + timedelta(days=1)
+    model_time.return_value = parse_date(tender['awardPeriod']['endDate']) + timedelta(days=2)
+
+    # Try sign agreement
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
+        {"data": {"status": "active"}},
         status=403
     )
     self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update agreement status")
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't sign agreement without all contracts.unitPrices.value.amount",
+                       u'location': u'body',
+                       u'name': u'data'}])
 
-
-# def create_tender_agreement(self):
-#     auth = self.app.authorization
-#     self.app.authorization = ('Basic', ('token', ''))
-#     response = self.app.post_json('/tenders/{}/agreements'.format(
-#         self.tender_id),
-#         {'data': {'title': 'agreement title', 'description': 'agreement description', 'awardID': self.award_id}})
-#     self.assertEqual(response.status, '201 Created')
-#     self.assertEqual(response.content_type, 'application/json')
-#     agreement = response.json['data']
-#     self.assertIn('id', agreement)
-#     self.assertIn(agreement['id'], response.headers['Location'])
-
-#     tender = self.db.get(self.tender_id)
-#     tender['agreements'][-1]["status"] = "terminated"
-#     self.db.save(tender)
-
-#     self.set_status('unsuccessful')
-
-#     response = self.app.post_json('/tenders/{}/agreements'.format(
-#         self.tender_id),
-#         {'data': {'title': 'agreement title', 'description': 'agreement description', 'awardID': self.award_id}},
-#         status=403
-#     )
-#     self.assertEqual(response.status, '403 Forbidden')
-#     self.assertEqual(response.content_type, 'application/json')
-#     self.assertEqual(response.json['errors'][0]["description"],
-#                      "Can't add agreement in current (unsuccessful) tender status")
-
-#     self.app.authorization = auth
-#     response = self.app.patch_json(
-#         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-#         {"data": {"status": "active"}},
-#         status=403
-#     )
-#     self.assertEqual(response.status, '403 Forbidden')
-#     self.assertEqual(response.content_type, 'application/json')
-#     self.assertEqual(response.json['errors'][0]["description"],
-#                      "Can't update agreement in current (unsuccessful) tender status")
-
-
-# def create_tender_agreement_invalid(self):
-#     self.app.authorization = ('Basic', ('token', ''))
-#     response = self.app.post_json(
-#         '/tenders/some_id/agreements',
-#         {'data': {'title': 'agreement title', 'description': 'agreement description', 'awardID': self.award_id}},
-#         status=404
-#     )
-#     self.assertEqual(response.status, '404 Not Found')
-#     self.assertEqual(response.content_type, 'application/json')
-#     self.assertEqual(response.json['status'], 'error')
-#     self.assertEqual(response.json['errors'],
-#                      [{u'description': u'Not Found', u'location': u'url', u'name': u'tender_id'}])
-
-#     request_path = '/tenders/{}/agreements'.format(self.tender_id)
-
-#     response = self.app.post(request_path, 'data', status=415)
-#     self.assertEqual(response.status, '415 Unsupported Media Type')
-#     self.assertEqual(response.content_type, 'application/json')
-#     self.assertEqual(response.json['status'], 'error')
-#     self.assertEqual(
-#         response.json['errors'],
-#         [{
-#             u'description':
-#                 u"Content-Type header should be one of ['application/json']",
-#                 u'location': u'header',
-#                 u'name': u'Content-Type'
-#         }]
-#     )
-
-#     response = self.app.post(request_path, 'data', content_type='application/json', status=422)
-#     self.assertEqual(response.status, '422 Unprocessable Entity')
-#     self.assertEqual(response.content_type, 'application/json')
-#     self.assertEqual(response.json['status'], 'error')
-#     self.assertEqual(response.json['errors'],
-#                      [{u'description': u'No JSON object could be decoded', u'location': u'body', u'name': u'data'}])
-
-#     response = self.app.post_json(request_path, 'data', status=422)
-#     self.assertEqual(response.status, '422 Unprocessable Entity')
-#     self.assertEqual(response.content_type, 'application/json')
-#     self.assertEqual(response.json['status'], 'error')
-#     self.assertEqual(response.json['errors'],
-#                      [{u'description': u'Data not available', u'location': u'body', u'name': u'data'}])
-
-#     response = self.app.post_json(request_path, {'not_data': {}}, status=422)
-#     self.assertEqual(response.status, '422 Unprocessable Entity')
-#     self.assertEqual(response.content_type, 'application/json')
-#     self.assertEqual(response.json['status'], 'error')
-#     self.assertEqual(response.json['errors'],
-#                      [{u'description': u'Data not available', u'location': u'body', u'name': u'data'}])
-
-#     response = self.app.post_json(request_path, {'data': {'invalid_field': 'invalid_value'}}, status=422)
-#     self.assertEqual(response.status, '422 Unprocessable Entity')
-#     self.assertEqual(response.content_type, 'application/json')
-#     self.assertEqual(response.json['status'], 'error')
-#     self.assertEqual(response.json['errors'],
-#                      [{u'description': u'Rogue field', u'location': u'body', u'name': u'invalid_field'}])
-
-#     response = self.app.post_json(request_path, {'data': {'awardID': 'invalid_value'}}, status=422)
-#     self.assertEqual(response.status, '422 Unprocessable Entity')
-#     self.assertEqual(response.content_type, 'application/json')
-#     self.assertEqual(response.json['status'], 'error')
-#     self.assertEqual(
-#         response.json['errors'],
-#         [{u'description': [u'awardID should be one of awards'], u'location': u'body', u'name': u'awardID'}]
-#     )
+    # Agreement cancellation
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
+        {"data": {"status": "cancelled"}},
+    )
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'cancelled')
 
 
 def create_tender_agreement_document(self):
@@ -482,63 +461,29 @@ def patch_tender_agreement_document(self):
                          self.forbidden_contract_document_modification_actions_status))
 
 
+@patch('openprocurement.frameworkagreement.cfaua.models.submodels.agreement.get_now')
+@patch('openprocurement.frameworkagreement.cfaua.views.agreement.get_now')
+@patch('openprocurement.frameworkagreement.cfaua.validation.get_now')
+def patch_tender_agreement(self, validation_time, view_time, model_time):
+    # Time configuration
+    validation_time.return_value = get_now()
+    view_time.return_value = get_now()
+    model_time.return_value = get_now()
 
-
-
-
-
-
-
-def patch_tender_agreement(self):
     response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))
     agreement = response.json['data'][0]
 
     fake_agreementID = "myselfID"
     fake_items_data = [{"description": "New Description"}]
-    fake_suppliers_data = [{"name": "New Name"}]
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"agreementID": fake_agreementID, "items": fake_items_data, "suppliers": fake_suppliers_data}}
+        {"data": {"agreementID": fake_agreementID, "items": fake_items_data}}
     )
 
     response = self.app.get('/tenders/{}/agreements/{}'.format(self.tender_id, agreement['id']))
     self.assertNotEqual(fake_agreementID, response.json['data']['agreementID'])
     self.assertNotEqual(fake_items_data, response.json['data']['items'])
-    self.assertNotEqual(fake_suppliers_data, response.json['data']['suppliers'])
-
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"value": {"currency": "USD"}}},
-        status=403
-    )
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'][0]["description"], "Can\'t update currency for agreement value")
-
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": False}}},
-        status=403
-    )
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'][0]["description"],
-                     "Can\'t update valueAddedTaxIncluded for agreement value")
-
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"value": {"amount": 501}}},
-        status=403
-    )
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'][0]["description"],
-                     "Value amount should be less or equal to awarded amount (500.0)")
-
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"value": {"amount": 238}}}
-    )
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['value']['amount'], 238)
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
@@ -549,99 +494,45 @@ def patch_tender_agreement(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertIn("Can't sign agreement before stand-still period end (", response.json['errors'][0]["description"])
 
-    self.set_status('complete', {'status': 'active.awarded'})
+    # Time configuration
+    validation_time.return_value = parse_date(self.tender['awardPeriod']['endDate'])
+    view_time.return_value = parse_date(self.tender['awardPeriod']['endDate']) + timedelta(days=1)
+    model_time.return_value = parse_date(self.tender['awardPeriod']['endDate']) + timedelta(days=2)
 
-    token = self.initial_bids_tokens[self.initial_bids[0]['id']]
-    response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
-        self.tender_id, self.award_id, token),
-        {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': self.supplier_info}})
-    self.assertEqual(response.status, '201 Created')
-    complaint = response.json['data']
-    owner_token = response.json['access']['token']
+    # Fill unitPrice.value.amount for all contracts in agreement
+    response = self.app.get('/tenders/{}/agreements/{}/contracts'.format(self.tender_id, self.agreement_id))
+    contracts = response.json['data']
+    for contract in contracts:
+        unit_prices = contract['unitPrices']
+        for unit_price in unit_prices:
+            unit_price['value']['amount'] = 60
+        response = self.app.patch_json(
+            '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
+                                                                         contract['id'], self.tender_token),
+            {'data': {'unitPrices': unit_prices}}
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
 
+    # Sign agreement
     response = self.app.patch_json(
-        '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, complaint['id'],
-                                                                  owner_token), {"data": {"status": "pending"}})
-    self.assertEqual(response.status, '200 OK')
-
-    tender = self.db.get(self.tender_id)
-    for i in tender.get('awards', []):
-        i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-    self.db.save(tender)
-
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"dateSigned": i['complaintPeriod']['endDate']}},
-        status=422
-    )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.json['errors'], [{u'description': [
-        u'Agreement signature date should be after award complaint period end date ({})'.format(
-            i['complaintPeriod']['endDate'])], u'location': u'body', u'name': u'dateSigned'}])
-
-    one_hour_in_furure = (get_now() + timedelta(hours=1)).isoformat()
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"dateSigned": one_hour_in_furure}},
-        status=422
-    )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u"Agreement signature date can't be in the future"], u'location': u'body',
-         u'name': u'dateSigned'}])
-
-    custom_signature_date = get_now().isoformat()
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"dateSigned": custom_signature_date}}
-    )
-    self.assertEqual(response.status, '200 OK')
-
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"status": "active"}},
-        status=403
-    )
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't sign agreement before reviewing all complaints")
-
-    response = self.app.patch_json(
-        '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, complaint['id'],
-                                                                  owner_token),
-        {"data": {"status": "stopping", "cancellationReason": "reason"}}
-    )
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], "stopping")
-
-    authorization = self.app.authorization
-    self.app.authorization = ('Basic', ('reviewer', ''))
-    response = self.app.patch_json(
-        '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, self.award_id, complaint['id']),
-        {'data': {'status': 'stopped'}}
-    )
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']["status"], "stopped")
-
-    self.app.authorization = authorization
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
         {"data": {"status": "active"}}
     )
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], "active")
+    self.assertIn(u"dateSigned", response.json['data'].keys())
+
+    self.set_status('complete')
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
         {
             "data": {
-                "value": {"amount": 232},
                 "agreementID": "myselfID",
                 "title": "New Title",
                 "items": [{"description": "New Description"}],
-                "suppliers": [{"name": "New Name"}]
             }
         },
         status=403
@@ -690,7 +581,6 @@ def patch_tender_agreement(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], "active")
-    self.assertEqual(response.json['data']["value"]['amount'], 238)
 
 
 def not_found(self):
@@ -849,7 +739,7 @@ def get_tender_agreement_contract(self):
                      [{u'description': u'Not Found', u'location': u'url', u'name': u'contract_id'}])
 
 
-def patch_tender_agreement_contract_unitprices(self):
+def patch_tender_agreement_contract(self):
     response = self.app.get(
         '/tenders/{}/agreements/{}/contracts/{}'.format(self.tender_id, self.agreement_id, self.contract_id)
     )

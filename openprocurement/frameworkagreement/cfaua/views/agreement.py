@@ -11,7 +11,6 @@ from openprocurement.frameworkagreement.cfaua.validation import (
     validate_agreement_update_with_accepted_complaint,
     validate_patch_agreement_data,
     validate_update_agreement_only_for_active_lots,
-    # validate_update_agreement_value,
 )
 from openprocurement.frameworkagreement.cfaua.utils import agreement_resource, check_tender_status
 
@@ -42,14 +41,13 @@ class TenderAwardContractResource(BaseResource):
                            validate_agreement_operation_not_in_allowed_status,
                            validate_update_agreement_only_for_active_lots,
                            validate_agreement_update_with_accepted_complaint,
-                        #    validate_update_agreement_value,
                            validate_agreement_signing))
     def patch(self):
         """ Update of agreement """
         agreement_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if agreement_status != self.request.context.status and \
-                (agreement_status != 'pending' or self.request.context.status != 'active'):
+                (agreement_status != 'pending' or self.request.context.status not in ('active', 'cancelled')):
             raise_operation_error(self.request, 'Can\'t update agreement status')
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
