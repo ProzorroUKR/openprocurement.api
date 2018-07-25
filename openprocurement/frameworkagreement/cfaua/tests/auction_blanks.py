@@ -64,14 +64,6 @@ def post_tender_auction_all_awards_pending(self):
                                    {"data": {"status": 'active.qualification.stand-still'}})
     self.assertEqual(response.json['data']['status'], 'active.qualification.stand-still')
 
-    # switch to active.awarded
-    self.set_status('active.awarded', {"id": self.tender_id, 'status': 'active.qualification.stand-still'})
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
-    self.assertEqual(response.json['data']['status'], "active.awarded")
-
-    self.assertIn('agreements', response.json['data'])
-
 
 def tender_go_to_awarded_with_one_lot(self):
     response = self.set_status('active.auction')
