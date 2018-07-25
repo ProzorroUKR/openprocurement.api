@@ -51,6 +51,8 @@ class TenderQualificationResource(APIResource):
                         for lotValue in bid.lotValues:
                             if lotValue.relatedLot == lotId:
                                 lotValue.status = status
+                                if status in ['pending', 'active']:
+                                    bid.status = status
                                 return bid
             for bid in tender.bids:
                 if bid.id == bid_id:
