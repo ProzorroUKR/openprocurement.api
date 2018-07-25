@@ -51,10 +51,7 @@ def get_tender_agreements(self):
                      [{u'description': u'Not Found', u'location': u'url', u'name': u'tender_id'}])
 
 
-@patch('openprocurement.frameworkagreement.cfaua.models.submodels.agreement.get_now')
-@patch('openprocurement.frameworkagreement.cfaua.views.agreement.get_now')
-@patch('openprocurement.frameworkagreement.cfaua.validation.get_now')
-def patch_tender_agreement_datesigned(self, validation_time, view_time, model_time):
+def patch_tender_agreement_datesigned(self):
     response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))
     agreement = response.json['data'][0]
     self.assertEqual(agreement['status'], 'pending')
@@ -63,30 +60,6 @@ def patch_tender_agreement_datesigned(self, validation_time, view_time, model_ti
     tender = response.json['data']
     self.assertEqual(tender['status'], 'active.awarded')
 
-    # Time configuration
-    validation_time.return_value = get_now()
-    view_time.return_value = get_now()
-    model_time.return_value = get_now()
-
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"status": "active"}},
-        status=403
-    )
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(
-        response.json['errors'],
-        [{
-            "location": "body",
-            "name": "data",
-            "description": "Can't sign agreement before stand-still period end ({})".format(
-                tender['awardPeriod']['endDate']
-            )
-        }]
-    )
-
-    # Time configuration
-    validation_time.return_value = parse_date(tender['awardPeriod']['endDate'])
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
         {"data": {"status": "active"}},
@@ -119,7 +92,7 @@ def patch_tender_agreement_datesigned(self, validation_time, view_time, model_ti
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "dateSigned": tender['awardPeriod']['endDate']}},
         status=422
     )
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -127,20 +100,14 @@ def patch_tender_agreement_datesigned(self, validation_time, view_time, model_ti
         response.json['errors'],
         [{
             "location": "body",
-            "name": "agreements",
-            "description": [{
-                "dateSigned": [
-                    "Agreement signature date should be after award complaint period end date ({})".format(
-                        tender['awardPeriod']['endDate']
-                    )
-                ]
-            }]
+            "name": "dateSigned",
+            "description": [
+                "Agreement signature date should be after award complaint period end date ({})".format(
+                    tender['awardPeriod']['endDate']
+                )
+            ]
         }]
     )
-
-    # Time configuration
-    view_time.return_value = parse_date(tender['awardPeriod']['endDate']) + timedelta(days=1)
-    model_time.return_value = parse_date(tender['awardPeriod']['endDate']) + timedelta(days=2)
 
     # Set first contract.status in unsuccessful
     response = self.app.patch_json(
@@ -199,21 +166,13 @@ def agreement_termination(self):
                      [u"Value must be one of ['pending', 'active', 'cancelled']."])
 
 
-@patch('openprocurement.frameworkagreement.cfaua.models.submodels.agreement.get_now')
-@patch('openprocurement.frameworkagreement.cfaua.views.agreement.get_now')
-@patch('openprocurement.frameworkagreement.cfaua.validation.get_now')
-def agreement_cancellation(self, validation_time, view_time, model_time):
+def agreement_cancellation(self):
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     tender = response.json['data']
     self.assertEqual(tender['status'], 'active.awarded')
 
     response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))
     agreement = response.json['data'][0]
-
-    # Time configuration
-    validation_time.return_value = parse_date(tender['awardPeriod']['endDate'])
-    view_time.return_value = parse_date(tender['awardPeriod']['endDate']) + timedelta(days=1)
-    model_time.return_value = parse_date(tender['awardPeriod']['endDate']) + timedelta(days=2)
 
     # Try sign agreement
     response = self.app.patch_json(
@@ -461,15 +420,7 @@ def patch_tender_agreement_document(self):
                          self.forbidden_contract_document_modification_actions_status))
 
 
-@patch('openprocurement.frameworkagreement.cfaua.models.submodels.agreement.get_now')
-@patch('openprocurement.frameworkagreement.cfaua.views.agreement.get_now')
-@patch('openprocurement.frameworkagreement.cfaua.validation.get_now')
-def patch_tender_agreement(self, validation_time, view_time, model_time):
-    # Time configuration
-    validation_time.return_value = get_now()
-    view_time.return_value = get_now()
-    model_time.return_value = get_now()
-
+def patch_tender_agreement(self):
     response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))
     agreement = response.json['data'][0]
 
@@ -492,12 +443,10 @@ def patch_tender_agreement(self, validation_time, view_time, model_time):
     )
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertIn("Can't sign agreement before stand-still period end (", response.json['errors'][0]["description"])
-
-    # Time configuration
-    validation_time.return_value = parse_date(self.tender['awardPeriod']['endDate'])
-    view_time.return_value = parse_date(self.tender['awardPeriod']['endDate']) + timedelta(days=1)
-    model_time.return_value = parse_date(self.tender['awardPeriod']['endDate']) + timedelta(days=2)
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't sign agreement without all contracts.unitPrices.value.amount",
+                       u'location': u'body',
+                       u'name': u'data'}])
 
     # Fill unitPrice.value.amount for all contracts in agreement
     response = self.app.get('/tenders/{}/agreements/{}/contracts'.format(self.tender_id, self.agreement_id))

@@ -244,10 +244,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     if award['status'] == 'pending':
                         award.update({'status': 'active'})
                     award.update({
-                        'complaintPeriod': {
-                            'startDate': now.isoformat(),
-                            'endDate': (now + timedelta(days=7)).isoformat()
-                        }
+                        'complaintPeriod': tender['awardPeriod']
                     })
                 data.update({'awards': awards})
 
@@ -437,12 +434,12 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     'endDate': (now - COMPLAINT_STAND_STILL - timedelta(days=2)).isoformat()
                 },
                 'auctionPeriod': {
-                    'startDate': (now - timedelta(days=2)).isoformat(),
-                    'endDate': (now - timedelta(days=1)).isoformat()
+                    'startDate': (now - timedelta(days=9)).isoformat(),
+                    'endDate': (now - timedelta(days=8)).isoformat()
                 },
                 'awardPeriod': {
-                    'startDate': now.isoformat(),
-                    'endDate': (now + timedelta(days=7)).isoformat()
+                    'startDate': (now - timedelta(days=7)).isoformat(),
+                    'endDate': now.isoformat()
                 }
             })
             activate_bids()

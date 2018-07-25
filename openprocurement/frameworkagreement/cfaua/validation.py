@@ -123,12 +123,7 @@ def validate_agreement_signing(request):
     config = getAdapter(tender, IContentConfigurator)
     if request.context.status != 'active' and 'status' in data and data['status'] == 'active':
         awards = [a for a in tender.awards if a.id in request.context.get_awards_id()]
-        stand_still_end = awards[0].complaintPeriod.endDate
         lots_id = set([a.lotID for a in awards] + [None])
-        if stand_still_end > get_now():
-            raise_operation_error(
-                request, 'Can\'t sign agreement before stand-still period end ({})'.format(stand_still_end.isoformat())
-            )
         pending_complaints = [
             i
             for i in tender.complaints
