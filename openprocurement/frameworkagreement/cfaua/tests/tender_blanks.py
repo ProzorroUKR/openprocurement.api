@@ -10,6 +10,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 from openprocurement.frameworkagreement.cfaua.models.tender import CloseFrameworkAgreementUA
+from openprocurement.frameworkagreement.cfaua.utils import add_next_awards
 
 # TenderTest
 
@@ -119,6 +120,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
+    
     self.assertIn({u'description': [u"Value must be one of ['open', 'selective', 'limited']."], u'location': u'body',
                    u'name': u'procurementMethod'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderPeriod'}, response.json['errors'])
@@ -126,6 +128,7 @@ def create_tender_invalid(self):
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
+    self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'maxAwards'}, response.json['errors'])
 
     response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'closeFrameworkAgreementUA',
                                                           'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
@@ -294,6 +297,16 @@ def create_tender_invalid(self):
         {u'description': [{u'deliveryDate': [u'This field is required.']}], u'location': u'body', u'name': u'items'}
     ])
 
+    data = deepcopy(self.initial_data)
+    data['maxAwards'] = self.min_bids_number - 1
+    response = self.app.post_json(request_path, {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u"Maximal awards number can't be less then minimal"], u'location': u'body', u'name': u'maxAwards'}
+    ])
+
 
 def create_tender_generated(self):
     data = self.initial_data.copy()
@@ -310,7 +323,8 @@ def create_tender_generated(self):
         u'status', u'enquiryPeriod', u'tenderPeriod', u'auctionPeriod',
         u'complaintPeriod', u'minimalStep', u'items', u'value', u'owner',
         u'procuringEntity', u'next_check', u'procurementMethod',
-        u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date']))
+        u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date',
+        u'maxAwards']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -1033,3 +1047,106 @@ def switch_tender_to_active_awarded(self):
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active.awarded')
+
+
+def patch_max_awards(self):
+    min_awards_number = self.min_bids_number
+
+    response = self.app.get('/tenders')
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(len(response.json['data']), 0)
+
+    response = self.app.post_json('/tenders', {'data': self.initial_data})
+    self.assertEqual(response.status, '201 Created')
+    tender = response.json['data']
+    self.tender_id = response.json['data']['id']
+    self.tender_token = response.json['access']['token']
+
+    self.app.authorization = ('Basic', ('token', ''))
+
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
+        {'data': {'maxAwards': min_awards_number - 1}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'], [{
+        u'description': [u"Maximal awards number can't be less then minimal"],
+        u'location': u'body', u'name': u'maxAwards'}])
+    
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'maxAwards': min_awards_number}})
+    tender = response.json['data']
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(tender['maxAwards'], min_awards_number)
+
+    self.set_status('active.pre-qualification')
+    # should not change max awards number in active.pre-qualification
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'maxAwards': min_awards_number + 1}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotEqual(tender['maxAwards'], min_awards_number + 1)
+
+
+def _awards_to_bids_number(self, max_awards_number, bids_number, expected_awards_number):
+    response = self.app.get('/tenders')
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(len(response.json['data']), 0)
+
+    initial_data = self.initial_data
+    initial_data['maxAwards'] = max_awards_number
+
+    response = self.app.post_json('/tenders', {'data': initial_data})
+    self.assertEqual(response.status, '201 Created')
+    self.tender_id = response.json['data']['id']
+    self.tender_token = response.json['access']['token']
+    # create bids
+    for _ in range(bids_number):
+        response = self.app.post_json('/tenders/{}/bids?acc_token={}'.format(self.tender_id, self.tender_token),
+                                  {'data': {'selfEligible': True, 'selfQualified': True,
+                                            'tenderers': [test_organization], "value": self.test_bids_data[0]['value']}})
+    # switch to active.pre-qualification
+    self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+    # list qualifications
+    response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    qualifications = response.json['data']
+    # approve qualification
+    for qualification in qualifications:
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.patch_json(
+            '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, "200 OK")
+    # switch to active.auction
+    self.set_status('active.auction')
+    # get auction info
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    auction_bids_data = response.json['data']['bids']
+    # posting auction results
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id),
+                                  {'data': {'bids': auction_bids_data}})
+    # get awards
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(len(response.json['data']), expected_awards_number)
+    del self.db[self.tender_id]
+
+
+def awards_to_bids_number(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    _awards_to_bids_number(self, max_awards_number=3, bids_number=3, expected_awards_number=3)
+    _awards_to_bids_number(self, max_awards_number=3, bids_number=4, expected_awards_number=3)
+    _awards_to_bids_number(self, max_awards_number=3, bids_number=5, expected_awards_number=3)
+    _awards_to_bids_number(self, max_awards_number=4, bids_number=3, expected_awards_number=3)
+    _awards_to_bids_number(self, max_awards_number=4, bids_number=4, expected_awards_number=4)
+    _awards_to_bids_number(self, max_awards_number=4, bids_number=5, expected_awards_number=4)
+    _awards_to_bids_number(self, max_awards_number=5, bids_number=3, expected_awards_number=3)
+    _awards_to_bids_number(self, max_awards_number=5, bids_number=4, expected_awards_number=4)
+    _awards_to_bids_number(self, max_awards_number=5, bids_number=5, expected_awards_number=5)

@@ -18,7 +18,7 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.openua.utils import check_complaint_status
 
-from openprocurement.frameworkagreement.cfaua.constants import MaxAwards, MIN_BIDS_NUMBER
+from openprocurement.frameworkagreement.cfaua.constants import MIN_BIDS_NUMBER
 
 from openprocurement.frameworkagreement.cfaua.models.submodels.qualification import Qualification
 from openprocurement.frameworkagreement.cfaua.traversal import (
@@ -323,6 +323,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount', rege
         When reverse is set to True awards are generated from higher to lower by value.amount
     """
     tender = request.validated['tender']
+    max_awards = tender['maxAwards']
     now = get_now()
     if not tender.awardPeriod:
         tender.awardPeriod = type(tender).awardPeriod({})
@@ -367,7 +368,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount', rege
             unsuccessful_awards = [i.bid_id for i in lot_awards if i.status == 'unsuccessful']
             bids = [bid for bid in bids if bid['id'] == cancelled_awards[0]] if cancelled_awards else bids
             bids = chef(bids, features, unsuccessful_awards, reverse, awarding_criteria_key)
-            bids = bids[:MaxAwards] if MaxAwards else bids
+            bids = bids[:max_awards] if max_awards else bids
             active_awards = [a.bid_id for a in tender.awards if a.status in ('active', 'pending')]
             bids = [bid for bid in bids if bid['id'] not in active_awards]
             if bids:
@@ -409,7 +410,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount', rege
             unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
             bids = chef(active_bids, tender.features or [], unsuccessful_awards, reverse, awarding_criteria_key)
             bids = [bid for bid in bids if bid['id'] == cancelled_awards[0]] if cancelled_awards else bids
-            bids = bids[:MaxAwards] if MaxAwards else bids
+            bids = bids[:max_awards] if max_awards else bids
             active_awards = [a.bid_id for a in tender.awards if a.status in ('active', 'pending')]
             bids = [bid for bid in bids if bid['id'] not in active_awards]
             if bids:

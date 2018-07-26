@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.interfaces import IContentConfigurator
+from schematics.exceptions import ValidationError
+from zope.component import getAdapter
+
 from openprocurement.api.utils import get_now, raise_operation_error, update_logging_context
 from openprocurement.api.validation import validate_data, OPERATIONS
-from zope.component import getAdapter
+from openprocurement.api.interfaces import IContentConfigurator
+from openprocurement.frameworkagreement.cfaua.constants import MIN_BIDS_NUMBER
 
 
 def validate_patch_qualification_data(request):
@@ -176,6 +179,10 @@ def validate_add_complaint_not_in_complaint_period(request):
         raise_operation_error(request, 'Can add complaint only in complaintPeriod')
 
 
+def validate_max_awards_number(number, *args):
+    if number < MIN_BIDS_NUMBER:
+        raise ValidationError('Maximal awards number can\'t be less then minimal')
+
 # agreement contract
 def validate_patch_agreement_contract_data(request):
     model = type(request.tender).agreements.model_class.contracts.model_class
@@ -201,3 +208,4 @@ def validate_agreement_contract_unitprices_update(request):
         bid = [b for b in tender.bids if b.id == contract.bidID][0]
         if calculated_value > bid.value.amount:
             raise_operation_error(request, "Total amount can't be greater than bid.value.amount")
+

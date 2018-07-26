@@ -69,5 +69,6 @@
     },
     "tenderPeriod": {
         "endDate": "2018-09-01T10:10:10"
-    }
+    },
+    "maxAwards": 4
 }

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from openprocurement.tender.belowthreshold.tests.auction_blanks import update_patch_data
-from openprocurement.frameworkagreement.cfaua.constants import MaxAwards
 
 
 def post_tender_auction_all_awards_pending(self):
@@ -177,6 +176,7 @@ def post_tender_auction(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
+    max_awards = tender['maxAwards']
     self.assertNotEqual(tender["bids"][0]['value']['amount'], self.initial_bids[0]['value']['amount'])
     self.assertNotEqual(tender["bids"][-1]['value']['amount'], self.initial_bids[-1]['value']['amount'])
     self.assertEqual(tender["bids"][0]['value']['amount'], patch_data["bids"][-1]['value']['amount'])
@@ -185,12 +185,12 @@ def post_tender_auction(self):
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
 
-    if len(self.initial_bids) > MaxAwards:
-        self.assertEqual(len(tender['awards']), MaxAwards)
+    if len(self.initial_bids) > max_awards:
+        self.assertEqual(len(tender['awards']), max_awards)
     else:
-        self.assertLessEqual(len(tender['awards']), MaxAwards)
+        self.assertLessEqual(len(tender['awards']), max_awards)
 
-    for x in list(range(self.min_bids_number))[:MaxAwards]:
+    for x in list(range(self.min_bids_number))[:max_awards]:
         self.assertEqual(tender["awards"][x]['bid_id'], patch_data["bids"][x]['id'])
         self.assertEqual(tender["awards"][x]['value']['amount'], patch_data["bids"][x]['value']['amount'])
         self.assertEqual(tender["awards"][x]['suppliers'], self.initial_bids[x]['tenderers'])
@@ -281,12 +281,14 @@ def post_tender_lot_auction(self):
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
 
-    if len(self.initial_bids) > MaxAwards:
-        self.assertEqual(len(tender['awards']), MaxAwards)
-    else:
-        self.assertLessEqual(len(tender['awards']), MaxAwards)
+    max_awards = tender["maxAwards"]
 
-    for x in list(range(self.min_bids_number))[:MaxAwards]:
+    if len(self.initial_bids) > max_awards:
+        self.assertEqual(len(tender['awards']), max_awards)
+    else:
+        self.assertLessEqual(len(tender['awards']), max_awards)
+
+    for x in list(range(self.min_bids_number))[:max_awards]:
         self.assertEqual(tender["awards"][x]['bid_id'], patch_data["bids"][x]['id'])
         self.assertEqual(tender["awards"][x]['value']['amount'],
                          patch_data["bids"][x]['lotValues'][0]['value']['amount'])
@@ -387,10 +389,10 @@ def post_tender_lots_auction(self):
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
 
-    if len(self.initial_bids) > MaxAwards:
-        self.assertEqual(len(tender['awards']), MaxAwards * 2)  # init bids * 2lot (for each lot award)
+    if len(self.initial_bids) > max_awards:
+        self.assertEqual(len(tender['awards']), max_awards * 2)  # init bids * 2lot (for each lot award)
     else:
-        self.assertLessEqual(len(tender['awards']), MaxAwards * 2)
+        self.assertLessEqual(len(tender['awards']), max_awards * 2)
 
     for x, y in enumerate(list(range(self.min_bids_number))[::-1]):
         self.assertNotEqual(tender["bids"][x]['lotValues'][0]['value']['amount'],
@@ -402,7 +404,7 @@ def post_tender_lots_auction(self):
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
 
-    for x in list(range(self.min_bids_number))[:MaxAwards]:
+    for x in list(range(self.min_bids_number))[:max_awards]:
         self.assertEqual(tender["awards"][x]['bid_id'], patch_data["bids"][x]['id'])
         self.assertEqual(tender["awards"][x]['value']['amount'],
                          patch_data["bids"][x]['lotValues'][0]['value']['amount'])
