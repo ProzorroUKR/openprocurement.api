@@ -740,41 +740,16 @@ def patch_tender_agreement_contract(self):
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
                                                                      self.contract_id, self.tender_token),
-        {"data": {'unitPrices': [{'value': {'amount': 100}}]}}
+        {"data": {'unitPrices': [{'value': {'amount': 60}}]}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
-    self.assertEqual(response.json['data']['unitPrices'][0]['value']['amount'], 100)
+    self.assertEqual(response.json['data']['unitPrices'][0]['value']['amount'], 60)
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
                                                                      self.contract_id, self.tender_token),
-        {"data": {'unitPrices': [{"relatedItem": related_item, 'value': {'amount': 101}}]}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json['data']['status'], 'unsuccessful')
-    self.assertEqual(response.json['data']['unitPrices'][0]['value']['amount'], 101)
-
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
-                                                                     self.contract_id, self.tender_token),
-        {"data": {'status': "active"}},
-        status=403
-    )
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'],
-                     [{u'description': u"Total amount can't be greater than bid.value.amount",
-                       u'location': u'body',
-                       u'name': u'data'}])
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
-                                                                     self.contract_id, self.tender_token),
-        {
-            "data": {
-                'status': "active",
-                'unitPrices': [{'relatedItem': related_item, 'value': {'amount': 60}}]
-            }
-        }
+        {"data": {'status': "active"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json['data']['status'], 'active')
