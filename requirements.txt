@@ -49,4 +49,3 @@ git+https://github.com/openprocurement/rfc6266.git
 -e git+git@gitlab.qg:op/openprocurement.api.git@frameworkagreement#egg=openprocurement.api
 -e git+git@gitlab.qg:op/openprocurement.tender.core.git@frameworkagreement#egg=openprocurement.tender.core
 -e git+git@gitlab.qg:op/openprocurement.tender.belowthreshold.git@frameworkagreement#egg=openprocurement.tender.belowthreshold
-zc.buildout==2.2.5
