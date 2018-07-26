@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from uuid import uuid4
-
-from iso8601 import parse_date
-from mock import patch
-from openprocurement.api.utils import get_now
 
 
 # TenderAgreementResourceTest
