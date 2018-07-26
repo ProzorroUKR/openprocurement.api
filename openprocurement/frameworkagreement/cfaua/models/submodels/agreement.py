@@ -5,6 +5,7 @@ from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 from uuid import uuid4
 
+from openprocurement.api.roles import RolesFromCsv
 from openprocurement.api.models import (
     IsoDateTimeType,
     ListType,
@@ -23,12 +24,7 @@ from openprocurement.frameworkagreement.cfaua.models.submodels.item import Item
 
 class Agreement(Model):
     class Options:
-        roles = {
-            'create': blacklist('id', 'status', 'date', 'documents', 'dateSigned'),
-            'edit': blacklist('id', 'documents', 'date', 'contracts', 'items', 'agreementID'),
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
-        }
+        roles = RolesFromCsv('Agreement.csv', relative_to=__file__)
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     agreementID = StringType()
