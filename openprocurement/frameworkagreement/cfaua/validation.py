@@ -197,7 +197,7 @@ def validate_agreement_contract_unitprices_update(request):
                           for u in request.validated['data']['unitPrices']
                           if u['value']['amount'] is not None}
     quantity_cache = {i.id: i.quantity for i in contract.__parent__.items}
-    if request.validated['data']['status'] == 'active':
+    if request.validated['data']['status'] == 'active' or 'unitPrices' in request.validated['json_data']:
         if len(agreement_items_id) != len(validated_items_id):
             raise_operation_error(request, "unitPrice.value.amount count doesn't match with contract.")  
         elif agreement_items_id != validated_items_id:
