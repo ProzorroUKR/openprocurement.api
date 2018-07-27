@@ -1,0 +1,19 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+    <include package="zope.component" file="meta.zcml" />
+
+    <adapter
+        factory=".adapters.configurator.BaseAgreementConfigurator"
+        provides="openprocurement.api.interfaces.IContentConfigurator"
+        for=".interfaces.IAgreement"
+        />
+    <utility
+        factory=".resource.baseCFABuilder"
+        provides=".interfaces.IAgreementBuilder"
+        name="cfa"
+        />
+    <utility
+        factory=".traversal.cfaContextFactory"
+        provides=".interfaces.IContextFactory"
+        name="cfa"
+        />
+</configure>
