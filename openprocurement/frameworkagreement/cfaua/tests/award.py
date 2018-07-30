@@ -192,6 +192,7 @@ class TenderLotAwardComplaintResourceTestMixin(object):
     test_patch_tender_award_complaint = snitch(patch_tender_lot_award_complaint)
     test_get_tender_award_complaint = snitch(get_tender_lot_award_complaint)
     test_get_tender_award_complaints = snitch(get_tender_lot_award_complaints)
+    test_review_tender_award_stopping_complaint = snitch(review_tender_award_stopping_complaint)
 
 
 class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest,

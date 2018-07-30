@@ -312,7 +312,7 @@ def check_status(request):
         return
 
 
-def add_next_awards(request, reverse=False, awarding_criteria_key='amount', regenerate_all_awards=False):
+def add_next_awards(request, reverse=False, awarding_criteria_key='amount', regenerate_all_awards=False, lot_id=None):
 
     """Adding next award.
     :param request:
@@ -337,7 +337,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount', rege
             lot_awards = [award for award in tender.awards if award.lotID == lot.id]
             lot_awards_statuses = [award['status'] for award in tender.awards if award.lotID == lot.id]
             set_lot_awards_statuses = set(lot_awards_statuses)
-            if lot_awards_statuses and set_lot_awards_statuses == set(['pending', 'active']):
+            if lot_awards_statuses and set_lot_awards_statuses.issubset({'pending', 'active'}):
                 statuses.union(set_lot_awards_statuses)
                 continue
             lot_items = [i.id for i in tender.items if i.relatedLot == lot.id]
@@ -363,13 +363,16 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount', rege
                 statuses.add('unsuccessful')
                 continue
             cancelled_awards = None
-            if not regenerate_all_awards:
-                cancelled_awards = [award.bid_id for award in lot_awards if award.status == 'cancelled' and request.context.id == award.id]
+            if not regenerate_all_awards and lot.id == lot_id:
+                cancelled_awards = [award.bid_id for award in lot_awards if \
+                                    award.status == 'cancelled' and request.context.id == award.id]
             unsuccessful_awards = [i.bid_id for i in lot_awards if i.status == 'unsuccessful']
             bids = [bid for bid in bids if bid['id'] == cancelled_awards[0]] if cancelled_awards else bids
             bids = chef(bids, features, unsuccessful_awards, reverse, awarding_criteria_key)
+
             bids = bids[:max_awards] if max_awards else bids
-            active_awards = [a.bid_id for a in tender.awards if a.status in ('active', 'pending')]
+            active_awards = [a.bid_id for a in tender.awards if a.status in ('active', 'pending') and a.lotID == lot.id]
+
             bids = [bid for bid in bids if bid['id'] not in active_awards]
             if bids:
                 for bid in bids:
@@ -390,7 +393,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount', rege
             tender.awardPeriod.endDate = None
             tender.status = 'active.qualification'
     else:
-        if not tender.awards or request.context.status in ('cancelled', 'unsuccessful'):
+        if not tender.awards or request.context.status in ('cancelled', 'unsuccessful', 'satisfied'):
             codes = [i.code for i in tender.features or []]
             active_bids = [
                 {
@@ -405,7 +408,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount', rege
             ]
             cancelled_awards = None
             if not regenerate_all_awards:
-                cancelled_awards = [award.bid_id for award in tender.awards if
+                cancelled_awards = [award.bid_id for award in tender.awards if \
                                     award.status == 'cancelled' and request.context.id == award.id]
             unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == 'unsuccessful']
             bids = chef(active_bids, tender.features or [], unsuccessful_awards, reverse, awarding_criteria_key)

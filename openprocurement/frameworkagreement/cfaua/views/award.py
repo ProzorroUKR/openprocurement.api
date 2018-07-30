@@ -103,10 +103,12 @@ class TenderAwardResource(BaseResource):
             add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria,
                             awarding_criteria_key=configurator.awarding_criteria_key)
         elif award_status == 'unsuccessful' and award.status == 'cancelled':
-            for award in tender.awards:
-                award.status = 'cancelled'
+            for aw in tender.awards:
+                if aw.lotID == award.lotID:
+                    aw.status = 'cancelled'
             add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria,
-                            awarding_criteria_key=configurator.awarding_criteria_key, regenerate_all_awards=True)
+                            awarding_criteria_key=configurator.awarding_criteria_key, regenerate_all_awards=True,
+                            lot_id=award.lotID)
         elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
             raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
         if save_tender(self.request):

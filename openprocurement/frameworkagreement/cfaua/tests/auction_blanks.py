@@ -389,6 +389,7 @@ def post_tender_lots_auction(self):
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
 
+    max_awards = tender["maxAwards"]
     if len(self.initial_bids) > max_awards:
         self.assertEqual(len(tender['awards']), max_awards * 2)  # init bids * 2lot (for each lot award)
     else:

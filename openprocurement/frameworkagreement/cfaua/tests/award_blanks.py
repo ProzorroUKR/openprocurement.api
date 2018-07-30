@@ -1166,8 +1166,7 @@ def review_tender_award_complaint(self):
                 }
             }
         )
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
         complaint = response.json['data']
 
         self.app.authorization = ('Basic', ('reviewer', ''))
@@ -1175,8 +1174,7 @@ def review_tender_award_complaint(self):
             '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, self.award_id, complaint['id']),
             {"data": {"decision": '{} complaint'.format(status), 'rejectReasonDescription': 'reject reason'}}
         )
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
         self.assertEqual(response.json['data']["decision"], '{} complaint'.format(status))
         self.assertEqual(response.json['data']['rejectReasonDescription'], 'reject reason')
 
@@ -1185,16 +1183,14 @@ def review_tender_award_complaint(self):
                 '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, self.award_id, complaint['id']),
                 {"data": {"status": "accepted"}}
             )
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
             self.assertEqual(response.json['data']["status"], "accepted")
 
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, self.award_id, complaint['id']),
                 {"data": {"decision": 'accepted:{} complaint'.format(status)}}
             )
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
             self.assertEqual(response.json['data']["decision"], 'accepted:{} complaint'.format(status))
 
             self.app.authorization = ('Basic', ('token', ''))
@@ -1203,8 +1199,7 @@ def review_tender_award_complaint(self):
                 {"data": {"status": "active", "qualified": True, "eligible": True}},
                 status=403
             )
-            self.assertEqual(response.status, '403 Forbidden')
-            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
             self.assertEqual(response.json['errors'][0]["description"],
                              "Can't update award in current (active.qualification.stand-still) tender status")
 
@@ -1213,14 +1208,28 @@ def review_tender_award_complaint(self):
             '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, self.award_id, complaint['id']),
             {"data": {"status": status}}
         )
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
         self.assertEqual(response.json['data']["status"], status)
+
+        if status == 'satisfied':
+            response = self.app.get('/tenders/{}'.format(self.tender_id))
+            self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+            self.assertEqual(response.json['data']["status"], 'active.qualification')
+
+            len_pending_awards = sum(1 for award in response.json['data']['awards'] if award['status'] == 'pending')
+            max_awards = response.json['data']['maxAwards']
+            if len(self.initial_bids) > max_awards:
+                self.assertEqual(len_pending_awards,
+                                 max_awards * len(self.initial_lots) if self.initial_lots else max_awards)
+            else:
+                self.assertEqual(len_pending_awards,
+                                 len(self.initial_bids) * len(self.initial_lots) if self.initial_lots else len(
+                                     self.initial_bids))
 
 
 def review_tender_award_stopping_complaint(self):
     self.set_status('active.qualification.stand-still')
-    for status in ['satisfied', 'stopped', 'declined', 'mistaken', 'invalid']:
+    for status in ['stopped', 'declined', 'mistaken', 'invalid', 'satisfied']:
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json(
             '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.bid_token),
