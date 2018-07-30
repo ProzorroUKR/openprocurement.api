@@ -20,7 +20,7 @@ LOGGER = getLogger(PKG.project_name)
 
 
 def includeme(config):
-    LOGGER.info("Load agreement.core plugin")
+    LOGGER.info("Load agreementCore plugin")
     add_design()
     config.add_route_predicate(
         'agreementType',
@@ -37,3 +37,10 @@ def includeme(config):
         os.path.join(os.path.dirname(os.path.abspath(__file__)), 'configure.zcml'),
         package=openprocurement.agreement.core
     )
+    # search for plugins
+    settings = config.get_settings()
+    plugins = settings.get('plugins') and settings['plugins'].split(',')
+    for entry_point in iter_entry_points('openprocurement.agreements.core.plugins'):
+        if not plugins or entry_point.name in plugins:
+            plugin = entry_point.load()
+            plugin(config)
