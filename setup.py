@@ -20,7 +20,7 @@ docs_requires = requires + [
 
 entry_points = {
     'openprocurement.api.plugins': [
-        'agreement.core = openprocurement.agreement.core.includeme:includeme'
+        'agreementCore = openprocurement.agreement.core.includeme:includeme'
     ],
 }
 

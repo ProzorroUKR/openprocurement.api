@@ -9,6 +9,7 @@ import openprocurement.agreement.core
 from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.agreement.core.interfaces import IAgreement
 from openprocurement.agreement.core.adapters.configurator import BaseAgreementConfigurator
+from openprocurement.agreement.core.design import add_design
 from openprocurement.agreement.core.resource import (
     extract_agreement,
     IsAgreenent
@@ -20,10 +21,7 @@ LOGGER = getLogger(PKG.project_name)
 
 def includeme(config):
     LOGGER.info("Load agreement.core plugin")
-    config.add_request_method(
-        'agreement',
-        extract_agreement
-    )
+    add_design()
     config.add_route_predicate(
         'agreementType',
         IsAgreenent
@@ -33,7 +31,8 @@ def includeme(config):
         (IAgreement, IRequest),
         IContentConfigurator
         )
-    
+
+    config.scan("openprocurement.agreement.core.views")
     ZcmlFile(
         os.path.join(os.path.dirname(os.path.abspath(__file__)), 'configure.zcml'),
         package=openprocurement.agreement.core

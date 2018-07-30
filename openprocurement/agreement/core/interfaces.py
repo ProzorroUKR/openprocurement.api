@@ -8,7 +8,3 @@ class IAgreement(IOPContent):
 
 class IAgreementBuilder(Interface):
     """ Marker interface for model building utility """
-
-
-class IContextFactory(Interface):
-    """ Base context factory """

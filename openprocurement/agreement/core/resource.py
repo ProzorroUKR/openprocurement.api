@@ -2,7 +2,7 @@
 from functools import partial
 from zope.interface import implementer
 from zope.component import queryUtility
-from cornice import resource
+from cornice.resource import resource
 from openprocurement.api.utils import (
     error_handler,
     APIResourceListing

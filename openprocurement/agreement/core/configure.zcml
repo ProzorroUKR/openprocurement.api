@@ -7,13 +7,8 @@
         for=".interfaces.IAgreement"
         />
     <utility
-        factory=".resource.baseCFABuilder"
+        component=".resource.baseCFABuilder"
         provides=".interfaces.IAgreementBuilder"
-        name="cfa"
-        />
-    <utility
-        factory=".traversal.cfaContextFactory"
-        provides=".interfaces.IContextFactory"
         name="cfa"
         />
 </configure>
