@@ -10,10 +10,13 @@ from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.agreement.core.interfaces import IAgreement
 from openprocurement.agreement.core.adapters.configurator import BaseAgreementConfigurator
 from openprocurement.agreement.core.design import add_design
-from openprocurement.agreement.core.resource import (
-    extract_agreement,
-    IsAgreenent
+from openprocurement.agreement.core.resource import IsAgreement
+from openprocurement.agreement.core.utils import (
+    register_agreement_type,
+    agreement_from_data,
+    extract_agreement
     )
+
 
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
@@ -22,10 +25,16 @@ LOGGER = getLogger(PKG.project_name)
 def includeme(config):
     LOGGER.info("Load agreementCore plugin")
     add_design()
+    config.registry.agreements_types = {}
+    config.add_directive(
+        'add_agreement_type',
+        register_agreement_type
+    )
     config.add_route_predicate(
         'agreementType',
-        IsAgreenent
+        IsAgreement
     )
+    config.add_request_method(agreement_from_data)
     config.registry.registerAdapter(
         BaseAgreementConfigurator,
         (IAgreement, IRequest),

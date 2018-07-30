@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from functools import partial
 from zope.interface import implementer
-from zope.component import queryUtility
 from cornice.resource import resource
 from openprocurement.api.utils import (
     error_handler,
     APIResourceListing
     )
 from openprocurement.agreement.core.traversal import factory
-from openprocurement.agreement.core.interfaces import IAgreementBuilder
 from openprocurement.agreement.core.models.agreement import Agreement
 from openprocurement.agreement.core.design import (
     FIELDS,
@@ -44,22 +42,7 @@ FEED = {
 }
 
 
-@implementer(IAgreementBuilder)
-class AgreementBuilder(object):
-
-    def __init__(self, model):
-        self.model = model
-
-    def __call__(self, data, create=True):
-        if create:
-            return self.model(data)
-        return self.model
-
-
-baseCFABuilder = AgreementBuilder(Agreement)
-
-
-class IsAgreenent(object):
+class IsAgreement(object):
     """ Route predicate. """
 
     def __init__(self, val, config):
@@ -78,28 +61,6 @@ class IsAgreenent(object):
         return False
 
 
-def extract_agreement(request):
-    db = request.registry.db
-    agreement_id = request.matchdict['agreement_id']
-    doc = db.get(agreement_id)
-    configurator = request.content_configurator
-    if doc is not None and doc.get('doc_type') == 'agreement':
-        request.errors.add('url', 'agreement_id', 'Archived')
-        request.errors.status = 410
-        raise error_handler(request.errors)
-    elif doc is None or doc.get('doc_type') != 'Agreement':
-        request.errors.add('url', 'agreement_id', 'Not Found')
-        request.errors.status = 404
-        raise error_handler(request.errors)
-    builder = queryUtility(
-        IAgreementBuilder,
-        name=configurator.agreement_type
-        )
-    if not builder or not doc.get('agreemenType'):
-        request.errors.add('data', 'agreementType', 'Not implemented')
-        request.errors.status = 415
-        raise error_handler(request.errors)
-    return builder(doc)      
 
 
 class AgreementsResource(APIResourceListing):

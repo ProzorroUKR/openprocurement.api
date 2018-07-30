@@ -6,9 +6,5 @@
         provides="openprocurement.api.interfaces.IContentConfigurator"
         for=".interfaces.IAgreement"
         />
-    <utility
-        component=".resource.baseCFABuilder"
-        provides=".interfaces.IAgreementBuilder"
-        name="cfa"
-        />
+
 </configure>

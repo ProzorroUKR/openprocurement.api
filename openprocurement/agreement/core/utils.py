@@ -1,8 +1,8 @@
 import logging
 from pkg_resources import get_distribution
-from zope.component import queryUtility
 from schematics.exceptions import ModelValidationError
-from openprocurement.agreement.core.interfaces import IAgreementBuilder
+from openprocurement.agreement.core.constants import DEFAULT_TYPE
+from openprocurement.agreement.core.resource import error_handler
 from openprocurement.api.utils import (
     set_modetest_titles,
     get_revision_changes,
@@ -18,12 +18,7 @@ LOGGER = logging.getLogger(PKG.project_name)
 
 
 def agreement_serialize(request, agreement_data, fields):
-    configurator = request.content_configurator
-    builder = queryUtility(
-        IAgreementBuilder,
-        name=configurator.agreement_type
-        )
-    agreement = builder(agreement_data)
+    agreement = request.agreement_from_data(agreement_data, raise_error=False)
     agreement.__parent__ = request.context
     return {
         i: j for i, j in
@@ -32,9 +27,41 @@ def agreement_serialize(request, agreement_data, fields):
         }
 
 
+def agreement_from_data(request, data, raise_error=True, create=True):
+    agreement_type = data.get('agreementType', DEFAULT_TYPE)
+    model = request.registry.agreement_types.get(agreement_type)
+    if model is None and raise_error:
+        request.errors.add('data', 'agreementType', 'Not implemented')
+        request.errors.status = 415
+        raise error_handler(request.errors)
+    if model is not None and create:
+        model = model(data)
+    return model
+
+
+def extract_agreement(request):
+    db = request.registry.db
+    agreement_id = request.matchdict['agreement_id']
+    doc = db.get(agreement_id)
+    if doc is not None and doc.get('doc_type') == 'agreement':
+        request.errors.add('url', 'agreement_id', 'Archived')
+        request.errors.status = 410
+        raise error_handler(request.errors)
+    elif doc is None or doc.get('doc_type') != 'Agreement':
+        request.errors.add('url', 'agreement_id', 'Not Found')
+        request.errors.status = 404
+        raise error_handler(request.errors)
+    return request.agreement_from_data(doc)
+
+
+def register_agreement_type(config, model):
+    agreement_type = model.agreementType.default or DEFAULT_TYPE
+    config.registry.agreements_types[agreement_type] = model
+
+
 def save_agreement(request):
     """
-    Save contract object to database
+    Save agreement object to database
     :param request:
     :return: True if Ok
     """
