@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
 from pyramid.security import Allow
-from zope.interface import implementer
+from zope.interface import implementer, provider
 
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
+from schematics.types.serializable import serializable
 
 from openprocurement.agreement.core.interfaces import IAgreement
 from openprocurement.agreement.core.constants import DEFAULT_TYPE
@@ -19,13 +20,11 @@ from openprocurement.api.models import (
 
 
 @implementer(IAgreement)
+@provider(IAgreement)
 class Agreement(OpenprocurementSchematicsDocument, Model):
     """ Base agreement model """
 
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    agreementType = StringType(default=DEFAULT_TYPE)
     agreementID = StringType()
-    agreementNumber = StringType()
     status = StringType(
         choices=['pending', 'active', 'cancelled'],
         default='pending'
@@ -33,7 +32,6 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
     date = IsoDateTimeType()
     dateModified = IsoDateTimeType()
     description = StringType()
-    period = ModelType(Period)
     title = StringType()
     revisions = ListType(ModelType(Revision), default=list())
     tender_token = StringType(required=True)
@@ -41,6 +39,11 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
     owner_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
     mode = StringType(choices=['test'])
+
+    @serializable(serialized_name='id')
+    def doc_id(self):
+        """A property that is serialized by schematics exports."""
+        return self._id
 
     def import_data(self, raw_data, **kw):
         """
@@ -73,3 +76,7 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
             #(Allow, '{}_{}'.format(self.owner, self.tender_token), 'generate_credentials')
         ]
         return acl
+
+
+    def __repr__(self):
+        return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)

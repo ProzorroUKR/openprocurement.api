@@ -1,1 +1,1 @@
-DEFAULT_TYPE = 'cfa'
+DEFAULT_TYPE = 'cfaua'
