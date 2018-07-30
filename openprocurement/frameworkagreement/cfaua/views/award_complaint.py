@@ -52,10 +52,6 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
         if complaint.status == 'claim':
             complaint.dateSubmitted = get_now()
         elif complaint.status == 'pending':
-            if not any([i.status == 'active'
-                        for i in tender.awards
-                        if i.lotID == self.request.validated['award'].lotID]):
-                raise_operation_error(self.request, 'Complaint submission is allowed only after award activation.')
             complaint.type = 'complaint'
             complaint.dateSubmitted = get_now()
         else:
@@ -91,7 +87,7 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
                            validate_award_complaint_update_only_for_active_lots,
                            validate_update_complaint_not_in_allowed_complaint_status))
     def patch(self):
-        """Post a complaint resolution for award
+        """Patch a complaint for award
         """
         tender = self.request.validated['tender']
         data = self.request.validated['data']
