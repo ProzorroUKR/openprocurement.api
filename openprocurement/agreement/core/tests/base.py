@@ -52,7 +52,7 @@ class BaseAgreementWebTest(BaseAgreementTest):
 
     def create_agreement(self):
         data = deepcopy(self.initial_data)
-        with change_auth(self.app, ('Basoc', ('agreements', ''))) as app:
+        with change_auth(self.app, ('Basic', ('agreements', ''))) as app:
             response = self.app.post_json('/agreements', {'data': data})
         agreement = response.json['data']
         self.agreement_token = response.json['access']['token']

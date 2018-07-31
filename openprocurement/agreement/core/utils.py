@@ -29,7 +29,7 @@ def agreement_serialize(request, agreement_data, fields):
 
 def agreement_from_data(request, data, raise_error=True, create=True):
     agreement_type = data.get('agreementType', DEFAULT_TYPE)
-    model = request.registry.agreement_types.get(agreement_type)
+    model = request.registry.agreements_types.get(agreement_type)
     if model is None and raise_error:
         request.errors.add('data', 'agreementType', 'Not implemented')
         request.errors.status = 415

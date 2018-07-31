@@ -29,31 +29,27 @@ class APIAgreementsResource(AgreementsResource):
         validators=(validate_agreement_data,)
     )
     def post(self):
-        agreement_id = generate_id()
         agreement = self.request.validated['agreement']
-        agreement.id = agreement_id
-        if self.request.json_body['data'].get('status') == 'draft':
-            agreement.status = 'draft'
         set_ownership(agreement, self.request)  # rewrite as subscriber?
         self.request.validated['agreement'] = agreement
         self.request.validated['agreement_src'] = {}
         if save_agreement(self.request):
             self.LOGGER.info(
-                'Created agreement {} ({})'.format(agreement_id, agreement.agreementID),
+                'Created agreement {} ({})'.format(agreement.id, agreement.agreementID),
                 extra=context_unpack(
                     self.request,
                     {'MESSAGE_ID': 'agreement_create'},
-                    {'agreement_id': agreement_id, 'agreementID': agreement.agreementID}
+                    {'agreement_id': agreement.id, 'agreementID': agreement.agreementID}
                 )
             )
             self.request.response.status = 201
             self.request.response.headers['Location']\
                 = self.request.route_url(
                 '{}:Agreement'.format(agreement.agreementType),
-                agreement_id=agreement_id
+                agreement_id=agreement.id
             )
             return {
-                'data': agreement.serialize(agreement.status),
+                'data': agreement.serialize("view"),
                 'access': {
                     'token': agreement.owner_token
                 }

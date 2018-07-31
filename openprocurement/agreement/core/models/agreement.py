@@ -22,7 +22,7 @@ from openprocurement.api.models import (
 @provider(IAgreement)
 class Agreement(OpenprocurementSchematicsDocument, Model):
     """ Base agreement model """
-
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
     agreementID = StringType()
     # maybe terminated ????
     status = StringType(
