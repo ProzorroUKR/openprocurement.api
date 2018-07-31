@@ -20,14 +20,10 @@ docs_requires = requires + [
 ]
 
 entry_points = {
-    # 'openprocurement.api.plugins': [
-    #     'tender_core = openprocurement.tender.cfaua.includeme:includeme'
-    # ],
-    # 'openprocurement.tender.cfaua.migrations': [
-        # 'contracts = openprocurement.tender.cfaua.migration:migrate_data'
-    # ]
+   'openprocurement.agreements.core.plugins': [
+        'cfAgreementUA = openprocurement.agreement.cfaua.includeme:includeme'
+    ],
 }
-
 setup(name='openprocurement.agreement.cfaua',
       version=version,
       description="",
