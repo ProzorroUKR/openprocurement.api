@@ -24,9 +24,10 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
     """ Base agreement model """
 
     agreementID = StringType()
+    # maybe terminated ????
     status = StringType(
-        choices=['pending', 'active', 'cancelled'],
-        default='pending'
+        choices=['active', 'cancelled'],
+        required=True
         )
     date = IsoDateTimeType()
     dateModified = IsoDateTimeType()
