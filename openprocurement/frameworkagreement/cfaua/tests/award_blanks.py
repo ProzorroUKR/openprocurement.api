@@ -233,17 +233,14 @@ def patch_tender_award_active(self):
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
     self.assertIn('maxAwards', tender)
-    max_awards = tender['maxAwards']
 
     # Get awards
     response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    
-    if len(self.initial_bids) > max_awards:
-        self.assertEqual(len(response.json['data']), max_awards)
-    else:
-        self.assertEqual(len(response.json['data']), len(self.initial_bids))
+
+    comparable = min((tender['maxAwards'], len(self.initial_bids)))
+    self.assertEqual(len(response.json['data']), comparable)
 
     for award in response.json['data']:
         self.assertEqual(award['status'], 'pending')
@@ -285,12 +282,10 @@ def patch_tender_award_unsuccessful(self):
         active_awards_ids = [award['id'] for award in response.json['data'] if
                              award['status'] in ('pending', 'active')]
 
-        if len(self.initial_bids) - max_awards - x >= 0:
-            self.assertEqual(len(active_awards_ids), max_awards)
-            # new award bid_id is unique
-            self.assertNotIn(response.json['data'][-1]['bid_id'], (a['id'] for a in response.json['data']))
-        else:
-            self.assertEqual(len(active_awards_ids), len(self.initial_bids) - x)
+        comparable = min((len(self.initial_bids) - x, max_awards))
+        self.assertEqual(len(active_awards_ids), comparable)
+        # new award bid_id is unique
+        self.assertEqual(len(active_awards_ids), len(set(active_awards_ids)))
 
         unsuccessful_award = self.award_id
         self.award_id = active_awards_ids[0] if active_awards_ids else None
@@ -314,10 +309,10 @@ def patch_tender_award_unsuccessful(self):
         self.assertEqual(award_statuses[award_id], 'cancelled')
 
     active_awards_ids = [award['id'] for award in response.json['data'] if award['status'] in ('pending', 'active')]
-    if len(self.initial_bids) - max_awards >= 0:
-        self.assertEqual(len(active_awards_ids), max_awards)
-    else:
-        self.assertEqual(len(active_awards_ids), len(self.initial_bids))
+
+    comparable = min((max_awards, len(self.initial_bids)))
+    self.assertEqual(len(active_awards_ids),
+                     comparable * len(self.initial_lots) if self.initial_lots else comparable)
 
 
 def get_tender_award(self):
@@ -1217,14 +1212,10 @@ def review_tender_award_complaint(self):
             self.assertEqual(response.json['data']["status"], 'active.qualification')
 
             len_pending_awards = sum(1 for award in response.json['data']['awards'] if award['status'] == 'pending')
-            max_awards = response.json['data']['maxAwards']
-            if len(self.initial_bids) > max_awards:
-                self.assertEqual(len_pending_awards,
-                                 max_awards * len(self.initial_lots) if self.initial_lots else max_awards)
-            else:
-                self.assertEqual(len_pending_awards,
-                                 len(self.initial_bids) * len(self.initial_lots) if self.initial_lots else len(
-                                     self.initial_bids))
+
+            comparable = min((response.json['data']['maxAwards'], len(self.initial_bids)))
+            self.assertEqual(len_pending_awards,
+                             comparable * len(self.initial_lots) if self.initial_lots else comparable)
 
 
 def review_tender_award_stopping_complaint(self):
