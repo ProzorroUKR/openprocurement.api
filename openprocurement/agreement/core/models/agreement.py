@@ -26,7 +26,7 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
     agreementID = StringType()
     # maybe terminated ????
     status = StringType(
-        choices=['active', 'cancelled'],
+        choices=['active', 'terminated'],
         required=True
         )
     date = IsoDateTimeType()
