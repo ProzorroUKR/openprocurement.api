@@ -8,7 +8,6 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.agreement.core.interfaces import IAgreement
-from openprocurement.agreement.core.constants import DEFAULT_TYPE
 from openprocurement.api.models import (
     IsoDateTimeType,
     Model,

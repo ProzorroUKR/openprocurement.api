@@ -1,4 +1,3 @@
-from zope.interface import Interface
 from openprocurement.api.interfaces import IOPContent
 
 

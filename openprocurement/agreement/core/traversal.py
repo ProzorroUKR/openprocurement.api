@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implementer
 from openprocurement.api.traversal import get_item
 from pyramid.security import (
     ALL_PERMISSIONS,

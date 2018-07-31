@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from functools import partial
-from zope.interface import implementer
 from cornice.resource import resource
 from openprocurement.api.utils import (
     error_handler,
