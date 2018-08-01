@@ -8,5 +8,6 @@ from openprocurement.api.models import (
 
 
 class UnitPrice(Model):
+    # TODO: validate relatedItem
     relatedItem = StringType()
     value = ModelType(Value)

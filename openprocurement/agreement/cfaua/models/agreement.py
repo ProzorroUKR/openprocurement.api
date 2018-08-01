@@ -63,7 +63,9 @@ class Agreement(BaseAgreement):
     agreementType = StringType(default='cfaua')
     period = ModelType(Period)
     dateSigned = IsoDateTimeType()
-
+    # TODO: procuringEntity
+    # TODO: terminationDetails
+    # TODO: changes
     title_en = StringType()
     title_ru = StringType()
 
@@ -75,11 +77,6 @@ class Agreement(BaseAgreement):
     items = ListType(ModelType(Item))
 
     create_accreditation = 3  # TODO
-
-    @serializable(serialized_name='id')
-    def doc_id(self):
-        """A property that is serialized by schematics exports."""
-        return self._id
 
     def get_role(self):
         root = self.__parent__
