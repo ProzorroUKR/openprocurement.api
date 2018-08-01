@@ -393,7 +393,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount', rege
             tender.awardPeriod.endDate = None
             tender.status = 'active.qualification'
     else:
-        if not tender.awards or request.context.status in ('cancelled', 'unsuccessful', 'satisfied'):
+        if not tender.awards or request.context.status in ('cancelled', 'unsuccessful'):
             codes = [i.code for i in tender.features or []]
             active_bids = [
                 {

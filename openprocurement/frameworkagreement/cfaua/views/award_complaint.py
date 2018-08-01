@@ -16,10 +16,11 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.core.utils import apply_patch, optendersresource, save_tender
 from openprocurement.tender.openua.views.award_complaint import TenderUaAwardComplaintResource, get_bid_id
 
-from openprocurement.frameworkagreement.cfaua.utils import check_tender_status, add_next_awards
+from openprocurement.frameworkagreement.cfaua.utils import check_tender_status
 from openprocurement.frameworkagreement.cfaua.validation import (
     validate_add_complaint_not_in_complaint_period,
-    validate_award_complaint_operation_not_in_allowed_status,
+    validate_update_complaint_not_in_qualification,
+    validate_add_complaint_not_in_qualification_stand_still,
 )
 
 
@@ -38,7 +39,7 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
     @json_view(content_type="application/json",
                permission='create_award_complaint',
                validators=(validate_complaint_data,
-                           validate_award_complaint_operation_not_in_allowed_status,
+                           validate_add_complaint_not_in_qualification_stand_still,
                            validate_award_complaint_add_only_for_active_lots,
                            validate_add_complaint_not_in_complaint_period))
     def collection_post(self):
@@ -83,7 +84,7 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
     @json_view(content_type="application/json",
                permission='edit_complaint',
                validators=(validate_patch_complaint_data,
-                           validate_award_complaint_operation_not_in_allowed_status,
+                           validate_update_complaint_not_in_qualification,
                            validate_award_complaint_update_only_for_active_lots,
                            validate_update_complaint_not_in_allowed_complaint_status))
     def patch(self):
@@ -170,18 +171,10 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
                 self.context.status in ['accepted', 'stopping'] and \
                 data.get('status', self.context.status) == 'satisfied':
             apply_patch(self.request, save=False, src=self.context.serialize())
-            configurator = self.request.content_configurator
             self.context.dateDecision = get_now()
             tender.status = 'active.qualification'
             if tender.awardPeriod.endDate:
                 tender.awardPeriod.endDate = None
-            award = self.request.context.__parent__
-            for aw in tender.awards:
-                if aw.lotID == award.lotID:
-                    aw.status = 'cancelled'
-            add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria,
-                            awarding_criteria_key=configurator.awarding_criteria_key, regenerate_all_awards=True,
-                            lot_id=award.lotID)
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and \
                 self.context.status in ['pending', 'accepted', 'stopping'] and \
                 data.get('status', self.context.status) == 'stopped':
