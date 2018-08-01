@@ -1,6 +1,6 @@
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
-from schematics.transforms import blacklist
+from schematics.transforms import blacklist, whitelist
 
 from openprocurement.api.roles import RolesFromCsv
 from openprocurement.api.models import (
@@ -19,9 +19,7 @@ class Contract(Model):
     class Options:
         roles = {
             'create': blacklist(),
-            # Suppliers ???
-            # UnitPrice ???
-            'edit': blacklist('id', 'suppliers', 'date', 'awardID', 'bidID'),
+            'edit': whitelist(),
             'embedded': schematics_embedded_role,
             'view': schematics_default_role
         }

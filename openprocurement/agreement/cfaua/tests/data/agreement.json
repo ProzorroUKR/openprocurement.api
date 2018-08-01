@@ -155,5 +155,29 @@
         "date": "2018-07-30T17:40:15.786102+03:00",
         "id": "56e1f38d80224a8ea245f6af546acadc",
         "tender_id": "8481d7eb01694c25b18658036c236c5d",
-        "tender_token": "c6c6e8ed4b1542e4bf13d3f98ec5ab59"
+        "tender_token": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
+        "procuringEntity":  {
+            "kind": "general",
+            "name": "Державне управління справами",
+            "address": {
+                "postalCode": "01220",
+                "countryName": "Україна",
+                "streetAddress": "вул. Банкова, 11, корпус 1",
+                "region": "м. Київ",
+                "locality": "м. Київ"
+            },
+            "contactPoint": {
+                "name_en": "State administration",
+                "name": "Державне управління справами",
+                "availableLanguage": "uk",
+                "telephone": "0440000000"
+            },
+            "identifier": {
+                "scheme": "UA-EDR",
+                "legalName_en": "dus.gov.ua",
+                "id": "00037256",
+                "uri": "http://www.dus.gov.ua/"
+            },
+            "name_en": "State administration"
+        }
     }

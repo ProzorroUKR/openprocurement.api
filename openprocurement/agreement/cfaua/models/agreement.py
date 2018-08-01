@@ -23,6 +23,8 @@ from openprocurement.agreement.cfaua.models.contract\
     import Contract
 from openprocurement.agreement.cfaua.models.item\
     import Item
+from openprocurement.agreement.cfaua.models.procuringentity\
+    import ProcuringEntity
 
 from openprocurement.agreement.cfaua.interfaces import IClosedFrameworkAgreementUA
 
@@ -40,7 +42,7 @@ class Agreement(BaseAgreement):
                     'title_ru', 'description', 'description_en',
                     'description_ru', 'status', 'period',
                     'dateSigned', 'items', 'owner', 'tender_token',
-                    'tender_id', 'mode'
+                    'tender_id', 'mode', 'procuringEntity'
                 )),
             'edit_terminated': whitelist(),
             'default': schematics_default_role,
@@ -56,7 +58,7 @@ class Agreement(BaseAgreement):
                     'agreementNumber', 'title', 'title_en', 'title_ru',
                     'description', 'description_en', 'description_ru',
                     'status', 'period', 'dateSigned', 'documents', 'items',
-                    'owner', 'mode', 'tender_id',
+                    'owner', 'mode', 'tender_id', 'procuringEntity'
             )),
         }
     agreementNumber = StringType()
@@ -75,6 +77,9 @@ class Agreement(BaseAgreement):
     documents = ListType(ModelType(Document), default=list())
     contracts = ListType(ModelType(Contract))
     items = ListType(ModelType(Item))
+    procuringEntity = ModelType(
+        ProcuringEntity, required=True
+    )
 
     create_accreditation = 3  # TODO
 
