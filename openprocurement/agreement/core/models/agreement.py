@@ -40,11 +40,6 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
     owner = StringType()
     mode = StringType(choices=['test'])
 
-    @serializable(serialized_name='id')
-    def doc_id(self):
-        """A property that is serialized by schematics exports."""
-        return self._id
-
     def import_data(self, raw_data, **kw):
         """
         Converts and imports the raw data into the instance of the model
