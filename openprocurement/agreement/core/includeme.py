@@ -30,10 +30,10 @@ def includeme(config):
         'add_agreement_type',
         register_agreement_type
     )
-    config.add_route_predicate(
-        'agreementType',
-        IsAgreement
+    config.add_request_method(
+        extract_agreement, 'agreement', reify=True
     )
+    config.add_route_predicate('agreementType', IsAgreement)
     config.add_request_method(agreement_from_data)
     config.registry.registerAdapter(
         BaseAgreementConfigurator,
