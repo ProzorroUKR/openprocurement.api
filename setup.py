@@ -37,16 +37,16 @@ docs_requires = requires + [
 
 entry_points = {
     'openprocurement.tender.core.plugins': [
-        'closeFrameworkAgreementSelectionUA = openprocurement.tender.cfaua.includeme:includeme'
+        'closeFrameworkAgreementSelectionUA = openprocurement.tender.cfaselectionua.includeme:includeme'
     ],
     # 'openprocurement.api.migrations': [
-        # 'cfaua_tenders = openprocurement.tender.cfaua.migration:migrate_data'
+        # 'cfaselectionua_tenders = openprocurement.tender.cfaselectionua.migration:migrate_data'
     # ]
 }
 
-setup(name='openprocurement.tender.cfaua',
+setup(name='openprocurement.tender.cfaselectionua',
       version=version,
-      description='openprocurement.tender.cfaua',
+      description='openprocurement.tender.cfaselectionua',
       long_description=README,
       classifiers=[
           "Framework :: Pylons",
@@ -59,7 +59,7 @@ setup(name='openprocurement.tender.cfaua',
       author='Quintagroup, Ltd.',
       author_email='info@quintagroup.com',
       license='Apache License 2.0',
-      url='https://github.com/openprocurement/openprocurement.tender.cfaua',
+      url='https://github.com/openprocurement/openprocurement.tender.cfaselectionua',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['openprocurement', 'openprocurement.tender'],
       include_package_data=True,
@@ -67,5 +67,5 @@ setup(name='openprocurement.tender.cfaua',
       install_requires=requires,
       tests_require=test_requires,
       extras_require={'test': test_requires, 'docs': docs_requires},
-      test_suite="openprocurement.tender.cfaua.tests.main.suite",
+      test_suite="openprocurement.tender.cfaselectionua.tests.main.suite",
       entry_points=entry_points)
