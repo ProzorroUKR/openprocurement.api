@@ -136,6 +136,14 @@ class TenderEUResource(TenderResource):
         elif self.request.authenticated_role == 'tender_owner' and \
                 self.request.validated['tender_status'] == 'active.qualification' and \
                 tender.status == "active.qualification.stand-still":
+            active_lots = [lot.id for lot in tender.lots if lot.status == 'active'] if tender.lots else [None]
+            if any([i['status'] in self.request.validated['tender'].block_complaint_status
+                    for a in self.request.validated['tender']['awards']
+                    for i in a['complaints'] if a['lotID'] in active_lots]):
+                raise_operation_error(
+                    self.request,
+                    'Can\'t switch to \'active.qualification.stand-still\' before resolve all complaints'
+                )
             if all_awards_are_reviewed(self.request):
                 normalized_date = calculate_normalized_date(now, tender, True)
                 tender.awardPeriod.endDate = calculate_business_date(
