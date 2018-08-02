@@ -617,7 +617,7 @@ def create_tender_bidder_document(self):
             self.tender_id, self.bid_id, doc_resource, self.bid_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (active.pre-qualification) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't upload document in current (active.pre-qualification) tender status")
 
     # list qualifications
     response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
@@ -639,7 +639,7 @@ def create_tender_bidder_document(self):
             self.tender_id, self.bid_id, doc_resource, self.bid_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (active.pre-qualification.stand-still) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't upload document in current (active.pre-qualification.stand-still) tender status")
 
     # switch to active.auction
     self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
@@ -653,7 +653,7 @@ def create_tender_bidder_document(self):
             self.tender_id, self.bid_id, doc_resource,  self.bid_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (active.auction) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't upload document in current (active.auction) tender status")
 
     # switch to qualification
     self.app.authorization = ('Basic', ('auction', ''))
@@ -678,11 +678,28 @@ def create_tender_bidder_document(self):
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.json['data']['status'], "active.awarded")
     
-    for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
+    for doc_resource in ['documents', 'eligibility_documents', 'qualification_documents']:
         response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(
-            self.tender_id, self.bid2_id, doc_resource,  self.bid_token), upload_files=[('file', 'name.doc', 'content')])
-        self.assertEqual(response.status, '201 Created')
+            self.tender_id, self.bid2_id, doc_resource,  self.bid_token),
+            upload_files=[('file', 'name.doc', 'content')],
+            status=403)
+
+        self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'], [{
+            u"location": u"body",
+            u"name": u"data",
+            u"description": u"Can't upload document in current (active.awarded) tender status"}
+        ])
+
+    response = self.app.post('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
+        self.tender_id, self.bid2_id,  self.bid_token),
+        upload_files=[('file', 'name.doc', 'content')],
+        status=201)
+
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+        
 
     # time travel
     tender = self.db.get(self.tender_id)
@@ -704,7 +721,7 @@ def create_tender_bidder_document(self):
             self.tender_id, self.bid_id, doc_resource,  self.bid_token), upload_files=[('file', 'name.doc', 'content')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (complete) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't upload document in current (complete) tender status")
 
 
 def put_tender_bidder_document(self):
@@ -798,7 +815,7 @@ def put_tender_bidder_document(self):
             self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource]['id'], self.bid_token), upload_files=[('file', 'name.doc', 'content4')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.pre-qualification) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], u"Can't upload document in current (active.pre-qualification) tender status")
 
     # list qualifications
     response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
@@ -819,7 +836,7 @@ def put_tender_bidder_document(self):
             self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource]['id'], self.bid_token), upload_files=[('file', 'name.doc', 'content4')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.pre-qualification.stand-still) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't upload document in current (active.pre-qualification.stand-still) tender status")
 
     # switch to active.auction
     self.set_status('active.auction', {"id": self.tender_id, 'status': 'active.pre-qualification.stand-still'})
@@ -833,7 +850,7 @@ def put_tender_bidder_document(self):
             self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource]['id'], self.bid_token), upload_files=[('file', 'name.doc', 'content4')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (active.auction) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't upload document in current (active.auction) tender status")
 
     # switch to qualification
     self.app.authorization = ('Basic', ('auction', ''))
@@ -858,11 +875,22 @@ def put_tender_bidder_document(self):
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.json['data']['status'], "active.awarded")
 
-    for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
+    for doc_resource in ['documents', 'eligibility_documents', 'qualification_documents']:
         response = self.app.put('/tenders/{}/bids/{}/{}/{}'.format(
-            self.tender_id, self.bid2_id, doc_resource, doc_id_by_type2[doc_resource]['id']), upload_files=[('file', 'name.doc', 'content4')])
-        self.assertEqual(response.status, '200 OK')
+            self.tender_id, self.bid2_id, doc_resource, doc_id_by_type2[doc_resource]['id']),
+            upload_files=[('file', 'name.doc', 'content4')],
+            status=403)
+        self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"],
+            "Can't upload document in current (active.awarded) tender status")
+
+    response = self.app.put('/tenders/{}/bids/{}/financial_documents/{}'.format(
+        self.tender_id, self.bid2_id, doc_id_by_type2['financial_documents']['id']),
+        upload_files=[('file', 'name.doc', 'content4')])
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+
 
     # time travel
     tender = self.db.get(self.tender_id)
@@ -886,7 +914,7 @@ def put_tender_bidder_document(self):
             self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource]['id']), upload_files=[('file', 'name.doc', 'content4')], status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
+        self.assertEqual(response.json['errors'][0]["description"], "Can't upload document in current (complete) tender status")
 
 
 def delete_tender_bidder(self):
