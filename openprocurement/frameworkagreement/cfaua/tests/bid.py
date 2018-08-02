@@ -27,7 +27,8 @@ from openprocurement.frameworkagreement.cfaua.tests.bid_blanks import (
     put_tender_bidder_document,
     patch_tender_bidder_document,
     patch_tender_bidder_document_private,
-    download_tender_bidder_document
+    download_tender_bidder_document,
+    create_tender_bidder_document_nopending
 )
 from openprocurement.tender.openeu.tests.bid import (
     # Tender2BidResourceTestMixin,
@@ -41,7 +42,6 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     get_tender_bidder_document_ds,
     # TenderBidDocumentResourceTest
     patch_and_put_document_into_invalid_bid,
-    create_tender_bidder_document_nopending,
     # TenderBidFeaturesResourceTest
     features_bidder,
     features_bidder_invalid,
@@ -106,7 +106,7 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
     test_features_bidder = snitch(features_bidder)
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
-@unittest.skipIf(True, 'Rewrite tests')  # TODO Rewrite tests
+
 class TenderBidDocumentResourceTest(BaseTenderContentWebTest, TenderBidDocumentResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_status = 'active.tendering'
