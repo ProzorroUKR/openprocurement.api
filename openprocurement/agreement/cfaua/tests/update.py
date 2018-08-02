@@ -112,7 +112,7 @@ class TestAgreementPatch(Base):
 
 
 def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestAgreementPatch))
-    suite.addTest(unittest.makeSuite(TestExtractCredentials))
-    return suite
+    _suite = unittest.TestSuite()
+    _suite.addTest(unittest.makeSuite(TestAgreementPatch))
+    _suite.addTest(unittest.makeSuite(TestExtractCredentials))
+    return _suite
