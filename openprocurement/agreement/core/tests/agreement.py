@@ -8,12 +8,12 @@ from openprocurement.agreement.core.tests.base import BaseAgreementTest, TEST_AG
 from openprocurement.agreement.core.utils import (
     agreement_from_data,
     agreement_serialize,
-    extract_agreement,
     extract_agreement_by_id,
     register_agreement_type,
     save_agreement,
     apply_patch, set_ownership)
 from openprocurement.agreement.core.models.agreement import Agreement
+from openprocurement.agreement.core.validation import validate_agreement_data
 from schematics.types import StringType
 
 
@@ -162,10 +162,28 @@ class UtilsAgreementTest(BaseAgreementTest):
         set_ownership(item, request)
 
 
+class ValidationAgreementTest(BaseAgreementTest):
+    relative_to = os.path.dirname(__file__)
+
+    @patch('openprocurement.agreement.core.validation.validate_json_data')
+    def test_validate_agreement_data(self, mocked_validation_json_data):
+        request = MagicMock()
+        data = deepcopy(TEST_AGREEMENT)
+        model = MagicMock()
+        request.check_accreditation.side_effect = [False, True]
+        mocked_validation_json_data.side_effect = [data, data]
+        request.agreement_from_data.side_effect = [model, model]
+        with self.assertRaises(Exception) as e:
+            res = validate_agreement_data(request)
+        res = validate_agreement_data(request)
+        self.assertTrue(res)
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AgreementsResourceTest))
     suite.addTest(unittest.makeSuite(UtilsAgreementTest))
+    suite.addTest(unittest.makeSuite(ValidationAgreementTest))
     return suite
 
 

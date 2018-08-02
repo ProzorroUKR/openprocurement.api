@@ -4,7 +4,6 @@ from schematics.exceptions import ModelValidationError
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 from openprocurement.agreement.core.constants import DEFAULT_TYPE
-# from openprocurement.agreement.core.resource import error_handler
 from openprocurement.api.utils import (
     set_modetest_titles,
     get_revision_changes,
@@ -12,7 +11,8 @@ from openprocurement.api.utils import (
     get_now,
     context_unpack,
     generate_id,
-    error_handler)
+    error_handler
+)
 
 
 PKG = get_distribution(__package__)
