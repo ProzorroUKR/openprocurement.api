@@ -1,4 +1,7 @@
-from openprocurement.api.utils import json_view
+from openprocurement.api.utils import (
+    json_view,
+    APIResource
+    )
 from openprocurement.agreement.core.resource import (
     AgreementsResource,
     agreements_resource
@@ -13,11 +16,14 @@ from openprocurement.agreement.core.utils import (
 @agreements_resource(
     name='cfaua:Agreement',
     path='/agreements/{agreement_id}',
-    agreementType='cfaua'
+    agreementType='cfaua',
+    description='Agreements resource'
 )
-class CFAgreementAPIResource(AgreementsResource):
+class AgreementResource(APIResource):
 
-    @json_view(permission='view_agreement')
+    @json_view(
+        permission='view_agreement'
+    )
     def get(self):
         return {
             "data": self.context.serialize("view")

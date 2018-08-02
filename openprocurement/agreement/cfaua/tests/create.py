@@ -8,7 +8,9 @@ class AgreementResourceTest(BaseAgreementWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = TEST_AGREEMENT
     def test_id(self):
-        self.assertTrue(self.agreement_id)
+        import pdb; pdb.set_trace()
+        self.assertIsNotNone(self.agreement_id)
+        self.assertIsNotNone(self.agreement_token)
 
 
 
