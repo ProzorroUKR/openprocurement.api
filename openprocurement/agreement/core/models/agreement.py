@@ -68,7 +68,7 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
     def __acl__(self):
         acl = [
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_agreement'),
-            #(Allow, '{}_{}'.format(self.owner, self.tender_token), 'generate_credentials')
+            (Allow, '{}_{}'.format(self.owner, self.tender_token), 'generate_credentials')
         ]
         return acl
 
