@@ -45,7 +45,7 @@ class APIAgreementsResource(AgreementsResource):
             self.request.response.status = 201
             self.request.response.headers['Location']\
                 = self.request.route_url(
-                '{}:Agreement'.format(agreement.agreementType),
+                '{}.Agreement'.format(agreement.agreementType),
                 agreement_id=agreement.id
             )
             return {
