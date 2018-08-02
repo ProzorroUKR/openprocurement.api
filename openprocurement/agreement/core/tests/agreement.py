@@ -14,6 +14,7 @@ from openprocurement.agreement.core.utils import (
     apply_patch, set_ownership)
 from openprocurement.agreement.core.models.agreement import Agreement
 from openprocurement.agreement.core.validation import validate_agreement_data
+from openprocurement.agreement.core.views.agreement import APIAgreementsResource
 from schematics.types import StringType
 
 
@@ -179,11 +180,33 @@ class ValidationAgreementTest(BaseAgreementTest):
         self.assertTrue(res)
 
 
+class ViewsAgreementTest(BaseAgreementTest):
+    relative_to = os.path.dirname(__file__)
+
+    @patch('openprocurement.agreement.core.views.agreement.save_agreement')
+    def test_view(self, mocked_save_agreement):
+        request = MagicMock()
+        context = MagicMock()
+        data = deepcopy(TEST_AGREEMENT)
+        agreement = MagicMock()
+        agreement.id = data['agreementID']
+        agreement.agreementID = data['agreementID']
+        agreement.agreementType = 'cfaua'
+        agreement.serialize.side_effect = [data]
+        request.validated = {'agreement': agreement}
+        mocked_save_agreement.side_effect = [True]
+        view = APIAgreementsResource(request=request, context=context)
+        res = view.post()
+        self.assertTrue(res['access']['token'])
+        self.assertEqual(res['data'], data)
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AgreementsResourceTest))
     suite.addTest(unittest.makeSuite(UtilsAgreementTest))
     suite.addTest(unittest.makeSuite(ValidationAgreementTest))
+    suite.addTest(unittest.makeSuite(ViewsAgreementTest))
     return suite
 
 
