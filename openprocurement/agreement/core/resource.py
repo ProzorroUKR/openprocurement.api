@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from functools import partial
-from cornice.resource import resource
+from cornice.resource import resource as cornice_resource
 from openprocurement.api.utils import (
     error_handler,
     APIResourceListing
     )
 from openprocurement.agreement.core.traversal import factory
-from openprocurement.agreement.core.models.agreement import Agreement
 from openprocurement.agreement.core.design import (
     FIELDS,
     agreements_all_view,
@@ -21,7 +20,7 @@ from openprocurement.agreement.core.utils import agreement_serialize
 
 
 agreements_resource = partial(
-    resource,
+    cornice_resource,
     factory=factory,
     error_handler=error_handler
 )
@@ -54,9 +53,12 @@ class IsAgreement(object):
 
     def __call__(self, context, request):
         if request.agreement is not None:
-            c_type = getattr(request.contract, 'agreementType',
-                             None) or "cfa"
-            return c_type == self.val
+            value = getattr(
+                request.agreement,
+                'agreementType',
+                None
+            )
+            return value == self.val
         return False
 
 
