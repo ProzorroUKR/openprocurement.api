@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import unittest
 from openprocurement.agreement.core.tests.base import BaseAgreementWebTest
@@ -46,24 +47,68 @@ class TestExtractCredentials(Base):
 class TestAgreementPatch(Base):
 
     """ Patch agreement item """
-    # def test_agreement_patch_invalid(self):
-    #     data = {
-    #         "status": "terminated",
-    #     }
-    #     response = self.app.patch_json(
-    #         '/agreements/{}/credentials?acc_token={}'.format(
-    #             self.agreement_id, self.initial_data['tender_token']),
-    #         {'data': ''}
-    #     )
-    #     self.assertEqual(response.status, '200 OK')
-    #
-    #     token = response.json['access']['token']
-    #
-    #     responce = self.app.patch_json(
-    #         '/agreements/{}?acc_token={}'.format(
-    #         self.agreement_id, token),
-    #         {'data': data}
-    #     )
+    def test_agreement_patch_invalid(self):
+        response = self.app.patch_json(
+            '/agreements/{}/credentials?acc_token={}'.format(
+                self.agreement_id, self.initial_data['tender_token']),
+            {'data': ''}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        token = response.json['access']['token']
+        for data in [
+            {"title": "new title"},
+            {
+                "items": [
+                  {
+                    "description": "description",
+                    "additionalClassifications": [
+                      {
+                        "scheme": u"ДКПП",
+                        "id": "01.11.83-00.00",
+                        "description": u"Арахіс лущений"
+                      }
+                    ],
+                    "deliveryAddress": {
+                      "postalCode": "11223",
+                      "countryName": u"Україна",
+                      "streetAddress": u"ываыпып",
+                      "region": u"Київська обл.",
+                      "locality": u"м. Київ"
+                    },
+                    "deliveryDate": {
+                      "startDate": "2016-05-16T00:00:00+03:00",
+                      "endDate": "2016-06-29T00:00:00+03:00"
+                    }
+                  }
+                ],
+            },
+            {
+                'procuringEntity': {
+                    "contactPoint": {
+                        "email": "mail@gmail.com"
+                    },
+                    "identifier": {
+                        "scheme": "UA-EDR",
+                        "id": "111111111111111",
+                        "legalName": u"Демо организатор (государственные торги)"
+                    },
+                    "name": u"Демо организатор (государственные торги)",
+                    "kind": "other",
+                    "address": {
+                        "postalCode": "21027",
+                        "countryName": "Україна",
+                    }
+                }
+            }
+        ]:
+            responce = self.app.patch_json(
+                '/agreements/{}?acc_token={}'.format(
+                self.agreement_id, token),
+                {'data': data}
+            )
+            self.assertEqual(response.status, '200 OK')
+            self.assertIsNone(responce.json)
 
 
 def suite():
