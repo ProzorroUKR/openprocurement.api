@@ -46,9 +46,8 @@ class Agreement(BaseAgreement):
                 )),
             'edit_terminated': whitelist('terminationDetails'),
             'edit_active': (
-                whitelist(
-                    'status', 'terminationDetails'
-            )),
+                whitelist('status', 'terminationDetails')
+            ),
             'default': schematics_default_role,
             'embedded': schematics_embedded_role,
             'view':  (
@@ -77,12 +76,3 @@ class Agreement(BaseAgreement):
     )
     terminationDetails = StringType()
     create_accreditation = 3  # TODO
-
-    def get_role(self):
-        root = self.__parent__
-        request = root.request
-        if request.authenticated_role == 'Administrator':
-            role = 'Administrator'
-        else:
-            role = 'edit_{}'.format(request.context.status)
-        return role

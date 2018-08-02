@@ -10,6 +10,9 @@ from openprocurement.agreement.core.utils import (
     context_unpack,
     save_agreement
     )
+from openprocurement.agreement.cfaua.validation import (
+    validate_agreement_patch
+    )
 
 
 @agreements_resource(
@@ -31,7 +34,7 @@ class AgreementResource(APIResource):
     @json_view(
         content_type="application/json",
         permission="edit_agreement",
-        validators=()
+        validators=validate_agreement_patch
     )
     def patch(self):
         agreement = self.context
