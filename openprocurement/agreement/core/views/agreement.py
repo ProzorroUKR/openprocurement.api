@@ -22,7 +22,7 @@ from openprocurement.agreement.core.resource import (
     path="/agreements"
 )
 class APIAgreementsResource(AgreementsResource):
-    """ Base agreement containder """
+    """ Base agreement container """
     @json_view(
         content_type="application/json",
         permission='create_agreement',

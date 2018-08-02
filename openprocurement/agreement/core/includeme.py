@@ -26,6 +26,7 @@ def includeme(config):
     LOGGER.info("Load agreementCore plugin")
     add_design()
     config.registry.agreements_types = {}
+    config.add_route_predicate('agreementType', IsAgreement)
     config.add_directive(
         'add_agreement_type',
         register_agreement_type
@@ -33,7 +34,6 @@ def includeme(config):
     config.add_request_method(
         extract_agreement, 'agreement', reify=True
     )
-    config.add_route_predicate('agreementType', IsAgreement)
     config.add_request_method(agreement_from_data)
     config.registry.registerAdapter(
         BaseAgreementConfigurator,

@@ -6,6 +6,7 @@ version = '0.1.0'
 requires = [
     'setuptools',
     'openprocurement.api>=2.4',
+    'zope.configuration'
 ]
 test_requires = requires + [
     'webtest',

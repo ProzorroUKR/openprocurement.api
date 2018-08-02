@@ -1,16 +1,18 @@
 import logging
 from pkg_resources import get_distribution
 from schematics.exceptions import ModelValidationError
+from pyramid.compat import decode_path_info
+from pyramid.exceptions import URLDecodeError
 from openprocurement.agreement.core.constants import DEFAULT_TYPE
-from openprocurement.agreement.core.resource import error_handler
+# from openprocurement.agreement.core.resource import error_handler
 from openprocurement.api.utils import (
     set_modetest_titles,
     get_revision_changes,
     apply_data_patch,
     get_now,
     context_unpack,
-    generate_id
-    )
+    generate_id,
+    error_handler)
 
 
 PKG = get_distribution(__package__)
@@ -39,9 +41,8 @@ def agreement_from_data(request, data, raise_error=True, create=True):
     return model
 
 
-def extract_agreement(request):
+def extract_agreement_by_id(request, agreement_id):
     db = request.registry.db
-    agreement_id = request.matchdict['agreement_id']
     doc = db.get(agreement_id)
     if doc is not None and doc.get('doc_type') == 'agreement':
         request.errors.add('url', 'agreement_id', 'Archived')
@@ -52,6 +53,24 @@ def extract_agreement(request):
         request.errors.status = 404
         raise error_handler(request.errors)
     return request.agreement_from_data(doc)
+
+
+def extract_agreement(request):
+    try:
+        # empty if mounted under a path in mod_wsgi, for example
+        path = decode_path_info(request.environ['PATH_INFO'] or '/')
+    except KeyError:
+        path = '/'
+    except UnicodeDecodeError as e:
+        raise URLDecodeError(e.encoding, e.object, e.start, e.end, e.reason)
+
+    # extract agreement id
+    parts = path.split('/')
+    if len(parts) < 4 or parts[3] != 'agreements':
+        return
+
+    agreement_id = parts[4]
+    return extract_agreement_by_id(request, agreement_id)
 
 
 def register_agreement_type(config, model):
