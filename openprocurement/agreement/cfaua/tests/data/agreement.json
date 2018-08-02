@@ -155,6 +155,7 @@
         "date": "2018-07-30T17:40:15.786102+03:00",
         "id": "56e1f38d80224a8ea245f6af546acadc",
         "tender_id": "8481d7eb01694c25b18658036c236c5d",
+        "owner": "broker",
         "tender_token": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
         "procuringEntity":  {
             "kind": "general",

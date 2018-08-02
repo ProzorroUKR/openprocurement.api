@@ -57,8 +57,8 @@ class Agreement(BaseAgreement):
                     'description', 'description_en', 'description_ru',
                     'status', 'period', 'dateSigned', 'documents', 'items',
                     'owner', 'mode', 'tender_id', 'procuringEntity',
-                    'terminationDetails', 'contracts'
-            )),
+                    'terminationDetails', 'contracts')
+            ),
         }
     agreementNumber = StringType()
     agreementType = StringType(default='cfaua')

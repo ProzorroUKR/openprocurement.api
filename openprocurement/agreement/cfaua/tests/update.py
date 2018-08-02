@@ -7,7 +7,7 @@ from openprocurement.agreement.cfaua.tests.base import TEST_AGREEMENT
 class Base(BaseAgreementWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = TEST_AGREEMENT
-    initial_auth = ('Basic', ('token', ''))
+    initial_auth = ('Basic', ('broker', ''))
 
 
 class TestExtractCredentials(Base):
@@ -34,32 +34,40 @@ class TestExtractCredentials(Base):
             {'data': ''}
         )
         self.assertEqual(response.status, '200 OK')
-        self.assertIsNotNone(response.json.get('access', {}).get('token'))
+        token = response.json.get('access', {}).get('token')
+        self.assertIsNotNone(token)
+        doc = self.db.get(self.agreement_id)
+        self.assertEqual(
+            doc['owner_token'],
+            token
+        )
 
 
-# class TestAgreementPatch(Base):
-#
-#     def test_agreement_patch_invalid(self):
-#         data = {
-#             "status": "terminated",
-#         }
-#         response = self.app.patch_json(
-#             '/agreements/{}/credentials?acc_token={}'.format(
-#                 self.agreement_id, self.initial_data['tender_token']),
-#             {'data': ''}
-#         )
-#         self.assertEqual(response.status, '200 OK')
-#
-#         token = response.json['access']['token']
-#
-#         responce = self.app.patch_json(
-#             '/agreements/{}?acc_token={}'.format(
-#             self.agreement_id, token),
-#             {'data': data}
-#         )
+class TestAgreementPatch(Base):
+
+    """ Patch agreement item """
+    # def test_agreement_patch_invalid(self):
+    #     data = {
+    #         "status": "terminated",
+    #     }
+    #     response = self.app.patch_json(
+    #         '/agreements/{}/credentials?acc_token={}'.format(
+    #             self.agreement_id, self.initial_data['tender_token']),
+    #         {'data': ''}
+    #     )
+    #     self.assertEqual(response.status, '200 OK')
+    #
+    #     token = response.json['access']['token']
+    #
+    #     responce = self.app.patch_json(
+    #         '/agreements/{}?acc_token={}'.format(
+    #         self.agreement_id, token),
+    #         {'data': data}
+    #     )
 
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestAgreementPatch))
+    suite.addTest(unittest.makeSuite(TestExtractCredentials))
     return suite
