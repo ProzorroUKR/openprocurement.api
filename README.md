@@ -1,5 +1,5 @@
-[![pipeline status](https://gitlab.quintagroup.com/op/openprocurement.frameworkagreement.cfaua/badges/master/pipeline.svg)](https://gitlab.quintagroup.com/op/openprocurement.frameworkagreement.cfaua/commits/master)
-[![coverage report](https://gitlab.quintagroup.com/op/openprocurement.frameworkagreement.cfaua/badges/master/coverage.svg)](https://gitlab.quintagroup.com/op/openprocurement.frameworkagreement.cfaua/commits/master)
+[![pipeline status](https://gitlab.quintagroup.com/op/openprocurement.bridge.frameworkagreement/badges/master/pipeline.svg)](https://gitlab.quintagroup.com/op/openprocurement.bridge.frameworkagreement/commits/master)
+[![coverage report](https://gitlab.quintagroup.com/op/openprocurement.bridge.frameworkagreement/badges/master/coverage.svg)](https://gitlab.quintagroup.com/op/openprocurement.bridge.frameworkagreement/commits/master)
 
 OpenProcurement is initiative to develop software powering tenders database and reverse auction.
 
