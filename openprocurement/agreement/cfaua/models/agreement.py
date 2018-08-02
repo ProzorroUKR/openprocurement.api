@@ -2,7 +2,6 @@ from zope.interface import implementer, provider
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 from schematics.transforms import whitelist
-from schematics.types.serializable import serializable
 
 from openprocurement.api.roles import RolesFromCsv
 from openprocurement.api.models import  (
@@ -42,45 +41,41 @@ class Agreement(BaseAgreement):
                     'title_ru', 'description', 'description_en',
                     'description_ru', 'status', 'period',
                     'dateSigned', 'items', 'owner', 'tender_token',
-                    'tender_id', 'mode', 'procuringEntity'
+                    'tender_id', 'mode', 'procuringEntity', 'terminationDetails',
+                    'documents', 'contrats'
                 )),
-            'edit_terminated': whitelist(),
-            'default': schematics_default_role,
+            'edit_terminated': whitelist('terminationDetails'),
             'edit_active': (
                 whitelist(
-                    'title', 'title_en', 'title_ru', 'description', 'description_en',
-                    'description_ru', 'status', 'period', 'items',
+                    'status', 'terminationDetails'
             )),
-            'edit_terminated': whitelist(),
+            'default': schematics_default_role,
+            'embedded': schematics_embedded_role,
             'view':  (
                 whitelist(
                     'id', 'agreementID', 'dateModified',
                     'agreementNumber', 'title', 'title_en', 'title_ru',
                     'description', 'description_en', 'description_ru',
                     'status', 'period', 'dateSigned', 'documents', 'items',
-                    'owner', 'mode', 'tender_id', 'procuringEntity'
+                    'owner', 'mode', 'tender_id', 'procuringEntity',
+                    'terminationDetails', 'contracts'
             )),
         }
     agreementNumber = StringType()
     agreementType = StringType(default='cfaua')
     period = ModelType(Period)
     dateSigned = IsoDateTimeType()
-    # TODO: procuringEntity
-    # TODO: terminationDetails
-    # TODO: changes
     title_en = StringType()
     title_ru = StringType()
-
     description_en = StringType()
     description_ru = StringType()
-
     documents = ListType(ModelType(Document), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     items = ListType(ModelType(Item))
     procuringEntity = ModelType(
         ProcuringEntity, required=True
     )
-
+    terminationDetails = StringType()
     create_accreditation = 3  # TODO
 
     def get_role(self):
