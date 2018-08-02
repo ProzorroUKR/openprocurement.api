@@ -3,18 +3,17 @@ from openprocurement.api.utils import (
     APIResource
     )
 from openprocurement.agreement.core.resource import (
-    AgreementsResource,
     agreements_resource
     )
 from openprocurement.agreement.core.utils import (
     apply_patch,
     context_unpack,
     save_agreement
-)
+    )
 
 
 @agreements_resource(
-    name='cfaua:Agreement',
+    name='cfaua.Agreement',
     path='/agreements/{agreement_id}',
     agreementType='cfaua',
     description='Agreements resource'

@@ -1,10 +1,13 @@
 import unittest
-from openprocurement.agreement.cfaua.tests import create
+from openprocurement.agreement.cfaua.tests import (
+    create, get)
+
 
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(create.suite())
+    suite.addTest(get.suite())
     return suite
 
 

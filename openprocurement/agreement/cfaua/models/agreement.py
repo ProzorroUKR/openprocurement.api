@@ -75,7 +75,7 @@ class Agreement(BaseAgreement):
     description_ru = StringType()
 
     documents = ListType(ModelType(Document), default=list())
-    contracts = ListType(ModelType(Contract))
+    contracts = ListType(ModelType(Contract), default=list())
     items = ListType(ModelType(Item))
     procuringEntity = ModelType(
         ProcuringEntity, required=True
