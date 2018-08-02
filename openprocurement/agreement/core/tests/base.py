@@ -1,4 +1,5 @@
 import json
+import uuid
 import os.path
 import unittest
 import webtest
@@ -52,6 +53,7 @@ class BaseAgreementWebTest(BaseAgreementTest):
 
     def create_agreement(self):
         data = deepcopy(self.initial_data)
+        data['id'] = uuid.uuid4().hex
         with change_auth(self.app, ('Basic', ('agreements', ''))) as app:
             response = self.app.post_json('/agreements', {'data': data})
         agreement = response.json['data']
