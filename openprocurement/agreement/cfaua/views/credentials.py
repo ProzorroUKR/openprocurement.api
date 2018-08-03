@@ -11,7 +11,7 @@ from openprocurement.agreement.core.utils import (
     save_agreement
     )
 from openprocurement.agreement.cfaua.validation import (
-    validate_agreement_patch
+    validate_credentials_generate
     )
 
 
@@ -22,7 +22,10 @@ from openprocurement.agreement.cfaua.validation import (
 )
 class AgreementCredentialsResource(APIResource):
 
-    @json_view(permission='generate_credentials', validators=())
+    @json_view(
+        permission='generate_credentials',
+        validators=validate_credentials_generate
+    )
     def patch(self):
         agreement = self.request.validated['agreement']
 
