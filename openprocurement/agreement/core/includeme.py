@@ -22,7 +22,7 @@ PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
 
 
-def includeme(config):
+def includeme(config):  # pragma: no cover
     LOGGER.info("Load agreementCore plugin")
     add_design()
     config.registry.agreements_types = {}

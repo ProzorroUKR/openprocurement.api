@@ -4,6 +4,7 @@ import unittest
 
 from copy import deepcopy
 from mock import MagicMock, patch
+from openprocurement.agreement.core.resource import IsAgreement
 from openprocurement.agreement.core.tests.base import BaseAgreementTest, TEST_AGREEMENT
 from openprocurement.agreement.core.traversal import factory
 from openprocurement.agreement.core.utils import (
@@ -12,7 +13,7 @@ from openprocurement.agreement.core.utils import (
     extract_agreement_by_id,
     register_agreement_type,
     save_agreement,
-    apply_patch, set_ownership)
+    apply_patch, set_ownership, extract_agreement)
 from openprocurement.agreement.core.models.agreement import Agreement
 from openprocurement.agreement.core.validation import validate_agreement_data
 from openprocurement.agreement.core.views.agreement import APIAgreementsResource
@@ -105,7 +106,8 @@ class UtilsAgreementTest(BaseAgreementTest):
         with self.assertRaises(Exception) as e:
             res = agreement_from_data(request, TEST_AGREEMENT)
 
-    def test_extract_agreement_by_id(self):
+    @patch('openprocurement.agreement.core.utils.decode_path_info')
+    def test_extract_agreement_by_id(self, mocked_decode_path_info):
         data = deepcopy(TEST_AGREEMENT)
         agreement_id = data['agreementID']
         request = MagicMock()
@@ -120,6 +122,19 @@ class UtilsAgreementTest(BaseAgreementTest):
         request.registry.db = {data['agreementID']: {'doc_type': 'Agreement'}}
         res = extract_agreement_by_id(request, agreement_id)
         self.assertEqual(res, True)
+        mocked_decode_path_info.side_effect = [
+            '/', '/url/test/agreements/{}'.format(data['agreementID'],
+            KeyError('Missing \'PATH_INFO\''),
+            UnicodeDecodeError('UTF-8', 'obj', 1, 10, 'Hm...'),)
+        ]
+        res = extract_agreement(request)
+        self.assertFalse(res)
+        res = extract_agreement(request)
+        self.assertEqual(res, True)
+        with self.assertRaises(Exception) as e:
+            res = extract_agreement(request)
+        with self.assertRaises(Exception) as e:
+            res = extract_agreement(request)
 
     def test_register_agreement_type(self):
         config = MagicMock()
@@ -251,6 +266,23 @@ class TraversalAgreementTest(BaseAgreementTest):
         res = factory(request)
         self.assertEqual(res.id, data['agreementID'])
         self.assertEqual(res.title, 'test_factory')
+
+
+class ResourcesAgreementTest(BaseAgreementTest):
+    relative_to = os.path.dirname(__file__)
+
+    def test_IsAgreement(self):
+        config = MagicMock()
+        request = MagicMock()
+        context = MagicMock()
+        obj = IsAgreement(val='cfa-ua_test', config=config)
+        agreement_type = obj.text()
+        self.assertEqual(agreement_type, 'agreementType = cfa-ua_test')
+        res_call = obj.__call__(context=context, request=request)
+        self.assertFalse(res_call)
+        request.agreement = None
+        res_call = obj.__call__(context=context, request=request)
+        self.assertFalse(res_call)
 
 
 def suite():
