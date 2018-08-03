@@ -201,12 +201,34 @@ class ViewsAgreementTest(BaseAgreementTest):
         self.assertEqual(res['data'], data)
 
 
+class ModelAgreementTest(BaseAgreementTest):
+    relative_to = os.path.dirname(__file__)
+
+    def test_agreement_model(self):
+        data = deepcopy(TEST_AGREEMENT)
+        agreement = Agreement()
+        data['tender_id'] = '9a750db83cc64b34a879221513c13805'
+        data['title'] = 'test_name'
+        data['description'] = 'test description'
+        res = agreement.import_data(data)
+        self.assertTrue(res)
+        roles = agreement.__local_roles__()
+        self.assertTrue(roles)
+        acl = agreement.__acl__()
+        self.assertTrue(acl)
+        repr = agreement.__repr__()
+        self.assertTrue(repr)
+
+
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AgreementsResourceTest))
     suite.addTest(unittest.makeSuite(UtilsAgreementTest))
     suite.addTest(unittest.makeSuite(ValidationAgreementTest))
     suite.addTest(unittest.makeSuite(ViewsAgreementTest))
+    suite.addTest(unittest.makeSuite(ModelAgreementTest))
     return suite
 
 
