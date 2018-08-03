@@ -7,12 +7,14 @@ from openprocurement.api.models import (
     Organization
     )
 
-from openprocurement.agreement.cfaua.models.contactpoint import ContactPoint
+from openprocurement.agreement.cfaua.models.contactpoint\
+    import ContactPoint
 
 
 class ProcuringEntity(Organization):
     """An organization."""
     class Options:
+        # TODO: do we really need roles here
         roles = {
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,

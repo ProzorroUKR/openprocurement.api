@@ -3,7 +3,8 @@ from pkg_resources import get_distribution
 from pyramid.interfaces import IRequest
 from openprocurement.api.interfaces import IContentConfigurator
 
-from openprocurement.agreement.cfaua.interfaces import IClosedFrameworkAgreementUA
+from openprocurement.agreement.cfaua.interfaces\
+    import IClosedFrameworkAgreementUA
 from openprocurement.agreement.cfaua.models.agreement\
     import Agreement
 from openprocurement.agreement.cfaua.adapters.configurator\

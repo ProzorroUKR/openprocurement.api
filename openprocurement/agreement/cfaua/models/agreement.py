@@ -1,8 +1,8 @@
 from zope.interface import implementer, provider
 from schematics.types import StringType
 from schematics.types.compound import ModelType
-from schematics.transforms import whitelist, blacklist
-
+from schematics.transforms import whitelist
+from pyramid.security import Allow
 from openprocurement.api.roles import RolesFromCsv
 from openprocurement.api.models import  (
     plain_role,
@@ -43,9 +43,10 @@ class Agreement(BaseAgreement):
                     'dateSigned', 'items', 'owner', 'tender_token',
                     'tender_id', 'mode', 'procuringEntity', 'terminationDetails',
                     'documents', 'contrats'
-                )),
-            'edit_terminated': whitelist('terminationDetails'),
-            'edit_active': whitelist('status', 'terminationDetails'),
+                )
+            ),
+            'edit_terminated': whitelist(),
+            'edit_active': whitelist('status', 'terminationDetails', 'documents'),
             'default': schematics_default_role,
             'embedded': schematics_embedded_role,
             'view':  (
@@ -55,7 +56,8 @@ class Agreement(BaseAgreement):
                     'description', 'description_en', 'description_ru',
                     'status', 'period', 'dateSigned', 'documents', 'items',
                     'owner', 'mode', 'tender_id', 'procuringEntity',
-                    'terminationDetails', 'contracts')
+                    'terminationDetails', 'contracts'
+                )
             ),
         }
     agreementNumber = StringType()
@@ -74,6 +76,17 @@ class Agreement(BaseAgreement):
     )
     terminationDetails = StringType()
     create_accreditation = 3  # TODO
+
+    def __acl__(self):
+        acl = super(Agreement, self).__acl__()
+        acl.append(
+            (
+                Allow,
+                '{}_{}'.format(self.owner, self.owner_token),
+                'upload_agreement_documents'
+            ),
+        )
+        return acl
 
     def get_role(self):
         root = self.__parent__

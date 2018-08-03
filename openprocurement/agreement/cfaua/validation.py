@@ -1,7 +1,8 @@
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import (
     validate_data,
-    validate_json_data
+    validate_json_data,
+    OPERATIONS
     )
 
 
@@ -15,5 +16,18 @@ def validate_credentials_generate(request):
     agreement = request.validated['agreement']
     if agreement.status != "active":
         raise_operation_error(
-            request, "Can't generate credentials in current ({}) agreement status".format(agreement.status)
+            request,
+            "Can't generate credentials in current ({}) agreement status".format(agreement.status)
+        )
+
+
+def validate_document_operation_on_agreement_status(request):
+    status = request.validated['agreement'].status
+    if status != 'active':
+        raise_operation_error(
+            request,
+            "Can't {} document in current {} agreement status".format(
+                OPERATIONS.get(request.method),
+                status
+            )
         )

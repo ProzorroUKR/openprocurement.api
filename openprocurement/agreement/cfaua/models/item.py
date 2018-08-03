@@ -1,18 +1,12 @@
 from schematics.types import StringType
 from schematics.types.compound import ModelType
-from schematics.transforms import whitelist
-from openprocurement.api.roles import RolesFromCsv
 from openprocurement.api.models import (
     Item as BaseItem,
     ListType,
     CPVClassification,
-    Model,
     AdditionalClassification,
-    Unit,
     Address,
     PeriodEndRequired,
-    schematics_default_role,
-    schematics_embedded_role
     )
 
 
