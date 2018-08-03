@@ -5,6 +5,7 @@ from zope.component import getAdapter
 from openprocurement.api.utils import get_now, raise_operation_error, update_logging_context
 from openprocurement.api.validation import validate_data, OPERATIONS
 from openprocurement.api.interfaces import IContentConfigurator
+
 from openprocurement.frameworkagreement.cfaua.constants import MIN_BIDS_NUMBER
 
 
@@ -17,6 +18,7 @@ def validate_patch_qualification_data(request):
 def validate_view_bids_in_active_tendering(request):
     if request.validated['tender_status'] == 'active.tendering':
         raise_operation_error(request, 'Can\'t view {} in current ({}) tender status'.format('bid' if request.matchdict.get('bid_id') else 'bids', request.validated['tender_status']))
+
 
 # bid document
 def validate_add_bid_document_not_in_allowed_status(request):
@@ -46,6 +48,7 @@ def validate_qualification_document_operation_not_in_pending(request):
     qualification = request.validated['qualification']
     if qualification.status != 'pending':
         raise_operation_error(request, 'Can\'t {} document in current qualification status'.format(OPERATIONS.get(request.method)))
+
 
 # qualification complaint
 def validate_qualification_update_not_in_pre_qualification(request):
