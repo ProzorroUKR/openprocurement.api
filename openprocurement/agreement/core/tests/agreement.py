@@ -5,6 +5,7 @@ import unittest
 from copy import deepcopy
 from mock import MagicMock, patch
 from openprocurement.agreement.core.tests.base import BaseAgreementTest, TEST_AGREEMENT
+from openprocurement.agreement.core.traversal import factory
 from openprocurement.agreement.core.utils import (
     agreement_from_data,
     agreement_serialize,
@@ -15,6 +16,7 @@ from openprocurement.agreement.core.utils import (
 from openprocurement.agreement.core.models.agreement import Agreement
 from openprocurement.agreement.core.validation import validate_agreement_data
 from openprocurement.agreement.core.views.agreement import APIAgreementsResource
+from requests import Request
 from schematics.types import StringType
 
 
@@ -201,12 +203,64 @@ class ViewsAgreementTest(BaseAgreementTest):
         self.assertEqual(res['data'], data)
 
 
+class ModelAgreementTest(BaseAgreementTest):
+    relative_to = os.path.dirname(__file__)
+
+    def test_agreement_model(self):
+        data = deepcopy(TEST_AGREEMENT)
+        agreement = Agreement()
+        data['tender_id'] = '9a750db83cc64b34a879221513c13805'
+        data['title'] = 'test_name'
+        data['description'] = 'test description'
+        res = agreement.import_data(data)
+        self.assertTrue(res)
+        roles = agreement.__local_roles__()
+        self.assertTrue(roles)
+        acl = agreement.__acl__()
+        self.assertTrue(acl)
+        repr = agreement.__repr__()
+        self.assertTrue(repr)
+
+
+class TraversalAgreementTest(BaseAgreementTest):
+    relative_to = os.path.dirname(__file__)
+
+    @patch('openprocurement.agreement.core.traversal.get_item')
+    def test_factory(self, mocked_get_item):
+        data = deepcopy(TEST_AGREEMENT)
+        agreement = MagicMock()
+        agreement.id = data['agreementID']
+        agreement.title = 'test_factory'
+
+        request = MagicMock()
+        request.url = 'http://localhost/api/2.4/agreements'
+        request.matchdict = {'agreement_id': data['agreementID'],
+                             'document_id': '9a750db83cc64b34a879221513c13805'}
+        request.agreement = agreement
+        request.method = 'POST'
+        mocked_get_item.side_effect = ['test_item1', 'test_item2']
+        res = factory(request)
+        self.assertEqual(res, 'test_item1')
+        self.assertEqual(mocked_get_item.called, True)
+        request.matchdict = {'agreement_id': data['agreementID'],
+                             'contract_id': '9a750db83cc64b34a879221513c13805'}
+        res = factory(request)
+        self.assertEqual(res, 'test_item2')
+        self.assertEqual(mocked_get_item.called, True)
+        request.matchdict = {'agreement_id': data['agreementID']}
+        res = factory(request)
+        self.assertEqual(res.id, data['agreementID'])
+        self.assertEqual(res.title, 'test_factory')
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AgreementsResourceTest))
     suite.addTest(unittest.makeSuite(UtilsAgreementTest))
     suite.addTest(unittest.makeSuite(ValidationAgreementTest))
     suite.addTest(unittest.makeSuite(ViewsAgreementTest))
+    suite.addTest(unittest.makeSuite(ModelAgreementTest))
+    suite.addTest(unittest.makeSuite(TraversalAgreementTest))
     return suite
 
 
