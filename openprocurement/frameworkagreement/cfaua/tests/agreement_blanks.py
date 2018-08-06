@@ -148,7 +148,7 @@ def patch_tender_agreement_datesigned(self):
         {"data": {"status": "active"}},
         status=403
     )
-    end_date = calculate_business_date(award_period_end_date, AGREEMENT_UPLOAD_DOCS_PERIOD, working_days=True)
+    end_date = calculate_business_date(award_period_end_date, AGREEMENT_UPLOAD_DOCS_PERIOD)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(
@@ -498,7 +498,7 @@ def patch_tender_agreement(self):
         {"data": {"status": "active"}},
         status=403
     )
-    end_date = calculate_business_date(award_period_end_date, AGREEMENT_UPLOAD_DOCS_PERIOD, working_days=True)
+    end_date = calculate_business_date(award_period_end_date, AGREEMENT_UPLOAD_DOCS_PERIOD)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(
@@ -596,7 +596,7 @@ def not_found(self):
     self.assertEqual(response.status, '404 Not Found')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], 
+    self.assertEqual(response.json['errors'],
                      [{u'description': u'Not Found', u'location': u'url', u'name': u'agreement_id'}])
 
     response = self.app.post(
@@ -664,12 +664,12 @@ def not_found(self):
     self.assertEqual(response.status, '404 Not Found')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], 
+    self.assertEqual(response.json['errors'],
                      [{u'description': u'Not Found', u'location': u'url', u'name': u'agreement_id'}])
 
     response = self.app.put(
         '/tenders/{}/agreements/{}/documents/some_id?acc_token={}'.format(self.tender_id, self.agreement_id,
-                                                                         self.tender_token),
+                                                                          self.tender_token),
         status=404,
         upload_files=[('file', 'name.doc', 'content2')]
     )

@@ -56,7 +56,7 @@ class TenderAgreementResource(BaseResource):
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
         docs_upload_end_date = calculate_business_date(
-            tender.awardPeriod.endDate, config.agreement_upload_docs_period, tender, True
+            tender.awardPeriod.endDate, config.agreement_upload_docs_period, tender
         )
         if self.request.context.dateSigned and self.request.context.dateSigned <= docs_upload_end_date:
             raise_operation_error(
