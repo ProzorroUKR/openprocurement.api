@@ -1,21 +1,21 @@
+from openprocurement.agreement.cfaua.validation \
+    import validate_document_operation_on_agreement_status
+from openprocurement.agreement.core.resource \
+    import agreements_resource
+from openprocurement.agreement.core.utils \
+    import context_unpack, save_agreement, apply_patch
 from openprocurement.api.utils import (
     json_view,
     APIResource,
     get_file,
     upload_file,
     update_file_content_type
-    )
+)
 from openprocurement.api.validation import (
     validate_file_update,
     validate_file_upload,
     validate_patch_document_data
-    )
-from openprocurement.agreement.core.resource\
-    import agreements_resource
-from openprocurement.agreement.core.utils\
-    import context_unpack, save_agreement, apply_patch
-from openprocurement.agreement.cfaua.validation\
-    import validate_document_operation_on_agreement_status
+)
 
 
 @agreements_resource(
@@ -91,7 +91,8 @@ class AgreementContractsResource(APIResource):
     def put(self):
         """ Agreement Document Update"""
         document = upload_file(self.request)
-        self.context.documents.append(document)
+        self.request.validated['agreement'].documents.append(document)
+
         if save_agreement(self.request):
             self.LOGGER.info(
                 'Updated agreement document {}'.format(self.request.context.id),
