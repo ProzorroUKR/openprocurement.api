@@ -119,13 +119,26 @@ def agreement_patch_invalid(self):
             }
         }
     ]:
-        responce = self.app.patch_json(
-            '/agreements/{}?acc_token={}'.format(
-            self.agreement_id, token),
-            {'data': data}
-        )
+        response = self.app.patch_json(
+            '/agreements/{}?acc_token={}'.format(self.agreement_id, token), {'data': data})
         self.assertEqual(response.status, '200 OK')
-        self.assertIsNone(responce.json)
+        self.assertIsNone(response.json)
+
+    response = self.app.patch_json('/agreements/{}?acc_token={}'.format(
+        self.agreement_id, token), {'data': {'status': 'terminated'}})
+
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['status'], 'terminated')
+    response = self.app.patch_json(
+        '/agreements/{}/credentials?acc_token={}'.format(self.agreement_id, self.initial_data['tender_token']),
+        {'data': ''}, status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'], [
+                     {u'description': u"Can't generate credentials in current (terminated)"
+                                      u" agreement status", u'location': u'body', u'name': u'data'}]
+                     )
 
 
 def empty_listing(self):

@@ -2,9 +2,18 @@
 import os
 import unittest
 from copy import deepcopy
+
+from openprocurement.agreement.cfaua.tests.document_blanks import (
+    get_documents_list,
+    get_document_by_id,
+    create_agreement_document_forbidden,
+    create_agreement_documents,
+    not_found,
+    put_contract_document
+)
 from openprocurement.agreement.core.tests.base import BaseAgreementWebTest, BaseDSAgreementWebTest
 from openprocurement.agreement.cfaua.tests.base import TEST_AGREEMENT, TEST_DOCUMENTS
-
+from openprocurement.api.tests.base import snitch
 
 data = deepcopy(TEST_AGREEMENT)
 data['documents'] = TEST_DOCUMENTS
@@ -17,54 +26,32 @@ class Base(BaseAgreementWebTest):
 
 
 class TestDocumentGet(Base):
-
-    def test_get_documnets_list(self):
-        resp = self.app.get(
-            '/agreements/{}/documents'.format(self.agreement_id)
-        )
-        documents = resp.json['data']
-        self.assertEqual(len(documents), len(TEST_DOCUMENTS))
-
-    def test_get_documnet_by_id(self):
-        documents = self.db.get(self.agreement_id).get('documents')
-        for doc in documents:
-            resp = self.app.get(
-                '/agreements/{}/documents/{}'.format(self.agreement_id, doc['id'])
-            )
-            document = resp.json['data']
-            self.assertEqual(doc['id'], document['id'])
-            self.assertEqual(doc['title'], document['title'])
-            self.assertEqual(doc['format'], document['format'])
-            self.assertEqual(doc['datePublished'], document['datePublished'])
+    test_get_documnets_list = snitch(get_documents_list)
+    test_get_documnet_by_id = snitch(get_document_by_id)
 
 
 class BaseDS(BaseDSAgreementWebTest):
-    initial_data = TEST_AGREEMENT
     relative_to = os.path.dirname(__file__)
+    initial_data = TEST_AGREEMENT
     initial_auth = ('Basic', ('broker', ''))
 
 
 class TestDocumentsCreate(BaseDS):
+    test_create_agreement_document_forbidden = snitch(create_agreement_document_forbidden)
+    test_create_agreement_documents = snitch(create_agreement_documents)
 
-    def test_create_agreement_docuent_forbidden(self):
-        response = self.app.post('/agreements/{}/documents'.format(
-            self.agreement_id),
-            upload_files=[('file', u'укр.doc', 'content')],
-            status=403
-        )
-        self.assertEqual(response.status, '403 Forbidden')
 
-    def test_create_agreement_documents(self):
-        response = self.app.post('/agreements/{}/documents?acc_token={}'.format(
-            self.agreement_id, self.agreement_token),
-            upload_files=[('file', u'укр.doc', 'content')]
-        )
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
+class AgreementDocumentWithDSResourceTest(BaseDS):
+    def setUp(self):
+        super(AgreementDocumentWithDSResourceTest, self).setUp()
+
+    test_not_found = snitch(not_found)
+    test_put_contract_document = snitch(put_contract_document)
 
 
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestDocumentGet))
     _suite.addTest(unittest.makeSuite(TestDocumentsCreate))
+    _suite.addTest(unittest.makeSuite(AgreementDocumentWithDSResourceTest))
     return _suite
