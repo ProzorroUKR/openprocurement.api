@@ -19,7 +19,8 @@ from openprocurement.tender.openua.views.award_complaint import TenderUaAwardCom
 from openprocurement.frameworkagreement.cfaua.utils import check_tender_status
 from openprocurement.frameworkagreement.cfaua.validation import (
     validate_add_complaint_not_in_complaint_period,
-    validate_award_complaint_operation_not_in_allowed_status,
+    validate_update_complaint_not_in_qualification,
+    validate_add_complaint_not_in_qualification_stand_still,
 )
 
 
@@ -38,7 +39,7 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
     @json_view(content_type="application/json",
                permission='create_award_complaint',
                validators=(validate_complaint_data,
-                           validate_award_complaint_operation_not_in_allowed_status,
+                           validate_add_complaint_not_in_qualification_stand_still,
                            validate_award_complaint_add_only_for_active_lots,
                            validate_add_complaint_not_in_complaint_period))
     def collection_post(self):
@@ -52,10 +53,6 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
         if complaint.status == 'claim':
             complaint.dateSubmitted = get_now()
         elif complaint.status == 'pending':
-            if not any([i.status == 'active'
-                        for i in tender.awards
-                        if i.lotID == self.request.validated['award'].lotID]):
-                raise_operation_error(self.request, 'Complaint submission is allowed only after award activation.')
             complaint.type = 'complaint'
             complaint.dateSubmitted = get_now()
         else:
@@ -87,11 +84,11 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
     @json_view(content_type="application/json",
                permission='edit_complaint',
                validators=(validate_patch_complaint_data,
-                           validate_award_complaint_operation_not_in_allowed_status,
+                           validate_update_complaint_not_in_qualification,
                            validate_award_complaint_update_only_for_active_lots,
                            validate_update_complaint_not_in_allowed_complaint_status))
     def patch(self):
-        """Post a complaint resolution for award
+        """Patch a complaint for award
         """
         tender = self.request.validated['tender']
         data = self.request.validated['data']
@@ -167,9 +164,17 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
             self.context.acceptance = True
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and \
                 self.context.status in ['accepted', 'stopping'] and \
-                data.get('status', self.context.status) in ['declined', 'satisfied']:
+                data.get('status', self.context.status) == 'declined':
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
+        elif self.request.authenticated_role == 'aboveThresholdReviewers' and \
+                self.context.status in ['accepted', 'stopping'] and \
+                data.get('status', self.context.status) == 'satisfied':
+            apply_patch(self.request, save=False, src=self.context.serialize())
+            self.context.dateDecision = get_now()
+            tender.status = 'active.qualification'
+            if tender.awardPeriod.endDate:
+                tender.awardPeriod.endDate = None
         elif self.request.authenticated_role == 'aboveThresholdReviewers' and \
                 self.context.status in ['pending', 'accepted', 'stopping'] and \
                 data.get('status', self.context.status) == 'stopped':
