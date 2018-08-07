@@ -110,7 +110,7 @@ def tender_go_to_awarded_with_one_lot(self):
     self.assertEqual(response.json['data']['status'], 'active.qualification.stand-still')
 
     # switch to active.awarded
-    self.set_status('active.awarded', {"id": self.tender_id, 'status': 'active.qualification.stand-still'})
+    self.set_status('active.qualification.stand-still', 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
     self.assertEqual(response.json['data']['status'], "active.awarded")
@@ -215,7 +215,6 @@ def post_tender_lot_auction(self):
                          self.forbidden_auction_actions_status))
 
     self.set_status('active.auction')
-
     response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id),
                                   {'data': {'bids': [{'invalid_field': 'invalid_value'}]}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')

@@ -4,23 +4,19 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
-from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
-    # TenderSwitchUnsuccessfulResourceTest
-    switch_to_unsuccessful,
-)
 
 from openprocurement.frameworkagreement.cfaua.tests.base import (
     BaseTenderContentWebTest, test_bids, test_lots
 )
-from openprocurement.tender.openeu.tests.chronograph_blanks import (
+from openprocurement.frameworkagreement.cfaua.tests.chronograph_blanks import (
     # TenderComplaintSwitchResourceTest
     switch_to_complaint,
     # TenderSwitchAuctionResourceTest
     switch_to_auction,
     # TenderSwitchPreQualificationResourceTest
-    pre_qual_switch_to_auction,
     pre_qual_switch_to_stand_still,
     active_tendering_to_pre_qual,
+    switch_to_unsuccessful
 )
 
 from openprocurement.tender.openua.tests.chronograph_blanks import (
@@ -35,7 +31,6 @@ class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
     initial_bids = test_bids
 
     test_switch_to_pre_qual = snitch(active_tendering_to_pre_qual)
-    test_switch_to_auction = snitch(pre_qual_switch_to_auction)
     test_switch_to_stand_still = snitch(pre_qual_switch_to_stand_still)
 
 

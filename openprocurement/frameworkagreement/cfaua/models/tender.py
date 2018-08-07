@@ -111,7 +111,7 @@ class CloseFrameworkAgreementUA(Tender):
         acl = [
             (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_qualification_complaint')
             for i in self.bids
-            if i.status in ['active', 'unsuccessful']
+            if i.status in ['active', 'unsuccessful', 'invalid.pre-qualification']
         ]
         acl.extend([
             (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_award_complaint')

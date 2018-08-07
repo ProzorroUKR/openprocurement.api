@@ -1302,7 +1302,7 @@ def create_tender_award_complaint(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], 'active.awarded')
 
-    self.set_status('unsuccessful')
+    self.cancel_tender()
 
     response = self.app.post_json(
         '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.bid_token),
@@ -1312,7 +1312,7 @@ def create_tender_award_complaint(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"],
-                     "Can't add complaint in current (unsuccessful) tender status")
+                     "Can't add complaint in current (cancelled) tender status")
 
 
 def create_tender_award_complaint_not_active(self):
@@ -1445,7 +1445,7 @@ def create_tender_lot_award_complaint(self):
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']["status"], 'active.awarded')
 
-    self.set_status('unsuccessful')
+    self.cancel_tender()
 
     response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
         self.tender_id, self.award_id, self.bid_token),
@@ -1453,7 +1453,7 @@ def create_tender_lot_award_complaint(self):
         status=403)
     self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
     self.assertEqual(response.json['errors'][0]["description"],
-                     "Can't add complaint in current (unsuccessful) tender status")
+                     "Can't add complaint in current (cancelled) tender status")
 
 
 def patch_tender_lot_award_complaint(self):
