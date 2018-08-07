@@ -3,8 +3,7 @@ from schematics.types import StringType
 from schematics.types.compound import ModelType
 from schematics.transforms import whitelist
 from pyramid.security import Allow
-from openprocurement.api.roles import RolesFromCsv
-from openprocurement.api.models import  (
+from openprocurement.api.models import (
     plain_role,
     schematics_embedded_role,
     schematics_default_role
@@ -42,7 +41,7 @@ class Agreement(BaseAgreement):
                     'description_ru', 'status', 'period',
                     'dateSigned', 'items', 'owner', 'tender_token',
                     'tender_id', 'mode', 'procuringEntity', 'terminationDetails',
-                    'documents', 'contrats'
+                    'documents', 'contracts'
                 )
             ),
             'edit_terminated': whitelist(),
