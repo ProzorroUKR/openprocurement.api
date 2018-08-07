@@ -26,7 +26,7 @@ def validate_document_operation_on_agreement_status(request):
     if status != 'active':
         raise_operation_error(
             request,
-            "Can't {} document in current {} agreement status".format(
+            "Can't {} document in current ({}) agreement status".format(
                 OPERATIONS.get(request.method),
                 status
             )
