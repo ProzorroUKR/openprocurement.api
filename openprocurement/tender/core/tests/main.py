@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.tender.core.tests import tender, models, utils
+from openprocurement.tender.core.tests import tender, models, utils, tender_credentials
 
 
 def suite():
@@ -9,6 +9,7 @@ def suite():
     suite.addTest(tender.suite())
     suite.addTest(models.suite())
     suite.addTest(utils.suite())
+    suite.addTest(tender_credentials.suite())
     return suite
 
 
