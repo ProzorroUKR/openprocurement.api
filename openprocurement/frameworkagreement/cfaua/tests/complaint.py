@@ -14,8 +14,6 @@ from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResou
 from openprocurement.tender.openua.tests.complaint_blanks import (
     # TenderComplaintDocumentResourceTest
     patch_tender_complaint_document,
-    # TenderLotAwardComplaintResourceTest
-    create_tender_lot_complaint,
 )
 
 from openprocurement.tender.openeu.tests.complaint_blanks import (
@@ -28,12 +26,22 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
     test_lots,
 )
 
+from openprocurement.frameworkagreement.cfaua.tests.complaint_blanks import (
+    # TenderComplaintDocumentResourceTest
+    # patch_tender_complaint_document,
+    create_tender_complaint,
+    # TenderLotAwardComplaintResourceTest
+    create_tender_lot_complaint,
+)
+
 
 class TenderComplaintResourceTest(BaseTenderContentWebTest,
                                   TenderComplaintResourceTestMixin,
                                   TenderUAComplaintResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     test_author = test_bids[0]["tenderers"][0]
+
+    test_create_tender_complaint = snitch(create_tender_complaint)
 
 
 class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):

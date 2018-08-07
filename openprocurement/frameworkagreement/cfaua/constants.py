@@ -11,3 +11,4 @@ COMPLAINT_STAND_STILL = timedelta(days=10)
 BID_UNSUCCESSFUL_FROM = datetime(2016, 10, 18, tzinfo=TZ)
 STAND_STILL_TIME = timedelta(days=10)
 MIN_BIDS_NUMBER = 3
+TENDERING_EXTRA_PERIOD = timedelta(days=7)

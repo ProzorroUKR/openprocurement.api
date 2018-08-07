@@ -160,6 +160,227 @@ def get_tender_bidder(self):
                      set([u'date', u'status', u'id', u'value', u'tenderers', 'selfEligible', 'selfQualified']))
 
 
+def bids_invalidation_on_tender_change(self):
+    bids_access = {}
+
+    # submit bids
+    for data in self.test_bids_data:
+        response = self.app.post_json('/tenders/{}/bids'.format(
+            self.tender_id), {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        bids_access[response.json['data']['id']] = response.json['access']['token']
+
+    # check initial status
+    for bid_id, token in bids_access.items():
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'pending')
+
+    # update tender. we can set value that is less than a value in bids as
+    # they will be invalidated by this request
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {"data": {"value": {'amount': 300.0}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']["value"]["amount"], 300)
+
+    # check bids status
+    for bid_id, token in bids_access.items():
+        response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'invalid')
+    # try to add documents to bid
+    for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
+        response = self.app.post('/tenders/{}/bids/{}/{}?acc_token={}'.format(
+            self.tender_id, bid_id, doc_resource, token),
+            upload_files=[('file', 'name_{}.doc'.format(doc_resource[:-1]), 'content')], status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't add document to 'invalid' bid")
+
+    # check that tender status change does not invalidate bids
+    # submit one more bid. check for invalid value first
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': self.test_bids_data[0]}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'value of bid should be less than value of tender'], u'location': u'body', u'name': u'value'}
+    ])
+    # and submit valid bid
+    data = self.test_bids_data[0]
+    data['value']['amount'] = 299
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    valid_bid_id = response.json['data']['id']
+    valid_bid_token = response.json['access']['token']
+    valid_bid_date = response.json['data']['date']
+
+    for i in range(1, self.min_bids_number):
+        response = self.app.post_json('/tenders/{}/bids'.format(
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': self.test_bids_data[i]['tenderers'],
+                                       "value": {"amount": 101}}})
+
+    # switch to active.pre-qualification
+    self.set_status('active.tendering', 'end')
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+
+    # qualify bids
+    response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+    self.app.authorization = ('Basic', ('token', ''))
+    for qualification in response.json['data']:
+        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
+            self.tender_id, qualification['id']), {"data": {"status": "active", "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, "200 OK")
+    response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, valid_bid_id, valid_bid_token))
+    self.assertEqual(response.json['data']['status'], 'active')
+
+    # switch to active.pre-qualification.stand-still
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"status": 'active.pre-qualification.stand-still'}})
+    self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
+
+    # switch to active.auction
+    self.set_status('active.pre-qualification.stand-still', 'end')
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual(response.json['data']['status'], "active.auction")
+
+    # switch to qualification
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    auction_bids_data = response.json['data']['bids']
+    response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id),
+                                  {'data': {'bids': auction_bids_data}})
+    self.assertEqual(response.status, "200 OK")
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.json['data']['status'], "active.qualification")
+    # tender should display all bids
+    self.assertEqual(len(response.json['data']['bids']), self.min_bids_number*2)
+    self.assertEqual(response.json['data']['bids'][self.min_bids_number]['date'], valid_bid_date)
+    # invalidated bids should show only 'id' and 'status' fields
+    for bid in response.json['data']['bids']:
+        if bid['status'] == 'invalid':
+            self.assertTrue('id' in bid)
+            self.assertFalse('value' in bid)
+            self.assertFalse('tenderers' in bid)
+            self.assertFalse('date' in bid)
+
+    # invalidated bids stay invalidated
+    for bid_id, token in bids_access.items():
+        response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, bid_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'invalid')
+        # invalidated bids displays only 'id' and 'status' fields
+        self.assertFalse('value' in response.json['data'])
+        self.assertFalse('tenderers' in response.json['data'])
+        self.assertFalse('date' in response.json['data'])
+
+    # and valid bid is not invalidated
+    response = self.app.get('/tenders/{}/bids/{}'.format(self.tender_id, valid_bid_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'active')
+    # and displays all his data
+    self.assertTrue('value' in response.json['data'])
+    self.assertTrue('tenderers' in response.json['data'])
+    self.assertTrue('date' in response.json['data'])
+
+    # check bids availability on finished tender
+    self.set_status('complete')
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(len(response.json['data']['bids']), self.min_bids_number*2)
+    for bid in response.json['data']['bids']:
+        if bid['id'] in bids_access:  # previously invalidated bids
+            self.assertEqual(bid['status'], 'invalid')
+            self.assertFalse('value' in bid)
+            self.assertFalse('tenderers' in bid)
+            self.assertFalse('date' in bid)
+        else:  # valid bid
+            self.assertEqual(bid['status'], 'active')
+            self.assertTrue('value' in bid)
+            self.assertTrue('tenderers' in bid)
+            self.assertTrue('date' in bid)
+
+def get_tender_tenderers(self):
+    response = self.app.post_json('/tenders/{}/bids'.format(
+        self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                   'tenderers': [self.author_data], "value": self.test_bids_data[0]['value']}})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    bid = response.json['data']
+
+    response = self.app.get('/tenders/{}/bids'.format(self.tender_id), status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"],
+                     "Can't view bids in current (active.tendering) tender status")
+    for _ in range(self.min_bids_number-1):
+        response = self.app.post_json('/tenders/{}/bids'.format(
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': [self.author_data], "value": self.test_bids_data[0]['value']}})
+
+    # switch to active.pre-qualification
+    self.set_status('active.tendering', 'end')
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+
+    # qualify bids
+    response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+    self.app.authorization = ('Basic', ('token', ''))
+    for qualification in response.json['data']:
+        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
+            self.tender_id, qualification['id']), {"data": {"status": "active", "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, "200 OK")
+
+    # switch to active.pre-qualification.stand-still
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"status": 'active.pre-qualification.stand-still'}})
+    self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
+
+    # switch to active.auction
+    self.set_status('active.pre-qualification.stand-still', 'end')
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual(response.json['data']['status'], "active.auction")
+
+    # switch to qualification
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    auction_bids_data = response.json['data']['bids']
+    response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id),
+                                  {'data': {'bids': auction_bids_data}})
+    self.assertEqual(response.status, "200 OK")
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.json['data']['status'], "active.qualification")
+
+    response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    bid_data = response.json['data'][0]
+    self.assertEqual(bid_data['id'], bid['id'])
+    self.assertEqual(bid_data['status'], 'active')
+    self.assertTrue('value' in bid_data)
+    self.assertTrue('tenderers' in bid_data)
+    self.assertTrue('date' in bid_data)
+
+    response = self.app.get('/tenders/some_id/bids', status=404)
+    self.assertEqual(response.status, '404 Not Found')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': u'Not Found', u'location':
+            u'url', u'name': u'tender_id'}
+    ])
+
 def get_tender_bidder_document(self):
 
     doc_id_by_type = {}
@@ -1052,7 +1273,76 @@ def delete_tender_bidder(self):
     self.assertFalse('tenderers' in bid_data)
     self.assertFalse('date' in bid_data)
 
+def deleted_bid_do_not_locks_tender_in_state(self):
+    bids = []
+    bids_tokens = []
+    bid_amount = 400
+    for _ in range(self.min_bids_number):
+        response = self.app.post_json('/tenders/{}/bids'.format(
+            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                       'tenderers': [self.author_data], "value": {"amount": bid_amount}}})
+        bid_amount += 5
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        bids.append(response.json['data'])
+        bids_tokens.append(response.json['access']['token'])
 
+    # delete first bid
+    response = self.app.delete('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bids[0]['id'], bids_tokens[0]))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['id'], bids[0]['id'])
+    self.assertEqual(response.json['data']['status'], 'deleted')
+
+    response = self.app.post_json('/tenders/{}/bids'.format(
+        self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
+                                   'tenderers': [self.author_data], "value": {"amount": 101}}})
+
+    # switch to active.pre-qualification
+    self.set_status('active.tendering', 'end')
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+
+    # qualify bids
+    response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+    self.app.authorization = ('Basic', ('token', ''))
+    for qualification in response.json['data']:
+        response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
+            self.tender_id, qualification['id']), {"data": {"status": "active", "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, "200 OK")
+
+    # switch to active.pre-qualification.stand-still
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"status": 'active.pre-qualification.stand-still'}})
+    self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
+
+    # switch to active.auction
+    self.set_status('active.pre-qualification.stand-still', 'end')
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(
+        self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual(response.json['data']['status'], "active.auction")
+
+    # switch to qualification
+    self.app.authorization = ('Basic', ('auction', ''))
+    response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+    auction_bids_data = response.json['data']['bids']
+    response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id),
+                                  {'data': {'bids': auction_bids_data}})
+    self.assertEqual(response.status, "200 OK")
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.json['data']['status'], "active.qualification")
+
+    # check bids
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(len(response.json['data']['bids']), self.min_bids_number+1)
+    self.assertEqual(response.json['data']['bids'][0]['status'], 'deleted')
+    for i in range(1, self.min_bids_number+1):
+        self.assertEqual(response.json['data']['bids'][i]['status'], 'active')
 
 def patch_tender_bidder_document(self):
     doc_id_by_type = {}

@@ -25,13 +25,11 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     patch_tender_2lot_qualification_complaint,
     change_status_to_standstill_with_complaint_cancel_lot,
     # TenderLotQualificationComplaintResourceTest
-    create_tender_lot_qualification_complaint,
     patch_tender_lot_qualification_complaint,
     get_tender_lot_qualification_complaint,
     get_tender_lot_qualification_complaints,
     # TenderQualificationComplaintResourceTest
     create_tender_qualification_complaint_invalid,
-    create_tender_qualification_complaint,
     patch_tender_qualification_complaint,
     review_tender_qualification_complaint,
     review_tender_qualification_stopping_complaint,
@@ -60,6 +58,9 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     patch_tender_qualifications_after_status_change
 )
 
+from openprocurement.frameworkagreement.cfaua.tests.qualification_blanks import (
+    create_tender_lot_qualification_complaint, create_tender_qualification_complaint
+)
 
 one_lot_restriction = True
 
@@ -147,37 +148,38 @@ class TenderQualificationDocumentResourceTest(BaseTenderContentWebTest):
 
 
 class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
+    initial_status = 'active.pre-qualification.stand-still'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):
         super(TenderQualificationComplaintResourceTest, self).setUp()
+        #
+        #     # update periods to have possibility to change tender status by chronograph
+        #     self.set_status('active.tendering', 'end')
+        #
 
-        # update periods to have possibility to change tender status by chronograph
-        self.set_status("active.pre-qualification", extra={'status': 'active.tendering'})
-
-        # simulate chronograph tick
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
-        self.app.authorization = auth
-
+    #     # simulate chronograph tick
+    #     auth = self.app.authorization
+    #     self.app.authorization = ('Basic', ('chronograph', ''))
+    #     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+    #     self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
+    #     self.app.authorization = auth
+    #
+    #
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         self.assertEqual(response.content_type, 'application/json')
         qualifications = response.json['data']
         self.qualification_id = qualifications[0]['id']
-
-        for qualification in qualifications:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], self.tender_token),
-                                           {"data": {"status": "active", "qualified": True, "eligible": True}})
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['status'], 'active')
-
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {"data": {"status": "active.pre-qualification.stand-still"}})
-        self.assertEqual(response.status, '200 OK')
+    #     for qualification in qualifications:
+    #         response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], self.tender_token),
+    #                                        {"data": {"status": "active", "qualified": True, "eligible": True}})
+    #         self.assertEqual(response.status, '200 OK')
+    #         self.assertEqual(response.json['data']['status'], 'active')
+    #
+    #     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+    #                                    {"data": {"status": "active.pre-qualification.stand-still"}})
+    #     self.assertEqual(response.status, '200 OK')
 
     test_create_tender_qualification_complaint_invalid = snitch(create_tender_qualification_complaint_invalid)
     test_create_tender_qualification_complaint = snitch(create_tender_qualification_complaint)

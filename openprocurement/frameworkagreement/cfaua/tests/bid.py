@@ -22,12 +22,15 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
 from openprocurement.frameworkagreement.cfaua.tests.bid_blanks import (
     create_tender_bidder_document,
     delete_tender_bidder,
+    deleted_bid_do_not_locks_tender_in_state,
     get_tender_bidder,
+    get_tender_tenderers,
     get_tender_bidder_document,
     put_tender_bidder_document,
     patch_tender_bidder_document,
     patch_tender_bidder_document_private,
-    download_tender_bidder_document
+    download_tender_bidder_document,
+    bids_invalidation_on_tender_change
 )
 from openprocurement.tender.openeu.tests.bid import (
     # Tender2BidResourceTestMixin,
@@ -46,7 +49,6 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     features_bidder,
     features_bidder_invalid,
     # TenderBidResourceTest
-    bids_invalidation_on_tender_change,
 
     create_tender_bid_with_all_documents,
     create_tender_bid_with_eligibility_document_invalid,
@@ -62,8 +64,8 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     # Tender2BidResourceTestMixin
     create_tender_biddder_invalid, patch_tender_bidder,
     get_tender_bidder,
-    deleted_bid_do_not_locks_tender_in_state,
-    get_tender_tenderers,
+    # deleted_bid_do_not_locks_tender_in_state,
+    # get_tender_tenderers,
     bid_Administrator_change
 )
 

@@ -80,16 +80,13 @@ class TenderAwardResourceTestMixin(object):
 
 class TenderAwardResourceTest(BaseTenderContentWebTest,
                               TenderAwardResourceTestMixin):
-    initial_status = 'active.tendering'
+    initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
     expected_award_amount = test_bids[0]['value']['amount']
 
     def setUp(self):
         super(TenderAwardResourceTest, self).setUp()
-
-        self.prepare_awards()
-
         # Get awards
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
         self.awards_ids = [award['id'] for award in response.json['data']]
@@ -109,7 +106,7 @@ class TenderLotAwardResourceTestMixin(object):
 
 class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourceTestMixin,
                                  TenderAwardResourceTestMixin):
-    initial_status = 'active.tendering'
+    initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
@@ -117,8 +114,6 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourc
 
     def setUp(self):
         super(TenderLotAwardResourceTest, self).setUp()
-
-        self.prepare_awards()
 
         # Get awards
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
@@ -138,16 +133,13 @@ class Tender2LotAwardResourceTestMixin(object):
 @unittest.skipIf(no_lot_logic, 'Implement logic for test later')
 class Tender2LotAwardResourceTest(BaseTenderContentWebTest,
                                   Tender2LotAwardResourceTestMixin):
-    initial_status = 'active.tendering'
+    initial_status = 'active.qualification'
     initial_lots = 2 * test_lots
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):
         super(Tender2LotAwardResourceTest, self).setUp()
-
-        self.prepare_awards()
-
         # Get award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
         self.award_id = response.json['data'][0]['id']
@@ -160,16 +152,13 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest,
                                        TenderAwardComplaintResourceTestMixin,
                                        TenderUaAwardComplaintResourceTestMixin):
     #initial_data = tender_data
-    initial_status = 'active.tendering'
+    initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_lots = 2 * test_lots
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):
         super(TenderAwardComplaintResourceTest, self).setUp()
-
-        self.prepare_awards()
-
         # Get award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
         self.award_id = response.json['data'][0]['id']
@@ -213,8 +202,6 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest,
 
     def setUp(self):
         super(TenderLotAwardComplaintResourceTest, self).setUp()
-
-        self.prepare_awards()
 
         # Create award
         self.app.authorization = ('Basic', ('token', ''))

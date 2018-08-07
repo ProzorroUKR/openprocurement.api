@@ -461,6 +461,33 @@ def patch_tender(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't update tender in current (complete) status")
 
+def patch_tender_period(self):
+    response = self.app.post_json('/tenders', {'data': self.initial_data})
+    self.assertEqual(response.status, '201 Created')
+    tender = response.json['data']
+    owner_token = response.json['access']['token']
+    dateModified = tender.pop('dateModified')
+    self.tender_id = tender['id']
+    self.go_to_enquiryPeriod_end()
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"description": "new description"}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "tenderPeriod should be extended by 7 days")
+    tenderPeriod_endDate = get_now() + timedelta(days=7, seconds=10)
+    enquiryPeriod_endDate = tenderPeriod_endDate - (timedelta(minutes=10) if SANDBOX_MODE else timedelta(days=10))
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data':
+        {
+            "description": "new description",
+            "tenderPeriod": {
+                "endDate": tenderPeriod_endDate.isoformat()
+            }
+        }
+    })
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['tenderPeriod']['endDate'], tenderPeriod_endDate.isoformat())
+    self.assertEqual(response.json['data']['enquiryPeriod']['endDate'], enquiryPeriod_endDate.isoformat())
+
 
 def invalid_bid_tender_features(self):
     self.app.authorization = ('Basic', ('broker', ''))
@@ -539,7 +566,7 @@ def invalid_bid_tender_features(self):
     self.assertNotIn("features", response.json['data'])
 
     # switch to active.qualification
-    self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
+    self.set_status('active.tendering', 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
@@ -581,7 +608,7 @@ def invalid_bid_tender_lot(self):
     self.assertEqual(response.content_type, 'application/json')
 
     # switch to active.qualification
-    self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
+    self.set_status('active.tendering', 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
@@ -607,7 +634,7 @@ def one_bid_tender(self):
                                   {'data': {'selfEligible': True, 'selfQualified': True,
                                             'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
     # switch to active.pre-qualification
-    self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
+    self.set_status('active.tendering', 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     # tender should switch to "unsuccessful"
@@ -635,7 +662,7 @@ def unsuccessful_after_prequalification_tender(self):
                                                 'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
 
     # switch to active.pre-qualification
-    self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
+    self.set_status('active.tendering', 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     # tender should switch to "active.pre-qualification"
@@ -659,7 +686,7 @@ def unsuccessful_after_prequalification_tender(self):
     self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
 
     # switch to active.auction
-    self.set_status('active.auction', {"id": tender_id, 'status': 'active.pre-qualification.stand-still'})
+    self.set_status('active.pre-qualification.stand-still', 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     self.assertEqual(response.json['data']['status'], "unsuccessful")
@@ -690,7 +717,7 @@ def one_qualificated_bid_tender(self):
                                        'tenderers': [bidder_data], "value": self.test_bids_data[i]['value']}})
 
     # switch to active.pre-qualification
-    self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
+    self.set_status('active.tendering', 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     # tender should switch to "active.pre-qualification"
@@ -734,7 +761,7 @@ def one_qualificated_bid_tender(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
     # tender should switch to "unsuccessful"
-    self.set_status('active.auction', {"id": tender_id, 'status': 'active.pre-qualification.stand-still'})
+    self.set_status('active.pre-qualification.stand-still', 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     # ensure that tender has been switched to "unsuccessful"
@@ -765,7 +792,7 @@ def multiple_bidders_tender(self):
                                   {'data': {'selfEligible': True, 'selfQualified': True,
                                             'tenderers': [bidder_data], "value": self.test_bids_data[0]['value']}})
     # switch to active.pre-qualification
-    self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
+    self.set_status('active.tendering', 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     # tender should switch to "active.pre-qualification"
@@ -822,7 +849,7 @@ def multiple_bidders_tender(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
     # time traver
-    self.set_status('active.auction', {"id": tender_id, 'status': 'active.pre-qualification.stand-still'})
+    self.set_status('active.pre-qualification.stand-still', 'end')
     # change tender state
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
@@ -881,7 +908,7 @@ def multiple_bidders_tender(self):
     # XXX rewrite following part with less of magic actions
     # after stand slill period
     self.app.authorization = ('Basic', ('chronograph', ''))
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', 'end')
     # time travel
     tender = self.db.get(tender_id)
     for i in tender.get('awards', []):
@@ -912,7 +939,7 @@ def lost_contract_for_active_award(self):
                                             'tenderers': [test_organization], "value": self.test_bids_data[0]['value']}})
 
     # switch to active.pre-qualification
-    self.set_status('active.pre-qualification', {"id": tender_id, 'status': 'active.tendering'})
+    self.set_status('active.tendering', 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     # tender should switch to "active.pre-qualification"
@@ -1106,7 +1133,7 @@ def _awards_to_bids_number(self, max_awards_number, bids_number, expected_awards
                                   {'data': {'selfEligible': True, 'selfQualified': True,
                                             'tenderers': [test_organization], "value": self.test_bids_data[0]['value']}})
     # switch to active.pre-qualification
-    self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
+    self.set_status('active.tendering', 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
     # list qualifications
