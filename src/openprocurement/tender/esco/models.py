@@ -201,6 +201,10 @@ class BaseESCOValue(Value):
     contractDuration = ModelType(ContractDuration, required=True)
 
 
+class ContractESCOValue(BaseESCOValue):
+    amountNet = DecimalType(min_value=Decimal('0'), required=False, precision=-2)
+
+
 class ESCOValue(BaseESCOValue):
 
     @serializable(serialized_name='amountPerformance', type=DecimalType(precision=-2))
@@ -285,7 +289,7 @@ class Contract(BaseEUContract):
                               'items', 'contractID', 'value'),
         }
 
-    value = ModelType(BaseESCOValue)
+    value = ModelType(ContractESCOValue)
     items = ListType(ModelType(Item))
 
 
