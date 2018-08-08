@@ -1,13 +1,8 @@
+from openprocurement.api.roles import RolesFromCsv
 from zope.interface import implementer, provider
 from schematics.types import StringType
 from schematics.types.compound import ModelType
-from schematics.transforms import whitelist
 from pyramid.security import Allow
-from openprocurement.api.models import (
-    plain_role,
-    schematics_embedded_role,
-    schematics_default_role
-    )
 from openprocurement.api.models import (
     Period,
     IsoDateTimeType,
@@ -30,35 +25,9 @@ from openprocurement.agreement.cfaua.interfaces import IClosedFrameworkAgreement
 @implementer(IClosedFrameworkAgreementUA)
 @provider(IClosedFrameworkAgreementUA)
 class Agreement(BaseAgreement):
-
     class Options:
-        roles = {
-            'plain': plain_role,
-            'create': (
-                whitelist(
-                    'id', 'agreementNumber', 'agreementID', 'title', 'title_en',
-                    'title_ru', 'description', 'description_en',
-                    'description_ru', 'status', 'period',
-                    'dateSigned', 'items', 'owner', 'tender_token',
-                    'tender_id', 'mode', 'procuringEntity', 'terminationDetails',
-                    'documents', 'contracts'
-                )
-            ),
-            'edit_terminated': whitelist(),
-            'edit_active': whitelist('status', 'terminationDetails', 'documents'),
-            'default': schematics_default_role,
-            'embedded': schematics_embedded_role,
-            'view':  (
-                whitelist(
-                    'id', 'agreementID', 'dateModified',
-                    'agreementNumber', 'title', 'title_en', 'title_ru',
-                    'description', 'description_en', 'description_ru',
-                    'status', 'period', 'dateSigned', 'documents', 'items',
-                    'owner', 'mode', 'tender_id', 'procuringEntity',
-                    'terminationDetails', 'contracts'
-                )
-            ),
-        }
+        roles = RolesFromCsv('Agreement.csv', relative_to=__file__)
+
     agreementNumber = StringType()
     agreementType = StringType(default='cfaua')
     period = ModelType(Period)

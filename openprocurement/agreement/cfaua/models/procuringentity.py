@@ -1,8 +1,7 @@
+from openprocurement.api.roles import RolesFromCsv
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 from openprocurement.api.models import (
-    schematics_embedded_role,
-    schematics_default_role,
     ListType,
     Organization
     )
@@ -15,10 +14,7 @@ class ProcuringEntity(Organization):
     """An organization."""
     class Options:
         # TODO: do we really need roles here
-        roles = {
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
-        }
+        roles = RolesFromCsv('ProcuringEntity.csv', relative_to=__file__)
 
     kind = StringType(choices=['general', 'special', 'defense', 'other'])
     contactPoint = ModelType(ContactPoint, required=True)

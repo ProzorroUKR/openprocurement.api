@@ -1,3 +1,4 @@
+from openprocurement.api.roles import RolesFromCsv
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 from openprocurement.api.models import (
@@ -11,6 +12,8 @@ from openprocurement.api.models import (
 
 
 class Item(BaseItem):
+    class Options:
+        roles = RolesFromCsv('Item.csv', relative_to=__file__)
 
     classification = ModelType(
         CPVClassification, required=True
