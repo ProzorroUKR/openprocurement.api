@@ -18,7 +18,9 @@ from openprocurement.contracting.api.validation import (
     validate_patch_contract_data,
     validate_credentials_generate,
     validate_contract_update_not_in_allowed_status,
-    validate_terminate_contract_without_amountPaid)
+    validate_terminate_contract_without_amountPaid,
+    validate_update_contract_value
+)
 from openprocurement.contracting.api.design import (
     FIELDS,
     contracts_by_dateModified_view,
@@ -98,7 +100,9 @@ class ContractResource(ContractsResource):
         return {'data': self.request.validated['contract'].serialize("view")}
 
     @json_view(content_type="application/json", permission='edit_contract',
-               validators=(validate_patch_contract_data, validate_contract_update_not_in_allowed_status))
+               validators=(validate_patch_contract_data,
+                           validate_update_contract_value,
+                           validate_contract_update_not_in_allowed_status))
     def patch(self):
         """Contract Edit (partial)
         """

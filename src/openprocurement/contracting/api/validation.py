@@ -2,6 +2,7 @@
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error
 from openprocurement.api.validation import validate_json_data, validate_data, OPERATIONS
 from openprocurement.contracting.api.models import Contract, Change
+from openprocurement.tender.core.constants import AMOUNT_NET_PERCENTAGE
 
 
 def validate_contract_data(request):
@@ -80,3 +81,20 @@ def validate_add_document_to_active_change(request):
     if "relatedItem" in data and data.get('documentOf') == 'change':
         if not [1 for c in request.validated['contract'].changes if c.id == data['relatedItem'] and c.status == 'pending']:
             raise_operation_error(request, 'Can\'t add document to \'active\' change')
+
+def validate_update_contract_value(request):
+    value = request.validated['data'].get('value')
+    if value:
+        amount_net = value.get('amountNet')
+        amount = value.get('amount')
+
+        if amount_net is not None:
+            if amount_net > amount:
+                raise_operation_error(request, 'Value amountNet should be less or equal to amount ({})'.format(
+                    amount))
+
+            amount_max = amount_net + amount_net * AMOUNT_NET_PERCENTAGE
+            if amount > amount_max:
+                raise_operation_error(
+                    request, 'Value amount can\'t be greater than amountNet ({}) for {}% ({})'.format(
+                        amount_net, AMOUNT_NET_PERCENTAGE * 100, amount_max))
