@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from decimal import Decimal
 from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document_batch # XXX tender context
+from openprocurement.tender.core.constants import AMOUNT_NET_PERCENTAGE
 from openprocurement.tender.core.utils import calculate_business_date
 from schematics.exceptions import ValidationError
 
@@ -435,19 +437,54 @@ def validate_update_contract_only_for_active_lots(request):
 
 
 def validate_update_contract_value(request):
-    tender = request.validated['tender']
-    data = request.validated['data']
-    if data.get('value'):
+    value = request.validated['data'].get('value')
+    if value:
         for ro_attr in ('valueAddedTaxIncluded', 'currency'):
-            if data['value'][ro_attr] != getattr(request.context.value, ro_attr):
+            if value.get(ro_attr) != request.context.value.to_native().get(ro_attr):
                 raise_operation_error(request, 'Can\'t update {} for contract value'.format(ro_attr))
-        award = [a for a in tender.awards if a.id == request.context.awardID][0]
-        if request.content_configurator.reverse_awarding_criteria:
-            if data['value']['amount'] != award.value.amount:
-                raise_operation_error(request, 'Value amount should be equal to awarded amount ({})'.format(award.value.amount))
-        else:
-            if data['value']['amount'] > award.value.amount:
-                raise_operation_error(request, 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount))
+
+        award = [a for a in request.validated['tender'].awards if a.id == request.context.awardID][0]
+        amount_net = value.get('amountNet')
+        amount = value.get('amount')
+
+        # Old behavior for contracts with no amountNet set
+        if amount_net is None and amount > award.value.amount:
+            raise_operation_error(
+                request, 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount))
+
+        # New behavior for contracts with amountNet set
+        if amount_net is not None:
+            if amount_net > amount:
+                raise_operation_error(request, 'Value amountNet should be less or equal to amount ({})'.format(amount))
+
+            if value.get('valueAddedTaxIncluded'):
+                if amount_net > award.value.amount:
+                    raise_operation_error(
+                        request, 'Value amountNet should be less or equal to awarded amount ({}) '
+                                 'if VAT included'.format(award.value.amount))
+                if amount > award.value.amount:
+                    raise_operation_error(
+                        request, 'Value amount should be less or equal to awarded amount ({}) '
+                                 'if VAT included'.format(award.value.amount))
+                amount_net_min = amount - amount * AMOUNT_NET_PERCENTAGE
+                if amount_net < amount_net_min:
+                    raise_operation_error(
+                        request, 'Value amountNet can\'t be less than amount ({}) for {}% ({}) '
+                                 'if VAT included'.format(amount, AMOUNT_NET_PERCENTAGE * 100, amount_net_min))
+            else:
+                if amount_net > award.value.amount:
+                    raise_operation_error(
+                        request, 'Value amountNet should be less or equal to awarded amount ({}) '
+                                 'if VAT not included'.format(award.value.amount))
+                if amount < award.value.amount:
+                    raise_operation_error(
+                        request, 'Value amount should be greater or equal to awarded amount ({}) '
+                                 'if VAT not included'.format(award.value.amount))
+                amount_max = amount_net + amount_net * AMOUNT_NET_PERCENTAGE
+                if amount > amount_max:
+                    raise_operation_error(
+                        request, 'Value amount can\'t be greater than amountNet ({}) for {}% ({}) '
+                                 'if VAT not included'.format(amount_net, AMOUNT_NET_PERCENTAGE * 100, amount_max))
 
 
 def validate_contract_signing(request):
