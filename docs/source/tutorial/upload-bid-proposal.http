@@ -1,0 +1,24 @@
+POST /api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941/bids/0e4fedb11d01479fab08079d2fc3f649/documents?acc_token=29078d05df23461a937f2ae4065f1dbb HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 188
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy131257376903$
+Host: api-sandbox.openprocurement.org
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941/bids/0e4fedb11d01479fab08079d2fc3f649/documents/d011c97445004463bd409abbdcd08b02
+{
+  "data": {
+    "hash": "md5:00000000000000000000000000000000", 
+    "confidentiality": "public", 
+    "language": "uk", 
+    "title": "Proposal.pdf", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941/bids/0e4fedb11d01479fab08079d2fc3f649/documents/d011c97445004463bd409abbdcd08b02?download=b4a34c847b754bf4b9d50e735f283142", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2018-08-08T16:11:12.343320+03:00", 
+    "id": "d011c97445004463bd409abbdcd08b02", 
+    "dateModified": "2018-08-08T16:11:12.343334+03:00"
+  }
+}
+

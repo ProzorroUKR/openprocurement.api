@@ -1,0 +1,80 @@
+PATCH /api/2.4/tenders/2de2e39a509c409a80759cf890b4ba16/complaints/53c7651767084e788aef667c76e33528?acc_token=ca8f236f357148798394f8b4c84494e6 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 145
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "resolved", 
+    "tendererAction": "Умови виправлено"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "resolved", 
+    "dateDecision": "2018-08-08T16:11:10.617593+03:00", 
+    "tendererActionDate": "2018-08-08T16:11:10.871262+03:00", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "author": {
+      "contactPoint": {
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»", 
+        "id": "13313462", 
+        "uri": "http://sch10.edu.vn.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "postalCode": "21100", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 33", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "title": "Недостатньо інформації", 
+    "id": "53c7651767084e788aef667c76e33528", 
+    "tendererAction": "Умови виправлено", 
+    "dateSubmitted": "2018-08-08T16:11:09.646895+03:00", 
+    "complaintID": "UA-2018-08-08-000001.1", 
+    "date": "2018-08-08T16:11:10.876721+03:00", 
+    "acceptance": true, 
+    "type": "complaint", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "complaint_owner", 
+        "language": "uk", 
+        "title": "Complaint_Attachement.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/a55918da04f2446caddc10fc3a964e06?KeyID=bc4cf49f&Signature=NvwZUI6NGUue9ye7rIJpxBKYOyV2Fwnl9f0j0Dx%2F9S8%252Bozv8YIz8xA3Y8eJW2rrWvAN2ZdRnUlrD31A0Mv7vBg%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-08-08T16:11:09.413621+03:00", 
+        "id": "0c19f290c2324993801d7841dbf91b4a", 
+        "dateModified": "2018-08-08T16:11:09.413638+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "aboveThresholdReviewers", 
+        "language": "uk", 
+        "title": "ComplaintResolution.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/0b7a79cd4f5f4f87a93a0730a3aa498d?KeyID=bc4cf49f&Signature=cSCKV2%2FdCqbcqpSMWDpXhiEeTKcgnM7blSBqX%2Fc%252BAdSnDExZHA%252BNozdgkRg%252BjZN%2FwgJ6HOiOiuSIsLQxnHWbDg%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-08-08T16:11:10.535110+03:00", 
+        "id": "85347c193cd744b7a0072efeb9834243", 
+        "dateModified": "2018-08-08T16:11:10.535126+03:00"
+      }
+    ], 
+    "dateAccepted": "2018-08-08T16:11:10.158777+03:00"
+  }
+}
+

@@ -1,0 +1,121 @@
+PATCH /api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941?acc_token=098b70bdad1f421abcb9ff8b58fb7cb3 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 75
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "tenderPeriod": {
+      "endDate": "2018-09-07T16:11:21.661551+03:00"
+    }
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "open", 
+    "complaintPeriod": {
+      "startDate": "2018-08-08T16:11:11.612633+03:00", 
+      "endDate": "2018-09-03T00:00:00+03:00"
+    }, 
+    "enquiryPeriod": {
+      "startDate": "2018-08-08T16:11:11.612633+03:00", 
+      "clarificationsUntil": "2018-08-31T16:11:21.661551+03:00", 
+      "endDate": "2018-08-28T16:11:21.661551+03:00", 
+      "invalidationDate": "2018-08-08T16:11:11.695944+03:00"
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "next_check": "2018-09-07T16:11:21.661551+03:00", 
+    "awardCriteria": "lowestCost", 
+    "owner": "broker", 
+    "id": "a1bb69aea62e453481dd59b7903cc941", 
+    "title": "футляри до державних нагород", 
+    "tenderID": "UA-2018-08-08-000001", 
+    "auctionPeriod": {
+      "shouldStartAfter": "2018-10-13T00:00:00+03:00"
+    }, 
+    "dateModified": "2018-08-08T16:11:11.698051+03:00", 
+    "status": "active.tendering", 
+    "maxAwards": 4, 
+    "tenderPeriod": {
+      "startDate": "2018-08-08T16:11:11.612633+03:00", 
+      "endDate": "2018-09-07T16:11:21.661551+03:00"
+    }, 
+    "title_en": "Cases for state awards", 
+    "procurementMethodType": "closeFrameworkAgreementUA", 
+    "date": "2018-08-08T16:11:11.627862+03:00", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "items": [
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "description_en": "Cases for state awards", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2018-06-27T13:39:09.362837+03:00", 
+          "endDate": "2018-06-30T13:39:09.362837+03:00"
+        }, 
+        "id": "e067a2a84e9a4e7c93879b74ae6e9ea8", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "procuringEntity": {
+      "kind": "general", 
+      "name": "Державне управління справами", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }, 
+      "contactPoint": {
+        "name_en": "State administration", 
+        "name": "Державне управління справами", 
+        "availableLanguage": "uk", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName_en": "dus.gov.ua", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name_en": "State administration"
+    }
+  }
+}
+
