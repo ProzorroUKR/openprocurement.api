@@ -145,6 +145,19 @@ Schema
    |ocdsDescription|
    The date or period on which an award is anticipated to be made.
 
+:mainProcurementCategory:
+   string
+
+   :`goods`:
+       The primary object of this tender involves physical or electronic goods or supplies.
+   :`services`:
+       The primary object of this tender involves construction, repair, rehabilitation, demolition, restoration or maintenance of some asset or infrastructure.
+   :`works`:
+       The primary object of this tender involves professional services of some form, generally contracted for on the basis of measurable outputs or deliverables.
+
+   |ocdsDescription|
+   The primary category describing the main object of the tender.
+
 :status:
    string
 
