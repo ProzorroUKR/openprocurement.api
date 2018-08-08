@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.tender.belowthreshold.utils import add_contract
 from openprocurement.tender.core.validation import (
     validate_patch_award_data,
     validate_update_award_only_for_active_lots,
@@ -95,14 +96,10 @@ class TenderUaAwardResource(TenderAwardResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         configurator = self.request.content_configurator
         if award_status == 'pending' and award.status == 'active':
-            normalized_end = calculate_normalized_date(get_now(), tender, True)
+            now = get_now()
+            normalized_end = calculate_normalized_date(now, tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, STAND_STILL_TIME, tender)
-            tender.contracts.append(type(tender).contracts.model_class({
-                'awardID': award.id,
-                'suppliers': award.suppliers,
-                'value': award.value,
-                'items': [i for i in tender.items if i.relatedLot == award.lotID ],
-                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) +1) }))
+            add_contract(self.request, award, now)
             add_next_award(self.request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
         elif award_status == 'active' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             now = get_now()
