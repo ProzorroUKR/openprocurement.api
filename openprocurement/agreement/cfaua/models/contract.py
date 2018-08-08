@@ -1,6 +1,5 @@
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
-from schematics.transforms import blacklist, whitelist
 
 from openprocurement.api.roles import RolesFromCsv
 from openprocurement.api.models import (
@@ -8,8 +7,6 @@ from openprocurement.api.models import (
     Model,
     Organization,
     IsoDateTimeType,
-    schematics_embedded_role,
-    schematics_default_role
     )
 from openprocurement.agreement.cfaua.models.unitprice\
     import UnitPrice
@@ -17,12 +14,8 @@ from openprocurement.agreement.cfaua.models.unitprice\
 
 class Contract(Model):
     class Options:
-        roles = {
-            'create': blacklist(),
-            'edit': whitelist(),
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role
-        }
+        roles = RolesFromCsv('Contract.csv', relative_to=__file__)
+
     id = MD5Type(required=True)
 
     # TODO: validate me
