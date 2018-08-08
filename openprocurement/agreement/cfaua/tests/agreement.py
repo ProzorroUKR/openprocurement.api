@@ -3,6 +3,7 @@ import unittest
 
 from openprocurement.agreement.cfaua.tests.agreement_blanks import (
     create_agreement,
+    create_agreement_with_documents,
     get_agreements_by_id,
     extract_credentials,
     agreement_patch_invalid,
@@ -37,6 +38,7 @@ class AgreementCreationTests(BaseAgreementWebTest):
         self.assertIsNotNone(self.agreement_token)
 
     test_create_agreement = snitch(create_agreement)
+    test_create_agreement_with_documents = snitch(create_agreement_with_documents)
 
 
 class AgreementListingTests(BaseAgreementTest):

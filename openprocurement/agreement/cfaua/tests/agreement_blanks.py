@@ -4,6 +4,7 @@ from copy import deepcopy
 from openprocurement.agreement.core.tests.base import change_auth
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.utils import get_now
+from openprocurement.agreement.cfaua.tests.base import TEST_DOCUMENTS
 
 
 def create_agreement(self):
@@ -19,6 +20,27 @@ def create_agreement(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['id'], data['id'])
+
+
+def create_agreement_with_documents(self):
+    data = deepcopy(self.initial_data)
+    data['id'] = uuid.uuid4().hex
+    data['documents'] = TEST_DOCUMENTS
+    with change_auth(self.app, ('Basic', ('agreements', ''))) as app:
+        response = self.app.post_json('/agreements', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['agreementID'], data['agreementID'])
+
+    response = self.app.get('/agreements/{}'.format(data['id']))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['id'], data['id'])
+
+    response = self.app.get('/agreements/{}/documents'.format(data['id']))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(len(response.json['data']), len(TEST_DOCUMENTS))
 
 
 def get_agreements_by_id(self):
