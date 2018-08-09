@@ -46,39 +46,24 @@ Project status
 
 The project has pre alpha status.
 
-The source repository for this project is on GitHub: https://github.com/openprocurement/openprocurement.api
+The source repository for this project is on GitHub: https://github.com/ProzorroUKR/openprocurement.api
 
 You can leave feedback by raising a new issue on the `issue tracker
-<https://github.com/openprocurement/openprocurement.api/issues>`_ (GitHub
+<https://github.com/ProzorroUKR/openprocurement.api/issues>`_ (GitHub
 registration necessary).  
-
-For general discussion use `Open Procurement
-General <https://groups.google.com/group/open-procurement-general>`_
-maillist.
-
-General information, roadmap, and technical specifications for the 
-Open Procurement project can be found at `openprocurement.org <http://openprocurement.org/en>`_.
 
 Documentation of related packages
 ---------------------------------
 
-* `Open tender procedure (OpenUA) <http://openua.api-docs.openprocurement.org/en/latest/>`_
+* `Open tender procedure (OpenUA) <https://prozorro-openprocurementtenderopenua.readthedocs.io/en/latest/>`_
 
-* `Open tender procedure with publication in English (OpenEU) <http://openeu.api-docs.openprocurement.org/en/latest/>`_
+* `Open tender procedure with publication in English (OpenEU) <https://prozorro-openprocurementtenderopeneu.readthedocs.io/en/latest/>`_
 
-* `Reporting, negotiation procurement procedure and negotiation procedure for the urgent need  <http://limited.api-docs.openprocurement.org/en/latest/>`_
+* `Reporting, negotiation procurement procedure and negotiation procedure for the urgent need  <https://prozorro-openprocurementtenderlimited.readthedocs.io/en/latest/>`_
 
-* `Defense open tender <http://defense.api-docs.openprocurement.org/en/latest/>`_
+* `Defense open tender <https://prozorro-openprocurementtenderopenuadefense.readthedocs.io/en/latest/>`_
 
-* `Contracting API interface to OpenProcurement database <http://contracting.api-docs.openprocurement.org/en/latest/>`_
-
-
-API stability
--------------
-API is highly unstable, and while API endpoints are expected to remain
-relatively stable the data exchange formats are expected to be changed a
-lot.  The changes in the API are communicated via `Open Procurement API
-<https://groups.google.com/group/open-procurement-api>`_ maillist.
+* `Contracting API interface to OpenProcurement database <https://prozorro-openprocurementcontractingapi.readthedocs.io/en/latest/>`_
 
 Change log
 ----------
