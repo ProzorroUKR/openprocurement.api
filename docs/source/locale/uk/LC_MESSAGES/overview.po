@@ -114,7 +114,6 @@ msgid "The project has pre alpha status."
 msgstr "Статус цього проекту - перед-альфа"
 
 #: ../../source/overview.rst:49
-#, fuzzy
 msgid ""
 "The source repository for this project is on GitHub: "
 "https://github.com/ProzorroUKR/openprocurement.api"
@@ -123,7 +122,6 @@ msgstr ""
 "<https://github.com/openprocurement/openprocurement.api>`_."
 
 #: ../../source/overview.rst:51
-#, fuzzy
 msgid ""
 "You can leave feedback by raising a new issue on the `issue tracker "
 "<https://github.com/ProzorroUKR/openprocurement.api/issues>`_ (GitHub "
@@ -138,51 +136,42 @@ msgid "Documentation of related packages"
 msgstr "Документація пов’язаних пакетів"
 
 #: ../../source/overview.rst:58
-#, fuzzy
 msgid ""
 "`Open tender procedure (OpenUA) <https://prozorro-"
 "openprocurementtenderopenua.readthedocs.io/en/latest/>`_"
-msgstr ""
-"`Відкриті торги (OpenUA) <http://openua.api-"
-"docs.openprocurement.org/uk/latest/>`_"
+msgstr "`Відкриті торги (OpenUA) "
+"<https://prozorro-openprocurementtenderopenua-uk.readthedocs.io/uk/latest/>`_"
 
 #: ../../source/overview.rst:60
-#, fuzzy
 msgid ""
 "`Open tender procedure with publication in English (OpenEU) <https"
 "://prozorro-openprocurementtenderopeneu.readthedocs.io/en/latest/>`_"
-msgstr ""
-"`Відкриті торги з публікацією англійською мовою (OpenEU) <http://openeu"
-".api-docs.openprocurement.org/uk/latest/>`_"
+msgstr "`Відкриті торги з публікацією англійською мовою (OpenEU) "
+"<https://prozorro-openprocurementtenderopeneu-uk.readthedocs.io/uk/latest/>`_"
 
 #: ../../source/overview.rst:62
-#, fuzzy
 msgid ""
 "`Reporting, negotiation procurement procedure and negotiation procedure "
 "for the urgent need  <https://prozorro-"
 "openprocurementtenderlimited.readthedocs.io/en/latest/>`_"
-msgstr ""
-"`Процедура звітування про укладений договір, переговорна процедура і "
-"переговорна процедура за нагальною потребою <http://limited.api-"
-"docs.openprocurement.org/uk/latest/>`_"
+msgstr "`Процедура звітування про укладений договір, переговорна процедура"
+" і переговорна процедура за нагальною потребою "
+"<https://prozorro-openprocurementtenderlimited-uk.readthedocs.io/uk/latest/>`_"
 
 #: ../../source/overview.rst:64
-#, fuzzy
 msgid ""
 "`Defense open tender <https://prozorro-"
 "openprocurementtenderopenuadefense.readthedocs.io/en/latest/>`_"
-msgstr ""
-"`Процедура відкритих торгів для оборонних цілей <http://defense.api-"
-"docs.openprocurement.org/uk/latest/>`_"
+msgstr "`Процедура відкритих торгів для оборонних цілей "
+"<https://prozorro-openprocurementtenderopenuadefense-uk.readthedocs.io/uk/latest/>`_"
 
 #: ../../source/overview.rst:66
-#, fuzzy
 msgid ""
 "`Contracting API interface to OpenProcurement database <https://prozorro-"
 "openprocurementcontractingapi.readthedocs.io/en/latest/>`_"
 msgstr ""
-"`API для реєстрації даних пов’язаних з договором <http://contracting.api-"
-"docs.openprocurement.org/uk/latest/>`_"
+"`API для реєстрації даних пов’язаних з договором "
+"<https://prozorro-openprocurementcontractingapi-uk.readthedocs.io/uk/latest/>`_"
 
 #: ../../source/overview.rst:69
 msgid "Change log"
