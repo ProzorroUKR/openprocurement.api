@@ -15,8 +15,7 @@ from openprocurement.api.validation import (
 )
 from openprocurement.tender.core.validation import (
     validate_bid_document_operation_period,
-    validate_bid_document_operation_with_award,
-    validate_bid_document_operation_in_not_allowed_status
+    validate_bid_document_operation_with_award
 )
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -48,11 +47,16 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
     container = "documents"
     view_forbidden_states = ['active.tendering']
     view_forbidden_bid_states = ['invalid', 'deleted']
+    upload_allowed_states = ['active.tendering', 'active.qualification']
 
     def _doc_access_restricted(self, doc):
         is_bid_owner = self.request.authenticated_role == 'bid_owner'
         is_tender_owner = self.request.authenticated_role == 'tender_owner'
         return doc.confidentiality != 'public' and not (is_bid_owner or is_tender_owner)
+
+    def _upload_permission(self, tender_status):
+        if tender_status not in self.upload_allowed_states:
+            raise_operation_error(self.request, 'Can\'t upload document in current ({}) tender status'.format(tender_status))
 
     @json_view(permission='view_tender')
     def collection_get(self):
@@ -70,14 +74,16 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
                                            for i in getattr(self.context, self.container)]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
-    @json_view(validators=(validate_file_upload, validate_bid_document_operation_in_not_allowed_status, validate_bid_document_operation_period, validate_bid_document_operation_with_award,
+    @json_view(validators=(validate_file_upload, validate_bid_document_operation_period, validate_bid_document_operation_with_award,
                validate_add_bid_document_not_in_allowed_status), permission='edit_bid')
     def collection_post(self):
         """Tender Bid Document Upload
         """
+        tender_status = self.request.validated['tender_status'] 
+        self._upload_permission(tender_status)
         document = upload_file(self.request)
         getattr(self.context, self.container).append(document)
-        if self.request.validated['tender_status'] == 'active.tendering':
+        if tender_status == 'active.tendering':
             self.request.validated['tender'].modified = False
         if save_tender(self.request):
             self.LOGGER.info('Created tender bid document {}'.format(document.id),
@@ -108,11 +114,13 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
                                              for i in self.request.validated['documents'] if i.url != document.url]
         return {'data': document_data}
 
-    @json_view(content_type="application/json", validators=(validate_patch_document_data, validate_bid_document_operation_in_not_allowed_status, validate_bid_document_operation_period,
+    @json_view(content_type="application/json", validators=(validate_patch_document_data, validate_bid_document_operation_period,
                validate_bid_document_operation_with_award, validate_update_bid_document_confidentiality, validate_update_bid_document_not_in_allowed_status), permission='edit_bid')
     def patch(self):
         """Tender Bid Document Update"""
-        if self.request.validated['tender_status'] == 'active.tendering':
+        tender_status = self.request.validated['tender_status'] 
+        self._upload_permission(tender_status)
+        if tender_status == 'active.tendering':
             self.request.validated['tender'].modified = False
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
@@ -120,13 +128,15 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_document_patch'}))
             return {'data': self.request.context.serialize("view")}
 
-    @json_view(validators=(validate_file_update, validate_bid_document_operation_in_not_allowed_status, validate_bid_document_operation_period, validate_bid_document_operation_with_award,
+    @json_view(validators=(validate_file_update, validate_bid_document_operation_period, validate_bid_document_operation_with_award,
                validate_update_bid_document_confidentiality, validate_update_bid_document_not_in_allowed_status), permission='edit_bid')
     def put(self):
         """Tender Bid Document Update"""
+        tender_status = self.request.validated['tender_status'] 
+        self._upload_permission(tender_status)
         document = upload_file(self.request)
         getattr(self.request.validated['bid'], self.container).append(document)
-        if self.request.validated['tender_status'] == 'active.tendering':
+        if tender_status == 'active.tendering':
             self.request.validated['tender'].modified = False
         if save_tender(self.request):
             self.LOGGER.info('Updated tender bid document {}'.format(self.request.context.id),
@@ -147,6 +157,8 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
     view_forbidden_states = ['active.tendering', 'active.pre-qualification',
                              'active.pre-qualification.stand-still', 'active.auction']
     view_forbidden_bid_states = ['invalid', 'deleted', 'invalid.pre-qualification', 'unsuccessful']
+    upload_allowed_states = ['active.tendering', 'active.qualification', 'active.awarded']
+
 
 @bid_eligibility_documents_resource(name='closeFrameworkAgreementUA:Tender Bid Eligibility Documents',
     collection_path='/tenders/{tender_id}/bids/{bid_id}/eligibility_documents',
@@ -159,6 +171,7 @@ class TenderEUBidEligibilityDocumentResource(TenderEUBidFinancialDocumentResourc
     container = "eligibilityDocuments"
     view_forbidden_states = ['active.tendering']
     view_forbidden_bid_states = ['invalid', 'deleted']
+    upload_allowed_states = ['active.tendering', 'active.qualification']
 
 
 @bid_qualification_documents_resource(name='closeFrameworkAgreementUA:Tender Bid Qualification Documents',
@@ -169,3 +182,4 @@ class TenderEUBidEligibilityDocumentResource(TenderEUBidFinancialDocumentResourc
 class TenderEUBidQualificationDocumentResource(TenderEUBidFinancialDocumentResource):
     """ Tender EU Bid Qualification Documents """
     container = "qualificationDocuments"
+    upload_allowed_states = ['active.tendering', 'active.qualification']

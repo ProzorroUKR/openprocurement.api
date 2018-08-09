@@ -39,8 +39,12 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
     def complaints_len(self, tender):
         return sum([len(i.complaints) for i in tender.awards], sum([len(i.complaints) for i in tender.qualifications], len(tender.complaints)))
 
-    @json_view(content_type="application/json", permission='create_qualification_complaint', validators=(validate_complaint_data, validate_add_complaint_not_in_pre_qualification,
-               validate_award_complaint_add_only_for_active_lots, validate_add_complaint_not_in_qualification_period))
+    @json_view(content_type="application/json", permission='create_qualification_complaint',
+               validators=(validate_complaint_data,
+                           validate_add_complaint_not_in_pre_qualification,
+                           validate_award_complaint_add_only_for_active_lots,
+                           validate_add_complaint_not_in_qualification_period)
+               )
     def collection_post(self):
         """Post a complaint
         """

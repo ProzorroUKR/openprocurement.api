@@ -45,47 +45,12 @@ class TenderAgreementDocumentResourceTestMixin(object):
 # @unittest.skipIf(True, 'Update setUp ( qualify all awards)')
 class TenderAgreementResourceTest(BaseTenderContentWebTest, TenderAgreementResourceTestMixin):
     # initial_data = tender_data
-    initial_status = 'active.qualification'
+    initial_status = 'active.awarded'
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):
         super(TenderAgreementResourceTest, self).setUp()
-        # Create award
-        self.supplier_info = deepcopy(test_organization)
-
-        for bid in self.initial_bids:
-            data = {
-                'data': {
-                    'suppliers': [self.supplier_info],
-                    'status': 'pending',
-                    'bid_id': bid['id'],
-                    'value': {
-                        "amount": 500,
-                        "currency": "UAH",
-                        "valueAddedTaxIncluded": True
-                    },
-                    'items': test_tender_data["items"]
-                }
-            }
-
-            self.app.authorization = ('Basic', ('token', ''))
-            response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), data)
-            award = response.json['data']
-
-            self.award_id = award['id']
-            self.app.authorization = ('Basic', ('broker', ''))
-            response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
-                {"data": {"status": "active", "qualified": True, "eligible": True}}
-            )
-
-        # Switch to active.qualification.stand-still
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {'data': {'status': 'active.qualification.stand-still'}})
-        # self.app.authorization = ('Basic', ('chronograph', ''))
-        # response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {}})
-        self.set_status('active.awarded')
         self.tender = self.app.get('/tenders/{}'.format(self.tender_id)).json['data']
         self.agreement_id = self.tender['agreements'][0]['id']
         self.contract_id = self.tender['agreements'][0]['contracts'][0]['id']
@@ -99,47 +64,12 @@ class TenderAgreementResourceTest(BaseTenderContentWebTest, TenderAgreementResou
 
 class TenderAgreementDocumentResourceTest(BaseTenderContentWebTest, TenderAgreementDocumentResourceTestMixin):
     # initial_data = tender_data
-    initial_status = 'active.qualification'
+    initial_status = 'active.awarded'
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):
         super(TenderAgreementDocumentResourceTest, self).setUp()
-        # Create award
-        supplier_info = deepcopy(test_organization)
-
-        for bid in self.initial_bids:
-            data = {
-                'data': {
-                    'suppliers': [supplier_info],
-                    'status': 'pending',
-                    'bid_id': bid['id'],
-                    'value': {
-                        "amount": 500,
-                        "currency": "UAH",
-                        "valueAddedTaxIncluded": True
-                    },
-                    'items': test_tender_data["items"]
-                }
-            }
-
-            self.app.authorization = ('Basic', ('token', ''))
-            response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), data)
-            award = response.json['data']
-
-            self.award_id = award['id']
-            self.app.authorization = ('Basic', ('broker', ''))
-            response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
-                {"data": {"status": "active", "qualified": True, "eligible": True}}
-            )
-
-        # Switch to active.qualification.stand-still
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {'data': {'status': 'active.qualification.stand-still'}})
-        # self.app.authorization = ('Basic', ('chronograph', ''))
-        # response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {}})
-        self.set_status('active.awarded')
         self.tender = self.app.get('/tenders/{}'.format(self.tender_id)).json['data']
         self.agreement_id = self.tender['agreements'][0]['id']
         self.contract_id = self.tender['agreements'][0]['contracts'][0]['id']

@@ -9,15 +9,8 @@ from openprocurement.tender.belowthreshold.tests.lot import (
     # TenderLotFeatureResourceTestMixin,
     # TenderLotProcessTestMixin
 )
-from openprocurement.tender.belowthreshold.tests.lot_blanks import proc_1lot_0bid
-
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
-from openprocurement.tender.openua.tests.lot_blanks import (
-    # TenderLotResourceTest
-    get_tender_lot,
-    get_tender_lots,
-)
 
 from openprocurement.frameworkagreement.cfaua.tests.base import (
     BaseTenderContentWebTest,
@@ -28,7 +21,6 @@ from openprocurement.frameworkagreement.cfaua.tests.base import (
 from openprocurement.tender.openeu.tests.lot_blanks import (
     # TenderLotProcessTest
     one_lot_1bid,
-    one_lot_2bid_1unqualified,
     two_lot_2bid_1lot_del,
     two_lot_1can,
     two_lot_2bid_0com_1can,
@@ -40,6 +32,9 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
     patch_tender_bidder,
 )
 from openprocurement.frameworkagreement.cfaua.tests.lot_blanks import (
+    get_tender_lot,
+    get_tender_lots,
+    proc_1lot_0bid,
     one_lot_2bid,
     two_lot_3bid_3com_3win,
     one_lot_3bid_1del,
@@ -54,7 +49,8 @@ from openprocurement.frameworkagreement.cfaua.tests.lot_blanks import (
     # TenderLotFeatureResourceTest
     tender_value,
     tender_features_invalid,
-    tender_lot_document
+    tender_lot_document,
+    one_lot_2bid_1unqualified
     )
 
 

@@ -1,10 +1,10 @@
 from openprocurement.api.constants import TZ
 from openprocurement.frameworkagreement.cfaua.constants import AGREEMENT_UPLOAD_DOCS_PERIOD, TENDERING_DURATION, \
     PREQUALIFICATION_COMPLAINT_STAND_STILL, QUESTIONS_STAND_STILL, MIN_BIDS_NUMBER, \
-    QUALIFICATION_COMPLAINT_STAND_STILL
+    QUALIFICATION_COMPLAINT_STAND_STILL, TENDERING_EXTRA_PERIOD
 from openprocurement.frameworkagreement.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.core.adapters import TenderConfigurator
-from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD, STATUS4ROLE, CLAIM_SUBMIT_TIME, \
+from openprocurement.tender.openua.constants import STATUS4ROLE, CLAIM_SUBMIT_TIME, \
     COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME
 
 

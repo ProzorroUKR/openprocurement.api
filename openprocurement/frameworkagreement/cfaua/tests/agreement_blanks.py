@@ -269,9 +269,7 @@ def create_tender_agreement_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual('name.doc', response.json["data"]["title"])
 
-    tender = self.db.get(self.tender_id)
-    tender['agreements'][-1]["status"] = "cancelled"
-    self.db.save(tender)
+    self.cancel_tender()
 
     response = self.app.post(
         '/tenders/{}/agreements/{}/documents?acc_token={}'.format(self.tender_id, self.agreement_id,
@@ -281,21 +279,7 @@ def create_tender_agreement_document(self):
     )
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current agreement status")
-
-    self.set_status('{}'.format(self.forbidden_agreement_document_modification_actions_status))
-
-    response = self.app.post(
-        '/tenders/{}/agreements/{}/documents?acc_token={}'.format(self.tender_id, self.agreement_id,
-                                                                  self.tender_token),
-        upload_files=[('file', 'name.doc', 'content')],
-        status=403
-    )
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"],
-                     "Can't add document in current ({}) tender status".format(
-                         self.forbidden_contract_document_modification_actions_status))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (cancelled) tender status")
 
 
 def put_tender_agreement_document(self):
@@ -362,9 +346,7 @@ def put_tender_agreement_document(self):
     self.assertEqual(response.content_length, 8)
     self.assertEqual(response.body, 'content3')
 
-    tender = self.db.get(self.tender_id)
-    tender['agreements'][-1]["status"] = "cancelled"
-    self.db.save(tender)
+    self.cancel_tender()
 
     response = self.app.put(
         '/tenders/{}/agreements/{}/documents/{}?acc_token={}'.format(self.tender_id, self.agreement_id, doc_id,
@@ -374,21 +356,8 @@ def put_tender_agreement_document(self):
     )
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current agreement status")
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (cancelled) tender status")
 
-    self.set_status('{}'.format(self.forbidden_agreement_document_modification_actions_status))
-
-    response = self.app.put(
-        '/tenders/{}/agreements/{}/documents/{}?acc_token={}'.format(self.tender_id, self.agreement_id, doc_id,
-                                                                     self.tender_token),
-        upload_files=[('file', 'name.doc', 'content3')],
-        status=403
-    )
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"],
-                     "Can't update document in current ({}) tender status".format(
-                         self.forbidden_contract_document_modification_actions_status))
 
 
 def patch_tender_agreement_document(self):
@@ -416,9 +385,7 @@ def patch_tender_agreement_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual('document description', response.json["data"]["description"])
 
-    tender = self.db.get(self.tender_id)
-    tender['agreements'][-1]["status"] = "cancelled"
-    self.db.save(tender)
+    self.cancel_tender()
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}/documents/{}?acc_token={}'.format(self.tender_id, self.agreement_id, doc_id,
@@ -428,21 +395,7 @@ def patch_tender_agreement_document(self):
     )
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current agreement status")
-
-    self.set_status('{}'.format(self.forbidden_agreement_document_modification_actions_status))
-
-    response = self.app.patch_json(
-        '/tenders/{}/agreements/{}/documents/{}?acc_token={}'.format(self.tender_id, self.agreement_id, doc_id,
-                                                                     self.tender_token),
-        {"data": {"description": "document description"}},
-        status=403
-    )
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"],
-                     "Can't update document in current ({}) tender status".format(
-                         self.forbidden_contract_document_modification_actions_status))
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (cancelled) tender status")
 
 
 def patch_tender_agreement(self):
@@ -520,6 +473,9 @@ def patch_tender_agreement(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active')
     self.assertIn(u"dateSigned", response.json['data'].keys())
+    response = self.get_tender('')
+    # Tender complete
+    self.assertEqual(response.json['data']["status"], "complete")
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
