@@ -224,6 +224,7 @@ def check_tender_status(request):
             tender.status = 'unsuccessful'
         if tender.agreements and tender.agreements[-1].status == 'active':
             tender.status = 'complete'
+            tender.contractPeriod.endDate = get_now()
     if tender.procurementMethodType == "belowThreshold":
         check_ignored_claim(tender)
 
@@ -295,6 +296,11 @@ def check_status(request):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.awarded'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.awarded'}))
         tender.status = 'active.awarded'
+        now = get_now()
+        tender.contractPeriod = {
+            'startDate': now
+        }
+        tender.contractPeriod['clarificationsUntil'] = now + getAdapter(tender, IContentConfigurator).clarifications_until_period
         check_initial_awards_count(request)
         if tender.status == 'active.awarded':
             lots = [l for l in tender.get('lots', []) if l.status == 'active']

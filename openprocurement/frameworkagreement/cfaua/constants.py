@@ -13,3 +13,4 @@ STAND_STILL_TIME = timedelta(days=10)
 AGREEMENT_UPLOAD_DOCS_PERIOD = timedelta(days=5)
 MIN_BIDS_NUMBER = 3
 TENDERING_EXTRA_PERIOD = timedelta(days=7)
+CLARIFICATIONS_UNTIL_PERIOD = timedelta(days=5)

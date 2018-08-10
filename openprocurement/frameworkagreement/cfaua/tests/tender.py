@@ -32,6 +32,7 @@ from openprocurement.frameworkagreement.cfaua.tests.tender_blanks import (
     create_tender_invalid,
     create_tender_generated,
     patch_tender,
+    tender_contract_period,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
     #TenderTest
@@ -47,6 +48,7 @@ class TenderUAResourceTestMixin:
     test_empty_listing = snitch(empty_listing)
     #test_tender_fields = snitch(tender_fields)  added new field need to copy and fix this test
     test_patch_tender_period = snitch(patch_tender_period)
+    test_tender_contract_period = snitch(tender_contract_period)
 
 
 class TenderTest(BaseTenderWebTest):

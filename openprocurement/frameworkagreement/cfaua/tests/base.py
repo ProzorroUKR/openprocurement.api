@@ -16,7 +16,8 @@ from openprocurement.frameworkagreement.cfaua.constants import (
     COMPLAINT_STAND_STILL,
     STAND_STILL_TIME,
     MIN_BIDS_NUMBER,
-    TENDERING_EXTRA_PERIOD
+    TENDERING_EXTRA_PERIOD,
+    CLARIFICATIONS_UNTIL_PERIOD
 )
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -312,6 +313,10 @@ PERIODS = {
             'awardPeriod': {
                 'startDate': (- STAND_STILL_TIME),
                 'endDate': timedelta()
+            },
+            'contractPeriod': {
+                'startDate': timedelta(),
+                'clarificationsUntil': CLARIFICATIONS_UNTIL_PERIOD,
             }
         },
         'end': {}
@@ -319,23 +324,28 @@ PERIODS = {
     'complete': {
         'start': {
             'enquiryPeriod': {
-                'startDate': (- TENDERING_DURATION - COMPLAINT_STAND_STILL - STAND_STILL_TIME - timedelta(days=2)),
-                'endDate': (- QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - STAND_STILL_TIME - timedelta(days=1))
+                'startDate': (- TENDERING_DURATION - COMPLAINT_STAND_STILL - STAND_STILL_TIME - timedelta(days=2) - (CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1))),
+                'endDate': (- QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - STAND_STILL_TIME - timedelta(days=1) - (CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1)))
             },
             'tenderPeriod': {
-                'startDate': (- TENDERING_DURATION - COMPLAINT_STAND_STILL - STAND_STILL_TIME - timedelta(days=2)),
-                'endDate': (- COMPLAINT_STAND_STILL - STAND_STILL_TIME - timedelta(days=1))
+                'startDate': (- TENDERING_DURATION - COMPLAINT_STAND_STILL - STAND_STILL_TIME - timedelta(days=2) - (CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1))),
+                'endDate': (- COMPLAINT_STAND_STILL - STAND_STILL_TIME - timedelta(days=1) - (CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1)))
             },
             'qualificationPeriod': {
-                'startDate': (- COMPLAINT_STAND_STILL - STAND_STILL_TIME - timedelta(days=1)),
-                'endDate': (- STAND_STILL_TIME - timedelta(days=1))
+                'startDate': (- COMPLAINT_STAND_STILL - STAND_STILL_TIME - timedelta(days=1) - (CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1))),
+                'endDate': (- STAND_STILL_TIME - timedelta(days=1) - (CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1)))
             },
             'auctionPeriod': {
-                'startDate': (- STAND_STILL_TIME - timedelta(days=1)),
-                'endDate': (- STAND_STILL_TIME)
+                'startDate': (- STAND_STILL_TIME - timedelta(days=1) - (CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1))),
+                'endDate': (- STAND_STILL_TIME - (CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1)))
             },
             'awardPeriod': {
-                'startDate': (- STAND_STILL_TIME),
+                'startDate': (- STAND_STILL_TIME - (CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1))),
+                'endDate': (-(CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1)))
+            },
+            'contractPeriod': {
+                'startDate': (-(CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1))),
+                'clarificationsUntil': (-timedelta(days=1)),
                 'endDate': timedelta()
             }
         },
