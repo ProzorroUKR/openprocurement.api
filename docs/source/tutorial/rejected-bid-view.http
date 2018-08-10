@@ -1,0 +1,78 @@
+GET /api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941/bids/aac764b682834b349b23804e3a86a187?acc_token=098b70bdad1f421abcb9ff8b58fb7cb3 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "unsuccessful", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "Proposal_part1.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/3c9d638cf3844a8c93d0511d5afc3fdf?KeyID=b96f7de5&Signature=6qyYZZgwv%252BtiLFqN6m6ZaI8Efn7PyFDrw7nEyQMAxtvSEdK7aS8WqFUcGRVX0h0ekotwOFkLSBwpiVUP17OBAA%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-08-08T16:11:13.285698+03:00", 
+        "id": "deda57d5395b429b84e652a9b291f04b", 
+        "dateModified": "2018-08-08T16:11:13.285713+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "buyerOnly", 
+        "language": "uk", 
+        "format": "application/pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941/bids/aac764b682834b349b23804e3a86a187/documents/1f47a29bb3084509866d36df76aaf7bd?download=9dc1d5cd78fb4cde9fb22226e510cc9e", 
+        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+        "title": "Proposal_part2.pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-08-08T16:11:13.286151+03:00", 
+        "id": "1f47a29bb3084509866d36df76aaf7bd", 
+        "dateModified": "2018-08-08T16:11:13.286175+03:00"
+      }
+    ], 
+    "eligibilityDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "eligibility_doc.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/99fc9e923b6542909bc80eb143a04924?KeyID=b96f7de5&Signature=THN9NshiAKR8MTY81rAN6zpL8xApYZD49clbUSJ5BaaYgVuXzOu9AiPaIaF0KGEtUnVdfAFe2XKMWWBWgCq2Bg%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-08-08T16:11:13.287358+03:00", 
+        "id": "14749e04fc174becad9c60b8db7eec7b", 
+        "dateModified": "2018-08-08T16:11:13.287371+03:00"
+      }
+    ], 
+    "selfEligible": true, 
+    "selfQualified": true, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "fake@mail.com", 
+          "telephone": "+380 (322) 12-34-56", 
+          "name": "Іван Іваненко"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "«Снігур»", 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 35", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "id": "aac764b682834b349b23804e3a86a187"
+  }
+}
+
