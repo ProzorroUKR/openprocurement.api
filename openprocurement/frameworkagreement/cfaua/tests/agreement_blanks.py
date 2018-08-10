@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from iso8601 import parse_date
 from mock import patch
-from openprocurement.tender.core.utils import calculate_business_date
+from datetime import timedelta, datetime
 from uuid import uuid4
 
-from openprocurement.frameworkagreement.cfaua.constants import AGREEMENT_UPLOAD_DOCS_PERIOD
+from openprocurement.frameworkagreement.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
 
 
 # TenderAgreementResourceTest
@@ -140,7 +140,6 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     tender = response.json['data']
-    award_period_end_date = parse_date(tender['awardPeriod']['endDate'])
 
     # Agreement signing
     response = self.app.patch_json(
@@ -148,7 +147,7 @@ def patch_tender_agreement_datesigned(self):
         {"data": {"status": "active"}},
         status=403
     )
-    end_date = calculate_business_date(award_period_end_date, AGREEMENT_UPLOAD_DOCS_PERIOD)
+    end_date = tender['contractPeriod']['clarificationsUntil']
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(
@@ -157,16 +156,19 @@ def patch_tender_agreement_datesigned(self):
             "location": "body",
             "name": "data",
             "description":
-                "Agreement signature date should be after upload docs period end date ({})".format(end_date.isoformat())
+                "Agreement signature date should be after contractPeriod.clarificationsUntil ({})".format(end_date)
         }]
     )
 
-    with patch('openprocurement.frameworkagreement.cfaua.views.agreement.calculate_business_date') as working_days:
-        working_days.return_value = award_period_end_date
-        response = self.app.patch_json(
-            '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-            {"data": {"status": "active"}}
-        )
+    tender = self.db.get(self.tender_id)
+    tender['contractPeriod']['startDate'] = (datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)).isoformat()
+    tender['contractPeriod']['clarificationsUntil'] = (datetime.now()- timedelta(days=1)).isoformat()
+    self.db.save(tender)
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active"}}
+    )
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], "active")
@@ -443,7 +445,6 @@ def patch_tender_agreement(self):
 
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     tender = response.json['data']
-    award_period_end_date = parse_date(tender['awardPeriod']['endDate'])
 
     # Sign agreement
     response = self.app.patch_json(
@@ -451,7 +452,7 @@ def patch_tender_agreement(self):
         {"data": {"status": "active"}},
         status=403
     )
-    end_date = calculate_business_date(award_period_end_date, AGREEMENT_UPLOAD_DOCS_PERIOD)
+    end_date = tender['contractPeriod']['clarificationsUntil']
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(
@@ -460,16 +461,20 @@ def patch_tender_agreement(self):
             "location": "body",
             "name": "data",
             "description":
-                "Agreement signature date should be after upload docs period end date ({})".format(end_date.isoformat())
+                "Agreement signature date should be after contractPeriod.clarificationsUntil ({})".format(end_date)
         }]
     )
 
-    with patch('openprocurement.frameworkagreement.cfaua.views.agreement.calculate_business_date') as working_days:
-        working_days.return_value = award_period_end_date
-        response = self.app.patch_json(
-            '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-            {"data": {"status": "active"}}
-        )
+
+    tender = self.db.get(self.tender_id)
+    tender['contractPeriod']['startDate'] = (datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)).isoformat()
+    tender['contractPeriod']['clarificationsUntil'] = (datetime.now()- timedelta(days=1)).isoformat()
+    self.db.save(tender)
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active"}}
+    )
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active')
     self.assertIn(u"dateSigned", response.json['data'].keys())

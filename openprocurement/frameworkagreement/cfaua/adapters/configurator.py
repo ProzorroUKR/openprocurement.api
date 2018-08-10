@@ -1,5 +1,5 @@
 from openprocurement.api.constants import TZ
-from openprocurement.frameworkagreement.cfaua.constants import AGREEMENT_UPLOAD_DOCS_PERIOD, TENDERING_DURATION, \
+from openprocurement.frameworkagreement.cfaua.constants import TENDERING_DURATION, \
     PREQUALIFICATION_COMPLAINT_STAND_STILL, QUESTIONS_STAND_STILL, MIN_BIDS_NUMBER, \
     QUALIFICATION_COMPLAINT_STAND_STILL, TENDERING_EXTRA_PERIOD, CLARIFICATIONS_UNTIL_PERIOD
 from openprocurement.frameworkagreement.cfaua.models.tender import CloseFrameworkAgreementUA
@@ -54,6 +54,5 @@ class CloseFrameworkAgreementUAConfigurator(TenderConfigurator):
     min_bids_number = MIN_BIDS_NUMBER
 
     # Duration of documents with prices per unit upload
-    agreement_upload_docs_period = AGREEMENT_UPLOAD_DOCS_PERIOD
 
     clarifications_until_period = CLARIFICATIONS_UNTIL_PERIOD

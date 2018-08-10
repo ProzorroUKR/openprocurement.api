@@ -5,7 +5,6 @@ from openprocurement.tender.core.utils import apply_patch, calculate_business_da
 from openprocurement.tender.openua.views.contract import (
     TenderUaAwardContractResource as BaseResource
 )
-from zope.component import getAdapter
 
 from openprocurement.frameworkagreement.cfaua.validation import (
     validate_agreement_operation_not_in_allowed_status,
@@ -48,20 +47,17 @@ class TenderAgreementResource(BaseResource):
         """ Update of agreement """
         agreement_status = self.request.context.status
         tender = self.request.context.__parent__
-        config = getAdapter(tender, IContentConfigurator)
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if agreement_status != self.request.context.status and \
                 (agreement_status != 'pending' or self.request.context.status not in ('active', 'cancelled')):
             raise_operation_error(self.request, 'Can\'t update agreement status')
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
-        docs_upload_end_date = calculate_business_date(
-            tender.awardPeriod.endDate, config.agreement_upload_docs_period, tender
-        )
+        docs_upload_end_date = tender.contractPeriod.clarificationsUntil
         if self.request.context.dateSigned and self.request.context.dateSigned <= docs_upload_end_date:
             raise_operation_error(
                 self.request,
-                "Agreement signature date should be after upload docs period end date ({})".format(
+                "Agreement signature date should be after contractPeriod.clarificationsUntil ({})".format(
                     docs_upload_end_date.isoformat()
                 )
             )
