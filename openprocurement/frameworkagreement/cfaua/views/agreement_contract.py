@@ -38,5 +38,5 @@ class TenderAgreementContractResource(APIResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if save_tender(self.request):
             self.LOGGER.info('Updated tender agreement {}'.format(self.request.context.id),
-                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_agreement_contrat_patch'}))
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_agreement_contract_patch'}))
             return {'data': self.request.context.serialize()}

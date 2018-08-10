@@ -11,8 +11,8 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from zope.interface import implementer, provider
 from openprocurement.api.models import (
-    listing_role, Period, ListType, SifterListType, plain_role, Value
-)
+    listing_role, Period, ListType, SifterListType, plain_role, Value,
+    IsoDurationType)
 from openprocurement.api.utils import get_now
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
@@ -101,6 +101,7 @@ class CloseFrameworkAgreementUA(Tender):
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     title_en = StringType(required=True, min_length=1)
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
+    agreementDuration = IsoDurationType()
 
     def __local_roles__(self):
         roles = dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])
