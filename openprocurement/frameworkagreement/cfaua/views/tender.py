@@ -149,7 +149,7 @@ class TenderEUResource(TenderResource):
                 tender.awardPeriod.endDate = calculate_business_date(
                     normalized_date, config.qualification_complaint_stand_still, self.request.validated['tender']
                 )
-                for award in tender.awards:
+                for award in [a for a in tender.awards if a.status != 'cancelled']:
                     award['complaintPeriod'] = {
                         'startDate': now.isoformat(),
                         'endDate': tender.awardPeriod.endDate.isoformat()
