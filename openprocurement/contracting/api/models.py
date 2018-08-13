@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
 from zope.interface import implementer, Interface
-from couchdb_schematics.document import SchematicsDocument
+# from couchdb_schematics.document import SchematicsDocument
 from pyramid.security import Allow
 from schematics.types import StringType, BaseType, MD5Type
 from schematics.types.compound import ModelType, DictType
@@ -10,6 +10,7 @@ from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import Contract as BaseContract
+from openprocurement.api.models import OpenprocurementSchematicsDocument as SchematicsDocument
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Organization as BaseOrganization
 from openprocurement.api.models import ContactPoint as BaseContactPoint
