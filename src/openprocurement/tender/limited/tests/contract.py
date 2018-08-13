@@ -35,8 +35,9 @@ from openprocurement.tender.limited.tests.contract_blanks import (
     create_tender_contract,
     patch_tender_contract,
     tender_contract_signature_date,
-    award_id_change_is_not_allowed,
+    award_id_change_is_not_allowed
 )
+from openprocurement.tender.openua.tests.contract_blanks import patch_tender_contract_vat_not_included
 
 
 class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourceTestMixin):
@@ -66,6 +67,31 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
     test_award_id_change_is_not_allowed = snitch(award_id_change_is_not_allowed)
 
 
+class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest, TenderContractResourceTestMixin):
+    initial_status = 'active'
+    initial_data = test_tender_data
+    initial_bids = None
+
+    def create_award(self):
+        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
+            self.tender_id, self.tender_token), {
+            'data': {
+                'suppliers': [test_organization],
+                'status': 'pending',
+                'qualified': True,
+                'value': {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False}}})
+        self.award_id = response.json['data']['id']
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}})
+
+    def setUp(self):
+        super(TenderContractVATNotIncludedResourceTest, self).setUp()
+        self.create_award()
+
+    test_patch_tender_contract_vat_not_included = snitch(patch_tender_contract_vat_not_included)
+
+
 class TenderNegotiationContractResourceTest(TenderContractResourceTest):
     initial_data = test_tender_negotiation_data
     stand_still_period_days = 10
@@ -73,6 +99,10 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
     test_patch_tender_contract = snitch(patch_tender_negotiation_contract)
     test_tender_contract_signature_date = snitch(tender_negotiation_contract_signature_date)
     test_items = snitch(items)
+
+
+class TenderNegotiationContractVATNotIncludedResourceTest(TenderContractVATNotIncludedResourceTest):
+    initial_data = test_tender_negotiation_data
 
 
 class TenderNegotiationLotContractResourceTest(TenderNegotiationContractResourceTest):
