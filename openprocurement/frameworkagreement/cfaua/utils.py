@@ -224,7 +224,7 @@ def check_tender_status(request):
             tender.status = 'unsuccessful'
         if tender.agreements and tender.agreements[-1].status == 'active':
             tender.status = 'complete'
-            tender.contractPeriod.endDate = get_now()
+            tender.contractPeriod.endDate = now
     if tender.procurementMethodType == "belowThreshold":
         check_ignored_claim(tender)
 
@@ -296,7 +296,6 @@ def check_status(request):
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.awarded'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.awarded'}))
         tender.status = 'active.awarded'
-        now = get_now()
         tender.contractPeriod = {
             'startDate': now
         }

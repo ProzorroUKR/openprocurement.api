@@ -53,12 +53,11 @@ class TenderAgreementResource(BaseResource):
             raise_operation_error(self.request, 'Can\'t update agreement status')
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
-        docs_upload_end_date = tender.contractPeriod.clarificationsUntil
-        if self.request.context.dateSigned and self.request.context.dateSigned <= docs_upload_end_date:
+        if self.request.context.dateSigned and self.request.context.dateSigned <= tender.contractPeriod.clarificationsUntil:
             raise_operation_error(
                 self.request,
                 "Agreement signature date should be after contractPeriod.clarificationsUntil ({})".format(
-                    docs_upload_end_date.isoformat()
+                    tender.contractPeriod.clarificationsUntil.isoformat()
                 )
             )
         check_tender_status(self.request)
