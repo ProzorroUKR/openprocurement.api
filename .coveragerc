@@ -1,0 +1,8 @@
+[run]
+source = openprocurement.tender.cfaselectionua
+
+[report]
+omit =
+    *tests*
+    *.env*
+show_missing = True
