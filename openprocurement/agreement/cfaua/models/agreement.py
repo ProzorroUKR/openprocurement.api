@@ -1,3 +1,4 @@
+from openprocurement.agreement.cfaua.models.change import Change
 from openprocurement.api.roles import RolesFromCsv
 from zope.interface import implementer, provider
 from schematics.types import StringType
@@ -36,6 +37,7 @@ class Agreement(BaseAgreement):
     title_ru = StringType()
     description_en = StringType()
     description_ru = StringType()
+    changes = ListType(ModelType(Change), default=list())
     documents = ListType(ModelType(Document), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     items = ListType(ModelType(Item))
