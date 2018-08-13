@@ -24,6 +24,7 @@ from openprocurement.tender.openua.tests.contract_blanks import (
     patch_tender_contract_datesigned,
     # TenderStage2UAContractResourceTest,
     patch_tender_contract,
+    patch_tender_contract_vat_not_included,
 )
 from openprocurement.tender.openeu.tests.contract_blanks import (
     # TenderStage2EUContractResourceTest
@@ -124,6 +125,35 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
     test_patch_tender_contract = snitch(patch_tender_contract)
+
+
+class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+    initial_status = 'active.qualification'
+    initial_bids = test_tender_bids
+
+    def create_award(self):
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
+        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
+            'suppliers': [author],
+            'status': 'pending',
+            'bid_id': self.bids[0]['id'],
+            'value': {
+                'amount': self.initial_data["value"]["amount"],
+                'currency': self.initial_data["value"]["currency"],
+                'valueAddedTaxIncluded': False
+            }}})
+        self.app.authorization = auth
+        self.award_id = response.json['data']['id']
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active", 'qualified': True, 'eligible': True}})
+
+    def setUp(self):
+        super(TenderContractVATNotIncludedResourceTest, self).setUp()
+        self.create_award()
+
+    test_patch_tender_contract_vat_not_included = snitch(patch_tender_contract_vat_not_included)
 
 
 class TenderStage2UAContractDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderContractDocumentResourceTestMixin):
