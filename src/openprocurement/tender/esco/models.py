@@ -202,6 +202,13 @@ class BaseESCOValue(Value):
 
 
 class ContractESCOValue(BaseESCOValue):
+    class Options:
+        roles = {
+            'edit': whitelist('amount', 'amountNet', 'amount_escp', 'amountPerformance', 'amountPerformance_npv',
+                              'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration',
+                              'currency', 'valueAddedTaxIncluded'),
+        }
+
     amountNet = DecimalType(min_value=Decimal('0'), required=False, precision=-2)
 
 
@@ -286,7 +293,7 @@ class Contract(BaseEUContract):
     class Options:
         roles = {
             'edit': blacklist('id', 'documents', 'date', 'awardID', 'suppliers',
-                              'items', 'contractID', 'value'),
+                              'items', 'contractID'),
         }
 
     value = ModelType(ContractESCOValue)
