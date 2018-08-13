@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUATender
+from openprocurement.tender.cfaselectionua.models.submodels.firms import Firms
+from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, IntType, URLType, BooleanType
@@ -13,7 +16,7 @@ from openprocurement.api.models import (
 )
 
 from openprocurement.api.models import (
-    ListType, Period, Value, Identifier, Model,
+    ListType, Period, Value
 )
 
 from openprocurement.api.utils import (
@@ -26,18 +29,17 @@ from openprocurement.api.validation import (
 )
 
 from openprocurement.tender.core.models import (
-    ITender, validate_features_uniq, validate_lots_uniq, get_tender,
+    validate_features_uniq, validate_lots_uniq,
     view_role, create_role as base_create_role, edit_role as base_edit_role,
     auction_view_role, auction_post_role, auction_patch_role, auction_role,
     chronograph_role, chronograph_view_role,
     Guarantee, ComplaintModelType, TenderAuctionPeriod,
     PeriodEndRequired, Tender as BaseTender, Bid, ProcuringEntity,
-    Item, Award, Contract, Question, Cancellation, Feature,
-    Lot as BaseLot, Complaint,
+    Item, Award, Contract, Question, Cancellation, Feature, Complaint,
 )
 
 from openprocurement.tender.core.utils import (
-    calc_auction_end_time, rounding_shouldStartAfter
+    calc_auction_end_time
 )
 
 from openprocurement.tender.core.constants import (
@@ -50,39 +52,6 @@ enquiries_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 
 edit_role = (blacklist(*DRAFT_FIELDS) + base_edit_role)
 create_role = (blacklist(*DRAFT_FIELDS) + base_create_role)
 Administrator_role = whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots')
-
-
-class LotAuctionPeriod(Period):
-    """The auction period."""
-
-    @serializable(serialize_when_none=False)
-    def shouldStartAfter(self):
-        if self.endDate:
-            return
-        tender = get_tender(self)
-        lot = self.__parent__
-        if tender.status not in ['active.tendering', 'active.auction'] or lot.status != 'active':
-            return
-        if tender.status == 'active.auction' and lot.numberOfBids < 2:
-            return
-        if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
-            start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
-        else:
-            start_after = tender.tenderPeriod.endDate
-        return rounding_shouldStartAfter(start_after, tender).isoformat()
-
-
-class Lot(BaseLot):
-    auctionPeriod = ModelType(LotAuctionPeriod, default={})
-
-
-class Firms(Model):
-    identifier = ModelType(Identifier, required=True)
-    name = StringType(required=True)
-
-
-class ICFASelectionUATender(ITender):
-    """ Marker interface for closeFrameworkAgreementSelectionUA tenders """
 
 
 @implementer(ICFASelectionUATender)
