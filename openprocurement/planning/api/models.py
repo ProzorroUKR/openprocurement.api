@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
-from couchdb_schematics.document import SchematicsDocument
+#from couchdb_schematics.document import SchematicsDocument
 from schematics.exceptions import ValidationError
 from openprocurement.api.utils import get_now
+from openprocurement.api.models import OpenprocurementSchematicsDocument as SchematicsDocument
 from openprocurement.api.models import Model, Period, Revision
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier
