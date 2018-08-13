@@ -1,22 +1,16 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
+
+from openprocurement.api.roles import RolesFromCsv
 from schematics.types import StringType, MD5Type
 from schematics.exceptions import ValidationError
-from schematics.transforms import whitelist
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import Model, ListType, IsoDateTimeType
-from openprocurement.api.models import  schematics_default_role, schematics_embedded_role
 
 
 class Change(Model):
     class Options:
-        roles = {
-            # 'edit': blacklist('id', 'date'),
-            'create': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleTypes', 'contractNumber', 'dateSigned'),
-            'edit': whitelist('rationale', 'rationale_ru', 'rationale_en', 'rationaleTypes', 'contractNumber', 'status', 'dateSigned'),
-            'view': schematics_default_role,
-            'embedded': schematics_embedded_role,
-        }
+        roles = RolesFromCsv('Change.csv', relative_to=__file__)
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     status = StringType(choices=['pending', 'active'], default='pending')
