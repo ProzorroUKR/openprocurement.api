@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUATender
+from openprocurement.tender.cfaselectionua.models.tender import Tender
 from pyramid.interfaces import IRequest
 from openprocurement.api.interfaces import IContentConfigurator
-from openprocurement.tender.cfaselectionua.models import Tender, ICFASelectionUATender
 from openprocurement.tender.cfaselectionua.adapters import TenderBelowThersholdConfigurator
 
 
