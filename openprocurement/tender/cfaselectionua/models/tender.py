@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUATender
 from openprocurement.tender.cfaselectionua.models.submodels.firms import Firms
 from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
@@ -60,42 +61,7 @@ class Tender(BaseTender):
     to submit bids for evaluation and selecting a winner or winners.
     """
     class Options:
-        roles = {
-            'plain': plain_role,
-            'create': create_role,
-            'edit': edit_role,
-            'edit_draft': draft_role,
-            'edit_draft.pending': whitelist(),
-            'edit_active.enquiries': edit_role,
-            'edit_active.tendering': whitelist(),
-            'edit_active.auction': whitelist(),
-            'edit_active.qualification': whitelist(),
-            'edit_active.awarded': whitelist(),
-            'edit_complete': whitelist(),
-            'edit_unsuccessful': whitelist(),
-            'edit_cancelled': whitelist(),
-            'view': view_role,
-            'listing': listing_role,
-            'auction_view': auction_view_role,
-            'auction_post': auction_post_role,
-            'auction_patch': auction_patch_role,
-            'draft': enquiries_role,
-            'draft.pending': enquiries_role,
-            'active.enquiries': enquiries_role,
-            'active.tendering': enquiries_role,
-            'active.auction': auction_role,
-            'active.qualification': view_role,
-            'active.awarded': view_role,
-            'complete': view_role,
-            'unsuccessful': view_role,
-            'cancelled': view_role,
-            'chronograph': chronograph_role,
-            'chronograph_view': chronograph_view_role,
-            'Administrator': Administrator_role,
-            'default': schematics_default_role,
-            'contracting': whitelist('doc_id', 'owner'),
-            BOT_NAME: whitelist(*DRAFT_FIELDS)
-        }
+        roles = RolesFromCsv('Tender.csv', relative_to=__file__)
 
     items = ListType(ModelType(Item), min_size=1, validators=[validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.

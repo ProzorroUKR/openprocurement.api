@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.roles import RolesFromCsv
 from schematics.types.serializable import serializable
 from openprocurement.api.models import Period
 from openprocurement.tender.core.models import get_tender
@@ -8,6 +9,9 @@ from openprocurement.tender.core.utils import calc_auction_end_time, rounding_sh
 
 class LotAuctionPeriod(Period):
     """The auction period."""
+
+    class Options:
+        roles = RolesFromCsv('LotAuctionPeriod.csv', relative_to=__file__)
 
     @serializable(serialize_when_none=False)
     def shouldStartAfter(self):
