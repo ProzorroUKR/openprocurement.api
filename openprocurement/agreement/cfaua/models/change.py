@@ -23,7 +23,7 @@ class Change(Model):
                                                   'durationExtension', 'priceReduction',
                                                   'taxRate', 'fiscalYearExtension'],
                                          required=True), min_size=1, required=True)
-    contractNumber = StringType()
+    agreementNumber = StringType()
     dateSigned = IsoDateTimeType()
 
     def validate_dateSigned(self, data, value):
