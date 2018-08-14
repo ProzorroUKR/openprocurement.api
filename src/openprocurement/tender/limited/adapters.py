@@ -17,7 +17,7 @@ class TenderReportingConfigurator(TenderConfigurator):
 
     @property
     def edit_accreditation(self):
-        raise NotImplemented
+        raise NotImplementedError
 
 
 class TenderNegotiationConfigurator(TenderConfigurator):
@@ -31,7 +31,7 @@ class TenderNegotiationConfigurator(TenderConfigurator):
 
     @property
     def edit_accreditation(self):
-        raise NotImplemented
+        raise NotImplementedError
 
 
 class TenderNegotiationQuickConfigurator(TenderNegotiationConfigurator):
