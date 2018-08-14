@@ -2,8 +2,8 @@ from openprocurement.api.utils import (
     json_view,
     APIResource
     )
-from openprocurement.agreement.core.resource import\
-    agreements_resource
+from openprocurement.agreement.cfaua.resource import agreements_resource
+
 
 
 @agreements_resource(

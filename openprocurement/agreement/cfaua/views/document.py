@@ -1,7 +1,6 @@
 from openprocurement.agreement.cfaua.validation \
     import validate_document_operation_on_agreement_status
-from openprocurement.agreement.core.resource \
-    import agreements_resource
+from openprocurement.agreement.cfaua.resource import agreements_resource
 from openprocurement.agreement.core.utils \
     import context_unpack, save_agreement, apply_patch
 from openprocurement.api.utils import (

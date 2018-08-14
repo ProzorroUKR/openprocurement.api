@@ -8,7 +8,7 @@ from openprocurement.agreement.cfaua.validation import (
     validate_update_agreement_change_status
 )
 from openprocurement.agreement.core.utils import save_agreement, apply_patch
-from openprocurement.agreement.core.resource import agreements_resource
+from openprocurement.agreement.cfaua.resource import agreements_resource
 from openprocurement.api.utils import (
     json_view,
     APIResource,
@@ -60,7 +60,7 @@ class AgreementChangesResource(APIResource):
                 obj_str = "last active change"
             else:
                 last_date_signed = agreement.dateSigned
-                obj_str = "contract"
+                obj_str = "contct"
 
             if last_date_signed:  # BBB very old contracts
                 if change['dateSigned'] < last_date_signed:
@@ -81,7 +81,7 @@ class AgreementChangesResource(APIResource):
     @json_view(content_type="application/json", permission='edit_agreement',
                validators=(validate_patch_change_data, validate_agreement_change_update_not_in_allowed_change_status))
     def patch(self):
-        """ Contract change edit """
+        """ Agreement change edit """
         change = self.request.validated['change']
         data = self.request.validated['data']
 
