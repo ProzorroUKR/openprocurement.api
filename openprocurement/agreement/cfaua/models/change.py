@@ -28,4 +28,4 @@ class Change(Model):
 
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
-            raise ValidationError(u"Contract signature date can't be in the future")
+            raise ValidationError(u"Agreement signature date can't be in the future")
