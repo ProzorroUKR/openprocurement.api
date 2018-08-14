@@ -24,6 +24,7 @@ before_install:
 install:
   - bin/buildout -N
 script:
-  - bin/nosetests openprocurement docs.py
+  - bin/nosetests src docs.py
 after_success:
   - bin/coveralls
+  - ./push_http_files.sh
