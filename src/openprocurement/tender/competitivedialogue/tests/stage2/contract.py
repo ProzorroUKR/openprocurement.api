@@ -18,13 +18,12 @@ from openprocurement.tender.belowthreshold.tests.contract import (
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     # TenderStage2EU(UA)ContractResourceTest
     create_tender_contract,
-)
+    patch_tender_contract_vat_not_included)
 from openprocurement.tender.openua.tests.contract_blanks import (
     # TenderStage2EU(UA)ContractResourceTest
     patch_tender_contract_datesigned,
     # TenderStage2UAContractResourceTest,
     patch_tender_contract,
-    patch_tender_contract_vat_not_included,
 )
 from openprocurement.tender.openeu.tests.contract_blanks import (
     # TenderStage2EUContractResourceTest
