@@ -15,7 +15,10 @@ downloads/
 eggs/
 lib/
 lib64/
+lib64
 parts/
+include/
+.idea/
 sdist/
 var/
 *.egg-info/
@@ -37,6 +40,7 @@ htmlcov/
 .tox/
 .coverage
 .cache
+pip-selfcheck.json
 nosetests.xml
 coverage.xml
 
