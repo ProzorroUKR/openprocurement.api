@@ -60,9 +60,9 @@ class AgreementChangesResource(APIResource):
                 obj_str = "last active change"
             else:
                 last_date_signed = agreement.dateSigned
-                obj_str = "contct"
+                obj_str = "agreement"
 
-            if last_date_signed:  # BBB very old contracts
+            if last_date_signed:  # BBB very old agreements
                 if change['dateSigned'] < last_date_signed:
                     # Can't move validator because of code above
                     raise_operation_error(self.request,

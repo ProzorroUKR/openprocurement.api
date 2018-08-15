@@ -22,12 +22,10 @@ with open(os.path.join(here, 'data/agreement.json')) as _in:
 with open(os.path.join(here, 'data/documents.json')) as _in:
     TEST_DOCUMENTS = json.load(_in)
 
-
-
 now = datetime.now()
 
 test_agreement_data = deepcopy(TEST_AGREEMENT)
-
+test_agreement_data['dateSigned'] = get_now().isoformat()
 
 test_agreement_data_wo_items = deepcopy(test_agreement_data)
 del test_agreement_data_wo_items['items']
