@@ -451,7 +451,7 @@ def date_signed_on_change_creation(self):
               {'data': {'rationale': u'причина зміни укр', 'rationale_en': u'change cause en',
                         'dateSigned': one_day_in_past,
                         'rationaleTypes': ['priceReduction'], 'agreementNumber': u'№ 146'}}, status=403)
-    self.assertIn(u"can't be earlier than contct dateSigned", response.json['errors'][0]["description"])
+    self.assertIn(u"can't be earlier than agreement dateSigned", response.json['errors'][0]["description"])
     one_day_in_future = (get_now() + timedelta(days=1)).isoformat()
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
         self.agreement['id'], self.agreement_token),
