@@ -16,6 +16,7 @@ from openprocurement.api.models import (
     schematics_embedded_role
 )
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.models import Feature, validate_features_uniq
 
 from openprocurement.frameworkagreement.cfaua.models.submodels.contract import Contract
 from openprocurement.frameworkagreement.cfaua.models.submodels.documents import Document
@@ -35,6 +36,7 @@ class Agreement(Model):
     description_en = StringType()
     description_ru = StringType()
     documents = ListType(ModelType(Document), default=list())
+    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
     items = ListType(ModelType(Item))
     period = ModelType(Period)
     status = StringType(choices=['pending', 'active', 'cancelled'], default='pending')
