@@ -13,7 +13,7 @@ from openprocurement.api.models import (
     schematics_default_role,
     schematics_embedded_role
 )
-
+from openprocurement.tender.core.models import Parameter, validate_parameters_uniq
 from openprocurement.frameworkagreement.cfaua.models.submodels.unitprice import UnitPrice
 
 
@@ -26,6 +26,7 @@ class Contract(Model):
             'view': schematics_default_role,
         }
     id = MD5Type(required=True, default=lambda: uuid4().hex)
+    parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
     status = StringType(choices=['active', 'unsuccessful'], default='active')
     suppliers = ListType(ModelType(Organization))
     unitPrices = ListType(ModelType(UnitPrice))

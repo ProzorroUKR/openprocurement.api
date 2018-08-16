@@ -466,6 +466,7 @@ def generate_agreement_data(request, tender, lot=None):
             'awardID': award.id,
             'bidID': award.bid_id,
             'date': get_now().isoformat(),
-            'unitPrices': unit_prices
+            'unitPrices': unit_prices,
+            'parameters': [b for b in tender.bids if b.id == award.bid_id][0].parameters
         })
     return data

@@ -98,3 +98,9 @@ def switch_to_awarded(self):
     self.assertEqual(len(response.json['data']['agreements']), 1)
     self.app.authorization = ('Basic', ('broker', ''))
     self.assertEqual(response.json['data']['features'], response.json['data']['agreements'][0]['features'])
+
+    bids_parameters = {bid['id']: bid['parameters']
+                       for bid in response.json['data']['bids'] if bid['status'] == 'active'}
+    contract_parameters = {contract['bidID']: contract['parameters']
+                           for contract in response.json['data']['agreements'][0]['contracts']}
+    self.assertEqual(bids_parameters, contract_parameters)
