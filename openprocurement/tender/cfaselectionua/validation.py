@@ -55,54 +55,11 @@ def validate_bid_document_operation_with_not_pending_award(request):
         raise_operation_error(request, 'Can\'t {} document because award of bid is not in pending state'.format(OPERATIONS.get(request.method)))
 
 
-# question
-def validate_add_question(request):
-    tender = request.validated['tender']
-    if tender.status != 'active.enquiries' or tender.enquiryPeriod.startDate and get_now() < tender.enquiryPeriod.startDate or get_now() > tender.enquiryPeriod.endDate:
-        raise_operation_error(request, 'Can add question only in enquiryPeriod')
-
-
-def validate_update_question(request):
-    tender = request.validated['tender']
-    if tender.status != 'active.enquiries':
-        raise_operation_error(request, 'Can\'t update question in current ({}) tender status'.format(tender.status))
-
-
 # lot
 def validate_lot_operation(request):
     tender = request.validated['tender']
     if tender.status not in ['draft.pending', 'active.enquiries']:
         raise_operation_error(request, 'Can\'t {} lot in current ({}) tender status'.format(OPERATIONS.get(request.method), tender.status))
-
-
-# complaint
-def validate_add_complaint_not_in_allowed_tender_status(request):
-    tender = request.context
-    if tender.status not in ['active.enquiries', 'active.tendering']:
-        raise_operation_error(request, 'Can\'t add complaint in current ({}) tender status'.format(tender.status))
-
-
-def validate_update_complaint_not_in_allowed_tender_status(request):
-    tender = request.validated['tender']
-    if tender.status not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
-        raise_operation_error(request, 'Can\'t update complaint in current ({}) tender status'.format(tender.status))
-
-
-def validate_update_complaint_not_in_allowed_status(request):
-    if request.context.status not in ['draft', 'claim', 'answered', 'pending']:
-        raise_operation_error(request, 'Can\'t update complaint in current ({}) status'.format(request.context.status))
-
-
-# complaint document
-def validate_complaint_document_operation_not_in_allowed_status(request):
-    if request.validated['tender_status'] not in ['active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded']:
-        raise_operation_error(request, 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(request.method), request.validated['tender_status']))
-
-
-def validate_role_and_status_for_add_complaint_document(request):
-    roles = request.content_configurator.allowed_statuses_for_complaint_operations_for_roles
-    if request.context.status not in roles.get(request.authenticated_role, []):
-        raise_operation_error(request, 'Can\'t add document in current ({}) complaint status'.format(request.context.status))
 
 
 # auction

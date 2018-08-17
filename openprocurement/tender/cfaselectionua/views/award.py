@@ -92,7 +92,10 @@ class TenderAwardResource(APIResource):
         """
         return {'data': [i.serialize("view") for i in self.request.validated['tender'].awards]}
 
-    @json_view(content_type="application/json", permission='create_award', validators=(validate_award_data, validate_create_award_not_in_allowed_period, validate_create_award_only_for_active_lot))
+    @json_view(content_type="application/json", permission='create_award', validators=(
+            validate_award_data, validate_create_award_not_in_allowed_period,
+            validate_create_award_only_for_active_lot
+    ))
     def collection_post(self):
         """Accept or reject bidder application
 
@@ -175,13 +178,14 @@ class TenderAwardResource(APIResource):
         """
         tender = self.request.validated['tender']
         award = self.request.validated['award']
-        award.complaintPeriod = {'startDate': get_now().isoformat()}
         tender.awards.append(award)
         if save_tender(self.request):
             self.LOGGER.info('Created tender award {}'.format(award.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_create'}, {'award_id': award.id}))
+                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_create'},
+                                             {'award_id': award.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Awards'.format(tender.procurementMethodType), tender_id=tender.id, award_id=award['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Awards'.format(
+                tender.procurementMethodType), tender_id=tender.id, award_id=award['id'])
             return {'data': award.serialize("view")}
 
     @json_view(permission='view_tender')
@@ -236,7 +240,10 @@ class TenderAwardResource(APIResource):
         """
         return {'data': self.request.validated['award'].serialize("view")}
 
-    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_award_data, validate_update_award_in_not_allowed_status, validate_update_award_only_for_active_lots))
+    @json_view(content_type="application/json", permission='edit_tender', validators=(
+            validate_patch_award_data, validate_update_award_in_not_allowed_status,
+            validate_update_award_only_for_active_lots
+    ))
     def patch(self):
         """Update of award
 
@@ -299,7 +306,6 @@ class TenderAwardResource(APIResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
-            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME, tender, True)
             tender.contracts.append(type(tender).contracts.model_class({
                 'awardID': award.id,
                 'suppliers': award.suppliers,
@@ -309,38 +315,20 @@ class TenderAwardResource(APIResource):
                 'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) + 1)}))
             add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
-            now = get_now()
-            if award.complaintPeriod.endDate > now:
-                award.complaintPeriod.endDate = now
-            for j in award.complaints:
-                if j.status not in ['invalid', 'resolved', 'declined']:
-                    j.status = 'cancelled'
-                    j.cancellationReason = 'cancelled'
-                    j.dateCanceled = now
             for i in tender.contracts:
                 if i.awardID == award.id:
                     i.status = 'cancelled'
             add_next_award(self.request)
         elif award_status == 'pending' and award.status == 'unsuccessful':
-            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME, tender, True)
             add_next_award(self.request)
-        elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status in ['claim', 'answered', 'pending', 'resolved'] for i in award.complaints]):
+        elif award_status == 'unsuccessful' and award.status == 'cancelled':
             if tender.status == 'active.awarded':
                 tender.status = 'active.qualification'
                 tender.awardPeriod.endDate = None
-            now = get_now()
-            award.complaintPeriod.endDate = now
             cancelled_awards = []
             for i in tender.awards[tender.awards.index(award):]:
                 if i.lotID != award.lotID:
                     continue
-                i.complaintPeriod.endDate = now
-                i.status = 'cancelled'
-                for j in i.complaints:
-                    if j.status not in ['invalid', 'resolved', 'declined']:
-                        j.status = 'cancelled'
-                        j.cancellationReason = 'cancelled'
-                        j.dateCanceled = now
                 cancelled_awards.append(i.id)
             for i in tender.contracts:
                 if i.awardID in cancelled_awards:

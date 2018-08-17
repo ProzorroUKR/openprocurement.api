@@ -11,7 +11,6 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.core.validation import (
     validate_contract_data,
-    validate_contract_signing,
     validate_patch_contract_data,
     validate_update_contract_value,
     validate_update_contract_only_for_active_lots,
@@ -29,7 +28,9 @@ from openprocurement.tender.cfaselectionua.utils import (
                    description="Tender contracts")
 class TenderAwardContractResource(APIResource):
 
-    @json_view(content_type="application/json", permission='create_contract', validators=(validate_contract_data, validate_contract_operation_not_in_allowed_status))
+    @json_view(content_type="application/json", permission='create_contract', validators=(
+            validate_contract_data, validate_contract_operation_not_in_allowed_status
+    ))
     def collection_post(self):
         """Post a contract for award
         """
@@ -38,9 +39,11 @@ class TenderAwardContractResource(APIResource):
         tender.contracts.append(contract)
         if save_tender(self.request):
             self.LOGGER.info('Created tender contract {}'.format(contract.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_create'}, {'contract_id': contract.id}))
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_create'},
+                                                  {'contract_id': contract.id}))
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Contracts'.format(tender.procurementMethodType), tender_id=tender.id, contract_id=contract['id'])
+            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Contracts'.format(
+                tender.procurementMethodType), tender_id=tender.id, contract_id=contract['id'])
             return {'data': contract.serialize()}
 
     @json_view(permission='view_tender')
@@ -55,8 +58,10 @@ class TenderAwardContractResource(APIResource):
         """
         return {'data': self.request.validated['contract'].serialize()}
 
-    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data, validate_contract_operation_not_in_allowed_status,
-               validate_update_contract_only_for_active_lots, validate_update_contract_value, validate_contract_signing))
+    @json_view(content_type="application/json", permission='edit_tender', validators=(
+            validate_patch_contract_data, validate_contract_operation_not_in_allowed_status,
+            validate_update_contract_only_for_active_lots, validate_update_contract_value
+    ))
     def patch(self):
         """Update of contract
         """

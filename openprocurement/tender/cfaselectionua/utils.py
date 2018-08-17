@@ -4,10 +4,7 @@ from logging import getLogger
 from openprocurement.api.constants import TZ
 from pkg_resources import get_distribution
 from openprocurement.api.utils import get_now, context_unpack
-from openprocurement.tender.core.utils import (
-    calculate_business_date, cleanup_bids_for_cancelled_lots, remove_draft_bids,
-)
-from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
+from openprocurement.tender.core.utils import cleanup_bids_for_cancelled_lots, remove_draft_bids
 
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
@@ -37,31 +34,22 @@ def check_bids(request):
 def check_complaint_status(request, complaint, now=None):
     if not now:
         now = get_now()
-    if complaint.status == 'answered' and calculate_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, request.tender) < now:
-        complaint.status = complaint.resolutionType
-    elif complaint.status == 'pending' and complaint.resolutionType and complaint.dateEscalated:
-        complaint.status = complaint.resolutionType
-    elif complaint.status == 'pending':
-        complaint.status = 'ignored'
+    # if complaint.status == 'answered' and calculate_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, request.tender) < now:
+    #     complaint.status = complaint.resolutionType
+    # elif complaint.status == 'pending' and complaint.resolutionType and complaint.dateEscalated:
+    #     complaint.status = complaint.resolutionType
+    # elif complaint.status == 'pending':
+    #     complaint.status = 'ignored'
 
 
 def check_ignored_claim(tender):
     complete_lot_ids = [None] if tender.status in ['complete', 'cancelled', 'unsuccessful'] else []
     complete_lot_ids.extend([i.id for i in tender.lots if i.status in ['complete', 'cancelled', 'unsuccessful']])
-    for complaint in tender.complaints:
-        if complaint.status == 'claim' and complaint.relatedLot in complete_lot_ids:
-            complaint.status = 'ignored'
-    for award in tender.awards:
-        for complaint in award.complaints:
-            if complaint.status == 'claim' and complaint.relatedLot in complete_lot_ids:
-                complaint.status = 'ignored'
 
 
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
-    for complaint in tender.complaints:
-        check_complaint_status(request, complaint, now)
     for award in tender.awards:
         if award.status == 'active' and not any([i.awardID == award.id for i in tender.contracts]):
             tender.contracts.append(type(tender).contracts.model_class({
@@ -72,8 +60,6 @@ def check_status(request):
                 'items': [i for i in tender.items if i.relatedLot == award.lotID],
                 'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1)}))
             add_next_award(request)
-        for complaint in award.complaints:
-            check_complaint_status(request, complaint, now)
     if tender.status == 'active.enquiries' and not tender.tenderPeriod.startDate and tender.enquiryPeriod.endDate.astimezone(TZ) <= now:
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'active.tendering'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.tendering'}))
@@ -101,43 +87,12 @@ def check_status(request):
         check_bids(request)
         [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod]
         return
-    elif not tender.lots and tender.status == 'active.awarded':
-        standStillEnds = [
-            a.complaintPeriod.endDate.astimezone(TZ)
-            for a in tender.awards
-            if a.complaintPeriod.endDate
-        ]
-        if not standStillEnds:
-            return
-        standStillEnd = max(standStillEnds)
-        if standStillEnd <= now:
-            check_tender_status(request)
-    elif tender.lots and tender.status in ['active.qualification', 'active.awarded']:
-        if any([i['status'] in tender.block_complaint_status and i.relatedLot is None for i in tender.complaints]):
-            return
-        for lot in tender.lots:
-            if lot['status'] != 'active':
-                continue
-            lot_awards = [i for i in tender.awards if i.lotID == lot.id]
-            standStillEnds = [
-                a.complaintPeriod.endDate.astimezone(TZ)
-                for a in lot_awards
-                if a.complaintPeriod.endDate
-            ]
-            if not standStillEnds:
-                continue
-            standStillEnd = max(standStillEnds)
-            if standStillEnd <= now:
-                check_tender_status(request)
-                return
 
 
 def check_tender_status(request):
     tender = request.validated['tender']
     now = get_now()
     if tender.lots:
-        if any([i.status in tender.block_complaint_status and i.relatedLot is None for i in tender.complaints]):
-            return
         for lot in tender.lots:
             if lot.status != 'active':
                 continue
@@ -145,22 +100,7 @@ def check_tender_status(request):
             if not lot_awards:
                 continue
             last_award = lot_awards[-1]
-            pending_complaints = any([
-                i['status'] in tender.block_complaint_status and i.relatedLot == lot.id
-                for i in tender.complaints
-            ])
-            pending_awards_complaints = any([
-                i.status in tender.block_complaint_status
-                for a in lot_awards
-                for i in a.complaints
-            ])
-            stand_still_end = max([
-                a.complaintPeriod.endDate or now
-                for a in lot_awards
-            ])
-            if pending_complaints or pending_awards_complaints or not stand_still_end <= now:
-                continue
-            elif last_award.status == 'unsuccessful':
+            if last_award.status == 'unsuccessful':
                 LOGGER.info('Switched lot {} of tender {} to {}'.format(lot.id, tender.id, 'unsuccessful'),
                             extra=context_unpack(request, {'MESSAGE_ID': 'switched_lot_unsuccessful'}, {'LOT_ID': lot.id}))
                 lot.status = 'unsuccessful'
@@ -170,6 +110,7 @@ def check_tender_status(request):
                             extra=context_unpack(request, {'MESSAGE_ID': 'switched_lot_complete'}, {'LOT_ID': lot.id}))
                 lot.status = 'complete'
         statuses = set([lot.status for lot in tender.lots])
+
         if statuses == set(['cancelled']):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'cancelled'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_cancelled'}))
@@ -183,24 +124,8 @@ def check_tender_status(request):
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_complete'}))
             tender.status = 'complete'
     else:
-        pending_complaints = any([
-            i.status in tender.block_complaint_status
-            for i in tender.complaints
-        ])
-        pending_awards_complaints = any([
-            i.status in tender.block_complaint_status
-            for a in tender.awards
-            for i in a.complaints
-        ])
-        stand_still_ends = [
-            a.complaintPeriod.endDate
-            for a in tender.awards
-            if a.complaintPeriod.endDate
-        ]
-        stand_still_end = max(stand_still_ends) if stand_still_ends else now
-        stand_still_time_expired = stand_still_end < now
         last_award_status = tender.awards[-1].status if tender.awards else ''
-        if not pending_complaints and not pending_awards_complaints and stand_still_time_expired and last_award_status == 'unsuccessful':
+        if last_award_status == 'unsuccessful':
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
@@ -259,9 +184,9 @@ def add_next_award(request):
                     'value': bid['value'],
                     'date': get_now(),
                     'suppliers': bid['tenderers'],
-                    'complaintPeriod': {
-                        'startDate': now.isoformat()
-                    }
+                    # 'complaintPeriod': {
+                    #     'startDate': now.isoformat()
+                    # }
                 })
                 tender.awards.append(award)
                 request.response.headers['Location'] = request.route_url('{}:Tender Awards'.format(tender.procurementMethodType), tender_id=tender.id, award_id=award['id'])
@@ -285,10 +210,7 @@ def add_next_award(request):
                     'status': 'pending',
                     'date': get_now(),
                     'value': bid['value'],
-                    'suppliers': bid['tenderers'],
-                    'complaintPeriod': {
-                        'startDate': get_now().isoformat()
-                    }
+                    'suppliers': bid['tenderers']
                 })
                 tender.awards.append(award)
                 request.response.headers['Location'] = request.route_url('{}:Tender Awards'.format(tender.procurementMethodType), tender_id=tender.id, award_id=award['id'])

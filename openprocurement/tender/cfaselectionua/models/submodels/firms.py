@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.roles import RolesFromCsv
 from schematics.types import StringType
+from schematics.types.compound import ModelType
 from openprocurement.api.models import (
     Identifier, Model
 )
-
-from schematics.types.compound import ModelType
 
 
 class Firms(Model):
