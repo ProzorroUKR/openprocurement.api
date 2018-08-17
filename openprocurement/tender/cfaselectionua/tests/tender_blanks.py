@@ -1453,22 +1453,7 @@ def invalid_tender_conditions(self):
     owner_token = response.json['access']['token']
     # switch to active.tendering
     self.set_status('active.tendering')
-    ## create compaint
-    #response = self.app.post_json('/tenders/{}/complaints'.format(tender_id),
-                                  #{'data': {'title': 'invalid conditions', 'description': 'description', 'author': test_organization, 'status': 'claim'}})
-    #complaint_id = response.json['data']['id']
-    #complaint_owner_token = response.json['access']['token']
-    ## answering claim
-    #self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(tender_id, complaint_id, owner_token), {"data": {
-        #"status": "answered",
-        #"resolutionType": "resolved",
-        #"resolution": "I will cancel the tender"
-    #}})
-    ## satisfying resolution
-    #self.app.patch_json('/tenders/{}/complaints/{}?acc_token={}'.format(tender_id, complaint_id, complaint_owner_token), {"data": {
-        #"satisfied": True,
-        #"status": "resolved"
-    #}})
+
     # cancellation
     self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender_id, owner_token), {'data': {
         'reason': 'invalid conditions',
@@ -1519,8 +1504,6 @@ def one_valid_bid_tender(self):
     self.set_status('complete', {'status': 'active.awarded'})
     # time travel
     tender = self.db.get(tender_id)
-    for i in tender.get('awards', []):
-        i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
     self.db.save(tender)
     # sign contract
     self.app.authorization = ('Basic', ('broker', ''))
@@ -1561,8 +1544,6 @@ def one_invalid_bid_tender(self):
                                    {"data": {"status": "unsuccessful"}})
     # time travel
     tender = self.db.get(tender_id)
-    for i in tender.get('awards', []):
-        i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
     self.db.save(tender)
     # set tender status after stand slill period
     self.app.authorization = ('Basic', ('chronograph', ''))
@@ -1570,7 +1551,7 @@ def one_invalid_bid_tender(self):
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(tender_id))
-    self.assertEqual(response.json['data']['status'], 'unsuccessful')
+    self.assertEqual(response.json['data']['status'], 'active.awarded')
 
 
 def first_bid_tender(self):
@@ -1639,26 +1620,7 @@ def first_bid_tender(self):
     # get pending award
     award2_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
     self.assertNotEqual(award_id, award2_id)
-    ## create first award complaint
-    #self.app.authorization = ('Basic', ('broker', ''))
-    #response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(tender_id, award_id, bid_token),
-                                  #{'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization, 'status': 'claim'}})
-    #complaint_id = response.json['data']['id']
-    #complaint_owner_token = response.json['access']['token']
-    ## create first award complaint #2
-    #response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(tender_id, award_id, bid_token),
-                                  #{'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
-    ## answering claim
-    #self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(tender_id, award_id, complaint_id, owner_token), {"data": {
-        #"status": "answered",
-        #"resolutionType": "resolved",
-        #"resolution": "resolution text " * 2
-    #}})
-    ## satisfying resolution
-    #self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(tender_id, award_id, complaint_id, complaint_owner_token), {"data": {
-        #"satisfied": True,
-        #"status": "resolved"
-    #}})
+
     ## get awards
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
@@ -1680,8 +1642,6 @@ def first_bid_tender(self):
     self.set_status('complete', {'status': 'active.awarded'})
     # time travel
     tender = self.db.get(tender_id)
-    for i in tender.get('awards', []):
-        i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
     self.db.save(tender)
     # sign contract
     self.app.authorization = ('Basic', ('broker', ''))
@@ -1750,8 +1710,6 @@ def lost_contract_for_active_award(self):
     contract_id = response.json['data']['contracts'][-1]['id']
     # time travel
     tender = self.db.get(tender_id)
-    for i in tender.get('awards', []):
-        i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
     self.db.save(tender)
     # sign contract
     self.app.authorization = ('Basic', ('broker', ''))
