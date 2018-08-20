@@ -7,6 +7,9 @@ from openprocurement.api.utils import get_now
 from openprocurement.agreement.cfaua.tests.base import TEST_DOCUMENTS
 
 
+# TestTenderAgreement
+
+
 def create_agreement(self):
     data = self.initial_data
     data['id'] = uuid.uuid4().hex
@@ -41,6 +44,45 @@ def create_agreement_with_documents(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(len(response.json['data']), len(TEST_DOCUMENTS))
+
+
+def create_agreement_with_features(self):
+    data = deepcopy(self.initial_data)
+    item = data['items'][0].copy()
+    item['id'] = "1"
+    data['items'] = [item]
+    data['features'] = self.features
+
+    response = self.app.post_json('/agreements', {'data': data})
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+    agreement = response.json['data']
+    self.assertEqual(agreement['features'], data['features'])
+
+
+def patch_agreement_features_invalid(self):
+    data = deepcopy(self.initial_data)
+    item = data['items'][0].copy()
+    item['id'] = "1"
+    data['items'] = [item]
+    data['features'] = self.features
+
+    response = self.app.post_json('/agreements', {'data': data})
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+    agreement = response.json['data']
+    self.assertEqual(agreement['features'], data['features'])
+    agreement = response.json['data']
+    token = response.json['access']['token']
+
+    self.app.authorization = ('Basic', ('broker', ''))
+    new_features = deepcopy(data['features'])
+    new_features[0]['code'] = 'OCDS-NEW-CODE'
+    response = self.app.patch_json('/agreements/{}?acc_token={}'.format(
+        agreement['id'], token), {'data': {'features': new_features}}, status=403)
+    self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
+    self.assertEqual(response.json['errors'][0]['description'], "Can't change features")
+
+
+# AgreementResources
 
 
 def get_agreements_by_id(self):
@@ -161,6 +203,9 @@ def agreement_patch_invalid(self):
                      {u'description': u"Can't generate credentials in current (terminated)"
                                       u" agreement status", u'location': u'body', u'name': u'data'}]
                      )
+
+
+# AgreementListingTests
 
 
 def empty_listing(self):

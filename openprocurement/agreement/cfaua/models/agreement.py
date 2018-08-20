@@ -13,6 +13,7 @@ from openprocurement.agreement.core.models.agreement\
     import Agreement as BaseAgreement
 from openprocurement.agreement.cfaua.models.document\
     import Document
+from openprocurement.agreement.cfaua.models.feature import Feature
 from openprocurement.agreement.cfaua.models.contract\
     import Contract
 from openprocurement.agreement.cfaua.models.item\
@@ -21,6 +22,7 @@ from openprocurement.agreement.cfaua.models.procuringentity\
     import ProcuringEntity
 
 from openprocurement.agreement.cfaua.interfaces import IClosedFrameworkAgreementUA
+from openprocurement.agreement.cfaua.validation import validate_features_uniq
 
 
 @implementer(IClosedFrameworkAgreementUA)
@@ -40,6 +42,7 @@ class Agreement(BaseAgreement):
     changes = ListType(ModelType(Change), default=list())
     documents = ListType(ModelType(Document), default=list())
     contracts = ListType(ModelType(Contract), default=list())
+    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
     items = ListType(ModelType(Item))
     procuringEntity = ModelType(
         ProcuringEntity, required=True
