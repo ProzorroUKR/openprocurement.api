@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUATender
+from openprocurement.tender.cfaselectionua.models.submodels.award import Award
+from openprocurement.tender.cfaselectionua.models.submodels.contract import Contract
 from openprocurement.tender.cfaselectionua.models.submodels.firms import Firms
 from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
 from schematics.exceptions import ValidationError
@@ -11,43 +13,21 @@ from schematics.types.serializable import serializable
 from barbecue import vnmax
 from zope.interface import implementer
 from pyramid.security import Allow
-
-from openprocurement.api.models import (
-    plain_role, listing_role, draft_role, schematics_default_role, schematics_embedded_role
-)
-
-from openprocurement.api.models import (
-    ListType, Period, Value
-)
-
-from openprocurement.api.utils import (
-    get_now,
-)
-
+from openprocurement.api.models import schematics_embedded_role
+from openprocurement.api.models import ListType, Period, Value
+from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TZ
-from openprocurement.api.validation import (
-    validate_items_uniq, validate_cpv_group
-)
-
+from openprocurement.api.validation import validate_items_uniq, validate_cpv_group
 from openprocurement.tender.core.models import (
     validate_features_uniq, validate_lots_uniq,
-    view_role, create_role as base_create_role, edit_role as base_edit_role,
-    auction_view_role, auction_post_role, auction_patch_role, auction_role,
-    chronograph_role, chronograph_view_role,
-    Guarantee, ComplaintModelType, TenderAuctionPeriod,
+    create_role as base_create_role, edit_role as base_edit_role,
+    Guarantee, TenderAuctionPeriod,
     PeriodEndRequired, Tender as BaseTender, Bid, ProcuringEntity,
-    Item, Award, Contract, Question, Cancellation, Feature, Complaint,
+    Item, Cancellation, Feature
 )
-
-from openprocurement.tender.core.utils import (
-    calc_auction_end_time
-)
-
-from openprocurement.tender.core.constants import (
-    COMPLAINT_STAND_STILL_TIME
-)
-
+from openprocurement.tender.core.utils import calc_auction_end_time
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME, DRAFT_FIELDS
+
 
 enquiries_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
 edit_role = (blacklist(*DRAFT_FIELDS) + base_edit_role)
@@ -76,8 +56,6 @@ class Tender(BaseTender):
     contracts = ListType(ModelType(Contract), default=list())
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     minimalStep = ModelType(Value, required=True)
-    questions = ListType(ModelType(Question), default=list())
-    complaints = ListType(ComplaintModelType(Complaint), default=list())
     auctionUrl = URLType()
     cancellations = ListType(ModelType(Cancellation), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
@@ -88,9 +66,7 @@ class Tender(BaseTender):
 
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')
     procurementMethodType = StringType(default="closeFrameworkAgreementSelectionUA")
-
     procuring_entity_kinds = ['general', 'special', 'defense', 'other']
-    block_complaint_status = ['answered', 'pending']
 
     def get_role(self):
         root = self.__parent__
@@ -151,62 +127,14 @@ class Tender(BaseTender):
                     checks.append(lot.auctionPeriod.startDate.astimezone(TZ))
                 elif now < calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ):
                     checks.append(calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ))
-        elif not self.lots and self.status == 'active.awarded' and not any([
-                i.status in self.block_complaint_status
-                for i in self.complaints
-        ]) and not any([
-                i.status in self.block_complaint_status
-                for a in self.awards
-                for i in a.complaints
-        ]):
-            standStillEnds = [
-                a.complaintPeriod.endDate.astimezone(TZ)
-                for a in self.awards
-                if a.complaintPeriod.endDate
-            ]
-            last_award_status = self.awards[-1].status if self.awards else ''
-            if standStillEnds and last_award_status == 'unsuccessful':
-                checks.append(max(standStillEnds))
-        elif self.lots and self.status in ['active.qualification', 'active.awarded'] and not any([
-                i.status in self.block_complaint_status and i.relatedLot is None
-                for i in self.complaints
-        ]):
+        elif self.lots and self.status in ['active.qualification', 'active.awarded']:
             for lot in self.lots:
                 if lot['status'] != 'active':
                     continue
-                lot_awards = [i for i in self.awards if i.lotID == lot.id]
-                pending_complaints = any([
-                    i['status'] in self.block_complaint_status and i.relatedLot == lot.id
-                    for i in self.complaints
-                ])
-                pending_awards_complaints = any([
-                    i.status in self.block_complaint_status
-                    for a in lot_awards
-                    for i in a.complaints
-                ])
-                standStillEnds = [
-                    a.complaintPeriod.endDate.astimezone(TZ)
-                    for a in lot_awards
-                    if a.complaintPeriod.endDate
-                ]
-                last_award_status = lot_awards[-1].status if lot_awards else ''
-                if not pending_complaints and not pending_awards_complaints and standStillEnds and last_award_status == 'unsuccessful':
-                    checks.append(max(standStillEnds))
         if self.status.startswith('active'):
-            from openprocurement.tender.core.utils import calculate_business_date
-            for complaint in self.complaints:
-                if complaint.status == 'answered' and complaint.dateAnswered:
-                    checks.append(calculate_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, self))
-                elif complaint.status == 'pending':
-                    checks.append(self.dateModified)
             for award in self.awards:
                 if award.status == 'active' and not any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
-                for complaint in award.complaints:
-                    if complaint.status == 'answered' and complaint.dateAnswered:
-                        checks.append(calculate_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, self))
-                    elif complaint.status == 'pending':
-                        checks.append(self.dateModified)
         return min(checks).isoformat() if checks else None
 
     @serializable

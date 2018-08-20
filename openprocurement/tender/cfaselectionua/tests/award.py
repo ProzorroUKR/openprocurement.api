@@ -27,30 +27,6 @@ from openprocurement.tender.cfaselectionua.tests.award_blanks import (
     # Tender2LotAwardResourceTest
     create_tender_lots_award,
     patch_tender_lots_award,
-    # TenderAwardComplaintResourceTest
-    create_tender_award_complaint_invalid,
-    create_tender_award_complaint,
-    patch_tender_award_complaint,
-    review_tender_award_complaint,
-    get_tender_award_complaint,
-    get_tender_award_complaints,
-    # TenderLotAwardComplaintResourceTest
-    create_tender_lot_award_complaint,
-    patch_tender_lot_award_complaint,
-    get_tender_lot_award_complaint,
-    get_tender_lot_award_complaints,
-    # Tender2LotAwardComplaintResourceTest
-    create_tender_lots_award_complaint,
-    patch_tender_lots_award_complaint,
-    # TenderAwardComplaintDocumentResourceTest
-    not_found,
-    create_tender_award_complaint_document,
-    put_tender_award_complaint_document,
-    patch_tender_award_complaint_document,
-    # Tender2LotAwardComplaintDocumentResourceTest
-    create_tender_lots_award_complaint_document,
-    put_tender_lots_award_complaint_document,
-    patch_tender_lots_award_complaint_document,
     # TenderAwardDocumentResourceTest
     not_found_award_document,
     create_tender_award_document,
@@ -191,12 +167,8 @@ class Tender2LotAwardDocumentWithDSResourceTest(Tender2LotAwardDocumentResourceT
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintResourceTest))
     suite.addTest(unittest.makeSuite(Tender2LotAwardDocumentResourceTest))
     suite.addTest(unittest.makeSuite(Tender2LotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
