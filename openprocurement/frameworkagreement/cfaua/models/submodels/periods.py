@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, time
 
+from openprocurement.api.models import IsoDateTimeType
 from openprocurement.api.utils import get_now
 from openprocurement.frameworkagreement.cfaua.constants import TENDERING_AUCTION
 from openprocurement.tender.core.models import get_tender
@@ -45,6 +46,10 @@ class TenderAuctionPeriod(Period):
             start_after = max(decision_dates)
         if start_after:
             return rounding_shouldStartAfter(start_after, tender).isoformat()
+
+
+class ContractPeriod(Period):
+    clarificationsUntil = IsoDateTimeType()
 
 
 class LotAuctionPeriod(Period):

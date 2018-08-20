@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
+from iso8601 import parse_date
+from mock import patch
+from datetime import timedelta, datetime
 from uuid import uuid4
+
+from openprocurement.frameworkagreement.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
 
 
 # TenderAgreementResourceTest
@@ -132,6 +137,33 @@ def patch_tender_agreement_datesigned(self):
     )
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active')
+
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender = response.json['data']
+
+    # Agreement signing
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active"}},
+        status=403
+    )
+    end_date = tender['contractPeriod']['clarificationsUntil']
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(
+        response.json['errors'],
+        [{
+            "location": "body",
+            "name": "data",
+            "description":
+                "Agreement signature date should be after contractPeriod.clarificationsUntil ({})".format(end_date)
+        }]
+    )
+
+    tender = self.db.get(self.tender_id)
+    tender['contractPeriod']['startDate'] = (datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)).isoformat()
+    tender['contractPeriod']['clarificationsUntil'] = (datetime.now()- timedelta(days=1)).isoformat()
+    self.db.save(tender)
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
@@ -411,16 +443,41 @@ def patch_tender_agreement(self):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'active')
 
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender = response.json['data']
+
     # Sign agreement
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active"}},
+        status=403
+    )
+    end_date = tender['contractPeriod']['clarificationsUntil']
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(
+        response.json['errors'],
+        [{
+            "location": "body",
+            "name": "data",
+            "description":
+                "Agreement signature date should be after contractPeriod.clarificationsUntil ({})".format(end_date)
+        }]
+    )
+
+
+    tender = self.db.get(self.tender_id)
+    tender['contractPeriod']['startDate'] = (datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)).isoformat()
+    tender['contractPeriod']['clarificationsUntil'] = (datetime.now()- timedelta(days=1)).isoformat()
+    self.db.save(tender)
+
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
         {"data": {"status": "active"}}
     )
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], "active")
+    self.assertEqual(response.json['data']['status'], 'active')
     self.assertIn(u"dateSigned", response.json['data'].keys())
-
     response = self.get_tender('')
     # Tender complete
     self.assertEqual(response.json['data']["status"], "complete")
@@ -500,7 +557,7 @@ def not_found(self):
     self.assertEqual(response.status, '404 Not Found')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], 
+    self.assertEqual(response.json['errors'],
                      [{u'description': u'Not Found', u'location': u'url', u'name': u'agreement_id'}])
 
     response = self.app.post(
@@ -568,12 +625,12 @@ def not_found(self):
     self.assertEqual(response.status, '404 Not Found')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], 
+    self.assertEqual(response.json['errors'],
                      [{u'description': u'Not Found', u'location': u'url', u'name': u'agreement_id'}])
 
     response = self.app.put(
         '/tenders/{}/agreements/{}/documents/some_id?acc_token={}'.format(self.tender_id, self.agreement_id,
-                                                                         self.tender_token),
+                                                                          self.tender_token),
         status=404,
         upload_files=[('file', 'name.doc', 'content2')]
     )

@@ -466,7 +466,6 @@ def patch_tender_period(self):
     self.assertEqual(response.status, '201 Created')
     tender = response.json['data']
     owner_token = response.json['access']['token']
-    dateModified = tender.pop('dateModified')
     self.tender_id = tender['id']
     self.go_to_enquiryPeriod_end()
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"description": "new description"}}, status=403)
@@ -487,6 +486,44 @@ def patch_tender_period(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['tenderPeriod']['endDate'], tenderPeriod_endDate.isoformat())
     self.assertEqual(response.json['data']['enquiryPeriod']['endDate'], enquiryPeriod_endDate.isoformat())
+
+
+def tender_contract_period(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.post_json('/tenders', {'data': self.initial_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['status'], 'active.tendering')
+    self.tender_id = response.json['data']['id']
+    owner_token = response.json['access']['token']
+
+    self.app.authorization = ('Basic', ('token', ''))
+    # active.tendering
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+        {'data': {'contractPeriod': {'endDate': '2018-08-09'}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    
+    # patch shouldn't affect changes
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotIn('contractPeriod', response.json['data'])
+
+    self.set_status('active.awarded')
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('contractPeriod', response.json['data'])
+    self.assertNotIn('endDate', response.json['data']['contractPeriod'])
+
+    self.set_status('complete')
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('contractPeriod', response.json['data'])
+    self.assertIn('endDate', response.json['data']['contractPeriod'])
+
 
 
 def invalid_bid_tender_features(self):
@@ -1074,6 +1111,7 @@ def switch_tender_to_active_awarded(self):
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active.awarded')
+    self.assertIn('contractPeriod', response.json['data'])
 
 
 def patch_max_awards(self):

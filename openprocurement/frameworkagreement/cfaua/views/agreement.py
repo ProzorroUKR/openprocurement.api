@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.api.utils import context_unpack, json_view, get_now, raise_operation_error
-from openprocurement.tender.core.utils import apply_patch, save_tender
+from openprocurement.tender.core.utils import apply_patch, calculate_business_date, save_tender
 from openprocurement.tender.openua.views.contract import (
     TenderUaAwardContractResource as BaseResource
 )
@@ -45,12 +46,20 @@ class TenderAgreementResource(BaseResource):
     def patch(self):
         """ Update of agreement """
         agreement_status = self.request.context.status
+        tender = self.request.context.__parent__
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if agreement_status != self.request.context.status and \
                 (agreement_status != 'pending' or self.request.context.status not in ('active', 'cancelled')):
             raise_operation_error(self.request, 'Can\'t update agreement status')
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
+        if self.request.context.dateSigned and self.request.context.dateSigned <= tender.contractPeriod.clarificationsUntil:
+            raise_operation_error(
+                self.request,
+                "Agreement signature date should be after contractPeriod.clarificationsUntil ({})".format(
+                    tender.contractPeriod.clarificationsUntil.isoformat()
+                )
+            )
         check_tender_status(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender agreement {}'.format(self.request.context.id),
