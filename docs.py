@@ -3,10 +3,10 @@ import json
 import os
 from datetime import timedelta
 
-import openprocurement.frameworkagreement.cfaua.tests.base as base_test
+import openprocurement.tender.cfaua.tests.base as base_test
 from openprocurement.api.models import get_now
 from openprocurement.api.tests.base import PrefixedRequestClass
-from openprocurement.frameworkagreement.cfaua.tests.tender import BaseTenderWebTest
+from openprocurement.tender.cfaua.tests.tender import BaseTenderWebTest
 from webtest import TestApp
 
 test_tender_path = os.path.join('data', 'test_tender.json')

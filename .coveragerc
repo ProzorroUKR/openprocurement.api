@@ -1,5 +1,5 @@
 [run]
-source = openprocurement.frameworkagreement.cfaua
+source = openprocurement.tender.cfaua
 
 [report]
 omit =
