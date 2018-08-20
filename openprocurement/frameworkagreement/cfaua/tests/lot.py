@@ -25,8 +25,8 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
     two_lot_1can,
     two_lot_2bid_0com_1can,
     # TenderLotFeatureBidderResourceTest
-    create_tender_feature_bidder_invalid,
-    create_tender_feature_bidder,
+    # create_tender_feature_bidder_invalid,
+    # create_tender_feature_bidder,
     # TenderLotBidderResourceTest
     create_tender_bidder_invalid,
     patch_tender_bidder,
@@ -50,7 +50,10 @@ from openprocurement.frameworkagreement.cfaua.tests.lot_blanks import (
     tender_value,
     tender_features_invalid,
     tender_lot_document,
-    one_lot_2bid_1unqualified
+    one_lot_2bid_1unqualified,
+    # TenderLotFeatureBidderResourceTest
+    create_tender_feature_bidder,
+    create_tender_feature_bidder_invalid,
     )
 
 
@@ -146,22 +149,22 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
                         }
                     ]
                 },
-                {
-                    "code": "code_lot",
-                    "featureOf": "lot",
-                    "relatedItem": self.lot_id,
-                    "title": u"lot feature",
-                    "enum": [
-                        {
-                            "value": 0.01,
-                            "title": u"good"
-                        },
-                        {
-                            "value": 0.02,
-                            "title": u"best"
-                        }
-                    ]
-                },
+                # {
+                #     "code": "code_lot",
+                #     "featureOf": "lot",
+                #     "relatedItem": self.lot_id,
+                #     "title": u"lot feature",
+                #     "enum": [
+                #         {
+                #             "value": 0.01,
+                #             "title": u"good"
+                #         },
+                #         {
+                #             "value": 0.02,
+                #             "title": u"best"
+                #         }
+                #     ]
+                # },
                 {
                     "code": "code_tenderer",
                     "featureOf": "tenderer",
