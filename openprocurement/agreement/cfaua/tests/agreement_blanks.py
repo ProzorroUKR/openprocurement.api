@@ -52,11 +52,25 @@ def create_agreement_with_features(self):
     item['id'] = "1"
     data['items'] = [item]
     data['features'] = self.features
+    parameters = {
+        "parameters": [
+            {
+                "code": i["code"],
+                "value": i['enum'][0]['value'],
+            }
+            for i in data['features']
+        ]
+    }
+
+    for contract in data['contracts']:
+        contract.update(parameters)
 
     response = self.app.post_json('/agreements', {'data': data})
     self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
     agreement = response.json['data']
     self.assertEqual(agreement['features'], data['features'])
+    for contract in agreement['contracts']:
+        self.assertEqual(contract['parameters'], parameters['parameters'])
 
 
 def patch_agreement_features_invalid(self):
