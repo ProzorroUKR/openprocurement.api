@@ -84,7 +84,8 @@ class BaseAgreementWebTest(BaseAgreementTest):
         self.create_agreement()
 
     def tearDown(self):
-        del self.db[self.agreement_id]
+        if self.agreement_id:
+            del self.db[self.agreement_id]
         super(BaseAgreementWebTest, self).tearDown()
 
     def create_agreement(self):
