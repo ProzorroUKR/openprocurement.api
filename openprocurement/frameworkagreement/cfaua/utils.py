@@ -443,7 +443,8 @@ def generate_agreement_data(request, tender, lot=None):
         'items': tender.items if not lot else [i for i in tender.items if i.relatedLot == lot.id],
         'agreementID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.agreements) + 1),
         'date': get_now().isoformat(),
-        'contracts': []
+        'contracts': [],
+        'features': tender.features
     }
     unit_prices = [
         {
@@ -465,6 +466,7 @@ def generate_agreement_data(request, tender, lot=None):
             'awardID': award.id,
             'bidID': award.bid_id,
             'date': get_now().isoformat(),
-            'unitPrices': unit_prices
+            'unitPrices': unit_prices,
+            'parameters': [b for b in tender.bids if b.id == award.bid_id][0].parameters
         })
     return data

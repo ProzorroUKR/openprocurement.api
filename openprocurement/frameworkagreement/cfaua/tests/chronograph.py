@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import unittest
 
+from copy import deepcopy
+
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 from openprocurement.frameworkagreement.cfaua.tests.base import (
-    BaseTenderContentWebTest, test_bids, test_lots
+    BaseTenderContentWebTest, test_bids, test_lots, test_features_tender_data
 )
 from openprocurement.frameworkagreement.cfaua.tests.chronograph_blanks import (
     # TenderComplaintSwitchResourceTest
@@ -16,7 +18,9 @@ from openprocurement.frameworkagreement.cfaua.tests.chronograph_blanks import (
     # TenderSwitchPreQualificationResourceTest
     pre_qual_switch_to_stand_still,
     active_tendering_to_pre_qual,
-    switch_to_unsuccessful
+    switch_to_unsuccessful,
+    # TenderSwitchPreQualificationStandStillResourceTest
+    switch_to_awarded,
 )
 
 from openprocurement.tender.openua.tests.chronograph_blanks import (
@@ -102,6 +106,31 @@ class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
 #         self.award_id = award['id']
 
 
+class TenderSwitchQualificationStandStillResourceTest(BaseTenderContentWebTest):
+    initial_data = test_features_tender_data
+    initial_status = 'active.qualification.stand-still'
+    initial_bids = deepcopy(test_bids)
+
+    def setUp(self):
+        for bid in self.initial_bids:
+            bid.update({
+                "parameters": [
+                    {
+                        "code": i["code"],
+                        "value": 0.1,
+                    }
+                    for i in self.initial_data['features']
+                ]
+            })
+        super(TenderSwitchQualificationStandStillResourceTest, self).setUp()
+
+    test_switch_to_awarded = snitch(switch_to_awarded)
+
+
+class TenderLotSwitchQualificationStandStillResourceTest(TenderSwitchQualificationStandStillResourceTest):
+    initial_lots = test_lots
+
+
 def suite():
     suite = unittest.TestSuite()
     # suite.addTest(unittest.makeSuite(TenderAwardComplaintSwitchResourceTest))
@@ -112,7 +141,9 @@ def suite():
     # suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchQualificationResourceTest))
+    suite.addTest(unittest.makeSuite(TenderSwitchQualificationStandStillResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationStandStillResourceTest))
+    # suite.addTest(unittest.makeSuite(TenderSwitchPreQualificationStandStillResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
     return suite
 

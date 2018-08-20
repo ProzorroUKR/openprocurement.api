@@ -26,6 +26,7 @@ def pre_qual_switch_to_stand_still(self):
 
 # TenderSwitchAuctionResourceTest
 
+
 def switch_to_auction(self):
     response = self.set_status('active.pre-qualification.stand-still', 'end')
     self.assertEqual(response.json['data']["status"], "active.pre-qualification.stand-still")
@@ -82,3 +83,24 @@ def switch_to_unsuccessful(self):
     self.assertEqual(response.json['data']["status"], "unsuccessful")
     if self.initial_lots:
         self.assertEqual(set([i['status'] for i in response.json['data']["lots"]]), set(["unsuccessful"]))
+
+
+# TenderSwitchPreQualificationStandStillResourceTest
+
+
+def switch_to_awarded(self):
+    self.set_status(self.initial_status, 'end')
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+
+    self.assertEqual(response.json['data']['status'], 'active.awarded')
+    self.assertEqual(len(response.json['data']['agreements']), 1)
+    self.app.authorization = ('Basic', ('broker', ''))
+    self.assertEqual(response.json['data']['features'], response.json['data']['agreements'][0]['features'])
+
+    bids_parameters = {bid['id']: bid['parameters']
+                       for bid in response.json['data']['bids'] if bid['status'] == 'active'}
+    contract_parameters = {contract['bidID']: contract['parameters']
+                           for contract in response.json['data']['agreements'][0]['contracts']}
+    self.assertEqual(bids_parameters, contract_parameters)
