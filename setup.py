@@ -22,7 +22,7 @@ docs_requires = requires + [
 
 entry_points = {
     'openprocurement.tender.core.plugins': [
-        'closeFrameworkAgreementUA = openprocurement.frameworkagreement.cfaua.includeme:includeme'
+        'closeFrameworkAgreementUA = openprocurement.tender.cfaua.includeme:includeme'
     ]
 }
 
@@ -31,7 +31,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.md')) as f:
     README = f.read()
 
-setup(name='openprocurement.frameworkagreement.cfaua',
+setup(name='openprocurement.tender.cfaua',
       version=version,
       description="",
       long_description=README,
@@ -44,13 +44,13 @@ setup(name='openprocurement.frameworkagreement.cfaua',
       keywords="web services",
       author='Quintagroup, Ltd.',
       author_email='info@quintagroup.com',
-      url='https://github.com/openprocurement/openprocurement.frameworkagreement.cfaua',
+      url='https://github.com/openprocurement/openprocurement.tender.cfaua',
       license='Apache License 2.0',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['openprocurement', 'openprocurement.frameworkagreement'],
+      namespace_packages=['openprocurement', 'openprocurement.tender'],
       include_package_data=True,
       zip_safe=False,
       install_requires=requires,
       extras_require={'test': test_requires, 'docs': docs_requires},
-      test_suite="openprocurement.frameworkagreement.cfaua.tests.main.suite",
+      test_suite="openprocurement.tender.cfaua.tests.main.suite",
       entry_points=entry_points)
