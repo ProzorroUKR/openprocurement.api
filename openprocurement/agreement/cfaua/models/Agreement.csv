@@ -1,8 +1,8 @@
-rolename,agreementID,status,_rev,period,procuringEntity,owner,terminationDetails,id,__parent__,tender_id,agreementNumber,documents,title,owner_token,revisions,description_ru,dateModified,tender_token,agreementType,description,contracts,title_en,dateSigned,description_en,date,doc_type,items,mode,title_ru,_id,doc_id
-embedded,1,1,,1,1,1,1,1,,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,,1,1,1,,1
-default,1,1,1,1,1,1,1,1,,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-plain,1,1,,1,1,1,1,1,,1,1,1,1,1,,1,,1,1,1,1,1,1,1,1,,1,1,1,,1
-create,1,1,,1,1,1,1,1,,1,1,1,1,,,1,,1,,1,1,1,1,1,,,1,1,1,,
-edit_terminated,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-edit_active,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,
-view,1,1,,1,1,1,1,1,,1,1,1,1,,,1,1,,,1,1,1,1,1,,,1,1,1,,
+rolename,agreementID,status,_rev,period,procuringEntity,owner,terminationDetails,id,__parent__,tender_id,agreementNumber,documents,title,owner_token,doc_id,revisions,description_ru,dateModified,tender_token,agreementType,description,contracts,title_en,dateSigned,description_en,date,doc_type,items,mode,title_ru,_id,changes
+embedded,1,1,,1,1,1,1,1,,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,,1,1,1,,1
+default,1,1,1,1,1,1,1,1,,1,1,1,1,1,,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+plain,1,1,,1,1,1,1,1,,1,1,1,1,1,1,,1,,1,1,1,1,1,1,1,1,,1,1,1,,1
+create,1,1,,1,1,1,1,1,,1,1,1,1,,,,1,,1,,1,1,1,1,1,,,1,1,1,,
+edit_terminated,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+edit_active,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,1
+view,1,1,,1,1,1,1,1,,1,1,1,1,,,,1,1,,,1,1,1,1,1,,,1,1,1,,1

@@ -2,9 +2,8 @@ from openprocurement.api.utils import (
     json_view,
     APIResource
     )
-from openprocurement.agreement.core.resource import (
-    agreements_resource
-    )
+from openprocurement.agreement.core.resource import agreements_resource
+
 from openprocurement.agreement.core.utils import (
     apply_patch,
     context_unpack,

@@ -3,8 +3,8 @@ from openprocurement.api.utils import (
     APIResource,
     set_ownership
     )
-from openprocurement.agreement.core.resource\
-    import agreements_resource
+from openprocurement.agreement.core.resource import agreements_resource
+
 
 from openprocurement.agreement.core.utils import (
     context_unpack,
