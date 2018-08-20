@@ -1,4 +1,4 @@
-.. openprocurement.frameworkagreement.cfaua documentation master file, created by
+.. openprocurement.tender.cfaua documentation master file, created by
    sphinx-quickstart on Wed Oct  1 02:29:13 2014.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
@@ -8,7 +8,7 @@
 .. meta::
     :google-site-verification: kmqHGqhpzgef4t5OVKoQCPa5v-CK14HOLmVrZV2QgmQ
 
-Welcome to openprocurement.frameworkagreement.cfaua's documentation!
+Welcome to openprocurement.tender.cfaua's documentation!
 ====================================================================
 
 Contents:

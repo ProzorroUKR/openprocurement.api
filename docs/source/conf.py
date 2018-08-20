@@ -50,7 +50,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'openprocurement.frameworkagreement.cfaua'
+project = u'openprocurement.tender.cfaua'
 copyright = u'2014-2015, Quintagroup, Ltd'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -203,7 +203,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'openprocurementcfaua.tex', u'openprocurement.frameworkagreement.cfaua Documentation',
+  ('index', 'openprocurementcfaua.tex', u'openprocurement.tender.cfaua Documentation',
    u'Myroslav Opyr', 'manual'),
 ]
 
@@ -233,7 +233,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'openprocurementcfaua', u'openprocurement.frameworkagreement.cfaua Documentation',
+    ('index', 'openprocurementcfaua', u'openprocurement.tender.cfaua Documentation',
      [u'Myroslav Opyr'], 1)
 ]
 
