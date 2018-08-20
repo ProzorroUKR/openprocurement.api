@@ -1454,6 +1454,12 @@ def invalid_tender_conditions(self):
     # switch to active.tendering
     self.set_status('active.tendering')
 
+    response = self.app.post_json('/tenders/{}/complaints'.format(tender_id),
+                                  {'data': {'title': 'invalid conditions', 'description': 'description',
+                                            'author': test_organization, 'status': 'claim'}}, status=404)
+    self.assertEqual(response.status, '404 Not Found')
+    self.assertEqual(response.content_type, 'text/plain')
+
     # cancellation
     self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(tender_id, owner_token), {'data': {
         'reason': 'invalid conditions',

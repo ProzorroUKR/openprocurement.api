@@ -26,25 +26,7 @@ def check_bids(request):
         if tender.numberOfBids == 0:
             tender.status = 'unsuccessful'
         if tender.numberOfBids == 1:
-            #tender.status = 'active.qualification'
             add_next_award(request)
-    check_ignored_claim(tender)
-
-
-def check_complaint_status(request, complaint, now=None):
-    if not now:
-        now = get_now()
-    # if complaint.status == 'answered' and calculate_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, request.tender) < now:
-    #     complaint.status = complaint.resolutionType
-    # elif complaint.status == 'pending' and complaint.resolutionType and complaint.dateEscalated:
-    #     complaint.status = complaint.resolutionType
-    # elif complaint.status == 'pending':
-    #     complaint.status = 'ignored'
-
-
-def check_ignored_claim(tender):
-    complete_lot_ids = [None] if tender.status in ['complete', 'cancelled', 'unsuccessful'] else []
-    complete_lot_ids.extend([i.id for i in tender.lots if i.status in ['complete', 'cancelled', 'unsuccessful']])
 
 
 def check_status(request):
@@ -131,8 +113,6 @@ def check_tender_status(request):
             tender.status = 'unsuccessful'
         if tender.contracts and tender.contracts[-1].status == 'active':
             tender.status = 'complete'
-    if tender.procurementMethodType == "closeFrameworkAgreementSelectionUA":
-        check_ignored_claim(tender)
 
 
 def add_next_award(request):
@@ -184,9 +164,6 @@ def add_next_award(request):
                     'value': bid['value'],
                     'date': get_now(),
                     'suppliers': bid['tenderers'],
-                    # 'complaintPeriod': {
-                    #     'startDate': now.isoformat()
-                    # }
                 })
                 tender.awards.append(award)
                 request.response.headers['Location'] = request.route_url('{}:Tender Awards'.format(tender.procurementMethodType), tender_id=tender.id, award_id=award['id'])

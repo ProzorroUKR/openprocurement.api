@@ -147,6 +147,18 @@ def patch_tender_contract(self):
     contract = response.json['data'][0]
 
     self.set_status('complete', {'status': 'active.awarded'})
+
+    response = self.app.post_json(
+        '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+        {'data': {
+            'title': 'complaint title',
+            'description': 'complaint description',
+            'author': test_organization,
+            'status': 'claim'
+        }}, status=404)
+    self.assertEqual(response.status, '404 Not Found')
+    self.assertEqual(response.content_type, 'text/plain')
+
     tender = self.db.get(self.tender_id)
     self.db.save(tender)
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token), {"data": {"contractID": "myselfID", "items": [{"description": "New Description"}], "suppliers": [{"name": "New Name"}]}})
