@@ -9,7 +9,7 @@ from openprocurement.api.models import (
     Period,
 )
 from openprocurement.tender.core.models import Feature, validate_features_uniq
-from openprocurement.tender.cfaselectionua.models.submodels.item import Item
+from openprocurement.tender.cfaselectionua.models.submodels.agreement_item import AgreementItem as Item
 from openprocurement.tender.cfaselectionua.models.submodels.agreement_contract import AgreementContract as Contract
 
 
