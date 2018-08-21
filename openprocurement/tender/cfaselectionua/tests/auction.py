@@ -44,6 +44,7 @@ from openprocurement.tender.cfaselectionua.tests.auction_blanks import (
 )
 
 
+skip_multi_lots = True
 auction_test_tender_data = test_tender_data.copy()
 auction_test_tender_data['submissionMethodDetails'] = 'test submissionMethodDetails'
 
@@ -69,33 +70,6 @@ class TenderMultipleLotAuctionResourceTestMixin(object):
     test_post_tender_auction_document = snitch(post_tender_lots_auction_document)
 
 
-class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestMixin):
-    initial_data = auction_test_tender_data
-    initial_status = 'active.tendering'
-    initial_bids = deepcopy(test_bids)
-    initial_auth = ('Basic', ('broker', ''))
-
-
-class TenderSameValueAuctionResourceTest(TenderContentWebTest):
-    initial_status = 'active.auction'
-    initial_bids = [
-        {
-            "tenderers": [
-                test_organization
-            ],
-            "value": {
-                "amount": 469,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": True
-            }
-        }
-        for i in range(3)
-    ]
-
-    test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed)
-    test_post_tender_auction_reversed = snitch(post_tender_auction_reversed)
-
-
 class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourceTestMixin):
     initial_lots = test_lots
     initial_data = auction_test_tender_data
@@ -107,7 +81,7 @@ class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourc
         super(TenderLotAuctionResourceTest, self).setUp()
 
 
-@unittest.skip("Skip multi-lots tests")
+@unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")
 class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleLotAuctionResourceTestMixin):
     initial_lots = 2 * test_lots
     initial_data = auction_test_tender_data
@@ -121,6 +95,7 @@ class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleL
 class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
     initial_data = test_features_tender_data
     initial_status = 'active.tendering'
+    initial_lots = deepcopy(test_lots)
     initial_bids = [
         {
             "parameters": [
@@ -158,8 +133,8 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
         }
     ]
 
-    test_get_tender_auction = snitch(get_tender_auction_feature)
-    test_post_tender_auction = snitch(post_tender_auction_feature)
+    # test_get_tender_auction = snitch(get_tender_auction_feature)
+    # test_post_tender_auction = snitch(post_tender_auction_feature)
 
 
 class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin,
@@ -179,9 +154,6 @@ class TenderFeaturesMultilotAuctionResourceTest(TenderMultipleLotAuctionResource
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderFeaturesLotAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderFeaturesMultilotAuctionResourceTest))
     return suite
