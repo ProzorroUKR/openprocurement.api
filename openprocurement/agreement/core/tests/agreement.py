@@ -13,7 +13,8 @@ from openprocurement.agreement.core.utils import (
     extract_agreement_by_id,
     register_agreement_type,
     save_agreement,
-    apply_patch, set_ownership, extract_agreement)
+    apply_patch, set_ownership, extract_agreement,
+    get_agreement)
 from openprocurement.agreement.core.models.agreement import Agreement
 from openprocurement.agreement.core.validation import validate_agreement_data
 from openprocurement.agreement.core.views.agreement import APIAgreementsResource
@@ -178,6 +179,14 @@ class UtilsAgreementTest(BaseAgreementTest):
         item = MagicMock()
         request = MagicMock()
         set_ownership(item, request)
+
+    def test_get_agreement(self):
+        agreement = Agreement()
+        dummy_object = MagicMock()
+        dummy_object.__parent__ = agreement
+        result = get_agreement(dummy_object)
+
+        self.assertEqual(result, agreement)
 
 
 class ValidationAgreementTest(BaseAgreementTest):
