@@ -1,18 +1,26 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.agreement.cfaua.tests.agreement_blanks import (
+    # TestTenderAgreement
     create_agreement,
     create_agreement_with_documents,
+    create_agreement_with_features,
+    patch_agreement_features_invalid,
+    # AgreementResources
     get_agreements_by_id,
     extract_credentials,
     agreement_patch_invalid,
+    # AgreementListingTests
     empty_listing,
     listing
 )
 from openprocurement.api.tests.base import snitch
 import os
-from openprocurement.agreement.cfaua.tests.base import TEST_AGREEMENT
+from openprocurement.agreement.cfaua.tests.base import (
+    TEST_AGREEMENT, TEST_FEATURES
+)
 from openprocurement.agreement.core.tests.base import BaseAgreementWebTest, BaseAgreementTest
 
 
@@ -29,16 +37,16 @@ class AgreementResources(BaseAgreementWebTest):
     test_get_agreements_by_id = snitch(get_agreements_by_id)
 
 
-class AgreementCreationTests(BaseAgreementWebTest):
-    initial_data = TEST_AGREEMENT
+class TestTenderAgreement(BaseAgreementTest):
+    features = TEST_FEATURES
+    initial_auth = ('Basic', ('agreements', ''))
+    initial_data = deepcopy(TEST_AGREEMENT)
     relative_to = os.path.dirname(__file__)
-
-    def test_id(self):
-        self.assertIsNotNone(self.agreement_id)
-        self.assertIsNotNone(self.agreement_token)
 
     test_create_agreement = snitch(create_agreement)
     test_create_agreement_with_documents = snitch(create_agreement_with_documents)
+    test_create_agreement_with_features = snitch(create_agreement_with_features)
+    test_patch_agreement_features_invalid = snitch(patch_agreement_features_invalid)
 
 
 class AgreementListingTests(BaseAgreementTest):
@@ -55,7 +63,7 @@ class AgreementListingTests(BaseAgreementTest):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AgreementResources))
-    suite.addTest(unittest.makeSuite(AgreementCreationTests))
+    suite.addTest(unittest.makeSuite(TestTenderAgreement))
     suite.addTest(unittest.makeSuite(AgreementListingTests))
     return suite
 

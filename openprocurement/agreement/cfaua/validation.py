@@ -1,17 +1,29 @@
-from openprocurement.agreement.cfaua.models.change import Change
-from openprocurement.api.utils import raise_operation_error
+from schematics.exceptions import ValidationError
+from openprocurement.api.utils import (
+    apply_data_patch,
+    error_handler,
+    raise_operation_error,
+    update_logging_context
+)
+
 from openprocurement.api.validation import (
     validate_data,
     validate_json_data,
     OPERATIONS
     )
+from openprocurement.agreement.cfaua.models.change import Change
 
-from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error
 
 def validate_agreement_patch(request):
     data = validate_json_data(request)
-    model = request.agreement_from_data(data, create=False)
-    return validate_data(request, model, True, data=data)
+    if data:
+        if 'features' in data:
+            if apply_data_patch([f.serialize() for f in request.context.features], data['features']):
+                request.errors.add('body', 'features', 'Can\'t change features')
+                request.errors.status = 403
+                raise error_handler(request.errors)
+
+    return validate_data(request, type(request.agreement), True, data=data)
 
 
 def validate_credentials_generate(request):
@@ -67,3 +79,16 @@ def validate_update_agreement_change_status(request):
     data = request.validated['data']
     if not data.get("dateSigned", ''):
         raise_operation_error(request, 'Can\'t update agreement change status. \'dateSigned\' is required.')
+
+
+def validate_values_uniq(values, *args):
+    codes = [i.value for i in values]
+    if any([codes.count(i) > 1 for i in set(codes)]):
+        raise ValidationError(u"Feature value should be uniq for feature")
+
+
+def validate_features_uniq(features, *args):
+    if features:
+        codes = [i.code for i in features]
+        if any([codes.count(i) > 1 for i in set(codes)]):
+            raise ValidationError(u"Feature code should be uniq for all features")

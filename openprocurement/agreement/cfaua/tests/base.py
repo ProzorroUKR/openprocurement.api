@@ -22,6 +22,10 @@ with open(os.path.join(here, 'data/agreement.json')) as _in:
 with open(os.path.join(here, 'data/documents.json')) as _in:
     TEST_DOCUMENTS = json.load(_in)
 
+
+with open(os.path.join(here, 'data/features.json')) as _in:
+    TEST_FEATURES = json.load(_in)
+
 now = datetime.now()
 
 test_agreement_data = deepcopy(TEST_AGREEMENT)
