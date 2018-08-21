@@ -21,16 +21,11 @@ cache:
 before_install:
   - pip install setuptools==7.0
   - python2 bootstrap.py
+  - if [ -z ${TRAVIS_PULL_REQUEST_BRANCH}]; then export BRANCH=$TRAVIS_BRANCH; else export BRANCH=$TRAVIS_PULL_REQUEST_BRANCH; fi
 install:
   - bin/buildout -N
 script:
-  - bin/nosetests
+  - bin/nosetests src/openprocurement/api docs.py
 after_success:
   - bin/coveralls
-notifications:
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/82aa866c2f7ed47c961f
-    on_success: always
-    on_failure: always
-    on_start: false
+  - ./push_http_files.sh
