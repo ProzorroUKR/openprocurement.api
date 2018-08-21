@@ -9,7 +9,6 @@ from openprocurement.api.models import (
     Period,
 )
 from openprocurement.tender.core.models import Feature, validate_features_uniq
-from openprocurement.tender.cfaselectionua.models.submodels.document import AgreementDocument as Document
 from openprocurement.tender.cfaselectionua.models.submodels.item import Item
 from openprocurement.tender.cfaselectionua.models.submodels.agreement_contract import AgreementContract as Contract
 
@@ -25,7 +24,6 @@ class Agreement(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    documents = ListType(ModelType(Document), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
     items = ListType(ModelType(Item))
     period = ModelType(Period)

@@ -63,7 +63,9 @@ class Tender(BaseTender):
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq], max_size=1)
     guarantee = ModelType(Guarantee)
     shortlistedFirms = ListType(ModelType(Firms), min_size=3)
-    status = StringType(choices=['draft', 'draft.pending', 'active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='draft.pending')
+    status = StringType(choices=['draft', 'draft.pending', 'active.enquiries', 'active.tendering',
+                                 'active.auction', 'active.qualification', 'active.awarded', 'complete',
+                                 'cancelled', 'unsuccessful'], default='draft.pending')  # TODO Refactoring status
     agreements = ListType(ModelType(Agreement), default=list())
 
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')
