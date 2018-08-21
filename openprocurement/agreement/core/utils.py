@@ -3,6 +3,7 @@ from pkg_resources import get_distribution
 from schematics.exceptions import ModelValidationError
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
+from openprocurement.agreement.core.interfaces import IAgreement
 from openprocurement.agreement.core.constants import DEFAULT_TYPE
 from openprocurement.api.utils import (
     set_modetest_titles,
@@ -134,3 +135,9 @@ def apply_patch(request, data=None, save=True, src=None):
 
 def set_ownership(item, request):
     item.owner_token = generate_id()
+
+
+def get_agreement(model):
+    while not IAgreement.providedBy(model):
+        model = model.__parent__
+    return model
