@@ -21,7 +21,7 @@ cache:
 before_install:
   - pip install setuptools==7.0
   - python2 bootstrap.py
-  - if [ -z ${TRAVIS_PULL_REQUEST_BRANC}]; then export BRANCH=$TRAVIS_BRANCH; else export BRANCH=$TRAVIS_PULL_REQUEST_BRANC; fi
+  - if [ -z ${TRAVIS_PULL_REQUEST_BRANCH}]; then export BRANCH=$TRAVIS_BRANCH; else export BRANCH=$TRAVIS_PULL_REQUEST_BRANCH; fi
 install:
   - bin/buildout -N
 script:
