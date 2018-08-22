@@ -4,7 +4,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.cfaselectionua.tests.base import (
-    TenderContentWebTest
+    TenderContentWebTest, test_lots
 )
 from openprocurement.tender.cfaselectionua.tests.document_blanks import (
     # TenderDocumentResourceTest
@@ -36,12 +36,14 @@ class TenderDocumentWithDSResourceTestMixin(object):
 
 class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):
 
+    initial_lots = test_lots
     initial_status = 'active.enquiries'
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
 
 
 class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumentWithDSResourceTestMixin):
 
+    initial_lots = test_lots
     docservice = True
     test_create_tender_document_error = snitch(create_tender_document_error)
 
