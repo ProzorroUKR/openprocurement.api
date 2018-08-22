@@ -4,14 +4,17 @@ from openprocurement.api.utils import context_unpack, json_view, APIResource
 from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch
 )
-
+from openprocurement.tender.cfaselectionua.constants import BOT_NAME
+from openprocurement.tender.cfaselectionua.validation import (
+    validate_patch_tender_in_draft_pending,
+    validate_tender_status_update_in_terminated_status,
+)
 from openprocurement.tender.cfaselectionua.utils import (
-    check_status,
+    check_status, check_period_and_items
 )
 
 from openprocurement.tender.core.validation import (
-    validate_patch_tender_data,
-    validate_tender_status_update_in_terminated_status
+    validate_patch_tender_data
 )
 
 
@@ -114,7 +117,11 @@ class TenderResource(APIResource):
             tender_data = self.context.serialize(self.context.status)
         return {'data': tender_data}
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_data, validate_tender_status_update_in_terminated_status, ), permission='edit_tender')
+    @json_view(content_type="application/json",
+               validators=(validate_patch_tender_data,
+                           validate_tender_status_update_in_terminated_status,
+                           validate_patch_tender_in_draft_pending),
+               permission='edit_tender')
     def patch(self):
         """Tender Edit (partial)
 
@@ -167,6 +174,9 @@ class TenderResource(APIResource):
             apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
             check_status(self.request)
             save_tender(self.request)
+        elif self.request.authenticated_role == 'agreement_selection':
+            check_period_and_items(self.request, tender)
+            apply_patch(self.request, src=self.request.validated['tender_src'])
         else:
             apply_patch(self.request, src=self.request.validated['tender_src'])
         self.LOGGER.info('Updated tender {}'.format(tender.id),

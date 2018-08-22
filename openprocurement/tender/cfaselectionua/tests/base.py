@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import json
-
 import os
 from copy import deepcopy
 from datetime import datetime, timedelta

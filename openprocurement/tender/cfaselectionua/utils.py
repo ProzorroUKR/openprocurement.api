@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from barbecue import chef
+from datetime import timedelta
 from logging import getLogger
 from openprocurement.api.constants import TZ
 from openprocurement.tender.cfaselectionua.traversal import agreement_factory
@@ -243,3 +244,16 @@ def prepare_bid_identifier(bid):
         keys = set([key])
         all_keys |= keys
     return all_keys
+
+
+def check_period_and_items(request, tender):
+    agreement_items = tender.agreements[0].items if tender.agreements else []
+    agreement_items_classifications = [i.classification for i in agreement_items] if agreement_items else []
+    tender_items_classifications = [i.classification for i in tender.items]
+    for t_i_c in tender_items_classifications:
+        if t_i_c not in agreement_items_classifications:
+            request.validated['data']['status'] = 'draft.unsuccessful'
+            return
+
+    if tender.agreements[0].period.endDate < get_now() + timedelta(days=7):
+        request.validated['data']['status'] = 'draft.unsuccessful'

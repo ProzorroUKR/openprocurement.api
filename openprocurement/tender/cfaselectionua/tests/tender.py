@@ -7,7 +7,10 @@ from openprocurement.api.tests.base import BaseWebTest, snitch
 from uuid import uuid4
 
 from openprocurement.tender.cfaselectionua.tests.base import (
-    test_tender_data, BaseTenderWebTest, test_lots
+    test_lots,
+    test_tender_data,
+    test_agreement,
+    BaseTenderWebTest,
 )
 from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     # TenderResourceTest
@@ -28,6 +31,7 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     tender_features,
     patch_tender_jsonpatch,
     patch_tender,
+    patch_tender_bot,
     required_field_deletion,
     tender_funders,
     # TenderProcessTest
@@ -68,6 +72,7 @@ class TenderResourceTestMixin(object):
     test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
+    test_patch_tender_bot = snitch(patch_tender_bot)
 
 
 class TenderTest(BaseWebTest):
@@ -86,6 +91,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = tender_data
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
+    initial_agreement = test_agreement
+    agreement_id = '11111111111111111111111111111111'
 
     test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
