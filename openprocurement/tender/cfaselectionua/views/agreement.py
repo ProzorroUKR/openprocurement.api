@@ -35,7 +35,7 @@ class TenderAgreementResource(APIResource):
         return {'data': self.request.validated['agreement'].serialize()}
 
     @json_view(content_type="application/json",
-               permission='edit_agreement_bridge',
+               permission='edit_agreement_selection',
                validators=(validate_patch_agreement_data,
                            validate_agreement_operation_not_in_allowed_status
                            ))
