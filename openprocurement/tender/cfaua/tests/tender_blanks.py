@@ -128,7 +128,7 @@ def create_tender_invalid(self):
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'items'}, response.json['errors'])
-    self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'maxAwards'}, response.json['errors'])
+    self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'maxAwardsCount'}, response.json['errors'])
 
     response = self.app.post_json(request_path, {'data': {'procurementMethodType': 'closeFrameworkAgreementUA',
                                                           'enquiryPeriod': {'endDate': 'invalid_value'}}}, status=422)
@@ -298,13 +298,13 @@ def create_tender_invalid(self):
     ])
 
     data = deepcopy(self.initial_data)
-    data['maxAwards'] = self.min_bids_number - 1
+    data['maxAwardsCount'] = self.min_bids_number - 1
     response = self.app.post_json(request_path, {'data': data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u"Maximal awards number can't be less then minimal"], u'location': u'body', u'name': u'maxAwards'}
+        {u'description': [u"Maximal awards number can't be less then minimal bids number"], u'location': u'body', u'name': u'maxAwardsCount'}
     ])
 
 
@@ -324,7 +324,7 @@ def create_tender_generated(self):
         u'complaintPeriod', u'minimalStep', u'items', u'value', u'owner',
         u'procuringEntity', u'next_check', u'procurementMethod',
         u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date',
-        u'maxAwards']))
+        u'maxAwardsCount']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -1130,27 +1130,27 @@ def patch_max_awards(self):
     self.app.authorization = ('Basic', ('token', ''))
 
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
-        {'data': {'maxAwards': min_awards_number - 1}}, status=422)
+        {'data': {'maxAwardsCount': min_awards_number - 1}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'], [{
-        u'description': [u"Maximal awards number can't be less then minimal"],
-        u'location': u'body', u'name': u'maxAwards'}])
+        u'description': [u"Maximal awards number can't be less then minimal bids number"],
+        u'location': u'body', u'name': u'maxAwardsCount'}])
     
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-            {'data': {'maxAwards': min_awards_number}})
+            {'data': {'maxAwardsCount': min_awards_number}})
     tender = response.json['data']
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(tender['maxAwards'], min_awards_number)
+    self.assertEqual(tender['maxAwardsCount'], min_awards_number)
 
     self.set_status('active.pre-qualification')
     # should not change max awards number in active.pre-qualification
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-            {'data': {'maxAwards': min_awards_number + 1}})
+            {'data': {'maxAwardsCount': min_awards_number + 1}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertNotEqual(tender['maxAwards'], min_awards_number + 1)
+    self.assertNotEqual(tender['maxAwardsCount'], min_awards_number + 1)
 
 
 def _awards_to_bids_number(self, max_awards_number, bids_number, expected_awards_number):
@@ -1159,7 +1159,7 @@ def _awards_to_bids_number(self, max_awards_number, bids_number, expected_awards
     self.assertEqual(len(response.json['data']), 0)
 
     initial_data = self.initial_data
-    initial_data['maxAwards'] = max_awards_number
+    initial_data['maxAwardsCount'] = max_awards_number
 
     response = self.app.post_json('/tenders', {'data': initial_data})
     self.assertEqual(response.status, '201 Created')

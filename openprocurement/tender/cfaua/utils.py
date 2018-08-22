@@ -328,7 +328,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount', rege
         When reverse is set to True awards are generated from higher to lower by value.amount
     """
     tender = request.validated['tender']
-    max_awards = tender['maxAwards']
+    max_awards = tender['maxAwardsCount']
     now = get_now()
     if not tender.awardPeriod:
         tender.awardPeriod = type(tender).awardPeriod({})
