@@ -688,25 +688,8 @@ def create_tender(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 0)
 
-<<<<<<< HEAD
-    data = deepcopy(self.initial_data)
-
-    if self.initial_lots:
-        lots = []
-        for i in self.initial_lots:
-            lot = deepcopy(i)
-            lot['id'] = uuid4().hex
-            lots.append(lot)
-        data['lots'] = self.initial_lots = lots
-        for i, item in enumerate(data['items']):
-            item['relatedLot'] = lots[i % len(lots)]['id']
-
-    response = self.app.post_json('/tenders', {"data": data})
-    self.assertEqual(response.status, '201 Created')
-=======
     self.initial_data['agreements'] = [{'id': '11111111111111111111111111111111'}]
     response = self.app.post_json('/tenders', {"data": self.initial_data})
->>>>>>> eab0b8b0967411e53ad38c6885f2bf3faaecf0b1
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.json['data']['agreements'][0]['id'], '11111111111111111111111111111111')
