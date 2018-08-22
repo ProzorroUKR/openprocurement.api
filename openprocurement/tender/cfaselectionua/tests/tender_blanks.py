@@ -701,22 +701,22 @@ def create_tender(self):
     self.assertEqual(set(response.json['data']), set(tender))
     self.assertEqual(response.json['data'], tender)
 
-    response = self.app.post_json('/tenders?opt_jsonp=callback', {"data": data})
+    response = self.app.post_json('/tenders?opt_jsonp=callback', {"data": self.initial_data})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/javascript')
     self.assertIn('callback({"', response.body)
 
-    response = self.app.post_json('/tenders?opt_pretty=1', {"data": data})
+    response = self.app.post_json('/tenders?opt_pretty=1', {"data": self.initial_data})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     self.assertIn('{\n    "', response.body)
 
-    response = self.app.post_json('/tenders', {"data": data, "options": {"pretty": True}})
+    response = self.app.post_json('/tenders', {"data": self.initial_data, "options": {"pretty": True}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     self.assertIn('{\n    "', response.body)
 
-    tender_data = deepcopy(data)
+    tender_data = deepcopy(self.initial_data)
     tender_data['guarantee'] = {"amount": 100500, "currency": "USD"}
     response = self.app.post_json('/tenders', {'data': tender_data})
     self.assertEqual(response.status, '201 Created')
