@@ -63,7 +63,7 @@ class Tender(BaseTender):
     guarantee = ModelType(Guarantee)
     status = StringType(choices=['draft', 'draft.pending', 'draft.unsuccessful', 'active.enquiries', 'active.tendering',
                                  'active.auction', 'active.qualification', 'active.awarded', 'complete',
-                                 'cancelled', 'unsuccessful'], default='draft.pending')  # TODO Refactoring status
+                                 'cancelled', 'unsuccessful'], default='draft')  # TODO Refactoring status
     agreements = ListType(ModelType(Agreement), default=list())
 
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')

@@ -17,6 +17,10 @@ from openprocurement.tender.cfaselectionua.utils import (
 from openprocurement.tender.core.validation import (
     validate_patch_tender_data
 )
+from openprocurement.tender.core.views.tender import TendersResource as APIResources
+
+from openprocurement.tender.cfaselectionua.utils import check_status
+from openprocurement.tender.cfaselectionua.validation import validate_patch_tender_data
 
 
 @optendersresource(name='closeFrameworkAgreementSelectionUA:Tender',

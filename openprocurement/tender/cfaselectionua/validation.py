@@ -1,11 +1,33 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import (error_handler, raise_operation_error,
-                                       get_now)
+from openprocurement.api.utils import error_handler, raise_operation_error, get_now
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.tender.cfaselectionua.utils import (
-    prepare_shortlistedFirms, prepare_bid_identifier
-)
 from openprocurement.api.validation import validate_data
+
+from openprocurement.tender.cfaselectionua.utils import prepare_shortlistedFirms, prepare_bid_identifier
+
+
+def validate_patch_tender_data(request):
+    tender = request.validated['tender']
+    default_status = type(request.tender).fields['status'].default
+    current_status = request.context.status
+    new_status = tender['status']
+
+    if current_status == default_status and new_status == 'draft.pending':
+        if 'agreements' not in tender or 'items' not in tender:
+            raise_operation_error(
+                request, "Can't switch tender to (draft.pending) status without agreements or items."
+            )
+        if not all([a.get('id') for a in tender['agreements']]):
+            raise_operation_error(request, "Please fill all agreements id")
+    elif current_status == default_status and new_status not in ('draft.pending', default_status):
+        raise_operation_error(
+            request, "Can't switch tender from ({}) to ({}) status.".format(default_status, new_status)
+        )
+    elif current_status != default_status and new_status == ('draft.pending', default_status):
+        raise_operation_error(request, "Can't switch from ({}) to ({})".format(current_status, new_status))
+
+    request.validated['data'] = {'status': default_status}
+    request.context.status = default_status
 
 
 # tender documents
