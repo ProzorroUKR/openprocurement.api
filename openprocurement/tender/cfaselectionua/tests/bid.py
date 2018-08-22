@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
     test_features_tender_data,
-    test_organization
+    test_organization,
+    test_lots
 )
 from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     # TenderBidResourceTest
@@ -38,6 +40,7 @@ from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
 
 class TenderBidResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
+    initial_lots = deepcopy(test_lots)
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_create_tender_bid = snitch(create_tender_bid)
@@ -50,6 +53,7 @@ class TenderBidResourceTest(TenderContentWebTest):
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):
     initial_data = test_features_tender_data
+    initial_lots = deepcopy(test_lots)
     initial_status = 'active.tendering'
 
     test_features_bid = snitch(features_bid)
@@ -58,12 +62,20 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
 
 class TenderBidDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
+    initial_lots = deepcopy(test_lots)
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bid
-        response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}}})
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(self.tender_id),
+            {
+                'data': {
+                    'tenderers': [test_organization],
+                    'lotValues': [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]['id']}]
+                }
+            }
+        )
         bid = response.json['data']
         self.bid_id = bid['id']
         self.bid_token = response.json['access']['token']
@@ -84,6 +96,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
+    initial_lots = deepcopy(test_lots)
     initial_status = 'active.tendering'
     bid_data_wo_docs = {'tenderers': [test_organization],
                         'value': {'amount': 500},
