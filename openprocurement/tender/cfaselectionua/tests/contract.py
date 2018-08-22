@@ -47,14 +47,26 @@ class TenderContractDocumentResourceTestMixin(object):
 class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
+    initial_lots = test_lots
 
     def setUp(self):
         super(TenderContractResourceTest, self).setUp()
         # Create award
         auth = self.app.authorization
         self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id'], 'value': self.initial_data["value"], 'items': self.initial_data["items"]}})
+        response = self.app.post_json(
+            '/tenders/{}/awards'.format(self.tender_id),
+            {
+                'data': {
+                    'suppliers': [test_organization],
+                    'status': 'pending',
+                    'bid_id': self.initial_bids[0]['id'],
+                    'lotID': self.initial_lots[0]['id'],
+                    'value': self.initial_data["value"],
+                    'items': self.initial_data["items"]
+                }
+            }
+        )
         self.app.authorization = auth
         award = response.json['data']
         self.award_id = award['id']
@@ -97,6 +109,7 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
 class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
+    initial_lots = test_lots
 
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
@@ -104,8 +117,17 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
         auth = self.app.authorization
         self.app.authorization = ('Basic', ('token', ''))
 
-        response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
+        response = self.app.post_json(
+            '/tenders/{}/awards'.format(self.tender_id),
+            {
+                'data': {
+                    'suppliers': [test_organization],
+                    'status': 'pending',
+                    'bid_id': self.initial_bids[0]['id'],
+                    'lotID': self.initial_lots[0]['id']
+                }
+            }
+        )
         award = response.json['data']
         self.award_id = award['id']
 

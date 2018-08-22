@@ -60,7 +60,7 @@ class Tender(BaseTender):
     auctionUrl = URLType()
     cancellations = ListType(ModelType(Cancellation), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
-    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq], max_size=1)
+    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq], min_size=1, max_size=1)
     guarantee = ModelType(Guarantee)
     shortlistedFirms = ListType(ModelType(Firms), min_size=3)
     status = StringType(choices=['draft', 'draft.pending', 'active.enquiries', 'active.tendering',

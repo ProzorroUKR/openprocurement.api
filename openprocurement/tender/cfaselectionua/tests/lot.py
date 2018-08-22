@@ -73,6 +73,7 @@ class TenderLotProcessTestMixin(object):
 
 class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
     initial_status = 'active.enquiries'
+    initial_lots = test_lots
     test_lots_data = test_lots
 
     test_get_tender_lot = snitch(get_tender_lot)
@@ -173,7 +174,7 @@ class TenderLotFeatureBidResourceTest(TenderContentWebTest):
 class TenderLotProcessTest(BaseTenderWebTest, TenderLotProcessTestMixin):
     #initial_status = 'active.enquiries'
     test_lots_data = test_lots
-
+    initial_lots = test_lots
     days_till_auction_starts = 10
 
     test_proc_1lot_1bid = snitch(proc_1lot_1bid)

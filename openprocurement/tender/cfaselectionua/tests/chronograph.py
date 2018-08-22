@@ -35,62 +35,49 @@ from openprocurement.tender.cfaselectionua.tests.chronograph_blanks import (
 
 
 class TenderSwitchTenderingResourceTest(TenderContentWebTest):
-
+    initial_lots = test_lots
     initial_status = 'active.enquiries'
     test_switch_to_tendering_by_tenderPeriod_startDate = snitch(switch_to_tendering_by_tenderPeriod_startDate)
 
 
-class TenderSwitchQualificationResourceTest(TenderContentWebTest):
+class TenderLotSwitchQualificationResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids[:1]
+    initial_lots = test_lots
 
-    test_switch_to_qualification = snitch(switch_to_qualification)
+    test_switch_to_qualification = snitch(switch_to_qualification)    
 
 
-class TenderSwitchAuctionResourceTest(TenderContentWebTest):
+class TenderLotSwitchAuctionResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
+    initial_lots = test_lots
+    
+    test_switch_to_auction = snitch(switch_to_auction)    
 
-    test_switch_to_auction = snitch(switch_to_auction)
 
-
-class TenderSwitchUnsuccessfulResourceTest(TenderContentWebTest):
+class TenderLotSwitchUnsuccessfulResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
+    initial_lots = test_lots
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
 
 
-class TenderLotSwitchQualificationResourceTest(TenderSwitchQualificationResourceTest):
+class TenderLotAuctionPeriodResourceTest(TenderContentWebTest):
     initial_lots = test_lots
-
-
-class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):
-    initial_lots = test_lots
-
-
-class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTest):
-    initial_lots = test_lots
-
-
-class TenderAuctionPeriodResourceTest(TenderContentWebTest):
     initial_bids = test_bids
 
     test_set_auction_period = snitch(set_auction_period)
     test_reset_auction_period = snitch(reset_auction_period)
 
 
-class TenderLotAuctionPeriodResourceTest(TenderAuctionPeriodResourceTest):
-    initial_lots = test_lots
-
-
 def suite():
     suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TenderSwitchTenderingResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotAuctionPeriodResourceTest))
     return suite
 
 

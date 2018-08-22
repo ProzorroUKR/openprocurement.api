@@ -42,12 +42,7 @@ class TenderCancellationDocumentResourceTestMixin(object):
     test_patch_tender_cancellation_document = snitch(patch_tender_cancellation_document)
 
 
-class TenderCancellationResourceTest(TenderContentWebTest, TenderCancellationResourceTestMixin):
-    initial_status = 'active.tendering'
-    initial_bids = test_bids
-
-
-class TenderLotCancellationResourceTest(TenderContentWebTest):
+class TenderLotCancellationResourceTest(TenderContentWebTest, TenderCancellationResourceTestMixin):
     initial_status = 'active.tendering'
     initial_lots = test_lots
     initial_bids = test_bids
@@ -67,6 +62,7 @@ class TenderLotsCancellationResourceTest(TenderContentWebTest):
 
 
 class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancellationDocumentResourceTestMixin):
+    initial_lots = test_lots
 
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
@@ -79,8 +75,8 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
 
 def suite():
     suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TenderLotCancellationResourceTest))
     suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationResourceTest))
     return suite
 
 
