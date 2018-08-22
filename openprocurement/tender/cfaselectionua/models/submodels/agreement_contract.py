@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
 from openprocurement.api.roles import RolesFromCsv
-from schematics.exceptions import ValidationError
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 from openprocurement.api.models import (
@@ -25,8 +24,3 @@ class AgreementContract(Model):
     awardID = StringType()
     bidID = StringType()
     date = IsoDateTimeType()
-
-    def validate_awardID(self, data, awardID):
-        if awardID and isinstance(data['__parent__'], Model) and \
-                awardID not in [i.id for i in data['__parent__']['__parent__'].awards]:
-            raise ValidationError(u"awardID should be one of awards")

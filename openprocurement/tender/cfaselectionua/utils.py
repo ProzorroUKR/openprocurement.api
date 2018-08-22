@@ -2,12 +2,21 @@
 from barbecue import chef
 from logging import getLogger
 from openprocurement.api.constants import TZ
+from openprocurement.tender.cfaselectionua.traversal import agreement_factory
 from pkg_resources import get_distribution
-from openprocurement.api.utils import get_now, context_unpack
 from openprocurement.tender.core.utils import cleanup_bids_for_cancelled_lots, remove_draft_bids
+from functools import partial
+from cornice.resource import resource
+from openprocurement.api.utils import (
+    error_handler,
+    context_unpack,
+    get_now
+)
 
 PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
+
+agreement_resource = partial(resource, error_handler=error_handler, factory=agreement_factory)
 
 
 def check_bids(request):
