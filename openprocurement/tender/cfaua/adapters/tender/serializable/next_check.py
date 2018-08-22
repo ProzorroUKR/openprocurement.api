@@ -52,40 +52,5 @@ class SerializableTenderNextCheck(Serializable):
                 if q.lotID in active_lots
             ]):
                 checks.append(obj.awardPeriod.endDate.astimezone(configurator.tz))
-        elif not obj.lots and obj.status == 'active.awarded' and not any([
-                    i.status in obj.block_complaint_status
-            for i in obj.complaints
-        ]) and not any([
-                    i.status in obj.block_complaint_status
-            for a in obj.awards
-            for i in a.complaints
-        ]):
-            standStillEnds = obj.awardPeriod.endDate
-            last_award_status = obj.awards[-1].status if obj.awards else ''
-            if standStillEnds and last_award_status == 'unsuccessful':
-                checks.append(max(standStillEnds))
-        elif obj.lots and obj.status in ['active.qualification', 'active.awarded'] and not any([
-                            i.status in obj.block_complaint_status and i.relatedLot is None
-            for i in obj.complaints
-        ]):
-            for lot in obj.lots:
-                if lot['status'] != 'active':
-                    continue
-                lot_awards = [i for i in obj.awards if i.lotID == lot.id]
-                pending_complaints = any([
-                    i['status'] in obj.block_complaint_status and i.relatedLot == lot.id
-                    for i in obj.complaints
-                ])
-                pending_awards_complaints = any([
-                    i.status in obj.block_complaint_status
-                    for a in lot_awards
-                    for i in a.complaints
-                ])
-                standStillEnds = obj.awardPeriod.endDate
-                if not pending_complaints and not pending_awards_complaints and standStillEnds:
-                    checks.append(standStillEnds)
-        if obj.status.startswith('active'):
-            for award in obj.awards:
-                if award.status == 'active' and not any([award.id in i.get_awards_id() for i in obj.agreements]):
-                    checks.append(award.date)
+
         return min(checks).isoformat() if checks else None

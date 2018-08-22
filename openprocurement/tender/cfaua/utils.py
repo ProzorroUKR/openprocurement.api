@@ -257,36 +257,6 @@ def check_status(request):
         tender.status = 'active.auction'
         check_initial_bids_count(request)
         return
-
-    elif not tender.lots and tender.status == 'active.awarded':
-        standStillEnds = [
-            a.complaintPeriod.endDate.astimezone(TZ)
-            for a in tender.awards
-            if a.complaintPeriod.endDate
-        ]
-        if not standStillEnds:
-            return
-        standStillEnd = max(standStillEnds)
-        if standStillEnd <= now:
-            check_tender_status(request)
-    elif tender.lots and tender.status in ['active.qualification', 'active.awarded']:
-        if any([i['status'] in tender.block_complaint_status and i.relatedLot is None for i in tender.complaints]):
-            return
-        for lot in tender.lots:
-            if lot['status'] != 'active':
-                continue
-            lot_awards = [i for i in tender.awards if i.lotID == lot.id]
-            standStillEnds = [
-                a.complaintPeriod.endDate.astimezone(TZ)
-                for a in lot_awards
-                if a.complaintPeriod.endDate
-            ]
-            if not standStillEnds:
-                continue
-            standStillEnd = max(standStillEnds)
-            if standStillEnd <= now:
-                check_tender_status(request)
-                return
     elif tender.status == 'active.qualification.stand-still' and tender.awardPeriod and \
             tender.awardPeriod.endDate <= now and \
             not any([i.status in tender.block_complaint_status
