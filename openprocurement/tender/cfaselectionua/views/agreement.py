@@ -4,7 +4,7 @@ from openprocurement.tender.cfaselectionua.validation import (
     validate_patch_agreement_data,
     validate_agreement_operation_not_in_allowed_status
 )
-from openprocurement.tender.cfaua.utils import agreement_resource
+from openprocurement.tender.cfaselectionua.utils import agreement_resource
 
 from openprocurement.tender.core.utils import apply_patch, save_tender
 from openprocurement.tender.openua.views.contract import (
@@ -49,15 +49,6 @@ class TenderAgreementResource(BaseResource):
             raise_operation_error(self.request, 'Can\'t update agreement status')
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
-
-        # if self.request.context.dateSigned and self.request.context.dateSigned <= tender.contractPeriod.clarificationsUntil:
-        #     import ipdb; ipdb.set_trace()
-        #     raise_operation_error(
-        #         self.request,
-        #         "Agreement signature date should be after contractPeriod.clarificationsUntil ({})".format(
-        #             tender.contractPeriod.clarificationsUntil.isoformat()
-        #         )
-        #     )
         check_tender_status(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender agreement {}'.format(self.request.context.id),
