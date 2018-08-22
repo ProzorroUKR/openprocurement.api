@@ -83,7 +83,7 @@ class Tender(BaseTender):
             role = 'auction_{}'.format(request.method.lower())
         elif request.authenticated_role == 'contracting':
             role = 'contracting'
-        elif request.authenticated_userid == BOT_NAME:
+        elif request.authenticated_role == 'agreement_selection':
             role = BOT_NAME
         else:
             role = 'edit_{}'.format(request.context.status)
@@ -98,8 +98,8 @@ class Tender(BaseTender):
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_tender'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
-            (Allow, BOT_NAME, 'edit_agreement_bridge'),
-            (Allow, BOT_NAME, 'edit_tender'),
+            (Allow, 'g:agreement_selection', 'edit_agreement_bridge'),
+            (Allow, 'g:agreement_selection', 'edit_tender'),
         ])
         return acl
 

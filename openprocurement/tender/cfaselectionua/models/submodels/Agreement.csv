@@ -1,5 +1,5 @@
 rolename,agreementID,__parent__,agreementNumber,date,dateSigned,description,description_en,description_ru,items,period,status,contracts,title,title_en,title_ru,id,features
-create,1,1,1,,,1,1,1,1,1,,1,1,1,1,1,1
+create,1,1,1,,,1,1,1,1,1,1,1,1,1,1,1,1
 edit,1,1,1,1,1,1,1,1,,1,1,1,1,1,1,1,1
 embedded,1,,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 view,1,,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1

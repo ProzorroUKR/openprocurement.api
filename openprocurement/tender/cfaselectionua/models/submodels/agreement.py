@@ -27,7 +27,7 @@ class Agreement(Model):
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
     items = ListType(ModelType(Item))
     period = ModelType(Period)
-    status = StringType(choices=['pending', 'active', 'cancelled'], default='active')
+    status = StringType(choices=['pending', 'active', 'cancelled'])
     contracts = ListType(ModelType(Contract))
     title = StringType()
     title_en = StringType()
