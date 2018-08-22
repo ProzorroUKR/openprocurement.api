@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 import os
 from copy import deepcopy
 from datetime import datetime, timedelta
@@ -10,6 +12,14 @@ from openprocurement.tender.core.tests.base import (
     BaseTenderWebTest as BaseTWT
 )
 from openprocurement.tender.cfaselectionua.constants import DRAFT_FIELDS, BOT_NAME
+
+
+
+here = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(here, 'data/agreement.json')) as _in:
+    TEST_AGREEMENT = json.load(_in)
+
+
 
 now = datetime.now()
 test_organization = {

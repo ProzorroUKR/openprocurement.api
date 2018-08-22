@@ -98,6 +98,7 @@ class Tender(BaseTender):
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_tender'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
+            (Allow, BOT_NAME, 'edit_agreement_bridge'),
             (Allow, BOT_NAME, 'edit_tender'),
         ])
         return acl

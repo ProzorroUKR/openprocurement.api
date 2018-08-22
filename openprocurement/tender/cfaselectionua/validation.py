@@ -5,7 +5,7 @@ from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.cfaselectionua.utils import (
     prepare_shortlistedFirms, prepare_bid_identifier
 )
-
+from openprocurement.api.validation import validate_data
 
 
 # tender documents
@@ -92,3 +92,16 @@ def validate_award_complaint_update_not_in_allowed_status(request):
 def validate_cancellation_document_operation_not_in_allowed_status(request):
     if request.validated['tender_status'] in ['complete', 'cancelled', 'unsuccessful']:
         raise_operation_error(request, 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(request.method), request.validated['tender_status']))
+
+
+# patch agreement
+def validate_agreement_operation_not_in_allowed_status(request):
+    if request.validated['tender_status'] not in ['draft.pending']:
+        raise_operation_error(request,
+                              'Can\'t {} agreement in current ({}) tender status'.format(
+                                  OPERATIONS.get(request.method), request.validated['tender_status']))
+
+
+def validate_patch_agreement_data(request):
+    model = type(request.tender).agreements.model_class
+    return validate_data(request, model, True)
