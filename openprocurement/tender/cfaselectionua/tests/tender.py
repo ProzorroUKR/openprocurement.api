@@ -2,10 +2,12 @@
 import os
 import unittest
 
+from copy import deepcopy
 from openprocurement.api.tests.base import BaseWebTest, snitch
+from uuid import uuid4
 
 from openprocurement.tender.cfaselectionua.tests.base import (
-    test_tender_data, BaseTenderWebTest
+    test_tender_data, BaseTenderWebTest, test_lots
 )
 from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     # TenderResourceTest
@@ -41,6 +43,16 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     simple_add_tender,
 )
 
+tender_data = deepcopy(test_tender_data)
+lots = []
+for i in test_lots:
+    lot = deepcopy(i)
+    lot['id'] = uuid4().hex
+    lots.append(lot)
+tender_data['lots'] = test_lots = lots
+for i, item in enumerate(tender_data['items']):
+    item['relatedLot'] = lots[i % len(lots)]['id']
+
 
 class TenderResourceTestMixin(object):
     test_listing_changes = snitch(listing_changes)
@@ -59,7 +71,7 @@ class TenderResourceTestMixin(object):
 
 
 class TenderTest(BaseWebTest):
-    initial_data = test_tender_data
+    initial_data = tender_data
     relative_to = os.path.dirname(__file__)
 
     test_simple_add_tender = snitch(simple_add_tender)
@@ -71,7 +83,7 @@ class TestCoordinatesRegExp(unittest.TestCase):
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
-    initial_data = test_tender_data
+    initial_data = tender_data
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
 
@@ -85,6 +97,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 
 class TenderProcessTest(BaseTenderWebTest):
+    initial_data = tender_data
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
 
