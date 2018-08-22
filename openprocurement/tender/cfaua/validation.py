@@ -193,7 +193,7 @@ def validate_add_complaint_not_in_complaint_period(request):
 
 def validate_max_awards_number(number, *args):
     if number < MIN_BIDS_NUMBER:
-        raise ValidationError('Maximal awards number can\'t be less then minimal')
+        raise ValidationError('Maximal awards number can\'t be less then minimal bids number')
 
 # agreement contract
 def validate_patch_agreement_contract_data(request):

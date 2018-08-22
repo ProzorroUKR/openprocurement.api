@@ -232,14 +232,13 @@ def patch_tender_award_active(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
-    self.assertIn('maxAwards', tender)
 
     # Get awards
     response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
 
-    comparable = min((tender['maxAwards'], len(self.initial_bids)))
+    comparable = min((tender['maxAwardsCount'], len(self.initial_bids)))
     self.assertEqual(len(response.json['data']), comparable)
 
     for award in response.json['data']:
@@ -265,8 +264,8 @@ def patch_tender_award_unsuccessful(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
-    self.assertIn('maxAwards', tender)
-    max_awards = tender['maxAwards']
+    self.assertIn('maxAwardsCount', tender)
+    max_awards = tender['maxAwardsCount']
     
     for x in range(1, 4):
         # patch award to unsuccessful

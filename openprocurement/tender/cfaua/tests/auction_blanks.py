@@ -176,7 +176,7 @@ def post_tender_auction(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
-    max_awards = tender['maxAwards']
+    max_awards = tender['maxAwardsCount']
     self.assertNotEqual(tender["bids"][0]['value']['amount'], self.initial_bids[0]['value']['amount'])
     self.assertNotEqual(tender["bids"][-1]['value']['amount'], self.initial_bids[-1]['value']['amount'])
     self.assertEqual(tender["bids"][0]['value']['amount'], patch_data["bids"][-1]['value']['amount'])
@@ -280,7 +280,7 @@ def post_tender_lot_auction(self):
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
 
-    max_awards = tender["maxAwards"]
+    max_awards = tender["maxAwardsCount"]
 
     if len(self.initial_bids) > max_awards:
         self.assertEqual(len(tender['awards']), max_awards)
@@ -388,7 +388,7 @@ def post_tender_lots_auction(self):
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
 
-    max_awards = tender["maxAwards"]
+    max_awards = tender["maxAwardsCount"]
     if len(self.initial_bids) > max_awards:
         self.assertEqual(len(tender['awards']), max_awards * 2)  # init bids * 2lot (for each lot award)
     else:

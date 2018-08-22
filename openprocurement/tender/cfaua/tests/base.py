@@ -630,7 +630,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         #     self.tender_document_patch.update({'bids': bids})
 
     def generate_awards(self, status, startend):
-        MaxAwards = self.tender_document.get('maxAwards', 100000)
+        MaxAwards = self.tender_document.get('maxAwardsCount', 100000)
         bids = self.tender_document.get('bids', []) or self.tender_document_patch.get('bids', [])
         lots = self.tender_document.get('lots', []) or self.tender_document_patch.get('lots', [])
         awardPeriod_startDate = (
