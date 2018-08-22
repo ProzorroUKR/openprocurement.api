@@ -646,8 +646,7 @@ def create_tender_generated(self):
         set(tender),
         set([u'procurementMethodType', u'id', u'date', u'dateModified', u'tenderID', u'status', u'enquiryPeriod',
              u'tenderPeriod', u'minimalStep', u'value', u'procuringEntity', u'items', u'procurementMethod',
-             u'awardCriteria', u'submissionMethod', u'title', u'owner', 'lots'])
-    )
+             u'awardCriteria', u'submissionMethod', u'title', u'owner', u'agreements', u'lots']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -689,6 +688,7 @@ def create_tender(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 0)
 
+<<<<<<< HEAD
     data = deepcopy(self.initial_data)
 
     if self.initial_lots:
@@ -703,7 +703,13 @@ def create_tender(self):
 
     response = self.app.post_json('/tenders', {"data": data})
     self.assertEqual(response.status, '201 Created')
+=======
+    self.initial_data['agreements'] = [{'id': '11111111111111111111111111111111'}]
+    response = self.app.post_json('/tenders', {"data": self.initial_data})
+>>>>>>> eab0b8b0967411e53ad38c6885f2bf3faaecf0b1
     self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.json['data']['agreements'][0]['id'], '11111111111111111111111111111111')
     tender = response.json['data']
 
     response = self.app.get('/tenders/{}'.format(tender['id']))
