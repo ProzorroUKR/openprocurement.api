@@ -30,15 +30,6 @@ def validate_update_bid_status(request):
             raise error_handler(request.errors)
 
 
-def validate_firm_to_create_bid(request):
-    tender = request.validated['tender']
-    bid = request.validated['bid']
-    firm_keys = prepare_shortlistedFirms(tender.shortlistedFirms)
-    bid_keys = prepare_bid_identifier(bid)
-    if not (bid_keys <= firm_keys):
-        raise_operation_error(request, 'Firm can\'t create bid')
-
-
 # bid documents
 def validate_view_bid_document(request):
     if request.validated['tender_status'] in ['active.tendering', 'active.auction'] and request.authenticated_role != 'bid_owner':
