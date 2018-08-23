@@ -25,6 +25,8 @@ from openprocurement.tender.cfaua.tests.agreement_blanks import (
     patch_tender_agreement_datesigned,
     patch_tender_agreement_document,
     put_tender_agreement_document,
+    patch_no_lot_agreement_contract_unit_prices,
+    patch_lots_agreement_contract_unit_prices,
 )
 
 
@@ -60,6 +62,8 @@ class TenderAgreementResourceTest(BaseTenderContentWebTest, TenderAgreementResou
     test_patch_tender_agreement_contract = snitch(patch_tender_agreement_contract)
     test_patch_tender_agreement_datesigned = snitch(patch_tender_agreement_datesigned)
     test_patch_tender_agreement = snitch(patch_tender_agreement)
+    test_patch_no_lot_agreement_contract_unit_prices = snitch(patch_no_lot_agreement_contract_unit_prices)
+    test_patch_lots_agreement_contract_unit_prices = snitch(patch_lots_agreement_contract_unit_prices)
 
 
 class TenderAgreementDocumentResourceTest(BaseTenderContentWebTest, TenderAgreementDocumentResourceTestMixin):

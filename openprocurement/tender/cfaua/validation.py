@@ -217,7 +217,15 @@ def validate_agreement_contract_unitprices_update(request):
 
         calculated_value = sum([quantity_cache[u['relatedItem']] * u['value']['amount']
                                 for u in request.validated['data']['unitPrices']])
+        
         bid = [b for b in tender.bids if b.id == contract.bidID][0]
-        if calculated_value > bid.value.amount:
-            raise_operation_error(request, "Total amount can't be greater than bid.value.amount")
-
+        award = [a for a in tender.awards if a.id == contract.awardID][0]
+        if award.lotID:
+            value = [v for v in bid.lotValues if v.relatedLot == award.lotID][0].value.amount
+            error_message = 'bid.lotValue.value.amount'
+        else:
+            value = bid.value.amount
+            error_message = 'bid.value.amount'
+        
+        if calculated_value > value:
+            raise_operation_error(request, "Total amount can't be greater than {}".format(error_message))
