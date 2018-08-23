@@ -1904,13 +1904,9 @@ def patch_tender_to_draft_pending(self):
     self.assertEqual(response.json['data']['agreements'], [{'id': agreement_id}])
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
-                                   {'data': {'status': 'active.tendering'}},
-                                   status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'],
-                     [{u'description': u"Can't switch from (draft.pending) to (active.tendering) status.",
-                       u'location': u'body',
-                       u'name': u'data'}])
+                                   {'data': {'status': 'active.tendering'}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'draft.pending')
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
                                    {'data': {'status': 'draft'}})

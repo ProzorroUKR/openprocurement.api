@@ -198,9 +198,6 @@ class TenderResource(APIResource):
                 raise_operation_error(
                     self.request, "Can't switch tender from ({}) to ({}) status.".format(default_status, tender.status)
                 )
-            elif tender_status == 'draft.pending' and tender.status != 'draft.pending':
-                raise_operation_error(self.request,
-                                      "Can't switch from ({}) to ({}) status.".format(tender_status, tender.status))
             save_tender(self.request)
         self.LOGGER.info('Updated tender {}'.format(tender.id),
                     extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
