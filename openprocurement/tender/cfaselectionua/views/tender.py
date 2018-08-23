@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import context_unpack, json_view, APIResource
+from datetime import timedelta
+from openprocurement.api.utils import context_unpack, json_view, APIResource, get_now
 
 from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch
 )
-from openprocurement.tender.cfaselectionua.constants import BOT_NAME
+from openprocurement.tender.cfaselectionua.constants import ENQUIRY_PERIOD
 from openprocurement.tender.cfaselectionua.validation import (
     validate_patch_tender_in_draft_pending,
     validate_tender_status_update_in_terminated_status,
@@ -176,6 +177,9 @@ class TenderResource(APIResource):
             save_tender(self.request)
         elif self.request.authenticated_role == 'agreement_selection':
             check_period_and_items(self.request, tender)
+            tender.enquiryPeriod.startDate = get_now()
+            tender.enquiryPeriod.endDate = tender.enquiryPeriod.startDate + ENQUIRY_PERIOD
+            tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
             apply_patch(self.request, src=self.request.validated['tender_src'])
         else:
             apply_patch(self.request, src=self.request.validated['tender_src'])

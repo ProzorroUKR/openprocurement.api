@@ -1102,6 +1102,11 @@ def patch_tender(self):
     # switch to active.enquiries
     self.set_status('active.enquiries')
 
+    # user cannot patch tender in active.enquiries
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id, owner_token),
+                                   {'data': {'status': 'active.tendering'}}, status=403)
+    self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
+
     response = self.app.get('/tenders/{}'.format(tender['id']))
     tender = response.json['data']
     dateModified = tender.pop('dateModified')
@@ -1330,19 +1335,18 @@ def required_field_deletion(self):
 
 def dateModified_tender(self):
     response = self.app.get('/tenders')
-    self.assertEqual(response.status, '200 OK')
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(len(response.json['data']), 0)
 
     response = self.app.post_json('/tenders', {'data': self.initial_data})
-    self.assertEqual(response.status, '201 Created')
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
     tender = response.json['data']
     self.tender_id = tender['id']
     token = response.json['access']['token']
     dateModified = tender['dateModified']
 
     response = self.app.get('/tenders/{}'.format(tender['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['dateModified'], dateModified)
 
     self.app.authorization = ('Basic', (BOT_NAME, ''))
@@ -1356,22 +1360,19 @@ def dateModified_tender(self):
     self.set_status('active.enquiries')
 
     response = self.app.get('/tenders/{}'.format(tender['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     dateModified = response.json['data']['dateModified']
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
         tender['id'], token), {'data': {'procurementMethodRationale': 'Open'}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertNotEqual(response.json['data']['dateModified'], dateModified)
 
     tender = response.json['data']
     dateModified = tender['dateModified']
 
     response = self.app.get('/tenders/{}'.format(tender['id']))
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data'], tender)
     self.assertEqual(response.json['data']['dateModified'], dateModified)
 

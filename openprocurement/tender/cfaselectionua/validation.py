@@ -2,7 +2,6 @@
 from openprocurement.api.utils import (error_handler, raise_operation_error,
                                        get_now)
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.tender.cfaselectionua.constants import  BOT_NAME
 from openprocurement.tender.cfaselectionua.utils import (
     prepare_shortlistedFirms, prepare_bid_identifier
 )

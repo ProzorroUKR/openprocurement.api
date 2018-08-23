@@ -5,19 +5,19 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 from uuid import uuid4
 
-from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.utils import apply_data_patch
 from openprocurement.tender.core.tests.base import (
     BaseTenderWebTest as BaseTWT
 )
-from openprocurement.tender.cfaselectionua.constants import DRAFT_FIELDS, BOT_NAME
+from openprocurement.tender.cfaselectionua.constants import DRAFT_FIELDS, BOT_NAME, ENQUIRY_PERIOD
 
 
 here = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(here, 'data/agreement.json')) as _in:
     test_agreement = json.load(_in)
 
-now = datetime.now()
+now = datetime.now(TZ)
 test_organization = {
     "name": u"Державне управління справами",
     "identifier": {
@@ -85,7 +85,7 @@ test_tender_data = {
         "currency": u"UAH"
     },
     "enquiryPeriod": {
-        "endDate": (now + timedelta(days=7)).isoformat()
+        "endDate": (now + ENQUIRY_PERIOD).isoformat()
     },
     "tenderPeriod": {
         "endDate": (now + timedelta(days=14)).isoformat()
@@ -281,13 +281,8 @@ class BaseTenderWebTest(BaseTWT):
             data.update({
                 "enquiryPeriod": {
                     "startDate": (now).isoformat(),
-                    "endDate": (now + timedelta(days=7)).isoformat()
+                    "endDate": (now + ENQUIRY_PERIOD).isoformat()
                 },
-                "tenderPeriod": {
-                    "startDate": (now + timedelta(days=7)).isoformat(),
-                    "endDate": (now + timedelta(days=14)).isoformat()
-                },
-                #"items": test_items
             })
         elif status == 'active.tendering':
             data.update({
