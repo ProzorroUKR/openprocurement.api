@@ -225,6 +225,7 @@ class BaseTenderWebTest(BaseTWT):
 
     def create_tender(self):
         data = deepcopy(self.initial_data)
+        data.update({'agreements': [{'id': '1' * 32}]})
         if self.initial_lots:
             lots = []
             for i in self.initial_lots:
