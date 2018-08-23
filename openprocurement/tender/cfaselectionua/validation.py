@@ -1,33 +1,13 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import error_handler, raise_operation_error, get_now
-from openprocurement.api.validation import OPERATIONS
-from openprocurement.api.validation import validate_data
+from openprocurement.api.validation import OPERATIONS, validate_data, validate_json_data
 
 from openprocurement.tender.cfaselectionua.utils import prepare_shortlistedFirms, prepare_bid_identifier
 
 
 def validate_patch_tender_data(request):
-    tender = request.validated['tender']
-    default_status = type(request.tender).fields['status'].default
-    current_status = request.context.status
-    new_status = tender['status']
-
-    if current_status == default_status and new_status == 'draft.pending':
-        if 'agreements' not in tender or 'items' not in tender:
-            raise_operation_error(
-                request, "Can't switch tender to (draft.pending) status without agreements or items."
-            )
-        if not all([a.get('id') for a in tender['agreements']]):
-            raise_operation_error(request, "Please fill all agreements id")
-    elif current_status == default_status and new_status not in ('draft.pending', default_status):
-        raise_operation_error(
-            request, "Can't switch tender from ({}) to ({}) status.".format(default_status, new_status)
-        )
-    elif current_status != default_status and new_status == ('draft.pending', default_status):
-        raise_operation_error(request, "Can't switch from ({}) to ({})".format(current_status, new_status))
-
-    request.validated['data'] = {'status': default_status}
-    request.context.status = default_status
+    data = validate_json_data(request)
+    return validate_data(request, type(request.tender), True, data)
 
 
 # tender documents
@@ -79,6 +59,70 @@ def validate_lot_operation(request):
 def validate_auction_info_view(request):
     if request.validated['tender_status'] != 'active.auction':
         raise_operation_error(request, 'Can\'t get auction info in current ({}) tender status'.format(request.validated['tender_status']))
+
+
+def validate_tender_auction_data(request):
+    data = validate_patch_tender_data(request)
+    tender = request.validated['tender']
+    if tender.status != 'active.auction':
+        raise_operation_error(request, 'Can\'t {} in current ({}) tender status'.format('report auction results' if request.method == 'POST' else 'update auction urls', tender.status))
+    lot_id = request.matchdict.get('auction_lot_id')
+    if tender.lots and any([i.status != 'active' for i in tender.lots if i.id == lot_id]):
+        raise_operation_error(request, 'Can {} only in active lot status'.format('report auction results' if request.method == 'POST' else 'update auction urls'))
+    if data is not None:
+        bids = data.get('bids', [])
+        tender_bids_ids = [i.id for i in tender.bids]
+        if len(bids) != len(tender.bids):
+            request.errors.add('body', 'bids', "Number of auction results did not match the number of tender bids")
+            request.errors.status = 422
+            raise error_handler(request.errors)
+        if set([i['id'] for i in bids]) != set(tender_bids_ids):
+            request.errors.add('body', 'bids', "Auction bids should be identical to the tender bids")
+            request.errors.status = 422
+            raise error_handler(request.errors)
+        data['bids'] = [x for (y, x) in sorted(zip([tender_bids_ids.index(i['id']) for i in bids], bids))]
+        if data.get('lots'):
+            tender_lots_ids = [i.id for i in tender.lots]
+            if len(data.get('lots', [])) != len(tender.lots):
+                request.errors.add('body', 'lots', "Number of lots did not match the number of tender lots")
+                request.errors.status = 422
+                raise error_handler(request.errors)
+            if set([i['id'] for i in data.get('lots', [])]) != set([i.id for i in tender.lots]):
+                request.errors.add('body', 'lots', "Auction lots should be identical to the tender lots")
+                request.errors.status = 422
+                raise error_handler(request.errors)
+            data['lots'] = [
+                x if x['id'] == lot_id else {}
+                for (y, x) in sorted(zip([tender_lots_ids.index(i['id']) for i in data.get('lots', [])], data.get('lots', [])))
+            ]
+        if tender.lots:
+            for index, bid in enumerate(bids):
+                if (getattr(tender.bids[index], 'status', 'active') or 'active') == 'active':
+                    if len(bid.get('lotValues', [])) != len(tender.bids[index].lotValues):
+                        request.errors.add('body', 'bids', [{u'lotValues': [u'Number of lots of auction results did not match the number of tender lots']}])
+                        request.errors.status = 422
+                        raise error_handler(request.errors)
+                    for lot_index, lotValue in enumerate(tender.bids[index].lotValues):
+                        if lotValue.relatedLot != bid.get('lotValues', [])[lot_index].get('relatedLot', None):
+                            request.errors.add('body', 'bids', [{u'lotValues': [{u'relatedLot': ['relatedLot should be one of lots of bid']}]}])
+                            request.errors.status = 422
+                            raise error_handler(request.errors)
+            for bid_index, bid in enumerate(data['bids']):
+                if 'lotValues' in bid:
+                    bid['lotValues'] = [
+                        x if x['relatedLot'] == lot_id and (getattr(tender.bids[bid_index].lotValues[lotValue_index], 'status', 'active') or 'active') == 'active' else {}
+                        for lotValue_index, x in enumerate(bid['lotValues'])
+                    ]
+
+    else:
+        data = {}
+    if request.method == 'POST':
+        now = get_now().isoformat()
+        if tender.lots:
+            data['lots'] = [{'auctionPeriod': {'endDate': now}} if i.id == lot_id else {} for i in tender.lots]
+        else:
+            data['auctionPeriod'] = {'endDate': now}
+    request.validated['data'] = data
 
 
 # award

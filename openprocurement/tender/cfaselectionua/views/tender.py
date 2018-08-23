@@ -186,7 +186,22 @@ class TenderResource(APIResource):
             tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
             apply_patch(self.request, src=self.request.validated['tender_src'])
         else:
-            apply_patch(self.request, src=self.request.validated['tender_src'])
+            default_status = type(tender).fields['status'].default
+            tender_status = tender.status
+            apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
+            if tender_status == default_status and tender.status == 'draft.pending':
+                if not tender.agreements or not tender.items:
+                    raise_operation_error(
+                        self.request, "Can't switch tender to (draft.pending) status without agreements or items."
+                    )
+            elif tender_status == default_status and tender.status not in ('draft.pending', default_status):
+                raise_operation_error(
+                    self.request, "Can't switch tender from ({}) to ({}) status.".format(default_status, tender.status)
+                )
+            elif tender_status == 'draft.pending' and tender.status != 'draft.pending':
+                raise_operation_error(self.request,
+                                      "Can't switch from ({}) to ({}) status.".format(tender_status, tender.status))
+            save_tender(self.request)
         self.LOGGER.info('Updated tender {}'.format(tender.id),
                     extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
         return {'data': tender.serialize(tender.status)}
