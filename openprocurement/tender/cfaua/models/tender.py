@@ -71,8 +71,6 @@ class CloseFrameworkAgreementUA(Tender):
     procuring_entity_kinds = ['general', 'special', 'defense']
     block_tender_complaint_status = ['claim', 'pending', 'accepted', 'satisfied', 'stopping']
     block_complaint_status = ['pending', 'accepted', 'satisfied', 'stopping']
-
-
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     auctionUrl = URLType()
     awards = ListType(ModelType(Award), default=list())
