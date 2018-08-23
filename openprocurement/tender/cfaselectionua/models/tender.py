@@ -4,7 +4,6 @@ from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUATend
 from openprocurement.tender.cfaselectionua.models.submodels.agreement import Agreement
 from openprocurement.tender.cfaselectionua.models.submodels.award import Award
 from openprocurement.tender.cfaselectionua.models.submodels.contract import Contract
-from openprocurement.tender.cfaselectionua.models.submodels.firms import Firms
 from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
@@ -62,7 +61,6 @@ class Tender(BaseTender):
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq], min_size=1, max_size=1)
     guarantee = ModelType(Guarantee)
-    shortlistedFirms = ListType(ModelType(Firms), min_size=3)
     status = StringType(choices=['draft', 'draft.pending', 'active.enquiries', 'active.tendering',
                                  'active.auction', 'active.qualification', 'active.awarded', 'complete',
                                  'cancelled', 'unsuccessful'], default='draft.pending')  # TODO Refactoring status

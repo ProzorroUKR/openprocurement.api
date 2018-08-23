@@ -40,12 +40,7 @@ test_organization = {
 }
 test_procuringEntity = test_organization.copy()
 test_procuringEntity["kind"] = "general"
-test_shortlistedFirms = [
-    {
-        "identifier": test_organization["identifier"],
-        "name": test_organization["name"]
-    }
-] * 3
+
 test_items = [
     {
         "description": u"футляри до державних нагород",
@@ -97,8 +92,7 @@ test_tender_data = {
         "endDate": (now + timedelta(days=14)).isoformat()
     },
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
-    "items": test_items,
-    "shortlistedFirms": test_shortlistedFirms
+    "items": test_items
 }
 if SANDBOX_MODE:
     test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
@@ -294,8 +288,7 @@ class BaseTenderWebTest(BaseTWT):
                     "startDate": (now + timedelta(days=7)).isoformat(),
                     "endDate": (now + timedelta(days=14)).isoformat()
                 },
-                #"items": test_items,
-                "shortlistedFirms": test_shortlistedFirms
+                #"items": test_items
             })
         elif status == 'active.tendering':
             data.update({
@@ -307,8 +300,7 @@ class BaseTenderWebTest(BaseTWT):
                     "startDate": (now).isoformat(),
                     "endDate": (now + timedelta(days=7)).isoformat()
                 },
-                #"items": test_items,
-                "shortlistedFirms": test_shortlistedFirms
+                #"items": test_items
             })
         elif status == 'active.auction':
             data.update({
