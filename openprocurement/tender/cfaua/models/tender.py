@@ -71,8 +71,6 @@ class CloseFrameworkAgreementUA(Tender):
     procuring_entity_kinds = ['general', 'special', 'defense']
     block_tender_complaint_status = ['claim', 'pending', 'accepted', 'satisfied', 'stopping']
     block_complaint_status = ['pending', 'accepted', 'satisfied', 'stopping']
-
-
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     auctionUrl = URLType()
     awards = ListType(ModelType(Award), default=list())
@@ -101,7 +99,7 @@ class CloseFrameworkAgreementUA(Tender):
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     title_en = StringType(required=True, min_length=1)
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
-    agreementDuration = IsoDurationType()
+    agreementDuration = IsoDurationType(required=True)
 
     def __local_roles__(self):
         roles = dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])

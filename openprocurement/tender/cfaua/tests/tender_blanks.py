@@ -324,7 +324,7 @@ def create_tender_generated(self):
         u'complaintPeriod', u'minimalStep', u'items', u'value', u'owner',
         u'procuringEntity', u'next_check', u'procurementMethod',
         u'awardCriteria', u'submissionMethod', u'title', u'title_en',  u'date',
-        u'maxAwardsCount']))
+        u'maxAwardsCount', u'agreementDuration']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])
