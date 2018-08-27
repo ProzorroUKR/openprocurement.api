@@ -91,8 +91,16 @@ def validate_add_complaint_not_in_qualification_period(request):
 def validate_tender_status_update(request):
     tender = request.context
     data = request.validated['data']
-    if request.authenticated_role == 'tender_owner' and 'status' in data and data['status'] not in ['active.pre-qualification.stand-still', 'active.qualification.stand-still', tender.status]:
-        raise_operation_error(request, 'Can\'t update tender status')
+    if request.authenticated_role == 'tender_owner' and 'status' in data:
+        if tender.status == 'active.pre-qualification' and data['status'] not in \
+                ['active.pre-qualification.stand-still', tender.status]:
+                    raise_operation_error(request, 'Can\'t update tender status')
+        elif tender.status == 'active.qualification' and data['status'] not in \
+                ['active.qualification.stand-still', tender.status]:
+                    raise_operation_error(request, 'Can\'t update tender status')
+        elif data['status'] not in \
+                ['active.pre-qualification.stand-still', 'active.qualification.stand-still', tender.status]:
+                    raise_operation_error(request, 'Can\'t update tender status')
 
 
 # agreement
