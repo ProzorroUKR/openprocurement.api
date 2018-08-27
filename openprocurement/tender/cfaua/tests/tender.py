@@ -22,25 +22,27 @@ from openprocurement.tender.cfaua.tests.base import (
     test_bids,
 )
 from openprocurement.tender.cfaua.tests.tender_blanks import (
-    #TenderProcessTest
+    # TenderProcessTest
     one_bid_tender,
     unsuccessful_after_prequalification_tender,
     one_qualificated_bid_tender,
     multiple_bidders_tender,
     lost_contract_for_active_award,
-    #TenderResourceTest
+    # TenderResourceTest
     create_tender_invalid,
     create_tender_generated,
     patch_tender,
     tender_contract_period,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
-    #TenderTest
+    # TenderTest
     simple_add_tender,
     patch_tender_active_qualification_2_active_qualification_stand_still,
     switch_tender_to_active_awarded,
     patch_max_awards,
-    awards_to_bids_number
+    awards_to_bids_number,
+    active_qualification_to_act_pre_qualification_st,
+    active_pre_qualification_to_act_qualification_st
 )
 
 
@@ -57,6 +59,22 @@ class TenderTest(BaseTenderWebTest):
     initial_data = test_tender_data
 
     test_simple_add_tender = snitch(simple_add_tender)
+
+
+class TenderCheckStatusTest(BaseTenderWebTest):
+    initial_auth = ('Basic', ('broker', ''))
+    initial_data = test_tender_data
+
+    def setUp(self):
+        super(TenderCheckStatusTest, self).setUp()
+        response = self.app.post_json('/tenders', {'data': test_tender_data})
+        self.assertEqual(response.status, '201 Created')
+        self.tender = response.json['data']
+        self.tender_id = response.json['data']['id']
+        self.owner_token = response.json['access']['token']
+
+    test_active_qualification_to_act_pre_qualification_st = snitch(active_qualification_to_act_pre_qualification_st)
+    test_active_pre_qualification_to_act_qualification_st = snitch(active_pre_qualification_to_act_qualification_st)
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):

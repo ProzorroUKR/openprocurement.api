@@ -1215,3 +1215,24 @@ def awards_to_bids_number(self):
     _awards_to_bids_number(self, max_awards_number=5, bids_number=3, expected_awards_number=3)
     _awards_to_bids_number(self, max_awards_number=5, bids_number=4, expected_awards_number=4)
     _awards_to_bids_number(self, max_awards_number=5, bids_number=5, expected_awards_number=5)
+
+
+def active_qualification_to_act_pre_qualification_st(self):
+    self.set_status('active.qualification')
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.owner_token),
+                                   {'data': {'status': 'active.auction'}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.owner_token),
+                                   {'data': {'status': 'active.pre-qualification.stand-still'}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+
+
+def active_pre_qualification_to_act_qualification_st(self):
+    self.set_status('active.pre-qualification')
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.owner_token),
+                                   {'data': {'status': 'active.qualification.stand-still'}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+
