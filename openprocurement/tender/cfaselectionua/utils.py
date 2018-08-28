@@ -243,3 +243,16 @@ def prepare_bid_identifier(bid):
         keys = set([key])
         all_keys |= keys
     return all_keys
+
+
+def check_period_and_items(request, tender):
+    agreement_items = tender.agreements[0].items if tender.agreements[0].items else []
+    agreement_items_classifications = [i.classification for i in agreement_items]
+    tender_items_classifications = [i.classification for i in tender.items]
+    for t_i_c in tender_items_classifications:
+        if t_i_c not in agreement_items_classifications:
+            request.validated['data']['status'] = 'draft.unsuccessful'
+            return
+
+    if tender.agreements[0].period.endDate < get_now() + request.content_configurator.timedelta:
+        request.validated['data']['status'] = 'draft.unsuccessful'

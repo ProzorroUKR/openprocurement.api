@@ -21,6 +21,27 @@ def switch_to_tendering_by_tenderPeriod_startDate(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']["status"], "active.tendering")
 
+    # testing min 1 day delta before patching from active.enquiries to active.tendering by chronograph
+    self.set_status('active.tendering',
+                    {'status': 'active.enquiries',
+                     "enquiryPeriod": {'startDate': get_now().isoformat(),
+                                       'endDate': (get_now() + timedelta(days=1)).isoformat()},
+                     "tenderPeriod": {'startDate': (get_now() + timedelta(days=1)).isoformat(),
+                                      'endDate': (get_now() + timedelta(days=2)).isoformat()}})
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'active.enquiries')  # not changed
+
+    # time travel  change enquiryPeriod.endDate && tenderPeriod.startDate <= they are equal
+    tender_db = self.db.get(self.tender_id)
+    tender_db['enquiryPeriod']['endDate'] = get_now().isoformat()
+    tender_db['tenderPeriod']['startDate'] = tender_db['enquiryPeriod']['endDate']
+    self.db.save(tender_db)
+
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'active.tendering')  # now changed
+
 
 # TenderSwitchQualificationResourceTest
 

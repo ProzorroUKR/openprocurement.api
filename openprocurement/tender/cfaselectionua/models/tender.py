@@ -61,7 +61,7 @@ class Tender(BaseTender):
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq], min_size=1, max_size=1)
     guarantee = ModelType(Guarantee)
-    status = StringType(choices=['draft', 'draft.pending', 'active.enquiries', 'active.tendering',
+    status = StringType(choices=['draft', 'draft.pending', 'draft.unsuccessful', 'active.enquiries', 'active.tendering',
                                  'active.auction', 'active.qualification', 'active.awarded', 'complete',
                                  'cancelled', 'unsuccessful'], default='draft.pending')  # TODO Refactoring status
     agreements = ListType(ModelType(Agreement), default=list())
@@ -82,7 +82,7 @@ class Tender(BaseTender):
         elif request.authenticated_role == 'contracting':
             role = 'contracting'
         elif request.authenticated_role == 'agreement_selection':
-            role = 'edit_{0}'.format(request.authenticated_role)
+            role = 'edit_{}'.format(request.authenticated_role)
         else:
             role = 'edit_{}'.format(request.context.status)
         return role

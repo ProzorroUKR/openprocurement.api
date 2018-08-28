@@ -10,3 +10,4 @@ STATUS4ROLE = {
 }
 BOT_NAME = 'fa_bot'
 DRAFT_FIELDS = ('shortlistedFirms',)
+ENQUIRY_PERIOD = timedelta(days=1)

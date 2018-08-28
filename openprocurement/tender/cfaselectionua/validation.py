@@ -96,3 +96,19 @@ def validate_agreement_operation_not_in_allowed_status(request):
 def validate_patch_agreement_data(request):
     model = type(request.tender).agreements.model_class
     return validate_data(request, model, True)
+
+
+# tender
+def validate_patch_tender_in_draft_pending(request):
+    if request.validated['tender_src']['status'] == 'draft.pending' and \
+            request.authenticated_role not in ('agreement_selection', 'Administrator'):
+        raise_operation_error(request,
+                              'Can\'t {} tender in current ({}) tender status'.format(
+                                  OPERATIONS.get(request.method), request.validated['tender_status']))
+
+
+def validate_tender_status_update_in_terminated_status(request):
+    tender = request.context
+    if request.authenticated_role != 'Administrator' and \
+            tender.status in ('complete', 'unsuccessful', 'cancelled', 'draft.unsuccessful'):
+        raise_operation_error(request, 'Can\'t update tender in current ({}) status'.format(tender.status))
