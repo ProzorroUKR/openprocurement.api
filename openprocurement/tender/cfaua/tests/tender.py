@@ -61,17 +61,7 @@ class TenderTest(BaseTenderWebTest):
     test_simple_add_tender = snitch(simple_add_tender)
 
 
-class TenderCheckStatusTest(BaseTenderWebTest):
-    initial_auth = ('Basic', ('broker', ''))
-    initial_data = test_tender_data
-
-    def setUp(self):
-        super(TenderCheckStatusTest, self).setUp()
-        response = self.app.post_json('/tenders', {'data': test_tender_data})
-        self.assertEqual(response.status, '201 Created')
-        self.tender = response.json['data']
-        self.tender_id = response.json['data']['id']
-        self.owner_token = response.json['access']['token']
+class TenderCheckStatusTest(BaseTenderContentWebTest):
 
     test_active_qualification_to_act_pre_qualification_st = snitch(active_qualification_to_act_pre_qualification_st)
     test_active_pre_qualification_to_act_qualification_st = snitch(active_pre_qualification_to_act_qualification_st)
