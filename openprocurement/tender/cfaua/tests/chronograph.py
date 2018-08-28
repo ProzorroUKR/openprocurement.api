@@ -4,7 +4,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.frameworkagreement.cfaua.tests.chronograph_blanks import next_check_field_in_active_qualification
+from openprocurement.tender.cfaua.tests.chronograph_blanks import next_check_field_in_active_qualification
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
