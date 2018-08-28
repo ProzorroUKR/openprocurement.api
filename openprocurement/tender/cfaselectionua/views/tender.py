@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from openprocurement.api.utils import context_unpack, json_view, APIResource, get_now
+from openprocurement.api.utils import context_unpack, json_view, APIResource, get_now, raise_operation_error
 
 from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch
