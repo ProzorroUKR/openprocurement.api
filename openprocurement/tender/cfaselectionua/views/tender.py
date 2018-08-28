@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from openprocurement.api.utils import context_unpack, json_view, APIResource, get_now
+from openprocurement.api.utils import context_unpack, json_view, APIResource, get_now, raise_operation_error
 
 from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch
@@ -17,6 +17,10 @@ from openprocurement.tender.cfaselectionua.utils import (
 from openprocurement.tender.core.validation import (
     validate_patch_tender_data
 )
+from openprocurement.tender.core.views.tender import TendersResource as APIResources
+
+from openprocurement.tender.cfaselectionua.utils import check_status
+from openprocurement.tender.cfaselectionua.validation import validate_patch_tender_data
 
 
 @optendersresource(name='closeFrameworkAgreementSelectionUA:Tender',
@@ -182,7 +186,19 @@ class TenderResource(APIResource):
             tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
             apply_patch(self.request, src=self.request.validated['tender_src'])
         else:
-            apply_patch(self.request, src=self.request.validated['tender_src'])
+            default_status = type(tender).fields['status'].default
+            tender_status = tender.status
+            apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
+            if tender_status == default_status and tender.status == 'draft.pending':
+                if not tender.agreements or not tender.items:
+                    raise_operation_error(
+                        self.request, "Can't switch tender to (draft.pending) status without agreements or items."
+                    )
+            elif tender_status == default_status and tender.status not in ('draft.pending', default_status):
+                raise_operation_error(
+                    self.request, "Can't switch tender from ({}) to ({}) status.".format(default_status, tender.status)
+                )
+            save_tender(self.request)
         self.LOGGER.info('Updated tender {}'.format(tender.id),
                     extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
         return {'data': tender.serialize(tender.status)}

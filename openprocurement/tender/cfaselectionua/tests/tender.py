@@ -32,6 +32,7 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     patch_tender_jsonpatch,
     patch_tender,
     patch_tender_bot,
+    patch_tender_to_draft_pending,
     required_field_deletion,
     tender_funders,
     # TenderProcessTest
@@ -89,6 +90,7 @@ class TestCoordinatesRegExp(unittest.TestCase):
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = tender_data
+    primary_tender_status = 'draft'
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
     initial_agreement = test_agreement
@@ -101,10 +103,12 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_tender_jsonpatch = snitch(patch_tender_jsonpatch)
     test_patch_tender = snitch(patch_tender)
     test_required_field_deletion = snitch(required_field_deletion)
+    test_patch_tender_to_draft_pending = snitch(patch_tender_to_draft_pending)
 
 
 class TenderProcessTest(BaseTenderWebTest):
     initial_data = tender_data
+    primary_tender_status = 'draft'
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
 

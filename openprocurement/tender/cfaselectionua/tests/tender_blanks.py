@@ -73,11 +73,17 @@ def listing(self):
 
     tenders = []
 
+    data = deepcopy(self.initial_data)
+    data['agreements'] = [{'id': uuid4().hex}]
     for i in range(3):
         offset = get_now().isoformat()
-        response = self.app.post_json('/tenders', {'data': self.initial_data})
+        response = self.app.post_json('/tenders', {'data': data})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(response.json['data']['id'], response.json['access']['token']),
+            {'data': {'status': 'draft.pending'}}
+        )
         tenders.append(response.json['data'])
 
     ids = ','.join([i['id'] for i in tenders])
@@ -151,11 +157,16 @@ def listing(self):
     self.assertNotIn('descending=1', response.json['prev_page']['uri'])
     self.assertEqual(len(response.json['data']), 0)
 
-    test_tender_data2 = self.initial_data.copy()
+    test_tender_data2 = data.copy()
     test_tender_data2['mode'] = 'test'
     response = self.app.post_json('/tenders', {'data': test_tender_data2})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
+
+    response = self.app.patch_json(
+        '/tenders/{}?acc_token={}'.format(response.json['data']['id'], response.json['access']['token']),
+        {'data': {'status': 'draft.pending'}}
+    )
 
     while True:
         response = self.app.get('/tenders?mode=test')
@@ -176,10 +187,16 @@ def listing_changes(self):
 
     tenders = []
 
+    data = deepcopy(self.initial_data)
+    data['agreements'] = [{'id': uuid4().hex}]
     for i in range(3):
-        response = self.app.post_json('/tenders', {'data': self.initial_data})
+        response = self.app.post_json('/tenders', {'data': data})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(response.json['data']['id'], response.json['access']['token']),
+            {'data': {'status': 'draft.pending'}}
+        )
         tenders.append(response.json['data'])
 
     ids = ','.join([i['id'] for i in tenders])
@@ -248,11 +265,16 @@ def listing_changes(self):
     self.assertNotIn('descending=1', response.json['prev_page']['uri'])
     self.assertEqual(len(response.json['data']), 0)
 
-    test_tender_data2 = self.initial_data.copy()
+    test_tender_data2 = data.copy()
     test_tender_data2['mode'] = 'test'
     response = self.app.post_json('/tenders', {'data': test_tender_data2})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
+
+    response = self.app.patch_json(
+        '/tenders/{}?acc_token={}'.format(response.json['data']['id'], response.json['access']['token']),
+        {'data': {'status': 'draft.pending'}}
+    )
 
     while True:
         response = self.app.get('/tenders?feed=changes&mode=test')
@@ -273,16 +295,20 @@ def listing_draft(self):
 
     tenders = []
     data = self.initial_data.copy()
-    data.update({'status': 'draft'})
+    data.update({'status': 'draft', 'agreements': [{'id': uuid4().hex}]})
 
     for i in range(3):
         response = self.app.post_json('/tenders', {'data': self.initial_data})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
-        tenders.append(response.json['data'])
         response = self.app.post_json('/tenders', {'data': data})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(response.json['data']['id'], response.json['access']['token']),
+            {'data': {'status': 'draft.pending'}}
+        )
+        tenders.append(response.json['data'])
 
     ids = ','.join([i['id'] for i in tenders])
 
@@ -662,20 +688,6 @@ def create_tender_draft(self):
     token = response.json['access']['token']
     self.assertEqual(tender['status'], 'draft')
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), {'data': {'value': {'amount': 100}}}, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': u"Can't update tender in current (draft) status", u'location': u'body', u'name': u'data'}
-    ])
-
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), {'data': {'status': self.primary_tender_status}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    tender = response.json['data']
-    self.assertEqual(tender['status'], self.primary_tender_status)
-
     response = self.app.get('/tenders/{}'.format(tender['id']))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
@@ -695,6 +707,9 @@ def create_tender(self):
     self.assertEqual(response.json['data']['agreements'][0]['id'], self.agreement_id)
     tender = response.json['data']
 
+    # tender_id = self.tender_id
+    self.tender_id = tender['id']
+    self.set_status('draft.pending')
     token = response.json['access']['token']
     tender_id = tender['id']
     agreement_id = tender['agreements'][0]['id']
@@ -1508,6 +1523,9 @@ def patch_not_author(self):
     tender = response.json['data']
     owner_token = response.json['access']['token']
 
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                   {'data': {'status': 'draft.pending'}})
+
     authorization = self.app.authorization
     self.app.authorization = ('Basic', ('bot', 'bot'))
 
@@ -1836,3 +1854,77 @@ def lost_contract_for_active_award(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertEqual(response.json['data']['status'], 'complete')
+
+
+def patch_tender_to_draft_pending(self):
+    data = self.initial_data.copy()
+    data.pop('agreements')
+    data.update({'status': 'active.tendering'})
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    tender = response.json['data']
+    token = response.json['access']['token']
+    self.assertEqual(tender['status'], 'draft')
+    self.assertIn('items', tender)
+    self.assertNotIn('agreements', tender)
+
+    patch_data = {'data': {'status': 'draft.pending'}}
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), patch_data, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'],
+        [{u'description': u"Can't switch tender to (draft.pending) status without agreements or items.",
+          u'location': u'body',
+          u'name': u'data'}])
+
+    agreement_id = uuid4().hex
+    patch_data['data']['agreements'] = [{'id': agreement_id}, {}]
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), patch_data, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(
+        response.json['errors'],
+        [{"location": "body", "name": "agreements", "description": [{"id": ["This field is required."]}]}]
+    )
+
+    patch_data['data']['agreements'].pop(1)
+    patch_data['data']['status'] = 'active.tendering'
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), patch_data, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't switch tender from (draft) to (active.tendering) status.",
+                       u'location': u'body',
+                       u'name': u'data'}])
+
+    patch_data['data']['status'] = 'draft.pending'
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), patch_data)
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'draft.pending')
+    self.assertEqual(response.json['data']['agreements'], [{'id': agreement_id}])
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
+                                   {'data': {'status': 'active.tendering'}},
+                                   status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'],
+        [{
+            "location": "body",
+            "name": "data",
+            "description": "Can't update tender in current (draft.pending) tender status"
+        }]
+    )
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
+                                   {'data': {'status': 'draft'}},
+                                   status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'],
+        [{
+            "location": "body",
+            "name": "data",
+            "description": "Can't update tender in current (draft.pending) tender status"
+        }]
+    )

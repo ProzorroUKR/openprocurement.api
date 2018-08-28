@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 from pyramid.events import subscriber
 from openprocurement.tender.core.events import TenderInitializeEvent
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, raise_operation_error
 
 
 @subscriber(TenderInitializeEvent, procurementMethodType="closeFrameworkAgreementSelectionUA")
 def tender_init_handler(event):
     """ initialization handler for closeFrameworkAgreementSelectionUA tenders """
     tender = event.tender
+    default_status = type(tender).fields['status'].default
+    if tender.status != default_status:
+        raise Exception(
+            "Allow create tender only in ({default_status}) status".format(default_status=default_status)
+        )
     if not tender.enquiryPeriod.startDate:
         tender.enquiryPeriod.startDate = get_now()
     if not tender.tenderPeriod.startDate:
