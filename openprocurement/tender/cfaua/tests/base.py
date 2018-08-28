@@ -953,7 +953,7 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
-    initial_lots = None
+    initial_lots = test_lots
 
     meta_initial_bids = test_bids
     meta_initial_lots = test_lots
