@@ -15,6 +15,7 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lot_cancellation,
     patch_tender_lot_cancellation,
 )
+from openprocurement.tender.cfaua.tests.cancellation_blanks import patch_tender_agreement_cancellation
 from openprocurement.tender.openeu.tests.cancellation import TenderCancellationBidsAvailabilityUtils
 
 from openprocurement.tender.openua.tests.cancellation_blanks import (
@@ -85,6 +86,7 @@ class TenderLotCancellationResourceTest(BaseTenderContentWebTest):
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
+    test_patch_tender_agreement_cancellation = snitch(patch_tender_agreement_cancellation)
 
 
 # TODO: Remove if will be approved.

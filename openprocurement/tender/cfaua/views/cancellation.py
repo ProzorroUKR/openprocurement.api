@@ -31,6 +31,11 @@ class TenderCancellationResource(BaseResource):
         tender = self.request.validated['tender']
         [setattr(i, 'status', 'cancelled') for i in tender.lots if i.id == cancellation.relatedLot]
         cancelled_lots = [i.id for i in tender.lots if i.status == 'cancelled']
+        if tender.status == 'active.awarded' and tender.agreements:
+            for agreement in tender.agreements:
+                for item in agreement.items:
+                    if item.relatedLot in cancelled_lots:
+                        agreement.status = 'cancelled'
         cancelled_items = [i.id for i in tender.items if i.relatedLot in cancelled_lots]
         cancelled_features = [
             i.code
