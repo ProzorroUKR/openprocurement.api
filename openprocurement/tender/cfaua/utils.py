@@ -147,6 +147,7 @@ def all_bids_are_reviewed(request):
 
 
 def check_tender_status_on_active_qualification_stand_still(request):
+
     tender = request.validated['tender']
     config = getAdapter(tender, IContentConfigurator)
     now = get_now()
@@ -164,7 +165,7 @@ def check_tender_status_on_active_qualification_stand_still(request):
                 statuses.add(lot.status)
                 continue
             active_lot_awards = [i for i in tender.awards if i.lotID == lot.id and i.status == 'active']
-            if len(active_lot_awards) < config.min_bids_count:
+            if len(active_lot_awards) < config.min_bids_number:
                 LOGGER.info(
                     'Switched lot {} of tender {} to {}'.format(lot.id, tender.id, 'unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_lot_unsuccessful'}, {'LOT_ID': lot.id})
@@ -172,9 +173,10 @@ def check_tender_status_on_active_qualification_stand_still(request):
                 lot.status = 'unsuccessful'
                 statuses.add(lot.status)
                 continue
+            statuses.add(lot.status)
     else:
         active_awards = [i for i in tender.awards if i.status == 'active']
-        if len(active_awards) < config.min_bids_count:
+        if len(active_awards) <= config.min_bids_count:
             statuses.add('unsuccessful')
         else:
             statuses.add('active.awarded')
