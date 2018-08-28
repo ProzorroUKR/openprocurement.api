@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from iso8601 import parse_date
 from mock import patch
-from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM
+from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, SANDBOX_MODE
 from openprocurement.api.utils import get_now
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
@@ -1215,3 +1215,29 @@ def awards_to_bids_number(self):
     _awards_to_bids_number(self, max_awards_number=5, bids_number=3, expected_awards_number=3)
     _awards_to_bids_number(self, max_awards_number=5, bids_number=4, expected_awards_number=4)
     _awards_to_bids_number(self, max_awards_number=5, bids_number=5, expected_awards_number=5)
+
+
+def active_qualification_to_act_pre_qualification_st(self):
+    self.set_status('active.qualification', 'end')
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {'data': {'status': 'active.auction'}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't update tender status", u'location': u'body', u'name': u'data'}])
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {'data': {'status': 'active.pre-qualification.stand-still'}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't update tender status", u'location': u'body', u'name': u'data'}])
+
+
+def active_pre_qualification_to_act_qualification_st(self):
+    self.set_status('active.pre-qualification', 'end')
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {'data': {'status': 'active.qualification.stand-still'}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't update tender status", u'location': u'body', u'name': u'data'}])
