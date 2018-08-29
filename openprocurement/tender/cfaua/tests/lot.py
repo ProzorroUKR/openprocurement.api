@@ -20,7 +20,6 @@ from openprocurement.tender.cfaua.tests.base import (
 )
 from openprocurement.tender.openeu.tests.lot_blanks import (
     # TenderLotProcessTest
-    one_lot_1bid,
     two_lot_2bid_1lot_del,
     two_lot_1can,
     two_lot_2bid_0com_1can,
@@ -35,6 +34,7 @@ from openprocurement.tender.cfaua.tests.lot_blanks import (
     get_tender_lot,
     get_tender_lots,
     proc_1lot_0bid,
+    one_lot_1bid,
     one_lot_2bid,
     two_lot_3bid_3com_3win,
     one_lot_3bid_1del,
@@ -54,6 +54,9 @@ from openprocurement.tender.cfaua.tests.lot_blanks import (
     # TenderLotFeatureBidderResourceTest
     create_tender_feature_bidder,
     create_tender_feature_bidder_invalid,
+    patch_tender_currency,
+    patch_tender_lot,
+    patch_tender_vat,
     )
 
 
@@ -75,15 +78,21 @@ class TenderLotFeatureResourceTestMixin(object):
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_tender_lot_document = snitch(tender_lot_document)
 
+
 class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
 
     initial_auth = ('Basic', ('broker', ''))
     test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
 
+    test_create_tender_lot_invalid = None
+    test_delete_tender_lot = None
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
     test_create_tender_lot = snitch(create_tender_lot)
+    test_patch_tender_currency = snitch(patch_tender_currency)
+    test_patch_tender_lot = snitch(patch_tender_lot)
+    test_patch_tender_vat = snitch(patch_tender_vat)
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
 
 
