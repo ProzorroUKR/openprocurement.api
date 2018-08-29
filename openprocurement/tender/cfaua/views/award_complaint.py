@@ -186,7 +186,7 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         excluded_statuses = tuple(['draft', 'claim', 'answered', 'pending', 'accepted', 'satisfied', 'stopping'])
-        if self.context.status not in excluded_statuses and tender.status in ['active.qualification', 'active.awarded']:
+        if self.context.status not in excluded_statuses and tender.status in ['active.qualification.stand-still']:
             check_tender_status_on_active_qualification_stand_still(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender award complaint {}'.format(self.context.id),
