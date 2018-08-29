@@ -2,13 +2,6 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.belowthreshold.tests.lot import (
-    TenderLotResourceTestMixin,
-    TenderLotValueTestMixin,
-    # TenderLotFeatureResourceTestMixin,
-    # TenderLotProcessTestMixin
-)
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 
@@ -20,13 +13,6 @@ from openprocurement.tender.cfaua.tests.base import (
 )
 from openprocurement.tender.openeu.tests.lot_blanks import (
     # TenderLotProcessTest
-    two_lot_2bid_1lot_del,
-    two_lot_1can,
-    two_lot_2bid_0com_1can,
-    # TenderLotFeatureBidderResourceTest
-    # create_tender_feature_bidder_invalid,
-    # create_tender_feature_bidder,
-    # TenderLotBidderResourceTest
     create_tender_bidder_invalid,
     patch_tender_bidder,
 )
@@ -36,7 +22,6 @@ from openprocurement.tender.cfaua.tests.lot_blanks import (
     proc_1lot_0bid,
     one_lot_1bid,
     one_lot_2bid,
-    two_lot_3bid_3com_3win,
     one_lot_3bid_1del,
     one_lot_3bid_1un,
     two_lot_3bid_1win_bug,
@@ -57,36 +42,20 @@ from openprocurement.tender.cfaua.tests.lot_blanks import (
     patch_tender_currency,
     patch_tender_lot,
     patch_tender_vat,
-    )
+)
 
 
 one_lot_restriction = True
 
 
-class TenderLotProcessTestMixin(object):
-    test_proc_1lot_0bid = snitch(proc_1lot_0bid)
-    test_proc_1lot_1can = snitch(proc_1lot_1can)
-
-
-class TenderLotEdgeCasesTestMixin(object):
-
-    test_question_blocking = snitch(question_blocking)
-    test_claim_blocking = snitch(claim_blocking)
-
-class TenderLotFeatureResourceTestMixin(object):
-    test_tender_value = snitch(tender_value)
-    test_tender_features_invalid = snitch(tender_features_invalid)
-    test_tender_lot_document = snitch(tender_lot_document)
-
-
-class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
+class TenderLotResourceTest(BaseTenderContentWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
     test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
 
-    test_create_tender_lot_invalid = None
-    test_delete_tender_lot = None
+    # test_create_tender_lot_invalid = None
+    # test_delete_tender_lot = None
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
     test_create_tender_lot = snitch(create_tender_lot)
@@ -96,24 +65,27 @@ class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
 
 
-# TODO: Remove if will be approved.
-# @unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
-class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMixin):
+class TenderLotEdgeCasesTest(BaseTenderContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
     initial_lots = test_lots
     initial_bids = test_bids
     test_author = test_organization
 
+    test_question_blocking = snitch(question_blocking)
+    test_claim_blocking = snitch(claim_blocking)
 
-# TODO: Remove if will be approved.
-# @unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
-class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureResourceTestMixin):
+
+class TenderLotFeatureResourceTest(BaseTenderContentWebTest):
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
     invalid_feature_value = 0.4
     max_feature_value = 0.3
     sum_of_max_value_of_all_features = 0.3
+
+    test_tender_value = snitch(tender_value)
+    test_tender_features_invalid = snitch(tender_features_invalid)
+    test_tender_lot_document = snitch(tender_lot_document)
 
 
 class TenderLotBidderResourceTest(BaseTenderContentWebTest):
@@ -199,7 +171,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     test_create_tender_bidder = snitch(create_tender_feature_bidder)
 
 
-class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
+class TenderLotProcessTest(BaseTenderContentWebTest):
     setUp = BaseTenderContentWebTest.setUp
     test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
@@ -209,6 +181,8 @@ class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
 
     test_1lot_1bid = snitch(one_lot_1bid)
     test_1lot_2bid_1unqualified = snitch(one_lot_2bid_1unqualified)
+    test_proc_1lot_0bid = snitch(proc_1lot_0bid)
+    test_proc_1lot_1can = snitch(proc_1lot_1can)
 
     # test_1lot_2bid = snitch(one_lot_2bid)  # TODO Rewrite this test!!!
     # test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del)  # TODO: CFAUA not allow more than one lot
