@@ -237,7 +237,6 @@ def patch_tender_award_active(self):
     response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-
     comparable = min((tender['maxAwardsCount'], len(self.initial_bids)))
     self.assertEqual(len(response.json['data']), comparable)
 
@@ -1528,7 +1527,6 @@ def patch_tender_lot_award_complaint(self):
     owner_token = response.json['access']['token']
 
     self.set_status('complete')
-
     response = self.app.patch_json(
         '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, complaint['id'],
                                                                   owner_token), {"data": {

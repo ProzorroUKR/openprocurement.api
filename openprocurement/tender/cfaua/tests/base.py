@@ -643,7 +643,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         #     self.tender_document_patch.update({'bids': bids})
 
     def generate_awards(self, status, startend):
-        MaxAwards = self.tender_document.get('maxAwardsCount', 100000)
+        maxAwards = self.tender_document.get('maxAwardsCount', 100000)
         bids = self.tender_document.get('bids', []) or self.tender_document_patch.get('bids', [])
         lots = self.tender_document.get('lots', []) or self.tender_document_patch.get('lots', [])
         awardPeriod_startDate = (
@@ -655,8 +655,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 active_lots = {lot['id']: 0 for lot in lots if lot['status'] == 'active'}
                 self.tender_document_patch['awards'] = []
                 for bid in bids:
+
                     for lot_value in bid['lotValues']:
                         if lot_value['relatedLot'] in active_lots:
+                            if active_lots[lot_value['relatedLot']] == maxAwards:
+                                continue
                             award = {
                                 'status': 'pending',
                                 'lotID': lot_value['relatedLot'],
@@ -668,8 +671,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                             }
                             self.tender_document_patch['awards'].append(award)
                             active_lots[lot_value['relatedLot']] += 1
-                            if active_lots[lot_value['relatedLot']] >= MaxAwards:
-                                continue
+
             else:
                 for bid in bids:
                     award = {
@@ -681,7 +683,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                         'id': uuid4().hex
                     }
                     self.tender_document_patch['awards'].append(award)
-                    if len(self.tender_document_patch['awards']) >= MaxAwards:
+                    if len(self.tender_document_patch['awards']) == maxAwards:
                         break
             self.save_changes()
 
