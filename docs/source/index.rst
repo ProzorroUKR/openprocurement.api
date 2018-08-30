@@ -37,6 +37,7 @@ Contents:
    2pc
    acceleration
    reference
+   requests
 
 Indices and tables
 ==================
