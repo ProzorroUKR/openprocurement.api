@@ -54,6 +54,7 @@ class TenderTest(BaseTenderWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
+    initial_lots = test_lots
 
     test_simple_add_tender = snitch(simple_add_tender)
     test_agreement_duration_period = snitch(agreement_duration_period)
