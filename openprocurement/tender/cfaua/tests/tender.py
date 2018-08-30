@@ -11,7 +11,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
 )
 from openprocurement.tender.openua.tests.tender_blanks import (
-    empty_listing, tender_fields, patch_tender_period
+    empty_listing, tender_fields
 )
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.cfaua.tests.base import (
@@ -32,6 +32,7 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     create_tender_invalid,
     create_tender_generated,
     patch_tender,
+    patch_tender_period,
     tender_contract_period,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
@@ -42,15 +43,9 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     patch_max_awards,
     awards_to_bids_number,
     active_qualification_to_act_pre_qualification_st,
-    active_pre_qualification_to_act_qualification_st
+    active_pre_qualification_to_act_qualification_st,
+    tender_features_invalid,
 )
-
-
-class TenderUAResourceTestMixin:
-    test_empty_listing = snitch(empty_listing)
-    #test_tender_fields = snitch(tender_fields)  added new field need to copy and fix this test
-    test_patch_tender_period = snitch(patch_tender_period)
-    test_tender_contract_period = snitch(tender_contract_period)
 
 
 class TenderTest(BaseTenderWebTest):
@@ -67,14 +62,19 @@ class TenderCheckStatusTest(BaseTenderContentWebTest):
     test_active_pre_qualification_to_act_qualification_st = snitch(active_pre_qualification_to_act_qualification_st)
 
 
-class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
+class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
-    test_lots_data = test_lots  # TODO: change attribute identifier
+    initial_lots = test_lots
+    # test_lots_data = test_lots  # TODO: change attribute identifier
     test_bids_data = test_bids
     min_bids_number = MIN_BIDS_NUMBER
 
+    test_empty_listing = snitch(empty_listing)
+    #test_tender_fields = snitch(tender_fields)  added new field need to copy and fix this test
+    test_patch_tender_period = snitch(patch_tender_period)
+    test_tender_contract_period = snitch(tender_contract_period)
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
     test_patch_tender = snitch(patch_tender)
@@ -83,6 +83,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     test_invalid_bid_tender_lot = snitch(invalid_bid_tender_lot)
     test_patch_max_awards = snitch(patch_max_awards)
     test_awards_to_bids_number = snitch(awards_to_bids_number)
+    test_tender_features_invalid = snitch(tender_features_invalid)
 
     def test_patch_not_author(self):
         response = self.app.post_json('/tenders', {'data': test_tender_data})
@@ -112,6 +113,7 @@ class TenderProcessTest(BaseTenderWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
+    initial_lots = test_lots
     test_bids_data = test_bids
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
@@ -153,21 +155,26 @@ class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
         for x in range(self.min_bids_number):
             patch_data['bids'].append({
                 "id": self.initial_bids[x]['id'],
-                "value": {
-                    "amount": 409 + x * 10,
-                    "currency": "UAH",
-                    "valueAddedTaxIncluded": True
-                }
+                "lotValues": [{
+                    "value": {
+                        "amount": 409 + x * 10,
+                        "currency": "UAH",
+                        "valueAddedTaxIncluded": True,
+                    },
+                    "relatedLot": self.initial_lots[0]['id']
+                }]
             })
 
         self.app.authorization = ('Basic', ('auction', ''))
-        response = self.app.post_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data})
+        response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, self.initial_lots[0]['id']),
+                                      {'data': patch_data})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
 
         for x in range(self.min_bids_number):
-            self.assertEqual(tender["bids"][x]['value']['amount'], patch_data["bids"][x]['value']['amount'])
+            self.assertEqual(tender["bids"][x]['lotValues'][0]['value']['amount'],
+                             patch_data["bids"][x]['lotValues'][0]['value']['amount'])
             self.assertEqual(tender["awards"][x]['status'], 'pending')  # all awards are in pending status
 
     test_patch_tender_active_qualification_2_active_qualification_stand_still = \

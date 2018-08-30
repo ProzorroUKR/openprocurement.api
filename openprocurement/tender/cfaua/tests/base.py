@@ -365,6 +365,7 @@ PERIODS = {
     }
 }
 
+
 class BaseTenderWebTest(BaseBaseTenderWebTest):
     min_bids_number = MIN_BIDS_NUMBER
     initial_data = test_tender_data
@@ -384,6 +385,18 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     # auction role actions
     forbidden_auction_actions_status = 'active.pre-qualification.stand-still'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = 'active.pre-qualification.stand-still'  # status, in which adding document to tender auction is forbidden
+
+    def convert_bids_for_tender_with_lots(self, bids, lots):
+        for lot in lots:
+            for bid in bids:
+                if 'value' not in bid:
+                    continue
+                if 'lotValues' not in bid:
+                    bid['lotValues'] = []
+                bid['lotValues'].append({'value': bid['value'], 'relatedLot': lot['id']})
+        for bid in bids:
+            if 'value' in bid:
+                bid.pop('value')
 
     def go_to_enquiryPeriod_end(self):
         self.now = get_now()
