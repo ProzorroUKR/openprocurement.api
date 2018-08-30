@@ -1287,6 +1287,39 @@ def active_pre_qualification_to_act_qualification_st(self):
                      [{u'description': u"Can't update tender status", u'location': u'body', u'name': u'data'}])
 
 
+
+def agreement_duration_period(self):
+    initial_data = self.initial_data
+    initial_data['agreementDuration'] = 'P5Y'
+    response = self.app.post_json('/tenders', {'data': initial_data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Agreement duration period is greater than four years'],
+         u'location': u'body', u'name': u'agreementDuration'}
+    ])
+    initial_data['agreementDuration'] = 'P3Y12M1D'
+    response = self.app.post_json('/tenders', {'data': initial_data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Agreement duration period is greater than four years'],
+         u'location': u'body', u'name': u'agreementDuration'}
+    ])
+    initial_data['agreementDuration'] = 'P4YT1H'
+    response = self.app.post_json('/tenders', {'data': initial_data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Agreement duration period is greater than four years'],
+         u'location': u'body', u'name': u'agreementDuration'}
+    ])
+    initial_data['agreementDuration'] = 'P4Y'
+    response = self.app.post_json('/tenders', {'data': initial_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+
+
 def tender_features_invalid(self):
     data = self.initial_data.copy()
     data['lots'] = self.initial_lots
