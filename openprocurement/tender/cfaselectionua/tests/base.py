@@ -11,6 +11,7 @@ from openprocurement.tender.core.tests.base import (
     BaseTenderWebTest as BaseTWT
 )
 from openprocurement.tender.cfaselectionua.constants import DRAFT_FIELDS, BOT_NAME, ENQUIRY_PERIOD
+from openprocurement.tender.cfaselectionua.tests.periods import get_periods
 
 
 here = os.path.dirname(os.path.abspath(__file__))
@@ -206,90 +207,6 @@ test_features = [
     }
 ]
 
-PERIODS = {
-    "active.enquiries": {
-        "enquiryPeriod": {
-            "startDate": now.isoformat(),
-            "endDate": (now + ENQUIRY_PERIOD).isoformat()
-        }
-    },
-    "active.tendering": {
-        "enquiryPeriod": {
-            "startDate": (now - ENQUIRY_PERIOD).isoformat(),
-            "endDate": now.isoformat()
-        },
-        "tenderPeriod": {
-            "startDate": now.isoformat(),
-            "endDate": (now + timedelta(days=7)).isoformat()
-        }
-    },
-    "active.auction": {
-        "enquiryPeriod": {
-            "startDate": (now - timedelta(days=14)).isoformat(),
-            "endDate": (now - timedelta(days=7)).isoformat()
-        },
-        "tenderPeriod": {
-            "startDate": (now - timedelta(days=7)).isoformat(),
-            "endDate": now.isoformat()
-        },
-        "auctionPeriod": {
-            "startDate": now.isoformat()
-        }
-    },
-    "active.qualification": {
-        "enquiryPeriod": {
-            "startDate": (now - timedelta(days=15)).isoformat(),
-            "endDate": (now - timedelta(days=8)).isoformat()
-        },
-        "tenderPeriod": {
-            "startDate": (now - timedelta(days=8)).isoformat(),
-            "endDate": (now - timedelta(days=1)).isoformat()
-        },
-        "auctionPeriod": {
-            "startDate": (now - timedelta(days=1)).isoformat(),
-            "endDate": now.isoformat()
-        },
-        "awardPeriod": {
-            "startDate": now.isoformat()
-        }
-    },
-    "active.awarded": {
-        "enquiryPeriod": {
-            "startDate": (now - timedelta(days=15)).isoformat(),
-            "endDate": (now - timedelta(days=8)).isoformat()
-        },
-        "tenderPeriod": {
-            "startDate": (now - timedelta(days=8)).isoformat(),
-            "endDate": (now - timedelta(days=1)).isoformat()
-        },
-        "auctionPeriod": {
-            "startDate": (now - timedelta(days=1)).isoformat(),
-            "endDate": now.isoformat()
-        },
-        "awardPeriod": {
-            "startDate": now.isoformat(),
-            "endDate": now.isoformat()
-        }
-    },
-    "complete": {
-        "enquiryPeriod": {
-            "startDate": (now - timedelta(days=25)).isoformat(),
-            "endDate": (now - timedelta(days=18)).isoformat()
-        },
-        "tenderPeriod": {
-            "startDate": (now - timedelta(days=18)).isoformat(),
-            "endDate": (now - timedelta(days=11)).isoformat()
-        },
-        "auctionPeriod": {
-            "startDate": (now - timedelta(days=11)).isoformat(),
-            "endDate": (now - timedelta(days=10)).isoformat()
-        },
-        "awardPeriod": {
-            "startDate": (now - timedelta(days=10)).isoformat(),
-            "endDate": (now - timedelta(days=10)).isoformat()
-        }
-    }
-}
 
 
 class BaseTenderWebTest(BaseTWT):
@@ -312,16 +229,17 @@ class BaseTenderWebTest(BaseTWT):
 
     meta_initial_bids = test_bids
     meta_initial_lots = test_lots
+    periods = get_periods()
 
-    def patch_agreements_by_bot(self, status):
-        self.tender_patch.update(PERIODS[status])
+    def patch_agreements_by_bot(self, status, start_end='start'):
+        self.tender_patch.update(self.periods[status][start_end])
         agreements = self.tender_document.get('agreements', [])
         for agreement in agreements:
             agreement.update(test_agreement)
         self.tender_patch.update({'agreements': agreements})
 
-    def generate_bids(self, status):
-        self.tender_patch.update(PERIODS[status])
+    def generate_bids(self, status, start_end='start'):
+        self.tender_patch.update(self.periods[status][start_end])
         bids = self.tender_document.get('bids', [])
 
         if not bids and self.initial_bids:
@@ -353,29 +271,29 @@ class BaseTenderWebTest(BaseTWT):
             self.bid_id = bids[0]['id']
             self.bid_token = bids[0]['owner_token']
 
-    def prepare_for_auction(self, status):
-        self.tender_patch.update(PERIODS[status])
+    def prepare_for_auction(self, status, start_end='start'):
+        self.tender_patch.update(self.periods[status][start_end])
         if self.initial_lots:
             self.tender_patch.update({
                 'lots': [
                     {
                         "auctionPeriod": {
-                            "startDate": now.isoformat()
+                            "startDate": datetime.now(TZ).isoformat()
                         }
                     }
                     for i in self.initial_lots
                 ]
             })
 
-    def generate_awards(self, status):
-        self.tender_patch.update(PERIODS[status])
+    def generate_awards(self, status, start_end='start'):
+        self.tender_patch.update(self.periods[status][start_end])
         if self.initial_lots:
             self.tender_patch.update({
                 'lots': [
                     {
                         "auctionPeriod": {
-                            "startDate": (now - timedelta(days=1)).isoformat(),
-                            "endDate": now.isoformat()
+                            "startDate": (datetime.now(TZ) - timedelta(days=1)).isoformat(),
+                            "endDate": datetime.now(TZ).isoformat()
                         }
                     }
                     for i in self.initial_lots
@@ -397,7 +315,7 @@ class BaseTenderWebTest(BaseTWT):
                                 'suppliers': bid['tenderers'],
                                 'bid_id': bid['id'],
                                 'value': lot_value['value'],
-                                'date': now.isoformat(),
+                                'date': datetime.now(TZ).isoformat(),
                                 'id': uuid4().hex
                             }
                             self.tender_patch['awards'].append(award)
@@ -411,15 +329,15 @@ class BaseTenderWebTest(BaseTWT):
                         'suppliers': bid['tenderers'],
                         'bid_id': bid['id'],
                         'value': bid['value'],
-                        'date': now.isoformat(),
+                        'date': datetime.now(TZ).isoformat(),
                         'id': uuid4().hex
                     }
                     self.award = award
                     self.award_id = award['id']
                     self.tender_patch['awards'].append(award)
 
-    def activate_awards_and_generate_contract(self, status):
-        self.tender_patch.update(PERIODS[status])
+    def activate_awards_and_generate_contract(self, status, start_end='start'):
+        self.tender_patch.update(self.periods[status][start_end])
         awards = self.tender_document.get('awards', [])
         if not awards:
             awards = self.tender_patch.get('awards', [])
@@ -441,21 +359,21 @@ class BaseTenderWebTest(BaseTWT):
                         'suppliers': award['suppliers'],
                         'status': 'pending',
                         'contractID': 'UA-2017-06-21-000001-1',
-                        'date': now.isoformat(),
+                        'date': datetime.now(TZ).isoformat(),
                         'items': [i for i in self.tender_document['items'] if i['relatedLot'] == award['lotID']],
                     }
                     self.contract_id = contract['id']
                     self.tender_patch.update({'contracts': [contract]})
 
-    def complete_tender(self, status):
-        self.tender_patch.update(PERIODS[status])
+    def complete_tender(self, status, start_end='start'):
+        self.tender_patch.update(self.periods[status][start_end])
         if self.initial_lots:
             self.tender_patch.update({
                 'lots': [
                     {
                         "auctionPeriod": {
-                            "startDate": (now - timedelta(days=11)).isoformat(),
-                            "endDate": (now - timedelta(days=10)).isoformat()
+                            "startDate": (datetime.now(TZ) - timedelta(days=11)).isoformat(),
+                            "endDate": (datetime.now(TZ) - timedelta(days=10)).isoformat()
                         }
                     }
                     for i in self.initial_lots
@@ -490,36 +408,49 @@ class BaseTenderWebTest(BaseTWT):
         self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
         return response
 
-    def set_status(self, status, extra=None, recursion=False):
-        if not recursion:
-            self.tender_document = self.db.get(self.tender_id)
-            self.tender_patch = {'status': status}
+    def set_status(self, status, extra=None, start_end='start'):
+
+        self.tender_document = self.db.get(self.tender_id)
+        self.tender_patch = {'status': status}
+        self.periods = get_periods()
 
         if status == 'active.enquiries':
-            self.patch_agreements_by_bot(status)
+            self.patch_agreements_by_bot(status, start_end)
         elif status == 'active.tendering':
-            self.set_status('active.enquiries', recursion=True)
-            self.generate_bids(status)
+            self.patch_agreements_by_bot(status, start_end)
+            self.generate_bids(status, start_end)
         elif status == 'active.auction':
-            self.set_status('active.tendering', recursion=True)
-            self.prepare_for_auction(status)
+            self.patch_agreements_by_bot(status, start_end)
+            self.generate_bids(status, start_end)
+            self.prepare_for_auction(status, start_end)
         elif status == 'active.qualification':
-            self.set_status('active.auction', recursion=True)
-            self.generate_awards(status)
+            self.patch_agreements_by_bot(status, start_end)
+            self.generate_bids(status, start_end)
+            self.prepare_for_auction(status, start_end)
+            self.generate_awards(status, start_end)
         elif status == 'active.awarded':
-            self.set_status('active.qualification', recursion=True)
-            self.activate_awards_and_generate_contract(status)
+            self.patch_agreements_by_bot(status, start_end)
+            self.generate_bids(status, start_end)
+            self.prepare_for_auction(status, start_end)
+            self.generate_awards(status, start_end)
+            self.activate_awards_and_generate_contract(status, start_end)
         elif status == 'complete':
-            self.set_status('active.awarded', recursion=True)
-            self.complete_tender(status)
-        if not recursion:
-            if extra:
-                self.tender_patch.update(extra)
+            self.patch_agreements_by_bot(status, start_end)
+            self.generate_bids(status, start_end)
+            self.prepare_for_auction(status, start_end)
+            self.generate_awards(status, start_end)
+            self.activate_awards_and_generate_contract(status, start_end)
+            self.complete_tender(status, start_end)
 
-            self.save_changes()
-            return self.get_tender('chronograph')
+        if extra:
+            self.tender_patch.update(extra)
+
+        self.save_changes()
+        return self.get_tender('chronograph')
 
     def save_changes(self):
+        for period in ('auctionPeriod', 'awardPeriod'):
+            self.tender_document.pop(period, None)  # delete all old periods
         self.tender_document.update(apply_data_patch(self.tender_document, self.tender_patch))
         self.db.save(self.tender_document)
 
