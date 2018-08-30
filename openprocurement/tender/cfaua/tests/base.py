@@ -35,9 +35,6 @@ with open(os.path.join(BASE_DIR, 'data/test_tender.json')) as fd:
     test_tender_data = json.load(fd)
     test_tender_data['tenderPeriod']['endDate'] = (now + timedelta(days=TENDERING_DAYS+1)).isoformat()
 
-if SANDBOX_MODE:
-    test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
-
 
 # Prepare features_tender
 with open(os.path.join(BASE_DIR, 'data/test_features.json')) as fd:
@@ -384,6 +381,34 @@ PERIODS = {
         },
     }
 }
+
+
+if SANDBOX_MODE:
+    test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
+    PERIODS.update({
+        'active.enquiries': {
+            'start': {
+                'enquiryPeriod': {
+                    'startDate': - timedelta(minutes=1),
+                    'endDate': (TENDERING_DURATION - QUESTIONS_STAND_STILL) / 1440,
+                },
+                'tenderPeriod': {
+                    'startDate': - timedelta(minutes=1),
+                    'endDate': TENDERING_DURATION / 1440,
+                }
+            },
+            'end': {
+                'enquiryPeriod':{
+                    'startDate': (- TENDERING_DURATION + TENDERING_EXTRA_PERIOD - timedelta(days=1)) / 1440,
+                    'endDate': timedelta()
+                },
+                'tenderPeriod': {
+                    'startDate': (- TENDERING_DURATION + TENDERING_EXTRA_PERIOD - timedelta(days=1)) / 1440,
+                    'endDate': TENDERING_EXTRA_PERIOD / 1440
+                }
+            },
+        },
+    })
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):
