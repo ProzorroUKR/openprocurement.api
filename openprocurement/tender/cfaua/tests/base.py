@@ -46,6 +46,19 @@ with open(os.path.join(BASE_DIR, 'data/test_features.json')) as fd:
     test_features_item['id'] = '1'
     test_features_tender_data['items'] = [test_features_item]
     test_features_tender_data['features'] = json.load(fd)
+    test_features_bids = deepcopy(test_bids)
+    for x, bid in enumerate(test_features_bids):
+        bid['parameters'] = [
+                                {
+                                    "code": i["code"],
+                                    "value": 0.1,
+                                }
+                                for i in test_features_tender_data['features']
+                            ]
+
+test_features_bids_same_amount = deepcopy(test_features_bids)
+for bid in test_features_bids_same_amount:
+    bid['value']['amount'] = 469
 
 # Prepare features_tender
 with open(os.path.join(BASE_DIR, 'data/test_lots.json')) as fd:
@@ -384,7 +397,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         if self.initial_auth:
             self.app.authorization = self.initial_auth
         else:
-            self.app.authorization = ('Basic', ('token', ''))
+            self.app.authorization = ('Basic', ('broker', ''))
         self.couchdb_server = self.app.app.registry.couchdb_server
         self.db = self.app.app.registry.db
         if self.docservice:
