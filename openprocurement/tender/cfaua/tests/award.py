@@ -24,8 +24,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
 )
 
 from openprocurement.tender.openeu.tests.award_blanks import (
-    # Tender2LotAwardComplaintDocumentResourceTest
-    patch_tender_award_complaint_document,
     # TenderAwardResourceTest
     create_tender_award_invalid,
     get_tender_award,
@@ -53,6 +51,7 @@ from openprocurement.tender.cfaua.tests.award_blanks import (
     # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
     patch_tender_lot_award_complaint,
+    patch_tender_award_complaint_document,
 )
 
 no_lot_logic = True
@@ -163,6 +162,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
 
 
 class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
+    initial_auth = ('Basic', ('broker', ''))
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_lots = test_lots
@@ -171,11 +171,14 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
         super(TenderAwardComplaintDocumentResourceTest, self).setUp()
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
         self.award_id = response.json['data'][0]['id']
+        self.award_bid_id = response.json['data'][0]['bid_id']
 
         self.set_status('active.qualification.stand-still')
         # Create complaint for award
         response = self.app.post_json(
-            '/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id),
+            '/tenders/{}/awards/{}/complaints?acc_token={}'.format(
+                self.tender_id, self.award_id, self.initial_bids_tokens[self.award_bid_id]
+            ),
             {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}}
         )
         complaint = response.json['data']
@@ -189,6 +192,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
 
 
 class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
+    initial_auth = ('Basic', ('broker', ''))
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_lots = test_lots

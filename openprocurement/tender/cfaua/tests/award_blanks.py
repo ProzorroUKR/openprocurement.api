@@ -1535,3 +1535,56 @@ def patch_tender_lot_award_complaint(self):
     self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
     self.assertEqual(response.json['errors'][0]["description"],
                      "Can't update complaint in current (complete) tender status")
+
+
+def patch_tender_award_complaint_document(self):
+    response = self.app.post('/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
+        self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token), upload_files=[('file', 'name.doc', 'content')])
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    doc_id = response.json["data"]['id']
+    self.assertIn(doc_id, response.headers['Location'])
+
+    self.app.authorization = ('Basic', ('reviewer', ''))
+    response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}/documents/{}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id), {"data": {"description": "document description"}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "Can update document only author")
+
+    self.app.authorization = self.initial_auth
+    response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token), {"data": {"description": "document description"}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(doc_id, response.json["data"]["id"])
+
+    response = self.app.get('/tenders/{}/awards/{}/complaints/{}/documents/{}'.format(
+        self.tender_id, self.award_id, self.complaint_id, doc_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual('document description', response.json["data"]["description"])
+
+    response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token), {"data": {
+        "status": "pending",
+    }})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']["status"], "pending")
+
+    response = self.app.put('/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token), 'content2', content_type='application/msword')
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    key = response.json["data"]["url"].split('?')[-1]
+
+    response = self.app.get('/tenders/{}/awards/{}/complaints/{}/documents/{}?{}'.format(
+        self.tender_id, self.award_id, self.complaint_id, doc_id, key))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/msword')
+    self.assertEqual(response.content_length, 8)
+    self.assertEqual(response.body, 'content2')
+
+    self.set_status('complete')
+
+    response = self.app.patch_json('/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}'.format(self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token), {"data": {"description": "document description"}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current (complete) tender status")
