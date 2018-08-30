@@ -75,6 +75,7 @@ test_items = [
     }
 ]
 test_tender_data = {
+    "agreements": [{"id": "1" * 32}],
     "title": u"футляри до державних нагород",
     "procuringEntity": test_procuringEntity,
     "value": {
@@ -205,6 +206,91 @@ test_features = [
     }
 ]
 
+PERIODS = {
+    "active.enquiries": {
+        "enquiryPeriod": {
+            "startDate": now.isoformat(),
+            "endDate": (now + ENQUIRY_PERIOD).isoformat()
+        }
+    },
+    "active.tendering": {
+        "enquiryPeriod": {
+            "startDate": (now - ENQUIRY_PERIOD).isoformat(),
+            "endDate": now.isoformat()
+        },
+        "tenderPeriod": {
+            "startDate": now.isoformat(),
+            "endDate": (now + timedelta(days=7)).isoformat()
+        }
+    },
+    "active.auction": {
+        "enquiryPeriod": {
+            "startDate": (now - timedelta(days=14)).isoformat(),
+            "endDate": (now - timedelta(days=7)).isoformat()
+        },
+        "tenderPeriod": {
+            "startDate": (now - timedelta(days=7)).isoformat(),
+            "endDate": now.isoformat()
+        },
+        "auctionPeriod": {
+            "startDate": now.isoformat()
+        }
+    },
+    "active.qualification": {
+        "enquiryPeriod": {
+            "startDate": (now - timedelta(days=15)).isoformat(),
+            "endDate": (now - timedelta(days=8)).isoformat()
+        },
+        "tenderPeriod": {
+            "startDate": (now - timedelta(days=8)).isoformat(),
+            "endDate": (now - timedelta(days=1)).isoformat()
+        },
+        "auctionPeriod": {
+            "startDate": (now - timedelta(days=1)).isoformat(),
+            "endDate": now.isoformat()
+        },
+        "awardPeriod": {
+            "startDate": now.isoformat()
+        }
+    },
+    "active.awarded": {
+        "enquiryPeriod": {
+            "startDate": (now - timedelta(days=15)).isoformat(),
+            "endDate": (now - timedelta(days=8)).isoformat()
+        },
+        "tenderPeriod": {
+            "startDate": (now - timedelta(days=8)).isoformat(),
+            "endDate": (now - timedelta(days=1)).isoformat()
+        },
+        "auctionPeriod": {
+            "startDate": (now - timedelta(days=1)).isoformat(),
+            "endDate": now.isoformat()
+        },
+        "awardPeriod": {
+            "startDate": now.isoformat(),
+            "endDate": now.isoformat()
+        }
+    },
+    "complete": {
+        "enquiryPeriod": {
+            "startDate": (now - timedelta(days=25)).isoformat(),
+            "endDate": (now - timedelta(days=18)).isoformat()
+        },
+        "tenderPeriod": {
+            "startDate": (now - timedelta(days=18)).isoformat(),
+            "endDate": (now - timedelta(days=11)).isoformat()
+        },
+        "auctionPeriod": {
+            "startDate": (now - timedelta(days=11)).isoformat(),
+            "endDate": (now - timedelta(days=10)).isoformat()
+        },
+        "awardPeriod": {
+            "startDate": (now - timedelta(days=10)).isoformat(),
+            "endDate": (now - timedelta(days=10)).isoformat()
+        }
+    }
+}
+
 
 class BaseTenderWebTest(BaseTWT):
     initial_data = test_tender_data
@@ -224,9 +310,160 @@ class BaseTenderWebTest(BaseTWT):
     forbidden_auction_actions_status = 'active.tendering'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = 'active.tendering'  # status, in which adding document to tender auction is forbidden
 
+    meta_initial_bids = test_bids
+    meta_initial_lots = test_lots
+
+    def patch_agreements_by_bot(self, status):
+        self.tender_patch.update(PERIODS[status])
+        agreements = self.tender_document.get('agreements', [])
+        for agreement in agreements:
+            agreement.update(test_agreement)
+        self.tender_patch.update({'agreements': agreements})
+
+    def generate_bids(self, status):
+        self.tender_patch.update(PERIODS[status])
+        bids = self.tender_document.get('bids', [])
+
+        if not bids and self.initial_bids:
+            self.tender_patch['bids'] = []
+            self.initial_bids_tokens = {}
+            for bid in self.initial_bids:
+                bid = bid.copy()
+                value = bid.pop('value')
+                bid.update({
+                    'id': uuid4().hex,
+                    'owner_token': uuid4().hex,
+                    'owner': 'broker',
+                    'status': 'active'
+                })
+                if self.initial_lots:
+                    bid.update({
+                        'lotValues': [
+                            {
+                                'value': value,
+                                'relatedLot': l['id'],
+                            }
+                            for l in self.initial_lots
+                        ]
+                    })
+                self.tender_patch['bids'].append(bid)
+            self.initial_bids = self.tender_patch['bids']
+            bids = self.initial_bids
+        if bids:
+            self.bid_id = bids[0]['id']
+            self.bid_token = bids[0]['owner_token']
+
+    def prepare_for_auction(self, status):
+        self.tender_patch.update(PERIODS[status])
+        if self.initial_lots:
+            self.tender_patch.update({
+                'lots': [
+                    {
+                        "auctionPeriod": {
+                            "startDate": now.isoformat()
+                        }
+                    }
+                    for i in self.initial_lots
+                ]
+            })
+
+    def generate_awards(self, status):
+        self.tender_patch.update(PERIODS[status])
+        if self.initial_lots:
+            self.tender_patch.update({
+                'lots': [
+                    {
+                        "auctionPeriod": {
+                            "startDate": (now - timedelta(days=1)).isoformat(),
+                            "endDate": now.isoformat()
+                        }
+                    }
+                    for i in self.initial_lots
+                ]
+            })
+        bids = self.tender_document.get('bids', []) or self.tender_patch.get('bids', [])
+        lots = self.tender_document.get('lots', []) or self.tender_patch.get('lots', [])
+        if 'awards' not in self.tender_document:
+            self.tender_patch['awards'] = []
+            if lots:
+                active_lots = {lot['id']: 0 for lot in lots if lot['status'] == 'active'}
+                self.tender_patch['awards'] = []
+                for bid in bids[:1]:
+                    for lot_value in bid['lotValues']:
+                        if lot_value['relatedLot'] in active_lots:
+                            award = {
+                                'status': 'pending',
+                                'lotID': lot_value['relatedLot'],
+                                'suppliers': bid['tenderers'],
+                                'bid_id': bid['id'],
+                                'value': lot_value['value'],
+                                'date': now.isoformat(),
+                                'id': uuid4().hex
+                            }
+                            self.tender_patch['awards'].append(award)
+                            self.award = award
+                            self.award_id = award['id']
+                            active_lots[lot_value['relatedLot']] += 1
+            else:
+                for bid in bids[:1]:
+                    award = {
+                        'status': 'pending',
+                        'suppliers': bid['tenderers'],
+                        'bid_id': bid['id'],
+                        'value': bid['value'],
+                        'date': now.isoformat(),
+                        'id': uuid4().hex
+                    }
+                    self.award = award
+                    self.award_id = award['id']
+                    self.tender_patch['awards'].append(award)
+
+    def activate_awards_and_generate_contract(self, status):
+        self.tender_patch.update(PERIODS[status])
+        awards = self.tender_document.get('awards', [])
+        if not awards:
+            awards = self.tender_patch.get('awards', [])
+        for award in awards:
+            if award['status'] == 'pending':
+                award.update({'status': 'active'})
+        self.tender_patch.update({'awards': awards})
+        contracts = self.tender_document.get('contracts', [])
+
+        if not contracts:
+            for award in awards:
+                if award['status'] == 'active':
+                    contract = {
+                        'id': uuid4().hex,
+                        'title': 'contract title',
+                        'description': 'contract description',
+                        'awardID': award['id'],
+                        'value': award['value'],
+                        'suppliers': award['suppliers'],
+                        'status': 'pending',
+                        'contractID': 'UA-2017-06-21-000001-1',
+                        'date': now.isoformat(),
+                        'items': [i for i in self.tender_document['items'] if i['relatedLot'] == award['lotID']],
+                    }
+                    self.contract_id = contract['id']
+                    self.tender_patch.update({'contracts': [contract]})
+
+    def complete_tender(self, status):
+        self.tender_patch.update(PERIODS[status])
+        if self.initial_lots:
+            self.tender_patch.update({
+                'lots': [
+                    {
+                        "auctionPeriod": {
+                            "startDate": (now - timedelta(days=11)).isoformat(),
+                            "endDate": (now - timedelta(days=10)).isoformat()
+                        }
+                    }
+                    for i in self.initial_lots
+                ]
+            })
+
     def create_tender(self):
         data = deepcopy(self.initial_data)
-        data.update({'agreements': [{'id': '1' * 32}]})
         if self.initial_lots:
             lots = []
             for i in self.initial_lots:
@@ -241,201 +478,50 @@ class BaseTenderWebTest(BaseTWT):
         self.tender_token = response.json['access']['token']
         self.tender_id = tender['id']
         status = tender['status']
-        if self.initial_status != None:
-            data = dict([(i, data[i]) for i in DRAFT_FIELDS if i in data])
-            #if self.initial_lots:
-                #for i, item in enumerate(data['items']):
-                    #item['relatedLot'] = self.initial_lots[i % len(lots)]['id']
-            authorization = self.app.authorization
-            self.app.authorization = ('Basic', (BOT_NAME, ''))
-            response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': data})
-            self.app.authorization = authorization
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.content_type, 'application/json')
-            self.set_status('active.enquiries')
-        if self.initial_bids:
-            self.initial_bids_tokens = {}
-            response = self.set_status('active.tendering')
-            status = response.json['data']['status']
-            bids = []
-            for i in self.initial_bids:
-                if self.initial_lots:
-                    i = i.copy()
-                    value = i.pop('value')
-                    i['lotValues'] = [
-                        {
-                            'value': value,
-                            'relatedLot': l['id'],
-                        }
-                        for l in self.initial_lots
-                    ]
-                response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
-                self.assertEqual(response.status, '201 Created')
-                bids.append(response.json['data'])
-                self.initial_bids_tokens[response.json['data']['id']] = response.json['access']['token']
-            self.initial_bids = bids
-        if self.initial_status != status:
+        if self.initial_status != status and self.initial_status:
             self.set_status(self.initial_status)
 
-    def set_status(self, status, extra=None):
-        data = {'status': status}
-        if status == 'active.enquiries':
-            data.update({
-                "enquiryPeriod": {
-                    "startDate": (now).isoformat(),
-                    "endDate": (now + ENQUIRY_PERIOD).isoformat()
-                },
-                # "agreements": [test_agreement],
-            })
-        elif status == 'active.tendering':
-            data.update({
-                "enquiryPeriod": {
-                    "startDate": (now - timedelta(days=10)).isoformat(),
-                    "endDate": (now).isoformat()
-                },
-                "tenderPeriod": {
-                    "startDate": (now).isoformat(),
-                    "endDate": (now + timedelta(days=7)).isoformat()
-                },
-                # "agreements": [test_agreement],
-                #"items": test_items
-            })
-        elif status == 'active.auction':
-            data.update({
-                "enquiryPeriod": {
-                    "startDate": (now - timedelta(days=14)).isoformat(),
-                    "endDate": (now - timedelta(days=7)).isoformat()
-                },
-                "tenderPeriod": {
-                    "startDate": (now - timedelta(days=7)).isoformat(),
-                    "endDate": (now).isoformat()
-                },
-                "auctionPeriod": {
-                    "startDate": (now).isoformat()
-                },
-                # "agreements": [test_agreement],
-            })
-            if self.initial_lots:
-                data.update({
-                    'lots': [
-                        {
-                            "auctionPeriod": {
-                                "startDate": (now).isoformat()
-                            }
-                        }
-                        for i in self.initial_lots
-                    ]
-                })
-        elif status == 'active.qualification':
-            data.update({
-                "enquiryPeriod": {
-                    "startDate": (now - timedelta(days=15)).isoformat(),
-                    "endDate": (now - timedelta(days=8)).isoformat()
-                },
-                "tenderPeriod": {
-                    "startDate": (now - timedelta(days=8)).isoformat(),
-                    "endDate": (now - timedelta(days=1)).isoformat()
-                },
-                "auctionPeriod": {
-                    "startDate": (now - timedelta(days=1)).isoformat(),
-                    "endDate": (now).isoformat()
-                },
-                "awardPeriod": {
-                    "startDate": (now).isoformat()
-                },
-                # "agreements": [test_agreement],
-            })
-            if self.initial_lots:
-                data.update({
-                    'lots': [
-                        {
-                            "auctionPeriod": {
-                                "startDate": (now - timedelta(days=1)).isoformat(),
-                                "endDate": (now).isoformat()
-                            }
-                        }
-                        for i in self.initial_lots
-                    ]
-                })
-        elif status == 'active.awarded':
-            data.update({
-                "enquiryPeriod": {
-                    "startDate": (now - timedelta(days=15)).isoformat(),
-                    "endDate": (now - timedelta(days=8)).isoformat()
-                },
-                "tenderPeriod": {
-                    "startDate": (now - timedelta(days=8)).isoformat(),
-                    "endDate": (now - timedelta(days=1)).isoformat()
-                },
-                "auctionPeriod": {
-                    "startDate": (now - timedelta(days=1)).isoformat(),
-                    "endDate": (now).isoformat()
-                },
-                "awardPeriod": {
-                    "startDate": (now).isoformat(),
-                    "endDate": (now).isoformat()
-                },
-                # "agreements": [test_agreement],
-            })
-            if self.initial_lots:
-                data.update({
-                    'lots': [
-                        {
-                            "auctionPeriod": {
-                                "startDate": (now - timedelta(days=1)).isoformat(),
-                                "endDate": (now).isoformat()
-                            }
-                        }
-                        for i in self.initial_lots
-                    ]
-                })
-        elif status == 'complete':
-            data.update({
-                "enquiryPeriod": {
-                    "startDate": (now - timedelta(days=25)).isoformat(),
-                    "endDate": (now - timedelta(days=18)).isoformat()
-                },
-                "tenderPeriod": {
-                    "startDate": (now - timedelta(days=18)).isoformat(),
-                    "endDate": (now - timedelta(days=11)).isoformat()
-                },
-                "auctionPeriod": {
-                    "startDate": (now - timedelta(days=11)).isoformat(),
-                    "endDate": (now - timedelta(days=10)).isoformat()
-                },
-                "awardPeriod": {
-                    "startDate": (now - timedelta(days=10)).isoformat(),
-                    "endDate": (now - timedelta(days=10)).isoformat()
-                },
-                # "agreements": [test_agreement],
-            })
-            if self.initial_lots:
-                data.update({
-                    'lots': [
-                        {
-                            "auctionPeriod": {
-                                "startDate": (now - timedelta(days=11)).isoformat(),
-                                "endDate": (now - timedelta(days=10)).isoformat()
-                            }
-                        }
-                        for i in self.initial_lots
-                    ]
-                })
-        if extra:
-            data.update(extra)
-
-        tender = self.db.get(self.tender_id)
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
-
+    def get_tender(self, role):
         authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        #response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        self.app.authorization = ('Basic', (role, ''))
+
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
         return response
+
+    def set_status(self, status, extra=None, recursion=False):
+        if not recursion:
+            self.tender_document = self.db.get(self.tender_id)
+            self.tender_patch = {'status': status}
+
+        if status == 'active.enquiries':
+            self.patch_agreements_by_bot(status)
+        elif status == 'active.tendering':
+            self.set_status('active.enquiries', recursion=True)
+            self.generate_bids(status)
+        elif status == 'active.auction':
+            self.set_status('active.tendering', recursion=True)
+            self.prepare_for_auction(status)
+        elif status == 'active.qualification':
+            self.set_status('active.auction', recursion=True)
+            self.generate_awards(status)
+        elif status == 'active.awarded':
+            self.set_status('active.qualification', recursion=True)
+            self.activate_awards_and_generate_contract(status)
+        elif status == 'complete':
+            self.set_status('active.awarded', recursion=True)
+            self.complete_tender(status)
+        if not recursion:
+            if extra:
+                self.tender_patch.update(extra)
+
+            self.save_changes()
+            return self.get_tender('chronograph')
+
+    def save_changes(self):
+        self.tender_document.update(apply_data_patch(self.tender_document, self.tender_patch))
+        self.db.save(self.tender_document)
 
 
 class TenderContentWebTest(BaseTenderWebTest):
