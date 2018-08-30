@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+from openprocurement.api.relativedelta import relativedelta
 from schematics.exceptions import ValidationError
 from zope.component import getAdapter
 
@@ -237,3 +239,9 @@ def validate_agreement_contract_unitprices_update(request):
         
         if calculated_value > value:
             raise_operation_error(request, "Total amount can't be greater than {}".format(error_message))
+
+
+def validate_max_agreement_duration_period(value):
+    start_period = datetime(1, 1, 1)
+    if start_period + value > start_period + relativedelta(years=4):
+        raise ValidationError('Agreement duration period is greater than four years')

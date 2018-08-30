@@ -42,8 +42,8 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     patch_max_awards,
     awards_to_bids_number,
     active_qualification_to_act_pre_qualification_st,
-    active_pre_qualification_to_act_qualification_st
-)
+    active_pre_qualification_to_act_qualification_st,
+    agreement_duration_period)
 
 
 class TenderUAResourceTestMixin:
@@ -59,6 +59,7 @@ class TenderTest(BaseTenderWebTest):
     initial_data = test_tender_data
 
     test_simple_add_tender = snitch(simple_add_tender)
+    test_agreement_duration_period = snitch(agreement_duration_period)
 
 
 class TenderCheckStatusTest(BaseTenderContentWebTest):
