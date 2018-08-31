@@ -707,19 +707,6 @@ def create_tender(self):
     self.assertEqual(response.json['data']['agreements'][0]['id'], self.agreement_id)
     tender = response.json['data']
 
-    # tender_id = self.tender_id
-    self.tender_id = tender['id']
-    self.set_status('draft.pending')
-    token = response.json['access']['token']
-    tender_id = tender['id']
-    agreement_id = tender['agreements'][0]['id']
-    self.app.authorization = ('Basic', (BOT_NAME, ''))
-    response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
-        tender_id, agreement_id), {"data": agreement_data})
-    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-    self.assertEqual(response.json['data']['agreementID'], agreement_data['agreementID'])
-    self.app.authorization = ('Basic', ('broker', ''))
-
     response = self.app.get('/tenders/{}'.format(tender['id']))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')

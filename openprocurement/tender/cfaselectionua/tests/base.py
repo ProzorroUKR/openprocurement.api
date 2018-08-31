@@ -277,7 +277,8 @@ class BaseTenderWebTest(BaseTWT):
             self.set_status(self.initial_status)
 
     def set_status(self, status, extra=None):
-        data = {'status': status}
+        data = {'status': status,
+                'agreements': [test_agreement]}
         if status == 'active.enquiries':
             data.update({
                 "enquiryPeriod": {

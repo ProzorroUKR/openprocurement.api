@@ -16,10 +16,16 @@ def switch_to_tendering_by_tenderPeriod_startDate(self):
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
     self.assertNotEqual(response.json['data']["status"], "active.tendering")
+    
     self.set_status('active.tendering', {'status': self.initial_status, "enquiryPeriod": {}})
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']["status"], "active.tendering")
+    
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    contracts = response.json['data']['agreements'][0]['contracts']
+    for contract in contracts:
+        self.assertIn('value', contract)
 
     # testing min 1 day delta before patching from active.enquiries to active.tendering by chronograph
     self.set_status('active.tendering',
@@ -91,7 +97,8 @@ def set_auction_period(self):
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']["status"], 'active.tendering')
+    self.assertEqual(response.json['data']["status"], 'active.tendering')    
+
     if self.initial_lots:
         item = response.json['data']["lots"][0]
     else:
@@ -128,6 +135,7 @@ def reset_auction_period(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], 'active.tendering')
+
     if self.initial_lots:
         item = response.json['data']["lots"][0]
     else:
