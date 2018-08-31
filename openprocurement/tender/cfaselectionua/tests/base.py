@@ -42,6 +42,7 @@ test_procuringEntity["kind"] = "general"
 
 test_items = [
     {
+        "id": test_agreement['items'][0]['id'],
         "description": u"футляри до державних нагород",
         "classification": {
             "scheme": u"ДК021",

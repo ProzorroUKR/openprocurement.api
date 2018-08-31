@@ -264,6 +264,6 @@ def calculate_agreement_contracts_value_amount(tender):
         value = contract._fields['value']({})
         value.amount = 0
         for unitPrice in contract.unitPrices:
-            quantity = [i for i in agreement.items if i.id == unitPrice.relatedItem][0].quantity
+            quantity = [i for i in tender.items if i.id == unitPrice.relatedItem][0].quantity
             value.amount += unitPrice.value.amount * quantity
         contract.value = value

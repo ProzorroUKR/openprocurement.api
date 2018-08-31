@@ -566,6 +566,7 @@ def create_tender_invalid(self):
     # ])
 
     data = self.initial_data["items"][0].copy()
+    data['id'] = uuid4().hex
     classification = data['classification'].copy()
     classification["id"] = u'19212310-1'
     data['classification'] = classification
@@ -1156,8 +1157,10 @@ def patch_tender(self):
         tender['id'], owner_token), {'data': {'items': [data['items'][0]]}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
 
+    new_item = data['items'][0].copy()
+    new_item['id'] = uuid4().hex
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-        tender['id'], owner_token), {'data': {'items': [{}, data['items'][0]]}})
+        tender['id'], owner_token), {'data': {'items': [{}, new_item]}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     item0 = response.json['data']['items'][0]
     item1 = response.json['data']['items'][1]
