@@ -13,7 +13,7 @@ from openprocurement.tender.cfaua.validation import (
     validate_patch_agreement_data,
     validate_update_agreement_only_for_active_lots,
 )
-from openprocurement.tender.cfaua.utils import agreement_resource, check_tender_status
+from openprocurement.tender.cfaua.utils import agreement_resource, check_tender_status_on_actve_awarded
 
 
 @agreement_resource(name='closeFrameworkAgreementUA:Tender Agreements',
@@ -60,7 +60,7 @@ class TenderAgreementResource(BaseResource):
                     tender.contractPeriod.clarificationsUntil.isoformat()
                 )
             )
-        check_tender_status(self.request)
+        check_tender_status_on_actve_awarded(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender agreement {}'.format(self.request.context.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_agreement_patch'}))

@@ -89,7 +89,7 @@ class CloseFrameworkAgreementUA(Tender):
     minimalStep = ModelType(Value, required=True)
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
     maxAwardsCount = IntType(required=True, validators=[validate_max_awards_number])
-    lots = ListType(ModelType(Lot), max_size=1, default=list(), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(Lot), min_size=1, max_size=1, default=list(), validators=[validate_lots_uniq])
     procurementMethodType = StringType(default="closeFrameworkAgreementUA")
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     qualificationPeriod = ModelType(Period)
