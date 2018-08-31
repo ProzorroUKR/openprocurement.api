@@ -25,10 +25,10 @@ now = get_now()
 
 # Prepare test_bids_data
 with open(os.path.join(BASE_DIR, 'data/test_bids.json')) as fd:
-   test_bids = json.load(fd)
-   test_bids = [deepcopy(test_bids[0]) for _ in range(MIN_BIDS_NUMBER)]
-   for num, test_bid in enumerate(test_bids):
-       test_bid['value']['amount'] = test_bid['value']['amount'] + num * 1
+    test_bids = json.load(fd)
+    test_bids = [deepcopy(test_bids[0]) for _ in range(MIN_BIDS_NUMBER)]
+    for num, test_bid in enumerate(test_bids):
+        test_bid['value']['amount'] = test_bid['value']['amount'] + num * 1
 
 # Prepare test_features_tender_data
 with open(os.path.join(BASE_DIR, 'data/test_tender.json')) as fd:
@@ -68,19 +68,20 @@ with open(os.path.join(BASE_DIR, 'data/test_lots.json')) as fd:
 # Prepare data for tender with lot
 test_tender_w_lot_data = deepcopy(test_tender_data)
 test_tender_w_lot_data['lots'] = deepcopy(test_lots)
-test_bids_for_lots = deepcopy(test_bids)
+test_bids_w_lot_data = deepcopy(test_bids)
 for lot in test_tender_w_lot_data['lots']:
     lot_id = uuid4().hex
     lot['id'] = lot_id
     for item in test_tender_w_lot_data['items']:
         item['relatedLot'] = lot_id
-    for bid in test_bids_for_lots:
+    for bid in test_bids_w_lot_data:
         if 'lotValues' not in bid:
             bid['lotValues'] = list()
         bid['lotValues'].append({'value': bid['value'], 'relatedLot': lot_id})
-for bid in test_bids_for_lots:
+for bid in test_bids_w_lot_data:
     if 'value' in bid:
         bid.pop('value')
+test_lots_w_ids = deepcopy(test_tender_w_lot_data['lots'])
 
 
 PERIODS = {
@@ -386,7 +387,15 @@ PERIODS = {
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):
-    backup_attr_keys = []
+    backup_attr_keys = [
+        'initial_data',
+        'initial_status',
+        'initial_bids',
+        'initial_lots',
+        'initial_auth',
+        'meta_initial_bids',
+        'meta_initial_lots'
+    ]
     min_bids_number = MIN_BIDS_NUMBER
     initial_data = deepcopy(test_tender_data)
     initial_status = None
@@ -409,15 +418,12 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     @classmethod
     def setUpClass(cls):
         super(BaseBaseTenderWebTest, cls).setUpClass()
-        cls.backup_attr_keys = list()
         cls.backup_pure_data()
 
     @classmethod
     def backup_pure_data(self):
-        for attr in dir(self):
-            if attr.startswith('initial') or attr.startswith('meta_initial'):
-                self.backup_attr_keys.append(attr)
-                setattr(self, '_{}'.format(attr), deepcopy(getattr(self, attr)))
+        for attr in self.backup_attr_keys:
+            setattr(self, '_{}'.format(attr), deepcopy(getattr(self, attr)))
 
     def restore_pure_data(self):
         for key in self.backup_attr_keys:

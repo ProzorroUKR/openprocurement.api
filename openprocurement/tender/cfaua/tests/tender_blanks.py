@@ -1278,7 +1278,6 @@ def active_pre_qualification_to_act_qualification_st(self):
 def agreement_duration_period(self):
     initial_data = deepcopy(self.initial_data)
     initial_data['agreementDuration'] = 'P5Y'
-    initial_data['lots'] = deepcopy(self.initial_lots)
     response = self.app.post_json('/tenders', {'data': initial_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
