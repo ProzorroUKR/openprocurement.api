@@ -92,3 +92,10 @@ def validate_features_uniq(features, *args):
         codes = [i.code for i in features]
         if any([codes.count(i) > 1 for i in set(codes)]):
             raise ValidationError(u"Feature code should be uniq for all features")
+
+
+def validate_parameters_uniq(parameters, *args):
+    if parameters:
+        codes = [i.code for i in parameters]
+        if [i for i in set(codes) if codes.count(i) > 1]:
+            raise ValidationError(u"Parameter code should be uniq for all parameters")

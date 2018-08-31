@@ -10,6 +10,8 @@ from openprocurement.api.models import (
     )
 from openprocurement.agreement.cfaua.models.unitprice\
     import UnitPrice
+from openprocurement.agreement.cfaua.models.parameter import Parameter
+from openprocurement.agreement.cfaua.validation import validate_parameters_uniq
 
 
 class Contract(Model):
@@ -27,3 +29,4 @@ class Contract(Model):
     awardID = StringType()
     bidID = StringType()
     date = IsoDateTimeType()
+    parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
