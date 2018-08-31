@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
@@ -15,11 +16,10 @@ from openprocurement.tender.openua.tests.tender_blanks import (
 )
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.cfaua.tests.base import (
-    test_tender_data,
+    test_tender_w_lot_data as test_tender_data,
     BaseTenderWebTest,
     BaseTenderContentWebTest,
-    test_lots,
-    test_bids,
+    test_bids_for_lots as test_bids,
 )
 from openprocurement.tender.cfaua.tests.tender_blanks import (
     # TenderProcessTest
@@ -49,18 +49,21 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
 )
 
 
+test_lots = deepcopy(test_tender_data['lots'])
+
 
 class TenderTest(BaseTenderWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
-    initial_data = test_tender_data
-    initial_lots = test_lots
+    initial_data = deepcopy(test_tender_data)
+    initial_lots = deepcopy(test_lots)
 
     test_simple_add_tender = snitch(simple_add_tender)
     test_agreement_duration_period = snitch(agreement_duration_period)
 
 
 class TenderCheckStatusTest(BaseTenderContentWebTest):
+    BaseTenderContentWebTest.backup_pure_data()
 
     test_active_qualification_to_act_pre_qualification_st = snitch(active_qualification_to_act_pre_qualification_st)
     test_active_pre_qualification_to_act_qualification_st = snitch(active_pre_qualification_to_act_qualification_st)
@@ -69,10 +72,10 @@ class TenderCheckStatusTest(BaseTenderContentWebTest):
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
     initial_auth = ('Basic', ('broker', ''))
-    initial_data = test_tender_data
-    initial_lots = test_lots
+    initial_data = deepcopy(test_tender_data)
+    initial_lots = deepcopy(test_lots)
     # test_lots_data = test_lots  # TODO: change attribute identifier
-    test_bids_data = test_bids
+    initial_bids = deepcopy(test_bids)
     min_bids_number = MIN_BIDS_NUMBER
 
     test_empty_listing = snitch(empty_listing)
@@ -116,9 +119,9 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 class TenderProcessTest(BaseTenderWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
-    initial_data = test_tender_data
-    initial_lots = test_lots
-    test_bids_data = test_bids
+    initial_data = deepcopy(test_tender_data)
+    initial_lots = deepcopy(test_lots)
+    initial_bids = deepcopy(test_bids)
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_bid_tender = snitch(one_bid_tender)
@@ -131,9 +134,14 @@ class TenderProcessTest(BaseTenderWebTest):
 
 class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
-    initial_bids = test_bids
+    initial_bids = deepcopy(test_bids)
 
     def setUp(self):
+        # Fix for method create_tender in tender.core and bid.value will be deleted after
+        # super(TenderPendingAwardsResourceTest, self).setUp()
+        for bid in self.initial_bids:
+            bid['value'] = bid['lotValues'][0]['value']
+
         super(TenderPendingAwardsResourceTest, self).setUp()
         # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')

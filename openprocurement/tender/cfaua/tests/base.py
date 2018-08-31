@@ -64,6 +64,25 @@ for bid in test_features_bids_same_amount:
 with open(os.path.join(BASE_DIR, 'data/test_lots.json')) as fd:
     test_lots = json.load(fd)
 
+
+# Prepare data for tender with lot
+test_tender_w_lot_data = deepcopy(test_tender_data)
+test_tender_w_lot_data['lots'] = deepcopy(test_lots)
+test_bids_for_lots = deepcopy(test_bids)
+for lot in test_tender_w_lot_data['lots']:
+    lot_id = uuid4().hex
+    lot['id'] = lot_id
+    for item in test_tender_w_lot_data['items']:
+        item['relatedLot'] = lot_id
+    for bid in test_bids_for_lots:
+        if 'lotValues' not in bid:
+            bid['lotValues'] = list()
+        bid['lotValues'].append({'value': bid['value'], 'relatedLot': lot_id})
+for bid in test_bids_for_lots:
+    if 'value' in bid:
+        bid.pop('value')
+
+
 PERIODS = {
     'active.enquiries':{
         'start': {
@@ -367,16 +386,17 @@ PERIODS = {
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):
+    backup_attr_keys = []
     min_bids_number = MIN_BIDS_NUMBER
-    initial_data = test_tender_data
+    initial_data = deepcopy(test_tender_data)
     initial_status = None
     initial_bids = None
     initial_lots = None
     initial_auth = None
     relative_to = os.path.dirname(__file__)
 
-    meta_initial_bids = test_bids
-    meta_initial_lots = test_lots
+    meta_initial_bids = deepcopy(test_bids)
+    meta_initial_lots = deepcopy(test_lots)
 
     periods = PERIODS
     forbidden_agreement_document_modification_actions_status = 'unsuccessful'  # status, in which operations with tender's contract documents (adding, updating) are forbidden
@@ -385,6 +405,23 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     # auction role actions
     forbidden_auction_actions_status = 'active.pre-qualification.stand-still'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = 'active.pre-qualification.stand-still'  # status, in which adding document to tender auction is forbidden
+
+    @classmethod
+    def setUpClass(cls):
+        super(BaseBaseTenderWebTest, cls).setUpClass()
+        cls.backup_attr_keys = list()
+        cls.backup_pure_data()
+
+    @classmethod
+    def backup_pure_data(self):
+        for attr in dir(self):
+            if attr.startswith('initial') or attr.startswith('meta_initial'):
+                self.backup_attr_keys.append(attr)
+                setattr(self, '_{}'.format(attr), deepcopy(getattr(self, attr)))
+
+    def restore_pure_data(self):
+        for key in self.backup_attr_keys:
+            setattr(self, key, deepcopy(getattr(self, '_{}'.format(key))))
 
     def convert_bids_for_tender_with_lots(self, bids, lots):
         for lot in lots:
@@ -404,7 +441,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.tender_document_patch = {}
         self.update_periods('active.enquiries', 'end')
 
-
     def setUp(self):
         super(BaseBaseTenderWebTest, self).setUp()
         if self.initial_auth:
@@ -420,6 +456,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         if self.docservice:
             self.tearDownDS()
         del self.couchdb_server[self.db.name]
+        self.restore_pure_data()
 
     def check_chronograph(self):
         authorization = self.app.authorization
@@ -978,13 +1015,13 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
 
 
 class BaseTenderContentWebTest(BaseTenderWebTest):
-    initial_data = test_tender_data
+    initial_data = deepcopy(test_tender_data)
     initial_status = None
     initial_bids = None
-    initial_lots = test_lots
+    initial_lots = deepcopy(test_lots)
 
-    meta_initial_bids = test_bids
-    meta_initial_lots = test_lots
+    meta_initial_bids = deepcopy(test_bids)
+    meta_initial_lots = deepcopy(test_lots)
 
     relative_to = os.path.dirname(__file__)
 
@@ -994,5 +1031,5 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
 
 
 class BidsOverMaxAwardsMixin(object):
-    initial_bids = test_bids + deepcopy(test_bids)  # double testbids
+    initial_bids = deepcopy(test_bids) + deepcopy(test_bids)  # double testbids
     min_bids_number = MIN_BIDS_NUMBER * 2
