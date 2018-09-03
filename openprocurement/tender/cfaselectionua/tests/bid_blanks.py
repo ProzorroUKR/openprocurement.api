@@ -3,6 +3,7 @@ from copy import deepcopy
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_organization,
     test_agreement,
+    test_features,
 )
 
 

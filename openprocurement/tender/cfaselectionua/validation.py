@@ -73,6 +73,22 @@ def validate_bid_value_amount(request):
             raise_operation_error(request, 'Can\'t post bid with inconsistent lotValue.value.amount')
 
 
+def _compare_codes(parameter, features):
+    for feature in features:
+        if feature.code == parameter.code:
+            return True
+    return False
+
+
+def validate_bid_parameters(request):
+    agreement = request.validated['tender'].agreements[0]
+    bid = request.validated['bid']
+
+    for parameter in bid.parameters:
+        if not _compare_codes(parameter, agreement.features):
+            raise_operation_error(request, 'Can\'t post bid with inconsistent parameters')
+
+
 def validate_bid_document_operation_in_not_allowed_tender_status(request):
     if request.validated['tender_status'] not in ['active.tendering', 'active.qualification']:
         raise_operation_error(request, 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(request.method), request.validated['tender_status']))

@@ -175,9 +175,9 @@ test_lots = [
 ]
 test_features = [
     {
-        "code": "code_item",
+        "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
-        "relatedItem": "1",
+        "relatedItem": test_agreement['items'][0]['id'],
         "title": u"item feature",
         "enum": [
             {
@@ -191,7 +191,7 @@ test_features = [
         ]
     },
     {
-        "code": "code_tenderer",
+        "code": "OCDS-123454-YEARS",
         "featureOf": "tenderer",
         "title": u"tenderer feature",
         "enum": [
@@ -206,6 +206,7 @@ test_features = [
         ]
     }
 ]
+test_agreement['features'] = test_features
 
 
 
