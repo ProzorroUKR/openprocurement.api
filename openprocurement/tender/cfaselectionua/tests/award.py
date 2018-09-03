@@ -118,20 +118,6 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
     initial_bids = test_bids
     initial_lots = test_lots
 
-    def setUp(self):
-        super(TenderAwardDocumentResourceTest, self).setUp()
-        # Create award
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id),
-                                      {'data': {'suppliers': [test_organization],
-                                                'status': 'pending',
-                                                'bid_id': self.initial_bids[0]['id'],
-                                                'lotID': self.initial_lots[0]['id']}})
-        award = response.json['data']
-        self.award_id = award['id']
-        self.app.authorization = auth
-
 
 class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
     docservice = True

@@ -84,7 +84,9 @@ def create_tender_contract_invalid(self):
 def create_tender_contract(self):
     self.app.authorization = ('Basic', ('token', ''))
     response = self.app.post_json('/tenders/{}/contracts'.format(
-        self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id, 'value': self.award_value, 'suppliers': self.award_suppliers}})
+        self.tender_id),
+        {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id,
+                  'value': self.award['value'], 'suppliers': self.award['suppliers']}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     contract = response.json['data']
@@ -178,7 +180,8 @@ def patch_tender_contract(self):
 
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token), {"data": {"value": {"amount": 501}}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'][0]["description"], "Value amount should be less or equal to awarded amount (500.0)")
+    self.assertEqual(response.json['errors'][0]["description"],
+                     "Value amount should be less or equal to awarded amount (469.0)")
 
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token), {"data": {"value": {"amount": 238}}})
     self.assertEqual(response.status, '200 OK')
