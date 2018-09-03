@@ -2,6 +2,7 @@
 from barbecue import chef
 from logging import getLogger
 from openprocurement.api.constants import TZ
+from openprocurement.api.models import Value
 from openprocurement.tender.cfaselectionua.traversal import agreement_factory
 from pkg_resources import get_distribution
 from openprocurement.tender.core.utils import cleanup_bids_for_cancelled_lots, remove_draft_bids
@@ -51,16 +52,16 @@ def check_status(request):
                 'items': [i for i in tender.items if i.relatedLot == award.lotID],
                 'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1)}))
             add_next_award(request)
-    if tender.status == 'active.enquiries' and not tender.tenderPeriod.startDate and tender.enquiryPeriod.endDate.astimezone(TZ) <= now:
+    
+    after_enquiryPeriod_endDate = not tender.tenderPeriod.startDate and tender.enquiryPeriod.endDate.astimezone(TZ) <= now
+    after_tenderPeriod_startDate = tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.astimezone(TZ) <= now
+    if tender.status == 'active.enquiries' and (after_enquiryPeriod_endDate or after_tenderPeriod_startDate):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'active.tendering'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.tendering'}))
         tender.status = 'active.tendering'
+        calculate_agreement_contracts_value_amount(tender)
         return
-    elif tender.status == 'active.enquiries' and tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.astimezone(TZ) <= now:
-        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'active.tendering'),
-                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.tendering'}))
-        tender.status = 'active.tendering'
-        return
+    
     elif not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now:
         LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.auction'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.auction'}))
@@ -256,3 +257,16 @@ def check_period_and_items(request, tender):
 
     if tender.agreements[0].period.endDate < get_now() + request.content_configurator.timedelta:
         request.validated['data']['status'] = 'draft.unsuccessful'
+
+
+def calculate_agreement_contracts_value_amount(tender):
+    agreement = tender.agreements[0]
+    for contract in agreement.contracts:
+        value = Value()
+        value.amount = 0
+        value.currency = contract.unitPrices[0].value.currency
+        value.valueAddedTaxIncluded = contract.unitPrices[0].value.valueAddedTaxIncluded
+        for unitPrice in contract.unitPrices:
+            quantity = [i for i in tender.items if i.id == unitPrice.relatedItem][0].quantity
+            value.amount += unitPrice.value.amount * quantity
+        contract.value = value

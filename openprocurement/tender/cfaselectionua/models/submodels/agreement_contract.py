@@ -7,7 +7,9 @@ from openprocurement.api.models import (
     IsoDateTimeType,
     ListType,
     Model,
-    Organization
+    ModelType,
+    Organization,
+    Value
 )
 from openprocurement.tender.core.models import Parameter, validate_parameters_uniq
 from openprocurement.tender.cfaselectionua.models.submodels.unitprices import UnitPrice
@@ -24,3 +26,4 @@ class AgreementContract(Model):
     awardID = StringType()
     bidID = StringType()
     date = IsoDateTimeType()
+    value = ModelType(Value)

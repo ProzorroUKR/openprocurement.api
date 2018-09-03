@@ -42,6 +42,7 @@ test_procuringEntity["kind"] = "general"
 
 test_items = [
     {
+        "id": test_agreement['items'][0]['id'],
         "description": u"футляри до державних нагород",
         "classification": {
             "scheme": u"ДК021",
@@ -284,6 +285,7 @@ class BaseTenderWebTest(BaseTWT):
                     "startDate": (now).isoformat(),
                     "endDate": (now + ENQUIRY_PERIOD).isoformat()
                 },
+                # "agreements": [test_agreement],
             })
         elif status == 'active.tendering':
             data.update({
@@ -295,6 +297,7 @@ class BaseTenderWebTest(BaseTWT):
                     "startDate": (now).isoformat(),
                     "endDate": (now + timedelta(days=7)).isoformat()
                 },
+                # "agreements": [test_agreement],
                 #"items": test_items
             })
         elif status == 'active.auction':
@@ -309,7 +312,8 @@ class BaseTenderWebTest(BaseTWT):
                 },
                 "auctionPeriod": {
                     "startDate": (now).isoformat()
-                }
+                },
+                # "agreements": [test_agreement],
             })
             if self.initial_lots:
                 data.update({
@@ -338,7 +342,8 @@ class BaseTenderWebTest(BaseTWT):
                 },
                 "awardPeriod": {
                     "startDate": (now).isoformat()
-                }
+                },
+                # "agreements": [test_agreement],
             })
             if self.initial_lots:
                 data.update({
@@ -369,7 +374,8 @@ class BaseTenderWebTest(BaseTWT):
                 "awardPeriod": {
                     "startDate": (now).isoformat(),
                     "endDate": (now).isoformat()
-                }
+                },
+                # "agreements": [test_agreement],
             })
             if self.initial_lots:
                 data.update({
@@ -400,7 +406,8 @@ class BaseTenderWebTest(BaseTWT):
                 "awardPeriod": {
                     "startDate": (now - timedelta(days=10)).isoformat(),
                     "endDate": (now - timedelta(days=10)).isoformat()
-                }
+                },
+                # "agreements": [test_agreement],
             })
             if self.initial_lots:
                 data.update({

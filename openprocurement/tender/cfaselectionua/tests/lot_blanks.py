@@ -5,7 +5,7 @@ from uuid import uuid4
 from email.header import Header
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.cfaselectionua.tests.base import test_organization
+from openprocurement.tender.cfaselectionua.tests.base import test_organization, test_agreement
 
 # Tender Lot Resouce Test
 
@@ -941,9 +941,12 @@ def proc_1lot_0bid(self):
         lot['id'] = uuid4().hex
         lots.append(lot)
     self.initial_data['lots'] = self.initial_lots = lots
+    data = deepcopy(self.initial_data)
+    data['agreements'] = [test_agreement]
+    data['agreements'][0]['id'] = '1'*32
     for i, item in enumerate(self.initial_data['items']):
         item['relatedLot'] = lots[i % len(lots)]['id']
-    response = self.app.post_json('/tenders', {"data": self.initial_data})
+    response = self.app.post_json('/tenders', {"data": data})
     tender_id = self.tender_id = response.json['data']['id']
     owner_token = response.json['access']['token']
     # switch to active.enquiries
