@@ -17,6 +17,8 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.cfaselectionua.validation import (
     validate_update_bid_status,
     validate_view_bids,
+    validate_bid_identifier,
+    validate_bid_value_amount,
 )
 
 from openprocurement.tender.core.utils import (
@@ -31,7 +33,15 @@ from openprocurement.tender.core.utils import (
                    description="Tender bids")
 class TenderBidResource(APIResource):
 
-    @json_view(content_type="application/json", permission='create_bid', validators=(validate_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period))
+    @json_view(content_type="application/json", permission='create_bid', validators=
+        (
+            validate_bid_data,
+            validate_bid_operation_not_in_tendering,
+            validate_bid_operation_period,
+            validate_bid_identifier,
+            validate_bid_value_amount,
+        )
+    )
     def collection_post(self):
         """Registration of new bid proposal
 

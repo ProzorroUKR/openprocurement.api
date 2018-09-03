@@ -9,7 +9,8 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_features_tender_data,
     test_organization,
     test_lots,
-    test_bids
+    test_bids,
+    test_agreement
 )
 from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     # TenderBidResourceTest
@@ -64,7 +65,23 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
 class TenderBidDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_lots = deepcopy(test_lots)
-    initial_bids = test_bids
+
+    def setUp(self):
+        super(TenderBidDocumentResourceTest, self).setUp()
+        # Create bid
+        self.set_status('active.tendering', extra={'agreements': [test_agreement]})
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(self.tender_id),
+            {
+                'data': {
+                    'tenderers': [test_organization],
+                    'lotValues': [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]['id']}]
+                }
+            }
+        )
+        bid = response.json['data']
+        self.bid_id = bid['id']
+        self.bid_token = response.json['access']['token']
 
     test_not_found = snitch(not_found)
     test_create_tender_bid_document = snitch(create_tender_bid_document)

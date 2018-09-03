@@ -38,6 +38,41 @@ def validate_view_bid_document(request):
         raise_operation_error(request, 'Can\'t view bid {} in current ({}) tender status'.format('document' if request.matchdict.get('document_id') else 'documents', request.validated['tender_status']))
 
 
+def _compare_identifiers(identifier, tender):
+    for contract in tender.agreements[0].contracts:
+        for supplier in contract.suppliers:
+            if (supplier.identifier.id == identifier.id) and\
+                    (supplier.identifier.scheme == identifier.scheme) and\
+                    (supplier.identifier.uri == identifier.uri):
+                return True
+    return False
+
+
+def validate_bid_identifier(request):
+    bid = request.validated['bid']
+    tender = request.validated['tender']
+
+    for tenderer in bid.tenderers:
+        if not _compare_identifiers(tenderer.identifier, tender):
+            raise_operation_error(request, 'Can\'t post bid with inconsistent tenderer.identifier')
+
+
+def _compare_values(lotValue, contracts):
+    for contract in contracts:
+        if contract.value.amount == lotValue.value.amount:
+            return True
+    return False
+
+
+def validate_bid_value_amount(request):
+    bid = request.validated['bid']
+    contracts = request.validated['tender'].agreements[0].contracts
+
+    for lotValue in bid.lotValues:
+        if not _compare_values(lotValue, contracts):
+            raise_operation_error(request, 'Can\'t post bid with inconsistent lotValue.value.amount')
+
+
 def validate_bid_document_operation_in_not_allowed_tender_status(request):
     if request.validated['tender_status'] not in ['active.tendering', 'active.qualification']:
         raise_operation_error(request, 'Can\'t {} document in current ({}) tender status'.format(OPERATIONS.get(request.method), request.validated['tender_status']))

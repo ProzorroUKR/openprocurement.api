@@ -11,7 +11,10 @@ from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
 )
 from openprocurement.tender.cfaselectionua.models.tender import Tender
-from openprocurement.tender.cfaselectionua.tests.base import test_organization
+from openprocurement.tender.cfaselectionua.tests.base import (
+    test_organization,
+    test_agreement,
+)
 
 # TenderTest
 
@@ -972,13 +975,12 @@ def tender_features(self):
     data = self.initial_data.copy()
     data['procuringEntity']['contactPoint']['faxNumber'] = u"0440000000"
     item = data['items'][0].copy()
-    item['id'] = "1"
     data['items'] = [item]
     data['features'] = [
         {
             "code": "OCDS-123454-AIR-INTAKE",
             "featureOf": "item",
-            "relatedItem": "1",
+            "relatedItem": item['id'],
             "title": u"Потужність всмоктування",
             "title_en": u"Air Intake",
             "description": u"Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
@@ -1063,7 +1065,7 @@ def patch_tender_jsonpatch(self):
     self.assertEqual(response.status, '201 Created')
     tender = response.json['data']
     token = response.json['access']['token']
-    dateModified = tender.pop('dateModified')
+    tender.pop('dateModified')
 
     import random
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), {'data': {'items': [{"additionalClassifications": [
@@ -1679,7 +1681,7 @@ def first_bid_tender(self):
     response = self.app.post_json(
         '/tenders/{}/bids'.format(tender_id),
         {'data': {'tenderers': [test_organization],
-                  'lotValues': [{"value": {"amount": 450}, "relatedLot": self.initial_data['lots'][0]['id']}]}}
+                  'lotValues': [{"value": {"amount": 500}, "relatedLot": self.initial_data['lots'][0]['id']}]}}
     )
     bid_id = response.json['data']['id']
     bid_token = response.json['access']['token']
@@ -1688,7 +1690,7 @@ def first_bid_tender(self):
     response = self.app.post_json(
         '/tenders/{}/bids'.format(tender_id),
         {'data': {'tenderers': [test_organization],
-                  'lotValues': [{"value": {"amount": 475}, "relatedLot": self.initial_data['lots'][0]['id']}]}}
+                  'lotValues': [{"value": {"amount": 500}, "relatedLot": self.initial_data['lots'][0]['id']}]}}
     )
     # switch to active.auction
     self.set_status('active.auction')

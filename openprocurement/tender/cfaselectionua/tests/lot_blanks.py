@@ -777,6 +777,8 @@ def create_tender_bid_invalid(self):
 
 
 def patch_tender_bid(self):
+    self.set_status('active.tendering')
+
     lot_id = self.initial_lots[0]['id']
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': {'tenderers': [test_organization], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
     self.assertEqual(response.status, '201 Created')
@@ -1054,13 +1056,13 @@ def proc_1lot_2bid(self):
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                  {'data': {'tenderers': [test_organization], 'lotValues': [{"value": {"amount": 450}, 'relatedLot': lot_id}]}})
+                                  {'data': {'tenderers': [test_organization], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
     bid_id = response.json['data']['id']
     bid_token = response.json['access']['token']
     # create second bid
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                  {'data': {'tenderers': [test_organization], 'lotValues': [{"value": {"amount": 475}, 'relatedLot': lot_id}]}})
+                                  {'data': {'tenderers': [test_organization], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
     # switch to active.auction
     self.set_status('active.auction')
     # get auction info
