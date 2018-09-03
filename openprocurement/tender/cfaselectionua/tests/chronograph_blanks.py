@@ -3,7 +3,8 @@ from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaselectionua.tests.base import (
-    test_organization
+    test_organization,
+    test_agreement
 )
 
 
@@ -17,7 +18,8 @@ def switch_to_tendering_by_tenderPeriod_startDate(self):
     self.assertEqual(response.status, '200 OK')
     self.assertNotEqual(response.json['data']["status"], "active.tendering")
     
-    self.set_status('active.tendering', {'status': self.initial_status, "enquiryPeriod": {}})
+    self.set_status('active.tendering',
+        {'status': self.initial_status, "enquiryPeriod": {}, 'agreements': [test_agreement]})
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']["status"], "active.tendering")
@@ -26,6 +28,9 @@ def switch_to_tendering_by_tenderPeriod_startDate(self):
     contracts = response.json['data']['agreements'][0]['contracts']
     for contract in contracts:
         self.assertIn('value', contract)
+        self.assertEqual(contract['value']['amount'],
+                self.initial_data['items'][0]['quantity'] * contract['unitPrices'][0]['value']['amount']
+        )
 
     # testing min 1 day delta before patching from active.enquiries to active.tendering by chronograph
     self.set_status('active.tendering',
@@ -92,7 +97,7 @@ def switch_to_unsuccessful(self):
 
 
 def set_auction_period(self):
-    self.set_status('active.tendering', {'status': 'active.enquiries'})
+    self.set_status('active.tendering', {'status': 'active.enquiries', 'agreements': [test_agreement]})
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
@@ -129,7 +134,7 @@ def set_auction_period(self):
 
 
 def reset_auction_period(self):
-    self.set_status('active.tendering', {'status': 'active.enquiries'})
+    self.set_status('active.tendering', {'status': 'active.enquiries', 'agreements': [test_agreement]})
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')

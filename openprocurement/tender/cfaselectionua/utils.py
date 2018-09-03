@@ -2,6 +2,7 @@
 from barbecue import chef
 from logging import getLogger
 from openprocurement.api.constants import TZ
+from openprocurement.api.models import Value
 from openprocurement.tender.cfaselectionua.traversal import agreement_factory
 from pkg_resources import get_distribution
 from openprocurement.tender.core.utils import cleanup_bids_for_cancelled_lots, remove_draft_bids
@@ -261,8 +262,10 @@ def check_period_and_items(request, tender):
 def calculate_agreement_contracts_value_amount(tender):
     agreement = tender.agreements[0]
     for contract in agreement.contracts:
-        value = contract._fields['value']({})
+        value = Value()
         value.amount = 0
+        value.currency = contract.unitPrices[0].value.currency
+        value.valueAddedTaxIncluded = contract.unitPrices[0].value.valueAddedTaxIncluded
         for unitPrice in contract.unitPrices:
             quantity = [i for i in tender.items if i.id == unitPrice.relatedItem][0].quantity
             value.amount += unitPrice.value.amount * quantity

@@ -278,14 +278,14 @@ class BaseTenderWebTest(BaseTWT):
             self.set_status(self.initial_status)
 
     def set_status(self, status, extra=None):
-        data = {'status': status,
-                'agreements': [test_agreement]}
+        data = {'status': status}
         if status == 'active.enquiries':
             data.update({
                 "enquiryPeriod": {
                     "startDate": (now).isoformat(),
                     "endDate": (now + ENQUIRY_PERIOD).isoformat()
                 },
+                # "agreements": [test_agreement],
             })
         elif status == 'active.tendering':
             data.update({
@@ -297,6 +297,7 @@ class BaseTenderWebTest(BaseTWT):
                     "startDate": (now).isoformat(),
                     "endDate": (now + timedelta(days=7)).isoformat()
                 },
+                # "agreements": [test_agreement],
                 #"items": test_items
             })
         elif status == 'active.auction':
@@ -311,7 +312,8 @@ class BaseTenderWebTest(BaseTWT):
                 },
                 "auctionPeriod": {
                     "startDate": (now).isoformat()
-                }
+                },
+                # "agreements": [test_agreement],
             })
             if self.initial_lots:
                 data.update({
@@ -340,7 +342,8 @@ class BaseTenderWebTest(BaseTWT):
                 },
                 "awardPeriod": {
                     "startDate": (now).isoformat()
-                }
+                },
+                # "agreements": [test_agreement],
             })
             if self.initial_lots:
                 data.update({
@@ -371,7 +374,8 @@ class BaseTenderWebTest(BaseTWT):
                 "awardPeriod": {
                     "startDate": (now).isoformat(),
                     "endDate": (now).isoformat()
-                }
+                },
+                # "agreements": [test_agreement],
             })
             if self.initial_lots:
                 data.update({
@@ -402,7 +406,8 @@ class BaseTenderWebTest(BaseTWT):
                 "awardPeriod": {
                     "startDate": (now - timedelta(days=10)).isoformat(),
                     "endDate": (now - timedelta(days=10)).isoformat()
-                }
+                },
+                # "agreements": [test_agreement],
             })
             if self.initial_lots:
                 data.update({
