@@ -1183,9 +1183,6 @@ def patch_max_awards(self):
 
 
 def _awards_to_bids_number(self, max_awards_number, bids_number, expected_awards_number):
-    response = self.app.get('/tenders')
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(len(response.json['data']), 0)
 
     initial_data = deepcopy(self.initial_data)
     initial_data['maxAwardsCount'] = max_awards_number
