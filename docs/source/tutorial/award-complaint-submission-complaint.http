@@ -1,4 +1,4 @@
-POST /api/2.4/tenders/1c6c089ce5cf4351a4d94479df399204/awards/56afd94ee048469eb438c2e954527c77/complaints?acc_token=bc1db9ce1298425d821c4a4b982a2229 HTTP/1.0
+POST /api/2.4/tenders/75628743f9744689aaa51a40fa432fcd/awards/01948fa706ed4d02b96b8e2fe08c5902/complaints?acc_token=c98d24216e7146f4956d9d8518d1dc89 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1703
 Content-Type: application/json
@@ -35,14 +35,16 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/1c6c089ce5cf4351a4d94479df399204/awards/56afd94ee048469eb438c2e954527c77/complaints/df24e267fa0641939dcd279e73c71392
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/75628743f9744689aaa51a40fa432fcd/awards/01948fa706ed4d02b96b8e2fe08c5902/complaints/b342ca37f544483dbdc070cd280b1423
 {
   "access": {
-    "token": "dddeaa47850342b980409772e72ec0ca"
+    "token": "3067bd9f38144e1f9567e359415590fb"
   }, 
   "data": {
+    "relatedLot": "db4b4574ad3b4e7fa8968cf243d4262b", 
     "status": "pending", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -64,12 +66,11 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/1c6c089ce5cf435
         "locality": "м. Вінниця"
       }
     }, 
-    "title": "Недостатньо інформації", 
-    "dateSubmitted": "2018-08-08T16:11:04.598718+03:00", 
-    "complaintID": "UA-2018-08-08-000001.2", 
-    "date": "2018-08-08T16:11:04.598581+03:00", 
+    "dateSubmitted": "2018-09-04T11:14:12.355772+03:00", 
+    "complaintID": "UA-2018-09-04-000001.2", 
+    "date": "2018-09-04T11:14:12.355612+03:00", 
     "type": "complaint", 
-    "id": "df24e267fa0641939dcd279e73c71392"
+    "id": "b342ca37f544483dbdc070cd280b1423"
   }
 }
 

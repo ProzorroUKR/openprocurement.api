@@ -16,22 +16,22 @@ Schema
 :awardID:
     string, required
 
+:bidID:
+    string
+
+:parameters:
+    List of :ref:`Parameter` objects, auto-generated, read-only
+
 :suppliers:
     List of :ref:`Organization` objects, auto-generated, read-only
 
 :status:
     string, required
 
-:period:
-    :ref:`Period`
-
 :date:
     string, :ref:`date`
 
     The date when the contract was changed or activated.
-
-:bidID:
-    string
 
 :unitPrices:
     List of :ref:`UnitPrice`

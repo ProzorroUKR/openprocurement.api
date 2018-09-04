@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/dd44e80c60e34cf58e557590d6a056f3/qualifications/42689799d2a542098c62bb12e59d368e/complaints/29b7d60dda37416ab7312ba232142d1d?acc_token=54506c28024248cd8569e41962d4297f HTTP/1.0
+PATCH /api/2.4/tenders/eb7aa3a4fe7c4a06b3e2056d21c78e96/qualifications/12d09c56d38f4e57a1e9ab50ad5090ef/complaints/741931c691674b5886dcf90bfe4b08c4?acc_token=bec5124ef2f842b0aae8b817d1208442 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 387
 Content-Type: application/json
@@ -16,18 +16,19 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
+    "relatedLot": "831fccdbd5144e1c95c2c927c7da5027", 
     "status": "answered", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
     "resolutionType": "resolved", 
     "type": "claim", 
-    "bid_id": "685650a523734ce0a739da7b1e638c33", 
-    "dateAnswered": "2018-08-08T16:11:18.183069+03:00", 
-    "dateSubmitted": "2018-08-08T16:11:18.073087+03:00", 
-    "complaintID": "UA-2018-08-08-000001.6", 
-    "date": "2018-08-08T16:11:18.189422+03:00", 
+    "bid_id": "8b2d4466f0784f1996bbc1e4922a8510", 
+    "dateAnswered": "2018-09-04T09:56:58.045332+03:00", 
+    "dateSubmitted": "2018-09-04T09:56:57.900859+03:00", 
+    "complaintID": "UA-2018-09-04-000001.6", 
+    "date": "2018-09-04T09:56:58.057718+03:00", 
     "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
-    "id": "29b7d60dda37416ab7312ba232142d1d"
+    "id": "741931c691674b5886dcf90bfe4b08c4"
   }
 }
 

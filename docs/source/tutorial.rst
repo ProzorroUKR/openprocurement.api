@@ -30,6 +30,8 @@ Error states that no `data` has been found in JSON body.
 
 .. index:: Tender
 
+.. ПРЕЦЕДЕНТ Т1. Опублікувати оголошення
+
 Creating tender
 ---------------
 
@@ -48,6 +50,10 @@ created with `active.enquiries` status.
 
 Let's access the URL of the created object (the `Location` header of the response):
 
+The peculiarity of the Close FrameworkAgreement UA procedure is that ``procurementMethodType`` was changed from
+``belowThreshold`` to ``closeFrameworkAgreementUA``.
+Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically.
+
 .. include:: tutorial/blank-tender-view.http
    :code:
 
@@ -62,21 +68,7 @@ Let's see what listing of tenders reveals us:
 
 We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
 
-The previous tender contained only required fields. Let's try creating tender with more data
-(tender has status `created`):
-
-.. include:: tutorial/create-tender-procuringEntity.http
-   :code:
-
-And again we have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties.
-
-Let's check what tender registry contains:
-
-.. include:: tutorial/tender-listing-after-procuringEntity.http
-   :code:
-
-And indeed we have 2 tenders now.
-
+.. ПРЕЦЕДЕНТ Т2. Внести змінни в оголошення
 
 Modifying tender
 ----------------
@@ -102,6 +94,7 @@ Procuring entity can set bid guarantee:
 
 
 .. index:: Document
+
 
 Uploading documentation
 -----------------------
@@ -129,20 +122,6 @@ And again we can confirm that there are two documents uploaded.
 .. include:: tutorial/tender-documents-2.http
    :code:
 
-Let’s add new `documentType` field with `technicalSpecifications` parameter to the previously uploaded document:
-
-.. include:: tutorial/tender-document-add-documentType.http
-   :code:
-
-Success! Response code is `200 OK` and it confirms that `documentType` field with `technicalSpecifications` parameter was added .
-
-Now let’s try to modify any field in our document. For example, `description`:
-
-.. include:: tutorial/tender-document-edit-docType-desc.http
-   :code:
-
-`200 OK` response was returned. The description was modified successfully.
-
 In case we made an error, we can reupload the document over the older version:
 
 .. include:: tutorial/update-award-criteria.http
@@ -156,10 +135,14 @@ And we can see that it is overriding the original version:
 
 .. index:: Enquiries, Question, Answer
 
+
+.. ПРЕЦЕДЕНТ Т5. Задати питання
+
 Enquiries
 ---------
 
-When tender is in `active.enquiry` status, interested parties can ask questions:
+When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``
+hasn't come yet, interested parties can ask questions:
 
 .. include:: tutorial/ask-question.http
    :code:
@@ -180,7 +163,16 @@ And individual answer:
    :code:
 
 
+Enquiries can be made only during ``Tender.enqueryPeriod``
+
+.. include:: tutorial/ask-question-after-enquiry-period.http
+   :code:
+
+
 .. index:: Bidding
+
+.. ПРЕЦЕДЕНТ Т3. Подати пропозицію
+.. ПРЕЦЕДЕНТ Т4. Внести зміну в пропозицію
 
 Registering bid
 ---------------
@@ -188,7 +180,7 @@ Registering bid
 Step-by-step registration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When ``Tender.tenderingPeriod.startDate`` comes, Tender switches to `active.tendering` status that allows registration of bids.
+Tender status ``active.tendering`` allows registration of bids.
 
 Bidder can register a bid in `draft` status:
 
@@ -200,15 +192,110 @@ And activate a bid:
 .. include:: tutorial/activate-bidder.http
    :code:
 
-And upload proposal document:
+Proposal Uploading
+~~~~~~~~~~~~~~~~~~
+
+Then bidder should upload proposal technical document(s):
 
 .. include:: tutorial/upload-bid-proposal.http
+   :code:
+
+Confidentiality
+^^^^^^^^^^^^^^^
+
+Documents can be either public or private:
+
+  1. Privacy settings can be changed only for the latest version of the document.
+  2. When you upload new version of the document, privacy settings are copied from the previous version.
+  3. Privacy settings can be changed only during `tenderPeriod` (with `active.tendering` status).
+  4. If tender has status `active.qualification` winner can upload only public documents.
+
+Let's upload private document:
+
+.. include:: tutorial/upload-bid-private-proposal.http
+   :code:
+
+To define the document as "private" - `confidentiality` and `confidentialityRationale` fields should be set.
+
+`confidentiality` field value can be either `buyerOnly` (document is private) or `public` (document is publicly accessible).
+
+Content of private documents (`buyerOnly`) can be accessed only by procuring entity or by participant who uploaded them.
+
+`confidentialityRationale` field is required only for private documents and should contain at least 30 characters.
+
+Let's mark the document as "private":
+
+.. include:: tutorial/mark-bid-doc-private.http
    :code:
 
 It is possible to check the uploaded documents:
 
 .. include:: tutorial/bidder-documents.http
    :code:
+
+.. _envelopes:
+
+Financial, eligibility and qualification documents uploading
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Financial, eligibility and qualification documents are also a part of Bid but are located in different end-points.
+
+In order to create and/or get financial document ``financial_documents`` end-point should be used:
+
+.. include:: tutorial/upload-bid-financial-document-proposal.http
+   :code:
+
+Get financial documents:
+
+.. include:: tutorial/bidder-financial-documents.http
+   :code:
+
+In order to create and/or get eligibility document ``eligibility_documents`` end-point should be used:
+
+.. include:: tutorial/upload-bid-eligibility-document-proposal.http
+   :code:
+
+In order to create and/or get qualification document ``qualification_documents`` end-point should be used:
+
+.. include:: tutorial/upload-bid-qualification-document-proposal.http
+   :code:
+
+
+`Financial` and `qualification` documents will be publicly accessible after the auction.
+`Eligibility` documents will become publicly accessible starting from tender pre-qualification period.
+
+Here is bidder proposal with all documents.
+
+.. include:: tutorial/bidder-view-financial-documents.http
+   :code:
+
+Note that financial, eligibility, and qualification documents are stored in `financialDocuments`,
+`eligibilityDocuments`, and `qualificationDocuments` attributes of :ref:`Bid`.
+
+
+Bid invalidation
+~~~~~~~~~~~~~~~~
+
+If tender is modified, status of all bid proposals will be changed to ``invalid``.
+Bid proposal will look the following way after tender has been modified:
+
+.. include:: tutorial/bidder-after-changing-tender.http
+   :code:
+
+Bid confirmation
+~~~~~~~~~~~~~~~~
+
+Bidder should confirm bid proposal:
+
+.. include:: tutorial/bidder-activate-after-changing-tender.http
+   :code:
+
+Close FrameworkAgreement UA procedure demands at least three bidders, so there should be at least three bid proposals
+registered to move to auction stage:
+
+.. include:: tutorial/register-2nd-bidder.http
+   :code:
+
 
 Batch-mode registration
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -220,6 +307,57 @@ Register bid with documents using one request:
 
 
 .. index:: Awarding, Qualification
+
+
+.. ПРЕЦЕДЕНТ Т10. Провести прекваліфікацію
+
+Bid Qualification
+-----------------
+
+Close FrameworkAgreement UA procedure requires bid qualification.
+
+Let's list qualifications:
+
+
+.. include:: tutorial/qualifications-listing.http
+   :code:
+
+Approve three bids through qualification objects:
+
+.. include:: tutorial/approve-qualification1.http
+   :code:
+
+.. include:: tutorial/approve-qualification2.http
+   :code:
+
+.. include:: tutorial/approve-qualification4.http
+   :code:
+
+We can also reject bid:
+
+.. include:: tutorial/reject-qualification3.http
+   :code:
+
+And check that qualified bids are switched to `active`:
+
+.. include:: tutorial/qualificated-bids-view.http
+   :code:
+
+Rejected bid is not shown in `bids/` listing.
+
+We can access rejected bid by id:
+
+.. include:: tutorial/rejected-bid-view.http
+   :code:
+
+Procuring entity approves qualifications by switching to next status:
+
+.. include:: tutorial/pre-qualification-confirmation.http
+   :code:
+
+You may notice 10 day stand-still time set in `qualificationPeriod`.
+
+.. ПРЕЦЕДЕНТ Т11. Брати участь в аукціоні
 
 Auction
 -------
@@ -239,13 +377,75 @@ See the `Bid.participationUrl` in the response. Similar, but different, URL can 
 .. include:: tutorial/bidder2-participation-url.http
    :code:
 
+.. include:: tutorial/bidder4-participation-url.http
+   :code:
+
+.. ПРЕЦЕДЕНТ Т12. Визначити переможців
+
 Confirming qualification
 ------------------------
 
-Qualification comission registers its decision via the following call:
+Кваліфікаційна комісія отримує список кваліфікацій
+
+.. include:: tutorial/qualifications-list.http
+   :code:
+
+And registers its decisions via the following call per award:
 
 .. include:: tutorial/confirm-qualification.http
    :code:
+
+Також комісія може дизкваліфікувати переможця передавши у виклику `{'data': {'status': 'unsuccessful'}}`
+
+
+.. ПРЕЦЕДЕНТ Т13. Додати документи з цінами
+
+Uploading document with unit price per item
+-------------------------------------------
+
+При переході тендеру в статус `active.awarded` створюється :ref:`Agreement` і кваліфікованим учасникам дається
+5 робочих днів, щоб завантажити документ з цінами за одиницю по кожному `item`
+
+.. include:: tutorial/upload-prices-document.http
+   :code:
+
+Заповнення замовником цін за одиницю
+------------------------------------
+
+Отримати список об'єктів :ref:`Agreement` можна наступним викликом
+
+.. include:: tutorial/agreements-list.http
+   :code:
+
+Контракти створюється по одному на кваліфікованого переможця
+
+Отримати список об'єктів :ref:`Contract` за якими потрібно внести ціни за одиницю замовник може наступним викликом
+
+.. include:: tutorial/agreement-contracts-list.http
+   :code:
+
+Вносити ціни за одиницю дозволяється лише по всім айтемам разом.
+
+.. include:: tutorial/agreement-contract-unitprices1.http
+   :code:
+
+.. include:: tutorial/agreement-contract-unitprices2.http
+   :code:
+
+.. include:: tutorial/agreement-contract-unitprices3.http
+   :code:
+
+Також замовнику дозволяється виключити певного переможця з рамки передавши контракту `{'data': {'status': 'unsuccessful'}}`
+
+Для успішного підписання рамкової угоди потрібно не менше 3-х активних контрактів
+
+Підписати Рамкову угоду можна лише після настання `agreement.contractPeriod.clarificationsUntil`
+
+.. include:: tutorial/agreement-signing.http
+   :code:
+
+
+
 
 Setting  contract value
 -----------------------

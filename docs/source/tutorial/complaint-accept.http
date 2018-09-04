@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/2de2e39a509c409a80759cf890b4ba16/complaints/53c7651767084e788aef667c76e33528 HTTP/1.0
+PATCH /api/2.4/tenders/91a548671b8a4384b3f681c6be59ff26/complaints/eb1afda413b744fca9371a88183c0506 HTTP/1.0
 Authorization: Basic cmV2aWV3ZXI6
 Content-Length: 32
 Content-Type: application/json
@@ -21,12 +21,12 @@ Content-Type: application/json; charset=UTF-8
         "author": "complaint_owner", 
         "language": "uk", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/a55918da04f2446caddc10fc3a964e06?KeyID=bc4cf49f&Signature=NvwZUI6NGUue9ye7rIJpxBKYOyV2Fwnl9f0j0Dx%2F9S8%252Bozv8YIz8xA3Y8eJW2rrWvAN2ZdRnUlrD31A0Mv7vBg%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/157a3fcda6464a3ebcc7dd73eb283409?KeyID=ff73df35&Signature=NcSIIMSWDwwbpuMtMUUvTPvvBZcqhc4DtZM3ZUzs8kjGXPKbNweRqv8%252BS3A2a3R1vrFxHKW4tMMgMXzlmlc5DQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-08-08T16:11:09.413621+03:00", 
-        "id": "0c19f290c2324993801d7841dbf91b4a", 
-        "dateModified": "2018-08-08T16:11:09.413638+03:00"
+        "datePublished": "2018-09-04T11:14:17.915141+03:00", 
+        "id": "b76895b0f9ee426fad64ef4b2bf119c1", 
+        "dateModified": "2018-09-04T11:14:17.915157+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -52,13 +52,13 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
-    "dateAccepted": "2018-08-08T16:11:10.158777+03:00", 
-    "dateSubmitted": "2018-08-08T16:11:09.646895+03:00", 
-    "complaintID": "UA-2018-08-08-000001.1", 
-    "date": "2018-08-08T16:11:10.165760+03:00", 
+    "dateAccepted": "2018-09-04T11:14:18.771044+03:00", 
+    "dateSubmitted": "2018-09-04T11:14:18.200944+03:00", 
+    "complaintID": "UA-2018-09-04-000001.1", 
+    "date": "2018-09-04T11:14:18.776880+03:00", 
     "acceptance": true, 
     "type": "complaint", 
-    "id": "53c7651767084e788aef667c76e33528"
+    "id": "eb1afda413b744fca9371a88183c0506"
   }
 }
 

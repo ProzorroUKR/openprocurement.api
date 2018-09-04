@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/dd44e80c60e34cf58e557590d6a056f3/qualifications/42689799d2a542098c62bb12e59d368e/complaints/ab38cabe2e2f484c985deb1432447b79?acc_token=5cb4d29b29364009822ef991a898a37d HTTP/1.0
+PATCH /api/2.4/tenders/eb7aa3a4fe7c4a06b3e2056d21c78e96/qualifications/12d09c56d38f4e57a1e9ab50ad5090ef/complaints/3b467fce260949ac925703961d000d68?acc_token=6f426095aa7e4221b03f054fe0dc750e HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 150
 Content-Type: application/json
@@ -15,16 +15,17 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
+    "relatedLot": "831fccdbd5144e1c95c2c927c7da5027", 
     "status": "cancelled", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
-    "bid_id": "685650a523734ce0a739da7b1e638c33", 
+    "bid_id": "8b2d4466f0784f1996bbc1e4922a8510", 
     "cancellationReason": "Умови виправлено", 
-    "dateCanceled": "2018-08-08T16:11:19.150238+03:00", 
-    "complaintID": "UA-2018-08-08-000001.9", 
-    "date": "2018-08-08T16:11:19.158468+03:00", 
+    "dateCanceled": "2018-09-04T09:56:59.332870+03:00", 
+    "complaintID": "UA-2018-09-04-000001.9", 
+    "date": "2018-09-04T09:56:59.344020+03:00", 
     "type": "claim", 
-    "id": "ab38cabe2e2f484c985deb1432447b79"
+    "id": "3b467fce260949ac925703961d000d68"
   }
 }
 

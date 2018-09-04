@@ -1,6 +1,6 @@
-POST /api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941/bids HTTP/1.0
+POST /api/2.4/tenders/3c9f0ba3810346ad895f5da76bf91287/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 749
+Content-Length: 816
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -8,9 +8,14 @@ DATA:
   "data": {
     "selfEligible": true, 
     "selfQualified": true, 
-    "value": {
-      "amount": 499
-    }, 
+    "lotValues": [
+      {
+        "relatedLot": "a26065fda40c43719856effe2013254a", 
+        "value": {
+          "amount": 499
+        }
+      }
+    ], 
     "tenderers": [
       {
         "contactPoint": {
@@ -38,19 +43,26 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941/bids/83d77be00dd34fe1a742a6935da26942
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/3c9f0ba3810346ad895f5da76bf91287/bids/59d1eba0b90c4f1ea67413f6f37d2cc7
 {
   "access": {
-    "token": "ff95e0332dd64f6d8255f1fc22b7f149"
+    "token": "ec606e9d27d64560a1862ffa5524b63a"
   }, 
   "data": {
     "status": "pending", 
     "selfEligible": true, 
-    "value": {
-      "currency": "UAH", 
-      "amount": 499.0, 
-      "valueAddedTaxIncluded": true
-    }, 
+    "lotValues": [
+      {
+        "relatedLot": "a26065fda40c43719856effe2013254a", 
+        "date": "2018-09-04T16:14:10.720899+03:00", 
+        "status": "pending", 
+        "value": {
+          "currency": "UAH", 
+          "amount": 499.0, 
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ], 
     "selfQualified": true, 
     "tenderers": [
       {
@@ -74,8 +86,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/a1bb69aea62e453
         }
       }
     ], 
-    "date": "2018-08-08T16:11:13.193017+03:00", 
-    "id": "83d77be00dd34fe1a742a6935da26942"
+    "date": "2018-09-04T16:14:10.720589+03:00", 
+    "id": "59d1eba0b90c4f1ea67413f6f37d2cc7"
   }
 }
 
