@@ -209,7 +209,6 @@ test_features = [
 test_agreement['features'] = test_features
 
 
-
 class BaseTenderWebTest(BaseTWT):
     initial_data = test_tender_data
     initial_status = None

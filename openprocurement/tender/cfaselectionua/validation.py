@@ -38,8 +38,8 @@ def validate_view_bid_document(request):
         raise_operation_error(request, 'Can\'t view bid {} in current ({}) tender status'.format('document' if request.matchdict.get('document_id') else 'documents', request.validated['tender_status']))
 
 
-def _compare_identifiers(identifier, tender):
-    for contract in tender.agreements[0].contracts:
+def _compare_identifiers(identifier, contracts):
+    for contract in contracts:
         for supplier in contract.suppliers:
             if (supplier.identifier.id == identifier.id) and\
                     (supplier.identifier.scheme == identifier.scheme) and\
@@ -50,10 +50,10 @@ def _compare_identifiers(identifier, tender):
 
 def validate_bid_identifier(request):
     bid = request.validated['bid']
-    tender = request.validated['tender']
+    contracts = request.validated['tender'].agreements[0].contracts
 
     for tenderer in bid.tenderers:
-        if not _compare_identifiers(tenderer.identifier, tender):
+        if not _compare_identifiers(tenderer.identifier, contracts):
             raise_operation_error(request, 'Can\'t post bid with inconsistent tenderer.identifier')
 
 
@@ -73,19 +73,20 @@ def validate_bid_value_amount(request):
             raise_operation_error(request, 'Can\'t post bid with inconsistent lotValue.value.amount')
 
 
-def _compare_codes(parameter, features):
-    for feature in features:
-        if feature.code == parameter.code:
-            return True
+def _compare_features(parameter, contracts):
+    for contract in contracts:
+        for p in contract.parameters:
+            if p.code == parameter.code and p.value == parameter.value:
+                return True
     return False
-
+            
 
 def validate_bid_parameters(request):
-    agreement = request.validated['tender'].agreements[0]
     bid = request.validated['bid']
+    contracts = request.validated['tender'].agreements[0].contracts
 
     for parameter in bid.parameters:
-        if not _compare_codes(parameter, agreement.features):
+        if not _compare_features(parameter, contracts):
             raise_operation_error(request, 'Can\'t post bid with inconsistent parameters')
 
 

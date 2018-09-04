@@ -10,7 +10,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_organization,
     test_lots,
     test_bids,
-    test_agreement
+    test_agreement,
 )
 from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     # TenderBidResourceTest
@@ -61,6 +61,32 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
     test_features_bid = snitch(features_bid)
     test_features_bid_invalid = snitch(features_bid_invalid)
 
+    def setUp(self):
+        super(TenderBidFeaturesResourceTest, self).setUp()
+        tender = self.db.get(self.tender_id)
+        agreement = tender['agreements'][0]
+        agreement['contracts'][0]['parameters'] = [
+            {
+                'code': 'OCDS-123454-AIR-INTAKE',
+                'value': 0.1
+            },
+            {
+                'code': 'OCDS-123454-YEARS',
+                'value': 0.1
+            }
+        ]
+        agreement['contracts'][1]['parameters'] = [
+            {
+                'code': 'OCDS-123454-AIR-INTAKE',
+                'value': 0.15
+            },
+            {
+                'code': 'OCDS-123454-YEARS',
+                'value': 0.15
+            }
+        ]
+        self.db.save(tender)
+
 
 class TenderBidDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
@@ -69,7 +95,6 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bid
-        self.set_status('active.tendering', extra={'agreements': [test_agreement]})
         response = self.app.post_json(
             '/tenders/{}/bids'.format(self.tender_id),
             {

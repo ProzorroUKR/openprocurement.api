@@ -188,6 +188,7 @@ def create_tender_bid_invalid(self):
 
     # no identifier could be found in agreement
     tenderer = deepcopy(test_organization)
+    old_uri = tenderer['identifier']['uri']
     tenderer['identifier']['uri'] = 'http://wrong.path.com'
     response = self.app.post_json(
         request_path,
@@ -209,6 +210,7 @@ def create_tender_bid_invalid(self):
             u'name': u'data'
         }
     ])
+    tenderer['identifier']['uri'] = old_uri
 
     # no lotValue.value.amount could be found in agreement
     response = self.app.post_json(
@@ -216,7 +218,7 @@ def create_tender_bid_invalid(self):
         {
             'data': {
                 'tenderers': [tenderer],
-                'lotValues': [{'value': {'amount': 500}, 'relatedLot': self.initial_lots[0]['id']}]
+                'lotValues': [{'value': {'amount': 42}, 'relatedLot': self.initial_lots[0]['id']}]
             }
         },
         status=403
@@ -226,12 +228,12 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {
-            u'description': u'Can\'t post bid with inconsistent tenderer.identifier',
+            u'description': u'Can\'t post bid with inconsistent lotValue.value.amount',
             u'location': u'body',
             u'name': u'data'
         }
     ])
-
+    
 
 def create_tender_bid(self):
     dateModified = self.db.get(self.tender_id).get('dateModified')
@@ -478,7 +480,7 @@ def get_tender_tenderers(self):
     ])
 
 
-def bid_Administrator_change(self):   
+def bid_Administrator_change(self):
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': {'tenderers': [test_organization],
                                             'lotValues': [{"value": {"amount": 500},
@@ -612,6 +614,21 @@ def features_bid_invalid(self):
         {u'description': [{u'value': [u'value should be one of feature value.']}], u'location': u'body', u'name': u'parameters'}
     ])
 
+    # no parameter could be found in agreement
+    data["parameters"][1]["value"] = 0.05
+    data["lotValues"][0]["value"]["amount"] = 500
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {
+            "location": "body",
+            "name": "data",
+            "description": "Can't post bid with inconsistent parameters"
+        }
+    ])
+    
 
 # TenderBidDocumentResourceTest
 
