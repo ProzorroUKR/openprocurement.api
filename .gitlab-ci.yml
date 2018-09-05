@@ -5,5 +5,5 @@ before_script:
   - bin/buildout -N
 tests:
   script:
-    - bin/py.test openprocurement/planning/api/tests --cov=openprocurement/planning/api
+    - bin/py.test ./openprocurement/planning/api/tests --cov=openprocurement/planning/api
 

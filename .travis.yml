@@ -19,7 +19,7 @@ before_install:
 install:
   - bin/buildout -N
 script:
-  - bin/py.test openprocurement/planning/api/tests --cov=openprocurement/planning/api
+  - bin/py.test ./openprocurement/planning/api/tests --cov=openprocurement/planning/api
 after_success:
   - bin/coveralls
 notifications:
