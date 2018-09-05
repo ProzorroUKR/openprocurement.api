@@ -50,13 +50,6 @@ def add_tender_complaints(self, statuses):
         self.app.authorization = ('Basic', ('broker', ''))
 
 
-def assert_complaint_statuses(self, complaint_statuses):
-    response = self.get_tender(role='broker')
-    for i in response.json['data']['complaints']:
-        self.assertIn(i['status'], complaint_statuses)
-        complaint_statuses.remove(i['status'])
-
-
 def cancellation_tender_active_tendering(self):
     response = self.get_tender(role='broker')
     self.assertEqual(response.json['data']["status"], 'active.tendering')
@@ -68,17 +61,14 @@ def cancellation_tender_active_tendering(self):
     self.cancel_tender()
     assert_statuses(
         self, rules={
-          'data.status': 'cancelled',
-          'data.lots[*].status': ['active'],
-          'data.bids[*].status': None,
-          'data.qualifications[*].status': None,
-          'data.awards[*].status': None,
-          'data.agreements[*].status': None
+            'data.status': 'cancelled',
+            'data.lots[*].status': ['active'],
+            'data.bids[*].status': None,
+            'data.qualifications[*].status': None,
+            'data.awards[*].status': None,
+            'data.agreements[*].status': None,
+            'data.complaints[*].status': ['claim']
         })
-
-    # Complaints status
-    response = self.get_tender(role='broker')
-    self.assertEqual(response.json['data']['complaints'][0]['status'], 'claim')
 
 
 def cancellation_tender_active_pre_qualification(self):
@@ -96,11 +86,9 @@ def cancellation_tender_active_pre_qualification(self):
                                     'invalid.pre-qualification'],
             'data.qualifications[*].status': ['pending', 'pending', 'pending'],
             'data.awards[*].status': None,
-            'data.agreements[*].status': None
+            'data.agreements[*].status': None,
+            'data.complaints[*].status':  ['invalid', 'stopped', 'mistaken']
         })
-    # omplaints status
-    response = self.get_tender(role='broker')
-    self.assertEqual(response.json['data']['complaints'][0]['status'], 'invalid')
 
 
 def cancellation_tender_active_pre_qualification_stand_still(self):
@@ -145,10 +133,11 @@ def cancellation_tender_active_pre_qualification_stand_still(self):
                                     'invalid.pre-qualification'],
             'data.qualifications[*].status': ['active', 'active', 'active'],
             'data.awards[*].status': None,
-            'data.agreements[*].status': None
+            'data.agreements[*].status': None,
+            'data.complaints[*].status': ['invalid']
+
         })
     response = self.get_tender(role='broker')
-    self.assertEqual(response.json['data']['complaints'][0]['status'], 'invalid')
     for qualification in response.json['data']['qualifications']:
         if qualification['id'] == qualification_id:
             self.assertEqual(qualification['complaints'][0]['status'], 'pending')
@@ -182,9 +171,10 @@ def cancellation_tender_active_auction(self):
                                     'invalid.pre-qualification'],
             'data.qualifications[*].status': ['active', 'active', 'active'],
             'data.awards[*].status': None,
-            'data.agreements[*].status': None
+            'data.agreements[*].status': None,
+            'data.complaints[*].status': ['invalid', 'stopped', 'mistaken']
+
         })
-    assert_complaint_statuses(self, ['invalid', 'stopped', 'mistaken'])
     response = self.get_tender(role='broker')
     for qualification in response.json['data']['qualifications']:
         if qualification['id'] == qualification_id:
@@ -204,9 +194,9 @@ def cancellation_tender_active_qualification(self):
             'data.bids[*].status': ['active', 'active', 'active'],
             'data.qualifications[*].status': ['active', 'active', 'active'],
             'data.awards[*].status': ['pending', 'pending', 'pending'],
-            'data.agreements[*].status': None
+            'data.agreements[*].status': None,
+            'data.complaints[*].status': ['invalid', 'stopped', 'mistaken']
         })
-    assert_complaint_statuses(self, ['invalid', 'stopped', 'mistaken'])
 
 
 def cancellation_tender_active_qualification_stand_still(self):
@@ -233,9 +223,9 @@ def cancellation_tender_active_qualification_stand_still(self):
             'data.bids[*].status': ['active', 'active', 'active'],
             'data.qualifications[*].status': ['active', 'active', 'active'],
             'data.awards[*].status': ['active', 'active', 'active'],
-            'data.agreements[*].status': None
+            'data.agreements[*].status': None,
+            'data.complaints[*].status': ['invalid', 'stopped', 'mistaken']
         })
-    assert_complaint_statuses(self, ['invalid', 'stopped', 'mistaken'])
     response = self.get_tender(role='broker')
     for award in response.json['data']['awards']:
         if award['id'] == award_id:
@@ -255,9 +245,9 @@ def cancellation_tender_active_awarded(self):
             'data.bids[*].status': ['active', 'active', 'active'],
             'data.qualifications[*].status': ['active', 'active', 'active'],
             'data.awards[*].status': ['active', 'active', 'active'],
-            'data.agreements[*].status': ['pending']
+            'data.agreements[*].status': ['pending'],
+            'data.complaints[*].status': ['invalid', 'stopped', 'mistaken']
         })
-    assert_complaint_statuses(self, ['invalid', 'stopped', 'mistaken'])
 
 
 # Cancellation lot
@@ -276,8 +266,8 @@ def cancel_lot_active_tendering(self):
             'data.qualifications[*].status': None,
             'data.awards[*].status': None,
             'data.agreements[*].status': None,
+            'data.complaints[*].status': ['invalid', 'stopped', 'mistaken']
         })
-    assert_complaint_statuses(self, ['invalid', 'stopped', 'mistaken'])
 
 
 def cancel_lot_active_pre_qualification(self):
@@ -296,9 +286,8 @@ def cancel_lot_active_pre_qualification(self):
             'data.qualifications[*].status': ['cancelled', 'cancelled', 'cancelled'],
             'data.awards[*].status': None,
             'data.agreements[*].status': None,
+            'data.complaints[*].status': ['invalid', 'stopped', 'mistaken']
         })
-    # Complaints status
-    assert_complaint_statuses(self, ['invalid', 'stopped', 'mistaken'])
 
 
 def cancel_lot_active_pre_qualification_stand_still(self):
@@ -317,9 +306,8 @@ def cancel_lot_active_pre_qualification_stand_still(self):
             'data.qualifications[*].status': ['cancelled', 'cancelled', 'cancelled'],
             'data.awards[*].status': None,
             'data.agreements[*].status': None,
+            'data.complaints[*].status': ['invalid', 'stopped', 'mistaken']
         })
-    # Complaints status
-    assert_complaint_statuses(self, ['invalid', 'stopped', 'mistaken'])
 
 
 def cancel_lot_active_auction(self):
@@ -338,9 +326,8 @@ def cancel_lot_active_auction(self):
             'data.qualifications[*].status': ['cancelled', 'cancelled', 'cancelled'],
             'data.awards[*].status': None,
             'data.agreements[*].status': None,
+            'data.complaints[*].status': ['invalid', 'stopped', 'mistaken']
         })
-    # Complaints status
-    assert_complaint_statuses(self, ['invalid', 'stopped', 'mistaken'])
 
 
 def cancel_lot_active_qualification(self):
@@ -357,9 +344,8 @@ def cancel_lot_active_qualification(self):
             'data.qualifications[*].status': ['cancelled', 'cancelled', 'cancelled'],
             'data.awards[*].status': ['pending', 'pending', 'pending'],
             'data.agreements[*].status': None,
+            'data.complaints[*].status': None
         })
-    # Complaints status
-    self.assertNotIn('complaints', response.json['data'])
 
 
 def cancel_lot_active_qualification_stand_still(self):
@@ -376,8 +362,8 @@ def cancel_lot_active_qualification_stand_still(self):
             'data.qualifications[*].status': ['cancelled', 'cancelled', 'cancelled'],
             'data.awards[*].status': ['active', 'active', 'active'],
             'data.agreements[*].status': None,
+            'data.complaints[*].status': None
         })
-    self.assertNotIn('complaints', response.json['data'])
 
 
 def cancel_lot_active_awarded(self):
@@ -393,6 +379,6 @@ def cancel_lot_active_awarded(self):
             'data.bids[*].status': ['active', 'active', 'active'],
             'data.qualifications[*].status': ['cancelled', 'cancelled', 'cancelled'],
             'data.awards[*].status': ['active', 'active', 'active'],
-            'data.agreements[*].status': ['pending']
+            'data.agreements[*].status': ['pending'],
+            'data.complaints[*].status': None
         })
-    self.assertNotIn('complaints', response.json['data'])
