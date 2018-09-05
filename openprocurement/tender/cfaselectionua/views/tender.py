@@ -20,7 +20,11 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.core.views.tender import TendersResource as APIResources
 
 from openprocurement.tender.cfaselectionua.utils import check_status
-from openprocurement.tender.cfaselectionua.validation import validate_patch_tender_data
+from openprocurement.tender.cfaselectionua.validation import (
+    validate_patch_tender_data,
+    validate_patch_tender_tenderPeriod,
+    validate_json_data_in_active_enquiries,
+)
 
 
 @optendersresource(name='closeFrameworkAgreementSelectionUA:Tender',
@@ -125,7 +129,8 @@ class TenderResource(APIResource):
     @json_view(content_type="application/json",
                validators=(validate_patch_tender_data,
                            validate_tender_status_update_in_terminated_status,
-                           validate_patch_tender_in_draft_pending),
+                           validate_patch_tender_in_draft_pending,
+                           ),
                permission='edit_tender')
     def patch(self):
         """Tender Edit (partial)
@@ -185,6 +190,9 @@ class TenderResource(APIResource):
             tender.enquiryPeriod.endDate = tender.enquiryPeriod.startDate + ENQUIRY_PERIOD
             tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
             apply_patch(self.request, src=self.request.validated['tender_src'])
+        elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.enquiries':
+            data = validate_json_data_in_active_enquiries(self.request)
+            apply_patch(self.request, src=data)
         else:
             default_status = type(tender).fields['status'].default
             tender_status = tender.status
