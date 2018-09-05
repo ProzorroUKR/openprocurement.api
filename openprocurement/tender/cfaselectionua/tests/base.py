@@ -173,6 +173,7 @@ test_lots = [
         'minimalStep': test_tender_data['minimalStep'],
     }
 ]
+test_lots[0]['value']['amount'] += 100
 test_features = [
     {
         "code": "OCDS-123454-AIR-INTAKE",

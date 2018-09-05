@@ -17,9 +17,7 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.cfaselectionua.validation import (
     validate_update_bid_status,
     validate_view_bids,
-    validate_bid_identifier,
-    validate_bid_value_amount,
-    validate_bid_parameters,
+    validate_bid,
 )
 
 from openprocurement.tender.core.utils import (
@@ -39,9 +37,7 @@ class TenderBidResource(APIResource):
             validate_bid_data,
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
-            validate_bid_identifier,
-            validate_bid_value_amount,
-            validate_bid_parameters,
+            validate_bid,
         )
     )
     def collection_post(self):

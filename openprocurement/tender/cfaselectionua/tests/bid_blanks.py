@@ -188,8 +188,8 @@ def create_tender_bid_invalid(self):
 
     # no identifier could be found in agreement
     tenderer = deepcopy(test_organization)
-    old_uri = tenderer['identifier']['uri']
-    tenderer['identifier']['uri'] = 'http://wrong.path.com'
+    old_id = tenderer['identifier']['id']
+    tenderer['identifier']['id'] = 'test_id'
     response = self.app.post_json(
         request_path,
         {
@@ -205,12 +205,12 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {
-            u'description': u'Can\'t post bid with inconsistent tenderer.identifier',
+            u'description': u'Can\'t post inconsistent bid',
             u'location': u'body',
             u'name': u'data'
         }
     ])
-    tenderer['identifier']['uri'] = old_uri
+    tenderer['identifier']['id'] = old_id
 
     # no lotValue.value.amount could be found in agreement
     response = self.app.post_json(
@@ -218,7 +218,7 @@ def create_tender_bid_invalid(self):
         {
             'data': {
                 'tenderers': [tenderer],
-                'lotValues': [{'value': {'amount': 42}, 'relatedLot': self.initial_lots[0]['id']}]
+                'lotValues': [{'value': {'amount': 600}, 'relatedLot': self.initial_lots[0]['id']}]
             }
         },
         status=403
@@ -228,7 +228,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {
-            u'description': u'Can\'t post bid with inconsistent lotValue.value.amount',
+            u'description': u'Can\'t post inconsistent bid',
             u'location': u'body',
             u'name': u'data'
         }
@@ -278,7 +278,7 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], token),
-        {"data": {"lotValues": [{"value": {"amount": 600}, "relatedLot": self.initial_lots[0]['id']}]}},
+        {"data": {"lotValues": [{"value": {"amount": 700}, "relatedLot": self.initial_lots[0]['id']}]}},
         status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -625,7 +625,7 @@ def features_bid_invalid(self):
         {
             "location": "body",
             "name": "data",
-            "description": "Can't post bid with inconsistent parameters"
+            "description": "Can't post inconsistent bid"
         }
     ])
     

@@ -38,56 +38,30 @@ def validate_view_bid_document(request):
         raise_operation_error(request, 'Can\'t view bid {} in current ({}) tender status'.format('document' if request.matchdict.get('document_id') else 'documents', request.validated['tender_status']))
 
 
-def _compare_identifiers(identifier, contracts):
-    for contract in contracts:
-        for supplier in contract.suppliers:
-            if (supplier.identifier.id == identifier.id) and\
-                    (supplier.identifier.scheme == identifier.scheme) and\
-                    (supplier.identifier.uri == identifier.uri):
-                return True
-    return False
-
-
-def validate_bid_identifier(request):
+def validate_bid(request):
     bid = request.validated['bid']
     contracts = request.validated['tender'].agreements[0].contracts
 
-    for tenderer in bid.tenderers:
-        if not _compare_identifiers(tenderer.identifier, contracts):
-            raise_operation_error(request, 'Can\'t post bid with inconsistent tenderer.identifier')
-
-
-def _compare_values(lotValue, contracts):
     for contract in contracts:
-        if contract.value.amount == lotValue.value.amount:
-            return True
-    return False
+        flag = all([lotValue.value.amount <= contract.value.amount for lotValue in bid.lotValues])
 
+        if flag:
+            contract_parameters = sorted([(p.code, p.value) for p in contract.parameters])
+            bid_parameters = sorted([(p.code, p.value) for p in bid.parameters])
+            if contract_parameters != bid_parameters:
+                flag = False
 
-def validate_bid_value_amount(request):
-    bid = request.validated['bid']
-    contracts = request.validated['tender'].agreements[0].contracts
+        if flag:
+            contract_ids = sorted([supplier.identifier.id for supplier in contract.suppliers])
+            bid_ids = sorted([tenderer.identifier.id for tenderer in bid.tenderers])
+            if contract_ids != bid_ids:
+                flag = False
 
-    for lotValue in bid.lotValues:
-        if not _compare_values(lotValue, contracts):
-            raise_operation_error(request, 'Can\'t post bid with inconsistent lotValue.value.amount')
-
-
-def _compare_features(parameter, contracts):
-    for contract in contracts:
-        for p in contract.parameters:
-            if p.code == parameter.code and p.value == parameter.value:
-                return True
-    return False
-            
-
-def validate_bid_parameters(request):
-    bid = request.validated['bid']
-    contracts = request.validated['tender'].agreements[0].contracts
-
-    for parameter in bid.parameters:
-        if not _compare_features(parameter, contracts):
-            raise_operation_error(request, 'Can\'t post bid with inconsistent parameters')
+        if flag:
+            break
+    
+    else:
+        raise_operation_error(request, 'Can\'t post inconsistent bid')
 
 
 def validate_bid_document_operation_in_not_allowed_tender_status(request):
