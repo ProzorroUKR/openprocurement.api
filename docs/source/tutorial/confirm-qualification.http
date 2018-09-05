@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941/awards/9b97edfd0aa548da974d7c55bfd46bb1?acc_token=098b70bdad1f421abcb9ff8b58fb7cb3 HTTP/1.0
+PATCH /api/2.4/tenders/dc39c0a9288b44f7b77f8bb21a46b3df/awards/1acd25e268724572909b98affe55e634?acc_token=d79081aa3c7744ca89c962a9c76148f4 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 67
 Content-Type: application/json
@@ -17,38 +17,39 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
+    "lotID": "a99e3be9e9624ac6a2594c7527e54e2e", 
     "eligible": true, 
     "suppliers": [
       {
         "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
+          "email": "fake@mail.com", 
+          "telephone": "+380 (322) 12-34-56", 
+          "name": "Іван Іваненко"
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
           "id": "00137226", 
           "uri": "http://www.sc.gov.ua/"
         }, 
-        "name": "ДКП «Книга»", 
+        "name": "«Снігур»", 
         "address": {
           "postalCode": "79013", 
           "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
+          "streetAddress": "вул. Островського, 35", 
           "region": "м. Львів", 
           "locality": "м. Львів"
         }
       }
     ], 
-    "bid_id": "83d77be00dd34fe1a742a6935da26942", 
+    "bid_id": "ecdc8d2e06ff486b88528f0d9db884f4", 
     "value": {
       "currency": "UAH", 
-      "amount": 499.0, 
+      "amount": 5.0, 
       "valueAddedTaxIncluded": true
     }, 
     "qualified": true, 
-    "date": "2018-08-08T16:11:15.034267+03:00", 
-    "id": "9b97edfd0aa548da974d7c55bfd46bb1"
+    "date": "2018-09-05T10:21:17.575393+03:00", 
+    "id": "1acd25e268724572909b98affe55e634"
   }
 }
 

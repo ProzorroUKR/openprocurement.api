@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941/bids/0e4fedb11d01479fab08079d2fc3f649?acc_token=29078d05df23461a937f2ae4065f1dbb HTTP/1.0
+PATCH /api/2.4/tenders/dc39c0a9288b44f7b77f8bb21a46b3df/bids/3a9a5123579a429493cc19048a3f7ba6?acc_token=c12f38ee4be346519dfe1fd7a5e440ed HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 31
 Content-Type: application/json
@@ -16,11 +16,18 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "pending", 
     "selfEligible": true, 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
+    "lotValues": [
+      {
+        "relatedLot": "a99e3be9e9624ac6a2594c7527e54e2e", 
+        "date": "2018-09-05T10:21:11.016014+03:00", 
+        "status": "pending", 
+        "value": {
+          "currency": "UAH", 
+          "amount": 500.0, 
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ], 
     "subcontractingDetails": "ДКП «Орфей», Україна", 
     "selfQualified": true, 
     "tenderers": [
@@ -45,8 +52,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2018-08-08T16:11:12.240998+03:00", 
-    "id": "0e4fedb11d01479fab08079d2fc3f649"
+    "date": "2018-09-05T10:21:11.015311+03:00", 
+    "id": "3a9a5123579a429493cc19048a3f7ba6"
   }
 }
 
