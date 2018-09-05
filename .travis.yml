@@ -19,12 +19,11 @@ cache:
   directories:
     - eggs
 before_install:
-  - pip install setuptools==7.0
-  - python2 bootstrap.py
+  - sh bootstrap.sh
 install:
   - bin/buildout -N
 script:
-  - bin/nosetests
-  - bin/pylint --errors-only --disable=no-member,not-an-iterable,bad-super-call,unsubscriptable-object,too-many-format-args openprocurement.tender.openua
+  - bin/py.test ./openprocurement/tender/openua/tests/ --cov=openprocurement.tender.openua
+#  - bin/pylint --errors-only --disable=no-member,not-an-iterable,bad-super-call,unsubscriptable-object,too-many-format-args openprocurement.tender.openua
 after_success:
   - bin/coveralls
