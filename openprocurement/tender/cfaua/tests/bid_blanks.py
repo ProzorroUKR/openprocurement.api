@@ -2,6 +2,7 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
+from openprocurement.tender.cfaua.tests.base import agreement_period
 
 
 extra = {
@@ -2861,7 +2862,7 @@ def get_tender_bidder_document_ds(self):
 
     # sign agreement
     self.app.patch_json('/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement_id, self.tender_token),
-                        {"data": {"status": "active"}})
+                        {"data": {"status": "active", "period": agreement_period}})
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.json['data']['status'], 'complete')
 

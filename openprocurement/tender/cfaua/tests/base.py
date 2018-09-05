@@ -80,6 +80,13 @@ for bid in test_bids_w_lot_data:
         bid.pop('value')
 test_lots_w_ids = deepcopy(test_tender_w_lot_data['lots'])
 
+start_date = get_now()
+
+agreement_period = {
+    "startDate": start_date.isoformat(),
+    "endDate": (start_date + timedelta(days=4 * 365)).isoformat()
+}
+
 
 PERIODS = {
     'active.enquiries':{

@@ -897,7 +897,7 @@ class TenderResourceTest(BaseTenderWebTest):
         with open('docs/source/tutorial/tender-agreement-sign.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement_id, owner_token),
-                {"data": {"status": "active"}}
+                {"data": {"status": "active", "period": base_test.agreement_period}}
             )
         self.assertEqual(response.json['data']['status'], 'active')
 

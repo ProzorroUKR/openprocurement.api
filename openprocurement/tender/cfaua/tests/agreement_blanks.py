@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta, datetime
 from uuid import uuid4
-from copy import deepcopy
 
+from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
-from openprocurement.tender.cfaua.tests.base import test_lots
+from openprocurement.tender.cfaua.tests.base import test_lots, agreement_period
 
 
 # TenderAgreementResourceTest
@@ -62,7 +62,7 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "period": agreement_period}},
         status=403
     )
     self.assertEqual(response.status, '403 Forbidden')
@@ -92,7 +92,7 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active", "dateSigned": tender['awardPeriod']['endDate']}},
+        {"data": {"status": "active", "dateSigned": tender['awardPeriod']['endDate']}, "period": agreement_period},
         status=422
     )
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -120,7 +120,7 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "period": agreement_period}},
         status=403
     )
     self.assertEqual(response.status, '403 Forbidden')
@@ -144,7 +144,7 @@ def patch_tender_agreement_datesigned(self):
     # Agreement signing
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "period": agreement_period}},
         status=403
     )
     end_date = tender['contractPeriod']['clarificationsUntil']
@@ -167,7 +167,33 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active"}}
+        {"data": {"status": "active", "period": {'startDate': datetime.now().isoformat()}}},
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u'startDate and endDate are required in agreement.period.',
+                       u'location': u'body',
+                       u'name': u'data'}])
+
+    now = datetime.now()
+    start_date = now.isoformat()
+    end_date = (now + timedelta(days=465 * 5)).isoformat()
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active", "period": {'startDate': start_date, 'endDate': end_date}}},
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Agreement period can't be greater than P4Y0M0DT0H0M0S.",
+                       u'location': u'body',
+                       u'name': u'data'}])
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active", "period": agreement_period}}
     )
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
@@ -205,6 +231,17 @@ def agreement_cancellation(self):
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
         {"data": {"status": "active"}},
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'],
+        [{u'description': u'Period is required for agreement signing.', u'location': u'body', u'name': u'data'}]
+    )
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
+        {"data": {"status": "active", "period": agreement_period}},
         status=403
     )
     self.assertEqual(response.status, '403 Forbidden')
@@ -417,7 +454,7 @@ def patch_tender_agreement(self):
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "period": agreement_period}},
         status=403
     )
     self.assertEqual(response.status, '403 Forbidden')
@@ -448,7 +485,7 @@ def patch_tender_agreement(self):
     # Sign agreement
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "period": agreement_period}},
         status=403
     )
     end_date = tender['contractPeriod']['clarificationsUntil']
@@ -472,7 +509,7 @@ def patch_tender_agreement(self):
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active"}}
+        {"data": {"status": "active", "period": agreement_period}}
     )
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active')
