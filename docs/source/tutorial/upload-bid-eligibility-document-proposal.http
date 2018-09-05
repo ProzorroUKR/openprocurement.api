@@ -1,24 +1,24 @@
-POST /api/2.4/tenders/3c9f0ba3810346ad895f5da76bf91287/bids/825173862373470db83d77177454b82a/eligibility_documents?acc_token=20e6edc127664b9bb5c09d1ae734cbc3 HTTP/1.0
+POST /api/2.4/tenders/dc39c0a9288b44f7b77f8bb21a46b3df/bids/3a9a5123579a429493cc19048a3f7ba6/eligibility_documents?acc_token=c12f38ee4be346519dfe1fd7a5e440ed HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 195
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy700219948354$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy582326565318$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/3c9f0ba3810346ad895f5da76bf91287/bids/825173862373470db83d77177454b82a/eligibility_documents/150c331a30d64c5e871e7021f9d4796a
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/dc39c0a9288b44f7b77f8bb21a46b3df/bids/3a9a5123579a429493cc19048a3f7ba6/eligibility_documents/7971925447994ec890c3e3d9a1ccc3ca
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "confidentiality": "public", 
     "language": "uk", 
     "title": "eligibility_doc.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/3c9f0ba3810346ad895f5da76bf91287/bids/825173862373470db83d77177454b82a/eligibility_documents/150c331a30d64c5e871e7021f9d4796a?download=5df309c503c54ae6b71de2447868f2cb", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/dc39c0a9288b44f7b77f8bb21a46b3df/bids/3a9a5123579a429493cc19048a3f7ba6/eligibility_documents/7971925447994ec890c3e3d9a1ccc3ca?download=f31208a5282543849171fdb0df66e5de", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2018-09-04T16:14:10.210170+03:00", 
-    "id": "150c331a30d64c5e871e7021f9d4796a", 
-    "dateModified": "2018-09-04T16:14:10.210184+03:00"
+    "datePublished": "2018-09-05T10:21:11.983343+03:00", 
+    "id": "7971925447994ec890c3e3d9a1ccc3ca", 
+    "dateModified": "2018-09-05T10:21:11.983363+03:00"
   }
 }
 

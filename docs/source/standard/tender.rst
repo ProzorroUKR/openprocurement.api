@@ -105,8 +105,8 @@ Schema
 
     All qualifications (disqualifications and awards).
 
-:contracts:
-    List of :ref:`Contract` objects
+:agreements:
+    List of :ref:`Agreement` objects
 
 :enquiryPeriod:
    :ref:`period`, required
@@ -145,14 +145,18 @@ Schema
 :status:
    string
 
-   :`active.enquiries`:
-       Enquiries period (enquiries)
    :`active.tendering`:
        Tendering period (tendering)
+   :`active.pre-qualification`:
+       ``<Information about status>``
+   :`active.pre-qualification.stand-still`:
+       ``<Information about status>``
    :`active.auction`:
        Auction period (auction)
    :`active.qualification`:
        Winner qualification (qualification)
+   :`active.qualification.stand-still`:
+       ``<Information about status>``
    :`active.awarded`:
        Standstill period (standstill)
    :`unsuccessful`:

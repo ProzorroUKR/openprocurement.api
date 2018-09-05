@@ -9,7 +9,7 @@ Exploring basic rules
 Let's try exploring the `/tenders` endpoint:
 
 .. include:: tutorial/tender-listing.http
-   :code:
+    :code:
 
 Just invoking it reveals empty set.
 
@@ -362,7 +362,7 @@ You may notice 10 day stand-still time set in `qualificationPeriod`.
 Auction
 -------
 
-After auction is scheduled anybody can visit it to watch. The auction can be reached at `Tender.auctionUrl`:
+After auction is scheduled anybody can visit it to watch. The auction can be reached at `Tender.lot.auctionUrl`:
 
 .. include:: tutorial/auction-url.http
    :code:
@@ -372,7 +372,7 @@ And bidders can find out their participation URLs via their bids:
 .. include:: tutorial/bidder-participation-url.http
    :code:
 
-See the `Bid.participationUrl` in the response. Similar, but different, URL can be retrieved for other participants:
+See the `Bid.lotValues.participationUrl` in the response. Similar, but different, URL can be retrieved for other participants:
 
 .. include:: tutorial/bidder2-participation-url.http
    :code:
@@ -395,8 +395,7 @@ And registers its decisions via the following call per award:
 .. include:: tutorial/confirm-qualification.http
    :code:
 
-Також комісія може дизкваліфікувати переможця передавши у виклику `{'data': {'status': 'unsuccessful'}}`
-
+Також комісія може дизкваліфікувати переможця передавши у виклику ``{'data': {'status': 'unsuccessful'}}``
 
 .. ПРЕЦЕДЕНТ Т13. Додати документи з цінами
 
@@ -435,88 +434,68 @@ Uploading document with unit price per item
 .. include:: tutorial/agreement-contract-unitprices3.http
    :code:
 
-Також замовнику дозволяється виключити певного переможця з рамки передавши контракту `{'data': {'status': 'unsuccessful'}}`
+Також замовнику дозволяється виключити певного переможця з рамкової угоди передавши контракту
+``{'data': {'status': 'unsuccessful'}}``
 
 Для успішного підписання рамкової угоди потрібно не менше 3-х активних контрактів
 
 Підписати Рамкову угоду можна лише після настання `agreement.contractPeriod.clarificationsUntil`
 
-.. include:: tutorial/agreement-signing.http
+
+Uploading agreement documentation
+---------------------------------
+
+You can upload agreement documents. Let's upload agreement document:
+
+.. include:: tutorial/tender-agreement-upload-document.http
    :code:
 
+`201 Created` response code and `Location` header confirm that this document was added.
 
+Let's see the list of agreement documents:
 
-
-Setting  contract value
------------------------
-
-By default contract value is set based on the award, but there is a possibility to set custom contract value. 
-
-If you want to **lower contract value**, you can insert new one into the `amount` field.
-
-.. include:: tutorial/tender-contract-set-contract-value.http
+.. include:: tutorial/tender-agreement-get-documents.http
    :code:
 
-`200 OK` response was returned. The value was modified successfully.
+We can add another agreement document:
 
-Setting contract signature date
--------------------------------
-
-There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field.
-
-If this date is not set, it will be auto-generated on the date of contract registration.
-
-.. include:: tutorial/tender-contract-sign-date.http
+.. include:: tutorial/tender-agreement-upload-second-document.http
    :code:
 
-Setting contract validity period
---------------------------------
+`201 Created` response code and `Location` header confirm that the second document was uploaded.
 
-Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
+By default, document language is Ukrainian. You can can change it and set another language for the document
+by assigning appropriate language code to the `language` field (available options: ``uk``, ``en``, ``ru``).
+You can also set document's title (e.g. `title_en`) and description (e.g. `description_en`) fields.
+See :ref:`Document` data structure for details.
 
-.. include:: tutorial/tender-contract-period.http
+.. include:: tutorial/tender-agreement-patch-document.http
+    :code:
+
+Let's see the list of all added agreement documents:
+
+.. include:: tutorial/tender-agreement-get-documents-again.http
    :code:
 
-Uploading contract documentation
---------------------------------
+Let's view separate contract document:
 
-You can upload contract documents. Let's upload contract document:
+.. include:: tutorial/tender-agreement-get.http
+    :code:
 
-.. include:: tutorial/tender-contract-upload-document.http
+
+Set agreement signature date
+----------------------------
+
+There is a possibility to set custom agreement signature date.
+If the date is not set it will be generated on agreement registration.
+
+.. include:: tutorial/tender-agreement-sign-date.http
    :code:
 
-`201 Created` response code and `Location` header confirm document was added.
+Agreement registration
+----------------------
 
-Let's see the list of contract documents:
-
-.. include:: tutorial/tender-contract-get-documents.http
-   :code:
-
-We can add another contract document:
-
-.. include:: tutorial/tender-contract-upload-second-document.http
-   :code:
-
-`201 Created` response code and `Location` header confirm second document was uploaded.
-
-Let's see the list of all added contract documents:
-
-.. include:: tutorial/tender-contract-get-documents-again.http
-   :code:
-
-Set contract signature date
----------------------------
-
-There is a possibility to set custom contract signature date.
-If the date is not set it will be generated on contract registration.
-
-.. include:: tutorial/tender-contract-sign-date.http
-   :code:
-
-Contract registration
----------------------
-
-.. include:: tutorial/tender-contract-sign.http
+.. include:: tutorial/tender-agreement-sign.http
    :code:
 
 Cancelling tender

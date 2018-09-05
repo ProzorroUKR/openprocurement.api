@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/75628743f9744689aaa51a40fa432fcd/awards/01948fa706ed4d02b96b8e2fe08c5902/complaints/14226fbe224c4ac4b50af6f8d8493f03?acc_token=60c569a9de764cf081d7511226d1a97b HTTP/1.0
+PATCH /api/2.4/tenders/73107029cb8d45d5bbee42b6d37266c0/awards/847344ab25ac468489d6615c1db74742/complaints/b2bfd32957e74998bdd752b3e6914828?acc_token=2e261e77cbfe4b6f88fc36a4c2c259d9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 31
 Content-Type: application/json
@@ -14,7 +14,7 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "relatedLot": "db4b4574ad3b4e7fa8968cf243d4262b", 
+    "relatedLot": "a99e3be9e9624ac6a2594c7527e54e2e", 
     "status": "pending", 
     "documents": [
       {
@@ -22,12 +22,12 @@ Content-Type: application/json; charset=UTF-8
         "author": "complaint_owner", 
         "language": "uk", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/59a95b6e0e0c4bbe8bc01421a82a9568?KeyID=0df0bac3&Signature=96scTse2kFJ8CnAdEvs5nFqxj1fHPiUhgCt%2FxTPvrwGN83q5pc6FgYZMwvTHaf8v3dKZG0hEwG397xCcG3cdBQ%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/7fd5cbb86ad14138bab837ea91182225?KeyID=3c504897&Signature=a3N1gPMd6fQ%2Fps5HGk9nucpKJBh9I6b6HbS%252BYf3es8a2D%252Bf1vjYwmVEZv7sph3hdhzphsf22GwdIt4cyTeTXAA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-09-04T11:14:12.133921+03:00", 
-        "id": "509aaa8af47342fe954f2434f9235d5f", 
-        "dateModified": "2018-09-04T11:14:12.133937+03:00"
+        "datePublished": "2018-09-05T10:20:58.882585+03:00", 
+        "id": "4aed228283e14e2a8f4838ccdd68e889", 
+        "dateModified": "2018-09-05T10:20:58.882602+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -53,11 +53,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "dateSubmitted": "2018-09-04T11:14:12.244966+03:00", 
-    "complaintID": "UA-2018-09-04-000001.1", 
-    "date": "2018-09-04T11:14:12.253476+03:00", 
+    "dateSubmitted": "2018-09-05T10:20:58.998086+03:00", 
+    "complaintID": "UA-2018-09-05-000001.1", 
+    "date": "2018-09-05T10:20:59.010739+03:00", 
     "type": "complaint", 
-    "id": "14226fbe224c4ac4b50af6f8d8493f03"
+    "id": "b2bfd32957e74998bdd752b3e6914828"
   }
 }
 
