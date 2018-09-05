@@ -24,3 +24,5 @@ install:
   - bin/buildout -N
 script:
   - bin/py.test ./openprocurement/tender/core/tests/ --cov=openprocurement.tender.core
+after_success:
+  - bin/coveralls
