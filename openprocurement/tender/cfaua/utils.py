@@ -185,7 +185,7 @@ def check_tender_status_on_active_qualification_stand_still(request):
 
         # Update tender status (awarded, unsuccessful)
 
-def check_tender_status_on_actve_awarded(request):
+def check_tender_status_on_active_awarded(request):
     tender = request.validated['tender']
     now = get_now()
     if tender.status != 'active.awarded':
