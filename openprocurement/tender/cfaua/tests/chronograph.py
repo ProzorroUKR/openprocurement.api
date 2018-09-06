@@ -22,7 +22,8 @@ from openprocurement.tender.cfaua.tests.chronograph_blanks import (
     switch_to_unsuccessful,
     # TenderSwitchPreQualificationStandStillResourceTest
     switch_to_awarded,
-    set_auction_period_0bid as set_auction_period
+    set_auction_period_0bid as set_auction_period,
+    switch_to_unsuccessful_from_qualification_stand_still
 )
 
 from openprocurement.tender.openua.tests.chronograph_blanks import (
@@ -64,6 +65,9 @@ class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):
 class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTest):
     initial_status = 'active.tendering'
     initial_lots = test_lots
+
+    test_switch_to_unsuccessful_from_qualification_stand_still = \
+        snitch(switch_to_unsuccessful_from_qualification_stand_still)
 
 
 class TenderAuctionPeriodResourceTest(BaseTenderContentWebTest):

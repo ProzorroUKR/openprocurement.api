@@ -107,11 +107,31 @@ def switch_to_unsuccessful(self):
     self.set_status(self.initial_status, 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
     if self.initial_lots:
-        self.assertEqual(set([i['status'] for i in response.json['data']['lots']]), set(['unsuccessful']))
+        self.assertEqual(set([i['status'] for i in response.json['data']['lots']]), {'unsuccessful'})
+
+
+def switch_to_unsuccessful_from_qualification_stand_still(self):
+    self.set_status('active.qualification')
+    # check if number of active awards is less than 3
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    awards = response.json['data']
+
+    response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+        self.tender_id, awards[0]['id'], self.tender_token), {"data": {"status": "unsuccessful"}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
+    self.set_status('active.qualification.stand-still', 'end')
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
 
 
 # TenderSwitchPreQualificationStandStillResourceTest
