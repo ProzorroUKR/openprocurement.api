@@ -476,6 +476,8 @@ def patch_tender(self):
 def patch_tender_period(self):
     data = deepcopy(self.initial_data)
     data['lots'] = self.initial_lots
+    if SANDBOX_MODE:
+        data['procurementMethodDetails'] = 'quick, accelerator=1440'
     response = self.app.post_json('/tenders', {'data': data})
     self.assertEqual(response.status, '201 Created')
     tender = response.json['data']

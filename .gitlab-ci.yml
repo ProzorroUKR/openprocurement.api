@@ -1,7 +1,7 @@
 image: alpine
 before_script:
   - eval `ssh-agent -s` && ssh-add
-  - ./bootstrap.sh
+  - sh bootstrap.sh
   - bin/buildout -N
 
 test_sanbox_true:
@@ -9,7 +9,7 @@ test_sanbox_true:
   variables:
     SANDBOX_MODE: 'True'
   script:
-    - bin/py.test openprocurement/tender/cfaua/tests --cov=openprocurement.tender.cfaua
+    - bin/py.test ./openprocurement/tender/cfaua/tests/ --cov=openprocurement.tender.cfaua
 
 
 test_sanbox_not_true:
@@ -17,4 +17,4 @@ test_sanbox_not_true:
   variables:
     SANDBOX_MODE: ''
   script:
-    - bin/py.test openprocurement/tender/cfaua/tests --cov=openprocurement.tender.cfaua
+    - bin/py.test ./openprocurement/tender/cfaua/tests/ --cov=openprocurement.tender.cfaua
