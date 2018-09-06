@@ -23,7 +23,7 @@ before_install:
 install:
   - bin/buildout -N
 script:
-    - bin/py.test openprocurement/tender/cfaua/tests --cov=openprocurement.tender.cfaua
+    - bin/py.test ./openprocurement/tender/cfaua/tests --cov=openprocurement.tender.cfaua
 after_success:
   - bin/coveralls
 
