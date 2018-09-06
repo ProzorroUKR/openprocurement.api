@@ -14,7 +14,8 @@ from openprocurement.tender.belowthreshold.utils import check_ignored_claim
 from openprocurement.tender.core.utils import (
     remove_draft_bids,
     has_unanswered_questions,
-    has_unanswered_complaints
+    has_unanswered_complaints,
+    calculate_business_date,
 )
 from openprocurement.tender.openua.utils import check_complaint_status
 
@@ -194,7 +195,9 @@ def check_tender_status_on_active_qualification_stand_still(request):
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active_awarded'}))
         tender.status = 'active.awarded'
         tender.contractPeriod = {'startDate': now}
-        tender.contractPeriod['clarificationsUntil'] = now + config.clarifications_until_period
+        tender.contractPeriod['clarificationsUntil'] = calculate_business_date(
+            now, config.clarifications_until_period, tender, False
+        )
         lots = [l for l in tender.get('lots', []) if l.status == 'active']
         if lots:
             for lot in lots:
