@@ -208,4 +208,4 @@ def validate_patch_tender_tenderPeriod(request):
     endDate = data['tenderPeriod'].get('endDate')
 
     if (startDate and endDate) and (parse_date(endDate) - parse_date(startDate)).days <3:
-        raise_operation_error(request, 'tenderPeriod.endDate should start at least 3 days after tenderPeriod.startDate')
+        raise_operation_error(request, 'tenderPeriod should last at least 3 days')
