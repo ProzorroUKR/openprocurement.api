@@ -3,8 +3,9 @@ import jmespath
 
 
 def assert_statuses(self, rules={}):
+    data = self.get_tender(role='broker').json
     for rule in rules:
-        value = jmespath.search(rule, self.get_tender(role='broker').json)
+        value = jmespath.search(rule, data)
         self.assertEqual(value, rules[rule])
 
 
