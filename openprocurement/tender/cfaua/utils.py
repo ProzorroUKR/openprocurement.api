@@ -188,18 +188,16 @@ def check_tender_status_on_active_qualification_stand_still(request):
 def check_tender_status_on_active_awarded(request):
     tender = request.validated['tender']
     now = get_now()
-    if tender.status != 'active.awarded':
-        return
-    statuses = set([agreement.status for agreement in tender.agreements])
-    if statuses == set(['cancelled']):
+    statuses = {agreement.status for agreement in tender.agreements}
+    if statuses == {'cancelled'}:
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'cancelled'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_cancelled'}))
         tender.status = 'cancelled'
-    elif not statuses.difference(set(['unsuccessful', 'cancelled'])):
+    elif not statuses.difference({'unsuccessful', 'cancelled'}):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
         tender.status = 'unsuccessful'
-    elif not statuses.difference(set(['active', 'unsuccessful', 'cancelled'])):
+    elif not statuses.difference({'active', 'unsuccessful', 'cancelled'}):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'complete'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_complete'}))
         tender.status = 'complete'

@@ -49,7 +49,8 @@ class TenderAgreementResource(BaseResource):
         tender = self.request.context.__parent__
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if agreement_status != self.request.context.status and \
-                (agreement_status != 'pending' or self.request.context.status not in ('active', 'cancelled')):
+                (agreement_status != 'pending' or self.request.context.status
+                 not in ('active', 'cancelled', 'unsuccessful')):
             raise_operation_error(self.request, 'Can\'t update agreement status')
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()

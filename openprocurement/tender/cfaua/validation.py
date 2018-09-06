@@ -119,7 +119,7 @@ def validate_patch_agreement_data(request):
 
 
 def validate_agreement_operation_not_in_allowed_status(request):
-    if request.validated['tender_status'] not in ['active.qualification', 'active.awarded']:
+    if request.validated['tender_status'] != 'active.awarded':
         raise_operation_error(request,
                               'Can\'t {} agreement in current ({}) tender status'.format(
                                   OPERATIONS.get(request.method), request.validated['tender_status']))
