@@ -205,7 +205,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {
-            u'description': u'Can\'t post inconsistent bid',
+            u'description': u'Bid is not a member of agreement',
             u'location': u'body',
             u'name': u'data'
         }
@@ -504,6 +504,9 @@ def bid_Administrator_change(self):
 
 
 def features_bid(self):
+    tenderer = deepcopy(test_organization)
+    tenderer['identifier']['id'] = '00037257'
+
     test_features_bids = [
         {
             "parameters": [
@@ -535,7 +538,7 @@ def features_bid(self):
                 for i in self.initial_data['features']
             ],
             "tenderers": [
-                test_organization
+                tenderer
             ],
             "status": "draft",
             "lotValues": [{
@@ -548,6 +551,7 @@ def features_bid(self):
             }]
         }
     ]
+    
     
     for i in test_features_bids:
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})

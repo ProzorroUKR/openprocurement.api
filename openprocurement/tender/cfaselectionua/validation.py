@@ -38,30 +38,30 @@ def validate_view_bid_document(request):
         raise_operation_error(request, 'Can\'t view bid {} in current ({}) tender status'.format('document' if request.matchdict.get('document_id') else 'documents', request.validated['tender_status']))
 
 
+def get_supplier_contract(contracts, tenderers):
+    for contract in contracts:
+        for supplier in contract.suppliers:
+            for tenderer in tenderers:
+                if supplier.identifier.id == tenderer.identifier.id:
+                    return contract
+
+
 def validate_bid(request):
     bid = request.validated['bid']
     contracts = request.validated['tender'].agreements[0].contracts
 
-    for contract in contracts:
-        flag = all([lotValue.value.amount <= contract.value.amount for lotValue in bid.lotValues])
+    supplier_contract = get_supplier_contract(contracts, bid.tenderers)
 
-        if flag:
-            contract_parameters = sorted([(p.code, p.value) for p in contract.parameters])
-            bid_parameters = sorted([(p.code, p.value) for p in bid.parameters])
-            if contract_parameters != bid_parameters:
-                flag = False
+    if not supplier_contract:
+        raise_operation_error(request, 'Bid is not a member of agreement')
 
-        if flag:
-            contract_ids = sorted([supplier.identifier.id for supplier in contract.suppliers])
-            bid_ids = sorted([tenderer.identifier.id for tenderer in bid.tenderers])
-            if contract_ids != bid_ids:
-                flag = False
+    contract_parameters = sorted([(p.code, p.value) for p in supplier_contract.parameters])
+    bid_parameters = sorted([(p.code, p.value) for p in bid.parameters])
+    all_lotValues_valid = all([lotValue.value.amount <= supplier_contract.value.amount for lotValue in bid.lotValues])
 
-        if flag:
-            break
-    
-    else:
+    if (not all_lotValues_valid) or (contract_parameters != bid_parameters):
         raise_operation_error(request, 'Can\'t post inconsistent bid')
+
 
 
 def validate_bid_document_operation_in_not_allowed_tender_status(request):
