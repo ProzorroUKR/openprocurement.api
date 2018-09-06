@@ -1,0 +1,202 @@
+POST /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 2643
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "documents": [
+      {
+        "url": "http://public.docs-sandbox.openprocurement.org/get/10eda34f45804b9ab0427aec6e0fa21f?KeyID=2a9e5e2d&Signature=FVCODBGMgFzOER9AScMPkKbem9UtWaI%2B3Kex%2B%2FXJY6eC4E6YqWtCzhd0l8BjXaSmA1zVs%2BxhMJVCuMOkWHvoAA%3D%3D", 
+        "title": "Proposal_part1.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "buyerOnly", 
+        "title": "Proposal_part2.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/a2b2d0556623472e8e0ab08efe2236f2?KeyID=2a9e5e2d&Signature=tYi%2BJyTNTle2f3R4rjw414XDlkLXylB3htiKBgCQM698iHkgY74%2Flo0ERHOeyeX3Zw3PNZHvzEeLWmoVx97gDQ%3D%3D", 
+        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+        "format": "application/pdf"
+      }
+    ], 
+    "eligibilityDocuments": [
+      {
+        "url": "http://public.docs-sandbox.openprocurement.org/get/f7e7396434f54ac8b4f47cfc5e30c04b?KeyID=2a9e5e2d&Signature=MXEN1E7WpNaZD1UyPa5CJ0Ji%2BImz0CUQoM2%2BEZ%2FY2x1aL%2BBlnnzx58NxxFXBio4z1HOrA5EbOr5Tj7r11ufkAg%3D%3D", 
+        "title": "eligibility_doc.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }
+    ], 
+    "selfEligible": true, 
+    "lotValues": [
+      {
+        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+        "value": {
+          "amount": 5
+        }
+      }
+    ], 
+    "selfQualified": true, 
+    "financialDocuments": [
+      {
+        "url": "http://public.docs-sandbox.openprocurement.org/get/da93456ddbc94b00b6fa0a50715756ee?KeyID=2a9e5e2d&Signature=Ph3aMFAxy9mRltClfBMmxQ13x4Hs2dH3Ar8CpkwwJ4bB763RJTh8J%2FJX1uaZnDtrs1QC4D%2FkSrQV8maJr1y1AQ%3D%3D", 
+        "title": "financial_doc.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }
+    ], 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "telephone": "+380 (322) 12-34-56", 
+          "name": "Іван Іваненко", 
+          "email": "fake@mail.com"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "«Снігур»", 
+        "address": {
+          "countryName": "Україна", 
+          "postalCode": "79013", 
+          "region": "м. Львів", 
+          "streetAddress": "вул. Островського, 35", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "qualificationDocuments": [
+      {
+        "url": "http://public.docs-sandbox.openprocurement.org/get/ddb92030fe014a999d4ac16a6c7a7cd2?KeyID=2a9e5e2d&Signature=U2RsfIcGbkWvoImvqPy%2Bc7O8Esmai26DEathFZR5gRsQenavg3PLOOvBmMqI78C%2BStX9CK21PcwGsndVLIEMAQ%3D%3D", 
+        "title": "qualification_document.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }
+    ]
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/8136c8ad133a440b8c220815122c1eff
+{
+  "access": {
+    "token": "12b78e802c374448afb6b8af27537352"
+  }, 
+  "data": {
+    "status": "pending", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "Proposal_part1.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/8136c8ad133a440b8c220815122c1eff/documents/0e854c216d2344fab4b73a2cbf727b2b?download=10eda34f45804b9ab0427aec6e0fa21f", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-09-05T14:24:27.927755+03:00", 
+        "id": "0e854c216d2344fab4b73a2cbf727b2b", 
+        "dateModified": "2018-09-05T14:24:27.927769+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "buyerOnly", 
+        "language": "uk", 
+        "format": "application/pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/8136c8ad133a440b8c220815122c1eff/documents/00216379918448898094a9cc8df0913c?download=a2b2d0556623472e8e0ab08efe2236f2", 
+        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+        "title": "Proposal_part2.pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-09-05T14:24:27.928175+03:00", 
+        "id": "00216379918448898094a9cc8df0913c", 
+        "dateModified": "2018-09-05T14:24:27.928189+03:00"
+      }
+    ], 
+    "eligibilityDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "eligibility_doc.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/8136c8ad133a440b8c220815122c1eff/eligibility_documents/b3c873dcbe5848e6a7e41ed209ce4896?download=f7e7396434f54ac8b4f47cfc5e30c04b", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-09-05T14:24:27.929019+03:00", 
+        "id": "b3c873dcbe5848e6a7e41ed209ce4896", 
+        "dateModified": "2018-09-05T14:24:27.929032+03:00"
+      }
+    ], 
+    "selfEligible": true, 
+    "id": "8136c8ad133a440b8c220815122c1eff", 
+    "lotValues": [
+      {
+        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+        "date": "2018-09-05T14:24:27.929791+03:00", 
+        "status": "pending", 
+        "value": {
+          "currency": "UAH", 
+          "amount": 5.0, 
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ], 
+    "selfQualified": true, 
+    "financialDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "financial_doc.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/8136c8ad133a440b8c220815122c1eff/financial_documents/d062a2a519d64057a594968df52cd86a?download=da93456ddbc94b00b6fa0a50715756ee", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-09-05T14:24:27.928601+03:00", 
+        "id": "d062a2a519d64057a594968df52cd86a", 
+        "dateModified": "2018-09-05T14:24:27.928614+03:00"
+      }
+    ], 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "fake@mail.com", 
+          "telephone": "+380 (322) 12-34-56", 
+          "name": "Іван Іваненко"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "«Снігур»", 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 35", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "date": "2018-09-05T14:24:27.927377+03:00", 
+    "qualificationDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "qualification_document.pdf", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/8136c8ad133a440b8c220815122c1eff/qualification_documents/4fcf2468f267416090ea75ee0d97e18f?download=ddb92030fe014a999d4ac16a6c7a7cd2", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-09-05T14:24:27.929428+03:00", 
+        "id": "4fcf2468f267416090ea75ee0d97e18f", 
+        "dateModified": "2018-09-05T14:24:27.929442+03:00"
+      }
+    ]
+  }
+}
+
