@@ -65,7 +65,7 @@ class TenderResourceTestMixin(object):
     test_listing = snitch(listing)
     test_create_tender_draft = snitch(create_tender_draft)
     test_create_tender = snitch(create_tender)
-    test_tender_features = snitch(tender_features)
+    # test_tender_features = snitch(tender_features)
     test_get_tender = snitch(get_tender)
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_dateModified_tender = snitch(dateModified_tender)
@@ -96,7 +96,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_agreement = test_agreement
     agreement_id = '11111111111111111111111111111111'
 
-    test_guarantee = snitch(guarantee)
+    # test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
     test_tender_fields = snitch(tender_fields)

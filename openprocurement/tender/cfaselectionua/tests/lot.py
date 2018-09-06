@@ -54,9 +54,10 @@ class TenderLotResourceTestMixin(object):
 
 
 class TenderLotValueTestMixin(object):
-    test_patch_tender_currency = snitch(patch_tender_currency)
-    test_patch_tender_vat = snitch(patch_tender_vat)
-    #test_tender_lot_guarantee = snitch(tender_lot_guarantee)
+    pass
+    # test_patch_tender_currency = snitch(patch_tender_currency)
+    # test_patch_tender_vat = snitch(patch_tender_vat)
+    # test_tender_lot_guarantee = snitch(tender_lot_guarantee)
 
 
 class TenderLotFeatureResourceTestMixin(object):
