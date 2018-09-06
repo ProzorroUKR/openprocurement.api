@@ -4,13 +4,12 @@ from functools import partial
 
 from cornice.resource import resource
 from openprocurement.api.interfaces import IContentConfigurator
-from openprocurement.api.models import get_now, TZ
+from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
     error_handler,
     context_unpack,
 )
 from barbecue import chef
-from openprocurement.tender.belowthreshold.utils import check_ignored_claim
 from openprocurement.tender.core.utils import (
     remove_draft_bids,
     has_unanswered_questions,
@@ -18,8 +17,6 @@ from openprocurement.tender.core.utils import (
     calculate_business_date,
 )
 from openprocurement.tender.openua.utils import check_complaint_status
-
-from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 
 from openprocurement.tender.cfaua.models.submodels.qualification import Qualification
 from openprocurement.tender.cfaua.traversal import (
@@ -121,7 +118,7 @@ def prepare_qualifications(request, bids=[], lotId=None):
                             qualification.date = get_now()
                             tender.qualifications.append(qualification)
                             new_qualifications.append(qualification.id)
-    else:
+    else:  # pragma: no cover
         for bid in bids:
             if bid.status == 'pending':
                 qualification = Qualification({'bidID': bid.id, 'status': 'pending'})
@@ -143,7 +140,7 @@ def all_bids_are_reviewed(request):
             for lotValue in bid.lotValues
             if lotValue.relatedLot in active_lots
         ])
-    else:
+    else:  # pragma: no cover
         return all([bid.status != 'pending' for bid in request.validated['tender'].bids])
 
 
@@ -175,7 +172,7 @@ def check_tender_status_on_active_qualification_stand_still(request):
                 statuses.add(lot.status)
                 continue
             statuses.add(lot.status)
-    else:
+    else:  # pragma: no cover
         active_awards = [i for i in tender.awards if i.status == 'active']
         if len(active_awards) <= config.min_bids_count:
             statuses.add('unsuccessful')
@@ -205,7 +202,7 @@ def check_tender_status_on_active_qualification_stand_still(request):
                 agreement = type(tender).agreements.model_class(agreement_data)
                 agreement.__parent__ = tender
                 tender.agreements.append(agreement)
-        else:
+        else:  # pragma: no cover
             agreement_data = generate_agreement_data(request, tender)
             agreement = type(tender).agreements.model_class(agreement_data)
             agreement.__parent__ = tender
@@ -348,7 +345,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount', rege
         if statuses.difference(set(['unsuccessful', 'active'])):  # logic for auction to switch status
             tender.awardPeriod.endDate = None
             tender.status = 'active.qualification'
-    else:
+    else:  # pragma: no cover
         if not tender.awards or request.context.status in ('cancelled', 'unsuccessful'):
             codes = [i.code for i in tender.features or []]
             active_bids = [
