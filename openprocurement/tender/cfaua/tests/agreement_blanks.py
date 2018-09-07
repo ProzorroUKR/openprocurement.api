@@ -199,6 +199,15 @@ def patch_tender_agreement_datesigned(self):
     self.assertEqual(response.json['data']["status"], "active")
     self.assertIn(u"dateSigned", response.json['data'].keys())
 
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
+        {"data": {"status": "cancelled"}}, status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't update agreement in current (complete) tender status",
+                       u'location': u'body', u'name': u'data'}])
+
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'complete')
@@ -250,12 +259,17 @@ def agreement_cancellation(self):
                        u'name': u'data'}])
 
     # Agreement cancellation
+    response = self.app.get('/tenders/{}/agreements/{}'.format(self.tender_id, agreement['id']))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["status"], "pending")
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"status": "cancelled"}},
+        {"data": {"status": "cancelled"}}, status=403
     )
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['status'], 'cancelled')
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't update agreement status", u'location': u'body', u'name': u'data'}])
 
 
 def create_tender_agreement_document(self):
@@ -573,6 +587,13 @@ def patch_tender_agreement(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], "active")
 
+    response = self.app.patch_json('/tenders/{}/agreements/{}?acc_token={}'.format(
+        self.tender_id, self.agreement_id, self.tender_token), {"data": {"status": "cancelled"}}, status=403)
+    self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't update agreement in current (complete) tender status",
+                       u'location': u'body', u'name': u'data'}])
+
 
 def patch_tender_agreement_unsuccessful(self):
 
@@ -585,6 +606,18 @@ def patch_tender_agreement_unsuccessful(self):
         self.tender_id, self.agreement_id, self.tender_token), {"data": {"status": "unsuccessful"}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
+    response = self.app.get('/tenders/{}/agreements/{}'.format(self.tender_id, self.agreement_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["status"], "unsuccessful")
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}?acc_token={}'.format(
+        self.tender_id, self.agreement_id, self.tender_token), {"data": {"status": "cancelled"}}, status=403)
+    self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't update agreement in current (unsuccessful) tender status",
+                       u'location': u'body', u'name': u'data'}])
 
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
