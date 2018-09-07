@@ -2,9 +2,8 @@
 from datetime import timedelta, datetime
 from uuid import uuid4
 
-from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
-from openprocurement.tender.cfaua.tests.base import test_lots, agreement_period
+from openprocurement.tender.cfaua.tests.base import agreement_period
 
 
 # TenderAgreementResourceTest
@@ -573,6 +572,23 @@ def patch_tender_agreement(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], "active")
+
+
+def patch_tender_agreement_unsuccessful(self):
+
+    self.set_status('active.awarded')
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'active.awarded')
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}?acc_token={}'.format(
+        self.tender_id, self.agreement_id, self.tender_token), {"data": {"status": "unsuccessful"}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
 
 def not_found(self):
