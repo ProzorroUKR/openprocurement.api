@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
+from iso8601 import parse_date
+from copy import deepcopy
+
 from openprocurement.api.utils import error_handler, raise_operation_error, get_now
 from openprocurement.api.validation import OPERATIONS, validate_data, validate_json_data
 
 from openprocurement.tender.cfaselectionua.utils import prepare_shortlistedFirms, prepare_bid_identifier
+from openprocurement.tender.cfaselectionua.constants import TENDER_PERIOD_MINIMAL_DURATION
 
 
 def validate_patch_tender_data(request):
@@ -204,3 +208,31 @@ def validate_tender_status_update_in_terminated_status(request):
     if request.authenticated_role != 'Administrator' and \
             tender.status in ('complete', 'unsuccessful', 'cancelled', 'draft.unsuccessful'):
         raise_operation_error(request, 'Can\'t update tender in current ({}) status'.format(tender.status))
+
+
+def validate_json_data_in_active_enquiries(request):
+    source = request.validated['data']
+    tender = request.validated['tender_src']
+    data = {}
+    if 'tenderPeriod' in source and 'endDate' in source['tenderPeriod']:
+        validate_patch_tender_tenderPeriod(request)
+        data['tenderPeriod'] = {
+            'endDate': source['tenderPeriod']['endDate']
+        }
+    if 'items' in source:
+        items = tender['items']
+        for item in source['items']:
+            if 'quantity' in item:
+                i = [i for i in items if i['id'] == item['id']][0]
+                i['quantity'] = item['quantity']
+        data['items'] = items
+    return data
+    
+
+def validate_patch_tender_tenderPeriod(request):
+    data = request.validated['data']
+    startDate = data['tenderPeriod'].get('startDate')
+    endDate = data['tenderPeriod'].get('endDate')
+
+    if (startDate and endDate) and (parse_date(endDate) - parse_date(startDate)) < TENDER_PERIOD_MINIMAL_DURATION:
+        raise_operation_error(request, 'tenderPeriod should last at least 3 days')

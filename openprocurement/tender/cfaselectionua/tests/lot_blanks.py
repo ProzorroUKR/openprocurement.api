@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 from email.header import Header
+import unittest
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaselectionua.tests.base import test_organization, test_agreement

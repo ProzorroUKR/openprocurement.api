@@ -15,3 +15,4 @@ TENDERING_DURATION = timedelta(days=3)
 AUCTION_DURATION = timedelta(days=1)  # needs to be updated
 COMPLAINT_DURATION = timedelta(days=1)  # needs to be updated
 CLARIFICATIONS_DURATION = timedelta(days=5)  # needs to be updated
+TENDER_PERIOD_MINIMAL_DURATION = timedelta(days=3)

@@ -147,7 +147,6 @@ def create_tender_document(self):
 
 
 def create_document_active_tendering_status(self):
-
     self.set_status('active.tendering')
 
     response = self.app.post('/tenders/{}/documents?acc_token={}'.format(
@@ -155,6 +154,15 @@ def create_document_active_tendering_status(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't add document in current (active.tendering) tender status")
+
+
+def create_document_active_enquiries_status(self):
+    self.set_status('active.enquiries')
+
+    response = self.app.post('/tenders/{}/documents?acc_token={}'.format(
+        self.tender_id, self.tender_token), upload_files=[('file', u'укр.doc', 'content')])
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
 
 
 def put_tender_document(self):

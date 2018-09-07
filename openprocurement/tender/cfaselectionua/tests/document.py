@@ -10,6 +10,7 @@ from openprocurement.tender.cfaselectionua.tests.document_blanks import (
     # TenderDocumentResourceTest
     not_found,
     create_document_active_tendering_status,
+    create_document_active_enquiries_status,
     create_tender_document,
     put_tender_document,
     patch_tender_document,
@@ -39,6 +40,7 @@ class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTes
     initial_lots = test_lots
     initial_status = 'active.enquiries'
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
+    test_create_document_active_enquiries_status = snitch(create_document_active_enquiries_status)
 
 
 class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumentWithDSResourceTestMixin):
