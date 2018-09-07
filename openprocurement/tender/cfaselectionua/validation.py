@@ -6,6 +6,7 @@ from openprocurement.api.utils import error_handler, raise_operation_error, get_
 from openprocurement.api.validation import OPERATIONS, validate_data, validate_json_data
 
 from openprocurement.tender.cfaselectionua.utils import prepare_shortlistedFirms, prepare_bid_identifier
+from openprocurement.tender.cfaselectionua.constants import TENDER_PERIOD_MINIMAL_DURATION
 
 
 def validate_patch_tender_data(request):
@@ -207,5 +208,5 @@ def validate_patch_tender_tenderPeriod(request):
     startDate = data['tenderPeriod'].get('startDate')
     endDate = data['tenderPeriod'].get('endDate')
 
-    if (startDate and endDate) and (parse_date(endDate) - parse_date(startDate)).days <3:
+    if (startDate and endDate) and (parse_date(endDate) - parse_date(startDate)) < TENDER_PERIOD_MINIMAL_DURATION:
         raise_operation_error(request, 'tenderPeriod should last at least 3 days')

@@ -54,10 +54,9 @@ class TenderLotResourceTestMixin(object):
 
 
 class TenderLotValueTestMixin(object):
-    pass
-    # test_patch_tender_currency = snitch(patch_tender_currency)
-    # test_patch_tender_vat = snitch(patch_tender_vat)
-    # test_tender_lot_guarantee = snitch(tender_lot_guarantee)
+    test_patch_tender_currency = snitch(patch_tender_currency)
+    test_patch_tender_vat = snitch(patch_tender_vat)
+    test_tender_lot_guarantee = snitch(tender_lot_guarantee)
 
 
 class TenderLotFeatureResourceTestMixin(object):
@@ -72,7 +71,7 @@ class TenderLotProcessTestMixin(object):
     #test_proc_2lot_2can = snitch(proc_2lot_2can)
 
 
-class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
+class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin):
     initial_status = 'active.enquiries'
     initial_lots = test_lots
     test_lots_data = test_lots
