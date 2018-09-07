@@ -11,19 +11,21 @@ Schema
 ------
 
 :id:
-    uid, auto-generated
+    uid, auto-generated, read-only
 
 :awardID:
-    string, required
+    string, auto-generated, read-only
 
 :suppliers:
     List of :ref:`Organization` objects, auto-generated, read-only
 
 :status:
     string, required
-
-:period:
-    :ref:`Period`
+    
+    Possible values are:
+    
+    * `active` - participant signed the agreement
+    * `unsuccessful` - participant refused to sign the agreement
 
 :date:
     string, :ref:`date`
@@ -31,7 +33,11 @@ Schema
     The date when the contract was changed or activated.
 
 :bidID:
-    string
+    string, auto-generated, read-only
+    
+    Contract related :ref:`Bid`
 
 :unitPrices:
     List of :ref:`UnitPrice`
+    
+    Contract prices per :ref:`Item`
