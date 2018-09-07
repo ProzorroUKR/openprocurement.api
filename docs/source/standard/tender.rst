@@ -147,16 +147,16 @@ Schema
 
    :`active.tendering`:
        Tendering period (tendering)
-   :`active.pre-qualification`:
-       ``<Information about status>``
-   :`active.pre-qualification.stand-still`:
-       ``<Information about status>``
+   :`active.pre-qualification`: 
+       Pre-qualification period (pre-qualification)
+   :`active.pre-qualification.stand-still`: 
+       Standstill before auction
    :`active.auction`:
        Auction period (auction)
    :`active.qualification`:
-       Winner qualification (qualification)
+       Winners qualification (qualification)
    :`active.qualification.stand-still`:
-       ``<Information about status>``
+       Standstill before contract signing
    :`active.awarded`:
        Standstill period (standstill)
    :`unsuccessful`:
@@ -171,7 +171,16 @@ Schema
 :lots:
    List of :ref:`lot` objects.
 
-   Contains all tender lots.
+   Contains tender lot.
+:agreementDuration:
+   string, required
+   
+   Duration of agreement. Maximum 4 years. Format ISO8601 (PnYnMnDTnHnMnS)
+   
+:maxAwardsCount:
+   string, required
+   
+   Maximum number of required Awards
 
 :cancellations:
    List of :ref:`cancellation` objects.
