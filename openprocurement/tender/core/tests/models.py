@@ -158,6 +158,40 @@ class TestQuestionModel(unittest.TestCase):
         self.assertEqual(len(serialized_question['id']), 32)
 
 
+class TestTenderMainProcurementCategory(unittest.TestCase):
+    def test_validate_valid(self):
+        tender = Tender(
+            {
+                "title": "whatever",
+                "mainProcurementCategory": "goods",
+            }
+        )
+        tender.validate()
+        data = tender.serialize("embedded")
+        self.assertIn("mainProcurementCategory", data)
+        self.assertIn(data["mainProcurementCategory"], "goods")
+
+    def test_validate_not_valid(self):
+        tender = Tender(
+            {
+                "title": "whatever",
+                "mainProcurementCategory": "test",
+            }
+        )
+        with self.assertRaises(ModelValidationError) as e:
+            tender.validate()
+        self.assertEqual(
+            e.exception.message,
+            {'mainProcurementCategory': [u"Value must be one of ['goods', 'services', 'works']."]}
+        )
+
+    def test_validate_empty(self):
+        tender = Tender({"title": "whatever"})
+        tender.validate()
+        data = tender.serialize("embedded")
+        self.assertNotIn("mainProcurementCategory", data)
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestPeriodEndRequired))
