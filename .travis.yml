@@ -1,0 +1,29 @@
+language: python
+sudo: required
+group: deprecated-2017Q4
+before_script:
+  - sudo add-apt-repository ppa:chris-lea/libsodium -y
+  - sudo apt-get -qq update
+  - sudo apt-get install libsodium13 -y
+python:
+  - "2.7"
+services:
+  - couchdb
+env:
+  global:
+    - TZ=Europe/Kiev
+  matrix:
+    - SANDBOX_MODE=
+    - SANDBOX_MODE=True
+cache:
+  directories:
+    - eggs
+before_install:
+  - sh bootstrap.sh
+install:
+  - bin/buildout -N
+script:
+    - bin/py.test ./openprocurement/tender/cfaua/tests --cov=openprocurement.tender.cfaua
+after_success:
+  - bin/coveralls
+

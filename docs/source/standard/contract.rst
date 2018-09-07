@@ -16,6 +16,12 @@ Schema
 :awardID:
     string, auto-generated, read-only
 
+:bidID:
+    string
+
+:parameters:
+    List of :ref:`Parameter` objects, auto-generated, read-only
+
 :suppliers:
     List of :ref:`Organization` objects, auto-generated, read-only
 
@@ -36,6 +42,7 @@ Schema
     string, auto-generated, read-only
     
     Contract related :ref:`Bid`
+
 
 :unitPrices:
     List of :ref:`UnitPrice`

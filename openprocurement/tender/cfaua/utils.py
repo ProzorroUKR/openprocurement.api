@@ -4,21 +4,19 @@ from functools import partial
 
 from cornice.resource import resource
 from openprocurement.api.interfaces import IContentConfigurator
-from openprocurement.api.models import get_now, TZ
+from openprocurement.api.models import get_now
 from openprocurement.api.utils import (
     error_handler,
     context_unpack,
 )
 from barbecue import chef
-from openprocurement.tender.belowthreshold.utils import check_ignored_claim
 from openprocurement.tender.core.utils import (
     remove_draft_bids,
     has_unanswered_questions,
-    has_unanswered_complaints
+    has_unanswered_complaints,
+    calculate_business_date,
 )
 from openprocurement.tender.openua.utils import check_complaint_status
-
-from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 
 from openprocurement.tender.cfaua.models.submodels.qualification import Qualification
 from openprocurement.tender.cfaua.traversal import (
@@ -62,36 +60,10 @@ def check_initial_bids_count(request):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
-    elif tender.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number:
+    elif tender.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number:  # pragma: no cover
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
         if tender.auctionPeriod and tender.auctionPeriod.startDate:
-            tender.auctionPeriod.startDate = None
-        tender.status = 'unsuccessful'
-
-
-def check_initial_awards_count(request):
-    tender = request.validated['tender']
-    if tender.lots:
-        for i in tender.lots:
-            if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number and i.status == 'active':
-                setattr(i, 'status', 'unsuccessful')
-                for bid_index, bid in enumerate(tender.bids):
-                    for lot_index, lot_value in enumerate(bid.lotValues):
-                        if lot_value.relatedLot == i.id:
-                            setattr(tender.bids[bid_index].lotValues[lot_index], 'status', 'unsuccessful')
-
-        # [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2 and i.status == 'active']
-
-        if not set([i.status for i in tender.lots]).difference(set(['unsuccessful', 'cancelled'])):
-            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
-            tender.status = 'unsuccessful'
-    elif len([award for award in tender.awards if award.status in ("active", "pending",)])\
-            < getAdapter(tender, IContentConfigurator).min_bids_number:
-        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
-                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
-        if tender.awardPeriod and tender.awardPeriod.startDate:
             tender.auctionPeriod.startDate = None
         tender.status = 'unsuccessful'
 
@@ -120,7 +92,7 @@ def prepare_qualifications(request, bids=[], lotId=None):
                             qualification.date = get_now()
                             tender.qualifications.append(qualification)
                             new_qualifications.append(qualification.id)
-    else:
+    else:  # pragma: no cover
         for bid in bids:
             if bid.status == 'pending':
                 qualification = Qualification({'bidID': bid.id, 'status': 'pending'})
@@ -142,91 +114,94 @@ def all_bids_are_reviewed(request):
             for lotValue in bid.lotValues
             if lotValue.relatedLot in active_lots
         ])
-    else:
+    else:  # pragma: no cover
         return all([bid.status != 'pending' for bid in request.validated['tender'].bids])
 
 
-def check_tender_status(request):
+def check_tender_status_on_active_qualification_stand_still(request):
+
     tender = request.validated['tender']
+    config = getAdapter(tender, IContentConfigurator)
     now = get_now()
+    active_lots = [lot.id for lot in tender.lots if lot.status == 'active'] if tender.lots else [None]
+    if not (tender.awardPeriod and tender.awardPeriod.endDate <= now and
+            not any([i.status in tender.block_complaint_status
+                     for a in tender.awards
+                     for i in a.complaints
+                     if a.lotID in active_lots])):
+        return
+    statuses = set()
     if tender.lots:
-        if any([i.status in tender.block_complaint_status and i.relatedLot is None for i in tender.complaints]):
-            return
         for lot in tender.lots:
-            if lot.status != 'active':
+            if lot.status != 'active':  # pragma: no cover
+                statuses.add(lot.status)
                 continue
-            lot_awards = [i for i in tender.awards if i.lotID == lot.id]
-            if not lot_awards:
-                continue
-            last_award = lot_awards[-1]
-            pending_complaints = any([
-                i['status'] in tender.block_complaint_status and i.relatedLot == lot.id
-                for i in tender.complaints
-            ])
-            pending_awards_complaints = any([
-                i.status in tender.block_complaint_status
-                for a in lot_awards
-                for i in a.complaints
-            ])
-            stand_still_end = max([
-                a.complaintPeriod.endDate or now
-                for a in lot_awards
-            ])
-            if pending_complaints or pending_awards_complaints or not stand_still_end <= now:
-                continue
-            elif last_award.status == 'unsuccessful':
+            active_lot_awards = [i for i in tender.awards if i.lotID == lot.id and i.status == 'active']
+            if len(active_lot_awards) < config.min_bids_number:
                 LOGGER.info(
                     'Switched lot {} of tender {} to {}'.format(lot.id, tender.id, 'unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_lot_unsuccessful'}, {'LOT_ID': lot.id})
                 )
                 lot.status = 'unsuccessful'
+                statuses.add(lot.status)
                 continue
-            elif last_award.status == 'active' and \
-                    any([i.status == 'active' and i.awardID == last_award.id for i in tender.agreements]):
-                LOGGER.info('Switched lot {} of tender {} to {}'.format(lot.id, tender.id, 'complete'),
-                            extra=context_unpack(request, {'MESSAGE_ID': 'switched_lot_complete'}, {'LOT_ID': lot.id}))
-                lot.status = 'complete'
-        statuses = set([lot.status for lot in tender.lots])
-        if statuses == set(['cancelled']):
-            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'cancelled'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_cancelled'}))
-            tender.status = 'cancelled'
-        elif not statuses.difference(set(['unsuccessful', 'cancelled'])):
-            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
-            tender.status = 'unsuccessful'
-        elif not statuses.difference(set(['complete', 'unsuccessful', 'cancelled'])):
-            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'complete'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_complete'}))
-            tender.status = 'complete'
+            statuses.add(lot.status)
+    else:  # pragma: no cover
+        active_awards = [i for i in tender.awards if i.status == 'active']
+        if len(active_awards) <= config.min_bids_count:
+            statuses.add('unsuccessful')
+        else:
+            statuses.add('active.awarded')
+
+    if statuses == {'cancelled'}:  # pragma: no cover
+        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'cancelled'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_cancelled'}))
+        tender.status = 'cancelled'
+    elif not statuses.difference({'unsuccessful', 'cancelled'}):  # pragma: no cover
+        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
+        tender.status = 'unsuccessful'
     else:
-        pending_complaints = any([
-            i.status in tender.block_complaint_status
-            for i in tender.complaints
-        ])
-        pending_awards_complaints = any([
-            i.status in tender.block_complaint_status
-            for a in tender.awards
-            for i in a.complaints
-        ])
-        stand_still_ends = [
-            a.complaintPeriod.endDate
-            for a in tender.awards
-            if a.complaintPeriod.endDate
-        ]
-        stand_still_end = max(stand_still_ends) if stand_still_ends else now
-        stand_still_time_expired = stand_still_end < now
-        last_award_status = tender.awards[-1].status if tender.awards else ''
-        if not pending_complaints and not pending_awards_complaints and \
-                stand_still_time_expired and last_award_status == 'unsuccessful':
-            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
-            tender.status = 'unsuccessful'
-        if tender.agreements and tender.agreements[-1].status == 'active':
-            tender.status = 'complete'
-            tender.contractPeriod.endDate = now
-    if tender.procurementMethodType == "belowThreshold":
-        check_ignored_claim(tender)
+        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'active.awarded'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active_awarded'}))
+        tender.status = 'active.awarded'
+        tender.contractPeriod = {'startDate': now}
+        tender.contractPeriod['clarificationsUntil'] = calculate_business_date(
+            now, config.clarifications_until_period, tender, False
+        )
+        lots = [l for l in tender.get('lots', []) if l.status == 'active']
+        if lots:
+            for lot in lots:
+                agreement_data = generate_agreement_data(request, tender, lot)
+                agreement = type(tender).agreements.model_class(agreement_data)
+                agreement.__parent__ = tender
+                tender.agreements.append(agreement)
+        else:  # pragma: no cover
+            agreement_data = generate_agreement_data(request, tender)
+            agreement = type(tender).agreements.model_class(agreement_data)
+            agreement.__parent__ = tender
+            tender.agreements.append(agreement)
+
+
+        # Update tender status (awarded, unsuccessful)
+
+def check_tender_status_on_active_awarded(request):
+    tender = request.validated['tender']
+    now = get_now()
+    statuses = {agreement.status for agreement in tender.agreements}
+    if statuses == {'cancelled'}:
+        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'cancelled'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_cancelled'}))
+        tender.status = 'cancelled'
+    elif not statuses.difference({'unsuccessful', 'cancelled'}):
+        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
+        tender.status = 'unsuccessful'
+    elif not statuses.difference({'active', 'unsuccessful', 'cancelled'}):
+        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'complete'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_complete'}))
+        tender.status = 'complete'
+        tender.contractPeriod.endDate = now
 
 
 def check_status(request):
@@ -257,34 +232,8 @@ def check_status(request):
         tender.status = 'active.auction'
         check_initial_bids_count(request)
         return
-    elif tender.status == 'active.qualification.stand-still' and tender.awardPeriod and \
-            tender.awardPeriod.endDate <= now and \
-            not any([i.status in tender.block_complaint_status
-                     for a in tender.awards
-                     for i in a.complaints
-                     if a.lotID in active_lots]):
-        LOGGER.info('Switched tender {} to {}'.format(tender['id'], 'active.awarded'),
-                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.awarded'}))
-        tender.status = 'active.awarded'
-        tender.contractPeriod = {
-            'startDate': now
-        }
-        tender.contractPeriod['clarificationsUntil'] = now + getAdapter(tender, IContentConfigurator).clarifications_until_period
-        check_initial_awards_count(request)
-        if tender.status == 'active.awarded':
-            lots = [l for l in tender.get('lots', []) if l.status == 'active']
-            if lots:
-                for lot in lots:
-                    agreement_data = generate_agreement_data(request, tender, lot)
-                    agreement = type(tender).agreements.model_class(agreement_data)
-                    agreement.__parent__ = tender
-                    tender.agreements.append(agreement)
-            else:
-                agreement_data = generate_agreement_data(request, tender)
-                agreement = type(tender).agreements.model_class(agreement_data)
-                agreement.__parent__ = tender
-                tender.agreements.append(agreement)
-        return
+    elif tender.status == 'active.qualification.stand-still':
+        check_tender_status_on_active_qualification_stand_still(request)
 
 
 def add_next_awards(request, reverse=False, awarding_criteria_key='amount', regenerate_all_awards=False, lot_id=None):
@@ -367,7 +316,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key='amount', rege
         if statuses.difference(set(['unsuccessful', 'active'])):  # logic for auction to switch status
             tender.awardPeriod.endDate = None
             tender.status = 'active.qualification'
-    else:
+    else:  # pragma: no cover
         if not tender.awards or request.context.status in ('cancelled', 'unsuccessful'):
             codes = [i.code for i in tender.features or []]
             active_bids = [

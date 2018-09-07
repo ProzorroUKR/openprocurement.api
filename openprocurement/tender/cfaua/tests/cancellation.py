@@ -1,118 +1,68 @@
 # -*- coding: utf-8 -*-
 import unittest
-
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.belowthreshold.tests.cancellation import (
-    TenderCancellationResourceTestMixin,
-    TenderCancellationDocumentResourceTestMixin
-)
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
-    # TenderLotsCancellationResourceTest
-    create_tender_lots_cancellation,
-    patch_tender_lots_cancellation,
-    # TenderLotCancellationResourceTest
     create_tender_lot_cancellation,
     patch_tender_lot_cancellation,
+    create_tender_cancellation_invalid,
+    get_tender_cancellation,
+    get_tender_cancellations,
+    not_found,
+    create_tender_cancellation_document,
+    put_tender_cancellation_document,
+    patch_tender_cancellation_document,
 )
-from openprocurement.tender.openeu.tests.cancellation import TenderCancellationBidsAvailabilityUtils
-
+from openprocurement.tender.cfaua.tests.cancellation_blanks import (
+    # Cancellation tender
+    cancellation_tender_active_tendering,
+    cancellation_tender_active_pre_qualification,
+    cancellation_tender_active_pre_qualification_stand_still,
+    cancellation_tender_active_auction,
+    cancellation_tender_active_qualification,
+    cancellation_tender_active_qualification_stand_still,
+    cancellation_tender_active_awarded,
+    # Cancellation lot
+    cancel_lot_active_tendering,
+    cancel_lot_active_pre_qualification,
+    cancel_lot_active_pre_qualification_stand_still,
+    cancel_lot_active_auction,
+    cancel_lot_active_qualification,
+    cancel_lot_active_qualification_stand_still,
+    cancel_lot_active_awarded,
+    )
 from openprocurement.tender.openua.tests.cancellation_blanks import (
-    # TenderCancellationResourceTest
     create_tender_cancellation,
-    patch_tender_cancellation,
+    patch_tender_cancellation
 )
-
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
-    test_bids,
-    test_lots
-)
-from openprocurement.tender.openeu.tests.cancellation_blanks import (
-    # TenderAwardsCancellationResourceTest
-    cancellation_active_tendering_j708,
-    cancellation_active_qualification_j1427,
-    cancellation_active_qualification,
-    cancellation_unsuccessful_qualification,
-    cancellation_active_award,
-    cancellation_unsuccessful_award,
-    # TenderCancellationBidsAvailabilityTest
-    bids_on_tender_cancellation_in_tendering,
-    bids_on_tender_cancellation_in_pre_qualification,
-    bids_on_tender_cancellation_in_pre_qualification_stand_still,
-    bids_on_tender_cancellation_in_auction,
-    bids_on_tender_cancellation_in_qualification,
-    bids_on_tender_cancellation_in_awarded,
-)
-
+    test_lots,
+    test_bids)
 
 no_award_logic = True
 one_lot_restriction = True
 
 
-class TenderCancellationResourceTest(BaseTenderContentWebTest, TenderCancellationResourceTestMixin):
+class TenderCancellationResourceTest(BaseTenderContentWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
 
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
-
-@unittest.skipIf(no_award_logic, 'Implement logic for test later')
-class TenderCancellationBidsAvailabilityTest(BaseTenderContentWebTest, TenderCancellationBidsAvailabilityUtils):
-    initial_auth = ('Basic', ('broker', ''))
-    initial_bids = test_bids * 2
-    bid_visible_fields = [u'status', u'documents', u'tenderers', u'id', u'eligibilityDocuments']
-    doc_id_by_type = {}
-    valid_bids = []
-
-    def setUp(self):
-        super(TenderCancellationBidsAvailabilityTest, self).setUp()
-        self.valid_bids = self.initial_bids_tokens.keys()
-        self._prepare_bids_docs()
-
-    test_bids_on_tender_cancellation_in_tendering = snitch(bids_on_tender_cancellation_in_tendering)
-    test_bids_on_tender_cancellation_in_pre_qualification = snitch(bids_on_tender_cancellation_in_pre_qualification)
-    test_bids_on_tender_cancellation_in_pre_qualification_stand_still = snitch(bids_on_tender_cancellation_in_pre_qualification_stand_still)
-    test_bids_on_tender_cancellation_in_auction = snitch(bids_on_tender_cancellation_in_auction)
-    test_bids_on_tender_cancellation_in_qualification = snitch(bids_on_tender_cancellation_in_qualification)
-    # test_bids_on_tender_cancellation_in_awarded = snitch(bids_on_tender_cancellation_in_awarded) TODO needs to be rewritten
+    test_create_tender_cancellation_invalid = snitch(create_tender_cancellation_invalid)
+    test_get_tender_cancellation = snitch(get_tender_cancellation)
+    test_get_tender_cancellations = snitch(get_tender_cancellations)
 
 
 class TenderLotCancellationResourceTest(BaseTenderContentWebTest):
     initial_lots = test_lots
-
     initial_auth = ('Basic', ('broker', ''))
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
 
 
-# TODO: Remove if will be approved.
-@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
-class TenderLotsCancellationResourceTest(BaseTenderContentWebTest):
-    initial_lots = 2 * test_lots
-
-    initial_auth = ('Basic', ('broker', ''))
-    test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
-    test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
-
-
-# TODO: Remove if will be approved.
-@unittest.skipIf(one_lot_restriction, "CFAUA not allow more than one lot per tender.")
-class TenderAwardsCancellationResourceTest(BaseTenderContentWebTest):
-    initial_lots = 2 * test_lots
-    initial_status = 'active.tendering'
-    initial_bids = test_bids
-
-    test_cancellation_active_tendering_j708 = snitch(cancellation_active_tendering_j708)
-    test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
-    test_cancellation_active_qualification = snitch(cancellation_active_qualification)
-    test_cancellation_unsuccessful_qualification = snitch(cancellation_unsuccessful_qualification)
-    test_cancellation_active_award = snitch(cancellation_active_award)
-    test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
-
-
-class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCancellationDocumentResourceTestMixin):
+class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
 
@@ -124,11 +74,46 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCan
         cancellation = response.json['data']
         self.cancellation_id = cancellation['id']
 
+    test_not_found = snitch(not_found)
+    test_create_tender_cancellation_document = snitch(create_tender_cancellation_document)
+    test_put_tender_cancellation_document = snitch(put_tender_cancellation_document)
+    test_patch_tender_cancellation_document = snitch(patch_tender_cancellation_document)
+
+
+class CancellationTenderAndLotOnAllStage(BaseTenderContentWebTest):
+    initial_auth = ('Basic', ('broker', ''))
+    initial_bids = test_bids
+    test_author = test_bids[0]["tenderers"][0]
+    # Cancellation tender
+    test_cancellation_tender_active_tendering = snitch(cancellation_tender_active_tendering)
+    test_cancellation_tender_active_pre_qualification = snitch(cancellation_tender_active_pre_qualification)
+    test_cancellation_tender_active_pre_qualification_stand_still = snitch(
+        cancellation_tender_active_pre_qualification_stand_still
+    )
+    test_cancellation_tender_active_auction = snitch(cancellation_tender_active_auction)
+    test_cancellation_tender_active_qualification = snitch(cancellation_tender_active_qualification)
+    test_cancellation_tender_active_qualification_stand_still = snitch(
+        cancellation_tender_active_qualification_stand_still
+    )
+    test_cancellation_tender_active_awarded = snitch(cancellation_tender_active_awarded)
+
+    # Cancellation lot
+    test_cancel_lot_active_tendering = snitch(cancel_lot_active_tendering)
+    test_cancel_lot_active_pre_qualification = snitch(cancel_lot_active_pre_qualification)
+    test_cancel_lot_active_pre_qualification_stand_still = snitch(cancel_lot_active_pre_qualification_stand_still)
+    test_cancel_lot_active_auction = snitch(cancel_lot_active_auction)
+    test_cancel_lot_active_qualification = snitch(cancel_lot_active_qualification)
+    test_cancel_lot_active_qualification_stand_still = snitch(cancel_lot_active_qualification_stand_still)
+    test_cancel_lot_active_awarded = snitch(cancel_lot_active_awarded)
+
+
+
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderCancellationResourceTest))
+    suite.addTest(unittest.makeSuite(CancellationTenderAndLotOnAllStage))
     return suite
 
 

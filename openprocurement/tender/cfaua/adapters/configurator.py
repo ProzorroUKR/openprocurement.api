@@ -1,7 +1,7 @@
 from openprocurement.api.constants import TZ
 from openprocurement.tender.cfaua.constants import TENDERING_DURATION, \
     PREQUALIFICATION_COMPLAINT_STAND_STILL, QUESTIONS_STAND_STILL, MIN_BIDS_NUMBER, \
-    QUALIFICATION_COMPLAINT_STAND_STILL, TENDERING_EXTRA_PERIOD, CLARIFICATIONS_UNTIL_PERIOD
+    QUALIFICATION_COMPLAINT_STAND_STILL, TENDERING_EXTRA_PERIOD, CLARIFICATIONS_UNTIL_PERIOD, MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.core.adapters import TenderConfigurator
 from openprocurement.tender.openua.constants import STATUS4ROLE, CLAIM_SUBMIT_TIME, \
@@ -56,3 +56,5 @@ class CloseFrameworkAgreementUAConfigurator(TenderConfigurator):
     # Duration of documents with prices per unit upload
 
     clarifications_until_period = CLARIFICATIONS_UNTIL_PERIOD
+
+    max_agreement_period = MAX_AGREEMENT_PERIOD

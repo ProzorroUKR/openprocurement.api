@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
-from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_data,
-    test_bids
+    test_bids,
+    test_lots
 )
 from openprocurement.tender.cfaua.tests.agreement_blanks import (
     # TenderAgreementResourceTest
@@ -21,11 +19,11 @@ from openprocurement.tender.cfaua.tests.agreement_blanks import (
     get_tender_agreement_contracts,
     not_found,
     patch_tender_agreement,
+    patch_tender_agreement_unsuccessful,
     patch_tender_agreement_contract,
     patch_tender_agreement_datesigned,
     patch_tender_agreement_document,
     put_tender_agreement_document,
-    patch_no_lot_agreement_contract_unit_prices,
     patch_lots_agreement_contract_unit_prices,
 )
 
@@ -49,6 +47,7 @@ class TenderAgreementResourceTest(BaseTenderContentWebTest, TenderAgreementResou
     # initial_data = tender_data
     initial_status = 'active.awarded'
     initial_bids = test_bids
+    initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):
@@ -59,10 +58,10 @@ class TenderAgreementResourceTest(BaseTenderContentWebTest, TenderAgreementResou
 
     test_agreement_termination = snitch(agreement_termination)
     test_agreement_cancellation = snitch(agreement_cancellation)
+    test_patch_tender_agreement_unsuccessful = snitch(patch_tender_agreement_unsuccessful)
     test_patch_tender_agreement_contract = snitch(patch_tender_agreement_contract)
     test_patch_tender_agreement_datesigned = snitch(patch_tender_agreement_datesigned)
     test_patch_tender_agreement = snitch(patch_tender_agreement)
-    test_patch_no_lot_agreement_contract_unit_prices = snitch(patch_no_lot_agreement_contract_unit_prices)
     test_patch_lots_agreement_contract_unit_prices = snitch(patch_lots_agreement_contract_unit_prices)
 
 
@@ -70,6 +69,7 @@ class TenderAgreementDocumentResourceTest(BaseTenderContentWebTest, TenderAgreem
     # initial_data = tender_data
     initial_status = 'active.awarded'
     initial_bids = test_bids
+    initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):

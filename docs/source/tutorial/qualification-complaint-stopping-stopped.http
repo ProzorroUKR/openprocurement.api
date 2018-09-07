@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/dd44e80c60e34cf58e557590d6a056f3/qualifications/42689799d2a542098c62bb12e59d368e/complaints/2662e8f73a1b4e05a18c44b4ec439218 HTTP/1.0
+PATCH /api/2.4/tenders/f29723d1a2e84273b7bba4a27d793dff/qualifications/223d741b7ed942ba9473a3ebf12b1834/complaints/60ddc078410745c980cda680ec108c0f HTTP/1.0
 Authorization: Basic cmV2aWV3ZXI6
 Content-Length: 217
 Content-Type: application/json
@@ -15,15 +15,10 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
+    "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
     "status": "stopped", 
-    "dateDecision": "2018-08-08T16:11:20.891262+03:00", 
+    "dateDecision": "2018-09-05T14:24:39.901187+03:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "title": "Недостатньо інформації", 
-    "decision": "Тендер скасовується замовником", 
-    "acceptance": true, 
-    "cancellationReason": "Тендер скасовується замовником", 
-    "dateCanceled": "2018-08-08T16:11:20.743771+03:00", 
-    "dateAccepted": "2018-08-08T16:11:19.706312+03:00", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -45,11 +40,17 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "dateSubmitted": "2018-08-08T16:11:17.871712+03:00", 
-    "complaintID": "UA-2018-08-08-000001.4", 
-    "date": "2018-08-08T16:11:20.898961+03:00", 
+    "decision": "Тендер скасовується замовником", 
+    "acceptance": true, 
+    "cancellationReason": "Тендер скасовується замовником", 
+    "dateCanceled": "2018-09-05T14:24:39.737749+03:00", 
+    "dateAccepted": "2018-09-05T14:24:38.633784+03:00", 
+    "dateSubmitted": "2018-09-05T14:24:36.606702+03:00", 
+    "complaintID": "UA-2018-09-05-000001.4", 
+    "date": "2018-09-05T14:24:39.910371+03:00", 
+    "title": "Недостатньо інформації", 
     "type": "complaint", 
-    "id": "2662e8f73a1b4e05a18c44b4ec439218"
+    "id": "60ddc078410745c980cda680ec108c0f"
   }
 }
 

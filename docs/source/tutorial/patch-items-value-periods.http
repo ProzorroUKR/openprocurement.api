@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941?acc_token=098b70bdad1f421abcb9ff8b58fb7cb3 HTTP/1.0
+PATCH /api/2.4/tenders/0eba7509160946dd8439ca46baa56801?acc_token=61955a7cfb50471faf87533f4371d20c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 75
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2018-09-07T16:11:21.661551+03:00"
+      "endDate": "2018-10-05T14:24:35.891285+03:00"
     }
   }
 }
@@ -18,35 +18,78 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "complaintPeriod": {
-      "startDate": "2018-08-08T16:11:11.612633+03:00", 
-      "endDate": "2018-09-03T00:00:00+03:00"
+      "startDate": "2018-09-05T14:24:23.804787+03:00", 
+      "endDate": "2018-10-01T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2018-08-08T16:11:11.612633+03:00", 
-      "clarificationsUntil": "2018-08-31T16:11:21.661551+03:00", 
-      "endDate": "2018-08-28T16:11:21.661551+03:00", 
-      "invalidationDate": "2018-08-08T16:11:11.695944+03:00"
+      "startDate": "2018-09-05T14:24:23.804787+03:00", 
+      "clarificationsUntil": "2018-09-28T14:24:35.891285+03:00", 
+      "endDate": "2018-09-25T14:24:35.891285+03:00", 
+      "invalidationDate": "2018-09-05T14:24:25.939019+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2018-09-07T16:11:21.661551+03:00", 
-    "awardCriteria": "lowestCost", 
-    "owner": "broker", 
-    "id": "a1bb69aea62e453481dd59b7903cc941", 
-    "title": "футляри до державних нагород", 
-    "tenderID": "UA-2018-08-08-000001", 
-    "auctionPeriod": {
-      "shouldStartAfter": "2018-10-13T00:00:00+03:00"
+    "next_check": "2018-10-05T14:24:35.891285+03:00", 
+    "procuringEntity": {
+      "kind": "general", 
+      "name": "Державне управління справами", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }, 
+      "contactPoint": {
+        "name_en": "State administration", 
+        "name": "Державне управління справами", 
+        "availableLanguage": "uk", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName_en": "dus.gov.ua", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name_en": "State administration"
     }, 
-    "dateModified": "2018-08-08T16:11:11.698051+03:00", 
+    "owner": "broker", 
+    "id": "0eba7509160946dd8439ca46baa56801", 
+    "title": "футляри до державних нагород", 
+    "lots": [
+      {
+        "status": "active", 
+        "description": "Опис Лот №1", 
+        "title": "Лот №1", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "auctionPeriod": {
+          "shouldStartAfter": "2018-11-10T00:00:00+03:00"
+        }, 
+        "value": {
+          "currency": "UAH", 
+          "amount": 500.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "date": "2018-09-05T14:24:23.825365+03:00", 
+        "id": "f70782e4693042cca51ec2dda36d5f15"
+      }
+    ], 
+    "maxAwardsCount": 4, 
+    "tenderID": "UA-2018-09-05-000001", 
+    "dateModified": "2018-09-05T14:24:25.942150+03:00", 
     "status": "active.tendering", 
-    "maxAwards": 4, 
     "tenderPeriod": {
-      "startDate": "2018-08-08T16:11:11.612633+03:00", 
-      "endDate": "2018-09-07T16:11:21.661551+03:00"
+      "startDate": "2018-09-05T14:24:23.804787+03:00", 
+      "endDate": "2018-10-05T14:24:35.891285+03:00"
     }, 
     "title_en": "Cases for state awards", 
     "procurementMethodType": "closeFrameworkAgreementUA", 
-    "date": "2018-08-08T16:11:11.627862+03:00", 
+    "agreementDuration": "P3Y3M3D", 
+    "date": "2018-09-05T14:24:23.825365+03:00", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 35.0, 
@@ -54,6 +97,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
+        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -79,7 +123,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "e067a2a84e9a4e7c93879b74ae6e9ea8", 
+        "id": "7fdab13da22d4f75955aea7589cde503", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -92,30 +136,7 @@ Content-Type: application/json; charset=UTF-8
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "procuringEntity": {
-      "kind": "general", 
-      "name": "Державне управління справами", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }, 
-      "contactPoint": {
-        "name_en": "State administration", 
-        "name": "Державне управління справами", 
-        "availableLanguage": "uk", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName_en": "dus.gov.ua", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name_en": "State administration"
-    }
+    "awardCriteria": "lowestCost"
   }
 }
 

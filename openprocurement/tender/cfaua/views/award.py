@@ -101,7 +101,8 @@ class TenderAwardResource(BaseResource):
             pass
         elif award_status == 'active' and award.status == 'cancelled':
             add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria,
-                            awarding_criteria_key=configurator.awarding_criteria_key)
+                            awarding_criteria_key=configurator.awarding_criteria_key,
+                            lot_id=award.lotID)
         elif award_status == 'unsuccessful' and award.status == 'cancelled':
             for aw in tender.awards:
                 if aw.lotID == award.lotID:

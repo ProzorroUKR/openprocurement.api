@@ -22,11 +22,11 @@ from openprocurement.tender.cfaua.tests.chronograph_blanks import (
     switch_to_unsuccessful,
     # TenderSwitchPreQualificationStandStillResourceTest
     switch_to_awarded,
+    set_auction_period_0bid as set_auction_period,
+    switch_to_unsuccessful_from_qualification_stand_still
 )
 
 from openprocurement.tender.openua.tests.chronograph_blanks import (
-    # TenderAuctionPeriodResourceTest
-    set_auction_period_0bid as set_auction_period,
     set_auction_period_lot_0bid as set_auction_period_lot,
 )
 
@@ -66,6 +66,9 @@ class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTe
     initial_status = 'active.tendering'
     initial_lots = test_lots
 
+    test_switch_to_unsuccessful_from_qualification_stand_still = \
+        snitch(switch_to_unsuccessful_from_qualification_stand_still)
+
 
 class TenderAuctionPeriodResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'
@@ -90,7 +93,6 @@ class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
 
 class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
     initial_lots = test_lots
-#
 
 
 class TenderSwitchStatusesForNextCheckResourceTest(BaseTenderContentWebTest):
@@ -98,22 +100,6 @@ class TenderSwitchStatusesForNextCheckResourceTest(BaseTenderContentWebTest):
     initial_bids = test_bids
 
     test_next_check_field_in_active_qualification = snitch(next_check_field_in_active_qualification)
-
-
-# class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResourceTest):
-#     initial_lots = test_lots
-#
-#     def setUp(self):
-#         super(TenderAwardComplaintSwitchResourceTest, self).setUp()
-#         # Create award
-#         response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
-#             'suppliers': [test_organization],
-#             'status': 'pending',
-#             'bid_id': self.initial_bids[0]['id'],
-#             'lotID': self.initial_bids[0]['lotValues'][0]['relatedLot']
-#         }})
-#         award = response.json['data']
-#         self.award_id = award['id']
 
 
 class TenderSwitchQualificationStandStillResourceTest(BaseTenderContentWebTest):
@@ -143,17 +129,13 @@ class TenderLotSwitchQualificationStandStillResourceTest(TenderSwitchQualificati
 
 def suite():
     suite = unittest.TestSuite()
-    # suite.addTest(unittest.makeSuite(TenderAwardComplaintSwitchResourceTest))
     suite.addTest(unittest.makeSuite(TenderComplaintSwitchResourceTest))
-    # suite.addTest(unittest.makeSuite(TenderLotAwardComplaintSwitchResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotComplaintSwitchResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
-    # suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchQualificationStandStillResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationStandStillResourceTest))
-    # suite.addTest(unittest.makeSuite(TenderSwitchPreQualificationStandStillResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchStatusesForNextCheckResourceTest))
     return suite

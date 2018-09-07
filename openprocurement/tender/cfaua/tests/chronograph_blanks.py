@@ -107,11 +107,31 @@ def switch_to_unsuccessful(self):
     self.set_status(self.initial_status, 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
     if self.initial_lots:
-        self.assertEqual(set([i['status'] for i in response.json['data']['lots']]), set(['unsuccessful']))
+        self.assertEqual(set([i['status'] for i in response.json['data']['lots']]), {'unsuccessful'})
+
+
+def switch_to_unsuccessful_from_qualification_stand_still(self):
+    self.set_status('active.qualification')
+    # check if number of active awards is less than 3
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    awards = response.json['data']
+
+    response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+        self.tender_id, awards[0]['id'], self.tender_token), {"data": {"status": "unsuccessful"}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
+    self.set_status('active.qualification.stand-still', 'end')
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
 
 
 # TenderSwitchPreQualificationStandStillResourceTest
@@ -133,3 +153,19 @@ def switch_to_awarded(self):
     contract_parameters = {contract['bidID']: contract['parameters']
                            for contract in response.json['data']['agreements'][0]['contracts']}
     self.assertEqual(bids_parameters, contract_parameters)
+
+
+def set_auction_period_0bid(self):
+    self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
+                                   {'data': {"auctionPeriod": {"startDate": "9999-01-01T00:00:00+00:00"}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['auctionPeriod']['startDate'], '9999-01-01T00:00:00+00:00')
+
+    should_start_after = response.json['data']['lots'][0]['auctionPeriod']['shouldStartAfter']
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
+                                   {'data': {"auctionPeriod": {"startDate": None}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertNotIn('auctionPeriod', response.json['data'])
+    self.assertEqual(should_start_after, response.json['data']['lots'][0]['auctionPeriod']['shouldStartAfter'])
+

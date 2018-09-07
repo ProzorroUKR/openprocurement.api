@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941?acc_token=098b70bdad1f421abcb9ff8b58fb7cb3 HTTP/1.0
+GET /api/2.4/tenders/0eba7509160946dd8439ca46baa56801?acc_token=61955a7cfb50471faf87533f4371d20c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,17 +8,17 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "complaintPeriod": {
-      "startDate": "2018-07-11T16:11:12.031669+03:00", 
-      "endDate": "2018-08-06T00:00:00+03:00"
+      "startDate": "2018-08-08T14:24:26.351787+03:00", 
+      "endDate": "2018-09-03T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2018-07-11T16:11:12.031669+03:00", 
-      "clarificationsUntil": "2018-08-03T16:11:12.031669+03:00", 
-      "endDate": "2018-07-31T16:11:12.031669+03:00", 
-      "invalidationDate": "2018-08-08T16:11:11.886753+03:00"
+      "startDate": "2018-08-08T14:24:26.351787+03:00", 
+      "clarificationsUntil": "2018-08-31T14:24:26.351787+03:00", 
+      "endDate": "2018-08-28T14:24:26.351787+03:00", 
+      "invalidationDate": "2018-09-05T14:24:26.169444+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2018-08-10T16:11:12.031669+03:00", 
+    "next_check": "2018-09-07T14:24:26.351787+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "Державне управління справами", 
@@ -46,16 +46,16 @@ Content-Type: application/json; charset=UTF-8
     "questions": [
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
-        "dateAnswered": "2018-08-08T16:11:11.981560+03:00", 
+        "dateAnswered": "2018-09-05T14:24:26.279982+03:00", 
         "title": "Калорійність", 
-        "date": "2018-08-08T16:11:11.938494+03:00", 
+        "date": "2018-09-05T14:24:26.226173+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "657fa8f6af4044159025e3daf12a792c", 
+        "id": "5544e04b52a54ca5b7e8e9915aec22fb", 
         "questionOf": "tender"
       }
     ], 
     "owner": "broker", 
-    "id": "a1bb69aea62e453481dd59b7903cc941", 
+    "id": "0eba7509160946dd8439ca46baa56801", 
     "guarantee": {
       "currency": "USD", 
       "amount": 8.0
@@ -66,53 +66,77 @@ Content-Type: application/json; charset=UTF-8
         "author": "tender_owner", 
         "language": "uk", 
         "title": "Notice.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/9dce1e56c1954895a9e02529a17cbc41?KeyID=b96f7de5&Signature=SkIF1w%2FBQuGOXbmgMrOXYIDVxRiyWB4fKMMh1ygD04XNu%2F3XNY9IFcKJZ8vAdPxdIGpA6sL4QWY1FrLYTHmbBw%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/bba6ffec640f4adc925d47df2fcc2481?KeyID=2a9e5e2d&Signature=12iiBjzLWbKG3ILhXoSMSGwBChuFqFrWyHZHcajZyr6kojR3%2FzAre3nTL8apMM1Y%252BCrkFX6CJjRNpi%2F7l0ejAA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-08-08T16:11:11.791975+03:00", 
-        "id": "00bc31ab3ff54bccb505ee7572010420", 
-        "dateModified": "2018-08-08T16:11:11.791989+03:00"
+        "datePublished": "2018-09-05T14:24:26.053377+03:00", 
+        "id": "61097614fc1541e596653620765492c4", 
+        "dateModified": "2018-09-05T14:24:26.053394+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/44ed065fd3bc4a95bdc1dd32f11955f7?KeyID=b96f7de5&Signature=kJresCWvko6up%2Fm6dtnGLj7qqd0d7mdMF4sUheEwWiIX4bi6oQWb4Dis72u%252BNf1kflZCR9jgYnM9rDmSIUhqAg%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/a9beb0bb77754d03ad97eaf4ea10a47b?KeyID=2a9e5e2d&Signature=gItq6zMxtbRun%252B78Y%252BP65GBVsyYdRxs4BOfE8OvCC2iYA6YOr9KikGQFvNShxgUWNAOMOU2WdMLpwFNMRudoBg%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-08-08T16:11:11.836841+03:00", 
-        "id": "80f2dfaa0abe4e4a88614963e9f3a171", 
-        "dateModified": "2018-08-08T16:11:11.836855+03:00"
+        "datePublished": "2018-09-05T14:24:26.108395+03:00", 
+        "id": "854268844fb3475ca7d8389b2bf26aaa", 
+        "dateModified": "2018-09-05T14:24:26.108423+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/074562a020ee40bdb221df71f021363a?KeyID=b96f7de5&Signature=wXD%252Bqvq9lPeVQ%252B5HdGsspdWNFnJrBX9gfjzCEeAOceQOFM%2FsHX5xV9Qiagr3HJVsEI%2Ffi33pBBvPuB0%252BEa2FBQ%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/378d53fb4ec54017b3293dfaa6317a3e?KeyID=2a9e5e2d&Signature=yt4Jt5ImYTZ9ugt%2FTGwBFT6GNGor37jnS7Laj9u2QpVdr0LZJk8a5mlKLCsuX%252BepPQFWv8euBBDycVC84hZhBw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-08-08T16:11:11.836841+03:00", 
-        "id": "80f2dfaa0abe4e4a88614963e9f3a171", 
-        "dateModified": "2018-08-08T16:11:11.886155+03:00"
+        "datePublished": "2018-09-05T14:24:26.108395+03:00", 
+        "id": "854268844fb3475ca7d8389b2bf26aaa", 
+        "dateModified": "2018-09-05T14:24:26.168892+03:00"
       }
     ], 
     "title": "футляри до державних нагород", 
-    "tenderID": "UA-2018-08-08-000001", 
-    "auctionPeriod": {
-      "shouldStartAfter": "2018-09-15T00:00:00+03:00"
-    }, 
-    "dateModified": "2018-08-08T16:11:11.985596+03:00", 
+    "lots": [
+      {
+        "status": "active", 
+        "description": "Опис Лот №1", 
+        "title": "Лот №1", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "auctionPeriod": {
+          "shouldStartAfter": "2018-10-13T00:00:00+03:00"
+        }, 
+        "value": {
+          "currency": "UAH", 
+          "amount": 500.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "date": "2018-09-05T14:24:23.825365+03:00", 
+        "id": "f70782e4693042cca51ec2dda36d5f15", 
+        "guarantee": {
+          "currency": "USD", 
+          "amount": 8.0
+        }
+      }
+    ], 
+    "maxAwardsCount": 4, 
+    "tenderID": "UA-2018-09-05-000001", 
+    "dateModified": "2018-09-05T14:24:26.285129+03:00", 
     "status": "active.tendering", 
-    "maxAwards": 4, 
     "tenderPeriod": {
-      "startDate": "2018-07-11T16:11:12.031669+03:00", 
-      "endDate": "2018-08-10T16:11:12.031669+03:00"
+      "startDate": "2018-08-08T14:24:26.351787+03:00", 
+      "endDate": "2018-09-07T14:24:26.351787+03:00"
     }, 
     "title_en": "Cases for state awards", 
     "procurementMethodType": "closeFrameworkAgreementUA", 
-    "date": "2018-08-08T16:11:11.627862+03:00", 
+    "agreementDuration": "P3Y3M3D", 
+    "date": "2018-09-05T14:24:23.825365+03:00", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 35.0, 
@@ -120,6 +144,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
+        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -145,7 +170,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "e067a2a84e9a4e7c93879b74ae6e9ea8", 
+        "id": "7fdab13da22d4f75955aea7589cde503", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -162,7 +187,7 @@ Content-Type: application/json; charset=UTF-8
   }
 }
 
-PATCH /api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941?acc_token=098b70bdad1f421abcb9ff8b58fb7cb3 HTTP/1.0
+PATCH /api/2.4/tenders/0eba7509160946dd8439ca46baa56801?acc_token=61955a7cfb50471faf87533f4371d20c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 38
 Content-Type: application/json
