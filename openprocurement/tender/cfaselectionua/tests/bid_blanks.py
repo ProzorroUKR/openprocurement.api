@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from openprocurement.tender.cfaselectionua.tests.base import (
-    test_organization
+    test_organization,
+    test_agreement,
+    test_features,
 )
 
 
@@ -184,10 +186,58 @@ def create_tender_bid_invalid(self):
         }]
     )
 
+    # no identifier could be found in agreement
+    tenderer = deepcopy(test_organization)
+    old_id = tenderer['identifier']['id']
+    tenderer['identifier']['id'] = 'test_id'
+    response = self.app.post_json(
+        request_path,
+        {
+            'data': {
+                'tenderers': [tenderer],
+                'lotValues': [{'value': {'amount': 500}, 'relatedLot': self.initial_lots[0]['id']}]
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {
+            u'description': u'Bid is not a member of agreement',
+            u'location': u'body',
+            u'name': u'data'
+        }
+    ])
+    tenderer['identifier']['id'] = old_id
+
+    # no lotValue.value.amount could be found in agreement
+    response = self.app.post_json(
+        request_path,
+        {
+            'data': {
+                'tenderers': [tenderer],
+                'lotValues': [{'value': {'amount': 600}, 'relatedLot': self.initial_lots[0]['id']}]
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {
+            u'description': u'Can\'t post inconsistent bid',
+            u'location': u'body',
+            u'name': u'data'
+        }
+    ])
+    
 
 def create_tender_bid(self):
     dateModified = self.db.get(self.tender_id).get('dateModified')
-
+    
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': {'tenderers': [test_organization],
                                             "lotValues": [{"value": {"amount": 500},
@@ -228,7 +278,7 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], token),
-        {"data": {"lotValues": [{"value": {"amount": 600}, "relatedLot": self.initial_lots[0]['id']}]}},
+        {"data": {"lotValues": [{"value": {"amount": 700}, "relatedLot": self.initial_lots[0]['id']}]}},
         status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -454,6 +504,9 @@ def bid_Administrator_change(self):
 
 
 def features_bid(self):
+    tenderer = deepcopy(test_organization)
+    tenderer['identifier']['id'] = '00037257'
+
     test_features_bids = [
         {
             "parameters": [
@@ -469,7 +522,7 @@ def features_bid(self):
             ],
             "lotValues": [{
                 "value": {
-                    "amount": 469,
+                    "amount": 500,
                     "currency": "UAH",
                     "valueAddedTaxIncluded": True
                 },
@@ -485,12 +538,12 @@ def features_bid(self):
                 for i in self.initial_data['features']
             ],
             "tenderers": [
-                test_organization
+                tenderer
             ],
             "status": "draft",
             "lotValues": [{
                 "value": {
-                    "amount": 479,
+                    "amount": 500,
                     "currency": "UAH",
                     "valueAddedTaxIncluded": True
                 },
@@ -498,6 +551,8 @@ def features_bid(self):
             }]
         }
     ]
+    
+    
     for i in test_features_bids:
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
         self.assertEqual(response.status, '201 Created')
@@ -563,6 +618,21 @@ def features_bid_invalid(self):
         {u'description': [{u'value': [u'value should be one of feature value.']}], u'location': u'body', u'name': u'parameters'}
     ])
 
+    # no parameter could be found in agreement
+    data["parameters"][1]["value"] = 0.05
+    data["lotValues"][0]["value"]["amount"] = 500
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {
+            "location": "body",
+            "name": "data",
+            "description": "Can't post inconsistent bid"
+        }
+    ])
+    
 
 # TenderBidDocumentResourceTest
 
@@ -1319,7 +1389,7 @@ def create_tender_bid_with_document(self):
 
 
 def create_tender_bid_with_documents(self):
-    # test requires bid data stored on `bid_data_wo_docs` attribute of test class
+    # test requires bid data stored on `bid_data_two_docs` attribute of test class
     docs = [{
              'title': 'first.doc',
              'url': self.generate_docservice_url(),

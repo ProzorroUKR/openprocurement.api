@@ -100,13 +100,12 @@ if SANDBOX_MODE:
     test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
 test_features_tender_data = test_tender_data.copy()
 test_features_item = test_items[0].copy()
-test_features_item['id'] = "1"
 test_features_tender_data['items'] = [test_features_item]
 test_features_tender_data["features"] = [
     {
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
-        "relatedItem": "1",
+        "relatedItem": test_agreement['items'][0]['id'],
         "title": u"Потужність всмоктування",
         "title_en": "Air Intake",
         "description": u"Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
@@ -173,11 +172,12 @@ test_lots = [
         'minimalStep': test_tender_data['minimalStep'],
     }
 ]
+test_lots[0]['value']['amount'] += 100
 test_features = [
     {
-        "code": "code_item",
+        "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
-        "relatedItem": "1",
+        "relatedItem": test_agreement['items'][0]['id'],
         "title": u"item feature",
         "enum": [
             {
@@ -191,7 +191,7 @@ test_features = [
         ]
     },
     {
-        "code": "code_tenderer",
+        "code": "OCDS-123454-YEARS",
         "featureOf": "tenderer",
         "title": u"tenderer feature",
         "enum": [
@@ -206,7 +206,7 @@ test_features = [
         ]
     }
 ]
-
+test_agreement['features'] = test_features
 
 
 class BaseTenderWebTest(BaseTWT):
@@ -231,11 +231,23 @@ class BaseTenderWebTest(BaseTWT):
     meta_initial_lots = test_lots
     periods = get_periods()
 
+    def calculate_agreement_contracts_value_amount(self, agreement, items):
+        for contract in agreement['contracts']:
+            value = deepcopy(contract['unitPrices'][0]['value'])
+            value['amount'] = 0
+            for unitPrice in contract['unitPrices']:
+                quantity = [i for i in items if i['id'] == unitPrice['relatedItem']][0]['quantity']
+                value['amount'] += unitPrice['value']['amount'] * quantity
+            contract['value'] = value
+
     def patch_agreements_by_bot(self, status, start_end='start'):
         self.tender_patch.update(self.periods[status][start_end])
         agreements = self.tender_document.get('agreements', [])
         for agreement in agreements:
             agreement.update(test_agreement)
+            items = self.tender_document.get('items')
+            if items:
+                self.calculate_agreement_contracts_value_amount(agreement, items)
         self.tender_patch.update({'agreements': agreements})
 
     def generate_bids(self, status, start_end='start'):
