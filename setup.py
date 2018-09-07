@@ -14,6 +14,7 @@ test_requires = requires + [
     'mock',
     'webtest',
     'python-coveralls',
+    'jmespath',
 ]
 
 docs_requires = requires + [
