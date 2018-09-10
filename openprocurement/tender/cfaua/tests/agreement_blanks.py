@@ -194,6 +194,8 @@ def patch_tender_agreement_datesigned(self):
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
         {"data": {"status": "active", "period": agreement_period}}
     )
+    contract = response.json['data']['contracts'][0]
+
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], "active")
@@ -211,6 +213,17 @@ def patch_tender_agreement_datesigned(self):
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'complete')
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, agreement['id'], contract['id'],
+                                                                     self.tender_token),
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{"location": "body",
+                       "name": "data",
+                       "description": "Can't update agreement in current (complete) tender status"}])
 
 
 def agreement_termination(self):
