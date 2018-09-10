@@ -5,6 +5,7 @@ from openprocurement.tender.core.utils import apply_patch, save_tender
 from openprocurement.tender.cfaua.validation import (
     validate_agreement_contract_unitprices_update,
     validate_patch_agreement_contract_data,
+    validate_agreement_operation_not_in_allowed_status,
 )
 from openprocurement.tender.cfaua.utils import agreement_resource
 
@@ -31,7 +32,8 @@ class TenderAgreementContractResource(APIResource):
 
     @json_view(content_type='application/json',
                permission='edit_tender',
-               validators=(validate_patch_agreement_contract_data,
+               validators=(validate_agreement_operation_not_in_allowed_status,
+                           validate_patch_agreement_contract_data,
                            validate_agreement_contract_unitprices_update,))
     def patch(self):
         """ Update contract """
