@@ -615,38 +615,40 @@ def create_tender_invalid(self):
     data["items"][0]['classification']['id'] = u'33600000-6'
     del data["items"][0]['additionalClassifications']
 
-    data["items"][0]['additionalClassifications'] = [{
-        "scheme": u"INN",
-        "id": u"17.21.1",
-        "description": u"папір і картон гофровані, паперова й картонна тара"
-    }]
+    # Because validations removed in https://github.com/ProzorroUKR/openprocurement.api/pull/2
 
-    response = self.app.post_json('/tenders', {"data": data}, status=422)
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'],
-                     [{u'description': [
-                         {u'additionalClassifications': [{u'id': [u"Value must be one of {}.".format(INN_CODES)]}]}],
-                         u'name': u'items', u'location': u'body'}]
-                     )
+    # data["items"][0]['additionalClassifications'] = [{
+    #     "scheme": u"INN",
+    #     "id": u"17.21.1",
+    #     "description": u"папір і картон гофровані, паперова й картонна тара"
+    # }]
+
+    # response = self.app.post_json('/tenders', {"data": data}, status=422)
+    # self.assertEqual(response.content_type, 'application/json')
+    # self.assertEqual(response.json['status'], 'error')
+    # self.assertEqual(response.json['errors'],
+    #                  [{u'description': [
+    #                      {u'additionalClassifications': [{u'id': [u"Value must be one of {}.".format(INN_CODES)]}]}],
+    #                      u'name': u'items', u'location': u'body'}]
+    #                  )
 
     # assign correct id code
-    data['items'][0]['additionalClassifications'][0]['id'] = u'sodium oxybate'
-    additional_classification = {
-        "scheme": u"ATC",
-        "id": u"17.21.1",
-        "description": u"папір і картон гофровані, паперова й картонна тара"
-    }
-    data['items'][0]['additionalClassifications'].append(additional_classification)
+    # data['items'][0]['additionalClassifications'][0]['id'] = u'sodium oxybate'
+    # additional_classification = {
+    #     "scheme": u"ATC",
+    #     "id": u"17.21.1",
+    #     "description": u"папір і картон гофровані, паперова й картонна тара"
+    # }
+    # data['items'][0]['additionalClassifications'].append(additional_classification)
 
-    response = self.app.post_json('/tenders', {"data": data}, status=422)
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'],
-                     [{u'description': [
-                         {u'additionalClassifications': [{u'id': [u"Value must be one of {}.".format(ATC_CODES)]}]}],
-                         u'name': u'items', u'location': u'body'}]
-                     )
+    # response = self.app.post_json('/tenders', {"data": data}, status=422)
+    # self.assertEqual(response.content_type, 'application/json')
+    # self.assertEqual(response.json['status'], 'error')
+    # self.assertEqual(response.json['errors'],
+    #                  [{u'description': [
+    #                      {u'additionalClassifications': [{u'id': [u"Value must be one of {}.".format(ATC_CODES)]}]}],
+    #                      u'name': u'items', u'location': u'body'}]
+    #                  )
 
     procuringEntity = self.initial_data["procuringEntity"]
     data = self.initial_data["procuringEntity"].copy()
