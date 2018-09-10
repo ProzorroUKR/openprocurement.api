@@ -217,6 +217,7 @@ def patch_tender_agreement_datesigned(self):
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, agreement['id'], contract['id'],
                                                                      self.tender_token),
+        {'data': {'unitPrices': contract['unitPrices']}},
         status=403
     )
     self.assertEqual(response.status, '403 Forbidden')
