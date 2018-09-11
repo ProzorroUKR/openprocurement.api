@@ -12,10 +12,10 @@ from openprocurement.tender.core.utils import (
                    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
 class TenderResource(APIResource):
 
-    @json_view(permission='view')
+    @json_view(permission='extract_credentials')
     def get(self):
         self.LOGGER.info('Extract credentials for tender {}'.format(self.context.id))
         tender = self.request.validated['tender']
         data = tender.serialize('contracting')
-        tender['tender_token'] = sha512(tender.owner_token).hexdigest()
+        data['tender_token'] = sha512(tender.owner_token).hexdigest()
         return {'data': data}
