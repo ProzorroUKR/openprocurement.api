@@ -1,6 +1,6 @@
-POST /api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941/bids HTTP/1.0
+POST /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 936
+Content-Length: 1003
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -8,9 +8,14 @@ DATA:
   "data": {
     "status": "draft", 
     "selfEligible": true, 
-    "value": {
-      "amount": 500
-    }, 
+    "lotValues": [
+      {
+        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+        "value": {
+          "amount": 500
+        }
+      }
+    ], 
     "subcontractingDetails": "ДКП «Орфей», Україна", 
     "tenderers": [
       {
@@ -40,19 +45,26 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941/bids/0e4fedb11d01479fab08079d2fc3f649
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/b9aaff8198b34ce3ba7a7aeeddccede9
 {
   "access": {
-    "token": "29078d05df23461a937f2ae4065f1dbb"
+    "token": "59fe8af9664d40c0878a0e99d0084e4a"
   }, 
   "data": {
     "status": "draft", 
     "selfEligible": true, 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
+    "lotValues": [
+      {
+        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+        "date": "2018-09-05T14:24:26.602908+03:00", 
+        "status": "pending", 
+        "value": {
+          "currency": "UAH", 
+          "amount": 500.0, 
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ], 
     "subcontractingDetails": "ДКП «Орфей», Україна", 
     "selfQualified": true, 
     "tenderers": [
@@ -77,8 +89,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/a1bb69aea62e453
         }
       }
     ], 
-    "date": "2018-08-08T16:11:12.240998+03:00", 
-    "id": "0e4fedb11d01479fab08079d2fc3f649"
+    "date": "2018-09-05T14:24:26.602603+03:00", 
+    "id": "b9aaff8198b34ce3ba7a7aeeddccede9"
   }
 }
 

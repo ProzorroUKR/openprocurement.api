@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/a1bb69aea62e453481dd59b7903cc941/documents?acc_token=098b70bdad1f421abcb9ff8b58fb7cb3 HTTP/1.0
+GET /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/documents?acc_token=61955a7cfb50471faf87533f4371d20c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -11,24 +11,24 @@ Content-Type: application/json; charset=UTF-8
       "author": "tender_owner", 
       "language": "uk", 
       "title": "Notice.pdf", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/9dce1e56c1954895a9e02529a17cbc41?KeyID=b96f7de5&Signature=SkIF1w%2FBQuGOXbmgMrOXYIDVxRiyWB4fKMMh1ygD04XNu%2F3XNY9IFcKJZ8vAdPxdIGpA6sL4QWY1FrLYTHmbBw%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/bba6ffec640f4adc925d47df2fcc2481?KeyID=2a9e5e2d&Signature=12iiBjzLWbKG3ILhXoSMSGwBChuFqFrWyHZHcajZyr6kojR3%2FzAre3nTL8apMM1Y%252BCrkFX6CJjRNpi%2F7l0ejAA%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2018-08-08T16:11:11.791975+03:00", 
-      "id": "00bc31ab3ff54bccb505ee7572010420", 
-      "dateModified": "2018-08-08T16:11:11.791989+03:00"
+      "datePublished": "2018-09-05T14:24:26.053377+03:00", 
+      "id": "61097614fc1541e596653620765492c4", 
+      "dateModified": "2018-09-05T14:24:26.053394+03:00"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
       "author": "tender_owner", 
       "language": "uk", 
       "title": "AwardCriteria.pdf", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/44ed065fd3bc4a95bdc1dd32f11955f7?KeyID=b96f7de5&Signature=kJresCWvko6up%2Fm6dtnGLj7qqd0d7mdMF4sUheEwWiIX4bi6oQWb4Dis72u%252BNf1kflZCR9jgYnM9rDmSIUhqAg%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/a9beb0bb77754d03ad97eaf4ea10a47b?KeyID=2a9e5e2d&Signature=gItq6zMxtbRun%252B78Y%252BP65GBVsyYdRxs4BOfE8OvCC2iYA6YOr9KikGQFvNShxgUWNAOMOU2WdMLpwFNMRudoBg%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2018-08-08T16:11:11.836841+03:00", 
-      "id": "80f2dfaa0abe4e4a88614963e9f3a171", 
-      "dateModified": "2018-08-08T16:11:11.836855+03:00"
+      "datePublished": "2018-09-05T14:24:26.108395+03:00", 
+      "id": "854268844fb3475ca7d8389b2bf26aaa", 
+      "dateModified": "2018-09-05T14:24:26.108423+03:00"
     }
   ]
 }

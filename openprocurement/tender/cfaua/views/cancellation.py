@@ -23,6 +23,10 @@ class TenderCancellationResource(BaseResource):
             tender.bids = []
         if tender.status in ['active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction']:
             [setattr(i, 'status', 'invalid.pre-qualification') for i in tender.bids if i.status in ['pending', 'active']]
+        if tender.status in ['active.awarded']:
+            [setattr(i, 'status', 'cancelled') for i in tender.lots if i.status in ['pending', 'active']]
+            [setattr(i, 'status', 'cancelled') for i in tender.agreements if i.status in ['pending', 'active']]
+            [setattr(i, 'status', 'cancelled') for i in tender.qualifications if i.status in ['pending', 'active']]
         tender.status = 'cancelled'
 
     def cancel_lot(self, cancellation=None):

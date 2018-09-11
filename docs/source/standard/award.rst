@@ -87,4 +87,9 @@ Schema
 :lotID:
     string
 
-    Id of related :ref:`lot`.
+    Id of related :ref:`lot`
+    
+Workflow
+------
+
+.. image:: images/awardstatus.png

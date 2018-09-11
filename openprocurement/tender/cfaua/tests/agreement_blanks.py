@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-from iso8601 import parse_date
-from mock import patch
 from datetime import timedelta, datetime
 from uuid import uuid4
-from copy import deepcopy
 
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
+from openprocurement.tender.cfaua.tests.base import agreement_period
 
 
 # TenderAgreementResourceTest
@@ -63,7 +61,7 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "period": agreement_period}},
         status=403
     )
     self.assertEqual(response.status, '403 Forbidden')
@@ -93,7 +91,7 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active", "dateSigned": tender['awardPeriod']['endDate']}},
+        {"data": {"status": "active", "dateSigned": tender['awardPeriod']['endDate']}, "period": agreement_period},
         status=422
     )
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -121,7 +119,7 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "period": agreement_period}},
         status=403
     )
     self.assertEqual(response.status, '403 Forbidden')
@@ -145,7 +143,7 @@ def patch_tender_agreement_datesigned(self):
     # Agreement signing
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "period": agreement_period}},
         status=403
     )
     end_date = tender['contractPeriod']['clarificationsUntil']
@@ -168,16 +166,65 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active"}}
+        {"data": {"status": "active", "period": {'startDate': datetime.now().isoformat()}}},
+        status=403
     )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u'startDate and endDate are required in agreement.period.',
+                       u'location': u'body',
+                       u'name': u'data'}])
+
+    now = datetime.now()
+    start_date = now.isoformat()
+    end_date = (now + timedelta(days=465 * 5)).isoformat()
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active", "period": {'startDate': start_date, 'endDate': end_date}}},
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Agreement period can't be greater than P4Y0M0DT0H0M0S.",
+                       u'location': u'body',
+                       u'name': u'data'}])
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active", "period": agreement_period}}
+    )
+    contract = response.json['data']['contracts'][0]
+
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], "active")
     self.assertIn(u"dateSigned", response.json['data'].keys())
 
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
+        {"data": {"status": "cancelled"}}, status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't update agreement in current (complete) tender status",
+                       u'location': u'body', u'name': u'data'}])
+
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'complete')
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, agreement['id'], contract['id'],
+                                                                     self.tender_token),
+        {'data': {'unitPrices': contract['unitPrices']}},
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{"location": "body",
+                       "name": "data",
+                       "description": "Can't update agreement in current (complete) tender status"}])
 
 
 def agreement_termination(self):
@@ -191,7 +238,7 @@ def agreement_termination(self):
     )
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.json['errors'][0]["description"],
-                     [u"Value must be one of ['pending', 'active', 'cancelled']."])
+                     [u"Value must be one of ['pending', 'active', 'cancelled', 'unsuccessful']."])
 
 
 def agreement_cancellation(self):
@@ -209,18 +256,34 @@ def agreement_cancellation(self):
         status=403
     )
     self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'],
+        [{u'description': u'Period is required for agreement signing.', u'location': u'body', u'name': u'data'}]
+    )
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
+        {"data": {"status": "active", "period": agreement_period}},
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.json['errors'],
                      [{u'description': u"Can't sign agreement without all contracts.unitPrices.value.amount",
                        u'location': u'body',
                        u'name': u'data'}])
 
     # Agreement cancellation
+    response = self.app.get('/tenders/{}/agreements/{}'.format(self.tender_id, agreement['id']))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["status"], "pending")
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"status": "cancelled"}},
+        {"data": {"status": "cancelled"}}, status=403
     )
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['status'], 'cancelled')
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't update agreement status", u'location': u'body', u'name': u'data'}])
 
 
 def create_tender_agreement_document(self):
@@ -412,14 +475,13 @@ def patch_tender_agreement(self):
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
         {"data": {"agreementID": fake_agreementID, "items": fake_items_data}}
     )
-
     response = self.app.get('/tenders/{}/agreements/{}'.format(self.tender_id, agreement['id']))
     self.assertNotEqual(fake_agreementID, response.json['data']['agreementID'])
     self.assertNotEqual(fake_items_data, response.json['data']['items'])
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, agreement['id'], self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "period": agreement_period}},
         status=403
     )
     self.assertEqual(response.status, '403 Forbidden')
@@ -450,7 +512,7 @@ def patch_tender_agreement(self):
     # Sign agreement
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "period": agreement_period}},
         status=403
     )
     end_date = tender['contractPeriod']['clarificationsUntil']
@@ -474,7 +536,7 @@ def patch_tender_agreement(self):
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active"}}
+        {"data": {"status": "active", "period": agreement_period}}
     )
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active')
@@ -538,6 +600,42 @@ def patch_tender_agreement(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], "active")
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}?acc_token={}'.format(
+        self.tender_id, self.agreement_id, self.tender_token), {"data": {"status": "cancelled"}}, status=403)
+    self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't update agreement in current (complete) tender status",
+                       u'location': u'body', u'name': u'data'}])
+
+
+def patch_tender_agreement_unsuccessful(self):
+
+    self.set_status('active.awarded')
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'active.awarded')
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}?acc_token={}'.format(
+        self.tender_id, self.agreement_id, self.tender_token), {"data": {"status": "unsuccessful"}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
+    response = self.app.get('/tenders/{}/agreements/{}'.format(self.tender_id, self.agreement_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["status"], "unsuccessful")
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}?acc_token={}'.format(
+        self.tender_id, self.agreement_id, self.tender_token), {"data": {"status": "cancelled"}}, status=403)
+    self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u"Can't update agreement in current (unsuccessful) tender status",
+                       u'location': u'body', u'name': u'data'}])
+
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
 
 def not_found(self):
@@ -764,83 +862,54 @@ def patch_tender_agreement_contract(self):
     self.assertEqual(response.json['data']['unitPrices'][0]['value']['amount'], 60)
 
 
-def patch_no_lot_agreement_contract_unit_prices(self):
-    response = self.app.post_json('/tenders', {'data': self.initial_data})
-    self.tender_id = response.json['data']['id']
-    self.tender_token = response.json['access']['token']
+# def patch_no_lot_agreement_contract_unit_prices(self):
+#     response = self.app.post_json('/tenders', {'data': self.initial_data})
+#     self.tender_id = response.json['data']['id']
+#     self.tender_token = response.json['access']['token']
     
-    bids = deepcopy(self.meta_initial_bids)
-    bids[0]['value']['amount'] = 0
-    for bid in bids:
-        response = self.app.post_json(
-            '/tenders/{}/bids?acc_token={}'
-                .format(self.tender_id, self.tender_token),
-            {'data': bid}
-        )
-    bid_id = response.json['data']['id']
+#     bids = deepcopy(self.meta_initial_bids)
+#     bids[0]['value']['amount'] = 0
+#     for bid in bids:
+#         response = self.app.post_json(
+#             '/tenders/{}/bids?acc_token={}'
+#                 .format(self.tender_id, self.tender_token),
+#             {'data': bid}
+#         )
+#     bid_id = response.json['data']['id']
     
-    self.set_status('active.awarded')
-    response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))
-    agreement = response.json['data'][0]
-    contract = [c for c in agreement['contracts'] if c['bidID'] == bid_id][0]
+#     self.set_status('active.awarded')
+#     response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))
+#     agreement = response.json['data'][0]
+#     contract = [c for c in agreement['contracts'] if c['bidID'] == bid_id][0]
 
-    response = self.app.patch_json('/tenders/{}/agreements/{}/contracts/{}?acc_token={}'
-            .format(self.tender_id, agreement['id'], contract['id'], self.tender_token),
-            {'data': {'unitPrices': [{'value': {'amount': 60}}]}},
-    )
-    self.assertEqual(response.status, '200 OK')
+#     response = self.app.patch_json('/tenders/{}/agreements/{}/contracts/{}?acc_token={}'
+#             .format(self.tender_id, agreement['id'], contract['id'], self.tender_token),
+#             {'data': {'unitPrices': [{'value': {'amount': 60}}]}},
+#     )
+#     self.assertEqual(response.status, '200 OK')
 
-    response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
-    bids = response.json['data']
-    bid_id = [b for b in bids if b['value']['amount'] == 0][0]['id']
-    contract = [c for c in agreement['contracts'] if c['bidID'] == bid_id][0]
+#     response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
+#     bids = response.json['data']
+#     bid_id = [b for b in bids if b['value']['amount'] == 0][0]['id']
+#     contract = [c for c in agreement['contracts'] if c['bidID'] == bid_id][0]
 
-    response = self.app.patch_json('/tenders/{}/agreements/{}/contracts/{}?acc_token={}'
-            .format(self.tender_id, agreement['id'], contract['id'], self.tender_token),
-            {'data': {'unitPrices': [{'value': {'amount': 60}}]}},
-            status=403
-    )
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'], [{
-        "location": "body",
-        "name": "data",
-        "description": "Total amount can't be greater than bid.value.amount"}]
-    )
+#     response = self.app.patch_json('/tenders/{}/agreements/{}/contracts/{}?acc_token={}'
+#             .format(self.tender_id, agreement['id'], contract['id'], self.tender_token),
+#             {'data': {'unitPrices': [{'value': {'amount': 60}}]}},
+#             status=403
+#     )
+#     self.assertEqual(response.status, '403 Forbidden')
+#     self.assertEqual(response.json['errors'], [{
+#         "location": "body",
+#         "name": "data",
+#         "description": "Total amount can't be greater than bid.value.amount"}]
+#     )
 
 
 def patch_lots_agreement_contract_unit_prices(self):
-    response = self.app.post_json('/tenders', {'data': self.initial_data})
-    self.tender_id = response.json['data']['id']
-    self.tender_token = response.json['access']['token']
-
-    lot = self.meta_initial_lots[0]
-    response = self.app.post_json(
-        '/tenders/{}/lots?acc_token={}'
-            .format(self.tender_id, self.tender_token),
-        {'data': lot}
-    )
-    lot = response.json['data']
-
-    response = self.app.patch_json(
-        '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-        {'data': {'items': [{'relatedLot': lot['id']}]}}
-    )
-
-    bids = deepcopy(self.meta_initial_bids)
-    bids[0]['value']['amount'] = 0
-    for bid in bids:
-        value = bid.pop('value')
-        bid['lotValues'] = [{
-            'status': 'pending',
-            'value': value,
-            'relatedLot': lot['id'],
-        }]
-        response = self.app.post_json(
-            '/tenders/{}/bids?acc_token={}'
-                .format(self.tender_id, self.tender_token),
-            {'data': bid}
-        )
-    bid_id = response.json['data']['id']
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    bid_id = response.json['data']['bids'][-1]['id']
+    bid_value = response.json['data']['bids'][-1]['lotValues'][0]['value']['amount']
 
     self.set_status('active.awarded')
     response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))
@@ -855,12 +924,12 @@ def patch_lots_agreement_contract_unit_prices(self):
 
     response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
     bids = response.json['data']
-    bid_id = [b for b in bids if b['lotValues'][0]['value']['amount'] == 0][0]['id']
+    bid_id = [b for b in bids if b['lotValues'][0]['value']['amount'] == bid_value][0]['id']
     contract = [c for c in agreement['contracts'] if c['bidID'] == bid_id][0]
 
     response = self.app.patch_json('/tenders/{}/agreements/{}/contracts/{}?acc_token={}'
             .format(self.tender_id, agreement['id'], contract['id'], self.tender_token),
-            {'data': {'unitPrices': [{'value': {'amount': 60}}]}},
+            {'data': {'unitPrices': [{'value': {'amount': 6000}}]}},
             status=403
     )
     self.assertEqual(response.status, '403 Forbidden')

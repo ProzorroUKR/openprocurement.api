@@ -17,7 +17,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
 )
-from openprocurement.tender.cfaua.validation import validate_max_awards_number
+from openprocurement.tender.cfaua.validation import validate_max_awards_number, validate_max_agreement_duration_period
 from openprocurement.tender.cfaua.interfaces import (
     ICloseFrameworkAgreementUA
 )
@@ -89,7 +89,7 @@ class CloseFrameworkAgreementUA(Tender):
     minimalStep = ModelType(Value, required=True)
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
     maxAwardsCount = IntType(required=True, validators=[validate_max_awards_number])
-    lots = ListType(ModelType(Lot), max_size=1, default=list(), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(Lot), min_size=1, max_size=1, default=list(), validators=[validate_lots_uniq])
     procurementMethodType = StringType(default="closeFrameworkAgreementUA")
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     qualificationPeriod = ModelType(Period)
@@ -99,7 +99,7 @@ class CloseFrameworkAgreementUA(Tender):
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     title_en = StringType(required=True, min_length=1)
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
-    agreementDuration = IsoDurationType(required=True)
+    agreementDuration = IsoDurationType(required=True, validators=[validate_max_agreement_duration_period])
 
     def __local_roles__(self):
         roles = dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])

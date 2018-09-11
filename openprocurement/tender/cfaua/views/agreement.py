@@ -13,7 +13,7 @@ from openprocurement.tender.cfaua.validation import (
     validate_patch_agreement_data,
     validate_update_agreement_only_for_active_lots,
 )
-from openprocurement.tender.cfaua.utils import agreement_resource, check_tender_status
+from openprocurement.tender.cfaua.utils import agreement_resource, check_tender_status_on_active_awarded
 
 
 @agreement_resource(name='closeFrameworkAgreementUA:Tender Agreements',
@@ -49,7 +49,8 @@ class TenderAgreementResource(BaseResource):
         tender = self.request.context.__parent__
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if agreement_status != self.request.context.status and \
-                (agreement_status != 'pending' or self.request.context.status not in ('active', 'cancelled')):
+                (agreement_status != 'pending' or self.request.context.status
+                 not in ('active', 'unsuccessful')):
             raise_operation_error(self.request, 'Can\'t update agreement status')
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
@@ -60,7 +61,7 @@ class TenderAgreementResource(BaseResource):
                     tender.contractPeriod.clarificationsUntil.isoformat()
                 )
             )
-        check_tender_status(self.request)
+        check_tender_status_on_active_awarded(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender agreement {}'.format(self.request.context.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_agreement_patch'}))

@@ -25,18 +25,15 @@ now = get_now()
 
 # Prepare test_bids_data
 with open(os.path.join(BASE_DIR, 'data/test_bids.json')) as fd:
-   test_bids = json.load(fd)
-   test_bids = [deepcopy(test_bids[0]) for _ in range(MIN_BIDS_NUMBER)]
-   for num, test_bid in enumerate(test_bids):
-       test_bid['value']['amount'] = test_bid['value']['amount'] + num * 1
+    test_bids = json.load(fd)
+    test_bids = [deepcopy(test_bids[0]) for _ in range(MIN_BIDS_NUMBER)]
+    for num, test_bid in enumerate(test_bids):
+        test_bid['value']['amount'] = test_bid['value']['amount'] + num * 1
 
 # Prepare test_features_tender_data
 with open(os.path.join(BASE_DIR, 'data/test_tender.json')) as fd:
     test_tender_data = json.load(fd)
     test_tender_data['tenderPeriod']['endDate'] = (now + timedelta(days=TENDERING_DAYS+1)).isoformat()
-
-if SANDBOX_MODE:
-    test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
 
 
 # Prepare features_tender
@@ -46,10 +43,50 @@ with open(os.path.join(BASE_DIR, 'data/test_features.json')) as fd:
     test_features_item['id'] = '1'
     test_features_tender_data['items'] = [test_features_item]
     test_features_tender_data['features'] = json.load(fd)
+    test_features_bids = deepcopy(test_bids)
+    for x, bid in enumerate(test_features_bids):
+        bid['parameters'] = [
+                                {
+                                    "code": i["code"],
+                                    "value": 0.1,
+                                }
+                                for i in test_features_tender_data['features']
+                            ]
+
+test_features_bids_same_amount = deepcopy(test_features_bids)
+for bid in test_features_bids_same_amount:
+    bid['value']['amount'] = 469
 
 # Prepare features_tender
 with open(os.path.join(BASE_DIR, 'data/test_lots.json')) as fd:
     test_lots = json.load(fd)
+
+
+# Prepare data for tender with lot
+test_tender_w_lot_data = deepcopy(test_tender_data)
+test_tender_w_lot_data['lots'] = deepcopy(test_lots)
+test_bids_w_lot_data = deepcopy(test_bids)
+for lot in test_tender_w_lot_data['lots']:
+    lot_id = uuid4().hex
+    lot['id'] = lot_id
+    for item in test_tender_w_lot_data['items']:
+        item['relatedLot'] = lot_id
+    for bid in test_bids_w_lot_data:
+        if 'lotValues' not in bid:
+            bid['lotValues'] = list()
+        bid['lotValues'].append({'value': bid['value'], 'relatedLot': lot_id})
+for bid in test_bids_w_lot_data:
+    if 'value' in bid:
+        bid.pop('value')
+test_lots_w_ids = deepcopy(test_tender_w_lot_data['lots'])
+
+start_date = get_now()
+
+agreement_period = {
+    "startDate": start_date.isoformat(),
+    "endDate": (start_date + timedelta(days=4 * 365)).isoformat()
+}
+
 
 PERIODS = {
     'active.enquiries':{
@@ -352,17 +389,55 @@ PERIODS = {
     }
 }
 
+
+if SANDBOX_MODE:
+    test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
+    PERIODS.update({
+        'active.enquiries': {
+            'start': {
+                'enquiryPeriod': {
+                    'startDate': - timedelta(minutes=1),
+                    'endDate': (TENDERING_DURATION - QUESTIONS_STAND_STILL) / 1440,
+                },
+                'tenderPeriod': {
+                    'startDate': - timedelta(minutes=1),
+                    'endDate': TENDERING_DURATION / 1440,
+                }
+            },
+            'end': {
+                'enquiryPeriod':{
+                    'startDate': (- TENDERING_DURATION + TENDERING_EXTRA_PERIOD - timedelta(days=1)) / 1440,
+                    'endDate': timedelta()
+                },
+                'tenderPeriod': {
+                    'startDate': (- TENDERING_DURATION + TENDERING_EXTRA_PERIOD - timedelta(days=1)) / 1440,
+                    'endDate': TENDERING_EXTRA_PERIOD / 1440
+                }
+            },
+        },
+    })
+
+
 class BaseTenderWebTest(BaseBaseTenderWebTest):
+    backup_attr_keys = [
+        'initial_data',
+        'initial_status',
+        'initial_bids',
+        'initial_lots',
+        'initial_auth',
+        'meta_initial_bids',
+        'meta_initial_lots'
+    ]
     min_bids_number = MIN_BIDS_NUMBER
-    initial_data = test_tender_data
+    initial_data = deepcopy(test_tender_data)
     initial_status = None
     initial_bids = None
     initial_lots = None
     initial_auth = None
     relative_to = os.path.dirname(__file__)
 
-    meta_initial_bids = test_bids
-    meta_initial_lots = test_lots
+    meta_initial_bids = deepcopy(test_bids)
+    meta_initial_lots = deepcopy(test_lots)
 
     periods = PERIODS
     forbidden_agreement_document_modification_actions_status = 'unsuccessful'  # status, in which operations with tender's contract documents (adding, updating) are forbidden
@@ -372,19 +447,44 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     forbidden_auction_actions_status = 'active.pre-qualification.stand-still'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = 'active.pre-qualification.stand-still'  # status, in which adding document to tender auction is forbidden
 
+    @classmethod
+    def setUpClass(cls):
+        super(BaseBaseTenderWebTest, cls).setUpClass()
+        cls.backup_pure_data()
+
+    @classmethod
+    def backup_pure_data(self):
+        for attr in self.backup_attr_keys:
+            setattr(self, '_{}'.format(attr), deepcopy(getattr(self, attr)))
+
+    def restore_pure_data(self):
+        for key in self.backup_attr_keys:
+            setattr(self, key, deepcopy(getattr(self, '_{}'.format(key))))
+
+    def convert_bids_for_tender_with_lots(self, bids, lots):
+        for lot in lots:
+            for bid in bids:
+                if 'value' not in bid:
+                    continue
+                if 'lotValues' not in bid:
+                    bid['lotValues'] = []
+                bid['lotValues'].append({'value': bid['value'], 'relatedLot': lot['id']})
+        for bid in bids:
+            if 'value' in bid:
+                bid.pop('value')
+
     def go_to_enquiryPeriod_end(self):
         self.now = get_now()
         self.tender_document = self.db.get(self.tender_id)
         self.tender_document_patch = {}
         self.update_periods('active.enquiries', 'end')
 
-
     def setUp(self):
         super(BaseBaseTenderWebTest, self).setUp()
         if self.initial_auth:
             self.app.authorization = self.initial_auth
         else:
-            self.app.authorization = ('Basic', ('token', ''))
+            self.app.authorization = ('Basic', ('broker', ''))
         self.couchdb_server = self.app.app.registry.couchdb_server
         self.db = self.app.app.registry.db
         if self.docservice:
@@ -394,6 +494,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         if self.docservice:
             self.tearDownDS()
         del self.couchdb_server[self.db.name]
+        self.restore_pure_data()
 
     def check_chronograph(self):
         authorization = self.app.authorization
@@ -630,7 +731,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         #     self.tender_document_patch.update({'bids': bids})
 
     def generate_awards(self, status, startend):
-        MaxAwards = self.tender_document.get('maxAwardsCount', 100000)
+        maxAwards = self.tender_document.get('maxAwardsCount', 100000)
         bids = self.tender_document.get('bids', []) or self.tender_document_patch.get('bids', [])
         lots = self.tender_document.get('lots', []) or self.tender_document_patch.get('lots', [])
         awardPeriod_startDate = (
@@ -642,8 +743,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 active_lots = {lot['id']: 0 for lot in lots if lot['status'] == 'active'}
                 self.tender_document_patch['awards'] = []
                 for bid in bids:
+
                     for lot_value in bid['lotValues']:
                         if lot_value['relatedLot'] in active_lots:
+                            if active_lots[lot_value['relatedLot']] == maxAwards:
+                                continue
                             award = {
                                 'status': 'pending',
                                 'lotID': lot_value['relatedLot'],
@@ -655,8 +759,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                             }
                             self.tender_document_patch['awards'].append(award)
                             active_lots[lot_value['relatedLot']] += 1
-                            if active_lots[lot_value['relatedLot']] >= MaxAwards:
-                                continue
+
             else:
                 for bid in bids:
                     award = {
@@ -668,7 +771,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                         'id': uuid4().hex
                     }
                     self.tender_document_patch['awards'].append(award)
-                    if len(self.tender_document_patch['awards']) >= MaxAwards:
+                    if len(self.tender_document_patch['awards']) == maxAwards:
                         break
             self.save_changes()
 
@@ -950,13 +1053,13 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
 
 
 class BaseTenderContentWebTest(BaseTenderWebTest):
-    initial_data = test_tender_data
+    initial_data = deepcopy(test_tender_data)
     initial_status = None
     initial_bids = None
-    initial_lots = None
+    initial_lots = deepcopy(test_lots)
 
-    meta_initial_bids = test_bids
-    meta_initial_lots = test_lots
+    meta_initial_bids = deepcopy(test_bids)
+    meta_initial_lots = deepcopy(test_lots)
 
     relative_to = os.path.dirname(__file__)
 
@@ -966,5 +1069,5 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
 
 
 class BidsOverMaxAwardsMixin(object):
-    initial_bids = test_bids + deepcopy(test_bids)  # double testbids
+    initial_bids = deepcopy(test_bids) + deepcopy(test_bids)  # double testbids
     min_bids_number = MIN_BIDS_NUMBER * 2

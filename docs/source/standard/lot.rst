@@ -12,7 +12,7 @@ Schema
 ------
 
 :id:
-    string, auto-generated
+    string, auto-generated, read-only
 
 :title:
    string, multilingual
