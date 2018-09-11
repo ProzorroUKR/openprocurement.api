@@ -47,6 +47,7 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     active_pre_qualification_to_act_qualification_st,
     agreement_duration_period,
     tender_features_invalid,
+    extract_tender_credentials,
 )
 
 
@@ -121,6 +122,7 @@ class TenderProcessTest(BaseTenderWebTest):
     initial_lots = deepcopy(test_lots_w_ids)
     initial_bids = deepcopy(test_bids_w_lot_data)
 
+    test_extract_tender_credentials = snitch(extract_tender_credentials)
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_bid_tender = snitch(one_bid_tender)
     test_unsuccessful_after_prequalification_tender = snitch(unsuccessful_after_prequalification_tender)

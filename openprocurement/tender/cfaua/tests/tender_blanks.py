@@ -39,6 +39,25 @@ def simple_add_tender(self):
 # TenderResourceTest
 
 
+def extract_tender_credentials(self):
+    data = deepcopy(self.initial_data)
+    response = self.app.post_json('/tenders', {'data': data})
+    tender_id = response.json['data']['id']
+
+    self.app.authorization = ('Basic', ('contracting', ''))
+    response = self.app.get('/tenders/{}/extract_credentials'.format(tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('owner', response.json['data'])
+    self.assertIn('tender_token', response.json['data'])
+    self.assertIn('id', response.json['data'])
+
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.get('/tenders/{}/extract_credentials'.format(tender_id), status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}])
+
+
 def create_tender_invalid(self):
     request_path = '/tenders'
     response = self.app.post(request_path, 'data', status=415)
