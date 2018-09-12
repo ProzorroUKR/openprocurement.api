@@ -6,6 +6,7 @@ from openprocurement.api.utils import (
     update_logging_context
 )
 
+from openprocurement.api.models import DecimalType
 from openprocurement.api.validation import (
     validate_data,
     validate_json_data,
@@ -99,3 +100,27 @@ def validate_parameters_uniq(parameters, *args):
         codes = [i.code for i in parameters]
         if [i for i in set(codes) if codes.count(i) > 1]:
             raise ValidationError(u"Parameter code should be uniq for all parameters")
+
+
+# changes modifications validators
+
+
+def validate_item_price_variation_modifications(modifications, *args):
+    for modification in modifications:
+        if modification.addend:
+            raise ValidationError(u"Only factor is allowed")
+        if not DecimalType('0.9') <= modification.factor <= DecimalType('1.1'):
+            raise ValidationError(u"Modification factor should be in range 0.9 - 1.1")
+
+
+def validate_third_party_modifications(modifications, *args):
+    for modification in modifications:
+        if modification.addend:
+            raise ValidationError(u"Only factor is allowed")
+
+
+def validate_modifications_items_uniq(modifications, *args):
+    if modifications:
+        item_ids = {m.itemId for m in modifications}  # set of all items ids in modifications
+        if len(item_ids) != len(modifications):
+            raise ValidationError(u"Item id should be uniq for all modifications")
