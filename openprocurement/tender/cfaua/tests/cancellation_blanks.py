@@ -242,9 +242,9 @@ def cancellation_tender_active_awarded(self):
     assert_statuses(
         self, rules={
             'data.status': 'cancelled',
-            'data.lots[*].status': ['cancelled'],
+            'data.lots[*].status': ['active'],
             'data.bids[*].status': ['active', 'active', 'active'],
-            'data.qualifications[*].status': ['cancelled', 'cancelled', 'cancelled'],
+            'data.qualifications[*].status': ['active', 'active', 'active'],
             'data.awards[*].status': ['active', 'active', 'active'],
             'data.agreements[*].status': ['cancelled'],
             'data.complaints[*].status': ['invalid', 'stopped', 'mistaken']
