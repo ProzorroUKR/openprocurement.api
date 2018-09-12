@@ -13,64 +13,51 @@ from openprocurement.agreement.cfaua.validation import (
 )
 
 
-class Change(BaseChange):
+class ClassicChange(BaseChange):
     class Options:
+        namespace = 'Change'
         roles = RolesFromCsv('Change.csv', relative_to=__file__)
 
-    rationaleTypes = ListType(StringType(choices=['volumeCuts', 'itemPriceVariation',
-                                                  'qualityImprovement', 'thirdParty',
-                                                  'durationExtension', 'priceReduction',
-                                                  'taxRate', 'fiscalYearExtension'],
-                                         required=True), min_size=1, required=True)
     agreementNumber = StringType()
 
 
-ClassicChange = Change
-
-
-class Change(BaseChange):  # taxRate
+class ChangeTaxRate(ClassicChange):  # taxRate
     class Options:
+        namespace = 'Change'
         roles = RolesFromCsv('ChangeTaxRate.csv', relative_to=__file__)
 
-    rationaleType = 'taxRate'
+    rationaleType = StringType(default='taxRate')
     modifications = ListType(ModelType(UnitPriceModifiaction), validators=[validate_modifications_items_uniq])
 
 
-ChangeTaxRate = Change
 
-
-class Change(BaseChange):  # itemPriceVariation
+class ChangeItemPriceVariation(ClassicChange):
     class Options:
+        namespace = 'Change'
         roles = RolesFromCsv('ChangeItemPriceVariation.csv', relative_to=__file__)
 
-    rationaleType = 'itemPriceVariation'
+    rationaleType = StringType(default='itemPriceVariation')
     modifications = ListType(ModelType(UnitPriceModifiaction),
                              validators=[validate_item_price_variation_modifications,
                                          validate_modifications_items_uniq])
 
 
-ItemPriceVariationChange = Change
 
-
-class Change(BaseChange):  # thirdParty
+class ChangeThirdParty(ClassicChange):
     class Options:
+        namespace = 'Change'
         roles = RolesFromCsv('ChangeThirdParty.csv', relative_to=__file__)
 
-    rationaleType = 'thirdParty'
+    rationaleType = StringType(default='thirdParty')
     modifications = ListType(ModelType(UnitPriceModifiaction), validators=[validate_third_party_modifications,
                                                                            validate_modifications_items_uniq])
 
 
-ThirdPartyChange = Change
 
-
-class Change(BaseChange):  # partyWithdrawal
+class ChangePartyWithdrawal(ClassicChange):
     class Options:
+        namespace = 'Change'
         roles = RolesFromCsv('ChangePartyWithdrawal.csv', relative_to=__file__)
 
-    rationaleType = 'partyWithdrawal'
+    rationaleType = StringType(default='partyWithdrawal')
     modifications = ListType(ModelType(ContractModifiaction), validators=[validate_modifications_items_uniq])
-
-
-PartyWithdrawalChange = Change
-Change = ClassicChange

@@ -624,3 +624,46 @@ def date_signed_on_change_creation_for_very_old_agreements_data(self):
                         'rationaleTypes': ['priceReduction'], 'agreementNumber': u'№ 148',
                         'dateSigned': valid_date}})
     self.assertEqual(response.json['data']['dateSigned'], valid_date)
+
+
+def multi_change(self):
+    # first change
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token),
+        {'data': {'rationale': u'Принцеси не какають.',
+                  'rationale_ru': u'ff',
+                  'rationale_en': 'asdf',
+                  'agreementNumber': 12,
+                  'rationaleType': 'itemPriceVariation'}})
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+    self.assertIn('rationaleType', response.json['data'])
+    self.assertEqual(response.json['data']['rationaleType'], 'itemPriceVariation')
+    change = response.json['data']
+    self.assertEqual(change['status'], 'pending')
+    self.assertIn('date', change)
+
+    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
+        self.agreement['id'], change['id'], self.agreement_token),
+        {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}})
+
+    # second change
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token),
+        {'data': {'rationale': u'Принцеси не какають.',
+                  'rationale_ru': u'ff',
+                  'rationale_en': 'asdf',
+                  'agreementNumber': 12,
+                  'rationaleType': 'taxRate',
+                  'modifications': [
+                      {'itemId': '1'*32,
+                       'factor': '0.9'}
+                  ]}})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('rationaleType', response.json['data'])
+    self.assertEqual(response.json['data']['rationaleType'], 'taxRate')
+    change = response.json['data']
+    self.assertEqual(change['status'], 'pending')
+    self.assertIn('date', change)
+
+    resp = self.app.get('/agreements/{}'.format(self.agreement['id']))

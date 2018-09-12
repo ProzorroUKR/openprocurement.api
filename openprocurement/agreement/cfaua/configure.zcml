@@ -1,0 +1,30 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+    <include package="zope.component" file="meta.zcml" />
+
+    <!-- Changes -->
+    <adapter
+        name="taxRate"
+        factory=".models.change.ChangeTaxRate"
+        provides="openprocurement.api.interfaces.IContentConfigurator"
+        for=".interfaces.IChange"
+        />
+    <adapter
+        name="itemPriceVariation"
+        factory=".models.change.ChangeItemPriceVariation"
+        provides="openprocurement.api.interfaces.IContentConfigurator"
+        for=".interfaces.IChange"
+        />
+    <adapter
+        name="thirdParty"
+        factory=".models.change.ChangeThirdParty"
+        provides="openprocurement.api.interfaces.IContentConfigurator"
+        for=".interfaces.IChange"
+        />
+    <adapter
+        name="partyWithdrawal"
+        factory=".models.change.ChangePartyWithdrawal"
+        provides="openprocurement.api.interfaces.IContentConfigurator"
+        for=".interfaces.IChange"
+        />
+
+</configure>
