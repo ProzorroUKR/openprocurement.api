@@ -388,3 +388,40 @@ def listing(self):
     response = self.app.get('/agreements?mode=_all_&opt_fields=status')
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 4)
+
+
+def agreement_preview(self):
+    response = self.app.get('/agreements/{}'.format(self.agreement_id))
+    agreement = response.json['data']
+    response = self.app.get('/agreements/{}/preview'.format(self.agreement_id))
+    agreement_preview = response.json['data']
+    self.assertEqual(agreement, agreement_preview)
+
+    unit_prices_before = [unit_price
+                          for contract in response.json['data']['contracts']
+                          for unit_price in contract['unitPrices']
+                          if unit_price['relatedItem'] == agreement['items'][0]['id']]
+
+    # create change
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement_id, self.agreement_token),
+        {'data': {'rationale': u'Принцеси .....',
+                  'rationale_ru': u'ff',
+                  'rationale_en': 'asdf',
+                  'agreementNumber': 12,
+                  'rationaleType': 'taxRate',
+                  'modifications': [
+                      {'itemId': agreement['items'][0]['id'],
+                       'addend': '1.25'}
+                  ]}})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('rationaleType', response.json['data'])
+    self.assertEqual(response.json['data']['rationaleType'], 'taxRate')
+    response = self.app.get('/agreements/{}/preview'.format(self.agreement_id))
+
+    unit_prices_after = [unit_price
+                         for contract in response.json['data']['contracts']
+                         for unit_price in contract['unitPrices']
+                         if unit_price['relatedItem'] == agreement['items'][0]['id']]
+    self.assertNotEqual(unit_prices_after, unit_prices_before)
