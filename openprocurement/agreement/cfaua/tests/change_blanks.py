@@ -280,6 +280,48 @@ def patch_change(self):
         self.agreement['id'], change['id'], self.agreement_token), {'data': {'status': 'pending'}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
 
+    # testing changes validators
+    data = deepcopy(self.initial_change)
+    data.update({'rationaleType': u'itemPriceVariation',
+                 'modifications': [{'itemId': '1' * 32, 'addend': 0.01}]})
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token), {'data': data}, status=422)
+
+    self.assertEqual((response.status, response.content_type), ('422 Unprocessable Entity', 'application/json'))
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Only factor is allowed for itemPriceVariation type of change'],
+         u'location': u'body', u'name': u'modifications'}])
+
+    data.update({'modifications': [{'factor': '0.0100'}]})
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token), {'data': data}, status=422)
+
+    self.assertEqual((response.status, response.content_type), ('422 Unprocessable Entity', 'application/json'))
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Modification factor should be in range 0.9 - 1.1'],
+         u'location': u'body', u'name': u'modifications'}])
+
+    data = deepcopy(self.initial_change)
+    data.update({'rationaleType': u'thirdParty',
+                 'modifications': [{'itemId': '1' * 32, 'addend': 0.01}]})
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token), {'data': data}, status=422)
+
+    self.assertEqual((response.status, response.content_type), ('422 Unprocessable Entity', 'application/json'))
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Only factor is allowed for thirdParty type of change'],
+         u'location': u'body', u'name': u'modifications'}])
+
+    data['modifications'] = [{'itemId': '1' * 32, 'factor': 0.01},
+                             {'itemId': '1' * 32, 'factor': 0.02}]
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token), {'data': data}, status=422)
+
+    self.assertEqual((response.status, response.content_type), ('422 Unprocessable Entity', 'application/json'))
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Item id should be uniq for all modifications'],
+         u'location': u'body', u'name': u'modifications'}])
+
 
 def change_date_signed(self):
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
