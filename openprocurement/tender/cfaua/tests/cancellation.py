@@ -12,6 +12,12 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     put_tender_cancellation_document,
     patch_tender_cancellation_document,
 )
+
+from openprocurement.tender.openeu.tests.cancellation import TenderCancellationBidsAvailabilityUtils
+from openprocurement.tender.openua.tests.cancellation_blanks import (
+    create_tender_cancellation,
+    patch_tender_cancellation
+)
 from openprocurement.tender.cfaua.tests.cancellation_blanks import (
     # Cancellation tender
     cancellation_tender_active_tendering,
@@ -29,10 +35,6 @@ from openprocurement.tender.cfaua.tests.cancellation_blanks import (
     cancel_lot_active_qualification,
     cancel_lot_active_qualification_stand_still,
     cancel_lot_active_awarded,
-    )
-from openprocurement.tender.openua.tests.cancellation_blanks import (
-    create_tender_cancellation,
-    patch_tender_cancellation
 )
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,

@@ -246,7 +246,7 @@ def cancellation_tender_active_awarded(self):
             'data.bids[*].status': ['active', 'active', 'active'],
             'data.qualifications[*].status': ['active', 'active', 'active'],
             'data.awards[*].status': ['active', 'active', 'active'],
-            'data.agreements[*].status': ['pending'],
+            'data.agreements[*].status': ['cancelled'],
             'data.complaints[*].status': ['invalid', 'stopped', 'mistaken']
         })
 
@@ -380,6 +380,6 @@ def cancel_lot_active_awarded(self):
             'data.bids[*].status': ['active', 'active', 'active'],
             'data.qualifications[*].status': ['cancelled', 'cancelled', 'cancelled'],
             'data.awards[*].status': ['active', 'active', 'active'],
-            'data.agreements[*].status': ['pending'],
+            'data.agreements[*].status': ['cancelled'],
             'data.complaints[*].status': None
         })
