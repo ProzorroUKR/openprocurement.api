@@ -2,29 +2,25 @@
     <include package="zope.component" file="meta.zcml" />
 
     <!-- Changes -->
-    <adapter
+    <utility
         name="taxRate"
-        factory=".models.change.ChangeTaxRate"
-        provides="openprocurement.api.interfaces.IContentConfigurator"
-        for=".interfaces.IChange"
+        component=".models.change.ChangeTaxRate"
+        provides=".interfaces.IChange"
         />
-    <adapter
+    <utility
         name="itemPriceVariation"
-        factory=".models.change.ChangeItemPriceVariation"
-        provides="openprocurement.api.interfaces.IContentConfigurator"
-        for=".interfaces.IChange"
+        component=".models.change.ChangeItemPriceVariation"
+        provides=".interfaces.IChange"
         />
-    <adapter
+    <utility
         name="thirdParty"
-        factory=".models.change.ChangeThirdParty"
-        provides="openprocurement.api.interfaces.IContentConfigurator"
-        for=".interfaces.IChange"
+        component=".models.change.ChangeThirdParty"
+        provides=".interfaces.IChange"
         />
-    <adapter
+    <utility
         name="partyWithdrawal"
-        factory=".models.change.ChangePartyWithdrawal"
-        provides="openprocurement.api.interfaces.IContentConfigurator"
-        for=".interfaces.IChange"
+        component =".models.change.ChangePartyWithdrawal"
+        provides=".interfaces.IChange"
         />
 
 </configure>

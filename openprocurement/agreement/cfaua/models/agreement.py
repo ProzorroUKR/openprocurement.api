@@ -25,7 +25,7 @@ from openprocurement.agreement.cfaua.models.procuringentity\
 
 from openprocurement.agreement.cfaua.interfaces import IClosedFrameworkAgreementUA
 from openprocurement.agreement.cfaua.validation import validate_features_uniq
-from openprocurement.agreement.cfaua.utils import get_tender_class
+from openprocurement.agreement.cfaua.utils import get_change_class
 
 
 @implementer(IClosedFrameworkAgreementUA)
@@ -44,7 +44,7 @@ class Agreement(BaseAgreement):
     description_ru = StringType()
     changes = ListType(PolyModelType((ChangeTaxRate, ChangeItemPriceVariation,
                                       ChangePartyWithdrawal, ChangeThirdParty),
-                                     claim_function=get_tender_class), default=list())
+                                     claim_function=get_change_class), default=list())
     documents = ListType(ModelType(Document), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])

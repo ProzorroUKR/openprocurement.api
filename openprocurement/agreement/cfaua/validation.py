@@ -1,5 +1,5 @@
 from schematics.exceptions import ValidationError
-from zope.component import queryAdapter
+from zope.component import queryUtility
 
 from openprocurement.api.utils import (
     apply_data_patch,
@@ -14,8 +14,9 @@ from openprocurement.api.validation import (
     validate_json_data,
     OPERATIONS
     )
-from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.agreement.cfaua.interfaces import IChange
+
+
 
 
 def validate_agreement_patch(request):
@@ -54,7 +55,7 @@ def validate_document_operation_on_agreement_status(request):
 def validate_change_data(request):
     update_logging_context(request, {'change_id': '__new__'})
     data = validate_json_data(request)
-    model = queryAdapter(IChange, IContentConfigurator, data['rationaleType'])
+    model = queryUtility(IChange, data['rationaleType'])
     return validate_data(request, model, data=data)
 
 
