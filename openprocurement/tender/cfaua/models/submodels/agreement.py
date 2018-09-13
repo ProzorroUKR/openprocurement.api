@@ -59,3 +59,6 @@ class Agreement(Model):
 
     def get_awards_id(self):
         return tuple(c.awardID for c in self.contracts)
+
+    def get_lot_id(self):
+        return self.items[0].relatedLot

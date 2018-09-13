@@ -34,9 +34,8 @@ class TenderCancellationResource(BaseResource):
         cancelled_lots = [i.id for i in tender.lots if i.status == 'cancelled']
         if tender.status == 'active.awarded' and tender.agreements:
             for agreement in tender.agreements:
-                for item in agreement.items:
-                    if item.relatedLot in cancelled_lots:
-                        agreement.status = 'cancelled'
+                if agreement.get_lot_id() in cancelled_lots:
+                    agreement.status = 'cancelled'
         cancelled_items = [i.id for i in tender.items if i.relatedLot in cancelled_lots]
         cancelled_features = [
             i.code
