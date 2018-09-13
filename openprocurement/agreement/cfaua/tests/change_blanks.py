@@ -603,13 +603,10 @@ def date_signed_on_change_creation_for_very_old_agreements_data(self):
 
 def multi_change(self):
     # first change
+    data = deepcopy(self.initial_change)
+    data['rationaleType'] = 'itemPriceVariation'
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-        {'data': {'rationale': u'Принцеси не какають.',
-                  'rationale_ru': u'ff',
-                  'rationale_en': 'asdf',
-                  'agreementNumber': 12,
-                  'rationaleType': 'itemPriceVariation'}})
+        self.agreement['id'], self.agreement_token), {'data': data})
     self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
     self.assertIn('rationaleType', response.json['data'])
     self.assertEqual(response.json['data']['rationaleType'], 'itemPriceVariation')
@@ -617,28 +614,25 @@ def multi_change(self):
     self.assertEqual(change['status'], 'pending')
     self.assertIn('date', change)
 
+    # patch first change to be able to create second change
     response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
         self.agreement['id'], change['id'], self.agreement_token),
         {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
 
     # second change
+    data = deepcopy(self.initial_change)
+    data.update({'rationaleType': 'taxRate',
+                 'modifications': [{'itemId': '1' * 32, 'factor': '0.9'}]})
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-        {'data': {'rationale': u'Принцеси не какають.',
-                  'rationale_ru': u'ff',
-                  'rationale_en': 'asdf',
-                  'agreementNumber': 12,
-                  'rationaleType': 'taxRate',
-                  'modifications': [
-                      {'itemId': '1'*32,
-                       'factor': '0.9'}
-                  ]}})
-    self.assertEqual(response.status, '201 Created')
-    self.assertEqual(response.content_type, 'application/json')
+        self.agreement['id'], self.agreement_token), {'data': data})
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
     self.assertIn('rationaleType', response.json['data'])
     self.assertEqual(response.json['data']['rationaleType'], 'taxRate')
     change = response.json['data']
     self.assertEqual(change['status'], 'pending')
     self.assertIn('date', change)
 
-    resp = self.app.get('/agreements/{}'.format(self.agreement['id']))
+    response = self.app.get('/agreements/{}'.format(self.agreement['id']))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(len(response.json['data']['changes']), 2)
