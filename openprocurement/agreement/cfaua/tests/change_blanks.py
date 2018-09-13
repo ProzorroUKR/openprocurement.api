@@ -26,7 +26,7 @@ def no_items_agreement_change(self):
 
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(agreement['id'], token),
                                   {'data': {'rationale': 'test',
-                                            'rationaleTypes': ['qualityImprovement']}})
+                                            'rationaleType': 'taxRate'}})
     self.assertEqual(response.status, '201 Created')
     change = response.json['data']
     self.assertEqual(change['status'], 'pending')
@@ -78,13 +78,10 @@ def not_found(self):
 
 
 def get_change(self):
+    data = deepcopy(self.initial_change)
+    data['rationale_ru'] = 'Анна Каренина'
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-                                  {'data': {'rationale': u'Принцеси не какають.',
-                                            'rationale_ru': u'ff',
-                                            'rationale_en': 'asdf',
-                                            'agreementNumber': 12,
-                                            'rationaleTypes': ['priceReduction']}})
+        self.agreement['id'], self.agreement_token), {'data': data})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     change = response.json['data']
@@ -106,16 +103,16 @@ def get_change(self):
     self.assertIn('changes', response.json['data'])
     self.assertEqual(len(response.json['data']['changes']), 1)
     self.assertEqual(set(response.json['data']['changes'][0].keys()),
-                     set(['id', 'date', 'status', 'rationaleTypes', 'rationale',
-                          'rationale_ru', 'rationale_en', 'agreementNumber']))
+                     {'id', 'date', 'status', 'rationaleType', 'rationale',
+                      'rationale_ru', 'rationale_en', 'agreementNumber'})
 
     self.app.authorization = None
     response = self.app.get('/agreements/{}/changes'.format(self.agreement['id']))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 1)
     self.assertEqual(set(response.json['data'][0].keys()),
-                     set(['id', 'date', 'status', 'rationaleTypes', 'rationale',
-                          'rationale_ru', 'rationale_en', 'agreementNumber']))
+                     {'id', 'date', 'status', 'rationaleType', 'rationale',
+                      'rationale_ru', 'rationale_en', 'agreementNumber'})
 
 
 def create_change_invalid(self):
@@ -129,27 +126,34 @@ def create_change_invalid(self):
     ])
 
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token), {'data': {}}, status=422)
+        self.agreement['id'], self.agreement_token), {'data': {}}, status=403)
     self.assertEqual(response.json['errors'], [
-        {"location": "body", "name": "rationaleTypes", "description": ["This field is required."]},
-        {"location": "body", "name": "rationale", "description": ["This field is required."]}
+        {u'description': u"Can't add change without relationaleType", u'location': u'body', u'name': u'data'}
+    ])
+
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token), {'data': {'rationaleType': 'fake'}}, status=403)
+    self.assertEqual(response.json['errors'], [
+        {u'description': u"relationaleType should be one of ['taxRate', 'itemPriceVariation', 'thirdParty', 'partyWithdrawal']",
+         u'location': u'body', u'name': u'data'}
     ])
 
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
         self.agreement['id'], self.agreement_token),
-        {'data': {'rationale': "", 'rationaleTypes': ['volumeCuts']}}, status=422)
+        {'data': {'rationale': "", 'rationaleType': 'taxRate'}}, status=422)
     self.assertEqual(response.json['errors'], [
         {"location": "body", "name": "rationale", "description": ["String value is too short."]}
     ])
 
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token), {'data': {'rationale_ua': ""}}, status=422)
+        self.agreement['id'], self.agreement_token),
+        {'data': {'rationaleType': 'taxRate', 'rationale_ua': ""}}, status=422)
     self.assertEqual(response.json['errors'], [
         {"location": "body", "name": "rationale_ua", "description": "Rogue field"}
     ])
     self.app.authorization = None
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token), {'data': {'rationale_ua': "aaa"}}, status=403)
+        self.agreement['id'], self.agreement_token), {'data': deepcopy(self.initial_change)}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
 
     self.app.authorization = ('Basic', ('broker', ''))
@@ -157,7 +161,7 @@ def create_change_invalid(self):
                                   {'data': {'rationale_ua': "aaa"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     response = self.app.patch_json('/agreements/{}?acc_token={}'.format(self.agreement['id'], self.agreement_token),
-                                   {'data': {'changes': [{'rationale': "penguin", 'rationaleTypes': ['volumeCuts']}]}})
+                                   {'data': {'changes': [deepcopy(self.initial_change)]}})
     self.assertEqual(response.status, '200 OK')
 
     response = self.app.get('/agreements/{}?acc_token={}'.format(self.agreement['id'], self.agreement_token))
@@ -166,10 +170,7 @@ def create_change_invalid(self):
 
 def create_change(self):
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'причина зміни укр',
-                        'rationale_en': 'change cause en',
-                        'rationaleTypes': ['qualityImprovement']}})
+        self.agreement['id'], self.agreement_token), {'data': deepcopy(self.initial_change)})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     change = response.json['data']
@@ -182,7 +183,7 @@ def create_change(self):
 
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
         self.agreement['id'], self.agreement_token),
-            {'data': {'rationale': u'трататата', 'rationaleTypes': ['priceReduction']}}, status=403)
+        {'data': deepcopy(self.initial_change)}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.json['errors'], [
         {"location": "body", "name": "data", "description":
@@ -194,18 +195,17 @@ def create_change(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active')
 
+    data = deepcopy(self.initial_change)
+    del data['rationaleType']
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token), {'data':
-            {'rationale': u'трататата', 'rationaleTypes': ['non-existing-rationale']}}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.agreement['id'], self.agreement_token), {'data': data}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.json['errors'], [
-        {"location": "body", "name": "rationaleTypes", "description":
-            [["Value must be one of ['volumeCuts', 'itemPriceVariation', 'qualityImprovement', 'thirdParty',"
-              " 'durationExtension', 'priceReduction', 'taxRate', 'fiscalYearExtension']."]]}
-    ])
+        {u'description': u"Can't add change without relationaleType", u'location': u'body', u'name': u'data'}])
+
+    data['rationaleType'] = 'taxRate'
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-            {'data': {'rationale': u'трататата', 'rationaleTypes': ['priceReduction']}})
+        self.agreement['id'], self.agreement_token), {'data': data})
     self.assertEqual(response.status, '201 Created')
     change2 = response.json['data']
     self.assertEqual(change2['status'], 'pending')
@@ -217,11 +217,7 @@ def create_change(self):
 
 def patch_change(self):
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'причина зміни укр',
-                        'rationale_en': u'change cause en',
-                        'rationaleTypes': ['priceReduction'],
-                        'agreementNumber': u'№ 146'}})
+        self.agreement['id'], self.agreement_token), {'data': deepcopy(self.initial_change)})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     change = response.json['data']
@@ -252,37 +248,9 @@ def patch_change(self):
 
     response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
         self.agreement['id'], change['id'], self.agreement_token),
-        {'data': {'rationaleTypes': ['fiscalYearExtension', 'priceReduction']}})
+        {'data': {'rationaleType': 'thirdParty'}})
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['rationaleTypes'], ['fiscalYearExtension', 'priceReduction'])
-
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change['id'], self.agreement_token),
-            {'data': {'rationaleTypes': ['fiscalYearExtension', 'volumeCuts', 'taxRate']}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['rationaleTypes'], ['fiscalYearExtension', 'volumeCuts', 'taxRate'])
-
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change['id'], self.agreement_token),
-            {'data': {'rationaleTypes': 'fiscalYearExtension'}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['rationaleTypes'], ['fiscalYearExtension'])
-
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change['id'], self.agreement_token),
-        {'data': {'rationaleTypes': 'fiscalYearExtension, volumeCuts'}}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.json['errors'], [
-        {"location": "body", "name": "rationaleTypes", "description": [[
-            "Value must be one of ['volumeCuts', 'itemPriceVariation', 'qualityImprovement', 'thirdParty',"
-            " 'durationExtension', 'priceReduction', 'taxRate', 'fiscalYearExtension']."]]}
-    ])
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change['id'], self.agreement_token), {'data': {'rationaleTypes': []}}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.json['errors'], [
-        {"location": "body", "name": "rationaleTypes", "description": ["Please provide at least 1 item."]}
-    ])
+    self.assertEqual(response.body, 'null')
 
     response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
         self.agreement['id'], change['id'], self.agreement_token),
@@ -315,11 +283,7 @@ def patch_change(self):
 
 def change_date_signed(self):
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'причина зміни укр',
-                        'rationale_en': u'change cause en',
-                        'rationaleTypes': ['priceReduction'],
-                        'agreementNumber': u'№ 146'}})
+        self.agreement['id'], self.agreement_token), {'data': deepcopy(self.initial_change)})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     change = response.json['data']
@@ -371,11 +335,7 @@ def change_date_signed(self):
     self.assertEqual(change1['dateSigned'], valid_date1)
 
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'iнша причина зміни укр',
-                        'rationale_en': u'another change cause en',
-                        'rationaleTypes': ['priceReduction'],
-                        'agreementNumber': u'№ 147'}})
+        self.agreement['id'], self.agreement_token), {'data': deepcopy(self.initial_change)})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     change2 = response.json['data']
@@ -414,11 +374,7 @@ def change_date_signed(self):
     self.assertEqual(response.json['data']['dateSigned'], valid_date2)
 
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'третя причина зміни укр',
-                        'rationale_en': u'third change cause en',
-                        'rationaleTypes': ['priceReduction'],
-                        'agreementNumber': u'№ 148'}})
+        self.agreement['id'], self.agreement_token), {'data': deepcopy(self.initial_change)})
     self.assertEqual(response.status, '201 Created')
     change3 = response.json['data']
     self.assertEqual(change['status'], 'pending')
@@ -446,27 +402,22 @@ def change_date_signed(self):
 def date_signed_on_change_creation(self):
     # test create change with date signed
     one_day_in_past = (get_now() - timedelta(days=1)).isoformat()
+    data = deepcopy(self.initial_change)
+    data['dateSigned'] = one_day_in_past
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'причина зміни укр', 'rationale_en': u'change cause en',
-                        'dateSigned': one_day_in_past,
-                        'rationaleTypes': ['priceReduction'], 'agreementNumber': u'№ 146'}}, status=403)
+        self.agreement['id'], self.agreement_token), {'data': data}, status=403)
     self.assertIn(u"can't be earlier than agreement dateSigned", response.json['errors'][0]["description"])
     one_day_in_future = (get_now() + timedelta(days=1)).isoformat()
+    data['dateSigned'] = one_day_in_future
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'причина зміни укр', 'rationale_en': u'change cause en',
-                        'dateSigned': one_day_in_future,
-                        'rationaleTypes': ['priceReduction'], 'agreementNumber': u'№ 146'}}, status=422)
+        self.agreement['id'], self.agreement_token), {'data': data}, status=422)
     self.assertEqual(response.json['errors'], [
         {"location": "body", "name": "dateSigned", "description": [u"Agreement signature date can't be in the future"]}
     ])
     date = get_now().isoformat()
+    data['dateSigned'] = date
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'причина зміни укр', 'rationale_en': u'change cause en',
-                        'dateSigned': date,
-                        'rationaleTypes': ['priceReduction'], 'agreementNumber': u'№ 146'}})
+        self.agreement['id'], self.agreement_token), {'data': data})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     change = response.json['data']
@@ -489,11 +440,7 @@ def change_date_signed_very_old_agreements_data(self):
 
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'причина зміни укр',
-                        'rationale_en': u'change cause en',
-                        'rationaleTypes': ['priceReduction'],
-                        'agreementNumber': u'№ 146'}})
+        self.agreement['id'], self.agreement_token), {'data': deepcopy(self.initial_change)})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     change = response.json['data']
@@ -515,11 +462,7 @@ def change_date_signed_very_old_agreements_data(self):
     self.assertEqual(response.json['data']['dateSigned'], one_day_in_past)
 
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'iнша причина зміни укр',
-                        'rationale_en': u'another change cause en',
-                        'rationaleTypes': ['priceReduction'],
-                        'agreementNumber': u'№ 147'}})
+        self.agreement['id'], self.agreement_token), {'data': deepcopy(self.initial_change)})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     change2 = response.json['data']
@@ -551,11 +494,7 @@ def change_date_signed_very_old_agreements_data(self):
     self.assertNotIn('dateSigned', response.json['data'])
 
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'третя причина зміни укр',
-                        'rationale_en': u'third change cause en',
-                        'rationaleTypes': ['priceReduction'],
-                        'agreementNumber': u'№ 148'}})
+        self.agreement['id'], self.agreement_token), {'data': deepcopy(self.initial_change)})
     self.assertEqual(response.status, '201 Created')
     change3 = response.json['data']
     self.assertEqual(change['status'], 'pending')
@@ -586,11 +525,10 @@ def date_signed_on_change_creation_for_very_old_agreements_data(self):
 
     self.app.authorization = ('Basic', ('broker', ''))
     one_day_in_past = (get_now() - timedelta(days=1)).isoformat()
+    data = deepcopy(self.initial_change)
+    data['dateSigned'] = one_day_in_past
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'причина зміни укр', 'rationale_en': u'change cause en',
-                        'rationaleTypes': ['priceReduction'], 'agreementNumber': u'№ 146',
-                        'dateSigned': one_day_in_past}})
+        self.agreement['id'], self.agreement_token), {'data': data})
     self.assertEqual(response.json['data']['dateSigned'], one_day_in_past)
     change = response.json['data']
     response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
@@ -609,20 +547,15 @@ def date_signed_on_change_creation_for_very_old_agreements_data(self):
     self.assertNotIn('dateSigned', response.json['data'])
 
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'третя причина зміни укр', 'rationale_en': u'third change cause en',
-                        'rationaleTypes': ['priceReduction'], 'agreementNumber': u'№ 148',
-                        'dateSigned': one_day_in_past}}, status=403)
+        self.agreement['id'], self.agreement_token), {'data': data}, status=403)
     self.assertEqual("Change dateSigned ({}) can't be earlier than last active change dateSigned ({})".format(
         one_day_in_past, last_change['date']), response.json['errors'][0]["description"])
 
 
     valid_date = get_now().isoformat()
+    data['dateSigned'] = valid_date
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
-        self.agreement['id'], self.agreement_token),
-              {'data': {'rationale': u'третя причина зміни укр', 'rationale_en': u'third change cause en',
-                        'rationaleTypes': ['priceReduction'], 'agreementNumber': u'№ 148',
-                        'dateSigned': valid_date}})
+        self.agreement['id'], self.agreement_token), {'data': data})
     self.assertEqual(response.json['data']['dateSigned'], valid_date)
 
 

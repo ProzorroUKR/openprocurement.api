@@ -55,7 +55,13 @@ def validate_document_operation_on_agreement_status(request):
 def validate_change_data(request):
     update_logging_context(request, {'change_id': '__new__'})
     data = validate_json_data(request)
+    if not 'rationaleType' in data:
+        raise_operation_error(request, 'Can\'t add change without relationaleType')
     model = queryUtility(IChange, data['rationaleType'])
+    if not model:
+        raise_operation_error(
+            request, 'relationaleType should be one of {}'.format(
+                ['taxRate', 'itemPriceVariation', 'thirdParty', 'partyWithdrawal']))
     return validate_data(request, model, data=data)
 
 
