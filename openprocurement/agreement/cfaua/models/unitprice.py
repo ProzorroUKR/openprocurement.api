@@ -4,8 +4,8 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.models import (
     Model
-    )
-from openprocurement.agreement.core.models.decimal_value import DecimalValue as Value
+)
+from openprocurement.agreement.core.models.value import Value
 
 
 class UnitPrice(Model):
