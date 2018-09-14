@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+import os
 from copy import deepcopy
 from uuid import uuid4
 from pyramid.testing import DummyRequest
@@ -135,8 +136,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
 
         self.config.registry.db = db
 
-        self.authn_policy = AuthenticationPolicy(
-            'openprocurement/historical/core/tests/auth.ini', __name__)
+        self.authn_policy = AuthenticationPolicy("{}/auth.ini".format(os.path.dirname(os.path.abspath(__file__))), __name__)
         self.config.set_authentication_policy(self.authn_policy)
         self.config.scan("openprocurement.historical.core.tests.utils")
         self.app = TestApp(self.config.make_wsgi_app())
