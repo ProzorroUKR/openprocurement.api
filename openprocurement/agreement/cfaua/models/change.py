@@ -21,14 +21,13 @@ class ClassicChange(BaseChange):
     agreementNumber = StringType()
 
 
-class ChangeTaxRate(ClassicChange):  # taxRate
+class ChangeTaxRate(ClassicChange):
     class Options:
         namespace = 'Change'
         roles = RolesFromCsv('ChangeTaxRate.csv', relative_to=__file__)
 
     rationaleType = StringType(default='taxRate')
     modifications = ListType(ModelType(UnitPriceModifiaction), validators=[validate_modifications_items_uniq])
-
 
 
 class ChangeItemPriceVariation(ClassicChange):
@@ -42,7 +41,6 @@ class ChangeItemPriceVariation(ClassicChange):
                                          validate_modifications_items_uniq])
 
 
-
 class ChangeThirdParty(ClassicChange):
     class Options:
         namespace = 'Change'
@@ -51,7 +49,6 @@ class ChangeThirdParty(ClassicChange):
     rationaleType = StringType(default='thirdParty')
     modifications = ListType(ModelType(UnitPriceModifiaction), validators=[validate_third_party_modifications,
                                                                            validate_modifications_items_uniq])
-
 
 
 class ChangePartyWithdrawal(ClassicChange):

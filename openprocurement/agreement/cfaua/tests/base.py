@@ -26,6 +26,9 @@ with open(os.path.join(here, 'data/documents.json')) as _in:
 with open(os.path.join(here, 'data/features.json')) as _in:
     TEST_FEATURES = json.load(_in)
 
+with open(os.path.join(here, 'data/change.json')) as _in:
+    TEST_CHANGE = json.load(_in)
+
 now = datetime.now()
 
 test_agreement_data = deepcopy(TEST_AGREEMENT)
@@ -99,6 +102,7 @@ class BaseWebTest(unittest.TestCase):
 
 class BaseAgreementWebTest(BaseWebTest):
     initial_data = test_agreement_data
+    initial_change = TEST_CHANGE
 
     def setUp(self):
         super(BaseAgreementWebTest, self).setUp()

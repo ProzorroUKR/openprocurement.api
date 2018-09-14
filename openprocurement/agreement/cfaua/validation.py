@@ -8,7 +8,6 @@ from openprocurement.api.utils import (
     update_logging_context
 )
 
-from openprocurement.api.models import DecimalType
 from openprocurement.api.validation import (
     validate_data,
     validate_json_data,
@@ -55,7 +54,13 @@ def validate_document_operation_on_agreement_status(request):
 def validate_change_data(request):
     update_logging_context(request, {'change_id': '__new__'})
     data = validate_json_data(request)
+    if not 'rationaleType' in data:
+        raise_operation_error(request, 'Can\'t add change without relationaleType')
     model = queryUtility(IChange, data['rationaleType'])
+    if not model:
+        raise_operation_error(
+            request, 'relationaleType should be one of {}'.format(
+                ['taxRate', 'itemPriceVariation', 'thirdParty', 'partyWithdrawal']))
     return validate_data(request, model, data=data)
 
 
@@ -114,15 +119,15 @@ def validate_parameters_uniq(parameters, *args):
 def validate_item_price_variation_modifications(modifications, *args):
     for modification in modifications:
         if modification.addend:
-            raise ValidationError(u"Only factor is allowed")
-        if not DecimalType('0.9') <= modification.factor <= DecimalType('1.1'):
+            raise ValidationError(u"Only factor is allowed for itemPriceVariation type of change")
+        if not 0.9 <= modification.factor <= 1.1:
             raise ValidationError(u"Modification factor should be in range 0.9 - 1.1")
 
 
 def validate_third_party_modifications(modifications, *args):
     for modification in modifications:
         if modification.addend:
-            raise ValidationError(u"Only factor is allowed")
+            raise ValidationError(u"Only factor is allowed for thirdParty type of change")
 
 
 def validate_modifications_items_uniq(modifications, *args):
