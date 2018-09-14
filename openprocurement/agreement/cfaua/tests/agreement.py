@@ -14,7 +14,8 @@ from openprocurement.agreement.cfaua.tests.agreement_blanks import (
     agreement_patch_invalid,
     # AgreementListingTests
     empty_listing,
-    listing
+    listing,
+    agreement_preview
 )
 from openprocurement.api.tests.base import snitch
 import os
@@ -35,6 +36,7 @@ class AgreementResources(BaseAgreementWebTest):
     test_agreement_patch_invalid = snitch(agreement_patch_invalid)
     test_extract_credentials = snitch(extract_credentials)
     test_get_agreements_by_id = snitch(get_agreements_by_id)
+    test_agreement_preview = snitch(agreement_preview)
 
 
 class TestTenderAgreement(BaseAgreementTest):

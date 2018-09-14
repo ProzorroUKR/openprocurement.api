@@ -3,9 +3,9 @@ from schematics.types import StringType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.models import (
-    Value,
     Model
-    )
+)
+from openprocurement.agreement.core.models.value import Value
 
 
 class UnitPrice(Model):
