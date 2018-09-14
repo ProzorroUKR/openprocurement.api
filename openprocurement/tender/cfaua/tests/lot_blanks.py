@@ -1295,7 +1295,7 @@ def tender_features_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [{u'enum': [{u'value': [u'Float value should be less than {}.'.format(self.max_feature_value)]}]}], u'location': u'body', u'name': u'features'}
+        {u'description': [{u'enum': [{u'value': [u'Value should be less than {}.'.format(self.max_feature_value)]}]}], u'location': u'body', u'name': u'features'}
     ])
 
     data['features'][0]["enum"][0]["value"] = 0.3
