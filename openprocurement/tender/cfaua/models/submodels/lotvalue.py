@@ -3,6 +3,9 @@ from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.core.models import LotValue as BaseLotValue, get_tender
 from schematics.exceptions import ValidationError
 from schematics.types import StringType
+from schematics.types.compound import ModelType
+
+from openprocurement.tender.cfaua.models.submodels.value import Value
 
 
 class LotValue(BaseLotValue):
@@ -10,8 +13,8 @@ class LotValue(BaseLotValue):
         roles = RolesFromCsv('LotValue.csv', relative_to=__file__)
 
     subcontractingDetails = StringType()
-    status = StringType(choices=['pending', 'active', 'unsuccessful'],
-                        default='pending')
+    status = StringType(choices=['pending', 'active', 'unsuccessful'], default='pending')
+    value = ModelType(Value)
 
     def validate_value(self, data, value):
         if value and isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:

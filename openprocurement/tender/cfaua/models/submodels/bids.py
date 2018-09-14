@@ -1,4 +1,4 @@
-from schematics.transforms import export_loop, whitelist
+from schematics.transforms import export_loop
 from schematics.types import BooleanType, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
@@ -11,6 +11,7 @@ from openprocurement.tender.cfaua.constants import BID_UNSUCCESSFUL_FROM
 from openprocurement.tender.cfaua.models.submodels.documents import BidderEUDocument
 from openprocurement.tender.cfaua.models.submodels.lotvalue import LotValue
 from openprocurement.tender.cfaua.models.submodels.parameters import Parameter
+from openprocurement.tender.cfaua.models.submodels.value import Value
 
 
 class BidModelType(ModelType):
@@ -59,6 +60,7 @@ class Bid(BaseBid):
         choices=['draft', 'pending', 'active', 'invalid', 'invalid.pre-qualification', 'unsuccessful', 'deleted'],
         default='pending'
     )
+    value = ModelType(Value)
 
     def serialize(self, role=None):
         if role and role != 'create' and self.status in ['invalid', 'invalid.pre-qualification', 'deleted']:

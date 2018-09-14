@@ -5,6 +5,7 @@ from schematics.types.compound import ModelType
 from openprocurement.api.models import Address
 
 from openprocurement.tender.cfaua.models.submodels.periods import PeriodEndRequired
+from openprocurement.tender.cfaua.models.submodels.unit import Unit
 from openprocurement.tender.core.models import Item as BaseItem
 
 
@@ -16,3 +17,4 @@ class Item(BaseItem):
     description_en = StringType(required=True, min_length=1)
     deliveryDate = ModelType(PeriodEndRequired, required=True)
     deliveryAddress = ModelType(Address, required=True)
+    unit = ModelType(Unit)

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from openprocurement.api.models import DecimalType
 from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.core.models import Parameter as BaseParameter, bids_validation_wrapper
 
@@ -5,6 +7,8 @@ from openprocurement.tender.core.models import Parameter as BaseParameter, bids_
 class Parameter(BaseParameter):
     class Options:
         roles = RolesFromCsv('Parameter.csv', relative_to=__file__)
+
+    value = DecimalType(required=True, precision=-2)
 
     @bids_validation_wrapper
     def validate_value(self, data, value):
