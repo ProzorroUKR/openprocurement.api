@@ -425,3 +425,213 @@ def agreement_preview(self):
                          for unit_price in contract['unitPrices']
                          if unit_price['relatedItem'] == agreement['items'][0]['id']]
     self.assertNotEqual(unit_prices_after, unit_prices_before)
+
+
+def agreement_change_tax_rate_preview(self):
+    agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertNotIn('changes', agreement)
+
+    change_data = deepcopy(self.initial_change)
+    self.assertEqual(change_data['rationaleType'], 'taxRate')
+    change_data['modifications'] = [{'itemId': agreement['items'][0]['id'], 'addend': 10}]
+
+    # create taxRate change with addend
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(self.agreement_id, self.agreement_token),
+                                  {'data': change_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.json['data']['status'], 'pending')
+    self.assertEqual(response.json['data']['rationaleType'], 'taxRate')
+    self.assertEqual(response.json['data']['modifications'], change_data['modifications'])
+    change_id = response.json['data']['id']
+
+    real_agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertEqual(len(real_agreement['changes']), 1)
+    real_agreement.pop('changes')
+    real_agreement.pop('dateModified')
+    agreement.pop('dateModified')
+    self.assertEqual(agreement, real_agreement)
+
+    preview_agreement = self.app.get('/agreements/{}/preview'.format(self.agreement_id)).json['data']
+    real_unit_prices = [unit_price['value']['amount']
+                        for contract in real_agreement['contracts']
+                        for unit_price in contract['unitPrices']
+                        if unit_price['relatedItem'] == agreement['items'][0]['id']]
+    preview_unit_prices = [unit_price['value']['amount']
+                           for contract in preview_agreement['contracts']
+                           for unit_price in contract['unitPrices']
+                           if unit_price['relatedItem'] == agreement['items'][0]['id']]
+    self.assertNotEqual(real_unit_prices, preview_unit_prices)
+    for i, v in enumerate(real_unit_prices):
+        self.assertEqual(preview_unit_prices[i], v + 10)
+
+    # activate change
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement_id, change_id, self.agreement_token),
+        {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}}
+    )
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'active')
+
+    # get real agreement
+    real_agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertEqual(real_agreement['changes'][-1]['status'], 'active')
+    self.assertEqual(real_agreement['contracts'], preview_agreement['contracts'])
+
+    preview_agreement = self.app.get('/agreements/{}/preview'.format(self.agreement_id)).json['data']
+    self.assertEqual(real_agreement, preview_agreement)
+
+
+def agreement_change_item_price_variation_preview(self):
+    agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertNotIn('changes', agreement)
+
+    change_data = deepcopy(self.initial_change)
+    change_data['rationaleType'] = 'itemPriceVariation'
+    change_data['modifications'] = [{'itemId': agreement['items'][0]['id'], 'factor': 0.9}]
+
+    # create itemPriceVariation change with addend
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(self.agreement_id, self.agreement_token),
+                                  {'data': change_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.json['data']['status'], 'pending')
+    self.assertEqual(response.json['data']['rationaleType'], 'itemPriceVariation')
+    self.assertEqual(response.json['data']['modifications'], change_data['modifications'])
+    change_id = response.json['data']['id']
+
+    real_agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertEqual(len(real_agreement['changes']), 1)
+    real_agreement.pop('changes')
+    real_agreement.pop('dateModified')
+    agreement.pop('dateModified')
+    self.assertEqual(agreement, real_agreement)
+
+    preview_agreement = self.app.get('/agreements/{}/preview'.format(self.agreement_id)).json['data']
+    real_unit_prices = [unit_price['value']['amount']
+                        for contract in real_agreement['contracts']
+                        for unit_price in contract['unitPrices']
+                        if unit_price['relatedItem'] == agreement['items'][0]['id']]
+    preview_unit_prices = [unit_price['value']['amount']
+                           for contract in preview_agreement['contracts']
+                           for unit_price in contract['unitPrices']
+                           if unit_price['relatedItem'] == agreement['items'][0]['id']]
+    self.assertNotEqual(real_unit_prices, preview_unit_prices)
+    for i, v in enumerate(real_unit_prices):
+        self.assertEqual(preview_unit_prices[i], v * 0.9)
+
+    # activate change
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement_id, change_id, self.agreement_token),
+        {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}}
+    )
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'active')
+
+    # get real agreement
+    real_agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertEqual(real_agreement['changes'][-1]['status'], 'active')
+    self.assertEqual(real_agreement['contracts'], preview_agreement['contracts'])
+
+    preview_agreement = self.app.get('/agreements/{}/preview'.format(self.agreement_id)).json['data']
+    self.assertEqual(real_agreement, preview_agreement)
+
+
+def agreement_change_third_party_preview(self):
+    agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertNotIn('changes', agreement)
+
+    change_data = deepcopy(self.initial_change)
+    change_data['rationaleType'] = 'thirdParty'
+    change_data['modifications'] = [{'itemId': agreement['items'][0]['id'], 'factor': 0.1}]
+
+    # create thirdParty change with addend
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(self.agreement_id, self.agreement_token),
+                                  {'data': change_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.json['data']['status'], 'pending')
+    self.assertEqual(response.json['data']['rationaleType'], 'thirdParty')
+    self.assertEqual(response.json['data']['modifications'], change_data['modifications'])
+    change_id = response.json['data']['id']
+
+    real_agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertEqual(len(real_agreement['changes']), 1)
+    real_agreement.pop('changes')
+    real_agreement.pop('dateModified')
+    agreement.pop('dateModified')
+    self.assertEqual(agreement, real_agreement)
+
+    preview_agreement = self.app.get('/agreements/{}/preview'.format(self.agreement_id)).json['data']
+    real_unit_prices = [unit_price['value']['amount']
+                        for contract in real_agreement['contracts']
+                        for unit_price in contract['unitPrices']
+                        if unit_price['relatedItem'] == agreement['items'][0]['id']]
+    preview_unit_prices = [unit_price['value']['amount']
+                           for contract in preview_agreement['contracts']
+                           for unit_price in contract['unitPrices']
+                           if unit_price['relatedItem'] == agreement['items'][0]['id']]
+    self.assertNotEqual(real_unit_prices, preview_unit_prices)
+    for i, v in enumerate(real_unit_prices):
+        self.assertEqual(preview_unit_prices[i], v * 0.1)
+
+    # activate change
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement_id, change_id, self.agreement_token),
+        {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}}
+    )
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'active')
+
+    # get real agreement
+    real_agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertEqual(real_agreement['changes'][-1]['status'], 'active')
+    self.assertEqual(real_agreement['contracts'], preview_agreement['contracts'])
+
+    preview_agreement = self.app.get('/agreements/{}/preview'.format(self.agreement_id)).json['data']
+    self.assertEqual(real_agreement, preview_agreement)
+
+
+def agreement_change_party_withdrawal_preview(self):
+    agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertNotIn('changes', agreement)
+
+    change_data = deepcopy(self.initial_change)
+    change_data['rationaleType'] = 'partyWithdrawal'
+    change_data['modifications'] = [{'contractId': agreement['contracts'][0]['id']}]
+
+    # create partyWithdrawal change with addend
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(self.agreement_id, self.agreement_token),
+                                  {'data': change_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.json['data']['status'], 'pending')
+    self.assertEqual(response.json['data']['rationaleType'], 'partyWithdrawal')
+    self.assertEqual(response.json['data']['modifications'], change_data['modifications'])
+    change_id = response.json['data']['id']
+
+    real_agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertEqual(len(real_agreement['changes']), 1)
+    real_agreement.pop('changes')
+    real_agreement.pop('dateModified')
+    agreement.pop('dateModified')
+    self.assertEqual(agreement, real_agreement)
+
+    preview_agreement = self.app.get('/agreements/{}/preview'.format(self.agreement_id)).json['data']
+    real_contracts = [contract['status'] == 'active' for contract in real_agreement['contracts']]
+    preview_contracts = [contract['status'] == 'active' for contract in preview_agreement['contracts']]
+    self.assertNotEqual(real_contracts, preview_contracts)
+
+    # activate change
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement_id, change_id, self.agreement_token),
+        {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}}
+    )
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'active')
+
+    # get real agreement
+    real_agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertEqual(real_agreement['changes'][-1]['status'], 'active')
+    self.assertEqual(real_agreement['contracts'], preview_agreement['contracts'])
+    self.assertEqual(real_agreement['contracts'][0]['status'], 'unsuccessful')
+
+    preview_agreement = self.app.get('/agreements/{}/preview'.format(self.agreement_id)).json['data']
+    self.assertEqual(real_agreement, preview_agreement)
+    self.assertEqual(preview_agreement['contracts'][0]['status'], 'unsuccessful')

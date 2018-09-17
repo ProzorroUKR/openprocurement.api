@@ -9,6 +9,7 @@ from openprocurement.agreement.cfaua.models.modification import UnitPriceModific
 from openprocurement.agreement.cfaua.validation import (
     validate_item_price_variation_modifications,
     validate_third_party_modifications,
+    validate_modifications_contracts_uniq,
     validate_modifications_items_uniq
 )
 
@@ -28,6 +29,7 @@ class ChangeTaxRate(ClassicChange):
 
     rationaleType = StringType(default='taxRate')
     modifications = ListType(ModelType(UnitPriceModification), validators=[validate_modifications_items_uniq])
+
 
 class ChangeItemPriceVariation(ClassicChange):
     class Options:
@@ -56,4 +58,4 @@ class ChangePartyWithdrawal(ClassicChange):
         roles = RolesFromCsv('ChangePartyWithdrawal.csv', relative_to=__file__)
 
     rationaleType = StringType(default='partyWithdrawal')
-    modifications = ListType(ModelType(ContractModification), validators=[validate_modifications_items_uniq])
+    modifications = ListType(ModelType(ContractModification), validators=[validate_modifications_contracts_uniq])

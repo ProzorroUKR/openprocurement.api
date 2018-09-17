@@ -1,3 +1,4 @@
+from decimal import Decimal
 from schematics.exceptions import ValidationError
 from zope.component import queryUtility
 
@@ -83,7 +84,7 @@ def validate_patch_change_data(request):
 
 def validate_agreement_change_update_not_in_allowed_change_status(request):
     change = request.validated['change']
-    if change.status == 'active':
+    if change.status in {'active', 'cancelled'}:
         raise_operation_error(request, 'Can\'t update agreement change in current ({}) status'.format(change.status))
 
 
@@ -120,7 +121,7 @@ def validate_item_price_variation_modifications(modifications, *args):
     for modification in modifications:
         if modification.addend:
             raise ValidationError(u"Only factor is allowed for itemPriceVariation type of change")
-        if not 0.9 <= modification.factor <= 1.1:
+        if not Decimal('0.9') <= modification.factor <= Decimal('1.1'):
             raise ValidationError(u"Modification factor should be in range 0.9 - 1.1")
 
 
@@ -132,6 +133,15 @@ def validate_third_party_modifications(modifications, *args):
 
 def validate_modifications_items_uniq(modifications, *args):
     if modifications:
-        item_ids = {m.itemId for m in modifications}  # set of all items ids in modifications
+        agreement_items_id = {i.id for i in modifications[0].__parent__.__parent__.items}
+        item_ids = {m.itemId for m in modifications if m.itemId in agreement_items_id}
         if len(item_ids) != len(modifications):
-            raise ValidationError(u"Item id should be uniq for all modifications")
+            raise ValidationError(u"Item id should be uniq for all modifications and one of agreement:items")
+
+
+def validate_modifications_contracts_uniq(modifications, *args):
+    if modifications:
+        agreement_contracts_id = {i.id for i in modifications[0].__parent__.__parent__.contracts}
+        contracts_ids = {c.contractId for c in modifications if c.contractId in agreement_contracts_id}
+        if len(contracts_ids) != len(modifications):
+            raise ValidationError(u"Contract id should be uniq for all modifications and one of agreement:contracts")

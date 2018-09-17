@@ -15,12 +15,16 @@ from openprocurement.agreement.cfaua.tests.agreement_blanks import (
     # AgreementListingTests
     empty_listing,
     listing,
-    agreement_preview
+    agreement_preview,
+    agreement_change_item_price_variation_preview,
+    agreement_change_party_withdrawal_preview,
+    agreement_change_tax_rate_preview,
+    agreement_change_third_party_preview
 )
 from openprocurement.api.tests.base import snitch
 import os
 from openprocurement.agreement.cfaua.tests.base import (
-    TEST_AGREEMENT, TEST_FEATURES
+    TEST_AGREEMENT, TEST_FEATURES, TEST_CHANGE
 )
 from openprocurement.agreement.core.tests.base import BaseAgreementWebTest, BaseAgreementTest
 
@@ -28,6 +32,7 @@ from openprocurement.agreement.core.tests.base import BaseAgreementWebTest, Base
 class AgreementResources(BaseAgreementWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = TEST_AGREEMENT
+    initial_change = TEST_CHANGE
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):
@@ -37,6 +42,10 @@ class AgreementResources(BaseAgreementWebTest):
     test_extract_credentials = snitch(extract_credentials)
     test_get_agreements_by_id = snitch(get_agreements_by_id)
     test_agreement_preview = snitch(agreement_preview)
+    test_agreement_change_item_price_variation_preview = snitch(agreement_change_item_price_variation_preview)
+    test_agreement_change_party_withdrawal_preview = snitch(agreement_change_party_withdrawal_preview)
+    test_agreement_change_tax_rate_preview = snitch(agreement_change_tax_rate_preview)
+    test_agreement_change_third_party_preview = snitch(agreement_change_third_party_preview)
 
 
 class TestTenderAgreement(BaseAgreementTest):
