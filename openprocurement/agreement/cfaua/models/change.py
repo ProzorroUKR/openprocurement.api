@@ -20,6 +20,7 @@ class ClassicChange(BaseChange):
         roles = RolesFromCsv('Change.csv', relative_to=__file__)
 
     agreementNumber = StringType()
+    status = StringType(choices=['pending', 'active', 'cancelled'], default='pending')
 
 
 class ChangeTaxRate(ClassicChange):

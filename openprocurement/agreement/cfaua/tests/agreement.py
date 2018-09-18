@@ -17,6 +17,7 @@ from openprocurement.agreement.cfaua.tests.agreement_blanks import (
     listing,
     agreement_preview,
     agreement_change_item_price_variation_preview,
+    agreement_change_party_withdrawal_cancelled_preview,
     agreement_change_party_withdrawal_preview,
     agreement_change_tax_rate_preview,
     agreement_change_third_party_preview
@@ -43,6 +44,8 @@ class AgreementResources(BaseAgreementWebTest):
     test_get_agreements_by_id = snitch(get_agreements_by_id)
     test_agreement_preview = snitch(agreement_preview)
     test_agreement_change_item_price_variation_preview = snitch(agreement_change_item_price_variation_preview)
+    test_agreement_change_party_withdrawal_cancelled_preview = \
+        snitch(agreement_change_party_withdrawal_cancelled_preview)
     test_agreement_change_party_withdrawal_preview = snitch(agreement_change_party_withdrawal_preview)
     test_agreement_change_tax_rate_preview = snitch(agreement_change_tax_rate_preview)
     test_agreement_change_third_party_preview = snitch(agreement_change_third_party_preview)

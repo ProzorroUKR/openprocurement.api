@@ -635,3 +635,52 @@ def agreement_change_party_withdrawal_preview(self):
     preview_agreement = self.app.get('/agreements/{}/preview'.format(self.agreement_id)).json['data']
     self.assertEqual(real_agreement, preview_agreement)
     self.assertEqual(preview_agreement['contracts'][0]['status'], 'unsuccessful')
+
+
+def agreement_change_party_withdrawal_cancelled_preview(self):
+    agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertNotIn('changes', agreement)
+
+    change_data = deepcopy(self.initial_change)
+    change_data['rationaleType'] = 'partyWithdrawal'
+    change_data['modifications'] = [{'contractId': agreement['contracts'][0]['id']}]
+
+    # create partyWithdrawal change with addend
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(self.agreement_id, self.agreement_token),
+                                  {'data': change_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.json['data']['status'], 'pending')
+    self.assertEqual(response.json['data']['rationaleType'], 'partyWithdrawal')
+    self.assertEqual(response.json['data']['modifications'], change_data['modifications'])
+    change_id = response.json['data']['id']
+
+    real_agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertEqual(len(real_agreement['changes']), 1)
+    real_agreement.pop('changes')
+    real_agreement.pop('dateModified')
+    agreement.pop('dateModified')
+    self.assertEqual(agreement, real_agreement)
+
+    preview_agreement = self.app.get('/agreements/{}/preview'.format(self.agreement_id)).json['data']
+    real_contracts = [contract['status'] == 'active' for contract in real_agreement['contracts']]
+    preview_contracts = [contract['status'] == 'active' for contract in preview_agreement['contracts']]
+    self.assertNotEqual(real_contracts, preview_contracts)
+    self.assertEqual(preview_agreement['contracts'][0]['status'], 'unsuccessful')
+
+    # cancel change
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement_id, change_id, self.agreement_token),
+        {'data': {'status': 'cancelled'}}
+    )
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'cancelled')
+
+    # get real agreement
+    real_agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertEqual(real_agreement['changes'][-1]['status'], 'cancelled')
+    self.assertNotEqual(real_agreement['contracts'], preview_agreement['contracts'])
+    self.assertEqual(real_agreement['contracts'][0]['status'], 'active')
+
+    preview_agreement = self.app.get('/agreements/{}/preview'.format(self.agreement_id)).json['data']
+    self.assertEqual(real_agreement, preview_agreement)
+    self.assertEqual(preview_agreement['contracts'][0]['status'], 'active')

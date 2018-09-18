@@ -90,7 +90,7 @@ def validate_agreement_change_update_not_in_allowed_change_status(request):
 
 def validate_update_agreement_change_status(request):
     data = request.validated['data']
-    if not data.get("dateSigned", ''):
+    if data['status'] == 'active' and not data.get("dateSigned", ''):
         raise_operation_error(request, 'Can\'t update agreement change status. \'dateSigned\' is required.')
 
 
