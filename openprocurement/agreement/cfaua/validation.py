@@ -94,20 +94,20 @@ def validate_update_agreement_change_status(request):
         raise_operation_error(request, 'Can\'t update agreement change status. \'dateSigned\' is required.')
 
 
-def validate_values_uniq(values, *args):
+def validate_values_uniq(values):
     codes = [i.value for i in values]
     if any([codes.count(i) > 1 for i in set(codes)]):
         raise ValidationError(u"Feature value should be uniq for feature")
 
 
-def validate_features_uniq(features, *args):
+def validate_features_uniq(features):
     if features:
         codes = [i.code for i in features]
         if any([codes.count(i) > 1 for i in set(codes)]):
             raise ValidationError(u"Feature code should be uniq for all features")
 
 
-def validate_parameters_uniq(parameters, *args):
+def validate_parameters_uniq(parameters):
     if parameters:
         codes = [i.code for i in parameters]
         if [i for i in set(codes) if codes.count(i) > 1]:
@@ -117,7 +117,7 @@ def validate_parameters_uniq(parameters, *args):
 # changes modifications validators
 
 
-def validate_item_price_variation_modifications(modifications, *args):
+def validate_item_price_variation_modifications(modifications):
     for modification in modifications:
         if modification.addend:
             raise ValidationError(u"Only factor is allowed for itemPriceVariation type of change")
@@ -125,13 +125,13 @@ def validate_item_price_variation_modifications(modifications, *args):
             raise ValidationError(u"Modification factor should be in range 0.9 - 1.1")
 
 
-def validate_third_party_modifications(modifications, *args):
+def validate_third_party_modifications(modifications):
     for modification in modifications:
         if modification.addend:
             raise ValidationError(u"Only factor is allowed for thirdParty type of change")
 
 
-def validate_modifications_items_uniq(modifications, *args):
+def validate_modifications_items_uniq(modifications):
     if modifications:
         agreement_items_id = {i.id for i in modifications[0].__parent__.__parent__.items}
         item_ids = {m.itemId for m in modifications if m.itemId in agreement_items_id}
@@ -139,7 +139,7 @@ def validate_modifications_items_uniq(modifications, *args):
             raise ValidationError(u"Item id should be uniq for all modifications and one of agreement:items")
 
 
-def validate_modifications_contracts_uniq(modifications, *args):
+def validate_modifications_contracts_uniq(modifications):
     if modifications:
         agreement_contracts_id = {i.id for i in modifications[0].__parent__.__parent__.contracts}
         contracts_ids = {c.contractId for c in modifications if c.contractId in agreement_contracts_id}

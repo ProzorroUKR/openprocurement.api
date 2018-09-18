@@ -13,6 +13,7 @@ from openprocurement.agreement.cfaua.tests.change_blanks import (
     get_change,
     create_change_invalid,
     create_change,
+    create_change_item_price_variation_modifications_boundaries,
     patch_change,
     change_date_signed,
     date_signed_on_change_creation,
@@ -37,6 +38,8 @@ class ContractChangesResourceTest(BaseAgreementContentWebTest):
     test_get_change = snitch(get_change)
     test_create_change_invalid = snitch(create_change_invalid)
     test_create_change = snitch(create_change)
+    test_create_change_item_price_variation_modifications_boundaries = \
+        snitch(create_change_item_price_variation_modifications_boundaries)
     test_patch_change = snitch(patch_change)
     test_multi_change = snitch(multi_change)
     test_change_date_signed = snitch(change_date_signed)
