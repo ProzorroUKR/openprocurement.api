@@ -320,19 +320,14 @@ class TenderAwardResource(APIResource):
                     i.status = 'cancelled'
             add_next_award(self.request)
         elif award_status == 'pending' and award.status == 'unsuccessful':
-            add_next_award(self.request)
-        elif award_status == 'unsuccessful' and award.status == 'cancelled':
-            if tender.status == 'active.awarded':
-                tender.status = 'active.qualification'
-                tender.awardPeriod.endDate = None
-            cancelled_awards = []
-            for i in tender.awards[tender.awards.index(award):]:
-                if i.lotID != award.lotID:
-                    continue
-                cancelled_awards.append(i.id)
-            for i in tender.contracts:
-                if i.awardID in cancelled_awards:
-                    i.status = 'cancelled'
+            cancelled_awards_same_bid = [a for a in tender.awards if
+                                         a.bid_id == award.bid_id and a.status == 'cancelled']
+            if tender.status == 'active.qualification' and not cancelled_awards_same_bid:
+                raise_operation_error(
+                    self.request,
+                    'Can\'t update award status to {}, if tender status is {} and there is no '
+                    'cancelled award with the same bid_id'.format(award.status, tender.status)
+                )
             add_next_award(self.request)
         elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
             raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
