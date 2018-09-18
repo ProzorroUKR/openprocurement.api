@@ -70,14 +70,17 @@ class AgreementChangesResource(APIResource):
                                               change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
 
         agreement.changes.append(change)
-        apply_modifications(self.request, agreement)
+        warnings = apply_modifications(self.request, agreement)
 
         if save_agreement(self.request):
             self.LOGGER.info('Created change {} of agreement {}'.format(change.id, agreement.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'agreement_change_create'},
                                                   {'change_id': change.id, 'agreement_id': agreement.id}))
             self.request.response.status = 201
-            return {'data': change.serialize("view")}
+            response_data = {'data': change.serialize('view')}
+            if warnings:
+                response_data['warnings'] = warnings
+            return response_data
 
     @json_view(content_type="application/json",
                permission='edit_agreement',
@@ -95,11 +98,12 @@ class AgreementChangesResource(APIResource):
         apply_patch(self.request, save=False, src=change.serialize())
 
         # Validate or apply agreement modifications
+        warnings = []
         agreement = self.request.validated['agreement']
         if change.status == 'active':
             apply_modifications(self.request, agreement, save=True)
-        else:
-            apply_modifications(self.request, agreement)
+        elif change.status != 'cancelled':
+            warnings = apply_modifications(self.request, agreement)
 
         if change['dateSigned']:
             changes = agreement.get("changes", [])
@@ -123,4 +127,7 @@ class AgreementChangesResource(APIResource):
         if save_agreement(self.request):
             self.LOGGER.info('Updated agreement change {}'.format(change.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'agreement_change_patch'}))
-            return {'data': change.serialize('view')}
+            response_data = {'data': change.serialize('view')}
+            if warnings:
+                response_data['warnings'] = warnings
+            return response_data

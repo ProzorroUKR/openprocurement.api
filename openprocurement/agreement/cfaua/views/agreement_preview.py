@@ -18,5 +18,8 @@ class AgreementPreviewResource(APIResource):
         if not self.context.changes or self.context.changes[-1]['status'] != 'pending':
             return {"data": self.context.serialize("view")}
         # save=True mean apply modifications directy for context not context copy
-        apply_modifications(self.request, self.context, save=True)
-        return {"data": self.context.serialize("view")}
+        warnings = apply_modifications(self.request, self.context, save=True)
+        response_data = {'data': self.context.serialize('view')}
+        if warnings:
+            response_data['warnings'] = warnings
+        return response_data

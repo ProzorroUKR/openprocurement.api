@@ -222,6 +222,7 @@ def create_change(self):
     change = response.json['data']
     self.assertEqual(change['status'], 'pending')
     self.assertIn('date', change)
+    self.assertNotIn('warnings', response.json)
 
     response = self.app.get('/agreements/{}/changes'.format(self.agreement['id']))
     self.assertEqual(response.status, '200 OK')
@@ -257,6 +258,8 @@ def create_change(self):
     self.assertEqual(response.status, '201 Created')
     change2 = response.json['data']
     self.assertEqual(change2['status'], 'pending')
+    self.assertIn('warnings', response.json)
+    self.assertEqual(response.json['warnings'], [u'Min active contracts in FrameworkAgreement less than 3.'])
 
     response = self.app.get('/agreements/{}/changes'.format(self.agreement['id']))
     self.assertEqual(response.status, '200 OK')
