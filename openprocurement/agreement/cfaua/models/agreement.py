@@ -74,3 +74,6 @@ class Agreement(BaseAgreement):
         else:
             role = 'edit_{}'.format(request.context.status)
         return role
+
+    def get_active_contracts_count(self):
+        return len([c.id for c in self.contracts if c.status == 'active'])
