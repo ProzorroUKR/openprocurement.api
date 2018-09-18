@@ -187,6 +187,15 @@ def create_change_invalid(self):
                          u'Contract id should be uniq for all modifications and one of agreement:contracts'],
                        u'location': u'body', u'name': u'modifications'}])
 
+    data.update({'modifications': [{'itemId': item_id, 'addend': 30, 'factor': 0.95}], 'rationaleType': 'taxRate'})
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement_id, self.agreement_token), {'data': data}, status=422)
+    self.assertEqual((response.status, response.content_type), ('422 Unprocessable Entity', 'application/json'))
+    self.assertEqual(response.json['errors'],
+                     [{u'description': [
+                         u'Change with taxRate rationaleType, can have only factor or only addend'],
+                         u'location': u'body', u'name': u'modifications'}])
+
     self.app.authorization = None
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
         self.agreement['id'], self.agreement_token), {'data': deepcopy(self.initial_change)}, status=403)
