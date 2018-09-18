@@ -1,0 +1,26 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+    <include package="zope.component" file="meta.zcml" />
+
+    <!-- Changes -->
+    <utility
+        name="taxRate"
+        component=".models.change.ChangeTaxRate"
+        provides=".interfaces.IChange"
+        />
+    <utility
+        name="itemPriceVariation"
+        component=".models.change.ChangeItemPriceVariation"
+        provides=".interfaces.IChange"
+        />
+    <utility
+        name="thirdParty"
+        component=".models.change.ChangeThirdParty"
+        provides=".interfaces.IChange"
+        />
+    <utility
+        name="partyWithdrawal"
+        component =".models.change.ChangePartyWithdrawal"
+        provides=".interfaces.IChange"
+        />
+
+</configure>

@@ -1,8 +1,10 @@
-from openprocurement.agreement.cfaua.models.change import Change
+from openprocurement.agreement.cfaua.models.change import \
+    ChangeTaxRate, ChangeItemPriceVariation, \
+    ChangeThirdParty, ChangePartyWithdrawal
 from openprocurement.api.roles import RolesFromCsv
 from zope.interface import implementer, provider
 from schematics.types import StringType
-from schematics.types.compound import ModelType
+from schematics.types.compound import ModelType, PolyModelType
 from pyramid.security import Allow
 from openprocurement.api.models import (
     Period,
@@ -23,6 +25,7 @@ from openprocurement.agreement.cfaua.models.procuringentity\
 
 from openprocurement.agreement.cfaua.interfaces import IClosedFrameworkAgreementUA
 from openprocurement.agreement.cfaua.validation import validate_features_uniq
+from openprocurement.agreement.cfaua.utils import get_change_class
 
 
 @implementer(IClosedFrameworkAgreementUA)
@@ -39,7 +42,9 @@ class Agreement(BaseAgreement):
     title_ru = StringType()
     description_en = StringType()
     description_ru = StringType()
-    changes = ListType(ModelType(Change), default=list())
+    changes = ListType(PolyModelType((ChangeTaxRate, ChangeItemPriceVariation,
+                                      ChangePartyWithdrawal, ChangeThirdParty),
+                                     claim_function=get_change_class), default=list())
     documents = ListType(ModelType(Document), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
@@ -69,3 +74,6 @@ class Agreement(BaseAgreement):
         else:
             role = 'edit_{}'.format(request.context.status)
         return role
+
+    def get_active_contracts_count(self):
+        return len([c.id for c in self.contracts if c.status == 'active'])

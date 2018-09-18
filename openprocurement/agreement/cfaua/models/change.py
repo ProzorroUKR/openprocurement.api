@@ -1,31 +1,64 @@
 # -*- coding: utf-8 -*-
-from uuid import uuid4
+from schematics.types import StringType
+from schematics.types.compound import ModelType
 
 from openprocurement.api.roles import RolesFromCsv
-from schematics.types import StringType, MD5Type
-from schematics.exceptions import ValidationError
-from openprocurement.api.utils import get_now
-from openprocurement.api.models import Model, ListType, IsoDateTimeType
+from openprocurement.api.models import ListType
+from openprocurement.agreement.core.models.change import Change as BaseChange
+from openprocurement.agreement.cfaua.models.modification import UnitPriceModification, ContractModification
+from openprocurement.agreement.cfaua.validation import (
+    validate_item_price_variation_modifications,
+    validate_third_party_modifications,
+    validate_modifications_contracts_uniq,
+    validate_modifications_items_uniq,
+    validate_only_addend_or_only_factor,
+)
 
 
-class Change(Model):
+class ClassicChange(BaseChange):
     class Options:
+        namespace = 'Change'
         roles = RolesFromCsv('Change.csv', relative_to=__file__)
 
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    status = StringType(choices=['pending', 'active'], default='pending')
-    date = IsoDateTimeType(default=get_now)
-    rationale = StringType(required=True, min_length=1)
-    rationale_en = StringType()
-    rationale_ru = StringType()
-    rationaleTypes = ListType(StringType(choices=['volumeCuts', 'itemPriceVariation',
-                                                  'qualityImprovement', 'thirdParty',
-                                                  'durationExtension', 'priceReduction',
-                                                  'taxRate', 'fiscalYearExtension'],
-                                         required=True), min_size=1, required=True)
     agreementNumber = StringType()
-    dateSigned = IsoDateTimeType()
+    status = StringType(choices=['pending', 'active', 'cancelled'], default='pending')
 
-    def validate_dateSigned(self, data, value):
-        if value and value > get_now():
-            raise ValidationError(u"Agreement signature date can't be in the future")
+
+class ChangeTaxRate(ClassicChange):
+    class Options:
+        namespace = 'Change'
+        roles = RolesFromCsv('ChangeTaxRate.csv', relative_to=__file__)
+
+    rationaleType = StringType(default='taxRate')
+    modifications = ListType(ModelType(UnitPriceModification),
+                             validators=[validate_modifications_items_uniq, validate_only_addend_or_only_factor])
+
+
+class ChangeItemPriceVariation(ClassicChange):
+    class Options:
+        namespace = 'Change'
+        roles = RolesFromCsv('ChangeItemPriceVariation.csv', relative_to=__file__)
+
+    rationaleType = StringType(default='itemPriceVariation')
+    modifications = ListType(ModelType(UnitPriceModification),
+                             validators=[validate_item_price_variation_modifications,
+                                         validate_modifications_items_uniq])
+
+
+class ChangeThirdParty(ClassicChange):
+    class Options:
+        namespace = 'Change'
+        roles = RolesFromCsv('ChangeThirdParty.csv', relative_to=__file__)
+
+    rationaleType = StringType(default='thirdParty')
+    modifications = ListType(ModelType(UnitPriceModification), validators=[validate_third_party_modifications,
+                                                                           validate_modifications_items_uniq])
+
+
+class ChangePartyWithdrawal(ClassicChange):
+    class Options:
+        namespace = 'Change'
+        roles = RolesFromCsv('ChangePartyWithdrawal.csv', relative_to=__file__)
+
+    rationaleType = StringType(default='partyWithdrawal')
+    modifications = ListType(ModelType(ContractModification), validators=[validate_modifications_contracts_uniq])
