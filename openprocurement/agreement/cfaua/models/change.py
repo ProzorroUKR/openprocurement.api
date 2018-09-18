@@ -10,7 +10,8 @@ from openprocurement.agreement.cfaua.validation import (
     validate_item_price_variation_modifications,
     validate_third_party_modifications,
     validate_modifications_contracts_uniq,
-    validate_modifications_items_uniq
+    validate_modifications_items_uniq,
+    validate_only_addend_or_only_factor,
 )
 
 
@@ -29,7 +30,8 @@ class ChangeTaxRate(ClassicChange):
         roles = RolesFromCsv('ChangeTaxRate.csv', relative_to=__file__)
 
     rationaleType = StringType(default='taxRate')
-    modifications = ListType(ModelType(UnitPriceModification), validators=[validate_modifications_items_uniq])
+    modifications = ListType(ModelType(UnitPriceModification),
+                             validators=[validate_modifications_items_uniq, validate_only_addend_or_only_factor])
 
 
 class ChangeItemPriceVariation(ClassicChange):

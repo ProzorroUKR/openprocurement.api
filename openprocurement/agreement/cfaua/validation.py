@@ -145,3 +145,10 @@ def validate_modifications_contracts_uniq(modifications):
         contracts_ids = {c.contractId for c in modifications if c.contractId in agreement_contracts_id}
         if len(contracts_ids) != len(modifications):
             raise ValidationError(u"Contract id should be uniq for all modifications and one of agreement:contracts")
+
+
+def validate_only_addend_or_only_factor(modifications):
+    if modifications:
+        changes_with_addend_and_factor = [m for m in modifications if m.addend and m.factor]
+        if changes_with_addend_and_factor:
+            raise ValidationError(u"Change with taxRate rationaleType, can have only factor or only addend")
