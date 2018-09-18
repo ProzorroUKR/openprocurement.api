@@ -254,6 +254,50 @@ def create_change(self):
     self.assertEqual(len(response.json['data']), 2)
 
 
+def create_change_item_price_variation_modifications_boundaries(self):
+    data = deepcopy(self.initial_change)
+    data.update({'rationaleType': u'itemPriceVariation'})
+
+    for x in (0.9, 0.91, 0.901, 0.9001, 0.89995, 1.1, 1.09, 1.009, 1.0009, 1.100005):
+        data.update({'modifications': [{'factor': x, 'itemId': self.agreement['items'][0]['id']}]})
+        response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+            self.agreement['id'], self.agreement_token), {'data': data})
+        self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+        change = response.json['data']
+        self.assertEqual(change['status'], 'pending')
+        self.assertEqual(change['modifications'][0]['factor'], round(x, 4))
+        self.assertIn('date', change)
+
+        real_agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+        preview_agreement = self.app.get('/agreements/{}/preview'.format(self.agreement_id)).json['data']
+        real_unit_prices = [unit_price['value']['amount']
+                            for contract in real_agreement['contracts']
+                            for unit_price in contract['unitPrices']
+                            if unit_price['relatedItem'] == self.agreement['items'][0]['id']]
+        preview_unit_prices = [unit_price['value']['amount']
+                               for contract in preview_agreement['contracts']
+                               for unit_price in contract['unitPrices']
+                               if unit_price['relatedItem'] == self.agreement['items'][0]['id']]
+        self.assertNotEqual(real_unit_prices, preview_unit_prices)
+        for i, v in enumerate(real_unit_prices):
+            self.assertEqual(preview_unit_prices[i], round(v * round(x, 4), 2))
+
+        response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
+            self.agreement['id'], change['id'], self.agreement_token),
+            {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}})
+        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+
+    for x in (0.89, 0.899, 0.8999, 0.89994, 1.11, 1.101, 1.1001, 1.10006):
+        data.update({'modifications': [{'factor': x, 'itemId': self.agreement['items'][0]['id']}]})
+        response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+            self.agreement['id'], self.agreement_token), {'data': data}, status=422)
+
+        self.assertEqual((response.status, response.content_type), ('422 Unprocessable Entity', 'application/json'))
+        self.assertEqual(response.json['errors'], [
+            {u'description': [u'Modification factor should be in range 0.9 - 1.1'],
+             u'location': u'body', u'name': u'modifications'}])
+
+
 def patch_change(self):
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
         self.agreement['id'], self.agreement_token), {'data': deepcopy(self.initial_change)})
