@@ -385,7 +385,7 @@ See the `Bid.lotValues.participationUrl` in the response. Similar, but different
 Confirming qualification
 ------------------------
 
-Кваліфікаційна комісія отримує список кваліфікацій
+Qualification board receives the qualifications list
 
 .. include:: tutorial/qualifications-list.http
    :code:
@@ -395,35 +395,35 @@ And registers its decisions via the following call per award:
 .. include:: tutorial/confirm-qualification.http
    :code:
 
-Також комісія може дизкваліфікувати переможця передавши у виклику ``{'data': {'status': 'unsuccessful'}}``
+The board may also disqualify the award winner by calling 
+``{'data': {'status': 'unsuccessful'}}``
 
 .. ПРЕЦЕДЕНТ Т13. Додати документи з цінами
 
 Uploading document with unit price per item
 -------------------------------------------
 
-При переході тендеру в статус `active.awarded` створюється :ref:`Agreement` і кваліфікованим учасникам дається
-5 робочих днів, щоб завантажити документ з цінами за одиницю по кожному `item`
+When tender transfers to status `active.awarded` then :ref:`Agreement` is created and the awarded participants are given 5 business days to upload the itemized price list with unit price per every 'item' 
 
 .. include:: tutorial/upload-prices-document.http
    :code:
 
-Заповнення замовником цін за одиницю
+Entering prices per item by the ordering party
 ------------------------------------
 
-Отримати список об'єктів :ref:`Agreement` можна наступним викликом
+The object list :ref:`Agreement` can be obtained via the following call
 
 .. include:: tutorial/agreements-list.http
    :code:
 
-Контракти створюється по одному на кваліфікованого переможця
+Only one contract is created per each qualified award winner
 
-Отримати список об'єктів :ref:`Contract` за якими потрібно внести ціни за одиницю замовник може наступним викликом
+The object list :ref:`Contract` to enter prices per item can be obtained by the ordering party via the following call 
 
 .. include:: tutorial/agreement-contracts-list.http
    :code:
 
-Вносити ціни за одиницю дозволяється лише по всім айтемам разом.
+Entering unit prices is allowed only for all 'items' taken together
 
 .. include:: tutorial/agreement-contract-unitprices1.http
    :code:
@@ -434,12 +434,12 @@ Uploading document with unit price per item
 .. include:: tutorial/agreement-contract-unitprices3.http
    :code:
 
-Також замовнику дозволяється виключити певного переможця з рамкової угоди передавши контракту
+Also the ordering party is allowed to exclude a winner from the framework agreement by setting the contract to 
 ``{'data': {'status': 'unsuccessful'}}``
 
-Для успішного підписання рамкової угоди потрібно не менше 3-х активних контрактів
+For a successful signing of a Framework agreement not less than 3 active contracts are needed 
 
-Підписати Рамкову угоду можна лише після настання `agreement.contractPeriod.clarificationsUntil`
+A Framework agreement can be signed only when `agreement.contractPeriod.clarificationsUntil` is reached
 
 
 Uploading agreement documentation
