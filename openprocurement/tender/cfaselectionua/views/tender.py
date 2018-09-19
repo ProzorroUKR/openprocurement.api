@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from openprocurement.api.utils import context_unpack, json_view, APIResource, get_now, raise_operation_error
 
 from openprocurement.tender.core.utils import (
@@ -11,18 +10,12 @@ from openprocurement.tender.cfaselectionua.validation import (
     validate_tender_status_update_in_terminated_status,
 )
 from openprocurement.tender.cfaselectionua.utils import (
-    check_status, check_period_and_items
+    check_status, check_period_and_items,
+    check_min_active_contracts
 )
 
-from openprocurement.tender.core.validation import (
-    validate_patch_tender_data
-)
-from openprocurement.tender.core.views.tender import TendersResource as APIResources
-
-from openprocurement.tender.cfaselectionua.utils import check_status
 from openprocurement.tender.cfaselectionua.validation import (
     validate_patch_tender_data,
-    validate_patch_tender_tenderPeriod,
     validate_json_data_in_active_enquiries,
 )
 
@@ -186,6 +179,7 @@ class TenderResource(APIResource):
             save_tender(self.request)
         elif self.request.authenticated_role == 'agreement_selection':
             check_period_and_items(self.request, tender)
+            check_min_active_contracts(self.request, tender)
             tender.enquiryPeriod.startDate = get_now()
             tender.enquiryPeriod.endDate = tender.enquiryPeriod.startDate + ENQUIRY_PERIOD
             tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
