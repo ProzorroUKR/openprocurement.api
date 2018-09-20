@@ -3,7 +3,7 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 
 
-def update_patch_data(self, patch_data, key=None, start=0, interval=''):
+def update_patch_data(self, patch_data, key=None, start=0, interval=None):
 
     iterator = list(range(self.min_bids_number))[start::interval] if start else \
         list(range(self.min_bids_number))[::interval]
