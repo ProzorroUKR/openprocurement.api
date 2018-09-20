@@ -259,6 +259,15 @@ def check_period_and_items(request, tender):
         request.validated['data']['status'] = 'draft.unsuccessful'
 
 
+def check_min_active_contracts(request, tender):
+    for agr in tender.agreements:
+        active_contracts = [c for c in agr.contracts if c.status == 'active'] if agr.contracts else []
+        if len(active_contracts) < request.content_configurator.min_active_contracts:
+            request.validated['data']['status'] = 'draft.unsuccessful'
+            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+
+
 def calculate_agreement_contracts_value_amount(tender):
     agreement = tender.agreements[0]
     for contract in agreement.contracts:

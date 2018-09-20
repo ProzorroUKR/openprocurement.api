@@ -1201,22 +1201,32 @@ def patch_tender(self):
 
 
 def patch_tender_bot(self):
-    data = deepcopy(self.initial_data)
-    data['status'] = 'draft'
-    data['agreements'] = [{'id': self.agreement_id}]
 
-    response = self.app.post_json('/tenders', {'data': data})
-    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
-    tender = response.json['data']
-    self.tender_id = tender['id']
-    owner_token = response.json['access']['token']
+    def create_tender_and_prepare_for_bot_patch():
+        self.app.authorization = ('Basic', ('broker', ''))
+        data = deepcopy(self.initial_data)
+        data['status'] = 'draft'
+        data['agreements'] = [{'id': self.agreement_id}]
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                   {'data': {'status': 'draft.pending'}})
-    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-    self.assertEqual(response.json['data']['status'], 'draft.pending')
+        response = self.app.post_json('/tenders', {'data': data})
+        self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+        global tender
+        tender = response.json['data']
+        global owner_token
+        self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                       {'data': {'status': 'draft.pending'}})
+        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+        self.assertEqual(response.json['data']['status'], 'draft.pending')
+
+        self.app.authorization = ('Basic', (BOT_NAME, ''))
+
 
     # only bot can change tender in draft.pending
+    create_tender_and_prepare_for_bot_patch()
+    self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                    {'data': {'procuringEntity': {'kind': 'defense'}}}, status=403)
     self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
@@ -1225,29 +1235,12 @@ def patch_tender_bot(self):
 
     # tender items are not subset of agreement items
     self.app.authorization = ('Basic', (BOT_NAME, ''))
-    response = self.app.patch_json('/tenders/{}'.format(tender['id']),
-                                   {'data': {'status': 'active.enquiries'}})
+    response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
 
-    # patch tender with correct items by bot
-    self.app.authorization = ('Basic', ('broker', ''))
-    data = deepcopy(self.initial_data)
-    data['status'] = 'draft'
-    data['agreements'] = [{'id': self.agreement_id}]
-
-    response = self.app.post_json('/tenders', {'data': data})
-    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
-    tender = response.json['data']
-    self.tender_id = tender['id']
-    owner_token = response.json['access']['token']
-
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                   {'data': {'status': 'draft.pending'}})
-    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-    self.assertEqual(response.json['data']['status'], 'draft.pending')
-
-    self.app.authorization = ('Basic', (BOT_NAME, ''))
+    # patch tender items with correct items by bot
+    create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement['period']['endDate'] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
 
@@ -1261,25 +1254,24 @@ def patch_tender_bot(self):
     self.assertEqual(response.json['data']['status'], 'active.enquiries')
 
     # patch tender with less than 7 days to end
-    self.app.authorization = ('Basic', ('broker', ''))
-    data = deepcopy(self.initial_data)
-    data['status'] = 'draft'
-    data['agreements'] = [{'id': self.agreement_id}]
-
-    response = self.app.post_json('/tenders', {'data': data})
-    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
-    tender = response.json['data']
-    self.tender_id = tender['id']
-    owner_token = response.json['access']['token']
-
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                   {'data': {'status': 'draft.pending'}})
-    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-    self.assertEqual(response.json['data']['status'], 'draft.pending')
-
-    self.app.authorization = ('Basic', (BOT_NAME, ''))
+    create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement['period']['endDate'] = (get_now() + timedelta(days=6)).isoformat()
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
+        self.tender_id, self.agreement_id), {"data": agreement})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['agreementID'], self.initial_agreement['agreementID'])
+
+    response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+
+    # patch tender with less than 3 active contracts
+    create_tender_and_prepare_for_bot_patch()
+    agreement = deepcopy(self.initial_agreement)
+    agreement['period']['endDate'] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
+    agreement['contracts'] = agreement['contracts'][:2]  # only first and second contract
 
     response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
         self.tender_id, self.agreement_id), {"data": agreement})
