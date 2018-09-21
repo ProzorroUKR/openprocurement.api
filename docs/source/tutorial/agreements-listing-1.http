@@ -1,0 +1,20 @@
+GET /api/2.4/agreements HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "next_page": {
+    "path": "/api/2.4/agreements?offset=2018-09-21T18%3A15%3A25.762262%2B03%3A00", 
+    "uri": "http://api-sandbox.openprocurement.org/api/2.4/agreements?offset=2018-09-21T18%3A15%3A25.762262%2B03%3A00", 
+    "offset": "2018-09-21T18:15:25.762262+03:00"
+  }, 
+  "data": [
+    {
+      "id": "d32a93314e474dd499178b5ff3d22e38", 
+      "dateModified": "2018-09-21T18:15:25.762262+03:00"
+    }
+  ]
+}
+

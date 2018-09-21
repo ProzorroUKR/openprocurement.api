@@ -95,8 +95,9 @@ Schema
     * `contract`
     * `agreement`
     * `lot`
+    * `change`
 
 :relatedItem:
     string
 
-    Id of related :ref:`tender`, :ref:`item`, :ref:`contract`, :ref:`agreement` or :ref:`item`.
+    Id of related :ref:`tender`, :ref:`item`, :ref:`contract`, :ref:`agreement`, :ref:`change` or :ref:`item`.

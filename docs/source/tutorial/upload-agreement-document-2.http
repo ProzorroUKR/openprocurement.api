@@ -1,0 +1,22 @@
+POST /api/2.4/agreements/d32a93314e474dd499178b5ff3d22e38/documents?acc_token=80f1d6874f2440069b55a7614f963d89 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 214
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy99114528362$
+Host: api-sandbox.openprocurement.org
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.4/agreements/d32a93314e474dd499178b5ff3d22e38/documents/51e4eff573374499a459d9573970b4d8
+{
+  "data": {
+    "hash": "md5:00000000000000000000000000000000", 
+    "title": "agreement_additional_docs.doc", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/e0c579dc94744d449f189707e0306e20?KeyID=9ae3c8c4&Signature=BlVFTM7wQt0sm3HNLBObEIyMTKaLrB%252BRpdekBPTKWECluNh383POK6sYd%2FeRcFpyTurMwTp9oQcjNHyYL8FnDw%253D%253D", 
+    "format": "application/msword", 
+    "documentOf": "agreement", 
+    "datePublished": "2018-09-21T18:15:27.017501+03:00", 
+    "id": "51e4eff573374499a459d9573970b4d8", 
+    "dateModified": "2018-09-21T18:15:27.017540+03:00"
+  }
+}
+

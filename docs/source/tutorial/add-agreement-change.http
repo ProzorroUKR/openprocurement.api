@@ -1,0 +1,27 @@
+POST /api/2.4/agreements/d32a93314e474dd499178b5ff3d22e38/changes?acc_token=80f1d6874f2440069b55a7614f963d89 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 244
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "rationaleType": "taxRate", 
+    "rationale_en": "Agreement change cause", 
+    "rationale": "Опис причини змін егріменту"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "rationaleType": "taxRate", 
+    "rationale_en": "Agreement change cause", 
+    "rationale": "Опис причини змін егріменту", 
+    "date": "2018-09-21T18:15:25.972203+03:00", 
+    "id": "a39bf21c404645d2904dbc6b749d81ae"
+  }
+}
+

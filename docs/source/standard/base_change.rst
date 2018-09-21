@@ -8,7 +8,7 @@
 :rationale:
     string, multilingual, required
 
-    Reason for contract change
+    Reason for agreement change
 
 :date:
     string, :ref:`date`, auto-generated
