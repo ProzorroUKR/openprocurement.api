@@ -27,6 +27,7 @@ from openprocurement.tender.cfaua.tests.cancellation_blanks import (
     cancellation_tender_active_qualification,
     cancellation_tender_active_qualification_stand_still,
     cancellation_tender_active_awarded,
+    cancellation_tender_active_awarded_wo_timetravel,
     # Cancellation lot
     cancel_lot_active_tendering,
     cancel_lot_active_pre_qualification,
@@ -35,6 +36,7 @@ from openprocurement.tender.cfaua.tests.cancellation_blanks import (
     cancel_lot_active_qualification,
     cancel_lot_active_qualification_stand_still,
     cancel_lot_active_awarded,
+    cancel_lot_active_awarded_wo_timetravel
 )
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
@@ -98,6 +100,7 @@ class CancellationTenderAndLotOnAllStage(BaseTenderContentWebTest):
         cancellation_tender_active_qualification_stand_still
     )
     test_cancellation_tender_active_awarded = snitch(cancellation_tender_active_awarded)
+    test_cancellation_tender_active_awarded_wo_timetravel = snitch(cancellation_tender_active_awarded_wo_timetravel)
 
     # Cancellation lot
     test_cancel_lot_active_tendering = snitch(cancel_lot_active_tendering)
@@ -107,6 +110,7 @@ class CancellationTenderAndLotOnAllStage(BaseTenderContentWebTest):
     test_cancel_lot_active_qualification = snitch(cancel_lot_active_qualification)
     test_cancel_lot_active_qualification_stand_still = snitch(cancel_lot_active_qualification_stand_still)
     test_cancel_lot_active_awarded = snitch(cancel_lot_active_awarded)
+    test_cancel_lot_active_awarded_wo_timetravel = snitch(cancel_lot_active_awarded_wo_timetravel)
 
 
 
