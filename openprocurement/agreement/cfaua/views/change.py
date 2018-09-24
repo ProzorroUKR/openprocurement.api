@@ -80,6 +80,9 @@ class AgreementChangesResource(APIResource):
             response_data = {'data': change.serialize('view')}
             if warnings:
                 response_data['warnings'] = warnings
+                self.LOGGER.info('warnings: {}'.format(warnings),
+                                 extra=context_unpack(self.request, {'MESSAGE_ID': 'agreement_change_create'},
+                                 {'change_id': change.id, 'agreement_id': agreement.id}))
             return response_data
 
     @json_view(content_type="application/json",
@@ -130,4 +133,5 @@ class AgreementChangesResource(APIResource):
             response_data = {'data': change.serialize('view')}
             if warnings:
                 response_data['warnings'] = warnings
+                self.LOGGER.info('warnings: {}'.format(warnings), extra=context_unpack(self.request, {'MESSAGE_ID': 'agreement_change_patch'}))
             return response_data
