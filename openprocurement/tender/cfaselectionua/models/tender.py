@@ -6,33 +6,23 @@ from openprocurement.tender.cfaselectionua.models.submodels.award import Award
 from openprocurement.tender.cfaselectionua.models.submodels.contract import Contract
 from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
 from schematics.exceptions import ValidationError
-from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from barbecue import vnmax
 from zope.interface import implementer
 from pyramid.security import Allow
-from openprocurement.api.models import schematics_embedded_role
 from openprocurement.api.models import ListType, Period, Value
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TZ
 from openprocurement.api.validation import validate_items_uniq, validate_cpv_group
 from openprocurement.tender.core.models import (
     validate_features_uniq, validate_lots_uniq,
-    create_role as base_create_role, edit_role as base_edit_role,
     Guarantee, TenderAuctionPeriod,
     PeriodEndRequired, Tender as BaseTender, Bid, ProcuringEntity,
     Item, Cancellation, Feature
 )
 from openprocurement.tender.core.utils import calc_auction_end_time
-from openprocurement.tender.cfaselectionua.constants import BOT_NAME, DRAFT_FIELDS
-
-
-enquiries_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
-edit_role = (blacklist(*DRAFT_FIELDS) + base_edit_role)
-create_role = (blacklist(*DRAFT_FIELDS) + base_create_role)
-Administrator_role = whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots')
 
 
 @implementer(ICFASelectionUATender)
