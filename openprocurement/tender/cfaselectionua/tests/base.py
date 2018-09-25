@@ -18,194 +18,57 @@ here = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(here, 'data/agreement.json')) as _in:
     test_agreement = json.load(_in)
 
+with open(os.path.join(here, 'data/organization.json')) as _in:
+    test_organization = json.load(_in)
+
+with open(os.path.join(here, 'data/features.json')) as _in:
+    test_features = json.load(_in)
+
+test_features[0]['relatedItem'] = test_agreement['items'][0]['id']
+
+with open(os.path.join(here, 'data/items.json')) as _in:
+    test_items = json.load(_in)
+
+with open(os.path.join(here, 'data/test_features_for_tender.json')) as _in:
+    test_features_for_tender = json.load(_in)
+
+with open(os.path.join(here, 'data/bids.json')) as _in:
+    test_bids = json.load(_in)
+
 now = datetime.now(TZ)
-test_organization = {
-    "name": u"Державне управління справами",
-    "identifier": {
-        "scheme": u"UA-EDR",
-        "id": u"00037256",
-        "uri": u"http://www.dus.gov.ua/"
-    },
-    "address": {
-        "countryName": u"Україна",
-        "postalCode": u"01220",
-        "region": u"м. Київ",
-        "locality": u"м. Київ",
-        "streetAddress": u"вул. Банкова, 11, корпус 1"
-    },
-    "contactPoint": {
-        "name": u"Державне управління справами",
-        "telephone": u"0440000000"
-    }
-}
 test_procuringEntity = test_organization.copy()
 test_procuringEntity["kind"] = "general"
 
-test_items = [
-    {
-        "id": test_agreement['items'][0]['id'],
-        "description": u"футляри до державних нагород",
-        "classification": {
-            "scheme": u"ДК021",
-            "id": u"44617100-9",
-            "description": u"Cartons"
-        },
-        "additionalClassifications": [
-            {
-                "scheme": u"ДКПП",
-                "id": u"17.21.1",
-                "description": u"папір і картон гофровані, паперова й картонна тара"
-            }
-        ],
-        "unit": {
-            "name": u"item",
-            "code": u"44617100-9"
-        },
-        "quantity": 5,
-        "deliveryDate": {
-            "startDate": (now + timedelta(days=2)).isoformat(),
-            "endDate": (now + timedelta(days=5)).isoformat()
-        },
-        "deliveryAddress": {
-            "countryName": u"Україна",
-            "postalCode": "79000",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова 1"
-        }
-    }
-]
-test_tender_data = {
-    "agreements": [{"id": "1" * 32}],
-    "title": u"футляри до державних нагород",
-    "procuringEntity": test_procuringEntity,
-    "value": {
-        "amount": 500,
-        "currency": u"UAH"
-    },
-    "minimalStep": {
-        "amount": 35,
-        "currency": u"UAH"
-    },
-    "enquiryPeriod": {
-        "endDate": (now + ENQUIRY_PERIOD).isoformat()
-    },
-    "tenderPeriod": {
-        "endDate": (now + timedelta(days=14)).isoformat()
-    },
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
-    "items": test_items
-}
+test_items[0]['id'] = test_agreement['items'][0]['id']
+test_items[0]['deliveryDate'] = {"startDate": (now + timedelta(days=2)).isoformat(),
+                                 "endDate": (now + timedelta(days=5)).isoformat()}
+
+with open(os.path.join(here, 'data/tender_data.json')) as _in:
+    test_tender_data = json.load(_in)
+test_tender_data['procuringEntity'] = test_procuringEntity
+test_tender_data['enquiryPeriod']['endDate'] = (now + ENQUIRY_PERIOD).isoformat()
+test_tender_data['tenderPeriod']['endDate'] = (now + timedelta(days=14)).isoformat()
+test_tender_data['items'] = test_items
+
 if SANDBOX_MODE:
     test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
 test_features_tender_data = test_tender_data.copy()
 test_features_item = test_items[0].copy()
 test_features_tender_data['items'] = [test_features_item]
-test_features_tender_data["features"] = [
-    {
-        "code": "OCDS-123454-AIR-INTAKE",
-        "featureOf": "item",
-        "relatedItem": test_agreement['items'][0]['id'],
-        "title": u"Потужність всмоктування",
-        "title_en": "Air Intake",
-        "description": u"Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
-        "enum": [
-            {
-                "value": 0.1,
-                "title": u"До 1000 Вт"
-            },
-            {
-                "value": 0.15,
-                "title": u"Більше 1000 Вт"
-            }
-        ]
-    },
-    {
-        "code": "OCDS-123454-YEARS",
-        "featureOf": "tenderer",
-        "title": u"Років на ринку",
-        "title_en": "Years trading",
-        "description": u"Кількість років, які організація учасник працює на ринку",
-        "enum": [
-            {
-                "value": 0.05,
-                "title": u"До 3 років"
-            },
-            {
-                "value": 0.1,
-                "title": u"Більше 3 років, менше 5 років"
-            },
-            {
-                "value": 0.15,
-                "title": u"Більше 5 років"
-            }
-        ]
-    }
-]
-test_bids = [
-    {
-        "tenderers": [
-            test_organization
-        ],
-        "value": {
-            "amount": 469,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": True
-        }
-    },
-    {
-        "tenderers": [
-            test_organization
-        ],
-        "value": {
-            "amount": 479,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": True
-        }
-    }
-]
-test_lots = [
-    {
-        'title': 'lot title',
-        'description': 'lot description',
-        'value': test_tender_data['value'],
-        'minimalStep': test_tender_data['minimalStep'],
-    }
-]
+
+test_features_for_tender[0]['relatedItem'] = test_agreement['items'][0]['id']
+test_features_tender_data['features'] = test_features_for_tender
+
+for bid in test_bids:
+    bid['tenderers'] = [test_organization]
+
+with open(os.path.join(here, 'data/lots.json')) as _in:
+    test_lots = json.load(_in)
+
+test_lots[0]['value'] = test_tender_data['value']
+test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+
 test_lots[0]['value']['amount'] += 100
-test_features = [
-    {
-        "code": "OCDS-123454-AIR-INTAKE",
-        "featureOf": "item",
-        "relatedItem": test_agreement['items'][0]['id'],
-        "title": u"item feature",
-        "enum": [
-            {
-                "value": 0.01,
-                "title": u"good"
-            },
-            {
-                "value": 0.02,
-                "title": u"best"
-            }
-        ]
-    },
-    {
-        "code": "OCDS-123454-YEARS",
-        "featureOf": "tenderer",
-        "title": u"tenderer feature",
-        "enum": [
-            {
-                "value": 0.01,
-                "title": u"good"
-            },
-            {
-                "value": 0.02,
-                "title": u"best"
-            }
-        ]
-    }
-]
 test_agreement['features'] = test_features
 
 
