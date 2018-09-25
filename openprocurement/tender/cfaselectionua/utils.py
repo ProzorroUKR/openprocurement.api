@@ -255,7 +255,7 @@ def check_period_and_items(request, tender):
             request.validated['data']['status'] = 'draft.unsuccessful'
             return
 
-    if tender.agreements[0].period.endDate < get_now() + request.content_configurator.timedelta:
+    if tender.agreements[0].period.endDate < get_now() + request.content_configurator.agreement_expired_until:
         request.validated['data']['status'] = 'draft.unsuccessful'
 
 
