@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from iso8601 import parse_date
-from isodate import strftime
+from isodate import duration_isoformat
 from schematics.exceptions import ValidationError
 from zope.component import getAdapter
 
@@ -149,7 +149,7 @@ def validate_agreement_signing(request):
         if calculated_end_date < agreement_end_date:
             raise_operation_error(
                 request,
-                "Agreement period can't be greater than {}.".format(strftime(config.max_agreement_period, "P%P"))
+                "Agreement period can't be greater than {}.".format(duration_isoformat(config.max_agreement_period))
             )
         awards = [a for a in tender.awards if a.id in request.context.get_awards_id()]
         lots_id = set([a.lotID for a in awards] + [None])
@@ -259,5 +259,5 @@ def validate_max_agreement_duration_period(value):
     date = datetime(1, 1, 1)
     if (date + value) > (date + MAX_AGREEMENT_PERIOD):
         raise ValidationError(
-            'Agreement duration period is greater than {}'.format(strftime(MAX_AGREEMENT_PERIOD, "P%P"))
+            'Agreement duration period is greater than {}'.format(duration_isoformat(MAX_AGREEMENT_PERIOD))
         )

@@ -3,7 +3,7 @@ from datetime import timedelta
 from copy import deepcopy
 
 from iso8601 import parse_date
-from isodate import strftime
+from isodate import duration_isoformat
 from mock import patch
 from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, SANDBOX_MODE
 from openprocurement.api.utils import get_now
@@ -1302,7 +1302,7 @@ def agreement_duration_period(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'], [
         {u'description':
-            [u'Agreement duration period is greater than {}'.format(strftime(MAX_AGREEMENT_PERIOD, 'P%P'))],
+            [u'Agreement duration period is greater than {}'.format(duration_isoformat(MAX_AGREEMENT_PERIOD))],
          u'location': u'body', u'name': u'agreementDuration'}
     ])
     initial_data['agreementDuration'] = 'P3Y12M1D'
@@ -1311,7 +1311,7 @@ def agreement_duration_period(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'], [
         {u'description':
-            [u'Agreement duration period is greater than {}'.format(strftime(MAX_AGREEMENT_PERIOD, 'P%P'))],
+            [u'Agreement duration period is greater than {}'.format(duration_isoformat(MAX_AGREEMENT_PERIOD))],
          u'location': u'body', u'name': u'agreementDuration'}
     ])
     initial_data['agreementDuration'] = 'P4YT1H'
@@ -1320,7 +1320,7 @@ def agreement_duration_period(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'], [
         {u'description':
-            [u'Agreement duration period is greater than {}'.format(strftime(MAX_AGREEMENT_PERIOD, 'P%P'))],
+            [u'Agreement duration period is greater than {}'.format(duration_isoformat(MAX_AGREEMENT_PERIOD))],
          u'location': u'body', u'name': u'agreementDuration'}
     ])
     initial_data['agreementDuration'] = 'P4Y'
