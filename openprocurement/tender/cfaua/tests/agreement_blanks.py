@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta, datetime
+from isodate import strftime
 from uuid import uuid4
 
-from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
+from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD, MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.tests.base import agreement_period
 
 
@@ -185,10 +186,11 @@ def patch_tender_agreement_datesigned(self):
         status=403
     )
     self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'],
-                     [{u'description': u"Agreement period can't be greater than P4Y0M0DT0H0M0S.",
-                       u'location': u'body',
-                       u'name': u'data'}])
+    self.assertEqual(
+        response.json['errors'],
+        [{u'description': u"Agreement period can't be greater than {}.".format(strftime(MAX_AGREEMENT_PERIOD, "P%P")),
+          u'location': u'body',
+          u'name': u'data'}])
 
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
