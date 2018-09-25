@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from openprocurement.api.constants import TZ
 from openprocurement.tender.cfaselectionua.constants import (

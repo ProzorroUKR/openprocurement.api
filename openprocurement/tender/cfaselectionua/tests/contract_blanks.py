@@ -148,7 +148,7 @@ def patch_tender_contract(self):
     response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
     contract = response.json['data'][0]
 
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
 
     response = self.app.post_json(
         '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
@@ -327,7 +327,7 @@ def lot2_patch_tender_contract(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertIn("Can't sign contract before stand-still period end (", response.json['errors'][0]["description"])
 
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
 
     response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
         'reason': 'cancellation reason',
