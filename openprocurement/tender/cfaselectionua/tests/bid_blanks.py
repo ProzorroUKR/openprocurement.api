@@ -551,8 +551,7 @@ def features_bid(self):
             }]
         }
     ]
-    
-    
+
     for i in test_features_bids:
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
         self.assertEqual(response.status, '201 Created')
