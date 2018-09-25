@@ -3,12 +3,14 @@ from datetime import timedelta
 from copy import deepcopy
 
 from iso8601 import parse_date
+from isodate import duration_isoformat
 from mock import patch
 from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, SANDBOX_MODE
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 from uuid import uuid4
 
+from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.cfaua.utils import add_next_awards
 
@@ -1292,7 +1294,6 @@ def active_pre_qualification_to_act_qualification_st(self):
                      [{u'description': u"Can't update tender status", u'location': u'body', u'name': u'data'}])
 
 
-
 def agreement_duration_period(self):
     initial_data = deepcopy(self.initial_data)
     initial_data['agreementDuration'] = 'P5Y'
@@ -1300,7 +1301,8 @@ def agreement_duration_period(self):
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'Agreement duration period is greater than four years'],
+        {u'description':
+            [u'Agreement duration period is greater than {}'.format(duration_isoformat(MAX_AGREEMENT_PERIOD))],
          u'location': u'body', u'name': u'agreementDuration'}
     ])
     initial_data['agreementDuration'] = 'P3Y12M1D'
@@ -1308,7 +1310,8 @@ def agreement_duration_period(self):
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'Agreement duration period is greater than four years'],
+        {u'description':
+            [u'Agreement duration period is greater than {}'.format(duration_isoformat(MAX_AGREEMENT_PERIOD))],
          u'location': u'body', u'name': u'agreementDuration'}
     ])
     initial_data['agreementDuration'] = 'P4YT1H'
@@ -1316,7 +1319,8 @@ def agreement_duration_period(self):
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'], [
-        {u'description': [u'Agreement duration period is greater than four years'],
+        {u'description':
+            [u'Agreement duration period is greater than {}'.format(duration_isoformat(MAX_AGREEMENT_PERIOD))],
          u'location': u'body', u'name': u'agreementDuration'}
     ])
     initial_data['agreementDuration'] = 'P4Y'

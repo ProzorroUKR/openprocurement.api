@@ -8,6 +8,7 @@ requires = [
     'zope.component',
     'zope.configuration',
     'openprocurement.api>=2.4',
+    'isodate',
 ]
 
 test_requires = requires + [
