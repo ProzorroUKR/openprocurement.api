@@ -11,8 +11,8 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from zope.interface import implementer, provider
 from openprocurement.api.models import (
-    listing_role, Period, ListType, SifterListType, plain_role, Value,
-    IsoDurationType)
+    listing_role, Period, ListType, SifterListType, plain_role, IsoDurationType
+)
 from openprocurement.api.utils import get_now
 from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq
@@ -21,17 +21,20 @@ from openprocurement.tender.cfaua.validation import validate_max_awards_number, 
 from openprocurement.tender.cfaua.interfaces import (
     ICloseFrameworkAgreementUA
 )
+from openprocurement.tender.cfaua.models.submodels.agreement import Agreement
 from openprocurement.tender.cfaua.models.submodels.award import Award
 from openprocurement.tender.cfaua.models.submodels.bids import BidModelType, Bid
 from openprocurement.tender.cfaua.models.submodels.cancellation import Cancellation
 from openprocurement.tender.cfaua.models.submodels.complaint import ComplaintModelType, Complaint
-from openprocurement.tender.cfaua.models.submodels.agreement import Agreement
 from openprocurement.tender.cfaua.models.submodels.documents import EUDocument
 from openprocurement.tender.cfaua.models.submodels.item import Item
+from openprocurement.tender.cfaua.models.submodels.guarantee import Guarantee
+from openprocurement.tender.cfaua.models.submodels.feature import Feature
 from openprocurement.tender.cfaua.models.submodels.lot import Lot
 from openprocurement.tender.cfaua.models.submodels.organization import ProcuringEntity
 from openprocurement.tender.cfaua.models.submodels.periods import TenderAuctionPeriod, ContractPeriod
 from openprocurement.tender.cfaua.models.submodels.qualification import Qualification
+from openprocurement.tender.cfaua.models.submodels.value import Value
 
 from openprocurement.tender.core.models import (
     EnquiryPeriod,
@@ -41,7 +44,7 @@ from openprocurement.tender.core.models import (
     auction_role, chronograph_role, chronograph_view_role, Administrator_role, schematics_default_role,
     schematics_embedded_role, validate_lots_uniq
 )
-from openprocurement.tender.core.models import Feature, validate_features_uniq, Guarantee, Question, Tender
+from openprocurement.tender.core.models import validate_features_uniq, Question, Tender
 from openprocurement.tender.core.utils import (
     calculate_business_date,
     calc_auction_end_time,

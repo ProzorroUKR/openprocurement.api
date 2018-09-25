@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import ListType
 from openprocurement.api.roles import RolesFromCsv
+from openprocurement.tender.cfaua.models.submodels.complaint import Complaint
 from openprocurement.tender.cfaua.models.submodels.documents import EUDocument
 from openprocurement.tender.cfaua.models.submodels.item import Item
-from openprocurement.tender.cfaua.models.submodels.complaint import Complaint
+from openprocurement.tender.cfaua.models.submodels.value import Value
 from openprocurement.tender.core.models import Award as BaseAward
 from schematics.types import BooleanType
 from schematics.types.compound import ModelType
@@ -22,3 +23,4 @@ class Award(BaseAward):
     documents = ListType(ModelType(EUDocument), default=list())
     qualified = BooleanType()
     eligible = BooleanType()
+    value = ModelType(Value)
