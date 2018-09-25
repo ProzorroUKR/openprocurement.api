@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from iso8601 import parse_date
-from openprocurement.api.relativedelta import relativedelta
+from isodate import strftime
 from schematics.exceptions import ValidationError
 from zope.component import getAdapter
 
@@ -9,7 +9,7 @@ from openprocurement.api.utils import get_now, raise_operation_error, update_log
 from openprocurement.api.validation import validate_data, OPERATIONS
 from openprocurement.api.interfaces import IContentConfigurator
 
-from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
+from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER, MAX_AGREEMENT_PERIOD
 
 
 def validate_patch_qualification_data(request):
@@ -148,7 +148,8 @@ def validate_agreement_signing(request):
         calculated_end_date = agreement_start_date + config.max_agreement_period
         if calculated_end_date < agreement_end_date:
             raise_operation_error(
-                request, "Agreement period can't be greater than {}.".format(str(config.max_agreement_period))
+                request,
+                "Agreement period can't be greater than {}.".format(strftime(config.max_agreement_period, "P%P"))
             )
         awards = [a for a in tender.awards if a.id in request.context.get_awards_id()]
         lots_id = set([a.lotID for a in awards] + [None])
@@ -217,6 +218,7 @@ def validate_max_awards_number(number, *args):
     if number < MIN_BIDS_NUMBER:
         raise ValidationError('Maximal awards number can\'t be less then minimal bids number')
 
+
 # agreement contract
 def validate_patch_agreement_contract_data(request):
     model = type(request.tender).agreements.model_class.contracts.model_class
@@ -239,7 +241,7 @@ def validate_agreement_contract_unitprices_update(request):
 
         calculated_value = sum([quantity_cache[u['relatedItem']] * u['value']['amount']
                                 for u in request.validated['data']['unitPrices']])
-        
+
         bid = [b for b in tender.bids if b.id == contract.bidID][0]
         award = [a for a in tender.awards if a.id == contract.awardID][0]
         if award.lotID:
@@ -248,12 +250,14 @@ def validate_agreement_contract_unitprices_update(request):
         else:
             value = bid.value.amount
             error_message = 'bid.value.amount'
-        
+
         if calculated_value > value:
             raise_operation_error(request, "Total amount can't be greater than {}".format(error_message))
 
 
 def validate_max_agreement_duration_period(value):
-    start_period = datetime(1, 1, 1)
-    if start_period + value > start_period + relativedelta(years=4):
-        raise ValidationError('Agreement duration period is greater than four years')
+    date = datetime(1, 1, 1)
+    if (date + value) > (date + MAX_AGREEMENT_PERIOD):
+        raise ValidationError(
+            'Agreement duration period is greater than {}'.format(strftime(MAX_AGREEMENT_PERIOD, "P%P"))
+        )
