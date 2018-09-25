@@ -251,23 +251,6 @@ def cancellation_tender_active_awarded(self):
         })
 
 
-def cancellation_tender_active_awarded_wo_timetravel(self):
-    self.set_status('active.awarded')
-    tender = self.app.get('/tenders/{}'.format(self.tender_id)).json['data']
-    clarifications_until = tender['contractPeriod']['clarificationsUntil']
-    self.assertEqual(tender['status'], 'active.awarded')
-
-    data = {'reason': 'cancellation reason', 'status': 'active'}
-    response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': data},
-                                  status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(
-        response.json['errors'],
-        [{u'description': u"Can't cancell tender before clarificationsUntil end ({})".format(clarifications_until),
-          u'location': u'body', u'name': u'data'}])
-
-
 # Cancellation lot
 def cancel_lot_active_tendering(self):
     add_tender_complaints(self, ['invalid', 'stopped', 'mistaken'])
@@ -400,25 +383,3 @@ def cancel_lot_active_awarded(self):
             'data.agreements[*].status': ['cancelled'],
             'data.complaints[*].status': None
         })
-
-
-def cancel_lot_active_awarded_wo_timetravel(self):
-    self.set_status('active.awarded')
-    tender = self.app.get('/tenders/{}'.format(self.tender_id)).json['data']
-    clarifications_until = tender['contractPeriod']['clarificationsUntil']
-    self.assertEqual(tender['status'], 'active.awarded')
-
-    data = {
-        'reason': 'cancellation reason',
-        'status': 'active',
-        'cancellationOf': 'lot',
-        'relatedLot': tender['lots'][0]['id']
-    }
-    response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token),
-                                  {'data': data},
-                                  status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(
-        response.json['errors'],
-        [{u'description': u"Can't cancell tender before clarificationsUntil end ({})".format(clarifications_until),
-          u'location': u'body', u'name': u'data'}])

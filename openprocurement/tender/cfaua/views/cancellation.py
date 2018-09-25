@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import raise_operation_error, get_now
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.utils import (
     optendersresource
 )
@@ -80,11 +80,6 @@ class TenderCancellationResource(BaseResource):
             return
         tender = self.request.validated['tender']
         cancellation = self.request.validated['cancellation']
-        if tender.status == 'active.awarded' and tender.contractPeriod.clarificationsUntil and \
-                tender.contractPeriod.clarificationsUntil > get_now():
-            raise_operation_error(self.request,
-                                  "Can't cancell tender before clarificationsUntil end ({})".format(
-                                      tender.contractPeriod.clarificationsUntil.isoformat()))
         if not cancellation.relatedLot and tender.lots:
             active_lots = [i.id for i in tender.lots if i.status == 'active']
             statuses = [set([i.status for i in tender.awards or tender.qualifications if i.lotID == lot_id]) for lot_id in active_lots]

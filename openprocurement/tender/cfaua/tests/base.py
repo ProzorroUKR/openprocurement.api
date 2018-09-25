@@ -1034,10 +1034,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         :return: None
         '''
         data = {'reason': 'cancellation reason', 'status': 'active'}
-        raw_data = self.db.get(self.tender_id)
-        if raw_data['status'] == 'active.awarded':
-            raw_data['contractPeriod']['clarificationsUntil'] = get_now().isoformat()
-            self.db.save(raw_data)
         if lot_id:
             data.update({'cancellationOf': 'lot', 'relatedLot': lot_id})
         response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
