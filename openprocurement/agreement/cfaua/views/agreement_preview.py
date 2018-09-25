@@ -2,6 +2,7 @@
 from openprocurement.api.utils import (
     json_view,
     APIResource,
+    context_unpack
 )
 from openprocurement.agreement.core.resource import agreements_resource
 from openprocurement.agreement.cfaua.utils import apply_modifications
@@ -22,4 +23,6 @@ class AgreementPreviewResource(APIResource):
         response_data = {'data': self.context.serialize('view')}
         if warnings:
             response_data['warnings'] = warnings
+            self.LOGGER.info('warnings: {}'.format(warnings),
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'agreement_preview'}))
         return response_data
