@@ -1,0 +1,33 @@
+PATCH /api/2.4/agreements/d32a93314e474dd499178b5ff3d22e38/changes/a39bf21c404645d2904dbc6b749d81ae?acc_token=80f1d6874f2440069b55a7614f963d89 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 80
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "active", 
+    "dateSigned": "2018-09-21T18:15:26.674469+03:00"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "modifications": [
+      {
+        "itemId": "b00d99dda22a4281ac7a7b8a9ba471ad", 
+        "factor": 0.1605
+      }
+    ], 
+    "rationaleType": "taxRate", 
+    "rationale_en": "Agreement change cause", 
+    "dateSigned": "2018-09-21T18:15:26.674469+03:00", 
+    "rationale": "Друга і третя поставка має бути розфасована", 
+    "date": "2018-09-21T18:15:26.705533+03:00", 
+    "id": "a39bf21c404645d2904dbc6b749d81ae"
+  }
+}
+
