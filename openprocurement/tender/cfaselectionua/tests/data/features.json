@@ -1,0 +1,32 @@
+[
+    {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "featureOf": "item",
+        "title": "item feature",
+        "enum": [
+            {
+                "value": 0.01,
+                "title": "good"
+            },
+            {
+                "value": 0.02,
+                "title": "best"
+            }
+        ]
+    },
+    {
+        "code": "OCDS-123454-YEARS",
+        "featureOf": "tenderer",
+        "title": "tenderer feature",
+        "enum": [
+            {
+                "value": 0.01,
+                "title": "good"
+            },
+            {
+                "value": 0.02,
+                "title": "best"
+            }
+        ]
+    }
+]
