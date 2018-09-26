@@ -11,7 +11,7 @@ from urllib import urlencode
 from uuid import uuid4
 
 now = datetime.now()
-test_plan_data =  {
+test_plan_data = {
         "tender": {
             "procurementMethod": u"open",
             "procurementMethodType": u"belowThreshold",
@@ -119,7 +119,11 @@ test_plan_data =  {
             "amountNet": 12222,
             "currency": u"UAH",
             "id": u"12303111000-2",
-            "description": u"budget_description"
+            "description": u"budget_description",
+            "period": {
+                "startDate": datetime(year=now.year, month=1, day=1).isoformat(),
+                "endDate": datetime(year=now.year, month=12, day=31).isoformat()
+            }
         }
     }
 

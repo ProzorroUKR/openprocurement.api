@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+
+from datetime import datetime
+
+from iso8601 import parse_date
 from openprocurement.api.constants import ROUTE_PREFIX, CPV_ITEMS_CLASS_FROM
 from openprocurement.api.utils import get_now
 
 from openprocurement.planning.api.models import Plan
+from openprocurement.planning.api.constants import PROCEDURES
 
 
 # PlanTest
@@ -43,13 +48,15 @@ def create_plan_accreditation(self):
         response = self.app.post_json('/plans', {"data": self.initial_data}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Broker Accreditation level does not permit plan creation")
+        self.assertEqual(response.json['errors'][0]["description"],
+                         "Broker Accreditation level does not permit plan creation")
 
     self.app.authorization = ('Basic', ('broker1t', ''))
     response = self.app.post_json('/plans', {"data": self.initial_data}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Broker Accreditation level does not permit plan creation")
+    self.assertEqual(response.json['errors'][0]["description"],
+                     "Broker Accreditation level does not permit plan creation")
 
     response = self.app.post_json('/plans', {"data": self.initial_data_mode_test})
     self.assertEqual(response.status, '201 Created')
@@ -118,6 +125,7 @@ def empty_listing(self):
     self.assertIn('limit=10', response.json['next_page']['uri'])
     self.assertNotIn('descending=1', response.json['prev_page']['uri'])
     self.assertIn('limit=10', response.json['prev_page']['uri'])
+
 
 def listing(self):
     response = self.app.get('/plans')
@@ -228,6 +236,7 @@ def listing(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 4)
 
+
 def listing_changes(self):
     response = self.app.get('/plans?feed=changes')
     self.assertEqual(response.status, '200 OK')
@@ -333,6 +342,7 @@ def listing_changes(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 4)
 
+
 def create_plan_invalid(self):
     request_path = '/plans'
     response = self.app.post(request_path, 'data', status=415)
@@ -413,24 +423,32 @@ def create_plan_invalid(self):
                   response.json['errors'])
 
     data = self.initial_data['tender']
-    self.initial_data['tender'] = {'procurementMethod': 'open', 'procurementMethodType': 'reporting', 'tenderPeriod' : data['tenderPeriod'] }
+    self.initial_data['tender'] = {'procurementMethod': 'open', 'procurementMethodType': 'reporting',
+                                   'tenderPeriod': data['tenderPeriod']}
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
     self.initial_data['tender'] = data
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertIn({u'description': {u'procurementMethodType': [u"Value must be one of ('belowThreshold', 'aboveThresholdUA', 'aboveThresholdEU', 'aboveThresholdUA.defense', 'competitiveDialogueUA', 'competitiveDialogueEU', 'esco')."]}, u'location': u'body', u'name': u'tender'},
-                 response.json['errors'])
+    self.assertIn(
+        {u'description': {u'procurementMethodType': [
+            u"Value must be one of {!r}.".format(PROCEDURES['open'])
+        ]}, u'location': u'body', u'name': u'tender'},
+        response.json['errors'])
 
     data = self.initial_data['tender']
-    self.initial_data['tender'] = {'procurementMethod': 'limited', 'procurementMethodType': 'belowThreshold', 'tenderPeriod' : data['tenderPeriod'] }
+    self.initial_data['tender'] = {'procurementMethod': 'limited', 'procurementMethodType': 'belowThreshold',
+                                   'tenderPeriod': data['tenderPeriod']}
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
     self.initial_data['tender'] = data
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertIn({u'description': {u'procurementMethodType': [u"Value must be one of ('reporting', 'negotiation', 'negotiation.quick')."]}, u'location': u'body', u'name': u'tender'},
-                 response.json['errors'])
+    self.assertIn(
+        {u'description': {u'procurementMethodType': [
+            u"Value must be one of {!r}.".format(PROCEDURES['limited'])
+        ]}, u'location': u'body', u'name': u'tender'},
+        response.json['errors'])
 
     response = self.app.post_json(request_path,
                                   {'data': {'tender': {'tenderPeriod': {'startDate': 'invalid_value'}}}},
@@ -471,7 +489,10 @@ def create_plan_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': [{u'additionalClassifications': [u'This field is required.']}, {u'additionalClassifications': [u'This field is required.']}, {u'additionalClassifications': [u'This field is required.']}], u'location': u'body', u'name': u'items'}
+        {u'description': [{u'additionalClassifications': [u'This field is required.']},
+                          {u'additionalClassifications': [u'This field is required.']},
+                          {u'additionalClassifications': [u'This field is required.']}], u'location': u'body',
+         u'name': u'items'}
     ])
 
     additionalClassifications = [i["additionalClassifications"][0]["scheme"] for i in self.initial_data["items"]]
@@ -495,11 +516,15 @@ def create_plan_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     if get_now() > CPV_ITEMS_CLASS_FROM:
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."]} for _ in additionalClassifications], u'location': u'body', u'name': u'items'}
+            {u'description': [{u'additionalClassifications': [
+                u"One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."]} for _ in
+                              additionalClassifications], u'location': u'body', u'name': u'items'}
         ])
     else:
         self.assertEqual(response.json['errors'], [
-            {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."]} for _ in additionalClassifications], u'location': u'body', u'name': u'items'}
+            {u'description': [{u'additionalClassifications': [
+                u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."]} for _ in
+                              additionalClassifications], u'location': u'body', u'name': u'items'}
         ])
 
     data = self.initial_data["procuringEntity"]["name"]
@@ -538,12 +563,12 @@ def create_plan_invalid(self):
     if get_now() > CPV_ITEMS_CLASS_FROM:
         self.assertEqual(response.json['errors'], [
             {u'description': [{u'classification': [u'CPV class of items should be identical to root cpv']}],
-            u'location': u'body', u'name': u'items'}
+             u'location': u'body', u'name': u'items'}
         ])
     else:
         self.assertEqual(response.json['errors'], [
             {u'description': [{u'classification': [u'CPV group of items be identical to root cpv']}],
-            u'location': u'body', u'name': u'items'}
+             u'location': u'body', u'name': u'items'}
         ])
 
     classification_id = self.initial_data["classification"]["id"]
@@ -555,7 +580,7 @@ def create_plan_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description': [{u'classification': [u'CPV group of items be identical to root cpv']}],
-        u'location': u'body', u'name': u'items'}
+         u'location': u'body', u'name': u'items'}
     ])
 
     classification_id = self.initial_data["classification"]["id"]
@@ -575,6 +600,7 @@ def create_plan_invalid(self):
     self.initial_data["items"] = [item]
     self.assertEqual(response.status, '201 Created')
 
+
 def create_plan_generated(self):
     data = self.initial_data.copy()
     data.update({'id': 'hash', 'doc_id': 'hash2', 'planID': 'hash3'})
@@ -590,6 +616,7 @@ def create_plan_generated(self):
     self.assertNotEqual(data['doc_id'], plan['id'])
     self.assertNotEqual(data['planID'], plan['planID'])
 
+
 def create_plan(self):
     response = self.app.get('/plans')
     self.assertEqual(response.status, '200 OK')
@@ -599,7 +626,8 @@ def create_plan(self):
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     plan = response.json['data']
-    self.assertEqual(set(plan) - set(self.initial_data), set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
+    self.assertEqual(set(plan) - set(self.initial_data),
+                     set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
     self.assertIn(plan['id'], response.headers['Location'])
 
     response = self.app.get('/plans/{}'.format(plan['id']))
@@ -622,6 +650,7 @@ def create_plan(self):
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     self.assertIn('{\n    "', response.body)
+
 
 def get_plan(self):
     response = self.app.get('/plans')
@@ -646,6 +675,7 @@ def get_plan(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertIn('{\n    "data": {\n        "', response.body)
+
 
 def patch_plan(self):
     response = self.app.get('/plans')
@@ -716,7 +746,7 @@ def patch_plan(self):
     response = self.app.patch_json('/plans/{}'.format(plan['id']),
                                    {'data': {'items': [{"additionalClassifications": [
                                        plan['items'][0]["additionalClassifications"][0] for i in range(3)
-                                       ]}]}})
+                                   ]}]}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
 
@@ -732,11 +762,25 @@ def patch_plan(self):
     new_plan = response.json['data']
     self.assertIn('startDate', new_plan['tender']['tenderPeriod'])
 
+    response = self.app.patch_json('/plans/{}'.format(
+        plan['id']), {'data': {'budget': {'period': {'endDate': datetime(
+            year=datetime.now().year + 2, month=12, day=31
+        ).isoformat()}}}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': {u'period': {u'endDate': [
+            u'Period startDate and endDate must be within one year for belowThreshold.'
+        ]}}, u'location': u'body', u'name': u'budget'}
+    ])
+
     # delete items
     response = self.app.patch_json('/plans/{}'.format(plan['id']), {'data': {'items': []}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotIn('items', response.json['data'])
+
 
 def plan_not_found(self):
     response = self.app.get('/plans')
@@ -760,6 +804,7 @@ def plan_not_found(self):
         {u'description': u'Not Found', u'location': u'url', u'name': u'plan_id'}
     ])
 
+
 def esco_plan(self):
     response = self.app.get('/plans')
     self.assertEqual(response.status, '200 OK')
@@ -772,7 +817,9 @@ def esco_plan(self):
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     plan = response.json['data']
-    self.assertEqual(set(plan) - set(self.initial_data), set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
+    self.assertEqual(
+        set(plan) - set(self.initial_data),
+        set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
     self.assertNotIn('budget', plan)
     self.assertIn(plan['id'], response.headers['Location'])
 
@@ -781,6 +828,33 @@ def esco_plan(self):
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     plan = response.json['data']
-    self.assertEqual(set(plan) - set(self.initial_data), set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
+    self.assertEqual(
+        set(plan) - set(self.initial_data),
+        set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
     self.assertIn('budget', plan)
+    self.assertIn(plan['id'], response.headers['Location'])
+
+
+def cfaua_plan(self):
+    response = self.app.get('/plans')
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(len(response.json['data']), 0)
+
+    data = deepcopy(self.initial_data)
+    data['tender']['procurementMethodType'] = 'closeFrameworkAgreementUA'
+    data['budget']['period']['endDate'] = datetime(
+        year=datetime.now().year + 2, month=12, day=31
+    ).isoformat()
+    response = self.app.post_json('/plans', {"data": data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    plan = response.json['data']
+    self.assertEqual(
+        set(plan) - set(self.initial_data),
+        set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
+    self.assertIn('budget', plan)
+    period = plan['budget']['period']
+    self.assertNotEqual(
+        parse_date(period['startDate']).year,
+        parse_date(period['endDate']).year)
     self.assertIn(plan['id'], response.headers['Location'])
