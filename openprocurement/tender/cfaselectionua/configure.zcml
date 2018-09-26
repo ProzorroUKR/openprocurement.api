@@ -1,0 +1,18 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+    <include package="zope.component" file="meta.zcml" />
+
+    <!-- getAdapter(tender, openprocurement.api.interfaces.IContentConfigurator) -->
+    <adapter
+        factory=".adapters.configurator.TenderCfaSelectionUAConfigurator"
+        provides="openprocurement.api.interfaces.IContentConfigurator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <!-- Serializable Fields: getAdapter(tender, interfaces.ISerializableTenderField, 'fieldname') -->
+
+
+
+    <!-- Validators -->
+
+
+</configure>
