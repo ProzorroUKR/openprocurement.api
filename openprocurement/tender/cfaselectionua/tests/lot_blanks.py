@@ -1000,9 +1000,10 @@ def proc_1lot_1bid(self):
     response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
                                   {'data': {'tenderers': [test_organization], 'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id}]}})
     # switch to active.qualification
-    response = self.set_status('active.auction', {"lots": [{"auctionPeriod": {"startDate": None}}], 'status': 'active.tendering'})
+    response = self.set_status('active.tendering', start_end='end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
+
     # get awards
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
@@ -1014,7 +1015,7 @@ def proc_1lot_1bid(self):
     response = self.app.get('/tenders/{}'.format(tender_id))
     contract_id = response.json['data']['contracts'][-1]['id']
     # after stand slill period
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
     # time travel
     tender = self.db.get(tender_id)
     self.db.save(tender)
@@ -1113,7 +1114,7 @@ def proc_1lot_2bid(self):
     response = self.app.get('/tenders/{}'.format(tender_id))
     contract_id = response.json['data']['contracts'][-1]['id']
     # after stand slill period
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
     # time travel
     tender = self.db.get(tender_id)
     self.db.save(tender)
@@ -1263,7 +1264,7 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
     # set award as unsuccessful
     self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "unsuccessful"}})
     # after stand slill period
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
     # time travel
     tender = self.db.get(tender_id)
     self.db.save(tender)
@@ -1336,7 +1337,7 @@ def proc_2lot_1bid_0com_1can(self):
     # set award as unsuccessful
     self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "unsuccessful"}})
     # after stand slill period
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
     # time travel
     tender = self.db.get(tender_id)
     self.db.save(tender)
@@ -1401,7 +1402,7 @@ def proc_2lot_1bid_2com_1win(self):
         response = self.app.get('/tenders/{}'.format(tender_id))
         contract_id = response.json['data']['contracts'][-1]['id']
         # after stand slill period
-        self.set_status('complete', {'status': 'active.awarded'})
+        self.set_status('active.awarded', start_end='end')
         # time travel
         tender = self.db.get(tender_id)
         self.db.save(tender)
@@ -1464,12 +1465,12 @@ def proc_2lot_1bid_0com_0win(self):
         # set award as unsuccessful
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "unsuccessful"}})
         # after stand slill period
-        self.set_status('complete', {'status': 'active.awarded'})
+        self.set_status('active.awarded', start_end='end')
         # time travel
         tender = self.db.get(tender_id)
         self.db.save(tender)
     # check tender status
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     # check status
@@ -1531,7 +1532,7 @@ def proc_2lot_1bid_1com_1win(self):
     response = self.app.get('/tenders/{}'.format(tender_id))
     contract_id = response.json['data']['contracts'][-1]['id']
     # after stand slill period
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
     # time travel
     tender = self.db.get(tender_id)
     self.db.save(tender)
@@ -1548,7 +1549,7 @@ def proc_2lot_1bid_1com_1win(self):
     # set award as unsuccessful
     self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token), {"data": {"status": "unsuccessful"}})
     # after stand slill period
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
     # time travel
     tender = self.db.get(tender_id)
     self.db.save(tender)
@@ -1647,7 +1648,7 @@ def proc_2lot_2bid_2com_2win(self):
     response = self.app.get('/tenders/{}'.format(tender_id))
     contract_id = response.json['data']['contracts'][-1]['id']
     # after stand slill period
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
     # time travel
     tender = self.db.get(tender_id)
     self.db.save(tender)
@@ -1674,7 +1675,7 @@ def proc_2lot_2bid_2com_2win(self):
     response = self.app.get('/tenders/{}'.format(tender_id))
     contract_id = response.json['data']['contracts'][-1]['id']
     # after stand slill period
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
     # time travel
     tender = self.db.get(tender_id)
     self.db.save(tender)
@@ -1759,7 +1760,7 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     response = self.app.get('/tenders/{}'.format(tender_id))
     contract_id = response.json['data']['contracts'][-1]['id']
     # after stand slill period
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
     # time travel
     tender = self.db.get(tender_id)
     self.db.save(tender)
@@ -1779,7 +1780,7 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     response = self.app.get('/tenders/{}'.format(tender_id))
     contract_id = response.json['data']['contracts'][-1]['id']
     # after stand slill period
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
     # time travel
     tender = self.db.get(tender_id)
     self.db.save(tender)

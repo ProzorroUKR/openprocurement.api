@@ -58,7 +58,7 @@ def switch_to_tendering_by_tenderPeriod_startDate(self):
 
 
 def switch_to_qualification(self):
-    self.set_status('active.auction', {'status': self.initial_status})
+    self.set_status('active.tendering', start_end='end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
@@ -71,7 +71,7 @@ def switch_to_qualification(self):
 
 
 def switch_to_auction(self):
-    self.set_status('active.auction', {'status': self.initial_status})
+    self.set_status('active.tendering', start_end='end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
@@ -83,7 +83,7 @@ def switch_to_auction(self):
 
 
 def switch_to_unsuccessful(self):
-    self.set_status('active.auction', {'status': self.initial_status})
+    self.set_status('active.tendering', start_end='end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
@@ -97,7 +97,7 @@ def switch_to_unsuccessful(self):
 
 
 def set_auction_period(self):
-    self.set_status('active.tendering', {'status': 'active.enquiries', 'agreements': [test_agreement]})
+    self.set_status('active.enquiries', start_end='end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
@@ -134,7 +134,7 @@ def set_auction_period(self):
 
 
 def reset_auction_period(self):
-    self.set_status('active.tendering', {'status': 'active.enquiries', 'agreements': [test_agreement]})
+    self.set_status('active.enquiries', start_end='end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
@@ -160,7 +160,7 @@ def reset_auction_period(self):
     self.assertGreaterEqual(item['auctionPeriod']['shouldStartAfter'], response.json['data']['tenderPeriod']['endDate'])
     self.assertIn('9999-01-01T00:00:00', item['auctionPeriod']['startDate'])
 
-    self.set_status('active.auction', {'status': 'active.tendering'})
+    self.set_status('active.tendering', start_end='end')
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']["status"], 'active.auction')
@@ -259,7 +259,7 @@ def switch_to_ignored_on_complete(self):
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.json['data']['status'], 'claim')
 
-    self.set_status('active.auction', {'status': self.initial_status})
+    self.set_status('active.tendering', 'end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')

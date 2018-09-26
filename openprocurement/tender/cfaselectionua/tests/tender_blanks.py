@@ -1538,10 +1538,9 @@ def one_valid_bid_tender(self):
                   'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.initial_data['lots'][0]['id']}]}}
     )
     # switch to active.qualification
-    self.set_status('active.auction', {'status': 'active.tendering'})
+    self.set_status('active.tendering', start_end='end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
-    # self.assertNotIn('auctionPeriod', response.json['data'])
     # get awards
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
@@ -1557,7 +1556,7 @@ def one_valid_bid_tender(self):
     contract_id = response.json['data']['contracts'][-1]['id']
     # after stand slill period
     self.app.authorization = ('Basic', ('chronograph', ''))
-    self.set_status('complete', {'status': 'active.awarded'})
+    self.set_status('active.awarded', start_end='end')
     # time travel
     tender = self.db.get(tender_id)
     self.db.save(tender)
@@ -1590,7 +1589,7 @@ def one_invalid_bid_tender(self):
                   'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.initial_data['lots'][0]['id']}]}}
     )
     # switch to active.qualification
-    self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
+    self.set_status('active.tendering', start_end='end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     # get awards
@@ -1722,8 +1721,8 @@ def first_bid_tender(self):
     self.assertIn(doc_id, response.headers['Location'])
     # after stand slill period
     self.app.authorization = ('Basic', ('chronograph', ''))
-    self.set_status('complete', {'status': 'active.awarded'})
-    # time travel
+    self.set_status('active.awarded', start_end='end')
+
     tender = self.db.get(tender_id)
     self.db.save(tender)
     # sign contract
@@ -1767,7 +1766,7 @@ def lost_contract_for_active_award(self):
                   'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.initial_data['lots'][0]['id']}]}}
     )
     # switch to active.qualification
-    self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
+    self.set_status('active.tendering', start_end='end')
     self.app.authorization = ('Basic', ('chronograph', ''))
     response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
     # get awards
