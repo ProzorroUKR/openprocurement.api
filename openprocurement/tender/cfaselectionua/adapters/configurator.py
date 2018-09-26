@@ -7,7 +7,7 @@ from openprocurement.tender.cfaselectionua.constants import (
 )
 
 
-class TenderBelowThersholdConfigurator(TenderConfigurator):
+class TenderCfaSelectionUAConfigurator(TenderConfigurator):
     """ CFASelectionUA Tender configuration adapter """
 
     name = "CFASelectionUA configurator"
