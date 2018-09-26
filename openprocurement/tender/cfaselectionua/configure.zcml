@@ -5,7 +5,7 @@
     <adapter
         factory=".adapters.configurator.TenderCfaSelectionUAConfigurator"
         provides="openprocurement.api.interfaces.IContentConfigurator"
-        for=".interfaces.ICloseFrameworkAgreementUA"
+        for=".interfaces.ICFASelectionUATender"
         />
 
     <!-- Serializable Fields: getAdapter(tender, interfaces.ISerializableTenderField, 'fieldname') -->

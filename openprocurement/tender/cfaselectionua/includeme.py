@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import os
+import openprocurement.tender.cfaselectionua
+from zope.configuration.xmlconfig import file as ZcmlFile
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUATender
 from openprocurement.tender.cfaselectionua.models.tender import Tender
 from pyramid.interfaces import IRequest
@@ -13,3 +16,7 @@ def includeme(config):
     config.registry.registerAdapter(TenderCfaSelectionUAConfigurator,
                                     (ICFASelectionUATender, IRequest),
                                     IContentConfigurator)
+    ZcmlFile(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), 'configure.zcml'),
+        package=openprocurement.tender.cfaselectionua
+    )
