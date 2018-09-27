@@ -2,11 +2,12 @@
 from openprocurement.api.utils import context_unpack, json_view, APIResource, get_now, raise_operation_error
 
 from openprocurement.tender.core.utils import (
-    save_tender, optendersresource, apply_patch
+    save_tender, optendersresource, apply_patch,
+    calculate_business_date
 )
-from openprocurement.tender.cfaselectionua.constants import ENQUIRY_PERIOD
 from openprocurement.tender.cfaselectionua.validation import (
     validate_patch_tender_in_draft_pending,
+    validate_patch_tender_bot_only_in_draft_pending,
     validate_tender_status_update_in_terminated_status,
 )
 from openprocurement.tender.cfaselectionua.utils import (
@@ -123,6 +124,7 @@ class TenderResource(APIResource):
                validators=(validate_patch_tender_data,
                            validate_tender_status_update_in_terminated_status,
                            validate_patch_tender_in_draft_pending,
+                           validate_patch_tender_bot_only_in_draft_pending,
                            ),
                permission='edit_tender')
     def patch(self):
@@ -178,12 +180,14 @@ class TenderResource(APIResource):
             check_status(self.request)
             save_tender(self.request)
         elif self.request.authenticated_role == 'agreement_selection':
+            apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
             check_period_and_items(self.request, tender)
             check_min_active_contracts(self.request, tender)
             tender.enquiryPeriod.startDate = get_now()
-            tender.enquiryPeriod.endDate = tender.enquiryPeriod.startDate + ENQUIRY_PERIOD
+            tender.enquiryPeriod.endDate = calculate_business_date(
+                tender.enquiryPeriod.startDate, self.request.content_configurator.enquiry_period, tender)
             tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
-            apply_patch(self.request, src=self.request.validated['tender_src'])
+            save_tender(self.request)
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.enquiries':
             data = validate_json_data_in_active_enquiries(self.request)
             apply_patch(self.request, src=data)

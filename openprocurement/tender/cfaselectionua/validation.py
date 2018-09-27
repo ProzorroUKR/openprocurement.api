@@ -220,6 +220,14 @@ def validate_patch_tender_in_draft_pending(request):
                                   OPERATIONS.get(request.method), request.validated['tender_status']))
 
 
+def validate_patch_tender_bot_only_in_draft_pending(request):
+    if request.authenticated_role == 'agreement_selection' and \
+            request.validated['tender_src']['status'] != 'draft.pending':
+        raise_operation_error(request,
+                              'Can\'t {} tender in current ({}) tender status'.format(
+                                  OPERATIONS.get(request.method), request.validated['tender_status']))
+
+
 def validate_tender_status_update_in_terminated_status(request):
     tender = request.context
     if request.authenticated_role != 'Administrator' and \
