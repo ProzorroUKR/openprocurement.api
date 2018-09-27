@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.constants import TZ
 from openprocurement.tender.core.adapters import TenderConfigurator
 from openprocurement.tender.cfaselectionua.constants import (
     STATUS4ROLE,
@@ -10,7 +11,14 @@ from openprocurement.tender.cfaselectionua.constants import (
 class TenderCfaSelectionUAConfigurator(TenderConfigurator):
     """ CFASelectionUA Tender configuration adapter """
 
+    def __init__(self, *args, **kwargs):
+        if len(args) == 2:
+            self.context, self.request = args
+        else:
+            self.context = args[0]
+
     name = "CFASelectionUA configurator"
+    tz = TZ
 
     # Dictionary with allowed complaint statuses for operations for each role
     allowed_statuses_for_complaint_operations_for_roles = STATUS4ROLE

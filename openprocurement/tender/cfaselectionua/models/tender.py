@@ -7,29 +7,26 @@ from openprocurement.tender.cfaselectionua.models.submodels.contract import Cont
 from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
 from schematics.types import StringType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
 from zope.interface import implementer, provider
 from pyramid.security import Allow
 from openprocurement.api.models import ListType, Period, Value
-from openprocurement.api.utils import get_now
-from openprocurement.api.constants import TZ
-from openprocurement.api.validation import validate_items_uniq, validate_cpv_group
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.models import (
     validate_features_uniq, validate_lots_uniq,
     Guarantee, TenderAuctionPeriod,
     PeriodEndRequired, Tender as BaseTender, Bid, ProcuringEntity,
     Item, Cancellation, Feature
 )
-from openprocurement.tender.core.utils import calc_auction_end_time
 
 
 @implementer(ICFASelectionUATender)
 @provider(ICFASelectionUATender)
-class Tender(BaseTender):
+class CFASelectionUATender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors
     to submit bids for evaluation and selecting a winner or winners.
     """
     class Options:
+        namespace = 'Tender'
         roles = RolesFromCsv('Tender.csv', relative_to=__file__)
 
     items = ListType(ModelType(Item), min_size=1, validators=[validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
@@ -95,68 +92,3 @@ class Tender(BaseTender):
         for i in self.bids:
             roles['{}_{}'.format(i.owner, i.owner_token)] = 'bid_owner'
         return roles
-
-    @serializable(serialize_when_none=False)
-    def next_check(self):
-        now = get_now()
-        checks = []
-        if self.status == 'active.enquiries' and self.tenderPeriod.startDate:
-            checks.append(self.tenderPeriod.startDate.astimezone(TZ))
-        elif self.status == 'active.enquiries' and self.enquiryPeriod.endDate:
-            checks.append(self.enquiryPeriod.endDate.astimezone(TZ))
-        elif self.status == 'active.tendering' and self.tenderPeriod.endDate:
-            checks.append(self.tenderPeriod.endDate.astimezone(TZ))
-        elif not self.lots and self.status == 'active.auction' and self.auctionPeriod and self.auctionPeriod.startDate and not self.auctionPeriod.endDate:
-            if now < self.auctionPeriod.startDate:
-                checks.append(self.auctionPeriod.startDate.astimezone(TZ))
-            elif now < calc_auction_end_time(self.numberOfBids, self.auctionPeriod.startDate).astimezone(TZ):
-                checks.append(calc_auction_end_time(self.numberOfBids, self.auctionPeriod.startDate).astimezone(TZ))
-        elif self.lots and self.status == 'active.auction':
-            for lot in self.lots:
-                if lot.status != 'active' or not lot.auctionPeriod or not lot.auctionPeriod.startDate or lot.auctionPeriod.endDate:
-                    continue
-                if now < lot.auctionPeriod.startDate:
-                    checks.append(lot.auctionPeriod.startDate.astimezone(TZ))
-                elif now < calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ):
-                    checks.append(calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ))
-        elif self.lots and self.status in ['active.qualification', 'active.awarded']:
-            for lot in self.lots:
-                if lot['status'] != 'active':
-                    continue
-        if self.status.startswith('active'):
-            for award in self.awards:
-                if award.status == 'active' and not any([i.awardID == award.id for i in self.contracts]):
-                    checks.append(award.date)
-        return min(checks).isoformat() if checks else None
-
-    @serializable
-    def numberOfBids(self):
-        """A property that is serialized by schematics exports."""
-        return len(self.bids)
-
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def tender_value(self):
-        return Value(dict(amount=sum([i.value.amount for i in self.lots]),
-                          currency=self.value.currency,
-                          valueAddedTaxIncluded=self.value.valueAddedTaxIncluded)) if self.lots else self.value
-
-    @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
-    def tender_guarantee(self):
-        if self.lots:
-            lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
-            if not lots_amount:
-                return self.guarantee
-            guarantee = {'amount': sum(lots_amount)}
-            lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
-            guarantee['currency'] = lots_currency[0] if lots_currency else None
-            if self.guarantee:
-                guarantee['currency'] = self.guarantee.currency
-            return Guarantee(guarantee)
-        else:
-            return self.guarantee
-
-    @serializable(serialized_name="minimalStep", type=ModelType(Value))
-    def tender_minimalStep(self):
-        return Value(dict(amount=min([i.minimalStep.amount for i in self.lots]),
-                          currency=self.minimalStep.currency,
-                          valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if self.lots else self.minimalStep

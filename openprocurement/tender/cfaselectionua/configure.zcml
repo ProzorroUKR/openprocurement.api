@@ -10,7 +10,36 @@
 
     <!-- Serializable Fields: getAdapter(tender, interfaces.ISerializableTenderField, 'fieldname') -->
 
-
+    <adapter
+        name="next_check"
+        factory=".adapters.serializable.next_check.SerializableTenderNextCheck"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICFASelectionUATender"
+        />
+    <adapter
+        name="numberOfBids"
+        factory=".adapters.serializable.numberofbids.SerializableTenderNumberOfBids"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICFASelectionUATender"
+        />
+     <adapter
+        name="serializable_value"
+        factory=".adapters.serializable.value.SerializableTenderMultilotValue"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICFASelectionUATender"
+        />
+    <adapter
+        name="serializable_guarantee"
+        factory=".adapters.serializable.guarantee.SerializableTenderGuarantee"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICFASelectionUATender"
+        />
+     <adapter
+        name="serializable_minimalStep"
+        factory=".adapters.serializable.minimalstep.SerializableTenderMinimalStep"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICFASelectionUATender"
+        />
 
     <!-- Validators -->
     <adapter
