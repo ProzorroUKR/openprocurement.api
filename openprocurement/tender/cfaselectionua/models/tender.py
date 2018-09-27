@@ -5,12 +5,10 @@ from openprocurement.tender.cfaselectionua.models.submodels.agreement import Agr
 from openprocurement.tender.cfaselectionua.models.submodels.award import Award
 from openprocurement.tender.cfaselectionua.models.submodels.contract import Contract
 from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
-from schematics.exceptions import ValidationError
 from schematics.types import StringType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from barbecue import vnmax
-from zope.interface import implementer
+from zope.interface import implementer, provider
 from pyramid.security import Allow
 from openprocurement.api.models import ListType, Period, Value
 from openprocurement.api.utils import get_now
@@ -26,6 +24,7 @@ from openprocurement.tender.core.utils import calc_auction_end_time
 
 
 @implementer(ICFASelectionUATender)
+@provider(ICFASelectionUATender)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors
     to submit bids for evaluation and selecting a winner or winners.
@@ -161,50 +160,3 @@ class Tender(BaseTender):
         return Value(dict(amount=min([i.minimalStep.amount for i in self.lots]),
                           currency=self.minimalStep.currency,
                           valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if self.lots else self.minimalStep
-
-    def validate_items(self, data, items):
-        cpv_336_group = items[0].classification.id[:3] == '336' if items else False
-        if not cpv_336_group and items and len(set([i.classification.id[:4] for i in items])) != 1:
-            raise ValidationError(u"CPV class of items should be identical")
-        else:
-            validate_cpv_group(items)
-
-    def validate_features(self, data, features):
-        if features and data['lots'] and any([
-            round(vnmax([
-                i
-                for i in features
-                if i.featureOf == 'tenderer' or i.featureOf == 'lot' and i.relatedItem == lot['id'] or i.featureOf == 'item' and i.relatedItem in [j.id for j in data['items'] if j.relatedLot == lot['id']]
-            ]), 15) > 0.3
-            for lot in data['lots']
-        ]):
-            raise ValidationError(u"Sum of max value of all features for lot should be less then or equal to 30%")
-        elif features and not data['lots'] and round(vnmax(features), 15) > 0.3:
-            raise ValidationError(u"Sum of max value of all features should be less then or equal to 30%")
-
-    def validate_auctionUrl(self, data, url):
-        if url and data['lots']:
-            raise ValidationError(u"url should be posted for each lot")
-
-    def validate_minimalStep(self, data, value):
-        if value and value.amount and data.get('value'):
-            if data.get('value').amount < value.amount:
-                raise ValidationError(u"value should be less than value of tender")
-            if data.get('value').currency != value.currency:
-                raise ValidationError(u"currency should be identical to currency of value of tender")
-            if data.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-                raise ValidationError(u"valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender")
-
-    def validate_tenderPeriod(self, data, period):
-        if period and period.startDate and data.get('enquiryPeriod') and data.get('enquiryPeriod').endDate and period.startDate < data.get('enquiryPeriod').endDate:
-            raise ValidationError(u"period should begin after enquiryPeriod")
-
-    def validate_awardPeriod(self, data, period):
-        if period and period.startDate and data.get('auctionPeriod') and data.get('auctionPeriod').endDate and period.startDate < data.get('auctionPeriod').endDate:
-            raise ValidationError(u"period should begin after auctionPeriod")
-        if period and period.startDate and data.get('tenderPeriod') and data.get('tenderPeriod').endDate and period.startDate < data.get('tenderPeriod').endDate:
-            raise ValidationError(u"period should begin after tenderPeriod")
-
-    def validate_lots(self, data, value):
-        if len(set([lot.guarantee.currency for lot in value if lot.guarantee])) > 1:
-            raise ValidationError(u"lot guarantee currency should be identical to tender guarantee currency")

@@ -13,6 +13,47 @@
 
 
     <!-- Validators -->
-
+    <adapter
+        name="lots"
+        factory=".adapters.validators.lots.TenderLotsValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICFASelectionUATender"
+        />
+    <adapter
+        name="awardPeriod"
+        factory=".adapters.validators.awardperiod.TenderAwardPeriodValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICFASelectionUATender"
+        />
+    <adapter
+        name="tenderPeriod"
+        factory=".adapters.validators.tenderperiod.TenderPeriodValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICFASelectionUATender"
+        />
+    <adapter
+        name="minimalStep"
+        factory=".adapters.validators.minimalstep.TenderMinimalStepValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICFASelectionUATender"
+        />
+    <adapter
+        name="auctionUrl"
+        factory=".adapters.validators.auctionurl.TenderAuctionUrlValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICFASelectionUATender"
+        />
+    <adapter
+        name="features"
+        factory=".adapters.validators.features.TenderFeaturesValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICFASelectionUATender"
+        />
+    <adapter
+        name="items"
+        factory=".adapters.validators.items.TenderItemsValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICFASelectionUATender"
+        />
 
 </configure>
