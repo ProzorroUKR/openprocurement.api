@@ -11,7 +11,7 @@ from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
 )
-from openprocurement.tender.cfaselectionua.models.tender import Tender
+from openprocurement.tender.cfaselectionua.models.tender import CFASelectionUATender as Tender
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_organization,
     test_agreement,
