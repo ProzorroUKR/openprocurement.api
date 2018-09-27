@@ -2,17 +2,21 @@
 # -*- coding: utf-8 -*-
 import json
 import os
+from copy import deepcopy
 from datetime import timedelta, datetime
 from uuid import uuid4
 
 import openprocurement.tender.cfaselectionua.tests.base as base_test
-from openprocurement.tender.cfaselectionua.tests.base import test_tender_data, test_bids
-from openprocurement.api.tests.base import PrefixedRequestClass
 from openprocurement.api.models import get_now
-from openprocurement.tender.cfaselectionua.tests.base import BaseTenderWebTest
+from openprocurement.api.tests.base import PrefixedRequestClass
+from openprocurement.tender.cfaselectionua.constants import BOT_NAME
+from openprocurement.tender.cfaselectionua.tests.base import (
+    BaseTenderWebTest, test_tender_data, test_bids, test_agreement
+)
 from webtest import TestApp
 
 now = datetime.now()
+lot_id = uuid4().hex
 
 
 bid = {
@@ -40,9 +44,12 @@ bid = {
             }
         ],
         "status": "draft",
-        "value": {
-            "amount": 500
-        }
+        "lotValues": [{
+            "value": {
+                "amount": 500
+            },
+            "relatedLot": lot_id
+        }]
     }
 }
 
@@ -70,9 +77,12 @@ bid2 = {
                 "name": "ДКП «Книга»"
             }
         ],
-        "value": {
-            "amount": 499
-        },
+        "lotValues": [{
+            "value": {
+                "amount": 499
+            },
+            "relatedLot": lot_id
+        }],
         "documents": [
             {
                 'title': u'Proposal_part1.pdf',
@@ -249,6 +259,29 @@ test_complaint_data = {'data':
         }
     }
 
+test_lots = [
+    {
+        'id': lot_id,
+        'title': 'Лот №1',
+        'description': 'Опис Лот №1',
+        'value': test_tender_data['value'],
+        'minimalStep': test_tender_data['minimalStep'],
+    },
+    {
+        'title': 'Лот №2',
+        'description': 'Опис Лот №2',
+        'value': test_tender_data['value'],
+        'minimalStep': test_tender_data['minimalStep'],
+    }
+]
+
+test_tender_data['lots'] = [test_lots[0]]
+test_tender_maximum_data['lots'] = [test_lots[0]]
+test_tender_data.update({'agreements': [{'id': test_agreement['id']}]})
+for item in test_tender_data['items']:
+    item['relatedLot'] = lot_id
+for item in test_tender_maximum_data['items']:
+    item['relatedLot'] = lot_id
 
 class DumpsTestAppwebtest(TestApp):
     def do_request(self, req, status=None, expect_errors=None):
@@ -261,7 +294,7 @@ class DumpsTestAppwebtest(TestApp):
                     self.file_obj.write(
                         '\n' + json.dumps(json.loads(req.body), indent=2, ensure_ascii=False).encode('utf8'))
                     self.file_obj.write("\n")
-                except:
+                except Exception:
                     pass
             self.file_obj.write("\n")
         resp = super(DumpsTestAppwebtest, self).do_request(req, status=status, expect_errors=expect_errors)
@@ -277,8 +310,9 @@ class DumpsTestAppwebtest(TestApp):
 
             if resp.testbody:
                 try:
-                    self.file_obj.write('\n' + json.dumps(json.loads(resp.testbody), indent=2, ensure_ascii=False).encode('utf8'))
-                except:
+                    self.file_obj.write(
+                        '\n' + json.dumps(json.loads(resp.testbody), indent=2, ensure_ascii=False).encode('utf8'))
+                except Exception:
                     pass
             self.file_obj.write("\n\n")
         return resp
@@ -301,7 +335,8 @@ class TenderResourceTest(BaseTenderWebTest):
             self.app.app.registry.docservice_url = 'http://public.docs-sandbox.openprocurement.org'
 
     def generate_docservice_url(self):
-        return super(TenderResourceTest, self).generate_docservice_url().replace('/localhost/', '/public.docs-sandbox.openprocurement.org/')
+        return super(TenderResourceTest,
+                     self).generate_docservice_url().replace('/localhost/', '/public.docs-sandbox.openprocurement.org/')
 
     def test_docs_2pc(self):
         # Creating tender in draft status
@@ -309,21 +344,21 @@ class TenderResourceTest(BaseTenderWebTest):
         data = test_tender_data.copy()
         data['status'] = 'draft'
 
-        with open('docs/source/tutorial/tender-post-2pc.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders?opt_pretty=1', {"data": data})
-            self.assertEqual(response.status, '201 Created')
+        # with open('docs/source/tutorial/tender-post-2pc.http', 'w') as self.app.file_obj:
+        #     response = self.app.post_json(
+        #         '/tenders?opt_pretty=1', {"data": data})
+        #     self.assertEqual(response.status, '201 Created')
 
-        tender = response.json['data']
-        self.tender_id = tender['id']
-        owner_token = response.json['access']['token']
+        # tender = response.json['data']
+        # self.tender_id = tender['id']
+        # owner_token = response.json['access']['token']
 
-        # switch to 'active.enquiries'
+        # # switch to 'active.enquiries'
 
-        with open('docs/source/tutorial/tender-patch-2pc.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                           {'data': {"status": 'active.enquiries'}})
-            self.assertEqual(response.status, '200 OK')
+        # with open('docs/source/tutorial/tender-patch-2pc.http', 'w') as self.app.file_obj:
+        #     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+        #                                    {'data': {"status": 'active.enquiries'}})
+        #     self.assertEqual(response.status, '200 OK')
 
     def test_docs_tutorial(self):
         request_path = '/tenders?opt_pretty=1'
@@ -345,16 +380,14 @@ class TenderResourceTest(BaseTenderWebTest):
 
         with open('docs/source/tutorial/tender-post-attempt-json.http', 'w') as self.app.file_obj:
             self.app.authorization = ('Basic', ('broker', ''))
-            response = self.app.post(
-                request_path, 'data', content_type='application/json', status=422)
+            response = self.app.post(request_path, 'data', content_type='application/json', status=422)
             self.assertEqual(response.status, '422 Unprocessable Entity')
 
         # Creating tender
         #
 
         with open('docs/source/tutorial/tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders?opt_pretty=1', {"data": test_tender_data})
+            response = self.app.post_json('/tenders?opt_pretty=1', {"data": test_tender_data})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -369,8 +402,7 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.status, '200 OK')
 
         with open('docs/source/tutorial/create-tender-procuringEntity.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders?opt_pretty=1', {"data": test_tender_maximum_data})
+            response = self.app.post_json('/tenders?opt_pretty=1', {"data": test_tender_maximum_data})
             self.assertEqual(response.status, '201 Created')
 
         response = self.app.post_json('/tenders?opt_pretty=1', {"data": test_tender_data})
@@ -381,6 +413,27 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.status, '200 OK')
 
         self.app.authorization = ('Basic', ('broker', ''))
+
+        with open('docs/source/tutorial/tender-switch-draft-pending.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                           {'data': {'status': 'draft.pending'}})
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'draft.pending')
+
+        self.app.authorization = ('Basic', (BOT_NAME, ''))
+        response = self.app.patch_json('/tenders/{}/agreements/{}'.format(tender['id'], test_agreement['id']),
+                                       {'data': test_agreement})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
+        self.assertEqual(response.json['data']['status'], 'active.enquiries')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        with open('docs/source/tutorial/tender-in-active-enquiries.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}'.format(tender['id']))
+            self.assertEqual(response.json['data']['status'], 'active.enquiries')
+            tender = response.json['data']
 
         # Modifying tender
         #
@@ -406,11 +459,11 @@ class TenderResourceTest(BaseTenderWebTest):
         # Setting Bid guarantee
         #
         with open('docs/source/tutorial/set-bid-guarantee.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-                self.tender_id, owner_token), {"data": {"guarantee": {"amount": 8, "currency": "USD"}}})
+            response = self.app.patch_json(
+                '/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot_id, owner_token),
+                {"data": {"guarantee": {"amount": 8, "currency": "USD"}}})
             self.assertEqual(response.status, '200 OK')
             self.assertIn('guarantee', response.json['data'])
-
 
         # Uploading documentation
         #
@@ -473,39 +526,25 @@ class TenderResourceTest(BaseTenderWebTest):
                 self.tender_id))
             self.assertEqual(response.status, '200 OK')
 
-        # Enquiries
-        #
-
-        with open('docs/source/tutorial/ask-question.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/questions'.format(
-                self.tender_id), question, status=201)
-            question_id = response.json['data']['id']
-            self.assertEqual(response.status, '201 Created')
-
-        with open('docs/source/tutorial/answer-question.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json('/tenders/{}/questions/{}?acc_token={}'.format(
-                self.tender_id, question_id, owner_token), answer, status=200)
-            self.assertEqual(response.status, '200 OK')
-
-        with open('docs/source/tutorial/list-question.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/questions'.format(
-                self.tender_id))
-            self.assertEqual(response.status, '200 OK')
-
-        with open('docs/source/tutorial/get-answer.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/questions/{}'.format(
-                self.tender_id, question_id))
-            self.assertEqual(response.status, '200 OK')
+        # Switch tender to active.tendering
+        self.set_status('active.enquiries', start_end='end')
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {}})
+        self.assertEqual(response.json['data']['status'], 'active.tendering')
 
         # Registering bid
         #
 
-        self.set_status('active.tendering')
         self.app.authorization = ('Basic', ('broker', ''))
         bids_access = {}
+
+        with open('docs/source/tutorial/register-bidder-invalid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid, status=403)
+            self.assertEqual(response.status, '403 Forbidden')
+
+        bid['data']['tenderers'] = tender['agreements'][0]['contracts'][0]['suppliers']
         with open('docs/source/tutorial/register-bidder.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/bids'.format(
-                self.tender_id), bid)
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid)
             bid1_id = response.json['data']['id']
             bids_access[bid1_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
@@ -536,14 +575,23 @@ class TenderResourceTest(BaseTenderWebTest):
         # Second bid registration with documents
         #
 
+        bid2['data']['tenderers'] = tender['agreements'][0]['contracts'][1]['suppliers']
         with open('docs/source/tutorial/register-2nd-bidder.http', 'w') as self.app.file_obj:
             for document in bid2['data']['documents']:
                 document['url'] = self.generate_docservice_url()
-            response = self.app.post_json('/tenders/{}/bids'.format(
-                self.tender_id), bid2)
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid2)
             bid2_id = response.json['data']['id']
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
+
+        bid3 = deepcopy(bid2)
+        bid3['data']['tenderers'] = tender['agreements'][0]['contracts'][2]['suppliers']
+        for document in bid3['data']['documents']:
+            document['url'] = self.generate_docservice_url()
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid3)
+        bid3_id = response.json['data']['id']
+        bids_access[bid3_id] = response.json['access']['token']
+        self.assertEqual(response.status, '201 Created')
 
         # Auction
         #
@@ -551,15 +599,37 @@ class TenderResourceTest(BaseTenderWebTest):
         self.set_status('active.auction')
         self.app.authorization = ('Basic', ('auction', ''))
         patch_data = {
-            'auctionUrl': u'http://auction-sandbox.openprocurement.org/tenders/{}'.format(self.tender_id),
+            'lots': [{
+                'auctionUrl':
+                    u'http://auction-sandbox.openprocurement.org/tenders/{}_{}'.format(self.tender_id, lot_id),
+            }]
             'bids': [
                 {
                     "id": bid1_id,
-                    "participationUrl": u'http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}'.format(self.tender_id, bid1_id)
+                    "lotValues": [{
+                        "participationUrl":
+                            u'http://auction-sandbox.openprocurement.org/tenders/{}_{}?key_for_bid={}'.format(
+                                self.tender_id, lot_id, bid1_id)
+
+                    }]
                 },
                 {
                     "id": bid2_id,
-                    "participationUrl": u'http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}'.format(self.tender_id, bid2_id)
+                    "lotValues": [{
+                        "participationUrl":
+                            u'http://auction-sandbox.openprocurement.org/tenders/{}_{}?key_for_bid={}'.format(
+                                self.tender_id, lot_id, bid2_id
+                            )
+                    }]
+                },
+                {
+                    "id": bid3_id,
+                    "lotValues": [{
+                        "participationUrl":
+                            u'http://auction-sandbox.openprocurement.org/tenders/{}_{}?key_for_bid={}'.format(
+                                self.tender_id, lot_id, bid3_id
+                            )
+                    }]
                 }
             ]
         }
