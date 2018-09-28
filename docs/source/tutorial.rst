@@ -77,6 +77,18 @@ Let's check what tender registry contains:
 
 And indeed we have 2 tenders now.
 
+Для переходу до наступних кроків потрібно перевести тендер в статус ``draft.pending`` щоб бот змін доповнити
+:ref:`Agreement` і перевести тендер в один з наступних статусів, якщо тендер відповідатиме всім вимогам то в статус
+``active.enquiries``, в протележному випадку в ``draft.unsuccessful``
+
+.. include:: tutorial/tender-switch-draft-pending.http
+   :code:
+
+Переконуємось, що наш тендер відповідає всім вимогам і бот наповнив :ref:`Agreement` тендеру і встановив статус
+``active.enquiries``.
+
+.. include:: tutorial/tender-in-active-enquiries.http
+   :code:
 
 Modifying tender
 ----------------
@@ -88,7 +100,8 @@ Let's update tender by supplementing it with all other essential properties:
 
 .. XXX body is empty for some reason (printf fails)
 
-We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
+We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was
+updated to reflect the last modification datestamp.
 
 Checking the listing again reflects the new modification date:
 
@@ -134,7 +147,8 @@ Let’s add new `documentType` field with `technicalSpecifications` parameter to
 .. include:: tutorial/tender-document-add-documentType.http
    :code:
 
-Success! Response code is `200 OK` and it confirms that `documentType` field with `technicalSpecifications` parameter was added .
+Success! Response code is `200 OK` and it confirms that `documentType` field with `technicalSpecifications` parameter
+was added .
 
 Now let’s try to modify any field in our document. For example, `description`:
 
@@ -154,32 +168,6 @@ And we can see that it is overriding the original version:
    :code:
 
 
-.. index:: Enquiries, Question, Answer
-
-Enquiries
----------
-
-When tender is in `active.enquiry` status, interested parties can ask questions:
-
-.. include:: tutorial/ask-question.http
-   :code:
-
-Procuring entity can answer them:
-
-.. include:: tutorial/answer-question.http
-   :code:
-
-And one can retrieve the questions list:
-
-.. include:: tutorial/list-question.http
-   :code:
-
-And individual answer:
-
-.. include:: tutorial/get-answer.http
-   :code:
-
-
 .. index:: Bidding
 
 Registering bid
@@ -188,9 +176,16 @@ Registering bid
 Step-by-step registration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When ``Tender.tenderingPeriod.startDate`` comes, Tender switches to `active.tendering` status that allows registration of bids.
+When ``Tender.tenderingPeriod.startDate`` comes, Tender switches to `active.tendering` status that allows registration
+of bids.
 
-Bidder can register a bid in `draft` status:
+Bidder can register a bid in ``draft`` status:
+
+Не можна подати пропозицію із значенням більшим ніж у ``agreement.contract.value``, а також учаснику якого немає у
+рамковій угоді (:ref:`Agreement`)
+
+.. include:: tutorial/register-bidder-invalid.http
+   :code:
 
 .. include:: tutorial/register-bidder.http
    :code:

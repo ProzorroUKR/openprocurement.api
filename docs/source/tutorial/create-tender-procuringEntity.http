@@ -1,6 +1,6 @@
-POST /api/2.3/tenders?opt_pretty=1 HTTP/1.0
+POST /api/2.4/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 4164
+Content-Length: 4492
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
@@ -22,7 +22,7 @@ Host: api-sandbox.openprocurement.org
           }
         ], 
         "title_en": "Air Intake", 
-        "relatedItem": "17282930f2fd4fc8aa77d80b761a38c5", 
+        "relatedItem": "f119e921211340919a1609ecf4e6c2b9", 
         "featureOf": "item"
       }, 
       {
@@ -53,7 +53,7 @@ Host: api-sandbox.openprocurement.org
       "amount": 35
     }, 
     "enquiryPeriod": {
-      "endDate": "2017-06-26T17:38:12.594923"
+      "endDate": "2018-10-05T09:56:35.878284"
     }, 
     "title_en": "Cases with state awards", 
     "value": {
@@ -61,6 +61,21 @@ Host: api-sandbox.openprocurement.org
       "amount": 500
     }, 
     "mode": "test", 
+    "lots": [
+      {
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35
+        }, 
+        "title": "Лот №1", 
+        "description": "Опис Лот №1", 
+        "value": {
+          "currency": "UAH", 
+          "amount": 600
+        }, 
+        "id": "a93d95632cac485ca6dca149ce24be57"
+      }
+    ], 
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
     "procuringEntity": {
       "contactPoint": {
@@ -85,6 +100,7 @@ Host: api-sandbox.openprocurement.org
     "title_ru": "футляры к государственным наградам", 
     "items": [
       {
+        "relatedLot": "a93d95632cac485ca6dca149ce24be57", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -100,7 +116,7 @@ Host: api-sandbox.openprocurement.org
           }
         ], 
         "description_ru": "футляры к государственным наградам", 
-        "id": "17282930f2fd4fc8aa77d80b761a38c5", 
+        "id": "f119e921211340919a1609ecf4e6c2b9", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -109,7 +125,7 @@ Host: api-sandbox.openprocurement.org
       }
     ], 
     "tenderPeriod": {
-      "endDate": "2017-07-03T17:38:12.594923"
+      "endDate": "2018-10-12T09:56:35.878284"
     }
   }
 }
@@ -117,14 +133,14 @@ Host: api-sandbox.openprocurement.org
 
 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/eabbd106d14b441facec202e0b4fddb2
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/863bcaf37781411c92b25b6e71cf4c5e
 
 {
   "access": {
-    "token": "b169bbae39984dcb854f951379c2ef80"
+    "token": "96525b1d1803461ebd7b209c9190010e"
   }, 
   "data": {
-    "procurementMethod": "open", 
+    "procurementMethod": "selective", 
     "features": [
       {
         "code": "OCDS-123454-AIR-INTAKE", 
@@ -141,7 +157,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/eabbd106d14b441
           }
         ], 
         "title_en": "Air Intake", 
-        "relatedItem": "17282930f2fd4fc8aa77d80b761a38c5", 
+        "relatedItem": "f119e921211340919a1609ecf4e6c2b9", 
         "featureOf": "item"
       }, 
       {
@@ -167,11 +183,10 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/eabbd106d14b441
       }
     ], 
     "enquiryPeriod": {
-      "startDate": "2017-06-19T17:38:26.635200+03:00", 
-      "endDate": "2017-06-26T17:38:12.594923+03:00"
+      "startDate": "2018-09-28T09:56:36.722486+03:00", 
+      "endDate": "2018-10-05T09:56:35.878284+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2017-06-26T17:38:12.594923+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -193,18 +208,37 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/eabbd106d14b441
       }
     }, 
     "owner": "broker", 
-    "id": "eabbd106d14b441facec202e0b4fddb2", 
+    "id": "863bcaf37781411c92b25b6e71cf4c5e", 
     "title": "[ТЕСТУВАННЯ] футляри до державних нагород", 
-    "tenderID": "UA-2017-06-19-000002", 
-    "dateModified": "2017-06-19T17:38:26.641163+03:00", 
-    "status": "active.enquiries", 
+    "lots": [
+      {
+        "status": "active", 
+        "description": "Опис Лот №1", 
+        "title": "Лот №1", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "value": {
+          "currency": "UAH", 
+          "amount": 600.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "date": "2018-09-28T09:56:36.722533+03:00", 
+        "id": "a93d95632cac485ca6dca149ce24be57"
+      }
+    ], 
+    "tenderID": "UA-2018-09-28-000002", 
+    "dateModified": "2018-09-28T09:56:36.726101+03:00", 
+    "status": "draft", 
     "tenderPeriod": {
-      "startDate": "2017-06-26T17:38:12.594923+03:00", 
-      "endDate": "2017-07-03T17:38:12.594923+03:00"
+      "startDate": "2018-10-05T09:56:35.878284+03:00", 
+      "endDate": "2018-10-12T09:56:35.878284+03:00"
     }, 
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
     "title_en": "[TESTING] Cases with state awards", 
-    "date": "2017-06-19T17:38:26.635270+03:00", 
+    "date": "2018-09-28T09:56:36.722533+03:00", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 35.0, 
@@ -212,6 +246,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/eabbd106d14b441
     }, 
     "items": [
       {
+        "relatedLot": "a93d95632cac485ca6dca149ce24be57", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -227,7 +262,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/eabbd106d14b441
           }
         ], 
         "description_ru": "футляры к государственным наградам", 
-        "id": "17282930f2fd4fc8aa77d80b761a38c5", 
+        "id": "f119e921211340919a1609ecf4e6c2b9", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -237,7 +272,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/eabbd106d14b441
     ], 
     "value": {
       "currency": "UAH", 
-      "amount": 500.0, 
+      "amount": 600.0, 
       "valueAddedTaxIncluded": true
     }, 
     "mode": "test", 

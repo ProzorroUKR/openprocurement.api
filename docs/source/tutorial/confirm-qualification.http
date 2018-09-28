@@ -1,4 +1,4 @@
-PATCH /api/2.3/tenders/b74c14bbee6f44a9a0c8408c13a4c1a8/awards/4d6c14e4bf39434cb637a431367fa9ad?acc_token=6241dc3adcf04c33b4f86f08e8e6e591 HTTP/1.0
+PATCH /api/2.4/tenders/29fb21ea52a64dc8a1614d1f312ec395/awards/bb330128b03446d8bc13928a6724ff0a?acc_token=84e5e22d17d74352873a558633d2a07a HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -17,40 +17,36 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "complaintPeriod": {
-      "startDate": "2016-07-21T17:18:08.364770+03:00", 
-      "endDate": "2016-07-25T17:18:08.600122+03:00"
-    }, 
+    "lotID": "a93d95632cac485ca6dca149ce24be57", 
     "suppliers": [
       {
         "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
+          "name": "Державне управління справами", 
+          "telephone": "0440000000"
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "00137226", 
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00037257", 
+          "uri": "http://www.dus.gov.ua/"
         }, 
-        "name": "ДКП «Книга»", 
+        "name": "Державне управління справами", 
         "address": {
-          "postalCode": "79013", 
+          "postalCode": "01220", 
           "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "м. Львів", 
-          "locality": "м. Львів"
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
         }
       }
     ], 
-    "bid_id": "a25432c80ba7407fbedb2b16bbbbafc5", 
+    "bid_id": "cc608ace4dfb43abb9eb3e55fbe049b8", 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2016-07-21T17:18:08.608562+03:00", 
-    "id": "4d6c14e4bf39434cb637a431367fa9ad"
+    "date": "2018-09-28T09:56:39.614127+03:00", 
+    "id": "bb330128b03446d8bc13928a6724ff0a"
   }
 }
 

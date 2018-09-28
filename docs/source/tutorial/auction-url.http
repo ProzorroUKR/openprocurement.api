@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/b74c14bbee6f44a9a0c8408c13a4c1a8 HTTP/1.0
+GET /api/2.4/tenders/29fb21ea52a64dc8a1614d1f312ec395 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,14 +8,71 @@ Content-Type: application/json; charset=UTF-8
 
 {
   "data": {
-    "procurementMethod": "open", 
-    "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/b74c14bbee6f44a9a0c8408c13a4c1a8", 
-    "enquiryPeriod": {
-      "startDate": "2016-07-07T17:17:48.184527+03:00", 
-      "endDate": "2016-07-14T17:17:48.184527+03:00"
+    "status": "active.auction", 
+    "procurementMethod": "selective", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "description": "document description modified", 
+        "title": "Notice.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/ea507d5bee4e4dd9b11ef1c0757e1450?KeyID=369e79af&Signature=IJCdSRQrT53UAbukeoTmYJrtQv5pz0jxxLqTFrxj2m%2Fjsxnjo6M3NzBOkRh98OHre7O683e%2F4Q6t6AXPyKTHDA%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-09-28T09:56:37.454151+03:00", 
+        "author": "tender_owner", 
+        "documentType": "technicalSpecifications", 
+        "id": "27aaac33cf53470ab9d215a8f1744144", 
+        "dateModified": "2018-09-28T09:56:37.454166+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
+        "title": "AwardCriteria.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/f8a213cd486a4781a6b339eccbcefd61?KeyID=369e79af&Signature=Li1DcnT6sMRqT7iyqj8qWgrB07rcIsxjBKX57InAWMjRaqTWqvx27yeFQ%2FMCm6aWY4diEZ9pBSuJezE4BmdCAA%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-09-28T09:56:37.730689+03:00", 
+        "id": "0bacb82477924d7e988d4c26fcc3fb3f", 
+        "dateModified": "2018-09-28T09:56:37.730704+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
+        "title": "AwardCriteria-2.pdf", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/e9a6d82ff41345a896661d0e60d251d5?KeyID=369e79af&Signature=OTamiyS7H5aVSK5PNmnujs7TZawW%2FKHQL45U0yDv5y4PzbRExC2KfV0ZnktjCd1Hf0efGt%252B2vV8ufWtRSfEdDQ%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2018-09-28T09:56:37.730689+03:00", 
+        "id": "0bacb82477924d7e988d4c26fcc3fb3f", 
+        "dateModified": "2018-09-28T09:56:37.855764+03:00"
+      }
+    ], 
+    "tenderID": "UA-2018-09-28-000001", 
+    "tenderPeriod": {
+      "startDate": "2018-09-25T09:56:38.801569+03:00", 
+      "endDate": "2018-09-28T09:56:38.801569+03:00"
+    }, 
+    "title": "футляри до державних нагород", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "auctionPeriod": {
+      "startDate": "2018-09-28T09:56:38.801569+03:00"
+    }, 
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 600.0, 
+      "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2016-07-21T17:53:48.184527+03:00", 
+    "enquiryPeriod": {
+      "startDate": "2018-09-24T09:56:38.801569+03:00", 
+      "endDate": "2018-09-25T09:56:38.801569+03:00"
+    }, 
+    "date": "2018-09-28T09:56:38.100274+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -36,80 +93,13 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "questions": [
-      {
-        "description": "Просимо додати таблицю потрібної калорійності харчування", 
-        "title": "Калорійність", 
-        "date": "2016-07-21T17:18:06.401199+03:00", 
-        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "0c1deab8530d4f638f05c63e8cd39622", 
-        "questionOf": "tender"
-      }
-    ], 
-    "owner": "broker", 
-    "id": "b74c14bbee6f44a9a0c8408c13a4c1a8", 
-    "guarantee": {
-      "currency": "USD", 
-      "amount": 8.0
-    }, 
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "description": "document description modified", 
-        "title": "Notice.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/4ff4633a89034136ab1ed3b77a7e9fc7?KeyID=ef5aa287&Signature=z3ShJ3uzAcIFGzln4nWGwSnz1SwQI9HS7HRzIpPgeLF5iOUMVjJr0WSRbIU1etZkTgrRq36rIFAmCHZHJRpAATQAAABmAAAAZgAAADQAAAA2AAAAMwAAADMAAABhAAAA", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2016-07-21T17:18:05.687403+03:00", 
-        "documentType": "technicalSpecifications", 
-        "id": "73edadd66f2a4178917993081ea1be10", 
-        "dateModified": "2016-07-21T17:18:05.687435+03:00"
-      }, 
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "title": "AwardCriteria.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/9cd76c39b44a46498898025570db2549?KeyID=ef5aa287&Signature=B4Gsqg25U743USAcQ1aQP3VoOogQqOL9aYcXms%2FKwZBuHPPVano%2F%2F9nkpqz6C8tltqbQjJvsd7In0O05tQAKCzkAAABjAAAAZAAAADcAAAA2AAAAYwAAADMAAAA5AAAA", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2016-07-21T17:18:06.086634+03:00", 
-        "id": "4c37fa0aee1348a1abe668a015e475c9", 
-        "dateModified": "2016-07-21T17:18:06.086671+03:00"
-      }, 
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "title": "AwardCriteria-2.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/dbed15c868604bf99984907efa669c1b?KeyID=ef5aa287&Signature=jfTlZ0XuxAr2JdMjc2WjKBPwd8fYIg6PN1maCvuof1WhyrqY4EdY9atyM2RkFbc3lVnPeTRFfqqbsEUBG9PDAmQAAABiAAAAZQAAAGQAAAAxAAAANQAAAGMAAAA4AAAA", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2016-07-21T17:18:06.086634+03:00", 
-        "id": "4c37fa0aee1348a1abe668a015e475c9", 
-        "dateModified": "2016-07-21T17:18:06.260877+03:00"
-      }
-    ], 
-    "title": "футляри до державних нагород", 
-    "tenderID": "UA-2016-07-21-000001", 
-    "dateModified": "2016-07-21T17:18:07.776123+03:00", 
-    "status": "active.auction", 
-    "tenderPeriod": {
-      "startDate": "2016-07-14T17:17:48.184527+03:00", 
-      "endDate": "2016-07-21T17:17:48.184527+03:00"
-    }, 
-    "auctionPeriod": {
-      "startDate": "2016-07-21T17:17:48.184527+03:00", 
-      "shouldStartAfter": "2016-07-21T17:17:48.184527+03:00"
-    }, 
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
-    "date": "2016-07-21T17:18:04.728611+03:00", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 35.0, 
-      "valueAddedTaxIncluded": true
-    }, 
+    "awardCriteria": "lowestCost", 
     "items": [
       {
+        "relatedLot": "a93d95632cac485ca6dca149ce24be57", 
         "description": "футляри до державних нагород", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Cartons", 
           "id": "44617100-9"
         }, 
@@ -128,10 +118,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-07-23T17:17:48.184527+03:00", 
-          "endDate": "2016-07-26T17:17:48.184527+03:00"
+          "startDate": "2018-09-30T09:56:35.860440+03:00", 
+          "endDate": "2018-10-03T09:56:35.860440+03:00"
         }, 
-        "id": "93b5e35b0ece40b88af4114d4c8017fe", 
+        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -139,12 +129,40 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 5
       }
     ], 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "awardCriteria": "lowestCost"
+    "owner": "broker", 
+    "dateModified": "2018-09-28T09:56:39.038521+03:00", 
+    "lots": [
+      {
+        "status": "active", 
+        "description": "Опис Лот №1", 
+        "title": "Лот №1", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "auctionPeriod": {
+          "shouldStartAfter": "2018-09-29T00:00:00+03:00"
+        }, 
+        "value": {
+          "currency": "UAH", 
+          "amount": 600.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/29fb21ea52a64dc8a1614d1f312ec395_a93d95632cac485ca6dca149ce24be57", 
+        "date": "2018-09-28T09:56:36.594441+03:00", 
+        "id": "a93d95632cac485ca6dca149ce24be57", 
+        "guarantee": {
+          "currency": "USD", 
+          "amount": 8.0
+        }
+      }
+    ], 
+    "id": "29fb21ea52a64dc8a1614d1f312ec395", 
+    "guarantee": {
+      "currency": "USD", 
+      "amount": 8.0
+    }
   }
 }
 
