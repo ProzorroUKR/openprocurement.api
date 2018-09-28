@@ -19,7 +19,7 @@ cache:
   directories:
     - eggs
 before_install:
-  - pip install setuptools==7.0 setuptools_scm==1.15.0
+  - pip install setuptools==33.1.1
   - python2 bootstrap.py
 install:
   - bin/buildout -N
@@ -27,4 +27,3 @@ script:
   - bin/nosetests
 after_success:
   - bin/coveralls
-  - bin/pylint --errors-only --disable=no-member,not-an-iterable,bad-super-call,unsubscriptable-object,too-many-format-args openprocurement.tender.openuadefense
