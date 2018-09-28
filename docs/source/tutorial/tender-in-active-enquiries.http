@@ -1,16 +1,6 @@
-PATCH /api/2.4/tenders/29fb21ea52a64dc8a1614d1f312ec395?acc_token=84e5e22d17d74352873a558633d2a07a HTTP/1.0
+GET /api/2.4/tenders/29fb21ea52a64dc8a1614d1f312ec395 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 75
-Content-Type: application/json
 Host: api-sandbox.openprocurement.org
-
-{
-  "data": {
-    "tenderPeriod": {
-      "endDate": "2018-10-13T09:56:47.173693+03:00"
-    }
-  }
-}
 
 
 200 OK
@@ -23,7 +13,7 @@ Content-Type: application/json; charset=UTF-8
     "awardCriteria": "lowestCost", 
     "tenderPeriod": {
       "startDate": "2018-09-29T09:56:35.860440+03:00", 
-      "endDate": "2018-10-13T09:56:47.173693+03:00"
+      "endDate": "2018-10-12T09:56:35.860440+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -74,7 +64,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "submissionMethod": "electronicAuction", 
     "date": "2018-09-28T09:56:37.093414+03:00", 
-    "dateModified": "2018-09-28T09:56:37.272002+03:00", 
+    "dateModified": "2018-09-28T09:56:37.093414+03:00", 
     "next_check": "2018-09-29T09:56:35.860440+03:00", 
     "procuringEntity": {
       "contactPoint": {

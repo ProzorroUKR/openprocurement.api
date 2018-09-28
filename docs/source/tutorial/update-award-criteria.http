@@ -1,4 +1,4 @@
-PUT /api/2.3/tenders/b74c14bbee6f44a9a0c8408c13a4c1a8/documents/4c37fa0aee1348a1abe668a015e475c9?acc_token=6241dc3adcf04c33b4f86f08e8e6e591 HTTP/1.0
+PUT /api/2.4/tenders/29fb21ea52a64dc8a1614d1f312ec395/documents/0bacb82477924d7e988d4c26fcc3fb3f?acc_token=84e5e22d17d74352873a558633d2a07a HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 337
 Content-Type: application/json
@@ -6,7 +6,7 @@ Host: api-sandbox.openprocurement.org
 
 {
   "data": {
-    "url": "http://public.docs-sandbox.openprocurement.org/get/dbed15c868604bf99984907efa669c1b?KeyID=ef5aa287&Signature=SJr%2B60AaDEm3Eej%2FepSZVtheuwNaKn4Cz%2B1LyPORFqLdduxVd4oidU2GU0LBSrr8J8MxAsGMD3p3AU5SaPZbCg%3D%3D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/e9a6d82ff41345a896661d0e60d251d5?KeyID=369e79af&Signature=tq%2FUowIW6j9bWTB1PGvZ1fsel5p45f%2Ba6xu8LGAmzuaFG4514rf0ab%2FjGQW6vEpcbxeeD1U5DKfQGnk3ku46BA%3D%3D", 
     "title": "AwardCriteria-2.pdf", 
     "hash": "md5:00000000000000000000000000000000", 
     "format": "application/pdf"
@@ -20,13 +20,14 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
+    "author": "tender_owner", 
     "title": "AwardCriteria-2.pdf", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/dbed15c868604bf99984907efa669c1b?KeyID=ef5aa287&Signature=jfTlZ0XuxAr2JdMjc2WjKBPwd8fYIg6PN1maCvuof1WhyrqY4EdY9atyM2RkFbc3lVnPeTRFfqqbsEUBG9PDAmQAAABiAAAAZQAAAGQAAAAxAAAANQAAAGMAAAA4AAAA", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/e9a6d82ff41345a896661d0e60d251d5?KeyID=369e79af&Signature=OTamiyS7H5aVSK5PNmnujs7TZawW%2FKHQL45U0yDv5y4PzbRExC2KfV0ZnktjCd1Hf0efGt%252B2vV8ufWtRSfEdDQ%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2016-07-21T17:18:06.086634+03:00", 
-    "id": "4c37fa0aee1348a1abe668a015e475c9", 
-    "dateModified": "2016-07-21T17:18:06.260877+03:00"
+    "datePublished": "2018-09-28T09:56:37.730689+03:00", 
+    "id": "0bacb82477924d7e988d4c26fcc3fb3f", 
+    "dateModified": "2018-09-28T09:56:37.855764+03:00"
   }
 }
 

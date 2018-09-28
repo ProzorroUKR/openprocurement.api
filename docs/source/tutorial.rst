@@ -87,7 +87,7 @@ And indeed we have 2 tenders now.
 Переконуємось, що наш тендер відповідає всім вимогам і бот наповнив :ref:`Agreement` тендеру і встановив статус
 ``active.enquiries``.
 
-.. include:: docs/source/tutorial/tender-in-active-enquiries.http
+.. include:: tutorial/tender-in-active-enquiries.http
    :code:
 
 Modifying tender
@@ -179,9 +179,10 @@ Step-by-step registration
 When ``Tender.tenderingPeriod.startDate`` comes, Tender switches to `active.tendering` status that allows registration
 of bids.
 
-Bidder can register a bid in `draft` status:
+Bidder can register a bid in ``draft`` status:
 
-Не можна подати пропозицію учаснику якого немає у рамковій угоді (:ref:`Agreement`)
+Не можна подати пропозицію із значенням більшим ніж у ``agreement.contract.value``, а також учаснику якого немає у
+рамковій угоді (:ref:`Agreement`)
 
 .. include:: tutorial/register-bidder-invalid.http
    :code:

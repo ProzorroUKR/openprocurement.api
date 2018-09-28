@@ -76,15 +76,6 @@ Schema
    |ocdsDescription|
    All documents and attachments related to the tender.
 
-:questions:
-   List of :ref:`question` objects
-
-   Questions to ``procuringEntity`` and answers to them.
-
-:complaints:
-   List of :ref:`complaint` objects
-
-   Complaints to tender conditions and their resolutions.
 
 :bids:
    List of :ref:`bid` objects
@@ -148,6 +139,12 @@ Schema
 :status:
    string
 
+    :`draft`:
+        <!!! Щось про статус `draft`>
+    :`draft.pending`:
+        <!!! Щось про статус `draft.pending`>
+    :`draft.unsuccessful`:
+        <!!! Щось про статус `draft.unsuccessful`>
    :`active.enquiries`:
        Enquiries period (enquiries)
    :`active.tendering`:
@@ -166,6 +163,9 @@ Schema
        Cancelled tender (cancelled)
 
    Status of the Tender.
+
+:agreements:
+    List of :ref:`Agreement` objects
 
 :lots:
    List of :ref:`lot` objects.

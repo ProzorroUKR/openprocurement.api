@@ -76,14 +76,6 @@ Schema
     |ocdsDescription|
     All documents and attachments related to the award, including any notices. 
     
-:complaints:
-    List of :ref:`Complaint` objects
-
-:complaintPeriod:
-    :ref:`period`
-
-    The timeframe when complaints can be submitted.
-
 :lotID:
     string
 

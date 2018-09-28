@@ -1,4 +1,4 @@
-GET /api/2.3/tenders/b74c14bbee6f44a9a0c8408c13a4c1a8 HTTP/1.0
+GET /api/2.4/tenders/29fb21ea52a64dc8a1614d1f312ec395 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,12 +8,12 @@ Content-Type: application/json; charset=UTF-8
 
 {
   "data": {
-    "procurementMethod": "open", 
-    "status": "active.enquiries", 
+    "status": "draft", 
+    "procurementMethod": "selective", 
     "awardCriteria": "lowestCost", 
     "tenderPeriod": {
-      "startDate": "2016-07-28T17:17:48.184527+03:00", 
-      "endDate": "2016-08-04T17:17:48.184527+03:00"
+      "startDate": "2018-09-29T09:56:35.860440+03:00", 
+      "endDate": "2018-10-12T09:56:35.860440+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -23,9 +23,10 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
+        "relatedLot": "a93d95632cac485ca6dca149ce24be57", 
         "description": "футляри до державних нагород", 
         "classification": {
-          "scheme": "CPV", 
+          "scheme": "ДК021", 
           "description": "Cartons", 
           "id": "44617100-9"
         }, 
@@ -44,10 +45,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2016-07-23T17:17:48.184527+03:00", 
-          "endDate": "2016-07-26T17:17:48.184527+03:00"
+          "startDate": "2018-09-30T09:56:35.860440+03:00", 
+          "endDate": "2018-10-03T09:56:35.860440+03:00"
         }, 
-        "id": "93b5e35b0ece40b88af4114d4c8017fe", 
+        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -58,12 +59,12 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
     "value": {
       "currency": "UAH", 
-      "amount": 500.0, 
+      "amount": 600.0, 
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "date": "2016-07-21T17:18:04.728611+03:00", 
-    "next_check": "2016-07-28T17:17:48.184527+03:00", 
+    "date": "2018-09-28T09:56:36.594441+03:00", 
+    "dateModified": "2018-09-28T09:56:36.599548+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -85,13 +86,36 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "enquiryPeriod": {
-      "startDate": "2016-07-21T17:18:04.728536+03:00", 
-      "endDate": "2016-07-28T17:17:48.184527+03:00"
+      "startDate": "2018-09-28T09:56:36.594375+03:00", 
+      "endDate": "2018-09-29T09:56:35.860440+03:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2016-07-21T17:18:04.733149+03:00", 
-    "id": "b74c14bbee6f44a9a0c8408c13a4c1a8", 
-    "tenderID": "UA-2016-07-21-000001"
+    "agreements": [
+      {
+        "id": "9aa744f37d10468685a77be968bfe979"
+      }
+    ], 
+    "lots": [
+      {
+        "status": "active", 
+        "description": "Опис Лот №1", 
+        "title": "Лот №1", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "value": {
+          "currency": "UAH", 
+          "amount": 600.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "date": "2018-09-28T09:56:36.594441+03:00", 
+        "id": "a93d95632cac485ca6dca149ce24be57"
+      }
+    ], 
+    "id": "29fb21ea52a64dc8a1614d1f312ec395", 
+    "tenderID": "UA-2018-09-28-000001"
   }
 }
 
