@@ -6,8 +6,8 @@ from datetime import timedelta
 from iso8601 import parse_date
 
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX, INN_CODES, ATC_CODES
-from openprocurement.tender.cfaselectionua.constants import BOT_NAME
+from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX
+from openprocurement.tender.cfaselectionua.constants import BOT_NAME, ENQUIRY_PERIOD
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
 )
@@ -1215,7 +1215,6 @@ def patch_tender_bot(self):
         global owner_token
         self.tender_id = tender['id']
         owner_token = response.json['access']['token']
-
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                        {'data': {'status': 'draft.pending'}})
         self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
@@ -1252,6 +1251,15 @@ def patch_tender_bot(self):
     response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'active.enquiries')
+    self.assertEqual(parse_date(response.json['data']['enquiryPeriod']['startDate']) + ENQUIRY_PERIOD,
+                     parse_date(response.json['data']['enquiryPeriod']['endDate']))
+    # patch tender by bot in wrong status
+    response = self.app.patch_json('/tenders/{}'.format(tender['id']),
+                                   {'data': {'status': 'draft'}}, status=403)
+    self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
+    self.assertEqual(response.json['errors'][0]['description'],
+                     "Can't update tender in current (active.enquiries) tender status")
+
 
     # patch tender with less than 7 days to end
     create_tender_and_prepare_for_bot_patch()
@@ -1326,11 +1334,10 @@ def dateModified_tender(self):
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['dateModified'], dateModified)
 
-    self.app.authorization = ('Basic', (BOT_NAME, ''))
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
         tender['id'], token), {'data': {'procurementMethodRationale': 'Open'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-    self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+    self.assertEqual(response.json['data']['dateModified'], dateModified)
 
 
 def tender_not_found(self):

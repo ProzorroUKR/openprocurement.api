@@ -5,6 +5,7 @@ from openprocurement.tender.cfaselectionua.constants import (
     STATUS4ROLE,
     MIN_PERIOD_UNTIL_AGREEMENT_END,
     MIN_ACTIVE_CONTRACTS,
+    ENQUIRY_PERIOD,
 )
 
 
@@ -27,3 +28,4 @@ class TenderCfaSelectionUAConfigurator(TenderConfigurator):
     agreement_expired_until = MIN_PERIOD_UNTIL_AGREEMENT_END
     # if bot patches tender with agreement with less than 3 active contracts, tender -> draft.unsuccessful
     min_active_contracts = MIN_ACTIVE_CONTRACTS
+    enquiry_period = ENQUIRY_PERIOD  # patch tender by agreement bot, into active.enquiries

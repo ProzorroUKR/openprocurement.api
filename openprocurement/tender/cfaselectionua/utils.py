@@ -254,20 +254,20 @@ def check_period_and_items(request, tender):
         if t_i_c not in agreement_items_classifications:
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
-            request.validated['data']['status'] = 'draft.unsuccessful'
+            tender.status = 'draft.unsuccessful'
             return
 
     if tender.agreements[0].period.endDate < get_now() + request.content_configurator.agreement_expired_until:
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
-        request.validated['data']['status'] = 'draft.unsuccessful'
+        tender.status = 'draft.unsuccessful'
 
 
 def check_min_active_contracts(request, tender):
     for agr in tender.agreements:
         active_contracts = [c for c in agr.contracts if c.status == 'active'] if agr.contracts else []
         if len(active_contracts) < request.content_configurator.min_active_contracts:
-            request.validated['data']['status'] = 'draft.unsuccessful'
+            tender.status = 'draft.unsuccessful'
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
 
