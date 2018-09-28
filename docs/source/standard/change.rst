@@ -118,8 +118,6 @@ Schema
 :contractId:
     string, required
 
-     Min value is 0.0 .
-
 
 Workflow
 --------

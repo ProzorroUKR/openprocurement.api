@@ -1,4 +1,4 @@
-PATCH /api/2.4/agreements/d32a93314e474dd499178b5ff3d22e38/changes/a39bf21c404645d2904dbc6b749d81ae?acc_token=80f1d6874f2440069b55a7614f963d89 HTTP/1.0
+PATCH /api/2.4/agreements/bac4cd4430804d14886552838c221f44/changes/d477e71367eb4409ad0c02c7aab14685?acc_token=292fa501fab14276ac5d7a3076a459fb HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 255
 Content-Type: application/json
@@ -18,8 +18,8 @@ Content-Type: application/json; charset=UTF-8
     "rationaleType": "taxRate", 
     "rationale_en": "Agreement change cause", 
     "rationale": "Друга і третя поставка має бути розфасована", 
-    "date": "2018-09-21T18:15:25.972203+03:00", 
-    "id": "a39bf21c404645d2904dbc6b749d81ae"
+    "date": "2018-09-28T13:49:36.515236+03:00", 
+    "id": "d477e71367eb4409ad0c02c7aab14685"
   }
 }
 
