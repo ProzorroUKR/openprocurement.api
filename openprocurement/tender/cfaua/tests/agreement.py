@@ -71,11 +71,17 @@ four_bids = deepcopy(test_bids)
 four_bids += [four_bids[0]]
 
 
-class TenderAgreement4ContractsResourceTest(TenderAgreementResourceTest):
+class TenderAgreement4ContractsResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.awarded'
     initial_bids = four_bids
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
+
+    def setUp(self):
+        super(TenderAgreement4ContractsResourceTest, self).setUp()
+        self.tender = self.app.get('/tenders/{}'.format(self.tender_id)).json['data']
+        self.agreement_id = self.tender['agreements'][0]['id']
+
     test_four_contracts_one_unsuccessful = snitch(four_contracts_one_unsuccessful)
 
 
@@ -97,6 +103,7 @@ class TenderAgreementDocumentResourceTest(BaseTenderContentWebTest, TenderAgreem
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderAgreementResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAgreement4ContractsResourceTest))
     suite.addTest(unittest.makeSuite(TenderAgreementDocumentResourceTest))
     return suite
 
