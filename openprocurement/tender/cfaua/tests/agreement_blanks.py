@@ -941,3 +941,58 @@ def patch_lots_agreement_contract_unit_prices(self):
         "name": "data",
         "description": "Total amount can't be greater than bid.lotValue.value.amount"}]
     )
+
+
+def four_contracts_one_unsuccessful(self):
+    response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))
+    agreement = response.json['data'][0]
+    self.assertEqual(agreement['status'], 'pending')
+
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender = response.json['data']
+    self.assertEqual(tender['status'], 'active.awarded')
+
+    # Fill 3 unitPrice.value.amount for all contracts in agreement
+    response = self.app.get('/tenders/{}/agreements/{}/contracts'.format(self.tender_id, self.agreement_id))
+    contracts = response.json['data']
+    for contract in contracts[:-1]:
+        unit_prices = contract['unitPrices']
+        for unit_price in unit_prices:
+            unit_price['value']['amount'] = 60
+        response = self.app.patch_json(
+            '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
+                                                                         contract['id'], self.tender_token),
+            {'data': {'unitPrices': unit_prices}}
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+    # Set last contract to unsuccessful
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
+                                                                     contracts[-1]['id'], self.tender_token),
+        {'data': {'status': 'unsuccessful'}}
+    )
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
+    tender = self.db.get(self.tender_id)
+    tender['contractPeriod']['startDate'] =\
+        (datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)).isoformat()
+    tender['contractPeriod']['clarificationsUntil'] = (datetime.now() - timedelta(days=1)).isoformat()
+    self.db.save(tender)
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}?acc_token={}'.format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active", "period": agreement_period}}
+    )
+    self.assertEqual(response.json['data']['status'], 'active')
+
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender = response.json['data']
+    self.assertEqual(tender['status'], 'complete')
+    self.assertEqual(len([c for c in tender['agreements'][0]['contracts'] if c['status'] == 'active']), 3)
+    self.assertEqual(len([c for c in tender['agreements'][0]['contracts'] if c['status'] == 'unsuccessful']), 1)
+
+    for unit_price in tender['agreements'][0]['contracts'][-1]['unitPrices']:
+        self.assertNotIn('amount', unit_price['value'])

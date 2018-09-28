@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
@@ -17,6 +18,7 @@ from openprocurement.tender.cfaua.tests.agreement_blanks import (
     get_tender_agreements,
     get_tender_agreement_contract,
     get_tender_agreement_contracts,
+    four_contracts_one_unsuccessful,
     not_found,
     patch_tender_agreement,
     patch_tender_agreement_unsuccessful,
@@ -63,6 +65,18 @@ class TenderAgreementResourceTest(BaseTenderContentWebTest, TenderAgreementResou
     test_patch_tender_agreement_datesigned = snitch(patch_tender_agreement_datesigned)
     test_patch_tender_agreement = snitch(patch_tender_agreement)
     test_patch_lots_agreement_contract_unit_prices = snitch(patch_lots_agreement_contract_unit_prices)
+
+
+four_bids = deepcopy(test_bids)
+four_bids += [four_bids[0]]
+
+
+class TenderAgreement4ContractsResourceTest(TenderAgreementResourceTest):
+    initial_status = 'active.awarded'
+    initial_bids = four_bids
+    initial_lots = test_lots
+    initial_auth = ('Basic', ('broker', ''))
+    test_four_contracts_one_unsuccessful = snitch(four_contracts_one_unsuccessful)
 
 
 class TenderAgreementDocumentResourceTest(BaseTenderContentWebTest, TenderAgreementDocumentResourceTestMixin):
