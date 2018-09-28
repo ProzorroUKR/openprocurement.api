@@ -36,7 +36,7 @@ def bids_on_tender_cancellation_in_pre_qualification(self):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'invalid')
     invalid_bid_id = self.valid_bids.pop()
-    self.assertEqual(len(self.valid_bids), 2)
+    self.assertEqual(len(self.valid_bids), (self.min_bids_number-1)*2)
     for bid_id in self.valid_bids:
         response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, self.initial_bids_tokens[bid_id]), {"data": {
             'status': 'pending',
@@ -377,15 +377,12 @@ def cancellation_unsuccessful_qualification(self):
     self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
     self.app.authorization = ('Basic', ('token', ''))
-    response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
-    qualification_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == self.initial_lots[0]['id']][0]
-    response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification_id, self.tender_token),
-                                   {"data": {"status": "unsuccessful", "qualified": True, "eligible": True}})
-
-    response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
-    qualification_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == self.initial_lots[0]['id']][0]
-    response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification_id, self.tender_token),
-                                   {"data": {"status": "unsuccessful", "qualified": True, "eligible": True}})
+    for i in range(self.min_bids_number):
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        qualification_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == self.initial_lots[0]['id']][0]
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification_id, self.tender_token),
+                                       {"data": {"status": "unsuccessful", "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, '200 OK')
 
     response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
         'reason': 'cancellation reason',
@@ -522,15 +519,18 @@ def cancellation_unsuccessful_award(self):
     self.assertEqual(response.json['data']['status'], "active.qualification")
 
     self.app.authorization = ('Basic', ('token', ''))
-    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-    award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == self.initial_lots[0]['id']][0]
-    response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
-                                   {"data": {"status": "unsuccessful"}})
 
-    response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
-    award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == self.initial_lots[0]['id']][0]
-    response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
-                                   {"data": {"status": "unsuccessful"}})
+    # patch all first lot related Awards to unsuccessful
+    while True:
+        response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+        awards = [i['id'] for i in response.json['data'] if i['status'] == 'pending' and i['lotID'] == self.initial_lots[0]['id']]
+        if awards:
+            award_id = awards[0]
+        else:
+            break
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
+                                       {"data": {"status": "unsuccessful"}})
+        self.assertEqual(response.status, '200 OK')
 
     response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {
         'reason': 'cancellation reason',

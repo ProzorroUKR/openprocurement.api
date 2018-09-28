@@ -28,8 +28,9 @@ def patch_tender_2lot_auction(self):
         'auctionUrl': u'http://auction-sandbox.openprocurement.org/tenders/{}'.format(self.tender_id),
         'bids': [
             {
-                "id": self.initial_bids[1]['id'],
-                "participationUrl": u'http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}'.format(self.tender_id, self.initial_bids[1]['id'])
+                "id": self.initial_bids[-1]['id'],
+                "participationUrl": u'http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}'.format(
+                    self.tender_id, self.initial_bids[-1]['id'])
             }
         ]
     }
@@ -67,29 +68,32 @@ def patch_tender_2lot_auction(self):
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
 
-    patch_data['bids'].append({
-        'lotValues': [
-            {
-                "participationUrl": u'http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}'.format(self.tender_id, self.initial_bids[0]['id'])
-            }
-        ]
-    })
+    for x in list(range(self.min_bids_number))[-2::-1]:
+        patch_data['bids'].append({
+            'id': self.initial_bids[x]['id'],
+            'lotValues': [
+                {
+                    "participationUrl": u'http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}'.format(
+                        self.tender_id, self.initial_bids[x]['id'])
+                }
+            ]
+        })
 
-    patch_data['bids'][1]['id'] = "some_id"
+    patch_data['bids'][-1]['id'] = "some_id"
 
     response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], {u'id': [u'Hash value is wrong length.']})
 
-    patch_data['bids'][1]['id'] = "00000000000000000000000000000000"
+    patch_data['bids'][-1]['id'] = "00000000000000000000000000000000"
 
     response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Auction bids should be identical to the tender bids")
 
-    patch_data['bids'][1]['id'] = self.initial_bids[0]['id']
+    patch_data['bids'][-1]['id'] = self.initial_bids[0]['id']
 
     response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -102,7 +106,7 @@ def patch_tender_2lot_auction(self):
     response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': patch_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], [{u'lotID': [u'lotID should be one of lots']}, {u'lotID': [u'lotID should be one of lots']}])
+    self.assertEqual(response.json['errors'][0]["description"], [{u'lotID': [u'lotID should be one of lots']}]*self.min_bids_number)
 
     patch_data['lots'][1]['id'] = self.initial_lots[1]['id']
 
@@ -135,8 +139,11 @@ def patch_tender_2lot_auction(self):
         self.assertEqual(response.content_type, 'application/json')
         tender = response.json['data']
 
-    self.assertEqual(tender["bids"][0]['lotValues'][0]['participationUrl'], patch_data["bids"][1]['lotValues'][0]['participationUrl'])
-    self.assertEqual(tender["bids"][1]['lotValues'][0]['participationUrl'], patch_data["bids"][0]['lotValues'][0]['participationUrl'])
+    for x, y in enumerate(list(range(self.min_bids_number))[::-1]):
+        self.assertEqual(tender["bids"][x]['lotValues'][0]['participationUrl'],
+                         patch_data["bids"][y]['lotValues'][0]['participationUrl'])
+        self.assertEqual(tender["bids"][x]['lotValues'][1]['participationUrl'],
+                         patch_data["bids"][y]['lotValues'][1]['participationUrl'])
     self.assertEqual(tender["lots"][0]['auctionUrl'], patch_data["lots"][0]['auctionUrl'])
 
     self.app.authorization = ('Basic', ('broker', ''))

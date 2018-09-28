@@ -31,7 +31,7 @@ def get_tender_qualifications_collection(self):
     response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
     self.assertEqual(response.content_type, 'application/json')
     qualifications = response.json['data']
-    self.assertEqual(len(qualifications), 2)
+    self.assertEqual(len(qualifications), self.min_bids_number)
 
     response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
     self.assertEqual(response.content_type, 'application/json')
@@ -45,7 +45,7 @@ def patch_tender_qualifications(self):
     response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
     self.assertEqual(response.content_type, 'application/json')
     qualifications = response.json['data']
-    self.assertEqual(len(qualifications), 2)
+    self.assertEqual(len(qualifications), self.min_bids_number)
 
     q1_id = qualifications[0]['id']
     q2_id = qualifications[1]['id']
@@ -119,12 +119,12 @@ def patch_tender_qualifications(self):
     # list for new qualification
     response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
     qualifications = response.json['data']
-    self.assertEqual(len(qualifications), 4)
+    self.assertEqual(len(qualifications), self.min_bids_number+2)
     q1 = qualifications[0]
-    q3 = qualifications[2]
+    q3 = qualifications[self.min_bids_number]
     self.assertEqual(q1['bidID'], q3['bidID'])
     q2 = qualifications[1]
-    q4 = qualifications[3]
+    q4 = qualifications[self.min_bids_number+1]
     self.assertEqual(q2['bidID'], q4['bidID'])
 
     self.assertEqual(q3['status'], 'pending')
@@ -139,11 +139,10 @@ def patch_tender_qualifications(self):
     # one more qualification should be generated
     response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
     qualifications = response.json['data']
-    self.assertEqual(len(qualifications), 5)
-    self.assertEqual(q3['bidID'], qualifications[4]['bidID'])
-
+    self.assertEqual(len(qualifications), self.min_bids_number+3)
+    self.assertEqual(q3['bidID'], qualifications[self.min_bids_number]['bidID'])
     # activate rest qualifications
-    for q_id in (qualifications[3]['id'], qualifications[4]['id']):
+    for q_id in (qualifications[self.min_bids_number+1]['id'], qualifications[self.min_bids_number+2]['id']):
         response = self.app.patch_json(
             '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, q_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}})
@@ -210,7 +209,7 @@ def lot_get_tender_qualifications_collection(self):
     response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
     self.assertEqual(response.content_type, 'application/json')
     qualifications = response.json['data']
-    self.assertEqual(len(qualifications), 4)
+    self.assertEqual(len(qualifications), self.min_bids_number*2)
 
     response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
     self.assertEqual(response.content_type, 'application/json')
@@ -243,7 +242,7 @@ def tender_qualification_cancelled(self):
     self.assertEqual(response.content_type, 'application/json')
 
     new_qualifications = response.json['data']
-    self.assertEqual(len(new_qualifications), 5)
+    self.assertEqual(len(new_qualifications), self.min_bids_number*2+1)
 
 # TenderQualificationDocumentResourceTest
 
@@ -585,10 +584,11 @@ def patch_qualification_document(self):
 
 
 def create_qualification_document_after_status_change(self):
-    response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-        self.tender_id, self.qualifications[0]['id'], self.tender_token),
-        {'data': {"status": "active", "qualified": True, "eligible": True}})
-    self.assertEqual(response.status, '200 OK')
+    for i in range(self.min_bids_number-1):
+        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
+            self.tender_id, self.qualifications[i]['id'], self.tender_token),
+            {'data': {"status": "active", "qualified": True, "eligible": True}})
+        self.assertEqual(response.status, '200 OK')
     response = self.app.post('/tenders/{}/qualifications/{}/documents?acc_token={}'.format(
         self.tender_id, self.qualifications[0]['id'], self.tender_token),
         upload_files=[('file', 'name.doc', 'content')], status=403)
@@ -598,10 +598,10 @@ def create_qualification_document_after_status_change(self):
          u'name': u'data'}])
 
     response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-        self.tender_id, self.qualifications[1]['id'], self.tender_token), {'data': {"status": "unsuccessful"}})
+        self.tender_id, self.qualifications[-1]['id'], self.tender_token), {'data': {"status": "unsuccessful"}})
     self.assertEqual(response.status, '200 OK')
     response = self.app.post('/tenders/{}/qualifications/{}/documents?acc_token={}'.format(
-        self.tender_id, self.qualifications[1]['id'], self.tender_token),
+        self.tender_id, self.qualifications[-1]['id'], self.tender_token),
         upload_files=[('file', 'name.doc', 'content')], status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.json['errors'], [
@@ -609,10 +609,10 @@ def create_qualification_document_after_status_change(self):
          u'name': u'data'}])
 
     response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-        self.tender_id, self.qualifications[1]['id'], self.tender_token), {'data': {"status": "cancelled"}})
+        self.tender_id, self.qualifications[-1]['id'], self.tender_token), {'data': {"status": "cancelled"}})
     self.assertEqual(response.status, '200 OK')
     response = self.app.post('/tenders/{}/qualifications/{}/documents?acc_token={}'.format(
-        self.tender_id, self.qualifications[1]['id'], self.tender_token),
+        self.tender_id, self.qualifications[-1]['id'], self.tender_token),
         upload_files=[('file', 'name.doc', 'content')], status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.json['errors'], [
@@ -621,16 +621,16 @@ def create_qualification_document_after_status_change(self):
     response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
     self.assertEqual(response.status, "200 OK")
     self.qualifications = response.json['data']
-    self.assertEqual(len(self.qualifications), 3)
+    self.assertEqual(len(self.qualifications), self.min_bids_number+1)
     response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-        self.tender_id, self.qualifications[2]['id'], self.tender_token),
+        self.tender_id, self.qualifications[self.min_bids_number]['id'], self.tender_token),
         {'data': {"status": "active", "qualified": True, "eligible": True}})
     self.assertEqual(response.status, '200 OK')
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
                                    {"data": {"status": "active.pre-qualification.stand-still"}})
     self.assertEqual(response.status, '200 OK')
     response = self.app.post('/tenders/{}/qualifications/{}/documents?acc_token={}'.format(
-        self.tender_id, self.qualifications[2]['id'], self.tender_token),
+        self.tender_id, self.qualifications[self.min_bids_number]['id'], self.tender_token),
         upload_files=[('file', 'name.doc', 'content')], status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.json['errors'], [
