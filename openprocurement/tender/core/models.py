@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
 from datetime import timedelta, time, datetime
-from couchdb_schematics.document import SchematicsDocument
+# from couchdb_schematics.document import SchematicsDocument
+from openprocurement.api.models import OpenprocurementSchematicsDocument
 from schematics.transforms import whitelist, blacklist, export_loop
 # from iso8601 import parse_date
 from zope.interface import implementer
@@ -766,7 +767,7 @@ class Lot(BaseLot):
 
 
 @implementer(ITender)
-class BaseTender(SchematicsDocument, Model):
+class BaseTender(OpenprocurementSchematicsDocument, Model):
     title = StringType(required=True)
     title_en = StringType()
     title_ru = StringType()
