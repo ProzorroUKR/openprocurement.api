@@ -16,20 +16,47 @@ Schema
     |ocdsDescription|
     The identifier for this agreement.
 
+:agreementId:
+    string
+
 :agreementNumber:
     string
 
 :title:
-    string, required
+    string
 
     |ocdsDescription|
     Agreement title
+
+:title_en:
+    string
+
+    |ocdsDescription|
+    Agreement title in english
+
+:title_ru:
+    string
+
+    |ocdsDescription|
+    Agreement title in russian
 
 :description:
     string
 
     |ocdsDescription|
     Agreement description
+
+:description_en:
+    string
+
+    |ocdsDescription|
+    Agreement description in english
+
+:description_ru:
+    string
+
+    |ocdsDescription|
+    Agreement description in russian
 
 :status:
     string, required
@@ -78,6 +105,11 @@ Schema
 :changes:
     List of :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, :ref:`ChangePartyWithdrawal` or :ref:`ChangeThirdParty` objects.
 
+:contracts:
+    List of :ref:`Contract`  objects.
+
+:revisions:
+    List of :ref:`Revision`  objects.
 
 :terminationDetails:
     string, required for unsuccessful agreement

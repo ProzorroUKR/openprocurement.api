@@ -56,3 +56,37 @@ Schema
 
 :valueAddedTaxIncluded:
     bool, required
+
+.. _Revision:
+
+Revision
+========
+
+Schema
+------
+
+:author:
+    string
+
+:date:
+    string, :ref:`date`
+
+:changes:
+    List of changes.
+
+:rev:
+    string
+
+.. _Parameter:
+
+Parameter
+=========
+
+Schema
+------
+
+:code:
+    string, required
+
+:value:
+    float, required

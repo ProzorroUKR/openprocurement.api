@@ -146,3 +146,17 @@ Schema
 
     |ocdsDescription|
     The total value of this agreement.
+
+.. _UnitPrice:
+
+UnitPrice
+=========
+
+Schema
+------
+
+:relatedItem:
+    string
+
+:value:
+    `Value` object, auto-generated, read-only

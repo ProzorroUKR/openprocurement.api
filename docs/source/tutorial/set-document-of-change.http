@@ -1,4 +1,4 @@
-PATCH /api/2.4/agreements/d32a93314e474dd499178b5ff3d22e38/documents/841d24c3f6084c1cb885dc104276992f?acc_token=80f1d6874f2440069b55a7614f963d89 HTTP/1.0
+PATCH /api/2.4/agreements/bac4cd4430804d14886552838c221f44/documents/826c1c729930494a8fecd66811a48529?acc_token=292fa501fab14276ac5d7a3076a459fb HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 85
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "documentOf": "change", 
-    "relatedItem": "a39bf21c404645d2904dbc6b749d81ae"
+    "relatedItem": "d477e71367eb4409ad0c02c7aab14685"
   }
 }
 
@@ -17,13 +17,13 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "title": "agreement_changes.doc", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/da21ee8484fb4ce4a1083bd79569389d?KeyID=9ae3c8c4&Signature=ReGnQ6qoen%2FipuKprj0Z3jKZ28y6b0wQ9fHSL58GN7EYZHab63iANZCtZ17q2je3o%2FfbRJah%252BY9qd9rFo0TzCQ%253D%253D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/1c02df8ee75a41f38e77da31ef13a55d?KeyID=7a12d53d&Signature=Dc56C96DvoWU1ReBC0akSDKNtTt4NKaAXXHQ%252B231PzAGJMYWIqpyo%2FkTNO5QCPl4NsQxdm4txfnjrheT8%252BOzDw%253D%253D", 
     "format": "application/msword", 
     "documentOf": "change", 
-    "datePublished": "2018-09-21T18:15:26.362423+03:00", 
-    "id": "841d24c3f6084c1cb885dc104276992f", 
-    "relatedItem": "a39bf21c404645d2904dbc6b749d81ae", 
-    "dateModified": "2018-09-21T18:15:26.362463+03:00"
+    "datePublished": "2018-09-28T13:49:36.927513+03:00", 
+    "id": "826c1c729930494a8fecd66811a48529", 
+    "relatedItem": "d477e71367eb4409ad0c02c7aab14685", 
+    "dateModified": "2018-09-28T13:49:36.927558+03:00"
   }
 }
 
