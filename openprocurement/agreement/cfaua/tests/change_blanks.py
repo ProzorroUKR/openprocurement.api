@@ -128,14 +128,14 @@ def create_change_invalid(self):
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
         self.agreement['id'], self.agreement_token), {'data': {}}, status=403)
     self.assertEqual(response.json['errors'], [
-        {u'description': u"Can't add change without relationaleType", u'location': u'body', u'name': u'data'}
+        {u'description': u"Can't add change without rationaleType", u'location': u'body', u'name': u'data'}
     ])
 
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
         self.agreement['id'], self.agreement_token), {'data': {'rationaleType': 'fake'}}, status=403)
     self.assertEqual(response.json['errors'], [
         {u'description':
-            u"relationaleType should be one of ['taxRate', 'itemPriceVariation', 'thirdParty', 'partyWithdrawal']",
+            u"rationaleType should be one of ['taxRate', 'itemPriceVariation', 'thirdParty', 'partyWithdrawal']",
          u'location': u'body', u'name': u'data'}
     ])
 
@@ -248,7 +248,7 @@ def create_change(self):
         self.agreement['id'], self.agreement_token), {'data': data}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.json['errors'], [
-        {u'description': u"Can't add change without relationaleType", u'location': u'body', u'name': u'data'}])
+        {u'description': u"Can't add change without rationaleType", u'location': u'body', u'name': u'data'}])
 
     data['rationaleType'] = 'partyWithdrawal'
     data['modifications'] = [{'contractId': self.agreement['contracts'][0]['id']}]
