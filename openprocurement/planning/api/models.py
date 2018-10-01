@@ -14,7 +14,11 @@ from openprocurement.api.models import Unit, CPVClassification, Classification, 
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
 from openprocurement.api.utils import get_now
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
-from openprocurement.planning.api.constants import PROCEDURES, MULTI_YEAR_BUDGET_PROCEDURES
+from openprocurement.planning.api.constants import (
+    PROCEDURES,
+    MULTI_YEAR_BUDGET_PROCEDURES,
+    BUDGET_PERIOD_FROM,
+)
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
@@ -63,6 +67,14 @@ class Budget(Model):
     year = IntType(min_value=2000)
     period = ModelType(BudgetPeriod)
     notes = StringType()
+
+    def validate_year(self, data, value):
+        if value and get_now() >= BUDGET_PERIOD_FROM:
+            raise ValidationError(u"Can't use year field, use period field instead")
+
+    def validate_period(self, data, value):
+        if value and get_now() < BUDGET_PERIOD_FROM:
+            raise ValidationError(u"Can't use period field, use year field instead")
 
 class PlanItem(Model):
     """Simple item model for planing"""

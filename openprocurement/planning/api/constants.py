@@ -1,3 +1,7 @@
+from datetime import datetime
+
+from openprocurement.api.constants import TZ
+
 PROCEDURES = {
     '': (
         '',
@@ -22,3 +26,5 @@ PROCEDURES = {
 MULTI_YEAR_BUDGET_PROCEDURES = (
     'closeFrameworkAgreementUA',
 )
+
+BUDGET_PERIOD_FROM = datetime(2018, 10, 1, tzinfo=TZ)

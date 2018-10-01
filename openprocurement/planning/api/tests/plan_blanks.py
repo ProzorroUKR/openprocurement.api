@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from iso8601 import parse_date
-from openprocurement.api.constants import ROUTE_PREFIX, CPV_ITEMS_CLASS_FROM
+from openprocurement.api.constants import ROUTE_PREFIX, CPV_ITEMS_CLASS_FROM, TZ
 from openprocurement.api.utils import get_now
 
 from openprocurement.planning.api.models import Plan
@@ -651,6 +651,19 @@ def create_plan(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertIn('{\n    "', response.body)
 
+    data = deepcopy(self.initial_data)
+
+    data['budget']['year'] = '2018'
+    del data['budget']['period']
+
+    response = self.app.post_json('/plans', {"data": data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.json['errors'], [{
+        u"description": {u"year": [
+            u"Can't use year field, use period field instead"
+        ]}, u"location": u"body", u"name": u"budget",
+    }])
+
 
 def get_plan(self):
     response = self.app.get('/plans')
@@ -857,4 +870,32 @@ def cfaua_plan(self):
     self.assertNotEqual(
         parse_date(period['startDate']).year,
         parse_date(period['endDate']).year)
+    self.assertIn(plan['id'], response.headers['Location'])
+
+
+def create_plan_budget_year(self):
+    response = self.app.get('/plans')
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(len(response.json['data']), 0)
+
+    data = deepcopy(self.initial_data)
+
+    response = self.app.post_json('/plans', {"data": data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.json['errors'], [{
+        u"description": {u"period": [
+            u"Can't use period field, use year field instead"
+        ]}, u"location": u"body", u"name": u"budget",
+    }])
+
+    data['budget']['year'] = '2018'
+    del data['budget']['period']
+
+    response = self.app.post_json('/plans', {"data": data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    plan = response.json['data']
+    self.assertEqual(
+        set(plan) - set(data),
+        set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
     self.assertIn(plan['id'], response.headers['Location'])
