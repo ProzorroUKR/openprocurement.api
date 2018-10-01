@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '2.4.4-dp'
+version = '2.4.5+dp'
 
 here = os.path.abspath(os.path.dirname(__file__))
 
