@@ -43,10 +43,10 @@ venusian==1.0
 waitress==0.8.9
 zope.deprecation==4.1.1
 zope.interface==4.1.1
-git+https://github.com/openprocurement/barbecue.git
-git+https://github.com/openprocurement/python-json-patch.git
-git+https://github.com/openprocurement/rfc6266.git
--e git+https://github.com/openprocurement/openprocurement.api.git@master#egg=openprocurement.api
--e git+https://github.com/openprocurement/openprocurement.tender.core.git@master#egg=openprocurement.tender.core
--e git+https://github.com/openprocurement/openprocurement.tender.belowthreshold.git@master#egg=openprocurement.tender.belowthreshold
--e git+https://github.com/openprocurement/openprocurement.tender.openua.git@master#egg=openprocurement.tender.openua
+git+https://github.com/ProzorroUKR/barbecue.git
+git+https://github.com/ProzorroUKR/python-json-patch.git
+git+https://github.com/ProzorroUKR/rfc6266.git
+-e git+https://github.com/ProzorroUKR/openprocurement.api.git@master#egg=openprocurement.api
+-e git+https://github.com/ProzorroUKR/openprocurement.tender.core.git@master#egg=openprocurement.tender.core
+-e git+https://github.com/ProzorroUKR/openprocurement.tender.belowthreshold.git@master#egg=openprocurement.tender.belowthreshold
+-e git+https://github.com/ProzorroUKR/openprocurement.tender.openua.git@master#egg=openprocurement.tender.openua
