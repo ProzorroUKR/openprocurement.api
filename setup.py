@@ -4,7 +4,7 @@ version = '1.0.1dp'
 
 requires = [
     'setuptools',
-    'openprocurement.api>=2.4',
+    'openprocurement.api',
     'openprocurement.historical.core',
 ]
 
