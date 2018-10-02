@@ -1,13 +1,13 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.0'
+version = '1.0.0dp'
 
 requires = [
     'setuptools',
     'zope.component',
     'zope.configuration',
-    'openprocurement.api>=2.4',
+    'openprocurement.api>=2.4.20dp',
     'isodate',
 ]
 
