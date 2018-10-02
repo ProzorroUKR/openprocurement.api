@@ -1,0 +1,3 @@
+include *.rst
+recursive-include *.py *.json
+global-exclude *.pyc *pyo *~ *.mo
