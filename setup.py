@@ -6,8 +6,8 @@ version = '1.0.8dp'
 requires = [
     'esculator',
     'setuptools',
-    'openprocurement.api>=2.4.1',
-    'openprocurement.tender.openeu>=2.4.2',
+    'openprocurement.api>=2.4.20dp',
+    'openprocurement.tender.openeu>=2.4.6dp',
 ]
 
 test_requires = requires + [
