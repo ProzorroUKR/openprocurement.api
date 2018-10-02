@@ -1,17 +1,18 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.4.4+dp'
+version = '2.4.4dp'
 
 requires = [
     'setuptools'
 ]
 
 api_requires = requires + [
-    'openprocurement.api>=2.4',
-    'openprocurement.tender.openua>=2.4.2',
-    'openprocurement.tender.openeu>=2.4.2',
-    'openprocurement.tender.core>=2.4'
+    'openprocurement.api>=2.4.20dp',
+    'openprocurement.tender.core>=2.4.6dp',
+    'openprocurement.tender.belowthreshold>=2.4.5dp',
+    'openprocurement.tender.openua>=2.4.3dp',
+    'openprocurement.tender.openeu>=2.4.6dp',
 ]
 
 test_requires = api_requires + requires + [
