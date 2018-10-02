@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
-version = '1.0.1+dp'
+version = '1.0.1dp'
 
 requires = [
     'setuptools',
     'openprocurement.api>=2.4',
-    'openprocurement.historical.core'
+    'openprocurement.historical.core',
 ]
 
 test_requires = requires + [
