@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.4.2'
+version = '2.4.3+dp'
 
 requires = [
     'setuptools',
@@ -26,7 +26,7 @@ entry_points = {
 setup(name='openprocurement.tender.openua',
       version=version,
       description="",
-      long_description=open("README.txt").read() + "\n" +
+      long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
