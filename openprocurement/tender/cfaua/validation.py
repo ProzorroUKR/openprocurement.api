@@ -171,8 +171,8 @@ def validate_agreement_signing(request):
         for contract in request.context.contracts:
             if contract.status == 'active':
                 active_contracts.append(contract.id)
-            for unit_price in contract.unitPrices:
-                empty_unitprices.append(unit_price.value.amount is None)
+                for unit_price in contract.unitPrices:
+                    empty_unitprices.append(unit_price.value.amount is None)
         if any(empty_unitprices):
             raise_operation_error(request, 'Can\'t sign agreement without all contracts.unitPrices.value.amount')
         if len(active_contracts) < config.min_bids_number:
