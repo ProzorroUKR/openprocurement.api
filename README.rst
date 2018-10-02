@@ -1,13 +1,12 @@
-Documentation
-=============
+.. image:: https://travis-ci.org/ProzorroUKR/openprocurement.tender.limited.svg?branch=master
+    :target: https://travis-ci.org/ProzorroUKR/openprocurement.tender.limited
 
-OpenProcurement is initiative to develop software 
-powering tenders database and reverse auction.
+.. image:: https://coveralls.io/repos/github/ProzorroUKR/openprocurement.tender.limited/badge.svg?branch=master
+    :target: https://coveralls.io/github/ProzorroUKR/openprocurement.tender.limited?branch=master
 
-This documentation is available at http://api-docs.openprocurement.org/projects/limited/en/latest/index.html
-
-Full documentation about OpenProcurement API is accessible at
-http://api-docs.openprocurement.org/
+.. image:: https://readthedocs.org/projects/prozorro-openprocurementtenderlimited/badge/?version=latest
+    :target: https://prozorro-openprocurementtenderlimited.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
 Building documentation
 ----------------------
