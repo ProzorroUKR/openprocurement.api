@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.4.5-dp'
+version = '2.4.6+dp'
 
 requires = [
     'setuptools',
@@ -26,7 +26,7 @@ entry_points = {
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(here, 'README.txt')) as f:
+with open(os.path.join(here, 'README.rst')) as f:
     README = f.read()
 
 setup(name='openprocurement.tender.openeu',
