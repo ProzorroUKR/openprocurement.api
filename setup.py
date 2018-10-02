@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.8+dp'
+version = '1.0.8dp'
 
 requires = [
     'esculator',
