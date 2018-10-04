@@ -1,13 +1,13 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.4.2'
+version = '2.4.3dp'
 
 requires = [
     'setuptools',
-    'openprocurement.api>=2.4',
-    'openprocurement.tender.core>=2.4.1',
-    'openprocurement.tender.belowthreshold>=2.4.1'
+    'openprocurement.api>=2.4.20dp',
+    'openprocurement.tender.core>=2.4.6dp',
+    'openprocurement.tender.belowthreshold>=2.4.5dp',
 ]
 test_requires = requires + [
     'webtest',
@@ -26,7 +26,7 @@ entry_points = {
 setup(name='openprocurement.tender.openua',
       version=version,
       description="",
-      long_description=open("README.txt").read() + "\n" +
+      long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
