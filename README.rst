@@ -1,18 +1,15 @@
-.. image:: https://travis-ci.org/openprocurement/openprocurement.api.svg?branch=master
-    :target: https://travis-ci.org/openprocurement/openprocurement.api
+.. image:: https://travis-ci.org/ProzorroUKR/openprocurement.tender.belowthreshold.svg?branch=master
+    :target: https://travis-ci.org/ProzorroUKR/openprocurement.tender.belowthreshold
 
-.. image:: https://coveralls.io/repos/openprocurement/openprocurement.api/badge.svg
-  :target: https://coveralls.io/r/openprocurement/openprocurement.api
+.. image:: https://coveralls.io/repos/github/ProzorroUKR/openprocurement.tender.belowthreshold/badge.svg?branch=master
+    :target: https://coveralls.io/github/ProzorroUKR/openprocurement.tender.belowthreshold?branch=master
 
-.. image:: https://readthedocs.org/projects/openprocurementapi/badge/?version=latest
-    :target: http://api-docs.openprocurement.org/
+.. image:: https://readthedocs.org/projects/prozorro-openprocurementapi/badge/?version=latest
+    :target: https://prozorro-openprocurementapi.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
 .. image:: https://img.shields.io/hexpm/l/plug.svg
     :target: https://github.com/openprocurement/openprocurement.api/blob/master/LICENSE.txt
-
-.. image:: https://badges.gitter.im/Join%20Chat.svg
-    :target: https://gitter.im/openprocurement/openprocurement.api?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-    :alt: Gitter
 
 Documentation
 =============
@@ -22,9 +19,6 @@ powering tenders database and reverse auction.
 
 'openprocurement.api' is component responsible for 
 exposing the tenders database to brokers and public.
-
-Documentation about this API is accessible at
-http://api-docs.openprocurement.org/
 
 Building documentation
 ----------------------
