@@ -71,7 +71,6 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'},
-        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'},
         {u'description': [u'This field is required.'], u'location': u'body', u'name': u'title'},
     ])
 

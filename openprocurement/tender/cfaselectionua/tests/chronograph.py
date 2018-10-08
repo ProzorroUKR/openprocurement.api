@@ -7,10 +7,10 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
     test_lots,
     test_bids,
-    test_organization
 )
 from openprocurement.tender.cfaselectionua.tests.chronograph_blanks import (
     # TenderSwitchTenderingResourceTest
+    switch_to_tendering,
     switch_to_tendering_by_tenderPeriod_startDate,
     # TenderSwitchQualificationResourceTest
     switch_to_qualification,
@@ -34,10 +34,15 @@ from openprocurement.tender.cfaselectionua.tests.chronograph_blanks import (
 )
 
 
-class TenderSwitchTenderingResourceTest(TenderContentWebTest):
+class TenderSwitchTenderingPeriodStartDateResourceTest(TenderContentWebTest):
     initial_lots = test_lots
     initial_status = 'active.enquiries'
     test_switch_to_tendering_by_tenderPeriod_startDate = snitch(switch_to_tendering_by_tenderPeriod_startDate)
+
+
+class TenderSwitchTenderingResourceTest(TenderContentWebTest):
+    initial_lots = test_lots
+    test_switch_to_tendering = snitch(switch_to_tendering)
 
 
 class TenderLotSwitchQualificationResourceTest(TenderContentWebTest):
@@ -73,6 +78,7 @@ class TenderLotAuctionPeriodResourceTest(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TenderSwitchTenderingPeriodStartDateResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchTenderingResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationResourceTest))

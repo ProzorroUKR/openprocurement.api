@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
+from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_organization,
     test_agreement
@@ -9,6 +11,37 @@ from openprocurement.tender.cfaselectionua.tests.base import (
 
 
 # TenderSwitchTenderingResourceTest
+
+
+def switch_to_tendering(self):
+    self.set_status('draft.pending')
+
+    self.app.authorization = ('Basic', (BOT_NAME, ''))
+    agreement = deepcopy(test_agreement)
+    agreement['contracts'][1]['unitPrices'][0]['value']['amount'] = \
+        agreement['contracts'][2]['unitPrices'][0]['value']['amount'] * 2
+    agreement_id = self.initial_data['agreements'][0]['id']
+    response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
+        self.tender_id, agreement_id), {'data': agreement})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+
+    self.set_status('active.enquiries', start_end='end')
+
+    self.app.authorization = self.app.authorization = ('Basic', ('chronograph', ''))
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']["status"], "active.tendering")
+
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+
+    agreement_contracts = response.json['data']['agreements'][0]['contracts']
+    max_value = max([contract['value'] for contract in agreement_contracts],
+                    key=lambda value: value['amount'])
+    self.assertEqual(response.json['data']['value'], max_value)
+    self.assertEqual(response.json['data']['lots'][0]['value'], max_value)
+    self.assertNotEqual(response.json['data']['lots'][0]['value'], agreement_contracts[0]['value'])
 
 
 def switch_to_tendering_by_tenderPeriod_startDate(self):
@@ -19,7 +52,7 @@ def switch_to_tendering_by_tenderPeriod_startDate(self):
     self.assertNotEqual(response.json['data']["status"], "active.tendering")
     
     self.set_status('active.tendering',
-        {'status': self.initial_status, "enquiryPeriod": {}, 'agreements': [test_agreement]})
+        {'status': self.initial_status, "enquiryPeriod": {}, 'agreements': [deepcopy(test_agreement)]})
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']["status"], "active.tendering")

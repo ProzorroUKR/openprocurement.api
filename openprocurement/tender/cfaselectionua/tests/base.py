@@ -65,10 +65,8 @@ for bid in test_bids:
 with open(os.path.join(here, 'data/lots.json')) as _in:
     test_lots = json.load(_in)
 
-test_lots[0]['value'] = test_tender_data['value']
 test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
 
-test_lots[0]['value']['amount'] += 100
 test_agreement['features'] = test_features
 
 
@@ -100,17 +98,22 @@ class BaseTenderWebTest(BaseTWT):
             value['amount'] = 0
             for unitPrice in contract['unitPrices']:
                 quantity = [i for i in items if i['id'] == unitPrice['relatedItem']][0]['quantity']
-                value['amount'] += unitPrice['value']['amount'] * quantity
+                value['amount'] += float(unitPrice['value']['amount']) * quantity
             contract['value'] = value
 
     def patch_agreements_by_bot(self, status, start_end='start'):
         self.tender_patch.update(self.periods[status][start_end])
         agreements = self.tender_document.get('agreements', [])
         for agreement in agreements:
-            agreement.update(test_agreement)
+            if 'agreementID' not in agreement:
+                agreement.update(test_agreement)
             items = self.tender_document.get('items')
             if items:
                 self.calculate_agreement_contracts_value_amount(agreement, items)
+        max_value = max([contract['value'] for contract in agreements[0]['contracts']],
+                        key=lambda value: value['amount'])
+        self.tender_document['value'] = max_value
+        self.tender_document['lots'][0]['value'] = max_value
         self.tender_patch.update({'agreements': agreements})
 
     def generate_bids(self, status, start_end='start'):

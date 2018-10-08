@@ -420,7 +420,6 @@ def create_tender_invalid(self):
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderPeriod'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'enquiryPeriod'}, response.json['errors'])
-    self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'value'}, response.json['errors'])
 
     response = self.app.post_json(request_path, {'data': {
         "procurementMethodType": "closeFrameworkAgreementSelectionUA",
@@ -487,39 +486,6 @@ def create_tender_invalid(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description': [u'period should begin after auctionPeriod'], u'location': u'body', u'name': u'awardPeriod'}
-    ])
-
-    data = self.initial_data['minimalStep']
-    self.initial_data['minimalStep'] = {'amount': '1000.0'}
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data['minimalStep'] = data
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u'value should be less than value of tender'], u'location': u'body', u'name': u'minimalStep'}
-    ])
-
-    data = self.initial_data['minimalStep']
-    self.initial_data['minimalStep'] = {'amount': '100.0', 'valueAddedTaxIncluded': False}
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data['minimalStep'] = data
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u'valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender'], u'location': u'body', u'name': u'minimalStep'}
-    ])
-
-    data = self.initial_data['minimalStep']
-    self.initial_data['minimalStep'] = {'amount': '100.0', 'currency': "USD"}
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data['minimalStep'] = data
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u'currency should be identical to currency of value of tender'], u'location': u'body', u'name': u'minimalStep'}
     ])
 
     data = self.initial_data["items"][0].pop("additionalClassifications")
@@ -677,9 +643,9 @@ def create_tender_generated(self):
         tender.pop('procurementMethodDetails')
     self.assertEqual(
         set(tender),
-        set([u'procurementMethodType', u'id', u'date', u'dateModified', u'tenderID', u'status', u'enquiryPeriod',
-             u'tenderPeriod', u'minimalStep', u'value', u'procuringEntity', u'items', u'procurementMethod',
-             u'awardCriteria', u'submissionMethod', u'title', u'owner', u'agreements', u'lots']))
+        {u'procurementMethodType', u'id', u'date', u'dateModified', u'tenderID', u'status', u'enquiryPeriod',
+         u'tenderPeriod', u'minimalStep', u'procuringEntity', u'items', u'procurementMethod',
+         u'awardCriteria', u'submissionMethod', u'title', u'owner', u'agreements', u'lots'})
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -1285,6 +1251,20 @@ def patch_tender_bot(self):
     agreement = deepcopy(self.initial_agreement)
     agreement['period']['endDate'] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
     agreement['contracts'] = agreement['contracts'][:2]  # only first and second contract
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
+        self.tender_id, self.agreement_id), {"data": agreement})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['agreementID'], self.initial_agreement['agreementID'])
+
+    response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+
+    # patch tender with wrong minimalStep
+    create_tender_and_prepare_for_bot_patch()
+    agreement = deepcopy(self.initial_agreement)
+    agreement['contracts'][0]['unitPrices'][0]['value']['currency'] = u'USD'  # value.currancy on minimalStep is UAH
 
     response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
         self.tender_id, self.agreement_id), {"data": agreement})

@@ -61,9 +61,8 @@ def validate_bid(request):
 
     contract_parameters = sorted([(p.code, p.value) for p in supplier_contract.parameters])
     bid_parameters = sorted([(p.code, p.value) for p in bid.parameters])
-    all_lotValues_valid = all([lotValue.value.amount <= supplier_contract.value.amount for lotValue in bid.lotValues])
 
-    if (not all_lotValues_valid) or (contract_parameters != bid_parameters):
+    if contract_parameters != bid_parameters:
         raise_operation_error(request, 'Can\'t post inconsistent bid')
 
 

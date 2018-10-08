@@ -30,7 +30,7 @@ class CFASelectionUATender(BaseTender):
         roles = RolesFromCsv('Tender.csv', relative_to=__file__)
 
     items = ListType(ModelType(Item), min_size=1, validators=[validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
-    value = ModelType(Value, required=True)  # The total estimated value of the procurement.
+    value = ModelType(Value)  # The total estimated value of the procurement.
     enquiryPeriod = ModelType(PeriodEndRequired, required=True)  # The period during which enquiries may be made and will be answered.
     tenderPeriod = ModelType(PeriodEndRequired, required=True)  # The period when the tender is open for submissions. The end date is the closing date for tender submissions.
     hasEnquiries = BooleanType()  # A Yes/No field as to whether enquiries were part of tender process.
