@@ -6,7 +6,8 @@ from openprocurement.api.models import OpenprocurementSchematicsDocument as Sche
 from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
-    ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017
+    ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017,
+    BUDGET_PERIOD_FROM
 )
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Model, Period, Revision
@@ -17,7 +18,6 @@ from openprocurement.api.validation import validate_cpv_group, validate_items_un
 from openprocurement.planning.api.constants import (
     PROCEDURES,
     MULTI_YEAR_BUDGET_PROCEDURES,
-    BUDGET_PERIOD_FROM,
 )
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
