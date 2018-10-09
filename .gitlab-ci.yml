@@ -3,6 +3,18 @@ before_script:
   - eval `ssh-agent -s` && ssh-add
   - sh bootstrap.sh
   - bin/buildout -N
-tests:
+
+test_sanbox_true:
+  stage: test
+  variables:
+    SANDBOX_MODE: 'True'
+  script:
+    - bin/py.test openprocurement/tender/cfaselectionua/tests/ --cov=openprocurement.tender.cfaselectionua
+
+
+test_sanbox_not_true:
+  stage: test
+  variables:
+    SANDBOX_MODE: ''
   script:
     - bin/py.test openprocurement/tender/cfaselectionua/tests/ --cov=openprocurement.tender.cfaselectionua
