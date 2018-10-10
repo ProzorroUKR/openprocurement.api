@@ -210,30 +210,7 @@ def create_tender_bid_invalid(self):
             u'name': u'data'
         }
     ])
-    tenderer['identifier']['id'] = old_id
 
-    # no lotValue.value.amount could be found in agreement
-    response = self.app.post_json(
-        request_path,
-        {
-            'data': {
-                'tenderers': [tenderer],
-                'lotValues': [{'value': {'amount': 600}, 'relatedLot': self.initial_lots[0]['id']}]
-            }
-        },
-        status=403
-    )
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {
-            u'description': u'Can\'t post inconsistent bid',
-            u'location': u'body',
-            u'name': u'data'
-        }
-    ])
-    
 
 def create_tender_bid(self):
     dateModified = self.db.get(self.tender_id).get('dateModified')

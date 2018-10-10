@@ -283,3 +283,16 @@ def calculate_agreement_contracts_value_amount(tender):
             quantity = [i for i in tender.items if i.id == unitPrice.relatedItem][0].quantity
             value.amount += unitPrice.value.amount * quantity
         contract.value = value
+    tender.value = max([contract.value for contract in agreement.contracts], key=lambda value: value.amount)
+    tender.lots[0].value = tender.value
+
+
+def check_minimal_step(request, tender):
+    if tender.agreements[0].contracts:
+        if tender.minimalStep.currency != tender.agreements[0].contracts[0].unitPrices[0].value.currency or \
+                tender.minimalStep.valueAddedTaxIncluded != \
+                tender.agreements[0].contracts[0].unitPrices[0].value.valueAddedTaxIncluded:
+            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+            tender.status = 'draft.unsuccessful'
+            return
