@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/29fb21ea52a64dc8a1614d1f312ec395 HTTP/1.0
+GET /api/2.4/tenders/6d7003b9a21648d6a15690d754fb581a HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -12,8 +12,8 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "selective", 
     "awardCriteria": "lowestCost", 
     "tenderPeriod": {
-      "startDate": "2018-09-29T09:56:35.860440+03:00", 
-      "endDate": "2018-10-12T09:56:35.860440+03:00"
+      "startDate": "2018-10-11T13:22:14.571237+03:00", 
+      "endDate": "2018-10-24T13:22:14.571237+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -21,9 +21,54 @@ Content-Type: application/json; charset=UTF-8
       "amount": 35.0, 
       "valueAddedTaxIncluded": true
     }, 
+    "procurementMethodDetails": "quick, accelerator=1440", 
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    "submissionMethod": "electronicAuction", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "date": "2018-10-10T13:22:16.101369+03:00", 
+    "tenderID": "UA-2018-10-10-000001", 
+    "lots": [
+      {
+        "status": "active", 
+        "description": "lot description", 
+        "title": "lot title", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "date": "2018-10-10T13:22:16.101369+03:00", 
+        "id": "cbfd2a8fd3f64080ab872d00a2059faf"
+      }
+    ], 
+    "enquiryPeriod": {
+      "startDate": "2018-10-10T13:22:16.101229+03:00", 
+      "endDate": "2018-10-11T13:22:14.571237+03:00"
+    }, 
+    "owner": "broker", 
+    "dateModified": "2018-10-10T13:22:16.108606+03:00", 
     "items": [
       {
-        "relatedLot": "a93d95632cac485ca6dca149ce24be57", 
+        "relatedLot": "cbfd2a8fd3f64080ab872d00a2059faf", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -45,8 +90,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2018-09-30T09:56:35.860440+03:00", 
-          "endDate": "2018-10-03T09:56:35.860440+03:00"
+          "startDate": "2018-10-12T13:22:14.571237+03:00", 
+          "endDate": "2018-10-15T13:22:14.571237+03:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -56,66 +101,12 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 5
       }
     ], 
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 600.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "date": "2018-09-28T09:56:36.594441+03:00", 
-    "dateModified": "2018-09-28T09:56:36.599548+03:00", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "enquiryPeriod": {
-      "startDate": "2018-09-28T09:56:36.594375+03:00", 
-      "endDate": "2018-09-29T09:56:35.860440+03:00"
-    }, 
-    "owner": "broker", 
+    "id": "6d7003b9a21648d6a15690d754fb581a", 
     "agreements": [
       {
-        "id": "9aa744f37d10468685a77be968bfe979"
+        "id": "3fcce235dc804be1b6bcb3d729648a0f"
       }
-    ], 
-    "lots": [
-      {
-        "status": "active", 
-        "description": "Опис Лот №1", 
-        "title": "Лот №1", 
-        "minimalStep": {
-          "currency": "UAH", 
-          "amount": 35.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "value": {
-          "currency": "UAH", 
-          "amount": 600.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "date": "2018-09-28T09:56:36.594441+03:00", 
-        "id": "a93d95632cac485ca6dca149ce24be57"
-      }
-    ], 
-    "id": "29fb21ea52a64dc8a1614d1f312ec395", 
-    "tenderID": "UA-2018-09-28-000001"
+    ]
   }
 }
 

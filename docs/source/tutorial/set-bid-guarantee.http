@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/29fb21ea52a64dc8a1614d1f312ec395/lots/a93d95632cac485ca6dca149ce24be57?acc_token=84e5e22d17d74352873a558633d2a07a HTTP/1.0
+PATCH /api/2.4/tenders/6d7003b9a21648d6a15690d754fb581a/lots/cbfd2a8fd3f64080ab872d00a2059faf?acc_token=8d1191f02e8643b29e9765b21d0a6b9b HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 57
 Content-Type: application/json
@@ -20,20 +20,15 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "description": "Опис Лот №1", 
-    "title": "Лот №1", 
+    "description": "lot description", 
+    "title": "lot title", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 35.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "value": {
-      "currency": "UAH", 
-      "amount": 600.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "date": "2018-09-28T09:56:36.594441+03:00", 
-    "id": "a93d95632cac485ca6dca149ce24be57", 
+    "date": "2018-10-10T13:22:16.101369+03:00", 
+    "id": "cbfd2a8fd3f64080ab872d00a2059faf", 
     "guarantee": {
       "currency": "USD", 
       "amount": 8.0

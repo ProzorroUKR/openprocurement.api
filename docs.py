@@ -11,12 +11,13 @@ from openprocurement.api.models import get_now
 from openprocurement.api.tests.base import PrefixedRequestClass
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.tests.base import (
-    BaseTenderWebTest, test_tender_data, test_bids, test_agreement
+    BaseTenderWebTest, test_tender_data, test_bids, test_agreement, test_lots
 )
 from webtest import TestApp
 
 now = datetime.now()
 lot_id = uuid4().hex
+agreement_id = uuid4().hex
 
 
 bid = {
@@ -166,10 +167,6 @@ test_tender_maximum_data = {
         },
         'kind': 'general'
     },
-    "value": {
-        "amount": 500,
-        "currency": u"UAH"
-    },
     "minimalStep": {
         "amount": 35,
         "currency": u"UAH"
@@ -259,25 +256,14 @@ test_complaint_data = {'data':
         }
     }
 
-test_lots = [
-    {
-        'id': lot_id,
-        'title': 'Лот №1',
-        'description': 'Опис Лот №1',
-        'value': test_tender_data['value'],
-        'minimalStep': test_tender_data['minimalStep'],
-    },
-    {
-        'title': 'Лот №2',
-        'description': 'Опис Лот №2',
-        'value': test_tender_data['value'],
-        'minimalStep': test_tender_data['minimalStep'],
-    }
-]
+test_lots.append(deepcopy(test_lots[0]))
+test_lots[0]['id'] = lot_id
+test_lots[1]['title'] = 'Лот №2'
+test_lots[1]['description'] = 'Опис Лот №2'
 
 test_tender_data['lots'] = [test_lots[0]]
 test_tender_maximum_data['lots'] = [test_lots[0]]
-test_tender_data.update({'agreements': [{'id': test_agreement['id']}]})
+test_tender_data.update({'agreements': [{'id': agreement_id}]})
 for item in test_tender_data['items']:
     item['relatedLot'] = lot_id
 for item in test_tender_maximum_data['items']:
@@ -400,7 +386,7 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.json['data']['status'], 'draft.pending')
 
         self.app.authorization = ('Basic', (BOT_NAME, ''))
-        response = self.app.patch_json('/tenders/{}/agreements/{}'.format(tender['id'], test_agreement['id']),
+        response = self.app.patch_json('/tenders/{}/agreements/{}'.format(tender['id'], agreement_id),
                                        {'data': test_agreement})
         self.assertEqual(response.status, '200 OK')
 
