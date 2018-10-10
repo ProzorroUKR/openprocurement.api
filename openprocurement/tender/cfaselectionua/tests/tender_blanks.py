@@ -695,6 +695,7 @@ def create_tender_from_terminated_agreement(self):
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
     self.assertEqual(tender['agreements'][0]['status'], 'terminated')
+    self.assertEqual(tender['status'], 'draft.unsuccessful')
 
 
 def create_tender(self):
