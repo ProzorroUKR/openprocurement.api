@@ -42,9 +42,9 @@ Schema
    The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
 
 :value:
-   :ref:`value`, required
+   :ref:`value`
 
-   Total available tender budget. Bids greater then ``value`` will be rejected.
+   Total available tender budget. This field is `auto-generated` during switching to `active.tendering`.  Bids greater then ``value`` will be rejected.
 
    |ocdsDescription|
    The total estimated value of the procurement.
@@ -91,8 +91,8 @@ Schema
    The minimal step of auction (reduction). Validation rules:
 
    * `amount` should be less then `Tender.value.amount`
-   * `currency` should either be absent or match `Tender.value.currency`
-   * `valueAddedTaxIncluded` should either be absent or match `Tender.value.valueAddedTaxIncluded`
+   * `currency` should either be absent or match `Tender.agreements[0].contracts[0].unitPrices[0].value.currency`
+   * `valueAddedTaxIncluded` should either be absent or match `Tender.agreements[0].contracts[0].unitPrices[0].value.valueAddedTaxIncluded`
 
 :awards:
     List of :ref:`award` objects

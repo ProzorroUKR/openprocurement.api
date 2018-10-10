@@ -25,9 +25,9 @@ Schema
    Detailed description of tender lot.
 
 :value:
-   :ref:`value`, required
+   :ref:`value`
 
-   Total available tender lot budget. Bids greater then ``value`` will be rejected.
+   Total available tender lot budget. This field is `auto-generated` during switching to `active.tendering`. Bids greater then ``value`` will be rejected.
 
 :guarantee:
     :ref:`Guarantee`
@@ -43,8 +43,8 @@ Schema
    The minimal step of auction (reduction). Validation rules:
 
    * `amount` should be less then `Lot.value.amount`
-   * `currency` should either be absent or match `Lot.value.currency`
-   * `valueAddedTaxIncluded` should either be absent or match `Lot.value.valueAddedTaxIncluded`
+   * `currency` should either be absent or match `Tender.agreements[0].contracts[0].unitPrices[0].value.currency`
+   * `valueAddedTaxIncluded` should either be absent or match `Tender.agreements[0].contracts[0].unitPrices[0].value.valueAddedTaxIncluded`
 
 :auctionPeriod:
    :ref:`period`, read-only

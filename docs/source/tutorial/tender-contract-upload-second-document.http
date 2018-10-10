@@ -1,12 +1,12 @@
-POST /api/2.4/tenders/29fb21ea52a64dc8a1614d1f312ec395/contracts/7a889c3728bf43a0a8f6476286d7545b/documents?acc_token=84e5e22d17d74352873a558633d2a07a HTTP/1.0
+POST /api/2.4/tenders/6d7003b9a21648d6a15690d754fb581a/contracts/707671a220104ea9b7c8389194fe386c/documents?acc_token=8d1191f02e8643b29e9765b21d0a6b9b HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 349
+Content-Length: 347
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
 {
   "data": {
-    "url": "http://public.docs-sandbox.openprocurement.org/get/4048ddc81d59489d9201dca097574b2b?KeyID=369e79af&Signature=qAruTiLmICcCXQ1ZrPXB1fsAhLkkQmjWBbC8zOSKJYHpDON%2FZB%2FsahSqs1R6fXIQ2SAZ8hLHsEk%2FuxXrSKmCDA%3D%3D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/8930d15f8bd44e21a1fe55ea6c97c182?KeyID=12eebbc2&Signature=%2FKmLpZGtOdjViAaaYZ2Fwbs2kMi4OfYU7YKfdFHKybWphpa1fcGFg7CU%2FLWURso4XgIies6BWiZ5IsALXL2hCw%3D%3D", 
     "title": "contract_second_document.doc", 
     "hash": "md5:00000000000000000000000000000000", 
     "format": "application/msword"
@@ -16,17 +16,17 @@ Host: api-sandbox.openprocurement.org
 
 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/29fb21ea52a64dc8a1614d1f312ec395/contracts/7a889c3728bf43a0a8f6476286d7545b/documents/e3aebf538f5c400e8170cce3874c2731
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/6d7003b9a21648d6a15690d754fb581a/contracts/707671a220104ea9b7c8389194fe386c/documents/2168c8f9cfb54b09a18a0503bbe433aa
 
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "title": "contract_second_document.doc", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/4048ddc81d59489d9201dca097574b2b?KeyID=369e79af&Signature=h%2Fdn7k7YPfrSTzl6ulXgyx1IKIF4Om%2FcopPinHrY64SzHWp8VqHU1MatpzJjIWVrGkJxZ3WlolWKh%252Bi82tWqBg%253D%253D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/8930d15f8bd44e21a1fe55ea6c97c182?KeyID=12eebbc2&Signature=vasZo9iEAri6kSXeJ7XiIw9L5rls2KzENGyabHmJUoCZCtWB%252B2WKlk%2FqeJQA5tZn020pY4KQNS%252BtaoeKGAj0AA%253D%253D", 
     "format": "application/msword", 
-    "datePublished": "2018-09-28T09:56:40.474750+03:00", 
-    "id": "e3aebf538f5c400e8170cce3874c2731", 
-    "dateModified": "2018-09-28T09:56:40.474766+03:00"
+    "datePublished": "2018-10-10T13:22:24.002066+03:00", 
+    "id": "2168c8f9cfb54b09a18a0503bbe433aa", 
+    "dateModified": "2018-10-10T13:22:24.002092+03:00"
   }
 }
 

@@ -1,12 +1,12 @@
-PUT /api/2.4/tenders/29fb21ea52a64dc8a1614d1f312ec395/documents/0bacb82477924d7e988d4c26fcc3fb3f?acc_token=84e5e22d17d74352873a558633d2a07a HTTP/1.0
+PUT /api/2.4/tenders/6d7003b9a21648d6a15690d754fb581a/documents/90aab0725b0f41d38b9f96c91a4f9275?acc_token=8d1191f02e8643b29e9765b21d0a6b9b HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 337
+Content-Length: 333
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
 {
   "data": {
-    "url": "http://public.docs-sandbox.openprocurement.org/get/e9a6d82ff41345a896661d0e60d251d5?KeyID=369e79af&Signature=tq%2FUowIW6j9bWTB1PGvZ1fsel5p45f%2Ba6xu8LGAmzuaFG4514rf0ab%2FjGQW6vEpcbxeeD1U5DKfQGnk3ku46BA%3D%3D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/19ac731635a04b06aa0a75d9d8f6f78a?KeyID=12eebbc2&Signature=yU6sjwgg63fJ4jaUjWbtu05JkRhLR59EgPQqnMnwF2%2FNs1wIy1fYVjWS0JV9063KQTWR3P5kcVwMJV8BPv9FBg%3D%3D", 
     "title": "AwardCriteria-2.pdf", 
     "hash": "md5:00000000000000000000000000000000", 
     "format": "application/pdf"
@@ -22,12 +22,12 @@ Content-Type: application/json; charset=UTF-8
     "hash": "md5:00000000000000000000000000000000", 
     "author": "tender_owner", 
     "title": "AwardCriteria-2.pdf", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/e9a6d82ff41345a896661d0e60d251d5?KeyID=369e79af&Signature=OTamiyS7H5aVSK5PNmnujs7TZawW%2FKHQL45U0yDv5y4PzbRExC2KfV0ZnktjCd1Hf0efGt%252B2vV8ufWtRSfEdDQ%253D%253D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/19ac731635a04b06aa0a75d9d8f6f78a?KeyID=12eebbc2&Signature=D9ku3rB%2FErWtJsm1kYqcweqnEs6AAe4lvIlXx7rBAoK71hqJNU0nkMJ%2FK0BHriOIaql8U5%252BoPCIcgrgarvh2Bg%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2018-09-28T09:56:37.730689+03:00", 
-    "id": "0bacb82477924d7e988d4c26fcc3fb3f", 
-    "dateModified": "2018-09-28T09:56:37.855764+03:00"
+    "datePublished": "2018-10-10T13:22:18.347911+03:00", 
+    "id": "90aab0725b0f41d38b9f96c91a4f9275", 
+    "dateModified": "2018-10-10T13:22:18.575567+03:00"
   }
 }
 
