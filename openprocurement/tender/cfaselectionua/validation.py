@@ -251,12 +251,13 @@ def validate_json_data_in_active_enquiries(request):
                 i['quantity'] = item['quantity']
         data['items'] = items
     return data
-    
+
 
 def validate_patch_tender_tenderPeriod(request):
-    data = request.validated['data']
-    startDate = data['tenderPeriod'].get('startDate')
-    endDate = data['tenderPeriod'].get('endDate')
+    source = request.validated['data']
+    tender = request.validated['tender_src']
+    startDate = tender['tenderPeriod'].get('startDate')
+    endDate = source['tenderPeriod'].get('endDate')
 
     if (startDate and endDate) and (parse_date(endDate) - parse_date(startDate)) < TENDER_PERIOD_MINIMAL_DURATION:
         raise_operation_error(request, 'tenderPeriod should last at least 3 days')

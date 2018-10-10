@@ -50,13 +50,13 @@ def switch_to_tendering_by_tenderPeriod_startDate(self):
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
     self.assertNotEqual(response.json['data']["status"], "active.tendering")
-    
+
     self.set_status('active.tendering',
         {'status': self.initial_status, "enquiryPeriod": {}, 'agreements': [deepcopy(test_agreement)]})
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']["status"], "active.tendering")
-    
+
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     contracts = response.json['data']['agreements'][0]['contracts']
     for contract in contracts:

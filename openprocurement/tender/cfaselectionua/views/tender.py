@@ -192,7 +192,7 @@ class TenderResource(APIResource):
             save_tender(self.request)
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.enquiries':
             data = validate_json_data_in_active_enquiries(self.request)
-            apply_patch(self.request, src=data)
+            apply_patch(self.request, data=data)
         else:
             default_status = type(tender).fields['status'].default
             tender_status = tender.status
