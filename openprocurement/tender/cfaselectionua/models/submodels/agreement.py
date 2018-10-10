@@ -41,7 +41,7 @@ class Agreement(Model):
     owner = StringType()
     period = ModelType(Period)
     procuringEntity = ModelType(ProcuringEntity)
-    status = StringType(choices=['pending', 'active', 'cancelled'])
+    status = StringType(choices=['pending', 'active', 'cancelled', 'terminated'])
     tender_id = MD5Type()
     title = StringType()
     title_en = StringType()
