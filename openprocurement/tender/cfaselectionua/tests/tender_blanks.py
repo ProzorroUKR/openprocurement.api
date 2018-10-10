@@ -135,7 +135,7 @@ def listing(self):
     response = self.app.get('/tenders', params=[('opt_fields', 'status,enquiryPeriod')])
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 3)
-    self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified', u'status', u'enquiryPeriod']))
+    self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified', u'status']))
     self.assertIn('opt_fields=status%2CenquiryPeriod', response.json['next_page']['uri'])
 
     response = self.app.get('/tenders?descending=1')
@@ -243,7 +243,7 @@ def listing_changes(self):
     response = self.app.get('/tenders?feed=changes', params=[('opt_fields', 'status,enquiryPeriod')])
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 3)
-    self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified', u'status', u'enquiryPeriod']))
+    self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified', u'status']))
     self.assertIn('opt_fields=status%2CenquiryPeriod', response.json['next_page']['uri'])
 
     response = self.app.get('/tenders?feed=changes&descending=1')
@@ -643,8 +643,8 @@ def create_tender_generated(self):
         tender.pop('procurementMethodDetails')
     self.assertEqual(
         set(tender),
-        {u'procurementMethodType', u'id', u'date', u'dateModified', u'tenderID', u'status', u'enquiryPeriod',
-         u'tenderPeriod', u'minimalStep', u'procuringEntity', u'items', u'procurementMethod',
+        {u'procurementMethodType', u'id', u'date', u'dateModified', u'tenderID', u'status',
+         u'minimalStep', u'procuringEntity', u'items', u'procurementMethod',
          u'awardCriteria', u'submissionMethod', u'title', u'owner', u'agreements', u'lots'})
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
@@ -669,7 +669,6 @@ def create_tender_draft(self):
 
 
 def create_tender(self):
-    agreement_data = deepcopy(self.initial_agreement)
     response = self.app.get('/tenders')
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 0)
@@ -1091,12 +1090,13 @@ def patch_tender(self):
         }
     ])
 
-    endDate = (parse_date(tender['tenderPeriod']['startDate']) + timedelta(days=3)).isoformat()
+    endDate = (parse_date(tender['tenderPeriod']['startDate']) + timedelta(days=4)).isoformat()
     response = self.app.patch_json('/tenders/{}?acc_token={}'
             .format(self.tender_id, owner_token),
             {'data': {'tenderPeriod': {'endDate': endDate}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
+    self.assertNotEqual(endDate, tender['tenderPeriod']['endDate'])
 
     items = deepcopy(tender['items'])
     items[0]['quantity'] += 1
@@ -1115,10 +1115,10 @@ def patch_tender(self):
             {'data': {'items': items}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
+    # items not switched
+    self.assertNotEqual(response.json['data']['items'], items)
+    items[0], items[-1] = items[-1], items[0]
     self.assertEqual(response.json['data']['items'], items)
-    # items switched, but data remains as it was
-    self.assertEqual(response.json['data']['items'][0]['description'], 'test_description')
-    self.assertNotEqual(response.json['data']['items'][1]['description'], 'test_description')
 
     # user cannot patch tender in active.enquiries
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
@@ -1156,6 +1156,45 @@ def patch_tender(self):
         tender['id'], owner_token), {'data': {'procuringEntity': {'contactPoint': {'faxNumber': None}}}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertIn('faxNumber', response.json['data']['procuringEntity']['contactPoint'])
+    tender = response.json['data']
+
+    startDate = (parse_date(tender['tenderPeriod']['startDate']) + timedelta(days=1)).isoformat()
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        tender['id'], owner_token), {'data': {'tenderPeriod': {'startDate': startDate}}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender = response.json['data']
+    self.assertNotEqual(startDate, tender['tenderPeriod']['startDate'])
+
+    endDate = (parse_date(tender['tenderPeriod']['endDate']) + timedelta(days=1)).isoformat()
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        tender['id'], owner_token), {'data': {'tenderPeriod': {'endDate': endDate}}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender = response.json['data']
+    self.assertEqual(endDate, tender['tenderPeriod']['endDate'])
+
+    self.set_status('active.tendering')
+
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender = response.json['data']
+
+    startDate = (parse_date(tender['tenderPeriod']['startDate']) + timedelta(days=1)).isoformat()
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        tender['id'], owner_token), {'data': {'tenderPeriod': {'startDate': startDate}}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender = response.json['data']
+    self.assertNotEqual(startDate, tender['tenderPeriod']['startDate'])
+
+    # can't change endDate either
+    endDate = (parse_date(tender['tenderPeriod']['endDate']) + timedelta(days=1)).isoformat()
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        tender['id'], owner_token), {'data': {'tenderPeriod': {'endDate': endDate}}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender = response.json['data']
+    self.assertNotEqual(endDate, tender['tenderPeriod']['endDate'])
 
     tender_data = self.db.get(tender['id'])
     tender_data['status'] = 'complete'
