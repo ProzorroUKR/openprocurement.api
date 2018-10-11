@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 
+from decimal import Decimal
 from openprocurement.api.utils import get_now
 
 # TenderContractResourceTest
@@ -38,7 +39,6 @@ def patch_tender_contract(self):
     }
 
     for field, value in patch_fields.items():
-        print field, value
         response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
             self.tender_id, contract['id'], self.tender_token),
             {"data": {"value": {field: value}}}, status=403)
@@ -51,6 +51,19 @@ def patch_tender_contract(self):
         self.tender_id, contract['id'], self.tender_token),
         {"data": {"value": {"amountNet": self.expected_contract_amount + 1}}}, status=403)
     self.assertEqual(response.status_code, 403)
+    self.assertEqual(
+        response.json['errors'][0]["description"],
+        "Value amountNet should be less or equal to awarded amount ({})".format(
+            self.expected_contract_amount))
+
+    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+        self.tender_id, contract['id'], self.tender_token),
+        {"data": {"value": {"amountNet": 0}}}, status=403)
+    self.assertEqual(response.status_code, 403)
+    self.assertIn(
+        "Value amountNet can't be less than amount ({}) for 20.0%".format(
+            self.expected_contract_amount),
+        response.json['errors'][0]["description"])
 
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
         self.tender_id, contract['id'], self.tender_token),
