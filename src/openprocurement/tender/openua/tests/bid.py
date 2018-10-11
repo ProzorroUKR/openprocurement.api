@@ -111,7 +111,6 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_put_tender_bidder_document_json = snitch(put_tender_bidder_document_json)
 
 
-
 class TenderBidderBatchDocumentWithDSResourceTest(BaseTenderUAContentWebTest):
     docservice = True
     initial_status = 'active.tendering'
