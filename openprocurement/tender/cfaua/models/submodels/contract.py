@@ -13,8 +13,9 @@ from openprocurement.api.models import (
     schematics_default_role,
     schematics_embedded_role
 )
-from openprocurement.tender.core.models import Parameter, validate_parameters_uniq
+from openprocurement.tender.core.models import validate_parameters_uniq
 from openprocurement.tender.cfaua.models.submodels.unitprice import UnitPrice
+from openprocurement.tender.cfaua.models.submodels.parameters import Parameter
 
 
 class Contract(Model):
