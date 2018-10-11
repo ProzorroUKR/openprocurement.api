@@ -12,6 +12,7 @@ from openprocurement.tender.cfaselectionua.validation import (
 )
 from openprocurement.tender.cfaselectionua.utils import (
     check_status, check_period_and_items,
+    check_agreement_status,
     check_min_active_contracts,
     check_minimal_step,
 )
@@ -182,6 +183,7 @@ class TenderResource(APIResource):
             save_tender(self.request)
         elif self.request.authenticated_role == 'agreement_selection':
             apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
+            check_agreement_status(self.request, tender)
             check_period_and_items(self.request, tender)
             check_min_active_contracts(self.request, tender)
             tender.enquiryPeriod.startDate = get_now()

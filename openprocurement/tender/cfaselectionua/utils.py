@@ -246,6 +246,15 @@ def prepare_bid_identifier(bid):
     return all_keys
 
 
+def check_agreement_status(request, tender):
+    if tender.agreements[0].status != 'active':
+        LOGGER.info(
+            'Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
+            extra=context_unpack(request, {
+                'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+        tender.status = 'draft.unsuccessful'
+
+
 def check_period_and_items(request, tender):
     agreement_items = tender.agreements[0].items if tender.agreements[0].items else []
     agreement_items_classifications = [i.classification for i in agreement_items]
