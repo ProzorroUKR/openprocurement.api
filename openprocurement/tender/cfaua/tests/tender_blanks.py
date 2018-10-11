@@ -568,6 +568,106 @@ def tender_contract_period(self):
     self.assertIn('endDate', response.json['data']['contractPeriod'])
 
 
+def patch_unitprice_with_features(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    # empty tenders listing
+    response = self.app.get('/tenders')
+    self.assertEqual(response.json['data'], [])
+    # create tender
+    data = deepcopy(self.initial_data)
+    data['features'] = [
+        {
+            "code": "OCDS-123454-POSTPONEMENT",
+            "featureOf": "tenderer",
+            "title": u"Відстрочка платежу",
+            "description": u"Термін відстрочки платежу",
+            "enum": [
+                {
+                    "value": 0.05,
+                    "title": u"До 90 днів"
+                },
+                {
+                    "value": 0.1,
+                    "title": u"Більше 90 днів"
+                },
+                {
+                    "value": 0,
+                    "title": u"Більше 90 днів"
+                }
+
+            ]
+        },
+        {
+            "code": "OCDS-123454-POSTPONEMENN",
+            "featureOf": "tenderer",
+            "title": u"Відстрочка платежу",
+            "description": u"Термін відстрочки платежу",
+            "enum": [
+                {
+                    "value": 0.05,
+                    "title": u"До 90 днів"
+                },
+                {
+                    "value": 0.01,
+                    "title": u"Більше 90 днів"
+                },
+                {
+                    "value": 0,
+                    "title": u"Більше 90 днів"
+                }
+
+            ]
+        }
+    ]
+    response = self.app.post_json('/tenders', {"data": data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    tender = response.json['data']
+    tender_id = self.tender_id = response.json['data']['id']
+    owner_token = response.json['access']['token']
+
+    initial_bids = deepcopy(self.initial_bids)
+    # create bid
+    self.app.authorization = ('Basic', ('broker', ''))
+    bid_data = initial_bids[0]
+    bid_data['parameters'] = [{"code": "OCDS-123454-POSTPONEMENT", "value": 0},
+                              {"code": "OCDS-123454-POSTPONEMENN", "value": 0.05}]
+    response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': bid_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    bid_id = response.json['data']['id']
+    bid_token = response.json['access']['token']
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                                   {"data": {"features": [{"code": "OCDS-123-POSTPONEMENT"}]}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual("OCDS-123-POSTPONEMENT", response.json['data']["features"][0]["code"])
+
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token),
+                                   {'data': {'parameters': [{"code": "OCDS-123-POSTPONEMENT"}],
+                                             'status': 'pending'}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual("OCDS-123-POSTPONEMENT", response.json['data']["parameters"][0]["code"])
+
+    self.set_status('active.awarded')
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    contracts = response.json['data']['agreements'][-1]['contracts']
+    agreement_id = response.json['data']['agreements'][-1]['id']
+    self.app.authorization = ('Basic', ('token', ''))
+    for contract in contracts:
+        unit_prices = contract['unitPrices']
+        for unit_price in unit_prices:
+            unit_price['value']['amount'] = 60
+        response = self.app.patch_json(
+            '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, agreement_id, contract['id'],
+                                                                         owner_token),
+            {'data': {'unitPrices': unit_prices}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+
 def invalid_bid_tender_features(self):
     self.app.authorization = ('Basic', ('broker', ''))
     # empty tenders listing
