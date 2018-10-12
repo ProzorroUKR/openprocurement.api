@@ -18,7 +18,7 @@ from openprocurement.api.validation import validate_cpv_group, validate_items_un
 from openprocurement.planning.api.constants import (
     PROCEDURES,
     MULTI_YEAR_BUDGET_PROCEDURES,
-)
+    MULTI_YEAR_BUDGET_MAX_YEARS)
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
@@ -51,6 +51,9 @@ class BudgetPeriod(Period):
         if method_type not in MULTI_YEAR_BUDGET_PROCEDURES and value.year != start_date.year:
             raise ValidationError(u"Period startDate and endDate must be within one year for {}.".format(
                 method_type))
+        if method_type in MULTI_YEAR_BUDGET_PROCEDURES and value.year - start_date.year > MULTI_YEAR_BUDGET_MAX_YEARS:
+            raise ValidationError(u"Period startDate and endDate must be within {} years for {}.".format(
+                MULTI_YEAR_BUDGET_MAX_YEARS, method_type))
 
 
 class Budget(Model):
@@ -64,17 +67,19 @@ class Budget(Model):
                           min_length=3)  # The currency in 3-letter ISO 4217 format.
     amountNet = FloatType()
     project = ModelType(Project)
-    year = IntType(min_value=2000)
     period = ModelType(BudgetPeriod)
+    year = IntType(min_value=2000)
     notes = StringType()
+
+    def validate_period(self, data, value):
+        if value:
+            if get_now() < BUDGET_PERIOD_FROM:
+                raise ValidationError(u"Can't use period field, use year field instead")
+            data['year'] = None
 
     def validate_year(self, data, value):
         if value and get_now() >= BUDGET_PERIOD_FROM:
             raise ValidationError(u"Can't use year field, use period field instead")
-
-    def validate_period(self, data, value):
-        if value and get_now() < BUDGET_PERIOD_FROM:
-            raise ValidationError(u"Can't use period field, use year field instead")
 
 class PlanItem(Model):
     """Simple item model for planing"""

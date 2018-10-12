@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import mock
 from copy import deepcopy
 
 from datetime import datetime, timedelta
@@ -651,12 +652,7 @@ def create_plan(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertIn('{\n    "', response.body)
 
-    data = deepcopy(self.initial_data)
-
-    data['budget']['year'] = '2018'
-    del data['budget']['period']
-
-    response = self.app.post_json('/plans', {"data": data}, status=422)
+    response = self.app.post_json('/plans', {"data": self.initial_data_with_year}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.json['errors'], [{
         u"description": {u"year": [
@@ -872,15 +868,26 @@ def cfaua_plan(self):
         parse_date(period['endDate']).year)
     self.assertIn(plan['id'], response.headers['Location'])
 
+    response = self.app.patch_json('/plans/{}'.format(
+        plan['id']), {'data': {'budget': {'period': {'endDate': datetime(
+            year=datetime.now().year + 5, month=12, day=31
+        ).isoformat()}}}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': {u'period': {u'endDate': [
+            u'Period startDate and endDate must be within 4 years for closeFrameworkAgreementUA.'
+        ]}}, u'location': u'body', u'name': u'budget'}
+    ])
+
 
 def create_plan_budget_year(self):
     response = self.app.get('/plans')
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 0)
 
-    data = deepcopy(self.initial_data)
-
-    response = self.app.post_json('/plans', {"data": data}, status=422)
+    response = self.app.post_json('/plans', {"data": self.initial_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.json['errors'], [{
         u"description": {u"period": [
@@ -888,14 +895,27 @@ def create_plan_budget_year(self):
         ]}, u"location": u"body", u"name": u"budget",
     }])
 
-    data['budget']['year'] = '2018'
-    del data['budget']['period']
-
-    response = self.app.post_json('/plans', {"data": data})
+    response = self.app.post_json('/plans', {"data": self.initial_data_with_year})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     plan = response.json['data']
     self.assertEqual(
-        set(plan) - set(data),
+        set(plan) - set(self.initial_data_with_year),
         set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
     self.assertIn(plan['id'], response.headers['Location'])
+    self.assertIn('year', plan['budget'])
+
+def patch_plan_budget_year(self):
+    response = self.app.post_json('/plans', {"data": self.initial_data_with_year})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    plan = response.json['data']
+    self.assertIn('year', plan['budget'])
+
+    with mock.patch('openprocurement.planning.api.models.BUDGET_PERIOD_FROM', get_now() - timedelta(days=1)):
+        response = self.app.patch_json(
+            '/plans/{}'.format(plan['id']),
+            {"data": self.initial_data})
+        plan = response.json['data']
+        self.assertEqual(response.status, '200 OK')
+        self.assertNotIn('year', plan['budget'])
