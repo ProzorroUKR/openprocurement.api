@@ -698,6 +698,50 @@ def create_tender_from_terminated_agreement(self):
     self.assertEqual(tender['status'], 'draft.unsuccessful')
 
 
+def create_tender_from_agreement_with_changes(self):
+    agreement = deepcopy(self.initial_agreement)
+    now = get_now().isoformat()
+    agreement['changes'] = [
+        {
+            'status': 'active',
+            'modifications': [
+                {
+                    'itemId': agreement['items'][0]['id'],
+                    'addend': 0.9
+                }
+            ],
+            'rationaleType': 'taxRate',
+            'dateSigned': now,
+            'rationale': 'text',
+            'date': now,
+            'id': uuid4().hex
+        }
+    ]
+    agreement['id'] = self.agreement_id
+
+    tender = deepcopy(self.initial_data)
+    tender['agreements'] = [{'id': agreement['id']}]
+    response = self.app.post_json('/tenders', {'data': tender})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    token = response.json['access']['token']
+    tender_id = response.json['data']['id']
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, token),
+                                   {'data': {'status': 'draft.pending'}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['status'], 'draft.pending')
+
+    self.app.authorization = ('Basic', (BOT_NAME, ''))
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, token),
+                                   {'data': {'agreements': [agreement]}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('changes', response.json['data']['agreements'][0])
+
+
 def create_tender(self):
     response = self.app.get('/tenders')
     self.assertEqual(response.status, '200 OK')
