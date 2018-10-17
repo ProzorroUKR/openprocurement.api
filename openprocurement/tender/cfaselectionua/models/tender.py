@@ -3,7 +3,9 @@ from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUATender
 from openprocurement.tender.cfaselectionua.models.submodels.agreement import Agreement
 from openprocurement.tender.cfaselectionua.models.submodels.award import Award
+from openprocurement.tender.cfaselectionua.models.submodels.bid import Bid
 from openprocurement.tender.cfaselectionua.models.submodels.contract import Contract
+from openprocurement.tender.cfaselectionua.models.submodels.feature import Feature
 from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
 from schematics.types import StringType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
@@ -12,10 +14,11 @@ from pyramid.security import Allow
 from openprocurement.api.models import ListType, Period, Value
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.models import (
-    validate_features_uniq, validate_lots_uniq,
+    validate_lots_uniq,
     Guarantee, TenderAuctionPeriod,
-    PeriodEndRequired, Tender as BaseTender, Bid, ProcuringEntity,
-    Item, Cancellation, Feature
+    PeriodEndRequired, Tender as BaseTender, ProcuringEntity,
+    Item, Cancellation,
+    validate_features_uniq
 )
 
 

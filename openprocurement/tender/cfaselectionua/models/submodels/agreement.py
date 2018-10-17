@@ -14,9 +14,10 @@ from openprocurement.agreement.cfaua.models.change import (
 from openprocurement.agreement.cfaua.models.document import Document
 from openprocurement.agreement.cfaua.models.procuringentity import ProcuringEntity
 from openprocurement.agreement.cfaua.utils import get_change_class
-from openprocurement.tender.core.models import Feature, validate_features_uniq
+from openprocurement.tender.core.models import validate_features_uniq
 from openprocurement.tender.cfaselectionua.models.submodels.agreement_item import AgreementItem as Item
 from openprocurement.tender.cfaselectionua.models.submodels.agreement_contract import AgreementContract as Contract
+from openprocurement.tender.cfaselectionua.models.submodels.feature import Feature
 
 
 class Agreement(Model):
