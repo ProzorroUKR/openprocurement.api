@@ -1,6 +1,5 @@
 <configure xmlns="http://namespaces.zope.org/zope">
     <include package="zope.component" file="meta.zcml" />
-    <include package="openprocurement.agreement.cfaua" file="configure.zcml" />
 
     <!-- getAdapter(tender, openprocurement.api.interfaces.IContentConfigurator) -->
     <adapter
