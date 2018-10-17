@@ -3,13 +3,12 @@ from uuid import uuid4
 from schematics.exceptions import ValidationError
 from schematics.types import StringType, FloatType
 from schematics.types.compound import ModelType, ListType
-from openprocurement.api.models import Model
-
+from openprocurement.api.models import Model, DecimalType
 from openprocurement.agreement.cfaua.validation import validate_values_uniq
 
 
 class FeatureValue(Model):
-    value = FloatType(required=True, min_value=0.0, max_value=0.3)
+    value = DecimalType(required=True, min_value=0.0, max_value=0.3)
     title = StringType(required=True, min_length=1)
     title_en = StringType()
     title_ru = StringType()
