@@ -310,4 +310,12 @@ def check_minimal_step(request, tender):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
             tender.status = 'draft.unsuccessful'
-            return
+
+
+def check_identifier(request, tender):
+    if tender.agreements[0].procuringEntity:
+        if tender.procuringEntity.identifier.id != tender.agreements[0].procuringEntity.identifier.id or \
+                tender.procuringEntity.identifier.scheme != tender.agreements[0].procuringEntity.identifier.scheme:
+            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+            tender.status = 'draft.unsuccessful'

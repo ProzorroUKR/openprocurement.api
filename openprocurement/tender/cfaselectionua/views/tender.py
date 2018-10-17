@@ -15,6 +15,7 @@ from openprocurement.tender.cfaselectionua.utils import (
     check_agreement_status,
     check_min_active_contracts,
     check_minimal_step,
+    check_identifier,
 )
 
 from openprocurement.tender.cfaselectionua.validation import (
@@ -191,6 +192,7 @@ class TenderResource(APIResource):
                 tender.enquiryPeriod.startDate, self.request.content_configurator.enquiry_period, tender)
             tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
             check_minimal_step(self.request, tender)
+            check_identifier(self.request, tender)
             save_tender(self.request)
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.enquiries':
             data = validate_json_data_in_active_enquiries(self.request)
