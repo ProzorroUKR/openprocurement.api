@@ -86,4 +86,26 @@
         for=".interfaces.ICFASelectionUATender"
         />
 
+    <!-- Changes -->
+    <utility
+        name="taxRate"
+        component=".models.submodels.change.ChangeTaxRate"
+        provides=".interfaces.ICFASelectionUAChange"
+        />
+    <utility
+        name="itemPriceVariation"
+        component=".models.submodels.change.ChangeItemPriceVariation"
+        provides=".interfaces.ICFASelectionUAChange"
+        />
+    <utility
+        name="thirdParty"
+        component=".models.submodels.change.ChangeThirdParty"
+        provides=".interfaces.ICFASelectionUAChange"
+        />
+    <utility
+        name="partyWithdrawal"
+        component =".models.submodels.change.ChangePartyWithdrawal"
+        provides=".interfaces.ICFASelectionUAChange"
+        />
+
 </configure>
