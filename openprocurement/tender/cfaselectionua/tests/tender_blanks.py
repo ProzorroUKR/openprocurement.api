@@ -1317,6 +1317,47 @@ def patch_tender_bot(self):
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
 
+    # patch tender with different changes by bot
+    create_tender_and_prepare_for_bot_patch()
+    agreement = deepcopy(self.initial_agreement)
+    agreement['period']['endDate'] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
+    now = get_now().isoformat()
+    agreement['changes'] = [
+        {
+            'status': 'active',
+            'modifications': [
+                {
+                    'itemId': agreement['items'][0]['id'],
+                    'addend': 0.9
+                }
+            ],
+            'rationaleType': 'taxRate',
+            'dateSigned': now,
+            'rationale': 'text taxRate',
+            'date': now,
+            'id': uuid4().hex
+        },
+        {
+            'status': 'active',
+            'modifications': [
+                {
+                    'itemId': agreement['items'][0]['id'],
+                    'factor': 0.95
+                }
+            ],
+            'rationaleType': 'itemPriceVariation',
+            'dateSigned': now,
+            'rationale': 'text itemPriceVariation',
+            'date': now,
+            'id': uuid4().hex
+        }
+    ]
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
+        self.tender_id, self.agreement_id), {"data": agreement})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['agreementID'], self.initial_agreement['agreementID'])
+
     # patch tender items with correct items by bot
     create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
