@@ -1,4 +1,4 @@
-from decimal import Decimal
+# -*- coding: utf-8 -*-
 from schematics.exceptions import ValidationError
 from schematics.types import StringType
 from openprocurement.api.models import Model, DecimalType
@@ -22,5 +22,5 @@ class Parameter(Model):
         if isinstance(data['__parent__'], Model):
             agreement = get_agreement(data['__parent__'])
             codes = dict([(i.code, [x.value for x in i.enum]) for i in (agreement.features or [])])
-            if data['code'] in codes and Decimal(str(value)) not in codes[data['code']]:
+            if data['code'] in codes and value not in codes[data['code']]:
                 raise ValidationError(u"value should be one of feature value.")
