@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.tender.cfaselectionua.models.submodels.feature import Feature
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType, PolyModelType
 from openprocurement.api.roles import RolesFromCsv
@@ -11,7 +12,7 @@ from openprocurement.api.models import (
 
 from openprocurement.agreement.cfaua.models.document import Document
 from openprocurement.agreement.cfaua.models.procuringentity import ProcuringEntity
-from openprocurement.tender.core.models import Feature, validate_features_uniq
+from openprocurement.tender.core.models import validate_features_uniq
 from openprocurement.tender.cfaselectionua.models.submodels.agreement_item import AgreementItem as Item
 from openprocurement.tender.cfaselectionua.models.submodels.agreement_contract import AgreementContract as Contract
 from openprocurement.tender.cfaselectionua.models.submodels.change import (
