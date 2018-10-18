@@ -695,6 +695,14 @@ def create_tender_from_terminated_agreement(self):
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
     self.assertEqual(tender['agreements'][0]['status'], 'terminated')
+    self.assertEqual(tender['status'], 'draft.pending')
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, token),
+                                   {'data': {'status': 'active.enquiries'}})
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.status, '200 OK')
+    tender = response.json['data']
+    self.assertEqual(tender['agreements'][0]['status'], 'terminated')
     self.assertEqual(tender['status'], 'draft.unsuccessful')
 
 

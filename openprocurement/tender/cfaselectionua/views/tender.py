@@ -184,15 +184,17 @@ class TenderResource(APIResource):
             save_tender(self.request)
         elif self.request.authenticated_role == 'agreement_selection':
             apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
-            check_agreement_status(self.request, tender)
-            check_period_and_items(self.request, tender)
-            check_min_active_contracts(self.request, tender)
-            tender.enquiryPeriod.startDate = get_now()
-            tender.enquiryPeriod.endDate = calculate_business_date(
-                tender.enquiryPeriod.startDate, self.request.content_configurator.enquiry_period, tender)
-            tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
-            check_minimal_step(self.request, tender)
-            check_identifier(self.request, tender)
+            if self.request.tender.status == 'active.enquiries':
+                check_agreement_status(self.request, tender)
+                check_period_and_items(self.request, tender)
+                check_min_active_contracts(self.request, tender)
+                check_minimal_step(self.request, tender)
+                check_identifier(self.request, tender)
+                if tender.status == 'active.enquiries':
+                    tender.enquiryPeriod.startDate = get_now()
+                    tender.enquiryPeriod.endDate = calculate_business_date(
+                        tender.enquiryPeriod.startDate, self.request.content_configurator.enquiry_period, tender)
+                    tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
             save_tender(self.request)
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.enquiries':
             data = validate_json_data_in_active_enquiries(self.request)
