@@ -729,6 +729,7 @@ def create_tender_from_agreement_with_changes(self):
 
     tender = deepcopy(self.initial_data)
     tender['agreements'] = [{'id': agreement['id']}]
+
     response = self.app.post_json('/tenders', {'data': tender})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -737,17 +738,32 @@ def create_tender_from_agreement_with_changes(self):
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, token),
                                    {'data': {'status': 'draft.pending'}})
+    tender = response.json['data']
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['data']['status'], 'draft.pending')
+    self.assertEqual(tender['status'], 'draft.pending')
 
     self.app.authorization = ('Basic', (BOT_NAME, ''))
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, token),
-                                   {'data': {'agreements': [agreement]}})
+                                   {'data': {'agreements': [agreement], 'status': 'active.enquiries'}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertIn('changes', response.json['data']['agreements'][0])
+    self.assertEqual(response.json['data']['status'], 'active.enquiries')
+
+    # return to previous version of tender
+    actual_tender = self.db.get(tender_id)
+    actual_tender.update(tender)
+    self.db.save(actual_tender)
+
+    agreement['changes'][0]['status'] = 'pending'
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender_id, token),
+                                   {'data': {'agreements': [agreement], 'status': 'active.enquiries'}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('changes', response.json['data']['agreements'][0])
+    self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
 
 
 def create_tender(self):
