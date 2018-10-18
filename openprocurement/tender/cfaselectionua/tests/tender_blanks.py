@@ -1358,6 +1358,10 @@ def patch_tender_bot(self):
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['agreementID'], self.initial_agreement['agreementID'])
 
+    response = self.app.get('/tenders/{}/agreements/{}'.format(self.tender_id, self.agreement_id))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['changes'], agreement['changes'])
+
     # patch tender items with correct items by bot
     create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
