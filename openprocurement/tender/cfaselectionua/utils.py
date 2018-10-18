@@ -275,8 +275,8 @@ def check_period_and_items(request, tender):
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
             tender.status = 'draft.unsuccessful'
             return
-    if tender.agreements[0].period.endDate < calculate_business_date(
-             tender.enquiryPeriod.startDate, request.content_configurator.agreement_expired_until):
+
+    if get_now() > calculate_business_date(tender.agreements[0].period.endDate, -request.content_configurator.agreement_expired_until, tender):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
         tender.status = 'draft.unsuccessful'

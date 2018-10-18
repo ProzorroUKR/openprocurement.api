@@ -1397,7 +1397,10 @@ def patch_tender_bot(self):
     # patch tender with less than 7 days to end
     create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
-    agreement['period']['endDate'] = (get_now() + timedelta(days=6)).isoformat()
+    six_days = timedelta(days=6)
+    if SANDBOX_MODE:
+        six_days = six_days / 1440
+    agreement['period']['endDate'] = (get_now() + six_days).isoformat()
 
     response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
         self.tender_id, self.agreement_id), {"data": agreement})
