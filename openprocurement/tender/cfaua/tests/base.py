@@ -356,7 +356,32 @@ PERIODS = {
                 'clarificationsUntil': CLARIFICATIONS_UNTIL_PERIOD,
             }
         },
-        'end': {}
+        'end': {
+            'enquiryPeriod': {
+                'startDate': -TENDERING_DURATION - COMPLAINT_STAND_STILL - STAND_STILL_TIME - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=3),
+                'endDate': -QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - STAND_STILL_TIME - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=2)
+            },
+            'tenderPeriod': {
+                'startDate': -TENDERING_DURATION - COMPLAINT_STAND_STILL - STAND_STILL_TIME - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=3),
+                'endDate': -COMPLAINT_STAND_STILL - STAND_STILL_TIME - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=2)
+            },
+            'qualificationPeriod': {
+                'startDate': -COMPLAINT_STAND_STILL - STAND_STILL_TIME - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=2),
+                'endDate': - STAND_STILL_TIME -- CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=2)
+            },
+            'auctionPeriod': {
+                'startDate': -STAND_STILL_TIME - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=2),
+                'endDate': -STAND_STILL_TIME - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
+            },
+            'awardPeriod': {
+                'startDate': -STAND_STILL_TIME - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1),
+                'endDate': -CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
+            },
+            'contractPeriod': {
+                'startDate': -CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1),
+                'clarificationsUntil': -timedelta(days=1),
+            }
+        }
     },
     'complete': {
         'start': {
