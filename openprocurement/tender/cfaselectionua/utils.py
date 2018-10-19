@@ -282,6 +282,19 @@ def check_period_and_items(request, tender):
         tender.status = 'draft.unsuccessful'
 
 
+def check_pending_changes(request, tender):
+    changes = tender.agreements[0].changes if tender.agreements[0].changes else None
+    if changes:
+        for change in changes:
+            if change.status == 'pending':
+                LOGGER.info('Switched tender {} to {}'.format(tender.id,
+                                                              'draft.unsuccessful'),
+                            extra=context_unpack(request, {
+                                'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+                tender.status = 'draft.unsuccessful'
+                return
+
+
 def check_min_active_contracts(request, tender):
     for agr in tender.agreements:
         active_contracts = [c for c in agr.contracts if c.status == 'active'] if agr.contracts else []
@@ -289,6 +302,15 @@ def check_min_active_contracts(request, tender):
             tender.status = 'draft.unsuccessful'
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+
+
+def check_agreement(request, tender):
+    check_agreement_status(request, tender)
+    check_period_and_items(request, tender)
+    check_pending_changes(request, tender)
+    check_min_active_contracts(request, tender)
+    check_minimal_step(request, tender)
+    check_identifier(request, tender)
 
 
 def calculate_agreement_contracts_value_amount(tender):
