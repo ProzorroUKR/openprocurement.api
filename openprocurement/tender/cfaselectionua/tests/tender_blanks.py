@@ -1458,6 +1458,28 @@ def patch_tender_bot(self):
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
 
+    # patch tender with agreement -> with documents
+    create_tender_and_prepare_for_bot_patch()
+    agreement = deepcopy(self.initial_agreement)
+    agreement['documents'] = [{
+        "hash": "md5:639cb23ed3bf9a747cc6b5bfc8221370",
+        "format": "text/plain",
+        "url": "http://ds.devel.prozorro.office.ovirt/get/21cd6a80c057443393a8a7a02797072e?KeyID=ce4450fc&Signature=r6quaDNKEjMscqPQJN%2FkHv%2F9sHYpGj9xDDgSLn56BTmCe8NB9P3pxALWHqyP%252BTDtFzsJFlWK%252Bid891AocS0jDA%253D%253D",
+        "title": "d-86e3290dsimilique1RbUsG.docx",
+        "documentOf": "agreement",
+        "datePublished": "2018-10-16T15:12:43.465552+03:00",
+        "dateModified": "2018-10-16T15:12:43.465573+03:00",
+        "id": "4894210d5a3e4dc29bfd11ec3e2db913"
+    }]
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
+        self.tender_id, self.agreement_id), {"data": agreement})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+
+    response = self.app.get('/tenders/{}/agreements/{}'.format(self.tender_id, self.agreement_id))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertNotIn('documents', response.json['data'])
+
 
 @unittest.skipIf(get_now() < CANT_DELETE_PERIOD_START_DATE_FROM, "Can`t delete period start date only from {}".format(CANT_DELETE_PERIOD_START_DATE_FROM))
 def required_field_deletion(self):
