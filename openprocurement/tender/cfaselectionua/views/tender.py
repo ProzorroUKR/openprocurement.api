@@ -188,6 +188,8 @@ class TenderResource(APIResource):
                     tender.enquiryPeriod.endDate = calculate_business_date(
                         tender.enquiryPeriod.startDate, self.request.content_configurator.enquiry_period, tender)
                     tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
+                    tender.tenderPeriod.endDate = calculate_business_date(
+                        tender.tenderPeriod.startDate, self.request.content_configurator.tender_period, tender)
             save_tender(self.request)
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.enquiries':
             data = validate_json_data_in_active_enquiries(self.request)

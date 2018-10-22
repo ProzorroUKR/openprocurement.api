@@ -1493,6 +1493,30 @@ def patch_tender_bot(self):
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertNotIn('documents', response.json['data'])
 
+    # test tenderPeriod.endDate
+    create_tender_and_prepare_for_bot_patch()
+    agreement = deepcopy(self.initial_agreement)
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
+        self.tender_id, self.agreement_id), {"data": agreement})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+
+    tender_doc = self.db.get(self.tender_id)
+    tender_doc['enquiryPeriod']['startDate'] = get_now().isoformat()
+    tender_doc['enquiryPeriod']['endDate'] = get_now().isoformat()
+    tender_doc['tenderPeriod']['startDate'] = get_now().isoformat()
+    tender_doc['tenderPeriod']['endDate'] = get_now().isoformat()
+    self.db.save(tender_doc)
+
+    self.app.authorization = ('Basic', (BOT_NAME, ''))
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
+                                   {'data': {'status': 'active.enquiries'}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'active.enquiries')
+
 
 @unittest.skipIf(get_now() < CANT_DELETE_PERIOD_START_DATE_FROM, "Can`t delete period start date only from {}".format(CANT_DELETE_PERIOD_START_DATE_FROM))
 def required_field_deletion(self):
