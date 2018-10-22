@@ -29,6 +29,10 @@ from openprocurement.tender.cfaselectionua.validation import (
     validate_create_award_not_in_allowed_period
 )
 
+from openprocurement.tender.cfaselectionua.utils import (
+    check_tender_status
+)
+
 
 @optendersresource(name='closeFrameworkAgreementSelectionUA:Tender Awards',
                    collection_path='/tenders/{tender_id}/awards',
@@ -331,6 +335,7 @@ class TenderAwardResource(APIResource):
             add_next_award(self.request)
         elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
             raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
+        check_tender_status(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}))
