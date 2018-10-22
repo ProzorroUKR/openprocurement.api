@@ -267,14 +267,15 @@ def check_agreement_status(request, tender):
 
 def check_period_and_items(request, tender):
     agreement_items = tender.agreements[0].items if tender.agreements[0].items else []
-    agreement_items_classifications = [i.classification for i in agreement_items]
-    tender_items_classifications = [i.classification for i in tender.items]
-    for t_i_c in tender_items_classifications:
-        if t_i_c not in agreement_items_classifications:
-            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
-            tender.status = 'draft.unsuccessful'
-            return
+
+    agreement_items_ids = set([(i.id, i.classification.id, i.classification.scheme) for i in agreement_items])
+    tender_items_ids = set([(i.id, i.classification.id, i.classification.scheme) for i in tender.items])
+
+    if agreement_items_ids != tender_items_ids:
+        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+        tender.status = 'draft.unsuccessful'
+        return
 
     if get_now() > calculate_business_date(tender.agreements[0].period.endDate, -request.content_configurator.agreement_expired_until, tender):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),

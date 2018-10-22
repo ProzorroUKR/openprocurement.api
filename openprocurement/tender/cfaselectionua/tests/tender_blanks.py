@@ -1385,6 +1385,8 @@ def patch_tender_bot(self):
     create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement['period']['endDate'] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
+    if tender['items'][-1]['id'] not in [i['id'] for i in agreement['items']]:
+        agreement['items'].append(tender['items'][-1])
 
     response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
         self.tender_id, self.agreement_id), {"data": agreement})
