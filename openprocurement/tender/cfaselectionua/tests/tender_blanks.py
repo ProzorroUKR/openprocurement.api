@@ -1146,7 +1146,7 @@ def patch_tender_jsonpatch(self):
 
 
 def patch_tender(self):
-    data = self.initial_data.copy()
+    data = deepcopy(self.initial_data)
     data['items'].append(deepcopy(data['items'][0]))
     data['items'][-1]['id'] = uuid4().hex
     data['items'][-1]['description'] = 'test_description'
@@ -1385,8 +1385,6 @@ def patch_tender_bot(self):
     create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement['period']['endDate'] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
-    if tender['items'][-1]['id'] not in [i['id'] for i in agreement['items']]:
-        agreement['items'].append(tender['items'][-1])
 
     response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
         self.tender_id, self.agreement_id), {"data": agreement})
@@ -1492,6 +1490,30 @@ def patch_tender_bot(self):
     response = self.app.get('/tenders/{}/agreements/{}'.format(self.tender_id, self.agreement_id))
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertNotIn('documents', response.json['data'])
+
+    # test tenderPeriod.endDate
+    create_tender_and_prepare_for_bot_patch()
+    agreement = deepcopy(self.initial_agreement)
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
+        self.tender_id, self.agreement_id), {"data": agreement})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+
+    tender_doc = self.db.get(self.tender_id)
+    tender_doc['enquiryPeriod']['startDate'] = get_now().isoformat()
+    tender_doc['enquiryPeriod']['endDate'] = get_now().isoformat()
+    tender_doc['tenderPeriod']['startDate'] = get_now().isoformat()
+    tender_doc['tenderPeriod']['endDate'] = get_now().isoformat()
+    self.db.save(tender_doc)
+
+    self.app.authorization = ('Basic', (BOT_NAME, ''))
+    response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
+                                   {'data': {'status': 'active.enquiries'}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'active.enquiries')
 
 
 @unittest.skipIf(get_now() < CANT_DELETE_PERIOD_START_DATE_FROM, "Can`t delete period start date only from {}".format(CANT_DELETE_PERIOD_START_DATE_FROM))

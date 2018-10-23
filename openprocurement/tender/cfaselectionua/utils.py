@@ -5,6 +5,11 @@ from zope.component import queryUtility
 from openprocurement.api.constants import TZ
 from openprocurement.api.models import Value
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUAChange
+from openprocurement.tender.cfaselectionua.constants import (
+    AGREEMENT_STATUS, AGREEMENT_ITEMS, AGREEMENT_EXPIRED,
+    AGREEMENT_CHANGE, AGREEMENT_CONTRACTS, AGREEMENT_MINIMAL_STEP,
+    AGREEMENT_IDENTIFIER
+)
 from openprocurement.tender.cfaselectionua.traversal import agreement_factory
 from pkg_resources import get_distribution
 from openprocurement.tender.core.utils import (
@@ -260,26 +265,28 @@ def check_agreement_status(request, tender):
     if tender.agreements[0].status != 'active':
         LOGGER.info(
             'Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-            extra=context_unpack(request, {
-                'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+            extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
+                                           'CAUSE': AGREEMENT_STATUS}))
         tender.status = 'draft.unsuccessful'
 
 
 def check_period_and_items(request, tender):
     agreement_items = tender.agreements[0].items if tender.agreements[0].items else []
 
-    agreement_items_ids = set([(i.id, i.classification.id, i.classification.scheme) for i in agreement_items])
-    tender_items_ids = set([(i.id, i.classification.id, i.classification.scheme) for i in tender.items])
+    agreement_items_ids = {(i.id, i.classification.id, i.classification.scheme) for i in agreement_items}
+    tender_items_ids = {(i.id, i.classification.id, i.classification.scheme) for i in tender.items}
 
     if agreement_items_ids != tender_items_ids:
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
+                                                   'CAUSE': AGREEMENT_ITEMS}))
         tender.status = 'draft.unsuccessful'
         return
 
     if get_now() > calculate_business_date(tender.agreements[0].period.endDate, -request.content_configurator.agreement_expired_until, tender):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
+                                                   'CAUSE': AGREEMENT_EXPIRED}))
         tender.status = 'draft.unsuccessful'
 
 
@@ -291,7 +298,8 @@ def check_pending_changes(request, tender):
                 LOGGER.info('Switched tender {} to {}'.format(tender.id,
                                                               'draft.unsuccessful'),
                             extra=context_unpack(request, {
-                                'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+                                'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
+                                'CAUSE': AGREEMENT_CHANGE}))
                 tender.status = 'draft.unsuccessful'
                 return
 
@@ -302,7 +310,8 @@ def check_min_active_contracts(request, tender):
         if len(active_contracts) < request.content_configurator.min_active_contracts:
             tender.status = 'draft.unsuccessful'
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
+                                                       'CAUSE': AGREEMENT_CONTRACTS}))
 
 
 def check_agreement(request, tender):
@@ -335,7 +344,8 @@ def check_minimal_step(request, tender):
                 tender.minimalStep.valueAddedTaxIncluded != \
                 tender.agreements[0].contracts[0].unitPrices[0].value.valueAddedTaxIncluded:
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
+                                                       'CAUSE': AGREEMENT_MINIMAL_STEP}))
             tender.status = 'draft.unsuccessful'
 
 
@@ -344,5 +354,6 @@ def check_identifier(request, tender):
         if tender.procuringEntity.identifier.id != tender.agreements[0].procuringEntity.identifier.id or \
                 tender.procuringEntity.identifier.scheme != tender.agreements[0].procuringEntity.identifier.scheme:
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'}))
+                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
+                                                       'CAUSE': AGREEMENT_IDENTIFIER}))
             tender.status = 'draft.unsuccessful'
