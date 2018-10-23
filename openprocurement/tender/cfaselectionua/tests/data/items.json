@@ -1,6 +1,7 @@
 [
     {
         "description": "футляри до державних нагород",
+        "description_en": "futliary do derzhavnyh nagorod",
         "classification": {
             "scheme": "ДК021",
             "id": "44617100-9",
