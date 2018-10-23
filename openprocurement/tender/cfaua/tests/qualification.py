@@ -39,7 +39,9 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     patch_tender_qualifications_after_status_change
 )
 from openprocurement.tender.cfaua.tests.qualification_blanks import (
-    create_tender_lot_qualification_complaint, create_tender_qualification_complaint
+    create_tender_lot_qualification_complaint,
+    create_tender_qualification_complaint,
+    switch_bid_status_unsuccessul_to_active
 )
 
 one_lot_restriction = True
@@ -68,6 +70,7 @@ class TenderQualificationResourceTest(BaseTenderContentWebTest):
     test_patch_tender_qualifications = snitch(patch_tender_qualifications)
     test_get_tender_qualifications = snitch(get_tender_qualifications)
     test_patch_tender_qualifications_after_status_change = snitch(patch_tender_qualifications_after_status_change)
+    test_switch_bid_status_unsuccessul_to_active = snitch(switch_bid_status_unsuccessul_to_active)
 
 
 class TenderQualificationDocumentResourceTest(BaseTenderContentWebTest):
