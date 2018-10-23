@@ -1833,16 +1833,8 @@ def one_invalid_bid_tender(self):
         self.tender_id, new_award_id, owner_token), {"data": {"status": "unsuccessful"}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
 
-    # time travel
-    tender = self.db.get(tender_id)
-    self.db.save(tender)
-    # set tender status after stand slill period
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(tender_id), {"data": {"id": tender_id}})
-    # check status
-    self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(tender_id))
-    self.assertEqual(response.json['data']['status'], 'active.awarded')
+    self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
 
 def first_bid_tender(self):
