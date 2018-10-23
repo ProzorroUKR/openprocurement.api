@@ -1146,7 +1146,7 @@ def patch_tender_jsonpatch(self):
 
 
 def patch_tender(self):
-    data = self.initial_data.copy()
+    data = deepcopy(self.initial_data)
     data['items'].append(deepcopy(data['items'][0]))
     data['items'][-1]['id'] = uuid4().hex
     data['items'][-1]['description'] = 'test_description'
@@ -1385,8 +1385,6 @@ def patch_tender_bot(self):
     create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement['period']['endDate'] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
-    if tender['items'][-1]['id'] not in [i['id'] for i in agreement['items']]:
-        agreement['items'].append(tender['items'][-1])
 
     response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
         self.tender_id, self.agreement_id), {"data": agreement})
