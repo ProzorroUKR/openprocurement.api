@@ -504,6 +504,13 @@ def patch_tender_period(self):
     tender = response.json['data']
     owner_token = response.json['access']['token']
     self.tender_id = tender['id']
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                   {'data': {'agreementDuration': 'P0Y0M1DT1M0,2S'}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['agreementDuration'], 'P1DT1M0.2S')
+
     self.go_to_enquiryPeriod_end()
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"description": "new description"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
