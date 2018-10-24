@@ -321,6 +321,7 @@ def check_agreement(request, tender):
     check_min_active_contracts(request, tender)
     check_minimal_step(request, tender)
     check_identifier(request, tender)
+    check_features(request, tender)
 
 
 def calculate_agreement_contracts_value_amount(tender):
@@ -347,6 +348,18 @@ def check_minimal_step(request, tender):
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
                                                        'CAUSE': AGREEMENT_MINIMAL_STEP}))
             tender.status = 'draft.unsuccessful'
+
+
+def check_features(request, tender):
+    agreement_features = tender.agreements[0].features or []
+    tender_features = tender.features or []
+    if agreement_features != tender_features:
+        LOGGER.info(
+            'Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
+            extra=context_unpack(request, {
+                'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
+                'CAUSE': AGREEMENT_MINIMAL_STEP}))
+        tender.status = 'draft.unsuccessful'
 
 
 def check_identifier(request, tender):

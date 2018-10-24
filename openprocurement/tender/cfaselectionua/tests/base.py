@@ -67,8 +67,8 @@ with open(os.path.join(here, 'data/lots.json')) as _in:
 
 test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
 
-test_agreement['features'] = test_features
-
+test_agreement_features = deepcopy(test_agreement)
+test_agreement_features['features'] = test_features
 
 class BaseTenderWebTest(BaseTWT):
     initial_data = test_tender_data

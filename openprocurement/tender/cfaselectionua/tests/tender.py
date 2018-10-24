@@ -10,6 +10,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_lots,
     test_tender_data,
     test_agreement,
+    test_agreement_features,
     BaseTenderWebTest,
 )
 from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
@@ -42,6 +43,7 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     create_tender,
     create_tender_from_terminated_agreement,
     create_tender_from_agreement_with_changes,
+    create_tender_from_agreement_with_features,
     invalid_tender_conditions,
     lost_contract_for_active_award,
     # TestCoordinatesRegExp
@@ -69,6 +71,7 @@ class TenderResourceTestMixin(object):
     test_create_tender = snitch(create_tender)
     test_create_tender_from_terminated_agreement = snitch(create_tender_from_terminated_agreement)
     test_create_tender_from_agreement_with_changes = snitch(create_tender_from_agreement_with_changes)
+    test_create_tender_from_agreement_with_features = snitch(create_tender_from_agreement_with_features)
     # test_tender_features = snitch(tender_features)
     test_get_tender = snitch(get_tender)
     test_tender_features_invalid = snitch(tender_features_invalid)
@@ -98,6 +101,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     relative_to = os.path.dirname(__file__)
     initial_agreement = test_agreement
+    initial_agreement_with_features = test_agreement_features
+
     agreement_id = '11111111111111111111111111111111'
 
     # test_guarantee = snitch(guarantee)
