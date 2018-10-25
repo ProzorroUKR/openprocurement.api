@@ -8,7 +8,6 @@ from openprocurement.api.utils import (
 from openprocurement.tender.core.validation import (
     validate_patch_award_data,
     validate_update_award_only_for_active_lots,
-    validate_update_award_in_not_allowed_status,
     validate_update_award_with_accepted_complaint
 )
 from openprocurement.tender.core.utils import (
@@ -18,6 +17,7 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.openua.views.award import TenderUaAwardResource as BaseResource
 from openprocurement.tender.cfaua.utils import add_next_awards
+from openprocurement.tender.cfaua.validation import validate_update_award_in_not_allowed_status
 
 
 

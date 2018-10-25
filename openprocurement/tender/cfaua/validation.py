@@ -261,3 +261,9 @@ def validate_max_agreement_duration_period(value):
         raise ValidationError(
             'Agreement duration period is greater than {}'.format(duration_isoformat(MAX_AGREEMENT_PERIOD))
         )
+
+# awards
+def validate_update_award_in_not_allowed_status(request):
+    tender = request.validated['tender']
+    if tender.status != 'active.qualification':
+        raise_operation_error(request, 'Can\'t update award in current ({}) tender status'.format(tender.status))
