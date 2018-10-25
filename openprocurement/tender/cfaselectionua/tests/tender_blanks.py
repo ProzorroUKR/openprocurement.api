@@ -631,7 +631,7 @@ def create_tender_invalid(self):
 
 
 def create_tender_generated(self):
-    data = self.initial_data.copy()
+    data = deepcopy(self.initial_data)
 
     #del data['awardPeriod']
     data.update({'id': 'hash', 'doc_id': 'hash2', 'tenderID': 'hash3'})
@@ -652,7 +652,7 @@ def create_tender_generated(self):
 
 
 def create_tender_draft(self):
-    data = self.initial_data.copy()
+    data = deepcopy(self.initial_data)
     data.update({'status': 'draft'})
     response = self.app.post_json('/tenders', {'data': data})
     self.assertEqual(response.status, '201 Created')
@@ -671,11 +671,41 @@ def create_tender_draft(self):
 
 def create_tender_draft_pending(self):
     create_tender_draft(self)
+
     response = self.app.patch_json('/tenders/{}?acc_token={}'
                                    .format(self.tender_id, self.tender_token),
                                    {'data': {'status': 'draft.pending'}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['status'], 'draft.pending')
+
+
+def create_tender_draft_pending_with_features(self):
+    data = deepcopy(self.initial_data)
+    data['status'] = 'draft'
+    data['features'] = self.initial_agreement_with_features['features']
+
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    tender = response.json['data']
+    self.tender_id = tender['id']
+    self.tender_token = response.json['access']['token']
+    self.assertEqual(tender['status'], 'draft')
+    self.assertIn('features', tender)
+
+    response = self.app.get('/tenders/{}'.format(tender['id']))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    tender = response.json['data']
+    self.assertEqual(tender['status'], self.primary_tender_status)
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'
+                                   .format(self.tender_id, self.tender_token),
+                                   {'data': {'status': 'draft.pending'}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('features', response.json['data'])
     self.assertEqual(response.json['data']['status'], 'draft.pending')
 
 
@@ -703,6 +733,42 @@ def create_tender_from_terminated_agreement(self):
     tender = response.json['data']
     self.assertEqual(tender['agreements'][0]['status'], 'terminated')
     self.assertEqual(tender['status'], 'draft.unsuccessful')
+
+
+def create_tender_from_agreement_with_features(self):
+    self.agreement = deepcopy(self.initial_agreement_with_features)
+    create_tender_draft_pending(self)
+    create_tender_from_agreement_with_features_unsuccessful(self)
+    create_tender_draft_pending_with_features(self)
+    create_tender_from_agreement_with_features_successful(self)
+
+
+def create_tender_from_agreement_with_features_unsuccessful(self):
+    self.app.authorization = ('Basic', (BOT_NAME, ''))
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {'data': {'agreements': [self.agreement], 'status': 'active.enquiries'}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertIn('features', self.agreement)
+    self.assertNotIn('features', response.json['data'])
+    self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+
+    self.app.authorization = ('Basic', ('broker', ''))
+
+
+def create_tender_from_agreement_with_features_successful(self):
+    self.app.authorization = ('Basic', (BOT_NAME, ''))
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {'data': {'agreements': [self.agreement], 'status': 'active.enquiries'}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    # import ipdb; ipdb.set_trace()
+    # self.assertEqual(set(response.json['data']['features']), set(self.agreement['features']))
+    self.assertEqual(response.json['data']['status'], 'active.enquiries')
+
+    self.app.authorization = ('Basic', ('broker', ''))
 
 
 def create_tender_from_agreement_with_changes(self):

@@ -10,7 +10,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_organization,
     test_lots,
     test_bids,
-    test_agreement,
+    test_agreement_features,
 )
 from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     # TenderBidResourceTest
@@ -64,7 +64,7 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
     def setUp(self):
         super(TenderBidFeaturesResourceTest, self).setUp()
         tender = self.db.get(self.tender_id)
-        agreement = tender['agreements'][0]
+        agreement = test_agreement_features
         agreement['contracts'][0]['parameters'] = [
             {
                 'code': 'OCDS-123454-AIR-INTAKE',
@@ -85,6 +85,8 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
                 'value': 0.15
             }
         ]
+        agreement['id'] = tender['agreements'][0]['id']
+        tender['agreements'] = [agreement]
         self.db.save(tender)
 
 
