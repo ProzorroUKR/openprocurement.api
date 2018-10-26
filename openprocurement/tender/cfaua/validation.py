@@ -239,8 +239,18 @@ def validate_agreement_contract_unitprices_update(request):
         elif agreement_items_id != validated_items_id:
             raise_operation_error(request, "All relatedItem values doesn't match with contract.")
 
-        calculated_value = sum([quantity_cache[u['relatedItem']] * u['value']['amount']
-                                for u in request.validated['data']['unitPrices']])
+        unit_price_amounts = []
+        for unit_price in request.validated['data']['unitPrices']:
+            if unit_price.get('value', {}).get('currency') != tender.value.currency:
+                raise_operation_error(request, "currency of bid should be identical to currency of value of lot")
+            if unit_price.get('value', {}).get('valueAddedTaxIncluded') != tender.value.valueAddedTaxIncluded:
+                raise_operation_error(
+                    request,
+                    "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
+                )
+            unit_price_amounts.append(quantity_cache[unit_price['relatedItem']] * unit_price['value']['amount'])
+
+        calculated_value = sum(unit_price_amounts)
 
         bid = [b for b in tender.bids if b.id == contract.bidID][0]
         award = [a for a in tender.awards if a.id == contract.awardID][0]
