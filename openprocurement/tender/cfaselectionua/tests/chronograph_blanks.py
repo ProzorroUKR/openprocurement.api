@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from iso8601 import parse_date
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
@@ -145,7 +146,7 @@ def set_auction_period(self):
     self.assertIn('shouldStartAfter', item['auctionPeriod'])
     self.assertGreaterEqual(item['auctionPeriod']['shouldStartAfter'], response.json['data']['tenderPeriod']['endDate'])
     self.assertIn('T00:00:00+', item['auctionPeriod']['shouldStartAfter'])
-    self.assertEqual(response.json['data']['next_check'], response.json['data']['tenderPeriod']['endDate'])
+    self.assertEqual(parse_date(response.json['data']['next_check']), parse_date(response.json['data']['tenderPeriod']['endDate']))
 
     if self.initial_lots:
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {"lots": [{"auctionPeriod": {"startDate": "9999-01-01T00:00:00+00:00"}}]}})
@@ -181,7 +182,7 @@ def reset_auction_period(self):
     self.assertIn('auctionPeriod', item)
     self.assertIn('shouldStartAfter', item['auctionPeriod'])
     self.assertGreaterEqual(item['auctionPeriod']['shouldStartAfter'], response.json['data']['tenderPeriod']['endDate'])
-    self.assertEqual(response.json['data']['next_check'], response.json['data']['tenderPeriod']['endDate'])
+    self.assertEqual(parse_date(response.json['data']['next_check']), parse_date(response.json['data']['tenderPeriod']['endDate']))
 
     if self.initial_lots:
         response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {"lots": [{"auctionPeriod": {"startDate": "9999-01-01T00:00:00"}}]}})
