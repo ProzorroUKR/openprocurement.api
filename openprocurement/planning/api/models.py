@@ -52,8 +52,8 @@ class BudgetPeriod(Period):
             raise ValidationError(u"Period startDate and endDate must be within one year for {}.".format(
                 method_type))
         if method_type in MULTI_YEAR_BUDGET_PROCEDURES and value.year - start_date.year > MULTI_YEAR_BUDGET_MAX_YEARS:
-            raise ValidationError(u"Period startDate and endDate must be within {} years for {}.".format(
-                MULTI_YEAR_BUDGET_MAX_YEARS, method_type))
+            raise ValidationError(u"Period startDate and endDate must be within {} budget years for {}.".format(
+                MULTI_YEAR_BUDGET_MAX_YEARS + 1, method_type))
 
 
 class Budget(Model):
