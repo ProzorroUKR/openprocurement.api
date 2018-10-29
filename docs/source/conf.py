@@ -50,7 +50,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'openprocurement.api'
+project = u'openprocurement.tender.cfaselectionua'
 copyright = u'2014-2015, Quintagroup, Ltd'
 
 # The version info for the project you're documenting, acts as replacement for

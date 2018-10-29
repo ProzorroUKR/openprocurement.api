@@ -77,15 +77,15 @@ Let's check what tender registry contains:
 
 And indeed we have 2 tenders now.
 
-Для переходу до наступних кроків потрібно перевести тендер в статус ``draft.pending`` щоб бот змін доповнити
-:ref:`Agreement` і перевести тендер в один з наступних статусів, якщо тендер відповідатиме всім вимогам то в статус
-``active.enquiries``, в протележному випадку в ``draft.unsuccessful``
+
+To move forward, you need to change status of procedure to ``draft.pending``. This will let the bot to pull up 
+:ref:`Agreement` and move tender to the next status. If provided information meets all the requirements, than the bot
+moves procedure to ``active.enquiries`` status, else to ``draft.unsuccessful`` terminal status.
 
 .. include:: tutorial/tender-switch-draft-pending.http
    :code:
 
-Переконуємось, що наш тендер відповідає всім вимогам і бот наповнив :ref:`Agreement` тендеру і встановив статус
-``active.enquiries``.
+Let's see, that our tender meets all the requirements, the bot pulled up :ref:`Agreement` of tender and changed status to ``active.enquiries``.
 
 .. include:: tutorial/tender-in-active-enquiries.http
    :code:
@@ -181,8 +181,9 @@ of bids.
 
 Bidder can register a bid in ``draft`` status:
 
-Не можна подати пропозицію із значенням більшим ніж у ``agreement.contract.value``, а також учаснику якого немає у
-рамковій угоді (:ref:`Agreement`)
+You cannot submit a bid greater than ``agreement.contract.value``. Also Bidder can't submit a bid if he is not party of this Framework Agreement 
+(:ref:`Agreement`).
+
 
 .. include:: tutorial/register-bidder-invalid.http
    :code:

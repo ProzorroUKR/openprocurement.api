@@ -140,27 +140,27 @@ Schema
    string
 
     :`draft`:
-        <!!! Щось про статус `draft`>
+        ProcuringEntity creats draft of procedure, where should be specified procurementMethodType - closeFrameworkAgreementSelectionUA, procurementMethod - selective. One lot structure procedure. Also ProcuringEntity should specify agreement:id, items, title, description and features, if needed.
     :`draft.pending`:
-        <!!! Щось про статус `draft.pending`>
+        ProcuringEntity changes status of procedure from 'draft' to 'draft.pending' to make the system check provided information and pull up necassery information from :ref:`Agreement`.
     :`draft.unsuccessful`:
-        <!!! Щось про статус `draft.unsuccessful`>
-   :`active.enquiries`:
-       Enquiries period (enquiries)
-   :`active.tendering`:
-       Tendering period (tendering)
-   :`active.auction`:
-       Auction period (auction)
-   :`active.qualification`:
-       Winner qualification (qualification)
-   :`active.awarded`:
-       Standstill period (standstill)
-   :`unsuccessful`:
-       Unsuccessful tender (unsuccessful)
-   :`complete`:
-       Complete tender (complete)
-   :`cancelled`:
-       Cancelled tender (cancelled)
+        Terminal status. System moves procedure to 'draft.unsuccessful' status if at least one of the checks is failed.
+    :`active.enquiries`:
+        Enquiries period (enquiries)
+    :`active.tendering`:
+        Tendering period (tendering)
+    :`active.auction`:
+        Auction period (auction)
+    :`active.qualification`:
+        Winner qualification (qualification)
+    :`active.awarded`:
+        Standstill period (standstill)
+    :`unsuccessful`:
+        Unsuccessful tender (unsuccessful)
+    :`complete`:
+        Complete tender (complete)
+    :`cancelled`:
+        Cancelled tender (cancelled)
 
    Status of the Tender.
 
