@@ -5,7 +5,7 @@
 .. _ChangeTaxRate:
 
 ChangeTaxRate
-======
+=============
 
 Schema
 ------
@@ -26,7 +26,7 @@ Schema
 .. _ChangeItemPriceVariation:
 
 ChangeItemPriceVariation
-======
+========================
 
 Schema
 ------
@@ -47,7 +47,7 @@ Schema
 .. _ChangeThirdParty:
 
 ChangeThirdParty
-======
+================
 
 Schema
 ------
@@ -68,7 +68,7 @@ Schema
 .. _ChangePartyWithdrawal:
 
 ChangePartyWithdrawal
-======
+=====================
 
 Schema
 ------
@@ -87,7 +87,7 @@ Schema
 .. _UnitPriceModification:
 
 UnitPriceModification
-======
+=====================
 
 Schema
 ------
@@ -112,7 +112,7 @@ Schema
 .. _ContractModification:
 
 ContractModification
-======
+====================
 
 Schema
 ------

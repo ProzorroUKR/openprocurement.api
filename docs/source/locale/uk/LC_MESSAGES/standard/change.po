@@ -1,0 +1,208 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.agreement.cfaua 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-30 13:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/standard/change.rst:8
+msgid "ChangeTaxRate"
+msgstr ""
+
+#: ../../source/standard/change.rst:11 ../../source/standard/change.rst:32
+#: ../../source/standard/change.rst:53 ../../source/standard/change.rst:74
+#: ../../source/standard/change.rst:93 ../../source/standard/change.rst:118
+msgid "Schema"
+msgstr ""
+
+#: ../../source/standard/base_change.rst:4
+#: ../../source/standard/base_change.rst:4
+#: ../../source/standard/base_change.rst:4
+#: ../../source/standard/base_change.rst:4
+msgid "uid, auto-generated"
+msgstr ""
+
+#: ../../source/standard/base_change.rst:6
+#: ../../source/standard/base_change.rst:6
+#: ../../source/standard/base_change.rst:6
+#: ../../source/standard/base_change.rst:6
+msgid "The identifier for this Change."
+msgstr ""
+
+#: ../../source/standard/base_change.rst:9
+#: ../../source/standard/base_change.rst:9
+#: ../../source/standard/base_change.rst:9
+#: ../../source/standard/base_change.rst:9
+msgid "string, multilingual, required"
+msgstr ""
+
+#: ../../source/standard/base_change.rst:11
+#: ../../source/standard/base_change.rst:11
+#: ../../source/standard/base_change.rst:11
+#: ../../source/standard/base_change.rst:11
+msgid "Reason for agreement change"
+msgstr ""
+
+#: ../../source/standard/base_change.rst:14
+#: ../../source/standard/base_change.rst:14
+#: ../../source/standard/base_change.rst:14
+#: ../../source/standard/base_change.rst:14
+msgid "string, :ref:`date`, auto-generated"
+msgstr ""
+
+#: ../../source/standard/base_change.rst:17
+#: ../../source/standard/base_change.rst:17
+#: ../../source/standard/base_change.rst:17
+#: ../../source/standard/base_change.rst:17
+msgid "string, :ref:`date`"
+msgstr ""
+
+#: ../../source/standard/base_change.rst:20
+#: ../../source/standard/change.rst:16
+#: ../../source/standard/base_change.rst:20
+#: ../../source/standard/change.rst:37
+#: ../../source/standard/base_change.rst:20
+#: ../../source/standard/change.rst:58
+#: ../../source/standard/base_change.rst:20
+#: ../../source/standard/change.rst:79 ../../source/standard/change.rst:96
+#: ../../source/standard/change.rst:121
+msgid "string"
+msgstr ""
+
+#: ../../source/standard/base_change.rst:23
+#: ../../source/standard/base_change.rst:23
+#: ../../source/standard/base_change.rst:23
+#: ../../source/standard/base_change.rst:23
+#: ../../source/standard/change.rst:126
+msgid "string, required"
+msgstr ""
+
+#: ../../source/standard/base_change.rst:25
+#: ../../source/standard/base_change.rst:25
+#: ../../source/standard/base_change.rst:25
+#: ../../source/standard/base_change.rst:25
+msgid "The current status of the change."
+msgstr ""
+
+#: ../../source/standard/base_change.rst:27
+#: ../../source/standard/base_change.rst:27
+#: ../../source/standard/base_change.rst:27
+#: ../../source/standard/base_change.rst:27
+msgid "Possible values are:"
+msgstr ""
+
+#: ../../source/standard/base_change.rst:29
+#: ../../source/standard/base_change.rst:29
+#: ../../source/standard/base_change.rst:29
+#: ../../source/standard/base_change.rst:29
+msgid "`pending` - this change has been added."
+msgstr ""
+
+#: ../../source/standard/base_change.rst:30
+#: ../../source/standard/base_change.rst:30
+#: ../../source/standard/base_change.rst:30
+#: ../../source/standard/base_change.rst:30
+msgid "`active` - this change has been confirmed."
+msgstr ""
+
+#: ../../source/standard/base_change.rst:31
+#: ../../source/standard/base_change.rst:31
+#: ../../source/standard/base_change.rst:31
+#: ../../source/standard/base_change.rst:31
+msgid "`cancelled` - this change has been cancelled."
+msgstr ""
+
+#: ../../source/standard/change.rst:18
+msgid "Default value is `taxRate`."
+msgstr ""
+
+#: ../../source/standard/change.rst:21 ../../source/standard/change.rst:42
+#: ../../source/standard/change.rst:63
+msgid "List of :ref:`UnitPriceModification` objects"
+msgstr ""
+
+#: ../../source/standard/change.rst:23
+msgid ""
+"For `ChangeTaxRate`, `UnitPriceModification` is allowed only with one "
+"attribute ( `factor` or `addend` )."
+msgstr ""
+
+#: ../../source/standard/change.rst:29
+msgid "ChangeItemPriceVariation"
+msgstr ""
+
+#: ../../source/standard/change.rst:39
+msgid "Default value is `itemPriceVariation`."
+msgstr ""
+
+#: ../../source/standard/change.rst:44
+msgid ""
+"For `ChangeItemPriceVariation`, `UnitPriceModification` is allowed only with"
+" `factor` . `factor` attribute should be in range 0.9 - 1.1."
+msgstr ""
+
+#: ../../source/standard/change.rst:50
+msgid "ChangeThirdParty"
+msgstr ""
+
+#: ../../source/standard/change.rst:60
+msgid "Default value is `thirdParty`."
+msgstr ""
+
+#: ../../source/standard/change.rst:65
+msgid ""
+"For `ChangeThirdParty`, `UnitPriceModification` is allowed only with "
+"`factor` . `factor` attribute should be over 0.0."
+msgstr ""
+
+#: ../../source/standard/change.rst:71
+msgid "ChangePartyWithdrawal"
+msgstr ""
+
+#: ../../source/standard/change.rst:81
+msgid "Default value is `partyWithdrawal`."
+msgstr ""
+
+#: ../../source/standard/change.rst:84
+msgid "List of :ref:`ContractModification` objects"
+msgstr ""
+
+#: ../../source/standard/change.rst:90
+msgid "UnitPriceModification"
+msgstr ""
+
+#: ../../source/standard/change.rst:98 ../../source/standard/change.rst:123
+msgid "Id of changing item."
+msgstr ""
+
+#: ../../source/standard/change.rst:101 ../../source/standard/change.rst:106
+msgid "decimal"
+msgstr ""
+
+#: ../../source/standard/change.rst:103
+msgid "Min value is 0.0 ."
+msgstr ""
+
+#: ../../source/standard/change.rst:108
+msgid ""
+"Is absolute value of changing. Note: factor and addend are not required "
+"fields. But one of fields should be provided."
+msgstr ""
+
+#: ../../source/standard/change.rst:115
+msgid "ContractModification"
+msgstr ""
+
+#: ../../source/standard/change.rst:130
+msgid "Workflow"
+msgstr ""
+
+#: ../../source/standard/change.rst:140
+msgid "\\* marks initial state"
+msgstr ""
