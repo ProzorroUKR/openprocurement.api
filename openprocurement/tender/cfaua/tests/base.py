@@ -367,7 +367,7 @@ PERIODS = {
             },
             'qualificationPeriod': {
                 'startDate': -COMPLAINT_STAND_STILL - QUALIFICATION_COMPLAINT_STAND_STILL - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=2),
-                'endDate': - QUALIFICATION_COMPLAINT_STAND_STILL -- CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=2)
+                'endDate': - QUALIFICATION_COMPLAINT_STAND_STILL - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=2)
             },
             'auctionPeriod': {
                 'startDate': -QUALIFICATION_COMPLAINT_STAND_STILL - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=2),
