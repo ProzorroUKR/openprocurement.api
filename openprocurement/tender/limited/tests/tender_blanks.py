@@ -3,11 +3,8 @@ from copy import deepcopy
 from uuid import uuid4
 
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import ROUTE_PREFIX, CPV_ITEMS_CLASS_FROM
-
-from openprocurement.tender.core.constants import (
+from openprocurement.api.constants import ROUTE_PREFIX, CPV_ITEMS_CLASS_FROM, \
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
-)
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 
