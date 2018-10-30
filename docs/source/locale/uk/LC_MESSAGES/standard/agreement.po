@@ -1,0 +1,172 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.agreement.cfaua 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-30 13:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/standard/agreement.rst:8
+msgid "Agreement"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:11
+msgid "Schema"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:14
+msgid "uid, auto-generated"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:16
+msgid "|ocdsDescription| The identifier for this agreement."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:20
+#: ../../source/standard/agreement.rst:23
+#: ../../source/standard/agreement.rst:26
+#: ../../source/standard/agreement.rst:32
+#: ../../source/standard/agreement.rst:38
+#: ../../source/standard/agreement.rst:44
+#: ../../source/standard/agreement.rst:50
+#: ../../source/standard/agreement.rst:56
+msgid "string"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:28
+msgid "|ocdsDescription| Agreement title"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:34
+msgid "|ocdsDescription| Agreement title in english"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:40
+msgid "|ocdsDescription| Agreement title in russian"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:46
+msgid "|ocdsDescription| Agreement description"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:52
+msgid "|ocdsDescription| Agreement description in english"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:58
+msgid "|ocdsDescription| Agreement description in russian"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:62
+msgid "string, required"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:64
+msgid "|ocdsDescription| The current status of the agreement."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:67
+msgid "Possible values are:"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:69
+msgid ""
+"`active` - this agreement has been signed by all the parties, and is now "
+"legally in force."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:71
+msgid ""
+"`terminated` - this agreement was signed and in force, and has now come to a"
+" close.  This may be due to a successful completion of the agreement, or may"
+" be early termination due to some non-completion issue."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:76
+msgid ":ref:`Period`"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:78
+msgid "|ocdsDescription| The start and end date for the agreement."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:82
+msgid ":ref:`Date`"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:85
+msgid "List of :ref:`Item` objects, read-only"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:87
+msgid ""
+"|ocdsDescription| The goods, services, and any intangible outcomes in this "
+"agreement."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:91
+msgid ":ref:`ProcuringEntity`"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:93
+msgid ""
+"|ocdsDescription| The entity managing the procurement, which may be "
+"different from the buyer who is paying / using the items being procured."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:97
+msgid "string, :ref:`date`, auto-generated, read-only"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:99
+msgid ""
+"|ocdsDescription| The date the agreement was signed. In the case of multiple"
+" signatures, the date of the last signature."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:103
+msgid "List of :ref:`Document` objects"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:105
+msgid ""
+"|ocdsDescription| All documents and attachments related to the agreement, "
+"including any notices."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:109
+msgid ""
+"List of :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, "
+":ref:`ChangePartyWithdrawal` or :ref:`ChangeThirdParty` objects."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:112
+msgid "List of :ref:`Contract`  objects."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:115
+msgid "List of :ref:`Revision`  objects."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:118
+msgid "string, required for unsuccessful agreement"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:120
+msgid ""
+"Reasons for agreement termination. Presence of this field indicates that "
+"agreement is unsuccessful."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:124
+msgid "Workflow"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:134
+msgid "\\* marks initial state"
+msgstr ""

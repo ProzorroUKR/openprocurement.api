@@ -1,0 +1,163 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.agreement.cfaua 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-30 13:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/standard/document.rst:9
+msgid "Document"
+msgstr ""
+
+#: ../../source/standard/document.rst:12
+msgid "Schema"
+msgstr ""
+
+#: ../../source/standard/document.rst:15 ../../source/standard/document.rst:59
+msgid "string, auto-generated"
+msgstr ""
+
+#: ../../source/standard/document.rst:18 ../../source/standard/document.rst:53
+#: ../../source/standard/document.rst:77 ../../source/standard/document.rst:89
+#: ../../source/standard/document.rst:101
+msgid "string"
+msgstr ""
+
+#: ../../source/standard/document.rst:20
+msgid "Possible values for :ref:`contract`"
+msgstr ""
+
+#: ../../source/standard/document.rst:23
+msgid "`notice` - **Contract notice**"
+msgstr ""
+
+#: ../../source/standard/document.rst:25
+msgid ""
+"The formal notice that gives details of a contract being signed and valid to"
+" start implementation. This may be a link to a downloadable document, to a "
+"web page, or to an official gazette in which the notice is contained."
+msgstr ""
+
+#: ../../source/standard/document.rst:27
+msgid "`contractSigned` - **Signed Contract**"
+msgstr ""
+
+#: ../../source/standard/document.rst:29
+msgid "`contractArrangements` - **Arrangements for ending contract**"
+msgstr ""
+
+#: ../../source/standard/document.rst:31
+msgid "`contractSchedule` - **Schedules and milestones**"
+msgstr ""
+
+#: ../../source/standard/document.rst:33
+msgid "`contractAnnexe` - **Annexes to the Contract**"
+msgstr ""
+
+#: ../../source/standard/document.rst:35
+msgid "`contractGuarantees` - **Guarantees**"
+msgstr ""
+
+#: ../../source/standard/document.rst:37
+msgid "`subContract` - **Subcontracts**"
+msgstr ""
+
+#: ../../source/standard/document.rst:41 ../../source/standard/document.rst:47
+msgid "string, multilingual"
+msgstr ""
+
+#: ../../source/standard/document.rst:43
+msgid "|ocdsDescription| The document title."
+msgstr ""
+
+#: ../../source/standard/document.rst:49
+msgid ""
+"|ocdsDescription| A short description of the document. In the event the "
+"document is not accessible online, the description field can be used to "
+"describe arrangements for obtaining a copy of the document."
+msgstr ""
+
+#: ../../source/standard/document.rst:55
+msgid ""
+"|ocdsDescription| The format of the document taken from the `IANA Media "
+"Types code list <http://www.iana.org/assignments/media-types/>`_, with the "
+"addition of one extra value for 'offline/print', used when this document "
+"entry is being used to describe the offline publication of a document."
+msgstr ""
+
+#: ../../source/standard/document.rst:61
+msgid "|ocdsDescription| Direct link to the document or attachment."
+msgstr ""
+
+#: ../../source/standard/document.rst:65 ../../source/standard/document.rst:71
+msgid "string, :ref:`date`"
+msgstr ""
+
+#: ../../source/standard/document.rst:67
+msgid "|ocdsDescription| The date on which the document was first published."
+msgstr ""
+
+#: ../../source/standard/document.rst:73
+msgid "|ocdsDescription| Date that the document was last modified"
+msgstr ""
+
+#: ../../source/standard/document.rst:79 ../../source/standard/document.rst:91
+msgid "Possible values are:"
+msgstr ""
+
+#: ../../source/standard/document.rst:81
+msgid "`uk`"
+msgstr ""
+
+#: ../../source/standard/document.rst:82
+msgid "`en`"
+msgstr ""
+
+#: ../../source/standard/document.rst:83
+msgid "`ru`"
+msgstr ""
+
+#: ../../source/standard/document.rst:85
+msgid ""
+"|ocdsDescription| Specifies the language of the linked document using either"
+" two-digit `ISO 639-1 "
+"<https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, or extended "
+"`BCP47 language tags <http://www.w3.org/International/articles/language-"
+"tags/>`_."
+msgstr ""
+
+#: ../../source/standard/document.rst:93
+msgid "`tender`"
+msgstr ""
+
+#: ../../source/standard/document.rst:94
+msgid "`item`"
+msgstr ""
+
+#: ../../source/standard/document.rst:95
+msgid "`contract`"
+msgstr ""
+
+#: ../../source/standard/document.rst:96
+msgid "`agreement`"
+msgstr ""
+
+#: ../../source/standard/document.rst:97
+msgid "`lot`"
+msgstr ""
+
+#: ../../source/standard/document.rst:98
+msgid "`change`"
+msgstr ""
+
+#: ../../source/standard/document.rst:103
+msgid ""
+"Id of related :ref:`tender`, :ref:`item`, :ref:`contract`, :ref:`agreement`,"
+" :ref:`change` or :ref:`item`."
+msgstr ""
