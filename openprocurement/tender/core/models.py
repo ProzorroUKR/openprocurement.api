@@ -30,7 +30,7 @@ from openprocurement.api.constants import (
     SANDBOX_MODE, COORDINATES_REG_EXP,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017,
-    FUNDERS,
+    FUNDERS, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
 )
 
 from openprocurement.tender.core.constants import (
@@ -43,9 +43,6 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.core.validation import (
     validate_LotValue_value
-)
-from openprocurement.tender.core.constants import (
-    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
 )
 
 create_role = (blacklist('owner_token', 'owner', 'contracts', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role)
