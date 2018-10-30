@@ -2,13 +2,8 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM
+from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
 from openprocurement.api.utils import get_now
-
-from openprocurement.tender.core.constants import (
-    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
-)
-
 from openprocurement.tender.esco.models import TenderESCO
 
 
