@@ -68,7 +68,6 @@ We do see the internal `id` of a agreement (that can be used to construct full U
 Modifying agreement
 -------------------
 
-You can make changes to the agreement in cases described in the 4th part of Article 36 of the Law "On the Public Procurement".
 
 **Essential agreement terms** can be modified by the submission of a new `change` object to the `Agreement.changes` container. `Change` can be one of this types :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, :ref:`ChangePartyWithdrawal` or :ref:`ChangeThirdParty`
 

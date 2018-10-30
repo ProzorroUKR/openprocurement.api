@@ -77,6 +77,9 @@ Schema
 
     |ocdsDescription|
     The start and end date for the agreement.
+    
+:date:
+    :ref:`Date`
 
 :items:
     List of :ref:`Item` objects, read-only
