@@ -5,7 +5,8 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 
 from iso8601 import parse_date
-from openprocurement.api.constants import ROUTE_PREFIX, CPV_ITEMS_CLASS_FROM, TZ
+from openprocurement.api.constants import ROUTE_PREFIX, CPV_ITEMS_CLASS_FROM, \
+    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM, TZ
 from openprocurement.api.utils import get_now
 
 from openprocurement.planning.api.models import Plan
@@ -479,22 +480,25 @@ def create_plan_invalid(self):
         self.initial_data['classification']['id'] = '99999999-9'
         for index, cpv_code in enumerate(cpv_codes):
             self.initial_data["items"][index]['classification']['id'] = '99999999-9'
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+
+    if get_now() < NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM:
+        response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [{u'additionalClassifications': [u'This field is required.']},
+                              {u'additionalClassifications': [u'This field is required.']},
+                              {u'additionalClassifications': [u'This field is required.']}], u'location': u'body',
+             u'name': u'items'}
+        ])
+
     for index, additionalClassification in enumerate(additionalClassifications):
         self.initial_data["items"][index]['additionalClassifications'] = additionalClassification
     if get_now() > CPV_ITEMS_CLASS_FROM:
         self.initial_data['classification']['id'] = cpv_code
         for index, cpv_code in enumerate(cpv_codes):
             self.initial_data["items"][index]['classification']['id'] = cpv_code
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [{u'additionalClassifications': [u'This field is required.']},
-                          {u'additionalClassifications': [u'This field is required.']},
-                          {u'additionalClassifications': [u'This field is required.']}], u'location': u'body',
-         u'name': u'items'}
-    ])
 
     additionalClassifications = [i["additionalClassifications"][0]["scheme"] for i in self.initial_data["items"]]
     for index, _ in enumerate(additionalClassifications):

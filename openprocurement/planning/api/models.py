@@ -15,6 +15,8 @@ from openprocurement.api.models import Unit, CPVClassification, Classification, 
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
 from openprocurement.api.utils import get_now
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
+from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, ADDITIONAL_CLASSIFICATIONS_SCHEMES, \
+    ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
 from openprocurement.planning.api.constants import (
     PROCEDURES,
     MULTI_YEAR_BUDGET_PROCEDURES,
@@ -109,9 +111,11 @@ class PlanItem(Model):
         plan = data['__parent__']
         if not plan.classification:
             return
-        plan_from_2017 = (plan.get('revisions')[0].date if plan.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM
+        plan_date = plan.get('revisions')[0].date if plan.get('revisions') else get_now()
+        plan_from_2017 = plan_date > CPV_ITEMS_CLASS_FROM
         not_cpv = data['classification']['id'] == '99999999-9'
-        if not items and (not plan_from_2017 or plan_from_2017 and not_cpv):
+        if not items and (not plan_from_2017
+                          or plan_from_2017 and not_cpv and plan_date < NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM):
             raise ValidationError(u'This field is required.')
         elif plan_from_2017 and not_cpv and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 for i in items]):
             raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)))
