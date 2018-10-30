@@ -5,7 +5,8 @@ from copy import deepcopy
 from iso8601 import parse_date
 from isodate import duration_isoformat
 from mock import patch
-from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, SANDBOX_MODE
+from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, SANDBOX_MODE, \
+    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 from uuid import uuid4
@@ -13,7 +14,6 @@ from uuid import uuid4
 from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.cfaua.utils import add_next_awards
-from openprocurement.tender.core.constants import NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
 
 # TenderTest
 
