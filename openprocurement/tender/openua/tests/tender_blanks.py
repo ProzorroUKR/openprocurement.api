@@ -3,11 +3,8 @@ from datetime import timedelta
 from copy import deepcopy
 
 from openprocurement.api.models import get_now
-from openprocurement.api.constants import SANDBOX_MODE, CPV_ITEMS_CLASS_FROM
-
-from openprocurement.tender.core.constants import (
+from openprocurement.api.constants import SANDBOX_MODE, CPV_ITEMS_CLASS_FROM, \
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
-)
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_lots
 
