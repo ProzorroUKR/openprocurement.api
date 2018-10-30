@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from iso8601 import parse_date
-from copy import deepcopy
 
 from openprocurement.api.utils import error_handler, raise_operation_error, get_now
 from openprocurement.api.validation import OPERATIONS, validate_data, validate_json_data
 
-from openprocurement.tender.cfaselectionua.utils import prepare_shortlistedFirms, prepare_bid_identifier
 from openprocurement.tender.cfaselectionua.constants import TENDER_PERIOD_MINIMAL_DURATION
+from openprocurement.tender.core.utils import calculate_business_date
 
 
 def validate_patch_tender_data(request):
@@ -259,5 +258,6 @@ def validate_patch_tender_tenderPeriod(request):
     startDate = tender['tenderPeriod'].get('startDate')
     endDate = source['tenderPeriod'].get('endDate')
 
-    if (startDate and endDate) and (parse_date(endDate) - parse_date(startDate)) < TENDER_PERIOD_MINIMAL_DURATION:
+    if (startDate and endDate) and \
+            calculate_business_date(parse_date(startDate), request.content_configurator.tender_period, tender) > parse_date(endDate):
         raise_operation_error(request, 'tenderPeriod should last at least 3 days')

@@ -92,6 +92,12 @@ class BaseTenderWebTest(BaseTWT):
     meta_initial_lots = test_lots
     periods = get_periods()
 
+    def get_timedelta(self, tender, **kw):
+        delta = timedelta(**kw)
+        if SANDBOX_MODE:
+            delta = delta / 1440
+        return delta
+
     def calculate_agreement_contracts_value_amount(self, agreement, items):
         for contract in agreement['contracts']:
             value = deepcopy(contract['unitPrices'][0]['value'])
