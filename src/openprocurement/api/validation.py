@@ -108,3 +108,21 @@ def validate_items_uniq(items, *args):
 def validate_cpv_group(items, *args):
     if items and len(set([i.classification.id[:3] for i in items])) != 1:
         raise ValidationError(u"CPV group of items be identical")
+
+def validate_classification_id(items, *args):
+    for item in items:
+        if item.classification.id == '33600000-6':
+            if len(item.additionalClassifications) < 1:
+                raise ValidationError(
+                    u"Item with classification.id=33600000-6 have no additionalClassifications fields")
+            else:
+                schemes = [x.scheme for x in item.additionalClassifications]
+                if schemes.count('INN') != 1:
+                    raise ValidationError(u"Item with classification.id=33600000-6 have to contain exactly one \
+additionalClassifications with scheme=INN")
+        elif item.classification.id.startswith('336'):
+            if item.additionalClassifications:
+                schemes = [x.scheme for x in item.additionalClassifications]
+                if schemes.count('INN') != 1:
+                    raise ValidationError(u"Item wich classification.id starts with 336 and contains \
+additionalClassification objects have to contain exactly one additionalClassifications with scheme=INN")
