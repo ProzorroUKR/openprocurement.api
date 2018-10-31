@@ -11,162 +11,125 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../source/standard/agreement.rst:8
 msgid "Agreement"
 msgstr ""
 
-#: ../../source/standard/agreement.rst:11
 msgid "Schema"
 msgstr ""
 
-#: ../../source/standard/agreement.rst:14
 msgid "uid, auto-generated"
-msgstr ""
+msgstr "uid, генерується автоматично"
 
-#: ../../source/standard/agreement.rst:16
 msgid "|ocdsDescription| The identifier for this agreement."
-msgstr ""
+msgstr "|ocdsDescription| Ідентифікатор угоди."
 
-#: ../../source/standard/agreement.rst:20
-#: ../../source/standard/agreement.rst:23
-#: ../../source/standard/agreement.rst:26
-#: ../../source/standard/agreement.rst:32
-#: ../../source/standard/agreement.rst:38
-#: ../../source/standard/agreement.rst:44
-#: ../../source/standard/agreement.rst:50
-#: ../../source/standard/agreement.rst:56
 msgid "string"
-msgstr ""
+msgstr "рядок"
 
-#: ../../source/standard/agreement.rst:28
 msgid "|ocdsDescription| Agreement title"
-msgstr ""
+msgstr "|ocdsDescription| Назва угоди"
 
-#: ../../source/standard/agreement.rst:34
 msgid "|ocdsDescription| Agreement title in english"
-msgstr ""
+msgstr "|ocdsDescription| Назва угоди англійською"
 
-#: ../../source/standard/agreement.rst:40
 msgid "|ocdsDescription| Agreement title in russian"
-msgstr ""
+msgstr "|ocdsDescription| Назва угоди російською"
 
-#: ../../source/standard/agreement.rst:46
 msgid "|ocdsDescription| Agreement description"
-msgstr ""
+msgstr "|ocdsDescription| Опис угоди"
 
-#: ../../source/standard/agreement.rst:52
 msgid "|ocdsDescription| Agreement description in english"
-msgstr ""
+msgstr "|ocdsDescription| Опис угоди англійською"
 
-#: ../../source/standard/agreement.rst:58
 msgid "|ocdsDescription| Agreement description in russian"
-msgstr ""
+msgstr "|ocdsDescription| Опис угоди російською"
 
-#: ../../source/standard/agreement.rst:62
 msgid "string, required"
-msgstr ""
+msgstr "рядок, обов'язковий"
 
-#: ../../source/standard/agreement.rst:64
 msgid "|ocdsDescription| The current status of the agreement."
-msgstr ""
+msgstr "|ocdsDescription| Поточний статус угоди."
 
-#: ../../source/standard/agreement.rst:67
 msgid "Possible values are:"
-msgstr ""
+msgstr "Можливі значення:"
 
-#: ../../source/standard/agreement.rst:69
 msgid ""
 "`active` - this agreement has been signed by all the parties, and is now "
 "legally in force."
-msgstr ""
+msgstr "`active` - ця угода підписана усіма учасниками і зараз юридично в силі."
 
-#: ../../source/standard/agreement.rst:71
 msgid ""
 "`terminated` - this agreement was signed and in force, and has now come to a"
 " close.  This may be due to a successful completion of the agreement, or may"
 " be early termination due to some non-completion issue."
-msgstr ""
+msgstr "`terminated` - ця угода підписана і в силі, а зараз підійшла до завершення."
 
-#: ../../source/standard/agreement.rst:76
 msgid ":ref:`Period`"
 msgstr ""
 
-#: ../../source/standard/agreement.rst:78
 msgid "|ocdsDescription| The start and end date for the agreement."
-msgstr ""
+msgstr "|ocdsDescription| Початкова і кінцева дата угоди."
 
-#: ../../source/standard/agreement.rst:82
 msgid ":ref:`Date`"
 msgstr ""
 
-#: ../../source/standard/agreement.rst:85
 msgid "List of :ref:`Item` objects, read-only"
-msgstr ""
+msgstr "Список об'єктів :ref:`Item`, тільки для читання"
 
-#: ../../source/standard/agreement.rst:87
 msgid ""
 "|ocdsDescription| The goods, services, and any intangible outcomes in this "
 "agreement."
-msgstr ""
+msgstr "|ocdsDescription| Товари, роботи та будь-які нематеріальні результати цієї угоди."
 
-#: ../../source/standard/agreement.rst:91
 msgid ":ref:`ProcuringEntity`"
 msgstr ""
 
-#: ../../source/standard/agreement.rst:93
 msgid ""
 "|ocdsDescription| The entity managing the procurement, which may be "
 "different from the buyer who is paying / using the items being procured."
-msgstr ""
+msgstr "|ocdsDescription| Суб'єкт господарювання, що здійснює управління "
+"закупівлями, який може відрізнятись від покупця, який оплачує/використовує придбані товари."
 
-#: ../../source/standard/agreement.rst:97
 msgid "string, :ref:`date`, auto-generated, read-only"
-msgstr ""
+msgstr "рядок, :ref:`date`, генерується автоматично, тільки для читання"
 
-#: ../../source/standard/agreement.rst:99
 msgid ""
 "|ocdsDescription| The date the agreement was signed. In the case of multiple"
 " signatures, the date of the last signature."
-msgstr ""
+msgstr "|ocdsDescription| Дата підписання угоди. У випадку декількох "
+"підписань - дата останнього підпису. "
 
-#: ../../source/standard/agreement.rst:103
 msgid "List of :ref:`Document` objects"
-msgstr ""
+msgstr "Список об'єктів :ref:`Document`"
 
-#: ../../source/standard/agreement.rst:105
 msgid ""
 "|ocdsDescription| All documents and attachments related to the agreement, "
 "including any notices."
-msgstr ""
+msgstr "|ocdsDescription| Всі документи і додатки прив'язані до угоди, включаючи нотатки."
 
-#: ../../source/standard/agreement.rst:109
 msgid ""
 "List of :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, "
 ":ref:`ChangePartyWithdrawal` or :ref:`ChangeThirdParty` objects."
-msgstr ""
+msgstr "Список об'єктів :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, "
+":ref:`ChangePartyWithdrawal` або :ref:`ChangeThirdParty`"
 
-#: ../../source/standard/agreement.rst:112
 msgid "List of :ref:`Contract`  objects."
-msgstr ""
+msgstr "Список об'єктів :ref:`Contract`."
 
-#: ../../source/standard/agreement.rst:115
 msgid "List of :ref:`Revision`  objects."
-msgstr ""
+msgstr "Список об'єктів :ref:`Revision`."
 
-#: ../../source/standard/agreement.rst:118
 msgid "string, required for unsuccessful agreement"
-msgstr ""
+msgstr "рядок, обов'язковий для неуспішної угоди"
 
-#: ../../source/standard/agreement.rst:120
 msgid ""
 "Reasons for agreement termination. Presence of this field indicates that "
 "agreement is unsuccessful."
-msgstr ""
+msgstr "Причини припинення дії угоди. Присутність цього поля ідентифікує, що "
+"угода неуспішна."
 
-#: ../../source/standard/agreement.rst:124
 msgid "Workflow"
-msgstr ""
+msgstr "Схема роботи"
 
-#: ../../source/standard/agreement.rst:134
 msgid "\\* marks initial state"
-msgstr ""
+msgstr "\\* позначає початковий стан"

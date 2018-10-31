@@ -11,6 +11,5 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../source/reference.rst:6
 msgid "API Reference"
 msgstr ""

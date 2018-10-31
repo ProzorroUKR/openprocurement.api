@@ -11,13 +11,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../source/standard/index.rst:5
 msgid "Data Standard"
-msgstr ""
+msgstr "Стандарт даних"
 
-#: ../../source/standard/index.rst:7
 msgid ""
 "Data standard is modelled along the `Open Contracting Standard "
 "<http://standard.open-contracting.org/>`_ with extensions in areas that were"
 " not covered by it."
-msgstr ""
+msgstr "Стандарт даних змодельований на основі `Open Contracting Standard "
+"<http://standard.open-contracting.org/>`_ з розширеннями в областях, не покритих ним. "
