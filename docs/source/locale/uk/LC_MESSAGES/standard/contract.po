@@ -11,75 +11,59 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../source/standard/contract.rst:8
 msgid "Contract"
 msgstr ""
 
-#: ../../source/standard/contract.rst:11
 msgid "Schema"
-msgstr ""
+msgstr "Схема"
 
-#: ../../source/standard/contract.rst:14
 msgid "uid, auto-generated"
-msgstr ""
+msgstr "uid, генерується автоматично"
 
-#: ../../source/standard/contract.rst:16
 msgid "|ocdsDescription| The identifier for this contract."
-msgstr ""
+msgstr "|ocdsDescription| Ідентифікатор контракту."
 
-#: ../../source/standard/contract.rst:20 ../../source/standard/contract.rst:26
-#: ../../source/standard/contract.rst:32
 msgid "string"
-msgstr ""
+msgstr "рядок"
 
-#: ../../source/standard/contract.rst:22
 msgid ""
 "|ocdsDescription| The `Award.id` against which this contract is being "
 "issued."
-msgstr ""
+msgstr "|ocdsDescription| `Award.id`, для якого цей договір видається."
 
-#: ../../source/standard/contract.rst:28
 msgid ""
 "|ocdsDescription| The `Bid.id` against which this contract is being issued."
-msgstr ""
+msgstr "|ocdsDescription| `Bid.id`, для якого цей договір видається. "
 
-#: ../../source/standard/contract.rst:34
 msgid "|ocdsDescription| The current status of the contract."
-msgstr ""
+msgstr "|ocdsDescription| Поточний статус контракту."
 
-#: ../../source/standard/contract.rst:37
 msgid "Possible values are:"
-msgstr ""
+msgstr "Можливі значення:"
 
-#: ../../source/standard/contract.rst:39
 msgid ""
 "`active` - this contract has been signed by all the parties, and is now "
 "legally in force."
-msgstr ""
+msgstr "`active` - контракт підписаний всіма учасниками і зараз юридично в силі."
 
-#: ../../source/standard/contract.rst:41
 msgid ""
 "`unsuccessful` - this contract was signed and in force, and has now come to "
 "a close.  This may be due to a successful completion of the contract, or may"
 " be early termination due to some non-completion issue."
-msgstr ""
+msgstr "`unsuccessful` - контракт підписаний і в силі, а зараз підійшов до завершення. "
+"Це може бути як і успішне завершення контракту, так і раннє завершення через певні проблеми."
 
-#: ../../source/standard/contract.rst:46
 msgid "List of :ref:`Organization` objects, auto-generated, read-only"
-msgstr ""
+msgstr "Список об'єктів :ref:`Organization`, генерується автоматично, тільки для читання"
 
-#: ../../source/standard/contract.rst:49
 msgid "List of :ref:`UnitPrice` objects, auto-generated, read-only"
-msgstr ""
+msgstr "Список об'єктів :ref:`UnitPrice`, генерується атвоматично, тільки для читання"
 
-#: ../../source/standard/contract.rst:52
 msgid "List of :ref:`Parameter` objects, auto-generated, read-only"
-msgstr ""
+msgstr "Список об'єктів :ref:`Parameter`, генерується автоматично, тільки для читання"
 
-#: ../../source/standard/contract.rst:58
 msgid "Workflow"
-msgstr ""
+msgstr "Схема роботи"
 
-#: ../../source/standard/contract.rst:68
 msgid "\\* marks initial state"
-msgstr ""
+msgstr "\\* позначає початковий стан"

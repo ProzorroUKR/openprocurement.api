@@ -11,30 +11,25 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../source/index.rst:4
 msgid "Welcome to openprocurement.agreement.cfaua's documentation!"
-msgstr ""
+msgstr "Вітаємо на сайті документації по openprocurement.agreement.cfaua"
 
-#: ../../source/index.rst:6
 msgid ""
 "Please report any problems or suggestions for improvement either via the "
 "`mailing list <http://groups.google.com/group/open-procurement-general>`_ or"
 " the `issue tracker "
 "<https://github.com/openprocurement/openprocurement.agreement.cfaua/issues>`_."
-msgstr ""
+msgstr "Будь ласка повідомляйте про всі проблеми та поради покращень або через `розсилку "
+"<http://groups.google.com/group/open-procurement-general>`_, або через `issue tracker`"
 
-#: ../../source/index.rst:11
 msgid "Contents:"
-msgstr ""
+msgstr "Зміст:"
 
-#: ../../source/index.rst:21
 msgid "Indices and tables"
-msgstr ""
+msgstr "Індекси та таблиці"
 
-#: ../../source/index.rst:23
 msgid ":ref:`genindex`"
 msgstr ""
 
-#: ../../source/index.rst:24
 msgid ":ref:`search`"
 msgstr ""

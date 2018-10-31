@@ -11,83 +11,62 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../source/standard/util.rst:8
 msgid "Period"
 msgstr ""
 
-#: ../../source/standard/util.rst:11 ../../source/standard/util.rst:41
-#: ../../source/standard/util.rst:66 ../../source/standard/util.rst:86
 msgid "Schema"
-msgstr ""
+msgstr "Схема"
 
-#: ../../source/standard/util.rst:14 ../../source/standard/util.rst:72
 msgid "string, :ref:`date`"
-msgstr ""
+msgstr "рядок, :ref:`date`"
 
-#: ../../source/standard/util.rst:16
 msgid "|ocdsDescription| The start date for the period."
-msgstr ""
+msgstr "|ocdsDescription| Дата початку періоду."
 
-#: ../../source/standard/util.rst:20
 msgid "string, :ref:`date`, required"
-msgstr ""
+msgstr "рядок, :ref:`date`, обов'язковий"
 
-#: ../../source/standard/util.rst:22
 msgid "|ocdsDescription| The end date for the period."
-msgstr ""
+msgstr "|ocdsDescription| Дата кінця періоду."
 
-#: ../../source/standard/util.rst:25
 msgid "`startDate` should always precede `endDate`."
-msgstr ""
+msgstr "`startDate` повинно завжди передувати `endDate`."
 
-#: ../../source/standard/util.rst:30
 msgid "Date"
 msgstr ""
 
-#: ../../source/standard/util.rst:32
 msgid "Date/time in :ref:`date-format`."
-msgstr ""
+msgstr "Дата/час у :ref:`date-format`."
 
-#: ../../source/standard/util.rst:38
 msgid "Value"
 msgstr ""
 
-#: ../../source/standard/util.rst:44 ../../source/standard/util.rst:92
 msgid "float, required"
-msgstr ""
+msgstr "неціле число, обов'язковий"
 
-#: ../../source/standard/util.rst:46
 msgid "|ocdsDescription| Amount as a number."
-msgstr ""
+msgstr "|ocdsDescription| Обсяг у вигляді числа."
 
-#: ../../source/standard/util.rst:49
 msgid "Should be positive."
-msgstr ""
+msgstr "Має бути додатним."
 
-#: ../../source/standard/util.rst:52 ../../source/standard/util.rst:89
 msgid "string, required"
-msgstr ""
+msgstr "рядок, обов'язковий"
 
-#: ../../source/standard/util.rst:54
 msgid "|ocdsDescription| The currency in 3-letter ISO 4217 format."
-msgstr ""
+msgstr "|ocdsDescription| Валюта у трибуквенному форматі ISO 4217."
 
-#: ../../source/standard/util.rst:58
 msgid "bool, required"
-msgstr ""
+msgstr "bool, обов'язковий"
 
-#: ../../source/standard/util.rst:63
 msgid "Revision"
 msgstr ""
 
-#: ../../source/standard/util.rst:69 ../../source/standard/util.rst:78
 msgid "string"
-msgstr ""
+msgstr "рядок"
 
-#: ../../source/standard/util.rst:75
 msgid "List of changes."
-msgstr ""
+msgstr "Список змін."
 
-#: ../../source/standard/util.rst:83
 msgid "Parameter"
 msgstr ""

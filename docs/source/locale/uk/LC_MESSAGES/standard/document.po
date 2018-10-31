@@ -11,153 +11,127 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../source/standard/document.rst:9
 msgid "Document"
 msgstr ""
 
-#: ../../source/standard/document.rst:12
 msgid "Schema"
-msgstr ""
+msgstr "Схема"
 
-#: ../../source/standard/document.rst:15 ../../source/standard/document.rst:59
 msgid "string, auto-generated"
-msgstr ""
+msgstr "рядок, генерується автоматично"
 
-#: ../../source/standard/document.rst:18 ../../source/standard/document.rst:53
-#: ../../source/standard/document.rst:77 ../../source/standard/document.rst:89
-#: ../../source/standard/document.rst:101
 msgid "string"
-msgstr ""
+msgstr "рядок"
 
-#: ../../source/standard/document.rst:20
 msgid "Possible values for :ref:`contract`"
-msgstr ""
+msgstr "Можливі значення для :ref:`contract`"
 
-#: ../../source/standard/document.rst:23
 msgid "`notice` - **Contract notice**"
-msgstr ""
+msgstr "`notice` - **Договір про оголошення**"
 
-#: ../../source/standard/document.rst:25
 msgid ""
 "The formal notice that gives details of a contract being signed and valid to"
 " start implementation. This may be a link to a downloadable document, to a "
 "web page, or to an official gazette in which the notice is contained."
-msgstr ""
+msgstr "Офіційне оголошення, в якому подані деталі підписаного контракту та дійсний "
+"початок виконання. Це може бути посилання на завантажуваний документ, "
+"на веб-сторінку або на офіційний бюлетень, в якому міститься повідомлення."
 
-#: ../../source/standard/document.rst:27
 msgid "`contractSigned` - **Signed Contract**"
-msgstr ""
+msgstr "`contractSigned` - **Підписаний контракт**"
 
-#: ../../source/standard/document.rst:29
 msgid "`contractArrangements` - **Arrangements for ending contract**"
-msgstr ""
+msgstr "`contractArrangements` - **Умови про закінчення контракту**"
 
-#: ../../source/standard/document.rst:31
 msgid "`contractSchedule` - **Schedules and milestones**"
-msgstr ""
+msgstr "`contractSchedule` - **Розклади та етапи**"
 
-#: ../../source/standard/document.rst:33
 msgid "`contractAnnexe` - **Annexes to the Contract**"
-msgstr ""
+msgstr "`contractAnnexe` - **Додатки до контракту**"
 
-#: ../../source/standard/document.rst:35
 msgid "`contractGuarantees` - **Guarantees**"
-msgstr ""
+msgstr "`contractGuarantees` - **Гарантії**"
 
-#: ../../source/standard/document.rst:37
 msgid "`subContract` - **Subcontracts**"
-msgstr ""
+msgstr "`subContract` - **Субконтракти**"
 
-#: ../../source/standard/document.rst:41 ../../source/standard/document.rst:47
 msgid "string, multilingual"
-msgstr ""
+msgstr "рядок, багатомовний"
 
-#: ../../source/standard/document.rst:43
 msgid "|ocdsDescription| The document title."
-msgstr ""
+msgstr "|ocdsDescription| Назва документу."
 
-#: ../../source/standard/document.rst:49
 msgid ""
 "|ocdsDescription| A short description of the document. In the event the "
 "document is not accessible online, the description field can be used to "
 "describe arrangements for obtaining a copy of the document."
-msgstr ""
+msgstr "|ocdsDescription| Короткий опис документа. Якщо документ недоступний онлайн,"
+" поле опису може бути використане для опису способів отримання копії документа."
 
-#: ../../source/standard/document.rst:55
 msgid ""
 "|ocdsDescription| The format of the document taken from the `IANA Media "
 "Types code list <http://www.iana.org/assignments/media-types/>`_, with the "
 "addition of one extra value for 'offline/print', used when this document "
 "entry is being used to describe the offline publication of a document."
-msgstr ""
+msgstr "|ocdsDescription| Формат документу взятий з `IANA Media "
+"Types code list <http://www.iana.org/assignments/media-types/>`_, з додаванням "
+"одного додаткового значення для 'offline/print' використовується, коли запис документа "
+"використовується для опису автономної публікації документа."
 
-#: ../../source/standard/document.rst:61
 msgid "|ocdsDescription| Direct link to the document or attachment."
-msgstr ""
+msgstr "|ocdsDescription| Пряме посилання на документ або додатки."
 
-#: ../../source/standard/document.rst:65 ../../source/standard/document.rst:71
 msgid "string, :ref:`date`"
-msgstr ""
+msgstr "рядок, :ref:`date`"
 
-#: ../../source/standard/document.rst:67
 msgid "|ocdsDescription| The date on which the document was first published."
-msgstr ""
+msgstr "|ocdsDescription| Дата першої публікації документа."
 
-#: ../../source/standard/document.rst:73
 msgid "|ocdsDescription| Date that the document was last modified"
-msgstr ""
+msgstr "|ocdsDescription| Дата останньої модифікації документа."
 
-#: ../../source/standard/document.rst:79 ../../source/standard/document.rst:91
 msgid "Possible values are:"
-msgstr ""
+msgstr "Можливі значення: "
 
-#: ../../source/standard/document.rst:81
 msgid "`uk`"
 msgstr ""
 
-#: ../../source/standard/document.rst:82
 msgid "`en`"
 msgstr ""
 
-#: ../../source/standard/document.rst:83
 msgid "`ru`"
 msgstr ""
 
-#: ../../source/standard/document.rst:85
 msgid ""
 "|ocdsDescription| Specifies the language of the linked document using either"
 " two-digit `ISO 639-1 "
 "<https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, or extended "
 "`BCP47 language tags <http://www.w3.org/International/articles/language-"
 "tags/>`_."
-msgstr ""
+msgstr "|ocdsDescription| Визначає мову прикріпленого документа, використовуючи або "
+"`ISO 639-1 <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, або "
+"`BCP47 language tags <http://www.w3.org/International/articles/language-tags/>`_."
 
-#: ../../source/standard/document.rst:93
 msgid "`tender`"
 msgstr ""
 
-#: ../../source/standard/document.rst:94
 msgid "`item`"
 msgstr ""
 
-#: ../../source/standard/document.rst:95
 msgid "`contract`"
 msgstr ""
 
-#: ../../source/standard/document.rst:96
 msgid "`agreement`"
 msgstr ""
 
-#: ../../source/standard/document.rst:97
 msgid "`lot`"
 msgstr ""
 
-#: ../../source/standard/document.rst:98
 msgid "`change`"
 msgstr ""
 
-#: ../../source/standard/document.rst:103
 msgid ""
 "Id of related :ref:`tender`, :ref:`item`, :ref:`contract`, :ref:`agreement`,"
 " :ref:`change` or :ref:`item`."
-msgstr ""
+msgstr "Ідентифікатор прикріпленого :ref:`tender`, :ref:`item`, :ref:`contract`, :ref:`agreement`,"
+" :ref:`change` або :ref:`item`."
