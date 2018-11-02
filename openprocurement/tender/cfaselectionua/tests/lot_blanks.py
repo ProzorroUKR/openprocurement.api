@@ -219,7 +219,15 @@ def patch_tender_lot(self):
 
     response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"guarantee": {"currency": "USD"}}})
     self.assertEqual(response.status, '200 OK')
-    # Deleted self.assertEqual(response.body, 'null') to make this test OK in other procedures, because there is a bug with invalidation bids at openua, openeu and openuadefence that makes body not null
+
+    lot_data = {u'value': {u'currency': u'UAH', u'amount': 200.0, u'valueAddedTaxIncluded': True},
+                u'id': lot['id']}
+
+    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(
+        self.tender_id, lot['id'], self.tender_token), {'data': lot_data})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json, None)
+
 
     response = self.app.patch_json('/tenders/{}/lots/some_id?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {"title": "other title"}}, status=404)
     self.assertEqual(response.status, '404 Not Found')
