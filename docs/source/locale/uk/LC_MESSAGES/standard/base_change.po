@@ -18,6 +18,3 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-msgid "API Reference"
-msgstr ""
-

@@ -105,10 +105,8 @@ Schema
 :enquiryPeriod:
    :ref:`period`, required
 
-   Period when questions are allowed. At least `endDate` has to be provided.
+    At least `endDate` has to be provided.
 
-   |ocdsDescription|
-   The period during which enquiries may be made and will be answered.
 
 :tenderPeriod:
    :ref:`period`, required

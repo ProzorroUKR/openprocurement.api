@@ -18,6 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-msgid "API Reference"
+msgid "UnitPrice"
+msgstr ""
+
+msgid "Schema"
+msgstr "Схема"
+
+msgid "string"
+msgstr "рядок"
+
+msgid ":ref:`Value`"
 msgstr ""
 

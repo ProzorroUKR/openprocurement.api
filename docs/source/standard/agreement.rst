@@ -60,7 +60,7 @@ Schema
     
     :clarificationsUntil: 
     
-    Deadline for participants to submit price documents
+        Deadline for participants to submit price documents
 
 :status:
     string
@@ -68,10 +68,8 @@ Schema
      The current status of agreement.
      Possible values are:
 
-    * `pending` - the agreement is under signing between procuring entity and :ref:`Contract` 
-    * `unsuccessful` - the agreement has not been signed between procuring entity and :ref:`Contract`
     * `active` - the agreement is signed between procuring entity and :ref:`Contract`
-    * `cancelled` - the agreement has been cancelled within cancellation of tender/lot.
+    * `terminated` - the agreement has been cancelled within cancellation of tender/lot or expired.
     
 :contracts:
     List of :ref:`Contract` objects
