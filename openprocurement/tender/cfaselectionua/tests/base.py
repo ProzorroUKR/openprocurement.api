@@ -92,7 +92,7 @@ class BaseTenderWebTest(BaseTWT):
     meta_initial_lots = test_lots
     periods = get_periods()
 
-    def get_timedelta(self, tender, **kw):
+    def get_timedelta(self, **kw):
         delta = timedelta(**kw)
         if SANDBOX_MODE:
             delta = delta / 1440

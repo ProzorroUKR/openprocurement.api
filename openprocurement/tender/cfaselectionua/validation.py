@@ -236,19 +236,18 @@ def validate_tender_status_update_in_terminated_status(request):
 def validate_json_data_in_active_enquiries(request):
     source = request.validated['data']
     tender = request.validated['tender_src']
-    data = {}
+    data = source
     if 'tenderPeriod' in source and 'endDate' in source['tenderPeriod']:
         validate_patch_tender_tenderPeriod(request)
         data['tenderPeriod'] = {
             'endDate': source['tenderPeriod']['endDate']
         }
-    if 'items' in source:
-        items = tender['items']
-        for item in source['items']:
-            if 'quantity' in item:
-                i = [i for i in items if i['id'] == item['id']][0]
-                i['quantity'] = item['quantity']
-        data['items'] = items
+
+    if len(source['items']) != len(tender['items']):
+        raise_operation_error(request, 'Can\'t update tender items. Items count mismatch')
+    if [item['id'] for item in source['items']] != [item['id'] for item in tender['items']]:
+        raise_operation_error(request, 'Can\'t update tender items. Items order mismatch')
+
     return data
 
 
