@@ -6,6 +6,7 @@ from openprocurement.tender.cfaselectionua.models.submodels.award import Award
 from openprocurement.tender.cfaselectionua.models.submodels.bid import Bid
 from openprocurement.tender.cfaselectionua.models.submodels.contract import Contract
 from openprocurement.tender.cfaselectionua.models.submodels.feature import Feature
+from openprocurement.tender.cfaselectionua.models.submodels.item import Item
 from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
 from schematics.types import StringType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
@@ -17,7 +18,7 @@ from openprocurement.tender.core.models import (
     validate_lots_uniq,
     Guarantee, TenderAuctionPeriod,
     PeriodEndRequired, Tender as BaseTender, ProcuringEntity,
-    Item, Cancellation,
+    Cancellation,
     validate_features_uniq
 )
 

@@ -1234,11 +1234,9 @@ def patch_tender(self):
     tender = response.json['data']
 
     endDate = (parse_date(tender['tenderPeriod']['startDate']) +
-               self.get_timedelta(tender, days=2, hours=23, minutes=59)).isoformat()
-    response = self.app.patch_json('/tenders/{}?acc_token={}'
-                                   .format(self.tender_id, owner_token),
-                                   {'data': {'tenderPeriod': {'endDate': endDate}}},
-                                   status=403)
+               self.get_timedelta(days=2, hours=23, minutes=59)).isoformat()
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, owner_token), {'data': {'tenderPeriod': {'endDate': endDate}}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -1249,35 +1247,36 @@ def patch_tender(self):
             "description": "tenderPeriod should last at least 3 days"
         }
     ])
-    endDate = (parse_date(tender['tenderPeriod']['startDate']) + self.get_timedelta(tender, days=3, minutes=1)).isoformat()
-    response = self.app.patch_json('/tenders/{}?acc_token={}'
-            .format(self.tender_id, owner_token),
-            {'data': {'tenderPeriod': {'endDate': endDate}}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    endDate = (parse_date(tender['tenderPeriod']['startDate']) + self.get_timedelta(days=3, minutes=1)).isoformat()
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, owner_token), {'data': {'tenderPeriod': {'endDate': endDate}}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertNotEqual(endDate, tender['tenderPeriod']['endDate'])
 
     items = deepcopy(tender['items'])
     items[0]['quantity'] += 1
+    items[0]['description'] = 'new description'
     items[-1]['quantity'] += 2
-    response = self.app.patch_json('/tenders/{}?acc_token={}'
-            .format(self.tender_id, owner_token),
-            {'data': {'items': items}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, owner_token), {'data': {'items': items}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['items'][0]['quantity'], tender['items'][0]['quantity'] + 1)
+    self.assertNotEqual(response.json['data']['items'][0]['description'], items[0]['description'])
     self.assertEqual(response.json['data']['items'][1]['quantity'], tender['items'][1]['quantity'] + 2)
-    
+
     items[0], items[-1] = items[-1], items[0]
-    response = self.app.patch_json('/tenders/{}?acc_token={}'
-            .format(self.tender_id, owner_token),
-            {'data': {'items': items}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-    # items not switched
-    self.assertNotEqual(response.json['data']['items'], items)
-    items[0], items[-1] = items[-1], items[0]
-    self.assertEqual(response.json['data']['items'], items)
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, owner_token), {'data': {'items': items}}, status=403)
+    self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
+    self.assertEqual(response.json['errors'][0]["description"], "Can\'t update tender items. Items order mismatch")
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, owner_token), {'data': {'items': [items[0]]}}, status=403)
+    self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
+    self.assertEqual(response.json['errors'][0]["description"], "Can\'t update tender items. Items count mismatch")
+
 
     # user cannot patch tender in active.enquiries
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
@@ -1317,7 +1316,7 @@ def patch_tender(self):
     self.assertIn('faxNumber', response.json['data']['procuringEntity']['contactPoint'])
     tender = response.json['data']
 
-    startDate = (parse_date(tender['tenderPeriod']['startDate']) + self.get_timedelta(tender, days=1)).isoformat()
+    startDate = (parse_date(tender['tenderPeriod']['startDate']) + self.get_timedelta(days=1)).isoformat()
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
         tender['id'], owner_token), {'data': {'tenderPeriod': {'startDate': startDate}}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
@@ -1325,7 +1324,7 @@ def patch_tender(self):
     tender = response.json['data']
     self.assertNotEqual(startDate, tender['tenderPeriod']['startDate'])
 
-    endDate = (parse_date(tender['tenderPeriod']['endDate']) + self.get_timedelta(tender, days=1)).isoformat()
+    endDate = (parse_date(tender['tenderPeriod']['endDate']) + self.get_timedelta(days=1)).isoformat()
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
         tender['id'], owner_token), {'data': {'tenderPeriod': {'endDate': endDate}}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
@@ -1338,7 +1337,7 @@ def patch_tender(self):
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     tender = response.json['data']
 
-    startDate = (parse_date(tender['tenderPeriod']['startDate']) + self.get_timedelta(tender, days=1)).isoformat()
+    startDate = (parse_date(tender['tenderPeriod']['startDate']) + self.get_timedelta(days=1)).isoformat()
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
         tender['id'], owner_token), {'data': {'tenderPeriod': {'startDate': startDate}}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
@@ -1347,7 +1346,7 @@ def patch_tender(self):
     self.assertNotEqual(startDate, tender['tenderPeriod']['startDate'])
 
     # can't change endDate either
-    endDate = (parse_date(tender['tenderPeriod']['endDate']) + self.get_timedelta(tender, days=1)).isoformat()
+    endDate = (parse_date(tender['tenderPeriod']['endDate']) + self.get_timedelta(days=1)).isoformat()
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
         tender['id'], owner_token), {'data': {'tenderPeriod': {'endDate': endDate}}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
