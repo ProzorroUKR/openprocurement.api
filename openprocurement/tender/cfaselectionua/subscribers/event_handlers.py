@@ -2,6 +2,8 @@
 from pyramid.events import subscriber
 from openprocurement.tender.core.events import TenderInitializeEvent
 from openprocurement.api.utils import get_now, raise_operation_error
+from openprocurement.tender.core.models import PeriodEndRequired
+from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCfaSelectionUAConfigurator
 
 
 @subscriber(TenderInitializeEvent, procurementMethodType="closeFrameworkAgreementSelectionUA")
@@ -13,10 +15,20 @@ def tender_init_handler(event):
         raise Exception(
             "Allow create tender only in ({default_status}) status".format(default_status=default_status)
         )
+    if not tender.enquiryPeriod:
+        tender.enquiryPeriod = PeriodEndRequired()
+        tender.enquiryPeriod['__parent__'] = tender
     if not tender.enquiryPeriod.startDate:
         tender.enquiryPeriod.startDate = get_now()
+    if not tender.enquiryPeriod.endDate:
+        tender.enquiryPeriod.endDate = tender.enquiryPeriod.startDate + TenderCfaSelectionUAConfigurator.enquiry_period
+    if not tender.tenderPeriod:
+        tender.tenderPeriod = PeriodEndRequired()
+        tender.tenderPeriod['__parent__'] = tender
     if not tender.tenderPeriod.startDate:
         tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
+    if not tender.tenderPeriod.endDate:
+        tender.tenderPeriod.endDate = tender.tenderPeriod.startDate + TenderCfaSelectionUAConfigurator.tender_period
     now = get_now()
     tender.date = now
     if tender.lots:

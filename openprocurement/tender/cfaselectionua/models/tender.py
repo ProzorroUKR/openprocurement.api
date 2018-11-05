@@ -35,8 +35,8 @@ class CFASelectionUATender(BaseTender):
 
     items = ListType(ModelType(Item), min_size=1, validators=[validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value)  # The total estimated value of the procurement.
-    enquiryPeriod = ModelType(PeriodEndRequired, required=True)  # The period during which enquiries may be made and will be answered.
-    tenderPeriod = ModelType(PeriodEndRequired, required=True)  # The period when the tender is open for submissions. The end date is the closing date for tender submissions.
+    enquiryPeriod = ModelType(PeriodEndRequired, required=False)  # The period during which enquiries may be made and will be answered.
+    tenderPeriod = ModelType(PeriodEndRequired, required=False)  # The period when the tender is open for submissions. The end date is the closing date for tender submissions.
     hasEnquiries = BooleanType()  # A Yes/No field as to whether enquiries were part of tender process.
     awardPeriod = ModelType(Period)  # The date or period on which an award is anticipated to be made.
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
