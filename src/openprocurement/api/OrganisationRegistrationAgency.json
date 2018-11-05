@@ -629,6 +629,14 @@
          "description":"The MHA assigns a registration number to each NGO - this number is time limited, for example 4 years, after which the registration is reviewed."
       },
       {
+         "category": "MT",
+         "code": "MT-MFSA",
+         "description": "The Malta Financial Services Authority, established by the Malta Financial Services Act, being a body corporate with distinct legal personality responsible for the regulation and supervision of the financial services sector and houses the Company Registry.",
+         "name": "Malta Financial Service Authority",
+         "public-database": false,
+         "url": "https://www.mfsa.com.mt/"
+      },
+      {
          "category":"MW",
          "code":"MW-CNM",
          "name":"The Council for Non Governmental Organisations in Malawi",
