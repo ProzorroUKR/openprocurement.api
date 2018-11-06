@@ -417,9 +417,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertIn({u'description': [u"Value must be one of ['open', 'selective', 'limited']."], u'location': u'body', u'name': u'procurementMethod'}, response.json['errors'])
-    self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'tenderPeriod'}, response.json['errors'])
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'minimalStep'}, response.json['errors'])
-    self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'enquiryPeriod'}, response.json['errors'])
 
     response = self.app.post_json(request_path, {'data': {
         "procurementMethodType": "closeFrameworkAgreementSelectionUA",
@@ -913,6 +911,11 @@ def create_tender(self):
     self.assertEqual(data['guarantee']['amount'], 100500)
     self.assertEqual(data['guarantee']['currency'], "USD")
 
+    tender_data = deepcopy(self.initial_data)
+    del tender_data['tenderPeriod']
+    del tender_data['enquiryPeriod']
+    response = self.app.post_json('/tenders', {'data': tender_data})
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
 
 def tender_funders(self):
     tender_data = deepcopy(self.initial_data)
