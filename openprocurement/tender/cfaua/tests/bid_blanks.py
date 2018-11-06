@@ -1944,6 +1944,11 @@ def create_tender_bidder(self):
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
 
+    bid_without_lotvalues_value = deepcopy(bid_data)
+    del bid_without_lotvalues_value['lotValues'][0]['value']
+    bid_without_lotvalues_value['status'] = 'pending'
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_without_lotvalues_value}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
     self.set_status('complete')
 
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=403)
