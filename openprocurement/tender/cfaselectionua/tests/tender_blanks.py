@@ -667,6 +667,18 @@ def create_tender_draft(self):
     self.assertEqual(tender['status'], self.primary_tender_status)
 
 
+def create_tender_with_value(self):
+    data = deepcopy(self.initial_data)
+    data.update({"status": "draft",
+                 "value": {"amount": 179511.28,
+                           "currency": "UAH",
+                           "valueAddedTaxIncluded": True}
+                 })
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+    self.assertNotIn('value', response.json['data'])
+
+
 def create_tender_draft_pending(self):
     create_tender_draft(self)
 
