@@ -18,6 +18,6 @@ class Lot(BaseLot):
     def lot_value(self):
         if self.value:
             return Value(dict(amount=self.value.amount,
-                              currency=self.__parent__.value.currency,
-                              valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded))
+                              currency=self.value.currency,
+                              valueAddedTaxIncluded=self.value.valueAddedTaxIncluded))
 
