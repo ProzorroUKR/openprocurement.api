@@ -14,7 +14,7 @@ class LotValue(BaseLotValue):
 
     subcontractingDetails = StringType()
     status = StringType(choices=['pending', 'active', 'unsuccessful'], default='pending')
-    value = ModelType(Value)
+    value = ModelType(Value, required=True)
 
     def validate_value(self, data, value):
         if value and isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:
