@@ -135,3 +135,145 @@ msgid ""
 " :ref:`change` or :ref:`item`."
 msgstr "Ідентифікатор прикріпленого :ref:`tender`, :ref:`item`, :ref:`contract`, :ref:`agreement`,"
 " :ref:`change` або :ref:`item`."
+
+
+msgid "Possible values for :ref:`tender`"
+msgstr "Можливі значення для :ref:`tender`"
+
+msgid ""
+"The formal notice that gives details of a tender. This may be a link to a "
+"downloadable document, to a web page, or to an official gazette in which the"
+" notice is contained."
+msgstr ""
+"Офіційне повідомлення, що містить деталі закупівлі. Це може бути посилання "
+"на документ, веб-сторінку, чи на офіційний бюлетень, де розміщено "
+"повідомлення."
+
+msgid ""
+"Information for potential suppliers, describing the goals of the contract "
+"(e.g. goods and services to be procured), and the bidding process."
+msgstr ""
+"Інформація для потенційних постачальників, що описує цілі договору "
+"(наприклад, товари та послуги, які будуть закуплені) і процес торгів."
+
+msgid "`notice` - **Tender notice**"
+msgstr "`notice` - **Повідомлення про закупівлю**"
+
+msgid "`biddingDocuments` - **Bidding Documents**"
+msgstr "`biddingDocuments` - **Документи закупівлі**"
+
+msgid "`technicalSpecifications` - **Technical Specifications**"
+msgstr "`technicalSpecifications` - **Технічні специфікації**"
+
+msgid "Detailed technical information about goods or services to be provided."
+msgstr ""
+"Детальна технічна інформація про товари або послуги, що повинні бути надані."
+
+msgid "`evaluationCriteria` - **Evaluation Criteria**"
+msgstr "`evaluationCriteria` - **Критерії оцінки**"
+
+msgid "Information about how bids will be evaluated."
+msgstr "Інформація про те, як будуть оцінюватись пропозиції."
+
+msgid "`clarifications` - **Clarifications to bidders questions**"
+msgstr "`clarifications` - **Пояснення до питань заданих учасниками**"
+
+msgid "Including replies to issues raised in pre-bid conferences."
+msgstr "Включає відповіді на питання, підняті на передтендерних конференціях."
+
+msgid "`eligibilityCriteria` - **Eligibility Criteria**"
+msgstr "`eligibilityCriteria` - **Критерії прийнятності**"
+
+msgid "Detailed documents about the eligibility of bidders."
+msgstr "Докладні документи про критерії відбору."
+
+msgid "`shortlistedFirms` - **Shortlisted Firms**"
+msgstr "`shortlistedFirms` - **Фірми у короткому списку**"
+
+msgid ""
+"`riskProvisions` - **Provisions for management of risks and liabilities**"
+msgstr ""
+"`riskProvisions` - **Положення для управління ризиками та зобов'язаннями**"
+
+msgid "`billOfQuantity` - **Bill Of Quantity**"
+msgstr "`billOfQuantity` - **Кошторис**"
+
+msgid "`bidders` - **Information on bidders**"
+msgstr "`bidders` - **Інформація про учасників**"
+
+msgid ""
+"Information on bidders or participants, their validation documents and any "
+"procedural exemptions for which they qualify."
+msgstr ""
+"Інформація про учасників, їхні документи для перевірки та будь-які "
+"процесуальні пільги, на які вони можуть претендувати."
+
+msgid "Possible values for :ref:`award`"
+msgstr "Можливі значення для :ref:`award`"
+
+msgid "`notice` - **Award Notice**"
+msgstr "`notice` - **Повідомлення про рішення**"
+
+msgid ""
+"The formal notice that gives details of the contract award. This may be a "
+"link to a downloadable document, to a web page, or to an official gazette in"
+" which the notice is contained."
+msgstr ""
+"Офіційне повідомлення, що містить деталі рішення про визначення переможця. "
+"Це може бути посилання на документ, веб-сторінку, чи на офіційний бюлетень, "
+"де розміщено повідомлення."
+
+msgid "`evaluationReports` - **Evaluation report**"
+msgstr "`evaluationReports` - **Звіт про оцінку**"
+
+msgid ""
+"Report on the evaluation of the bids and the application of the evaluation "
+"criteria, including the justification fo the award."
+msgstr ""
+"Звіт про оцінку пропозицій і застосування критеріїв оцінки, у тому числі, "
+"обґрунтування рішення про визначення переможця."
+
+msgid "`winningBid` - **Winning Bid**"
+msgstr "`winningBid` - **Пропозиція, що перемогла**"
+
+msgid "`complaints` - **Complaints and decisions**"
+msgstr "`complaints` - **Скарги та рішення**"
+
+msgid "Possible values for :ref:`contract`"
+msgstr "Можливі значення для :ref:`contract`"
+
+msgid "`notice` - **Contract notice**"
+msgstr "`notice` - **Повідомлення про договір**"
+
+msgid ""
+"The formal notice that gives details of a contract being signed and valid to"
+" start implementation. This may be a link to a downloadable document, to a "
+"web page, or to an official gazette in which the notice is contained."
+msgstr ""
+"Офіційне повідомлення, що містить деталі підписання договору та початку його "
+"реалізації. Це може бути посилання на документ, веб-сторінку, чи на "
+"офіційний бюлетень, де розміщено повідомлення."
+
+msgid "`contractSigned` - **Signed Contract**"
+msgstr "`contractSigned` - **Підписаний договір**"
+
+msgid "`contractArrangements` - **Arrangements for ending contract**"
+msgstr "`contractArrangements` - **Заходи для припинення договору**"
+
+msgid "`contractSchedule` - **Schedules and milestones**"
+msgstr "`contractSchedule` - **Розклад та етапи**"
+
+msgid "`contractAnnexe` - **Annexes to the Contract**"
+msgstr "`contractAnnexe` - **Додатки до договору**"
+
+msgid "`contractGuarantees` - **Guarantees**"
+msgstr "`contractGuarantees` - **Забезпечення тендерних пропозицій**"
+
+msgid "`subContract` - **Subcontracts**"
+msgstr "`subContract` - **Субпідряд**"
+
+msgid "`conflictOfInterest` - **Conflicts of interest uncovered**"
+msgstr "`conflictOfInterest` - **Виявлені конфлікти інтересів**"
+
+msgid "`debarments` - **Debarments issued**"
+msgstr "`debarments` - **Відмова у допуску до закупівлі**"
