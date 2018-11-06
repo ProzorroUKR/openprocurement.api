@@ -877,7 +877,7 @@ def cfaua_plan(self):
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
         {u'description': {u'period': {u'endDate': [
-            u'Period startDate and endDate must be within 4 years for closeFrameworkAgreementUA.'
+            u'Period startDate and endDate must be within 5 budget years for closeFrameworkAgreementUA.'
         ]}}, u'location': u'body', u'name': u'budget'}
     ])
 
