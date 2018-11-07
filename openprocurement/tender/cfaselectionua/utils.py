@@ -335,8 +335,7 @@ def calculate_agreement_contracts_value_amount(tender):
             quantity = [i for i in tender.items if i.id == unitPrice.relatedItem][0].quantity
             value.amount += unitPrice.value.amount * quantity
         contract.value = value
-    tender.value = max([contract.value for contract in agreement.contracts], key=lambda value: value.amount)
-    tender.lots[0].value = tender.value
+    tender.lots[0].value = max([contract.value for contract in agreement.contracts], key=lambda value: value.amount)
 
 
 def check_minimal_step(request, tender):

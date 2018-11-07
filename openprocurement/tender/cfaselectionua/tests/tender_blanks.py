@@ -869,13 +869,15 @@ def create_tender(self):
     self.assertIn('{\n    "', response.body)
 
     data = deepcopy(self.initial_data)
+    data['minimalStep']['amount'] = 1000000.0
     del data["items"][0]['deliveryAddress']['postalCode']
     del data["items"][0]['deliveryAddress']['locality']
     del data["items"][0]['deliveryAddress']['streetAddress']
     del data["items"][0]['deliveryAddress']['region']
     response = self.app.post_json('/tenders', {'data': data})
-    self.assertEqual(response.status, '201 Created')
-    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+    self.assertEqual(response.json['data']['minimalStep']['amount'],
+                     min([i['minimalStep']['amount'] for i in data['lots']]))
     self.assertNotIn('postalCode', response.json['data']['items'][0]['deliveryAddress'])
     self.assertNotIn('locality', response.json['data']['items'][0]['deliveryAddress'])
     self.assertNotIn('streetAddress', response.json['data']['items'][0]['deliveryAddress'])
@@ -1351,6 +1353,16 @@ def patch_tender(self):
 
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     tender = response.json['data']
+
+    data = {'minimalStep': {'amount': '10000.0', 'currency': "UAH"}}
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        tender['id'], owner_token), {'data': data}, status=422)
+    self.assertEqual((response.status, response.content_type), ('422 Unprocessable Entity', 'application/json'))
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'value should be less than value of tender'], u'location': u'body',
+         u'name': u'minimalStep'}
+    ])
 
     startDate = (parse_date(tender['tenderPeriod']['startDate']) + self.get_timedelta(days=1)).isoformat()
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
