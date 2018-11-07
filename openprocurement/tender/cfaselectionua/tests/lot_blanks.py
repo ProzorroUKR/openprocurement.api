@@ -386,7 +386,7 @@ def get_tender_lot(self):
     response = self.app.get('/tenders/{}/lots/{}'.format(self.tender_id, lot['id']))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(set(response.json['data']), set([u'id', u'date', u'title', u'description', u'minimalStep', u'value', u'status']))
+    self.assertEqual(set(response.json['data']), {u'id', u'date', u'title', u'description', u'minimalStep', u'status'})
 
     self.set_status('active.qualification')
 
@@ -395,6 +395,7 @@ def get_tender_lot(self):
     self.assertEqual(response.content_type, 'application/json')
     data = response.json['data']
     data.pop('auctionPeriod')
+    data.pop('value')
     self.assertEqual(data, lot)
 
     response = self.app.get('/tenders/{}/lots/some_id'.format(self.tender_id), status=404)
@@ -423,7 +424,8 @@ def get_tender_lots(self):
     response = self.app.get('/tenders/{}/lots'.format(self.tender_id))
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(set(response.json['data'][0]), set([u'id',  u'date', u'title', u'description', u'minimalStep', u'value', u'status']))
+    self.assertEqual(set(response.json['data'][0]),
+                     {u'id',  u'date', u'title', u'description', u'minimalStep',  u'status'})
 
     self.set_status('active.qualification')
 
@@ -432,6 +434,7 @@ def get_tender_lots(self):
     self.assertEqual(response.content_type, 'application/json')
     data = response.json['data'][0]
     data.pop('auctionPeriod')
+    data.pop('value')
     self.assertEqual(data, lot)
 
     response = self.app.get('/tenders/some_id/lots', status=404)

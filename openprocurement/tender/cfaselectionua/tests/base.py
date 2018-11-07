@@ -116,10 +116,6 @@ class BaseTenderWebTest(BaseTWT):
             items = self.tender_document.get('items')
             if items:
                 self.calculate_agreement_contracts_value_amount(agreement, items)
-        max_value = max([contract['value'] for contract in agreements[0]['contracts']],
-                        key=lambda value: value['amount'])
-        self.tender_document['value'] = max_value
-        self.tender_document['lots'][0]['value'] = max_value
         self.tender_patch.update({'agreements': agreements})
 
     def generate_bids(self, status, start_end='start'):
@@ -154,6 +150,13 @@ class BaseTenderWebTest(BaseTWT):
         if bids:
             self.bid_id = bids[0]['id']
             self.bid_token = bids[0]['owner_token']
+
+    def generate_tender_lot_value(self, status, start_end='start'):
+        agreements = self.tender_document.get('agreements', [])
+        max_value = max([contract['value'] for contract in agreements[0]['contracts']],
+                        key=lambda value: value['amount'])
+        self.tender_document['value'] = max_value
+        self.tender_document['lots'][0]['value'] = max_value
 
     def prepare_for_auction(self, status, start_end='start'):
         self.tender_patch.update(self.periods[status][start_end])
@@ -302,25 +305,31 @@ class BaseTenderWebTest(BaseTWT):
             self.patch_agreements_by_bot(status, start_end)
         elif status == 'active.tendering':
             self.patch_agreements_by_bot(status, start_end)
-            self.generate_bids(status, start_end)
+            if start_end == 'end':
+                self.generate_bids(status, start_end)
+            self.generate_tender_lot_value(status)
         elif status == 'active.auction':
             self.patch_agreements_by_bot(status, start_end)
             self.generate_bids(status, start_end)
+            self.generate_tender_lot_value(status)
             self.prepare_for_auction(status, start_end)
         elif status == 'active.qualification':
             self.patch_agreements_by_bot(status, start_end)
             self.generate_bids(status, start_end)
+            self.generate_tender_lot_value(status)
             self.prepare_for_auction(status, start_end)
             self.generate_awards(status, start_end)
         elif status == 'active.awarded':
             self.patch_agreements_by_bot(status, start_end)
             self.generate_bids(status, start_end)
+            self.generate_tender_lot_value(status)
             self.prepare_for_auction(status, start_end)
             self.generate_awards(status, start_end)
             self.activate_awards_and_generate_contract(status, start_end)
         elif status == 'complete':
             self.patch_agreements_by_bot(status, start_end)
             self.generate_bids(status, start_end)
+            self.generate_tender_lot_value(status)
             self.prepare_for_auction(status, start_end)
             self.generate_awards(status, start_end)
             self.activate_awards_and_generate_contract(status, start_end)
