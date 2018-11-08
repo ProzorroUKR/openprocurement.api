@@ -23,6 +23,8 @@ before_install:
   - python2 bootstrap.py
 install:
   - bin/buildout -N
+  - bin/buildout -N remotes:branch=$TRAVIS_BRANCH
+  - bin/develop up --force
 script:
   - bin/nosetests
 after_success:
