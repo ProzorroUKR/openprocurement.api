@@ -849,6 +849,31 @@ def patch_tender_agreement_contract(self):
     response = self.app.patch_json(
         '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
                                                                      self.contract_id, self.tender_token),
+        {"data": {'unitPrices': [{'value': {'amount': 60, 'currency': 'RUB', 'valueAddedTaxIncluded': False}}]}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json['errors'],
+                     [{"location": "body",
+                       "name": "data",
+                       "description": "currency of bid should be identical to currency of value of lot"}])
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
+                                                                     self.contract_id, self.tender_token),
+        {"data": {'unitPrices': [{'value': {'amount': 60, 'currency': 'UAH', 'valueAddedTaxIncluded': False}}]}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json['errors'],
+        [{"location": "body",
+          "name": "data",
+          "description": "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"}])
+
+    response = self.app.patch_json(
+        '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.agreement_id,
+                                                                     self.contract_id, self.tender_token),
         {"data": {'unitPrices': [{'value': {'amount': 60}}]}}
     )
     self.assertEqual(response.status, "200 OK")

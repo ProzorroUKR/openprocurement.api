@@ -10,7 +10,7 @@ from openprocurement.tender.core.models import Bid as BaseBid, \
 from openprocurement.tender.cfaua.constants import BID_UNSUCCESSFUL_FROM
 from openprocurement.tender.cfaua.models.submodels.documents import BidderEUDocument
 from openprocurement.tender.cfaua.models.submodels.lotvalue import LotValue
-from openprocurement.tender.cfaua.models.submodels.parameters import Parameter
+from openprocurement.tender.cfaua.models.submodels.parameters import BidParameter
 from openprocurement.tender.cfaua.models.submodels.value import Value
 
 
@@ -55,7 +55,7 @@ class Bid(BaseBid):
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
     subcontractingDetails = StringType()
-    parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(BidParameter), default=list(), validators=[validate_parameters_uniq])
     status = StringType(
         choices=['draft', 'pending', 'active', 'invalid', 'invalid.pre-qualification', 'unsuccessful', 'deleted'],
         default='pending'

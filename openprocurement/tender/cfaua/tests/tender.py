@@ -48,6 +48,7 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     agreement_duration_period,
     tender_features_invalid,
     extract_tender_credentials,
+    patch_unitprice_with_features
 )
 
 
@@ -90,6 +91,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_max_awards = snitch(patch_max_awards)
     test_awards_to_bids_number = snitch(awards_to_bids_number)
     test_tender_features_invalid = snitch(tender_features_invalid)
+    test_patch_unitprice_with_features = snitch(patch_unitprice_with_features)
 
     def test_patch_not_author(self):
         response = self.app.post_json('/tenders', {'data': test_tender_w_lot_data})

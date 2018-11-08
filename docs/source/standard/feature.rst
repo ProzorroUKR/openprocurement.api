@@ -22,13 +22,12 @@ Schema
     Possible values are:
 
     * `tenderer`
-    * `lot`
     * `item`
 
 :relatedItem:
     string
 
-    Id of related :ref:`item` or :ref:`lot` (only if the ``featureOf`` value is ``item`` or ``lot``).
+    Id of related :ref:`item` (only if the ``featureOf`` value is ``item``).
 
 :title:
     string, multilingual, required
