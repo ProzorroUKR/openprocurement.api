@@ -15,9 +15,11 @@ cache:
   directories:
     - eggs
 before_install:
-  - ./bootstrap.sh
+  - sh bootstrap.sh
 install:
   - bin/buildout -N
+  - bin/buildout -N remotes:branch=$TRAVIS_BRANCH
+  - bin/develop up --force
 script:
   - bin/py.test ./openprocurement/planning/api/tests --cov=openprocurement/planning/api
 after_success:
