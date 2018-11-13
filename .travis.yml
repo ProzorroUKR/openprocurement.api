@@ -1,25 +1,29 @@
 language: python
 sudo: required
-group: deprecated-2017Q4
-before_script:
-  - sudo add-apt-repository ppa:chris-lea/libsodium -y
-  - sudo apt-get -qq update
-  - sudo apt-get install libsodium13 -y
+dist: trusty
 python:
   - "2.7"
 services:
   - couchdb
 env:
+  global:
   - TZ=Europe/Kiev
+  matrix:
+  - SANDBOX_MODE=
+  - SANDBOX_MODE=True
 cache:
   directories:
     - eggs
 before_install:
-  - pip install setuptools==7.0
-  - python2 bootstrap.py
+  - sudo add-apt-repository ppa:chris-lea/libsodium -y
+  - sudo apt-get update
+  - sudo apt-get install libsodium-dev -y
+  - sh bootstrap.sh
 install:
   - bin/buildout -N
+  - bin/buildout -N remotes:branch=$TRAVIS_BRANCH
+  - bin/develop up --force
 script:
-  - bin/nosetests openprocurement/tender/competitivedialogue/tests/
+  - bin/py.test ./openprocurement/tender/competitivedialogue/tests --cov=openprocurement.tender.competitivedialogue
 after_success:
   - bin/coveralls
