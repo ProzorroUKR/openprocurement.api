@@ -45,7 +45,7 @@ class CFASelectionUATender(BaseTender):
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
-    minimalStep = ModelType(Value, required=True)
+    minimalStep = ModelType(Value, required=False)
     auctionUrl = URLType()
     cancellations = ListType(ModelType(Cancellation), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])

@@ -13,6 +13,7 @@ from openprocurement.tender.cfaselectionua.validation import (
 from openprocurement.tender.cfaselectionua.utils import (
     check_status,
     check_agreement,
+    calculate_agreement_contracts_value_amount,
 )
 
 from openprocurement.tender.cfaselectionua.validation import (
@@ -178,7 +179,6 @@ class TenderResource(APIResource):
         if self.request.authenticated_role == 'chronograph':
             apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
             check_status(self.request)
-            save_tender(self.request)
         elif self.request.authenticated_role == 'agreement_selection':
             apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
             if self.request.tender.status == 'active.enquiries':
@@ -190,10 +190,12 @@ class TenderResource(APIResource):
                     tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
                     tender.tenderPeriod.endDate = calculate_business_date(
                         tender.tenderPeriod.startDate, self.request.content_configurator.tender_period, tender)
-            save_tender(self.request)
+                    calculate_agreement_contracts_value_amount(self.request, tender)
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.enquiries':
-            data = validate_json_data_in_active_enquiries(self.request)
-            apply_patch(self.request, data=data)
+            validate_json_data_in_active_enquiries(self.request)
+            apply_patch(self.request,  save=False, data=self.request.validated['data'])
+            if 'items' in self.request.validated['json_data']:
+                calculate_agreement_contracts_value_amount(self.request, tender)
         else:
             default_status = type(tender).fields['status'].default
             tender_status = tender.status
@@ -207,7 +209,7 @@ class TenderResource(APIResource):
                 raise_operation_error(
                     self.request, "Can't switch tender from ({}) to ({}) status.".format(default_status, tender.status)
                 )
-            save_tender(self.request)
+        save_tender(self.request)
         self.LOGGER.info('Updated tender {}'.format(tender.id),
                     extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
         return {'data': tender.serialize(tender.status)}

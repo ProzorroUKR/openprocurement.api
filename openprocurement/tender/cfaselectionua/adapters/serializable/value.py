@@ -6,8 +6,8 @@ class SerializableTenderMultilotValue(Serializable):
     serialized_name = "value"
 
     def __call__(self, obj, *args, **kwargs):
-        if obj.value and all([i.value for i in obj.lots]):
+        if all([i.value for i in obj.lots]):
             value_class = obj._fields['value']
             return value_class(dict(amount=sum([i.value.amount for i in obj.lots]),
-                                    currency=obj.value.currency,
-                                    valueAddedTaxIncluded=obj.value.valueAddedTaxIncluded)) if obj.lots else obj.value
+                                    currency=obj.lots[0].value.currency,
+                                    valueAddedTaxIncluded=obj.lots[0].value.valueAddedTaxIncluded)) if obj.lots else obj.value

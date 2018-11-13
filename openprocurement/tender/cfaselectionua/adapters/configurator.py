@@ -7,6 +7,7 @@ from openprocurement.tender.cfaselectionua.constants import (
     MIN_ACTIVE_CONTRACTS,
     ENQUIRY_PERIOD,
     TENDERING_DURATION,
+    MINIMAL_STEP_PERCENTAGE,
 )
 
 
@@ -31,3 +32,4 @@ class TenderCfaSelectionUAConfigurator(TenderConfigurator):
     min_active_contracts = MIN_ACTIVE_CONTRACTS
     enquiry_period = ENQUIRY_PERIOD  # patch tender by agreement bot, into active.enquiries
     tender_period = TENDERING_DURATION  # patch tender by agreement bot, into active.enquiries
+    minimal_step_percentage = MINIMAL_STEP_PERCENTAGE

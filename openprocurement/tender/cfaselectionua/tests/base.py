@@ -10,7 +10,8 @@ from openprocurement.api.utils import apply_data_patch
 from openprocurement.tender.core.tests.base import (
     BaseTenderWebTest as BaseTWT
 )
-from openprocurement.tender.cfaselectionua.constants import DRAFT_FIELDS, BOT_NAME, ENQUIRY_PERIOD
+from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCfaSelectionUAConfigurator
+from openprocurement.tender.cfaselectionua.constants import ENQUIRY_PERIOD
 from openprocurement.tender.cfaselectionua.tests.periods import get_periods
 
 
@@ -65,7 +66,6 @@ for bid in test_bids:
 with open(os.path.join(here, 'data/lots.json')) as _in:
     test_lots = json.load(_in)
 
-test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
 
 test_agreement_features = deepcopy(test_agreement)
 test_agreement_features['features'] = test_features
@@ -157,6 +157,11 @@ class BaseTenderWebTest(BaseTWT):
                         key=lambda value: value['amount'])
         self.tender_document['value'] = max_value
         self.tender_document['lots'][0]['value'] = max_value
+        self.tender_document['lots'][0]['minimalStep'] = deepcopy(max_value)
+        self.tender_document['lots'][0]['minimalStep']['amount'] = \
+            max_value['amount'] * TenderCfaSelectionUAConfigurator.minimal_step_percentage
+        self.tender_document['minimalStep'] = self.tender_document['lots'][0]['minimalStep']
+
 
     def prepare_for_auction(self, status, start_end='start'):
         self.tender_patch.update(self.periods[status][start_end])
@@ -303,6 +308,7 @@ class BaseTenderWebTest(BaseTWT):
 
         if status == 'active.enquiries':
             self.patch_agreements_by_bot(status, start_end)
+            self.generate_tender_lot_value(status)
         elif status == 'active.tendering':
             self.patch_agreements_by_bot(status, start_end)
             if start_end == 'end':

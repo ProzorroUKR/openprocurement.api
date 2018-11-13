@@ -12,12 +12,15 @@ class Lot(BaseLot):
         roles = RolesFromCsv('Lot.csv', relative_to=__file__)
 
     value = ModelType(Value)
+    minimalStep = ModelType(Value, required=False)
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
 
     @serializable(serialized_name="value", type=ModelType(Value), serialize_when_none=False)
     def lot_value(self):
         if self.value:
-            return Value(dict(amount=self.value.amount,
-                              currency=self.value.currency,
-                              valueAddedTaxIncluded=self.value.valueAddedTaxIncluded))
+            return self.value
 
+    @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
+    def lot_minimalStep(self):
+        if self.minimalStep:
+            return self.minimalStep

@@ -13,6 +13,7 @@ from openprocurement.tender.cfaselectionua.tests.lot_blanks import (
     create_tender_lot_invalid,
     create_tender_lot,
     patch_tender_lot,
+    patch_tender_lot_invalid,
     patch_tender_currency,
     patch_tender_vat,
     get_tender_lot,
@@ -50,6 +51,7 @@ class TenderLotResourceTestMixin(object):
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     #test_create_tender_lot = snitch(create_tender_lot)
     test_patch_tender_lot = snitch(patch_tender_lot)
+    test_patch_tender_lot_invalid = snitch(patch_tender_lot_invalid)
     #test_delete_tender_lot = snitch(delete_tender_lot)
 
 

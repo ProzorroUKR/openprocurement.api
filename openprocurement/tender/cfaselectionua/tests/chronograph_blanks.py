@@ -33,17 +33,6 @@ def switch_to_tendering(self):
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']["status"], "active.tendering")
 
-    self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.get('/tenders/{}'.format(self.tender_id))
-    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-
-    agreement_contracts = response.json['data']['agreements'][0]['contracts']
-    max_value = max([contract['value'] for contract in agreement_contracts],
-                    key=lambda value: value['amount'])
-    self.assertEqual(response.json['data']['value'], max_value)
-    self.assertEqual(response.json['data']['lots'][0]['value'], max_value)
-    self.assertNotEqual(response.json['data']['lots'][0]['value'], agreement_contracts[0]['value'])
-
 
 def switch_to_tendering_by_tenderPeriod_startDate(self):
     self.set_status('active.tendering', {'status': 'active.enquiries', "tenderPeriod": {}})
