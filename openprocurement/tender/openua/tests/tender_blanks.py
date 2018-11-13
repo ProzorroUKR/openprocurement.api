@@ -3,7 +3,8 @@ from datetime import timedelta
 from copy import deepcopy
 
 from openprocurement.api.models import get_now
-from openprocurement.api.constants import SANDBOX_MODE, CPV_ITEMS_CLASS_FROM
+from openprocurement.api.constants import SANDBOX_MODE, CPV_ITEMS_CLASS_FROM, \
+    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_lots
 
@@ -301,17 +302,22 @@ def create_tender_invalid(self):
     if get_now() > CPV_ITEMS_CLASS_FROM:
         cpv_code = self.initial_data["items"][0]['classification']['id']
         self.initial_data["items"][0]['classification']['id'] = '99999999-9'
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+    status = 422 if get_now() < NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM else 201
+    response = self.app.post_json(request_path, {'data': self.initial_data}, status=status)
     self.initial_data["items"][0]["additionalClassifications"] = data
     if get_now() > CPV_ITEMS_CLASS_FROM:
         self.initial_data["items"][0]['classification']['id'] = cpv_code
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [{u'additionalClassifications': [u'This field is required.']}], u'location': u'body',
-         u'name': u'items'}
-    ])
+    if status == 201:
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+    else:
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {u'description': [{u'additionalClassifications': [u'This field is required.']}], u'location': u'body',
+             u'name': u'items'}
+        ])
 
     data = self.initial_data["items"][0]["additionalClassifications"][0]["scheme"]
     self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = 'Не ДКПП'
