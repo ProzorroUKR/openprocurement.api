@@ -30,7 +30,7 @@ from openprocurement.api.constants import (
     SANDBOX_MODE, COORDINATES_REG_EXP,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017,
-    FUNDERS,
+    FUNDERS, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
 )
 
 from openprocurement.tender.core.constants import (
@@ -251,9 +251,11 @@ class Item(BaseItem):
     deliveryLocation = ModelType(Location)
     def validate_additionalClassifications(self, data, items):
         tender = get_tender(data['__parent__'])
-        tender_from_2017 = (tender.get('revisions')[0].date if tender.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM
+        tender_date = tender.get('revisions')[0].date if tender.get('revisions') else get_now()
+        tender_from_2017 = tender_date > CPV_ITEMS_CLASS_FROM
         not_cpv = data['classification']['id'] == '99999999-9'
-        if not items and (not tender_from_2017 or tender_from_2017 and not_cpv):
+        required = tender_date < NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM and not_cpv
+        if not items and (not tender_from_2017 or tender_from_2017 and not_cpv and required):
             raise ValidationError(u'This field is required.')
         elif tender_from_2017 and not_cpv and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 for i in items]):
             raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)))
