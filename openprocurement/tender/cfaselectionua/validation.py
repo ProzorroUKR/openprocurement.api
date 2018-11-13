@@ -248,7 +248,7 @@ def validate_json_data_in_active_enquiries(request):
     if [item['id'] for item in source['items']] != [item['id'] for item in tender['items']]:
         raise_operation_error(request, 'Can\'t update tender items. Items order mismatch')
 
-    return data
+    request.validated['data'] = data
 
 
 def validate_patch_tender_tenderPeriod(request):

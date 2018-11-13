@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from barbecue import chef
+from copy import deepcopy
 from logging import getLogger
 from zope.component import queryUtility
 from openprocurement.api.constants import TZ
@@ -7,7 +8,7 @@ from openprocurement.api.models import Value
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUAChange
 from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_STATUS, AGREEMENT_ITEMS, AGREEMENT_EXPIRED,
-    AGREEMENT_CHANGE, AGREEMENT_CONTRACTS, AGREEMENT_MINIMAL_STEP,
+    AGREEMENT_CHANGE, AGREEMENT_CONTRACTS, AGREEMENT_FEATURES,
     AGREEMENT_IDENTIFIER
 )
 from openprocurement.tender.cfaselectionua.traversal import agreement_factory
@@ -74,7 +75,6 @@ def check_status(request):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'active.tendering'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_active.tendering'}))
         tender.status = 'active.tendering'
-        calculate_agreement_contracts_value_amount(tender)
         return
     
     elif not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now:
@@ -319,12 +319,11 @@ def check_agreement(request, tender):
     check_period_and_items(request, tender)
     check_pending_changes(request, tender)
     check_min_active_contracts(request, tender)
-    check_minimal_step(request, tender)
     check_identifier(request, tender)
     check_features(request, tender)
 
 
-def calculate_agreement_contracts_value_amount(tender):
+def calculate_agreement_contracts_value_amount(request, tender):
     agreement = tender.agreements[0]
     for contract in agreement.contracts:
         value = Value()
@@ -336,17 +335,10 @@ def calculate_agreement_contracts_value_amount(tender):
             value.amount += unitPrice.value.amount * quantity
         contract.value = value
     tender.lots[0].value = max([contract.value for contract in agreement.contracts], key=lambda value: value.amount)
-
-
-def check_minimal_step(request, tender):
-    if tender.agreements[0].contracts:
-        if tender.minimalStep.currency != tender.agreements[0].contracts[0].unitPrices[0].value.currency or \
-                tender.minimalStep.valueAddedTaxIncluded != \
-                tender.agreements[0].contracts[0].unitPrices[0].value.valueAddedTaxIncluded:
-            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
-                                                       'CAUSE': AGREEMENT_MINIMAL_STEP}))
-            tender.status = 'draft.unsuccessful'
+    tender.value = tender.lots[0].value
+    tender.lots[0].minimalStep = deepcopy(tender.lots[0].value)
+    tender.lots[0].minimalStep.amount = \
+        request.content_configurator.minimal_step_percentage * tender.lots[0].value.amount
 
 
 def check_features(request, tender):
@@ -357,7 +349,7 @@ def check_features(request, tender):
             'Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
             extra=context_unpack(request, {
                 'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
-                'CAUSE': AGREEMENT_MINIMAL_STEP}))
+                'CAUSE': AGREEMENT_FEATURES}))
         tender.status = 'draft.unsuccessful'
 
 

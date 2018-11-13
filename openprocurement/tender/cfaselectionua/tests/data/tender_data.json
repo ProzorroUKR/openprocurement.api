@@ -1,10 +1,6 @@
 {
     "agreements": [{"id": "11111111111111111111111111111111"}],
     "title": "футляри до державних нагород",
-    "minimalStep": {
-        "amount": 35,
-        "currency": "UAH"
-    },
     "enquiryPeriod": {
          "endDate": null
      },

@@ -18,6 +18,7 @@ CLARIFICATIONS_DURATION = timedelta(days=5)  # needs to be updated
 TENDER_PERIOD_MINIMAL_DURATION = timedelta(days=3)
 MIN_PERIOD_UNTIL_AGREEMENT_END = timedelta(days=7)
 MIN_ACTIVE_CONTRACTS = 3
+MINIMAL_STEP_PERCENTAGE = 0.01
 
 # bot switch to draft.unsuccessful messages
 AGREEMENT_STATUS = 'agreement[0] status is not active'
@@ -25,7 +26,6 @@ AGREEMENT_ITEMS = 'agrements[0] items is not subset of tender items'
 AGREEMENT_EXPIRED = 'agreements[0] ends less than {} days'.format(MIN_PERIOD_UNTIL_AGREEMENT_END.days)
 AGREEMENT_CHANGE = 'agreements[0] has pending change'
 AGREEMENT_CONTRACTS = 'agreements[0] has less than {} active contracts'.format(MIN_ACTIVE_CONTRACTS)
-AGREEMENT_MINIMAL_STEP = 'tender minimalStep (currency or valueAddedTaxIncluded), doesnt match ' \
-                         'tender.agreements[0].contracts[0].unitPrices[0].value (currency or valueAddedTaxIncluded)'
+AGREEMENT_FEATURES = 'tender features doesnt equals tender.agreements[0].features'
 AGREEMENT_IDENTIFIER = 'tender.procuringEntity.identifier (scheme or id), ' \
                        'doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)'
