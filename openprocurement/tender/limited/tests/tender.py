@@ -44,6 +44,7 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     create_tender,
     patch_tender,
     tender_Administrator_change,
+    tender_with_main_procurement_category,
     # TenderNegotiationQuickTest
     simple_add_tender_negotiation_quick,
     # TenderNegotiationTest
@@ -103,6 +104,7 @@ class TenderResourceTest(BaseTenderWebTest):
     test_tender_not_found = snitch(tender_not_found)
     test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_tender_funders = snitch(tender_funders)
+    test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
 
 
 class TenderNegotiationResourceTest(TenderResourceTest):
