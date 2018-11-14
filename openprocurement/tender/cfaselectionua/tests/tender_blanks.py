@@ -1489,6 +1489,7 @@ def patch_tender_bot(self):
     response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'active.enquiries')
+    self.assertIn('minimalStep', response.json['data'])
     enquiry_period = ENQUIRY_PERIOD
     if SANDBOX_MODE:
          enquiry_period = ENQUIRY_PERIOD / 1440
