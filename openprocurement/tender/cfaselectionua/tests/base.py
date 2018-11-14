@@ -160,8 +160,6 @@ class BaseTenderWebTest(BaseTWT):
         self.tender_document['lots'][0]['minimalStep'] = deepcopy(max_value)
         self.tender_document['lots'][0]['minimalStep']['amount'] = \
             max_value['amount'] * TenderCfaSelectionUAConfigurator.minimal_step_percentage
-        self.tender_document['minimalStep'] = self.tender_document['lots'][0]['minimalStep']
-
 
     def prepare_for_auction(self, status, start_end='start'):
         self.tender_patch.update(self.periods[status][start_end])
