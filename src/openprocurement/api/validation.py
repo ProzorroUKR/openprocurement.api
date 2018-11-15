@@ -114,20 +114,14 @@ def validate_classification_id(items, *args):
     allowed_schemes = ['INN', 'ATC']
     for item in items:
         if item.classification.id.startswith('336'):
-            if item.additionalClassifications:
-                schemes = [x.scheme for x in item.additionalClassifications]
-                if not set(schemes).issubset(set(allowed_schemes)):
-                    raise ValidationError(u'additionalClassification of items wich classification.id starts with 336 \
+            schemes = [x.scheme for x in item.additionalClassifications]
+            if not set(schemes).issubset(set(allowed_schemes)):
+                raise ValidationError(u'additionalClassification of items wich classification.id starts with 336 \
 have to be one of {}'.format(allowed_schemes))
-                if schemes.count('INN') != 1:
-                    raise ValidationError(u"Item wich classification.id starts with 336 and contains \
-additionalClassification objects have to contain exactly one additionalClassifications with scheme=INN")
-        if item.classification.id == '33600000-6':
-            if len(item.additionalClassifications) < 1:
-                raise ValidationError(
-                    u"Item with classification.id=33600000-6 have no additionalClassifications fields")
-            else:
-                schemes = [x.scheme for x in item.additionalClassifications]
+            if item.classification.id == '33600000-6':
                 if schemes.count('INN') != 1:
                     raise ValidationError(u"Item with classification.id=33600000-6 have to contain exactly one \
 additionalClassifications with scheme=INN")
+            if schemes.count('INN') > 1:
+                raise ValidationError(u"Item wich classification.id starts with 336 and contains \
+additionalClassification objects have to contain exactly one additionalClassifications with scheme=INN")
