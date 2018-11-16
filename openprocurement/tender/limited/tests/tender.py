@@ -58,6 +58,7 @@ from openprocurement.tender.limited.tests.tender_blanks import (
 from openprocurement.tender.openua.tests.tender_blanks import (
     # TenderResourceTest
     empty_listing,
+    tender_finance_milestones,
 )
 
 
@@ -105,6 +106,7 @@ class TenderResourceTest(BaseTenderWebTest):
     test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_tender_funders = snitch(tender_funders)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
+    test_tender_finance_milestones = snitch(tender_finance_milestones)
 
 
 class TenderNegotiationResourceTest(TenderResourceTest):
