@@ -16,7 +16,10 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
-from openprocurement.tender.openua.tests.tender_blanks import tender_with_main_procurement_category
+from openprocurement.tender.openua.tests.tender_blanks import (
+    tender_with_main_procurement_category,
+    tender_finance_milestones,
+)
 
 from openprocurement.tender.openeu.tests.tender_blanks import (
     # TenderProcessTest
@@ -89,6 +92,7 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     test_invalid_bid_tender_features = snitch(invalid_bid_tender_features)
     test_invalid_bid_tender_lot = snitch(invalid_bid_tender_lot)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
+    test_tender_finance_milestones = snitch(tender_finance_milestones)
 
 
 class TestTenderEUProcess(BaseESCOContentWebTest):
