@@ -338,7 +338,7 @@ def calculate_agreement_contracts_value_amount(request, tender):
     tender.value = tender.lots[0].value
     tender.lots[0].minimalStep = deepcopy(tender.lots[0].value)
     tender.lots[0].minimalStep.amount = \
-        request.content_configurator.minimal_step_percentage * tender.lots[0].value.amount
+        round(request.content_configurator.minimal_step_percentage * tender.lots[0].value.amount, 2)
 
 
 def check_features(request, tender):

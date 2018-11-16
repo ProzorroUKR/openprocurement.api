@@ -773,7 +773,6 @@ def create_tender_from_agreement_with_features_successful(self):
                                    {'data': {'agreements': [self.agreement], 'status': 'active.enquiries'}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    # import ipdb; ipdb.set_trace()
     # self.assertEqual(set(response.json['data']['features']), set(self.agreement['features']))
     self.assertEqual(response.json['data']['status'], 'active.enquiries')
 
@@ -1490,6 +1489,10 @@ def patch_tender_bot(self):
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'active.enquiries')
     self.assertIn('minimalStep', response.json['data'])
+    self.assertEqual(response.json['data']['minimalStep']['amount'],
+                     round(response.json['data']['minimalStep']['amount'], 2))
+    self.assertEqual(response.json['data']['lots'][0]['minimalStep']['amount'],
+                     round(response.json['data']['lots'][0]['minimalStep']['amount'], 2))
     enquiry_period = ENQUIRY_PERIOD
     if SANDBOX_MODE:
          enquiry_period = ENQUIRY_PERIOD / 1440
