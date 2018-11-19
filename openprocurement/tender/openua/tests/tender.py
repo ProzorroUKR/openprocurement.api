@@ -25,6 +25,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_fields,
     patch_tender,
     patch_tender_period,
+    tender_with_main_procurement_category,
     # TenderUAProcessTest
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
@@ -62,6 +63,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     test_patch_draft_invalid_json = snitch(patch_draft_invalid_json)
     test_patch_tender = snitch(patch_tender)
     test_guarantee = snitch(guarantee)
+    test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
