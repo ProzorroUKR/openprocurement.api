@@ -11,7 +11,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 
 from openprocurement.tender.openua.tests.tender_blanks import (
     # CompetitiveDialogResourceTest
-    empty_listing
+    empty_listing,
+    tender_with_main_procurement_category,
 )
 
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -69,6 +70,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     test_guarantee = snitch(guarantee)
     test_multiple_bidders_tender = snitch(multiple_bidders_tender_eu)
     test_try_go_to_ready_stage = snitch(try_go_to_ready_stage_eu)
+    test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
 
 
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
@@ -83,6 +85,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderReso
     test_patch_tender_eu = snitch(patch_tender_eu_ua)
     test_guarantee = snitch(guarantee)
     test_update_status_complete_owner_ua = snitch(update_status_complete_owner_ua)
+    test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
 
 
 def suite():
