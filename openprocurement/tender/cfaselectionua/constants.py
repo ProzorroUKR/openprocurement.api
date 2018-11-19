@@ -18,7 +18,7 @@ CLARIFICATIONS_DURATION = timedelta(days=5)  # needs to be updated
 TENDER_PERIOD_MINIMAL_DURATION = timedelta(days=3)
 MIN_PERIOD_UNTIL_AGREEMENT_END = timedelta(days=7)
 MIN_ACTIVE_CONTRACTS = 3
-MINIMAL_STEP_PERCENTAGE = 0.01
+MINIMAL_STEP_PERCENTAGE = 0.005
 
 # bot switch to draft.unsuccessful messages
 AGREEMENT_STATUS = 'agreement[0] status is not active'
