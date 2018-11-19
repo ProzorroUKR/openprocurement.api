@@ -3,6 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
 
 
 from openprocurement.tender.cfaua.tests.base import (
@@ -63,6 +64,7 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
     test_patch_tender_lot = snitch(patch_tender_lot)
     test_patch_tender_vat = snitch(patch_tender_vat)
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
+    test_tender_lot_milestones = snitch(tender_lot_milestones)
 
 
 class TenderLotEdgeCasesTest(BaseTenderContentWebTest):
