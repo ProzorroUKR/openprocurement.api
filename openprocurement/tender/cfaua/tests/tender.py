@@ -12,7 +12,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
 )
 from openprocurement.tender.openua.tests.tender_blanks import (
-    empty_listing, tender_fields
+    empty_listing, tender_fields, tender_with_main_procurement_category
 )
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.cfaua.tests.base import (
@@ -92,6 +92,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_awards_to_bids_number = snitch(awards_to_bids_number)
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_patch_unitprice_with_features = snitch(patch_unitprice_with_features)
+    test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
 
     def test_patch_not_author(self):
         response = self.app.post_json('/tenders', {'data': test_tender_w_lot_data})
