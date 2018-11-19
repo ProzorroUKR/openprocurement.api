@@ -1318,3 +1318,37 @@ def tender_cause_quick(self):
         response = self.app.post_json('/tenders', {"data": data})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.json['data']['causeDescription'], 'blue pine')
+
+
+def tender_with_main_procurement_category(self):
+    data = dict(**self.initial_data)
+
+    # test fail creation
+    data["mainProcurementCategory"] = "whiskey,tango,foxtrot"
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(
+        response.json['errors'],
+        [{
+            "location": "body",
+            "name": "mainProcurementCategory",
+            "description": ["Value must be one of ['goods', 'services', 'works']."]
+        }]
+    )
+
+    # test success creation
+    data["mainProcurementCategory"] = "goods"
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertIn('mainProcurementCategory', response.json['data'])
+    self.assertEqual(response.json['data']['mainProcurementCategory'], "goods")
+
+    tender = response.json['data']
+    token = response.json['access']['token']
+    self.tender_id = tender['id']
+
+    # test success update tender in active status
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
+                                   {'data': {'mainProcurementCategory': "services"}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('mainProcurementCategory', response.json['data'])
+    self.assertEqual(response.json['data']['mainProcurementCategory'], "services")
