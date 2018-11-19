@@ -28,6 +28,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     required_field_deletion,
     tender_funders,
     tender_with_main_procurement_category,
+    tender_finance_milestones,
     # TenderProcessTest
     one_valid_bid_tender,
     one_invalid_bid_tender,
@@ -57,6 +58,7 @@ class TenderResourceTestMixin(object):
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
+    test_tender_finance_milestones = snitch(tender_finance_milestones)
 
 
 class TenderTest(BaseWebTest):
