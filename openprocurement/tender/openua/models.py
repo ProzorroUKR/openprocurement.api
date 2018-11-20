@@ -19,7 +19,7 @@ from openprocurement.api.constants import (
     TZ
 )
 from openprocurement.api.validation import (
-    validate_cpv_group, validate_items_uniq
+    validate_cpv_group, validate_items_uniq, validate_classification_id
 )
 from openprocurement.tender.core.models import (
     view_role, create_role, edit_role,
@@ -336,7 +336,7 @@ class Tender(BaseTender):
     procurementMethodType = StringType(default="aboveThresholdUA")
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['draft', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     cancellations = ListType(ModelType(Cancellation), default=list())
 
     create_accreditation = 3
