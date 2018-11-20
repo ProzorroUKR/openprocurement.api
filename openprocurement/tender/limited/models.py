@@ -17,7 +17,7 @@ from openprocurement.api.models import (
 from openprocurement.api.models import Value as BaseValue
 from openprocurement.api.models import Unit as BaseUnit
 from openprocurement.api.validation import (
-    validate_cpv_group, validate_items_uniq
+    validate_cpv_group, validate_items_uniq, validate_classification_id
 )
 from openprocurement.tender.core.models import (
     view_role, create_role, edit_role, enquiries_role, view_bid_role,
@@ -226,7 +226,7 @@ class Tender(BaseTender):
             'contracting': whitelist('doc_id', 'owner'),
         }
 
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='limited')  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
     procurementMethodType = StringType(default="reporting")
