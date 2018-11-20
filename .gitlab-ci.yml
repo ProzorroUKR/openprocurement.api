@@ -3,6 +3,8 @@ before_script:
   - eval `ssh-agent -s` && ssh-add
   - sh bootstrap.sh
   - bin/buildout -N
+  - bin/buildout -N remotes:branch=$CI_COMMIT_REF_NAME
+  - bin/develop up --force
 stages:
   - test
 
