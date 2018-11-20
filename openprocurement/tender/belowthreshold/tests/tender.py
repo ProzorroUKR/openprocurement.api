@@ -3,7 +3,6 @@ import os
 import unittest
 
 from openprocurement.api.tests.base import BaseWebTest, snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_data, BaseTenderWebTest
 )
@@ -28,6 +27,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender,
     required_field_deletion,
     tender_funders,
+    tender_with_main_procurement_category,
     # TenderProcessTest
     one_valid_bid_tender,
     one_invalid_bid_tender,
@@ -56,6 +56,7 @@ class TenderResourceTestMixin(object):
     test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
+    test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
 
 
 class TenderTest(BaseWebTest):
