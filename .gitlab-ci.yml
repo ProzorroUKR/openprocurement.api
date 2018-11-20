@@ -3,6 +3,8 @@ before_script:
   - eval `ssh-agent -s` && ssh-add
   - sh bootstrap.sh
   - bin/buildout -N
+  - bin/buildout -N remotes:branch=$TRAVIS_BRANCH
+  - bin/develop up --force
 
 test_sanbox_true:
   stage: test
