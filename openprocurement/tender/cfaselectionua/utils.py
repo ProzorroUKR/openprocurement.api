@@ -272,10 +272,10 @@ def check_agreement_status(request, tender):
 def check_period_and_items(request, tender):
     agreement_items = tender.agreements[0].items if tender.agreements[0].items else []
 
-    agreement_items_ids = {(i.id, i.classification.id, i.classification.scheme) for i in agreement_items}
-    tender_items_ids = {(i.id, i.classification.id, i.classification.scheme) for i in tender.items}
+    agreement_items_ids = {(i.id, i.classification.id, i.classification.scheme, i.unit.code) for i in agreement_items}
+    tender_items_ids = {(i.id, i.classification.id, i.classification.scheme, i.unit.code) for i in tender.items}
 
-    if agreement_items_ids != tender_items_ids:
+    if not tender_items_ids.issubset(agreement_items_ids):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
                     extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
                                                    'CAUSE': AGREEMENT_ITEMS}))
@@ -337,6 +337,21 @@ def calculate_agreement_contracts_value_amount(request, tender):
     tender.lots[0].minimalStep = deepcopy(tender.lots[0].value)
     tender.lots[0].minimalStep.amount = \
         round(request.content_configurator.minimal_step_percentage * tender.lots[0].value.amount, 2)
+
+def calculate_tender_features(request, tender):
+    #  calculation tender features after items validation
+    if tender.agreements[0].features:
+        tender_features = []
+        tender_items_ids = {i.id for i in tender.items}
+        for feature in tender.agreements[0].features:
+            if feature.featureOf == "tenderer":
+                tender_features.append(feature)
+            elif feature.featureOf == "item" and feature.relatedItem in tender_items_ids:
+                tender_features.append(feature)
+            elif feature.featureOf == "lot" and feature.relatedItem == tender.lots[0].id:
+                tender_features.append(feature)
+
+        tender.features = tender_features
 
 
 def check_identifier(request, tender):
