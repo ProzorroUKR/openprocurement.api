@@ -17,7 +17,7 @@ from openprocurement.tender.core.constants import (
 from openprocurement.tender.cfaselectionua.models.tender import CFASelectionUATender as Tender
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_organization,
-    test_agreement,
+    test_features,
 )
 
 # TenderTest
@@ -1478,6 +1478,36 @@ def patch_tender_bot(self):
     self.assertEqual(response.json['errors'][0]['description'],
                      "Can't update tender in current (active.enquiries) tender status")
 
+    # patch tender agreement more items than tender items, more features then tender features
+    create_tender_and_prepare_for_bot_patch()
+    agreement = deepcopy(self.initial_agreement)
+    second_item = deepcopy(agreement['items'][0])
+    second_item['id'] = uuid4().hex
+    agreement['items'] = [agreement['items'][0], second_item]
+
+    features = deepcopy(test_features)
+    new_item_feature = deepcopy(features[0])
+    new_item_feature['code'] = uuid4().hex
+    new_item_feature['relatedItem'] = second_item['id']
+
+    agreement['features'] = features + [new_item_feature]
+
+    agreement['period']['endDate'] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
+        self.tender_id, self.agreement_id), {"data": agreement})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+
+    response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'active.enquiries')
+
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender_data = response.json['data']
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertNotIn(new_item_feature['code'], (f['code'] for f in tender_data['features']))
+    self.assertIn(second_item['id'], (i['id'] for i in tender_data['agreements'][0]['items']))
 
     # patch tender with less than 7 days to end
     create_tender_and_prepare_for_bot_patch()
