@@ -491,7 +491,7 @@ def features_bid(self):
                     "code": i["code"],
                     "value": 0.1,
                 }
-                for i in self.initial_data['features']
+                for i in self.initial_agreement['features']
             ],
             "status": "active",
             "tenderers": [
@@ -512,7 +512,7 @@ def features_bid(self):
                     "code": i["code"],
                     "value": 0.15,
                 }
-                for i in self.initial_data['features']
+                for i in self.initial_agreement['features']
             ],
             "tenderers": [
                 tenderer

@@ -14,6 +14,7 @@ from openprocurement.tender.cfaselectionua.utils import (
     check_status,
     check_agreement,
     calculate_agreement_contracts_value_amount,
+    calculate_tender_features,
 )
 
 from openprocurement.tender.cfaselectionua.validation import (
@@ -191,6 +192,7 @@ class TenderResource(APIResource):
                     tender.tenderPeriod.endDate = calculate_business_date(
                         tender.tenderPeriod.startDate, self.request.content_configurator.tender_period, tender)
                     calculate_agreement_contracts_value_amount(self.request, tender)
+                    calculate_tender_features(self.request, tender)
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.enquiries':
             validate_json_data_in_active_enquiries(self.request)
             apply_patch(self.request,  save=False, data=self.request.validated['data'])
