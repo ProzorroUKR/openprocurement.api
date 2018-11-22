@@ -125,7 +125,7 @@ class TenderEUResource(TenderResource):
             if all_bids_are_reviewed(self.request):
                 normalized_date = calculate_normalized_date(now, tender, True)
                 tender.qualificationPeriod.endDate = calculate_business_date(
-                    normalized_date, config.qualification_complaint_stand_still, self.request.validated['tender']
+                    normalized_date, config.prequalification_complaint_stand_still, self.request.validated['tender']
                 )
                 tender.check_auction_time()
             else:
