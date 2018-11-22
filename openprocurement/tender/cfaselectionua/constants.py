@@ -26,6 +26,5 @@ AGREEMENT_ITEMS = 'agrements[0] items is not subset of tender items'
 AGREEMENT_EXPIRED = 'agreements[0] ends less than {} days'.format(MIN_PERIOD_UNTIL_AGREEMENT_END.days)
 AGREEMENT_CHANGE = 'agreements[0] has pending change'
 AGREEMENT_CONTRACTS = 'agreements[0] has less than {} active contracts'.format(MIN_ACTIVE_CONTRACTS)
-AGREEMENT_FEATURES = 'tender features doesnt equals tender.agreements[0].features'
 AGREEMENT_IDENTIFIER = 'tender.procuringEntity.identifier (scheme or id), ' \
                        'doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)'

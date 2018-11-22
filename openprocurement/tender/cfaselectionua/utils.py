@@ -8,8 +8,7 @@ from openprocurement.api.models import Value
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUAChange
 from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_STATUS, AGREEMENT_ITEMS, AGREEMENT_EXPIRED,
-    AGREEMENT_CHANGE, AGREEMENT_CONTRACTS, AGREEMENT_FEATURES,
-    AGREEMENT_IDENTIFIER
+    AGREEMENT_CHANGE, AGREEMENT_CONTRACTS, AGREEMENT_IDENTIFIER
 )
 from openprocurement.tender.cfaselectionua.traversal import agreement_factory
 from pkg_resources import get_distribution
@@ -320,7 +319,6 @@ def check_agreement(request, tender):
     check_pending_changes(request, tender)
     check_min_active_contracts(request, tender)
     check_identifier(request, tender)
-    check_features(request, tender)
 
 
 def calculate_agreement_contracts_value_amount(request, tender):
@@ -339,18 +337,6 @@ def calculate_agreement_contracts_value_amount(request, tender):
     tender.lots[0].minimalStep = deepcopy(tender.lots[0].value)
     tender.lots[0].minimalStep.amount = \
         round(request.content_configurator.minimal_step_percentage * tender.lots[0].value.amount, 2)
-
-
-def check_features(request, tender):
-    agreement_features = tender.agreements[0].features or []
-    tender_features = tender.features or []
-    if agreement_features != tender_features:
-        LOGGER.info(
-            'Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-            extra=context_unpack(request, {
-                'MESSAGE_ID': 'switched_tender_draft.unsuccessful',
-                'CAUSE': AGREEMENT_FEATURES}))
-        tender.status = 'draft.unsuccessful'
 
 
 def check_identifier(request, tender):

@@ -30,9 +30,6 @@ test_features[0]['relatedItem'] = test_agreement['items'][0]['id']
 with open(os.path.join(here, 'data/items.json')) as _in:
     test_items = json.load(_in)
 
-with open(os.path.join(here, 'data/test_features_for_tender.json')) as _in:
-    test_features_for_tender = json.load(_in)
-
 with open(os.path.join(here, 'data/bids.json')) as _in:
     test_bids = json.load(_in)
 
@@ -53,12 +50,6 @@ test_tender_data['items'] = test_items
 
 if SANDBOX_MODE:
     test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'
-test_features_tender_data = test_tender_data.copy()
-test_features_item = test_items[0].copy()
-test_features_tender_data['items'] = [test_features_item]
-
-test_features_for_tender[0]['relatedItem'] = test_agreement['items'][0]['id']
-test_features_tender_data['features'] = test_features_for_tender
 
 for bid in test_bids:
     bid['tenderers'] = [test_organization]
@@ -72,6 +63,7 @@ test_agreement_features['features'] = test_features
 
 class BaseTenderWebTest(BaseTWT):
     initial_data = test_tender_data
+    initial_agreement = deepcopy(test_agreement)
     initial_status = None
     initial_bids = None
     initial_lots = None
@@ -112,10 +104,12 @@ class BaseTenderWebTest(BaseTWT):
         agreements = self.tender_document.get('agreements', [])
         for agreement in agreements:
             if 'agreementID' not in agreement:
-                agreement.update(test_agreement)
+                agreement.update(self.initial_agreement)
             items = self.tender_document.get('items')
             if items:
                 self.calculate_agreement_contracts_value_amount(agreement, items)
+        if 'features' in agreements[0]:
+            self.tender_patch.update({'features': agreements[0]['features']})
         self.tender_patch.update({'agreements': agreements})
 
     def generate_bids(self, status, start_end='start'):

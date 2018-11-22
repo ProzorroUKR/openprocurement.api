@@ -6,10 +6,9 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
-    test_features_tender_data,
+    test_agreement_features,
     test_organization,
     test_lots,
-    test_bids,
     test_agreement_features,
 )
 from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
@@ -54,7 +53,7 @@ class TenderBidResourceTest(TenderContentWebTest):
 
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):
-    initial_data = test_features_tender_data
+    initial_agreement = deepcopy(test_agreement_features)
     initial_lots = deepcopy(test_lots)
     initial_status = 'active.tendering'
 

@@ -7,7 +7,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
     test_tender_data,
-    test_features_tender_data,
+    test_agreement_features,
     test_bids,
     test_lots,
     test_organization
@@ -93,7 +93,7 @@ class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleL
 
 
 class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
-    initial_data = test_features_tender_data
+    initial_agreement = deepcopy(test_agreement_features)
     initial_status = 'active.tendering'
     initial_lots = deepcopy(test_lots)
     initial_bids = [
@@ -103,7 +103,7 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
                     "code": i["code"],
                     "value": 0.1,
                 }
-                for i in test_features_tender_data['features']
+                for i in test_agreement_features['features']
             ],
             "tenderers": [
                 test_organization
@@ -120,7 +120,7 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
                     "code": i["code"],
                     "value": 0.15,
                 }
-                for i in test_features_tender_data['features']
+                for i in test_agreement_features['features']
             ],
             "tenderers": [
                 test_organization
