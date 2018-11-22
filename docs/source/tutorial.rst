@@ -260,6 +260,11 @@ In order to create and/or get qualification document ``qualification_documents``
 .. include:: tutorial/upload-bid-qualification-document-proposal.http
    :code:
 
+In case we made an error, we can reupload the document over the older version:
+
+.. include:: tutorial/upload-bid-qualification-document-proposal-updated.http
+   :code:
+
 
 `Financial` and `qualification` documents will be publicly accessible after the auction.
 `Eligibility` documents will become publicly accessible starting from tender pre-qualification period.

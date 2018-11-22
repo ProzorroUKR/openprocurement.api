@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/0eba7509160946dd8439ca46baa56801?acc_token=61955a7cfb50471faf87533f4371d20c HTTP/1.0
+PATCH /api/2.4/tenders/98627a1dc8d44177b7024f4ee0630a21?acc_token=e6c08842d01c46f2bf536f628ded9d97 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 75
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2018-10-05T14:24:35.891285+03:00"
+      "endDate": "2018-12-21T18:16:02.133223+02:00"
     }
   }
 }
@@ -18,17 +18,17 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "complaintPeriod": {
-      "startDate": "2018-09-05T14:24:23.804787+03:00", 
-      "endDate": "2018-10-01T00:00:00+03:00"
+      "startDate": "2018-11-21T18:15:49.968285+02:00", 
+      "endDate": "2018-12-17T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2018-09-05T14:24:23.804787+03:00", 
-      "clarificationsUntil": "2018-09-28T14:24:35.891285+03:00", 
-      "endDate": "2018-09-25T14:24:35.891285+03:00", 
-      "invalidationDate": "2018-09-05T14:24:25.939019+03:00"
+      "startDate": "2018-11-21T18:15:49.968285+02:00", 
+      "clarificationsUntil": "2018-12-14T18:16:02.133223+02:00", 
+      "endDate": "2018-12-11T18:16:02.133223+02:00", 
+      "invalidationDate": "2018-11-21T18:15:52.264762+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2018-10-05T14:24:35.891285+03:00", 
+    "next_check": "2018-12-21T18:16:02.133223+02:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "Державне управління справами", 
@@ -54,7 +54,7 @@ Content-Type: application/json; charset=UTF-8
       "name_en": "State administration"
     }, 
     "owner": "broker", 
-    "id": "0eba7509160946dd8439ca46baa56801", 
+    "id": "98627a1dc8d44177b7024f4ee0630a21", 
     "title": "футляри до державних нагород", 
     "lots": [
       {
@@ -67,37 +67,37 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2018-11-10T00:00:00+03:00"
+          "shouldStartAfter": "2019-01-26T00:00:00+02:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2018-09-05T14:24:23.825365+03:00", 
-        "id": "f70782e4693042cca51ec2dda36d5f15"
+        "date": "2018-11-21T18:15:50.021042+02:00", 
+        "id": "90c2d26254824897b0edf34d662fb010"
       }
     ], 
     "maxAwardsCount": 4, 
-    "tenderID": "UA-2018-09-05-000001", 
-    "dateModified": "2018-09-05T14:24:25.942150+03:00", 
+    "tenderID": "UA-2018-11-21-000001", 
+    "dateModified": "2018-11-21T18:15:52.275348+02:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2018-09-05T14:24:23.804787+03:00", 
-      "endDate": "2018-10-05T14:24:35.891285+03:00"
+      "startDate": "2018-11-21T18:15:49.968285+02:00", 
+      "endDate": "2018-12-21T18:16:02.133223+02:00"
     }, 
     "title_en": "Cases for state awards", 
     "procurementMethodType": "closeFrameworkAgreementUA", 
     "agreementDuration": "P3Y3M3D", 
-    "date": "2018-09-05T14:24:23.825365+03:00", 
+    "date": "2018-11-21T18:15:50.021042+02:00", 
     "minimalStep": {
       "currency": "UAH", 
-      "amount": 35.0, 
+      "amount": 35, 
       "valueAddedTaxIncluded": true
     }, 
     "items": [
       {
-        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+        "relatedLot": "90c2d26254824897b0edf34d662fb010", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -123,7 +123,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "7fdab13da22d4f75955aea7589cde503", 
+        "id": "32182488a7e342f7b08d1f0c4f22adb0", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

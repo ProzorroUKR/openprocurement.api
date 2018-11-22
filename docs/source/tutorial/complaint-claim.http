@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/33bfb24a96b542eca464babbf671f2c1/complaints/72d454c82fcd432b8985f3513dc51ee4?acc_token=edae56e1882c42fbb12c651a83133b91 HTTP/1.0
+PATCH /api/2.4/tenders/8d72431fc33f42b29af95b2cda5607fa/complaints/0ec84a1da1e748748c6a3902f856f148?acc_token=ceb82074e781448f9f768cb5319d1af9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 29
 Content-Type: application/json
@@ -21,21 +21,21 @@ Content-Type: application/json; charset=UTF-8
         "author": "complaint_owner", 
         "language": "uk", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/a5e6a544dab84f3790a5aa504f2bb0f4?KeyID=33f22a89&Signature=PWt28aoiBEiaaeVYFsFjAvm1JysYLZGGc4qIU2OBDI0Jp604q0NdCerrkWYkmACq08jqhrEAbM12mtdf0P%2FJAA%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/b682e78783f744a48ccf10998e7821b6?KeyID=1f4f1c98&Signature=v1i1Kt5Gr8CzczotKWqYhm65tH4HExQ4fMo0FV4I2wZmwtPANA3xoCqTZh9JoCm7D2EwkFf5mIRTscD87eFwCQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-09-05T14:24:21.483449+03:00", 
-        "id": "38aedaff4193454aa1579577adcfbee9", 
-        "dateModified": "2018-09-05T14:24:21.483466+03:00"
+        "datePublished": "2018-11-21T18:15:41.031604+02:00", 
+        "id": "7306c1dbc4634bf7ac3e71015f2329b0", 
+        "dateModified": "2018-11-21T18:15:41.031642+02:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2018-09-05T14:24:21.534309+03:00", 
-    "complaintID": "UA-2018-09-05-000001.1", 
-    "date": "2018-09-05T14:24:21.538015+03:00", 
+    "dateSubmitted": "2018-11-21T18:15:41.152792+02:00", 
+    "complaintID": "UA-2018-11-21-000001.1", 
+    "date": "2018-11-21T18:15:41.161875+02:00", 
     "type": "claim", 
-    "id": "72d454c82fcd432b8985f3513dc51ee4"
+    "id": "0ec84a1da1e748748c6a3902f856f148"
   }
 }
 

@@ -1,24 +1,24 @@
-POST /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/b9aaff8198b34ce3ba7a7aeeddccede9/financial_documents?acc_token=59fe8af9664d40c0878a0e99d0084e4a HTTP/1.0
+POST /api/2.4/tenders/98627a1dc8d44177b7024f4ee0630a21/bids/9f4f492eb1044677b9fa0194d7420ec4/financial_documents?acc_token=1cfe43c11620440d8a57f0f8dda79bc8 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 204
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy875939892624$
+Content-Length: 245
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy896215621459$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/b9aaff8198b34ce3ba7a7aeeddccede9/financial_documents/1cba03b5d2ce4ab89307565a2e50d80f
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/98627a1dc8d44177b7024f4ee0630a21/bids/9f4f492eb1044677b9fa0194d7420ec4/financial_documents/e59625744f1e4171a502d7f7dac91bf5
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "confidentiality": "public", 
     "language": "uk", 
     "title": "prices.xlsx", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/59b95ccd090f4e30ab31e90381cad0a5?KeyID=2a9e5e2d&Signature=F7hm1DfD%252B102CSCnckAY8OIfOQo%252BY33LCL1Ki6oJSfI5qNGLqEjGbasv6l%2FsJYH%252B%2Fn5R9GlD7Jhi9cTsuXwdDg%253D%253D", 
-    "format": "application/octet-stream", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/bea5c045f3994fdba85614290fa87598?KeyID=25173212&Signature=U4TLwGj2ZIuOUO4O%252BNt8unK8hz%2Ff9FSNsE6UHiIRFlJom9m1T5Gc%252BKTKobSidxOad1eYpSfv1AxD%252Bax%2FhJuFBg%253D%253D", 
+    "format": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
     "documentOf": "tender", 
-    "datePublished": "2018-09-05T14:24:31.437171+03:00", 
-    "id": "1cba03b5d2ce4ab89307565a2e50d80f", 
-    "dateModified": "2018-09-05T14:24:31.437197+03:00"
+    "datePublished": "2018-11-21T18:16:08.028723+02:00", 
+    "id": "e59625744f1e4171a502d7f7dac91bf5", 
+    "dateModified": "2018-11-21T18:16:08.028762+02:00"
   }
 }
 

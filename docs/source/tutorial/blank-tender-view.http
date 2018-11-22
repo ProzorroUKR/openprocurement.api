@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/0eba7509160946dd8439ca46baa56801 HTTP/1.0
+GET /api/2.4/tenders/98627a1dc8d44177b7024f4ee0630a21 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,16 +8,16 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "complaintPeriod": {
-      "startDate": "2018-09-05T14:24:23.804787+03:00", 
-      "endDate": "2018-10-02T00:00:00+03:00"
+      "startDate": "2018-11-21T18:15:49.968285+02:00", 
+      "endDate": "2018-12-18T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2018-09-05T14:24:23.804787+03:00", 
-      "clarificationsUntil": "2018-10-01T14:24:13.727705+03:00", 
-      "endDate": "2018-09-26T14:24:13.727705+03:00"
+      "startDate": "2018-11-21T18:15:49.968285+02:00", 
+      "clarificationsUntil": "2018-12-17T18:15:23.587475+02:00", 
+      "endDate": "2018-12-12T18:15:23.587475+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2018-10-06T14:24:13.727705+03:00", 
+    "next_check": "2018-12-22T18:15:23.587475+02:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "Державне управління справами", 
@@ -43,7 +43,7 @@ Content-Type: application/json; charset=UTF-8
       "name_en": "State administration"
     }, 
     "owner": "broker", 
-    "id": "0eba7509160946dd8439ca46baa56801", 
+    "id": "98627a1dc8d44177b7024f4ee0630a21", 
     "title": "футляри до державних нагород", 
     "lots": [
       {
@@ -56,37 +56,37 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2018-11-11T00:00:00+03:00"
+          "shouldStartAfter": "2019-01-27T00:00:00+02:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2018-09-05T14:24:23.825365+03:00", 
-        "id": "f70782e4693042cca51ec2dda36d5f15"
+        "date": "2018-11-21T18:15:50.021042+02:00", 
+        "id": "90c2d26254824897b0edf34d662fb010"
       }
     ], 
     "maxAwardsCount": 4, 
-    "tenderID": "UA-2018-09-05-000001", 
-    "dateModified": "2018-09-05T14:24:23.832092+03:00", 
+    "tenderID": "UA-2018-11-21-000001", 
+    "dateModified": "2018-11-21T18:15:50.029953+02:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2018-09-05T14:24:23.804787+03:00", 
-      "endDate": "2018-10-06T14:24:13.727705+03:00"
+      "startDate": "2018-11-21T18:15:49.968285+02:00", 
+      "endDate": "2018-12-22T18:15:23.587475+02:00"
     }, 
     "title_en": "Cases for state awards", 
     "procurementMethodType": "closeFrameworkAgreementUA", 
     "agreementDuration": "P3Y3M3D", 
-    "date": "2018-09-05T14:24:23.825365+03:00", 
+    "date": "2018-11-21T18:15:50.021042+02:00", 
     "minimalStep": {
       "currency": "UAH", 
-      "amount": 35.0, 
+      "amount": 35, 
       "valueAddedTaxIncluded": true
     }, 
     "items": [
       {
-        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+        "relatedLot": "90c2d26254824897b0edf34d662fb010", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -112,7 +112,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "7fdab13da22d4f75955aea7589cde503", 
+        "id": "32182488a7e342f7b08d1f0c4f22adb0", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

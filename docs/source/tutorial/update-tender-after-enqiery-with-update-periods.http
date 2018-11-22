@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/0eba7509160946dd8439ca46baa56801?acc_token=61955a7cfb50471faf87533f4371d20c HTTP/1.0
+PATCH /api/2.4/tenders/98627a1dc8d44177b7024f4ee0630a21?acc_token=e6c08842d01c46f2bf536f628ded9d97 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 120
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2018-09-13T14:24:26.466961+03:00"
+      "endDate": "2018-11-29T18:15:53.539690+02:00"
     }, 
     "value": {
       "currency": "UAH", 
@@ -22,17 +22,17 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "open", 
     "complaintPeriod": {
-      "startDate": "2018-08-08T14:24:26.351787+03:00", 
-      "endDate": "2018-09-09T00:00:00+03:00"
+      "startDate": "2018-10-24T18:15:53.281900+02:00", 
+      "endDate": "2018-11-25T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2018-08-08T14:24:26.351787+03:00", 
-      "clarificationsUntil": "2018-09-06T14:24:26.466961+03:00", 
-      "endDate": "2018-09-03T14:24:26.466961+03:00", 
-      "invalidationDate": "2018-09-05T14:24:26.538215+03:00"
+      "startDate": "2018-10-24T18:15:53.281900+02:00", 
+      "clarificationsUntil": "2018-11-22T18:15:53.539690+02:00", 
+      "endDate": "2018-11-19T18:15:53.539690+02:00", 
+      "invalidationDate": "2018-11-21T18:15:53.701188+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2018-09-13T14:24:26.466961+03:00", 
+    "next_check": "2018-11-29T18:15:53.539690+02:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "Державне управління справами", 
@@ -60,19 +60,19 @@ Content-Type: application/json; charset=UTF-8
     "questions": [
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
-        "dateAnswered": "2018-09-05T14:24:26.279982+03:00", 
+        "dateAnswered": "2018-11-21T18:15:53.142779+02:00", 
         "title": "Калорійність", 
-        "date": "2018-09-05T14:24:26.226173+03:00", 
+        "date": "2018-11-21T18:15:53.018402+02:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "5544e04b52a54ca5b7e8e9915aec22fb", 
+        "id": "59cf1fed70f046929019bfe478a901a8", 
         "questionOf": "tender"
       }
     ], 
     "owner": "broker", 
-    "id": "0eba7509160946dd8439ca46baa56801", 
+    "id": "98627a1dc8d44177b7024f4ee0630a21", 
     "guarantee": {
       "currency": "USD", 
-      "amount": 8.0
+      "amount": 8
     }, 
     "documents": [
       {
@@ -80,36 +80,36 @@ Content-Type: application/json; charset=UTF-8
         "author": "tender_owner", 
         "language": "uk", 
         "title": "Notice.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/bba6ffec640f4adc925d47df2fcc2481?KeyID=2a9e5e2d&Signature=12iiBjzLWbKG3ILhXoSMSGwBChuFqFrWyHZHcajZyr6kojR3%2FzAre3nTL8apMM1Y%252BCrkFX6CJjRNpi%2F7l0ejAA%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/bbe948ada7b344f1899180f0d04901cc?KeyID=25173212&Signature=NCvwdUsgxPYdCM41c8CT66UtwpaDAkb%252BTM4hnnD4rDAGdEWHwNbRoqiA2kJiWWtof2b70VIXCtzZgUvM6igZDw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-09-05T14:24:26.053377+03:00", 
-        "id": "61097614fc1541e596653620765492c4", 
-        "dateModified": "2018-09-05T14:24:26.053394+03:00"
+        "datePublished": "2018-11-21T18:15:52.557053+02:00", 
+        "id": "775d7de55b3a48bd86489f2f84db142d", 
+        "dateModified": "2018-11-21T18:15:52.557092+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/a9beb0bb77754d03ad97eaf4ea10a47b?KeyID=2a9e5e2d&Signature=gItq6zMxtbRun%252B78Y%252BP65GBVsyYdRxs4BOfE8OvCC2iYA6YOr9KikGQFvNShxgUWNAOMOU2WdMLpwFNMRudoBg%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/eb10bdd8a34942e58631a71d3b8b8179?KeyID=25173212&Signature=IyvBieVh%252BH0UKxqdTHXYHiU8fcqcYQiZgqygAnlVn5q1z%2FqDotFB9CNueucdytrFmiKvfP8x2S0D0c%252Bfto3QCA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-09-05T14:24:26.108395+03:00", 
-        "id": "854268844fb3475ca7d8389b2bf26aaa", 
-        "dateModified": "2018-09-05T14:24:26.108423+03:00"
+        "datePublished": "2018-11-21T18:15:52.715216+02:00", 
+        "id": "adc72cda589b4b7bb6219b0a10e95ec6", 
+        "dateModified": "2018-11-21T18:15:52.715244+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/378d53fb4ec54017b3293dfaa6317a3e?KeyID=2a9e5e2d&Signature=yt4Jt5ImYTZ9ugt%2FTGwBFT6GNGor37jnS7Laj9u2QpVdr0LZJk8a5mlKLCsuX%252BepPQFWv8euBBDycVC84hZhBw%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/66df32b2b42c4f23ac8e2b3c90a318ac?KeyID=25173212&Signature=7n1e3maapUYJBRamtCIn6ydOppEmK8bsxc78pWr%2FMc5AyOuVReEIdAoW54cgxbeoghhvuNZsaOadnwgh3gPjDQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-09-05T14:24:26.108395+03:00", 
-        "id": "854268844fb3475ca7d8389b2bf26aaa", 
-        "dateModified": "2018-09-05T14:24:26.168892+03:00"
+        "datePublished": "2018-11-21T18:15:52.715216+02:00", 
+        "id": "adc72cda589b4b7bb6219b0a10e95ec6", 
+        "dateModified": "2018-11-21T18:15:52.858489+02:00"
       }
     ], 
     "title": "футляри до державних нагород", 
@@ -124,15 +124,15 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2018-10-19T00:00:00+03:00"
+          "shouldStartAfter": "2019-01-04T00:00:00+02:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2018-09-05T14:24:23.825365+03:00", 
-        "id": "f70782e4693042cca51ec2dda36d5f15", 
+        "date": "2018-11-21T18:15:50.021042+02:00", 
+        "id": "90c2d26254824897b0edf34d662fb010", 
         "guarantee": {
           "currency": "USD", 
           "amount": 8.0
@@ -140,25 +140,25 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "maxAwardsCount": 4, 
-    "tenderID": "UA-2018-09-05-000001", 
-    "dateModified": "2018-09-05T14:24:26.542441+03:00", 
+    "tenderID": "UA-2018-11-21-000001", 
+    "dateModified": "2018-11-21T18:15:53.711709+02:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2018-08-08T14:24:26.351787+03:00", 
-      "endDate": "2018-09-13T14:24:26.466961+03:00"
+      "startDate": "2018-10-24T18:15:53.281900+02:00", 
+      "endDate": "2018-11-29T18:15:53.539690+02:00"
     }, 
     "title_en": "Cases for state awards", 
     "procurementMethodType": "closeFrameworkAgreementUA", 
     "agreementDuration": "P3Y3M3D", 
-    "date": "2018-09-05T14:24:23.825365+03:00", 
+    "date": "2018-11-21T18:15:50.021042+02:00", 
     "minimalStep": {
       "currency": "UAH", 
-      "amount": 35.0, 
+      "amount": 35, 
       "valueAddedTaxIncluded": true
     }, 
     "items": [
       {
-        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+        "relatedLot": "90c2d26254824897b0edf34d662fb010", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -184,7 +184,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "7fdab13da22d4f75955aea7589cde503", 
+        "id": "32182488a7e342f7b08d1f0c4f22adb0", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

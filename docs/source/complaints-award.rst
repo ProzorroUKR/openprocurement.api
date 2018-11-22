@@ -8,12 +8,12 @@ Tender Award Claim/Complaint Retrieval
 
 You can list all Tender Award Claims/Complaints:
 
-.. include:: complaints/award-complaints-list.http
+.. include:: tutorial/award-complaints-list.http
    :code:
 
 And check individual complaint or claim:
 
-.. include:: complaints/award-complaint.http
+.. include:: tutorial/award-complaint.http
    :code:
 
 Claim Submission
@@ -26,17 +26,17 @@ Tender Award Claim Submission (with documents)
 
 At first create a claim. Send POST request with bidder's access token.
 
-.. include:: complaints/award-complaint-submission.http
+.. include:: tutorial/award-complaint-submission.http
    :code:
 
 Then upload necessary documents:
 
-.. include:: complaints/award-complaint-submission-upload.http
+.. include:: tutorial/award-complaint-submission-upload.http
    :code:
 
 Submit tender award claim:
 
-.. include:: complaints/award-complaint-claim.http
+.. include:: tutorial/award-complaint-claim.http
    :code:
 
 Tender Award Claim Submission (without documents)
@@ -44,7 +44,7 @@ Tender Award Claim Submission (without documents)
 
 You can submit claim that does not need additional documents:
 
-.. include:: complaints/award-complaint-submission-claim.http
+.. include:: tutorial/award-complaint-submission-claim.http
    :code:
 
 Claim's Answer
@@ -53,7 +53,7 @@ Claim's Answer
 Answer to resolved claim
 ------------------------
 
-.. include:: complaints/award-complaint-answer.http
+.. include:: tutorial/award-complaint-answer.http
    :code:
 
 
@@ -63,12 +63,12 @@ Satisfied Claim
 Satisfying resolution
 ---------------------
 
-.. include:: complaints/award-complaint-satisfy.http
+.. include:: tutorial/award-complaint-satisfy.http
    :code:
 
 
 Disagreement with decision
 --------------------------
 
-.. include:: complaints/award-complaint-escalate.http
+.. include:: tutorial/award-complaint-escalate.http
    :code:
