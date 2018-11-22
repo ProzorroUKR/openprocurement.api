@@ -391,6 +391,8 @@ class APIResource(object):
 
 class APIResourceListing(APIResource):
 
+    LIST_SEP = ","
+
     def __init__(self, request, context):
         super(APIResourceListing, self).__init__(request, context)
         self.server = request.registry.couchdb_server
@@ -402,10 +404,8 @@ class APIResourceListing(APIResource):
         pparams = {}
         fields = self.request.params.get('opt_fields', '')
         if fields:
-            params['opt_fields'] = fields
-            pparams['opt_fields'] = fields
-            fields = fields.split(',')
-            view_fields = fields + ['dateModified', 'id']
+            fields = set(fields.split(self.LIST_SEP)) & set(self.FIELDS)
+
         limit = self.request.params.get('limit', '')
         if limit:
             params['limit'] = limit
@@ -450,23 +450,18 @@ class APIResourceListing(APIResource):
         else:
             view = partial(list_view, self.db, limit=view_limit, startkey=view_offset, descending=descending)
         if fields:
-            if not changes and set(fields).issubset(set(self.FIELDS)):
-                results = [
-                    (dict([(i, j) for i, j in x.value.items() + [('id', x.id), ('dateModified', x.key)] if i in view_fields]), x.key)
-                    for x in view()
-                ]
-            elif changes and set(fields).issubset(set(self.FIELDS)):
+            params['opt_fields'] = pparams['opt_fields'] = self.LIST_SEP.join(fields)
+            view_fields = fields | {'dateModified', 'id'}
+            if changes:
                 results = [
                     (dict([(i, j) for i, j in x.value.items() + [('id', x.id)] if i in view_fields]), x.key)
                     for x in view()
                 ]
-            elif fields:
-                self.LOGGER.info('Used custom fields for {} list: {}'.format(self.object_name_for_listing, ','.join(sorted(fields))),
-                            extra=context_unpack(self.request, {'MESSAGE_ID': self.log_message_id}))
-
+            else:
                 results = [
-                    (self.serialize_func(self.request, i[u'doc'], view_fields), i.key)
-                    for i in view(include_docs=True)
+                    (dict([(i, j) for i, j in x.value.items() + [('id', x.id), ('dateModified', x.key)] if
+                           i in view_fields]), x.key)
+                    for x in view()
                 ]
         else:
             results = [
