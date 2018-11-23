@@ -1,14 +1,14 @@
-GET /api/2.4/tenders/909a83c7074941309af7770523938496/qualifications/ad7c7763251a494aa83b860f7103c3a3/complaints/80a85b809ba44e1c9dbdcd14d09acf7c HTTP/1.0
+GET /api/2.4/tenders/b7b9fad8b73f44e5aeb37c2894b82587/qualifications/3cec8e3a65a249d8af49de742a0c9df3/complaints/77d735a861f64fc6bf1f113f87688d9e HTTP/1.0
 Host: api-sandbox.openprocurement.org
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "relatedLot": "90c2d26254824897b0edf34d662fb010", 
+    "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
     "status": "resolved", 
-    "dateDecision": "2018-11-21T18:16:25.597991+02:00", 
-    "tendererActionDate": "2018-11-21T18:16:26.713281+02:00", 
+    "dateDecision": "2018-11-23T19:07:24.471745+02:00", 
+    "tendererActionDate": "2018-11-23T19:07:25.738273+02:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -32,11 +32,11 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
-    "id": "80a85b809ba44e1c9dbdcd14d09acf7c", 
+    "id": "77d735a861f64fc6bf1f113f87688d9e", 
     "tendererAction": "Умови виправлено", 
-    "dateSubmitted": "2018-11-21T18:16:19.059830+02:00", 
-    "complaintID": "UA-2018-11-21-000001.1", 
-    "date": "2018-11-21T18:16:26.735496+02:00", 
+    "dateSubmitted": "2018-11-23T19:07:17.761797+02:00", 
+    "complaintID": "UA-2018-11-23-000001.1", 
+    "date": "2018-11-23T19:07:25.763434+02:00", 
     "acceptance": true, 
     "type": "complaint", 
     "documents": [
@@ -45,27 +45,27 @@ Content-Type: application/json; charset=UTF-8
         "author": "complaint_owner", 
         "language": "uk", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/e829eafd47c74d0a8cdcff43596a711a?KeyID=4b1d447a&Signature=7OffZmqllsWyfC%252BHgXqX0yJzguwvKISpy%252BkgslQ6z1mPsJKP%2FEXe58hj8beoQG5qL%252B43bzINeXF3vINYzHcoCg%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/471cb92404a1441bad8a708a63579eb8?KeyID=2f3e550b&Signature=0XFz588fuiOAtywBcUq0ZLs7JpCP11gihcuRvFuooQbKuqk2GiinUY9d31kjHPudA6vSQxUID4tkc3FMEuzGCw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-11-21T18:16:18.848116+02:00", 
-        "id": "e8f270d18a0b48b880c596ebb2038638", 
-        "dateModified": "2018-11-21T18:16:18.848156+02:00"
+        "datePublished": "2018-11-23T19:07:17.540134+02:00", 
+        "id": "350f6c066d29499f903563f747fa9f6e", 
+        "dateModified": "2018-11-23T19:07:17.540171+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "aboveThresholdReviewers", 
         "language": "uk", 
         "title": "ComplaintResolution.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/28673424c76a4927a35954c858072e1f?KeyID=4b1d447a&Signature=sM%2FALnAfGjxePXGtWUBJZ8VMFG2iTbbWLE00961vFdxUKau0JuegnAiZn0iykoSUTbg05nRUoYdHRKTuMI0DAA%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/7df303423e8a46a5902d39bbe8c94eb0?KeyID=2f3e550b&Signature=nNHgXLcAMQ6QscoAtl1u3vjdtS7V5jW4smr2texuqV87Qv1KmCmHJiDAm%252BiQrerquxRi%2Fdby7lgy1ZeDAQROAg%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-11-21T18:16:25.225090+02:00", 
-        "id": "eaefb693ac534b95b9abbecb0f0d7707", 
-        "dateModified": "2018-11-21T18:16:25.225125+02:00"
+        "datePublished": "2018-11-23T19:07:24.077292+02:00", 
+        "id": "cac3751bd4df415bbb265882f3b2b601", 
+        "dateModified": "2018-11-23T19:07:24.077335+02:00"
       }
     ], 
-    "dateAccepted": "2018-11-21T18:16:23.830583+02:00"
+    "dateAccepted": "2018-11-23T19:07:22.543821+02:00"
   }
 }
 

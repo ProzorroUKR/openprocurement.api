@@ -1,6 +1,6 @@
-PATCH /api/2.4/tenders/98627a1dc8d44177b7024f4ee0630a21/agreements/56bfe77015e64ec4b4bcbea6e93b41a4/contracts/8885215166d04bef8c3d94b2490917eb?acc_token=e6c08842d01c46f2bf536f628ded9d97 HTTP/1.0
+PATCH /api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/agreements/6ae76990cfe442f299476557f4a31e8a/contracts/e1f4e7c17e574ecdb71d8c720496e94c?acc_token=d7c3b74a85b64c7e9a382bfbea960829 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 103
+Content-Length: 184
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -9,9 +9,15 @@ DATA:
     "unitPrices": [
       {
         "value": {
-          "amount": 1
+          "amount": 0.5
         }, 
-        "relatedItem": "32182488a7e342f7b08d1f0c4f22adb0"
+        "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+      }, 
+      {
+        "value": {
+          "amount": 0.5
+        }, 
+        "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
       }
     ]
   }
@@ -26,10 +32,18 @@ Content-Type: application/json; charset=UTF-8
       {
         "value": {
           "currency": "UAH", 
-          "amount": 1, 
+          "amount": 0.5, 
           "valueAddedTaxIncluded": true
         }, 
-        "relatedItem": "32182488a7e342f7b08d1f0c4f22adb0"
+        "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+      }, 
+      {
+        "value": {
+          "currency": "UAH", 
+          "amount": 0.5, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
       }
     ], 
     "suppliers": [
@@ -54,10 +68,10 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "bidID": "d6bdc14e269d4fe990379db6aeb78e2b", 
-    "date": "2018-11-21T18:16:07.732809+02:00", 
-    "awardID": "dbd192d430b847838505b756cc52d99d", 
-    "id": "8885215166d04bef8c3d94b2490917eb"
+    "bidID": "3b7eecbc90854bdfbf2054ceae212850", 
+    "date": "2018-11-23T19:07:03.606017+02:00", 
+    "awardID": "5086f66a4e1c40f7bc3e507adaf775a4", 
+    "id": "e1f4e7c17e574ecdb71d8c720496e94c"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/98627a1dc8d44177b7024f4ee0630a21/awards?acc_token=e6c08842d01c46f2bf536f628ded9d97 HTTP/1.0
+GET /api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/awards?acc_token=d7c3b74a85b64c7e9a382bfbea960829 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,7 +8,7 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "status": "pending", 
-      "lotID": "90c2d26254824897b0edf34d662fb010", 
+      "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
       "suppliers": [
         {
           "contactPoint": {
@@ -31,18 +31,18 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bid_id": "d6bdc14e269d4fe990379db6aeb78e2b", 
+      "bid_id": "3b7eecbc90854bdfbf2054ceae212850", 
       "value": {
         "currency": "UAH", 
         "amount": 5, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2018-11-21T18:16:05.131721+02:00", 
-      "id": "dbd192d430b847838505b756cc52d99d"
+      "date": "2018-11-23T19:06:58.994162+02:00", 
+      "id": "83664786f3d94392a768396fe1b8c2db"
     }, 
     {
       "status": "pending", 
-      "lotID": "90c2d26254824897b0edf34d662fb010", 
+      "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
       "suppliers": [
         {
           "contactPoint": {
@@ -65,18 +65,18 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bid_id": "36ea436adf6a407b8d81c878418fd3f3", 
+      "bid_id": "33673044ed64400bb71a63b2b1a54257", 
       "value": {
         "currency": "UAH", 
         "amount": 499, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2018-11-21T18:16:05.132586+02:00", 
-      "id": "6c58f955d23d461f827ba5024c1fb272"
+      "date": "2018-11-23T19:06:58.995046+02:00", 
+      "id": "ecce27abf6d843939d1234272f893f09"
     }, 
     {
       "status": "pending", 
-      "lotID": "90c2d26254824897b0edf34d662fb010", 
+      "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
       "suppliers": [
         {
           "contactPoint": {
@@ -99,14 +99,14 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bid_id": "9f4f492eb1044677b9fa0194d7420ec4", 
+      "bid_id": "6e633f58dafe486c92c10845ebd34dfb", 
       "value": {
         "currency": "UAH", 
         "amount": 500.0, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2018-11-21T18:16:05.133359+02:00", 
-      "id": "674372632926448c9237f9e279ce1c99"
+      "date": "2018-11-23T19:06:58.995809+02:00", 
+      "id": "df574da382db4cbaadda4519e6ef7e6d"
     }
   ]
 }

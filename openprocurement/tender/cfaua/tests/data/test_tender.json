@@ -26,7 +26,8 @@
     "title": "футляри до державних нагород",
     "minimalStep": {
         "currency": "UAH",
-        "amount": 35
+        "amount": 35,
+        "valueAddedTaxIncluded": true
     },
     "items": [
         {
@@ -65,7 +66,8 @@
     "title_en": "Cases for state awards",
     "value": {
         "currency": "UAH",
-        "amount": 500
+        "amount": 500,
+        "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
         "endDate": "2018-09-01T10:10:10"

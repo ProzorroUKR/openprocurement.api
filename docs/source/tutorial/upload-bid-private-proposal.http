@@ -1,24 +1,24 @@
-POST /api/2.4/tenders/98627a1dc8d44177b7024f4ee0630a21/bids/9f4f492eb1044677b9fa0194d7420ec4/documents?acc_token=1cfe43c11620440d8a57f0f8dda79bc8 HTTP/1.0
+POST /api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/bids/6e633f58dafe486c92c10845ebd34dfb/documents?acc_token=56049d5815174190b9f69c9aafa3423e HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 202
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy0559576478173$
+Content-Length: 200
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy565819624231$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/98627a1dc8d44177b7024f4ee0630a21/bids/9f4f492eb1044677b9fa0194d7420ec4/documents/0faf480e955841d78293f63c6d56e0ac
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/bids/6e633f58dafe486c92c10845ebd34dfb/documents/278e1f79ab6f4ecfb4297aaf795e556e
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "confidentiality": "public", 
     "language": "uk", 
     "title": "Proposal_top_secrets.pdf", 
-    "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/98627a1dc8d44177b7024f4ee0630a21/bids/9f4f492eb1044677b9fa0194d7420ec4/documents/0faf480e955841d78293f63c6d56e0ac?download=c0d87c462ed8472380179250f085ba83", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/bids/6e633f58dafe486c92c10845ebd34dfb/documents/278e1f79ab6f4ecfb4297aaf795e556e?download=7a494939177a49cb869e357bc558fb60", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2018-11-21T18:15:54.996647+02:00", 
-    "id": "0faf480e955841d78293f63c6d56e0ac", 
-    "dateModified": "2018-11-21T18:15:54.996694+02:00"
+    "datePublished": "2018-11-23T19:06:49.751317+02:00", 
+    "id": "278e1f79ab6f4ecfb4297aaf795e556e", 
+    "dateModified": "2018-11-23T19:06:49.751345+02:00"
   }
 }
 

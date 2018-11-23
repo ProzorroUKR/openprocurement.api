@@ -7,6 +7,8 @@
    :depth: 2
    :local:
 
+.. _complaint_workflow:
+
 Complaint Workflow
 ==================
 
@@ -15,40 +17,109 @@ For more detailed information read `Complaints <http://openprocurement.org/en/co
 Tender Conditions Claims/Complaints
 -----------------------------------
 
+.. graphviz::
+
+    digraph G {
+        rankdir=LR;
+        {rank=same; mistaken; invalid; resolved; declined; stopped; cancelled;}
+        subgraph cluster_claim {
+            label = "claim";
+            claim; answered;
+        }
+        subgraph cluster_complaint {
+            label = "complaint";
+            pending; satisfied; accepted; stopping;
+        }
+        claim -> answered;
+        satisfied -> resolved;
+        edge[style=dashed];
+        answered -> {pending,resolved};
+        draft -> {claim,pending};
+        claim -> pending;
+        {draft,claim,answered} -> cancelled;
+        pending -> stopping;
+        accepted -> stopping;
+        edge[style=bold];
+        accepted -> {declined,satisfied,stopped};
+        pending -> {accepted,invalid,stopped};
+        stopping -> {stopped,invalid,declined,satisfied};
+        {pending;stopping} -> mistaken;
+        edge[label="auction" style=dotted];
+        answered -> {declined,resolved,invalid};
+    }
+
 .. toctree::
     :maxdepth: 1
 
     complaints-tender
 
+Tender Qualification Claims/Complaints
+--------------------------------------
+
+.. graphviz::
+
+    digraph G {
+        rankdir=LR;
+        {rank=same; mistaken; invalid; resolved; declined; stopped; cancelled;}
+        subgraph cluster_complaint {
+            label = "complaint";
+            pending; accepted; stopping; satisfied;
+        }
+        subgraph cluster_claim {
+            label = "claim";
+            claim; answered;
+        }
+        claim -> answered;
+        satisfied -> resolved;
+        edge[style=dashed];
+        draft -> {claim,pending};
+        {draft,claim,answered} -> cancelled;
+        {pending,accepted} -> stopping;
+        edge[style=bold];
+        pending -> {accepted,invalid,stopped};
+        stopping -> {stopped,invalid,declined,satisfied};
+        accepted -> {declined,satisfied,stopped};
+        {pending;stopping} -> mistaken;
+    }
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-qualification
+
 Tender Award Claims/Complaints
 ------------------------------
+
+.. graphviz::
+
+    digraph G {
+        rankdir=LR;
+        {rank=same; mistaken; invalid; resolved; declined; stopped; cancelled;}
+        subgraph cluster_complaint {
+            label = "complaint";
+            pending; accepted; stopping; satisfied;
+        }
+        subgraph cluster_claim {
+            label = "claim";
+            claim; answered;
+        }
+        claim -> answered;
+        satisfied -> resolved;
+        edge[style=dashed];
+        draft -> {claim,pending};
+        {draft,claim,answered} -> cancelled;
+        {pending,accepted} -> stopping;
+        edge[style=bold];
+        pending -> {accepted,invalid,stopped};
+        stopping -> {stopped,invalid,declined,satisfied};
+        accepted -> {declined,satisfied,stopped};
+        {pending;stopping} -> mistaken;
+    }
 
 .. toctree::
     :maxdepth: 1
 
     complaints-award
-
-
-Workflow
---------
-
-.. graphviz::
-
-    digraph G {
-        claim -> answered;
-        edge[style=dashed];
-        draft -> claim; 
-        answered -> resolved;
-        {draft,claim,answered} -> cancelled; 
-        edge[label="3d" style=dotted];
-        answered -> {resolved, invalid, declined};
-        edge[label="complete" style=dotted];
-        claim -> ignored;
-        edge[label="auto" style=dotted];
-        pending -> ignored;
-        pending -> {resolved, invalid, declined};
-    }
-
 
 Roles
 -----
@@ -58,6 +129,9 @@ Roles
 
 :Procuring entity:
     plain
+
+:Reviewer:
+    bold
 
 :Chronograph:
     dotted
@@ -76,7 +150,7 @@ Statuses
     Complainant can cancel claim.
 
 :answered:
-    Complainant can cancel claim, upload documents, agree or disagree with decision.
+    Complainant can cancel claim, upload documents, accept solution or escalate claim to complaint.
 
 :pending:
     Reviewer can upload documents and review complaint.
@@ -86,24 +160,19 @@ Statuses
 :invalid:
     Terminal status
 
-    Claim recognized as invalid.
+    Complaint recognized as invalid.
 
 :declined:
     Terminal status
 
-    Claim recognized as declined.
+    Complaint recognized as declined.
 
 :resolved:
     Terminal status
 
-    Claim recognized as resolved.
+    Complaint recognized as resolved.
 
 :cancelled:
     Terminal status
 
-    Claim cancelled by complainant.
-
-:ignored:
-    Terminal status
-
-    Claim ignored by procuring entity.
+    Complaint cancelled by complainant.

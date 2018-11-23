@@ -20,6 +20,7 @@ Claim Submission
 ================
 
 If tender award is favoriting only one supplier, or in any other viable case, participants can submit Tender Award Claim.
+Complaint can be submitted only in ``active.qualification.stand-still``.
 
 Tender Award Claim Submission (with documents)
 ---------------------------------------------------
@@ -47,6 +48,37 @@ You can submit claim that does not need additional documents:
 .. include:: tutorial/award-complaint-submission-claim.http
    :code:
 
+Complaint Submission
+====================
+
+If tender award is favoriting certain supplier, or in any other viable case, participants can submit Tender Award Complaint.
+
+Tender Award Complaint Submission (with documents)
+----------------------------------------------------------
+
+At first create a complaint. Send POST request with bidder's access token.
+
+.. include:: tutorial/award-complaint-submission.http
+   :code:
+
+Then upload necessary documents:
+
+.. include:: tutorial/award-complaint-submission-upload.http
+   :code:
+
+Submit tender award complaint:
+
+.. include:: tutorial/award-complaint-complaint.http
+   :code:
+
+Tender Award Complaint Submission (without documents)
+-------------------------------------------------------------
+
+You can submit complaint that does not need additional documents:
+
+.. include:: tutorial/award-complaint-submission-complaint.http
+   :code:
+
 Claim's Answer
 ==============
 
@@ -71,4 +103,93 @@ Disagreement with decision
 --------------------------
 
 .. include:: tutorial/award-complaint-escalate.http
+   :code:
+
+
+Complaint Resolution
+====================
+
+Rejecting Tender Award Complaint
+-------------------------------------
+
+.. include:: tutorial/award-complaint-reject.http
+   :code:
+
+
+Accepting Tender Award Complaint
+-------------------------------------
+
+.. include:: tutorial/award-complaint-accept.http
+   :code:
+
+
+Submitting Tender Award Complaint Resolution
+-------------------------------------------------
+
+The Complaint Review Body uploads the resolution document:
+
+.. include:: tutorial/award-complaint-resolution-upload.http
+   :code:
+
+And either resolves complaint:
+
+.. include:: tutorial/award-complaint-resolve.http
+   :code:
+
+When `complaint` is in ``satisfied`` status, procedure moves to the begging of ``active.qualification``. After that Procuring entity should change decision about award and set status of `complaint` to ``resolved``, what will let the Procuring entity move the procedure to ``active.qualification.stand-still``.
+
+Or declines it:
+
+.. include:: tutorial/award-complaint-decline.http
+   :code:
+
+Correcting problems
+-------------------
+
+If tender award complaint was satisfied by the Complaint Review Body, then procuring entity has to correct problems.
+
+One of the possible solutions is award cancellation:
+
+
+.. include:: tutorial/award-complaint-satisfied-resolving.http
+   :code:
+
+After award cancellation system generates new award. Its location is present in the `Location` header of response.
+
+Submitting Resolution Confirmation
+----------------------------------
+When complaint has been successfully resolved, procuring entity submits resolution confirmation.
+
+.. include:: tutorial/award-complaint-resolved.http
+   :code:
+
+Submitting complaint to new award
+---------------------------------
+
+.. include:: tutorial/award-complaint-submit.http
+   :code:
+
+
+Cancelling Tender Award Complaint
+=================================
+
+Cancelling not accepted complaint
+---------------------------------
+
+.. include:: tutorial/award-complaint-cancel.http
+   :code:
+
+Cancelling accepted complaint by Complainant
+--------------------------------------------
+
+.. include:: tutorial/award-complaint-accepted-stopping.http
+   :code:
+
+.. include:: tutorial/award-complaint-stopping-stopped.http
+   :code:
+
+Cancelling accepted complaint by Reviewer
+-----------------------------------------
+
+.. include:: tutorial/award-complaint-accepted-stopped.http
    :code:

@@ -395,13 +395,44 @@ Qualification board receives the qualifications list
 .. include:: tutorial/qualifications-list.http
    :code:
 
-And registers its decisions via the following call per award:
+And registers its decisions via the following call `per award`:
 
 .. include:: tutorial/confirm-qualification.http
    :code:
 
-The board may also disqualify the award winner by calling 
-``{'data': {'status': 'unsuccessful'}}``
+The board may cancel the award winner by calling
+``{'data': {'status': 'cancelled'}}``
+
+.. include:: tutorial/patch-award-cancelled.http
+   :code:
+
+We can see new `pending` award is generated for the same bidder.
+
+.. include:: tutorial/qualifications-list2.http
+   :code:
+
+Now we can patch `pending` award to `unsuccessful`.
+
+.. include:: tutorial/patch-award-unsuccessful.http
+   :code:
+
+In case of transfer award from ``unsuccessful`` to ``cancelled``, tender moves  to the begining of ``active.qualification`` status, all of the awards become ``cancelled`` and new :ref:`award` objects are creating.
+
+So we patch `unsuccessful` award to `cancelled`.
+
+.. include:: tutorial/patch-award-unsuccessful-cancelled.http
+   :code:
+
+New `pending` award is generated for each bidder.
+
+.. include:: tutorial/qualifications-list3.http
+   :code:
+
+Finally we confirm all `pending` awards via the following call:
+
+.. include:: tutorial/confirm-qualification2.http
+   :code:
+
 
 .. ПРЕЦЕДЕНТ Т13. Додати документи з цінами
 
@@ -506,7 +537,7 @@ Agreement registration
 Cancelling tender
 -----------------
 
-Tender creator can cancel tender anytime (except when tender has terminal status e.g. `usuccesfull`, `canceled`, `complete`).
+Tender creator can cancel tender anytime (except when tender has terminal status e.g. `unsuccessful`, `canceled`, `complete`).
 
 The following steps should be applied:
 
@@ -552,4 +583,17 @@ Activating the request and cancelling tender
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: tutorial/active-cancellation.http
+   :code:
+
+Transfer agreement to `unsuccessful`
+-----------------------------------
+
+Procuring entity can patch `agreement` to  `unsuccessful`.
+
+.. include:: tutorial/agreement-unsuccessful.http
+   :code:
+
+This will transfer `tender` to `unsuccessful` status.
+
+.. include:: tutorial/tender-unsuccessful.http
    :code:

@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/98627a1dc8d44177b7024f4ee0630a21/agreements/56bfe77015e64ec4b4bcbea6e93b41a4?acc_token=e6c08842d01c46f2bf536f628ded9d97 HTTP/1.0
+PATCH /api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/agreements/6ae76990cfe442f299476557f4a31e8a?acc_token=d7c3b74a85b64c7e9a382bfbea960829 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 138
 Content-Type: application/json
@@ -8,8 +8,8 @@ DATA:
   "data": {
     "status": "active", 
     "period": {
-      "startDate": "2018-11-21T18:15:22.650507+02:00", 
-      "endDate": "2022-11-20T18:15:22.650507+02:00"
+      "startDate": "2018-11-23T19:06:16.390670+02:00", 
+      "endDate": "2022-11-22T19:06:16.390670+02:00"
     }
   }
 }
@@ -18,31 +18,31 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "agreementID": "UA-2018-11-21-000001-cad93403a48241d5899a337e57294ced1", 
+    "agreementID": "UA-2018-11-23-000001-66d780bd12b64ec881396edc06a4422b1", 
     "status": "active", 
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "agreement_first_document.doc", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/7c23c4225286404c89a69859588e4695?KeyID=25173212&Signature=IL5Iz%252BvEMC21tiXmOIfwAF7PDD%252BRQVsfpyk4Fz6tSjy8dWrdoYixNDmLckg6ErC2MIGOYiSTaV6HKWc7GQpkBA%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/1622bea8909948f3a2c7881e98550565?KeyID=6ad8cc9e&Signature=oFvSXtjYvBpaGWZvFF8t3QKE2BEJf06RojG%2FX0VJMvUK5pNhqKvp8fqgiTHGcgU7TVufm2cuvGK5LN6FrDIuAw%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2018-11-21T18:16:10.248282+02:00", 
-        "id": "aa78fb64b26f4a6da83b25e5ece7f314", 
-        "dateModified": "2018-11-21T18:16:10.248322+02:00"
+        "datePublished": "2018-11-23T19:07:06.619951+02:00", 
+        "id": "bee6649eb6e242d1a9417f69cc807df1", 
+        "dateModified": "2018-11-23T19:07:06.619989+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "language": "en", 
         "title": "agreement_second_document.doc", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/889824cc32a94e4ab1b84d2ef1712584?KeyID=25173212&Signature=h8IvmbcttElicBUni98ku3MUSi3yPWYzwxunyerTSCtQDB3Riue1FIbEAXaJwxkaDTMNEgnzYtW7q26VQmmzAA%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/22fe8ebe486347ab8f6b28b255a4d1f9?KeyID=6ad8cc9e&Signature=mT4IO6lr9Hz31MAvhaYD9QqoDk3wZ8AR%252Bi4WSKEOQHY1zBIL1uvQdRtvnYypqWjIoLro6C2POo08MD3pqpCdBw%253D%253D", 
         "format": "application/msword", 
         "title_en": "Title of Document", 
         "description_en": "Description of Document", 
-        "datePublished": "2018-11-21T18:16:10.858944+02:00", 
+        "datePublished": "2018-11-23T19:07:07.345015+02:00", 
         "documentOf": "tender", 
-        "id": "0cea2fea702f4c8781e6d0d19c202d04", 
-        "dateModified": "2018-11-21T18:16:10.858983+02:00"
+        "id": "dc76f9eda13549b795e5bfc1995749bf", 
+        "dateModified": "2018-11-23T19:07:07.345064+02:00"
       }
     ], 
     "contracts": [
@@ -52,10 +52,18 @@ Content-Type: application/json; charset=UTF-8
           {
             "value": {
               "currency": "UAH", 
-              "amount": 1, 
+              "amount": 0.5, 
               "valueAddedTaxIncluded": true
             }, 
-            "relatedItem": "32182488a7e342f7b08d1f0c4f22adb0"
+            "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+          }, 
+          {
+            "value": {
+              "currency": "UAH", 
+              "amount": 0.5, 
+              "valueAddedTaxIncluded": true
+            }, 
+            "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
           }
         ], 
         "suppliers": [
@@ -80,10 +88,10 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bidID": "d6bdc14e269d4fe990379db6aeb78e2b", 
-        "date": "2018-11-21T18:16:07.732809+02:00", 
-        "awardID": "dbd192d430b847838505b756cc52d99d", 
-        "id": "8885215166d04bef8c3d94b2490917eb"
+        "bidID": "3b7eecbc90854bdfbf2054ceae212850", 
+        "date": "2018-11-23T19:07:03.606017+02:00", 
+        "awardID": "5086f66a4e1c40f7bc3e507adaf775a4", 
+        "id": "e1f4e7c17e574ecdb71d8c720496e94c"
       }, 
       {
         "status": "active", 
@@ -91,10 +99,18 @@ Content-Type: application/json; charset=UTF-8
           {
             "value": {
               "currency": "UAH", 
-              "amount": 1, 
+              "amount": 0.5, 
               "valueAddedTaxIncluded": true
             }, 
-            "relatedItem": "32182488a7e342f7b08d1f0c4f22adb0"
+            "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+          }, 
+          {
+            "value": {
+              "currency": "UAH", 
+              "amount": 0.5, 
+              "valueAddedTaxIncluded": true
+            }, 
+            "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
           }
         ], 
         "suppliers": [
@@ -119,10 +135,10 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bidID": "36ea436adf6a407b8d81c878418fd3f3", 
-        "date": "2018-11-21T18:16:07.732882+02:00", 
-        "awardID": "6c58f955d23d461f827ba5024c1fb272", 
-        "id": "6d686c7ceb2d47888e9155d423445638"
+        "bidID": "33673044ed64400bb71a63b2b1a54257", 
+        "date": "2018-11-23T19:07:03.606168+02:00", 
+        "awardID": "f420863d934d4d4998965b4e670c3f61", 
+        "id": "64b106cdc15b46618c85ded859dbaec5"
       }, 
       {
         "status": "active", 
@@ -130,10 +146,18 @@ Content-Type: application/json; charset=UTF-8
           {
             "value": {
               "currency": "UAH", 
-              "amount": 1, 
+              "amount": 0.5, 
               "valueAddedTaxIncluded": true
             }, 
-            "relatedItem": "32182488a7e342f7b08d1f0c4f22adb0"
+            "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+          }, 
+          {
+            "value": {
+              "currency": "UAH", 
+              "amount": 0.5, 
+              "valueAddedTaxIncluded": true
+            }, 
+            "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
           }
         ], 
         "suppliers": [
@@ -158,15 +182,15 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bidID": "9f4f492eb1044677b9fa0194d7420ec4", 
-        "date": "2018-11-21T18:16:07.732940+02:00", 
-        "awardID": "674372632926448c9237f9e279ce1c99", 
-        "id": "a6e45028d06c47ff82da6d6e7ce1ac1b"
+        "bidID": "6e633f58dafe486c92c10845ebd34dfb", 
+        "date": "2018-11-23T19:07:03.606217+02:00", 
+        "awardID": "d5dcab42449e4af4b29702fc12fc8d35", 
+        "id": "425d651452ba4e068e6daf775dde1b76"
       }
     ], 
     "items": [
       {
-        "relatedLot": "90c2d26254824897b0edf34d662fb010", 
+        "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -192,21 +216,55 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "32182488a7e342f7b08d1f0c4f22adb0", 
+        "id": "4d457966652b4379b0ff2f510fdd45c4", 
         "unit": {
           "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }, 
+      {
+        "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "description_en": "Cases for state awards", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2018-06-27T13:39:09.362837+03:00", 
+          "endDate": "2018-06-30T13:39:09.362837+03:00"
+        }, 
+        "id": "bd82b9c9dd7d4673a18c6fc13111693b", 
+        "unit": {
+          "code": "44617100-8", 
           "name": "item"
         }, 
         "quantity": 5
       }
     ], 
     "period": {
-      "startDate": "2018-11-21T18:15:22.650507+02:00", 
-      "endDate": "2022-11-20T18:15:22.650507+02:00"
+      "startDate": "2018-11-23T19:06:16.390670+02:00", 
+      "endDate": "2022-11-22T19:06:16.390670+02:00"
     }, 
-    "dateSigned": "2018-11-21T18:16:11.924865+02:00", 
-    "date": "2018-11-21T18:16:12.768119+02:00", 
-    "id": "56bfe77015e64ec4b4bcbea6e93b41a4"
+    "dateSigned": "2018-11-23T19:07:08.628290+02:00", 
+    "date": "2018-11-23T19:07:09.663503+02:00", 
+    "id": "6ae76990cfe442f299476557f4a31e8a"
   }
 }
 
