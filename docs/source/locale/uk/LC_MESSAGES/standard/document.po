@@ -277,3 +277,20 @@ msgstr "`conflictOfInterest` - **Виявлені конфлікти інтер�
 
 msgid "`debarments` - **Debarments issued**"
 msgstr "`debarments` - **Відмова у допуску до закупівлі**"
+
+msgid "Possible values for :ref:`bid`"
+msgstr "Можливі значення для :ref:`bid`"
+
+msgid "`commercialProposal` - **Сommercial proposal**"
+msgstr "`commercialProposal` - **Цінова пропозиція**"
+
+msgid "`eligibilityDocuments` - **Eligibility documents**"
+msgstr ""
+"`eligibilityDocuments` - **Документи, що підтверджують відповідність** (в "
+"тому числі, відповідність вимогам ст. 17)"
+
+msgid "`qualificationDocuments` - **Qualification documents**"
+msgstr ""
+"`qualificationDocuments` - **Документи, що підтверджують кваліфікацію**"
+
+    
