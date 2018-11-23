@@ -1976,6 +1976,10 @@ def first_bid_tender(self):
     # switch to active.auction
     self.set_status('active.auction')
 
+    response = self.app.get('/tenders/{}'.format(tender_id))
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertIn('agreements', response.json['data'])
+
     lot_id = self.initial_data['lots'][0]['id']
     # get auction info
     self.app.authorization = ('Basic', ('auction', ''))
