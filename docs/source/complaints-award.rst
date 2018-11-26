@@ -99,13 +99,6 @@ Satisfying resolution
    :code:
 
 
-Disagreement with decision
---------------------------
-
-.. include:: tutorial/award-complaint-escalate.http
-   :code:
-
-
 Complaint Resolution
 ====================
 
