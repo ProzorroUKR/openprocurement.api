@@ -278,6 +278,14 @@
          "description":"You can view the data related to you free-of-charge by logging in with your ID-card."
       },
       {
+         "category": "EG",
+         "code": "EG-MOSS",
+         "name": "Ministry of Social Solidarity and Justice (Egypt)",
+         "public-database": false,
+         "url": "http://www.moss.gov.eg/",
+         "description": "The Ministry of Social Solidarity and Justice is the main registration body for associations and foundations in Egypt."
+      },
+      {
          "category":"ES",
          "code":"ES-DIR3",
          "name":"Common Directory of Organizational Units and Offices - DIR3",
