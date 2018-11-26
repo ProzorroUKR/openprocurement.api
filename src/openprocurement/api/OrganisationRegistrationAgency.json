@@ -406,6 +406,14 @@
          "description":null
       },
       {
+         "category":"GE",
+         "code":"GE-NAPR",
+         "description":"he National Agency of Public Registry (NAPR) of Georgia registers all legal entities in Georgia. This includes government and non-government bodies (including the private sector). The Identification Code assigned by NAPR is the same as the VAT number in Georgia. NAPR assigns codes for government bodies in addition to all non-governmental organisations (private and non-profit).",
+         "name":"Register of Entrepreneurial and Non-Entrepreneurial Legal Entities, Georgia",
+         "public-database":false,
+         "url":"https://enreg.reestri.gov.ge/main.php?m=new_index"
+      },
+      {
          "category":"GG",
          "code":"GG-RCE",
          "name":"The Guernsey Registry at the Department of Commerce and Employment",
