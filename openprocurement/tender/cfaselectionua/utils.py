@@ -260,6 +260,17 @@ def prepare_bid_identifier(bid):
     return all_keys
 
 
+def calculate_item_identification_tuple(item):
+    additionalClassifications = ()
+    if item.additionalClassifications:
+        additionalClassifications = tuple(
+            (additionalClassifications.id, additionalClassifications.scheme,)
+            for additionalClassifications in item.additionalClassifications
+        )
+    return (item.id, item.classification.id, item.classification.scheme,
+            item.unit.code, additionalClassifications)
+
+
 def check_agreement_status(request, tender):
     if tender.agreements[0].status != 'active':
         LOGGER.info(
@@ -271,9 +282,9 @@ def check_agreement_status(request, tender):
 
 def check_period_and_items(request, tender):
     agreement_items = tender.agreements[0].items if tender.agreements[0].items else []
+    agreement_items_ids = {calculate_item_identification_tuple(agreement_item) for agreement_item in agreement_items}
+    tender_items_ids = {calculate_item_identification_tuple(tender_item) for tender_item in tender.items}
 
-    agreement_items_ids = {(i.id, i.classification.id, i.classification.scheme, i.unit.code) for i in agreement_items}
-    tender_items_ids = {(i.id, i.classification.id, i.classification.scheme, i.unit.code) for i in tender.items}
 
     if not tender_items_ids.issubset(agreement_items_ids):
         LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
