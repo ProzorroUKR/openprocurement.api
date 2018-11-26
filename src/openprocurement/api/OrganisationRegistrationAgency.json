@@ -869,6 +869,14 @@
          "description":"Central Trade Registry System (MERSIS) is a centralized information system allowing for the implementation of the commercial registry processes and storing them and commercial registry data electronically. Mersis may be reached by the username-password or the e-signature from the website address of Ministry of Customs and Trade. It contains titles of companies, addresses, contact information, capital information, companies' partners, joint capital information, field of business, executive bodies of companies. Some information can also be found at http://www.ticaretsicil.gov.tr/english/index.php"
       },
       {
+         "category": "TR",
+         "code": "TR-MOI",
+         "description": "All non-profit associations operating in Turkey should register with the Department of Associations. During registration, they will be given a registration number.",
+         "name": "Department of Associations (Ministry of Interior, Turkey)",
+         "public-database": false,
+         "url": "https://www.dernekler.gov.tr/"
+      },
+      {
          "category":"TR",
          "code":"TR-VAT",
          "name":"Vergi Kimlik Numaras\u0131 - VAT",
