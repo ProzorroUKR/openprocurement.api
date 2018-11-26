@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/6d7003b9a21648d6a15690d754fb581a HTTP/1.0
+GET /api/2.4/tenders/a138065e401a4e9b9d01447cb15b3292 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -10,20 +10,82 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "active.enquiries", 
     "procurementMethod": "selective", 
-    "awardCriteria": "lowestCost", 
+    "tenderID": "UA-2018-11-26-000001", 
     "tenderPeriod": {
-      "startDate": "2018-10-10T13:23:16.993947+03:00", 
-      "endDate": "2018-10-24T13:22:14.571237+03:00"
+      "startDate": "2018-11-27T15:41:13.348686+02:00", 
+      "endDate": "2018-11-30T15:41:13.348686+02:00"
     }, 
     "title": "футляри до державних нагород", 
-    "minimalStep": {
+    "lots": [
+      {
+        "status": "active", 
+        "description": "lot description", 
+        "title": "lot title", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 2.5, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "value": {
+          "currency": "UAH", 
+          "amount": 500.555, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "date": "2018-11-26T15:41:12.954242+02:00", 
+        "id": "f8c9f018979648e4a299cc86497f2988"
+      }
+    ], 
+    "items": [
+      {
+        "relatedLot": "f8c9f018979648e4a299cc86497f2988", 
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "New Cartons", 
+          "id": "44617100-9"
+        }, 
+        "description_en": "futliary do derzhavnyh nagorod", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2018-11-28T15:41:12.177541+02:00", 
+          "endDate": "2018-12-01T15:41:12.177541+02:00"
+        }, 
+        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }
+    ], 
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    "value": {
       "currency": "UAH", 
-      "amount": 35.0, 
+      "amount": 500.555, 
       "valueAddedTaxIncluded": true
     }, 
-    "procurementMethodDetails": "quick, accelerator=1440", 
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
     "submissionMethod": "electronicAuction", 
+    "date": "2018-11-26T15:41:13.355354+02:00", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 2.5, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "dateModified": "2018-11-26T15:41:13.355354+02:00", 
+    "next_check": "2018-11-27T15:41:13.348686+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -44,100 +106,55 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "date": "2018-10-10T13:22:17.003071+03:00", 
-    "next_check": "2018-10-10T13:23:16.993947+03:00", 
-    "tenderID": "UA-2018-10-10-000001", 
-    "lots": [
-      {
-        "status": "active", 
-        "description": "lot description", 
-        "title": "lot title", 
-        "minimalStep": {
-          "currency": "UAH", 
-          "amount": 35.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "date": "2018-10-10T13:22:16.101369+03:00", 
-        "id": "cbfd2a8fd3f64080ab872d00a2059faf"
-      }
-    ], 
+    "awardCriteria": "lowestCost", 
     "enquiryPeriod": {
-      "startDate": "2018-10-10T13:22:16.993947+03:00", 
-      "endDate": "2018-10-10T13:23:16.993947+03:00"
+      "startDate": "2018-11-26T15:41:13.348686+02:00", 
+      "endDate": "2018-11-27T15:41:13.348686+02:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2018-10-10T13:22:17.003071+03:00", 
-    "items": [
-      {
-        "relatedLot": "cbfd2a8fd3f64080ab872d00a2059faf", 
-        "description": "футляри до державних нагород", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Cartons", 
-          "id": "44617100-9"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2018-10-12T13:22:14.571237+03:00", 
-          "endDate": "2018-10-15T13:22:14.571237+03:00"
-        }, 
-        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 5
-      }
-    ], 
-    "id": "6d7003b9a21648d6a15690d754fb581a", 
     "agreements": [
       {
         "agreementID": "UA-2018-09-11-000002-1", 
         "status": "active", 
         "features": [
           {
-            "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
             "code": "OCDS-123454-AIR-INTAKE", 
-            "featureOf": "item", 
+            "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)", 
+            "title": "Потужність всмоктування", 
             "enum": [
               {
-                "value": 0.01, 
-                "title": "good"
+                "value": 0.1, 
+                "title": "До 1000 Вт"
               }, 
               {
-                "value": 0.02, 
-                "title": "best"
+                "value": 0.15, 
+                "title": "Більше 1000 Вт"
               }
             ], 
-            "title": "item feature"
+            "title_en": "Air Intake", 
+            "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
+            "featureOf": "item"
           }, 
           {
             "code": "OCDS-123454-YEARS", 
-            "featureOf": "tenderer", 
+            "description": "Кількість років, які організація учасник працює на ринку", 
+            "title": "Років на ринку", 
             "enum": [
               {
-                "value": 0.01, 
-                "title": "good"
+                "value": 0.05, 
+                "title": "До 3 років"
               }, 
               {
-                "value": 0.02, 
-                "title": "best"
+                "value": 0.1, 
+                "title": "Більше 3 років, менше 5 років"
+              }, 
+              {
+                "value": 0.15, 
+                "title": "Більше 5 років"
               }
             ], 
-            "title": "tenderer feature"
+            "title_en": "Years trading", 
+            "featureOf": "tenderer"
           }
         ], 
         "title": "[ТЕСТУВАННЯ] ", 
@@ -175,6 +192,11 @@ Content-Type: application/json; charset=UTF-8
                 }
               }
             ], 
+            "value": {
+              "currency": "UAH", 
+              "amount": 500.0, 
+              "valueAddedTaxIncluded": true
+            }, 
             "bidID": "0a292b6466274139ad3d973fd64830ff", 
             "date": "2018-07-30T17:40:15.471158+03:00", 
             "awardID": "d7406b07c05b4796bb168a7c47ee7d31", 
@@ -186,7 +208,7 @@ Content-Type: application/json; charset=UTF-8
               {
                 "value": {
                   "currency": "UAH", 
-                  "amount": 100.0, 
+                  "amount": 100.111, 
                   "valueAddedTaxIncluded": true
                 }, 
                 "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
@@ -213,6 +235,11 @@ Content-Type: application/json; charset=UTF-8
                 }
               }
             ], 
+            "value": {
+              "currency": "UAH", 
+              "amount": 500.555, 
+              "valueAddedTaxIncluded": true
+            }, 
             "bidID": "d85ef51272f14087abb2eed535340493", 
             "date": "2018-07-30T17:40:15.471207+03:00", 
             "awardID": "cdb6da320600480d8eaabd8eaa920872", 
@@ -251,6 +278,11 @@ Content-Type: application/json; charset=UTF-8
                 }
               }
             ], 
+            "value": {
+              "currency": "UAH", 
+              "amount": 500.0, 
+              "valueAddedTaxIncluded": true
+            }, 
             "bidID": "fc02090c338a477f8013156a4fa2da10", 
             "date": "2018-07-30T17:40:15.471264+03:00", 
             "awardID": "a915a07f7f0b4dafa583cce119bf1823", 
@@ -298,7 +330,7 @@ Content-Type: application/json; charset=UTF-8
           "endDate": "2022-01-23T11:23:20.418436+03:00"
         }, 
         "dateSigned": "2018-09-11T11:23:23.220310+03:00", 
-        "id": "3fcce235dc804be1b6bcb3d729648a0f", 
+        "id": "521daf6ff0eb4cbf9a93ef841146a375", 
         "procuringEntity": {
           "kind": "general", 
           "name": "Шевченківська районна в місті Києві державна адміністрація", 
@@ -321,7 +353,7 @@ Content-Type: application/json; charset=UTF-8
           "identifier": {
             "scheme": "UA-EDR", 
             "legalName_en": "Institution \"Vinnytsia City Council primary and secondary general school № 10\"", 
-            "id": "21725150", 
+            "id": "00037256", 
             "legalName": "Шевченківська районна в місті Києві державна адміністрація"
           }, 
           "name_en": "Angelica Davis"
@@ -331,6 +363,48 @@ Content-Type: application/json; charset=UTF-8
         "owner": "broker", 
         "dateModified": "2018-09-17T16:26:31.372995+03:00", 
         "tender_id": "c3f4116d38d34fe2b7d8de8aae8c0b32"
+      }
+    ], 
+    "id": "a138065e401a4e9b9d01447cb15b3292", 
+    "features": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE", 
+        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)", 
+        "title": "Потужність всмоктування", 
+        "enum": [
+          {
+            "value": 0.1, 
+            "title": "До 1000 Вт"
+          }, 
+          {
+            "value": 0.15, 
+            "title": "Більше 1000 Вт"
+          }
+        ], 
+        "title_en": "Air Intake", 
+        "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
+        "featureOf": "item"
+      }, 
+      {
+        "code": "OCDS-123454-YEARS", 
+        "description": "Кількість років, які організація учасник працює на ринку", 
+        "title": "Років на ринку", 
+        "enum": [
+          {
+            "value": 0.05, 
+            "title": "До 3 років"
+          }, 
+          {
+            "value": 0.1, 
+            "title": "Більше 3 років, менше 5 років"
+          }, 
+          {
+            "value": 0.15, 
+            "title": "Більше 5 років"
+          }
+        ], 
+        "title_en": "Years trading", 
+        "featureOf": "tenderer"
       }
     ]
   }

@@ -1,12 +1,12 @@
-PUT /api/2.4/tenders/6d7003b9a21648d6a15690d754fb581a/cancellations/3d8142b9586e4f7c8286dbafcb1f2adf/documents/360a0ca737cb481389e4404372ad83e5?acc_token=8d1191f02e8643b29e9765b21d0a6b9b HTTP/1.0
+PUT /api/2.4/tenders/73b999ec9e514b479c237a2977938195/cancellations/68bf7bd312ae4df99a0fe239ad0963fb/documents/afb31d85bb014abebfc7f0bbfdcfe46f?acc_token=5965a05480fc47d5934b0b04d00c19a9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 334
+Content-Length: 330
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
 {
   "data": {
-    "url": "http://public.docs-sandbox.openprocurement.org/get/3247be4725354c46934fe0e24291f171?KeyID=12eebbc2&Signature=00ZVBfySobW3A1FzriFMR%2Bd0%2BIIjsJq75fBxB8wT8kufsScGu%2FdOFOZAKyjFnAdYaUQ5KO%2BM%2BJWXNAK8EoKdBA%3D%3D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/000aa46c1a2641deadd89f890465bec6?KeyID=b69e6b92&Signature=bn3AbahRGC0FjX%2Byo2j9vTxHQ0E8wnACsaf3LlppeQ5vqmDUH4EsbU7BZQ%2BcW%2FXwP16Zpgao0ZFKPbeGGSTrAQ%3D%3D", 
     "title": "Notice-2.pdf", 
     "hash": "md5:00000000000000000000000000000000", 
     "format": "application/pdf"
@@ -22,12 +22,12 @@ Content-Type: application/json; charset=UTF-8
     "hash": "md5:00000000000000000000000000000000", 
     "description": "Changed description", 
     "title": "Notice-2.pdf", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/3247be4725354c46934fe0e24291f171?KeyID=12eebbc2&Signature=rkrBkhMcU%252Bsq3%252B1IF%252B9aztwxfafiMAqtt5ibIW9KMUtg01VkNyf1JuII4Aik2RfKUE4nc38kOMeZj8REFg3rDg%253D%253D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/000aa46c1a2641deadd89f890465bec6?KeyID=b69e6b92&Signature=BRUxYWUWs05mpV3zrIUKoGoJxepaqSa1EBqzoU2bHSw57qMhNmE4dIK%252BtUm4Q9XDG1KvSeT3KkZ8mpKZ5b2%252BAA%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2018-10-10T13:22:25.556218+03:00", 
-    "id": "360a0ca737cb481389e4404372ad83e5", 
-    "dateModified": "2018-10-10T13:22:26.266484+03:00"
+    "datePublished": "2018-11-26T15:41:19.383333+02:00", 
+    "id": "afb31d85bb014abebfc7f0bbfdcfe46f", 
+    "dateModified": "2018-11-26T15:41:19.717829+02:00"
   }
 }
 

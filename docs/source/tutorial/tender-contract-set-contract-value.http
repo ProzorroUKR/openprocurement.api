@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/6d7003b9a21648d6a15690d754fb581a/contracts/707671a220104ea9b7c8389194fe386c?acc_token=8d1191f02e8643b29e9765b21d0a6b9b HTTP/1.0
+PATCH /api/2.4/tenders/73b999ec9e514b479c237a2977938195/contracts/fe4e3656f4e142c0a4493e948cfd6e73?acc_token=5965a05480fc47d5934b0b04d00c19a9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 73
 Content-Type: application/json
@@ -22,13 +22,14 @@ Content-Type: application/json; charset=UTF-8
     "status": "pending", 
     "items": [
       {
-        "relatedLot": "cbfd2a8fd3f64080ab872d00a2059faf", 
+        "relatedLot": "f8c9f018979648e4a299cc86497f2988", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
-          "description": "Cartons", 
+          "description": "New Cartons", 
           "id": "44617100-9"
         }, 
+        "description_en": "futliary do derzhavnyh nagorod", 
         "additionalClassifications": [
           {
             "scheme": "ДКПП", 
@@ -44,15 +45,15 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2018-10-12T13:22:14.571237+03:00", 
-          "endDate": "2018-10-15T13:22:14.571237+03:00"
+          "startDate": "2018-11-28T15:41:12.177541+02:00", 
+          "endDate": "2018-12-01T15:41:12.177541+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
         }, 
-        "quantity": 5
+        "quantity": 6
       }
     ], 
     "suppliers": [
@@ -82,10 +83,10 @@ Content-Type: application/json; charset=UTF-8
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2018-10-10T13:22:22.224234+03:00", 
-    "awardID": "c9620f60d7b34501995a191e586b79ac", 
-    "id": "707671a220104ea9b7c8389194fe386c", 
-    "contractID": "UA-2018-10-10-000001-1"
+    "date": "2018-11-26T15:41:16.590455+02:00", 
+    "awardID": "d6403c75642f496985baac1d7e22eec0", 
+    "id": "fe4e3656f4e142c0a4493e948cfd6e73", 
+    "contractID": "UA-2018-11-26-000004-1"
   }
 }
 
