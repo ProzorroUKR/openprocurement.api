@@ -3,6 +3,8 @@ before_script:
   - eval `ssh-agent -s` && ssh-add
   - sh bootstrap.sh
   - bin/buildout -N
+  - bin/buildout -N remotes:branch=$CI_COMMIT_REF_NAME
+  - bin/develop up --force
 stages:
   - test
 
@@ -11,7 +13,7 @@ test_sanbox_true:
   variables:
     SANDBOX_MODE: 'True'
   script:
-    - bin/py.test ./openprocurement/agreement/core/tests/
+    - bin/py.test ./openprocurement/agreement/core/tests --cov=openprocurement.agreement.core
 
 
 test_sanbox_not_true:
@@ -19,4 +21,4 @@ test_sanbox_not_true:
   variables:
     SANDBOX_MODE: ''
   script:
-    - bin/py.test ./openprocurement/agreement/core/tests/
+    - bin/py.test ./openprocurement/agreement/core/tests --cov=openprocurement.agreement.core

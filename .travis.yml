@@ -19,11 +19,12 @@ cache:
   directories:
     - eggs
 before_install:
-  - pip install setuptools==7.0
-  - python2 bootstrap.py
+  - sh bootstrap.sh
 install:
   - bin/buildout -N
+  - bin/buildout -N remotes:branch=$TRAVIS_BRANCH
+  - bin/develop up --force
 script:
-  - bin/nosetests
+  - bin/py.test ./openprocurement/agreement/core/tests --cov=openprocurement.agreement.core
 after_success:
   - bin/coveralls
