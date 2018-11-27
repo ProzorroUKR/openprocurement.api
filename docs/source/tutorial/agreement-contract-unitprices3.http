@@ -1,6 +1,6 @@
-PATCH /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/agreements/d80d8ecf2ac7416ebf121bae351e51d8/contracts/2d12c68f9c8249adb53edf4aa442ec53?acc_token=61955a7cfb50471faf87533f4371d20c HTTP/1.0
+PATCH /api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/agreements/6ae76990cfe442f299476557f4a31e8a/contracts/425d651452ba4e068e6daf775dde1b76?acc_token=d7c3b74a85b64c7e9a382bfbea960829 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 103
+Content-Length: 184
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -9,9 +9,15 @@ DATA:
     "unitPrices": [
       {
         "value": {
-          "amount": 1
+          "amount": 0.5
         }, 
-        "relatedItem": "7fdab13da22d4f75955aea7589cde503"
+        "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+      }, 
+      {
+        "value": {
+          "amount": 0.5
+        }, 
+        "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
       }
     ]
   }
@@ -26,10 +32,18 @@ Content-Type: application/json; charset=UTF-8
       {
         "value": {
           "currency": "UAH", 
-          "amount": 1.0, 
+          "amount": 0.5, 
           "valueAddedTaxIncluded": true
         }, 
-        "relatedItem": "7fdab13da22d4f75955aea7589cde503"
+        "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+      }, 
+      {
+        "value": {
+          "currency": "UAH", 
+          "amount": 0.5, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
       }
     ], 
     "suppliers": [
@@ -54,10 +68,10 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "bidID": "b9aaff8198b34ce3ba7a7aeeddccede9", 
-    "date": "2018-09-05T14:24:31.296931+03:00", 
-    "awardID": "39aae0566c48467b8c583bb96b242871", 
-    "id": "2d12c68f9c8249adb53edf4aa442ec53"
+    "bidID": "6e633f58dafe486c92c10845ebd34dfb", 
+    "date": "2018-11-23T19:07:03.606217+02:00", 
+    "awardID": "d5dcab42449e4af4b29702fc12fc8d35", 
+    "id": "425d651452ba4e068e6daf775dde1b76"
   }
 }
 

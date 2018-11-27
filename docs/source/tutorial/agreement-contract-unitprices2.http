@@ -1,6 +1,6 @@
-PATCH /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/agreements/d80d8ecf2ac7416ebf121bae351e51d8/contracts/12a18791bd834a7cacb633d313ff7872?acc_token=61955a7cfb50471faf87533f4371d20c HTTP/1.0
+PATCH /api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/agreements/6ae76990cfe442f299476557f4a31e8a/contracts/64b106cdc15b46618c85ded859dbaec5?acc_token=d7c3b74a85b64c7e9a382bfbea960829 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 103
+Content-Length: 184
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -9,9 +9,15 @@ DATA:
     "unitPrices": [
       {
         "value": {
-          "amount": 1
+          "amount": 0.5
         }, 
-        "relatedItem": "7fdab13da22d4f75955aea7589cde503"
+        "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+      }, 
+      {
+        "value": {
+          "amount": 0.5
+        }, 
+        "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
       }
     ]
   }
@@ -26,10 +32,18 @@ Content-Type: application/json; charset=UTF-8
       {
         "value": {
           "currency": "UAH", 
-          "amount": 1.0, 
+          "amount": 0.5, 
           "valueAddedTaxIncluded": true
         }, 
-        "relatedItem": "7fdab13da22d4f75955aea7589cde503"
+        "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+      }, 
+      {
+        "value": {
+          "currency": "UAH", 
+          "amount": 0.5, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
       }
     ], 
     "suppliers": [
@@ -54,10 +68,10 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "bidID": "4a6e1eb99e90469ca301b9ec91e3cf20", 
-    "date": "2018-09-05T14:24:31.296887+03:00", 
-    "awardID": "b851420578124c00bae28c73f33a7200", 
-    "id": "12a18791bd834a7cacb633d313ff7872"
+    "bidID": "33673044ed64400bb71a63b2b1a54257", 
+    "date": "2018-11-23T19:07:03.606168+02:00", 
+    "awardID": "f420863d934d4d4998965b4e670c3f61", 
+    "id": "64b106cdc15b46618c85ded859dbaec5"
   }
 }
 

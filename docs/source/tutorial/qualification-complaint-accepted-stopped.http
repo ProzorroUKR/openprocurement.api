@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/f29723d1a2e84273b7bba4a27d793dff/qualifications/223d741b7ed942ba9473a3ebf12b1834/complaints/ea545290f7e947eba76a2364a244d2d1 HTTP/1.0
+PATCH /api/2.4/tenders/b7b9fad8b73f44e5aeb37c2894b82587/qualifications/3cec8e3a65a249d8af49de742a0c9df3/complaints/4dc3ab4c63ae4fbf92490081f6c3ea1f HTTP/1.0
 Authorization: Basic cmV2aWV3ZXI6
 Content-Length: 217
 Content-Type: application/json
@@ -15,9 +15,9 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+    "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
     "status": "stopped", 
-    "dateDecision": "2018-09-05T14:24:39.412769+03:00", 
+    "dateDecision": "2018-11-23T19:07:25.305101+02:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -42,14 +42,14 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "decision": "Тендер скасовується замовником", 
     "acceptance": true, 
-    "dateCanceled": "2018-09-05T14:24:39.412787+03:00", 
-    "dateAccepted": "2018-09-05T14:24:38.788411+03:00", 
-    "dateSubmitted": "2018-09-05T14:24:36.714423+03:00", 
-    "complaintID": "UA-2018-09-05-000001.5", 
-    "date": "2018-09-05T14:24:39.421876+03:00", 
+    "dateCanceled": "2018-11-23T19:07:25.305142+02:00", 
+    "dateAccepted": "2018-11-23T19:07:23.708943+02:00", 
+    "dateSubmitted": "2018-11-23T19:07:18.674237+02:00", 
+    "complaintID": "UA-2018-11-23-000001.5", 
+    "date": "2018-11-23T19:07:25.330734+02:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
-    "id": "ea545290f7e947eba76a2364a244d2d1"
+    "id": "4dc3ab4c63ae4fbf92490081f6c3ea1f"
   }
 }
 

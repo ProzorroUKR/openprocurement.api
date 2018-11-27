@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/agreements HTTP/1.0
+GET /api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/agreements HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -7,7 +7,7 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": [
     {
-      "agreementID": "UA-2018-09-05-000001-a38ec1ed7c62453881d5311560956c081", 
+      "agreementID": "UA-2018-11-23-000001-66d780bd12b64ec881396edc06a4422b1", 
       "status": "pending", 
       "contracts": [
         {
@@ -18,7 +18,14 @@ Content-Type: application/json; charset=UTF-8
                 "currency": "UAH", 
                 "valueAddedTaxIncluded": true
               }, 
-              "relatedItem": "7fdab13da22d4f75955aea7589cde503"
+              "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+            }, 
+            {
+              "value": {
+                "currency": "UAH", 
+                "valueAddedTaxIncluded": true
+              }, 
+              "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
             }
           ], 
           "suppliers": [
@@ -43,10 +50,10 @@ Content-Type: application/json; charset=UTF-8
               }
             }
           ], 
-          "bidID": "8136c8ad133a440b8c220815122c1eff", 
-          "date": "2018-09-05T14:24:31.296831+03:00", 
-          "awardID": "a08b821c46c74b028dfd3a8e0e6b8ed5", 
-          "id": "f3c9399a62a24e899dbf228386f7e8c1"
+          "bidID": "3b7eecbc90854bdfbf2054ceae212850", 
+          "date": "2018-11-23T19:07:03.606017+02:00", 
+          "awardID": "5086f66a4e1c40f7bc3e507adaf775a4", 
+          "id": "e1f4e7c17e574ecdb71d8c720496e94c"
         }, 
         {
           "status": "active", 
@@ -56,7 +63,14 @@ Content-Type: application/json; charset=UTF-8
                 "currency": "UAH", 
                 "valueAddedTaxIncluded": true
               }, 
-              "relatedItem": "7fdab13da22d4f75955aea7589cde503"
+              "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+            }, 
+            {
+              "value": {
+                "currency": "UAH", 
+                "valueAddedTaxIncluded": true
+              }, 
+              "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
             }
           ], 
           "suppliers": [
@@ -81,10 +95,10 @@ Content-Type: application/json; charset=UTF-8
               }
             }
           ], 
-          "bidID": "4a6e1eb99e90469ca301b9ec91e3cf20", 
-          "date": "2018-09-05T14:24:31.296887+03:00", 
-          "awardID": "b851420578124c00bae28c73f33a7200", 
-          "id": "12a18791bd834a7cacb633d313ff7872"
+          "bidID": "33673044ed64400bb71a63b2b1a54257", 
+          "date": "2018-11-23T19:07:03.606168+02:00", 
+          "awardID": "f420863d934d4d4998965b4e670c3f61", 
+          "id": "64b106cdc15b46618c85ded859dbaec5"
         }, 
         {
           "status": "active", 
@@ -94,7 +108,14 @@ Content-Type: application/json; charset=UTF-8
                 "currency": "UAH", 
                 "valueAddedTaxIncluded": true
               }, 
-              "relatedItem": "7fdab13da22d4f75955aea7589cde503"
+              "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+            }, 
+            {
+              "value": {
+                "currency": "UAH", 
+                "valueAddedTaxIncluded": true
+              }, 
+              "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
             }
           ], 
           "suppliers": [
@@ -119,15 +140,15 @@ Content-Type: application/json; charset=UTF-8
               }
             }
           ], 
-          "bidID": "b9aaff8198b34ce3ba7a7aeeddccede9", 
-          "date": "2018-09-05T14:24:31.296931+03:00", 
-          "awardID": "39aae0566c48467b8c583bb96b242871", 
-          "id": "2d12c68f9c8249adb53edf4aa442ec53"
+          "bidID": "6e633f58dafe486c92c10845ebd34dfb", 
+          "date": "2018-11-23T19:07:03.606217+02:00", 
+          "awardID": "d5dcab42449e4af4b29702fc12fc8d35", 
+          "id": "425d651452ba4e068e6daf775dde1b76"
         }
       ], 
       "items": [
         {
-          "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+          "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
           "description": "футляри до державних нагород", 
           "classification": {
             "scheme": "ДК021", 
@@ -153,16 +174,50 @@ Content-Type: application/json; charset=UTF-8
             "startDate": "2018-06-27T13:39:09.362837+03:00", 
             "endDate": "2018-06-30T13:39:09.362837+03:00"
           }, 
-          "id": "7fdab13da22d4f75955aea7589cde503", 
+          "id": "4d457966652b4379b0ff2f510fdd45c4", 
           "unit": {
             "code": "44617100-9", 
             "name": "item"
           }, 
           "quantity": 5
+        }, 
+        {
+          "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
+          "description": "футляри до державних нагород", 
+          "classification": {
+            "scheme": "ДК021", 
+            "description": "Cartons", 
+            "id": "44617100-9"
+          }, 
+          "description_en": "Cases for state awards", 
+          "additionalClassifications": [
+            {
+              "scheme": "ДКПП", 
+              "id": "17.21.1", 
+              "description": "папір і картон гофровані, паперова й картонна тара"
+            }
+          ], 
+          "deliveryAddress": {
+            "postalCode": "79000", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Банкова 1", 
+            "region": "м. Київ", 
+            "locality": "м. Київ"
+          }, 
+          "deliveryDate": {
+            "startDate": "2018-06-27T13:39:09.362837+03:00", 
+            "endDate": "2018-06-30T13:39:09.362837+03:00"
+          }, 
+          "id": "bd82b9c9dd7d4673a18c6fc13111693b", 
+          "unit": {
+            "code": "44617100-8", 
+            "name": "item"
+          }, 
+          "quantity": 5
         }
       ], 
-      "date": "2018-09-05T14:24:31.225618+03:00", 
-      "id": "d80d8ecf2ac7416ebf121bae351e51d8"
+      "date": "2018-11-23T19:07:03.455388+02:00", 
+      "id": "6ae76990cfe442f299476557f4a31e8a"
     }
   ]
 }

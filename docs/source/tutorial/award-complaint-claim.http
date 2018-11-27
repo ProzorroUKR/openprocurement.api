@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/60785bd14cda432ebe86878a67f06690/awards/eb20d7d85c254c3f99002fa22ca83934/complaints/88eaaab31bd341c9bf275f745ce8d4b9?acc_token=be07ad9a9ff641a9b3b2a57f592dbddf HTTP/1.0
+PATCH /api/2.4/tenders/10ef0b89f4a7452ebf4394ea3acbd36f/awards/1522b9c3cf1746a9a500eb412ee0e9e6/complaints/f76f7562be93474594d6ce0e24c2a319?acc_token=7ad0bfe756f3424a82d5ae621aa788df HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 29
 Content-Type: application/json
@@ -14,7 +14,7 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+    "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
     "status": "claim", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
@@ -39,11 +39,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "dateSubmitted": "2018-09-05T14:24:17.772156+03:00", 
-    "complaintID": "UA-2018-09-05-000001.8", 
-    "date": "2018-09-05T14:24:17.781868+03:00", 
+    "dateSubmitted": "2018-11-23T19:06:28.772236+02:00", 
+    "complaintID": "UA-2018-11-23-000001.8", 
+    "date": "2018-11-23T19:06:28.797448+02:00", 
     "type": "claim", 
-    "id": "88eaaab31bd341c9bf275f745ce8d4b9"
+    "id": "f76f7562be93474594d6ce0e24c2a319"
   }
 }
 
