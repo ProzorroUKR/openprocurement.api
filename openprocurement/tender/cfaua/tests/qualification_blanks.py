@@ -1,3 +1,7 @@
+from iso8601 import parse_date
+from openprocurement.api.constants import SANDBOX_MODE
+from math import ceil
+
 def create_tender_lot_qualification_complaint(self):
     response = self.app.post_json(
         '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(
@@ -109,6 +113,12 @@ def switch_bid_status_unsuccessul_to_active(self):
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
                                    {"data": {"status": "active.pre-qualification.stand-still"}})
     self.assertEqual(response.status, "200 OK")
+    duration = (parse_date(response.json['data']['qualificationPeriod']['endDate'])
+                - parse_date(response.json['data']['date'])).total_seconds()
+    if SANDBOX_MODE:
+        duration = ceil(duration) * 1440
+    duration = duration / 86400 # days float
+    self.assertEqual(int(duration), 5)
 
     # create complaint
     response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token), {'data': {
