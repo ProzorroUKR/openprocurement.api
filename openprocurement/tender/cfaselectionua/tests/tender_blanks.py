@@ -139,7 +139,7 @@ def listing(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 3)
     self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified', u'status']))
-    self.assertIn('opt_fields=status%2CenquiryPeriod', response.json['next_page']['uri'])
+    self.assertIn('opt_fields=status', response.json['next_page']['uri'])
 
     response = self.app.get('/tenders?descending=1')
     self.assertEqual(response.status, '200 OK')
@@ -247,7 +247,7 @@ def listing_changes(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(len(response.json['data']), 3)
     self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified', u'status']))
-    self.assertIn('opt_fields=status%2CenquiryPeriod', response.json['next_page']['uri'])
+    self.assertIn('opt_fields=status', response.json['next_page']['uri'])
 
     response = self.app.get('/tenders?feed=changes&descending=1')
     self.assertEqual(response.status, '200 OK')

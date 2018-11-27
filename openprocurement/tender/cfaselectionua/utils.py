@@ -334,14 +334,16 @@ def check_agreement(request, tender):
 
 def calculate_agreement_contracts_value_amount(request, tender):
     agreement = tender.agreements[0]
+    tender_items = dict((i.id, i.quantity) for i in tender.items)
     for contract in agreement.contracts:
         value = Value()
         value.amount = 0
         value.currency = contract.unitPrices[0].value.currency
         value.valueAddedTaxIncluded = contract.unitPrices[0].value.valueAddedTaxIncluded
         for unitPrice in contract.unitPrices:
-            quantity = [i for i in tender.items if i.id == unitPrice.relatedItem][0].quantity
-            value.amount += unitPrice.value.amount * quantity
+            if unitPrice.relatedItem in tender_items:
+                value.amount += unitPrice.value.amount * tender_items[unitPrice.relatedItem]
+        value.amount = round(value.amount, 2)
         contract.value = value
     tender.lots[0].value = max([contract.value for contract in agreement.contracts], key=lambda value: value.amount)
     tender.value = tender.lots[0].value
