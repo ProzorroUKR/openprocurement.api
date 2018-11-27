@@ -204,48 +204,49 @@ test_tender_maximum_data = {
     },
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "mode": u"test",
-    "features": [
-        {
-            "code": "OCDS-123454-AIR-INTAKE",
-            "featureOf": "item",
-            "relatedItem": test_max_uid,
-            "title": u"Потужність всмоктування",
-            "title_en": "Air Intake",
-            "description": u"Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
-            "enum": [
-                {
-                    "value": 0.1,
-                    "title": u"До 1000 Вт"
-                },
-                {
-                    "value": 0.15,
-                    "title": u"Більше 1000 Вт"
-                }
-            ]
-        },
-        {
-            "code": "OCDS-123454-YEARS",
-            "featureOf": "tenderer",
-            "title": u"Років на ринку",
-            "title_en": "Years trading",
-            "description": u"Кількість років, які організація учасник працює на ринку",
-            "enum": [
-                {
-                    "value": 0.05,
-                    "title": u"До 3 років"
-                },
-                {
-                    "value": 0.1,
-                    "title": u"Більше 3 років, менше 5 років"
-                },
-                {
-                    "value": 0.15,
-                    "title": u"Більше 5 років"
-                }
-            ]
-        }
-    ]
 }
+
+test_features = [
+    {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "featureOf": "item",
+        "relatedItem": test_agreement['items'][0]['id'],
+        "title": u"Потужність всмоктування",
+        "title_en": "Air Intake",
+        "description": u"Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+        "enum": [
+            {
+                "value": 0.1,
+                "title": u"До 1000 Вт"
+            },
+            {
+                "value": 0.15,
+                "title": u"Більше 1000 Вт"
+            }
+        ]
+    },
+    {
+        "code": "OCDS-123454-YEARS",
+        "featureOf": "tenderer",
+        "title": u"Років на ринку",
+        "title_en": "Years trading",
+        "description": u"Кількість років, які організація учасник працює на ринку",
+        "enum": [
+            {
+                "value": 0.05,
+                "title": u"До 3 років"
+            },
+            {
+                "value": 0.1,
+                "title": u"Більше 3 років, менше 5 років"
+            },
+            {
+                "value": 0.15,
+                "title": u"Більше 5 років"
+            }
+        ]
+    }
+]
 
 
 test_complaint_data = {'data':
@@ -382,12 +383,17 @@ class TenderResourceTest(BaseTenderWebTest):
         with open('docs/source/tutorial/tender-switch-draft-pending.http', 'w') as self.app.file_obj:
             response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                            {'data': {'status': 'draft.pending'}})
+            data = response.json['data']
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'draft.pending')
 
         self.app.authorization = ('Basic', (BOT_NAME, ''))
+
+        agreement = deepcopy(test_agreement)
+        agreement['features'] = test_features
+
         response = self.app.patch_json('/tenders/{}/agreements/{}'.format(tender['id'], agreement_id),
-                                       {'data': test_agreement})
+                                       {'data': agreement})
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
@@ -400,6 +406,39 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.json['data']['status'], 'active.enquiries')
             tender = response.json['data']
 
+        response = self.app.post_json('/tenders', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.tender_id = response.json['data']['id']
+        self.tender_token = owner_token = response.json['access']['token']
+
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'
+                                       .format(self.tender_id, self.tender_token),
+                                       {'data': {'agreements': [test_agreement]}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'
+                                       .format(self.tender_id, self.tender_token),
+                                       {'data': {'status': 'draft.pending'}})
+        tender = response.json['data']
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['status'], 'draft.pending')
+
+        self.app.authorization = ('Basic', (BOT_NAME, ''))
+
+        response = self.app.patch_json('/tenders/{}?acc_token={}'
+                                       .format(self.tender_id, self.tender_token),
+                                       {'data': {'status': 'active.enquiries'}})
+        tender = response.json['data']
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['data']['status'], 'active.enquiries')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
         # Modifying tender
         #
 
@@ -409,9 +448,14 @@ class TenderResourceTest(BaseTenderWebTest):
                 {
                     "tenderPeriod": {
                         "endDate": tenderPeriod_endDate.isoformat()
-                    }
+                    },
+                    "items": [{
+                        "quantity": 6
+                    }]
                 }
             })
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.content_type, 'application/json')
 
         with open('docs/source/tutorial/tender-listing-after-patch.http', 'w') as self.app.file_obj:
             self.app.authorization = None
