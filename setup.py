@@ -5,7 +5,7 @@ version = '0.1.0'
 
 requires = [
     'setuptools',
-    'openprocurement.api>=2.4',
+    'openprocurement.api>=2.4.23dp',
     'zope.configuration'
 ]
 test_requires = requires + [
