@@ -278,6 +278,14 @@
          "description":"You can view the data related to you free-of-charge by logging in with your ID-card."
       },
       {
+         "category": "EG",
+         "code": "EG-MOSS",
+         "name": "Ministry of Social Solidarity and Justice (Egypt)",
+         "public-database": false,
+         "url": "http://www.moss.gov.eg/",
+         "description": "The Ministry of Social Solidarity and Justice is the main registration body for associations and foundations in Egypt."
+      },
+      {
          "category":"ES",
          "code":"ES-DIR3",
          "name":"Common Directory of Organizational Units and Offices - DIR3",
@@ -396,6 +404,14 @@
          "url":"https://www.ukrlp.co.uk/",
          "public-database":true,
          "description":null
+      },
+      {
+         "category":"GE",
+         "code":"GE-NAPR",
+         "description":"he National Agency of Public Registry (NAPR) of Georgia registers all legal entities in Georgia. This includes government and non-government bodies (including the private sector). The Identification Code assigned by NAPR is the same as the VAT number in Georgia. NAPR assigns codes for government bodies in addition to all non-governmental organisations (private and non-profit).",
+         "name":"Register of Entrepreneurial and Non-Entrepreneurial Legal Entities, Georgia",
+         "public-database":false,
+         "url":"https://enreg.reestri.gov.ge/main.php?m=new_index"
       },
       {
          "category":"GG",
@@ -629,6 +645,14 @@
          "description":"The MHA assigns a registration number to each NGO - this number is time limited, for example 4 years, after which the registration is reviewed."
       },
       {
+         "category": "MT",
+         "code": "MT-MFSA",
+         "description": "The Malta Financial Services Authority, established by the Malta Financial Services Act, being a body corporate with distinct legal personality responsible for the regulation and supervision of the financial services sector and houses the Company Registry.",
+         "name": "Malta Financial Service Authority",
+         "public-database": false,
+         "url": "https://www.mfsa.com.mt/"
+      },
+      {
          "category":"MW",
          "code":"MW-CNM",
          "name":"The Council for Non Governmental Organisations in Malawi",
@@ -843,6 +867,14 @@
          "url":"http://mersis.gumrukticaret.gov.tr/Login/tabid/110/Default.aspx?returnurl=%2fMersis%2f%C5%9EirketSorgulama.aspx",
          "public-database":false,
          "description":"Central Trade Registry System (MERSIS) is a centralized information system allowing for the implementation of the commercial registry processes and storing them and commercial registry data electronically. Mersis may be reached by the username-password or the e-signature from the website address of Ministry of Customs and Trade. It contains titles of companies, addresses, contact information, capital information, companies' partners, joint capital information, field of business, executive bodies of companies. Some information can also be found at http://www.ticaretsicil.gov.tr/english/index.php"
+      },
+      {
+         "category": "TR",
+         "code": "TR-MOI",
+         "description": "All non-profit associations operating in Turkey should register with the Department of Associations. During registration, they will be given a registration number.",
+         "name": "Department of Associations (Ministry of Interior, Turkey)",
+         "public-database": false,
+         "url": "https://www.dernekler.gov.tr/"
       },
       {
          "category":"TR",
