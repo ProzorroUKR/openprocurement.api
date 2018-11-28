@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '2.4.3'
+version = '1.0.0'
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -24,8 +24,8 @@ requires = [
     'rfc6266',
     'setuptools',
     'tzlocal',
-    'openprocurement.api>=2.4',
-    'openprocurement.tender.core>=2.4.1',
+    'openprocurement.api',
+    'openprocurement.tender.core',
     'openprocurement.agreement.core',
     'openprocurement.agreement.cfaua',
 ]
