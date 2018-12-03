@@ -1,0 +1,153 @@
+GET /api/2.4/tenders/4e095f899aea431dade658804787b2aa/awards?acc_token=8a38796ad4814abcaf75da2c44b5c6cc HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "status": "cancelled", 
+      "lotID": "ddb35dd0e9904726aafd18baed24863a", 
+      "eligible": true, 
+      "suppliers": [
+        {
+          "contactPoint": {
+            "email": "fake@mail.com", 
+            "telephone": "+380 (322) 12-34-56", 
+            "name": "Іван Іваненко"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "id": "00137226", 
+            "uri": "http://www.sc.gov.ua/"
+          }, 
+          "name": "«Снігур»", 
+          "address": {
+            "postalCode": "79013", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 35", 
+            "region": "м. Львів", 
+            "locality": "м. Львів"
+          }
+        }
+      ], 
+      "bid_id": "23a42e84d61245a0bd218cd8280059ca", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 5, 
+        "valueAddedTaxIncluded": true
+      }, 
+      "qualified": true, 
+      "date": "2018-11-30T16:38:29.938088+02:00", 
+      "id": "db42d9fbd8504b588ca302a8925ad3bb"
+    }, 
+    {
+      "status": "active", 
+      "lotID": "ddb35dd0e9904726aafd18baed24863a", 
+      "eligible": true, 
+      "suppliers": [
+        {
+          "contactPoint": {
+            "email": "aagt@gmail.com", 
+            "telephone": "+380 (322) 91-69-30", 
+            "name": "Андрій Олексюк"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "id": "00137226", 
+            "uri": "http://www.sc.gov.ua/"
+          }, 
+          "name": "ДКП «Книга»", 
+          "address": {
+            "postalCode": "79013", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 34", 
+            "region": "м. Львів", 
+            "locality": "м. Львів"
+          }
+        }
+      ], 
+      "bid_id": "3ed6da5f8665409fb9710ca826a322bc", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 499, 
+        "valueAddedTaxIncluded": true
+      }, 
+      "qualified": true, 
+      "date": "2018-11-30T16:38:29.580016+02:00", 
+      "id": "becc6c3233bc43d9ac87f79f824c365d"
+    }, 
+    {
+      "status": "active", 
+      "lotID": "ddb35dd0e9904726aafd18baed24863a", 
+      "eligible": true, 
+      "suppliers": [
+        {
+          "contactPoint": {
+            "email": "soleksuk@gmail.com", 
+            "telephone": "+380 (432) 21-69-30", 
+            "name": "Сергій Олексюк"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "id": "00137256", 
+            "uri": "http://www.sc.gov.ua/"
+          }, 
+          "name": "ДКП «Школяр»", 
+          "address": {
+            "postalCode": "21100", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 33", 
+            "region": "м. Вінниця", 
+            "locality": "м. Вінниця"
+          }
+        }
+      ], 
+      "bid_id": "25ac7a23a2c2469a89730fdc082d6c76", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 500.0, 
+        "valueAddedTaxIncluded": true
+      }, 
+      "qualified": true, 
+      "date": "2018-11-30T16:38:29.756893+02:00", 
+      "id": "7f93d4d6b987447aaf813e193cfa368a"
+    }, 
+    {
+      "status": "pending", 
+      "lotID": "ddb35dd0e9904726aafd18baed24863a", 
+      "suppliers": [
+        {
+          "contactPoint": {
+            "email": "fake@mail.com", 
+            "telephone": "+380 (322) 12-34-56", 
+            "name": "Іван Іваненко"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "id": "00137226", 
+            "uri": "http://www.sc.gov.ua/"
+          }, 
+          "name": "«Снігур»", 
+          "address": {
+            "postalCode": "79013", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 35", 
+            "region": "м. Львів", 
+            "locality": "м. Львів"
+          }
+        }
+      ], 
+      "bid_id": "23a42e84d61245a0bd218cd8280059ca", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 5, 
+        "valueAddedTaxIncluded": true
+      }, 
+      "date": "2018-11-30T16:38:29.925657+02:00", 
+      "id": "9033213030e14feda41b1d3c31536818"
+    }
+  ]
+}
+

@@ -1,0 +1,120 @@
+# Translations template for PROJECT.
+# Copyright (C) 2018 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2018-11-30 16:31+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: ../../source/complaints.rst:13
+msgid "Complaint Workflow"
+msgstr "Схема роботи оскаржень"
+
+#: ../../source/complaints.rst:15
+msgid ""
+"For more detailed information read `Complaints "
+"<http://openprocurement.org/en/complaints.html>`_."
+msgstr ""
+"Більш детальну інформацію шукайте на сторінці `Оскарження "
+"<http://openprocurement.org/ua/complaints.html>`_."
+
+#: ../../source/complaints.rst:18
+msgid "Tender Conditions Claims/Complaints"
+msgstr "Вимоги/Скарги на умови закупівлі"
+
+#: ../../source/complaints.rst:57
+msgid "Tender Qualification Claims/Complaints"
+msgstr "Вимоги/Скарги на кваліфікацію"
+
+#: ../../source/complaints.rst:91
+msgid "Tender Award Claims/Complaints"
+msgstr "Звернення/Скарги на визначення переможця"
+
+#: ../../source/complaints.rst:125
+msgid "Roles"
+msgstr "Ролі"
+
+#: ../../source/complaints.rst:128
+msgid "dashed"
+msgstr "пунктирна лінія"
+
+#: ../../source/complaints.rst:131
+msgid "plain"
+msgstr "звичайна лінія"
+
+#: ../../source/complaints.rst:134
+msgid "bold"
+msgstr "жирна лінія"
+
+#: ../../source/complaints.rst:137
+msgid "dotted"
+msgstr "пунктирна лінія з крапками"
+
+#: ../../source/complaints.rst:140
+msgid "Statuses"
+msgstr "Статуси"
+
+#: ../../source/complaints.rst:143
+msgid "Initial status"
+msgstr "Початковий статус"
+
+#: ../../source/complaints.rst:145
+msgid ""
+"Complainant can submit claim, upload documents, cancel claim, and re-"
+"submit it."
+msgstr ""
+"На цьому етапі скаржник може подати вимогу, завантажити документи, "
+"відкликати вимогу та подати її знову."
+
+#: ../../source/complaints.rst:148
+msgid "Procuring entity can upload documents and answer to claim."
+msgstr "Замовник може завантажити документи та відповісти на вимогу."
+
+#: ../../source/complaints.rst:150 ../../source/complaints.rst:158
+msgid "Complainant can cancel claim."
+msgstr "Скаржник може відкликати вимогу."
+
+#: ../../source/complaints.rst:153
+msgid ""
+"Complainant can cancel claim, upload documents, accept solution or "
+"escalate claim to complaint."
+msgstr ""
+"Скаржник може відкликати вимогу, завантажити документи, погодитись з "
+"вирішенням або перетворити вимогу на скаргу."
+
+#: ../../source/complaints.rst:156
+msgid "Reviewer can upload documents and review complaint."
+msgstr "Орган оскарження може завантажувати документи та розглядати скарги."
+
+#: ../../source/complaints.rst:161 ../../source/complaints.rst:166
+#: ../../source/complaints.rst:171 ../../source/complaints.rst:176
+msgid "Terminal status"
+msgstr "Кінцевий статус"
+
+#: ../../source/complaints.rst:163
+msgid "Complaint recognized as invalid."
+msgstr "Скаргу визнано недійсною."
+
+#: ../../source/complaints.rst:168
+msgid "Complaint recognized as declined."
+msgstr "Скаргу визнано відхиленою."
+
+#: ../../source/complaints.rst:173
+msgid "Complaint recognized as resolved."
+msgstr "Скаргу визнано вирішеною."
+
+#: ../../source/complaints.rst:178
+msgid "Complaint cancelled by complainant."
+msgstr "Скаргу відкликано скаржником."
+

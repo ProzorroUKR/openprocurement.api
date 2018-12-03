@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/agreements/6ae76990cfe442f299476557f4a31e8a/contracts/64b106cdc15b46618c85ded859dbaec5?acc_token=d7c3b74a85b64c7e9a382bfbea960829 HTTP/1.0
+PATCH /api/2.4/tenders/4e095f899aea431dade658804787b2aa/agreements/c86d058766c04c53821802d789ddd3a4/contracts/2193fe90a0644f89a06e704d2403fe01?acc_token=8a38796ad4814abcaf75da2c44b5c6cc HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 184
 Content-Type: application/json
@@ -11,13 +11,13 @@ DATA:
         "value": {
           "amount": 0.5
         }, 
-        "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+        "relatedItem": "a33c8d8aa1d949ffb6e29478daf3484b"
       }, 
       {
         "value": {
           "amount": 0.5
         }, 
-        "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
+        "relatedItem": "ac50b5589d084bf697aedfb2ed399fed"
       }
     ]
   }
@@ -35,7 +35,7 @@ Content-Type: application/json; charset=UTF-8
           "amount": 0.5, 
           "valueAddedTaxIncluded": true
         }, 
-        "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+        "relatedItem": "a33c8d8aa1d949ffb6e29478daf3484b"
       }, 
       {
         "value": {
@@ -43,7 +43,7 @@ Content-Type: application/json; charset=UTF-8
           "amount": 0.5, 
           "valueAddedTaxIncluded": true
         }, 
-        "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
+        "relatedItem": "ac50b5589d084bf697aedfb2ed399fed"
       }
     ], 
     "suppliers": [
@@ -68,10 +68,10 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "bidID": "33673044ed64400bb71a63b2b1a54257", 
-    "date": "2018-11-23T19:07:03.606168+02:00", 
-    "awardID": "f420863d934d4d4998965b4e670c3f61", 
-    "id": "64b106cdc15b46618c85ded859dbaec5"
+    "bidID": "3ed6da5f8665409fb9710ca826a322bc", 
+    "date": "2018-11-30T16:38:31.349575+02:00", 
+    "awardID": "6c0027aaec7a42e29aa199db3aff7a7a", 
+    "id": "2193fe90a0644f89a06e704d2403fe01"
   }
 }
 

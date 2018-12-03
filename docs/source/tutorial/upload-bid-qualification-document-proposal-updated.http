@@ -1,0 +1,23 @@
+PUT /api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/25ac7a23a2c2469a89730fdc082d6c76/qualification_documents/5d9bc313501345358844075dc44f9adb?acc_token=9ef2a88bc6aa4242bcc332fc3d2cc81a HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 203
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy627677139123$
+Host: api-sandbox.openprocurement.org
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "hash": "md5:00000000000000000000000000000000", 
+    "confidentiality": "public", 
+    "language": "uk", 
+    "title": "qualification_document2.pdf", 
+    "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/25ac7a23a2c2469a89730fdc082d6c76/qualification_documents/5d9bc313501345358844075dc44f9adb?download=53923497284c45bf8fc595a106aeacf6", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2018-11-30T16:38:25.544681+02:00", 
+    "id": "5d9bc313501345358844075dc44f9adb", 
+    "dateModified": "2018-11-30T16:38:25.639513+02:00"
+  }
+}
+

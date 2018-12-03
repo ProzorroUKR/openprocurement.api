@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/agreements/6ae76990cfe442f299476557f4a31e8a/contracts?acc_token=d7c3b74a85b64c7e9a382bfbea960829 HTTP/1.0
+GET /api/2.4/tenders/4e095f899aea431dade658804787b2aa/agreements/c86d058766c04c53821802d789ddd3a4/contracts?acc_token=8a38796ad4814abcaf75da2c44b5c6cc HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -14,14 +14,14 @@ Content-Type: application/json; charset=UTF-8
             "currency": "UAH", 
             "valueAddedTaxIncluded": true
           }, 
-          "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+          "relatedItem": "a33c8d8aa1d949ffb6e29478daf3484b"
         }, 
         {
           "value": {
             "currency": "UAH", 
             "valueAddedTaxIncluded": true
           }, 
-          "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
+          "relatedItem": "ac50b5589d084bf697aedfb2ed399fed"
         }
       ], 
       "suppliers": [
@@ -46,10 +46,10 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bidID": "3b7eecbc90854bdfbf2054ceae212850", 
-      "date": "2018-11-23T19:07:03.606017+02:00", 
-      "awardID": "5086f66a4e1c40f7bc3e507adaf775a4", 
-      "id": "e1f4e7c17e574ecdb71d8c720496e94c"
+      "bidID": "23a42e84d61245a0bd218cd8280059ca", 
+      "date": "2018-11-30T16:38:31.349494+02:00", 
+      "awardID": "236fce0958ef49e2bb9547b8fac50ac7", 
+      "id": "1d672f347d0248669142e364d59ed483"
     }, 
     {
       "status": "active", 
@@ -59,14 +59,14 @@ Content-Type: application/json; charset=UTF-8
             "currency": "UAH", 
             "valueAddedTaxIncluded": true
           }, 
-          "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+          "relatedItem": "a33c8d8aa1d949ffb6e29478daf3484b"
         }, 
         {
           "value": {
             "currency": "UAH", 
             "valueAddedTaxIncluded": true
           }, 
-          "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
+          "relatedItem": "ac50b5589d084bf697aedfb2ed399fed"
         }
       ], 
       "suppliers": [
@@ -91,10 +91,10 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bidID": "33673044ed64400bb71a63b2b1a54257", 
-      "date": "2018-11-23T19:07:03.606168+02:00", 
-      "awardID": "f420863d934d4d4998965b4e670c3f61", 
-      "id": "64b106cdc15b46618c85ded859dbaec5"
+      "bidID": "3ed6da5f8665409fb9710ca826a322bc", 
+      "date": "2018-11-30T16:38:31.349575+02:00", 
+      "awardID": "6c0027aaec7a42e29aa199db3aff7a7a", 
+      "id": "2193fe90a0644f89a06e704d2403fe01"
     }, 
     {
       "status": "active", 
@@ -104,14 +104,14 @@ Content-Type: application/json; charset=UTF-8
             "currency": "UAH", 
             "valueAddedTaxIncluded": true
           }, 
-          "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+          "relatedItem": "a33c8d8aa1d949ffb6e29478daf3484b"
         }, 
         {
           "value": {
             "currency": "UAH", 
             "valueAddedTaxIncluded": true
           }, 
-          "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
+          "relatedItem": "ac50b5589d084bf697aedfb2ed399fed"
         }
       ], 
       "suppliers": [
@@ -136,10 +136,10 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bidID": "6e633f58dafe486c92c10845ebd34dfb", 
-      "date": "2018-11-23T19:07:03.606217+02:00", 
-      "awardID": "d5dcab42449e4af4b29702fc12fc8d35", 
-      "id": "425d651452ba4e068e6daf775dde1b76"
+      "bidID": "25ac7a23a2c2469a89730fdc082d6c76", 
+      "date": "2018-11-30T16:38:31.349624+02:00", 
+      "awardID": "3336aa33b30f4db2b46f87fb43f53aae", 
+      "id": "88caa8b1a2274333ae942f061928b666"
     }
   ]
 }

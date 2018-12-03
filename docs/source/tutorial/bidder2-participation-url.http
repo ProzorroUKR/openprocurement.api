@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/bids/33673044ed64400bb71a63b2b1a54257?acc_token=144147e4444b40978e996715b7a1854d HTTP/1.0
+GET /api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/3ed6da5f8665409fb9710ca826a322bc?acc_token=622272303bb146879b0b5a362f9cce04 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -10,10 +10,10 @@ Content-Type: application/json; charset=UTF-8
     "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
-        "date": "2018-11-23T19:06:52.784439+02:00", 
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
+        "date": "2018-11-30T16:38:26.118448+02:00", 
         "status": "active", 
-        "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/3f8dc71b13c046bea46f983700625cfa_d5757bc712564f4a8e9ffa8792b966a6?key_for_bid=33673044ed64400bb71a63b2b1a54257", 
+        "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/4e095f899aea431dade658804787b2aa_ddb35dd0e9904726aafd18baed24863a?key_for_bid=3ed6da5f8665409fb9710ca826a322bc", 
         "value": {
           "currency": "UAH", 
           "amount": 499, 
@@ -44,8 +44,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2018-11-23T19:06:52.783804+02:00", 
-    "id": "33673044ed64400bb71a63b2b1a54257"
+    "date": "2018-11-30T16:38:26.118196+02:00", 
+    "id": "3ed6da5f8665409fb9710ca826a322bc"
   }
 }
 

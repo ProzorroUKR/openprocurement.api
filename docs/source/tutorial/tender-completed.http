@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa HTTP/1.0
+GET /api/2.4/tenders/4e095f899aea431dade658804787b2aa HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -9,18 +9,18 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "status": "complete", 
     "awardPeriod": {
-      "startDate": "2018-11-13T19:07:03.455388+02:00", 
-      "endDate": "2018-11-23T19:07:03.455388+02:00"
+      "startDate": "2018-11-20T16:38:31.279693+02:00", 
+      "endDate": "2018-11-30T16:38:31.279693+02:00"
     }, 
     "complaintPeriod": {
-      "startDate": "2018-10-02T19:07:03.455388+02:00", 
-      "endDate": "2018-10-29T00:00:00+02:00"
+      "startDate": "2018-10-09T16:38:31.279693+02:00", 
+      "endDate": "2018-11-05T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2018-10-02T19:07:03.455388+02:00", 
-      "clarificationsUntil": "2018-10-26T19:07:03.455388+02:00", 
-      "endDate": "2018-10-23T19:07:03.455388+02:00", 
-      "invalidationDate": "2018-11-23T19:06:51.463155+02:00"
+      "startDate": "2018-10-09T16:38:31.279693+02:00", 
+      "clarificationsUntil": "2018-11-02T16:38:31.279693+02:00", 
+      "endDate": "2018-10-30T16:38:31.279693+02:00", 
+      "invalidationDate": "2018-11-30T16:38:25.867401+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "procurementMethodType": "closeFrameworkAgreementUA", 
@@ -50,19 +50,19 @@ Content-Type: application/json; charset=UTF-8
           }
         }, 
         "title": "Калорійність", 
-        "date": "2018-11-23T19:06:48.335465+02:00", 
+        "date": "2018-11-30T16:38:24.343813+02:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "dateAnswered": "2018-11-23T19:06:48.470977+02:00", 
-        "id": "501a2401bf2a4b91a18869d0801645ae", 
+        "dateAnswered": "2018-11-30T16:38:24.404096+02:00", 
+        "id": "64ccdf983706402fbdad79d601ac42e2", 
         "questionOf": "tender"
       }
     ], 
     "owner": "broker", 
-    "id": "3f8dc71b13c046bea46f983700625cfa", 
+    "id": "4e095f899aea431dade658804787b2aa", 
     "contractPeriod": {
-      "startDate": "2018-11-17T19:07:06.417975+02:00", 
-      "clarificationsUntil": "2018-11-22T19:07:06.418050+02:00", 
-      "endDate": "2018-11-23T19:07:09.625339+02:00"
+      "startDate": "2018-11-24T16:38:32.677957+02:00", 
+      "clarificationsUntil": "2018-11-29T16:38:32.678003+02:00", 
+      "endDate": "2018-11-30T16:38:34.219558+02:00"
     }, 
     "documents": [
       {
@@ -70,36 +70,36 @@ Content-Type: application/json; charset=UTF-8
         "author": "tender_owner", 
         "language": "uk", 
         "title": "Notice.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/5568ced8d37d48368c64d97e17ca5176?KeyID=6ad8cc9e&Signature=ijl4W8ovvFN9CqS21CyQqC3k%252BA0xIv%252BCX4fvXWzwk6sgPMCJADxwRHMLuZR18nlopfbNsDenXgmE4V6rRVQaAw%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/3bf6c3e7b26f46f1a620cd7ab3ae7024?KeyID=29d4a5c6&Signature=zA7DMTQjryHOv%2FTj5RzJq4mCWP0w7PIvj3fxFbXcAyiQl12qcSxW%252BhjO5aCO5Km3jkPmvVsJvPCS4r%2F%2FHaQSCw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-11-23T19:06:47.868562+02:00", 
-        "id": "5ce30ebfb40448b39d9b3288630bb51f", 
-        "dateModified": "2018-11-23T19:06:47.868602+02:00"
+        "datePublished": "2018-11-30T16:38:24.133568+02:00", 
+        "id": "141cc0db847146da99b07f2ba70a59bd", 
+        "dateModified": "2018-11-30T16:38:24.133583+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/0b5132ff181e432996b1b48cab818351?KeyID=6ad8cc9e&Signature=LZp4iKGeTOK1saqJMZcoRp%2F%2Faj8CLH24ZpM9GVv5v2G5DfhC%2FxPgkZI8dKU7MhrFEMqi1Xxc2yUJss8EvcDYCw%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/71509aa1329b448ea93fa05b0888df2f?KeyID=29d4a5c6&Signature=Hx2iK1%252BknBynGP92oDAR9gAyc4GtiSWhYNVPv7LUdoN22nVCRR1Y4eJ1QaoeYJ6PpbVmgxbyXwWtcWQYcakZDw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-11-23T19:06:48.018323+02:00", 
-        "id": "0d71ba76ed4a4f9fb93b5dc59c4fc639", 
-        "dateModified": "2018-11-23T19:06:48.018350+02:00"
+        "datePublished": "2018-11-30T16:38:24.196350+02:00", 
+        "id": "324edb2af76445dfae52bcc72d58a83c", 
+        "dateModified": "2018-11-30T16:38:24.196367+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/7550c26913b2449c99ba705a83aa03d0?KeyID=6ad8cc9e&Signature=9AISpf36bnY4%252BExDYRpylnKwzcu90Fc%2F1OD2y2REQwx%2FWErJrJfC0OYYNV0mLbfvQ1pbmW8A7ZG1t8oyxPyZBA%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/2daa2ca827304d4493197aec831191d7?KeyID=29d4a5c6&Signature=iFb6tEZ3xd1lxsSZ9QZXXiBTr8n5y4mnml1mxgwMP4%252BoKujadgep%2FrZldSsa96HpiKswSGFMtZu0pOgIbW0ZAA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-11-23T19:06:48.018323+02:00", 
-        "id": "0d71ba76ed4a4f9fb93b5dc59c4fc639", 
-        "dateModified": "2018-11-23T19:06:48.173966+02:00"
+        "datePublished": "2018-11-30T16:38:24.196350+02:00", 
+        "id": "324edb2af76445dfae52bcc72d58a83c", 
+        "dateModified": "2018-11-30T16:38:24.273366+02:00"
       }
     ], 
     "title": "футляри до державних нагород", 
@@ -108,10 +108,10 @@ Content-Type: application/json; charset=UTF-8
         "status": "active", 
         "description": "Опис Лот №1", 
         "title": "Лот №1", 
-        "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/3f8dc71b13c046bea46f983700625cfa_d5757bc712564f4a8e9ffa8792b966a6", 
+        "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/4e095f899aea431dade658804787b2aa_ddb35dd0e9904726aafd18baed24863a", 
         "auctionPeriod": {
-          "startDate": "2018-11-12T19:07:03.455388+02:00", 
-          "endDate": "2018-11-13T19:07:03.455388+02:00"
+          "startDate": "2018-11-19T16:38:31.279693+02:00", 
+          "endDate": "2018-11-20T16:38:31.279693+02:00"
         }, 
         "value": {
           "currency": "UAH", 
@@ -123,8 +123,8 @@ Content-Type: application/json; charset=UTF-8
           "amount": 35.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2018-11-23T19:06:45.252187+02:00", 
-        "id": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "date": "2018-11-30T16:38:21.879121+02:00", 
+        "id": "ddb35dd0e9904726aafd18baed24863a", 
         "guarantee": {
           "currency": "USD", 
           "amount": 8.0
@@ -132,47 +132,47 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "qualificationPeriod": {
-      "startDate": "2018-11-02T19:07:03.455388+02:00", 
-      "endDate": "2018-11-12T19:07:03.455388+02:00"
+      "startDate": "2018-11-09T16:38:31.279693+02:00", 
+      "endDate": "2018-11-19T16:38:31.279693+02:00"
     }, 
     "maxAwardsCount": 4, 
-    "tenderID": "UA-2018-11-23-000001", 
+    "tenderID": "UA-2018-11-30-000001", 
     "auctionPeriod": {
-      "startDate": "2018-11-12T19:07:03.455388+02:00", 
-      "endDate": "2018-11-13T19:07:03.455388+02:00"
+      "startDate": "2018-11-19T16:38:31.279693+02:00", 
+      "endDate": "2018-11-20T16:38:31.279693+02:00"
     }, 
     "guarantee": {
       "currency": "USD", 
       "amount": 8
     }, 
-    "dateModified": "2018-11-23T19:07:09.663503+02:00", 
+    "dateModified": "2018-11-30T16:38:34.236717+02:00", 
     "agreements": [
       {
-        "agreementID": "UA-2018-11-23-000001-66d780bd12b64ec881396edc06a4422b1", 
+        "agreementID": "UA-2018-11-30-000001-72cd206bf9c94dacb4da8c1447d1f6a21", 
         "status": "active", 
         "documents": [
           {
             "hash": "md5:00000000000000000000000000000000", 
             "title": "agreement_first_document.doc", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/1622bea8909948f3a2c7881e98550565?KeyID=6ad8cc9e&Signature=oFvSXtjYvBpaGWZvFF8t3QKE2BEJf06RojG%2FX0VJMvUK5pNhqKvp8fqgiTHGcgU7TVufm2cuvGK5LN6FrDIuAw%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/ecb2b0698801488c9ad12df99df8aa95?KeyID=29d4a5c6&Signature=vUm65SYKKw8ANaYPtpVonrOnm%2Fh9D2gLIyM2s4uy6W11UuyjgXmvL2ltqcnSPcPD0lJWleOrKdgt7JvU%252BLjvBw%253D%253D", 
             "format": "application/msword", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:07:06.619951+02:00", 
-            "id": "bee6649eb6e242d1a9417f69cc807df1", 
-            "dateModified": "2018-11-23T19:07:06.619989+02:00"
+            "datePublished": "2018-11-30T16:38:32.778275+02:00", 
+            "id": "64164304ad9f4d7187b9559022af9443", 
+            "dateModified": "2018-11-30T16:38:32.778316+02:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
             "language": "en", 
             "title": "agreement_second_document.doc", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/22fe8ebe486347ab8f6b28b255a4d1f9?KeyID=6ad8cc9e&Signature=mT4IO6lr9Hz31MAvhaYD9QqoDk3wZ8AR%252Bi4WSKEOQHY1zBIL1uvQdRtvnYypqWjIoLro6C2POo08MD3pqpCdBw%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/ae98a587fc1743708a9cae01d9ca376e?KeyID=29d4a5c6&Signature=ajAEYVbhgeDzsD6NaxvL1sgLAOkh%252BB3JPYMkgttupObkPXY3SxMvo3UW1dN8Z3WxuJ1ohH8pwozbp%252BpliWBIBQ%253D%253D", 
             "format": "application/msword", 
             "title_en": "Title of Document", 
             "description_en": "Description of Document", 
-            "datePublished": "2018-11-23T19:07:07.345015+02:00", 
+            "datePublished": "2018-11-30T16:38:33.141958+02:00", 
             "documentOf": "tender", 
-            "id": "dc76f9eda13549b795e5bfc1995749bf", 
-            "dateModified": "2018-11-23T19:07:07.345064+02:00"
+            "id": "3b02629e2e834511b5bdf715e372c4ed", 
+            "dateModified": "2018-11-30T16:38:33.141976+02:00"
           }
         ], 
         "contracts": [
@@ -185,7 +185,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+                "relatedItem": "a33c8d8aa1d949ffb6e29478daf3484b"
               }, 
               {
                 "value": {
@@ -193,7 +193,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
+                "relatedItem": "ac50b5589d084bf697aedfb2ed399fed"
               }
             ], 
             "suppliers": [
@@ -218,10 +218,10 @@ Content-Type: application/json; charset=UTF-8
                 }
               }
             ], 
-            "bidID": "3b7eecbc90854bdfbf2054ceae212850", 
-            "date": "2018-11-23T19:07:03.606017+02:00", 
-            "awardID": "5086f66a4e1c40f7bc3e507adaf775a4", 
-            "id": "e1f4e7c17e574ecdb71d8c720496e94c"
+            "bidID": "23a42e84d61245a0bd218cd8280059ca", 
+            "date": "2018-11-30T16:38:31.349494+02:00", 
+            "awardID": "236fce0958ef49e2bb9547b8fac50ac7", 
+            "id": "1d672f347d0248669142e364d59ed483"
           }, 
           {
             "status": "active", 
@@ -232,7 +232,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+                "relatedItem": "a33c8d8aa1d949ffb6e29478daf3484b"
               }, 
               {
                 "value": {
@@ -240,7 +240,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
+                "relatedItem": "ac50b5589d084bf697aedfb2ed399fed"
               }
             ], 
             "suppliers": [
@@ -265,10 +265,10 @@ Content-Type: application/json; charset=UTF-8
                 }
               }
             ], 
-            "bidID": "33673044ed64400bb71a63b2b1a54257", 
-            "date": "2018-11-23T19:07:03.606168+02:00", 
-            "awardID": "f420863d934d4d4998965b4e670c3f61", 
-            "id": "64b106cdc15b46618c85ded859dbaec5"
+            "bidID": "3ed6da5f8665409fb9710ca826a322bc", 
+            "date": "2018-11-30T16:38:31.349575+02:00", 
+            "awardID": "6c0027aaec7a42e29aa199db3aff7a7a", 
+            "id": "2193fe90a0644f89a06e704d2403fe01"
           }, 
           {
             "status": "active", 
@@ -279,7 +279,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "4d457966652b4379b0ff2f510fdd45c4"
+                "relatedItem": "a33c8d8aa1d949ffb6e29478daf3484b"
               }, 
               {
                 "value": {
@@ -287,7 +287,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "bd82b9c9dd7d4673a18c6fc13111693b"
+                "relatedItem": "ac50b5589d084bf697aedfb2ed399fed"
               }
             ], 
             "suppliers": [
@@ -312,15 +312,15 @@ Content-Type: application/json; charset=UTF-8
                 }
               }
             ], 
-            "bidID": "6e633f58dafe486c92c10845ebd34dfb", 
-            "date": "2018-11-23T19:07:03.606217+02:00", 
-            "awardID": "d5dcab42449e4af4b29702fc12fc8d35", 
-            "id": "425d651452ba4e068e6daf775dde1b76"
+            "bidID": "25ac7a23a2c2469a89730fdc082d6c76", 
+            "date": "2018-11-30T16:38:31.349624+02:00", 
+            "awardID": "3336aa33b30f4db2b46f87fb43f53aae", 
+            "id": "88caa8b1a2274333ae942f061928b666"
           }
         ], 
         "items": [
           {
-            "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
+            "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
             "description": "футляри до державних нагород", 
             "classification": {
               "scheme": "ДК021", 
@@ -346,7 +346,7 @@ Content-Type: application/json; charset=UTF-8
               "startDate": "2018-06-27T13:39:09.362837+03:00", 
               "endDate": "2018-06-30T13:39:09.362837+03:00"
             }, 
-            "id": "4d457966652b4379b0ff2f510fdd45c4", 
+            "id": "a33c8d8aa1d949ffb6e29478daf3484b", 
             "unit": {
               "code": "44617100-9", 
               "name": "item"
@@ -354,7 +354,7 @@ Content-Type: application/json; charset=UTF-8
             "quantity": 5
           }, 
           {
-            "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
+            "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
             "description": "футляри до державних нагород", 
             "classification": {
               "scheme": "ДК021", 
@@ -380,7 +380,7 @@ Content-Type: application/json; charset=UTF-8
               "startDate": "2018-06-27T13:39:09.362837+03:00", 
               "endDate": "2018-06-30T13:39:09.362837+03:00"
             }, 
-            "id": "bd82b9c9dd7d4673a18c6fc13111693b", 
+            "id": "ac50b5589d084bf697aedfb2ed399fed", 
             "unit": {
               "code": "44617100-8", 
               "name": "item"
@@ -389,55 +389,55 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "period": {
-          "startDate": "2018-11-23T19:06:16.390670+02:00", 
-          "endDate": "2022-11-22T19:06:16.390670+02:00"
+          "startDate": "2018-11-30T16:38:09.163119+02:00", 
+          "endDate": "2022-11-29T16:38:09.163119+02:00"
         }, 
-        "dateSigned": "2018-11-23T19:07:08.628290+02:00", 
-        "date": "2018-11-23T19:07:09.663503+02:00", 
-        "id": "6ae76990cfe442f299476557f4a31e8a"
+        "dateSigned": "2018-11-30T16:38:33.735638+02:00", 
+        "date": "2018-11-30T16:38:34.236717+02:00", 
+        "id": "c86d058766c04c53821802d789ddd3a4"
       }
     ], 
     "numberOfBids": 3, 
     "tenderPeriod": {
-      "startDate": "2018-10-02T19:07:03.455388+02:00", 
-      "endDate": "2018-11-02T19:07:03.455388+02:00"
+      "startDate": "2018-10-09T16:38:31.279693+02:00", 
+      "endDate": "2018-11-09T16:38:31.279693+02:00"
     }, 
     "qualifications": [
       {
         "status": "active", 
-        "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "lotID": "ddb35dd0e9904726aafd18baed24863a", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "6e633f58dafe486c92c10845ebd34dfb", 
-        "date": "2018-11-23T19:06:54.799876+02:00", 
-        "id": "8fc48dd927014e9e9076e909a4233b02"
+        "bidID": "25ac7a23a2c2469a89730fdc082d6c76", 
+        "date": "2018-11-30T16:38:27.028664+02:00", 
+        "id": "8f7f71adfabd40e588c9840563a28cfd"
       }, 
       {
         "status": "active", 
-        "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "lotID": "ddb35dd0e9904726aafd18baed24863a", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "33673044ed64400bb71a63b2b1a54257", 
-        "date": "2018-11-23T19:06:55.122504+02:00", 
-        "id": "cb3fa58278d949408a5b1fbafc7ebd84"
+        "bidID": "3ed6da5f8665409fb9710ca826a322bc", 
+        "date": "2018-11-30T16:38:27.183786+02:00", 
+        "id": "b60692147816474db834bbe7b6877dcc"
       }, 
       {
         "status": "unsuccessful", 
-        "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "lotID": "ddb35dd0e9904726aafd18baed24863a", 
         "eligible": false, 
         "qualified": false, 
-        "bidID": "2d79f8a1e6b049a3b87dd9e626a7cd51", 
-        "date": "2018-11-23T19:06:55.792856+02:00", 
-        "id": "6a3548531b1848e791cf6e3d4339e049"
+        "bidID": "52b3fe0a32744052a9fb4e9348cbcc15", 
+        "date": "2018-11-30T16:38:27.485238+02:00", 
+        "id": "acbd65655fc042d0b1be97e99c74e076"
       }, 
       {
         "status": "active", 
-        "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "lotID": "ddb35dd0e9904726aafd18baed24863a", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "3b7eecbc90854bdfbf2054ceae212850", 
-        "date": "2018-11-23T19:06:55.459733+02:00", 
-        "id": "ecb4f5f04ca141fab5cbae7d89bd8b73"
+        "bidID": "23a42e84d61245a0bd218cd8280059ca", 
+        "date": "2018-11-30T16:38:27.336135+02:00", 
+        "id": "e39cd5342d0b4fdda01c9d559c63de30"
       }
     ], 
     "title_en": "Cases for state awards", 
@@ -445,7 +445,7 @@ Content-Type: application/json; charset=UTF-8
     "awards": [
       {
         "status": "cancelled", 
-        "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "lotID": "ddb35dd0e9904726aafd18baed24863a", 
         "eligible": true, 
         "suppliers": [
           {
@@ -469,19 +469,19 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bid_id": "3b7eecbc90854bdfbf2054ceae212850", 
+        "bid_id": "23a42e84d61245a0bd218cd8280059ca", 
         "value": {
           "currency": "UAH", 
           "amount": 5, 
           "valueAddedTaxIncluded": true
         }, 
         "qualified": true, 
-        "date": "2018-11-23T19:07:00.755391+02:00", 
-        "id": "83664786f3d94392a768396fe1b8c2db"
+        "date": "2018-11-30T16:38:29.938088+02:00", 
+        "id": "db42d9fbd8504b588ca302a8925ad3bb"
       }, 
       {
         "status": "cancelled", 
-        "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "lotID": "ddb35dd0e9904726aafd18baed24863a", 
         "eligible": true, 
         "suppliers": [
           {
@@ -505,19 +505,19 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bid_id": "33673044ed64400bb71a63b2b1a54257", 
+        "bid_id": "3ed6da5f8665409fb9710ca826a322bc", 
         "value": {
           "currency": "UAH", 
           "amount": 499, 
           "valueAddedTaxIncluded": true
         }, 
         "qualified": true, 
-        "date": "2018-11-23T19:07:01.690394+02:00", 
-        "id": "ecce27abf6d843939d1234272f893f09"
+        "date": "2018-11-30T16:38:30.412822+02:00", 
+        "id": "becc6c3233bc43d9ac87f79f824c365d"
       }, 
       {
         "status": "cancelled", 
-        "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "lotID": "ddb35dd0e9904726aafd18baed24863a", 
         "eligible": true, 
         "suppliers": [
           {
@@ -541,19 +541,19 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bid_id": "6e633f58dafe486c92c10845ebd34dfb", 
+        "bid_id": "25ac7a23a2c2469a89730fdc082d6c76", 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
         "qualified": true, 
-        "date": "2018-11-23T19:07:01.690394+02:00", 
-        "id": "df574da382db4cbaadda4519e6ef7e6d"
+        "date": "2018-11-30T16:38:30.412822+02:00", 
+        "id": "7f93d4d6b987447aaf813e193cfa368a"
       }, 
       {
         "status": "cancelled", 
-        "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "lotID": "ddb35dd0e9904726aafd18baed24863a", 
         "suppliers": [
           {
             "contactPoint": {
@@ -576,18 +576,18 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bid_id": "3b7eecbc90854bdfbf2054ceae212850", 
+        "bid_id": "23a42e84d61245a0bd218cd8280059ca", 
         "value": {
           "currency": "UAH", 
           "amount": 5, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2018-11-23T19:07:01.690394+02:00", 
-        "id": "df0bde9cf9d442fabcfa655bc058ab13"
+        "date": "2018-11-30T16:38:30.412822+02:00", 
+        "id": "9033213030e14feda41b1d3c31536818"
       }, 
       {
         "status": "active", 
-        "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "lotID": "ddb35dd0e9904726aafd18baed24863a", 
         "eligible": true, 
         "suppliers": [
           {
@@ -612,22 +612,22 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "complaintPeriod": {
-          "startDate": "2018-11-13T19:07:03.455388+02:00", 
-          "endDate": "2018-11-23T19:07:03.455388+02:00"
+          "startDate": "2018-11-20T16:38:31.279693+02:00", 
+          "endDate": "2018-11-30T16:38:31.279693+02:00"
         }, 
-        "bid_id": "3b7eecbc90854bdfbf2054ceae212850", 
+        "bid_id": "23a42e84d61245a0bd218cd8280059ca", 
         "value": {
           "currency": "UAH", 
           "amount": 5, 
           "valueAddedTaxIncluded": true
         }, 
         "qualified": true, 
-        "date": "2018-11-23T19:07:02.261194+02:00", 
-        "id": "5086f66a4e1c40f7bc3e507adaf775a4"
+        "date": "2018-11-30T16:38:30.706314+02:00", 
+        "id": "236fce0958ef49e2bb9547b8fac50ac7"
       }, 
       {
         "status": "active", 
-        "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "lotID": "ddb35dd0e9904726aafd18baed24863a", 
         "eligible": true, 
         "suppliers": [
           {
@@ -652,22 +652,22 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "complaintPeriod": {
-          "startDate": "2018-11-13T19:07:03.455388+02:00", 
-          "endDate": "2018-11-23T19:07:03.455388+02:00"
+          "startDate": "2018-11-20T16:38:31.279693+02:00", 
+          "endDate": "2018-11-30T16:38:31.279693+02:00"
         }, 
-        "bid_id": "33673044ed64400bb71a63b2b1a54257", 
+        "bid_id": "3ed6da5f8665409fb9710ca826a322bc", 
         "value": {
           "currency": "UAH", 
           "amount": 499, 
           "valueAddedTaxIncluded": true
         }, 
         "qualified": true, 
-        "date": "2018-11-23T19:07:02.721706+02:00", 
-        "id": "f420863d934d4d4998965b4e670c3f61"
+        "date": "2018-11-30T16:38:30.911544+02:00", 
+        "id": "6c0027aaec7a42e29aa199db3aff7a7a"
       }, 
       {
         "status": "active", 
-        "lotID": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "lotID": "ddb35dd0e9904726aafd18baed24863a", 
         "eligible": true, 
         "suppliers": [
           {
@@ -692,21 +692,21 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "complaintPeriod": {
-          "startDate": "2018-11-13T19:07:03.455388+02:00", 
-          "endDate": "2018-11-23T19:07:03.455388+02:00"
+          "startDate": "2018-11-20T16:38:31.279693+02:00", 
+          "endDate": "2018-11-30T16:38:31.279693+02:00"
         }, 
-        "bid_id": "6e633f58dafe486c92c10845ebd34dfb", 
+        "bid_id": "25ac7a23a2c2469a89730fdc082d6c76", 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
         "qualified": true, 
-        "date": "2018-11-23T19:07:03.177780+02:00", 
-        "id": "d5dcab42449e4af4b29702fc12fc8d35"
+        "date": "2018-11-30T16:38:31.162889+02:00", 
+        "id": "3336aa33b30f4db2b46f87fb43f53aae"
       }
     ], 
-    "date": "2018-11-23T19:07:09.663503+02:00", 
+    "date": "2018-11-30T16:38:34.236717+02:00", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 35, 
@@ -714,7 +714,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -740,7 +740,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "4d457966652b4379b0ff2f510fdd45c4", 
+        "id": "a33c8d8aa1d949ffb6e29478daf3484b", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -748,7 +748,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 5
       }, 
       {
-        "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -774,7 +774,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "bd82b9c9dd7d4673a18c6fc13111693b", 
+        "id": "ac50b5589d084bf697aedfb2ed399fed", 
         "unit": {
           "code": "44617100-8", 
           "name": "item"
@@ -791,25 +791,25 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "public", 
             "language": "uk", 
             "title": "Proposal.pdf", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/165744046ee240be9d34c5214c214f5f?KeyID=6ad8cc9e&Signature=73QKcqKN19JYvf1vWAJ5031wgmTq9xM8qv20TIsmzmosqNg9Su2bpD21gciboLCfD3vfnWJm27nCf9F%252Bcb2DAA%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/1bcb94b7212646faa54389f6a11ed869?KeyID=29d4a5c6&Signature=H5qhZXfzVqyWdcKd%2FREJWWrstkOcERw9LVBtD1O5lIbeG9WpaYb17hqM4zkqvYh8lhISveUp1V3opobHS6JQCw%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:49.574656+02:00", 
-            "id": "0f60dd07e05f4967b3d224be3b223f3c", 
-            "dateModified": "2018-11-23T19:06:49.574684+02:00"
+            "datePublished": "2018-11-30T16:38:24.916629+02:00", 
+            "id": "75f708e5e327471d889880518d130be2", 
+            "dateModified": "2018-11-30T16:38:24.916644+02:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
             "confidentiality": "buyerOnly", 
             "language": "uk", 
             "format": "application/pdf", 
-            "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/bids/6e633f58dafe486c92c10845ebd34dfb/documents/278e1f79ab6f4ecfb4297aaf795e556e?download=7a494939177a49cb869e357bc558fb60", 
+            "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/25ac7a23a2c2469a89730fdc082d6c76/documents/1ea08abf3f87461eabb43cc19537d3af?download=07bc54de91224fa6b1c3ad1a7568f105", 
             "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_top_secrets.pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:49.751317+02:00", 
-            "id": "278e1f79ab6f4ecfb4297aaf795e556e", 
-            "dateModified": "2018-11-23T19:06:49.751345+02:00"
+            "datePublished": "2018-11-30T16:38:24.990333+02:00", 
+            "id": "1ea08abf3f87461eabb43cc19537d3af", 
+            "dateModified": "2018-11-30T16:38:24.990354+02:00"
           }
         ], 
         "eligibilityDocuments": [
@@ -818,22 +818,22 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "public", 
             "language": "uk", 
             "title": "eligibility_doc.pdf", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/4a1fff0834a541b595f9f05216575da3?KeyID=6ad8cc9e&Signature=USC%2FozjY4hpZp6uI1BKk379m2ElPVxG9A%252BXO8J1Tf9mANi4EspWOoWhE5fh8rwK5nSuzLdAIXdzp%252BfliRWKrAA%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/8d9bafe0b86d4752a10894677b473b26?KeyID=29d4a5c6&Signature=fw%252BmKQjdFNixucIoY%252BpgF9HLOhcJDcWWLPyayL56AI1rIWXEqq%2FNspnhpWGR72Y%2FgNh0jvyQNlbqCNS8YXxIDA%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:50.538279+02:00", 
-            "id": "26339592c73d41ec9a9f8b5b0b2d02e3", 
-            "dateModified": "2018-11-23T19:06:50.538310+02:00"
+            "datePublished": "2018-11-30T16:38:25.459777+02:00", 
+            "id": "e2e7ecf7b3214e979833d774fbbfea16", 
+            "dateModified": "2018-11-30T16:38:25.459791+02:00"
           }
         ], 
         "selfEligible": true, 
-        "id": "6e633f58dafe486c92c10845ebd34dfb", 
+        "id": "25ac7a23a2c2469a89730fdc082d6c76", 
         "lotValues": [
           {
-            "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
-            "date": "2018-11-23T19:06:49.244048+02:00", 
+            "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
+            "date": "2018-11-30T16:38:24.769391+02:00", 
             "status": "active", 
-            "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/3f8dc71b13c046bea46f983700625cfa_d5757bc712564f4a8e9ffa8792b966a6?key_for_bid=6e633f58dafe486c92c10845ebd34dfb", 
+            "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/4e095f899aea431dade658804787b2aa_ddb35dd0e9904726aafd18baed24863a?key_for_bid=25ac7a23a2c2469a89730fdc082d6c76", 
             "value": {
               "currency": "UAH", 
               "amount": 500.0, 
@@ -848,36 +848,36 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "public", 
             "language": "uk", 
             "title": "financial_doc.pdf", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/5fd60669bf3a4c29a70bff9859489775?KeyID=6ad8cc9e&Signature=LaDHvMKV98DqhBPh%2FrvxsjYMF2oX5o0Kf1ugR%252BJOn7cGzQT%252BTgDcuYIYkOOJf%252BlctPpjqltostNIBojpPMXPAw%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/987e8a265cf14fe9a235e8d0a9efbc59?KeyID=29d4a5c6&Signature=VaI%2FEN8IStn6pitaZfvER%252BkgyG2i%252BNt6atcpN4sDlXFEPyatcaVEOm3rANpFwAEIQ2AL47KkCgYjAjIxl6cGDA%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:50.110678+02:00", 
-            "id": "1e3491d4fdd4449f8b89364794d950c0", 
-            "dateModified": "2018-11-23T19:06:50.110706+02:00"
+            "datePublished": "2018-11-30T16:38:25.181514+02:00", 
+            "id": "97b604aa79594468ab0d6d4bcfd46be3", 
+            "dateModified": "2018-11-30T16:38:25.181529+02:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
             "confidentiality": "public", 
             "language": "uk", 
             "title": "financial_doc2.pdf", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/7960a35cb4b34c06a20266863879ed1f?KeyID=6ad8cc9e&Signature=fK5yGuyMoWpjf7JMWylp02X59VSz300NFfH%2F4n88ZiFwnKVZIl8D%252B0M0%2F%2FAlxpOM5Uon2%2FIK9FdAKWjls4%2FBAA%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/febf37605b9649bba6b5978fdc41ddd6?KeyID=29d4a5c6&Signature=5AnOdk3ecw38wvToGnN9odbsmxgjPQGk2sL88JXXhaUwaMDu0JYbmoWH%252Bzx0eItS5q74AM2AH3%2FQhJF%2FQZvAAQ%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:50.301047+02:00", 
-            "id": "9b0d0dc1ef0241629f082dc4b44f4eb0", 
-            "dateModified": "2018-11-23T19:06:50.301074+02:00"
+            "datePublished": "2018-11-30T16:38:25.354452+02:00", 
+            "id": "84b17fa242004f309fc5bc39c69531c0", 
+            "dateModified": "2018-11-30T16:38:25.354467+02:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
             "confidentiality": "public", 
             "language": "uk", 
             "title": "prices.xlsx", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/3e29ce92f3c14c4ab7715e2807240166?KeyID=6ad8cc9e&Signature=FTM3Gd%252Bco8cHT6f4Xrb3y9PZwO%252BIlS1oBBhCYjjC7wCWQ5yW0Qma0FqNnrL%2FmqF1rgKCqpn690CktV7lyHN2CA%253D%253D", 
-            "format": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/400f3d569e924af296a96959018f9691?KeyID=29d4a5c6&Signature=%252BwdrDGzRchRWCmxXWm2uuOScQEoW1vJ%252B3CsTzB9LAMWKTO3UQE43iMMwhUmOpqFxg4fIiQY%252BRp12wb5g8u0pAg%253D%253D", 
+            "format": "application/octet-stream", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:07:03.956296+02:00", 
-            "id": "7d1390fab6b644f28f28a28af4713f64", 
-            "dateModified": "2018-11-23T19:07:03.956330+02:00"
+            "datePublished": "2018-11-30T16:38:31.536622+02:00", 
+            "id": "e44036f82db64b28a151401c6e6ef3cd", 
+            "dateModified": "2018-11-30T16:38:31.536639+02:00"
           }
         ], 
         "tenderers": [
@@ -902,7 +902,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "date": "2018-11-23T19:06:49.243580+02:00", 
+        "date": "2018-11-30T16:38:24.769050+02:00", 
         "subcontractingDetails": "ДКП «Орфей», Україна", 
         "qualificationDocuments": [
           {
@@ -910,24 +910,24 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "public", 
             "language": "uk", 
             "title": "qualification_document.pdf", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/b22d25947745467dbf1913dff977fee5?KeyID=6ad8cc9e&Signature=ABpeLnlY8wN43D1zBRCOOkaQsoh%252BwDrEPGtzhDjARiisk1jwMSwQFvrWOgDPUskpuUVCmnmj4%252B007fN2qCQdAA%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/2bfb3896fec04980ad414cd9510df964?KeyID=29d4a5c6&Signature=XdT9g5zXBO%252B1%252B%252BlWQhAkxrSR1suGCIhExFLZ1VJH7ARZglmIeAl7huCj3%252Bxai7t1hcxP%2FJJ9U7Cn2PF9BuTECw%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:50.753116+02:00", 
-            "id": "5de08e2ca06e4221a354a4ade92eb641", 
-            "dateModified": "2018-11-23T19:06:50.753145+02:00"
+            "datePublished": "2018-11-30T16:38:25.544681+02:00", 
+            "id": "5d9bc313501345358844075dc44f9adb", 
+            "dateModified": "2018-11-30T16:38:25.544696+02:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
             "confidentiality": "public", 
             "language": "uk", 
             "title": "qualification_document2.pdf", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/f1f8701efba847ba9864bca4f8f49afc?KeyID=6ad8cc9e&Signature=rOxITRA6N3hINiELU7rodvIjevbKNostZZKwKh%252B8fz7Zi2pyh%2FTbLXNFbsbOeVhV5NEg7SmaV45tNlXCmAABAA%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/53923497284c45bf8fc595a106aeacf6?KeyID=29d4a5c6&Signature=OyKqW0QVjLhBJrnO%252BZDsVi60E5XUPBba2XWNBo4aA1%2FvU36q0JgjyLtG6sWkxvRjwo7vpvQbRuUveXh7dQZQCA%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:50.753116+02:00", 
-            "id": "5de08e2ca06e4221a354a4ade92eb641", 
-            "dateModified": "2018-11-23T19:06:50.965759+02:00"
+            "datePublished": "2018-11-30T16:38:25.544681+02:00", 
+            "id": "5d9bc313501345358844075dc44f9adb", 
+            "dateModified": "2018-11-30T16:38:25.639513+02:00"
           }
         ]
       }, 
@@ -936,10 +936,10 @@ Content-Type: application/json; charset=UTF-8
         "selfEligible": true, 
         "lotValues": [
           {
-            "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
-            "date": "2018-11-23T19:06:52.784439+02:00", 
+            "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
+            "date": "2018-11-30T16:38:26.118448+02:00", 
             "status": "active", 
-            "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/3f8dc71b13c046bea46f983700625cfa_d5757bc712564f4a8e9ffa8792b966a6?key_for_bid=33673044ed64400bb71a63b2b1a54257", 
+            "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/4e095f899aea431dade658804787b2aa_ddb35dd0e9904726aafd18baed24863a?key_for_bid=3ed6da5f8665409fb9710ca826a322bc", 
             "value": {
               "currency": "UAH", 
               "amount": 499, 
@@ -970,8 +970,8 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "date": "2018-11-23T19:06:52.783804+02:00", 
-        "id": "33673044ed64400bb71a63b2b1a54257"
+        "date": "2018-11-30T16:38:26.118196+02:00", 
+        "id": "3ed6da5f8665409fb9710ca826a322bc"
       }, 
       {
         "status": "unsuccessful", 
@@ -981,25 +981,25 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "public", 
             "language": "uk", 
             "title": "Proposal_part1.pdf", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/5b52d0ff0ea84c63a2bcfb25bf063607?KeyID=6ad8cc9e&Signature=Sxzsz37WZdcBMiAk60em1nrS0w1VmAqh%2Fnq4Rv4A2AJxkAW0i5GIuY9eCZisHBcc1F8LDj7L9V3pTwC%252BLjFKAQ%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/39e8e69503644ab990dde2a6094e4e4e?KeyID=29d4a5c6&Signature=DVjM01T34MCz1qE5cCJOkjK8ncNzzmQzqYDY4iIP2kXXC5gc8dFTqPZF4F%252BfyUR6OuRZxP43fq4QF2ADLFaYAg%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:53.127248+02:00", 
-            "id": "df4add745de942c1bcb63490f2493e5b", 
-            "dateModified": "2018-11-23T19:06:53.127294+02:00"
+            "datePublished": "2018-11-30T16:38:26.234734+02:00", 
+            "id": "b19a361ea32142eb8e0209eb4678e563", 
+            "dateModified": "2018-11-30T16:38:26.234747+02:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
             "confidentiality": "buyerOnly", 
             "language": "uk", 
             "format": "application/pdf", 
-            "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/bids/2d79f8a1e6b049a3b87dd9e626a7cd51/documents/6e44ad04fdd847b58a917d344b187c3a?download=4745163903394830931ebbed9b795919", 
+            "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/52b3fe0a32744052a9fb4e9348cbcc15/documents/bb4f24f3ab904236b655c328c5831edf?download=dcdcd7bdbd4b48df9d3082a5e29f21a7", 
             "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_part2.pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:53.128764+02:00", 
-            "id": "6e44ad04fdd847b58a917d344b187c3a", 
-            "dateModified": "2018-11-23T19:06:53.128802+02:00"
+            "datePublished": "2018-11-30T16:38:26.235325+02:00", 
+            "id": "bb4f24f3ab904236b655c328c5831edf", 
+            "dateModified": "2018-11-30T16:38:26.235373+02:00"
           }
         ], 
         "eligibilityDocuments": [
@@ -1008,12 +1008,12 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "public", 
             "language": "uk", 
             "title": "eligibility_doc.pdf", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/91f741b56efb45e3b204315f2f2e1e02?KeyID=6ad8cc9e&Signature=XBqgGuFoYVkNWU6ETFMYEaqsC%2FcQNuH9Kilqyponxu6djgn7nPvBoAEZZUo%252B2nLDn0Vpw33WGoCsks18wWBsAA%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/b22c74d727984d03acc4b1bef5c3f289?KeyID=29d4a5c6&Signature=oVGpN8Vl54dmPSb5gpEwwZuNFzEl3xCbP8MjM1hUIyLx6ABm9vzUrZ6K2WyzSbENt4bFTbCsF3CiPYyt%2FTuJDg%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:53.131560+02:00", 
-            "id": "f9575f3923d0418d9743fdd26dd4ec72", 
-            "dateModified": "2018-11-23T19:06:53.131598+02:00"
+            "datePublished": "2018-11-30T16:38:26.236847+02:00", 
+            "id": "8da9a9919a7541a69da432037ef3bd7f", 
+            "dateModified": "2018-11-30T16:38:26.236861+02:00"
           }
         ], 
         "selfEligible": true, 
@@ -1040,7 +1040,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "id": "2d79f8a1e6b049a3b87dd9e626a7cd51"
+        "id": "52b3fe0a32744052a9fb4e9348cbcc15"
       }, 
       {
         "status": "active", 
@@ -1050,25 +1050,25 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "public", 
             "language": "uk", 
             "title": "Proposal_part1.pdf", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/c8bc0847db4a4a46b234dbd8d7323a52?KeyID=6ad8cc9e&Signature=a8lMY1vwnfuJmu54IEavK6dGnR2t40WhlBxkiLGq8Fy3Yq0YxvyniHnxmZCKk5kP0aA7xD85WivNeBIxpvUzCA%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/bbcdfaab9d084486a86bb34875e8263a?KeyID=29d4a5c6&Signature=s1I1OwnNEUR7i49fgQUzVwPiT1mfJF%2FtkXNc1rutR73wzh3gXqUmwsC8O9dZEJg60kpPYK2N56QdRyQtEEo%2FDg%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:53.453362+02:00", 
-            "id": "2b1796d2756344eb8683718298d5c9bd", 
-            "dateModified": "2018-11-23T19:06:53.453390+02:00"
+            "datePublished": "2018-11-30T16:38:26.373507+02:00", 
+            "id": "85af0f3faec3475b99b0133c428f0916", 
+            "dateModified": "2018-11-30T16:38:26.373521+02:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
             "confidentiality": "buyerOnly", 
             "language": "uk", 
             "format": "application/pdf", 
-            "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/3f8dc71b13c046bea46f983700625cfa/bids/3b7eecbc90854bdfbf2054ceae212850/documents/9082d885a21e46c69fd2bb16834ef9e6?download=e8a5a42593fd48c9a6ed5be2b0ceae48", 
+            "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/23a42e84d61245a0bd218cd8280059ca/documents/1979e95c6317423c92ae2f35c531b2eb?download=b6843d7cc6af4a7d903e8fd67074938f", 
             "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_part2.pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:53.454314+02:00", 
-            "id": "9082d885a21e46c69fd2bb16834ef9e6", 
-            "dateModified": "2018-11-23T19:06:53.454341+02:00"
+            "datePublished": "2018-11-30T16:38:26.373926+02:00", 
+            "id": "1979e95c6317423c92ae2f35c531b2eb", 
+            "dateModified": "2018-11-30T16:38:26.373940+02:00"
           }
         ], 
         "eligibilityDocuments": [
@@ -1077,22 +1077,22 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "public", 
             "language": "uk", 
             "title": "eligibility_doc.pdf", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/2051be81010742d7b8b22270cc6554ff?KeyID=6ad8cc9e&Signature=G1nEbSk4WK47jh8K2OdhcwVHYqCy7u%252BHlj5Kf7IfQ%252BKYn%252BRK3GvA5GthH32XvCyKrhwWmSdeBd3ZXwvtn10mBA%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/67f93038bf144234a6a8f0c683129d62?KeyID=29d4a5c6&Signature=veUK06v2Laf8R%252BuoKKyW2W3Ebmbhn2fsleutudbrzfRZ%252BtG5ngc92s6aV6c4NM35rr5Bl9htK3I%252BJzT1K8CJAw%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:53.456267+02:00", 
-            "id": "376d0dd6253a446ea8d5d7bb1b340e8f", 
-            "dateModified": "2018-11-23T19:06:53.456294+02:00"
+            "datePublished": "2018-11-30T16:38:26.374808+02:00", 
+            "id": "4292446a60ef4feab02ff39ca7eed737", 
+            "dateModified": "2018-11-30T16:38:26.374821+02:00"
           }
         ], 
         "selfEligible": true, 
-        "id": "3b7eecbc90854bdfbf2054ceae212850", 
+        "id": "23a42e84d61245a0bd218cd8280059ca", 
         "lotValues": [
           {
-            "relatedLot": "d5757bc712564f4a8e9ffa8792b966a6", 
-            "date": "2018-11-23T19:06:53.457850+02:00", 
+            "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
+            "date": "2018-11-30T16:38:26.375488+02:00", 
             "status": "active", 
-            "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/3f8dc71b13c046bea46f983700625cfa_d5757bc712564f4a8e9ffa8792b966a6?key_for_bid=3b7eecbc90854bdfbf2054ceae212850", 
+            "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/4e095f899aea431dade658804787b2aa_ddb35dd0e9904726aafd18baed24863a?key_for_bid=23a42e84d61245a0bd218cd8280059ca", 
             "value": {
               "currency": "UAH", 
               "amount": 5, 
@@ -1107,12 +1107,12 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "public", 
             "language": "uk", 
             "title": "financial_doc.pdf", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/e161e17bf26f46b8acc59e56f6b78050?KeyID=6ad8cc9e&Signature=%252BE%2F5FvUhaB1ZvyWK83fcTczoZEk6MKFwI0R%2FAENkIhv0mr7ZLRPXSfA4yOoXFCex00t5TUVBYSsiL66NxwgWCg%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/219fb4449f4649ac9dbd52e67cda3c65?KeyID=29d4a5c6&Signature=z91PzYOXQSZLwZ7x8zJxed2qsZBy5k6LYsLtgyd2GAMoj5DLFPJ%252BuWhO8DaP9rTqQ%2F0tLuqsDPuUlqQYa%252BnQDw%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:53.455293+02:00", 
-            "id": "dfa5521bbf3f413998b402aa2ea793e3", 
-            "dateModified": "2018-11-23T19:06:53.455320+02:00"
+            "datePublished": "2018-11-30T16:38:26.374387+02:00", 
+            "id": "85ddadc844be4f9ba63ac6edb60c116c", 
+            "dateModified": "2018-11-30T16:38:26.374400+02:00"
           }
         ], 
         "tenderers": [
@@ -1137,19 +1137,19 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "date": "2018-11-23T19:06:53.452522+02:00", 
+        "date": "2018-11-30T16:38:26.373137+02:00", 
         "qualificationDocuments": [
           {
             "hash": "md5:00000000000000000000000000000000", 
             "confidentiality": "public", 
             "language": "uk", 
             "title": "qualification_document.pdf", 
-            "url": "http://public.docs-sandbox.openprocurement.org/get/96539e44147440ebae2ae4702297e6f5?KeyID=6ad8cc9e&Signature=ouvgh2jHfj7sHC9AXhS3hvC1BYwkW9Kxp%252B7sNknojPwItP2nXCrN74I0iHVZ3wQsyB6eeJtRCRdFaaS62iWWBw%253D%253D", 
+            "url": "http://public.docs-sandbox.openprocurement.org/get/bc3aacc15ea3487f82becbdf947546b8?KeyID=29d4a5c6&Signature=k65sT8pO0w9p6Ww9yAKZfr5zcW4G9Dj3CxYBCIsb31DUz6lvZ5HcrA2K3%2FHjB0XV%252B9lIWOo1jFPuzl4gt8uZAQ%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2018-11-23T19:06:53.457248+02:00", 
-            "id": "386d77239111402e842e65d117e3cb2e", 
-            "dateModified": "2018-11-23T19:06:53.457274+02:00"
+            "datePublished": "2018-11-30T16:38:26.375227+02:00", 
+            "id": "6fcef171aada460091bcdc8e764142c8", 
+            "dateModified": "2018-11-30T16:38:26.375240+02:00"
           }
         ]
       }

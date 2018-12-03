@@ -1,0 +1,334 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2015, Quintagroup, Ltd
+# This file is distributed under the same license as the
+# openprocurement.tender.cfaua package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.cfaua 1.0.4dp\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-29 12:53+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: ../../source/standard/document.rst:9
+msgid "Document"
+msgstr ""
+
+#: ../../source/standard/document.rst:12
+msgid "Schema"
+msgstr ""
+
+#: ../../source/standard/document.rst:0
+msgid "id"
+msgstr ""
+
+#: ../../source/standard/document.rst:15 ../../source/standard/document.rst:129
+msgid "string, auto-generated"
+msgstr ""
+
+#: ../../source/standard/document.rst:0
+msgid "documentType"
+msgstr ""
+
+#: ../../source/standard/document.rst:18 ../../source/standard/document.rst:123
+#: ../../source/standard/document.rst:147
+#: ../../source/standard/document.rst:153
+#: ../../source/standard/document.rst:162
+msgid "string"
+msgstr ""
+
+#: ../../source/standard/document.rst:20
+msgid "Possible values for :ref:`tender`"
+msgstr ""
+
+#: ../../source/standard/document.rst:23
+msgid "`notice` - **Tender notice**"
+msgstr ""
+
+#: ../../source/standard/document.rst:25
+msgid ""
+"The formal notice that gives details of a tender. This may be a link to a"
+" downloadable document, to a web page, or to an official gazette in which"
+" the notice is contained."
+msgstr ""
+
+#: ../../source/standard/document.rst:27
+msgid "`biddingDocuments` - **Bidding Documents**"
+msgstr ""
+
+#: ../../source/standard/document.rst:29
+msgid ""
+"Information for potential suppliers, describing the goals of the contract"
+" (e.g. goods and services to be procured), and the bidding process."
+msgstr ""
+
+#: ../../source/standard/document.rst:31
+msgid "`technicalSpecifications` - **Technical Specifications**"
+msgstr ""
+
+#: ../../source/standard/document.rst:33
+msgid "Detailed technical information about goods or services to be provided."
+msgstr ""
+
+#: ../../source/standard/document.rst:35
+msgid "`evaluationCriteria` - **Evaluation Criteria**"
+msgstr ""
+
+#: ../../source/standard/document.rst:37
+msgid "Information about how bids will be evaluated."
+msgstr ""
+
+#: ../../source/standard/document.rst:39
+msgid "`clarifications` - **Clarifications to bidders questions**"
+msgstr ""
+
+#: ../../source/standard/document.rst:41
+msgid "Including replies to issues raised in pre-bid conferences."
+msgstr ""
+
+#: ../../source/standard/document.rst:43
+msgid "`eligibilityCriteria` - **Eligibility Criteria**"
+msgstr ""
+
+#: ../../source/standard/document.rst:45
+msgid "Detailed documents about the eligibility of bidders."
+msgstr ""
+
+#: ../../source/standard/document.rst:47
+msgid "`shortlistedFirms` - **Shortlisted Firms**"
+msgstr ""
+
+#: ../../source/standard/document.rst:49
+msgid "`riskProvisions` - **Provisions for management of risks and liabilities**"
+msgstr ""
+
+#: ../../source/standard/document.rst:51
+msgid "`billOfQuantity` - **Bill Of Quantity**"
+msgstr ""
+
+#: ../../source/standard/document.rst:53
+msgid "`bidders` - **Information on bidders**"
+msgstr ""
+
+#: ../../source/standard/document.rst:55
+msgid ""
+"Information on bidders or participants, their validation documents and "
+"any procedural exemptions for which they qualify."
+msgstr ""
+
+#: ../../source/standard/document.rst:57
+msgid "`conflictOfInterest` - **Conflicts of interest uncovered**"
+msgstr ""
+
+#: ../../source/standard/document.rst:59
+msgid "`debarments` - **Debarments issued**"
+msgstr ""
+
+#: ../../source/standard/document.rst:61
+msgid "`contractProforma` - **Draft contract**"
+msgstr ""
+
+#: ../../source/standard/document.rst:64
+msgid "Possible values for :ref:`award`"
+msgstr ""
+
+#: ../../source/standard/document.rst:67
+msgid "`notice` - **Award Notice**"
+msgstr ""
+
+#: ../../source/standard/document.rst:69
+msgid ""
+"The formal notice that gives details of the contract award. This may be a"
+" link to a downloadable document, to a web page, or to an official "
+"gazette in which the notice is contained."
+msgstr ""
+
+#: ../../source/standard/document.rst:71
+msgid "`evaluationReports` - **Evaluation report**"
+msgstr ""
+
+#: ../../source/standard/document.rst:73
+msgid ""
+"Report on the evaluation of the bids and the application of the "
+"evaluation criteria, including the justification fo the award."
+msgstr ""
+
+#: ../../source/standard/document.rst:75
+msgid "`winningBid` - **Winning Bid**"
+msgstr ""
+
+#: ../../source/standard/document.rst:77
+msgid "`complaints` - **Complaints and decisions**"
+msgstr ""
+
+#: ../../source/standard/document.rst:80
+msgid "Possible values for :ref:`contract`"
+msgstr ""
+
+#: ../../source/standard/document.rst:83
+msgid "`notice` - **Contract notice**"
+msgstr ""
+
+#: ../../source/standard/document.rst:85
+msgid ""
+"The formal notice that gives details of a contract being signed and valid"
+" to start implementation. This may be a link to a downloadable document, "
+"to a web page, or to an official gazette in which the notice is "
+"contained."
+msgstr ""
+
+#: ../../source/standard/document.rst:87
+msgid "`contractSigned` - **Signed Contract**"
+msgstr ""
+
+#: ../../source/standard/document.rst:89
+msgid "`contractArrangements` - **Arrangements for ending contract**"
+msgstr ""
+
+#: ../../source/standard/document.rst:91
+msgid "`contractSchedule` - **Schedules and milestones**"
+msgstr ""
+
+#: ../../source/standard/document.rst:93
+msgid "`contractAnnexe` - **Annexes to the Contract**"
+msgstr ""
+
+#: ../../source/standard/document.rst:95
+msgid "`contractGuarantees` - **Guarantees**"
+msgstr ""
+
+#: ../../source/standard/document.rst:97
+msgid "`subContract` - **Subcontracts**"
+msgstr ""
+
+#: ../../source/standard/document.rst:100
+msgid "Possible values for :ref:`bid`"
+msgstr ""
+
+#: ../../source/standard/document.rst:103
+msgid "`commercialProposal` - **Сommercial proposal**"
+msgstr ""
+
+#: ../../source/standard/document.rst:105
+msgid "`qualificationDocuments` - **Qualification documents**"
+msgstr ""
+
+#: ../../source/standard/document.rst:107
+msgid "`eligibilityDocuments` - **Eligibility documents**"
+msgstr ""
+
+#: ../../source/standard/document.rst:0
+msgid "title"
+msgstr ""
+
+#: ../../source/standard/document.rst:111
+#: ../../source/standard/document.rst:117
+msgid "string, multilingual"
+msgstr ""
+
+#: ../../source/standard/document.rst:113
+msgid "|ocdsDescription| The document title."
+msgstr ""
+
+#: ../../source/standard/document.rst:0
+msgid "description"
+msgstr ""
+
+#: ../../source/standard/document.rst:119
+msgid ""
+"|ocdsDescription| A short description of the document. In the event the "
+"document is not accessible online, the description field can be used to "
+"describe arrangements for obtaining a copy of the document."
+msgstr ""
+
+#: ../../source/standard/document.rst:0
+msgid "format"
+msgstr ""
+
+#: ../../source/standard/document.rst:125
+msgid ""
+"|ocdsDescription| The format of the document taken from the `IANA Media "
+"Types code list <http://www.iana.org/assignments/media-types/>`_, with "
+"the addition of one extra value for 'offline/print', used when this "
+"document entry is being used to describe the offline publication of a "
+"document."
+msgstr ""
+
+#: ../../source/standard/document.rst:0
+msgid "url"
+msgstr ""
+
+#: ../../source/standard/document.rst:131
+msgid "|ocdsDescription| Direct link to the document or attachment."
+msgstr ""
+
+#: ../../source/standard/document.rst:0
+msgid "datePublished"
+msgstr ""
+
+#: ../../source/standard/document.rst:135
+#: ../../source/standard/document.rst:141
+msgid "string, :ref:`date`"
+msgstr ""
+
+#: ../../source/standard/document.rst:137
+msgid "|ocdsDescription| The date on which the document was first published."
+msgstr ""
+
+#: ../../source/standard/document.rst:0
+msgid "dateModified"
+msgstr ""
+
+#: ../../source/standard/document.rst:143
+msgid "|ocdsDescription| Date that the document was last modified"
+msgstr ""
+
+#: ../../source/standard/document.rst:0
+msgid "language"
+msgstr ""
+
+#: ../../source/standard/document.rst:149
+msgid ""
+"|ocdsDescription| Specifies the language of the linked document using "
+"either two-digit `ISO 639-1 "
+"<https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, or extended "
+"`BCP47 language tags <http://www.w3.org/International/articles/language-"
+"tags/>`_."
+msgstr ""
+
+#: ../../source/standard/document.rst:0
+msgid "documentOf"
+msgstr ""
+
+#: ../../source/standard/document.rst:155
+msgid "Possible values are:"
+msgstr ""
+
+#: ../../source/standard/document.rst:157
+msgid "`tender`"
+msgstr ""
+
+#: ../../source/standard/document.rst:158
+msgid "`item`"
+msgstr ""
+
+#: ../../source/standard/document.rst:159
+msgid "`lot`"
+msgstr ""
+
+#: ../../source/standard/document.rst:0
+msgid "relatedItem"
+msgstr ""
+
+#: ../../source/standard/document.rst:164
+msgid "Id of related :ref:`lot` or :ref:`item`."
+msgstr ""
+

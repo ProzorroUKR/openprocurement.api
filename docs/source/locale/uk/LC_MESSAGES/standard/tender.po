@@ -1,0 +1,527 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2015, Quintagroup, Ltd
+# This file is distributed under the same license as the
+# openprocurement.tender.cfaua package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.cfaua 1.0.4dp\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-29 12:53+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: ../../source/standard/tender.rst:8
+msgid "Tender"
+msgstr ""
+
+#: ../../source/standard/tender.rst:11
+msgid "Schema"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "title"
+msgstr ""
+
+#: ../../source/standard/tender.rst:14 ../../source/standard/tender.rst:24
+msgid "string, multilingual"
+msgstr ""
+
+#: ../../source/standard/tender.rst:16
+msgid ""
+"The name of the tender, displayed in listings. You can include the "
+"following items:"
+msgstr ""
+
+#: ../../source/standard/tender.rst:18
+msgid "tender code (in procuring organization management system)"
+msgstr ""
+
+#: ../../source/standard/tender.rst:19
+msgid "periodicity of the tender (annual, quarterly, etc.)"
+msgstr ""
+
+#: ../../source/standard/tender.rst:20
+msgid "item being procured"
+msgstr ""
+
+#: ../../source/standard/tender.rst:21
+msgid "some other info"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "description"
+msgstr ""
+
+#: ../../source/standard/tender.rst:26
+msgid "Detailed description of tender."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "tenderID"
+msgstr ""
+
+#: ../../source/standard/tender.rst:29
+msgid "string, auto-generated, read-only"
+msgstr ""
+
+#: ../../source/standard/tender.rst:31
+msgid "The tender identifier to refer tender to in \"paper\" documentation."
+msgstr ""
+
+#: ../../source/standard/tender.rst:33
+msgid ""
+"|ocdsDescription| TenderID should always be the same as the OCID. It is "
+"included to make the flattened data structure more convenient."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "procuringEntity"
+msgstr ""
+
+#: ../../source/standard/tender.rst:37
+msgid ":ref:`ProcuringEntity`, required"
+msgstr ""
+
+#: ../../source/standard/tender.rst:39
+msgid "Organization conducting the tender."
+msgstr ""
+
+#: ../../source/standard/tender.rst:41
+msgid ""
+"|ocdsDescription| The entity managing the procurement, which may be "
+"different from the buyer who is paying / using the items being procured."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "value"
+msgstr ""
+
+#: ../../source/standard/tender.rst:45 ../../source/standard/tender.rst:95
+msgid ":ref:`value`, required"
+msgstr ""
+
+#: ../../source/standard/tender.rst:47
+msgid ""
+"Total available tender budget. Bids greater then ``value`` will be "
+"rejected."
+msgstr ""
+
+#: ../../source/standard/tender.rst:49
+msgid "|ocdsDescription| The total estimated value of the procurement."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "guarantee"
+msgstr ""
+
+#: ../../source/standard/tender.rst:53
+msgid ":ref:`Guarantee`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:55
+msgid "Bid guarantee"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "items"
+msgstr ""
+
+#: ../../source/standard/tender.rst:58
+msgid "list of :ref:`item` objects, required"
+msgstr ""
+
+#: ../../source/standard/tender.rst:60
+msgid "List that contains single item being procured."
+msgstr ""
+
+#: ../../source/standard/tender.rst:62
+msgid ""
+"|ocdsDescription| The goods and services to be purchased, broken into "
+"line items wherever possible. Items should not be duplicated, but a "
+"quantity of 2 specified instead."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "features"
+msgstr ""
+
+#: ../../source/standard/tender.rst:66
+msgid "list of :ref:`Feature` objects"
+msgstr ""
+
+#: ../../source/standard/tender.rst:68
+msgid "Features of tender."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "documents"
+msgstr ""
+
+#: ../../source/standard/tender.rst:71
+msgid "List of :ref:`document` objects"
+msgstr ""
+
+#: ../../source/standard/tender.rst:73
+msgid "|ocdsDescription| All documents and attachments related to the tender."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "questions"
+msgstr ""
+
+#: ../../source/standard/tender.rst:77
+msgid "List of :ref:`question` objects"
+msgstr ""
+
+#: ../../source/standard/tender.rst:79
+msgid "Questions to ``procuringEntity`` and answers to them."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "complaints"
+msgstr ""
+
+#: ../../source/standard/tender.rst:82
+msgid "List of :ref:`complaint` objects"
+msgstr ""
+
+#: ../../source/standard/tender.rst:84
+msgid "Complaints to tender conditions and their resolutions."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "bids"
+msgstr ""
+
+#: ../../source/standard/tender.rst:87
+msgid "List of :ref:`bid` objects"
+msgstr ""
+
+#: ../../source/standard/tender.rst:89
+msgid ""
+"A list of all bids placed in the tender with information about tenderers,"
+" their proposal and other qualification documentation."
+msgstr ""
+
+#: ../../source/standard/tender.rst:91
+msgid ""
+"|ocdsDescription| A list of all the companies who entered submissions for"
+" the tender."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "minimalStep"
+msgstr ""
+
+#: ../../source/standard/tender.rst:97
+msgid "The minimal step of auction (reduction). Validation rules:"
+msgstr ""
+
+#: ../../source/standard/tender.rst:99
+msgid "`amount` should be less then `Tender.value.amount`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:100
+msgid "`currency` should either be absent or match `Tender.value.currency`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:101
+msgid ""
+"`valueAddedTaxIncluded` should either be absent or match "
+"`Tender.value.valueAddedTaxIncluded`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "awards"
+msgstr ""
+
+#: ../../source/standard/tender.rst:104
+msgid "List of :ref:`award` objects"
+msgstr ""
+
+#: ../../source/standard/tender.rst:106
+msgid "All qualifications (disqualifications and awards)."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "agreements"
+msgstr ""
+
+#: ../../source/standard/tender.rst:109
+msgid "List of :ref:`Agreement` objects"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "enquiryPeriod"
+msgstr ""
+
+#: ../../source/standard/tender.rst:112 ../../source/standard/tender.rst:120
+msgid ":ref:`period`, required"
+msgstr ""
+
+#: ../../source/standard/tender.rst:114
+msgid "Period when questions are allowed. At least `endDate` has to be provided."
+msgstr ""
+
+#: ../../source/standard/tender.rst:116
+msgid ""
+"|ocdsDescription| The period during which enquiries may be made and will "
+"be answered."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "tenderPeriod"
+msgstr ""
+
+#: ../../source/standard/tender.rst:122
+msgid "Period when bids can be submitted. At least `endDate` has to be provided."
+msgstr ""
+
+#: ../../source/standard/tender.rst:124
+msgid ""
+"|ocdsDescription| The period when the tender is open for submissions. The"
+" end date is the closing date for tender submissions."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "auctionPeriod"
+msgstr ""
+
+#: ../../source/standard/tender.rst:128 ../../source/standard/tender.rst:138
+msgid ":ref:`period`, read-only"
+msgstr ""
+
+#: ../../source/standard/tender.rst:130
+msgid "Period when Auction is conducted."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "auctionUrl"
+msgstr ""
+
+#: ../../source/standard/tender.rst:133
+msgid "url"
+msgstr ""
+
+#: ../../source/standard/tender.rst:135
+msgid "A web address for view auction."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "awardPeriod"
+msgstr ""
+
+#: ../../source/standard/tender.rst:140
+msgid "Awarding process period."
+msgstr ""
+
+#: ../../source/standard/tender.rst:142
+msgid ""
+"|ocdsDescription| The date or period on which an award is anticipated to "
+"be made."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "status"
+msgstr ""
+
+#: ../../source/standard/tender.rst:146
+msgid "string"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "`active.tendering`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:149
+msgid "Tendering period (tendering)"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "`active.pre-qualification`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:151
+msgid "Pre-qualification period (pre-qualification)"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "`active.pre-qualification.stand-still`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:153
+msgid "Standstill before auction"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "`active.auction`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:155
+msgid "Auction period (auction)"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "`active.qualification`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:157
+msgid "Winners qualification (qualification)"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "`active.qualification.stand-still`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:159
+msgid "Standstill before contract signing"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "`active.awarded`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:161
+msgid "Standstill period (standstill)"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "`unsuccessful`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:163
+msgid "Unsuccessful tender (unsuccessful)"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "`complete`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:165
+msgid "Complete tender (complete)"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "`cancelled`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:167
+msgid "Cancelled tender (cancelled)"
+msgstr ""
+
+#: ../../source/standard/tender.rst:169
+msgid "Status of the Tender."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "lots"
+msgstr ""
+
+#: ../../source/standard/tender.rst:172
+msgid "List of :ref:`lot` objects."
+msgstr ""
+
+#: ../../source/standard/tender.rst:174
+msgid "Contains tender lot."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "agreementDuration"
+msgstr ""
+
+#: ../../source/standard/tender.rst:176 ../../source/standard/tender.rst:181
+msgid "string, required"
+msgstr ""
+
+#: ../../source/standard/tender.rst:178
+msgid "Duration of agreement. Maximum 4 years. Format ISO8601 (PnYnMnDTnHnMnS)"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "maxAwardsCount"
+msgstr ""
+
+#: ../../source/standard/tender.rst:183
+msgid "Maximum number of required Awards"
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "cancellations"
+msgstr ""
+
+#: ../../source/standard/tender.rst:186
+msgid "List of :ref:`cancellation` objects."
+msgstr ""
+
+#: ../../source/standard/tender.rst:188
+msgid "Contains 1 object with `active` status in case of cancelled Tender."
+msgstr ""
+
+#: ../../source/standard/tender.rst:190
+msgid ""
+"The :ref:`cancellation` object describes the reason of tender "
+"cancellation contains accompanying documents  if any."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "funders"
+msgstr ""
+
+#: ../../source/standard/tender.rst:194
+msgid "List of :ref:`organization` objects."
+msgstr ""
+
+#: ../../source/standard/tender.rst:196
+msgid "Optional field."
+msgstr ""
+
+#: ../../source/standard/tender.rst:198
+msgid ""
+"The funder is an entity providing money or finance for contracting "
+"process."
+msgstr ""
+
+#: ../../source/standard/tender.rst:0
+msgid "revisions"
+msgstr ""
+
+#: ../../source/standard/tender.rst:201
+msgid "List of :ref:`revision` objects, auto-generated"
+msgstr ""
+
+#: ../../source/standard/tender.rst:203
+msgid "Historical changes to Tender object properties."
+msgstr ""
+
+#: ../../source/standard/tender.rst:207
+msgid "The Tender dates should be sequential:"
+msgstr ""
+
+#: ../../source/standard/tender.rst:209
+msgid "Current time"
+msgstr ""
+
+#: ../../source/standard/tender.rst:210
+msgid "`enquiryPeriod.startDate`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:211
+msgid "`enquiryPeriod.endDate`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:212
+msgid "`tenderPeriod.startDate`"
+msgstr ""
+
+#: ../../source/standard/tender.rst:213
+msgid "`tenderPeriod.endDate`"
+msgstr ""
+

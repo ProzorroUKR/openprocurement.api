@@ -372,7 +372,7 @@ Procuring entity approves qualifications by switching to next status:
 .. include:: tutorial/pre-qualification-confirmation.http
    :code:
 
-Procuring entity can upload ``qualificationDocuments``for each Bidder. Also Procuring entity may change ``status`` of Bid on opposite during `active.prequalification`.
+Procuring entity can upload ``qualificationDocuments`` for each Bidder. Also Procuring entity may change ``status`` of Bid on opposite during `active.prequalification`.
 
 You may notice 10 day stand-still time set in `qualificationPeriod`.
 
@@ -430,7 +430,7 @@ Now we can patch `pending` award to `unsuccessful`.
 .. include:: tutorial/patch-award-unsuccessful.http
    :code:
 
-In case of transfer award from ``unsuccessful`` to ``cancelled``, tender moves  to the begining of ``active.qualification`` status, all of the awards become ``cancelled`` and new :ref:`award` objects are creating.
+In case of transferring award from ``unsuccessful`` to ``cancelled``, tender moves to the beginning of ``active.qualification`` status, all of the awards become ``cancelled`` and new :ref:`award` objects are creating.
 
 So we patch `unsuccessful` award to `cancelled`.
 
@@ -447,9 +447,8 @@ Finally we confirm all `pending` awards via the following call:
 .. include:: tutorial/confirm-qualification2.http
    :code:
 
-
 Procuring entity may specify reasons of Bidder disqualification in the ``description`` field.
-Procuring entity can upload ``qualificationDocuments``for each Bidder.
+Procuring entity can upload ``qualificationDocuments`` for each Bidder.
 Procuring entity may continue consideration of decision for some :ref:`award` if it is needed. Procuring entity should upload a document for that.
 
 .. ПРЕЦЕДЕНТ Т13. Додати документи з цінами
@@ -463,7 +462,7 @@ When tender transfers to status `active.awarded` then :ref:`Agreement` is create
    :code:
 
 Entering prices per item by the ordering party
-------------------------------------
+----------------------------------------------
 
 The object list :ref:`Agreement` can be obtained via the following call
 
@@ -606,7 +605,7 @@ Activating the request and cancelling tender
    :code:
 
 Transfer agreement to `unsuccessful`
------------------------------------
+------------------------------------
 
 Procuring entity can patch `agreement` to  `unsuccessful`.
 

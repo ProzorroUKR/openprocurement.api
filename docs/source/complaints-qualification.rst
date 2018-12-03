@@ -39,7 +39,7 @@ Submit tender qualification claim:
    :code:
 
 Tender Qualification Claim Submission (without documents)
-------------------------------------------------------
+---------------------------------------------------------
 
 You can submit claim that does not need additional documents:
 
@@ -139,13 +139,7 @@ Correcting problems
 
 If tender qualification complaint was satisfied by the Complaint Review Body, then procuring entity has to correct problems.
 
-One of the possible solutions is qualification cancellation:
-
-
-.. include:: tutorial/qualification-complaint-satisfied-resolving.http
-   :code:
-
-After qualification cancellation system generates new qualification. Its location is present in the `Location` header of response.
+One of the possible solutions is qualification cancellation. After qualification cancellation system generates new qualification. Its location is present in the `Location` header of response.
 
 Submitting Resolution Confirmation
 ----------------------------------

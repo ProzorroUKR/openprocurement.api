@@ -20,9 +20,6 @@ Question author identities are not revealed before auction ends:
 .. include:: tutorial/list-question.http
    :code:
 
-Answering
-=========
-
 Submitting Answers
 ------------------
 
