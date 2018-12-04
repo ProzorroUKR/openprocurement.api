@@ -20,12 +20,6 @@ Tender:
 
     Tender edit
 
-Tender credentials:
--------------------
-
-* GET
-
-    Get tender credentials
 
 Tender documents:
 -----------------
@@ -64,7 +58,7 @@ Tender questions
 
     `/tenders/:tender_id/questions`
 
-    List questions
+    List of questions
 
 * POST
     `/tenders/:tender_id/questions`
@@ -82,7 +76,7 @@ Tender qualifications
 * GET
     `/tenders/:tender_id/qualifications`
 
-    List qualifications
+    List of qualifications
 
     `/tenders/:tender_id/qual…tions/:qualification_id`
 
@@ -99,7 +93,7 @@ Tender qualifications complaints
 * GET
     `/tenders/:tender_id/qualifications/:qualification_id/complaints`
 
-    List complaint for award
+    List of complaint for award
 
     `/tenders/:tender_id/qualifications/:qualification_id/complaints/:complaint_id`
 
@@ -199,7 +193,7 @@ Tender cancellations
 * GET
     `/tenders/:tender_id/cancellations`
 
-    List cancellations
+    List of cancellations
 
     `/tenders/:tender_id/cancellations/:cancellation_id`
 
@@ -225,7 +219,7 @@ Tender cancellation documents
 
     `/tenders/:tender_id/cancellations/:cancellation_id/documents`
 
-    Temder cancellation documents list
+    Tender cancellation documents list
 
 * POST
     `/tenders/:tender_id/cancellations/:cancellation_id/documents`
@@ -248,7 +242,7 @@ Tender complaints
 * GET
     `/tenders/:tender_id/complaints`
 
-    List complaints
+    List of complaints
 
     `/tenders/:tender_id/complaints/:complaint_id`
 
@@ -525,7 +519,7 @@ Tender auction
 
     `/tenders/:tender_id/auction/:auction_lot_id`
 
-    Set url for acess to auction for lot
+    Set url for access to auction for lot
 
 Tender agreement
 ----------------
@@ -533,7 +527,7 @@ Tender agreement
 * GET
     `/tenders/:tender_id/agreements`
 
-    List agreements for award
+    List of agreements for award
 
 * POST
     `/tenders/:tender_id/agreements`
@@ -555,7 +549,7 @@ Tender agreement contract
 
     `/tenders/:tender_id/agreements/:agreement_id/contracts`
 
-    List contracts for agreement
+    List of contracts for agreement
 
 * PATCH
     `/tenders/:tender_id/agreements/:agreement_id/contracts/:contract_id`
