@@ -1,24 +1,24 @@
-POST /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/b9aaff8198b34ce3ba7a7aeeddccede9/financial_documents?acc_token=59fe8af9664d40c0878a0e99d0084e4a HTTP/1.0
+POST /api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/25ac7a23a2c2469a89730fdc082d6c76/financial_documents?acc_token=9ef2a88bc6aa4242bcc332fc3d2cc81a HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 204
-Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy875939892624$
+Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy118314121766$
 Host: api-sandbox.openprocurement.org
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/b9aaff8198b34ce3ba7a7aeeddccede9/financial_documents/1cba03b5d2ce4ab89307565a2e50d80f
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/25ac7a23a2c2469a89730fdc082d6c76/financial_documents/e44036f82db64b28a151401c6e6ef3cd
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "confidentiality": "public", 
     "language": "uk", 
     "title": "prices.xlsx", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/59b95ccd090f4e30ab31e90381cad0a5?KeyID=2a9e5e2d&Signature=F7hm1DfD%252B102CSCnckAY8OIfOQo%252BY33LCL1Ki6oJSfI5qNGLqEjGbasv6l%2FsJYH%252B%2Fn5R9GlD7Jhi9cTsuXwdDg%253D%253D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/400f3d569e924af296a96959018f9691?KeyID=29d4a5c6&Signature=%252BwdrDGzRchRWCmxXWm2uuOScQEoW1vJ%252B3CsTzB9LAMWKTO3UQE43iMMwhUmOpqFxg4fIiQY%252BRp12wb5g8u0pAg%253D%253D", 
     "format": "application/octet-stream", 
     "documentOf": "tender", 
-    "datePublished": "2018-09-05T14:24:31.437171+03:00", 
-    "id": "1cba03b5d2ce4ab89307565a2e50d80f", 
-    "dateModified": "2018-09-05T14:24:31.437197+03:00"
+    "datePublished": "2018-11-30T16:38:31.536622+02:00", 
+    "id": "e44036f82db64b28a151401c6e6ef3cd", 
+    "dateModified": "2018-11-30T16:38:31.536639+02:00"
   }
 }
 

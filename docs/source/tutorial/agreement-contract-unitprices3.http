@@ -1,6 +1,6 @@
-PATCH /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/agreements/d80d8ecf2ac7416ebf121bae351e51d8/contracts/2d12c68f9c8249adb53edf4aa442ec53?acc_token=61955a7cfb50471faf87533f4371d20c HTTP/1.0
+PATCH /api/2.4/tenders/4e095f899aea431dade658804787b2aa/agreements/c86d058766c04c53821802d789ddd3a4/contracts/88caa8b1a2274333ae942f061928b666?acc_token=8a38796ad4814abcaf75da2c44b5c6cc HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 103
+Content-Length: 184
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -9,9 +9,15 @@ DATA:
     "unitPrices": [
       {
         "value": {
-          "amount": 1
+          "amount": 0.5
         }, 
-        "relatedItem": "7fdab13da22d4f75955aea7589cde503"
+        "relatedItem": "a33c8d8aa1d949ffb6e29478daf3484b"
+      }, 
+      {
+        "value": {
+          "amount": 0.5
+        }, 
+        "relatedItem": "ac50b5589d084bf697aedfb2ed399fed"
       }
     ]
   }
@@ -26,10 +32,18 @@ Content-Type: application/json; charset=UTF-8
       {
         "value": {
           "currency": "UAH", 
-          "amount": 1.0, 
+          "amount": 0.5, 
           "valueAddedTaxIncluded": true
         }, 
-        "relatedItem": "7fdab13da22d4f75955aea7589cde503"
+        "relatedItem": "a33c8d8aa1d949ffb6e29478daf3484b"
+      }, 
+      {
+        "value": {
+          "currency": "UAH", 
+          "amount": 0.5, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "relatedItem": "ac50b5589d084bf697aedfb2ed399fed"
       }
     ], 
     "suppliers": [
@@ -54,10 +68,10 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "bidID": "b9aaff8198b34ce3ba7a7aeeddccede9", 
-    "date": "2018-09-05T14:24:31.296931+03:00", 
-    "awardID": "39aae0566c48467b8c583bb96b242871", 
-    "id": "2d12c68f9c8249adb53edf4aa442ec53"
+    "bidID": "25ac7a23a2c2469a89730fdc082d6c76", 
+    "date": "2018-11-30T16:38:31.349624+02:00", 
+    "awardID": "3336aa33b30f4db2b46f87fb43f53aae", 
+    "id": "88caa8b1a2274333ae942f061928b666"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/documents HTTP/1.0
+GET /api/2.4/tenders/4e095f899aea431dade658804787b2aa/documents HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -11,24 +11,24 @@ Content-Type: application/json; charset=UTF-8
       "author": "tender_owner", 
       "language": "uk", 
       "title": "Notice.pdf", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/bba6ffec640f4adc925d47df2fcc2481?KeyID=2a9e5e2d&Signature=12iiBjzLWbKG3ILhXoSMSGwBChuFqFrWyHZHcajZyr6kojR3%2FzAre3nTL8apMM1Y%252BCrkFX6CJjRNpi%2F7l0ejAA%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/3bf6c3e7b26f46f1a620cd7ab3ae7024?KeyID=29d4a5c6&Signature=zA7DMTQjryHOv%2FTj5RzJq4mCWP0w7PIvj3fxFbXcAyiQl12qcSxW%252BhjO5aCO5Km3jkPmvVsJvPCS4r%2F%2FHaQSCw%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2018-09-05T14:24:26.053377+03:00", 
-      "id": "61097614fc1541e596653620765492c4", 
-      "dateModified": "2018-09-05T14:24:26.053394+03:00"
+      "datePublished": "2018-11-30T16:38:24.133568+02:00", 
+      "id": "141cc0db847146da99b07f2ba70a59bd", 
+      "dateModified": "2018-11-30T16:38:24.133583+02:00"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
       "author": "tender_owner", 
       "language": "uk", 
       "title": "AwardCriteria-2.pdf", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/378d53fb4ec54017b3293dfaa6317a3e?KeyID=2a9e5e2d&Signature=yt4Jt5ImYTZ9ugt%2FTGwBFT6GNGor37jnS7Laj9u2QpVdr0LZJk8a5mlKLCsuX%252BepPQFWv8euBBDycVC84hZhBw%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/2daa2ca827304d4493197aec831191d7?KeyID=29d4a5c6&Signature=iFb6tEZ3xd1lxsSZ9QZXXiBTr8n5y4mnml1mxgwMP4%252BoKujadgep%2FrZldSsa96HpiKswSGFMtZu0pOgIbW0ZAA%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2018-09-05T14:24:26.108395+03:00", 
-      "id": "854268844fb3475ca7d8389b2bf26aaa", 
-      "dateModified": "2018-09-05T14:24:26.168892+03:00"
+      "datePublished": "2018-11-30T16:38:24.196350+02:00", 
+      "id": "324edb2af76445dfae52bcc72d58a83c", 
+      "dateModified": "2018-11-30T16:38:24.273366+02:00"
     }
   ]
 }

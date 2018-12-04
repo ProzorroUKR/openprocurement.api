@@ -1,22 +1,23 @@
 POST /api/2.4/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 2859
+Content-Length: 4162
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2018-10-06T14:24:13.727705+03:00"
+      "endDate": "2018-12-31T16:38:09.883588+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
       "currency": "UAH", 
-      "amount": 35
+      "amount": 35, 
+      "valueAddedTaxIncluded": true
     }, 
     "items": [
       {
-        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -47,27 +48,63 @@ DATA:
           "name": "item"
         }, 
         "quantity": 5
+      }, 
+      {
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "id": "44617100-9", 
+          "description": "Cartons"
+        }, 
+        "description_en": "Cases for state awards", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "region": "м. Київ", 
+          "streetAddress": "вул. Банкова 1", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2018-06-27T13:39:09.362837", 
+          "endDate": "2018-06-30T13:39:09.362837"
+        }, 
+        "unit": {
+          "code": "44617100-8", 
+          "name": "item"
+        }, 
+        "quantity": 5
       }
     ], 
     "title_en": "Cases for state awards", 
     "agreementDuration": "P3Y3M3D", 
     "value": {
       "currency": "UAH", 
-      "amount": 500
+      "amount": 500, 
+      "valueAddedTaxIncluded": true
     }, 
     "lots": [
       {
         "minimalStep": {
           "currency": "UAH", 
-          "amount": 35
+          "amount": 35, 
+          "valueAddedTaxIncluded": true
         }, 
         "title": "Лот №1", 
         "description": "Опис Лот №1", 
         "value": {
           "currency": "UAH", 
-          "amount": 500
+          "amount": 500, 
+          "valueAddedTaxIncluded": true
         }, 
-        "id": "f70782e4693042cca51ec2dda36d5f15"
+        "id": "ddb35dd0e9904726aafd18baed24863a"
       }
     ], 
     "maxAwardsCount": 4, 
@@ -100,24 +137,24 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/4e095f899aea431dade658804787b2aa
 {
   "access": {
-    "token": "61955a7cfb50471faf87533f4371d20c"
+    "token": "8a38796ad4814abcaf75da2c44b5c6cc"
   }, 
   "data": {
     "procurementMethod": "open", 
     "complaintPeriod": {
-      "startDate": "2018-09-05T14:24:23.804787+03:00", 
-      "endDate": "2018-10-02T00:00:00+03:00"
+      "startDate": "2018-11-30T16:38:21.854917+02:00", 
+      "endDate": "2018-12-27T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2018-09-05T14:24:23.804787+03:00", 
-      "clarificationsUntil": "2018-10-01T14:24:13.727705+03:00", 
-      "endDate": "2018-09-26T14:24:13.727705+03:00"
+      "startDate": "2018-11-30T16:38:21.854917+02:00", 
+      "clarificationsUntil": "2018-12-27T16:38:09.883588+02:00", 
+      "endDate": "2018-12-21T16:38:09.883588+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2018-10-06T14:24:13.727705+03:00", 
+    "next_check": "2018-12-31T16:38:09.883588+02:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "Державне управління справами", 
@@ -143,7 +180,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946d
       "name_en": "State administration"
     }, 
     "owner": "broker", 
-    "id": "0eba7509160946dd8439ca46baa56801", 
+    "id": "4e095f899aea431dade658804787b2aa", 
     "title": "футляри до державних нагород", 
     "lots": [
       {
@@ -156,37 +193,37 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946d
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2018-11-11T00:00:00+03:00"
+          "shouldStartAfter": "2019-02-05T00:00:00+02:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2018-09-05T14:24:23.825365+03:00", 
-        "id": "f70782e4693042cca51ec2dda36d5f15"
+        "date": "2018-11-30T16:38:21.879121+02:00", 
+        "id": "ddb35dd0e9904726aafd18baed24863a"
       }
     ], 
     "maxAwardsCount": 4, 
-    "tenderID": "UA-2018-09-05-000001", 
-    "dateModified": "2018-09-05T14:24:23.832092+03:00", 
+    "tenderID": "UA-2018-11-30-000001", 
+    "dateModified": "2018-11-30T16:38:21.884588+02:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2018-09-05T14:24:23.804787+03:00", 
-      "endDate": "2018-10-06T14:24:13.727705+03:00"
+      "startDate": "2018-11-30T16:38:21.854917+02:00", 
+      "endDate": "2018-12-31T16:38:09.883588+02:00"
     }, 
     "title_en": "Cases for state awards", 
     "procurementMethodType": "closeFrameworkAgreementUA", 
     "agreementDuration": "P3Y3M3D", 
-    "date": "2018-09-05T14:24:23.825365+03:00", 
+    "date": "2018-11-30T16:38:21.879121+02:00", 
     "minimalStep": {
       "currency": "UAH", 
-      "amount": 35.0, 
+      "amount": 35, 
       "valueAddedTaxIncluded": true
     }, 
     "items": [
       {
-        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -212,9 +249,43 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946d
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "7fdab13da22d4f75955aea7589cde503", 
+        "id": "a33c8d8aa1d949ffb6e29478daf3484b", 
         "unit": {
           "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }, 
+      {
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "description_en": "Cases for state awards", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2018-06-27T13:39:09.362837+03:00", 
+          "endDate": "2018-06-30T13:39:09.362837+03:00"
+        }, 
+        "id": "ac50b5589d084bf697aedfb2ed399fed", 
+        "unit": {
+          "code": "44617100-8", 
           "name": "item"
         }, 
         "quantity": 5

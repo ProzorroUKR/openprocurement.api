@@ -1,4 +1,4 @@
-POST /api/2.4/tenders/60785bd14cda432ebe86878a67f06690/awards/eb20d7d85c254c3f99002fa22ca83934/complaints?acc_token=c72a0db1d3a94c2faf12ac7209b5aefd HTTP/1.0
+POST /api/2.4/tenders/d274b60ebac849478795fab82829fb55/awards/6590139a4f8e4649ad6e64ae8ba93927/complaints?acc_token=b4862c7336c54073894918692f0131b8 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 1682
 Content-Type: application/json
@@ -34,13 +34,13 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/60785bd14cda432ebe86878a67f06690/awards/eb20d7d85c254c3f99002fa22ca83934/complaints/e0eb45a05e2346e2ba3697b927c5b8c5
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/d274b60ebac849478795fab82829fb55/awards/6590139a4f8e4649ad6e64ae8ba93927/complaints/73c55703eb2044a2a3c6faf93ab6482b
 {
   "access": {
-    "token": "8dd0ece681fb4c58b20f89cc534b226f"
+    "token": "b1666a2972974f5eb12998e9bc46ec5f"
   }, 
   "data": {
-    "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+    "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
     "status": "draft", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
@@ -65,10 +65,10 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/60785bd14cda432
         "locality": "м. Вінниця"
       }
     }, 
-    "complaintID": "UA-2018-09-05-000001.1", 
-    "date": "2018-09-05T14:24:15.823151+03:00", 
+    "complaintID": "UA-2018-11-30-000001.1", 
+    "date": "2018-11-30T16:38:13.074025+02:00", 
     "type": "claim", 
-    "id": "e0eb45a05e2346e2ba3697b927c5b8c5"
+    "id": "73c55703eb2044a2a3c6faf93ab6482b"
   }
 }
 

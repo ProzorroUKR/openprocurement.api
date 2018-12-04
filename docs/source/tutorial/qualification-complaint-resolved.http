@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/f29723d1a2e84273b7bba4a27d793dff/qualifications/223d741b7ed942ba9473a3ebf12b1834/complaints/14704007c00e4bff810abb2f20d07d45?acc_token=c5657b2e020347e485577fba136d2914 HTTP/1.0
+PATCH /api/2.4/tenders/f6fb66b5bd02434d9e44744c9ad6d07c/qualifications/85378ee38bc94fe18ea30dcd3b6ccb90/complaints/7976584ec78c4ca5b1adc3daa2d9a344?acc_token=aae5572c5333460a9c94b503c7615157 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 145
 Content-Type: application/json
@@ -15,10 +15,10 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+    "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
     "status": "resolved", 
-    "dateDecision": "2018-09-05T14:24:39.097466+03:00", 
-    "tendererActionDate": "2018-09-05T14:24:39.578094+03:00", 
+    "dateDecision": "2018-11-30T16:38:42.389809+02:00", 
+    "tendererActionDate": "2018-11-30T16:38:42.928686+02:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -42,11 +42,11 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
-    "id": "14704007c00e4bff810abb2f20d07d45", 
+    "id": "7976584ec78c4ca5b1adc3daa2d9a344", 
     "tendererAction": "Умови виправлено", 
-    "dateSubmitted": "2018-09-05T14:24:36.338187+03:00", 
-    "complaintID": "UA-2018-09-05-000001.1", 
-    "date": "2018-09-05T14:24:39.587168+03:00", 
+    "dateSubmitted": "2018-11-30T16:38:39.294574+02:00", 
+    "complaintID": "UA-2018-11-30-000001.1", 
+    "date": "2018-11-30T16:38:42.938869+02:00", 
     "acceptance": true, 
     "type": "complaint", 
     "documents": [
@@ -55,27 +55,27 @@ Content-Type: application/json; charset=UTF-8
         "author": "complaint_owner", 
         "language": "uk", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/d17ad0a27a254c058425c4c7b56d2e6e?KeyID=dfb96f5a&Signature=qiQSwxtfIvryTX3Hvx0AQdyefWvbdzt%252BUPho6Q8Ziazzp9X303aCyVpCsd46IQIi79vz%2FXYMbFPk5%252B%252BXw3FaCw%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/1bb8cdb97346450c81477fdbd79db0cb?KeyID=6c5d599a&Signature=y4vR0hnc8rt%252BCT0sLjHox72%252BnEvUMgf6snOfzNoJ%2FN8wGjix6W%252Bbcm%2FHlKTOg4gjR4ZRObDH8ro6nlOoGDTfBQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-09-05T14:24:36.252232+03:00", 
-        "id": "43e6d5613075472b90962742ae1d6501", 
-        "dateModified": "2018-09-05T14:24:36.252248+03:00"
+        "datePublished": "2018-11-30T16:38:39.196657+02:00", 
+        "id": "c30a233bd6c3435b820451db22f7d0e9", 
+        "dateModified": "2018-11-30T16:38:39.196674+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "aboveThresholdReviewers", 
         "language": "uk", 
         "title": "ComplaintResolution.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/e6c81633de61439aa758cfcfd050d130?KeyID=dfb96f5a&Signature=3IbhLIKJv0Rz4x5w6q4zW43O1Z%2FYnmR0SEyue3fMaKCC3MouZIcnOt6Malqo1O26NrJ2gvHzfo752fLwCGHYBQ%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/a7f344cc5ce04864b0b11ee280f61e39?KeyID=6c5d599a&Signature=PlWi8yBk5XvQ94hYJP%2FzlQ%252BjqlrB3hwFX5OzaOUg6LerHgLqhisJZju9bmUiCJNPEAUxYVFYXtwFNsoNIbmSAQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-09-05T14:24:38.931894+03:00", 
-        "id": "a9b3e78fa9424075a17fa3b9ac3fba5a", 
-        "dateModified": "2018-09-05T14:24:38.931912+03:00"
+        "datePublished": "2018-11-30T16:38:42.201673+02:00", 
+        "id": "e6d61d3e965349469480ad31e790bb61", 
+        "dateModified": "2018-11-30T16:38:42.201692+02:00"
       }
     ], 
-    "dateAccepted": "2018-09-05T14:24:38.336540+03:00"
+    "dateAccepted": "2018-11-30T16:38:41.509565+02:00"
   }
 }
 

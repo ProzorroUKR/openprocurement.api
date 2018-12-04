@@ -1,0 +1,215 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2015, Quintagroup, Ltd
+# This file is distributed under the same license as the
+# openprocurement.tender.cfaua package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.cfaua 1.0.4dp\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-29 12:53+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: ../../source/standard/agreement.rst:5
+msgid "Agreement"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:8
+msgid "Schema"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "id"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:11
+msgid "uid, required, auto-generated"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "agreementID"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:14
+msgid "string, auto-generated, read-only"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "agreementNumber"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:17
+#: ../../source/standard/agreement.rst:63
+msgid "string"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "date"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:20
+msgid "string, :ref:`date`, auto-generated, read-only"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:22
+msgid "The date of the agreement change."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "dateSigned"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:25
+msgid "string, :ref:`date`"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:27
+msgid "The date of the agreement signed."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "description"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:30
+#: ../../source/standard/agreement.rst:35
+#: ../../source/standard/agreement.rst:40
+msgid "string, multilingual"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:32
+#: ../../source/standard/agreement.rst:37
+#: ../../source/standard/agreement.rst:42
+msgid "Agreement description"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "description_en"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "description_ru"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "documents"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:45
+msgid "List of :ref:`Document` objects"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:47
+msgid "|ocdsDescription|"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:48
+msgid ""
+"All documents and attachments related to the agreement, including any "
+"notices."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "items"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:51
+msgid "List of :ref:`Item` objects"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "period"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:54
+msgid ":ref:`Period`"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:56
+msgid "The timeframe when agreement is in force. Maximum 4 years."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "clarificationsUntil"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:60
+msgid "Deadline for participants to submit price documents"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "status"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:65
+msgid "The current status of agreement. Possible values are:"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:68
+msgid ""
+"`pending` - the agreement is under signing between procuring entity and "
+":ref:`Contract`"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:69
+msgid ""
+"`unsuccessful` - the agreement has not been signed between procuring "
+"entity and :ref:`Contract`"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:70
+msgid ""
+"`active` - the agreement is signed between procuring entity and "
+":ref:`Contract`"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:71
+msgid ""
+"`cancelled` - the agreement has been cancelled within cancellation of "
+"tender/lot."
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "contracts"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:74
+msgid "List of :ref:`Contract` objects"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "title"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:77
+#: ../../source/standard/agreement.rst:82
+#: ../../source/standard/agreement.rst:87
+msgid "string, required"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:79
+#: ../../source/standard/agreement.rst:84
+#: ../../source/standard/agreement.rst:89
+msgid "Agreement title"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "title_ru"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:0
+msgid "title_en"
+msgstr ""
+
+#: ../../source/standard/agreement.rst:92
+msgid "Workflow"
+msgstr ""
+

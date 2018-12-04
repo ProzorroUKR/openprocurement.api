@@ -1,0 +1,53 @@
+PATCH /api/2.4/tenders/4e095f899aea431dade658804787b2aa/awards/db42d9fbd8504b588ca302a8925ad3bb?acc_token=8a38796ad4814abcaf75da2c44b5c6cc HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 33
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+DATA:
+{
+  "data": {
+    "status": "cancelled"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "cancelled", 
+    "lotID": "ddb35dd0e9904726aafd18baed24863a", 
+    "eligible": true, 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "fake@mail.com", 
+          "telephone": "+380 (322) 12-34-56", 
+          "name": "Іван Іваненко"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "«Снігур»", 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 35", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "bid_id": "23a42e84d61245a0bd218cd8280059ca", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 5, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "qualified": true, 
+    "date": "2018-11-30T16:38:29.938088+02:00", 
+    "id": "db42d9fbd8504b588ca302a8925ad3bb"
+  }
+}
+

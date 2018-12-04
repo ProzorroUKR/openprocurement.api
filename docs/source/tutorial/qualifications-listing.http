@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/qualifications HTTP/1.0
+GET /api/2.4/tenders/4e095f899aea431dade658804787b2aa/qualifications HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -8,39 +8,39 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "status": "pending", 
-      "lotID": "f70782e4693042cca51ec2dda36d5f15", 
+      "lotID": "ddb35dd0e9904726aafd18baed24863a", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "b9aaff8198b34ce3ba7a7aeeddccede9", 
-      "date": "2018-09-05T14:24:28.030414+03:00", 
-      "id": "2cdd3684369c48ae94f06924d793d5c3"
+      "bidID": "25ac7a23a2c2469a89730fdc082d6c76", 
+      "date": "2018-11-30T16:38:26.471594+02:00", 
+      "id": "8f7f71adfabd40e588c9840563a28cfd"
     }, 
     {
       "status": "pending", 
-      "lotID": "f70782e4693042cca51ec2dda36d5f15", 
+      "lotID": "ddb35dd0e9904726aafd18baed24863a", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "4a6e1eb99e90469ca301b9ec91e3cf20", 
-      "date": "2018-09-05T14:24:28.030414+03:00", 
-      "id": "16bd326dd94b44d58aa4d9c436b2141a"
+      "bidID": "3ed6da5f8665409fb9710ca826a322bc", 
+      "date": "2018-11-30T16:38:26.471594+02:00", 
+      "id": "b60692147816474db834bbe7b6877dcc"
     }, 
     {
       "status": "pending", 
-      "lotID": "f70782e4693042cca51ec2dda36d5f15", 
+      "lotID": "ddb35dd0e9904726aafd18baed24863a", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "1d00e079e60b4debaf4db274c5426b5f", 
-      "date": "2018-09-05T14:24:28.030414+03:00", 
-      "id": "cd5c44500e3d4b8c985bcf2c7f351af4"
+      "bidID": "52b3fe0a32744052a9fb4e9348cbcc15", 
+      "date": "2018-11-30T16:38:26.471594+02:00", 
+      "id": "acbd65655fc042d0b1be97e99c74e076"
     }, 
     {
       "status": "pending", 
-      "lotID": "f70782e4693042cca51ec2dda36d5f15", 
+      "lotID": "ddb35dd0e9904726aafd18baed24863a", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "8136c8ad133a440b8c220815122c1eff", 
-      "date": "2018-09-05T14:24:28.030414+03:00", 
-      "id": "3165ae666911453697606e0bc22f8889"
+      "bidID": "23a42e84d61245a0bd218cd8280059ca", 
+      "date": "2018-11-30T16:38:26.471594+02:00", 
+      "id": "e39cd5342d0b4fdda01c9d559c63de30"
     }
   ]
 }

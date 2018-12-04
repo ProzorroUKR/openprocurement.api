@@ -68,6 +68,9 @@ Let's see what listing of tenders reveals us:
 
 We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
 
+You can add additional :ref:`ContactPoint` and set several :ref:`Item`. Also you can create tender with :ref:`Feature` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#announcing-meat`).
+
+
 .. ПРЕЦЕДЕНТ Т2. Внести змінни в оголошення
 
 Modifying tender
@@ -94,6 +97,9 @@ Procuring entity can set bid guarantee:
 
 
 .. index:: Document
+
+You can modify the following fields on this step: ``agreementDuration``, :ref:`item`, ``maxAwardsCount``, :ref:`ProcuringEntity`, ``tenderPeriod``, ``title``, ``title_ru``, ``title_en``,
+``description``, ``description_ru``, ``description_en``, ``eligibilityCriteria``, ``procurementMethodRationale``, ``guarantee``, :ref:`feature`, :ref:`document`, :ref:`lot`.
 
 
 Uploading documentation
@@ -192,6 +198,8 @@ And activate a bid:
 .. include:: tutorial/activate-bidder.http
    :code:
 
+Bidder can also submit bid with non-price criteria - :ref:`parameter` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#bidding-in-meat`).
+
 Proposal Uploading
 ~~~~~~~~~~~~~~~~~~
 
@@ -260,6 +268,11 @@ In order to create and/or get qualification document ``qualification_documents``
 .. include:: tutorial/upload-bid-qualification-document-proposal.http
    :code:
 
+In case we made an error, we can reupload the document over the older version:
+
+.. include:: tutorial/upload-bid-qualification-document-proposal-updated.http
+   :code:
+
 
 `Financial` and `qualification` documents will be publicly accessible after the auction.
 `Eligibility` documents will become publicly accessible starting from tender pre-qualification period.
@@ -289,6 +302,8 @@ Bidder should confirm bid proposal:
 
 .. include:: tutorial/bidder-activate-after-changing-tender.http
    :code:
+
+Bidder can change his bid after activating it. He can change value:amount (:ref:`value`). Also he can update :ref:`parameter`, subContractors, :ref:`document`.
 
 Close FrameworkAgreement UA procedure demands at least three bidders, so there should be at least three bid proposals
 registered to move to auction stage:
@@ -338,6 +353,8 @@ We can also reject bid:
 .. include:: tutorial/reject-qualification3.http
    :code:
 
+To reject bid, Procuring entity should specify reason of rejection in ``description`` field.
+
 And check that qualified bids are switched to `active`:
 
 .. include:: tutorial/qualificated-bids-view.http
@@ -354,6 +371,8 @@ Procuring entity approves qualifications by switching to next status:
 
 .. include:: tutorial/pre-qualification-confirmation.http
    :code:
+
+Procuring entity can upload ``qualificationDocuments`` for each Bidder. Also Procuring entity may change ``status`` of Bid on opposite during `active.prequalification`.
 
 You may notice 10 day stand-still time set in `qualificationPeriod`.
 
@@ -390,13 +409,47 @@ Qualification board receives the qualifications list
 .. include:: tutorial/qualifications-list.http
    :code:
 
-And registers its decisions via the following call per award:
+And registers its decisions via the following call `per award`:
 
 .. include:: tutorial/confirm-qualification.http
    :code:
 
-The board may also disqualify the award winner by calling 
-``{'data': {'status': 'unsuccessful'}}``
+The board may cancel the award winner by calling
+``{'data': {'status': 'cancelled'}}``
+
+.. include:: tutorial/patch-award-cancelled.http
+   :code:
+
+We can see new `pending` award is generated for the same bidder.
+
+.. include:: tutorial/qualifications-list2.http
+   :code:
+
+Now we can patch `pending` award to `unsuccessful`.
+
+.. include:: tutorial/patch-award-unsuccessful.http
+   :code:
+
+In case of transferring award from ``unsuccessful`` to ``cancelled``, tender moves to the beginning of ``active.qualification`` status, all of the awards become ``cancelled`` and new :ref:`award` objects are creating.
+
+So we patch `unsuccessful` award to `cancelled`.
+
+.. include:: tutorial/patch-award-unsuccessful-cancelled.http
+   :code:
+
+New `pending` award is generated for each bidder.
+
+.. include:: tutorial/qualifications-list3.http
+   :code:
+
+Finally we confirm all `pending` awards via the following call:
+
+.. include:: tutorial/confirm-qualification2.http
+   :code:
+
+Procuring entity may specify reasons of Bidder disqualification in the ``description`` field.
+Procuring entity can upload ``qualificationDocuments`` for each Bidder.
+Procuring entity may continue consideration of decision for some :ref:`award` if it is needed. Procuring entity should upload a document for that.
 
 .. ПРЕЦЕДЕНТ Т13. Додати документи з цінами
 
@@ -409,7 +462,7 @@ When tender transfers to status `active.awarded` then :ref:`Agreement` is create
    :code:
 
 Entering prices per item by the ordering party
-------------------------------------
+----------------------------------------------
 
 The object list :ref:`Agreement` can be obtained via the following call
 
@@ -440,6 +493,8 @@ Also the ordering party is allowed to exclude a winner from the framework agreem
 For a successful signing of a Framework agreement not less than 3 active contracts are needed 
 
 A Framework agreement can be signed only when `agreement.contractPeriod.clarificationsUntil` is reached
+
+Procuring entity may fill the information about ``agreementNumber``.
 
 
 Uploading agreement documentation
@@ -501,7 +556,7 @@ Agreement registration
 Cancelling tender
 -----------------
 
-Tender creator can cancel tender anytime (except when tender has terminal status e.g. `usuccesfull`, `canceled`, `complete`).
+Tender creator can cancel tender anytime (except when tender has terminal status e.g. `unsuccessful`, `canceled`, `complete`).
 
 The following steps should be applied:
 
@@ -547,4 +602,17 @@ Activating the request and cancelling tender
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: tutorial/active-cancellation.http
+   :code:
+
+Transfer agreement to `unsuccessful`
+------------------------------------
+
+Procuring entity can patch `agreement` to  `unsuccessful`.
+
+.. include:: tutorial/agreement-unsuccessful.http
+   :code:
+
+This will transfer `tender` to `unsuccessful` status.
+
+.. include:: tutorial/tender-unsuccessful.http
    :code:

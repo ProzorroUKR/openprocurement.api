@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/lots/f70782e4693042cca51ec2dda36d5f15?acc_token=61955a7cfb50471faf87533f4371d20c HTTP/1.0
+PATCH /api/2.4/tenders/4e095f899aea431dade658804787b2aa/lots/ddb35dd0e9904726aafd18baed24863a?acc_token=8a38796ad4814abcaf75da2c44b5c6cc HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 57
 Content-Type: application/json
@@ -26,15 +26,15 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2018-11-10T00:00:00+03:00"
+      "shouldStartAfter": "2019-02-04T00:00:00+02:00"
     }, 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2018-09-05T14:24:23.825365+03:00", 
-    "id": "f70782e4693042cca51ec2dda36d5f15", 
+    "date": "2018-11-30T16:38:21.879121+02:00", 
+    "id": "ddb35dd0e9904726aafd18baed24863a", 
     "guarantee": {
       "currency": "USD", 
       "amount": 8.0

@@ -1,6 +1,6 @@
-POST /api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids HTTP/1.0
+POST /api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 2643
+Content-Length: 2639
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 DATA:
@@ -8,7 +8,7 @@ DATA:
   "data": {
     "documents": [
       {
-        "url": "http://public.docs-sandbox.openprocurement.org/get/10eda34f45804b9ab0427aec6e0fa21f?KeyID=2a9e5e2d&Signature=FVCODBGMgFzOER9AScMPkKbem9UtWaI%2B3Kex%2B%2FXJY6eC4E6YqWtCzhd0l8BjXaSmA1zVs%2BxhMJVCuMOkWHvoAA%3D%3D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/bbcdfaab9d084486a86bb34875e8263a?KeyID=29d4a5c6&Signature=S0WB3gKuzZhOuX%2BBC%2FGGmWSug181TDYL8At79U8ahfz0Wj6ANMbHmxt4NydcsR4p4cX9mwj%2Bz%2B1px0Pew4A8Cg%3D%3D", 
         "title": "Proposal_part1.pdf", 
         "hash": "md5:00000000000000000000000000000000", 
         "format": "application/pdf"
@@ -17,14 +17,14 @@ DATA:
         "hash": "md5:00000000000000000000000000000000", 
         "confidentiality": "buyerOnly", 
         "title": "Proposal_part2.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/a2b2d0556623472e8e0ab08efe2236f2?KeyID=2a9e5e2d&Signature=tYi%2BJyTNTle2f3R4rjw414XDlkLXylB3htiKBgCQM698iHkgY74%2Flo0ERHOeyeX3Zw3PNZHvzEeLWmoVx97gDQ%3D%3D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/b6843d7cc6af4a7d903e8fd67074938f?KeyID=29d4a5c6&Signature=2pFszpaC%2FrefVo4w3UHp5fmosR7f7vg0HVQkslZdtTP3mA4q8bGla82KnS7l71QBSt3vX0QkFICEfk8Zb7IAAQ%3D%3D", 
         "confidentialityRationale": "Only our company sells badgers with pink hair.", 
         "format": "application/pdf"
       }
     ], 
     "eligibilityDocuments": [
       {
-        "url": "http://public.docs-sandbox.openprocurement.org/get/f7e7396434f54ac8b4f47cfc5e30c04b?KeyID=2a9e5e2d&Signature=MXEN1E7WpNaZD1UyPa5CJ0Ji%2BImz0CUQoM2%2BEZ%2FY2x1aL%2BBlnnzx58NxxFXBio4z1HOrA5EbOr5Tj7r11ufkAg%3D%3D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/67f93038bf144234a6a8f0c683129d62?KeyID=29d4a5c6&Signature=CVV%2F8XZ0iJ19avtY2QJL%2BAxK5uv0MSOdSdO%2Ba83AMU5xO4NQOQPctOzh6j54MMQk7Z7pXkcUVucswpq933eOCg%3D%3D", 
         "title": "eligibility_doc.pdf", 
         "hash": "md5:00000000000000000000000000000000", 
         "format": "application/pdf"
@@ -33,7 +33,7 @@ DATA:
     "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
         "value": {
           "amount": 5
         }
@@ -42,7 +42,7 @@ DATA:
     "selfQualified": true, 
     "financialDocuments": [
       {
-        "url": "http://public.docs-sandbox.openprocurement.org/get/da93456ddbc94b00b6fa0a50715756ee?KeyID=2a9e5e2d&Signature=Ph3aMFAxy9mRltClfBMmxQ13x4Hs2dH3Ar8CpkwwJ4bB763RJTh8J%2FJX1uaZnDtrs1QC4D%2FkSrQV8maJr1y1AQ%3D%3D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/219fb4449f4649ac9dbd52e67cda3c65?KeyID=29d4a5c6&Signature=zTh%2FTlmtvktxS92OhuK2EjxQVmyigxNqL1lYRAJUFlhZnU57E%2BZNFs0z9LFSCH7IEMtGP11iGLM2HlPf5NEdBQ%3D%3D", 
         "title": "financial_doc.pdf", 
         "hash": "md5:00000000000000000000000000000000", 
         "format": "application/pdf"
@@ -72,7 +72,7 @@ DATA:
     ], 
     "qualificationDocuments": [
       {
-        "url": "http://public.docs-sandbox.openprocurement.org/get/ddb92030fe014a999d4ac16a6c7a7cd2?KeyID=2a9e5e2d&Signature=U2RsfIcGbkWvoImvqPy%2Bc7O8Esmai26DEathFZR5gRsQenavg3PLOOvBmMqI78C%2BStX9CK21PcwGsndVLIEMAQ%3D%3D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/bc3aacc15ea3487f82becbdf947546b8?KeyID=29d4a5c6&Signature=FBb66FiileyEYX24tLo3QdhkuJcHk2hGtu7gZ8Xl3%2BIgoooWoq7yr7oafw36GouHMi0e2GQJE8Pbn5UlPM%2B4DQ%3D%3D", 
         "title": "qualification_document.pdf", 
         "hash": "md5:00000000000000000000000000000000", 
         "format": "application/pdf"
@@ -83,10 +83,10 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/8136c8ad133a440b8c220815122c1eff
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/23a42e84d61245a0bd218cd8280059ca
 {
   "access": {
-    "token": "12b78e802c374448afb6b8af27537352"
+    "token": "cb33f6527fa5401ca22ab94dc50e0aab"
   }, 
   "data": {
     "status": "pending", 
@@ -96,25 +96,25 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946d
         "confidentiality": "public", 
         "language": "uk", 
         "title": "Proposal_part1.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/8136c8ad133a440b8c220815122c1eff/documents/0e854c216d2344fab4b73a2cbf727b2b?download=10eda34f45804b9ab0427aec6e0fa21f", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/23a42e84d61245a0bd218cd8280059ca/documents/85af0f3faec3475b99b0133c428f0916?download=bbcdfaab9d084486a86bb34875e8263a", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-09-05T14:24:27.927755+03:00", 
-        "id": "0e854c216d2344fab4b73a2cbf727b2b", 
-        "dateModified": "2018-09-05T14:24:27.927769+03:00"
+        "datePublished": "2018-11-30T16:38:26.373507+02:00", 
+        "id": "85af0f3faec3475b99b0133c428f0916", 
+        "dateModified": "2018-11-30T16:38:26.373521+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "confidentiality": "buyerOnly", 
         "language": "uk", 
         "format": "application/pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/8136c8ad133a440b8c220815122c1eff/documents/00216379918448898094a9cc8df0913c?download=a2b2d0556623472e8e0ab08efe2236f2", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/23a42e84d61245a0bd218cd8280059ca/documents/1979e95c6317423c92ae2f35c531b2eb?download=b6843d7cc6af4a7d903e8fd67074938f", 
         "confidentialityRationale": "Only our company sells badgers with pink hair.", 
         "title": "Proposal_part2.pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-09-05T14:24:27.928175+03:00", 
-        "id": "00216379918448898094a9cc8df0913c", 
-        "dateModified": "2018-09-05T14:24:27.928189+03:00"
+        "datePublished": "2018-11-30T16:38:26.373926+02:00", 
+        "id": "1979e95c6317423c92ae2f35c531b2eb", 
+        "dateModified": "2018-11-30T16:38:26.373940+02:00"
       }
     ], 
     "eligibilityDocuments": [
@@ -123,24 +123,24 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946d
         "confidentiality": "public", 
         "language": "uk", 
         "title": "eligibility_doc.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/8136c8ad133a440b8c220815122c1eff/eligibility_documents/b3c873dcbe5848e6a7e41ed209ce4896?download=f7e7396434f54ac8b4f47cfc5e30c04b", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/23a42e84d61245a0bd218cd8280059ca/eligibility_documents/4292446a60ef4feab02ff39ca7eed737?download=67f93038bf144234a6a8f0c683129d62", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-09-05T14:24:27.929019+03:00", 
-        "id": "b3c873dcbe5848e6a7e41ed209ce4896", 
-        "dateModified": "2018-09-05T14:24:27.929032+03:00"
+        "datePublished": "2018-11-30T16:38:26.374808+02:00", 
+        "id": "4292446a60ef4feab02ff39ca7eed737", 
+        "dateModified": "2018-11-30T16:38:26.374821+02:00"
       }
     ], 
     "selfEligible": true, 
-    "id": "8136c8ad133a440b8c220815122c1eff", 
+    "id": "23a42e84d61245a0bd218cd8280059ca", 
     "lotValues": [
       {
-        "relatedLot": "f70782e4693042cca51ec2dda36d5f15", 
-        "date": "2018-09-05T14:24:27.929791+03:00", 
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
+        "date": "2018-11-30T16:38:26.375488+02:00", 
         "status": "pending", 
         "value": {
           "currency": "UAH", 
-          "amount": 5.0, 
+          "amount": 5, 
           "valueAddedTaxIncluded": true
         }
       }
@@ -152,12 +152,12 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946d
         "confidentiality": "public", 
         "language": "uk", 
         "title": "financial_doc.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/8136c8ad133a440b8c220815122c1eff/financial_documents/d062a2a519d64057a594968df52cd86a?download=da93456ddbc94b00b6fa0a50715756ee", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/23a42e84d61245a0bd218cd8280059ca/financial_documents/85ddadc844be4f9ba63ac6edb60c116c?download=219fb4449f4649ac9dbd52e67cda3c65", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-09-05T14:24:27.928601+03:00", 
-        "id": "d062a2a519d64057a594968df52cd86a", 
-        "dateModified": "2018-09-05T14:24:27.928614+03:00"
+        "datePublished": "2018-11-30T16:38:26.374387+02:00", 
+        "id": "85ddadc844be4f9ba63ac6edb60c116c", 
+        "dateModified": "2018-11-30T16:38:26.374400+02:00"
       }
     ], 
     "tenderers": [
@@ -182,19 +182,19 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946d
         }
       }
     ], 
-    "date": "2018-09-05T14:24:27.927377+03:00", 
+    "date": "2018-11-30T16:38:26.373137+02:00", 
     "qualificationDocuments": [
       {
         "hash": "md5:00000000000000000000000000000000", 
         "confidentiality": "public", 
         "language": "uk", 
         "title": "qualification_document.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/0eba7509160946dd8439ca46baa56801/bids/8136c8ad133a440b8c220815122c1eff/qualification_documents/4fcf2468f267416090ea75ee0d97e18f?download=ddb92030fe014a999d4ac16a6c7a7cd2", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/4e095f899aea431dade658804787b2aa/bids/23a42e84d61245a0bd218cd8280059ca/qualification_documents/6fcef171aada460091bcdc8e764142c8?download=bc3aacc15ea3487f82becbdf947546b8", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-09-05T14:24:27.929428+03:00", 
-        "id": "4fcf2468f267416090ea75ee0d97e18f", 
-        "dateModified": "2018-09-05T14:24:27.929442+03:00"
+        "datePublished": "2018-11-30T16:38:26.375227+02:00", 
+        "id": "6fcef171aada460091bcdc8e764142c8", 
+        "dateModified": "2018-11-30T16:38:26.375240+02:00"
       }
     ]
   }
