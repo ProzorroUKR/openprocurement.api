@@ -47,7 +47,7 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
     container = "documents"
     view_forbidden_states = ['active.tendering']
     view_forbidden_bid_states = ['invalid', 'deleted']
-    upload_allowed_states = ['active.tendering', 'active.qualification']
+    upload_allowed_states = ['active.tendering', 'active.qualification', 'active.qualification.stand-still']
 
     def _doc_access_restricted(self, doc):
         is_bid_owner = self.request.authenticated_role == 'bid_owner'
@@ -120,7 +120,7 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
         """Tender Bid Document Update"""
         tender_status = self.request.validated['tender_status'] 
         self._upload_permission(tender_status)
-        if tender_status == 'active.tendering':
+        if tender_status in ['active.tendering', 'active.qualification.stand-still']:
             self.request.validated['tender'].modified = False
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
@@ -136,7 +136,7 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
         self._upload_permission(tender_status)
         document = upload_file(self.request)
         getattr(self.request.validated['bid'], self.container).append(document)
-        if tender_status == 'active.tendering':
+        if tender_status in ['active.tendering', 'active.qualification.stand-still']:
             self.request.validated['tender'].modified = False
         if save_tender(self.request):
             self.LOGGER.info('Updated tender bid document {}'.format(self.request.context.id),
@@ -157,7 +157,7 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
     view_forbidden_states = ['active.tendering', 'active.pre-qualification',
                              'active.pre-qualification.stand-still', 'active.auction']
     view_forbidden_bid_states = ['invalid', 'deleted', 'invalid.pre-qualification', 'unsuccessful']
-    upload_allowed_states = ['active.tendering', 'active.qualification', 'active.awarded']
+    upload_allowed_states = ['active.tendering', 'active.qualification', 'active.awarded', 'active.qualification.stand-still']
 
 
 @bid_eligibility_documents_resource(name='closeFrameworkAgreementUA:Tender Bid Eligibility Documents',
@@ -171,7 +171,7 @@ class TenderEUBidEligibilityDocumentResource(TenderEUBidFinancialDocumentResourc
     container = "eligibilityDocuments"
     view_forbidden_states = ['active.tendering']
     view_forbidden_bid_states = ['invalid', 'deleted']
-    upload_allowed_states = ['active.tendering', 'active.qualification']
+    upload_allowed_states = ['active.tendering', 'active.qualification', 'active.qualification.stand-still']
 
 
 @bid_qualification_documents_resource(name='closeFrameworkAgreementUA:Tender Bid Qualification Documents',
@@ -182,4 +182,4 @@ class TenderEUBidEligibilityDocumentResource(TenderEUBidFinancialDocumentResourc
 class TenderEUBidQualificationDocumentResource(TenderEUBidFinancialDocumentResource):
     """ Tender EU Bid Qualification Documents """
     container = "qualificationDocuments"
-    upload_allowed_states = ['active.tendering', 'active.qualification']
+    upload_allowed_states = ['active.tendering', 'active.qualification', 'active.qualification.stand-still']

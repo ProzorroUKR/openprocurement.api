@@ -30,7 +30,7 @@ def validate_add_bid_document_not_in_allowed_status(request):
 
 
 def validate_update_bid_document_confidentiality(request):
-    if request.validated['tender_status'] != 'active.tendering' and 'confidentiality' in request.validated.get('data', {}):
+    if request.validated['tender_status'] not in ['active.tendering', 'active.qualification.stand-still'] and 'confidentiality' in request.validated.get('data', {}):
         if request.context.confidentiality != request.validated['data']['confidentiality']:
             raise_operation_error(request, 'Can\'t update document confidentiality in current ({}) tender status'.format(request.validated['tender_status']))
 
