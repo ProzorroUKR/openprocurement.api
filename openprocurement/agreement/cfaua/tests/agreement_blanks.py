@@ -721,3 +721,19 @@ def agreement_change_party_withdrawal_cancelled_preview(self):
     self.assertEqual(real_agreement, preview_agreement)
     self.assertEqual(preview_agreement['contracts'][0]['status'], 'active')
     self.assertNotIn('warnings', response.json)
+
+
+def agreement_changes_patch_from_agreements(self):
+    agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertNotIn('changes', agreement)
+
+    change_data = deepcopy(self.initial_change)
+    change_data['rationaleType'] = 'partyWithdrawal'
+    change_data['modifications'] = [{'contractId': agreement['contracts'][0]['id']}]
+
+    response = self.app.patch_json('/agreements/{}?acc_token={}'.format(self.agreement_id, self.agreement_token),
+                                    {'data': {'changes': [change_data]}}
+                                   )
+    self.assertEqual(response.status_code, 200)
+    agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertNotIn('changes', agreement)
