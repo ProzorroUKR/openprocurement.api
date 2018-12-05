@@ -3194,9 +3194,9 @@ def change_bid_document_in_qualification_st_st(self):
                 'format': 'application/msword',
                 'confidentiality': 'public',
                 'confidentialityRationale': None,
-            }})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-
-        self.assertEqual('public', response.json["data"]["confidentiality"])
-        self.assertNotIn("confidentialityRationale", response.json["data"])
+            }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(
+            response.json['errors'][0]["description"],
+            "Can't update document confidentiality in current (active.qualification.stand-still) tender status"
+        )

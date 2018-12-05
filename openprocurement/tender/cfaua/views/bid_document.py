@@ -120,7 +120,7 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
         """Tender Bid Document Update"""
         tender_status = self.request.validated['tender_status'] 
         self._upload_permission(tender_status)
-        if tender_status in ['active.tendering', 'active.qualification.stand-still']:
+        if tender_status == 'active.tendering':
             self.request.validated['tender'].modified = False
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
@@ -136,7 +136,7 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
         self._upload_permission(tender_status)
         document = upload_file(self.request)
         getattr(self.request.validated['bid'], self.container).append(document)
-        if tender_status in ['active.tendering', 'active.qualification.stand-still']:
+        if tender_status == 'active.tendering':
             self.request.validated['tender'].modified = False
         if save_tender(self.request):
             self.LOGGER.info('Updated tender bid document {}'.format(self.request.context.id),
