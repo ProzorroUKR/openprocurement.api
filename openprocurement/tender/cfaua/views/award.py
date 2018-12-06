@@ -94,24 +94,40 @@ class TenderAwardResource(BaseResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         configurator = self.request.content_configurator
 
-        if award_status == 'pending' and award.status == 'unsuccessful':
-            add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria,
-                            awarding_criteria_key=configurator.awarding_criteria_key)
-        elif award_status == 'pending' and award.status == 'active':
-            pass
-        elif award_status == 'active' and award.status == 'cancelled':
-            add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria,
-                            awarding_criteria_key=configurator.awarding_criteria_key,
-                            lot_id=award.lotID)
-        elif award_status == 'unsuccessful' and award.status == 'cancelled':
+        if tender.status == 'active.qualification.stand-still' and award_status == 'active' \
+                and award.status == 'cancelled':
             for aw in tender.awards:
                 if aw.lotID == award.lotID:
                     aw.status = 'cancelled'
-            add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria,
-                            awarding_criteria_key=configurator.awarding_criteria_key, regenerate_all_awards=True,
-                            lot_id=award.lotID)
-        elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
-            raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
+            add_next_awards(
+                self.request, reverse=configurator.reverse_awarding_criteria,
+                awarding_criteria_key=configurator.awarding_criteria_key,
+                regenerate_all_awards=True, lot_id=award.lotID
+            )
+            self.context.dateDecision = get_now()
+            tender.status = 'active.qualification'
+            if tender.awardPeriod.endDate:
+                tender.awardPeriod.endDate = None
+        else:
+            if award_status == 'pending' and award.status == 'unsuccessful':
+                add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria,
+                                awarding_criteria_key=configurator.awarding_criteria_key)
+            elif award_status == 'pending' and award.status == 'active':
+                pass
+            elif award_status == 'active' and award.status == 'cancelled':
+                add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria,
+                                awarding_criteria_key=configurator.awarding_criteria_key,
+                                lot_id=award.lotID)
+            elif award_status == 'unsuccessful' and award.status == 'cancelled':
+                for aw in tender.awards:
+                    if aw.lotID == award.lotID:
+                        aw.status = 'cancelled'
+                add_next_awards(self.request, reverse=configurator.reverse_awarding_criteria,
+                                awarding_criteria_key=configurator.awarding_criteria_key, regenerate_all_awards=True,
+                                lot_id=award.lotID)
+            elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
+                raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
+
         if save_tender(self.request):
             self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}))
