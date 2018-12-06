@@ -822,6 +822,17 @@ def tender_fields(self):
     self.assertIn(tender['id'], response.headers['Location'])
 
 
+def tender_items_float_quantity(self):
+    data = deepcopy(self.initial_data)
+    quantity = 5.4999999
+    data["items"][0]["quantity"] = quantity
+    response = self.app.post_json('/tenders', {"data": data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    tender = response.json['data']
+    self.assertEqual(tender["items"][0]["quantity"], quantity)
+
+
 def get_tender(self):
     response = self.app.get('/tenders')
     self.assertEqual(response.status, '200 OK')
