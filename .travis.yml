@@ -18,6 +18,8 @@ before_install:
   - sh bootstrap.sh
 install:
   - bin/buildout -N
+  - bin/buildout -N remotes:branch=$TRAVIS_BRANCH
+  - bin/develop up --force
 script:
   - bin/py.test ./openprocurement/contracting/api/tests --cov=openprocurement.contracting.api
 after_success:

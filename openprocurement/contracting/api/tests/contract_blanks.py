@@ -608,9 +608,11 @@ def contract_items_change(self):
     endDate = (get_now() + timedelta(days=90)).isoformat()
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
                                    {"data": {"items": [{
+                                       'quantity': 0.005,
                                        'deliveryAddress': {u"postalCode": u"79011", u"streetAddress": u"вул. Літаючого Хом’яка",},
                                        'deliveryDate': {u"startDate": startDate, u"endDate": endDate}
                                    }]}})
+    self.assertEqual(response.json['data']['items'][0]['quantity'], 0.005)
     self.assertEqual(response.json['data']['items'][0]['deliveryAddress']['postalCode'], u"79011")
     self.assertEqual(response.json['data']['items'][0]['deliveryAddress']['streetAddress'], u"вул. Літаючого Хом’яка")
     self.assertEqual(response.json['data']['items'][0]['deliveryAddress']['region'], u"м. Київ")
