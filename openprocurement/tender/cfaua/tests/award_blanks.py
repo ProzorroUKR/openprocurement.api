@@ -1219,7 +1219,7 @@ def review_tender_award_complaint(self):
             )
             self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
             self.assertEqual(response.json['errors'][0]["description"],
-                             "Can't update award in current (active.qualification.stand-still) tender status")
+                             "Can't update award with accepted complaint")
 
         self.app.authorization = ('Basic', ('reviewer', ''))
         response = self.app.patch_json(
