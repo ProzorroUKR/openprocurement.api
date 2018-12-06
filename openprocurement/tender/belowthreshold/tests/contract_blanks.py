@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-
+from copy import deepcopy
 from openprocurement.api.utils import get_now
 
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -83,8 +83,21 @@ def create_tender_contract_invalid(self):
 
 def create_tender_contract(self):
     self.app.authorization = ('Basic', ('token', ''))
-    response = self.app.post_json('/tenders/{}/contracts'.format(
-        self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id, 'value': self.award_value, 'suppliers': self.award_suppliers}})
+    contract_items = deepcopy(self.award_items)
+    for item in contract_items:
+        item["quantity"] += 0.5
+
+    response = self.app.post_json(
+        '/tenders/{}/contracts'.format(self.tender_id),
+        {'data': {
+            'title': 'contract title',
+            'description': 'contract description',
+            'awardID': self.award_id,
+            'value': self.award_value,
+            'suppliers': self.award_suppliers,
+            'items': contract_items
+        }}
+    )
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     contract = response.json['data']
@@ -92,6 +105,7 @@ def create_tender_contract(self):
     self.assertIn('value', contract)
     self.assertIn('suppliers', contract)
     self.assertIn(contract['id'], response.headers['Location'])
+    self.assertEqual(contract["items"], contract_items)
 
     tender = self.db.get(self.tender_id)
     tender['contracts'][-1]["status"] = "terminated"
