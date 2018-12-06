@@ -52,6 +52,7 @@ from openprocurement.tender.cfaua.tests.award_blanks import (
     create_tender_lot_award_complaint,
     patch_tender_lot_award_complaint,
     patch_tender_award_complaint_document,
+    patch_tender_award_in_qualification_st_st
 )
 
 no_lot_logic = True
@@ -78,6 +79,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_get_tender_award = snitch(get_tender_award)
     test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
+    test_patch_tender_award_in_qualification_st_st = snitch(patch_tender_award_in_qualification_st_st)
 
 
 class TenderAwardBidsOverMaxAwardsResourceTest(TenderAwardResourceTest):

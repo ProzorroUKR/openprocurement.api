@@ -275,5 +275,5 @@ def validate_max_agreement_duration_period(value):
 # awards
 def validate_update_award_in_not_allowed_status(request):
     tender = request.validated['tender']
-    if tender.status != 'active.qualification':
+    if tender.status not in ['active.qualification', 'active.qualification.stand-still']:
         raise_operation_error(request, 'Can\'t update award in current ({}) tender status'.format(tender.status))
