@@ -52,7 +52,8 @@ from openprocurement.tender.cfaua.tests.award_blanks import (
     create_tender_lot_award_complaint,
     patch_tender_lot_award_complaint,
     patch_tender_award_complaint_document,
-    patch_tender_award_in_qualification_st_st
+    patch_tender_award_in_qualification_st_st,
+    award_complaint_document_in_active_qualification
 )
 
 no_lot_logic = True
@@ -191,6 +192,9 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
     test_not_found = snitch(not_found)
     test_create_tender_award_complaint_document = snitch(create_tender_award_complaint_document)
     test_put_tender_award_complaint_document = snitch(put_tender_award_complaint_document)
+    test_award_complaint_document_in_active_qualification = snitch(
+        award_complaint_document_in_active_qualification
+    )
 
 
 class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):

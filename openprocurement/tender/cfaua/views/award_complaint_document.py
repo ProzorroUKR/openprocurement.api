@@ -24,11 +24,12 @@ class TenderEUAwardComplaintDocumentResource(TenderUaAwardComplaintDocumentResou
             self.request.errors.add('url', 'role', 'Can update document only author')
             self.request.errors.status = 403
             raise error_handler(self.request.errors)
-        if self.request.validated['tender_status'] not in tuple(['active.qualification.stand-still']):
+        if self.request.validated['tender_status'] not in tuple(
+                ['active.qualification.stand-still', 'active.qualification']
+        ):
             raise_operation_error(
-                self.request,
-                'Can\'t {} document in current ({}) tender status'.format(operation,
-                                                                          self.request.validated['tender_status'])
+                self.request, 'Can\'t {} document in current ({}) tender status'.format(
+                    operation, self.request.validated['tender_status'])
             )
         if any([i.status != 'active'
                 for i in self.request.validated['tender'].lots
