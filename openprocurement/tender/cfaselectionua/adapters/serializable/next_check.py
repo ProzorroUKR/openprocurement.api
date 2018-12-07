@@ -16,11 +16,9 @@ class SerializableTenderNextCheck(Serializable):
         now = get_now()
         checks = []
         configurator = getAdapter(obj, IContentConfigurator)
-        if obj.status == 'active.enquiries' and obj.tenderPeriod.startDate:
-            checks.append(obj.tenderPeriod.startDate.astimezone(configurator.tz))
-        elif obj.status == 'active.enquiries' and obj.enquiryPeriod.endDate:
+        if obj.status == 'active.enquiries' and obj.enquiryPeriod and obj.enquiryPeriod.endDate:
             checks.append(obj.enquiryPeriod.endDate.astimezone(configurator.tz))
-        elif obj.status == 'active.tendering' and obj.tenderPeriod.endDate:
+        elif obj.status == 'active.tendering' and obj.tenderPeriod and obj.tenderPeriod.endDate:
             checks.append(obj.tenderPeriod.endDate.astimezone(configurator.tz))
         elif not obj.lots and obj.status == 'active.auction' and obj.auctionPeriod and obj.auctionPeriod.startDate and not obj.auctionPeriod.endDate:
             if now < obj.auctionPeriod.startDate:

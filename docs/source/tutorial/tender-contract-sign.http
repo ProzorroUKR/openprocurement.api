@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/73b999ec9e514b479c237a2977938195/contracts/fe4e3656f4e142c0a4493e948cfd6e73?acc_token=5965a05480fc47d5934b0b04d00c19a9 HTTP/1.0
+PATCH /api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/contracts/6ea048f0e8344f058eefa7ace480b074?acc_token=5865cb211ce24adcb8b485389f2e13d1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -21,25 +21,25 @@ Content-Type: application/json; charset=UTF-8
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "contract_first_document.doc", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/184fa3aad86848fb9ee57de924858ddc?KeyID=b69e6b92&Signature=7nj08jS1w4rluwhtM3YlWUNbJMpqRkfSTDNtCY5V%2FUp%252BSMe67%252BIONFI%2FvjxNnutIv5GOXynbmjn33DC7IKrcCw%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/6322201813024057a17eaeba456f0425?KeyID=949bde1d&Signature=idfajuuSkkAixcGrjhqoACRJuDR88gEnWeDtRYagmoiyPxdne4oCfRHodgAeXB9xY8ue0U9OMJy8juvb73z3Ag%253D%253D", 
         "format": "application/msword", 
-        "datePublished": "2018-11-26T15:41:17.719214+02:00", 
-        "id": "0e5eb0a135c54c988ee9c2a7e50761e3", 
-        "dateModified": "2018-11-26T15:41:17.719246+02:00"
+        "datePublished": "2018-12-07T16:47:52.937676+02:00", 
+        "id": "f99bcc871d4044aa84838d966e4dd806", 
+        "dateModified": "2018-12-07T16:47:52.937694+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "contract_second_document.doc", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/1fb99a1c03dc41ccafc78982a4a2dfa3?KeyID=b69e6b92&Signature=XUsRNexlyE%2Fw3dz7L05KxvIz9jyRW3OnFXV%252BGRCRp%252B7YBM1f%2FyAAu6V5lgN%2FMwNe4WXKJ0ZrmsEYyueHbq4kBQ%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/7d8fd9f8006e47088f1b7e2d6d8b7871?KeyID=949bde1d&Signature=HvS4%2FHV40GY1hRn%252BaGp%252B9nlQ7UlTKjTOcFpLFm3WNxkZbquAd8eZqVSYBLANLJgvAfoR107VTNgplNMgxFunDA%253D%253D", 
         "format": "application/msword", 
-        "datePublished": "2018-11-26T15:41:18.046659+02:00", 
-        "id": "b16c44fbf21f4ba7a234bb45f68b3cbd", 
-        "dateModified": "2018-11-26T15:41:18.046696+02:00"
+        "datePublished": "2018-12-07T16:47:53.182044+02:00", 
+        "id": "56b0801334474d0ea8717882871815d6", 
+        "dateModified": "2018-12-07T16:47:53.182088+02:00"
       }
     ], 
     "items": [
       {
-        "relatedLot": "f8c9f018979648e4a299cc86497f2988", 
+        "relatedLot": "a9de659f847646f490c0b262940cf858", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -62,8 +62,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2018-11-28T15:41:12.177541+02:00", 
-          "endDate": "2018-12-01T15:41:12.177541+02:00"
+          "startDate": "2018-12-09T16:47:47.513843+02:00", 
+          "endDate": "2018-12-12T16:47:47.513843+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -96,19 +96,19 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "contractNumber": "contract #13111", 
     "period": {
-      "startDate": "2018-11-26T15:41:12.194185+02:00", 
-      "endDate": "2019-11-26T15:41:12.194185+02:00"
+      "startDate": "2018-12-07T16:47:47.531854+02:00", 
+      "endDate": "2019-12-07T16:47:47.531854+02:00"
     }, 
-    "dateSigned": "2018-11-26T15:41:18.328619+02:00", 
+    "dateSigned": "2018-12-07T16:47:53.343178+02:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2018-11-26T15:41:18.717577+02:00", 
-    "awardID": "d6403c75642f496985baac1d7e22eec0", 
-    "id": "fe4e3656f4e142c0a4493e948cfd6e73", 
-    "contractID": "UA-2018-11-26-000004-1"
+    "date": "2018-12-07T16:47:53.648695+02:00", 
+    "awardID": "9ca18a18ecfa43f9acdda378c7969901", 
+    "id": "6ea048f0e8344f058eefa7ace480b074", 
+    "contractID": "UA-2018-12-07-000004-1"
   }
 }
 

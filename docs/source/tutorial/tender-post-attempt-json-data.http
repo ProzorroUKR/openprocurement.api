@@ -1,49 +1,22 @@
 POST /api/2.4/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 2626
+Content-Length: 2495
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
 {
   "data": {
-    "tenderPeriod": {
-      "endDate": "2018-12-10T15:41:12.177541+02:00"
-    }, 
     "title": "футляри до державних нагород", 
     "lots": [
       {
         "title": "lot title", 
-        "id": "f8c9f018979648e4a299cc86497f2988", 
+        "id": "a9de659f847646f490c0b262940cf858", 
         "description": "lot description"
       }
     ], 
-    "enquiryPeriod": {
-      "endDate": "2018-11-27T15:41:12.177541+02:00"
-    }, 
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
-      "address": {
-        "countryName": "Україна", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "locality": "м. Київ"
-      }
-    }, 
     "items": [
       {
-        "relatedLot": "f8c9f018979648e4a299cc86497f2988", 
+        "relatedLot": "a9de659f847646f490c0b262940cf858", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -66,8 +39,8 @@ Host: api-sandbox.openprocurement.org
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2018-11-28T15:41:12.177541+02:00", 
-          "endDate": "2018-12-01T15:41:12.177541+02:00"
+          "startDate": "2018-12-09T16:47:47.513843+02:00", 
+          "endDate": "2018-12-12T16:47:47.513843+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -77,9 +50,30 @@ Host: api-sandbox.openprocurement.org
         "quantity": 5
       }
     ], 
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "01220", 
+        "region": "м. Київ", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "locality": "м. Київ"
+      }
+    }, 
     "agreements": [
       {
-        "id": "521daf6ff0eb4cbf9a93ef841146a375"
+        "id": "aca584f5e3ce414fb36bf1550e60cc25"
       }
     ]
   }
@@ -88,29 +82,29 @@ Host: api-sandbox.openprocurement.org
 
 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/a138065e401a4e9b9d01447cb15b3292
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/735a5e439ea94af3bb6761ffcb905337
 
 {
   "access": {
-    "token": "b96cf9add3554242840a5a6a30677ae9"
+    "token": "e9495ad5d4034adc9b95743530b7d634"
   }, 
   "data": {
     "status": "draft", 
     "procurementMethod": "selective", 
-    "tenderID": "UA-2018-11-26-000001", 
+    "tenderID": "UA-2018-12-07-000001", 
     "title": "футляри до державних нагород", 
     "lots": [
       {
-        "date": "2018-11-26T15:41:12.954242+02:00", 
+        "date": "2018-12-07T16:47:48.394036+02:00", 
         "status": "active", 
         "title": "lot title", 
         "description": "lot description", 
-        "id": "f8c9f018979648e4a299cc86497f2988"
+        "id": "a9de659f847646f490c0b262940cf858"
       }
     ], 
     "items": [
       {
-        "relatedLot": "f8c9f018979648e4a299cc86497f2988", 
+        "relatedLot": "a9de659f847646f490c0b262940cf858", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -133,8 +127,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/a138065e401a4e9
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2018-11-28T15:41:12.177541+02:00", 
-          "endDate": "2018-12-01T15:41:12.177541+02:00"
+          "startDate": "2018-12-09T16:47:47.513843+02:00", 
+          "endDate": "2018-12-12T16:47:47.513843+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -146,16 +140,16 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/a138065e401a4e9
     ], 
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
     "submissionMethod": "electronicAuction", 
-    "date": "2018-11-26T15:41:12.954242+02:00", 
+    "date": "2018-12-07T16:47:48.394036+02:00", 
     "agreements": [
       {
-        "id": "521daf6ff0eb4cbf9a93ef841146a375"
+        "id": "aca584f5e3ce414fb36bf1550e60cc25"
       }
     ], 
     "awardCriteria": "lowestCost", 
     "owner": "broker", 
-    "dateModified": "2018-11-26T15:41:12.957115+02:00", 
-    "id": "a138065e401a4e9b9d01447cb15b3292", 
+    "dateModified": "2018-12-07T16:47:48.398441+02:00", 
+    "id": "735a5e439ea94af3bb6761ffcb905337", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
