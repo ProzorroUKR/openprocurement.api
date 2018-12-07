@@ -1652,3 +1652,73 @@ def patch_tender_award_in_qualification_st_st(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['status'], 'active.qualification')
     self.assertNotIn('endDate', response.json['data']['awardPeriod'])
+
+
+def award_complaint_document_in_active_qualification(self):
+    self.set_status('active.qualification')
+
+    response = self.app.post('/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
+        self.tender_id, self.award_id, self.complaint_id, self.tender_token),
+        upload_files=[('file', 'name.doc', 'content')], status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(
+        response.json['errors'][0]["description"], "Can't add document in current (draft) complaint status"
+    )
+    response = self.app.post('/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
+        self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token),
+        upload_files=[('file', 'name.doc', 'content')])
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    doc_id = response.json["data"]['id']
+    self.assertIn(doc_id, response.headers['Location'])
+    self.assertEqual('name.doc', response.json["data"]["title"])
+    key = response.json["data"]["url"].split('?')[-1]
+
+    response = self.app.get('/tenders/{}/awards/{}/complaints/{}/documents'.format(
+        self.tender_id, self.award_id, self.complaint_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(doc_id, response.json["data"][0]["id"])
+    self.assertEqual('name.doc', response.json["data"][0]["title"])
+
+    response = self.app.get('/tenders/{}/awards/{}/complaints/{}/documents?all=true'.format(
+        self.tender_id, self.award_id, self.complaint_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(doc_id, response.json["data"][0]["id"])
+    self.assertEqual('name.doc', response.json["data"][0]["title"])
+
+    response = self.app.get('/tenders/{}/awards/{}/complaints/{}/documents/{}?download=some_id'.format(
+        self.tender_id, self.award_id, self.complaint_id, doc_id), status=404)
+    self.assertEqual(response.status, '404 Not Found')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': u'Not Found', u'location': u'url', u'name': u'download'}
+    ])
+
+    response = self.app.get('/tenders/{}/awards/{}/complaints/{}/documents/{}?{}'.format(
+        self.tender_id, self.award_id, self.complaint_id, doc_id, key))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/msword')
+    self.assertEqual(response.content_length, 7)
+    self.assertEqual(response.body, 'content')
+
+    response = self.app.get('/tenders/{}/awards/{}/complaints/{}/documents/{}'.format(
+        self.tender_id, self.award_id, self.complaint_id, doc_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual('name.doc', response.json["data"]["title"])
+
+    self.set_status('complete')
+
+    response = self.app.post('/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
+        self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token),
+        upload_files=[('file', 'name.doc', 'content')], status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(
+        response.json['errors'][0]["description"], "Can't add document in current (complete) tender status"
+    )
