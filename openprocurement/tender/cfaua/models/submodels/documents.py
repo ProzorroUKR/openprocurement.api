@@ -23,6 +23,15 @@ class BidderEUDocument(EUDocument):
     confidentiality = StringType(choices=['public', 'buyerOnly'], default='public')
     confidentialityRationale = StringType()
 
+    documentType = StringType(choices=[
+        'tenderNotice', 'awardNotice', 'contractNotice', 'notice', 'biddingDocuments', 'technicalSpecifications',
+        'evaluationCriteria', 'clarifications', 'shortlistedFirms', 'riskProvisions', 'billOfQuantity', 'bidders',
+        'conflictOfInterest', 'debarments', 'evaluationReports', 'winningBid', 'complaints', 'contractSigned',
+        'contractArrangements', 'contractSchedule', 'contractAnnexe', 'contractGuarantees', 'subContract',
+        'eligibilityCriteria', 'contractProforma', 'commercialProposal', 'qualificationDocuments',
+        'eligibilityDocuments', 'registerExtract', 'winningBid'
+    ])
+
     def validate_confidentialityRationale(self, data, val):
         if data['confidentiality'] != 'public':
             if not val:
