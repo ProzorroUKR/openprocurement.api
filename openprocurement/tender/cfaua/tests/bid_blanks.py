@@ -3200,3 +3200,25 @@ def change_bid_document_in_qualification_st_st(self):
             response.json['errors'][0]["description"],
             "Can't update document confidentiality in current (active.qualification.stand-still) tender status"
         )
+
+
+def post_winningBid_document_in_awarded(self):
+    self.set_status('active.awarded')
+    response = self.app.post_json(
+        '/tenders/{}/bids/{}/{}?acc_token={}'.format(
+            self.tender_id, self.bid_id, 'financial_documents', self.bid_token
+        ), {'data': {'title': u'укр.doc',
+                     'url': self.generate_docservice_url(),
+                     'hash': 'md5:' + '0' * 32,
+                     'format': 'application/msword',
+                     'documentType': 'winningBid'}
+        }
+    )
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    doc_id = response.json["data"]['id']
+    self.assertIn(doc_id, response.headers['Location'])
+    self.assertEqual(u'укр.doc', response.json["data"]["title"])
+    self.assertIn('Signature=', response.json["data"]["url"])
+    self.assertIn('KeyID=', response.json["data"]["url"])
+    self.assertNotIn('Expires=', response.json["data"]["url"])
