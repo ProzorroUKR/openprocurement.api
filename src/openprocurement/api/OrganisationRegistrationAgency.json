@@ -447,6 +447,14 @@
       },
       {
          "category":"HR",
+         "code":"HR-MBS",
+         "description":"Business Register The court business register is maintained by the Croatian Ministry of Justice (Ministarstvo Pravosuda Republike Hrvatske). Registered corporations each have a court-assigned company registration number (mati\u010dni broj poslovnog subjekta - MBS)",
+         "name":"Croatian Court Business Register",
+         "public-database":true,
+         "url":"https://sudreg.pravosudje.hr/registar"
+      },
+      {
+         "category":"HR",
          "code":"HR-OIB",
          "name":"Personal Identification Number",
          "public-database":true,
