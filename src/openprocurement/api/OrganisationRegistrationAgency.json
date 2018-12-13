@@ -126,6 +126,22 @@
          "description":null
       },
       {
+         "category":"AR",
+         "code":"AR-CENOC",
+         "description":"Law No. 25.855, de Voluntariado Social (Social Volunteering) established in 2004 a role for El Centro Nacional de Organizaciones de la Comunidad to maintain a database of civil society organisations (CSOs). \u201cThe CSOs that receive or intend to receive public funds must be included in the database, to carry out projects financed in whole or in part with state resources, whatever the subject matter.\u201d Registration for the database requests detailed information, including capturing a CUIT number for the organisation (where known), address and contact information. However, only a basic list of identifiers and names is currently published.",
+         "name":"The National Centre of Community Organisations (Argentina)",
+         "public-database":true,
+         "url":"http://www.cenoc.gob.ar/"
+      },
+      {
+         "category":"AR",
+         "code":"AR-CUIT",
+         "description":"Any citizen or company starting an economic activity in Argentina must register with the AFIP (Federal Administration of Public Revenues) and receive a Unique Tax Identification Code (CUIT). This is an 11 digit number, consisting two digits, hyphen, nine digits, and a one digit checksum.",
+         "name":"Unique Tax Identification Code (Argentina)",
+         "public-database":false,
+         "url":null
+      },
+      {
          "category":"AT",
          "code":"AT-FN",
          "description":"Available only in German. Access can be obtained by using services of special companies like http://www.advokat.at/Advokat-Online/Module/Firmenbuch.aspx that are entitled to provide it (for full list see https://www.justiz.gv.at/web2013/html/default/2c9484852308c2a601240b693e1c0860.de.html)",
