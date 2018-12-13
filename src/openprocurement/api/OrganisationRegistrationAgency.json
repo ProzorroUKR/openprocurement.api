@@ -574,6 +574,22 @@
          "description":null
       },
       {
+         "category":"JO",
+         "code":"JO-CCD",
+         "description":"The Companies Control Department is an independent national financial and administrative institution affiliated to the Minister of Industry and Trade in Jordan under the provisions of the amended Companies Law No. (40) of 2002. The work of the department is governed by the 1997 Companies Law No. The Department is responsible for registration of various types of companies within the Hashemite Kingdom of Jordan, including non-profit companies. It maintains a number of online services for searching company information at http://www.ccd.gov.jo/e-services/home/db available in Arabic only.",
+         "name":"Companies Control Department (Jordan)",
+         "public-database":true,
+         "url":"http://www.ccd.gov.jo/"
+      },
+      {
+         "category":"JO",
+         "code":"JO-MSD",
+         "description":"The register of associations was established in the Ministry of Social Development in the Hashemite Kingdom of Jordan by virtue of the Associations Law No. (51) of 2008 and its amendments which abolished the Law of Associations and Voluntary Organizations No. 33 of 1966 and its amendments. The register of associations is the regulator of the associations sector in the Kingdom and in line with the legislation in force.",
+         "name":"Register of Associations, Jordan",
+         "public-database":true,
+         "url":"http://www.societies.gov.jo/"
+      },
+      {
          "category":"JP",
          "code":"JP-JCN",
          "description":"A code allocated to a company by the Japanese National Tax Agency. The registry itself is open and searchable by JCN (in Japanese only), but only limited information is available. More information on the corporate number (JCN) can be found here - http://www.nta.go.jp/foreign_language/corporate_number/ (National Tax Agency website). ",
