@@ -3156,3 +3156,69 @@ def put_tender_bidder_document_private_json(self):
             }}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'][0]["description"], "Can't update document confidentiality in current (active.qualification) tender status")
+
+
+def change_bid_document_in_qualification_st_st(self):
+    self.set_status('active.qualification.stand-still', 'end')
+    doc_id_by_type = {}
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.json['data']['status'], "active.qualification.stand-still")
+    for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
+        response = self.app.post_json(
+            '/tenders/{}/bids/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource, self.bid_token),
+            {'data': {
+                'title': 'name_{}.doc'.format(doc_resource[:-1]),
+                'url': self.generate_docservice_url(),
+                'hash': 'md5:' + '0' * 32,
+                'format': 'application/msword',
+                'confidentiality': 'buyerOnly',
+                'confidentialityRationale': 'Only our company sells badgers with pink hair.',
+            }})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        doc_id = response.json["data"]['id']
+        self.assertIn(doc_id, response.headers['Location'])
+        self.assertEqual('name_{}.doc'.format(doc_resource[:-1]), response.json["data"]["title"])
+        key = response.json["data"]["url"].split('?')[-1]
+        doc_id_by_type[doc_resource] = {'id': doc_id, 'key': key}
+        self.assertEqual('buyerOnly', response.json["data"]["confidentiality"])
+        self.assertEqual('Only our company sells badgers with pink hair.',
+                         response.json["data"]["confidentialityRationale"])
+        response = self.app.put_json(
+            '/tenders/{}/bids/{}/{}/{}?acc_token={}'.format(self.tender_id, self.bid_id, doc_resource, doc_id,
+                                                            self.bid_token),
+            {'data': {
+                'title': 'name_{}_v2.doc'.format(doc_resource[:-1]),
+                'url': self.generate_docservice_url(),
+                'hash': 'md5:' + '0' * 32,
+                'format': 'application/msword',
+                'confidentiality': 'public',
+                'confidentialityRationale': None,
+            }}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(
+            response.json['errors'][0]["description"],
+            "Can't update document confidentiality in current (active.qualification.stand-still) tender status"
+        )
+
+
+def post_winningBid_document_in_awarded(self):
+    self.set_status('active.awarded')
+    response = self.app.post_json(
+        '/tenders/{}/bids/{}/{}?acc_token={}'.format(
+            self.tender_id, self.bid_id, 'financial_documents', self.bid_token
+        ), {'data': {'title': u'укр.doc',
+                     'url': self.generate_docservice_url(),
+                     'hash': 'md5:' + '0' * 32,
+                     'format': 'application/msword',
+                     'documentType': 'winningBid'}
+        }
+    )
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    doc_id = response.json["data"]['id']
+    self.assertIn(doc_id, response.headers['Location'])
+    self.assertEqual(u'укр.doc', response.json["data"]["title"])
+    self.assertIn('Signature=', response.json["data"]["url"])
+    self.assertIn('KeyID=', response.json["data"]["url"])
+    self.assertNotIn('Expires=', response.json["data"]["url"])
