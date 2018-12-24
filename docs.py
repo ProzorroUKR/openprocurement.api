@@ -101,39 +101,6 @@ bid2 = {
     }
 }
 
-question = {
-    "data": {
-        "author": {
-            "address": {
-                "countryName": "Україна",
-                "locality": "м. Вінниця",
-                "postalCode": "21100",
-                "region": "м. Вінниця",
-                "streetAddress": "вул. Островського, 33"
-            },
-            "contactPoint": {
-                "email": "soleksuk@gmail.com",
-                "name": "Сергій Олексюк",
-                "telephone": "+380 (432) 21-69-30"
-            },
-            "identifier": {
-                "id": "00137226",
-                "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
-                "scheme": "UA-EDR",
-                "uri": "http://sch10.edu.vn.ua/"
-            },
-            "name": "ДКП «Школяр»"
-        },
-        "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "title": "Калорійність"
-    }
-}
-
-answer = {
-    "data": {
-        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\""
-    }
-}
 
 cancellation = {
     'data': {
@@ -196,12 +163,6 @@ test_tender_maximum_data = {
             "quantity": 5
         }
     ],
-    "enquiryPeriod": {
-        "endDate": (now + timedelta(days=7)).isoformat()
-    },
-    "tenderPeriod": {
-        "endDate": (now + timedelta(days=14)).isoformat()
-    },
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "mode": u"test",
 }

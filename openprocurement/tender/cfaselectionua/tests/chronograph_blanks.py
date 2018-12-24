@@ -35,17 +35,13 @@ def switch_to_tendering(self):
 
 
 def switch_to_tendering_by_tenderPeriod_startDate(self):
-    self.set_status('active.tendering', {'status': 'active.enquiries', "tenderPeriod": {}})
+    # self.set_status('active.enquiries', {'status': 'active.enquiries', "tenderPeriod": {}})
     self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertNotEqual(response.json['data']["status"], "active.tendering")
+    # response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+    # self.assertEqual(response.status, '200 OK')
+    # self.assertNotEqual(response.json['data']["status"], "active.tendering")
 
-    self.set_status('active.tendering',
-        {'status': self.initial_status, "enquiryPeriod": {}, 'agreements': [deepcopy(test_agreement)]})
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']["status"], "active.tendering")
+    self.set_status('active.enquiries')
 
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     contracts = response.json['data']['agreements'][0]['contracts']
@@ -56,21 +52,12 @@ def switch_to_tendering_by_tenderPeriod_startDate(self):
         )
 
     # testing min 1 day delta before patching from active.enquiries to active.tendering by chronograph
-    self.set_status('active.tendering',
-                    {'status': 'active.enquiries',
-                     "enquiryPeriod": {'startDate': get_now().isoformat(),
-                                       'endDate': (get_now() + timedelta(days=1)).isoformat()},
-                     "tenderPeriod": {'startDate': (get_now() + timedelta(days=1)).isoformat(),
-                                      'endDate': (get_now() + timedelta(days=2)).isoformat()}})
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'active.enquiries')  # not changed
 
     # time travel  change enquiryPeriod.endDate && tenderPeriod.startDate <= they are equal
-    tender_db = self.db.get(self.tender_id)
-    tender_db['enquiryPeriod']['endDate'] = get_now().isoformat()
-    tender_db['tenderPeriod']['startDate'] = tender_db['enquiryPeriod']['endDate']
-    self.db.save(tender_db)
+    self.set_status('active.enquiries', start_end='end')
 
     response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))

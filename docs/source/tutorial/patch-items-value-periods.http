@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/73b999ec9e514b479c237a2977938195?acc_token=5965a05480fc47d5934b0b04d00c19a9 HTTP/1.0
+PATCH /api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2?acc_token=5865cb211ce24adcb8b485389f2e13d1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 103
 Content-Type: application/json
@@ -12,7 +12,7 @@ Host: api-sandbox.openprocurement.org
       }
     ], 
     "tenderPeriod": {
-      "endDate": "2018-12-11T15:41:23.974227+02:00"
+      "endDate": "2018-12-22T16:47:59.468899+02:00"
     }
   }
 }
@@ -25,10 +25,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "active.enquiries", 
     "procurementMethod": "selective", 
-    "date": "2018-11-26T15:41:13.922478+02:00", 
+    "date": "2018-12-07T16:47:49.415112+02:00", 
     "tenderPeriod": {
-      "startDate": "2018-11-27T15:41:13.917362+02:00", 
-      "endDate": "2018-12-11T15:41:23.974227+02:00"
+      "startDate": "2018-12-08T16:47:49.409781+02:00", 
+      "endDate": "2018-12-22T16:47:59.468899+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "lots": [
@@ -43,16 +43,16 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "value": {
           "currency": "UAH", 
-          "amount": 600.666, 
+          "amount": 600.67, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2018-11-26T15:41:13.516556+02:00", 
-        "id": "f8c9f018979648e4a299cc86497f2988"
+        "date": "2018-12-07T16:47:48.973294+02:00", 
+        "id": "a9de659f847646f490c0b262940cf858"
       }
     ], 
     "items": [
       {
-        "relatedLot": "f8c9f018979648e4a299cc86497f2988", 
+        "relatedLot": "a9de659f847646f490c0b262940cf858", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -75,8 +75,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2018-11-28T15:41:12.177541+02:00", 
-          "endDate": "2018-12-01T15:41:12.177541+02:00"
+          "startDate": "2018-12-09T16:47:47.513843+02:00", 
+          "endDate": "2018-12-12T16:47:47.513843+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -89,7 +89,7 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
     "value": {
       "currency": "UAH", 
-      "amount": 600.666, 
+      "amount": 600.67, 
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
@@ -98,8 +98,8 @@ Content-Type: application/json; charset=UTF-8
       "amount": 3.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateModified": "2018-11-26T15:41:14.086826+02:00", 
-    "next_check": "2018-11-27T15:41:13.917362+02:00", 
+    "dateModified": "2018-12-07T16:47:49.596008+02:00", 
+    "next_check": "2018-12-08T16:47:49.409781+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -122,8 +122,8 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "awardCriteria": "lowestCost", 
     "enquiryPeriod": {
-      "startDate": "2018-11-26T15:41:13.917362+02:00", 
-      "endDate": "2018-11-27T15:41:13.917362+02:00"
+      "startDate": "2018-12-07T16:47:49.409781+02:00", 
+      "endDate": "2018-12-08T16:47:49.409781+02:00"
     }, 
     "owner": "broker", 
     "agreements": [
@@ -210,7 +210,7 @@ Content-Type: application/json; charset=UTF-8
             ], 
             "value": {
               "currency": "UAH", 
-              "amount": 600.666, 
+              "amount": 600.67, 
               "valueAddedTaxIncluded": true
             }, 
             "bidID": "d85ef51272f14087abb2eed535340493", 
@@ -303,7 +303,7 @@ Content-Type: application/json; charset=UTF-8
           "endDate": "2022-01-23T11:23:20.418436+03:00"
         }, 
         "dateSigned": "2018-09-11T11:23:23.220310+03:00", 
-        "id": "521daf6ff0eb4cbf9a93ef841146a375", 
+        "id": "aca584f5e3ce414fb36bf1550e60cc25", 
         "procuringEntity": {
           "kind": "general", 
           "name": "Шевченківська районна в місті Києві державна адміністрація", 
@@ -338,8 +338,8 @@ Content-Type: application/json; charset=UTF-8
         "tender_id": "c3f4116d38d34fe2b7d8de8aae8c0b32"
       }
     ], 
-    "id": "73b999ec9e514b479c237a2977938195", 
-    "tenderID": "UA-2018-11-26-000004"
+    "id": "ba84a89766ef49948c8f333d4dfceae2", 
+    "tenderID": "UA-2018-12-07-000004"
   }
 }
 

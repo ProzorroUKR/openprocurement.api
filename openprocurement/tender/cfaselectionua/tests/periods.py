@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from openprocurement.api.constants import TZ
 from openprocurement.tender.cfaselectionua.constants import (
@@ -6,80 +6,77 @@ from openprocurement.tender.cfaselectionua.constants import (
     COMPLAINT_DURATION, CLARIFICATIONS_DURATION
 )
 
-
-def get_periods():
-    now = datetime.now(TZ)
-    periods = {
+periods = {
         'active.enquiries': {
             'start': {
                 'enquiryPeriod': {
-                    'startDate': now.isoformat(),
-                    'endDate': (now + ENQUIRY_PERIOD).isoformat()
+                    'startDate':timedelta(),
+                    'endDate': ( + ENQUIRY_PERIOD)
                 },
                 'tenderPeriod': {
-                    'startDate': (now + ENQUIRY_PERIOD).isoformat(),
-                    'endDate': (now + ENQUIRY_PERIOD + TENDERING_DURATION).isoformat(),
+                    'startDate': ( + ENQUIRY_PERIOD),
+                    'endDate': ( + ENQUIRY_PERIOD + TENDERING_DURATION),
                 }
             },
             'end': {
                 'enquiryPeriod': {
-                    'startDate': (now - ENQUIRY_PERIOD).isoformat(),
-                    'endDate': now.isoformat()
+                    'startDate': ( - ENQUIRY_PERIOD),
+                    'endDate':timedelta()
                 },
                 'tenderPeriod': {
-                    'startDate': now.isoformat(),
-                    'endDate': (now + TENDERING_DURATION).isoformat(),
+                    'startDate': timedelta(),
+                    'endDate': ( + TENDERING_DURATION),
                 }
             }
         },
         'active.tendering': {
             'start': {
                 'enquiryPeriod': {
-                    'startDate': (now - ENQUIRY_PERIOD).isoformat(),
-                    'endDate': now.isoformat()
+                    'startDate': ( - ENQUIRY_PERIOD),
+                    'endDate': timedelta()
                 },
                 'tenderPeriod': {
-                    'startDate': now.isoformat(),
-                    'endDate': (now + TENDERING_DURATION).isoformat(),
+                    'startDate': timedelta(),
+                    'endDate': ( + TENDERING_DURATION),
                 }
             },
             'end': {
                 'enquiryPeriod': {
-                    'startDate': (now - ENQUIRY_PERIOD - TENDERING_DURATION).isoformat(),
-                    'endDate': (now - TENDERING_DURATION).isoformat()
+                    'startDate': ( - ENQUIRY_PERIOD - TENDERING_DURATION),
+                    'endDate': ( - TENDERING_DURATION)
                 },
                 'tenderPeriod': {
-                    'startDate': (now - TENDERING_DURATION).isoformat(),
-                    'endDate': now.isoformat(),
+                    'startDate': ( - TENDERING_DURATION),
+                    'endDate': timedelta(),
                 }
             }
         },
         'active.auction': {
             'start': {
                 'enquiryPeriod': {
-                    'startDate': (now - ENQUIRY_PERIOD - TENDERING_DURATION).isoformat(),
-                    'endDate': (now - TENDERING_DURATION).isoformat()
+                    'startDate': ( - ENQUIRY_PERIOD - TENDERING_DURATION),
+                    'endDate': ( - TENDERING_DURATION)
                 },
                 'tenderPeriod': {
-                    'startDate': (now - TENDERING_DURATION).isoformat(),
-                    'endDate': now.isoformat(),
+                    'startDate': ( - TENDERING_DURATION),
+                    'endDate': timedelta(),
                 },
                 'auctionPeriod': {
-                    'startDate': now.isoformat()
+                    'startDate': timedelta()
                 }
             },
             'end': {
                 'enquiryPeriod': {
-                    'startDate': (now - ENQUIRY_PERIOD - TENDERING_DURATION - AUCTION_DURATION).isoformat(),
-                    'endDate': (now - TENDERING_DURATION - AUCTION_DURATION).isoformat()
+                    'startDate': ( - ENQUIRY_PERIOD - TENDERING_DURATION - AUCTION_DURATION),
+                    'endDate': ( - TENDERING_DURATION - AUCTION_DURATION)
                 },
                 'tenderPeriod': {
-                    'startDate': (now - TENDERING_DURATION - AUCTION_DURATION).isoformat(),
-                    'endDate': (now - AUCTION_DURATION).isoformat(),
+                    'startDate': ( - TENDERING_DURATION - AUCTION_DURATION),
+                    'endDate': ( - AUCTION_DURATION),
                 },
                 'auctionPeriod': {
-                    'startDate': (now - AUCTION_DURATION).isoformat(),
-                    'endDate': now.isoformat(),
+                    'startDate': ( - AUCTION_DURATION),
+                    'endDate': timedelta(),
                 }
 
             }
@@ -87,38 +84,38 @@ def get_periods():
         'active.qualification': {
             'start': {
                 'enquiryPeriod': {
-                    'startDate': (now - ENQUIRY_PERIOD - TENDERING_DURATION - AUCTION_DURATION).isoformat(),
-                    'endDate': (now - TENDERING_DURATION - AUCTION_DURATION).isoformat()
+                    'startDate': ( - ENQUIRY_PERIOD - TENDERING_DURATION - AUCTION_DURATION),
+                    'endDate': ( - TENDERING_DURATION - AUCTION_DURATION)
                 },
                 'tenderPeriod': {
-                    'startDate': (now - TENDERING_DURATION - AUCTION_DURATION).isoformat(),
-                    'endDate': (now - AUCTION_DURATION).isoformat(),
+                    'startDate': ( - TENDERING_DURATION - AUCTION_DURATION),
+                    'endDate': ( - AUCTION_DURATION),
                 },
                 'auctionPeriod': {
-                    'startDate': (now - AUCTION_DURATION).isoformat(),
-                    'endDate': now.isoformat(),
+                    'startDate': ( - AUCTION_DURATION),
+                    'endDate': timedelta(),
                 },
                 'awardPeriod': {
-                    'startDate': now.isoformat()
+                    'startDate': timedelta()
                 }
             },
             'end': {
                 'enquiryPeriod': {
-                    'startDate': (now - ENQUIRY_PERIOD - TENDERING_DURATION
-                                  - AUCTION_DURATION - COMPLAINT_DURATION).isoformat(),
-                    'endDate': (now - TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION).isoformat()
+                    'startDate': ( - ENQUIRY_PERIOD - TENDERING_DURATION
+                                  - AUCTION_DURATION - COMPLAINT_DURATION),
+                    'endDate': ( - TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION)
                 },
                 'tenderPeriod': {
-                    'startDate': (now - TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION).isoformat(),
-                    'endDate': (now - AUCTION_DURATION - COMPLAINT_DURATION).isoformat(),
+                    'startDate': ( - TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION),
+                    'endDate': ( - AUCTION_DURATION - COMPLAINT_DURATION),
                 },
                 'auctionPeriod': {
-                    'startDate': (now - AUCTION_DURATION - COMPLAINT_DURATION).isoformat(),
-                    'endDate': (now - COMPLAINT_DURATION).isoformat(),
+                    'startDate': ( - AUCTION_DURATION - COMPLAINT_DURATION),
+                    'endDate': ( - COMPLAINT_DURATION),
                 },
                 'awardPeriod': {
-                    'startDate': (now - COMPLAINT_DURATION).isoformat(),
-                    'endDate': now.isoformat()
+                    'startDate': ( - COMPLAINT_DURATION),
+                    'endDate': timedelta()
                 }
 
             }
@@ -126,67 +123,67 @@ def get_periods():
         'active.awarded': {
             'start': {
                 'enquiryPeriod': {
-                    'startDate': (now - ENQUIRY_PERIOD - TENDERING_DURATION
-                                  - AUCTION_DURATION - COMPLAINT_DURATION).isoformat(),
-                    'endDate': (now - TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION).isoformat()
+                    'startDate': ( - ENQUIRY_PERIOD - TENDERING_DURATION
+                                  - AUCTION_DURATION - COMPLAINT_DURATION),
+                    'endDate': ( - TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION)
                 },
                 'tenderPeriod': {
-                    'startDate': (now - TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION).isoformat(),
-                    'endDate': (now - AUCTION_DURATION - COMPLAINT_DURATION).isoformat(),
+                    'startDate': ( - TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION),
+                    'endDate': ( - AUCTION_DURATION - COMPLAINT_DURATION),
                 },
                 'auctionPeriod': {
-                    'startDate': (now - AUCTION_DURATION - COMPLAINT_DURATION).isoformat(),
-                    'endDate': (now - COMPLAINT_DURATION).isoformat(),
+                    'startDate': ( - AUCTION_DURATION - COMPLAINT_DURATION),
+                    'endDate': ( - COMPLAINT_DURATION),
                 },
                 'awardPeriod': {
-                    'startDate': (now - COMPLAINT_DURATION).isoformat(),
-                    'endDate': now.isoformat()
+                    'startDate': ( - COMPLAINT_DURATION),
+                    'endDate': timedelta()
                 }
             },
             'end': {
                 'enquiryPeriod': {
-                    'startDate': (now - ENQUIRY_PERIOD - TENDERING_DURATION
-                                  - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat(),
-                    'endDate': (now - TENDERING_DURATION - AUCTION_DURATION
-                                - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat()
+                    'startDate': ( - ENQUIRY_PERIOD - TENDERING_DURATION
+                                  - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
+                    'endDate': ( - TENDERING_DURATION - AUCTION_DURATION
+                                - COMPLAINT_DURATION - CLARIFICATIONS_DURATION)
                 },
                 'tenderPeriod': {
-                    'startDate': (now - TENDERING_DURATION - AUCTION_DURATION
-                                  - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat(),
-                    'endDate': (now - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat(),
+                    'startDate': ( - TENDERING_DURATION - AUCTION_DURATION
+                                  - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
+                    'endDate': ( - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
                 },
                 'auctionPeriod': {
-                    'startDate': (now - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat(),
-                    'endDate': (now - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat(),
+                    'startDate': ( - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
+                    'endDate': ( - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
                 },
                 'awardPeriod': {
-                    'startDate': (now - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat(),
-                    'endDate': (now - CLARIFICATIONS_DURATION).isoformat()
+                    'startDate': ( - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
+                    'endDate': ( - CLARIFICATIONS_DURATION)
                 }
             },
         },
         'complete': {
             'start': {
                 'enquiryPeriod': {
-                    'startDate': (now - ENQUIRY_PERIOD - TENDERING_DURATION
-                                  - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat(),
-                    'endDate': (now - TENDERING_DURATION - AUCTION_DURATION
-                                - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat()
+                    'startDate': ( - ENQUIRY_PERIOD - TENDERING_DURATION
+                                  - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
+                    'endDate': ( - TENDERING_DURATION - AUCTION_DURATION
+                                - COMPLAINT_DURATION - CLARIFICATIONS_DURATION)
                 },
                 'tenderPeriod': {
-                    'startDate': (now - TENDERING_DURATION - AUCTION_DURATION
-                                  - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat(),
-                    'endDate': (now - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat(),
+                    'startDate': ( - TENDERING_DURATION - AUCTION_DURATION
+                                  - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
+                    'endDate': ( - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
                 },
                 'auctionPeriod': {
-                    'startDate': (now - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat(),
-                    'endDate': (now - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat(),
+                    'startDate': ( - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
+                    'endDate': ( - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
                 },
                 'awardPeriod': {
-                    'startDate': (now - COMPLAINT_DURATION - CLARIFICATIONS_DURATION).isoformat(),
-                    'endDate': (now - CLARIFICATIONS_DURATION).isoformat()
+                    'startDate': ( - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
+                    'endDate': ( - CLARIFICATIONS_DURATION)
                 }
             }
         }
     }
-    return periods
+

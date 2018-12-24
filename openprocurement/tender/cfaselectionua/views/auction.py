@@ -4,6 +4,7 @@ from openprocurement.api.utils import (
     context_unpack,
     APIResource,
 )
+from  openprocurement.tender.core.validation import validate_tender_auction_data
 from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
     cleanup_bids_for_cancelled_lots,
@@ -12,7 +13,7 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.cfaselectionua.utils import (
     add_next_award
 )
-from openprocurement.tender.cfaselectionua.validation import validate_auction_info_view, validate_tender_auction_data
+from openprocurement.tender.cfaselectionua.validation import validate_auction_info_view
 
 
 @optendersresource(name='closeFrameworkAgreementSelectionUA:Tender Auction',

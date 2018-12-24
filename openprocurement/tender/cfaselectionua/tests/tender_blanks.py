@@ -443,10 +443,9 @@ def create_tender_invalid(self):
         {u'description': {u'endDate': [u'date value out of range']}, u'location': u'body', u'name': u'enquiryPeriod'}
     ])
 
-    data = self.initial_data['tenderPeriod']
     self.initial_data['tenderPeriod'] = {'startDate': '2014-10-31T00:00:00', 'endDate': '2014-10-01T00:00:00'}
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data['tenderPeriod'] = data
+    del self.initial_data['tenderPeriod']
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -454,10 +453,9 @@ def create_tender_invalid(self):
         {u'description': {u'startDate': [u'period should begin before its end']}, u'location': u'body', u'name': u'tenderPeriod'}
     ])
 
-    data = self.initial_data['tenderPeriod']
     self.initial_data['tenderPeriod'] = {'startDate': '2014-10-31T00:00:00', 'endDate': '2015-10-01T00:00:00'}
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data['tenderPeriod'] = data
+    del self.initial_data['tenderPeriod']
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -467,15 +465,8 @@ def create_tender_invalid(self):
 
     now = get_now()
     self.initial_data['awardPeriod'] = {'startDate': now.isoformat(), 'endDate': now.isoformat()}
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {'data': self.initial_data}, status=201)
     del self.initial_data['awardPeriod']
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u'period should begin after tenderPeriod'], u'location': u'body', u'name': u'awardPeriod'}
-    ])
-
     self.initial_data['auctionPeriod'] = {'startDate': (now + timedelta(days=15)).isoformat(), 'endDate': (now + timedelta(days=15)).isoformat()}
     self.initial_data['awardPeriod'] = {'startDate': (now + timedelta(days=14)).isoformat(), 'endDate': (now + timedelta(days=14)).isoformat()}
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
@@ -536,12 +527,7 @@ def create_tender_invalid(self):
     del test_organization["contactPoint"]["telephone"]
     # response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
     test_organization["contactPoint"]["telephone"] = data
-    # self.assertEqual(response.status, '422 Unprocessable Entity')
-    # self.assertEqual(response.content_type, 'application/json')
-    # self.assertEqual(response.json['status'], 'error')
-    # self.assertEqual(response.json['errors'], [
-    #     {u'description': {u'contactPoint': {u'email': [u'telephone or email should be present']}}, u'location': u'body', u'name': u'procuringEntity'}
-    # ])
+
 
     data = self.initial_data["items"][0].copy()
     data['id'] = uuid4().hex
@@ -888,8 +874,6 @@ def create_tender(self):
     self.assertEqual(data['guarantee']['currency'], "USD")
 
     tender_data = deepcopy(self.initial_data)
-    del tender_data['tenderPeriod']
-    del tender_data['enquiryPeriod']
     response = self.app.post_json('/tenders', {'data': tender_data})
     self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
 

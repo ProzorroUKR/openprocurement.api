@@ -28,3 +28,4 @@ AGREEMENT_CHANGE = 'agreements[0] has pending change'
 AGREEMENT_CONTRACTS = 'agreements[0] has less than {} active contracts'.format(MIN_ACTIVE_CONTRACTS)
 AGREEMENT_IDENTIFIER = 'tender.procuringEntity.identifier (scheme or id), ' \
                        'doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)'
+AGREEMENT_NOT_FOUND = 'agreement[0] not found in agreements'

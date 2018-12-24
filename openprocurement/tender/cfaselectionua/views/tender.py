@@ -21,6 +21,7 @@ from openprocurement.tender.cfaselectionua.validation import (
     validate_patch_tender_data,
     validate_json_data_in_active_enquiries,
 )
+from openprocurement.tender.cfaselectionua.constants import AGREEMENT_NOT_FOUND
 
 
 @optendersresource(name='closeFrameworkAgreementSelectionUA:Tender',
@@ -193,6 +194,10 @@ class TenderResource(APIResource):
                         tender.tenderPeriod.startDate, self.request.content_configurator.tender_period, tender)
                     calculate_agreement_contracts_value_amount(self.request, tender)
                     calculate_tender_features(self.request, tender)
+            else:
+                self.LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
+                                 extra=context_unpack(self.request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'},
+                                {'CAUSE': AGREEMENT_NOT_FOUND}))
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.enquiries':
             validate_json_data_in_active_enquiries(self.request)
             apply_patch(self.request,  save=False, data=self.request.validated['data'])
