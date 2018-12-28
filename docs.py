@@ -6,7 +6,7 @@ from datetime import timedelta, datetime
 from uuid import uuid4
 
 import openprocurement.tender.belowthreshold.tests.base as base_test
-from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_bids
+from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_bids, test_lots
 from openprocurement.api.tests.base import PrefixedRequestClass
 from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest
@@ -1155,3 +1155,95 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.get('/tenders/{}/awards'.format(
                 self.tender_id, award_id))
             self.assertEqual(response.status, '200 OK')
+
+    def test_docs_milestones(self):
+        data = dict(**test_tender_data)
+        data["milestones"] = [
+            {
+                'title': "signingTheContract",
+                'code': 'prepayment',
+                'type': 'financing',
+                'duration': {'days': 5, 'type': 'banking'},
+                'sequenceNumber': 0,
+                'percentage': 45.55,
+            },
+            {
+                'title': "deliveryOfGoods",
+                'code': 'postpayment',
+                'type': 'financing',
+                'duration': {'days': 7, 'type': 'calendar'},
+                'sequenceNumber': 1,
+                'percentage': 54.45,
+            },
+        ]
+        with open('docs/source/milestones/tender-post-milestones.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders', {"data": data})
+        self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+
+        with open('docs/source/milestones/tender-patch-milestones.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+                {"data":{
+                    "milestones": [
+                        {},
+                        {
+                            "title": "anotherEvent",
+                            "description": u"Підозрілий опис",
+                        }
+                    ]
+                }}
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+
+        with open('docs/source/milestones/tender-patch-lot-milestones.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+                {"data":{
+                    "milestones": [
+                        {
+                            "relatedLot": lot["id"],
+                        },
+                        {
+                            "relatedLot": lot["id"]
+                        }
+                    ]
+                }}
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open('docs/source/milestones/tender-delete-lot-milestones-error.http', 'w') as self.app.file_obj:
+            response = self.app.delete(
+                '/tenders/{}/lots/{}?acc_token={}'.format(tender["id"], lot['id'], owner_token),
+                status=422
+            )
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertIn(
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "relatedLot": [
+                            "relatedLot should be one of the lots."
+                        ]
+                    },
+                    {
+                        "relatedLot": [
+                            "relatedLot should be one of the lots."
+                        ]
+                    }
+                ]
+            },
+            response.json['errors'],
+        )

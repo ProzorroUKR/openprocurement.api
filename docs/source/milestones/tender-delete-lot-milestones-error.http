@@ -1,0 +1,31 @@
+DELETE /api/2.4/tenders/6e8c237ed117457296a10e3bfc64197b/lots/4d1cd1ad3bee428cb198acafdfedbc12?acc_token=50eb57a00f3b44eaa8261e8c389d0aa1 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 0
+Host: api-sandbox.openprocurement.org
+
+
+422 Unprocessable Entity
+Content-Type: application/json; charset=UTF-8
+
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": [
+        {
+          "relatedLot": [
+            "relatedLot should be one of the lots."
+          ]
+        }, 
+        {
+          "relatedLot": [
+            "relatedLot should be one of the lots."
+          ]
+        }
+      ], 
+      "location": "body", 
+      "name": "milestones"
+    }
+  ]
+}
+
