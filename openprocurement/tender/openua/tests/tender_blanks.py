@@ -1063,3 +1063,54 @@ def tender_with_main_procurement_category(self):
     self.assertEqual(response.status, '200 OK')
     self.assertIn('mainProcurementCategory', response.json['data'])
     self.assertEqual(response.json['data']['mainProcurementCategory'], "services")
+
+
+def tender_finance_milestones(self):
+    data = dict(**self.initial_data)
+
+    # test creation
+    data["milestones"] = [
+        {
+            'id': 'a' * 32,
+            'title': "signingTheContract",
+            'code': 'prepayment',
+            'type': 'financing',
+            'duration': {'days': 2, 'type': 'banking'},
+            'sequenceNumber': 0,
+            'percentage': 45.55,
+        },
+        {
+            'title': "deliveryOfGoods",
+            'code': 'postpayment',
+            'type': 'financing',
+            'duration': {'days': 1488, 'type': 'calendar'},
+            'sequenceNumber': 0,
+            'percentage': 54.45,
+        },
+    ]
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    tender = response.json['data']
+    self.assertIn('milestones', tender)
+    self.assertEqual(len(tender['milestones']), 2)
+    for milestone in tender['milestones']:
+        self.assertEqual(
+            set(milestone.keys()),
+            {"id", "code", "duration", "percentage", "type", "sequenceNumber", "title"}
+        )
+    self.assertEqual(data["milestones"][0]["id"], tender['milestones'][0]["id"])
+    token = response.json['access']['token']
+    self.tender_id = tender['id']
+
+    # test success update
+    new_title = "endDateOfTheReportingPeriod"
+    response = self.app.patch_json(
+        '/tenders/{}?acc_token={}'.format(tender['id'], token),
+        {'data': {'milestones': [{}, {"title": new_title}]}}
+    )
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('milestones', response.json['data'])
+    milestones = response.json['data']['milestones']
+    self.assertEqual(len(milestones), 2)
+    self.assertEqual(milestones[0]["title"], tender['milestones'][0]["title"])
+    self.assertEqual(milestones[1]["title"], new_title)

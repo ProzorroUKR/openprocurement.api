@@ -14,6 +14,7 @@ from openprocurement.tender.belowthreshold.tests.lot import (
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     # TenderLotResourceTest
     tender_lot_guarantee,
+    tender_lot_milestones,
 )
 
 from openprocurement.tender.openua.tests.base import (
@@ -72,6 +73,7 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMix
     test_lots_data = test_lots
 
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
+    test_tender_lot_milestones = snitch(tender_lot_milestones)
 
 
 class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
