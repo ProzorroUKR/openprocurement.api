@@ -23,7 +23,7 @@ from openprocurement.api.interfaces import ISerializable, IValidator
 from openprocurement.api.utils import get_now, set_parent, get_schematics_document
 from openprocurement.api.constants import (
     CPV_CODES, ORA_CODES, TZ, DK_CODES, CPV_BLOCK_FROM,
-)
+    SCALE_CODES)
 
 schematics_default_role = SchematicsDocument.Options.roles['default'] + blacklist("__parent__")
 schematics_embedded_role = SchematicsDocument.Options.roles['embedded'] + blacklist("__parent__")
@@ -580,6 +580,7 @@ class Organization(Model):
     additionalIdentifiers = ListType(ModelType(Identifier))
     address = ModelType(Address, required=True)
     contactPoint = ModelType(ContactPoint, required=True)
+    scale = StringType(choices=SCALE_CODES)
 
 
 class Revision(Model):
