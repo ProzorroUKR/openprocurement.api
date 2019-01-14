@@ -13,6 +13,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     # CompetitiveDialogResourceTest
     empty_listing,
     tender_with_main_procurement_category,
+    tender_finance_milestones,
 )
 
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -71,6 +72,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     test_multiple_bidders_tender = snitch(multiple_bidders_tender_eu)
     test_try_go_to_ready_stage = snitch(try_go_to_ready_stage_eu)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
+    test_tender_finance_milestones = snitch(tender_finance_milestones)
 
 
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
@@ -86,6 +88,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderReso
     test_guarantee = snitch(guarantee)
     test_update_status_complete_owner_ua = snitch(update_status_complete_owner_ua)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
+    test_tender_finance_milestones = snitch(tender_finance_milestones)
 
 
 def suite():
