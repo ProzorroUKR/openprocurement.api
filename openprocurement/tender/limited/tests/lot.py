@@ -7,6 +7,7 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data
 )
+from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
 from openprocurement.tender.limited.tests.lot_blanks import (
     # TenderLotNegotiationResourceTest
     create_tender_lot_invalid,
@@ -54,6 +55,7 @@ class TenderLotNegotiationResourceTest(BaseTenderContentWebTest):
     test_cancel_lots_check_awards = snitch(cancel_lots_check_awards)
     test_delete_lot_after_first_award = snitch(delete_lot_after_first_award)
     test_patch_lot_with_cancellation = snitch(patch_lot_with_cancellation)
+    test_tender_lot_milestones = snitch(tender_lot_milestones)
 
 
 class TenderLotNegotiationQuickResourceTest(TenderLotNegotiationResourceTest):
