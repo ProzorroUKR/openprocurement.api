@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
+from collections import defaultdict
 from datetime import timedelta, time, datetime
 # from couchdb_schematics.document import SchematicsDocument
 from openprocurement.api.models import OpenprocurementSchematicsDocument
@@ -11,7 +12,7 @@ from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from schematics.types import (StringType, FloatType, URLType,
-                              BooleanType, BaseType, MD5Type)
+                              BooleanType, BaseType, MD5Type, IntType,)
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.models import (
     Revision, Organization, Model, Period,
@@ -24,7 +25,7 @@ from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import (
     schematics_default_role, schematics_embedded_role,
 )
-
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import (
     SANDBOX_MODE, COORDINATES_REG_EXP,
@@ -768,6 +769,41 @@ class Lot(BaseLot):
                 raise ValidationError(u"value should be less than value of lot")
 
 
+class Duration(Model):
+    days = IntType(required=True, min_value=1)
+    type = StringType(required=True, choices=['working', 'banking', 'calendar'])
+
+
+class Milestone(Model):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    title = StringType(
+        required=True,
+        choices=[
+            "executionOfWorks", "deliveryOfGoods",
+            "submittingServices", "signingTheContract",
+            "submissionDateOfApplications", "dateOfInvoicing",
+            "endDateOfTheReportingPeriod", "anotherEvent",
+        ]
+    )
+    description = StringType()
+
+    def validate_description(self, data, value):
+        if data.get('title', '') == "anotherEvent" and not value:
+            raise ValidationError(u"This field is required.")
+
+    type = StringType(required=True, choices=['financing'])
+    code = StringType(required=True, choices=["prepayment", "postpayment"])
+    percentage = FloatType(required=True, min_value=0, max_value=100)
+    duration = ModelType(Duration, required=True)
+    sequenceNumber = IntType(required=True, min_value=0)
+    relatedLot = MD5Type()
+
+    def validate_relatedLot(self, data, value):
+        tender = data["__parent__"]
+        if value is not None and value not in [l.get("id") for l in getattr(tender, "lots", [])]:
+            raise ValidationError(u"relatedLot should be one of the lots.")
+
+
 @implementer(ITender)
 class BaseTender(OpenprocurementSchematicsDocument, Model):
     title = StringType(required=True)
@@ -790,6 +826,24 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         procurementMethodDetails = StringType()
     funders = ListType(ModelType(Organization), validators=[validate_funders_unique, validate_funders_ids])
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
+    milestones = ListType(ModelType(Milestone), validators=[validate_items_uniq])
+
+    def validate_milestones(self, data, value):
+        if isinstance(value, list):
+            sums = defaultdict(float)
+            for milestone in value:
+                if milestone["type"] == 'financing':
+                    percentage = milestone.get("percentage")
+                    if percentage:
+                        sums[milestone.get("relatedLot")] += percentage
+
+            for uid, sum_value in sums.items():
+                if sum_value != 100:
+                    raise ValidationError(
+                        u"Sum of the financial milestone percentages {} is not equal 100{}.".format(
+                            sum_value, u" for lot {}".format(uid) if uid else ""
+                        )
+                    )
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = ListType(ModelType(Revision), default=list())
