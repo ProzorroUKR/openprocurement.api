@@ -15,6 +15,7 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     delete_tender_lot,
     tender_lot_guarantee,
     tender_lot_document,
+    tender_lot_milestones,
 )
 
 from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
@@ -98,6 +99,7 @@ class TenderLotResourceTest(BaseESCOContentWebTest):
     test_delete_tender_lot = snitch(delete_tender_lot)
 
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
+    test_tender_lot_milestones = snitch(tender_lot_milestones)
 
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
@@ -131,7 +133,6 @@ class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     sum_of_max_value_of_all_features = 0.25
 
     test_tender_min_value = snitch(tender_min_value)
-    test_tender_features_invalid = snitch(tender_features_invalid)
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_tender_lot_document = snitch(tender_lot_document)
 
