@@ -9,6 +9,7 @@ from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotFeatureResourceTestMixin,
     TenderLotProcessTestMixin
 )
+from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
 
 from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.openua.tests.lot import (
@@ -46,6 +47,7 @@ from openprocurement.tender.openuadefense.tests.lot_blanks import (
 
 class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
     test_lots_data = test_lots  # TODO: change attribute identifier
+    test_tender_lot_milestones = snitch(tender_lot_milestones)
 
 
 class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
