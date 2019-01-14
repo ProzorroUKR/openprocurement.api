@@ -1827,3 +1827,59 @@ def proc_2lot_2diff_bids_check_auction(self):
     self.assertIn('auctionPeriod', response.json['data']['lots'][1])
     self.assertIn('startDate', response.json['data']['lots'][1]['auctionPeriod'])
     self.assertNotIn('shouldStartAfter', response.json['data']['lots'][1]['auctionPeriod'])
+
+
+def tender_lot_milestones(self):
+    # add lot
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    response_data = response.json['data']
+    if "lots" in response_data:
+        lot = response_data['lots'][0]
+    else:
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': self.test_lots_data[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+    # add milestones
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {
+        "milestones": [
+            {   # without relatedLot
+                'title': "signingTheContract",
+                'code': 'prepayment',
+                'type': 'financing',
+                'duration': {'days': 2, 'type': 'banking'},
+                'sequenceNumber': 0,
+                'percentage': 100,
+            },
+            {
+                'title': "signingTheContract",
+                'code': 'prepayment',
+                'type': 'financing',
+                'duration': {'days': 1488, 'type': 'calendar'},
+                'sequenceNumber': 2,
+                'percentage': 100,
+                'relatedLot': lot["id"],
+            },
+        ]
+    }})
+    self.assertEqual(response.status, '200 OK')
+    # try to delete the lot
+    response = self.app.delete('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
+                               status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertIn(
+        {
+            "location": "body",
+            "name": "milestones",
+            "description": [
+                {
+                    "relatedLot": [
+                        "relatedLot should be one of the lots."
+                    ]
+                }
+            ]
+        },
+        response.json['errors'],
+    )

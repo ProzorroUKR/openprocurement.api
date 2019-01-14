@@ -1,0 +1,227 @@
+POST /api/2.4/tenders HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 2698
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+
+{
+  "data": {
+    "milestones": [
+      {
+        "code": "prepayment", 
+        "sequenceNumber": 0, 
+        "title": "signingTheContract", 
+        "duration": {
+          "type": "banking", 
+          "days": 5
+        }, 
+        "percentage": 45.55, 
+        "type": "financing"
+      }, 
+      {
+        "code": "postpayment", 
+        "sequenceNumber": 1, 
+        "title": "deliveryOfGoods", 
+        "duration": {
+          "type": "calendar", 
+          "days": 7
+        }, 
+        "percentage": 54.45, 
+        "type": "financing"
+      }
+    ], 
+    "tenderPeriod": {
+      "endDate": "2019-01-11T17:22:18.135698"
+    }, 
+    "title": "футляри до державних нагород", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35
+    }, 
+    "enquiryPeriod": {
+      "endDate": "2019-01-04T17:22:18.135698"
+    }, 
+    "procurementMethodType": "belowThreshold", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500
+    }, 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "01220", 
+        "region": "м. Київ", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "items": [
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "id": "44617100-9", 
+          "description": "Cartons"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "region": "м. Київ", 
+          "streetAddress": "вул. Банкова 1", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2018-12-30T17:22:18.135698", 
+          "endDate": "2019-01-02T17:22:18.135698"
+        }, 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }
+    ]
+  }
+}
+
+
+201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/6e8c237ed117457296a10e3bfc64197b
+
+{
+  "access": {
+    "token": "50eb57a00f3b44eaa8261e8c389d0aa1"
+  }, 
+  "data": {
+    "procurementMethod": "open", 
+    "status": "active.enquiries", 
+    "milestones": [
+      {
+        "code": "prepayment", 
+        "sequenceNumber": 0, 
+        "title": "signingTheContract", 
+        "duration": {
+          "type": "banking", 
+          "days": 5
+        }, 
+        "percentage": 45.55, 
+        "type": "financing", 
+        "id": "ccfe465d52344395a0fd3d8fd78be897"
+      }, 
+      {
+        "code": "postpayment", 
+        "sequenceNumber": 1, 
+        "title": "deliveryOfGoods", 
+        "duration": {
+          "type": "calendar", 
+          "days": 7
+        }, 
+        "percentage": 54.45, 
+        "type": "financing", 
+        "id": "afdbc53c526a464db82ef0b8152b3ec2"
+      }
+    ], 
+    "awardCriteria": "lowestCost", 
+    "tenderPeriod": {
+      "startDate": "2019-01-04T17:22:18.135698+02:00", 
+      "endDate": "2019-01-11T17:22:18.135698+02:00"
+    }, 
+    "title": "футляри до державних нагород", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "items": [
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2018-12-30T17:22:18.135698+02:00", 
+          "endDate": "2019-01-02T17:22:18.135698+02:00"
+        }, 
+        "id": "2213450d41b248f8b92d6b767f5e1791", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }
+    ], 
+    "procurementMethodType": "belowThreshold", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "date": "2018-12-28T17:22:19.134691+02:00", 
+    "next_check": "2019-01-04T17:22:18.135698+02:00", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "enquiryPeriod": {
+      "startDate": "2018-12-28T17:22:19.134642+02:00", 
+      "endDate": "2019-01-04T17:22:18.135698+02:00"
+    }, 
+    "owner": "broker", 
+    "dateModified": "2018-12-28T17:22:19.137190+02:00", 
+    "id": "6e8c237ed117457296a10e3bfc64197b", 
+    "tenderID": "UA-2018-12-28-000001"
+  }
+}
+

@@ -19,6 +19,7 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     get_tender_lots,
     delete_tender_lot,
     tender_lot_guarantee,
+    tender_lot_milestones,
     # Tender Lot Feature Resource Test
     tender_value,
     tender_features_invalid,
@@ -57,6 +58,7 @@ class TenderLotValueTestMixin(object):
     test_patch_tender_currency = snitch(patch_tender_currency)
     test_patch_tender_vat = snitch(patch_tender_vat)
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
+    test_tender_lot_milestones = snitch(tender_lot_milestones)
 
 
 class TenderLotFeatureResourceTestMixin(object):
