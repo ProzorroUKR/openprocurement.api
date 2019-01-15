@@ -2,6 +2,7 @@
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
+from mock import patch
 
 
 # ContractNoItemsChangeTest
@@ -838,3 +839,43 @@ def multi_change(self):
           u'location': u'body',
           u'name': u'data'}]
     )
+
+@patch('openprocurement.agreement.core.models.change.get_now')
+def activate_change_after_1_cancelled(self, mocked_model_get_now):
+    # first change
+    data = deepcopy(self.initial_change)
+    data['rationaleType'] = 'itemPriceVariation'
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token), {'data': data})
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+    self.assertIn('rationaleType', response.json['data'])
+    self.assertEqual(response.json['data']['rationaleType'], 'itemPriceVariation')
+    change = response.json['data']
+    self.assertEqual(change['status'], 'pending')
+    self.assertIn('date', change)
+
+    date_signed = get_now() + timedelta(minutes=10)
+    mocked_model_get_now.return_value = date_signed
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change['id'], self.agreement_token),
+        {'data': {'status': 'cancelled', 'dateSigned': date_signed.isoformat()}})
+    self.assertEqual(response.json['data']['status'], 'cancelled')
+    self.assertEqual(response.json['data']['dateSigned'], date_signed.isoformat())
+    cancelled_change = response.json['data']
+
+    now = get_now().isoformat()
+    data = deepcopy(self.initial_change)
+    data['rationaleType'] = 'itemPriceVariation'
+    data['dateSigned'] = now
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token), {'data': data})
+
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+    self.assertIn('rationaleType', response.json['data'])
+    self.assertEqual(response.json['data']['rationaleType'], 'itemPriceVariation')
+    change = response.json['data']
+    self.assertEqual(change['status'], 'pending')
+    self.assertIn('date', change)
+    self.assertEqual(change['dateSigned'], now)
+
+    self.assertLess(change['dateSigned'], cancelled_change['dateSigned'])
