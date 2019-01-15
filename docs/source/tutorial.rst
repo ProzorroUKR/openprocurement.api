@@ -227,6 +227,14 @@ See the `Bid.participationUrl` in the response. Similar, but different, URL can 
 .. include:: tutorial/bidder2-participation-url.http
    :code:
 
+Listing awards
+--------------
+
+The pending award can be retrieved via request to list all available awards:
+
+.. include:: tutorial/awards-get.http
+   :code:
+
 Confirming qualification
 ------------------------
 

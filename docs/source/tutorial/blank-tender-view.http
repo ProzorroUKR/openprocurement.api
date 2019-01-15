@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/d6a68313f5f34b1a99f81db57f031059 HTTP/1.0
+GET /api/2.4/tenders/d9b0bb949a094494b990e4f46d338e11 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -14,26 +14,26 @@ Content-Type: application/json; charset=UTF-8
     "title": "футляри до державних нагород", 
     "lots": [
       {
-        "date": "2019-01-15T10:44:35.833735+02:00", 
+        "date": "2019-01-15T13:37:10.096863+02:00", 
         "status": "active", 
         "title": "lot title", 
         "description": "lot description", 
-        "id": "b82a21302831453fbc35260c8cf0903c"
+        "id": "24c5be4a8ec64256b7b10b2db055088a"
       }
     ], 
     "procurementMethodDetails": "quick, accelerator=1440", 
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
     "submissionMethod": "electronicAuction", 
-    "date": "2019-01-15T10:44:35.833735+02:00", 
+    "date": "2019-01-15T13:37:10.096863+02:00", 
     "agreements": [
       {
-        "id": "1108c417ce0c40d4ba73ee7886557797"
+        "id": "24660f996e014fa5a8e8b4faa2fdcab9"
       }
     ], 
     "awardCriteria": "lowestCost", 
     "items": [
       {
-        "relatedLot": "b82a21302831453fbc35260c8cf0903c", 
+        "relatedLot": "24c5be4a8ec64256b7b10b2db055088a", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -56,8 +56,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-01-17T10:44:34.112811+02:00", 
-          "endDate": "2019-01-20T10:44:34.112811+02:00"
+          "startDate": "2019-01-17T13:37:08.268771+02:00", 
+          "endDate": "2019-01-20T13:37:08.268771+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -68,8 +68,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "dateModified": "2019-01-15T10:44:35.841225+02:00", 
-    "id": "d6a68313f5f34b1a99f81db57f031059", 
+    "dateModified": "2019-01-15T13:37:10.103275+02:00", 
+    "id": "d9b0bb949a094494b990e4f46d338e11", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 

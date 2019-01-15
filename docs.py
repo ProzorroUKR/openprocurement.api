@@ -634,7 +634,10 @@ class TenderResourceTest(BaseTenderWebTest):
 
         self.app.authorization = ('Basic', ('broker', ''))
 
-        response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+        with open('docs/source/tutorial/awards-get.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+            self.assertEqual(response.status, '200 OK')
+
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 

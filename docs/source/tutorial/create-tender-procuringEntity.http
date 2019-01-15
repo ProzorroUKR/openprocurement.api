@@ -10,13 +10,13 @@ Host: api-sandbox.openprocurement.org
     "lots": [
       {
         "title": "lot title", 
-        "id": "b82a21302831453fbc35260c8cf0903c", 
+        "id": "24c5be4a8ec64256b7b10b2db055088a", 
         "description": "lot description"
       }
     ], 
     "items": [
       {
-        "relatedLot": "b82a21302831453fbc35260c8cf0903c", 
+        "relatedLot": "24c5be4a8ec64256b7b10b2db055088a", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -32,7 +32,7 @@ Host: api-sandbox.openprocurement.org
           }
         ], 
         "description_ru": "футляры к государственным наградам", 
-        "id": "b3c55d8424c347478ba72cb9979e4b80", 
+        "id": "469ecdfbfc1042c2a462269ecc7f9216", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -70,11 +70,11 @@ Host: api-sandbox.openprocurement.org
 
 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0b7b7236a55b4041a93eea8490fbb738
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/5504a0cb052e471e8b899beb68d488e2
 
 {
   "access": {
-    "token": "ab103bee23494771b2eddbc97c18cdc3"
+    "token": "da36784d4d514c7ba38b98aa4a16f91d"
   }, 
   "data": {
     "status": "draft", 
@@ -83,16 +83,16 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0b7b7236a55b404
     "title": "[ТЕСТУВАННЯ] футляри до державних нагород", 
     "lots": [
       {
-        "date": "2019-01-15T10:44:35.955881+02:00", 
+        "date": "2019-01-15T13:37:10.225049+02:00", 
         "status": "active", 
         "title": "lot title", 
         "description": "lot description", 
-        "id": "b82a21302831453fbc35260c8cf0903c"
+        "id": "24c5be4a8ec64256b7b10b2db055088a"
       }
     ], 
     "items": [
       {
-        "relatedLot": "b82a21302831453fbc35260c8cf0903c", 
+        "relatedLot": "24c5be4a8ec64256b7b10b2db055088a", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -108,7 +108,7 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0b7b7236a55b404
           }
         ], 
         "description_ru": "футляры к государственным наградам", 
-        "id": "b3c55d8424c347478ba72cb9979e4b80", 
+        "id": "469ecdfbfc1042c2a462269ecc7f9216", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -118,14 +118,14 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/0b7b7236a55b404
     ], 
     "title_en": "[TESTING] Cases with state awards", 
     "submissionMethod": "electronicAuction", 
-    "date": "2019-01-15T10:44:35.955881+02:00", 
+    "date": "2019-01-15T13:37:10.225049+02:00", 
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
     "awardCriteria": "lowestCost", 
     "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам", 
     "owner": "broker", 
-    "dateModified": "2019-01-15T10:44:35.960938+02:00", 
+    "dateModified": "2019-01-15T13:37:10.230346+02:00", 
     "mode": "test", 
-    "id": "0b7b7236a55b4041a93eea8490fbb738", 
+    "id": "5504a0cb052e471e8b899beb68d488e2", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 

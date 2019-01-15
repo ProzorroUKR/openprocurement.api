@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/b5e032bb0088457e8e03c359a28c20d2/contracts/dd76f69d0c15405cb55956f9ca3659ca?acc_token=ae594b59da0949e4bab42e156d6e70a9 HTTP/1.0
+PATCH /api/2.4/tenders/422b92ff25fb47f3a235c6caa6f8ec0a/contracts/8264096936d94cacadd8ac20f93113f9?acc_token=a7b2f268c61242daa6f216485be9ebe5 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 73
 Content-Type: application/json
@@ -22,7 +22,7 @@ Content-Type: application/json; charset=UTF-8
     "status": "pending", 
     "items": [
       {
-        "relatedLot": "b82a21302831453fbc35260c8cf0903c", 
+        "relatedLot": "24c5be4a8ec64256b7b10b2db055088a", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -45,8 +45,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-01-17T10:44:34.112811+02:00", 
-          "endDate": "2019-01-20T10:44:34.112811+02:00"
+          "startDate": "2019-01-17T13:37:08.268771+02:00", 
+          "endDate": "2019-01-20T13:37:08.268771+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -83,9 +83,9 @@ Content-Type: application/json; charset=UTF-8
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2019-01-15T10:44:51.391952+02:00", 
-    "awardID": "09e2b8609da24340baef7ecaac6dc115", 
-    "id": "dd76f69d0c15405cb55956f9ca3659ca", 
+    "date": "2019-01-15T13:37:25.898425+02:00", 
+    "awardID": "a08081378f8f43eda237efb4f14a48e7", 
+    "id": "8264096936d94cacadd8ac20f93113f9", 
     "contractID": "UA-2019-01-15-000004-1"
   }
 }
