@@ -19,7 +19,8 @@ from openprocurement.agreement.cfaua.tests.change_blanks import (
     date_signed_on_change_creation,
     change_date_signed_very_old_agreements_data,
     date_signed_on_change_creation_for_very_old_agreements_data,
-    multi_change
+    multi_change,
+    activate_change_after_1_cancelled
 )
 from openprocurement.api.tests.base import (
     snitch
@@ -45,7 +46,10 @@ class ContractChangesResourceTest(BaseAgreementContentWebTest):
     test_change_date_signed = snitch(change_date_signed)
     test_date_signed_on_change_creation = snitch(date_signed_on_change_creation)
     test_change_date_signed_very_old_agreements_data = snitch(change_date_signed_very_old_agreements_data)
-    test_date_signed_on_change_creation_for_very_old_agreements_data = snitch(date_signed_on_change_creation_for_very_old_agreements_data)
+    test_date_signed_on_change_creation_for_very_old_agreements_data = snitch(
+        date_signed_on_change_creation_for_very_old_agreements_data
+    )
+    test_activate_change_after_1_cancelled = snitch(activate_change_after_1_cancelled)
 
 
 def suite():
