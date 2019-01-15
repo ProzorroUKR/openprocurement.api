@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/contracts/6ea048f0e8344f058eefa7ace480b074?acc_token=5865cb211ce24adcb8b485389f2e13d1 HTTP/1.0
+PATCH /api/2.4/tenders/b5e032bb0088457e8e03c359a28c20d2/contracts/dd76f69d0c15405cb55956f9ca3659ca?acc_token=ae594b59da0949e4bab42e156d6e70a9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 106
 Content-Type: application/json
@@ -7,8 +7,8 @@ Host: api-sandbox.openprocurement.org
 {
   "data": {
     "period": {
-      "startDate": "2018-12-07T16:47:47.531854", 
-      "endDate": "2019-12-07T16:47:47.531854"
+      "startDate": "2019-01-15T10:44:34.148605", 
+      "endDate": "2020-01-15T10:44:34.148605"
     }
   }
 }
@@ -22,7 +22,7 @@ Content-Type: application/json; charset=UTF-8
     "status": "pending", 
     "items": [
       {
-        "relatedLot": "a9de659f847646f490c0b262940cf858", 
+        "relatedLot": "b82a21302831453fbc35260c8cf0903c", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -45,8 +45,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2018-12-09T16:47:47.513843+02:00", 
-          "endDate": "2018-12-12T16:47:47.513843+02:00"
+          "startDate": "2019-01-17T10:44:34.112811+02:00", 
+          "endDate": "2019-01-20T10:44:34.112811+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -79,19 +79,19 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "contractNumber": "contract #13111", 
     "period": {
-      "startDate": "2018-12-07T16:47:47.531854+02:00", 
-      "endDate": "2019-12-07T16:47:47.531854+02:00"
+      "startDate": "2019-01-15T10:44:34.148605+02:00", 
+      "endDate": "2020-01-15T10:44:34.148605+02:00"
     }, 
-    "dateSigned": "2018-12-07T16:47:52.513096+02:00", 
+    "dateSigned": "2019-01-15T10:44:52.031364+02:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2018-12-07T16:47:52.193875+02:00", 
-    "awardID": "9ca18a18ecfa43f9acdda378c7969901", 
-    "id": "6ea048f0e8344f058eefa7ace480b074", 
-    "contractID": "UA-2018-12-07-000004-1"
+    "date": "2019-01-15T10:44:51.391952+02:00", 
+    "awardID": "09e2b8609da24340baef7ecaac6dc115", 
+    "id": "dd76f69d0c15405cb55956f9ca3659ca", 
+    "contractID": "UA-2019-01-15-000004-1"
   }
 }
 

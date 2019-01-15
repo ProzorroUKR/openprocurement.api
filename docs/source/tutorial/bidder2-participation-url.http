@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/bids/5ef3afaae8e545f38c675c5a7d571f5f?acc_token=3020674e2a594c7ab8a37b6933ca6161 HTTP/1.0
+GET /api/2.4/tenders/b5e032bb0088457e8e03c359a28c20d2/bids/128e60e8fe6343c0bf09611b715c1778?acc_token=a770a18fe31b4d48be5d9d5cd22f9d87 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -13,34 +13,34 @@ Content-Type: application/json; charset=UTF-8
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal_part1.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/bids/5ef3afaae8e545f38c675c5a7d571f5f/documents/cdc3e4f675e548d38cafc518f9c063df?download=1248cffe16744dc99c2d85bec0817ef7", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/b5e032bb0088457e8e03c359a28c20d2/bids/128e60e8fe6343c0bf09611b715c1778/documents/e1ab6078c199404d883fd176fd7008c4?download=962a5a2676ce4c48948e5b64b07671b2", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-12-07T16:47:51.035379+02:00", 
-        "id": "cdc3e4f675e548d38cafc518f9c063df", 
-        "dateModified": "2018-12-07T16:47:51.035394+02:00"
+        "datePublished": "2019-01-15T10:44:49.195159+02:00", 
+        "id": "e1ab6078c199404d883fd176fd7008c4", 
+        "dateModified": "2019-01-15T10:44:49.195185+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal_part2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/bids/5ef3afaae8e545f38c675c5a7d571f5f/documents/f5b809ea53fd4241a67d1263110645cc?download=7ee8caca59fc48778bfa43fec5de82c6", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/b5e032bb0088457e8e03c359a28c20d2/bids/128e60e8fe6343c0bf09611b715c1778/documents/a8bf7612e8454d1ca0356821223a227f?download=6f40c4b0deeb4dd2b574b319512e8610", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-12-07T16:47:51.035802+02:00", 
-        "id": "f5b809ea53fd4241a67d1263110645cc", 
-        "dateModified": "2018-12-07T16:47:51.035816+02:00"
+        "datePublished": "2019-01-15T10:44:49.196032+02:00", 
+        "id": "a8bf7612e8454d1ca0356821223a227f", 
+        "dateModified": "2019-01-15T10:44:49.196058+02:00"
       }
     ], 
     "lotValues": [
       {
-        "relatedLot": "a9de659f847646f490c0b262940cf858", 
-        "date": "2018-12-07T16:47:51.034779+02:00", 
+        "relatedLot": "b82a21302831453fbc35260c8cf0903c", 
+        "date": "2019-01-15T10:44:49.194369+02:00", 
         "value": {
           "currency": "UAH", 
           "amount": 499.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/ba84a89766ef49948c8f333d4dfceae2_a9de659f847646f490c0b262940cf858?key_for_bid=5ef3afaae8e545f38c675c5a7d571f5f"
+        "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/b5e032bb0088457e8e03c359a28c20d2_b82a21302831453fbc35260c8cf0903c?key_for_bid=128e60e8fe6343c0bf09611b715c1778"
       }
     ], 
     "tenderers": [
@@ -64,8 +64,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2018-12-07T16:47:51.034850+02:00", 
-    "id": "5ef3afaae8e545f38c675c5a7d571f5f"
+    "date": "2019-01-15T10:44:49.194445+02:00", 
+    "id": "128e60e8fe6343c0bf09611b715c1778"
   }
 }
 

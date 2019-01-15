@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2?acc_token=5865cb211ce24adcb8b485389f2e13d1 HTTP/1.0
+PATCH /api/2.4/tenders/b5e032bb0088457e8e03c359a28c20d2?acc_token=ae594b59da0949e4bab42e156d6e70a9 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 103
 Content-Type: application/json
@@ -12,7 +12,7 @@ Host: api-sandbox.openprocurement.org
       }
     ], 
     "tenderPeriod": {
-      "endDate": "2018-12-22T16:47:59.468899+02:00"
+      "endDate": "2019-01-30T10:44:56.159684+02:00"
     }
   }
 }
@@ -25,10 +25,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "active.enquiries", 
     "procurementMethod": "selective", 
-    "date": "2018-12-07T16:47:49.415112+02:00", 
+    "date": "2019-01-15T10:44:46.040003+02:00", 
     "tenderPeriod": {
-      "startDate": "2018-12-08T16:47:49.409781+02:00", 
-      "endDate": "2018-12-22T16:47:59.468899+02:00"
+      "startDate": "2019-01-15T10:45:46.028390+02:00", 
+      "endDate": "2019-01-30T10:44:56.159684+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "lots": [
@@ -46,13 +46,55 @@ Content-Type: application/json; charset=UTF-8
           "amount": 600.67, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2018-12-07T16:47:48.973294+02:00", 
-        "id": "a9de659f847646f490c0b262940cf858"
+        "date": "2019-01-15T10:44:45.072621+02:00", 
+        "id": "b82a21302831453fbc35260c8cf0903c"
       }
     ], 
+    "procurementMethodDetails": "quick, accelerator=1440", 
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 600.67, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 3.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "next_check": "2019-01-15T10:45:46.028390+02:00", 
+    "tenderID": "UA-2019-01-15-000004", 
+    "awardCriteria": "lowestCost", 
+    "enquiryPeriod": {
+      "startDate": "2019-01-15T10:44:46.028390+02:00", 
+      "endDate": "2019-01-15T10:45:46.028390+02:00"
+    }, 
+    "owner": "broker", 
+    "dateModified": "2019-01-15T10:44:46.408940+02:00", 
     "items": [
       {
-        "relatedLot": "a9de659f847646f490c0b262940cf858", 
+        "relatedLot": "b82a21302831453fbc35260c8cf0903c", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -75,8 +117,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2018-12-09T16:47:47.513843+02:00", 
-          "endDate": "2018-12-12T16:47:47.513843+02:00"
+          "startDate": "2019-01-17T10:44:34.112811+02:00", 
+          "endDate": "2019-01-20T10:44:34.112811+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -86,46 +128,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 6
       }
     ], 
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 600.67, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 3.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "dateModified": "2018-12-07T16:47:49.596008+02:00", 
-    "next_check": "2018-12-08T16:47:49.409781+02:00", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "awardCriteria": "lowestCost", 
-    "enquiryPeriod": {
-      "startDate": "2018-12-07T16:47:49.409781+02:00", 
-      "endDate": "2018-12-08T16:47:49.409781+02:00"
-    }, 
-    "owner": "broker", 
+    "id": "b5e032bb0088457e8e03c359a28c20d2", 
     "agreements": [
       {
         "agreementID": "UA-2018-09-11-000002-1", 
@@ -303,7 +306,7 @@ Content-Type: application/json; charset=UTF-8
           "endDate": "2022-01-23T11:23:20.418436+03:00"
         }, 
         "dateSigned": "2018-09-11T11:23:23.220310+03:00", 
-        "id": "aca584f5e3ce414fb36bf1550e60cc25", 
+        "id": "1108c417ce0c40d4ba73ee7886557797", 
         "procuringEntity": {
           "kind": "general", 
           "name": "Шевченківська районна в місті Києві державна адміністрація", 
@@ -337,9 +340,7 @@ Content-Type: application/json; charset=UTF-8
         "dateModified": "2018-09-17T16:26:31.372995+03:00", 
         "tender_id": "c3f4116d38d34fe2b7d8de8aae8c0b32"
       }
-    ], 
-    "id": "ba84a89766ef49948c8f333d4dfceae2", 
-    "tenderID": "UA-2018-12-07-000004"
+    ]
   }
 }
 
