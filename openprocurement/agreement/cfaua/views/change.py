@@ -104,6 +104,8 @@ class AgreementChangesResource(APIResource):
         warnings = []
         agreement = self.request.validated['agreement']
         if change.status == 'active':
+            if not change.modifications:
+                raise_operation_error(self.request, 'Modifications are required for change activation.')
             apply_modifications(self.request, agreement, save=True)
         elif change.status != 'cancelled':
             warnings = apply_modifications(self.request, agreement)

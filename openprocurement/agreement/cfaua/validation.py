@@ -13,10 +13,8 @@ from openprocurement.api.validation import (
     validate_data,
     validate_json_data,
     OPERATIONS
-    )
+)
 from openprocurement.agreement.cfaua.interfaces import IChange
-
-
 
 
 def validate_agreement_patch(request):
@@ -133,7 +131,7 @@ def validate_third_party_modifications(modifications):
 
 def validate_modifications_items_uniq(modifications):
     if modifications:
-        agreement_items_id = {i.id for i in modifications[0].__parent__.__parent__.items}
+        agreement_items_id = {i.id for i in modifications[0].__parent__.__parent__.items or []}
         item_ids = {m.itemId for m in modifications if m.itemId in agreement_items_id}
         if len(item_ids) != len(modifications):
             raise ValidationError(u"Item id should be uniq for all modifications and one of agreement:items")
