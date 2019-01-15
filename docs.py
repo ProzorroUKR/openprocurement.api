@@ -641,13 +641,37 @@ class TenderResourceTest(BaseTenderWebTest):
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
+        with open('docs/source/tutorial/award-qualification-unsuccessful.http', 'w') as self.app.file_obj:
+            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                                {"data": {"status": "unsuccessful"}}, status=403)
+
+        with open('docs/source/tutorial/award-qualification-active.http', 'w') as self.app.file_obj:
+            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                                {"data": {"status": "active"}})
+
+        with open('docs/source/tutorial/award-qualification-cancelled.http', 'w') as self.app.file_obj:
+            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                                {"data": {"status": "cancelled"}})
+
+        # get new pending award
+        response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+
+        with open('docs/source/tutorial/award-qualification-unsuccessful1.http', 'w') as self.app.file_obj:
+            self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                                {"data": {"status": "unsuccessful"}})
+
+        # get new pending award
+        response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+
         with open('docs/source/tutorial/confirm-qualification.http', 'w') as self.app.file_obj:
             self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
                                 {"data": {"status": "active"}})
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
-        self.contract_id = response.json['data'][0]['id']
+        self.contract_id = [c for c in response.json['data'] if c['status'] == 'pending'][0]['id']
 
         #  Set contract value
         #

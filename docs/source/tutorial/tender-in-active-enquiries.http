@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/d9b0bb949a094494b990e4f46d338e11 HTTP/1.0
+GET /api/2.4/tenders/ad8f25348a7a448895c0653e78936836 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -51,14 +51,14 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "enquiryPeriod": {
-      "startDate": "2019-01-15T13:37:11.023484+02:00", 
-      "endDate": "2019-01-15T13:38:11.023484+02:00"
+      "startDate": "2019-01-15T14:17:54.553827+02:00", 
+      "endDate": "2019-01-15T14:18:54.553827+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2019-01-15T13:38:11.023484+02:00", 
+    "next_check": "2019-01-15T14:18:54.553827+02:00", 
     "awardCriteria": "lowestCost", 
     "owner": "broker", 
-    "id": "d9b0bb949a094494b990e4f46d338e11", 
+    "id": "ad8f25348a7a448895c0653e78936836", 
     "title": "футляри до державних нагород", 
     "lots": [
       {
@@ -75,8 +75,8 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.56, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2019-01-15T13:37:10.096863+02:00", 
-        "id": "24c5be4a8ec64256b7b10b2db055088a"
+        "date": "2019-01-15T14:17:53.586666+02:00", 
+        "id": "94140aedad4b4b53b66d4ae85967f7f8"
       }
     ], 
     "agreements": [
@@ -297,7 +297,7 @@ Content-Type: application/json; charset=UTF-8
           "endDate": "2022-01-23T11:23:20.418436+03:00"
         }, 
         "dateSigned": "2018-09-11T11:23:23.220310+03:00", 
-        "id": "24660f996e014fa5a8e8b4faa2fdcab9", 
+        "id": "937e39053d894d099a3b71955cbae22e", 
         "procuringEntity": {
           "kind": "general", 
           "name": "Шевченківська районна в місті Києві державна адміністрація", 
@@ -332,16 +332,16 @@ Content-Type: application/json; charset=UTF-8
         "tender_id": "c3f4116d38d34fe2b7d8de8aae8c0b32"
       }
     ], 
-    "dateModified": "2019-01-15T13:37:11.040039+02:00", 
+    "dateModified": "2019-01-15T14:17:54.569046+02:00", 
     "tenderID": "UA-2019-01-15-000001", 
     "status": "active.enquiries", 
     "tenderPeriod": {
-      "startDate": "2019-01-15T13:38:11.023484+02:00", 
-      "endDate": "2019-01-15T13:41:11.023484+02:00"
+      "startDate": "2019-01-15T14:18:54.553827+02:00", 
+      "endDate": "2019-01-15T14:21:54.553827+02:00"
     }, 
     "procurementMethodDetails": "quick, accelerator=1440", 
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
-    "date": "2019-01-15T13:37:11.040039+02:00", 
+    "date": "2019-01-15T14:17:54.569046+02:00", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 2.5, 
@@ -349,7 +349,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "24c5be4a8ec64256b7b10b2db055088a", 
+        "relatedLot": "94140aedad4b4b53b66d4ae85967f7f8", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -372,8 +372,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-01-17T13:37:08.268771+02:00", 
-          "endDate": "2019-01-20T13:37:08.268771+02:00"
+          "startDate": "2019-01-17T14:17:51.725216+02:00", 
+          "endDate": "2019-01-20T14:17:51.725216+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {

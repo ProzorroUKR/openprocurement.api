@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/422b92ff25fb47f3a235c6caa6f8ec0a HTTP/1.0
+GET /api/2.4/tenders/8d1a850940624e01919e551968148f75 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -10,11 +10,11 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "selective", 
     "enquiryPeriod": {
-      "startDate": "2019-01-11T13:37:24.168346+02:00", 
-      "endDate": "2019-01-12T13:37:24.168346+02:00"
+      "startDate": "2019-01-11T14:18:07.585673+02:00", 
+      "endDate": "2019-01-12T14:18:07.585673+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2019-01-15T14:19:24.168346+02:00", 
+    "next_check": "2019-01-15T15:00:07.585673+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -36,7 +36,7 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "owner": "broker", 
-    "id": "422b92ff25fb47f3a235c6caa6f8ec0a", 
+    "id": "8d1a850940624e01919e551968148f75", 
     "guarantee": {
       "currency": "USD", 
       "amount": 8.0
@@ -46,36 +46,36 @@ Content-Type: application/json; charset=UTF-8
         "hash": "md5:00000000000000000000000000000000", 
         "description": "document description modified", 
         "title": "Notice.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/54ce6219161140208b3bfb5b8c0b4360?KeyID=2e68e925&Signature=3Yb2U6Je0bOw9t4rfm%2FPpFCcNY8Dlh7pMLdC7oGi4kswzvGjqBt5856DvmMG2nMvauf3dSljoam7nHO%2F%252BT57AQ%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/7c095cbfd6e347d78a90e7d9614f7aa5?KeyID=9bbb8fe5&Signature=71tRe%252BSmprbmMaCJ%252BXCuRF%2FMP6HW4lhAHE0dg7M%2FI62N9BiCzBfLRU4zBze0THnO6sc3EO1vi5yK0rFVImELCw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-01-15T13:37:21.126217+02:00", 
+        "datePublished": "2019-01-15T14:18:04.595016+02:00", 
         "author": "tender_owner", 
         "documentType": "technicalSpecifications", 
-        "id": "2bd92128f4194331a264efa19ec79f6b", 
-        "dateModified": "2019-01-15T13:37:21.126249+02:00"
+        "id": "938938e8ddb54a7fab79a6d9cea7fc09", 
+        "dateModified": "2019-01-15T14:18:04.595046+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/c9cacf114cb9442fac8db6c609fb9e42?KeyID=2e68e925&Signature=53MRbBdaN%252BzKf8QPF2Koq0cs3NOLJ8pHVJWGsygJ%252B5N0hg1xks8DO%2F57cxp%2Fj0Kbza9%2F0QhIbBgg3c2XK%252BN2Cw%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/862786f6939b493f822af6179d64d316?KeyID=9bbb8fe5&Signature=YiYZtfMokVuPz%252B9U%2FOx6fKPcsVd0djTQAqGKGzsvg7cFnrEZex%252BAOniwtUzmOpk3lM9iFwcaQ14y4JWAr6XdCA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-01-15T13:37:21.738697+02:00", 
-        "id": "447841be287a42f581aea94e42be2cb2", 
-        "dateModified": "2019-01-15T13:37:21.738725+02:00"
+        "datePublished": "2019-01-15T14:18:05.198784+02:00", 
+        "id": "ce4b87b69c1c4149acbd34999b95fec9", 
+        "dateModified": "2019-01-15T14:18:05.198818+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/6ac847e3f45c40ffadacb0c5837fd7a3?KeyID=2e68e925&Signature=F%2F6p8uDN%2FL0HxwRSwn%2F%252BLm0vpODThpSsTsqB01WYoLPNYwtAeK2V35SqAS0LYYq1r7%2FLfhYQxHUx5UXuEsF%252BBA%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/a1efb4cb43f24a23bfda9e0103d15c75?KeyID=9bbb8fe5&Signature=TZDSAKH5V7OxoFFXlOjl10SaEPPnhGL4IYWELBgf%252BiFgGb2t5Nqn98coCP8OTlQ3%2Fmx7XMBPV8%252BRh0%252B%252BQG4zAw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-01-15T13:37:21.738697+02:00", 
-        "id": "447841be287a42f581aea94e42be2cb2", 
-        "dateModified": "2019-01-15T13:37:21.970921+02:00"
+        "datePublished": "2019-01-15T14:18:05.198784+02:00", 
+        "id": "ce4b87b69c1c4149acbd34999b95fec9", 
+        "dateModified": "2019-01-15T14:18:05.446009+02:00"
       }
     ], 
     "title": "футляри до державних нагород", 
@@ -84,9 +84,9 @@ Content-Type: application/json; charset=UTF-8
         "status": "active", 
         "description": "lot description", 
         "title": "lot title", 
-        "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/422b92ff25fb47f3a235c6caa6f8ec0a_24c5be4a8ec64256b7b10b2db055088a", 
+        "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/8d1a850940624e01919e551968148f75_94140aedad4b4b53b66d4ae85967f7f8", 
         "auctionPeriod": {
-          "startDate": "2019-01-15T13:37:24.168346+02:00", 
+          "startDate": "2019-01-15T14:18:07.585673+02:00", 
           "shouldStartAfter": "2019-01-16T00:00:00+02:00"
         }, 
         "value": {
@@ -99,8 +99,8 @@ Content-Type: application/json; charset=UTF-8
           "amount": 3.0033300000000005, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2019-01-15T13:37:19.347352+02:00", 
-        "id": "24c5be4a8ec64256b7b10b2db055088a", 
+        "date": "2019-01-15T14:18:02.884040+02:00", 
+        "id": "94140aedad4b4b53b66d4ae85967f7f8", 
         "guarantee": {
           "currency": "USD", 
           "amount": 8.0
@@ -108,7 +108,7 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "tenderID": "UA-2019-01-15-000004", 
-    "dateModified": "2019-01-15T13:37:24.710487+02:00", 
+    "dateModified": "2019-01-15T14:18:08.239845+02:00", 
     "agreements": [
       {
         "agreementID": "UA-2018-09-11-000002-1", 
@@ -286,7 +286,7 @@ Content-Type: application/json; charset=UTF-8
           "endDate": "2022-01-23T11:23:20.418436+03:00"
         }, 
         "dateSigned": "2018-09-11T11:23:23.220310+03:00", 
-        "id": "24660f996e014fa5a8e8b4faa2fdcab9", 
+        "id": "937e39053d894d099a3b71955cbae22e", 
         "procuringEntity": {
           "kind": "general", 
           "name": "Шевченківська районна в місті Києві державна адміністрація", 
@@ -323,12 +323,12 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "status": "active.auction", 
     "tenderPeriod": {
-      "startDate": "2019-01-12T13:37:24.168346+02:00", 
-      "endDate": "2019-01-15T13:37:24.168346+02:00"
+      "startDate": "2019-01-12T14:18:07.585673+02:00", 
+      "endDate": "2019-01-15T14:18:07.585673+02:00"
     }, 
     "procurementMethodDetails": "quick, accelerator=1440", 
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
-    "date": "2019-01-15T13:37:22.639605+02:00", 
+    "date": "2019-01-15T14:18:06.048477+02:00", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 3.0033300000000005, 
@@ -336,7 +336,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "24c5be4a8ec64256b7b10b2db055088a", 
+        "relatedLot": "94140aedad4b4b53b66d4ae85967f7f8", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -359,8 +359,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-01-17T13:37:08.268771+02:00", 
-          "endDate": "2019-01-20T13:37:08.268771+02:00"
+          "startDate": "2019-01-17T14:17:51.725216+02:00", 
+          "endDate": "2019-01-20T14:17:51.725216+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {

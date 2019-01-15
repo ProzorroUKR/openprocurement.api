@@ -238,6 +238,26 @@ The pending award can be retrieved via request to list all available awards:
 Confirming qualification
 ------------------------
 
+Let's try to disqualify award by switching it's status from `pending` to `unsuccessful`.
+
+.. include:: tutorial/award-qualification-unsuccessful.http
+   :code:
+
+As we can see it is impossible. Procuring entity should activate `pending` award at first and switch it to `cancelled` status then.
+
+.. include:: tutorial/award-qualification-active.http
+   :code:
+
+Now cancelling `active` award.
+
+.. include:: tutorial/award-qualification-cancelled.http
+   :code:
+
+We see that new `pending` award is generated for the same bidder now. So we can successfully switch this `pending` award to `unsuccessful`.
+
+.. include:: tutorial/award-qualification-unsuccessful1.http
+   :code:
+
 Qualification comission registers its decision via the following call:
 
 .. include:: tutorial/confirm-qualification.http

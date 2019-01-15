@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/422b92ff25fb47f3a235c6caa6f8ec0a/contracts/8264096936d94cacadd8ac20f93113f9?acc_token=a7b2f268c61242daa6f216485be9ebe5 HTTP/1.0
+PATCH /api/2.4/tenders/8d1a850940624e01919e551968148f75/contracts/32a506bd434c4ad2ae602577b005f62d?acc_token=f18c0dc6f67f4a8db880c158642ee83c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 60
 Content-Type: application/json
@@ -6,7 +6,7 @@ Host: api-sandbox.openprocurement.org
 
 {
   "data": {
-    "dateSigned": "2019-01-15T13:37:28.047580+02:00"
+    "dateSigned": "2019-01-15T14:18:13.760909+02:00"
   }
 }
 
@@ -21,25 +21,25 @@ Content-Type: application/json; charset=UTF-8
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "contract_first_document.doc", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/991b75f416c6426e8ccbc6b7fd414949?KeyID=2e68e925&Signature=eRDxRcJ39B%252B2Owl%252B7L40vcfi8hWG4qScmKM%252BdSiS3AcceaIhhEFFX24kSi%252BuQTMQzGh6UY0JCq%2FuzwdKJFkvBw%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/010ce8229b6e417d981a766b60d2b9d2?KeyID=9bbb8fe5&Signature=tYcdIKtOJfZndIaKJXzcccYjdH%252BJnUupqNnOfMHr9xS1iQuO2A5CwfdatZzIuxYaqWC9kMjIAwi8E6CagAN7BQ%253D%253D", 
         "format": "application/msword", 
-        "datePublished": "2019-01-15T13:37:27.336978+02:00", 
-        "id": "31c42a3d6f8248598fa3a7d83668cbdc", 
-        "dateModified": "2019-01-15T13:37:27.337011+02:00"
+        "datePublished": "2019-01-15T14:18:12.875040+02:00", 
+        "id": "578d98376326498d807b85afb2d78ea2", 
+        "dateModified": "2019-01-15T14:18:12.875067+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "contract_second_document.doc", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/e9cfe84a2e8d4e25afee6679e70f88ab?KeyID=2e68e925&Signature=U069PJOsw9BUBOfftBVuLRKSE2xtwKpkJrXozWvlGnf%2F4iL6M8k%252BiZM4xai48P9s1hHWrs1TnkmLhawQ7gCBCQ%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/6ce7b08f353e4617ab5a83b20ca77960?KeyID=9bbb8fe5&Signature=uj9V%2FMEyPp0i1zfFCwNw0j9saJrRDz1I3UYFSYmiemEc3QGA2Gs7p87sxJslECiGnO0kVXwHRNRig7iGCx4aBw%253D%253D", 
         "format": "application/msword", 
-        "datePublished": "2019-01-15T13:37:27.739788+02:00", 
-        "id": "bd8063da1aca4725854b12b6b21863cb", 
-        "dateModified": "2019-01-15T13:37:27.739815+02:00"
+        "datePublished": "2019-01-15T14:18:13.355230+02:00", 
+        "id": "7e31651d051241418c39be015cb8df02", 
+        "dateModified": "2019-01-15T14:18:13.355258+02:00"
       }
     ], 
     "items": [
       {
-        "relatedLot": "24c5be4a8ec64256b7b10b2db055088a", 
+        "relatedLot": "94140aedad4b4b53b66d4ae85967f7f8", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -62,8 +62,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-01-17T13:37:08.268771+02:00", 
-          "endDate": "2019-01-20T13:37:08.268771+02:00"
+          "startDate": "2019-01-17T14:17:51.725216+02:00", 
+          "endDate": "2019-01-20T14:17:51.725216+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -81,7 +81,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "00037257", 
+          "id": "00037258", 
           "uri": "http://www.dus.gov.ua/"
         }, 
         "name": "Державне управління справами", 
@@ -96,19 +96,19 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "contractNumber": "contract #13111", 
     "period": {
-      "startDate": "2019-01-15T13:37:08.305914+02:00", 
-      "endDate": "2020-01-15T13:37:08.305914+02:00"
+      "startDate": "2019-01-15T14:17:51.765372+02:00", 
+      "endDate": "2020-01-15T14:17:51.765372+02:00"
     }, 
-    "dateSigned": "2019-01-15T13:37:28.047580+02:00", 
+    "dateSigned": "2019-01-15T14:18:13.760909+02:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2019-01-15T13:37:25.898425+02:00", 
-    "awardID": "a08081378f8f43eda237efb4f14a48e7", 
-    "id": "8264096936d94cacadd8ac20f93113f9", 
-    "contractID": "UA-2019-01-15-000004-1"
+    "date": "2019-01-15T14:18:11.195071+02:00", 
+    "awardID": "50efae4f3e0348abacea4dae3e98f47b", 
+    "id": "32a506bd434c4ad2ae602577b005f62d", 
+    "contractID": "UA-2019-01-15-000004-2"
   }
 }
 

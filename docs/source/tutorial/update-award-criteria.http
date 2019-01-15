@@ -1,12 +1,12 @@
-PUT /api/2.4/tenders/422b92ff25fb47f3a235c6caa6f8ec0a/documents/447841be287a42f581aea94e42be2cb2?acc_token=a7b2f268c61242daa6f216485be9ebe5 HTTP/1.0
+PUT /api/2.4/tenders/8d1a850940624e01919e551968148f75/documents/ce4b87b69c1c4149acbd34999b95fec9?acc_token=f18c0dc6f67f4a8db880c158642ee83c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 335
+Content-Length: 333
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
 {
   "data": {
-    "url": "http://public.docs-sandbox.openprocurement.org/get/6ac847e3f45c40ffadacb0c5837fd7a3?KeyID=2e68e925&Signature=mNtbqTbDa1JOS4O3Tdtc56EP%2FZp16rp%2BkJTKWyzqxnF85fyNGNMs89WWVqV2L9zpmHO1gKgbYuagl533DFKADA%3D%3D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/a1efb4cb43f24a23bfda9e0103d15c75?KeyID=9bbb8fe5&Signature=Mz5Kflr8zNJopprvtRhHPhK8daVzkBFsEnBY6srcsn5rPMJpH1dwEp2kZS5Fxh%2FDxVgvuME61egwjlYkiBrAAQ%3D%3D", 
     "title": "AwardCriteria-2.pdf", 
     "hash": "md5:00000000000000000000000000000000", 
     "format": "application/pdf"
@@ -22,12 +22,12 @@ Content-Type: application/json; charset=UTF-8
     "hash": "md5:00000000000000000000000000000000", 
     "author": "tender_owner", 
     "title": "AwardCriteria-2.pdf", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/6ac847e3f45c40ffadacb0c5837fd7a3?KeyID=2e68e925&Signature=F%2F6p8uDN%2FL0HxwRSwn%2F%252BLm0vpODThpSsTsqB01WYoLPNYwtAeK2V35SqAS0LYYq1r7%2FLfhYQxHUx5UXuEsF%252BBA%253D%253D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/a1efb4cb43f24a23bfda9e0103d15c75?KeyID=9bbb8fe5&Signature=TZDSAKH5V7OxoFFXlOjl10SaEPPnhGL4IYWELBgf%252BiFgGb2t5Nqn98coCP8OTlQ3%2Fmx7XMBPV8%252BRh0%252B%252BQG4zAw%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2019-01-15T13:37:21.738697+02:00", 
-    "id": "447841be287a42f581aea94e42be2cb2", 
-    "dateModified": "2019-01-15T13:37:21.970921+02:00"
+    "datePublished": "2019-01-15T14:18:05.198784+02:00", 
+    "id": "ce4b87b69c1c4149acbd34999b95fec9", 
+    "dateModified": "2019-01-15T14:18:05.446009+02:00"
   }
 }
 

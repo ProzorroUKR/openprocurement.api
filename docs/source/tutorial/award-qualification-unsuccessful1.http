@@ -1,36 +1,25 @@
-PATCH /api/2.4/tenders/8d1a850940624e01919e551968148f75/bids/d1e0cbf4dff54f98b76ea5b0900c1b3d?acc_token=36788ae8b0794a6f8c97827f2ea57d1c HTTP/1.0
+PATCH /api/2.4/tenders/8d1a850940624e01919e551968148f75/awards/7d8d9b1a7c0f466a8eeb333c0bdcba45?acc_token=f18c0dc6f67f4a8db880c158642ee83c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 30
+Content-Length: 36
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
 {
   "data": {
-    "status": "active"
+    "status": "unsuccessful"
   }
 }
 
 
 200 OK
 Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/8d1a850940624e01919e551968148f75/awards/50efae4f3e0348abacea4dae3e98f47b
 
 {
   "data": {
-    "date": "2019-01-15T14:18:06.327148+02:00", 
-    "status": "active", 
-    "id": "d1e0cbf4dff54f98b76ea5b0900c1b3d", 
-    "lotValues": [
-      {
-        "relatedLot": "94140aedad4b4b53b66d4ae85967f7f8", 
-        "date": "2019-01-15T14:18:06.327068+02:00", 
-        "value": {
-          "currency": "UAH", 
-          "amount": 500.0, 
-          "valueAddedTaxIncluded": true
-        }
-      }
-    ], 
-    "tenderers": [
+    "status": "unsuccessful", 
+    "lotID": "94140aedad4b4b53b66d4ae85967f7f8", 
+    "suppliers": [
       {
         "contactPoint": {
           "name": "Державне управління справами", 
@@ -38,7 +27,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "00037256", 
+          "id": "00037257", 
           "uri": "http://www.dus.gov.ua/"
         }, 
         "name": "Державне управління справами", 
@@ -50,7 +39,15 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }
       }
-    ]
+    ], 
+    "bid_id": "09e9596967454beea19357c4a5982433", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 499.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "date": "2019-01-15T14:18:10.765200+02:00", 
+    "id": "7d8d9b1a7c0f466a8eeb333c0bdcba45"
   }
 }
 

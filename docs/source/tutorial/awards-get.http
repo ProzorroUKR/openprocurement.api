@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/422b92ff25fb47f3a235c6caa6f8ec0a/awards HTTP/1.0
+GET /api/2.4/tenders/8d1a850940624e01919e551968148f75/awards HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -10,7 +10,7 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "status": "pending", 
-      "lotID": "24c5be4a8ec64256b7b10b2db055088a", 
+      "lotID": "94140aedad4b4b53b66d4ae85967f7f8", 
       "suppliers": [
         {
           "contactPoint": {
@@ -32,14 +32,14 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bid_id": "935f61f82aca4f04abf8b250e6e1a67c", 
+      "bid_id": "09e9596967454beea19357c4a5982433", 
       "value": {
         "currency": "UAH", 
         "amount": 499.0, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2019-01-15T13:37:25.506271+02:00", 
-      "id": "a08081378f8f43eda237efb4f14a48e7"
+      "date": "2019-01-15T14:18:09.245961+02:00", 
+      "id": "2d75293678ec4b4b8526e055d994f055"
     }
   ]
 }
