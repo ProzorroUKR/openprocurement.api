@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/documents/9b7488011f2d48ff877154a18363a9ee HTTP/1.0
+GET /api/2.4/tenders/8d1a850940624e01919e551968148f75/documents/938938e8ddb54a7fab79a6d9cea7fc09 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -11,13 +11,13 @@ Content-Type: application/json; charset=UTF-8
     "hash": "md5:00000000000000000000000000000000", 
     "author": "tender_owner", 
     "title": "Notice.pdf", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/be67b67a202f4ef7bd1fca497dceec9c?KeyID=949bde1d&Signature=73uY2SWxfUoCZYoBqbtYMtePDHkla1Cg3SUhe%2FA4ko6VB8dH4sjPSv3aWtmWhj7uQIni20veXwJKadu%2F8S7ZAw%253D%253D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/7c095cbfd6e347d78a90e7d9614f7aa5?KeyID=9bbb8fe5&Signature=71tRe%252BSmprbmMaCJ%252BXCuRF%2FMP6HW4lhAHE0dg7M%2FI62N9BiCzBfLRU4zBze0THnO6sc3EO1vi5yK0rFVImELCw%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2018-12-07T16:47:49.780083+02:00", 
+    "datePublished": "2019-01-15T14:18:04.595016+02:00", 
     "previousVersions": [], 
-    "id": "9b7488011f2d48ff877154a18363a9ee", 
-    "dateModified": "2018-12-07T16:47:49.780105+02:00"
+    "id": "938938e8ddb54a7fab79a6d9cea7fc09", 
+    "dateModified": "2019-01-15T14:18:04.595046+02:00"
   }
 }
 

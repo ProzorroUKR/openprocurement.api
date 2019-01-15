@@ -1,4 +1,4 @@
-POST /api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/bids HTTP/1.0
+POST /api/2.4/tenders/8d1a850940624e01919e551968148f75/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 824
 Content-Type: application/json
@@ -9,7 +9,7 @@ Host: api-sandbox.openprocurement.org
     "status": "draft", 
     "lotValues": [
       {
-        "relatedLot": "a9de659f847646f490c0b262940cf858", 
+        "relatedLot": "94140aedad4b4b53b66d4ae85967f7f8", 
         "value": {
           "amount": 500
         }

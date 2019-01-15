@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/contracts/6ea048f0e8344f058eefa7ace480b074?acc_token=5865cb211ce24adcb8b485389f2e13d1 HTTP/1.0
+PATCH /api/2.4/tenders/8d1a850940624e01919e551968148f75/contracts/32a506bd434c4ad2ae602577b005f62d?acc_token=f18c0dc6f67f4a8db880c158642ee83c HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 73
 Content-Type: application/json
@@ -22,7 +22,7 @@ Content-Type: application/json; charset=UTF-8
     "status": "pending", 
     "items": [
       {
-        "relatedLot": "a9de659f847646f490c0b262940cf858", 
+        "relatedLot": "94140aedad4b4b53b66d4ae85967f7f8", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -45,8 +45,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2018-12-09T16:47:47.513843+02:00", 
-          "endDate": "2018-12-12T16:47:47.513843+02:00"
+          "startDate": "2019-01-17T14:17:51.725216+02:00", 
+          "endDate": "2019-01-20T14:17:51.725216+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -64,7 +64,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "00037257", 
+          "id": "00037258", 
           "uri": "http://www.dus.gov.ua/"
         }, 
         "name": "Державне управління справами", 
@@ -83,10 +83,10 @@ Content-Type: application/json; charset=UTF-8
       "amount": 238.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2018-12-07T16:47:52.193875+02:00", 
-    "awardID": "9ca18a18ecfa43f9acdda378c7969901", 
-    "id": "6ea048f0e8344f058eefa7ace480b074", 
-    "contractID": "UA-2018-12-07-000004-1"
+    "date": "2019-01-15T14:18:11.195071+02:00", 
+    "awardID": "50efae4f3e0348abacea4dae3e98f47b", 
+    "id": "32a506bd434c4ad2ae602577b005f62d", 
+    "contractID": "UA-2019-01-15-000004-2"
   }
 }
 

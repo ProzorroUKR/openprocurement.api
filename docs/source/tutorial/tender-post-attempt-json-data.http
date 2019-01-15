@@ -1,6 +1,6 @@
 POST /api/2.4/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 2495
+Content-Length: 2550
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
@@ -10,13 +10,13 @@ Host: api-sandbox.openprocurement.org
     "lots": [
       {
         "title": "lot title", 
-        "id": "a9de659f847646f490c0b262940cf858", 
+        "id": "94140aedad4b4b53b66d4ae85967f7f8", 
         "description": "lot description"
       }
     ], 
     "items": [
       {
-        "relatedLot": "a9de659f847646f490c0b262940cf858", 
+        "relatedLot": "94140aedad4b4b53b66d4ae85967f7f8", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -39,8 +39,8 @@ Host: api-sandbox.openprocurement.org
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2018-12-09T16:47:47.513843+02:00", 
-          "endDate": "2018-12-12T16:47:47.513843+02:00"
+          "startDate": "2019-01-17T14:17:51.725216+02:00", 
+          "endDate": "2019-01-20T14:17:51.725216+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -71,9 +71,10 @@ Host: api-sandbox.openprocurement.org
         "locality": "м. Київ"
       }
     }, 
+    "procurementMethodDetails": "quick, accelerator=1440", 
     "agreements": [
       {
-        "id": "aca584f5e3ce414fb36bf1550e60cc25"
+        "id": "937e39053d894d099a3b71955cbae22e"
       }
     ]
   }
@@ -82,29 +83,39 @@ Host: api-sandbox.openprocurement.org
 
 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/735a5e439ea94af3bb6761ffcb905337
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/ad8f25348a7a448895c0653e78936836
 
 {
   "access": {
-    "token": "e9495ad5d4034adc9b95743530b7d634"
+    "token": "2a0a047ab98a46e090689b6ef28fdd11"
   }, 
   "data": {
     "status": "draft", 
     "procurementMethod": "selective", 
-    "tenderID": "UA-2018-12-07-000001", 
+    "tenderID": "UA-2019-01-15-000001", 
     "title": "футляри до державних нагород", 
     "lots": [
       {
-        "date": "2018-12-07T16:47:48.394036+02:00", 
+        "date": "2019-01-15T14:17:53.586666+02:00", 
         "status": "active", 
         "title": "lot title", 
         "description": "lot description", 
-        "id": "a9de659f847646f490c0b262940cf858"
+        "id": "94140aedad4b4b53b66d4ae85967f7f8"
       }
     ], 
+    "procurementMethodDetails": "quick, accelerator=1440", 
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    "submissionMethod": "electronicAuction", 
+    "date": "2019-01-15T14:17:53.586666+02:00", 
+    "agreements": [
+      {
+        "id": "937e39053d894d099a3b71955cbae22e"
+      }
+    ], 
+    "awardCriteria": "lowestCost", 
     "items": [
       {
-        "relatedLot": "a9de659f847646f490c0b262940cf858", 
+        "relatedLot": "94140aedad4b4b53b66d4ae85967f7f8", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -127,8 +138,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/735a5e439ea94af
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2018-12-09T16:47:47.513843+02:00", 
-          "endDate": "2018-12-12T16:47:47.513843+02:00"
+          "startDate": "2019-01-17T14:17:51.725216+02:00", 
+          "endDate": "2019-01-20T14:17:51.725216+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -138,18 +149,9 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/735a5e439ea94af
         "quantity": 5
       }
     ], 
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
-    "submissionMethod": "electronicAuction", 
-    "date": "2018-12-07T16:47:48.394036+02:00", 
-    "agreements": [
-      {
-        "id": "aca584f5e3ce414fb36bf1550e60cc25"
-      }
-    ], 
-    "awardCriteria": "lowestCost", 
     "owner": "broker", 
-    "dateModified": "2018-12-07T16:47:48.398441+02:00", 
-    "id": "735a5e439ea94af3bb6761ffcb905337", 
+    "dateModified": "2019-01-15T14:17:53.593372+02:00", 
+    "id": "ad8f25348a7a448895c0653e78936836", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 

@@ -55,11 +55,6 @@ Let's access the URL of the created object (the `Location` header of the respons
 
 We can see the same response we got after creating tender.
 
-Let's see what listing of tenders reveals us:
-
-.. include:: tutorial/initial-tender-listing.http
-   :code:
-
 We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
 
 The previous tender contained only required fields. Let's try creating tender with more data
@@ -69,14 +64,6 @@ The previous tender contained only required fields. Let's try creating tender wi
    :code:
 
 And again we have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties.
-
-Let's check what tender registry contains:
-
-.. include:: tutorial/tender-listing-after-procuringEntity.http
-   :code:
-
-And indeed we have 2 tenders now.
-
 
 To move forward, you need to change status of procedure to ``draft.pending``. This will let the bot to pull up 
 :ref:`Agreement` and move tender to the next status. If provided information meets all the requirements, than the bot
@@ -88,6 +75,11 @@ moves procedure to ``active.enquiries`` status, else to ``draft.unsuccessful`` t
 Let's see, that our tender meets all the requirements, the bot pulled up :ref:`Agreement` of tender and changed status to ``active.enquiries``.
 
 .. include:: tutorial/tender-in-active-enquiries.http
+   :code:
+
+Let's see what listing of tenders reveals us:
+
+.. include:: tutorial/initial-tender-listing.http
    :code:
 
 Modifying tender
@@ -235,8 +227,36 @@ See the `Bid.participationUrl` in the response. Similar, but different, URL can 
 .. include:: tutorial/bidder2-participation-url.http
    :code:
 
+Listing awards
+--------------
+
+The pending award can be retrieved via request to list all available awards:
+
+.. include:: tutorial/awards-get.http
+   :code:
+
 Confirming qualification
 ------------------------
+
+Let's try to disqualify award by switching it's status from `pending` to `unsuccessful`.
+
+.. include:: tutorial/award-qualification-unsuccessful.http
+   :code:
+
+As we can see it is impossible. Procuring entity should activate `pending` award at first and switch it to `cancelled` status then.
+
+.. include:: tutorial/award-qualification-active.http
+   :code:
+
+Now cancelling `active` award.
+
+.. include:: tutorial/award-qualification-cancelled.http
+   :code:
+
+We see that new `pending` award is generated for the same bidder now. So we can successfully switch this `pending` award to `unsuccessful`.
+
+.. include:: tutorial/award-qualification-unsuccessful1.http
+   :code:
 
 Qualification comission registers its decision via the following call:
 

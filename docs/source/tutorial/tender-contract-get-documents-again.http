@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/contracts/6ea048f0e8344f058eefa7ace480b074/documents HTTP/1.0
+GET /api/2.4/tenders/8d1a850940624e01919e551968148f75/contracts/32a506bd434c4ad2ae602577b005f62d/documents HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -11,20 +11,20 @@ Content-Type: application/json; charset=UTF-8
     {
       "hash": "md5:00000000000000000000000000000000", 
       "title": "contract_first_document.doc", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/6322201813024057a17eaeba456f0425?KeyID=949bde1d&Signature=idfajuuSkkAixcGrjhqoACRJuDR88gEnWeDtRYagmoiyPxdne4oCfRHodgAeXB9xY8ue0U9OMJy8juvb73z3Ag%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/010ce8229b6e417d981a766b60d2b9d2?KeyID=9bbb8fe5&Signature=tYcdIKtOJfZndIaKJXzcccYjdH%252BJnUupqNnOfMHr9xS1iQuO2A5CwfdatZzIuxYaqWC9kMjIAwi8E6CagAN7BQ%253D%253D", 
       "format": "application/msword", 
-      "datePublished": "2018-12-07T16:47:52.937676+02:00", 
-      "id": "f99bcc871d4044aa84838d966e4dd806", 
-      "dateModified": "2018-12-07T16:47:52.937694+02:00"
+      "datePublished": "2019-01-15T14:18:12.875040+02:00", 
+      "id": "578d98376326498d807b85afb2d78ea2", 
+      "dateModified": "2019-01-15T14:18:12.875067+02:00"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
       "title": "contract_second_document.doc", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/7d8fd9f8006e47088f1b7e2d6d8b7871?KeyID=949bde1d&Signature=HvS4%2FHV40GY1hRn%252BaGp%252B9nlQ7UlTKjTOcFpLFm3WNxkZbquAd8eZqVSYBLANLJgvAfoR107VTNgplNMgxFunDA%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/6ce7b08f353e4617ab5a83b20ca77960?KeyID=9bbb8fe5&Signature=uj9V%2FMEyPp0i1zfFCwNw0j9saJrRDz1I3UYFSYmiemEc3QGA2Gs7p87sxJslECiGnO0kVXwHRNRig7iGCx4aBw%253D%253D", 
       "format": "application/msword", 
-      "datePublished": "2018-12-07T16:47:53.182044+02:00", 
-      "id": "56b0801334474d0ea8717882871815d6", 
-      "dateModified": "2018-12-07T16:47:53.182088+02:00"
+      "datePublished": "2019-01-15T14:18:13.355230+02:00", 
+      "id": "7e31651d051241418c39be015cb8df02", 
+      "dateModified": "2019-01-15T14:18:13.355258+02:00"
     }
   ]
 }
