@@ -4,7 +4,6 @@ from base64 import b64decode
 from datetime import datetime, time, timedelta
 from logging import getLogger
 from openprocurement.api.constants import TZ, WORKING_DAYS
-from pkg_resources import get_distribution
 from urllib import unquote
 from urlparse import urlparse, parse_qsl
 from openprocurement.api.utils import get_now, context_unpack
@@ -14,8 +13,7 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 
-PKG = get_distribution(__package__)
-LOGGER = getLogger(PKG.project_name)
+LOGGER = getLogger('openprocurement.tender.belowthreshold')
 
 
 def check_bids(request):
