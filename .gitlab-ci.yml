@@ -1,22 +1,33 @@
-image: alpine
-before_script:
-  - eval `ssh-agent -s` && ssh-add
-  - sh bootstrap.sh
-  - bin/buildout -N
+image: docker:stable
+
+variables:
+  COUCHDB_USER: op
+  COUCHDB_PASSWORD: op
+
+services:
+  - docker:dind
+
 stages:
   - test
 
-test_sanbox_true:
+.test_api:
+  image: prozorro/api:monorepo
   stage: test
+  parallel: 5
+  services:
+    - couchdb:1.6
+  script:
+    - pip install -r requirements.txt
+    - pip install -e .
+    - pip install pytest pytest-test-groups
+    - py.test --test-group-count $CI_NODE_TOTAL --test-group=$CI_NODE_INDEX
+
+test_sandbox:
+  extends: .test_api
   variables:
     SANDBOX_MODE: 'True'
-  script:
-    - bin/py.test ./src/openprocurement/api/tests/ --cov=openprocurement.api
 
-
-test_sanbox_not_true:
-  stage: test
+test_prod:
+  extends: .test_api
   variables:
     SANDBOX_MODE: ''
-  script:
-    - bin/py.test ./src/openprocurement/api/tests/ --cov=openprocurement.api
