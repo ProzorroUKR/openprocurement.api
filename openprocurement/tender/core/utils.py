@@ -4,7 +4,6 @@ from barbecue import chef
 from jsonpointer import resolve_pointer
 from functools import partial
 from datetime import datetime, time, timedelta
-from pkg_resources import get_distribution
 from logging import getLogger
 from schematics.exceptions import ModelValidationError
 from time import sleep
@@ -22,8 +21,7 @@ from openprocurement.tender.core.constants import (
     BIDDER_TIME, SERVICE_TIME, AUCTION_STAND_STILL_TIME
 )
 from openprocurement.tender.core.traversal import factory
-PKG = get_distribution(__package__)
-LOGGER = getLogger(PKG.project_name)
+LOGGER = getLogger('openprocurement.tender.core')
 
 ACCELERATOR_RE = compile(r'.accelerator=(?P<accelerator>\d+)')
 
