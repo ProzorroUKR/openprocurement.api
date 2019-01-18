@@ -4,9 +4,8 @@ from datetime import timedelta
 
 import mock
 from openprocurement.api.models import BusinessOrganization
+from openprocurement.api.utils import get_now
 from schematics.exceptions import ModelValidationError
-
-from op_robot_tests.tests_files.local_time import get_now
 
 
 class TestBusinessOrganizationScale(unittest.TestCase):
