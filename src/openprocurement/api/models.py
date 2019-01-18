@@ -586,10 +586,13 @@ class BusinessOrganization(Organization):
     scale = StringType(choices=SCALE_CODES)
 
     def validate_scale(self, data, value):
-        if value and get_now() < ORGANIZATION_SCALE_FROM:
+        parent = data['__parent__']
+        revisions = get_schematics_document(parent).get('revisions') if parent else None
+        validation_date = revisions[0].date if revisions else get_now()
+        if validation_date >= ORGANIZATION_SCALE_FROM and value is None:
+            raise ValidationError(BaseType.MESSAGES['required'])
+        if validation_date < ORGANIZATION_SCALE_FROM and value is not None:
             raise ValidationError('Rogue field')
-        if not value and get_now() >= ORGANIZATION_SCALE_FROM:
-            raise ValidationError('This field is required.')
 
 
 class Revision(Model):
