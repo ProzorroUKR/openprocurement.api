@@ -588,7 +588,7 @@ class BusinessOrganization(Organization):
 
     def validate_scale(self, data, value):
         parent = data['__parent__']
-        revisions = get_schematics_document(parent).get('revisions') if parent else None
+        revisions = get_schematics_document(parent).get('revisions') if parent and parent.__parent__ else None
         validation_date = revisions[0].date if revisions else get_now()
         if validation_date >= ORGANIZATION_SCALE_FROM and value is None:
             raise ValidationError(BaseType.MESSAGES['required'])
