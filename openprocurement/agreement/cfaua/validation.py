@@ -135,8 +135,6 @@ def validate_third_party_modifications(modifications):
     for modification in modifications:
         if modification.addend:
             raise ValidationError(u"Only factor is allowed for thirdParty type of change")
-        elif not modification.factor:  # bool(Decimal('0.0'))  gives False
-            raise ValidationError(u"Modification factor should be over 0.0 for thirdParty type of change")
 
 
 def validate_modifications_items_uniq(modifications):

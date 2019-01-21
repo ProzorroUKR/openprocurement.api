@@ -22,14 +22,14 @@ def apply_modifications(request, agreement, save=False):
                            for contract in agreement.contracts
                            for unit_price in contract.unitPrices
                            if unit_price.relatedItem == modification.itemId]
-            if modification.addend:
-                for unit_price in unit_prices:
+
+            for unit_price in unit_prices:
+                if modification.addend:
                     unit_price.value.amount += modification.addend
-                    if unit_price.value.amount <= 0:
-                        raise_operation_error(request, u"unitPrice:value:amount can't be equal or less than 0.")
-            else:
-                for unit_price in unit_prices:
+                if modification.factor is not None:
                     unit_price.value.amount *= modification.factor
+                if unit_price.value.amount <= 0:
+                    raise_operation_error(request, u"unitPrice:value:amount can't be equal or less than 0.")
         else:
             for contract in agreement.contracts:
                 if contract.id == modification.contractId:
