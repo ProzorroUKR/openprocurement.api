@@ -12,7 +12,6 @@ from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_START_DATE,
 )
 from openprocurement.tender.cfaselectionua.traversal import agreement_factory
-from pkg_resources import get_distribution
 from openprocurement.tender.core.utils import (
     cleanup_bids_for_cancelled_lots,
     remove_draft_bids,
@@ -26,8 +25,7 @@ from openprocurement.api.utils import (
     get_now
 )
 
-PKG = get_distribution(__package__)
-LOGGER = getLogger(PKG.project_name)
+LOGGER = getLogger('openprocurement.tender.cfaselectionua')
 
 agreement_resource = partial(resource, error_handler=error_handler, factory=agreement_factory)
 
