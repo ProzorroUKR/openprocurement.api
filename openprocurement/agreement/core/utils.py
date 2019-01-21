@@ -1,5 +1,4 @@
 import logging
-from pkg_resources import get_distribution
 from schematics.exceptions import ModelValidationError
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
@@ -16,8 +15,7 @@ from openprocurement.api.utils import (
 )
 
 
-PKG = get_distribution(__package__)
-LOGGER = logging.getLogger(PKG.project_name)
+LOGGER = logging.getLogger('openprocurement.agreement.core')
 
 
 def agreement_serialize(request, agreement_data, fields):

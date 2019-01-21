@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from logging import getLogger
-from pkg_resources import get_distribution, iter_entry_points
+from pkg_resources import iter_entry_points
 from zope.configuration.xmlconfig import file as ZcmlFile
 from pyramid.interfaces import IRequest
 
@@ -18,8 +18,7 @@ from openprocurement.agreement.core.utils import (
     )
 
 
-PKG = get_distribution(__package__)
-LOGGER = getLogger(PKG.project_name)
+LOGGER = getLogger('openprocurement.agreement.core')
 
 
 def includeme(config):  # pragma: no cover

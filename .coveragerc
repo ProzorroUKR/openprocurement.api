@@ -1,2 +1,0 @@
-[run]
-omit = openprocurement/agreement/core/tests/*
