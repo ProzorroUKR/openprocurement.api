@@ -1,5 +1,4 @@
 from logging import getLogger
-from pkg_resources import get_distribution
 from datetime import datetime, time, timedelta
 
 from openprocurement.api.constants import TZ
@@ -18,8 +17,7 @@ from openprocurement.tender.openuadefense.constants import (
     CALCULATE_BUSINESS_DATE_FROM
 )
 
-PKG = get_distribution(__package__)
-LOGGER = getLogger(PKG.project_name)
+LOGGER = getLogger('openprocurement.tender.openuadefense')
 
 
 def read_json(name):
