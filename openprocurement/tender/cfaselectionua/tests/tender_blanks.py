@@ -10,7 +10,9 @@ from openprocurement.api.constants import (
     COORDINATES_REG_EXP, ROUTE_PREFIX, SANDBOX_MODE,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
 )
-from openprocurement.tender.cfaselectionua.constants import BOT_NAME, ENQUIRY_PERIOD
+from openprocurement.tender.cfaselectionua.constants import\
+    BOT_NAME, ENQUIRY_PERIOD, MIN_PERIOD_UNTIL_AGREEMENT_END,\
+    MIN_ACTIVE_CONTRACTS, AGREEMENT_IDENTIFIER
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
 )
@@ -701,6 +703,7 @@ def create_tender_from_terminated_agreement(self):
     tender = response.json['data']
     self.assertEqual(tender['agreements'][0]['status'], 'terminated')
     self.assertEqual(tender['status'], 'draft.unsuccessful')
+    self.assertEqual(tender['unsuccessfulReason'], ['agreement[0] status is not active'])
 
 
 def create_tender_from_agreement_with_features(self):
@@ -774,6 +777,7 @@ def create_tender_from_agreement_with_pending_changes(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertIn('changes', response.json['data']['agreements'][0])
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+    self.assertEqual(response.json['data']['unsuccessfulReason'], ['agreements[0] has pending change'])
 
     self.app.authorization = ('Basic', ('broker', ''))
 
@@ -1366,10 +1370,17 @@ def patch_tender_bot(self):
                      "Can't update tender in current (draft.pending) tender status")
 
     # tender items are not subset of agreement items
+    # TODO: adjust data ti shrink errors only to supposed one
     self.app.authorization = ('Basic', (BOT_NAME, ''))
     response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+    reasons = set(response.json['data']['unsuccessfulReason'])
+    self.assertFalse(reasons.difference(set([
+        u'agreement[0] status is not active',
+        u'agrements[0] items is not subset of tender items',
+        u'agreements[0] has less than 3 active contracts'
+    ])))
 
     # patch tender with different changes by bot
     create_tender_and_prepare_for_bot_patch()
@@ -1509,6 +1520,8 @@ def patch_tender_bot(self):
     response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+    self.assertEqual(response.json['data']['unsuccessfulReason'],
+                     ['agreements[0] ends less than {} days'.format(MIN_PERIOD_UNTIL_AGREEMENT_END.days)])
 
     # patch tender with less than 3 active contracts
     create_tender_and_prepare_for_bot_patch()
@@ -1524,6 +1537,8 @@ def patch_tender_bot(self):
     response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+    self.assertEqual(response.json['data']['unsuccessfulReason'],
+                     ['agreements[0] has less than {} active contracts'.format(MIN_ACTIVE_CONTRACTS)])
 
     # patch tender with wrong identifier
     create_tender_and_prepare_for_bot_patch()
@@ -1538,6 +1553,7 @@ def patch_tender_bot(self):
     response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+    self.assertEqual(response.json['data']['unsuccessfulReason'], [AGREEMENT_IDENTIFIER])
 
     # patch tender with agreement -> with documents
     create_tender_and_prepare_for_bot_patch()
