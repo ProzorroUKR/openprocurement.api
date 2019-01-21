@@ -21,7 +21,8 @@ from openprocurement.agreement.cfaua.tests.agreement_blanks import (
     agreement_change_party_withdrawal_preview,
     agreement_change_tax_rate_preview,
     agreement_change_third_party_preview,
-    agreement_changes_patch_from_agreements
+    agreement_changes_patch_from_agreements,
+    create_agreement_with_two_active_contracts
 )
 from openprocurement.api.tests.base import snitch
 import os
@@ -50,7 +51,7 @@ class AgreementResources(BaseAgreementWebTest):
     test_agreement_change_party_withdrawal_preview = snitch(agreement_change_party_withdrawal_preview)
     test_agreement_change_tax_rate_preview = snitch(agreement_change_tax_rate_preview)
     test_agreement_change_third_party_preview = snitch(agreement_change_third_party_preview)
-    test_agreement_changes_patch_from_agrements = snitch(agreement_changes_patch_from_agreements)
+    test_agreement_changes_patch_from_agreements = snitch(agreement_changes_patch_from_agreements)
 
 
 class TestTenderAgreement(BaseAgreementTest):
@@ -63,6 +64,7 @@ class TestTenderAgreement(BaseAgreementTest):
     test_create_agreement_with_documents = snitch(create_agreement_with_documents)
     test_create_agreement_with_features = snitch(create_agreement_with_features)
     test_patch_agreement_features_invalid = snitch(patch_agreement_features_invalid)
+    test_create_agreement_with_two_active_contracts = snitch(create_agreement_with_two_active_contracts)
 
 
 class AgreementListingTests(BaseAgreementTest):
