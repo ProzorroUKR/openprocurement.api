@@ -2,11 +2,8 @@ from pyramid.events import ContextFound
 from openprocurement.planning.api.design import add_design
 from openprocurement.planning.api.utils import plan_from_data, extract_plan, set_logging_context
 from logging import getLogger
-from pkg_resources import get_distribution
 
-PKG = get_distribution(__package__)
-
-LOGGER = getLogger(PKG.project_name)
+LOGGER = getLogger('openprocurement.planning.api')
 
 
 def includeme(config):

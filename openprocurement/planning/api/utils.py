@@ -18,10 +18,8 @@ from openprocurement.api.utils import (
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.traversal import factory
 from schematics.exceptions import ModelValidationError
-from pkg_resources import get_distribution
 
-PKG = get_distribution(__package__)
-LOGGER = getLogger(PKG.project_name)
+LOGGER = getLogger('openprocurement.planning.api')
 
 
 def generate_plan_id(ctime, db, server_id=''):
