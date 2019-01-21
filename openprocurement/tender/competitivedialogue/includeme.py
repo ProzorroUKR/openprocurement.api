@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
-from pkg_resources import get_distribution
 from pyramid.interfaces import IRequest
 from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.tender.competitivedialogue.models import Tender
@@ -12,8 +11,7 @@ from openprocurement.tender.competitivedialogue.adapters import (
     TenderCDEUStage2Configurator, TenderCDUAStage2Configurator
 )
 
-PKG = get_distribution(__package__)
-LOGGER = getLogger(PKG.project_name)
+LOGGER = getLogger('openprocurement.tender.competitivedialogue')
 
 
 def includeme(config):
