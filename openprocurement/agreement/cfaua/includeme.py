@@ -2,7 +2,6 @@ import os
 import openprocurement.agreement.cfaua
 
 from logging import getLogger
-from pkg_resources import get_distribution
 from pyramid.interfaces import IRequest
 from openprocurement.api.interfaces import IContentConfigurator
 
@@ -16,8 +15,7 @@ from openprocurement.agreement.cfaua.adapters.configurator\
 from zope.configuration.xmlconfig import file as ZcmlFile
 
 
-PKG = get_distribution(__package__)
-LOGGER = getLogger(PKG.project_name)
+LOGGER = getLogger('openprocurement.agreement.cfaua')
 
 
 def includeme(config):
