@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from functools import partial
-from pkg_resources import get_distribution
 from logging import getLogger
 from cornice.resource import resource
 from schematics.exceptions import ModelValidationError
@@ -17,8 +16,7 @@ from openprocurement.contracting.api.models import Contract
 contractingresource = partial(resource, error_handler=error_handler,
                               factory=factory)
 
-PKG = get_distribution(__package__)
-LOGGER = getLogger(PKG.project_name)
+LOGGER = getLogger('openprocurement.contracting.api')
 
 
 def extract_contract(request):
