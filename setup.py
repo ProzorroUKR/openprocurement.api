@@ -43,9 +43,30 @@ entry_points = {
     'openprocurement.api.plugins': [
         'api = openprocurement.api.includeme:includeme',
         'tender_core = openprocurement.tender.core.includeme:includeme',
+        'planning = openprocurement.planning.api:includeme',
+        'contracting = openprocurement.contracting.api:includeme',
+        'agreementCore = openprocurement.agreement.core.includeme:includeme',
+    ],
+    'openprocurement.tender.core.plugins': [
+        'belowThreshold = openprocurement.tender.belowthreshold.includeme:includeme',
+        'aboveThresholdUA = openprocurement.tender.openua.includeme:includeme',
+        'aboveThresholdEU = openprocurement.tender.openeu.includeme:includeme',
+        'aboveThresholdUA.defense = openprocurement.tender.openuadefense.includeme:includeme',
+        'reporting = openprocurement.tender.limited.includeme:includeme',
+        'negotiation = openprocurement.tender.limited.includeme:includeme_negotiation',
+        'negotiation.quick = openprocurement.tender.limited.includeme:includeme_negotiation_quick',
+        'competitivedialogue = openprocurement.tender.competitivedialogue.includeme:includeme',
+        'esco = openprocurement.tender.esco.includeme:includeme',
+        'closeFrameworkAgreementUA = openprocurement.tender.cfaua.includeme:includeme',
+        'closeFrameworkAgreementSelectionUA = openprocurement.tender.cfaselectionua.includeme:includeme',
+    ],
+    'openprocurement.agreements.core.plugins': [
+        'cfAgreementUA = openprocurement.agreement.cfaua.includeme:includeme'
     ],
     'openprocurement.api.migrations': [
-        'tenders = openprocurement.api.migration:migrate_data'
+        'tenders = openprocurement.api.migration:migrate_data',
+        'contracts = openprocurement.contracting.api.migration:migrate_data',
+        'plans = openprocurement.planning.api.migration:migrate_data',
     ],
     'console_scripts': [
         'bootstrap_api_security = openprocurement.api.database:bootstrap_api_security'
