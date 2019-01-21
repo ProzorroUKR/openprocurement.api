@@ -18,9 +18,6 @@ lib64/
 parts/
 sdist/
 var/
-include/
-lib64
-pip-selfcheck.json
 *.egg-info/
 .installed.cfg
 *.egg
@@ -58,12 +55,6 @@ target/
 
 # Buildout
 bin/
-src/
-
-# Local developer configuration
-.mr.developer.cfg
 
 cover/
 output.html
-.noseids
-
