@@ -43,6 +43,8 @@ venusian==1.0
 waitress==0.8.9
 zope.deprecation==4.1.1
 zope.interface==4.1.1
+python-json-logger==0.1.10
+
 git+https://github.com/ProzorroUKR/barbecue.git
 git+https://github.com/ProzorroUKR/python-json-patch.git
 git+https://github.com/ProzorroUKR/rfc6266.git
