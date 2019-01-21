@@ -32,7 +32,7 @@ var/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / goverage reports
+# Unit test / coverage reports
 htmlcov/
 .tox/
 .coverage
@@ -55,10 +55,6 @@ target/
 
 # Buildout
 bin/
-src/
-
-# Local developer configuration
-.mr.developer.cfg
 
 cover/
 output.html

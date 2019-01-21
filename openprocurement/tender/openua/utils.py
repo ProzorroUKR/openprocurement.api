@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from pkg_resources import get_distribution
 from datetime import timedelta
 from logging import getLogger
 from openprocurement.api.utils import get_now
@@ -17,8 +16,7 @@ from openprocurement.tender.openua.constants import (
     NORMALIZED_COMPLAINT_PERIOD_FROM
 )
 from barbecue import chef
-PKG = get_distribution(__package__)
-LOGGER = getLogger(PKG.project_name)
+LOGGER = getLogger('openprocurement.tender.openua')
 
 
 def calculate_normalized_date(dt, tender, ceil=False):
