@@ -29,6 +29,14 @@ def validate_agreement_patch(request):
     return validate_data(request, type(request.agreement), True, data=data)
 
 
+def validate_update_agreement_status(request):
+    if request.context.changes:
+        data = request.validated['data']
+        pending_changes = [c for c in request.context.changes if c['status'] == 'pending']
+        if 'status' in data and data['status'] == 'terminated' and pending_changes:
+            raise_operation_error(request, 'Can\'t update agreement status with pending change.')
+
+
 def validate_credentials_generate(request):
     agreement = request.validated['agreement']
     if agreement.status != "active":
