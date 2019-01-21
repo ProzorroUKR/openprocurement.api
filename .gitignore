@@ -55,10 +55,6 @@ target/
 
 # Buildout
 bin/
-src/
-
-# Local developer configuration
-.mr.developer.cfg
 
 cover/
 output.html
