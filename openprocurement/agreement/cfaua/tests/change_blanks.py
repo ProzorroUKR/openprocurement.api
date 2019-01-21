@@ -436,6 +436,17 @@ def patch_change(self):
         {u'description': [u'Only factor is allowed for thirdParty type of change'],
          u'location': u'body', u'name': u'modifications'}])
 
+    data = deepcopy(self.initial_change)
+    data.update({'rationaleType': u'thirdParty',
+                 'modifications': [{'itemId': '1' * 32, 'factor': 0.0}]})
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token), {'data': data}, status=422)
+
+    self.assertEqual((response.status, response.content_type), ('422 Unprocessable Entity', 'application/json'))
+    self.assertEqual(response.json['errors'], [
+        {u'description': [u'Modification factor should be over 0.0 for thirdParty type of change'],
+         u'location': u'body', u'name': u'modifications'}])
+
     data['modifications'] = [{'itemId': '1' * 32, 'factor': 0.01},
                              {'itemId': '1' * 32, 'factor': 0.02}]
     response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
