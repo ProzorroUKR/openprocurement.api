@@ -683,6 +683,7 @@ def create_tender_draft_pending_without_features(self):
 def create_tender_from_terminated_agreement(self):
     agreement = deepcopy(self.initial_agreement)
     agreement['status'] = 'terminated'
+    agreement['terminationDetails'] = 'Do not need this service anymore'
     agreement['id'] = self.agreement_id
 
     create_tender_draft_pending(self)
@@ -695,6 +696,7 @@ def create_tender_from_terminated_agreement(self):
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
     self.assertEqual(tender['agreements'][0]['status'], 'terminated')
+    self.assertEqual(tender['agreements'][0]['terminationDetails'], 'Do not need this service anymore')
     self.assertEqual(tender['status'], 'draft.pending')
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
