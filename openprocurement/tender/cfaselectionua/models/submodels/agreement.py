@@ -49,3 +49,4 @@ class Agreement(Model):
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
+    terminationDetails = StringType()
