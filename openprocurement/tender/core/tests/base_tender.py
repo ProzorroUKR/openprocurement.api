@@ -53,7 +53,7 @@ class TestTenderMilestones(unittest.TestCase):
             'code': 1488,
             'type': 'M',
             'duration': {},
-            'percentage': -1,
+            'percentage': 0,
             'sequenceNumber': -1,
         }])
         tender = BaseTender(initial_data)

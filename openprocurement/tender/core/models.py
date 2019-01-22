@@ -43,7 +43,7 @@ from openprocurement.tender.core.utils import (
     calc_auction_end_time, rounding_shouldStartAfter
 )
 from openprocurement.tender.core.validation import (
-    validate_LotValue_value
+    validate_LotValue_value, is_positive_float
 )
 
 create_role = (blacklist('owner_token', 'owner', 'contracts', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role)
@@ -793,7 +793,8 @@ class Milestone(Model):
 
     type = StringType(required=True, choices=['financing'])
     code = StringType(required=True, choices=["prepayment", "postpayment"])
-    percentage = FloatType(required=True, min_value=0, max_value=100)
+    percentage = FloatType(required=True, max_value=100, validators=[is_positive_float])
+
     duration = ModelType(Duration, required=True)
     sequenceNumber = IntType(required=True, min_value=0)
     relatedLot = MD5Type()

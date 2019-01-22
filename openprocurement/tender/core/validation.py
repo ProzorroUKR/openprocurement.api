@@ -471,3 +471,8 @@ def validate_contract_signing(request):
         ]
         if pending_complaints or pending_awards_complaints:
             raise_operation_error(request, 'Can\'t sign contract before reviewing all complaints')
+
+
+def is_positive_float(value):
+    if value <= 0:
+        raise ValidationError(u"Float value should be greater than 0.")
