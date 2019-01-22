@@ -6,12 +6,13 @@ from copy import deepcopy
 from openprocurement.api.tests.base import BaseWebTest, snitch
 from uuid import uuid4
 
+from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_lots,
     test_tender_data,
     test_agreement,
     test_agreement_features,
-    BaseTenderWebTest,
+    BaseTenderWebTest as BaseBaseTenderWebTest,
 )
 from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     # TenderResourceTest
@@ -51,6 +52,7 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     coordinates_reg_exp,
     # TenderTest
     simple_add_tender,
+    edit_tender_in_active_enquiries,
 )
 
 tender_data = deepcopy(test_tender_data)
@@ -62,6 +64,28 @@ for i in test_lots:
 tender_data['lots'] = test_lots = lots
 for i, item in enumerate(tender_data['items']):
     item['relatedLot'] = lots[i % len(lots)]['id']
+
+
+class BaseTenderWebTest(BaseBaseTenderWebTest):
+
+    def create_tender_and_prepare_for_bot_patch(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        data = deepcopy(self.initial_data)
+        data['status'] = 'draft'
+        data['agreements'] = [{'id': self.agreement_id}]
+
+        response = self.app.post_json('/tenders', {'data': data})
+        self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+        tender = response.json['data']
+        self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                                        {'data': {'status': 'draft.pending'}})
+        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+        self.assertEqual(response.json['data']['status'], 'draft.pending')
+
+        self.app.authorization = ('Basic', (BOT_NAME, ''))
+        return tender, owner_token
 
 
 class TenderResourceTestMixin(object):
@@ -115,6 +139,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_tender = snitch(patch_tender)
     test_required_field_deletion = snitch(required_field_deletion)
     test_patch_tender_to_draft_pending = snitch(patch_tender_to_draft_pending)
+    test_edit_tender_in_active_enquiries = snitch(edit_tender_in_active_enquiries)
 
 
 class TenderProcessTest(BaseTenderWebTest):
