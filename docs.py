@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 import json
 import os
+from copy import deepcopy
+
 from datetime import timedelta, datetime
 from uuid import uuid4
 
@@ -240,6 +242,30 @@ test_tender_maximum_data = {
     ]
 }
 
+funder_data = {
+    "additionalIdentifiers": [],
+    "address": {
+        "countryName": "Switzerland",
+        "locality": "Geneva",
+        "postalCode": "1218",
+        "region": "Grand-Saconnex",
+        "streetAddress": "Global Health Campus, Chemin du Pommier 40"
+    },
+    "contactPoint": {
+        "email": "ccm@theglobalfund.org",
+        "faxNumber": "+41 44 580 6820",
+        "name": "",
+        "telephone": "+41 58 791 1700",
+        "url": "https://www.theglobalfund.org/en/"
+    },
+    "identifier":{
+        "id": "47045",
+        "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією",
+        "scheme": "XM-DAC"
+    },
+    "name": "Глобальний фонд"
+}
+
 
 test_complaint_data = {'data':
         {
@@ -373,6 +399,13 @@ class TenderResourceTest(BaseTenderWebTest):
                 '/tenders?opt_pretty=1', {"data": test_tender_maximum_data})
             self.assertEqual(response.status, '201 Created')
 
+        test_tender_funders_data = deepcopy(test_tender_data)
+        test_tender_funders_data['funders'] = [funder_data]
+        with open('docs/source/tutorial/create-tender-funders.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1', {"data": test_tender_funders_data})
+            self.assertEqual(response.status, '201 Created')
+
         response = self.app.post_json('/tenders?opt_pretty=1', {"data": test_tender_data})
         self.assertEqual(response.status, '201 Created')
 
@@ -402,6 +435,16 @@ class TenderResourceTest(BaseTenderWebTest):
 
         self.app.authorization = ('Basic', ('broker', ''))
         self.tender_id = tender['id']
+
+        # Setting funders
+        #
+        with open('docs/source/tutorial/patch-tender-funders.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                {'data': {"funders": [funder_data]}}
+            )
+            self.assertIn('funders', response.json['data'])
+            self.assertEqual(response.status, '200 OK')
 
         # Setting Bid guarantee
         #
