@@ -457,15 +457,12 @@ def create_tender_invalid(self):
     ])
 
     self.initial_data['tenderPeriod'] = {'startDate': '2014-10-31T00:00:00', 'endDate': '2015-10-01T00:00:00'}
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    del self.initial_data['tenderPeriod']
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    response = self.app.post_json(request_path, {'data': self.initial_data})
+    self.assertEqual(response.status_code, 201)
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u'period should begin after enquiryPeriod'], u'location': u'body', u'name': u'tenderPeriod'}
-    ])
+    self.assertNotIn('tenderPeriod', response.json['data'])
 
+    del self.initial_data['tenderPeriod']
     now = get_now()
     self.initial_data['awardPeriod'] = {'startDate': now.isoformat(), 'endDate': now.isoformat()}
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=201)
@@ -857,9 +854,9 @@ def create_tender(self):
     self.assertNotIn('minimalStep', response.json['data']['lots'][0])
 
     additional_classification_1 = {
-    "scheme": u"ATC",
-    "id": u"A02AF",
-    "description": u"папір і картон гофровані, паперова й картонна тара"
+        "scheme": u"ATC",
+        "id": u"A02AF",
+        "description": u"папір і картон гофровані, паперова й картонна тара"
     }
     data['items'][0]['additionalClassifications'].append(additional_classification_1)
     response = self.app.post_json('/tenders', {"data": data})

@@ -212,7 +212,7 @@ class TenderResource(APIResource):
                     raise_operation_error(
                         self.request, "Can't switch tender to (draft.pending) status without agreements or items."
                     )
-            elif tender_status == default_status and tender.status not in ('draft.pending', default_status):
+            if tender_status == default_status and tender.status not in ('draft.pending', default_status):
                 raise_operation_error(
                     self.request, "Can't switch tender from ({}) to ({}) status.".format(default_status, tender.status)
                 )
