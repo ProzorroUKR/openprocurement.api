@@ -75,3 +75,7 @@ git+git://github.com/ProzorroUKR/python-json-patch.git@1.13-jsondiff.unicode.rep
 git+git://github.com/ProzorroUKR/cornice.git@1.2.0.dev0
 git+git://github.com/ProzorroUKR/barbecue.git@0.2
 git+git://github.com/ProzorroUKR/server_cookie_middleware.git@0.2
+git+git://github.com/ProzorroUKR/openprocurement.archivarius.core.git@1.0.2dp
+git+git://github.com/ProzorroUKR/openprocurement.archivarius.tenders.git@1.0.1dp
+git+git://github.com/ProzorroUKR/openprocurement.archivarius.plans.git@1.0.1dp
+git+git://github.com/ProzorroUKR/openprocurement.archivarius.contracts.git@1.0.1dp
