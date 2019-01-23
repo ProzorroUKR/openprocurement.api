@@ -2214,12 +2214,12 @@ def edit_tender_in_active_enquiries(self):
         'items[0].description',
         'items[0].deliveryAddress',
         'items[0].deliveryDate',
-        'items[0].unit',
         'tenderPeriod.endDate',
     )
     denied_modify = (
         'status',
         'lots[0].status',
+        'items[0].unit',
         'items[0].classification',
         'items[0].additionalClassifications[0]',
         'tenderPeriod.startDate',
