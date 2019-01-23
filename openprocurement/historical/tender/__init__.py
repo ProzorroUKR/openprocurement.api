@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
-from pkg_resources import get_distribution
 from openprocurement.historical.core.utils import (
     HasRequestMethod,
 )
@@ -8,8 +7,7 @@ from openprocurement.historical.core.constants import (
     PREDICATE_NAME
 )
 
-PKG = get_distribution(__package__)
-LOGGER = getLogger(PKG.project_name)
+LOGGER = getLogger('openprocurement.historical.tender')
 
 
 def includeme(config):
