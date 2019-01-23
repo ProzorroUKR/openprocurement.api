@@ -46,6 +46,8 @@ entry_points = {
         'planning = openprocurement.planning.api:includeme',
         'contracting = openprocurement.contracting.api:includeme',
         'agreementCore = openprocurement.agreement.core.includeme:includeme',
+        'historical.core = openprocurement.historical.core.includeme:includeme',
+        'historical.tender = openprocurement.historical.tender:includeme',
     ],
     'openprocurement.tender.core.plugins': [
         'belowThreshold = openprocurement.tender.belowthreshold.includeme:includeme',

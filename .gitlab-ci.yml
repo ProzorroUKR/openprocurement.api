@@ -111,6 +111,11 @@ test_sandbox_agreement_cfaua:
   variables:
     MODULE: agreement cfaua
 
+test_sandbox_historical:
+  extends: .test_sandbox
+  variables:
+    MODULE: historical
+
 test_prod_api:
   extends: .test_prod
   variables:
@@ -185,3 +190,8 @@ test_prod_agreement_cfaua:
   extends: .test_prod
   variables:
     MODULE: agreement cfaua
+
+test_prod_historical:
+  extends: .test_prod
+  variables:
+    MODULE: historical
