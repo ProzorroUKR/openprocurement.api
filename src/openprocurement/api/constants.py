@@ -11,7 +11,7 @@ from logging import getLogger
 from requests import Session
 
 LOGGER = getLogger('openprocurement.api')
-VERSION = '2.4'
+VERSION = '2.5'
 ROUTE_PREFIX = '/api/{}'.format(VERSION)
 SESSION = Session()
 SCHEMA_VERSION = 24
