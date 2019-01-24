@@ -205,3 +205,7 @@ Let's perform these actions in single request:
 If agreement is unsuccessful reasons for termination ``terminationDetails`` should be specified.
 
 Any future modification to the agreement are not allowed.
+
+
+It may be useful to see top requirements: `Test Cases for III level of accreditation <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ and
+`Test Cases for IV level of accreditation <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_.
