@@ -704,6 +704,11 @@ def create_tender_from_terminated_agreement(self):
     self.assertEqual(tender['agreements'][0]['status'], 'terminated')
     self.assertEqual(tender['status'], 'draft.unsuccessful')
     self.assertEqual(tender['unsuccessfulReason'], ['agreement[0] status is not active'])
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender = response.json['data']
+    self.assertEqual(tender['status'], 'draft.unsuccessful')
+    self.assertEqual(tender['unsuccessfulReason'], ['agreement[0] status is not active'])
+
 
 
 def create_tender_from_agreement_with_features(self):
@@ -2219,6 +2224,14 @@ def edit_tender_in_active_enquiries(self):
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': data})
     patched_tender = response.json['data']
     self.assertEqual(response.status, '200 OK')
+    for path in allowed_modify:
+        self.assertEqual(jmespath.search(path, data), jmespath.search(path, patched_tender))
+    for path in denied_modify:
+        self.assertNotEqual(jmespath.search(path, data), jmespath.search(path, patched_tender))
+        self.assertEqual(jmespath.search(path, tender_data), jmespath.search(path, patched_tender))
+
+    response = self.app.get('/tenders/{}'.format(tender['id']))
+    patched_tender = response.json['data']
     for path in allowed_modify:
         self.assertEqual(jmespath.search(path, data), jmespath.search(path, patched_tender))
     for path in denied_modify:
