@@ -2,6 +2,7 @@
     "agreementID": "UA-2018-09-11-000002-1",
     "status": "active",
     "title": "[ТЕСТУВАННЯ] ",
+    "numberOfContracts": 3,
     "contracts": [
         {
             "status": "active",
