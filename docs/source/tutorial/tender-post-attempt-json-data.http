@@ -51,13 +51,13 @@ Host: api-sandbox.openprocurement.org
     "lots": [
       {
         "title": "lot title", 
-        "id": "33c55a8d5f7e4af597074e9266dd05d3", 
+        "id": "452029a0046446d0811541dd6cc10485", 
         "description": "lot description"
       }
     ], 
     "items": [
       {
-        "relatedLot": "33c55a8d5f7e4af597074e9266dd05d3", 
+        "relatedLot": "452029a0046446d0811541dd6cc10485", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -80,8 +80,8 @@ Host: api-sandbox.openprocurement.org
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-01-27T13:35:55.344265+02:00", 
-          "endDate": "2019-01-30T13:35:55.344265+02:00"
+          "startDate": "2019-01-27T15:48:03.841685+02:00", 
+          "endDate": "2019-01-30T15:48:03.841685+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -115,7 +115,7 @@ Host: api-sandbox.openprocurement.org
     "procurementMethodDetails": "quick, accelerator=1440", 
     "agreements": [
       {
-        "id": "68bc5f96bb6d4abca49e12201f318d10"
+        "id": "42c09c505f954abd8bf8863ec2fb0379"
       }
     ]
   }
@@ -124,11 +124,11 @@ Host: api-sandbox.openprocurement.org
 
 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/3179428ca199498baea8c4598c6d2b48
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/2421d6b589cd45dbbd4dad08488d24ed
 
 {
   "access": {
-    "token": "d204af12de174412a2eb78df92b7b5ac"
+    "token": "308198788ab34d26b7dfd526f55e5058"
   }, 
   "data": {
     "status": "draft", 
@@ -137,26 +137,26 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/3179428ca199498
     "title": "футляри до державних нагород", 
     "lots": [
       {
-        "date": "2019-01-25T13:35:57.038518+02:00", 
+        "date": "2019-01-25T15:48:06.255147+02:00", 
         "status": "active", 
         "title": "lot title", 
         "description": "lot description", 
-        "id": "33c55a8d5f7e4af597074e9266dd05d3"
+        "id": "452029a0046446d0811541dd6cc10485"
       }
     ], 
     "procurementMethodDetails": "quick, accelerator=1440", 
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
     "submissionMethod": "electronicAuction", 
-    "date": "2019-01-25T13:35:57.038518+02:00", 
+    "date": "2019-01-25T15:48:06.255147+02:00", 
     "agreements": [
       {
-        "id": "68bc5f96bb6d4abca49e12201f318d10"
+        "id": "42c09c505f954abd8bf8863ec2fb0379"
       }
     ], 
     "awardCriteria": "lowestCost", 
     "items": [
       {
-        "relatedLot": "33c55a8d5f7e4af597074e9266dd05d3", 
+        "relatedLot": "452029a0046446d0811541dd6cc10485", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -179,8 +179,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/3179428ca199498
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-01-27T13:35:55.344265+02:00", 
-          "endDate": "2019-01-30T13:35:55.344265+02:00"
+          "startDate": "2019-01-27T15:48:03.841685+02:00", 
+          "endDate": "2019-01-30T15:48:03.841685+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -191,8 +191,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/3179428ca199498
       }
     ], 
     "owner": "broker", 
-    "dateModified": "2019-01-25T13:35:57.045192+02:00", 
-    "id": "3179428ca199498baea8c4598c6d2b48", 
+    "dateModified": "2019-01-25T15:48:06.263761+02:00", 
+    "id": "2421d6b589cd45dbbd4dad08488d24ed", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 

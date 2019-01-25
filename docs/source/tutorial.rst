@@ -258,6 +258,11 @@ We see that new `pending` award is generated for the same bidder now. So we can 
 .. include:: tutorial/award-qualification-unsuccessful1.http
    :code:
 
+You can upload award documents. Let's upload award document
+
+.. include:: tutorial/award-qualification-unsuccessful1_document.http
+   :code:
+
 Qualification comission registers its decision via the following call:
 
 .. include:: tutorial/confirm-qualification.http

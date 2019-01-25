@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/2f09d4b8b0b34cf1afcb60bd9c47c6ce/lots/33c55a8d5f7e4af597074e9266dd05d3?acc_token=e78121184ae94a07ac009fde9d37b981 HTTP/1.0
+PATCH /api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/lots/452029a0046446d0811541dd6cc10485?acc_token=25d6661782044a3aa90620d83cd78a64 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 57
 Content-Type: application/json
@@ -32,8 +32,8 @@ Content-Type: application/json; charset=UTF-8
       "amount": 600.67, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2019-01-25T13:36:06.418364+02:00", 
-    "id": "33c55a8d5f7e4af597074e9266dd05d3", 
+    "date": "2019-01-25T15:48:16.016135+02:00", 
+    "id": "452029a0046446d0811541dd6cc10485", 
     "guarantee": {
       "currency": "USD", 
       "amount": 8.0
