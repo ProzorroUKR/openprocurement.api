@@ -703,11 +703,11 @@ def create_tender_from_terminated_agreement(self):
     tender = response.json['data']
     self.assertEqual(tender['agreements'][0]['status'], 'terminated')
     self.assertEqual(tender['status'], 'draft.unsuccessful')
-    self.assertEqual(tender['unsuccessfulReason'], ['agreement[0] status is not active'])
+    self.assertEqual(tender['unsuccessfulReason'], ['agreements[0] status is not active'])
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     tender = response.json['data']
     self.assertEqual(tender['status'], 'draft.unsuccessful')
-    self.assertEqual(tender['unsuccessfulReason'], ['agreement[0] status is not active'])
+    self.assertEqual(tender['unsuccessfulReason'], ['agreements[0] status is not active'])
 
 
 
@@ -1359,8 +1359,8 @@ def patch_tender_bot(self):
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
     reasons = set(response.json['data']['unsuccessfulReason'])
     self.assertFalse(reasons.difference(set([
-        u'agreement[0] status is not active',
-        u'agrements[0] items is not subset of tender items',
+        u'agreements[0] status is not active',
+        u'agreements[0] items is not subset of tender items',
         u'agreements[0] has less than 3 active contracts'
     ])))
 
