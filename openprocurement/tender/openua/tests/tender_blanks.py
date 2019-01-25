@@ -328,17 +328,18 @@ def create_tender_invalid(self):
     self.initial_data["items"][0]['classification']['id'] = data
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.json['errors'], [
-        {u"location": u"body",u"name": u"items",u"description": [
-         u"additionalClassification of items wich classification.id starts with 336 have to be one of ['INN', 'ATC']"]}])
+        {u"location": u"body", u"name": u"items", u"description": [
+         u"additionalClassification of items wich classification.id "
+         u"starts with 336 have to be one of ['INN', 'ATC']"]}])
 
     addit_classif = [
-          {"scheme": "INN",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"},
-          {"scheme": "INN",
-           "id": "17.21.1",
-           "description": "папір і картон гофровані, паперова й картонна тара"}
-        ]
+        {"scheme": "INN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"},
+        {"scheme": "INN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"}
+    ]
     data = self.initial_data["items"][0]["classification"]['id']
     self.initial_data["items"][0]['classification']['id'] = u"33600000-6"
     orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
@@ -347,27 +348,63 @@ def create_tender_invalid(self):
     self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
     self.initial_data["items"][0]["classification"]['id'] = data
     self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.json['errors'], [{u"location": u"body",u"name": u"items",u"description": [
-    u"Item with classification.id=33600000-6 have to contain exactly one additionalClassifications with scheme=INN"]}])
+    self.assertEqual(response.json['errors'], [
+        {u"location": u"body", u"name": u"items", u"description": [
+         u"Item with classification.id=33600000-6 have to contain "
+         u"exactly one additionalClassifications with scheme=INN"]}])
 
     addit_classif = [
-          {"scheme": "ATC",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"},
-          {"scheme": "ATC",
-           "id": "17.21.1",
-           "description": "папір і картон гофровані, паперова й картонна тара"}
-        ]
+        {"scheme": "INN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"},
+        {"scheme": "INN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"}
+    ]
     data = self.initial_data["items"][0]["classification"]['id']
-    self.initial_data["items"][0]['classification']['id'] = u'33652000-5'
+    self.initial_data["items"][0]['classification']['id'] = u"33611000-6"
     orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
     self.initial_data["items"][0]["additionalClassifications"] = addit_classif
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
     self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
     self.initial_data["items"][0]["classification"]['id'] = data
     self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.json['errors'], [{u"location": u"body",u"name": u"items",u"description": [
-    u"Item wich classification.id starts with 336 and contains additionalClassification objects have to contain exactly one additionalClassifications with scheme=INN"]}])
+    self.assertEqual(response.json['errors'], [
+        {u"location": u"body", u"name": u"items", u"description": [
+         u"Item wich classification.id starts with 336 and contains "
+         u"additionalClassification objects have to contain no more than "
+         u"one additionalClassifications with scheme=INN"]}])
+
+    addit_classif = [
+        {"scheme": "INN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"}
+    ]
+    data = self.initial_data["items"][0]["classification"]['id']
+    self.initial_data["items"][0]['classification']['id'] = u"33611000-6"
+    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
+    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
+    response = self.app.post_json(request_path, {'data': self.initial_data})
+    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
+    self.initial_data["items"][0]["classification"]['id'] = data
+    self.assertEqual(response.status, '201 Created')
+
+    addit_classif = [
+        {"scheme": "ATC",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"},
+        {"scheme": "ATC",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"}
+    ]
+    data = self.initial_data["items"][0]["classification"]['id']
+    self.initial_data["items"][0]['classification']['id'] = u'33652000-5'
+    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
+    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
+    response = self.app.post_json(request_path, {'data': self.initial_data})
+    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
+    self.initial_data["items"][0]["classification"]['id'] = data
+    self.assertEqual(response.status, '201 Created')
 
     data = self.initial_data["items"][0]["additionalClassifications"][0]["scheme"]
     self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = 'Не ДКПП'
