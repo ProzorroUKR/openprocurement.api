@@ -668,7 +668,14 @@ class TenderResourceTest(BaseTenderWebTest):
 
         with open('docs/source/tutorial/award-qualification-unsuccessful1.http', 'w') as self.app.file_obj:
             self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-                                {"data": {"status": "unsuccessful"}})
+                                {"data": {"status": "unsuccessful",
+                                          "documents": [{
+                                              'title': u'explanation.doc',
+                                              'url': self.generate_docservice_url(),
+                                              'hash': 'md5:' + '0' * 32,
+                                              'format': 'application/msword',
+                                          }]
+                                          }})
 
         # get new pending award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
