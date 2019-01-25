@@ -229,6 +229,8 @@ class Tender(BaseTenderEU):
     stage2TenderID = StringType(required=False)
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
+    items = ListType(ModelType(BaseEUItem), required=True, min_size=1,
+                     validators=[validate_cpv_group, validate_items_uniq])
 
     class Options:
         roles = roles.copy()
