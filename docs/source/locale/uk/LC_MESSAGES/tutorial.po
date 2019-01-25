@@ -46,8 +46,10 @@ msgid "Creating tender"
 msgstr "Створення закупівлі"
 
 msgid "Let's create tender with the minimal (only required) data set:"
-msgstr "Створимо закупівлю з мінімально допустимим (обовязковим для заповнення) "
-"набором даних:"
+msgstr "Створимо закупівлю з мінімально допустимим (обовязковим для заповнення) набором даних:"
+
+msgid "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified. Pay attention to the `procurementMethodType`. Note that tender is created with `draft` status."
+msgstr "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу на `procurementMethodType`, а також на те, що закупівля створюється зі статусом `draft`."
 
 msgid ""
 "Success! Now we can see that new object was created. Response code is "
@@ -74,6 +76,21 @@ msgstr "Використаємо URL створеного об’єкта (за�
 
 msgid "We can see the same response we got after creating tender."
 msgstr "Ми бачимо ту ж відповідь, що і після створення закупівлі."
+
+msgid "We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp."
+msgstr "Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови повної URL-адреси, якщо додати `http://api-sandbox.openprocurement.org/api/0/\"-\"tenders/`) та її `dateModified` дату."
+
+msgid "The previous tender contained only required fields. Let's try creating tender with more data (tender has status `created`):"
+msgstr "Попередня закупівля була створена лише з обов’язковими полями. Тепер додамо закупівлю з максимально допустимим набором даних при створенні (тендер повинен бути у статусі `created`)."
+
+msgid "And again we have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties."
+msgstr "І знову код відповіді `201 Created`,  заголовок `Location` і тіло з додатковим `id`, `tenderID`, та властивість `dateModified`."
+
+msgid "To move forward, you need to change status of procedure to ``draft.pending``. This will let the bot to pull up :ref:`Agreement` and move tender to the next status. If provided information meets all the requirements, than the bot moves procedure to ``active.enquiries`` status, else to ``draft.unsuccessful`` terminal status."
+msgstr "Для того, щоб перейти далі, треба змінити статус процедури на ``draft.pending``. Це дозволить боту наповнити :ref:`Agreement` і перевести тендер у наступний статус. Якщо надана інформація відповідає всім вимогам, бот переводить процедуру в статус ``active.enquiries``, інакше в статус ``draft.unsuccessful``."
+
+msgid "Let's see, that our tender meets all the requirements, the bot pulled up :ref:`Agreement` of tender and changed status to ``active.enquiries``."
+msgstr "Бачимо, що наш тендер відповідає всім вимогам, бот наповнив :ref:`Agreement` і змінив статус тендера на ``active.enquiries``."
 
 msgid "Let's see what listing of tenders reveals us:"
 msgstr "Подивимось, що показує список закупівель:"
@@ -132,13 +149,8 @@ msgid ""
 "properties:"
 msgstr "Оновимо закупівлю шляхом надання їй усіх інших важливих властивостей:"
 
-msgid ""
-"We see the added properies have merged with existing tender data. "
-"Additionally, the `dateModified` property was updated to reflect the last"
-" modification datestamp."
-msgstr "Ми бачимо, що додаткові властивості об’єднані з існуючими даними "
-"закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати"
-" останню дату модифікації."
+msgid "We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
+msgstr "Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації."
 
 msgid "Checking the listing again reflects the new modification date:"
 msgstr "Ще одна перевірка списку відображає нову дату модифікації:"
@@ -147,21 +159,16 @@ msgid "Procuring entity can set bid guarantee:"
 msgstr "Замовник може встановити забезпечення тендерної пропозиції:"
 
 msgid "Uploading documentation"
-msgstr "Завантаження документації"
+msgstr "Завантаження документів"
 
-msgid ""
-"Procuring entity can upload PDF files into the created tender. Uploading "
-"should follow the :ref:`upload` rules."
-msgstr "Замовник може завантажити PDF-файли у створену закупівлю. Завантаження "
-"повинно відбуватись згідно правил :ref:`upload`."
+msgid "Procuring entity should only upload digital signature on this stage of procedure."
+msgstr "Замовник має завантажувати тільки ЕЦП на цьому етапі процедури."
 
-msgid ""
-"`201 Created` response code and `Location` header confirm document "
-"creation. We can additionally query the `documents` collection API "
-"endpoint to confirm the action:"
-msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
-"документ було створено. Додатково можна зробити запит точки входу API "
-"колекції `документів`, щоб підтвердити дію:"
+msgid "Procuring entity can upload PDF files into the created tender. Uploading should follow the :ref:`upload` rules."
+msgstr "Замовник може завантажити PDF-файли в створену угоду. Завантаження повинне слідувати правилам завантаження."
+
+msgid "`201 Created` response code and `Location` header confirm document creation. We can additionally query the `documents` collection API endpoint to confirm the action:"
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ додано."
 
 msgid ""
 "The single array element describes the uploaded document. We can upload "
@@ -170,36 +177,25 @@ msgstr "Один елемент масиву описує завантажени
 "більше документів:"
 
 msgid "And again we can confirm that there are two documents uploaded."
-msgstr "І знову можна перевірити, що є два завантажених документа."
+msgstr "І знову можна підтвердити, що два документи завантажені."
 
-msgid ""
-"Let’s add new `documentType` field with `technicalSpecifications` "
-"parameter to the previously uploaded document:"
-msgstr "Додамо нове поле `documentType` з параметром `technicalSpecifications` до"
-" вже завантаженого документа."
+msgid "Let’s add new `documentType` field with `technicalSpecifications` parameter to the previously uploaded document:"
+msgstr "Додамо новий `documentType` з пареметром `technicalSpecifications` до попередньо завантаженого документа:"
 
-msgid ""
-"Success! Response code is `200 OK` and it confirms that `documentType` "
-"field with `technicalSpecifications` parameter was added ."
-msgstr "Успіх! Код відповіді `200 OK` підтверджує, що поле `documentType` з "
-"параметром `technicalSpecifications` було додано."
+msgid "Success! Response code is `200 OK` and it confirms that `documentType` field with `technicalSpecifications` parameter was added ."
+msgstr "Успіх! Код відповіді `200 OK` і це підтверджує, що поле `documentType` з параметром `technicalSpecifications` було додано."
 
-msgid ""
-"Now let’s try to modify any field in our document. For example, "
-"`description`:"
-msgstr "Можна змінити будь-яке поле в документі. Наприклад, `description` (опис):"
+msgid "Now let’s try to modify any field in our document. For example, `description`:"
+msgstr "Тепер спробуємо відредагувати будь-яке поле в документі. Наприклад, `description`:"
 
 msgid "`200 OK` response was returned. The description was modified successfully."
-msgstr "Повернено код `200 OK`, тобто опис було успішно відредаговано."
+msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
 
-msgid ""
-"In case we made an error, we can reupload the document over the older "
-"version:"
-msgstr "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої"
-" версії:"
+msgid "In case we made an error, we can reupload the document over the older version:"
+msgstr "У випадку помилки, можна заново завантажити документ поверх старої версії:"
 
 msgid "And we can see that it is overriding the original version:"
-msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
+msgstr "І можна побачити, що цей документ переважає оригінальну версію:"
 
 msgid "Registering bid"
 msgstr "Реєстрація пропозиції"
@@ -207,28 +203,19 @@ msgstr "Реєстрація пропозиції"
 msgid "Step-by-step registration"
 msgstr "Покроковий режим реєстрації"
 
-msgid ""
-"When ``Tender.tenderingPeriod.startDate`` comes, Tender switches to "
-"`active.tendering` status that allows registration of bids."
-msgstr "Коли приходить ``Tender.tenderingPeriod.startDate``, Закупівля отримує "
-"статус `active.tendering`, що дозволяє реєстрацію пропозицій."
+msgid "When ``Tender.tenderingPeriod.startDate`` comes, Tender switches to `active.tendering` status that allows registration of bids."
+msgstr "Коли приходить ``Tender.tenderingPeriod.startDate``, Закупівля отримує статус `active.tendering`, що дозволяє реєстрацію пропозицій."
 
 msgid "Bidder can register a bid in ``draft`` status:"
 msgstr "Учасник може зареєструвати пропозицію у статусі `draft` (чернетка):"
 
-
-msgid ""
-"You cannot submit a bid greater than ``agreement.contract.value``. Also "
-"Bidder can't submit a bid if he is not party of this Framework Agreement "
-"(:ref:`Agreement`)."
-msgstr "Неможливо подати ставку зі значенням вищим, ніж ``agreement.contract.value``. "
-"Також, постачальник не може подати ставку, якщо він не є учасником цієї "
-"Рамкової угоди (:ref:`Agreement`)."
+msgid "You cannot submit a bid greater than ``agreement.contract.value``. Also Bidder can't submit a bid if he is not party of this Framework Agreement (:ref:`Agreement`)."
+msgstr "Неможливо подати ставку зі значенням вищим, ніж ``agreement.contract.value``. Також, постачальник не може подати ставку, якщо він не є учасником цієї Рамкової угоди (:ref:`Agreement`)."
 
 msgid "And activate a bid:"
 msgstr "Та активувати пропозицію:"
 
-msgid "And upload proposal document:"
+msgid "Upload proposal document:"
 msgstr "І завантажити документ пропозиції:"
 
 msgid "It is possible to check the uploaded documents:"
@@ -238,124 +225,112 @@ msgid "Batch-mode registration"
 msgstr "Пакетний режим реєстрації"
 
 msgid "Register bid with documents using one request:"
-msgstr "У пакетному режимі (batch-mode) є можливість зареєструвати пропозицію "
-"одним запитом:"
+msgstr "У пакетному режимі (batch-mode) є можливість зареєструвати пропозицію одним запитом:"
 
 msgid "Auction"
 msgstr "Аукціон"
 
-msgid ""
-"After auction is scheduled anybody can visit it to watch. The auction can"
-" be reached at `Tender.auctionUrl`:"
-msgstr "Після того, як аукціон заплановано, будь-хто може його відвідати для "
-"перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:"
+msgid "After auction is scheduled anybody can visit it to watch. The auction can be reached at `Tender.auctionUrl`:"
+msgstr "Після того, як аукціон заплановано, будь-хто може його відвідати для перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:"
 
 msgid "And bidders can find out their participation URLs via their bids:"
-msgstr "Учасники можуть дізнатись свої URL-адреси для участі через свої "
-"пропозиції:"
+msgstr "Учасники можуть дізнатись свої URL-адреси для участі через свої пропозиції:"
 
-msgid ""
-"See the `Bid.participationUrl` in the response. Similar, but different, "
-"URL can be retrieved for other participants:"
-msgstr "Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, "
-"URL-адресу можна отримати для інших учасників."
+msgid "See the `Bid.participationUrl` in the response. Similar, but different, URL can be retrieved for other participants:"
+msgstr "Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу можна отримати для інших учасників."
+
+msgid "Listing awards"
+msgstr "Список awards"
+
+msgid "The pending award can be retrieved via request to list all available awards:"
+msgstr "Cписок аwards в статусі `pending` можна отримати за запитом:"
 
 msgid "Confirming qualification"
 msgstr "Підтвердження кваліфікації"
 
+msgid "Let's try to disqualify award by switching it's status from `pending` to `unsuccessful`."
+msgstr "Спробуємо дискваліфікувати award, перевівши його зі статусу `pending` в `unsuccessful`."
+
+msgid "As we can see it is impossible. Procuring entity should activate `pending` award at first and switch it to `cancelled` status then."
+msgstr "Бачимо, що це неможливо. Замовник спочатку має активувати award в статусі `pending`, а потім перевести його в статус `cancelled`."
+
+msgid "Now cancelling `active` award."
+msgstr "Скасовуємо активний award."
+
+msgid "We see that new `pending` award is generated for the same bidder now. So we can successfully switch this `pending` award to `unsuccessful`."
+msgstr "Бачимо, що згенеровано новий award в статусі `pending` для того ж Учасника. Тепер Замовник може успішно перевести award з статусу  `pending` в `unsuccessful`."
+
 msgid "Qualification comission registers its decision via the following call:"
 msgstr "Кваліфікаційна комісія реєструє своє рішення через такий виклик:"
 
+msgid "Procuring entity should fill the information about extension of the bidder's term in the `description` field."
+msgstr "Замовник має заповнити інформацію про продовження терміну дії Учасника в полі `description`."
+
 msgid "Setting  contract value"
-msgstr "Встановлення вартості угоди"
+msgstr "Встановлення вартості контракту"
 
-msgid ""
-"By default contract value is set based on the award, but there is a "
-"possibility to set custom contract value."
-msgstr "За замовчуванням вартість угоди встановлюється на основі рішення про "
-"визначення переможця, але є можливість змінити це значення."
+msgid "By default contract value is set based on the award, but there is a possibility to set custom contract value."
+msgstr "За замовчуванням вартість контракту встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення."
 
-msgid ""
-"If you want to **lower contract value**, you can insert new one into the "
-"`amount` field."
-msgstr "Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове "
-"значення для поля `amount`."
+msgid "If you want to **lower contract value**, you can insert new one into the `amount` field."
+msgstr "Якщо ви хочете **знизити вартість контракту**, ви можете встановити нове значення для поля `amount`."
 
 msgid "`200 OK` response was returned. The value was modified successfully."
 msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
 
 msgid "Setting contract signature date"
-msgstr "Встановлення дати підписання угоди"
+msgstr "Встановлення дати підписання контракту"
 
-msgid ""
-"There is a possibility to set custom contract signature date. You can "
-"insert appropriate date into the `dateSigned` field."
-msgstr "Є можливість встановити дату підписання угоди. Для цього вставте "
-"відповідну дату в поле `dateSigned`."
+msgid "There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field."
+msgstr "Є можливість встановити дату підписання контракту. Для цього вставте відповідну дату в поле `dateSigned`."
 
-msgid ""
-"If this date is not set, it will be auto-generated on the date of "
-"contract registration."
-msgstr "Якщо ви не встановите дату підписання, то вона буде згенерована "
-"автоматично під час реєстрації угоди."
+msgid "If this date is not set, it will be auto-generated on the date of contract registration."
+msgstr "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично під час реєстрації контракту."
 
 msgid "Setting contract validity period"
-msgstr "Встановлення терміну дії угоди"
+msgstr "Встановлення терміну дії контракту"
 
-msgid ""
-"Setting contract validity period is optional, but if it is needed, you "
-"can set appropriate `startDate` and `endDate`."
-msgstr "Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, "
-"ви можете встановити відповідну дату початку `startDate` та кінця "
-"`endDate` терміну дії."
+msgid "Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`."
+msgstr "Встановлення терміну дії контракту необов’язкове, але, якщо є необхідність, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
 
 msgid "Uploading contract documentation"
-msgstr "Завантаження документів щодо укладання угоди"
+msgstr "Завантаження документів щодо укладання контракту"
 
 msgid "You can upload contract documents. Let's upload contract document:"
-msgstr "Спробуємо завантажити документ пов’язаний з угодою:"
+msgstr "Спробуємо завантажити документ пов’язаний з контрактом:"
 
-msgid ""
-"`201 Created` response code and `Location` header confirm document was "
-"added."
-msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
-"документ додано."
+msgid "`201 Created` response code and `Location` header confirm document was added."
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ додано."
 
 msgid "Let's see the list of contract documents:"
 msgstr "Переглянемо список завантажених документів:"
 
 msgid "We can add another contract document:"
-msgstr "Тепер спробуємо додати ще один документ щодо укладанням угоди:"
+msgstr "Тепер спробуємо додати ще один документ щодо укладання контракту:"
 
-msgid ""
-"`201 Created` response code and `Location` header confirm second document"
-" was uploaded."
-msgstr "Код відповіді `201 Created`та заголовок `Location` підтверджують, що ще "
-"один документ було додано."
+msgid "`201 Created` response code and `Location` header confirm second document was uploaded."
+msgstr "Код відповіді `201 Created`та заголовок `Location` підтверджують, що ще один документ було додано."
 
 msgid "Let's see the list of all added contract documents:"
-msgstr "Тепер переглянемо знову усі документи пов’язані із укладанням угоди:"
+msgstr "Тепер переглянемо знову усі документи пов’язані із укладанням контракту:"
 
 msgid "Set contract signature date"
-msgstr "Встановити дату підписання угоди"
+msgstr "Встановити дату підписання контракту"
 
-msgid ""
-"There is a possibility to set custom contract signature date. If the date"
-" is not set it will be generated on contract registration."
-msgstr "Є можливість встановити дату підписання договору. Якщо дата не "
-"встановлена, то вона буде згенерована під час реєстрації договору."
+msgid "There is a possibility to set custom contract signature date. If the date is not set it will be generated on contract registration."
+msgstr "Є можливість встановити дату підписання договору. Якщо дата не встановлена, то вона буде згенерована під час реєстрації договору."
 
 msgid "Contract registration"
-msgstr "Реєстрація угоди"
+msgstr "Реєстрація контракту"
+
+msgid "To see more information about contract look at the `Contracting API interface to OpenProcurement database <https://prozorro-api-docs.readthedocs.io/en/latest/contracting/index.html>`_."
+msgstr "Більше інформації про поведінку контрактів можна побачити тут: `API для реєстрації даних пов’язаних з договором <https://prozorro-api-docs.readthedocs.io/en/latest/contracting/index.html>`_."
 
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"
 
-msgid ""
-"Tender creator can cancel tender anytime (except when tender has terminal"
-" status e.g. `usuccesfull`, `canceled`, `complete`)."
-msgstr "Замовник може скасувати закупівлю у будь-який момент (крім закупівель у "
-"кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`)."
+msgid "Tender creator can cancel tender anytime (except when tender has terminal status e.g. `usuccesfull`, `canceled`, `complete`)."
+msgstr "Замовник може скасувати закупівлю у будь-який момент (крім закупівель у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`)."
 
 msgid "The following steps should be applied:"
 msgstr "Для цього потрібно виконати наступні кроки:"
@@ -369,13 +344,8 @@ msgstr "Наповніть його протоколом про причини �
 msgid "Cancel the tender with the reasons prepared."
 msgstr "Скасуйте закупівлю через подані причини."
 
-msgid ""
-"Only the request that has been activated (3rd step above) has power to "
-"cancel tender.  I.e.  you have to not only prepare cancellation request "
-"but to activate it as well."
-msgstr "Запит на скасування, який не пройшов активації (3-й крок), не матиме "
-"сили, тобто, для скасування закупівлі буде обов’язковим не тільки "
-"створити заявку, але і активувати її."
+msgid "Only the request that has been activated (3rd step above) has power to cancel tender.  I.e.  you have to not only prepare cancellation request but to activate it as well."
+msgstr "Запит на скасування, який не пройшов активації (3-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її."
 
 msgid "See :ref:`cancellation` data structure for details."
 msgstr "Див. структуру запиту :ref:`cancellation` для більш детальної інформації."
@@ -383,12 +353,8 @@ msgstr "Див. структуру запиту :ref:`cancellation` для бі�
 msgid "Preparing the cancellation request"
 msgstr "Формування запиту на скасування"
 
-msgid ""
-"You should pass `reason`, `status` defaults to `pending`. `id` is "
-"autogenerated and passed in the `Location` header of response."
-msgstr "Ви повинні передати змінні `reason`, `status` у стані `pending`. `id` "
-"генерується автоматично і повертається у додатковому заголовку відповіді "
-"`Location`:"
+msgid "You should pass `reason`, `status` defaults to `pending`. `id` is autogenerated and passed in the `Location` header of response."
+msgstr "Ви повинні передати змінні `reason`, `status` у стані `pending`. `id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`:"
 
 msgid "Filling cancellation with protocol and supplementary documentation"
 msgstr "Наповнення протоколом та іншою супровідною документацією"
@@ -405,5 +371,3 @@ msgstr "Завантаження нової версії документа"
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
 
-msgid "You can upload award documents. Let's upload award document"
-msgstr "Можна завантажити документ до кваліфікації."
