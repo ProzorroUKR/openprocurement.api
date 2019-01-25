@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/8d1a850940624e01919e551968148f75 HTTP/1.0
+GET /api/2.4/tenders/2f09d4b8b0b34cf1afcb60bd9c47c6ce HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -9,12 +9,53 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "procurementMethod": "selective", 
+    "features": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE", 
+        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)", 
+        "title": "Потужність всмоктування", 
+        "enum": [
+          {
+            "value": 0.1, 
+            "title": "До 1000 Вт"
+          }, 
+          {
+            "value": 0.15, 
+            "title": "Більше 1000 Вт"
+          }
+        ], 
+        "title_en": "Air Intake", 
+        "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
+        "featureOf": "item"
+      }, 
+      {
+        "code": "OCDS-123454-YEARS", 
+        "description": "Кількість років, які організація учасник працює на ринку", 
+        "title": "Років на ринку", 
+        "enum": [
+          {
+            "value": 0.05, 
+            "title": "До 3 років"
+          }, 
+          {
+            "value": 0.1, 
+            "title": "Більше 3 років, менше 5 років"
+          }, 
+          {
+            "value": 0.15, 
+            "title": "Більше 5 років"
+          }
+        ], 
+        "title_en": "Years trading", 
+        "featureOf": "tenderer"
+      }
+    ], 
     "enquiryPeriod": {
-      "startDate": "2019-01-11T14:18:07.585673+02:00", 
-      "endDate": "2019-01-12T14:18:07.585673+02:00"
+      "startDate": "2019-01-21T13:36:12.409970+02:00", 
+      "endDate": "2019-01-22T13:36:12.409970+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2019-01-15T15:00:07.585673+02:00", 
+    "next_check": "2019-01-25T14:18:12.409970+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -36,7 +77,7 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "owner": "broker", 
-    "id": "8d1a850940624e01919e551968148f75", 
+    "id": "2f09d4b8b0b34cf1afcb60bd9c47c6ce", 
     "guarantee": {
       "currency": "USD", 
       "amount": 8.0
@@ -46,36 +87,36 @@ Content-Type: application/json; charset=UTF-8
         "hash": "md5:00000000000000000000000000000000", 
         "description": "document description modified", 
         "title": "Notice.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/7c095cbfd6e347d78a90e7d9614f7aa5?KeyID=9bbb8fe5&Signature=71tRe%252BSmprbmMaCJ%252BXCuRF%2FMP6HW4lhAHE0dg7M%2FI62N9BiCzBfLRU4zBze0THnO6sc3EO1vi5yK0rFVImELCw%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/2ade01e40a06481a91a8e12603ec64d2?KeyID=b6780d20&Signature=xxGKARZIghIBDdwMw7RIn80huMnui3bpKboglNjK1h3i1KAuxF1MmzDQDcsHoLWqgady94xIMeJqdRORJmT2DQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-01-15T14:18:04.595016+02:00", 
+        "datePublished": "2019-01-25T13:36:08.587751+02:00", 
         "author": "tender_owner", 
         "documentType": "technicalSpecifications", 
-        "id": "938938e8ddb54a7fab79a6d9cea7fc09", 
-        "dateModified": "2019-01-15T14:18:04.595046+02:00"
+        "id": "d4fc0b8ad03e471d82b3f57643168141", 
+        "dateModified": "2019-01-25T13:36:08.587782+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/862786f6939b493f822af6179d64d316?KeyID=9bbb8fe5&Signature=YiYZtfMokVuPz%252B9U%2FOx6fKPcsVd0djTQAqGKGzsvg7cFnrEZex%252BAOniwtUzmOpk3lM9iFwcaQ14y4JWAr6XdCA%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/25bd2dc849524b5ea4086afb69dc1e34?KeyID=b6780d20&Signature=cFxha3flwDNNaXU7afaPCa%252BXLQvcnDYBi%2F2m3YQ4cksdYSCgoz42dbQ4abE4NmY8MjmQsqkWOTCFY6vjJc1RBQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-01-15T14:18:05.198784+02:00", 
-        "id": "ce4b87b69c1c4149acbd34999b95fec9", 
-        "dateModified": "2019-01-15T14:18:05.198818+02:00"
+        "datePublished": "2019-01-25T13:36:09.388674+02:00", 
+        "id": "6ff45727cf034684b625762e610dba32", 
+        "dateModified": "2019-01-25T13:36:09.388702+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/a1efb4cb43f24a23bfda9e0103d15c75?KeyID=9bbb8fe5&Signature=TZDSAKH5V7OxoFFXlOjl10SaEPPnhGL4IYWELBgf%252BiFgGb2t5Nqn98coCP8OTlQ3%2Fmx7XMBPV8%252BRh0%252B%252BQG4zAw%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/6beb4024cb824edfb531f8abc6f2f6d2?KeyID=b6780d20&Signature=gvNKQBakq6EPcOwSJohpw6X2mPAoidVYU%2F9stZeC%2FvfzuBV9JrhJoHtkxLnge%2Fzhne8ehNpMi4D54foLzVfYDg%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-01-15T14:18:05.198784+02:00", 
-        "id": "ce4b87b69c1c4149acbd34999b95fec9", 
-        "dateModified": "2019-01-15T14:18:05.446009+02:00"
+        "datePublished": "2019-01-25T13:36:09.388674+02:00", 
+        "id": "6ff45727cf034684b625762e610dba32", 
+        "dateModified": "2019-01-25T13:36:09.696665+02:00"
       }
     ], 
     "title": "футляри до державних нагород", 
@@ -84,10 +125,10 @@ Content-Type: application/json; charset=UTF-8
         "status": "active", 
         "description": "lot description", 
         "title": "lot title", 
-        "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/8d1a850940624e01919e551968148f75_94140aedad4b4b53b66d4ae85967f7f8", 
+        "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/2f09d4b8b0b34cf1afcb60bd9c47c6ce_33c55a8d5f7e4af597074e9266dd05d3", 
         "auctionPeriod": {
-          "startDate": "2019-01-15T14:18:07.585673+02:00", 
-          "shouldStartAfter": "2019-01-16T00:00:00+02:00"
+          "startDate": "2019-01-25T13:36:12.409970+02:00", 
+          "shouldStartAfter": "2019-01-26T00:00:00+02:00"
         }, 
         "value": {
           "currency": "UAH", 
@@ -99,24 +140,75 @@ Content-Type: application/json; charset=UTF-8
           "amount": 3.0033300000000005, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2019-01-15T14:18:02.884040+02:00", 
-        "id": "94140aedad4b4b53b66d4ae85967f7f8", 
+        "date": "2019-01-25T13:36:06.418364+02:00", 
+        "id": "33c55a8d5f7e4af597074e9266dd05d3", 
         "guarantee": {
           "currency": "USD", 
           "amount": 8.0
         }
       }
     ], 
-    "tenderID": "UA-2019-01-15-000004", 
-    "dateModified": "2019-01-15T14:18:08.239845+02:00", 
+    "tenderID": "UA-2019-01-25-000004", 
+    "dateModified": "2019-01-25T13:36:13.093058+02:00", 
     "agreements": [
       {
         "agreementID": "UA-2018-09-11-000002-1", 
         "status": "active", 
+        "features": [
+          {
+            "code": "OCDS-123454-AIR-INTAKE", 
+            "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)", 
+            "title": "Потужність всмоктування", 
+            "enum": [
+              {
+                "value": 0.1, 
+                "title": "До 1000 Вт"
+              }, 
+              {
+                "value": 0.15, 
+                "title": "Більше 1000 Вт"
+              }
+            ], 
+            "title_en": "Air Intake", 
+            "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
+            "featureOf": "item"
+          }, 
+          {
+            "code": "OCDS-123454-YEARS", 
+            "description": "Кількість років, які організація учасник працює на ринку", 
+            "title": "Років на ринку", 
+            "enum": [
+              {
+                "value": 0.05, 
+                "title": "До 3 років"
+              }, 
+              {
+                "value": 0.1, 
+                "title": "Більше 3 років, менше 5 років"
+              }, 
+              {
+                "value": 0.15, 
+                "title": "Більше 5 років"
+              }
+            ], 
+            "title_en": "Years trading", 
+            "featureOf": "tenderer"
+          }
+        ], 
         "title": "[ТЕСТУВАННЯ] ", 
         "contracts": [
           {
             "status": "active", 
+            "parameters": [
+              {
+                "code": "OCDS-123454-AIR-INTAKE", 
+                "value": 0.1
+              }, 
+              {
+                "code": "OCDS-123454-YEARS", 
+                "value": 0.1
+              }
+            ], 
             "unitPrices": [
               {
                 "value": {
@@ -160,6 +252,16 @@ Content-Type: application/json; charset=UTF-8
           }, 
           {
             "status": "active", 
+            "parameters": [
+              {
+                "code": "OCDS-123454-AIR-INTAKE", 
+                "value": 0.1
+              }, 
+              {
+                "code": "OCDS-123454-YEARS", 
+                "value": 0.1
+              }
+            ], 
             "unitPrices": [
               {
                 "value": {
@@ -203,6 +305,16 @@ Content-Type: application/json; charset=UTF-8
           }, 
           {
             "status": "active", 
+            "parameters": [
+              {
+                "code": "OCDS-123454-AIR-INTAKE", 
+                "value": 0.1
+              }, 
+              {
+                "code": "OCDS-123454-YEARS", 
+                "value": 0.1
+              }
+            ], 
             "unitPrices": [
               {
                 "value": {
@@ -286,7 +398,7 @@ Content-Type: application/json; charset=UTF-8
           "endDate": "2022-01-23T11:23:20.418436+03:00"
         }, 
         "dateSigned": "2018-09-11T11:23:23.220310+03:00", 
-        "id": "937e39053d894d099a3b71955cbae22e", 
+        "id": "68bc5f96bb6d4abca49e12201f318d10", 
         "procuringEntity": {
           "kind": "general", 
           "name": "Шевченківська районна в місті Києві державна адміністрація", 
@@ -314,6 +426,7 @@ Content-Type: application/json; charset=UTF-8
           }, 
           "name_en": "Angelica Davis"
         }, 
+        "numberOfContracts": 3, 
         "mode": "test", 
         "title_ru": "[ТЕСТИРОВАНИЕ] ", 
         "owner": "broker", 
@@ -323,12 +436,12 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "status": "active.auction", 
     "tenderPeriod": {
-      "startDate": "2019-01-12T14:18:07.585673+02:00", 
-      "endDate": "2019-01-15T14:18:07.585673+02:00"
+      "startDate": "2019-01-22T13:36:12.409970+02:00", 
+      "endDate": "2019-01-25T13:36:12.409970+02:00"
     }, 
     "procurementMethodDetails": "quick, accelerator=1440", 
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
-    "date": "2019-01-15T14:18:06.048477+02:00", 
+    "date": "2019-01-25T13:36:10.466082+02:00", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 3.0033300000000005, 
@@ -336,7 +449,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "94140aedad4b4b53b66d4ae85967f7f8", 
+        "relatedLot": "33c55a8d5f7e4af597074e9266dd05d3", 
         "description": "футляри до державних нагород", 
         "classification": {
           "scheme": "ДК021", 
@@ -359,8 +472,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-01-17T14:17:51.725216+02:00", 
-          "endDate": "2019-01-20T14:17:51.725216+02:00"
+          "startDate": "2019-01-27T13:35:55.344265+02:00", 
+          "endDate": "2019-01-30T13:35:55.344265+02:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {

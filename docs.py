@@ -20,7 +20,8 @@ now = datetime.now()
 lot_id = uuid4().hex
 agreement_id = uuid4().hex
 
-
+parameters = [{'code': 'OCDS-123454-AIR-INTAKE', 'value': 0.1},
+              {'code': 'OCDS-123454-YEARS', 'value': 0.1}]
 bid = {
     "data": {
         "tenderers": [
@@ -51,7 +52,9 @@ bid = {
                 "amount": 500
             },
             "relatedLot": lot_id
-        }]
+        }],
+        "parameters": parameters
+
     }
 }
 
@@ -98,7 +101,8 @@ bid2 = {
                 'hash': 'md5:' + '0' * 32,
                 'format': 'application/pdf',
             }
-        ]
+        ],
+        "parameters": parameters
     }
 }
 
@@ -222,7 +226,16 @@ test_lots[1]['description'] = 'Опис Лот №2'
 
 test_tender_data['lots'] = [test_lots[0]]
 test_tender_maximum_data['lots'] = [test_lots[0]]
-test_tender_data.update({'agreements': [{'id': agreement_id}]})
+
+test_tender_maximum_data.update({'agreements': [{'id': agreement_id}]})
+test_tender_data.update({'agreements': [{'id': agreement_id}],
+                         'features': test_features})
+agreement_with_features = deepcopy(test_agreement)
+agreement_with_features['features'] = test_features
+for contract in agreement_with_features['contracts']:
+    contract['parameters'] = parameters
+test_agreement = agreement_with_features
+
 for item in test_tender_data['items']:
     item['relatedLot'] = lot_id
 for item in test_tender_maximum_data['items']:
@@ -363,34 +376,30 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.post_json('/tenders', {'data': data})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
         self.tender_id = response.json['data']['id']
         self.tender_token = owner_token = response.json['access']['token']
 
 
-        response = self.app.patch_json('/tenders/{}?acc_token={}'
-                                       .format(self.tender_id, self.tender_token),
-                                       {'data': {'agreements': [test_agreement]}})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'agreements': [test_agreement]}})
+        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
 
-        response = self.app.patch_json('/tenders/{}?acc_token={}'
-                                       .format(self.tender_id, self.tender_token),
-                                       {'data': {'status': 'draft.pending'}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'status': 'draft.pending'}})
         tender = response.json['data']
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
         self.assertEqual(response.json['data']['status'], 'draft.pending')
 
         self.app.authorization = ('Basic', (BOT_NAME, ''))
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'agreements': [test_agreement]}})
+        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
 
-        response = self.app.patch_json('/tenders/{}?acc_token={}'
-                                       .format(self.tender_id, self.tender_token),
-                                       {'data': {'status': 'active.enquiries'}})
+        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+            self.tender_id, self.tender_token), {'data': {'status': 'active.enquiries'}})
         tender = response.json['data']
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
         self.assertEqual(response.json['data']['status'], 'active.enquiries')
 
         self.app.authorization = ('Basic', ('broker', ''))

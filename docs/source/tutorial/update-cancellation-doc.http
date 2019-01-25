@@ -1,12 +1,12 @@
-PUT /api/2.4/tenders/8d1a850940624e01919e551968148f75/cancellations/d65f5f7f41f640ccbaf2d21c48a343b8/documents/196f9b5e25864e718ad6ababb6fcefd8?acc_token=f18c0dc6f67f4a8db880c158642ee83c HTTP/1.0
+PUT /api/2.4/tenders/2f09d4b8b0b34cf1afcb60bd9c47c6ce/cancellations/072b88a28fca4f589a87672e852abb46/documents/1da5e3b056ea49fab4589f7c13fe078f?acc_token=e78121184ae94a07ac009fde9d37b981 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 332
+Content-Length: 328
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
 {
   "data": {
-    "url": "http://public.docs-sandbox.openprocurement.org/get/d536521aa7694ed38559e226d118ede7?KeyID=9bbb8fe5&Signature=VWOzbU9%2Fe3BnAFc0FIhta2VMSYFH%2BMlKExz2kQQhIP1r9Ci6aYlotBRROl%2BY3FGUGIq2bqw%2FiDS513JHk9uEDQ%3D%3D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/9d8a0a0c0c0648c985f75abd0def06f6?KeyID=b6780d20&Signature=do1gGi8YS0V5geAe7N%2BvZP2y51OlnXeeIq7cQUMRQI%2F0dQHNweiqCaqRH4zSKLAtw3i1xRtU6USMLMM4C4KeCA%3D%3D", 
     "title": "Notice-2.pdf", 
     "hash": "md5:00000000000000000000000000000000", 
     "format": "application/pdf"
@@ -22,12 +22,12 @@ Content-Type: application/json; charset=UTF-8
     "hash": "md5:00000000000000000000000000000000", 
     "description": "Changed description", 
     "title": "Notice-2.pdf", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/d536521aa7694ed38559e226d118ede7?KeyID=9bbb8fe5&Signature=QglRYJzwaecmzf9%252BnkPeJs%2FrD2gPi7Qwd8zyQVGeKkr30fATqJug1eW0jeJ5ghbBbs1CszMsbbh3pNIyk8WFBg%253D%253D", 
+    "url": "http://public.docs-sandbox.openprocurement.org/get/9d8a0a0c0c0648c985f75abd0def06f6?KeyID=b6780d20&Signature=VDPrrbi52ZpaZQrJdF2T3g57%2F%2FB%252BQ7HOGHaGmIkCR0JnV9wlwP9S3PQu2hny%2Fg1eBsGvjd1WBj2b2P3Mck%252BuAQ%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2019-01-15T14:18:15.326585+02:00", 
-    "id": "196f9b5e25864e718ad6ababb6fcefd8", 
-    "dateModified": "2019-01-15T14:18:16.154142+02:00"
+    "datePublished": "2019-01-25T13:36:21.213303+02:00", 
+    "id": "1da5e3b056ea49fab4589f7c13fe078f", 
+    "dateModified": "2019-01-25T13:36:22.205184+02:00"
   }
 }
 
