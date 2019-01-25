@@ -717,6 +717,26 @@ def create_tender_invalid(self):
              u'location': u'body', u'name': u'items'}
         ])
 
+    addit_classif = [
+        {"scheme": "INN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"},
+        {"scheme": "INN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"},
+        {"scheme": "NotINN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"}
+    ]
+    data = self.initial_data["items"][0]["classification"]['id']
+    self.initial_data["items"][0]['classification']['id'] = u"33611000-6"
+    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
+    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
+    response = self.app.post_json(request_path, {'data': self.initial_data})
+    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
+    self.initial_data["items"][0]["classification"]['id'] = data
+    self.assertEqual(response.status, '201 Created')
+
     data = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
     del self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
