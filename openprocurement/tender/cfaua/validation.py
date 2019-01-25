@@ -4,6 +4,7 @@ from iso8601 import parse_date
 from isodate import duration_isoformat
 from schematics.exceptions import ValidationError
 from zope.component import getAdapter
+from decimal import Decimal
 
 from openprocurement.api.utils import get_now, raise_operation_error, update_logging_context
 from openprocurement.api.validation import validate_data, OPERATIONS
@@ -232,7 +233,7 @@ def validate_agreement_contract_unitprices_update(request):
     validated_items_id = {u['relatedItem']
                           for u in request.validated['data']['unitPrices']
                           if u['value']['amount'] is not None}
-    quantity_cache = {i.id: i.quantity for i in contract.__parent__.items}
+    quantity_cache = {i.id: Decimal(str(i.quantity)) for i in contract.__parent__.items}
     if request.validated['data']['status'] == 'active' or 'unitPrices' in request.validated['json_data']:
         if len(agreement_items_id) != len(validated_items_id):
             raise_operation_error(request, "unitPrice.value.amount count doesn't match with contract.")  
