@@ -124,4 +124,4 @@ have to be one of {}'.format(allowed_schemes))
 additionalClassifications with scheme=INN")
             if schemes.count('INN') > 1:
                 raise ValidationError(u"Item wich classification.id starts with 336 and contains \
-additionalClassification objects have to contain exactly one additionalClassifications with scheme=INN")
+additionalClassification objects have to contain no more than one additionalClassifications with scheme=INN")
