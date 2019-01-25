@@ -335,7 +335,8 @@ class Contract(BaseContract):
 @implementer(INegotiationTender)
 class Tender(ReportingTender):
     """ Negotiation """
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])
+    items = ListType(ModelType(Item), required=True, min_size=1,
+                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     cause = StringType(choices=['artContestIP', 'noCompetition', 'twiceUnsuccessful',
