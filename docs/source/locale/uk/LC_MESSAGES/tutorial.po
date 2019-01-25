@@ -405,3 +405,5 @@ msgstr "Завантаження нової версії документа"
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
 
+msgid "You can upload award documents. Let's upload award document"
+msgstr "Можна завантажити документ до кваліфікації."

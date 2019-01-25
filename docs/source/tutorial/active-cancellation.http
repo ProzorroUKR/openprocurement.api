@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/8d1a850940624e01919e551968148f75/cancellations/d65f5f7f41f640ccbaf2d21c48a343b8?acc_token=f18c0dc6f67f4a8db880c158642ee83c HTTP/1.0
+PATCH /api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/cancellations/38ee6fce2c484620a97f4797506be6c7?acc_token=25d6661782044a3aa90620d83cd78a64 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -22,29 +22,29 @@ Content-Type: application/json; charset=UTF-8
         "hash": "md5:00000000000000000000000000000000", 
         "description": "Changed description", 
         "title": "Notice.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/daa91a7d909b4f34b9b5727855184580?KeyID=9bbb8fe5&Signature=ubxmQoIHvaipPBjdZHANvSo7gewh5ypBZsB%252BXrq64%2FWpQlVw%2F7tYOWAMiHKAAN7oDJFi1utq4Q2Ivmz2C1CACw%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/e828786e57674a78bcc164abb7dac026?KeyID=8e008c82&Signature=IBtmAD%2FmQErf58DmL8tITxe8o4bXAGNkVyypDcnvZDHoBOuQMCxR%252Bbq7pMnc%2FGe3Rgqbbn2fwcV3juWFBuSwCw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-01-15T14:18:15.326585+02:00", 
-        "id": "196f9b5e25864e718ad6ababb6fcefd8", 
-        "dateModified": "2019-01-15T14:18:15.326617+02:00"
+        "datePublished": "2019-01-25T15:48:36.874442+02:00", 
+        "id": "16bc0b9745db475789e04e884cfcc8dc", 
+        "dateModified": "2019-01-25T15:48:36.874497+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "description": "Changed description", 
         "title": "Notice-2.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/d536521aa7694ed38559e226d118ede7?KeyID=9bbb8fe5&Signature=QglRYJzwaecmzf9%252BnkPeJs%2FrD2gPi7Qwd8zyQVGeKkr30fATqJug1eW0jeJ5ghbBbs1CszMsbbh3pNIyk8WFBg%253D%253D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/5f2792f4f1ba427d8668ad04fb601003?KeyID=8e008c82&Signature=grz4rZgJisxO3myYkKbBeATec4RIJxKiySqkeM%252BJXdFsNuF4E3yE9IzqFRwA%2FmvQgUxSJi39xcYj1BLLCcSqDg%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-01-15T14:18:15.326585+02:00", 
-        "id": "196f9b5e25864e718ad6ababb6fcefd8", 
-        "dateModified": "2019-01-15T14:18:16.154142+02:00"
+        "datePublished": "2019-01-25T15:48:36.874442+02:00", 
+        "id": "16bc0b9745db475789e04e884cfcc8dc", 
+        "dateModified": "2019-01-25T15:48:38.244775+02:00"
       }
     ], 
     "reason": "cancellation reason", 
-    "date": "2019-01-15T14:18:16.609229+02:00", 
+    "date": "2019-01-25T15:48:38.996392+02:00", 
     "cancellationOf": "tender", 
-    "id": "d65f5f7f41f640ccbaf2d21c48a343b8"
+    "id": "38ee6fce2c484620a97f4797506be6c7"
   }
 }
 

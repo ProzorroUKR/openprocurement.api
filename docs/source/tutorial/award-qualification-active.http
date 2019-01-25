@@ -1,4 +1,4 @@
-PATCH /api/2.4/tenders/8d1a850940624e01919e551968148f75/awards/2d75293678ec4b4b8526e055d994f055?acc_token=f18c0dc6f67f4a8db880c158642ee83c HTTP/1.0
+PATCH /api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/awards/b8258353eed04aa8875c632f0a7fe183?acc_token=25d6661782044a3aa90620d83cd78a64 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Content-Length: 30
 Content-Type: application/json
@@ -17,7 +17,7 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "lotID": "94140aedad4b4b53b66d4ae85967f7f8", 
+    "lotID": "452029a0046446d0811541dd6cc10485", 
     "suppliers": [
       {
         "contactPoint": {
@@ -39,14 +39,14 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "bid_id": "09e9596967454beea19357c4a5982433", 
+    "bid_id": "9bbc29a9170f42e69d349bfc11749aed", 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2019-01-15T14:18:09.893595+02:00", 
-    "id": "2d75293678ec4b4b8526e055d994f055"
+    "date": "2019-01-25T15:48:27.339205+02:00", 
+    "id": "b8258353eed04aa8875c632f0a7fe183"
   }
 }
 
