@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 import mock
+import uuid
 from copy import deepcopy
 
 from datetime import datetime, timedelta
 
 from iso8601 import parse_date
-from openprocurement.api.constants import ROUTE_PREFIX, CPV_ITEMS_CLASS_FROM, \
-    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM, TZ
+from openprocurement.api.constants import (
+    ROUTE_PREFIX,
+    CPV_ITEMS_CLASS_FROM,
+    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
+    TZ
+)
 from openprocurement.api.utils import get_now
 
 from openprocurement.planning.api.models import Plan
@@ -781,6 +786,38 @@ def patch_plan(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotIn('items', response.json['data'])
+
+
+def patch_plan_with_token(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.get('/plans')
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(len(response.json['data']), 0)
+
+    response = self.app.post_json('/plans', {'data': self.initial_data})
+    self.assertEqual(response.status, '201 Created')
+    plan = response.json['data']
+    acc_token = response.json['access']['token']
+    date_modified = plan.pop('dateModified')
+
+    self.app.patch_json(
+        '/plans/{}'.format(plan['id']),
+        {'data': {'budget': {'id': u"12303111000-3"}}}, status=403)
+
+    self.app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan['id'], uuid.uuid4().hex),
+        {'data': {'budget': {'id': u"12303111000-3"}}}, status=403)
+
+    response = self.app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan['id'], acc_token),
+        {'data': {'budget': {'id': u"12303111000-3"}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    new_plan = response.json['data']
+    new_date_modified = new_plan.pop('dateModified')
+    plan['budget']['id'] = u"12303111000-3"
+    self.assertEqual(plan, new_plan)
+    self.assertNotEqual(date_modified, new_date_modified)
 
 
 def plan_not_found(self):

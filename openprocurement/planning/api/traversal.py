@@ -14,10 +14,9 @@ class Root(object):
     __acl__ = [
         (Allow, Everyone, 'view_listing'),
         (Allow, Everyone, 'view_plan'),
-        (Allow, Everyone, 'revision_plan'),
         (Allow, 'g:brokers', 'create_plan'),
-        (Allow, 'g:brokers', 'edit_plan'),
         (Allow, 'g:Administrator', 'edit_plan'),
+        (Allow, 'g:Administrator', 'revision_plan'),
         (Allow, 'g:admins', ALL_PERMISSIONS),
     ]
 

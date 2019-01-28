@@ -24,12 +24,14 @@ from openprocurement.planning.api.tests.plan_blanks import (
     create_plan,
     get_plan,
     patch_plan,
+    patch_plan_with_token,
     plan_not_found,
     esco_plan,
     cfaua_plan,
     # PlanResourceBeforeBudgetPeriodTest
     create_plan_budget_year,
-    patch_plan_budget_year)
+    patch_plan_budget_year,
+)
 
 test_plan_data_mode_test = test_plan_data.copy()
 test_plan_data_mode_test["mode"] = "test"
@@ -64,6 +66,7 @@ class PlanResourceTest(BaseWebTest):
     test_create_plan = snitch(create_plan)
     test_get_plan = snitch(get_plan)
     test_patch_plan = snitch(patch_plan)
+    test_patch_plan_with_token = snitch(patch_plan_with_token)
     test_plan_not_found = snitch(plan_not_found)
     test_esco_plan = snitch(esco_plan)
     test_cfaua_plan = snitch(cfaua_plan)
