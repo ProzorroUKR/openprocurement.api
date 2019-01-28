@@ -15,6 +15,7 @@ requires = [
     'couchdb-schematics',
     'gevent',
     'iso8601',
+    'jmespath',
     'jsonpatch',
     'libnacl',
     'pbkdf2',

@@ -1,22 +1,23 @@
-PATCH /api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/awards/d55420902aa943ec8c5a476ea9e7a235?acc_token=25d6661782044a3aa90620d83cd78a64 HTTP/1.0
+PATCH /api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/awards/b8258353eed04aa8875c632f0a7fe183?acc_token=25d6661782044a3aa90620d83cd78a64 HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 30
+Content-Length: 33
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
 {
   "data": {
-    "status": "active"
+    "status": "cancelled"
   }
 }
 
 
 200 OK
 Content-Type: application/json; charset=UTF-8
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/awards/be34f9ee1320404f962734059d20967d
 
 {
   "data": {
-    "status": "active", 
+    "status": "cancelled", 
     "lotID": "452029a0046446d0811541dd6cc10485", 
     "suppliers": [
       {
@@ -26,7 +27,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "00037258", 
+          "id": "00037257", 
           "uri": "http://www.dus.gov.ua/"
         }, 
         "name": "Державне управління справами", 
@@ -39,14 +40,14 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "bid_id": "e8ea0584a60749d6ba63196c3d190ccc", 
+    "bid_id": "9bbc29a9170f42e69d349bfc11749aed", 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2019-01-25T15:48:29.995202+02:00", 
-    "id": "d55420902aa943ec8c5a476ea9e7a235"
+    "date": "2019-01-25T15:48:27.924122+02:00", 
+    "id": "b8258353eed04aa8875c632f0a7fe183"
   }
 }
 

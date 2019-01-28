@@ -198,6 +198,7 @@ class TenderResource(APIResource):
                 self.LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
                                  extra=context_unpack(self.request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'},
                                 {'CAUSE': AGREEMENT_NOT_FOUND}))
+                tender.unsuccessfulReason = [AGREEMENT_NOT_FOUND]
         elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.enquiries':
             validate_json_data_in_active_enquiries(self.request)
             apply_patch(self.request,  save=False, data=self.request.validated['data'])
@@ -212,7 +213,7 @@ class TenderResource(APIResource):
                     raise_operation_error(
                         self.request, "Can't switch tender to (draft.pending) status without agreements or items."
                     )
-            elif tender_status == default_status and tender.status not in ('draft.pending', default_status):
+            if tender_status == default_status and tender.status not in ('draft.pending', default_status):
                 raise_operation_error(
                     self.request, "Can't switch tender from ({}) to ({}) status.".format(default_status, tender.status)
                 )

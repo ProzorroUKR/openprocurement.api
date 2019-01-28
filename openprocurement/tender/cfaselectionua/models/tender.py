@@ -54,10 +54,11 @@ class CFASelectionUATender(BaseTender):
     status = StringType(choices=['draft', 'draft.pending', 'draft.unsuccessful', 'active.enquiries', 'active.tendering',
                                  'active.auction', 'active.qualification', 'active.awarded', 'complete',
                                  'cancelled', 'unsuccessful'], default='draft')  # TODO Refactoring status
-    agreements = ListType(ModelType(Agreement), default=list())
+    agreements = ListType(ModelType(Agreement), default=list(), min_size=1, max_size=1)
 
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')
     procurementMethodType = StringType(default="closeFrameworkAgreementSelectionUA")
+    unsuccessfulReason = ListType(StringType, serialize_when_none=False)
     procuring_entity_kinds = ['general', 'special', 'defense', 'other']
 
     def get_role(self):

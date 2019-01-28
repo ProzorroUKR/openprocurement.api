@@ -44,7 +44,8 @@ body of response reveals the information about the created tender: its internal
 `id` (that matches the `Location` segment), its official `tenderID` and
 `dateModified` datestamp stating the moment in time when tender was last
 modified. Pay attention to the `procurementMethodType`. Note that tender is
-created with `active.enquiries` status.
+created with `draft` status.
+
 
 Let's access the URL of the created object (the `Location` header of the response):
 
@@ -55,11 +56,6 @@ Let's access the URL of the created object (the `Location` header of the respons
 
 We can see the same response we got after creating tender.
 
-Let's see what listing of tenders reveals us:
-
-.. include:: tutorial/initial-tender-listing.http
-   :code:
-
 We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
 
 The previous tender contained only required fields. Let's try creating tender with more data
@@ -69,14 +65,6 @@ The previous tender contained only required fields. Let's try creating tender wi
    :code:
 
 And again we have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties.
-
-Let's check what tender registry contains:
-
-.. include:: tutorial/tender-listing-after-procuringEntity.http
-   :code:
-
-And indeed we have 2 tenders now.
-
 
 To move forward, you need to change status of procedure to ``draft.pending``. This will let the bot to pull up 
 :ref:`Agreement` and move tender to the next status. If provided information meets all the requirements, than the bot
@@ -90,8 +78,15 @@ Let's see, that our tender meets all the requirements, the bot pulled up :ref:`A
 .. include:: tutorial/tender-in-active-enquiries.http
    :code:
 
+Let's see what listing of tenders reveals us:
+
+.. include:: tutorial/initial-tender-listing.http
+   :code:
+
 Modifying tender
 ----------------
+
+
 
 Let's update tender by supplementing it with all other essential properties:
 
@@ -118,6 +113,8 @@ Procuring entity can set bid guarantee:
 
 Uploading documentation
 -----------------------
+
+Procuring entity should only upload digital signature on this stage of procedure.
 
 Procuring entity can upload PDF files into the created tender. Uploading should
 follow the :ref:`upload` rules.
@@ -170,6 +167,7 @@ And we can see that it is overriding the original version:
 
 .. index:: Bidding
 
+
 Registering bid
 ---------------
 
@@ -196,7 +194,9 @@ And activate a bid:
 .. include:: tutorial/activate-bidder.http
    :code:
 
-And upload proposal document:
+Procuring entity should only upload digital signature on this stage of procedure.
+
+Upload proposal document:
 
 .. include:: tutorial/upload-bid-proposal.http
    :code:
@@ -235,13 +235,48 @@ See the `Bid.participationUrl` in the response. Similar, but different, URL can 
 .. include:: tutorial/bidder2-participation-url.http
    :code:
 
+Listing awards
+--------------
+
+The pending award can be retrieved via request to list all available awards:
+
+.. include:: tutorial/awards-get.http
+   :code:
+
 Confirming qualification
 ------------------------
+
+Let's try to disqualify award by switching it's status from `pending` to `unsuccessful`.
+
+.. include:: tutorial/award-qualification-unsuccessful.http
+   :code:
+
+As we can see it is impossible. Procuring entity should activate `pending` award at first and switch it to `cancelled` status then.
+
+.. include:: tutorial/award-qualification-active.http
+   :code:
+
+Now cancelling `active` award.
+
+.. include:: tutorial/award-qualification-cancelled.http
+   :code:
+
+We see that new `pending` award is generated for the same bidder now. So we can successfully switch this `pending` award to `unsuccessful`.
+
+.. include:: tutorial/award-qualification-unsuccessful1.http
+   :code:
+
+You can upload award documents. Let's upload award document
+
+.. include:: tutorial/award-qualification-unsuccessful1_document.http
+   :code:
 
 Qualification comission registers its decision via the following call:
 
 .. include:: tutorial/confirm-qualification.http
    :code:
+
+Procuring entity should fill the information about extension of the bidder's term in the `description` field.
 
 Setting  contract value
 -----------------------
@@ -315,6 +350,9 @@ Contract registration
 .. include:: tutorial/tender-contract-sign.http
    :code:
 
+To see more information about contract look at the `Contracting API interface to OpenProcurement database
+<https://prozorro-api-docs.readthedocs.io/en/latest/contracting/index.html>`_.
+
 Cancelling tender
 -----------------
 
@@ -365,3 +403,7 @@ Activating the request and cancelling tender
 
 .. include:: tutorial/active-cancellation.http
    :code:
+
+
+It may be useful to see top requirements: `Test Cases for III level of accreditation <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ and
+`Test Cases for IV level of accreditation <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_.

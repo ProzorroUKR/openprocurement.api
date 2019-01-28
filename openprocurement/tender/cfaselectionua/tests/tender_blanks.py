@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+import jmespath
 from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
@@ -10,7 +11,9 @@ from openprocurement.api.constants import (
     COORDINATES_REG_EXP, ROUTE_PREFIX, SANDBOX_MODE,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
 )
-from openprocurement.tender.cfaselectionua.constants import BOT_NAME, ENQUIRY_PERIOD
+from openprocurement.tender.cfaselectionua.constants import\
+    BOT_NAME, ENQUIRY_PERIOD, MIN_PERIOD_UNTIL_AGREEMENT_END,\
+    MIN_ACTIVE_CONTRACTS, AGREEMENT_IDENTIFIER
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
 )
@@ -454,15 +457,12 @@ def create_tender_invalid(self):
     ])
 
     self.initial_data['tenderPeriod'] = {'startDate': '2014-10-31T00:00:00', 'endDate': '2015-10-01T00:00:00'}
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    del self.initial_data['tenderPeriod']
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    response = self.app.post_json(request_path, {'data': self.initial_data})
+    self.assertEqual(response.status_code, 201)
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u'period should begin after enquiryPeriod'], u'location': u'body', u'name': u'tenderPeriod'}
-    ])
+    self.assertNotIn('tenderPeriod', response.json['data'])
 
+    del self.initial_data['tenderPeriod']
     now = get_now()
     self.initial_data['awardPeriod'] = {'startDate': now.isoformat(), 'endDate': now.isoformat()}
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=201)
@@ -680,6 +680,7 @@ def create_tender_draft_pending_without_features(self):
 def create_tender_from_terminated_agreement(self):
     agreement = deepcopy(self.initial_agreement)
     agreement['status'] = 'terminated'
+    agreement['terminationDetails'] = 'Do not need this service anymore'
     agreement['id'] = self.agreement_id
 
     create_tender_draft_pending(self)
@@ -692,6 +693,7 @@ def create_tender_from_terminated_agreement(self):
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
     self.assertEqual(tender['agreements'][0]['status'], 'terminated')
+    self.assertEqual(tender['agreements'][0]['terminationDetails'], 'Do not need this service anymore')
     self.assertEqual(tender['status'], 'draft.pending')
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
@@ -701,6 +703,12 @@ def create_tender_from_terminated_agreement(self):
     tender = response.json['data']
     self.assertEqual(tender['agreements'][0]['status'], 'terminated')
     self.assertEqual(tender['status'], 'draft.unsuccessful')
+    self.assertEqual(tender['unsuccessfulReason'], ['agreements[0] status is not active'])
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender = response.json['data']
+    self.assertEqual(tender['status'], 'draft.unsuccessful')
+    self.assertEqual(tender['unsuccessfulReason'], ['agreements[0] status is not active'])
+
 
 
 def create_tender_from_agreement_with_features(self):
@@ -774,6 +782,7 @@ def create_tender_from_agreement_with_pending_changes(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertIn('changes', response.json['data']['agreements'][0])
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+    self.assertEqual(response.json['data']['unsuccessfulReason'], ['agreements[0] has pending change'])
 
     self.app.authorization = ('Basic', ('broker', ''))
 
@@ -850,9 +859,9 @@ def create_tender(self):
     self.assertNotIn('minimalStep', response.json['data']['lots'][0])
 
     additional_classification_1 = {
-    "scheme": u"ATC",
-    "id": u"A02AF",
-    "description": u"папір і картон гофровані, паперова й картонна тара"
+        "scheme": u"ATC",
+        "id": u"A02AF",
+        "description": u"папір і картон гофровані, паперова й картонна тара"
     }
     data['items'][0]['additionalClassifications'].append(additional_classification_1)
     response = self.app.post_json('/tenders', {"data": data})
@@ -1225,7 +1234,7 @@ def patch_tender(self):
         self.tender_id, owner_token), {'data': {'items': items}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['items'][0]['quantity'], tender['items'][0]['quantity'] + 1)
-    self.assertNotEqual(response.json['data']['items'][0]['description'], items[0]['description'])
+    self.assertEqual(response.json['data']['items'][0]['description'], items[0]['description'])
     self.assertEqual(response.json['data']['items'][1]['quantity'], tender['items'][1]['quantity'] + 2)
 
     items[0], items[-1] = items[-1], items[0]
@@ -1246,12 +1255,11 @@ def patch_tender(self):
                                    {'data': {'title': 'test_title'}}, status=403)
     self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
 
-    # owner can't also
+    # owner can also
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
                                    {'data': {'title': 'test_title'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-    self.assertEqual(response.json['data']['title'], tender['title'])
-
+    self.assertEqual(response.json['data']['title'], 'test_title')
 
     response = self.app.get('/tenders/{}'.format(tender['id']))
     tender = response.json['data']
@@ -1334,30 +1342,8 @@ def patch_tender(self):
 
 
 def patch_tender_bot(self):
-
-    def create_tender_and_prepare_for_bot_patch():
-        self.app.authorization = ('Basic', ('broker', ''))
-        data = deepcopy(self.initial_data)
-        data['status'] = 'draft'
-        data['agreements'] = [{'id': self.agreement_id}]
-
-        response = self.app.post_json('/tenders', {'data': data})
-        self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
-        global tender
-        tender = response.json['data']
-        global owner_token
-        self.tender_id = tender['id']
-        owner_token = response.json['access']['token']
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                       {'data': {'status': 'draft.pending'}})
-        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-        self.assertEqual(response.json['data']['status'], 'draft.pending')
-
-        self.app.authorization = ('Basic', (BOT_NAME, ''))
-
-
     # only bot can change tender in draft.pending
-    create_tender_and_prepare_for_bot_patch()
+    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                    {'data': {'procuringEntity': {'kind': 'defense'}}}, status=403)
@@ -1366,13 +1352,20 @@ def patch_tender_bot(self):
                      "Can't update tender in current (draft.pending) tender status")
 
     # tender items are not subset of agreement items
+    # TODO: adjust data ti shrink errors only to supposed one
     self.app.authorization = ('Basic', (BOT_NAME, ''))
     response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+    reasons = set(response.json['data']['unsuccessfulReason'])
+    self.assertFalse(reasons.difference(set([
+        u'agreements[0] status is not active',
+        u'agreements[0] items is not subset of tender items',
+        u'agreements[0] has less than 3 active contracts'
+    ])))
 
     # patch tender with different changes by bot
-    create_tender_and_prepare_for_bot_patch()
+    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement['period']['endDate'] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
     now = get_now().isoformat()
@@ -1417,7 +1410,7 @@ def patch_tender_bot(self):
     self.assertEqual(response.json['data']['changes'], agreement['changes'])
 
     # patch tender items with correct items by bot
-    create_tender_and_prepare_for_bot_patch()
+    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement['period']['endDate'] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
 
@@ -1463,7 +1456,7 @@ def patch_tender_bot(self):
                      "Can't update tender in current (active.enquiries) tender status")
 
     # patch tender agreement more items than tender items, more features then tender features
-    create_tender_and_prepare_for_bot_patch()
+    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     second_item = deepcopy(agreement['items'][0])
     second_item['id'] = uuid4().hex
@@ -1494,7 +1487,7 @@ def patch_tender_bot(self):
     self.assertIn(second_item['id'], (i['id'] for i in tender_data['agreements'][0]['items']))
 
     # patch tender with less than 7 days to end
-    create_tender_and_prepare_for_bot_patch()
+    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     six_days = timedelta(days=6)
     if SANDBOX_MODE:
@@ -1509,9 +1502,11 @@ def patch_tender_bot(self):
     response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+    self.assertEqual(response.json['data']['unsuccessfulReason'],
+                     ['agreements[0] ends less than {} days'.format(MIN_PERIOD_UNTIL_AGREEMENT_END.days)])
 
     # patch tender with less than 3 active contracts
-    create_tender_and_prepare_for_bot_patch()
+    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement['period']['endDate'] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
     agreement['contracts'] = agreement['contracts'][:2]  # only first and second contract
@@ -1524,9 +1519,11 @@ def patch_tender_bot(self):
     response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+    self.assertEqual(response.json['data']['unsuccessfulReason'],
+                     ['agreements[0] has less than {} active contracts'.format(MIN_ACTIVE_CONTRACTS)])
 
     # patch tender with wrong identifier
-    create_tender_and_prepare_for_bot_patch()
+    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement['procuringEntity']['identifier']['id'] = u'21725150'  # tender procuringEntity identifier is 00037256
 
@@ -1538,9 +1535,10 @@ def patch_tender_bot(self):
     response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+    self.assertEqual(response.json['data']['unsuccessfulReason'], [AGREEMENT_IDENTIFIER])
 
     # patch tender with agreement -> with documents
-    create_tender_and_prepare_for_bot_patch()
+    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement['documents'] = [{
         "hash": "md5:639cb23ed3bf9a747cc6b5bfc8221370",
@@ -1562,7 +1560,7 @@ def patch_tender_bot(self):
     self.assertNotIn('documents', response.json['data'])
 
     # test tenderPeriod.endDate
-    create_tender_and_prepare_for_bot_patch()
+    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
 
     response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
@@ -2107,71 +2105,135 @@ def patch_tender_to_draft_pending(self):
     data = self.initial_data.copy()
     data.pop('agreements')
     data.update({'status': 'active.tendering'})
-    response = self.app.post_json('/tenders', {'data': data})
-    self.assertEqual(response.status, '201 Created')
-    self.assertEqual(response.content_type, 'application/json')
-    tender = response.json['data']
-    token = response.json['access']['token']
-    self.assertEqual(tender['status'], 'draft')
-    self.assertIn('items', tender)
-    self.assertNotIn('agreements', tender)
-
-    patch_data = {'data': {'status': 'draft.pending'}}
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), patch_data, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(response.status_code, 422)
     self.assertEqual(
-        response.json['errors'],
-        [{u'description': u"Can't switch tender to (draft.pending) status without agreements or items.",
-          u'location': u'body',
-          u'name': u'data'}])
-
-    agreement_id = uuid4().hex
-    patch_data['data']['agreements'] = [{'id': agreement_id}, {}]
-
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), patch_data, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(
-        response.json['errors'],
-        [{"location": "body", "name": "agreements", "description": [{"id": ["This field is required."]}]}]
+        response.json['errors'][0]['description'][0],
+        'Please provide at least 1 item.'
     )
 
-    patch_data['data']['agreements'].pop(1)
-    patch_data['data']['status'] = 'active.tendering'
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), patch_data, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'],
-                     [{u'description': u"Can't switch tender from (draft) to (active.tendering) status.",
-                       u'location': u'body',
-                       u'name': u'data'}])
 
-    patch_data['data']['status'] = 'draft.pending'
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token), patch_data)
+def edit_tender_in_active_enquiries(self):
+    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
+    agreement = deepcopy(self.initial_agreement)
+    agreement['period']['endDate'] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
+        self.tender_id, self.agreement_id), {"data": agreement})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['agreementID'], self.initial_agreement['agreementID'])
+
+    response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'active.enquiries')
+    self.assertIn('minimalStep', response.json['data'])
+    self.assertEqual(response.json['data']['minimalStep']['amount'],
+                     round(response.json['data']['minimalStep']['amount'], 2))
+    self.assertEqual(response.json['data']['lots'][0]['minimalStep']['amount'],
+                     round(response.json['data']['lots'][0]['minimalStep']['amount'], 2))
+    enquiry_period = ENQUIRY_PERIOD
+    if SANDBOX_MODE:
+         enquiry_period = ENQUIRY_PERIOD / 1440
+    self.assertEqual(
+        parse_date(response.json['data']['enquiryPeriod']['startDate']) + enquiry_period,
+        parse_date(response.json['data']['enquiryPeriod']['endDate'])
+    )
+
+    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    tender_data = response.json['data']
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'active.enquiries')
+
+
+    allowed_modify = (
+        'title',
+        'guarantee',
+        'lots[0].title',
+        'lots[0].description',
+        'items[0].description',
+        'items[0].deliveryAddress',
+        'items[0].deliveryDate',
+        'tenderPeriod.endDate',
+    )
+    denied_modify = (
+        'status',
+        'lots[0].status',
+        'items[0].unit',
+        'items[0].classification',
+        'items[0].additionalClassifications[0]',
+        'tenderPeriod.startDate',
+    )
+
+    data = {
+        'title': 'Tender title active.enquiries.',
+        'status': 'active.auction',
+        'guarantee': {
+            'amount': 100500,
+            'currency': 'BTC'
+        },
+        'lots': [
+            {
+                'title': 'Lot title active.enquiries.',
+                'description': 'Lot description active.enquiries.',
+                'status': 'unsuccessful'
+            }
+        ],
+        'items': [
+            {
+                'description': 'Item description active.enquiries.',
+                'quantity': 123,
+                'classification': {
+                    'scheme': 'ДК021',
+                    'id': '45112000-5',
+                    'description': 'Active.Enquiries CPV Description.',
+                    'description_en': 'EN active.enquiries CPV description.'
+                },
+                'additionalClassifications': [{
+                    'scheme': 'ДК021',
+                    'id': '4409000-9',
+                    'description': 'Active.Enquiries additioanlClassfications description.'
+                }],
+                'deliveryAddress': {
+                    'countryName': 'Ukraine',
+                    'postalCode': '46010',
+                    'region': 'Ternopil',
+                    'streetAddress': 'Textilna St. 14',
+                    'locality': 'Ternopil'
+                },
+                'deliveryDate': {
+                    'startDate': get_now().isoformat(),
+                    'endDate': (get_now() + timedelta(days=92)).isoformat()
+                },
+                'unit': {
+                    'code': 'LTM',
+                    'name': 'Sheet'
+                }
+            }
+        ],
+        'tenderPeriod': {
+            'startDate': (get_now() + timedelta(days=10)).isoformat(),
+            'endDate': (get_now() + timedelta(days=33)).isoformat()
+        }
+    }
+
+    # Make sure that new data not equal to current tender data
+    for path in allowed_modify + denied_modify:
+        self.assertNotEqual(jmespath.search(path, response.json['data']), jmespath.search(path, data))
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': data})
+    patched_tender = response.json['data']
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['status'], 'draft.pending')
-    self.assertEqual(response.json['data']['agreements'], [{'id': agreement_id}])
+    for path in allowed_modify:
+        self.assertEqual(jmespath.search(path, data), jmespath.search(path, patched_tender))
+    for path in denied_modify:
+        self.assertNotEqual(jmespath.search(path, data), jmespath.search(path, patched_tender))
+        self.assertEqual(jmespath.search(path, tender_data), jmespath.search(path, patched_tender))
 
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
-                                   {'data': {'status': 'active.tendering'}},
-                                   status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(
-        response.json['errors'],
-        [{
-            "location": "body",
-            "name": "data",
-            "description": "Can't update tender in current (draft.pending) tender status"
-        }]
-    )
-
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
-                                   {'data': {'status': 'draft'}},
-                                   status=403)
-    self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(
-        response.json['errors'],
-        [{
-            "location": "body",
-            "name": "data",
-            "description": "Can't update tender in current (draft.pending) tender status"
-        }]
-    )
+    response = self.app.get('/tenders/{}'.format(tender['id']))
+    patched_tender = response.json['data']
+    for path in allowed_modify:
+        self.assertEqual(jmespath.search(path, data), jmespath.search(path, patched_tender))
+    for path in denied_modify:
+        self.assertNotEqual(jmespath.search(path, data), jmespath.search(path, patched_tender))
+        self.assertEqual(jmespath.search(path, tender_data), jmespath.search(path, patched_tender))

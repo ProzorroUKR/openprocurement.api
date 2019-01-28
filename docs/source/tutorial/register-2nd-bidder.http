@@ -1,6 +1,6 @@
-POST /api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/bids HTTP/1.0
+POST /api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 1583
+Content-Length: 1696
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
@@ -8,13 +8,13 @@ Host: api-sandbox.openprocurement.org
   "data": {
     "documents": [
       {
-        "url": "http://public.docs-sandbox.openprocurement.org/get/1248cffe16744dc99c2d85bec0817ef7?KeyID=949bde1d&Signature=Ibiz%2BZzt5hhBI%2BFoSqyyMGYwxjaZoICFRpYMLLIwqY4Of4AvZccFsArSt37tnkT%2BNZBkAMd%2FMSGezejT7V7tCw%3D%3D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/bffdcfced77a475bba4edba60519121c?KeyID=8e008c82&Signature=LxtPxwuW%2FrWgfCnI%2BPhsvXmQpVSLUCIsyCxruxLrlM%2BF60DeTZqYBQ9QcrcZeuEEMBZ2%2F6YUga8jfiVMut7aAQ%3D%3D", 
         "title": "Proposal_part1.pdf", 
         "hash": "md5:00000000000000000000000000000000", 
         "format": "application/pdf"
       }, 
       {
-        "url": "http://public.docs-sandbox.openprocurement.org/get/7ee8caca59fc48778bfa43fec5de82c6?KeyID=949bde1d&Signature=3nuRMbn8%2BwTuGus2LAMWaDZnBsZF1pTxFBtlU%2BV56V9cGt%2Bq4Cmj4G5Kml2lOfZUYj8iix28AAJ0aXzEWlr3Ag%3D%3D", 
+        "url": "http://public.docs-sandbox.openprocurement.org/get/b6890a2a479f48a3b3514d29cdf1bf99?KeyID=8e008c82&Signature=wyv%2FH1GPZ%2B6kWOVk9H5ctKQPIiNi431sDaxotoQuw04kgPCXkXcG2NSyxS3XSAdVlwMl%2FTsf%2FvOQaMe7qz59Dw%3D%3D", 
         "title": "Proposal_part2.pdf", 
         "hash": "md5:00000000000000000000000000000000", 
         "format": "application/pdf"
@@ -22,10 +22,20 @@ Host: api-sandbox.openprocurement.org
     ], 
     "lotValues": [
       {
-        "relatedLot": "a9de659f847646f490c0b262940cf858", 
+        "relatedLot": "452029a0046446d0811541dd6cc10485", 
         "value": {
           "amount": 499
         }
+      }
+    ], 
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE", 
+        "value": 0.1
+      }, 
+      {
+        "code": "OCDS-123454-YEARS", 
+        "value": 0.1
       }
     ], 
     "tenderers": [
@@ -55,11 +65,11 @@ Host: api-sandbox.openprocurement.org
 
 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/bids/5ef3afaae8e545f38c675c5a7d571f5f
+Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/bids/9bbc29a9170f42e69d349bfc11749aed
 
 {
   "access": {
-    "token": "3020674e2a594c7ab8a37b6933ca6161"
+    "token": "d2bee408aba64ff1a106b98d72758500"
   }, 
   "data": {
     "status": "active", 
@@ -67,28 +77,38 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/ba84a89766ef499
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal_part1.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/bids/5ef3afaae8e545f38c675c5a7d571f5f/documents/cdc3e4f675e548d38cafc518f9c063df?download=1248cffe16744dc99c2d85bec0817ef7", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/bids/9bbc29a9170f42e69d349bfc11749aed/documents/68c12c572e2e4b8596d0fa28d367717f?download=bffdcfced77a475bba4edba60519121c", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-12-07T16:47:51.035379+02:00", 
-        "id": "cdc3e4f675e548d38cafc518f9c063df", 
-        "dateModified": "2018-12-07T16:47:51.035394+02:00"
+        "datePublished": "2019-01-25T15:48:23.192989+02:00", 
+        "id": "68c12c572e2e4b8596d0fa28d367717f", 
+        "dateModified": "2019-01-25T15:48:23.193033+02:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal_part2.pdf", 
-        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/ba84a89766ef49948c8f333d4dfceae2/bids/5ef3afaae8e545f38c675c5a7d571f5f/documents/f5b809ea53fd4241a67d1263110645cc?download=7ee8caca59fc48778bfa43fec5de82c6", 
+        "url": "http://api-sandbox.openprocurement.org/api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/bids/9bbc29a9170f42e69d349bfc11749aed/documents/9001b35c013a4421903e1d88363e83b6?download=b6890a2a479f48a3b3514d29cdf1bf99", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2018-12-07T16:47:51.035802+02:00", 
-        "id": "f5b809ea53fd4241a67d1263110645cc", 
-        "dateModified": "2018-12-07T16:47:51.035816+02:00"
+        "datePublished": "2019-01-25T15:48:23.194737+02:00", 
+        "id": "9001b35c013a4421903e1d88363e83b6", 
+        "dateModified": "2019-01-25T15:48:23.194803+02:00"
+      }
+    ], 
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE", 
+        "value": 0.1
+      }, 
+      {
+        "code": "OCDS-123454-YEARS", 
+        "value": 0.1
       }
     ], 
     "lotValues": [
       {
-        "relatedLot": "a9de659f847646f490c0b262940cf858", 
-        "date": "2018-12-07T16:47:51.034779+02:00", 
+        "relatedLot": "452029a0046446d0811541dd6cc10485", 
+        "date": "2019-01-25T15:48:23.190724+02:00", 
         "value": {
           "currency": "UAH", 
           "amount": 499.0, 
@@ -117,8 +137,8 @@ Location: http://api-sandbox.openprocurement.org/api/2.4/tenders/ba84a89766ef499
         }
       }
     ], 
-    "date": "2018-12-07T16:47:51.034850+02:00", 
-    "id": "5ef3afaae8e545f38c675c5a7d571f5f"
+    "date": "2019-01-25T15:48:23.191482+02:00", 
+    "id": "9bbc29a9170f42e69d349bfc11749aed"
   }
 }
 

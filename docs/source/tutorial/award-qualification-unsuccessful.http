@@ -1,0 +1,27 @@
+PATCH /api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/awards/b8258353eed04aa8875c632f0a7fe183?acc_token=25d6661782044a3aa90620d83cd78a64 HTTP/1.0
+Authorization: Basic YnJva2VyOg==
+Content-Length: 36
+Content-Type: application/json
+Host: api-sandbox.openprocurement.org
+
+{
+  "data": {
+    "status": "unsuccessful"
+  }
+}
+
+
+403 Forbidden
+Content-Type: application/json; charset=UTF-8
+
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": "Can't update award status to unsuccessful, if tender status is active.qualification and there is no cancelled award with the same bid_id", 
+      "location": "body", 
+      "name": "data"
+    }
+  ]
+}
+
