@@ -2,6 +2,7 @@
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
+from mock import patch
 
 
 # ContractNoItemsChangeTest
@@ -24,17 +25,31 @@ def no_items_agreement_change(self):
     self.assertEqual(response.status, '200 OK')
     token = response.json['access']['token']
 
-    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(agreement['id'], token),
-                                  {'data': {'rationale': 'test',
-                                            'rationaleType': 'taxRate'}})
+    response = self.app.post_json(
+        '/agreements/{}/changes?acc_token={}'.format(agreement['id'], token),
+        {'data': {'rationale': 'test', 'rationaleType': 'taxRate'}}
+    )
     self.assertEqual(response.status, '201 Created')
     change = response.json['data']
     self.assertEqual(change['status'], 'pending')
 
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(agreement['id'], change['id'], token),
-                                   {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}})
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(agreement['id'], change['id'], token),
+        {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}},
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'],
+        [{"location": "body", "name": "data", "description": "Modifications are required for change activation."}]
+    )
+
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(agreement['id'], change['id'], token),
+        {'data': {'status': 'cancelled'}}
+    )
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['status'], 'active')
+    self.assertEqual(response.json['data']['status'], 'cancelled')
     response = self.app.patch_json('/agreements/{}?acc_token={}'.format(agreement['id'], token),
                                    {"data": {"status": "terminated", "description": "test description"}})
     self.assertEqual(response.status, '200 OK')
@@ -236,9 +251,16 @@ def create_change(self):
         {"location": "body", "name": "data", "description":
             "Can't create new agreement change while any (pending) change exists"}
     ])
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change['id'], self.agreement_token),
-            {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}})
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change['id'], self.agreement_token),
+        {
+            'data': {
+                'status': 'active',
+                'dateSigned': get_now().isoformat(),
+                'modifications': [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.9}]
+            }
+        }
+    )
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active')
 
@@ -363,9 +385,16 @@ def patch_change(self):
                                    {'data': {'rationale_en': 'la-la-la'}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
 
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change['id'], self.agreement_token),
-            {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}})
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change['id'], self.agreement_token),
+        {
+            'data': {
+                'status': 'active',
+                'dateSigned': get_now().isoformat(),
+                'modifications': [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.9}]
+            }
+        }
+    )
     self.assertEqual(response.status, '200 OK')
     self.assertNotEqual(response.json['data']['date'], creation_date)
     self.assertNotEqual(response.json['data']['date'], first_patch_date)
@@ -406,6 +435,16 @@ def patch_change(self):
     self.assertEqual(response.json['errors'], [
         {u'description': [u'Only factor is allowed for thirdParty type of change'],
          u'location': u'body', u'name': u'modifications'}])
+
+    data = deepcopy(self.initial_change)
+    data.update({'rationaleType': u'thirdParty',
+                 'modifications': [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.0}]})
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token), {'data': data}, status=403)
+    self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
+    self.assertEqual(response.json['errors'], [
+        {u'description': u"unitPrice:value:amount can't be equal or less than 0.",
+         u'location': u'body', u'name': u'data'}])
 
     data['modifications'] = [{'itemId': '1' * 32, 'factor': 0.01},
                              {'itemId': '1' * 32, 'factor': 0.02}]
@@ -456,8 +495,10 @@ def change_date_signed(self):
             {'data': {'dateSigned': one_day_in_past}}, status=403)
     self.assertIn("can't be earlier than agreement dateSigned", response.json['errors'][0]["description"])
 
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change['id'], self.agreement_token), {'data': {'status': 'active'}})
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change['id'], self.agreement_token),
+        {'data': {'status': 'active', 'modifications': [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.9}]}}
+    )
     self.assertEqual(response.status, '200 OK')
 
     response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
@@ -505,8 +546,10 @@ def change_date_signed(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['dateSigned'], valid_date2)
 
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change2['id'], self.agreement_token), {'data': {'status': 'active'}})
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change2['id'], self.agreement_token),
+        {'data': {'status': 'active', 'modifications': [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.9}]}}
+    )
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['dateSigned'], valid_date2)
 
@@ -528,8 +571,10 @@ def change_date_signed(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['dateSigned'], date)
 
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change3['id'], self.agreement_token), {'data': {'status': 'active'}})
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change3['id'], self.agreement_token),
+        {'data': {'status': 'active', 'modifications': [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.9}]}}
+    )
     self.assertEqual(response.status, '200 OK')
     response = self.app.patch_json('/agreements/{}?acc_token={}'.format(self.agreement['id'], self.agreement_token),
                                    {'data': {'status': 'terminated'}})
@@ -560,8 +605,10 @@ def date_signed_on_change_creation(self):
     change = response.json['data']
     self.assertEqual(change['dateSigned'], date)
 
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change['id'], self.agreement_token), {'data': {'status': 'active'}})
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change['id'], self.agreement_token),
+        {'data': {'status': 'active', 'modifications': [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.9}]}}
+    )
     self.assertEqual(response.status, '200 OK')
 
 
@@ -592,9 +639,16 @@ def change_date_signed_very_old_agreements_data(self):
     ])
 
     one_day_in_past = (get_now() - timedelta(days=1)).isoformat()
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change['id'], self.agreement_token),
-            {'data': {'status': 'active', 'dateSigned': one_day_in_past}})
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change['id'], self.agreement_token),
+        {
+            'data': {
+                'status': 'active',
+                'dateSigned': one_day_in_past,
+                'modifications': [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.9}]
+            }
+        }
+    )
     self.assertEqual(response.json['data']['status'], 'active')
     self.assertEqual(response.json['data']['dateSigned'], one_day_in_past)
 
@@ -613,9 +667,16 @@ def change_date_signed_very_old_agreements_data(self):
         two_days_in_past, one_day_in_past), response.json['errors'][0]["description"])
 
     valid_date = get_now().isoformat()
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change2['id'], self.agreement_token),
-            {'data': {'status': 'active', 'dateSigned': valid_date}})
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change2['id'], self.agreement_token),
+        {
+            'data': {
+                'status': 'active',
+                'dateSigned': valid_date,
+                'modifications': [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.9}]
+            }
+        }
+    )
     self.assertEqual(response.json['data']['status'], 'active')
     self.assertEqual(response.json['data']['dateSigned'], valid_date)
 
@@ -643,9 +704,16 @@ def change_date_signed_very_old_agreements_data(self):
         two_days_in_past, last_change['date']), response.json['errors'][0]["description"])
 
     valid_date2 = get_now().isoformat()
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change3['id'], self.agreement_token),
-            {'data': {'status': 'active', 'dateSigned': valid_date2}})
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change3['id'], self.agreement_token),
+        {
+            'data': {
+                'status': 'active',
+                'dateSigned': valid_date2,
+                'modifications': [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.9}]
+            }
+        }
+    )
     self.assertEqual(response.json['data']['status'], 'active')
     self.assertEqual(response.json['data']['dateSigned'], valid_date2)
 
@@ -668,8 +736,9 @@ def date_signed_on_change_creation_for_very_old_agreements_data(self):
         self.agreement['id'], self.agreement_token), {'data': data})
     self.assertEqual(response.json['data']['dateSigned'], one_day_in_past)
     change = response.json['data']
-    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
-        self.agreement['id'], change['id'], self.agreement_token), {'data': {'status': 'active'}})
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change['id'], self.agreement_token),
+        {'data': {'status': 'active', 'modifications': [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.9}]}})
     self.assertEqual(response.json['data']['status'], 'active')
 
     # prepare old agreement change data
@@ -687,7 +756,6 @@ def date_signed_on_change_creation_for_very_old_agreements_data(self):
         self.agreement['id'], self.agreement_token), {'data': data}, status=403)
     self.assertEqual("Change dateSigned ({}) can't be earlier than last active change dateSigned ({})".format(
         one_day_in_past, last_change['date']), response.json['errors'][0]["description"])
-
 
     valid_date = get_now().isoformat()
     data['dateSigned'] = valid_date
@@ -712,7 +780,14 @@ def multi_change(self):
     # patch first change to be able to create second change
     response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
         self.agreement['id'], change['id'], self.agreement_token),
-        {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}})
+        {
+            'data': {
+                'status': 'active',
+                'dateSigned': get_now().isoformat(),
+                'modifications': [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.9}]
+            }
+        }
+    )
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
 
     # second change with invalid itemId
@@ -743,3 +818,74 @@ def multi_change(self):
     response = self.app.get('/agreements/{}'.format(self.agreement['id']))
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(len(response.json['data']['changes']), 2)
+
+    date_signed = get_now().isoformat()
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change['id'], self.agreement_token),
+        {'data': {'status': 'active', 'dateSigned': date_signed}}
+    )
+
+    change = deepcopy(self.initial_change)
+    response = self.app.post_json(
+        '/agreements/{}/changes?acc_token={}'.format(self.agreement['id'], self.agreement_token),
+        {'data': change})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.json['data']['status'], 'pending')
+    change_id = response.json['data']['id']
+
+    response = self.app.get('/agreements/{}/changes'.format(self.agreement['id']))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(len(response.json['data']), 3)
+
+    date_signed = get_now().isoformat()
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change_id, self.agreement_token),
+        {'data': {'status': 'active', 'dateSigned': date_signed}},
+        status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'],
+        [{u'description': u'Modifications are required for change activation.',
+          u'location': u'body',
+          u'name': u'data'}]
+    )
+
+@patch('openprocurement.agreement.core.models.change.get_now')
+def activate_change_after_1_cancelled(self, mocked_model_get_now):
+    # first change
+    data = deepcopy(self.initial_change)
+    data['rationaleType'] = 'itemPriceVariation'
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token), {'data': data})
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+    self.assertIn('rationaleType', response.json['data'])
+    self.assertEqual(response.json['data']['rationaleType'], 'itemPriceVariation')
+    change = response.json['data']
+    self.assertEqual(change['status'], 'pending')
+    self.assertIn('date', change)
+
+    date_signed = get_now() + timedelta(minutes=10)
+    mocked_model_get_now.return_value = date_signed
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change['id'], self.agreement_token),
+        {'data': {'status': 'cancelled', 'dateSigned': date_signed.isoformat()}})
+    self.assertEqual(response.json['data']['status'], 'cancelled')
+    self.assertEqual(response.json['data']['dateSigned'], date_signed.isoformat())
+    cancelled_change = response.json['data']
+
+    now = get_now().isoformat()
+    data = deepcopy(self.initial_change)
+    data['rationaleType'] = 'itemPriceVariation'
+    data['dateSigned'] = now
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement['id'], self.agreement_token), {'data': data})
+
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+    self.assertIn('rationaleType', response.json['data'])
+    self.assertEqual(response.json['data']['rationaleType'], 'itemPriceVariation')
+    change = response.json['data']
+    self.assertEqual(change['status'], 'pending')
+    self.assertIn('date', change)
+    self.assertEqual(change['dateSigned'], now)
+
+    self.assertLess(change['dateSigned'], cancelled_change['dateSigned'])

@@ -52,8 +52,9 @@ class AgreementChangesResource(APIResource):
         change = self.request.validated['change']
         if change['dateSigned']:
             changes = agreement.get("changes", [])
-            if len(changes) > 0:  # has previous changes
-                last_change = agreement.changes[-1]
+            active_changes = [c for c in changes if c.status == 'active']
+            if len(active_changes) > 0:
+                last_change = active_changes[-1]
                 last_date_signed = last_change.dateSigned
                 if not last_date_signed:  # BBB old active changes
                     last_date_signed = last_change.date
@@ -104,6 +105,8 @@ class AgreementChangesResource(APIResource):
         warnings = []
         agreement = self.request.validated['agreement']
         if change.status == 'active':
+            if not change.modifications:
+                raise_operation_error(self.request, 'Modifications are required for change activation.')
             apply_modifications(self.request, agreement, save=True)
         elif change.status != 'cancelled':
             warnings = apply_modifications(self.request, agreement)

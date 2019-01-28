@@ -202,6 +202,30 @@ def agreement_patch_invalid(self):
         self.assertEqual(response.status, '200 OK')
         self.assertIsNone(response.json)
 
+    agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
+    self.assertNotIn('changes', agreement)
+
+    change_data = deepcopy(self.initial_change)
+    change_data['rationaleType'] = 'thirdParty'
+    change_data['modifications'] = [{'itemId': agreement['items'][0]['id'], 'factor': 0.001}]
+    response = self.app.post_json('/agreements/{}/changes?acc_token={}'.format(
+        self.agreement_id, token), {'data': change_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.json['data']['status'], 'pending')
+    change_id = response.json['data']['id']
+
+    response = self.app.patch_json('/agreements/{}?acc_token={}'.format(
+        self.agreement_id, token), {'data': {'status': 'terminated'}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'], [
+        {u'description': u"Can't update agreement status with pending change.",
+         u'location': u'body', u'name': u'data'}]
+                     )
+
+    response = self.app.patch_json('/agreements/{}/changes/{}?acc_token={}'.format(
+        self.agreement_id, change_id, token), {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+
     response = self.app.patch_json('/agreements/{}?acc_token={}'.format(
         self.agreement_id, token), {'data': {'status': 'terminated'}})
 
@@ -737,3 +761,21 @@ def agreement_changes_patch_from_agreements(self):
     self.assertEqual(response.status_code, 200)
     agreement = self.app.get('/agreements/{}'.format(self.agreement_id)).json['data']
     self.assertNotIn('changes', agreement)
+
+
+def create_agreement_with_two_active_contracts(self):
+    data = self.initial_data
+    data['id'] = uuid.uuid4().hex
+    data['contracts'][0]['status'] = 'unsuccessful'
+    with change_auth(self.app, ('Basic', ('agreements', ''))) as app:
+        response = self.app.post_json('/agreements', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['agreementID'], data['agreementID'])
+
+    response = self.app.get('/agreements/{}'.format(data['id']))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['id'], data['id'])
+    self.assertEqual(response.json['data']['numberOfContracts'],
+                     len([c['id'] for c in data['contracts'] if c['status'] == 'active']))

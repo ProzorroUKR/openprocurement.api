@@ -1,6 +1,13 @@
 <configure xmlns="http://namespaces.zope.org/zope">
     <include package="zope.component" file="meta.zcml" />
 
+    <adapter
+        name="numberOfContracts"
+        factory=".adapters.serializable.numberofcontracts.SerializableAgreementNumberOfContracts"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.IClosedFrameworkAgreementUA"
+        />
+
     <!-- Changes -->
     <utility
         name="taxRate"
