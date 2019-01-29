@@ -138,8 +138,7 @@ bid = {
                     "id": u"00137256",
                     "uri": u"http://www.sc.gov.ua/"
                 },
-                "name": "ДКП «Школяр»",
-                "scale": "micro"
+                "name": "ДКП «Школяр»"
             }
         ],
         "value": {
@@ -176,8 +175,7 @@ bid2 = {
                     "id": u"00137226",
                     "uri": u"http://www.sc.gov.ua/"
                 },
-                "name": "ДКП «Книга»",
-                "scale": "micro"
+                "name": "ДКП «Книга»"
             }
         ],
         "value": {
@@ -212,8 +210,7 @@ bid3 = {
                     "id": u"00137226",
                     "uri": u"http://www.sc.gov.ua/"
                 },
-                "name": "«Снігур»",
-                "scale": "micro"
+                "name": "«Снігур»"
             }
         ],
         "value": {
@@ -282,8 +279,7 @@ question = {
                 "scheme": "UA-EDR",
                 "uri": "http://sch10.edu.vn.ua/"
             },
-            "name": "ДКП «Школяр»",
-            "scale": "micro"
+            "name": "ДКП «Школяр»"
         },
         "description": "Просимо додати таблицю потрібної калорійності харчування",
         "title": "Калорійність"
@@ -324,8 +320,7 @@ complaint = {
                 "scheme": "UA-EDR",
                 "uri": "http://sch10.edu.vn.ua/"
             },
-            "name": "ДКП «Школяр»",
-            "scale": "micro"
+            "name": "ДКП «Школяр»"
         },
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
         "title": "Недостатньо інформації"
