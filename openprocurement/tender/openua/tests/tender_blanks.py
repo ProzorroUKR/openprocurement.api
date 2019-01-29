@@ -319,19 +319,6 @@ def create_tender_invalid(self):
              u'name': u'items'}
         ])
 
-    data = self.initial_data["items"][0]["classification"]['id']
-    self.initial_data["items"][0]['classification']['id'] = u"33600000-6"
-    add_class = self.initial_data["items"][0]["additionalClassifications"][0]["scheme"]
-    self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = 'NotINN'
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = add_class
-    self.initial_data["items"][0]['classification']['id'] = data
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.json['errors'], [
-        {u"location": u"body", u"name": u"items", u"description": [
-         u"additionalClassification of items wich classification.id "
-         u"starts with 336 have to be one of ['INN', 'ATC']"]}])
-
     addit_classif = [
         {"scheme": "INN",
          "id": "17.21.1",
@@ -390,10 +377,10 @@ def create_tender_invalid(self):
     self.assertEqual(response.status, '201 Created')
 
     addit_classif = [
-        {"scheme": "ATC",
+        {"scheme": "NotINN",
          "id": "17.21.1",
          "description": "папір і картон гофровані, паперова й картонна тара"},
-        {"scheme": "ATC",
+        {"scheme": "NotINN",
          "id": "17.21.1",
          "description": "папір і картон гофровані, паперова й картонна тара"}
     ]
