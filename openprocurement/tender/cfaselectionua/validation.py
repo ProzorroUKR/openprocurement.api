@@ -50,7 +50,11 @@ def get_supplier_contract(contracts, tenderers):
 
 
 def validate_bid(request):
-    bid = request.validated['bid']
+    if request.method == 'POST':
+        bid = request.validated['bid']
+    elif request.method == 'PATCH':
+        bid_class = request.context.__class__
+        bid = bid_class(request.validated['data'])
     contracts = request.validated['tender'].agreements[0].contracts
 
     supplier_contract = get_supplier_contract(contracts, bid.tenderers)

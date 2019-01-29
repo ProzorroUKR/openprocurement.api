@@ -23,6 +23,7 @@ from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     # TenderBidFeaturesResourceTest
     features_bid,
     features_bid_invalid,
+    patch_features_bid_invalid,
     # TenderBidDocumentResourceTest
     not_found,
     create_tender_bid_document,
@@ -59,6 +60,7 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
 
     test_features_bid = snitch(features_bid)
     test_features_bid_invalid = snitch(features_bid_invalid)
+    test_patch_features_bid_invalid = snitch(patch_features_bid_invalid)
 
     def setUp(self):
         super(TenderBidFeaturesResourceTest, self).setUp()
