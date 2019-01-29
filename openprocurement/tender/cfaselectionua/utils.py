@@ -273,11 +273,7 @@ def calculate_item_identification_tuple(item):
 
 def check_agreement_status(request, tender):
     if tender.agreements[0].status != 'active':
-        LOGGER.info(
-            'Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-            extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'},
-                                 {'CAUSE': AGREEMENT_STATUS}))
-        tender.status = 'draft.unsuccessful'
+        drop_draft_to_unsuccessful(request, tender, AGREEMENT_STATUS)
 
 
 def check_period_and_items(request, tender):
@@ -285,19 +281,12 @@ def check_period_and_items(request, tender):
     agreement_items_ids = {calculate_item_identification_tuple(agreement_item) for agreement_item in agreement_items}
     tender_items_ids = {calculate_item_identification_tuple(tender_item) for tender_item in tender.items}
 
-
     if not tender_items_ids.issubset(agreement_items_ids):
-        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'},
-                                         {'CAUSE': AGREEMENT_ITEMS}))
-        tender.status = 'draft.unsuccessful'
+        drop_draft_to_unsuccessful(request, tender, AGREEMENT_ITEMS)
         return
 
     if get_now() > calculate_business_date(tender.agreements[0].period.endDate, -request.content_configurator.agreement_expired_until, tender):
-        LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                    extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'},
-                                         {'CAUSE': AGREEMENT_EXPIRED}))
-        tender.status = 'draft.unsuccessful'
+        drop_draft_to_unsuccessful(request, tender, AGREEMENT_EXPIRED)
 
 
 def check_pending_changes(request, tender):
@@ -305,13 +294,7 @@ def check_pending_changes(request, tender):
     if changes:
         for change in changes:
             if change.status == 'pending':
-                LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                            extra=context_unpack(
-                                request,
-                                {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'},
-                                {'CAUSE': AGREEMENT_CHANGE})
-                )
-                tender.status = 'draft.unsuccessful'
+                drop_draft_to_unsuccessful(request, tender, AGREEMENT_CHANGE)
                 return
 
 
@@ -319,13 +302,11 @@ def check_min_active_contracts(request, tender):
     for agr in tender.agreements:
         active_contracts = [c for c in agr.contracts if c.status == 'active'] if agr.contracts else []
         if len(active_contracts) < request.content_configurator.min_active_contracts:
-            tender.status = 'draft.unsuccessful'
-            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'},
-                                                      {'CAUSE': AGREEMENT_CONTRACTS}))
+            drop_draft_to_unsuccessful(request, tender, AGREEMENT_CONTRACTS)
 
 
 def check_agreement(request, tender):
+    tender.unsuccessfulReason = []
     check_agreement_status(request, tender)
     check_period_and_items(request, tender)
     check_pending_changes(request, tender)
@@ -352,6 +333,7 @@ def calculate_agreement_contracts_value_amount(request, tender):
     tender.lots[0].minimalStep.amount = \
         round(request.content_configurator.minimal_step_percentage * tender.lots[0].value.amount, 2)
 
+
 def calculate_tender_features(request, tender):
     #  calculation tender features after items validation
     if tender.agreements[0].features:
@@ -372,7 +354,17 @@ def check_identifier(request, tender):
     if tender.agreements[0].procuringEntity:
         if tender.procuringEntity.identifier.id != tender.agreements[0].procuringEntity.identifier.id or \
                 tender.procuringEntity.identifier.scheme != tender.agreements[0].procuringEntity.identifier.scheme:
-            LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'},
-                                             {'CAUSE': AGREEMENT_IDENTIFIER}))
-            tender.status = 'draft.unsuccessful'
+            drop_draft_to_unsuccessful(request, tender, AGREEMENT_IDENTIFIER)
+
+
+def drop_draft_to_unsuccessful(request, tender, cause):
+    LOGGER.info(
+        'Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
+        extra=context_unpack(
+            request,
+            {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'},
+            {'CAUSE': cause}
+        )
+    )
+    tender.status = 'draft.unsuccessful'
+    tender.unsuccessfulReason.append(cause)

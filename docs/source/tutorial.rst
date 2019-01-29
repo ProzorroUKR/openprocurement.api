@@ -44,7 +44,8 @@ body of response reveals the information about the created tender: its internal
 `id` (that matches the `Location` segment), its official `tenderID` and
 `dateModified` datestamp stating the moment in time when tender was last
 modified. Pay attention to the `procurementMethodType`. Note that tender is
-created with `active.enquiries` status.
+created with `draft` status.
+
 
 Let's access the URL of the created object (the `Location` header of the response):
 
@@ -85,6 +86,8 @@ Let's see what listing of tenders reveals us:
 Modifying tender
 ----------------
 
+
+
 Let's update tender by supplementing it with all other essential properties:
 
 .. include:: tutorial/patch-items-value-periods.http
@@ -110,6 +113,8 @@ Procuring entity can set bid guarantee:
 
 Uploading documentation
 -----------------------
+
+Procuring entity should only upload digital signature on this stage of procedure.
 
 Procuring entity can upload PDF files into the created tender. Uploading should
 follow the :ref:`upload` rules.
@@ -162,6 +167,7 @@ And we can see that it is overriding the original version:
 
 .. index:: Bidding
 
+
 Registering bid
 ---------------
 
@@ -188,7 +194,9 @@ And activate a bid:
 .. include:: tutorial/activate-bidder.http
    :code:
 
-And upload proposal document:
+Procuring entity should only upload digital signature on this stage of procedure.
+
+Upload proposal document:
 
 .. include:: tutorial/upload-bid-proposal.http
    :code:
@@ -258,10 +266,17 @@ We see that new `pending` award is generated for the same bidder now. So we can 
 .. include:: tutorial/award-qualification-unsuccessful1.http
    :code:
 
+You can upload award documents. Let's upload award document
+
+.. include:: tutorial/award-qualification-unsuccessful1_document.http
+   :code:
+
 Qualification comission registers its decision via the following call:
 
 .. include:: tutorial/confirm-qualification.http
    :code:
+
+Procuring entity should fill the information about extension of the bidder's term in the `description` field.
 
 Setting  contract value
 -----------------------
@@ -335,6 +350,9 @@ Contract registration
 .. include:: tutorial/tender-contract-sign.http
    :code:
 
+To see more information about contract look at the `Contracting API interface to OpenProcurement database
+<https://prozorro-api-docs.readthedocs.io/en/latest/contracting/index.html>`_.
+
 Cancelling tender
 -----------------
 
@@ -385,3 +403,7 @@ Activating the request and cancelling tender
 
 .. include:: tutorial/active-cancellation.http
    :code:
+
+
+It may be useful to see top requirements: `Test Cases for III level of accreditation <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ and
+`Test Cases for IV level of accreditation <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_.

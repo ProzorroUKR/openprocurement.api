@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '1.0.0'
+version = '1.0.1dp'
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -15,6 +15,7 @@ requires = [
     'couchdb-schematics',
     'gevent',
     'iso8601',
+    'jmespath',
     'jsonpatch',
     'libnacl',
     'pbkdf2',

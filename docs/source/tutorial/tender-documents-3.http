@@ -1,4 +1,4 @@
-GET /api/2.4/tenders/8d1a850940624e01919e551968148f75/documents HTTP/1.0
+GET /api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/documents HTTP/1.0
 Authorization: Basic YnJva2VyOg==
 Host: api-sandbox.openprocurement.org
 
@@ -12,25 +12,25 @@ Content-Type: application/json; charset=UTF-8
       "hash": "md5:00000000000000000000000000000000", 
       "description": "document description modified", 
       "title": "Notice.pdf", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/7c095cbfd6e347d78a90e7d9614f7aa5?KeyID=9bbb8fe5&Signature=71tRe%252BSmprbmMaCJ%252BXCuRF%2FMP6HW4lhAHE0dg7M%2FI62N9BiCzBfLRU4zBze0THnO6sc3EO1vi5yK0rFVImELCw%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/520743e0fee244baab0ee7a9c6c29c4c?KeyID=8e008c82&Signature=HyhJBukNSVApiZNof%252BgrKu8B3M4SPu1kzEoS2ZJJtQDC8SUrtKlP0wXyq%252BtymK3yVhNnwdgOpjIxISdwIxjFCw%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2019-01-15T14:18:04.595016+02:00", 
+      "datePublished": "2019-01-25T15:48:18.859976+02:00", 
       "author": "tender_owner", 
       "documentType": "technicalSpecifications", 
-      "id": "938938e8ddb54a7fab79a6d9cea7fc09", 
-      "dateModified": "2019-01-15T14:18:04.595046+02:00"
+      "id": "8d61bdb5bea84b10857ac22ef83fffb7", 
+      "dateModified": "2019-01-25T15:48:18.860011+02:00"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
       "author": "tender_owner", 
       "title": "AwardCriteria-2.pdf", 
-      "url": "http://public.docs-sandbox.openprocurement.org/get/a1efb4cb43f24a23bfda9e0103d15c75?KeyID=9bbb8fe5&Signature=TZDSAKH5V7OxoFFXlOjl10SaEPPnhGL4IYWELBgf%252BiFgGb2t5Nqn98coCP8OTlQ3%2Fmx7XMBPV8%252BRh0%252B%252BQG4zAw%253D%253D", 
+      "url": "http://public.docs-sandbox.openprocurement.org/get/a88471592e5f46c48cd694bc696bfe5b?KeyID=8e008c82&Signature=q8g1UYdO67K%252BGAbVRoBGrv8FN3aAhQdJeS%2FJ9TzlX08GcuihlvY54fnCXUgjOpe5OGQZv3tNGOH14N6%2FBgQABg%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2019-01-15T14:18:05.198784+02:00", 
-      "id": "ce4b87b69c1c4149acbd34999b95fec9", 
-      "dateModified": "2019-01-15T14:18:05.446009+02:00"
+      "datePublished": "2019-01-25T15:48:19.943828+02:00", 
+      "id": "2d8d6e3826e145a1b36472cfa862859e", 
+      "dateModified": "2019-01-25T15:48:20.372908+02:00"
     }
   ]
 }

@@ -248,7 +248,7 @@ def patch_tender_lot(self):
         self.tender_id, self.tender_token), {'data': {'items': items}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['items'][0]['quantity'], tender['items'][0]['quantity'] + 1)
-    self.assertNotEqual(response.json['data']['items'][0]['description'], items[0]['description'])
+    self.assertEqual(response.json['data']['items'][0]['description'], items[0]['description'])
 
     # lots[0]  value amount is recalculated
     self.assertNotEqual(tender['lots'][0]['value']['amount'], response.json['data']['lots'][0]['value']['amount'])

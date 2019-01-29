@@ -1,6 +1,6 @@
-POST /api/2.4/tenders/8d1a850940624e01919e551968148f75/bids HTTP/1.0
+POST /api/2.4/tenders/a894be5c781148189cd720b6b8c83a9d/bids HTTP/1.0
 Authorization: Basic YnJva2VyOg==
-Content-Length: 824
+Content-Length: 935
 Content-Type: application/json
 Host: api-sandbox.openprocurement.org
 
@@ -9,10 +9,20 @@ Host: api-sandbox.openprocurement.org
     "status": "draft", 
     "lotValues": [
       {
-        "relatedLot": "94140aedad4b4b53b66d4ae85967f7f8", 
+        "relatedLot": "452029a0046446d0811541dd6cc10485", 
         "value": {
           "amount": 500
         }
+      }
+    ], 
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE", 
+        "value": 0.1
+      }, 
+      {
+        "code": "OCDS-123454-YEARS", 
+        "value": 0.1
       }
     ], 
     "tenderers": [

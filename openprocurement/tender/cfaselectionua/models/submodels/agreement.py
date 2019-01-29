@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.cfaselectionua.models.submodels.feature import Feature
-from schematics.types import MD5Type, StringType
+from schematics.types import MD5Type, StringType, IntType
 from schematics.types.compound import ModelType, PolyModelType
 from openprocurement.api.roles import RolesFromCsv
 from openprocurement.api.models import (
@@ -49,3 +49,5 @@ class Agreement(Model):
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
+    terminationDetails = StringType()
+    numberOfContracts = IntType()
