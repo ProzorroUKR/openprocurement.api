@@ -211,8 +211,12 @@ class TenderBidResource(APIResource):
         validate_view_bids(self.request)
         return {'data': self.request.context.serialize(self.request.validated['tender_status'])}
 
-    @json_view(content_type="application/json", permission='edit_bid', validators=(validate_patch_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period,
-               validate_update_bid_status,))
+    @json_view(content_type="application/json", permission='edit_bid', validators=(
+            validate_patch_bid_data,
+            validate_bid_operation_not_in_tendering,
+            validate_bid_operation_period,
+            validate_update_bid_status,
+            validate_bid))
     def patch(self):
         """Update of proposal
 
