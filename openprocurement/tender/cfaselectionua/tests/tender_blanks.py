@@ -628,6 +628,30 @@ def create_tender_draft(self):
     self.assertEqual(tender['status'], self.primary_tender_status)
 
 
+def create_tender_with_available_language(self):
+    data = deepcopy(self.initial_data)
+    data["procuringEntity"]["contactPoint"]["availableLanguage"] = "test"
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(
+        response.json['errors'],
+        [{u'description': {u'contactPoint': {u'availableLanguage': [u"Value must be one of ['uk', 'en', 'ru']."]}},
+          u'location': u'body', u'name': u'procuringEntity'}])
+
+    data["procuringEntity"]["contactPoint"]["availableLanguage"] = "uk"
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    tender_id = response.json['data']['id']
+    self.tender_token = response.json['access']['token']
+
+    response = self.app.get('/tenders/{}'.format(tender_id))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["procuringEntity"]["contactPoint"]["availableLanguage"], "uk")
+
+
 def create_tender_with_value(self):
     data = deepcopy(self.initial_data)
     data.update({"status": "draft",

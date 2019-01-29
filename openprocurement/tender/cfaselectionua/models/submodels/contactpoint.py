@@ -6,4 +6,4 @@ from schematics.types import StringType
 class ContactPoint(BaseContactPoint):
     class Options:
         roles = RolesFromCsv('ContactPoint.csv', relative_to=__file__)
-    availableLanguage = StringType(required=True, choices=['uk', 'en', 'ru'], default='uk')
+    availableLanguage = StringType(choices=['uk', 'en', 'ru'])

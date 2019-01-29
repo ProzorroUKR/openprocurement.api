@@ -51,7 +51,7 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     coordinates_reg_exp,
     # TenderTest
     simple_add_tender,
-)
+    create_tender_with_available_language)
 
 tender_data = deepcopy(test_tender_data)
 lots = []
@@ -83,7 +83,7 @@ class TenderResourceTestMixin(object):
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
     test_patch_tender_bot = snitch(patch_tender_bot)
-
+    test_create_tender_with_available_language = snitch(create_tender_with_available_language)
 
 class TenderTest(BaseWebTest):
     initial_data = tender_data
