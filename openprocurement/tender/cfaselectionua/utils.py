@@ -267,8 +267,12 @@ def calculate_item_identification_tuple(item):
             (additionalClassifications.id, additionalClassifications.scheme,)
             for additionalClassifications in item.additionalClassifications
         )
+    if item.unit:
+        code = item.unit.code
+    else:
+        code = None
     return (item.id, item.classification.id, item.classification.scheme,
-            item.unit.code, additionalClassifications)
+            code, additionalClassifications)
 
 
 def check_agreement_status(request, tender):
