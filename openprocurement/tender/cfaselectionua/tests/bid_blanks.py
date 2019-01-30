@@ -540,6 +540,44 @@ def features_bid(self):
         bid['lotValues'][0].pop('date')
         self.assertEqual(bid, i)
 
+    # create tender only with one feature
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    agreement = response.json['data']['agreements'][0]
+    new_tender_features = agreement['features'][:1]  # only one feature
+
+    self.set_status('active.tendering', extra={'features': new_tender_features, 'bids': []})
+    feat_bid = {
+        "parameters": [
+            {
+                "code": i["code"],
+                "value": 0.1,
+            }
+            for i in self.initial_agreement['features'][:1]
+        ],
+        "status": "active",
+        "tenderers": [
+            test_organization
+        ],
+        "lotValues": [{
+            "value": {
+                "amount": 500,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": True
+            },
+            "relatedLot": self.initial_lots[0]['id']
+        }]
+    }
+    # posting only only one bid with one feature, contract has 2 features
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': feat_bid})
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+    bid = response.json['data']
+    bid.pop(u'date')
+    bid.pop(u'id')
+    bid['lotValues'][0].pop('date')
+    self.assertEqual(bid, feat_bid)
+
 
 def features_bid_invalid(self):
     data = {
