@@ -62,12 +62,10 @@ def validate_bid(request):
     if not supplier_contract:
         raise_operation_error(request, 'Bid is not a member of agreement')
 
-    contract_parameters = sorted([(p.code, p.value) for p in supplier_contract.parameters])
-    bid_parameters = sorted([(p.code, p.value) for p in bid.parameters])
-
-    if contract_parameters != bid_parameters:
+    contract_parameters = {(p.code, p.value) for p in supplier_contract.parameters}
+    bid_parameters = {(p.code, p.value) for p in bid.parameters}
+    if not bid_parameters.issubset(contract_parameters):
         raise_operation_error(request, 'Can\'t post inconsistent bid')
-
 
 
 def validate_bid_document_operation_in_not_allowed_tender_status(request):
