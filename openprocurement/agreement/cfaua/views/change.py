@@ -113,8 +113,9 @@ class AgreementChangesResource(APIResource):
 
         if change['dateSigned']:
             changes = agreement.get("changes", [])
-            if len(changes) > 1:  # has previous changes
-                last_change = agreement.changes[:-1][-1]
+            active_changes = [c for c in changes if c.status == 'active']
+            if len(active_changes) > 0:  # has previous changes
+                last_change = active_changes[-1]
                 last_date_signed = last_change.dateSigned
                 if not last_date_signed:  # BBB old active changes
                     last_date_signed = last_change.date
