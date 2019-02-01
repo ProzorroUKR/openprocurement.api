@@ -270,10 +270,11 @@ def patch_tender_lot(self):
         self.tender_id, self.tender_token), {'data': {'items': items}}, status=422)
     self.assertEqual((response.status, response.content_type), ('422 Unprocessable Entity', 'application/json'))
     self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [u'value should be less than value of tender'],
-         u'location': u'body', u'name': u'minimalStep'}
-    ])
+    self.assertEqual(
+        response.json['errors'],
+        [{u'description': [{u'minimalStep': [u'value should be less than value of lot']}],
+          u'location': u'body', u'name': u'lots'}]
+        )
 
     new_lot_minimal_step['amount'] = new_lot_minimal_step['amount'] / 2
     response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(
@@ -284,6 +285,8 @@ def patch_tender_lot(self):
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
         self.tender_id, self.tender_token), {'data': {'items': items}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'active.enquiries')
+    self.assertEqual(response.json['data']['lots'][0]['minimalStep']['amount'], new_lot_minimal_step['amount'])
 
 
 def patch_tender_lot_invalid(self):
