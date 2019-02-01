@@ -214,9 +214,10 @@ def create_tender_bid_invalid(self):
 
 def create_tender_bid(self):
     dateModified = self.db.get(self.tender_id).get('dateModified')
-    
+
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': {'tenderers': [test_organization],
+                                            'subcontractingDetails': 'test_details',
                                             "lotValues": [{"value": {"amount": 500},
                                             "relatedLot": self.initial_lots[0]['id']}]}})
     self.assertEqual(response.status, '201 Created')
@@ -225,7 +226,7 @@ def create_tender_bid(self):
     self.assertEqual(bid['tenderers'][0]['name'], test_organization['name'])
     self.assertIn('id', bid)
     self.assertIn(bid['id'], response.headers['Location'])
-
+    self.assertEqual(response.json['data']['subcontractingDetails'], 'test_details')
     self.assertEqual(self.db.get(self.tender_id).get('dateModified'), dateModified)
 
     self.set_status('complete')
@@ -267,10 +268,13 @@ def patch_tender_bid(self):
           u'name': u'lotValues'}]
     )
 
-    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], token), {"data": {'tenderers': [{"name": u"Державне управління управлінням справами"}]}})
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], token),
+                                   {"data": {'tenderers': [{"name": u"Державне управління управлінням справами"}],
+                                             'subcontractingDetails': 'test_details'}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['date'], bid['date'])
+    self.assertEqual(response.json['data']['subcontractingDetails'], 'test_details')
     self.assertNotEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
 
     response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], token), {"data": {"lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]['id']}], 'tenderers': [test_organization]}})
