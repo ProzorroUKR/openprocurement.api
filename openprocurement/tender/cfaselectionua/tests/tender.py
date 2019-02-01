@@ -46,6 +46,7 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     create_tender_from_terminated_agreement,
     create_tender_from_agreement_with_changes,
     create_tender_from_agreement_with_features,
+    create_tender_from_agreement_with_features_0_3,
     invalid_tender_conditions,
     lost_contract_for_active_award,
     # TestCoordinatesRegExp
@@ -99,6 +100,7 @@ class TenderResourceTestMixin(object):
     test_create_tender_from_terminated_agreement = snitch(create_tender_from_terminated_agreement)
     test_create_tender_from_agreement_with_changes = snitch(create_tender_from_agreement_with_changes)
     test_create_tender_from_agreement_with_features = snitch(create_tender_from_agreement_with_features)
+    test_create_tender_from_agreement_with_features_0_3 = snitch(create_tender_from_agreement_with_features_0_3)
     test_create_tender_with_value = snitch(create_tender_with_value)
     # test_tender_features = snitch(tender_features)
     test_get_tender = snitch(get_tender)

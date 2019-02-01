@@ -741,12 +741,41 @@ def create_tender_from_agreement_with_features(self):
     create_tender_draft_pending_without_features(self)
     create_tender_from_agreement_with_features_successful(self)
 
+def create_tender_from_agreement_with_features_0_3(self):
+
+    self.agreement = deepcopy(self.initial_agreement_with_features)
+    self.agreement['features'] = [self.agreement['features'][0]]
+    self.agreement['features'][0]['enum'] = [
+            {
+                u"value": 0.0,
+                u"title": u"До 1000 Вт"
+            },
+            {
+                u"value": 0.3,
+                u"title": u"Більше 1000 Вт"
+            }
+        ]
+    for contract in self.agreement['contracts']:
+        contract['parameters'] = [{'code': 'OCDS-123454-AIR-INTAKE', 'value': 0.3}]
+    create_tender_draft_pending(self)
+    create_tender_from_agreement_with_features_successful(self)
 
 def create_tender_from_agreement_with_features_successful(self):
     self.app.authorization = ('Basic', (BOT_NAME, ''))
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
                                    {'data': {'agreements': [self.agreement], 'status': 'active.enquiries'}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['features'], self.agreement['features'])
+    self.assertEqual(response.json['data']['status'], 'active.enquiries')
+
+    self.app.authorization = ('Basic', ('broker', ''))
+
+def create_tender_from_agreement_with_features_0_3_successful(self):
+    self.app.authorization = ('Basic', (BOT_NAME, ''))
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {'data': {'agreements': [], 'status': 'active.enquiries'}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['features'], self.agreement['features'])
     self.assertEqual(response.json['data']['status'], 'active.enquiries')
