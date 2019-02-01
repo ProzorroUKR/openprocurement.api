@@ -333,9 +333,6 @@ def calculate_agreement_contracts_value_amount(request, tender):
         contract.value = value
     tender.lots[0].value = max([contract.value for contract in agreement.contracts], key=lambda value: value.amount)
     tender.value = tender.lots[0].value
-    tender.lots[0].minimalStep = deepcopy(tender.lots[0].value)
-    tender.lots[0].minimalStep.amount = \
-        round(request.content_configurator.minimal_step_percentage * tender.lots[0].value.amount, 2)
 
 
 def calculate_tender_features(request, tender):
