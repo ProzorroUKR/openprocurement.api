@@ -1927,3 +1927,14 @@ def proc_2lot_2diff_bids_check_auction(self):
     self.assertIn('auctionPeriod', response.json['data']['lots'][1])
     self.assertIn('startDate', response.json['data']['lots'][1]['auctionPeriod'])
     self.assertNotIn('shouldStartAfter', response.json['data']['lots'][1]['auctionPeriod'])
+
+
+def patch_lot_guarantee_on_active_enquiries(self):
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+    self.assertEqual(response.status, '200 OK')
+    lot_id = response.json['data']['lots'][0]['id']
+    response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot_id, self.tender_token),
+                                   {'data':{'guarantee': {"amount": 100500, "currency": "USD"}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('guarantee', response.json['data'])
+    self.assertEqual(response.json['data']['guarantee'], {"amount": 100500, "currency": "USD"})
