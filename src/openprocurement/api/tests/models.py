@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
+
+from couchdb_schematics.document import SchematicsDocument
 from datetime import timedelta
 
 import mock
@@ -26,6 +28,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
 
     def test_validate_valid(self):
         organization = BusinessOrganization(dict(scale="micro", **self.organization_data))
+        organization.__parent__ = SchematicsDocument()
         organization.validate()
         data = organization.serialize("embedded")
         self.assertIn("scale", data)
@@ -33,6 +36,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
 
     def test_validate_not_valid(self):
         organization = BusinessOrganization(dict(scale="giant", **self.organization_data))
+        organization.__parent__ = SchematicsDocument()
         with self.assertRaises(ModelValidationError) as e:
             organization.validate()
         self.assertEqual(
@@ -42,6 +46,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
 
     def test_validate_required(self):
         organization = BusinessOrganization(self.organization_data)
+        organization.__parent__ = SchematicsDocument()
         with self.assertRaises(ModelValidationError) as e:
             organization.validate()
         self.assertEqual(
@@ -52,6 +57,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
     @mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
     def test_validate_rogue(self):
         organization = BusinessOrganization(dict(scale="micro", **self.organization_data))
+        organization.__parent__ = SchematicsDocument()
         with self.assertRaises(ModelValidationError) as e:
             organization.validate()
         self.assertEqual(
