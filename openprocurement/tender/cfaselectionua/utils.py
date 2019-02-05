@@ -8,7 +8,8 @@ from openprocurement.api.models import Value
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUAChange
 from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_STATUS, AGREEMENT_ITEMS, AGREEMENT_EXPIRED,
-    AGREEMENT_CHANGE, AGREEMENT_CONTRACTS, AGREEMENT_IDENTIFIER
+    AGREEMENT_CHANGE, AGREEMENT_CONTRACTS, AGREEMENT_IDENTIFIER,
+    AGREEMENT_START_DATE,
 )
 from openprocurement.tender.cfaselectionua.traversal import agreement_factory
 from pkg_resources import get_distribution
@@ -291,6 +292,8 @@ def check_period_and_items(request, tender):
 
     if get_now() > calculate_business_date(tender.agreements[0].period.endDate, -request.content_configurator.agreement_expired_until, tender):
         drop_draft_to_unsuccessful(request, tender, AGREEMENT_EXPIRED)
+    elif tender.agreements[0].period.startDate > tender.date:
+        drop_draft_to_unsuccessful(request, tender, AGREEMENT_START_DATE)
 
 
 def check_pending_changes(request, tender):
