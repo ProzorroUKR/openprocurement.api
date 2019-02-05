@@ -1558,6 +1558,24 @@ def patch_tender_bot(self):
     self.assertEqual(response.json['data']['unsuccessfulReason'],
                      ['agreements[0] ends less than {} days'.format(MIN_PERIOD_UNTIL_AGREEMENT_END.days)])
 
+    # patch tender argeement.period.startDate > tender.date
+    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
+    agreement = deepcopy(self.initial_agreement)
+    day = timedelta(days=1)
+    if SANDBOX_MODE:
+        day = day / 1440
+    agreement['period']['startDate'] = (get_now() + day).isoformat()
+
+    response = self.app.patch_json('/tenders/{}/agreements/{}'.format(
+        self.tender_id, self.agreement_id), {"data": agreement})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['agreementID'], self.initial_agreement['agreementID'])
+
+    response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['status'], 'draft.unsuccessful')
+    self.assertEqual(response.json['data']['unsuccessfulReason'], ['agreements[0].period.startDate is > tender.date'])
+
     # patch tender with less than 3 active contracts
     tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
