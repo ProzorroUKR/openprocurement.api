@@ -215,6 +215,15 @@ def patch_tender_lot(self):
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']['minimalStep']['amount'], new_lot_minimal_step['amount'])
 
+    new_lot_minimal_step['amount'] = 20
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+                                   {"data": {"lots": [{"minimalStep": new_lot_minimal_step}]}})
+
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    self.assertEqual(response.json['data']['lots'][0]['minimalStep']['amount'], new_lot_minimal_step['amount'])
+    self.assertEqual(response.json['data']['minimalStep']['amount'], new_lot_minimal_step['amount'])
+
     response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"title": "new title"}})
     self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
     self.assertEqual(response.json['data']["title"], "new title")

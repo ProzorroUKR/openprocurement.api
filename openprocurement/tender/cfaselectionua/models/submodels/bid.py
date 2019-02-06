@@ -4,6 +4,13 @@ from openprocurement.tender.core.models import Bid as BaseBid, validate_paramete
 from openprocurement.tender.cfaselectionua.models.submodels.parameter import Parameter
 from schematics.types.compound import ModelType
 from schematics.types import StringType
+from openprocurement.tender.core.models import LotValue as BaseLotValue
+
+
+class LotValue(BaseLotValue):
+    class Options:
+        roles = RolesFromCsv('LotValue.csv', relative_to=__file__)
+    subcontractingDetails = StringType()
 
 
 class Bid(BaseBid):
@@ -12,3 +19,4 @@ class Bid(BaseBid):
 
     parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
     subcontractingDetails = StringType()
+    lotValues = ListType(ModelType(LotValue), default=list())

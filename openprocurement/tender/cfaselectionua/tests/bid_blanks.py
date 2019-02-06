@@ -218,7 +218,7 @@ def create_tender_bid(self):
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': {'tenderers': [test_organization],
                                             'subcontractingDetails': 'test_details',
-                                            "lotValues": [{"value": {"amount": 500},
+                                            "lotValues": [{'subcontractingDetails': 'test_details', "value": {"amount": 500},
                                             "relatedLot": self.initial_lots[0]['id']}]}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -256,7 +256,8 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], token),
-        {"data": {"lotValues": [{"value": {"amount": 700}, "relatedLot": self.initial_lots[0]['id']}]}},
+        {"data": {"lotValues": [{"value": {"amount": 700}, 'subcontractingDetails': 'test_details',
+                                 "relatedLot": self.initial_lots[0]['id']}]}},
         status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
