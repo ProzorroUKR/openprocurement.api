@@ -43,6 +43,8 @@ def validate_view_bid_document(request):
 
 def get_supplier_contract(contracts, tenderers):
     for contract in contracts:
+        if contract.status != 'active':
+            continue
         for supplier in contract.suppliers:
             for tenderer in tenderers:
                 if supplier.identifier.id == tenderer.identifier.id:

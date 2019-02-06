@@ -73,6 +73,40 @@
             "id": "c8ef8c0d1cb74528b13335a623225762"
         },
         {
+            "status": "unsuccessful",
+            "unitPrices": [{
+                "value": {
+                    "currency": "UAH",
+                    "amount": 100.111,
+                    "valueAddedTaxIncluded": true
+                },
+                "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
+            }],
+            "suppliers": [{
+                "contactPoint": {
+                    "name": "Державне управління справами 1",
+                    "telephone": "0440000000"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "00037251",
+                    "uri": "http://www.dus.gov.ua/"
+                },
+                "name": "Державне управління справами 1",
+                "address": {
+                    "postalCode": "01220",
+                    "countryName": "Україна",
+                    "streetAddress": "вул. Банкова, 11, корпус 1",
+                    "region": "м. Київ",
+                    "locality": "м. Київ"
+                }
+            }],
+            "bidID": "d85ef51272f14087abb2eed535340493",
+            "date": "2018-07-30T17:40:15.471207+03:00",
+            "awardID": "cdb6da320600480d8eaabd8eaa920872",
+            "id": "c8ef8c0d1cb74528b13335a623225762"
+        },
+        {
             "status": "active",
             "unitPrices": [{
                 "value": {
