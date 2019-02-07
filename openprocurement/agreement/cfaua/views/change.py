@@ -103,33 +103,34 @@ class AgreementChangesResource(APIResource):
 
         # Validate or apply agreement modifications
         warnings = []
-        agreement = self.request.validated['agreement']
+        agreement = self.request.validated['agreement_src']
+        validated_agreement = self.request.validated['agreement']
         if change.status == 'active':
             if not change.modifications:
                 raise_operation_error(self.request, 'Modifications are required for change activation.')
-            apply_modifications(self.request, agreement, save=True)
+            apply_modifications(self.request, validated_agreement, save=True)
         elif change.status != 'cancelled':
-            warnings = apply_modifications(self.request, agreement)
+            warnings = apply_modifications(self.request, validated_agreement)
 
         if change['dateSigned']:
             changes = agreement.get("changes", [])
-            active_changes = [c for c in changes if c.status == 'active']
+            active_changes = [c for c in changes if c['status'] == 'active']
             if len(active_changes) > 0:  # has previous changes
                 last_change = active_changes[-1]
-                last_date_signed = last_change.dateSigned
+                last_date_signed = last_change.get('dateSigned')
                 if not last_date_signed:  # BBB old active changes
-                    last_date_signed = last_change.date
+                    last_date_signed = last_change.get('date')
                 obj_str = "last active change"
             else:
-                last_date_signed = agreement.dateSigned
+                last_date_signed = agreement.get('dateSigned')
                 obj_str = "agreement"
 
             if last_date_signed:  # BBB very old agreement
-                if change['dateSigned'] < last_date_signed:
+                if change['dateSigned'].isoformat() < last_date_signed:
                     # Can't move validator because of code above
                     raise_operation_error(self.request,
                                           'Change dateSigned ({}) can\'t be earlier than {} dateSigned ({})'.format(
-                                              change['dateSigned'].isoformat(), obj_str, last_date_signed.isoformat()))
+                                              change['dateSigned'].isoformat(), obj_str, last_date_signed))
 
         if save_agreement(self.request):
             self.LOGGER.info('Updated agreement change {}'.format(change.id),
