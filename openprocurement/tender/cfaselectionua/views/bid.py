@@ -31,11 +31,10 @@ from openprocurement.tender.core.utils import (
                    procurementMethodType='closeFrameworkAgreementSelectionUA',
                    description="Tender bids")
 class TenderBidResource(APIResource):
-
     @json_view(content_type="application/json", permission='create_bid', validators=
         (
-            validate_bid_data,
             validate_bid_operation_not_in_tendering,
+            validate_bid_data,
             validate_bid_operation_period,
             validate_bid,
         )
@@ -137,6 +136,7 @@ class TenderBidResource(APIResource):
                     'token': bid.owner_token
                 }
             }
+
 
     @json_view(permission='view_tender', validators=(validate_view_bids,))
     def collection_get(self):

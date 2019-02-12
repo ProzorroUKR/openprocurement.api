@@ -709,6 +709,20 @@ def create_tender_from_terminated_agreement(self):
 
     create_tender_draft_pending(self)
 
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
+                                  {'data': {'tenderers': [test_organization],
+                                            'subcontractingDetails': 'test_details',
+                                            "lotValues": [{'subcontractingDetails': 'test_details', "value": {"amount": 500},
+                                            "relatedLot": self.initial_data['lots'][0]['id']}]}}, status=403)
+    self.assertEqual(response.status_code, 403)
+    self.assertEqual(
+        response.json['errors'],
+        [{
+            u'description': u"Can't add bid in current (draft.pending) tender status",
+            u'location': u'body',
+            u'name': u'data'}]
+    )
+
     self.app.authorization = ('Basic', (BOT_NAME, ''))
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
