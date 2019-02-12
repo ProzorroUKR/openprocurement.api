@@ -622,6 +622,14 @@
          "description":null
       },
       {
+         "category": "KG",
+         "code": "KG-ID",
+         "name": "Electronic database of legal entities and branches (Krygyzstan)",
+         "public-database": true,
+         "url": "http://register.minjust.gov.kg/register/SearchAction.seam?logic=and&cid=204",
+         "description": "The Ministry of Justice of the Republic of Kyrgyz maintains the register of legal entities"
+      },
+      {
          "category":"KR",
          "code":"KR-BIZID",
          "name":"National Tax Office of the Republic of Korea",
