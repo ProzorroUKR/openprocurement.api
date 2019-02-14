@@ -889,3 +889,19 @@ def activate_change_after_1_cancelled(self, mocked_model_get_now):
     self.assertEqual(change['dateSigned'], now)
 
     self.assertLess(change['dateSigned'], cancelled_change['dateSigned'])
+
+    data = {'status': 'active'}
+    data['dateSigned'] = (get_now() - timedelta(days=90)).isoformat()
+    data['modifications'] = [{'itemId': self.agreement['items'][0]['id'], 'factor': 0.9}]
+    response = self.app.patch_json(
+        '/agreements/{}/changes/{}?acc_token={}'.format(self.agreement['id'], change['id'], self.agreement_token),
+        {'data': data},
+        status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'],
+        [{u'description': u"Change dateSigned ({}) can't be earlier than agreement dateSigned ({})".format(
+            data['dateSigned'], self.agreement['dateSigned']),
+          u'location': u'body',
+          u'name': u'data'}]
+    )
