@@ -8,7 +8,8 @@ from openprocurement.api.models import Value
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUAChange
 from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_STATUS, AGREEMENT_ITEMS, AGREEMENT_EXPIRED,
-    AGREEMENT_CHANGE, AGREEMENT_CONTRACTS, AGREEMENT_IDENTIFIER
+    AGREEMENT_CHANGE, AGREEMENT_CONTRACTS, AGREEMENT_IDENTIFIER,
+    AGREEMENT_START_DATE,
 )
 from openprocurement.tender.cfaselectionua.traversal import agreement_factory
 from pkg_resources import get_distribution
@@ -267,8 +268,12 @@ def calculate_item_identification_tuple(item):
             (additionalClassifications.id, additionalClassifications.scheme,)
             for additionalClassifications in item.additionalClassifications
         )
+    if item.unit:
+        code = item.unit.code
+    else:
+        code = None
     return (item.id, item.classification.id, item.classification.scheme,
-            item.unit.code, additionalClassifications)
+            code, additionalClassifications)
 
 
 def check_agreement_status(request, tender):
@@ -287,6 +292,8 @@ def check_period_and_items(request, tender):
 
     if get_now() > calculate_business_date(tender.agreements[0].period.endDate, -request.content_configurator.agreement_expired_until, tender):
         drop_draft_to_unsuccessful(request, tender, AGREEMENT_EXPIRED)
+    elif tender.agreements[0].period.startDate > tender.date:
+        drop_draft_to_unsuccessful(request, tender, AGREEMENT_START_DATE)
 
 
 def check_pending_changes(request, tender):
@@ -329,9 +336,6 @@ def calculate_agreement_contracts_value_amount(request, tender):
         contract.value = value
     tender.lots[0].value = max([contract.value for contract in agreement.contracts], key=lambda value: value.amount)
     tender.value = tender.lots[0].value
-    tender.lots[0].minimalStep = deepcopy(tender.lots[0].value)
-    tender.lots[0].minimalStep.amount = \
-        round(request.content_configurator.minimal_step_percentage * tender.lots[0].value.amount, 2)
 
 
 def calculate_tender_features(request, tender):

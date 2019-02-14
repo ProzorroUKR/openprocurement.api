@@ -8,6 +8,7 @@ from openprocurement.tender.cfaselectionua.models.submodels.contract import Cont
 from openprocurement.tender.cfaselectionua.models.submodels.feature import Feature
 from openprocurement.tender.cfaselectionua.models.submodels.item import Item
 from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
+from openprocurement.tender.cfaselectionua.models.submodels.organizationAndPocuringEntity import ProcuringEntity
 from schematics.types import StringType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
 from zope.interface import implementer, provider
@@ -17,7 +18,7 @@ from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.models import (
     validate_lots_uniq,
     Guarantee, TenderAuctionPeriod,
-    PeriodEndRequired, Tender as BaseTender, ProcuringEntity,
+    PeriodEndRequired, Tender as BaseTender,
     Cancellation,
     validate_features_uniq
 )

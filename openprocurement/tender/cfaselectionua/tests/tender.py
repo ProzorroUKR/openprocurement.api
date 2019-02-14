@@ -46,14 +46,17 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     create_tender_from_terminated_agreement,
     create_tender_from_agreement_with_changes,
     create_tender_from_agreement_with_features,
+    create_tender_from_agreement_with_features_0_3,
     invalid_tender_conditions,
     lost_contract_for_active_award,
     # TestCoordinatesRegExp
     coordinates_reg_exp,
     # TenderTest
     simple_add_tender,
-    edit_tender_in_active_enquiries,
+    create_tender_with_available_language,
+    edit_tender_in_active_enquiries
 )
+
 
 tender_data = deepcopy(test_tender_data)
 lots = []
@@ -97,6 +100,7 @@ class TenderResourceTestMixin(object):
     test_create_tender_from_terminated_agreement = snitch(create_tender_from_terminated_agreement)
     test_create_tender_from_agreement_with_changes = snitch(create_tender_from_agreement_with_changes)
     test_create_tender_from_agreement_with_features = snitch(create_tender_from_agreement_with_features)
+    test_create_tender_from_agreement_with_features_0_3 = snitch(create_tender_from_agreement_with_features_0_3)
     test_create_tender_with_value = snitch(create_tender_with_value)
     # test_tender_features = snitch(tender_features)
     test_get_tender = snitch(get_tender)
@@ -107,7 +111,7 @@ class TenderResourceTestMixin(object):
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
     test_patch_tender_bot = snitch(patch_tender_bot)
-
+    test_create_tender_with_available_language = snitch(create_tender_with_available_language)
 
 class TenderTest(BaseWebTest):
     initial_data = tender_data

@@ -1,0 +1,9 @@
+rolename,relatedLot,value,subcontractingDetails,__parent__,date,participationUrl
+auction_view,1,1,,,1,1
+embedded,1,1,1,,1,1
+default,1,1,1,,1,1
+auction_patch,1,,,,,1
+create,1,1,1,,,
+edit,1,1,1,,,
+auction_post,1,1,,,1,
+view,1,1,1,,1,1

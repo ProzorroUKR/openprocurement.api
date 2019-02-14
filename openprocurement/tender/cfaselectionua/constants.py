@@ -23,6 +23,7 @@ MINIMAL_STEP_PERCENTAGE = 0.005
 # bot switch to draft.unsuccessful messages
 AGREEMENT_STATUS = 'agreements[0] status is not active'
 AGREEMENT_ITEMS = 'agreements[0] items is not subset of tender items'
+AGREEMENT_START_DATE = 'agreements[0].period.startDate is > tender.date'
 AGREEMENT_EXPIRED = 'agreements[0] ends less than {} days'.format(MIN_PERIOD_UNTIL_AGREEMENT_END.days)
 AGREEMENT_CHANGE = 'agreements[0] has pending change'
 AGREEMENT_CONTRACTS = 'agreements[0] has less than {} active contracts'.format(MIN_ACTIVE_CONTRACTS)

@@ -4,19 +4,20 @@
 # openprocurement.tender.cfaselectionua package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.cfaselectionua 2.4.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-31 16:59+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2019-01-30 17:47+0200\n"
+"PO-Revision-Date: 2019-01-30 17:54+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 1.3\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: uk\n"
+"X-Generator: Poedit 2.2\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -51,27 +52,7 @@ msgstr "Створимо закупівлю з мінімально допуст
 msgid "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified. Pay attention to the `procurementMethodType`. Note that tender is created with `draft` status."
 msgstr "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу на `procurementMethodType`, а також на те, що закупівля створюється зі статусом `draft`."
 
-msgid ""
-"Success! Now we can see that new object was created. Response code is "
-"`201` and `Location` response header reports the location of the created "
-"object.  The body of response reveals the information about the created "
-"tender: its internal `id` (that matches the `Location` segment), its "
-"official `tenderID` and `dateModified` datestamp stating the moment in "
-"time when tender was last modified. Pay attention to the "
-"`procurementMethodType`. Note that tender is created with "
-"`active.enquiries` status."
-msgstr "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді "
-"`201` та заголовок відповіді `Location` вказує місцерозташування "
-"створеного об’єкта. Тіло відповіді показує інформацію про створену "
-"закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її "
-"офіційне `tenderID` та `dateModified` дату, що показує час, коли "
-"закупівля востаннє модифікувалась. Зверніть увагу на "
-"`procurementMethodType`, а також на те, що закупівля створюється зі "
-"статусом `active.enquiries`."
-
-msgid ""
-"Let's access the URL of the created object (the `Location` header of the "
-"response):"
+msgid "Let's access the URL of the created object (the `Location` header of the response):"
 msgstr "Використаємо URL створеного об’єкта (заголовок відповіді `Location`):"
 
 msgid "We can see the same response we got after creating tender."
@@ -81,7 +62,7 @@ msgid "We do see the internal `id` of a tender (that can be used to construct fu
 msgstr "Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови повної URL-адреси, якщо додати `http://api-sandbox.openprocurement.org/api/0/\"-\"tenders/`) та її `dateModified` дату."
 
 msgid "The previous tender contained only required fields. Let's try creating tender with more data (tender has status `created`):"
-msgstr "Попередня закупівля була створена лише з обов’язковими полями. Тепер додамо закупівлю з максимально допустимим набором даних при створенні (тендер повинен бути у статусі `created`)."
+msgstr "Попередня закупівля була створена лише з обов’язковими полями. Тепер додамо закупівлю з максимально допустимим набором даних при створенні (тендер повинен бути у статусі `created`):"
 
 msgid "And again we have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties."
 msgstr "І знову код відповіді `201 Created`,  заголовок `Location` і тіло з додатковим `id`, `tenderID`, та властивість `dateModified`."
@@ -95,58 +76,28 @@ msgstr "Бачимо, що наш тендер відповідає всім в�
 msgid "Let's see what listing of tenders reveals us:"
 msgstr "Подивимось, що показує список закупівель:"
 
-msgid ""
-"We do see the internal `id` of a tender (that can be used to construct "
-"full URL by prepending `http://api-"
-"sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` "
-"datestamp."
-msgstr "Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови"
-" повної URL-адреси, якщо додати `http://api-"
-"sandbox.openprocurement.org/api/0/\"-\"tenders/`) та її `dateModified` "
-"дату."
+msgid "When you create a procedure (`draft` status), you can fill in the following fields:"
+msgstr "При створенні процедури в статусі `draft`, можна заповнювати наступні поля:"
 
-msgid ""
-"The previous tender contained only required fields. Let's try creating "
-"tender with more data (tender has status `created`):"
-msgstr "Попередня закупівля була створена лише з обов’язковими полями. Тепер "
-"додамо закупівлю з максимально допустимим набором даних при створенні "
-"(тендер повинен бути у статусі `created`)."
+msgid "in :ref:`Agreement` - `id`"
+msgstr "у :ref:`Agreement` - `id`"
 
-msgid ""
-"And again we have `201 Created` response code, `Location` header and body"
-" with extra `id`, `tenderID`, and `dateModified` properties."
-msgstr "І знову код відповіді `201 Created`,  заголовок `Location` і тіло з "
-"додатковим `id`, `tenderID`, та властивість `dateModified`."
+msgid "in :ref:`Tender` - `title`, `title_en`, `description`, `description_en`, `guarantee`, `procurementMethodType`, `procuringEntity`"
+msgstr "у :ref:`Tender` - `title`, `title_en`, `description`, `description_en`, `guarantee`, `procurementMethodType`, `procuringEntity`"
 
-msgid "Let's check what tender registry contains:"
-msgstr "Перевіримо, що містить реєстр закупівель:"
+msgid "in :ref:`Lot` - `title`, `title_en`, `description`, `description_en`, `id`, `guarantee`"
+msgstr "у :ref:`Lot` - `title`, `title_en`, `description`, `description_en`, `id`, `guarantee`"
 
-msgid "And indeed we have 2 tenders now."
-msgstr "Дійсно, в нас зараз є дві закупівлі."
+msgid "in :ref:`Item` - `description`, `quantity`, `relatedLot`, `unit`, `description_en`, `classification`, `additionalClassifications`, `deliveryAddress`, `deliveryDate`, `deliveryLocation`, `id`"
+msgstr "у :ref:`Item` - `description`, `quantity`, `relatedLot`, `unit`, `description_en`, `classification`, `additionalClassifications`, `deliveryAddress`, `deliveryDate`, `deliveryLocation`, `id`"
 
-msgid ""
-"To move forward, you need to change status of procedure to "
-"``draft.pending``. This will let the bot to pull up :ref:`Agreement` and "
-"move tender to the next status. If provided information meets all the "
-"requirements, than the bot moves procedure to ``active.enquiries`` "
-"status, else to ``draft.unsuccessful`` terminal status."
-msgstr "Для того, щоб перейти далі, треба змінити статус процедури на "
-"``draft.pending``. Це дозволить боту наповнити :ref:`Agreement` і перевести тендер "
-"у наступний статус. Якщо надана інформація відповідає всім вимогам, бот переводить "
-"процедуру в статус ``active.enquiries``, інакше в статус ``draft.unsuccessful``."
-
-msgid ""
-"Let's see, that our tender meets all the requirements, the bot pulled up "
-":ref:`Agreement` of tender and changed status to ``active.enquiries``."
-msgstr "Бачимо, що наш тендер відповідає всім вимогам, бот наповнив :ref:`Agreement` "
-"і змінив статус тендера на ``active.enquiries``."
+msgid "The only field can be modified is :ref:`Tender`: `status`."
+msgstr "Єдине поле, яке можна редагувати :ref:`Tender`: `status`."
 
 msgid "Modifying tender"
 msgstr "Модифікація закупівлі"
 
-msgid ""
-"Let's update tender by supplementing it with all other essential "
-"properties:"
+msgid "Let's update tender by supplementing it with all other essential properties:"
 msgstr "Оновимо закупівлю шляхом надання їй усіх інших важливих властивостей:"
 
 msgid "We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
@@ -158,6 +109,24 @@ msgstr "Ще одна перевірка списку відображає но�
 msgid "Procuring entity can set bid guarantee:"
 msgstr "Замовник може встановити забезпечення тендерної пропозиції:"
 
+msgid "You may modify the following fields on this stage of procedure:"
+msgstr "Можна редагувати наступні поля на цьому етапі процедури:"
+
+msgid "in :ref:`Tender` - `title`"
+msgstr "у :ref:`Tender` - `title`"
+
+msgid "in :ref:`Lot` - `title`, `description`"
+msgstr "у :ref:`Lot` - `title`, `description`"
+
+msgid "in :ref:`Item` - `description`, `deliveryAddress`, `deliveryDate`, `quantity`"
+msgstr "у :ref:`Item` - `description`, `deliveryAddress`, `deliveryDate`, `quantity`"
+
+msgid "in `tenderPeriod` - `endDate`"
+msgstr "у `tenderPeriod` - `endDate`"
+
+msgid ":ref:`Guarantee`"
+msgstr ":ref:`Guarantee`"
+
 msgid "Uploading documentation"
 msgstr "Завантаження документів"
 
@@ -168,13 +137,10 @@ msgid "Procuring entity can upload PDF files into the created tender. Uploading 
 msgstr "Замовник може завантажити PDF-файли в створену угоду. Завантаження повинне слідувати правилам завантаження."
 
 msgid "`201 Created` response code and `Location` header confirm document creation. We can additionally query the `documents` collection API endpoint to confirm the action:"
-msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ додано."
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ додано:"
 
-msgid ""
-"The single array element describes the uploaded document. We can upload "
-"more documents:"
-msgstr "Один елемент масиву описує завантажений документ. Ми можемо завантажити "
-"більше документів:"
+msgid "The single array element describes the uploaded document. We can upload more documents:"
+msgstr "Один елемент масиву описує завантажений документ. Ми можемо завантажити більше документів:"
 
 msgid "And again we can confirm that there are two documents uploaded."
 msgstr "І знову можна підтвердити, що два документи завантажені."
@@ -237,7 +203,7 @@ msgid "And bidders can find out their participation URLs via their bids:"
 msgstr "Учасники можуть дізнатись свої URL-адреси для участі через свої пропозиції:"
 
 msgid "See the `Bid.participationUrl` in the response. Similar, but different, URL can be retrieved for other participants:"
-msgstr "Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу можна отримати для інших учасників."
+msgstr "Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу можна отримати для інших учасників:"
 
 msgid "Listing awards"
 msgstr "Список awards"
@@ -259,6 +225,9 @@ msgstr "Скасовуємо активний award."
 
 msgid "We see that new `pending` award is generated for the same bidder now. So we can successfully switch this `pending` award to `unsuccessful`."
 msgstr "Бачимо, що згенеровано новий award в статусі `pending` для того ж Учасника. Тепер Замовник може успішно перевести award з статусу  `pending` в `unsuccessful`."
+
+msgid "You can upload award documents. Let's upload award document"
+msgstr "Спробуємо завантажити документ пов’язаний з контрактом"
 
 msgid "Qualification comission registers its decision via the following call:"
 msgstr "Кваліфікаційна комісія реєструє своє рішення через такий виклик:"
@@ -354,7 +323,7 @@ msgid "Preparing the cancellation request"
 msgstr "Формування запиту на скасування"
 
 msgid "You should pass `reason`, `status` defaults to `pending`. `id` is autogenerated and passed in the `Location` header of response."
-msgstr "Ви повинні передати змінні `reason`, `status` у стані `pending`. `id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`:"
+msgstr "Ви повинні передати змінні `reason`, `status` у стані `pending`. `id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`."
 
 msgid "Filling cancellation with protocol and supplementary documentation"
 msgstr "Наповнення протоколом та іншою супровідною документацією"
@@ -371,3 +340,19 @@ msgstr "Завантаження нової версії документа"
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
 
+msgid "It may be useful to see top requirements: `Test Cases for III level of accreditation <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ and `Test Cases for IV level of accreditation <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_."
+msgstr "Можливо, буде корисно побачити актуальні вимоги: `Сценарії ручного тестування для III рівня акредитації <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ і `Сценарії ручного тестування для IV рівня акредитації <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_."
+
+#~ msgid ""
+#~ msgstr ""
+
+#~ msgid "Let's check what tender registry contains:"
+#~ msgstr "Перевіримо, що містить реєстр закупівель:"
+
+#~ msgid "And indeed we have 2 tenders now."
+#~ msgstr "Дійсно, в нас зараз є дві закупівлі."
+
+#~ msgid ""
+#~ "in :ref:Item` - `description`, "
+#~ "`deliveryAddress`, `deliveryDate`, `quantity`"
+#~ msgstr ""

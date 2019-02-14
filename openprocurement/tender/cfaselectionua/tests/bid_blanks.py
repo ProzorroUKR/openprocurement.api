@@ -210,14 +210,34 @@ def create_tender_bid_invalid(self):
             u'name': u'data'
         }
     ])
-
+    tenderer = deepcopy(test_organization)
+    tenderer['identifier']['id'] = '00037251'
+    response = self.app.post_json(
+        request_path,
+        {
+            'data': {
+                'tenderers': [tenderer],
+                'lotValues': [{'value': {'amount': 500}, 'relatedLot': self.initial_lots[0]['id']}]
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'], [
+        {
+            u'description': u'Bid is not a member of agreement',
+            u'location': u'body',
+            u'name': u'data'
+        }
+    ])
 
 def create_tender_bid(self):
     dateModified = self.db.get(self.tender_id).get('dateModified')
-    
+
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': {'tenderers': [test_organization],
-                                            "lotValues": [{"value": {"amount": 500},
+                                            'subcontractingDetails': 'test_details',
+                                            "lotValues": [{'subcontractingDetails': 'test_details', "value": {"amount": 500},
                                             "relatedLot": self.initial_lots[0]['id']}]}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -225,7 +245,7 @@ def create_tender_bid(self):
     self.assertEqual(bid['tenderers'][0]['name'], test_organization['name'])
     self.assertIn('id', bid)
     self.assertIn(bid['id'], response.headers['Location'])
-
+    self.assertEqual(response.json['data']['subcontractingDetails'], 'test_details')
     self.assertEqual(self.db.get(self.tender_id).get('dateModified'), dateModified)
 
     self.set_status('complete')
@@ -255,7 +275,8 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], token),
-        {"data": {"lotValues": [{"value": {"amount": 700}, "relatedLot": self.initial_lots[0]['id']}]}},
+        {"data": {"lotValues": [{"value": {"amount": 700}, 'subcontractingDetails': 'test_details',
+                                 "relatedLot": self.initial_lots[0]['id']}]}},
         status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -267,10 +288,13 @@ def patch_tender_bid(self):
           u'name': u'lotValues'}]
     )
 
-    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], token), {"data": {'tenderers': [{"name": u"Державне управління управлінням справами"}]}})
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], token),
+                                   {"data": {'tenderers': [{"name": u"Державне управління управлінням справами"}],
+                                             'subcontractingDetails': 'test_details'}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['date'], bid['date'])
+    self.assertEqual(response.json['data']['subcontractingDetails'], 'test_details')
     self.assertNotEqual(response.json['data']['tenderers'][0]['name'], bid['tenderers'][0]['name'])
 
     response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid['id'], token), {"data": {"lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]['id']}], 'tenderers': [test_organization]}})
@@ -468,13 +492,14 @@ def bid_Administrator_change(self):
 
     self.app.authorization = ('Basic', ('administrator', ''))
     response = self.app.patch_json('/tenders/{}/bids/{}'.format(self.tender_id, bid['id']),
-                                   {"data": {'tenderers': [{"identifier": {"id": "00000000"}}],
-                                             'lotValues': [{"value": {"amount": 400},
-                                                            "relatedLot": self.initial_lots[0]['id']}]}})
+                                   {"data": {
+                                       'tenderers': [{"identifier": {"id": '00037257'}}],
+                                       'lotValues': [{"value": {"amount": 300},
+                                                      "relatedLot": self.initial_lots[0]['id']}]}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertNotEqual(response.json['data']['lotValues'][0]["value"]["amount"], 400)
-    self.assertEqual(response.json['data']["tenderers"][0]["identifier"]["id"], "00000000")
+    self.assertEqual(response.json['data']["tenderers"][0]["identifier"]["id"], "00037257")
 
 
 # TenderBidFeaturesResourceTest
@@ -538,6 +563,44 @@ def features_bid(self):
         bid.pop(u'id')
         bid['lotValues'][0].pop('date')
         self.assertEqual(bid, i)
+
+    # create tender only with one feature
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+
+    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    agreement = response.json['data']['agreements'][0]
+    new_tender_features = agreement['features'][:1]  # only one feature
+
+    self.set_status('active.tendering', extra={'features': new_tender_features, 'bids': []})
+    feat_bid = {
+        "parameters": [
+            {
+                "code": i["code"],
+                "value": 0.1,
+            }
+            for i in self.initial_agreement['features'][:1]
+        ],
+        "status": "active",
+        "tenderers": [
+            test_organization
+        ],
+        "lotValues": [{
+            "value": {
+                "amount": 500,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": True
+            },
+            "relatedLot": self.initial_lots[0]['id']
+        }]
+    }
+    # posting only only one bid with one feature, contract has 2 features
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': feat_bid})
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+    bid = response.json['data']
+    bid.pop(u'date')
+    bid.pop(u'id')
+    bid['lotValues'][0].pop('date')
+    self.assertEqual(bid, feat_bid)
 
 
 def features_bid_invalid(self):
@@ -608,7 +671,68 @@ def features_bid_invalid(self):
             "description": "Can't post inconsistent bid"
         }
     ])
-    
+
+
+def patch_features_bid_invalid(self):
+    tenderer = deepcopy(test_organization)
+    tenderer['identifier']['id'] = '00037257'
+
+    test_bid = {
+            "parameters": [
+                {
+                    "code": i["code"],
+                    "value": 0.1,
+                }
+                for i in self.initial_agreement['features']
+            ],
+            "status": "active",
+            "tenderers": [
+                test_organization
+            ],
+            "lotValues": [{
+                "value": {
+                    "amount": 500,
+                    "currency": "UAH",
+                    "valueAddedTaxIncluded": True
+                },
+                "relatedLot": self.initial_lots[0]['id']
+            }]
+        }
+
+    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bid})
+    self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
+    bid = response.json['data']
+    bid_id = bid['id']
+    bid.pop(u'date')
+    bid.pop(u'id')
+    bid['lotValues'][0].pop('date')
+    self.assertEqual(bid, test_bid)
+    token = response.json['access']['token']
+
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, token), {
+        "data": {
+            "parameters": [
+                {
+                    "code": bid['parameters'][0]['code'],
+                    "value": bid['parameters'][0]['value'],
+                },
+                {
+                    "code": bid['parameters'][1]['code'],
+                    "value": 0.15,
+                }
+            ],
+        }}, status=403)
+
+    self.assertEqual((response.status, response.content_type), ('403 Forbidden', 'application/json'))
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {
+            "location": "body",
+            "name": "data",
+            "description": "Can't post inconsistent bid"
+        }
+    ])
+
 
 # TenderBidDocumentResourceTest
 

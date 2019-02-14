@@ -83,6 +83,15 @@ Let's see what listing of tenders reveals us:
 .. include:: tutorial/initial-tender-listing.http
    :code:
 
+When you create a procedure (`draft` status), you can fill in the following fields:
+   * in :ref:`Agreement` - `id`
+   * in :ref:`Tender` - `title`, `title_en`, `description`, `description_en`, `guarantee`, `procurementMethodType`, `procuringEntity`
+   * in :ref:`Lot` - `title`, `title_en`, `description`, `description_en`, `id`, `guarantee`
+   * in :ref:`Item` - `description`, `quantity`, `relatedLot`, `unit`, `description_en`, `classification`, `additionalClassifications`, `deliveryAddress`, `deliveryDate`, `deliveryLocation`, `id`
+
+The only field can be modified is :ref:`Tender`: `status`.
+
+
 Modifying tender
 ----------------
 
@@ -110,6 +119,15 @@ Procuring entity can set bid guarantee:
 
 
 .. index:: Document
+
+You may modify the following fields on this stage of procedure:
+   * in :ref:`Tender` - `title`
+   * in :ref:`Lot` - `title`, `description`
+   * in :ref:`Item` - `description`, `deliveryAddress`, `deliveryDate`, `quantity`
+   * in `tenderPeriod` - `endDate`
+   * :ref:`Guarantee`
+
+
 
 Uploading documentation
 -----------------------

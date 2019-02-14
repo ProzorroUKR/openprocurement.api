@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
 from openprocurement.api.utils import context_unpack, json_view, APIResource, get_now, raise_operation_error
 
 from openprocurement.tender.core.utils import (
@@ -193,6 +194,10 @@ class TenderResource(APIResource):
                     tender.tenderPeriod.endDate = calculate_business_date(
                         tender.tenderPeriod.startDate, self.request.content_configurator.tender_period, tender)
                     calculate_agreement_contracts_value_amount(self.request, tender)
+                    tender.lots[0].minimalStep = deepcopy(tender.lots[0].value)
+                    tender.lots[0].minimalStep.amount = round(
+                        self.request.content_configurator.minimal_step_percentage * tender.lots[0].value.amount, 2
+                    )
                     calculate_tender_features(self.request, tender)
             else:
                 self.LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),

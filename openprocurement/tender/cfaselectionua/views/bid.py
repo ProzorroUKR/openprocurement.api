@@ -31,11 +31,10 @@ from openprocurement.tender.core.utils import (
                    procurementMethodType='closeFrameworkAgreementSelectionUA',
                    description="Tender bids")
 class TenderBidResource(APIResource):
-
     @json_view(content_type="application/json", permission='create_bid', validators=
         (
-            validate_bid_data,
             validate_bid_operation_not_in_tendering,
+            validate_bid_data,
             validate_bid_operation_period,
             validate_bid,
         )
@@ -138,6 +137,7 @@ class TenderBidResource(APIResource):
                 }
             }
 
+
     @json_view(permission='view_tender', validators=(validate_view_bids,))
     def collection_get(self):
         """Bids Listing
@@ -211,8 +211,12 @@ class TenderBidResource(APIResource):
         validate_view_bids(self.request)
         return {'data': self.request.context.serialize(self.request.validated['tender_status'])}
 
-    @json_view(content_type="application/json", permission='edit_bid', validators=(validate_patch_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period,
-               validate_update_bid_status,))
+    @json_view(content_type="application/json", permission='edit_bid', validators=(
+            validate_patch_bid_data,
+            validate_bid_operation_not_in_tendering,
+            validate_bid_operation_period,
+            validate_update_bid_status,
+            validate_bid))
     def patch(self):
         """Update of proposal
 

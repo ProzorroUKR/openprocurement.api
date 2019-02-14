@@ -43,6 +43,8 @@ def validate_view_bid_document(request):
 
 def get_supplier_contract(contracts, tenderers):
     for contract in contracts:
+        if contract.status != 'active':
+            continue
         for supplier in contract.suppliers:
             for tenderer in tenderers:
                 if supplier.identifier.id == tenderer.identifier.id:
@@ -50,7 +52,11 @@ def get_supplier_contract(contracts, tenderers):
 
 
 def validate_bid(request):
-    bid = request.validated['bid']
+    if request.method == 'POST':
+        bid = request.validated['bid']
+    elif request.method == 'PATCH':
+        bid_class = request.context.__class__
+        bid = bid_class(request.validated['data'])
     contracts = request.validated['tender'].agreements[0].contracts
 
     supplier_contract = get_supplier_contract(contracts, bid.tenderers)
@@ -58,12 +64,10 @@ def validate_bid(request):
     if not supplier_contract:
         raise_operation_error(request, 'Bid is not a member of agreement')
 
-    contract_parameters = sorted([(p.code, p.value) for p in supplier_contract.parameters])
-    bid_parameters = sorted([(p.code, p.value) for p in bid.parameters])
-
-    if contract_parameters != bid_parameters:
+    contract_parameters = {(p.code, p.value) for p in supplier_contract.parameters}
+    bid_parameters = {(p.code, p.value) for p in bid.parameters}
+    if not bid_parameters.issubset(contract_parameters):
         raise_operation_error(request, 'Can\'t post inconsistent bid')
-
 
 
 def validate_bid_document_operation_in_not_allowed_tender_status(request):

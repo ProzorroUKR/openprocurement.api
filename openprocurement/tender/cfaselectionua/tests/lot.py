@@ -43,7 +43,8 @@ from openprocurement.tender.cfaselectionua.tests.lot_blanks import (
     proc_2lot_1bid_1com_1win,
     proc_2lot_2bid_2com_2win,
     proc_2lot_1feature_2bid_2com_2win,
-    proc_2lot_2diff_bids_check_auction
+    proc_2lot_2diff_bids_check_auction,
+    patch_lot_guarantee_on_active_enquiries
 )
 
 
@@ -80,6 +81,7 @@ class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin):
 
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
+    test_patch_lot_guarantee_on_active_enquiries = snitch(patch_lot_guarantee_on_active_enquiries)
 
 
 @unittest.skip("Skip multi-lots tests")

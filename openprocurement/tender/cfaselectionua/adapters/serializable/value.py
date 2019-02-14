@@ -4,6 +4,7 @@ from openprocurement.api.adapters import Serializable
 
 class SerializableTenderMultilotValue(Serializable):
     serialized_name = "value"
+    serialize_when_none = False
 
     def __call__(self, obj, *args, **kwargs):
         if all([i.value for i in obj.lots]):
