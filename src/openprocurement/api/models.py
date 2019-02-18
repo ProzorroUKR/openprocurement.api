@@ -14,8 +14,8 @@ from schematics.exceptions import ConversionError, ValidationError
 from schematics.models import Model as SchematicsModel
 from schematics.models import ModelMeta
 from schematics.transforms import whitelist, blacklist, export_loop, convert
-from schematics.types import (StringType, FloatType, URLType, IntType,
-                              BooleanType, BaseType, EmailType, MD5Type, DecimalType as BaseDecimalType)
+from schematics.types import (StringType, FloatType, URLType, BooleanType,
+                              BaseType, EmailType, MD5Type, DecimalType as BaseDecimalType)
 from schematics.types.compound import (ModelType, DictType,
                                        ListType as BaseListType)
 from schematics.types.serializable import serializable
@@ -543,7 +543,7 @@ class Item(Model):
     classification = ModelType(CPVClassification)
     additionalClassifications = ListType(ModelType(AdditionalClassification), default=list())
     unit = ModelType(Unit)  # Description of the unit which the good comes in e.g. hours, kilograms
-    quantity = IntType()  # The number of units required
+    quantity = FloatType()  # The number of units required
     deliveryDate = ModelType(Period)
     deliveryAddress = ModelType(Address)
     deliveryLocation = ModelType(Location)
