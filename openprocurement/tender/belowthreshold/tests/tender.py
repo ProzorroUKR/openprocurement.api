@@ -18,6 +18,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_not_author,
     listing_draft,
     tender_fields,
+    tender_items_float_quantity,
     listing_changes,
     create_tender_invalid,
     create_tender_generated,
@@ -82,6 +83,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
     test_tender_fields = snitch(tender_fields)
+    test_tender_items_float_quantity = snitch(tender_items_float_quantity)
     test_patch_tender_jsonpatch = snitch(patch_tender_jsonpatch)
     test_patch_tender = snitch(patch_tender)
     test_required_field_deletion = snitch(required_field_deletion)
