@@ -417,11 +417,12 @@ def create_plan_invalid(self):
     self.assertIn({u'description': [u'This field is required.'], u'location': u'body', u'name': u'classification'},
                   response.json['errors'])
 
-    data = self.initial_data['tender']
-    self.initial_data['tender'] = {'procurementMethod': 'open', 'procurementMethodType': 'reporting',
-                                   'tenderPeriod': data['tenderPeriod']}
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data['tender'] = data
+    initial_data = deepcopy(self.initial_data)
+    data = initial_data['tender']
+    initial_data['tender'] = {'procurementMethod': 'open', 'procurementMethodType': 'reporting',
+                              'tenderPeriod': data['tenderPeriod']}
+    response = self.app.post_json(request_path, {'data': initial_data}, status=422)
+    initial_data['tender'] = data
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -431,11 +432,11 @@ def create_plan_invalid(self):
         ]}, u'location': u'body', u'name': u'tender'},
         response.json['errors'])
 
-    data = self.initial_data['tender']
-    self.initial_data['tender'] = {'procurementMethod': 'limited', 'procurementMethodType': 'belowThreshold',
-                                   'tenderPeriod': data['tenderPeriod']}
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data['tender'] = data
+    data = initial_data['tender']
+    initial_data['tender'] = {'procurementMethod': 'limited', 'procurementMethodType': 'belowThreshold',
+                              'tenderPeriod': data['tenderPeriod']}
+    response = self.app.post_json(request_path, {'data': initial_data}, status=422)
+    initial_data['tender'] = data
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -466,16 +467,16 @@ def create_plan_invalid(self):
          u'name': u'tender'}
     ])
 
-    additionalClassifications = [i.pop("additionalClassifications") for i in self.initial_data["items"]]
+    additionalClassifications = [i.pop("additionalClassifications") for i in initial_data["items"]]
     if get_now() > CPV_ITEMS_CLASS_FROM:
-        cpv_code = self.initial_data['classification']['id']
-        cpv_codes = [i['classification']['id'] for i in self.initial_data["items"]]
-        self.initial_data['classification']['id'] = '99999999-9'
+        cpv_code = initial_data['classification']['id']
+        cpv_codes = [i['classification']['id'] for i in initial_data["items"]]
+        initial_data['classification']['id'] = '99999999-9'
         for index, cpv_code in enumerate(cpv_codes):
-            self.initial_data["items"][index]['classification']['id'] = '99999999-9'
+            initial_data["items"][index]['classification']['id'] = '99999999-9'
 
     if get_now() < NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM:
-        response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+        response = self.app.post_json(request_path, {'data': initial_data}, status=422)
         self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
@@ -487,28 +488,28 @@ def create_plan_invalid(self):
         ])
 
     for index, additionalClassification in enumerate(additionalClassifications):
-        self.initial_data["items"][index]['additionalClassifications'] = additionalClassification
+        initial_data["items"][index]['additionalClassifications'] = additionalClassification
     if get_now() > CPV_ITEMS_CLASS_FROM:
-        self.initial_data['classification']['id'] = cpv_code
+        initial_data['classification']['id'] = cpv_code
         for index, cpv_code in enumerate(cpv_codes):
-            self.initial_data["items"][index]['classification']['id'] = cpv_code
+            initial_data["items"][index]['classification']['id'] = cpv_code
 
-    additionalClassifications = [i["additionalClassifications"][0]["scheme"] for i in self.initial_data["items"]]
+    additionalClassifications = [i["additionalClassifications"][0]["scheme"] for i in initial_data["items"]]
     for index, _ in enumerate(additionalClassifications):
-        self.initial_data["items"][index]["additionalClassifications"][0]["scheme"] = u'Не ДКПП'
+        initial_data["items"][index]["additionalClassifications"][0]["scheme"] = u'Не ДКПП'
     if get_now() > CPV_ITEMS_CLASS_FROM:
-        cpv_code = self.initial_data['classification']['id']
-        cpv_codes = [i['classification']['id'] for i in self.initial_data["items"]]
-        self.initial_data['classification']['id'] = '99999999-9'
+        cpv_code = initial_data['classification']['id']
+        cpv_codes = [i['classification']['id'] for i in initial_data["items"]]
+        initial_data['classification']['id'] = '99999999-9'
         for index, cpv_code in enumerate(cpv_codes):
-            self.initial_data["items"][index]['classification']['id'] = '99999999-9'
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+            initial_data["items"][index]['classification']['id'] = '99999999-9'
+    response = self.app.post_json(request_path, {'data': initial_data}, status=422)
     for index, data in enumerate(additionalClassifications):
-        self.initial_data["items"][index]["additionalClassifications"][0]["scheme"] = data
+        initial_data["items"][index]["additionalClassifications"][0]["scheme"] = data
     if get_now() > CPV_ITEMS_CLASS_FROM:
-        self.initial_data['classification']['id'] = cpv_code
+        initial_data['classification']['id'] = cpv_code
         for index, cpv_code in enumerate(cpv_codes):
-            self.initial_data["items"][index]['classification']['id'] = cpv_code
+            initial_data["items"][index]['classification']['id'] = cpv_code
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -525,10 +526,10 @@ def create_plan_invalid(self):
                               additionalClassifications], u'location': u'body', u'name': u'items'}
         ])
 
-    data = self.initial_data["procuringEntity"]["name"]
-    del self.initial_data["procuringEntity"]["name"]
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data["procuringEntity"]["name"] = data
+    data = initial_data["procuringEntity"]["name"]
+    del initial_data["procuringEntity"]["name"]
+    response = self.app.post_json(request_path, {'data': initial_data}, status=422)
+    initial_data["procuringEntity"]["name"] = data
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -536,11 +537,11 @@ def create_plan_invalid(self):
         {u'description': {u'name': [u'This field is required.']}, u'location': u'body', u'name': u'procuringEntity'}
     ])
 
-    data = self.initial_data["budget"]
-    del self.initial_data["budget"]
-    self.initial_data['tender']['procurementMethodType'] = 'belowThreshold'
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data["budget"] = data
+    data = initial_data["budget"]
+    del initial_data["budget"]
+    initial_data['tender']['procurementMethodType'] = 'belowThreshold'
+    response = self.app.post_json(request_path, {'data': initial_data}, status=422)
+    initial_data["budget"] = data
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -548,13 +549,13 @@ def create_plan_invalid(self):
         {u'description': [u'This field is required.'], u'location': u'body', u'name': u'budget'}
     ])
 
-    data = self.initial_data["items"][0].copy()
+    data = initial_data["items"][0].copy()
     classification = data['classification'].copy()
     classification["id"] = u'31519200-9'
     data['classification'] = classification
-    self.initial_data["items"] = [self.initial_data["items"][0], data]
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data["items"] = self.initial_data["items"][:1]
+    initial_data["items"] = [initial_data["items"][0], data]
+    response = self.app.post_json(request_path, {'data': initial_data}, status=422)
+    initial_data["items"] = initial_data["items"][:1]
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -569,10 +570,10 @@ def create_plan_invalid(self):
              u'location': u'body', u'name': u'items'}
         ])
 
-    classification_id = self.initial_data["classification"]["id"]
-    self.initial_data["classification"]["id"] = u'33600000-6'
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data["classification"]["id"] = classification_id
+    classification_id = initial_data["classification"]["id"]
+    initial_data["classification"]["id"] = u'33600000-6'
+    response = self.app.post_json(request_path, {'data': initial_data}, status=422)
+    initial_data["classification"]["id"] = classification_id
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -581,21 +582,21 @@ def create_plan_invalid(self):
          u'location': u'body', u'name': u'items'}
     ])
 
-    classification_id = self.initial_data["classification"]["id"]
-    self.initial_data["classification"]["id"] = u'33600000-6'
-    item = self.initial_data["items"][0].copy()
-    data = self.initial_data["items"][0].copy()
+    classification_id = initial_data["classification"]["id"]
+    initial_data["classification"]["id"] = u'33600000-6'
+    item = initial_data["items"][0].copy()
+    data = initial_data["items"][0].copy()
     classification = data['classification'].copy()
     classification["id"] = u'33610000-9'
     data['classification'] = classification
-    data2 = self.initial_data["items"][0].copy()
+    data2 = initial_data["items"][0].copy()
     classification = data2['classification'].copy()
     classification["id"] = u'33620000-2'
     data2['classification'] = classification
-    self.initial_data["items"] = [data, data2]
-    response = self.app.post_json(request_path, {'data': self.initial_data})
-    self.initial_data["classification"]["id"] = classification_id
-    self.initial_data["items"] = [item]
+    initial_data["items"] = [data, data2]
+    response = self.app.post_json(request_path, {'data': initial_data})
+    initial_data["classification"]["id"] = classification_id
+    initial_data["items"] = [item]
     self.assertEqual(response.status, '201 Created')
 
 
@@ -818,6 +819,21 @@ def patch_plan_with_token(self):
     plan['budget']['id'] = u"12303111000-3"
     self.assertEqual(plan, new_plan)
     self.assertNotEqual(date_modified, new_date_modified)
+
+
+def patch_plan_item_quantity(self):
+    response = self.app.post_json('/plans', {'data': self.initial_data})
+    self.assertEqual(response.status, '201 Created')
+
+    quantities = [1,  1.999999, "9999.999999"]
+    response = self.app.patch_json('/plans/{}'.format(response.json['data']['id']),
+                                   {'data': {'items': [
+                                       {'quantity': q} for q in quantities
+                                   ]}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    for n, i in enumerate(response.json['data']["items"]):
+        self.assertEqual(i["quantity"], float(quantities[n]))
 
 
 def plan_not_found(self):
