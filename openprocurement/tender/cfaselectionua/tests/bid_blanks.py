@@ -234,11 +234,28 @@ def create_tender_bid_invalid(self):
 def create_tender_bid(self):
     dateModified = self.db.get(self.tender_id).get('dateModified')
 
-    response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
-                                  {'data': {'tenderers': [test_organization],
-                                            'subcontractingDetails': 'test_details',
-                                            "lotValues": [{'subcontractingDetails': 'test_details', "value": {"amount": 500},
-                                            "relatedLot": self.initial_lots[0]['id']}]}})
+    response = self.app.post_json(
+        '/tenders/{}/bids'.format(self.tender_id),
+        {'data': {'tenderers': [test_organization],
+            'subcontractingDetails': 'test_details',
+            "lotValues": [{'subcontractingDetails': 'test_details', "value": {"amount": 500.54},
+            "relatedLot": self.initial_lots[0]['id']}]}},
+        status=403
+    )
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'],
+                     [{"location": "body",
+                       "name": "data",
+                       "description": "Bid value.amount can't be greater than contact value.amount."}])
+
+    response = self.app.post_json(
+        '/tenders/{}/bids'.format(self.tender_id),
+        {'data': {'tenderers': [test_organization],
+            'subcontractingDetails': 'test_details',
+            "lotValues": [{'subcontractingDetails': 'test_details', "value": {"amount": 500},
+            "relatedLot": self.initial_lots[0]['id']}]}},
+    )
+
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
