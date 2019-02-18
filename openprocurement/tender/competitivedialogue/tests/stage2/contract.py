@@ -109,12 +109,14 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id),
                                       {'data': {'suppliers': [author], 'status': 'pending',
-                                                'bid_id': self.bids[0]['id'], 'value': self.bids[0]['value']}})
+                                                'bid_id': self.bids[0]['id'], 'value': self.bids[0]['value'],
+                                                'items': self.initial_data["items"]}})
         award = response.json['data']
         self.award_id = award['id']
         self.app.authotization = ('Basic', ('broker', ''))
         self.award_value = award['value']
         self.award_suppliers = award['suppliers']
+        self.award_items = award['items']
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, self.award_id, self.tender_token),
             {'data': {'status': 'active', 'qualified': True, 'eligible': True}})
