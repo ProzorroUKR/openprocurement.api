@@ -5,12 +5,14 @@ from uuid import uuid4
 
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD, MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.tests.base import agreement_period
+from openprocurement.tender.cfaua.models.submodels.agreement import Agreement
 
 
 # TenderAgreementResourceTest
 
 def get_tender_agreement(self):
-    agreement = self.app.app.registry.db.get(self.tender_id)['agreements'][0]
+    agreement_raw = self.app.app.registry.db.get(self.tender_id)['agreements'][0]
+    agreement = Agreement(agreement_raw).serialize("embedded")
 
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}/agreements/{}'.format(self.tender_id, agreement['id']))
