@@ -16,6 +16,8 @@ from openprocurement.tender.cfaselectionua.tests.periods import periods
 
 
 here = os.path.dirname(os.path.abspath(__file__))
+now = datetime.now(TZ)
+
 with open(os.path.join(here, 'data/agreement.json')) as _in:
     test_agreement = json.load(_in)
 
@@ -33,9 +35,9 @@ with open(os.path.join(here, 'data/items.json')) as _in:
 with open(os.path.join(here, 'data/bids.json')) as _in:
     test_bids = json.load(_in)
 
-now = datetime.now(TZ)
-test_procuringEntity = test_organization.copy()
-test_procuringEntity["kind"] = "general"
+
+with open(os.path.join(here, 'data/procuringEntity.json')) as _in:
+    test_procuringEntity = json.load(_in)
 
 test_items[0]['id'] = test_agreement['items'][0]['id']
 test_items[0]['deliveryDate'] = {"startDate": (now + timedelta(days=2)).isoformat(),

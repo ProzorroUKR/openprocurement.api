@@ -3,7 +3,7 @@ from openprocurement.tender.cfaselectionua.models.submodels.contactpoint import 
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 from openprocurement.api.roles import RolesFromCsv
-
+from openprocurement.api.models import ListType
 
 class Organization(BaseOrganization):
     """An organization."""
@@ -16,3 +16,7 @@ class ProcuringEntity(Organization):
     class Options:
         roles = RolesFromCsv('ProcuringEntity.csv', relative_to=__file__)
     kind = StringType(choices=['general', 'special', 'defense', 'other'])
+    additionalContactPoints = ListType(
+        ModelType(ContactPoint, required=True),
+        required=False
+    )
